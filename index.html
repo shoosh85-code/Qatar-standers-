@@ -832,7 +832,7 @@ header {
 
 <script>
 // ===== STATE =====
-let geminiKey = sessionStorage.getItem('geminiKey') || '';
+let geminiKey = sessionStorage.getItem('openrouterKey') || '';
 let uploadedFiles = [];
 
 // ===== INIT =====
@@ -851,7 +851,7 @@ function closeKeyModal() {
 }
 function saveKey() {
   const k = document.getElementById('keyInput').value.trim();
-  if (!k || !k.startsWith('AIza')) {
+  if (!k || k.length < 20) {
     showToast('❌ Key غير صحيح');
     return;
   }
