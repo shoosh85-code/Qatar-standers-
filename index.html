@@ -1043,42 +1043,42 @@ const detailData = {
     content: `
       <h3>📌 اختر الطبقة للتفاصيل الكاملة</h3>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
-        <div onclick="showLayer('subgrade')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+        <div onclick="openDetail('subgrade')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
           <div style="font-size:20px">🏔️</div>
           <div style="color:var(--gold);font-weight:700;font-size:13px;">Subgrade</div>
           <div style="color:var(--text3);font-size:11px;">طبقة التربة الطبيعية</div>
         </div>
-        <div onclick="showLayer('subbase')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+        <div onclick="openDetail('subbase')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
           <div style="font-size:20px">🪨</div>
           <div style="color:var(--gold);font-weight:700;font-size:13px;">Subbase</div>
           <div style="color:var(--text3);font-size:11px;">الطبقة الأساسية السفلية</div>
         </div>
-        <div onclick="showLayer('base')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+        <div onclick="openDetail('base')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
           <div style="font-size:20px">🧱</div>
           <div style="color:var(--gold);font-weight:700;font-size:13px;">Base Course</div>
           <div style="color:var(--text3);font-size:11px;">طبقة الأساس</div>
         </div>
-        <div onclick="showLayer('prime')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+        <div onclick="openDetail('prime')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
           <div style="font-size:20px">🛢️</div>
           <div style="color:var(--gold);font-weight:700;font-size:13px;">Prime Coat</div>
           <div style="color:var(--text3);font-size:11px;">طبقة الربط التحضيرية</div>
         </div>
-        <div onclick="showLayer('binder')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+        <div onclick="openDetail('binder')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
           <div style="font-size:20px">⚫</div>
           <div style="color:var(--gold);font-weight:700;font-size:13px;">Binder Course</div>
           <div style="color:var(--text3);font-size:11px;">طبقة الرابط الإسفلتي</div>
         </div>
-        <div onclick="showLayer('wearing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+        <div onclick="openDetail('wearing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
           <div style="font-size:20px">🛣️</div>
           <div style="color:var(--gold);font-weight:700;font-size:13px;">Wearing Course</div>
           <div style="color:var(--text3);font-size:11px;">طبقة الرداء النهائية</div>
         </div>
-        <div onclick="showLayer('finishing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+        <div onclick="openDetail('finishing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
           <div style="font-size:20px">🚧</div>
           <div style="color:var(--gold);font-weight:700;font-size:13px;">التشطيبات</div>
           <div style="color:var(--text3);font-size:11px;">الدهانات والكيرب والإنارة</div>
         </div>
-        <div onclick="showLayer('handover')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+        <div onclick="openDetail('handover')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
           <div style="font-size:20px">✅</div>
           <div style="color:var(--gold);font-weight:700;font-size:13px;">التسليم</div>
           <div style="color:var(--text3);font-size:11px;">الفحص النهائي والتسليم</div>
@@ -1261,7 +1261,7 @@ function showToast(msg) {
 const layerData = {
   subgrade: {
     title: '🏔️ Subgrade — طبقة التربة الطبيعية',
-    html: `
+    content: `
       <h3>📐 المواصفات</h3>
       <table class="dm-table">
         <tr><th>البند</th><th>المعيار</th></tr>
@@ -1303,7 +1303,7 @@ const layerData = {
   },
   subbase: {
     title: '🪨 Subbase — الطبقة الأساسية السفلية',
-    html: `
+    content: `
       <h3>📐 المواصفات</h3>
       <table class="dm-table">
         <tr><th>البند</th><th>المعيار</th></tr>
@@ -1342,7 +1342,7 @@ const layerData = {
   },
   base: {
     title: '🧱 Base Course — طبقة الأساس',
-    html: `
+    content: `
       <h3>📐 المواصفات</h3>
       <table class="dm-table">
         <tr><th>البند</th><th>المعيار</th></tr>
@@ -1376,7 +1376,7 @@ const layerData = {
   },
   prime: {
     title: '🛢️ Prime Coat — طبقة الربط التحضيرية',
-    html: `
+    content: `
       <h3>📐 المواصفات</h3>
       <table class="dm-table">
         <tr><th>البند</th><th>المعيار</th></tr>
@@ -1409,7 +1409,7 @@ const layerData = {
   },
   binder: {
     title: '⚫ Binder Course — طبقة الرابط الإسفلتي',
-    html: `
+    content: `
       <h3>📐 المواصفات</h3>
       <table class="dm-table">
         <tr><th>البند</th><th>المعيار</th></tr>
@@ -1451,7 +1451,7 @@ const layerData = {
   },
   wearing: {
     title: '🛣️ Wearing Course — طبقة الرداء النهائية',
-    html: `
+    content: `
       <h3>📐 المواصفات</h3>
       <table class="dm-table">
         <tr><th>البند</th><th>المعيار</th></tr>
@@ -1493,7 +1493,7 @@ const layerData = {
   },
   finishing: {
     title: '🚧 التشطيبات النهائية',
-    html: `
+    content: `
       <h3>🎨 Road Markings</h3>
       <table class="dm-table">
         <tr><th>البند</th><th>المواصفة</th></tr>
@@ -1521,7 +1521,7 @@ const layerData = {
   },
   handover: {
     title: '✅ التسليم النهائي',
-    html: `
+    content: `
       <h3>📋 متطلبات التسليم</h3>
       <table class="dm-table">
         <tr><th>الوثيقة</th><th>المحتوى</th></tr>
