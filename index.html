@@ -1039,7 +1039,54 @@ const detailData = {
     `
   },
   roads: {
-    title: '🛣️ مواصفات الطرق — QCS 2014',
+    title: '🛣️ أعمال الطرق — QCS 2014',
+    content: `
+      <h3>📌 اختر الطبقة للتفاصيل الكاملة</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
+        <div onclick="showLayer('subgrade')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:20px">🏔️</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">Subgrade</div>
+          <div style="color:var(--text3);font-size:11px;">طبقة التربة الطبيعية</div>
+        </div>
+        <div onclick="showLayer('subbase')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:20px">🪨</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">Subbase</div>
+          <div style="color:var(--text3);font-size:11px;">الطبقة الأساسية السفلية</div>
+        </div>
+        <div onclick="showLayer('base')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:20px">🧱</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">Base Course</div>
+          <div style="color:var(--text3);font-size:11px;">طبقة الأساس</div>
+        </div>
+        <div onclick="showLayer('prime')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:20px">🛢️</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">Prime Coat</div>
+          <div style="color:var(--text3);font-size:11px;">طبقة الربط التحضيرية</div>
+        </div>
+        <div onclick="showLayer('binder')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:20px">⚫</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">Binder Course</div>
+          <div style="color:var(--text3);font-size:11px;">طبقة الرابط الإسفلتي</div>
+        </div>
+        <div onclick="showLayer('wearing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:20px">🛣️</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">Wearing Course</div>
+          <div style="color:var(--text3);font-size:11px;">طبقة الرداء النهائية</div>
+        </div>
+        <div onclick="showLayer('finishing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:20px">🚧</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">التشطيبات</div>
+          <div style="color:var(--text3);font-size:11px;">الدهانات والكيرب والإنارة</div>
+        </div>
+        <div onclick="showLayer('handover')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:20px">✅</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">التسليم</div>
+          <div style="color:var(--text3);font-size:11px;">الفحص النهائي والتسليم</div>
+        </div>
+      </div>
+      <div id="layerDetail" style="display:none;margin-top:16px;"></div>
+    `
+  },
     content: `
       <h3>📋 الطبقات والمواصفات</h3>
       <table class="dm-table">
@@ -1209,6 +1256,316 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
+
+// ===== ROADS LAYER DATA =====
+const layerData = {
+  subgrade: {
+    title: '🏔️ Subgrade — طبقة التربة الطبيعية',
+    html: `
+      <h3>📐 المواصفات</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>الدمك</td><td>≥ 95% MDD (Standard Proctor)</td></tr>
+        <tr><td>CBR</td><td>≥ 8% (Soaked 4 days)</td></tr>
+        <tr><td>سماكة كل طبقة ردم</td><td>≤ 200mm قبل الدمك</td></tr>
+        <tr><td>نسبة الرطوبة</td><td>OMC ± 2%</td></tr>
+        <tr><td>المنسوب</td><td>± 10mm من التصميم</td></tr>
+      </table>
+      <h3>🔧 كيفية التنفيذ</h3>
+      <p>1. إزالة النباتات والمخلفات والطبقة السطحية<br>
+      2. معالجة التربة الضعيفة أو الاستبدال إذا لزم<br>
+      3. ردم بطبقات لا تزيد عن 200mm<br>
+      4. رش المياه للوصول لـ OMC<br>
+      5. الدمك بـ Vibratory Roller حتى 95% MDD<br>
+      6. التسوية بـ Motor Grader<br>
+      7. اختبار الدمك قبل المتابعة</p>
+      <h3>🧪 الاختبارات المطلوبة</h3>
+      <table class="dm-table">
+        <tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr>
+        <tr><td>Standard Proctor</td><td>كل تغيير مادة</td><td>MDD و OMC</td></tr>
+        <tr><td>Sand Cone</td><td>كل 500m²</td><td>≥ 95% MDD</td></tr>
+        <tr><td>CBR Soaked</td><td>كل 2000m²</td><td>≥ 8%</td></tr>
+        <tr><td>Atterberg Limits</td><td>كل تغيير مادة</td><td>LL ≤35% PI ≤10%</td></tr>
+        <tr><td>Sulphate Content</td><td>كل 500m³</td><td>≤ 0.5%</td></tr>
+        <tr><td>Level Survey</td><td>كل 25m</td><td>± 10mm</td></tr>
+      </table>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-01:</strong> اعتماد مصدر مواد الردم قبل الاستخدام<br>
+      • <strong>HP-02:</strong> اعتماد نتائج Subgrade قبل البدء في Subbase</p>
+      <h3>🟡 نقاط المراجعة</h3>
+      <p>• <strong>WP-01:</strong> مراجعة نتائج Proctor في المختبر<br>
+      • <strong>WP-02:</strong> مراجعة المناسيب بعد التسوية</p>
+      <h3>⚠️ تنبيهات مهمة</h3>
+      <p>• لا تردم فوق تربة مشبعة بالمياه<br>
+      • معالجة أي بقع ضعيفة قبل المتابعة<br>
+      • تصريف مياه الأمطار فوراً</p>
+    `
+  },
+  subbase: {
+    title: '🪨 Subbase — الطبقة الأساسية السفلية',
+    html: `
+      <h3>📐 المواصفات</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>السماكة</td><td>150-300mm (حسب التصميم)</td></tr>
+        <tr><td>الدمك</td><td>≥ 98% MDD</td></tr>
+        <tr><td>CBR</td><td>≥ 30% (Soaked)</td></tr>
+        <tr><td>Plasticity Index</td><td>≤ 6%</td></tr>
+        <tr><td>LA Abrasion</td><td>≤ 30%</td></tr>
+        <tr><td>Sand Equivalent</td><td>≥ 30%</td></tr>
+        <tr><td>Sulphate Content</td><td>≤ 0.5%</td></tr>
+      </table>
+      <h3>🔧 كيفية التنفيذ</h3>
+      <p>1. التأكد من اعتماد Subgrade أولاً (HP-02)<br>
+      2. فرش المواد بالسماكة المطلوبة<br>
+      3. التسوية بـ Motor Grader<br>
+      4. رش المياه للوصول لـ OMC<br>
+      5. الدمك بـ Vibratory Roller حتى 98% MDD<br>
+      6. اختبار Density كل 500m²<br>
+      7. Level Survey قبل الاعتماد</p>
+      <h3>🧪 الاختبارات المطلوبة</h3>
+      <table class="dm-table">
+        <tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr>
+        <tr><td>Sand Cone</td><td>كل 500m²</td><td>≥ 98% MDD</td></tr>
+        <tr><td>Nuclear Gauge</td><td>كل 200m²</td><td>≥ 98% MDD</td></tr>
+        <tr><td>CBR Soaked</td><td>كل 2000m²</td><td>≥ 30%</td></tr>
+        <tr><td>Grading Analysis</td><td>كل 500m³</td><td>حسب QCS</td></tr>
+        <tr><td>Plasticity Index</td><td>كل 500m³</td><td>≤ 6%</td></tr>
+        <tr><td>LA Abrasion</td><td>كل 1000m³</td><td>≤ 30%</td></tr>
+      </table>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-03:</strong> اعتماد Subbase قبل البدء في Base Course</p>
+      <h3>🟡 نقاط المراجعة</h3>
+      <p>• <strong>WP-03:</strong> مراجعة نتائج CBR في المختبر<br>
+      • <strong>WP-04:</strong> مراجعة المناسيب والسماكة</p>
+    `
+  },
+  base: {
+    title: '🧱 Base Course — طبقة الأساس',
+    html: `
+      <h3>📐 المواصفات</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>السماكة</td><td>150-250mm</td></tr>
+        <tr><td>الدمك</td><td>≥ 98% MDD</td></tr>
+        <tr><td>CBR</td><td>≥ 80% (Soaked)</td></tr>
+        <tr><td>LA Abrasion</td><td>≤ 25%</td></tr>
+        <tr><td>Flakiness Index</td><td>≤ 25%</td></tr>
+        <tr><td>Plasticity Index</td><td>≤ 4%</td></tr>
+      </table>
+      <h3>🔧 كيفية التنفيذ</h3>
+      <p>1. اعتماد Subbase أولاً (HP-03)<br>
+      2. فرش المواد بالسماكة المطلوبة<br>
+      3. الدمك حتى 98% MDD<br>
+      4. Plate Load Test للتحقق<br>
+      5. Level Survey قبل الاعتماد</p>
+      <h3>🧪 الاختبارات المطلوبة</h3>
+      <table class="dm-table">
+        <tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr>
+        <tr><td>Sand Cone</td><td>كل 500m²</td><td>≥ 98% MDD</td></tr>
+        <tr><td>CBR Soaked</td><td>كل 2000m²</td><td>≥ 80%</td></tr>
+        <tr><td>Plate Load Test</td><td>كل 2000m²</td><td>حسب التصميم</td></tr>
+        <tr><td>LA Abrasion</td><td>كل 1000m³</td><td>≤ 25%</td></tr>
+        <tr><td>Flakiness Index</td><td>كل 500m³</td><td>≤ 25%</td></tr>
+      </table>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-04:</strong> اعتماد Base Course قبل أعمال الإسفلت</p>
+      <h3>🟡 نقاط المراجعة</h3>
+      <p>• <strong>WP-05:</strong> مراجعة نتائج Plate Load Test</p>
+    `
+  },
+  prime: {
+    title: '🛢️ Prime Coat — طبقة الربط التحضيرية',
+    html: `
+      <h3>📐 المواصفات</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>معدل الرش</td><td>0.8 - 1.2 L/m²</td></tr>
+        <tr><td>نوع المادة</td><td>Cutback Bitumen MC-30 أو MC-70</td></tr>
+        <tr><td>درجة التطبيق</td><td>50-80°C</td></tr>
+        <tr><td>وقت الجفاف</td><td>24-48 ساعة</td></tr>
+      </table>
+      <h3>🔧 كيفية التنفيذ</h3>
+      <p>1. تنظيف سطح Base Course بـ Air Compressor<br>
+      2. إزالة الغبار والمياه الزائدة<br>
+      3. رش Prime Coat بالمعدل المحدد<br>
+      4. الانتظار 24-48 ساعة للجفاف الكامل<br>
+      5. حماية السطح من الحركة المرورية<br>
+      6. فحص التغطية قبل المتابعة</p>
+      <h3>🧪 الاختبارات المطلوبة</h3>
+      <table class="dm-table">
+        <tr><th>الاختبار</th><th>المعيار</th></tr>
+        <tr><td>معدل الرش</td><td>0.8-1.2 L/m² بالقياس الفعلي</td></tr>
+        <tr><td>درجة الحرارة</td><td>50-80°C عند التطبيق</td></tr>
+        <tr><td>تغطية السطح</td><td>100% بدون مناطق فاقدة</td></tr>
+      </table>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-05:</strong> اعتماد Prime Coat قبل Binder Course</p>
+      <h3>⚠️ تنبيهات</h3>
+      <p>• لا رش وقت المطر أو الرياح الشديدة<br>
+      • حماية المنشآت المجاورة من الرش<br>
+      • عدم فتح الطريق للمركبات قبل الجفاف</p>
+    `
+  },
+  binder: {
+    title: '⚫ Binder Course — طبقة الرابط الإسفلتي',
+    html: `
+      <h3>📐 المواصفات</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>السماكة</td><td>60-80mm</td></tr>
+        <tr><td>الدمك</td><td>≥ 98% TMD</td></tr>
+        <tr><td>نسبة البيتومين</td><td>4.5-6.0%</td></tr>
+        <tr><td>Marshall Stability</td><td>≥ 8 kN</td></tr>
+        <tr><td>Flow</td><td>2-4 mm</td></tr>
+        <tr><td>Air Voids</td><td>3-5%</td></tr>
+        <tr><td>Tack Coat</td><td>0.3-0.5 L/m²</td></tr>
+        <tr><td>درجة الفرش</td><td>≥ 140°C</td></tr>
+      </table>
+      <h3>🔧 كيفية التنفيذ</h3>
+      <p>1. اعتماد Prime Coat أولاً (HP-05)<br>
+      2. رش Tack Coat بمعدل 0.3-0.5 L/m²<br>
+      3. انتظار جفاف Tack Coat<br>
+      4. فرش الخلطة بـ Paver بسرعة ثابتة 4-6 m/min<br>
+      5. فحص درجة الحرارة عند الوصول ≥ 140°C<br>
+      6. Initial Rolling بـ Vibratory Roller 130-140°C<br>
+      7. Intermediate Rolling بـ Pneumatic Roller 100-125°C<br>
+      8. Finish Rolling بـ Static Roller 80-100°C<br>
+      9. Core Sample بعد التبريد</p>
+      <h3>🧪 الاختبارات المطلوبة</h3>
+      <table class="dm-table">
+        <tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr>
+        <tr><td>Marshall Test</td><td>كل 200 طن</td><td>Stability ≥8kN Flow 2-4mm</td></tr>
+        <tr><td>Temperature Check</td><td>كل حمولة</td><td>≥ 140°C</td></tr>
+        <tr><td>Core Sample Density</td><td>كل 1000m²</td><td>≥ 98% TMD</td></tr>
+        <tr><td>Core Thickness</td><td>كل 1000m²</td><td>± 5mm من التصميم</td></tr>
+        <tr><td>Extraction Test</td><td>كل 200 طن</td><td>نسبة بيتومين ± 0.3%</td></tr>
+      </table>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-06:</strong> اعتماد Mix Design قبل الإنتاج<br>
+      • <strong>HP-07:</strong> اعتماد Binder Course قبل Wearing Course</p>
+      <h3>🟡 نقاط المراجعة</h3>
+      <p>• <strong>WP-06:</strong> مراجعة درجة حرارة الخلطة عند الوصول<br>
+      • <strong>WP-07:</strong> مراجعة نتائج Core Sample</p>
+    `
+  },
+  wearing: {
+    title: '🛣️ Wearing Course — طبقة الرداء النهائية',
+    html: `
+      <h3>📐 المواصفات</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>السماكة</td><td>40-50mm</td></tr>
+        <tr><td>الدمك</td><td>≥ 98% TMD</td></tr>
+        <tr><td>نسبة البيتومين</td><td>5.0-6.5%</td></tr>
+        <tr><td>Marshall Stability</td><td>≥ 8 kN</td></tr>
+        <tr><td>Flow</td><td>2-4 mm</td></tr>
+        <tr><td>Air Voids</td><td>3-5%</td></tr>
+        <tr><td>VMA</td><td>≥ 14%</td></tr>
+        <tr><td>Tack Coat</td><td>0.2-0.4 L/m²</td></tr>
+        <tr><td>Straightedge 3m</td><td>≤ 5mm</td></tr>
+        <tr><td>Crossfall</td><td>2-3%</td></tr>
+      </table>
+      <h3>🔧 كيفية التنفيذ</h3>
+      <p>1. اعتماد Binder Course (HP-07)<br>
+      2. رش Tack Coat 0.2-0.4 L/m²<br>
+      3. فرش الخلطة بـ Paver<br>
+      4. الدمك الفوري قبل التبريد<br>
+      5. Straightedge Test كل 100m<br>
+      6. Core Sample + Thickness Check<br>
+      7. Skid Resistance Test</p>
+      <h3>🧪 الاختبارات المطلوبة</h3>
+      <table class="dm-table">
+        <tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr>
+        <tr><td>Marshall Test</td><td>كل 200 طن</td><td>Stability ≥8kN</td></tr>
+        <tr><td>Temperature Check</td><td>كل حمولة</td><td>≥ 140°C</td></tr>
+        <tr><td>Core Sample</td><td>كل 1000m²</td><td>≥ 98% TMD</td></tr>
+        <tr><td>Straightedge 3m</td><td>كل 100m</td><td>≤ 5mm</td></tr>
+        <tr><td>Crossfall</td><td>كل 25m</td><td>2-3%</td></tr>
+        <tr><td>Skid Resistance</td><td>كل 500m</td><td>≥ 55 PSV</td></tr>
+      </table>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-08:</strong> الفحص النهائي الكامل قبل التسليم</p>
+      <h3>🟡 نقاط المراجعة</h3>
+      <p>• <strong>WP-08:</strong> مراجعة Straightedge و Crossfall<br>
+      • <strong>WP-09:</strong> مراجعة نتائج Skid Resistance</p>
+    `
+  },
+  finishing: {
+    title: '🚧 التشطيبات النهائية',
+    html: `
+      <h3>🎨 Road Markings</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المواصفة</th></tr>
+        <tr><td>نوع الدهان</td><td>Thermoplastic Paint</td></tr>
+        <tr><td>السماكة</td><td>≥ 3mm</td></tr>
+        <tr><td>Retroreflectivity</td><td>≥ 150 mcd/m²/lux</td></tr>
+        <tr><td>Road Studs</td><td>Cat Eyes كل 10m</td></tr>
+      </table>
+      <h3>🏗️ Kerbs والحدادير</h3>
+      <p>• مقاومة الخرسانة ≥ 40 MPa<br>
+      • Bedding Mortar 1:3<br>
+      • Haunching خلف الكيرب<br>
+      • Joint Sealant بين الوحدات</p>
+      <h3>💡 الإنارة</h3>
+      <p>• ارتفاع الأعمدة حسب تصنيف الطريق<br>
+      • اختبار Illuminance Level<br>
+      • Earth Testing لكل عمود</p>
+      <h3>🌊 الصرف السطحي</h3>
+      <p>• فحص Gully Gratings<br>
+      • CCTV Inspection للمواسير<br>
+      • Hydraulic Test</p>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-09:</strong> اعتماد Road Markings قبل فتح الطريق</p>
+    `
+  },
+  handover: {
+    title: '✅ التسليم النهائي',
+    html: `
+      <h3>📋 متطلبات التسليم</h3>
+      <table class="dm-table">
+        <tr><th>الوثيقة</th><th>المحتوى</th></tr>
+        <tr><td>As-Built Drawings</td><td>مخططات منفذة معتمدة</td></tr>
+        <tr><td>Test Results</td><td>كل نتائج الاختبارات</td></tr>
+        <tr><td>Material Certificates</td><td>شهادات كل المواد</td></tr>
+        <tr><td>ITR Register</td><td>كل طلبات التفتيش</td></tr>
+        <tr><td>NCR Log</td><td>Non-Conformance Reports</td></tr>
+        <tr><td>O&M Manuals</td><td>دليل التشغيل والصيانة</td></tr>
+      </table>
+      <h3>🔍 الفحص النهائي</h3>
+      <p>• Level Survey كامل للمشروع<br>
+      • Straightedge Test للسطح كامل<br>
+      • Visual Inspection شامل<br>
+      • Drainage Check<br>
+      • Road Markings Check<br>
+      • Lighting Test</p>
+      <h3>🛡️ فترة الضمان</h3>
+      <p>• مدة الضمان: <strong>12 شهر</strong> من تاريخ التسليم<br>
+      • Routine Inspection كل 3 أشهر<br>
+      • إصلاح أي عيوب خلال 14 يوم من الإشعار</p>
+      <h3>🔴 نقاط التوقف النهائية</h3>
+      <p>• <strong>HP-10:</strong> موافقة المهندس الاستشاري على التسليم<br>
+      • <strong>HP-11:</strong> موافقة Ashghal / MMUP على الاستلام</p>
+    `
+  }
+};
+
+function showLayer(key) {
+  const d = layerData[key];
+  if (!d) return;
+  const div = document.getElementById('layerDetail');
+  div.style.display = 'block';
+  div.innerHTML = `
+    <div style="background:rgba(122,21,21,0.15);border:1px solid rgba(201,168,76,0.25);border-radius:14px;padding:20px;">
+      <div style="font-family:'Cairo',sans-serif;font-size:17px;font-weight:700;color:var(--gold);margin-bottom:16px;border-bottom:1px solid rgba(201,168,76,0.2);padding-bottom:12px;">
+        ${d.title}
+      </div>
+      <div style="font-size:13px;line-height:1.8;color:var(--text2);">${d.html}</div>
+    </div>
+  `;
+  div.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
 </script>
 </body>
 </html>
