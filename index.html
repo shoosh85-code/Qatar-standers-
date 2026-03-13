@@ -1235,30 +1235,8 @@ const detailData = {
       </table>
     `
   }
-};
+,
 
-function openDetail(key) {
-  const d = detailData[key];
-  if (!d) return;
-  document.getElementById('dmTitle').textContent = d.title;
-  document.getElementById('dmContent').innerHTML = d.content;
-  document.getElementById('detailModal').classList.add('open');
-}
-function closeDetailModal(e) {
-  if (e.target === document.getElementById('detailModal'))
-    document.getElementById('detailModal').classList.remove('open');
-}
-
-// ===== TOAST =====
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-// ===== ROADS LAYER DATA =====
-const layerData = {
   subgrade: {
     title: '🏔️ Subgrade — طبقة التربة الطبيعية',
     content: `
@@ -1549,6 +1527,28 @@ const layerData = {
     `
   }
 };
+
+function openDetail(key) {
+  const d = detailData[key];
+  if (!d) return;
+  document.getElementById('dmTitle').textContent = d.title;
+  document.getElementById('dmContent').innerHTML = d.content;
+  document.getElementById('detailModal').classList.add('open');
+}
+function closeDetailModal(e) {
+  if (e.target === document.getElementById('detailModal'))
+    document.getElementById('detailModal').classList.remove('open');
+}
+
+// ===== TOAST =====
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ===== ROADS LAYER DATA =====
 
 function showLayer(key) {
   const d = layerData[key];
