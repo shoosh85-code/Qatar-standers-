@@ -703,10 +703,19 @@ header {
     </div>
     <div class="cat-card" onclick="openDetail('roads')">
       <span class="cat-emoji">🛣️</span>
-      <div class="cat-name">الطرق والمرافق</div>
-      <div class="cat-desc">تصميم الطرق، الصرف، الإنارة، الأرصفة</div>
+      <div class="cat-name">أعمال الطرق</div>
+      <div class="cat-desc">الطبقات، الإسفلت، الاختبارات، التسليم</div>
       <div class="cat-bottom">
         <span class="cat-count">67 مواصفة</span>
+        <span class="cat-arr">←</span>
+      </div>
+    </div>
+    <div class="cat-card" onclick="openDetail('utilities')">
+      <span class="cat-emoji">🔧</span>
+      <div class="cat-name">شبكات المرافق</div>
+      <div class="cat-desc">مياه الشرب، الصرف الصحي، السطحي، المعالجة</div>
+      <div class="cat-bottom">
+        <span class="cat-count">52 مواصفة</span>
         <span class="cat-arr">←</span>
       </div>
     </div>
@@ -1087,111 +1096,6 @@ const detailData = {
       <div id="layerDetail" style="display:none;margin-top:16px;"></div>
     `
   },
-    content: `
-      <h3>📋 الطبقات والمواصفات</h3>
-      <table class="dm-table">
-        <tr><th>الطبقة</th><th>السماكة</th><th>CBR</th><th>الدمك</th></tr>
-        <tr><td>Subgrade</td><td>حسب التصميم</td><td>≥ 8%</td><td>≥ 95% MDD</td></tr>
-        <tr><td>Subbase</td><td>150-300mm</td><td>≥ 30%</td><td>≥ 98% MDD</td></tr>
-        <tr><td>Base Course</td><td>150-250mm</td><td>≥ 80%</td><td>≥ 98% MDD</td></tr>
-        <tr><td>Binder Course</td><td>60-80mm</td><td>—</td><td>≥ 98% TMD</td></tr>
-        <tr><td>Wearing Course</td><td>40-50mm</td><td>—</td><td>≥ 98% TMD</td></tr>
-      </table>
-
-      <h3>🔥 الخلطات الإسفلتية — Marshall Design</h3>
-      <table class="dm-table">
-        <tr><th>المعيار</th><th>Wearing</th><th>Binder</th><th>Base</th></tr>
-        <tr><td>نسبة البيتومين</td><td>5.0-6.5%</td><td>4.5-6.0%</td><td>4.0-5.5%</td></tr>
-        <tr><td>Stability</td><td>≥ 8 kN</td><td>≥ 8 kN</td><td>≥ 7 kN</td></tr>
-        <tr><td>Flow</td><td>2-4 mm</td><td>2-4 mm</td><td>2-4 mm</td></tr>
-        <tr><td>Air Voids</td><td>3-5%</td><td>3-5%</td><td>3-5%</td></tr>
-        <tr><td>VMA</td><td>≥ 14%</td><td>≥ 14%</td><td>≥ 13%</td></tr>
-        <tr><td>درجة الخلط</td><td>150-165°C</td><td>150-165°C</td><td>150-165°C</td></tr>
-        <tr><td>درجة الفرش</td><td>≥ 140°C</td><td>≥ 140°C</td><td>≥ 140°C</td></tr>
-      </table>
-
-      <h3>⚒️ مراحل التنفيذ</h3>
-      <table class="dm-table">
-        <tr><th>المرحلة</th><th>الأعمال</th><th>المتطلب</th></tr>
-        <tr><td>1 - التحضير</td><td>إزالة وتنظيف الموقع</td><td>مسح وتوقيع</td></tr>
-        <tr><td>2 - Subgrade</td><td>حفر وردم ودمك</td><td>Sand Cone كل 500m²</td></tr>
-        <tr><td>3 - Subbase</td><td>فرش ودمك 150-300mm</td><td>CBR + Nuclear Gauge</td></tr>
-        <tr><td>4 - Base Course</td><td>فرش ودمك 150-250mm</td><td>CBR + Plate Load</td></tr>
-        <tr><td>5 - Prime Coat</td><td>رش 0.8-1.2 L/m²</td><td>انتظار 24-48 ساعة</td></tr>
-        <tr><td>6 - Binder Course</td><td>Tack 0.3-0.5 L/m² + فرش</td><td>Core Sample</td></tr>
-        <tr><td>7 - Wearing Course</td><td>Tack 0.2-0.4 L/m² + فرش</td><td>Core + Thickness</td></tr>
-        <tr><td>8 - تشطيبات</td><td>دهانات + كيرب + إنارة</td><td>فحص نهائي</td></tr>
-      </table>
-
-      <h3>🔬 الاختبارات الحقلية</h3>
-      <table class="dm-table">
-        <tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr>
-        <tr><td>Sand Cone</td><td>كل 500m²</td><td>≥ 98% MDD</td></tr>
-        <tr><td>Nuclear Gauge</td><td>كل 200m²</td><td>≥ 98% MDD</td></tr>
-        <tr><td>Core Sample</td><td>كل 1000m²</td><td>السماكة ± 5mm</td></tr>
-        <tr><td>Straightedge 3m</td><td>كل 100m</td><td>≤ 5mm</td></tr>
-        <tr><td>Temperature Check</td><td>كل حمولة</td><td>≥ 140°C</td></tr>
-        <tr><td>Crossfall Check</td><td>كل 25m</td><td>2-3%</td></tr>
-      </table>
-
-      <h3>🧪 اختبارات المواد</h3>
-      <p><strong>الركام:</strong> LA Abrasion ≤30% | Flakiness ≤25% | Water Absorption ≤2% | Sand Equivalent ≥50% | Crush Value ≤25%</p>
-      <p><strong>البيتومين Grade 60/70:</strong> Penetration 60-70 | Softening Point 49-58°C | Ductility ≥100cm | Flash Point ≥232°C</p>
-      <p><strong>الخلطة:</strong> Marshall كل 200 طن | Extraction Test | Gradation After Extraction | TMD كل 500 طن</p>
-
-      <h3>🔴 نقاط التوقف — Hold Points</h3>
-      <table class="dm-table">
-        <tr><th>الكود</th><th>النقطة</th></tr>
-        <tr><td>HP-01</td><td>اعتماد مصادر المواد قبل الاستخدام</td></tr>
-        <tr><td>HP-02</td><td>اعتماد Mix Design قبل الإنتاج</td></tr>
-        <tr><td>HP-03</td><td>اعتماد Subgrade قبل Subbase</td></tr>
-        <tr><td>HP-04</td><td>اعتماد Subbase قبل Base Course</td></tr>
-        <tr><td>HP-05</td><td>اعتماد Base Course قبل الإسفلت</td></tr>
-        <tr><td>HP-06</td><td>اعتماد Prime Coat قبل Binder</td></tr>
-        <tr><td>HP-07</td><td>اعتماد Binder Course قبل Wearing</td></tr>
-        <tr><td>HP-08</td><td>الفحص النهائي قبل التسليم</td></tr>
-      </table>
-
-      <h3>🟡 نقاط المراجعة — Witness Points</h3>
-      <table class="dm-table">
-        <tr><th>الكود</th><th>النقطة</th></tr>
-        <tr><td>WP-01</td><td>مراجعة نتائج Marshall في المختبر</td></tr>
-        <tr><td>WP-02</td><td>مراجعة درجة حرارة الخلطة عند الوصول</td></tr>
-        <tr><td>WP-03</td><td>مراجعة سماكة الطبقة قبل الدمك</td></tr>
-        <tr><td>WP-04</td><td>مراجعة نتائج Core Sample</td></tr>
-        <tr><td>WP-05</td><td>مراجعة Road Markings</td></tr>
-      </table>
-
-      <h3>📋 طلبات التفتيش — ITR</h3>
-      <table class="dm-table">
-        <tr><th>الطلب</th><th>المحتوى</th></tr>
-        <tr><td>ITR-01</td><td>Material Approval — شهادات + مصدر</td></tr>
-        <tr><td>ITR-02</td><td>Subgrade Inspection — Sand Cone + مناسيب</td></tr>
-        <tr><td>ITR-03</td><td>Subbase Inspection — Compaction + CBR</td></tr>
-        <tr><td>ITR-04</td><td>Base Course Inspection — CBR + Plate Load</td></tr>
-        <tr><td>ITR-05</td><td>Asphalt Inspection — Mix Design + Core + Thickness</td></tr>
-      </table>
-
-      <h3>⚠️ شروط الطقس</h3>
-      <p>• لا رصف تحت <strong>10°C</strong> | لا رصف وقت المطر | لا رصف فوق <strong>45°C</strong></p>
-      <p>• السطح يكون جاف تماماً قبل الرصف</p>
-
-      <h3>🔧 Rolling Pattern</h3>
-      <p>• <strong>Initial Rolling:</strong> Vibratory Roller عند 130-140°C</p>
-      <p>• <strong>Intermediate:</strong> Pneumatic Roller عند 100-125°C</p>
-      <p>• <strong>Finish Rolling:</strong> Static Roller عند 80-100°C</p>
-
-      <h3>❌ المشاكل الشائعة وحلولها</h3>
-      <table class="dm-table">
-        <tr><th>المشكلة</th><th>السبب</th><th>الحل</th></tr>
-        <tr><td>Rutting</td><td>بيتومين ناعم</td><td>تغيير Grade</td></tr>
-        <tr><td>Cracking</td><td>إجهاد أو شيخوخة</td><td>Cold Mix Repair</td></tr>
-        <tr><td>Bleeding</td><td>زيادة بيتومين</td><td>Sand Spreading</td></tr>
-        <tr><td>Raveling</td><td>ضعف الالتصاق</td><td>Tack Coat إضافي</td></tr>
-        <tr><td>Potholes</td><td>تسرب مياه</td><td>Full Depth Repair</td></tr>
-      </table>
-    `
-  },
   materials: {
     title: '🧱 مواد البناء والمنتجات',
     content: `
@@ -1523,6 +1427,231 @@ const detailData = {
       <h3>🔴 نقاط التوقف النهائية</h3>
       <p>• <strong>HP-10:</strong> موافقة المهندس الاستشاري على التسليم<br>
       • <strong>HP-11:</strong> موافقة Ashghal / MMUP على الاستلام</p>
+    `
+  },
+
+  utilities: {
+    title: '🔧 المرافق — شبكات المياه والصرف',
+    content: `
+      <h3>📌 اختر الشبكة للتفاصيل الكاملة</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
+        <div onclick="openDetail('water_supply')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:24px">💧</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">شبكة مياه الشرب</div>
+          <div style="color:var(--text3);font-size:11px;">Water Supply Network</div>
+        </div>
+        <div onclick="openDetail('sewer')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:24px">🚽</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">شبكة الصرف الصحي</div>
+          <div style="color:var(--text3);font-size:11px;">Foul Sewer Network</div>
+        </div>
+        <div onclick="openDetail('storm')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:24px">🌧️</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">شبكة الصرف السطحي</div>
+          <div style="color:var(--text3);font-size:11px;">Storm Water Drainage</div>
+        </div>
+        <div onclick="openDetail('treated')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:24px">♻️</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">شبكة المياه المعالجة</div>
+          <div style="color:var(--text3);font-size:11px;">Treated Water Network</div>
+        </div>
+      </div>
+    `
+  },
+
+  water_supply: {
+    title: '💧 شبكة مياه الشرب — Water Supply',
+    content: `
+      <h3>📐 المواصفات العامة</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>نوع المواسير</td><td>HDPE / DI / uPVC</td></tr>
+        <tr><td>الضغط التصميمي</td><td>10-16 bar</td></tr>
+        <tr><td>عمق الدفن</td><td>≥ 1.0m من سطح الطريق</td></tr>
+        <tr><td>الفراغ بين المواسير</td><td>≥ 300mm</td></tr>
+        <tr><td>Bedding</td><td>رمل مدكوك 150mm تحت وجانب</td></tr>
+        <tr><td>Cover</td><td>300mm رمل فوق الماسورة</td></tr>
+        <tr><td>تغيير الاتجاه</td><td>Thrust Block أو Restrained Joint</td></tr>
+      </table>
+
+      <h3>🔧 مراحل التنفيذ</h3>
+      <p>1. الحفر بالعمق المطلوب + 300mm للـ Bedding<br>
+      2. فرش رمل Bedding 150mm ودكه<br>
+      3. وضع المواسير ومحاذاتها<br>
+      4. توصيل الوصلات واختبار الضغط<br>
+      5. ردم جانبي بالرمل مع الدك بعناية<br>
+      6. Cover 300mm رمل فوق الماسورة<br>
+      7. Marker Tape أصفر على عمق 300mm<br>
+      8. إكمال الردم وإعادة الطريق</p>
+
+      <h3>🧪 الاختبارات المطلوبة</h3>
+      <table class="dm-table">
+        <tr><th>الاختبار</th><th>المعيار</th><th>التكرار</th></tr>
+        <tr><td>Hydrostatic Pressure Test</td><td>1.5x الضغط التصميمي / ساعتين</td><td>كل Section</td></tr>
+        <tr><td>Leakage Test</td><td>صفر تسريب</td><td>كل Section</td></tr>
+        <tr><td>Disinfection</td><td>Chlorination 50 ppm / 24hr</td><td>قبل التشغيل</td></tr>
+        <tr><td>Water Quality</td><td>حسب QGEWC</td><td>بعد Flushing</td></tr>
+        <tr><td>Pipe Material Test</td><td>شهادة المصنع</td><td>كل دفعة</td></tr>
+      </table>
+
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-01:</strong> اعتماد مواد المواسير قبل التوريد<br>
+      • <strong>HP-02:</strong> فحص Bedding قبل وضع المواسير<br>
+      • <strong>HP-03:</strong> اعتماد Pressure Test قبل الردم<br>
+      • <strong>HP-04:</strong> نتائج Water Quality قبل التشغيل</p>
+
+      <h3>🟡 نقاط المراجعة</h3>
+      <p>• <strong>WP-01:</strong> مراجعة عمق الحفر والمناسيب<br>
+      • <strong>WP-02:</strong> مراجعة Thrust Blocks عند الكوع<br>
+      • <strong>WP-03:</strong> مراجعة Marker Tape</p>
+
+      <h3>⚠️ تنبيهات مهمة</h3>
+      <p>• فصل كامل عن شبكة الصرف ≥ 1.0m أفقياً<br>
+      • مواسير المياه دايماً فوق الصرف رأسياً<br>
+      • حماية المواسير من الأحمال الإنشائية</p>
+    `
+  },
+
+  sewer: {
+    title: '🚽 شبكة الصرف الصحي — Foul Sewer',
+    content: `
+      <h3>📐 المواصفات العامة</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>نوع المواسير</td><td>uPVC / GRP / HDPE</td></tr>
+        <tr><td>الانحدار الأدنى</td><td>1:100 (DN150) / 1:150 (DN225+)</td></tr>
+        <tr><td>عمق الدفن</td><td>≥ 1.2m من سطح الطريق</td></tr>
+        <tr><td>Bedding</td><td>رمل مدكوك 150mm تحت وجانب</td></tr>
+        <tr><td>أقصى مسافة بين Manholes</td><td>90m للمواسير ≤ 300mm</td></tr>
+        <tr><td>Manhole Cover</td><td>D400 للطرق / B125 للمشاة</td></tr>
+      </table>
+
+      <h3>🔧 مراحل التنفيذ</h3>
+      <p>1. الحفر بالانحدار الصح من Manhole لـ Manhole<br>
+      2. فرش Bedding 150mm ودكه بعناية<br>
+      3. وضع المواسير من المصب للمنبع<br>
+      4. توصيل الوصلات Rubber Ring Joints<br>
+      5. ردم جانبي بالرمل طبقات 150mm<br>
+      6. Cover 300mm رمل فوق الماسورة<br>
+      7. Marker Tape أخضر على 300mm<br>
+      8. بناء Manholes وتركيب Covers<br>
+      9. اختبار CCTV قبل الردم النهائي</p>
+
+      <h3>🧪 الاختبارات المطلوبة</h3>
+      <table class="dm-table">
+        <tr><th>الاختبار</th><th>المعيار</th><th>التكرار</th></tr>
+        <tr><td>Air Test</td><td>لا يقل الضغط 100mm/5min</td><td>كل Section</td></tr>
+        <tr><td>Water Test</td><td>تسريب ≤ 0.15 L/m/hr</td><td>بديل Air Test</td></tr>
+        <tr><td>CCTV Inspection</td><td>100% المواسير</td><td>قبل التسليم</td></tr>
+        <tr><td>Manhole Test</td><td>Water Tightness</td><td>كل Manhole</td></tr>
+        <tr><td>Gradient Check</td><td>حسب التصميم ± 5mm</td><td>كل Section</td></tr>
+      </table>
+
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-01:</strong> اعتماد مواد المواسير<br>
+      • <strong>HP-02:</strong> فحص Bedding والانحدار قبل الوضع<br>
+      • <strong>HP-03:</strong> اعتماد Air Test قبل الردم<br>
+      • <strong>HP-04:</strong> اعتماد CCTV قبل التسليم</p>
+
+      <h3>🟡 نقاط المراجعة</h3>
+      <p>• <strong>WP-01:</strong> مراجعة الانحدار بـ Laser Level<br>
+      • <strong>WP-02:</strong> مراجعة Manhole Covers والمناسيب<br>
+      • <strong>WP-03:</strong> مراجعة نتائج CCTV</p>
+
+      <h3>⚠️ تنبيهات مهمة</h3>
+      <p>• عدم خلط الصرف الصحي مع السطحي<br>
+      • Ventilation Shaft في الـ Manholes الطويلة<br>
+      • Drop Connection للفروع العالية</p>
+    `
+  },
+
+  storm: {
+    title: '🌧️ شبكة الصرف السطحي — Storm Water',
+    content: `
+      <h3>📐 المواصفات العامة</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>نوع المواسير</td><td>RCP / HDPE / GRP</td></tr>
+        <tr><td>الانحدار الأدنى</td><td>1:200</td></tr>
+        <tr><td>عمق الدفن</td><td>≥ 0.9m</td></tr>
+        <tr><td>Gully Spacing</td><td>كل 25-40m حسب الانحدار</td></tr>
+        <tr><td>Gully Grating</td><td>D400 في الطرق</td></tr>
+        <tr><td>أقصى مسافة بين Manholes</td><td>120m</td></tr>
+      </table>
+
+      <h3>🔧 مراحل التنفيذ</h3>
+      <p>1. الحفر بالأعماق والانحدارات المصممة<br>
+      2. Bedding 150mm رمل أو كسر حجر<br>
+      3. وضع المواسير وتوصيلها<br>
+      4. بناء Gully Pots والـ Manholes<br>
+      5. توصيل Gullies بالشبكة<br>
+      6. اختبار Hydraulic قبل الردم<br>
+      7. تركيب Gratings بالمناسيب الصح</p>
+
+      <h3>🧪 الاختبارات المطلوبة</h3>
+      <table class="dm-table">
+        <tr><th>الاختبار</th><th>المعيار</th></tr>
+        <tr><td>Hydraulic Test</td><td>لا تسريب</td></tr>
+        <tr><td>CCTV Inspection</td><td>100% المواسير</td></tr>
+        <tr><td>Gully Level Check</td><td>± 5mm من مستوى الطريق</td></tr>
+        <tr><td>Flow Test</td><td>حسب التصميم</td></tr>
+      </table>
+
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-01:</strong> اعتماد مواد المواسير<br>
+      • <strong>HP-02:</strong> اعتماد Hydraulic Test قبل الردم<br>
+      • <strong>HP-03:</strong> اعتماد CCTV قبل التسليم</p>
+
+      <h3>⚠️ تنبيهات مهمة</h3>
+      <p>• عدم توصيل الصرف الصحي بشبكة السطحي<br>
+      • Silt Trap قبل مخرج الشبكة<br>
+      • Outfall Protection من التآكل</p>
+    `
+  },
+
+  treated: {
+    title: '♻️ شبكة المياه المعالجة — Treated Water',
+    content: `
+      <h3>📐 المواصفات العامة</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>نوع المواسير</td><td>HDPE / uPVC (بنفسجي)</td></tr>
+        <tr><td>لون المواسير</td><td>بنفسجي أو شريط بنفسجي</td></tr>
+        <tr><td>الضغط التصميمي</td><td>6-10 bar</td></tr>
+        <tr><td>عمق الدفن</td><td>≥ 0.9m</td></tr>
+        <tr><td>Marker Tape</td><td>بنفسجي — Reclaimed Water</td></tr>
+        <tr><td>الفصل عن مياه الشرب</td><td>≥ 1.0m أفقياً</td></tr>
+      </table>
+
+      <h3>🔧 مراحل التنفيذ</h3>
+      <p>1. الحفر بالعمق المطلوب<br>
+      2. Bedding 150mm رمل<br>
+      3. وضع مواسير بنفسجية اللون<br>
+      4. توصيل Fittings وـ Valves<br>
+      5. Pressure Test قبل الردم<br>
+      6. Marker Tape بنفسجي على 300mm<br>
+      7. لافتات تحذيرية — مياه غير صالحة للشرب</p>
+
+      <h3>🧪 الاختبارات المطلوبة</h3>
+      <table class="dm-table">
+        <tr><th>الاختبار</th><th>المعيار</th></tr>
+        <tr><td>Pressure Test</td><td>1.5x التصميمي / ساعتين</td></tr>
+        <tr><td>Leakage Test</td><td>صفر تسريب</td></tr>
+        <tr><td>Water Quality</td><td>حسب Ashghal / MME</td></tr>
+        <tr><td>Cross Connection Check</td><td>فصل كامل عن مياه الشرب</td></tr>
+      </table>
+
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-01:</strong> اعتماد مواد المواسير<br>
+      • <strong>HP-02:</strong> اعتماد Pressure Test قبل الردم<br>
+      • <strong>HP-03:</strong> التحقق من عدم الاتصال بمياه الشرب<br>
+      • <strong>HP-04:</strong> اعتماد Water Quality قبل التشغيل</p>
+
+      <h3>⚠️ تنبيهات مهمة — خطيرة جداً!</h3>
+      <p>• ⛔ مياه غير صالحة للشرب — تسمية واضحة<br>
+      • اللون البنفسجي إلزامي بدون استثناء<br>
+      • Cross Connection مع مياه الشرب = كارثة صحية<br>
+      • Double Check Valve عند كل نقطة اتصال</p>
     `
   }
 };
