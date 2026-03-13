@@ -1553,17 +1553,12 @@ const layerData = {
 function showLayer(key) {
   const d = layerData[key];
   if (!d) return;
-  const div = document.getElementById('layerDetail');
-  div.style.display = 'block';
-  div.innerHTML = `
-    <div style="background:rgba(122,21,21,0.15);border:1px solid rgba(201,168,76,0.25);border-radius:14px;padding:20px;">
-      <div style="font-family:'Cairo',sans-serif;font-size:17px;font-weight:700;color:var(--gold);margin-bottom:16px;border-bottom:1px solid rgba(201,168,76,0.2);padding-bottom:12px;">
-        ${d.title}
-      </div>
-      <div style="font-size:13px;line-height:1.8;color:var(--text2);">${d.html}</div>
-    </div>
-  `;
-  div.scrollIntoView({behavior:'smooth', block:'nearest'});
+  // Update modal title and content directly
+  document.getElementById('dmTitle').textContent = d.title;
+  document.getElementById('dmContent').innerHTML = d.html;
+  // Scroll modal content to top
+  const modal = document.getElementById('detailModal');
+  if (modal) modal.scrollTop = 0;
 }
 
 </script>
