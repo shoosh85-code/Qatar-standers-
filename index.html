@@ -827,10 +827,11 @@ header {
 <div class="detail-modal-bg" id="detailModal" onclick="closeDetailModal(event)">
   <div class="detail-modal">
     <div class="dm-header">
-      <div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div id="dmBackBtn" onclick="goBack()" style="display:none;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:var(--gold);">←</div>
         <div class="modal-title" id="dmTitle"></div>
       </div>
-      <div class="dm-close" onclick="document.getElementById('detailModal').classList.remove('open')">✕</div>
+      <div class="dm-close" onclick="document.getElementById('detailModal').classList.remove('open');navStack=[];">✕</div>
     </div>
     <div class="dm-content" id="dmContent"></div>
   </div>
@@ -1446,7 +1447,7 @@ const detailData = {
           <div style="color:var(--gold);font-weight:700;font-size:13px;">شبكة مياه الشرب</div>
           <div style="color:var(--text3);font-size:11px;">Water Supply Network</div>
         </div>
-        <div onclick="openDetail('sewer')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+        <div onclick="openDetail('sewer_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
           <div style="font-size:24px">🚽</div>
           <div style="color:var(--gold);font-weight:700;font-size:13px;">شبكة الصرف الصحي</div>
           <div style="color:var(--text3);font-size:11px;">Foul Sewer Network</div>
@@ -2417,15 +2418,348 @@ const detailData = {
         <strong style="color:#e74c3c;">H</strong> = Hold Point &nbsp;|&nbsp; <strong style="color:#f1c40f;">W</strong> = Witness Point &nbsp;|&nbsp; <strong style="color:#2ecc71;">R</strong> = Review
       </div>
     `
+  },
+
+  sewer_stages: {
+    title: '🚽 شبكة الصرف الصحي — مراحل التنفيذ الكاملة',
+    content: `
+      <h3>📌 اختر المرحلة للتفاصيل الكاملة</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
+        <div onclick="openDetail('ss_survey')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:20px">📐</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">الدراسة والتصميم</div>
+          <div style="color:var(--text3);font-size:11px;">Survey & Design</div>
+        </div>
+        <div onclick="openDetail('ss_materials')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:20px">🔩</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">المواد والمواسير</div>
+          <div style="color:var(--text3);font-size:11px;">Materials & Pipes</div>
+        </div>
+        <div onclick="openDetail('ss_excavation')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:20px">⛏️</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">الحفر والبيدنج</div>
+          <div style="color:var(--text3);font-size:11px;">Excavation & Bedding</div>
+        </div>
+        <div onclick="openDetail('ss_laying')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:20px">🔧</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">وضع المواسير</div>
+          <div style="color:var(--text3);font-size:11px;">Pipe Laying</div>
+        </div>
+        <div onclick="openDetail('ss_manholes')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:20px">🕳️</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">Manholes</div>
+          <div style="color:var(--text3);font-size:11px;">بناء وتركيب الغرف</div>
+        </div>
+        <div onclick="openDetail('ss_testing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:20px">🧪</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">الاختبارات</div>
+          <div style="color:var(--text3);font-size:11px;">Air Test & CCTV</div>
+        </div>
+        <div onclick="openDetail('ss_backfill')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:20px">🏗️</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">الردم والتشطيب</div>
+          <div style="color:var(--text3);font-size:11px;">Backfill & Reinstatement</div>
+        </div>
+        <div onclick="openDetail('ss_handover')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+          <div style="font-size:20px">✅</div>
+          <div style="color:var(--gold);font-weight:700;font-size:13px;">التسليم</div>
+          <div style="color:var(--text3);font-size:11px;">Handover & DLP</div>
+        </div>
+      </div>
+      <div style="margin-top:16px;">
+        <div onclick="openDetail('itp_sewer')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;">
+          <div style="font-size:24px">📋</div>
+          <div style="color:var(--gold);font-weight:700;font-size:15px;">ITP الصرف الصحي</div>
+          <div style="color:var(--text3);font-size:12px;margin-top:4px;">خطة الفحص والاختبار الكاملة</div>
+        </div>
+      </div>
+    `
+  },
+
+  ss_survey: {
+    title: '📐 الصرف الصحي — الدراسة والتصميم',
+    content: `
+      <h3>📋 متطلبات ما قبل التنفيذ</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المتطلب</th></tr>
+        <tr><td>مخططات التصميم</td><td>معتمدة من Ashghal / MME</td></tr>
+        <tr><td>Hydraulic Design</td><td>تحليل التدفق والانحدارات</td></tr>
+        <tr><td>Invert Levels</td><td>مناسيب قيعان الغرف محددة</td></tr>
+        <tr><td>Existing Services</td><td>As-Built + NOC من كل الجهات</td></tr>
+        <tr><td>Material Submittal</td><td>اعتماد المواسير والـ Manholes</td></tr>
+        <tr><td>Method Statement</td><td>معتمد قبل البدء</td></tr>
+      </table>
+      <h3>⚠️ تنبيهات مهمة</h3>
+      <p>• الصرف الصحي دايماً أسفل مياه الشرب رأسياً<br>
+      • فصل ≥ 1.0m أفقياً عن مياه الشرب<br>
+      • NOC إلزامي قبل أي حفر</p>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-01:</strong> اعتماد المخططات والمناسيب قبل الحفر</p>
+    `
+  },
+
+  ss_materials: {
+    title: '🔩 الصرف الصحي — المواد والمواسير',
+    content: `
+      <h3>📐 مواصفات المواسير</h3>
+      <table class="dm-table">
+        <tr><th>النوع</th><th>المواصفة</th><th>الاستخدام</th></tr>
+        <tr><td>uPVC</td><td>ISO 4435 | SN8</td><td>DN150-DN600</td></tr>
+        <tr><td>GRP</td><td>ISO 10467 | SN5000</td><td>DN600+</td></tr>
+        <tr><td>HDPE</td><td>ISO 4427 | SN8</td><td>خطوط الضخ فقط</td></tr>
+        <tr><td>RC Pipe</td><td>BS 5911</td><td>المجاري الكبيرة</td></tr>
+      </table>
+      <h3>📐 مواصفات Manholes</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>خرسانة الغرفة</td><td>≥ C35 — مقاومة للكيماويات</td></tr>
+        <tr><td>Precast Rings</td><td>BS 5911 Part 200</td></tr>
+        <tr><td>Benching</td><td>ميل 1:12 نحو القناة</td></tr>
+        <tr><td>Cover D400</td><td>للطرق الرئيسية</td></tr>
+        <tr><td>Cover B125</td><td>للمشاة والمناطق الخضراء</td></tr>
+        <tr><td>Step Irons</td><td>HDPE Coated — كل 300mm</td></tr>
+      </table>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-02:</strong> اعتماد كل المواد قبل التوريد</p>
+    `
+  },
+
+  ss_excavation: {
+    title: '⛏️ الصرف الصحي — الحفر والبيدنج',
+    content: `
+      <h3>📐 مواصفات الحفر</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>عمق الحفر</td><td>≥ 1.2m من السطح لأعلى الماسورة</td></tr>
+        <tr><td>الانحدار</td><td>حسب التصميم — من المنبع للمصب</td></tr>
+        <tr><td>Shoring</td><td>إلزامي لأعماق أكثر من 1.5m</td></tr>
+        <tr><td>Dewatering</td><td>إزالة المياه قبل الـ Bedding</td></tr>
+      </table>
+      <h3>📐 مواصفات الـ Bedding</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>مادة الـ Bedding</td><td>رمل أو حجر مكسر ≤ 10mm</td></tr>
+        <tr><td>سماكة تحت الماسورة</td><td>150mm مدكوكة</td></tr>
+        <tr><td>جانبي الماسورة</td><td>رمل حتى منتصف الماسورة</td></tr>
+        <tr><td>فوق الماسورة</td><td>300mm رمل</td></tr>
+        <tr><td>الانحدار الدقيق</td><td>بـ Laser Level — ± 3mm</td></tr>
+      </table>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-03:</strong> فحص Bedding والانحدار بـ Laser Level قبل وضع المواسير</p>
+    `
+  },
+
+  ss_laying: {
+    title: '🔧 الصرف الصحي — وضع المواسير',
+    content: `
+      <h3>🔧 كيفية التنفيذ</h3>
+      <p>1. التأكد من اعتماد Bedding والانحدار (HP-03)<br>
+      2. وضع المواسير من المصب للمنبع<br>
+      3. Rubber Ring Joints — تشحيم بزيت نباتي<br>
+      4. التحقق من الانحدار بعد كل 3 مواسير<br>
+      5. Plug نهايات المواسير عند توقف العمل<br>
+      6. Marker Tape أخضر على عمق 300mm<br>
+      7. عدم الردم قبل اعتماد Air Test</p>
+      <h3>📐 متطلبات خاصة</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المتطلب</th></tr>
+        <tr><td>Drop Connection</td><td>للفروع التي مناسيبها أعلى من قاع الغرفة بـ 600mm+</td></tr>
+        <tr><td>Flexible Joint</td><td>عند دخول الماسورة للـ Manhole</td></tr>
+        <tr><td>Max Section</td><td>بين غرفتين — 90m للـ DN300 فأقل</td></tr>
+        <tr><td>Pipe Protection</td><td>عند التقاطع مع الخدمات الأخرى</td></tr>
+      </table>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-04:</strong> فحص المواسير والانحدار قبل الردم الجانبي</p>
+    `
+  },
+
+  ss_manholes: {
+    title: '🕳️ الصرف الصحي — بناء Manholes',
+    content: `
+      <h3>🔧 مراحل البناء</h3>
+      <p>1. حفر وتسوية القاع — بالعمق الصح<br>
+      2. صب Base Slab خرسانة C35<br>
+      3. تركيب Precast Rings أو بناء بلوك<br>
+      4. Benching بالملاط 1:2 — ميل 1:12<br>
+      5. تركيب Step Irons كل 300mm<br>
+      6. تركيب Cone + Adjustment Rings<br>
+      7. تركيب Cover بالمنسوب الصح<br>
+      8. External Waterproofing</p>
+      <h3>📐 المواصفات</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>Base Slab</td><td>C35 — 200mm سماكة</td></tr>
+        <tr><td>Benching</td><td>ملاط 1:2 — أملس وبدون تشقق</td></tr>
+        <tr><td>Waterproofing</td><td>Bitumen Paint خارجي طبقتان</td></tr>
+        <tr><td>Cover Level</td><td>± 5mm من مستوى الطريق</td></tr>
+        <tr><td>Verticality</td><td>رأسي تماماً — ± 10mm</td></tr>
+      </table>
+      <h3>🧪 اختبار Manhole</h3>
+      <p>• Water Tightness Test — ملء بالمياه 24 ساعة<br>
+      • لا يسمح بأي تسريب مرئي</p>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-05:</strong> اعتماد Manhole قبل الردم الجانبي وتركيب Cover</p>
+    `
+  },
+
+  ss_testing: {
+    title: '🧪 الصرف الصحي — الاختبارات',
+    content: `
+      <h3>1. Air Test — الاختبار الأساسي</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>ضغط الاختبار</td><td>100mm Water Gauge</td></tr>
+        <tr><td>وقت الاستقرار</td><td>5 دقائق</td></tr>
+        <tr><td>الانخفاض المسموح</td><td>≤ 25mm خلال 5 دقائق</td></tr>
+        <tr><td>Section Length</td><td>من Manhole لـ Manhole</td></tr>
+      </table>
+      <h3>2. Water Test — بديل Air Test</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>معدل التسريب</td><td>≤ 0.15 L/m/hr لكل متر قطر</td></tr>
+        <tr><td>المدة</td><td>30 دقيقة</td></tr>
+      </table>
+      <h3>3. CCTV Inspection — إلزامي</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>النطاق</td><td>100% كل المواسير</td></tr>
+        <tr><td>التوقيت</td><td>بعد الردم الكامل — قبل التسليم</td></tr>
+        <tr><td>التقرير</td><td>Video + Report مع تصنيف العيوب</td></tr>
+        <tr><td>معيار القبول</td><td>Grade 1-2 فقط — Grade 3+ يُعاد</td></tr>
+      </table>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-06:</strong> اعتماد Air Test قبل الردم النهائي<br>
+      • <strong>HP-07:</strong> اعتماد CCTV Report قبل التسليم</p>
+    `
+  },
+
+  ss_backfill: {
+    title: '🏗️ الصرف الصحي — الردم والتشطيب',
+    content: `
+      <h3>📐 مواصفات الردم</h3>
+      <table class="dm-table">
+        <tr><th>المنطقة</th><th>المادة</th><th>الدمك</th></tr>
+        <tr><td>0-300mm فوق الماسورة</td><td>رمل نظيف</td><td>يدوي ≥ 90% MDD</td></tr>
+        <tr><td>300mm-600mm</td><td>رمل أو حجر ≤ 75mm</td><td>≥ 93% MDD</td></tr>
+        <tr><td>600mm للسطح</td><td>حسب نوع الطريق</td><td>≥ 95-98% MDD</td></tr>
+      </table>
+      <h3>⚠️ تنبيه مهم</h3>
+      <p>• لا ردم بالمعدات الثقيلة على مسافة أقل من 1.5m من الماسورة<br>
+      • Marker Tape أخضر إلزامي على عمق 300mm<br>
+      • Compaction Test قبل إعادة الطريق</p>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-08:</strong> اعتماد Compaction Test قبل إعادة الطريق</p>
+    `
+  },
+
+  ss_handover: {
+    title: '✅ الصرف الصحي — التسليم',
+    content: `
+      <h3>📋 وثائق التسليم</h3>
+      <table class="dm-table">
+        <tr><th>الوثيقة</th><th>المحتوى</th></tr>
+        <tr><td>As-Built Drawings</td><td>مخططات منفذة بالمناسيب الفعلية</td></tr>
+        <tr><td>Air Test Records</td><td>كل نتائج الاختبار</td></tr>
+        <tr><td>CCTV Report</td><td>Video + تقرير كامل</td></tr>
+        <tr><td>Manhole Schedule</td><td>جدول كل الغرف بالمناسيب</td></tr>
+        <tr><td>Material Certificates</td><td>شهادات كل المواسير</td></tr>
+        <tr><td>ITR Register</td><td>كل طلبات التفتيش</td></tr>
+      </table>
+      <h3>🛡️ فترة الضمان DLP</h3>
+      <p>• المدة: <strong>12 شهر</strong><br>
+      • CCTV Re-inspection عند نهاية DLP<br>
+      • إصلاح أي انسداد أو تسريب فوراً</p>
+      <h3>🔴 نقاط التوقف النهائية</h3>
+      <p>• <strong>HP-09:</strong> موافقة Ashghal / MME على التسليم النهائي</p>
+    `
+  },
+
+  itp_sewer: {
+    title: '📋 ITP — شبكة الصرف الصحي | Foul Sewer Network',
+    content: `
+      <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">
+        📌 المرجع: QCS 2014 — Section 8 Part 2 | Ashghal Standards
+      </div>
+      <h3>1.0 — وثائق ما قبل التنفيذ</h3>
+      <table class="dm-table">
+        <tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+        <tr><td>1.1</td><td>Material Approval — Pipes</td><td>QCS S.8 P.2</td><td>ISO Certificate + اعتماد قبل التوريد</td><td>كل دفعة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Approved Submittal</td></tr>
+        <tr><td>1.2</td><td>Material Approval — Manholes</td><td>BS 5911</td><td>اعتماد قبل التصنيع</td><td>كل دفعة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Approved Submittal</td></tr>
+        <tr><td>1.3</td><td>Method Statement</td><td>QCS S.1 P.7</td><td>معتمد قبل الحفر</td><td>مرة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Approved MS</td></tr>
+      </table>
+      <h3>2.0 — اختبارات الحفر والبيدنج</h3>
+      <table class="dm-table">
+        <tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+        <tr><td>2.1</td><td>Trench Depth</td><td>QCS S.8 P.2</td><td>≥ 1.2m من السطح</td><td>كل 50m</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Survey</td></tr>
+        <tr><td>2.2</td><td>Bedding Level & Gradient</td><td>Design Drawing</td><td>انحدار حسب التصميم ± 3mm</td><td>كل 25m</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR + Laser Record</td></tr>
+        <tr><td>2.3</td><td>Bedding Compaction</td><td>ASTM D1556</td><td>≥ 90% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Density Report</td></tr>
+      </table>
+      <h3>3.0 — اختبارات وضع المواسير</h3>
+      <table class="dm-table">
+        <tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+        <tr><td>3.1</td><td>Pipe Gradient Check</td><td>Design Drawing</td><td>حسب التصميم ± 5mm</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Survey</td></tr>
+        <tr><td>3.2</td><td>Joint Inspection</td><td>QCS S.8 P.2</td><td>100% Visual — بدون تشوه</td><td>100% وصلة</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Inspection Record</td></tr>
+        <tr><td>3.3</td><td>Pipe Separation from Water</td><td>QCS S.8</td><td>≥ 1.0m أفقياً | صرف أسفل مياه الشرب</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Survey Record</td></tr>
+      </table>
+      <h3>4.0 — اختبارات Manholes</h3>
+      <table class="dm-table">
+        <tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+        <tr><td>4.1</td><td>Manhole Water Tightness</td><td>QCS S.8 P.2</td><td>صفر تسريب / 24 ساعة</td><td>كل Manhole</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Record</td></tr>
+        <tr><td>4.2</td><td>Manhole Cover Level</td><td>Design Drawing</td><td>± 5mm من مستوى الطريق</td><td>كل Manhole</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Survey Record</td></tr>
+        <tr><td>4.3</td><td>Benching Quality</td><td>QCS S.8 P.2</td><td>أملس — ميل 1:12 — بدون تشقق</td><td>كل Manhole</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Inspection Record</td></tr>
+      </table>
+      <h3>5.0 — اختبارات الإحكام</h3>
+      <table class="dm-table">
+        <tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+        <tr><td>5.1</td><td>Air Test</td><td>QCS S.8 P.2</td><td>100mm WG — انخفاض ≤ 25mm / 5 دقائق</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR + Test Chart</td></tr>
+        <tr><td>5.2</td><td>CCTV Inspection</td><td>QCS S.8 P.2</td><td>100% — Grade ≤ 2 — Video + Report</td><td>100% قبل التسليم</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR + CCTV Report</td></tr>
+      </table>
+      <h3>6.0 — الردم والتشطيب</h3>
+      <table class="dm-table">
+        <tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+        <tr><td>6.1</td><td>Backfill Compaction</td><td>QCS S.6 P.2</td><td>≥ 95% MDD (طريق)</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr>
+        <tr><td>6.2</td><td>Marker Tape</td><td>QCS S.8 P.2</td><td>أخضر — عمق 300mm</td><td>100%</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Inspection Record</td></tr>
+      </table>
+      <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+        <strong style="color:#e74c3c;">H</strong> = Hold Point &nbsp;|&nbsp; <strong style="color:#f1c40f;">W</strong> = Witness Point &nbsp;|&nbsp; <strong style="color:#2ecc71;">R</strong> = Review
+      </div>
+    `
   }
 };
 
-function openDetail(key) {
+let navStack = [];
+
+function openDetail(key, addToStack = true) {
   const d = detailData[key];
   if (!d) return;
+  if (addToStack && navStack.length > 0 || addToStack && navStack.length === 0) {
+    // push current key if modal already open
+    const modal = document.getElementById('detailModal');
+    if (modal.classList.contains('open') && navStack[navStack.length-1] !== key) {
+      navStack.push(modal.dataset.currentKey);
+    }
+  }
+  document.getElementById('detailModal').dataset.currentKey = key;
   document.getElementById('dmTitle').textContent = d.title;
   document.getElementById('dmContent').innerHTML = d.content;
+  
+  // Show/hide back button
+  const backBtn = document.getElementById('dmBackBtn');
+  if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
+  
   document.getElementById('detailModal').classList.add('open');
+}
+
+function goBack() {
+  if (navStack.length === 0) return;
+  const prevKey = navStack.pop();
+  const d = detailData[prevKey];
+  if (!d) return;
+  document.getElementById('detailModal').dataset.currentKey = prevKey;
+  document.getElementById('dmTitle').textContent = d.title;
+  document.getElementById('dmContent').innerHTML = d.content;
+  const backBtn = document.getElementById('dmBackBtn');
+  if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
 }
 function closeDetailModal(e) {
   if (e.target === document.getElementById('detailModal'))
