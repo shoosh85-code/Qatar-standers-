@@ -719,6 +719,15 @@ header {
         <span class="cat-arr">←</span>
       </div>
     </div>
+    <div class="cat-card" onclick="openDetail('itp_asphalt')">
+      <span class="cat-emoji">📋</span>
+      <div class="cat-name">ITP الأسفلت</div>
+      <div class="cat-desc">خطة الفحص والاختبار — Asphalt Testing</div>
+      <div class="cat-bottom">
+        <span class="cat-count">QCS S.6 P.5</span>
+        <span class="cat-arr">←</span>
+      </div>
+    </div>
     <div class="cat-card" onclick="openDetail('materials')">
       <span class="cat-emoji">🧱</span>
       <div class="cat-name">مواد البناء</div>
@@ -1652,6 +1661,192 @@ const detailData = {
       • اللون البنفسجي إلزامي بدون استثناء<br>
       • Cross Connection مع مياه الشرب = كارثة صحية<br>
       • Double Check Valve عند كل نقطة اتصال</p>
+    `
+  },
+
+  itp_asphalt: {
+    title: '📋 ITP — Asphalt Testing | خطة الفحص والاختبار',
+    content: `
+      <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">
+        📌 المرجع: QCS 2014 — Section 6 Part 5 | معتمد للمشاريع الحكومية في قطر
+      </div>
+
+      <h3>1.0 — وثائق ما قبل التنفيذ</h3>
+      <table class="dm-table">
+        <tr><th>SN</th><th>النشاط</th><th>المرجع QCS</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+        <tr>
+          <td>1.1</td>
+          <td>Shop Drawings</td>
+          <td>S.1 P.7 Cl.7.10.1</td>
+          <td>مكتملة ومعتمدة قبل التنفيذ</td>
+          <td>كل submittal</td>
+          <td>—</td>
+          <td style="color:#e74c3c;font-weight:700;">H</td>
+          <td style="color:#e74c3c;font-weight:700;">H</td>
+          <td>Approved Drawings</td>
+        </tr>
+        <tr>
+          <td>1.2</td>
+          <td>Material Approvals</td>
+          <td>S.1 P.7 Cl.7.11.1</td>
+          <td>اعتماد المواد قبل التوريد</td>
+          <td>كل submittal</td>
+          <td>—</td>
+          <td style="color:#e74c3c;font-weight:700;">H</td>
+          <td style="color:#e74c3c;font-weight:700;">H</td>
+          <td>Approved Submittals</td>
+        </tr>
+        <tr>
+          <td>1.3</td>
+          <td>Method Statements</td>
+          <td>S.1 P.7 Cl.7.14.1</td>
+          <td>مطابق لمتطلبات QCS 2014</td>
+          <td>كل submittal</td>
+          <td>—</td>
+          <td style="color:#e74c3c;font-weight:700;">H</td>
+          <td style="color:#e74c3c;font-weight:700;">H</td>
+          <td>Approved MS</td>
+        </tr>
+        <tr>
+          <td>1.4</td>
+          <td>Job Mix Formula (JMF)</td>
+          <td>S.6 P.5 Cl.5.1.4.1</td>
+          <td>تقديم قبل شهر من البدء — Gradation + درجات الحرارة</td>
+          <td>كل submittal</td>
+          <td style="color:#f39c12;font-weight:700;">H</td>
+          <td style="color:#e74c3c;font-weight:700;">H</td>
+          <td style="color:#e74c3c;font-weight:700;">H</td>
+          <td>Approved JMF</td>
+        </tr>
+      </table>
+
+      <h3>2.0 — اختبارات البيتومين</h3>
+      <table class="dm-table">
+        <tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+        <tr>
+          <td>2.1</td>
+          <td>Bitumen PMB<br><small>Polymer Modified</small></td>
+          <td>S.6 P.5 Cl.5.2.6<br>Table 5.5</td>
+          <td>
+            Flash Point ≥ 230°C<br>
+            Viscosity ≤ 3 Pa.s @ 135°C<br>
+            Dynamic Shear G*/sinδ ≥ 1.00 kPa @ 76°C<br>
+            Solubility ≥ 99%<br>
+            Mass Loss ≤ 1%
+          </td>
+          <td>كل 450 طن</td>
+          <td style="color:#f39c12;font-weight:700;">H</td>
+          <td style="color:#f1c40f;font-weight:700;">W</td>
+          <td style="color:#f1c40f;font-weight:700;">W</td>
+          <td>IR + Test Report</td>
+        </tr>
+        <tr>
+          <td>2.2</td>
+          <td>Bitumen Pen 60-70<br><small>Penetration Grade</small></td>
+          <td>S.6 P.5 Cl.5.2.6<br>Table 5.4</td>
+          <td>
+            Penetration 60-70 (0.1mm) @ 25°C<br>
+            Softening Point ≥ 46°C<br>
+            Flash Point ≥ 230°C<br>
+            Ductility ≥ 100cm @ 25°C<br>
+            Solubility ≥ 99%<br>
+            Loss on heating ≤ 0.2%
+          </td>
+          <td>كل 75 طن / كل 450 طن</td>
+          <td style="color:#f39c12;font-weight:700;">H</td>
+          <td style="color:#f1c40f;font-weight:700;">W</td>
+          <td style="color:#f1c40f;font-weight:700;">W</td>
+          <td>IR + Test Report</td>
+        </tr>
+      </table>
+
+      <h3>2.0 — اختبارات الركام</h3>
+      <table class="dm-table">
+        <tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+        <tr>
+          <td>2.3</td>
+          <td>Fine Aggregates<br><small>أقل من 4.75mm</small></td>
+          <td>S.6 P.5 Cl.5.2.2<br>Table 5.1</td>
+          <td>
+            PI ≤ 4% (stockpile) / Non-Plastic (hot bins)<br>
+            Sand Equivalent ≥ 45%<br>
+            Soundness MgSO4 ≤ 18%<br>
+            Chloride ≤ 0.1%<br>
+            Sulphate ≤ 0.5%
+          </td>
+          <td>كل 2000m³</td>
+          <td style="color:#f39c12;font-weight:700;">H</td>
+          <td style="color:#f1c40f;font-weight:700;">W</td>
+          <td style="color:#f1c40f;font-weight:700;">W</td>
+          <td>IR + Test Report</td>
+        </tr>
+        <tr>
+          <td>2.4</td>
+          <td>Coarse Aggregates<br><small>أكبر من 4.75mm</small></td>
+          <td>S.6 P.5 Cl.5.2.4<br>Table 5.2</td>
+          <td>
+            Fractured Faces (1+) ≥ 100%<br>
+            Fractured Faces (2+) ≥ 85%<br>
+            Flat & Elongated ≤ 10-15%<br>
+            Soundness MgSO4 ≤ 10-15%<br>
+            LA Abrasion ≤ 25-30%<br>
+            Water Absorption ≤ 1.5-2.0%<br>
+            ACV ≤ 20-25%
+          </td>
+          <td>كل 2000m³</td>
+          <td style="color:#f39c12;font-weight:700;">H</td>
+          <td style="color:#f1c40f;font-weight:700;">W</td>
+          <td style="color:#f1c40f;font-weight:700;">W</td>
+          <td>IR + Test Report</td>
+        </tr>
+      </table>
+
+      <h3>2.0 — اختبارات الخلطة الإسفلتية</h3>
+      <table class="dm-table">
+        <tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+        <tr>
+          <td>2.5</td>
+          <td>Extraction & Gradation</td>
+          <td>S.6 P.5 Cl.5.3.2<br>Table 5.7</td>
+          <td>
+            Gradation حسب JMF ± tolerance<br>
+            Base Course (A): 37.5→100%, 25→80-100%<br>
+            Wearing Course: 19→86-100%, 9.5→58-78%<br>
+            0.075mm: 2-8%
+          </td>
+          <td>كل تغيير JMF<br>+ يومياً<br>+ كل 2000m³</td>
+          <td style="color:#f39c12;font-weight:700;">H</td>
+          <td style="color:#f1c40f;font-weight:700;">W</td>
+          <td style="color:#f1c40f;font-weight:700;">W</td>
+          <td>IR + Test Report</td>
+        </tr>
+        <tr>
+          <td>2.6</td>
+          <td>Marshall Properties</td>
+          <td>S.6 P.5 Cl.5.3.2<br>Table 5.8 & 5.9</td>
+          <td>
+            Stability ≥ 9.5 kN<br>
+            Flow 2-4 mm<br>
+            Marshall Quotient ≥ 4.75 kN/mm<br>
+            Va: Wearing 5-8% / Base 4-8%<br>
+            VMA: حسب Table 5.9<br>
+            VFA: 50-75%<br>
+            Retained Stability ≥ 75%<br>
+            Filler/Binder Ratio: 0.75-1.5
+          </td>
+          <td>يومياً<br>+ كل 300 طن</td>
+          <td style="color:#f39c12;font-weight:700;">H</td>
+          <td style="color:#f1c40f;font-weight:700;">W</td>
+          <td style="color:#f1c40f;font-weight:700;">W</td>
+          <td>IR + Test Report</td>
+        </tr>
+      </table>
+
+      <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:12px;margin-top:14px;font-size:12px;">
+        <strong style="color:#e74c3c;">🔴 H = Hold Point</strong> — لا يكمل العمل إلا بعد موافقة المهندس الاستشاري<br>
+        <strong style="color:#f1c40f;">🟡 W = Witness Point</strong> — يحضر المهندس الاستشاري الاختبار<br>
+        <strong style="color:#2ecc71;">🟢 R = Review</strong> — مراجعة السجلات فقط
+      </div>
     `
   }
 };
