@@ -2729,25 +2729,26 @@ const detailData = {
 
 let navStack = [];
 
-function openDetail(key, addToStack = true) {
+function openDetail(key) {
   const d = detailData[key];
   if (!d) return;
-  if (addToStack && navStack.length > 0 || addToStack && navStack.length === 0) {
-    // push current key if modal already open
-    const modal = document.getElementById('detailModal');
-    if (modal.classList.contains('open') && navStack[navStack.length-1] !== key) {
-      navStack.push(modal.dataset.currentKey);
+  const modal = document.getElementById('detailModal');
+  // اذا الـ modal مفتوح بالفعل — ادفع الـ key الحالي للـ stack
+  if (modal.classList.contains('open')) {
+    const currentKey = modal.dataset.currentKey;
+    if (currentKey && currentKey !== key) {
+      navStack.push(currentKey);
     }
+  } else {
+    // modal مغلق — نظف الـ stack
+    navStack = [];
   }
-  document.getElementById('detailModal').dataset.currentKey = key;
+  modal.dataset.currentKey = key;
   document.getElementById('dmTitle').textContent = d.title;
   document.getElementById('dmContent').innerHTML = d.content;
-  
-  // Show/hide back button
   const backBtn = document.getElementById('dmBackBtn');
   if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
-  
-  document.getElementById('detailModal').classList.add('open');
+  modal.classList.add('open');
 }
 
 function goBack() {
@@ -2755,7 +2756,8 @@ function goBack() {
   const prevKey = navStack.pop();
   const d = detailData[prevKey];
   if (!d) return;
-  document.getElementById('detailModal').dataset.currentKey = prevKey;
+  const modal = document.getElementById('detailModal');
+  modal.dataset.currentKey = prevKey;
   document.getElementById('dmTitle').textContent = d.title;
   document.getElementById('dmContent').innerHTML = d.content;
   const backBtn = document.getElementById('dmBackBtn');
