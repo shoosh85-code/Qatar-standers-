@@ -1156,6 +1156,387 @@ const detailData = {
       </div>
     `
   }
+,
+
+  subgrade: {
+    title: '🏔️ Subgrade — طبقة التربة الطبيعية',
+    content: `
+      <h3>📐 المواصفات</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>الدمك</td><td>≥ 95% MDD (Standard Proctor)</td></tr>
+        <tr><td>CBR</td><td>≥ 8% (Soaked 4 days)</td></tr>
+        <tr><td>سماكة كل طبقة ردم</td><td>≤ 200mm قبل الدمك</td></tr>
+        <tr><td>نسبة الرطوبة</td><td>OMC ± 2%</td></tr>
+        <tr><td>المنسوب</td><td>± 10mm من التصميم</td></tr>
+      </table>
+      <h3>🔧 كيفية التنفيذ</h3>
+      <p>1. إزالة النباتات والمخلفات والطبقة السطحية<br>2. معالجة التربة الضعيفة أو الاستبدال إذا لزم<br>3. ردم بطبقات لا تزيد عن 200mm<br>4. رش المياه للوصول لـ OMC<br>5. الدمك بـ Vibratory Roller حتى 95% MDD<br>6. التسوية بـ Motor Grader<br>7. اختبار الدمك قبل المتابعة</p>
+      <h3>🧪 الاختبارات المطلوبة</h3>
+      <table class="dm-table">
+        <tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr>
+        <tr><td>Standard Proctor</td><td>كل تغيير مادة</td><td>MDD و OMC</td></tr>
+        <tr><td>Sand Cone</td><td>كل 500m²</td><td>≥ 95% MDD</td></tr>
+        <tr><td>CBR Soaked</td><td>كل 2000m²</td><td>≥ 8%</td></tr>
+        <tr><td>Atterberg Limits</td><td>كل تغيير مادة</td><td>LL ≤35% PI ≤10%</td></tr>
+        <tr><td>Sulphate Content</td><td>كل 500m³</td><td>≤ 0.5%</td></tr>
+        <tr><td>Level Survey</td><td>كل 25m</td><td>± 10mm</td></tr>
+      </table>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-01:</strong> اعتماد مصدر مواد الردم قبل الاستخدام<br>• <strong>HP-02:</strong> اعتماد نتائج Subgrade قبل البدء في Subbase</p>
+    `
+  },
+
+  subbase: {
+    title: '🪨 Subbase — الطبقة الأساسية السفلية',
+    content: `
+      <h3>📐 المواصفات</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>السماكة</td><td>150-300mm (حسب التصميم)</td></tr>
+        <tr><td>الدمك</td><td>≥ 98% MDD</td></tr>
+        <tr><td>CBR</td><td>≥ 30% (Soaked)</td></tr>
+        <tr><td>Plasticity Index</td><td>≤ 6%</td></tr>
+        <tr><td>LA Abrasion</td><td>≤ 30%</td></tr>
+        <tr><td>Sand Equivalent</td><td>≥ 30%</td></tr>
+        <tr><td>Sulphate Content</td><td>≤ 0.5%</td></tr>
+      </table>
+      <h3>🧪 الاختبارات المطلوبة</h3>
+      <table class="dm-table">
+        <tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr>
+        <tr><td>Sand Cone</td><td>كل 500m²</td><td>≥ 98% MDD</td></tr>
+        <tr><td>CBR Soaked</td><td>كل 2000m²</td><td>≥ 30%</td></tr>
+        <tr><td>Grading Analysis</td><td>كل 500m³</td><td>حسب QCS</td></tr>
+        <tr><td>Plasticity Index</td><td>كل 500m³</td><td>≤ 6%</td></tr>
+        <tr><td>LA Abrasion</td><td>كل 1000m³</td><td>≤ 30%</td></tr>
+      </table>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-03:</strong> اعتماد Subbase قبل البدء في Base Course</p>
+    `
+  },
+
+  base: {
+    title: '🧱 Base Course — طبقة الأساس',
+    content: `
+      <h3>📐 المواصفات</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>السماكة</td><td>150-250mm</td></tr>
+        <tr><td>الدمك</td><td>≥ 98% MDD</td></tr>
+        <tr><td>CBR</td><td>≥ 80% (Soaked)</td></tr>
+        <tr><td>LA Abrasion</td><td>≤ 25%</td></tr>
+        <tr><td>Flakiness Index</td><td>≤ 25%</td></tr>
+        <tr><td>Plasticity Index</td><td>≤ 4%</td></tr>
+      </table>
+      <h3>🧪 الاختبارات المطلوبة</h3>
+      <table class="dm-table">
+        <tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr>
+        <tr><td>Sand Cone</td><td>كل 500m²</td><td>≥ 98% MDD</td></tr>
+        <tr><td>CBR Soaked</td><td>كل 2000m²</td><td>≥ 80%</td></tr>
+        <tr><td>Plate Load Test</td><td>كل 2000m²</td><td>حسب التصميم</td></tr>
+        <tr><td>LA Abrasion</td><td>كل 1000m³</td><td>≤ 25%</td></tr>
+      </table>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-04:</strong> اعتماد Base Course قبل أعمال الإسفلت</p>
+    `
+  },
+
+  prime: {
+    title: '🛢️ Prime Coat — طبقة الربط التحضيرية',
+    content: `
+      <h3>📐 المواصفات</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>معدل الرش</td><td>0.8 - 1.2 L/m²</td></tr>
+        <tr><td>نوع المادة</td><td>Cutback Bitumen MC-30 أو MC-70</td></tr>
+        <tr><td>درجة التطبيق</td><td>50-80°C</td></tr>
+        <tr><td>وقت الجفاف</td><td>24-48 ساعة</td></tr>
+      </table>
+      <h3>🔧 كيفية التنفيذ</h3>
+      <p>1. تنظيف سطح Base Course بـ Air Compressor<br>2. إزالة الغبار والمياه الزائدة<br>3. رش Prime Coat بالمعدل المحدد<br>4. الانتظار 24-48 ساعة للجفاف الكامل<br>5. حماية السطح من الحركة المرورية</p>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-05:</strong> اعتماد Prime Coat قبل Binder Course</p>
+      <h3>⚠️ تنبيهات</h3>
+      <p>• لا رش وقت المطر أو الرياح الشديدة<br>• عدم فتح الطريق للمركبات قبل الجفاف</p>
+    `
+  },
+
+  binder: {
+    title: '⚫ Binder Course — طبقة الرابط الإسفلتي',
+    content: `
+      <h3>📐 المواصفات</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>السماكة</td><td>60-80mm</td></tr>
+        <tr><td>الدمك</td><td>≥ 98% TMD</td></tr>
+        <tr><td>نسبة البيتومين</td><td>4.5-6.0%</td></tr>
+        <tr><td>Marshall Stability</td><td>≥ 8 kN</td></tr>
+        <tr><td>Flow</td><td>2-4 mm</td></tr>
+        <tr><td>Air Voids</td><td>3-5%</td></tr>
+        <tr><td>درجة الفرش</td><td>≥ 140°C</td></tr>
+      </table>
+      <h3>🧪 الاختبارات المطلوبة</h3>
+      <table class="dm-table">
+        <tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr>
+        <tr><td>Marshall Test</td><td>كل 200 طن</td><td>Stability ≥8kN Flow 2-4mm</td></tr>
+        <tr><td>Temperature Check</td><td>كل حمولة</td><td>≥ 140°C</td></tr>
+        <tr><td>Core Sample Density</td><td>كل 1000m²</td><td>≥ 98% TMD</td></tr>
+        <tr><td>Core Thickness</td><td>كل 1000m²</td><td>± 5mm من التصميم</td></tr>
+      </table>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-06:</strong> اعتماد Mix Design قبل الإنتاج<br>• <strong>HP-07:</strong> اعتماد Binder Course قبل Wearing Course</p>
+    `
+  },
+
+  wearing: {
+    title: '🛣️ Wearing Course — طبقة الرداء النهائية',
+    content: `
+      <h3>📐 المواصفات</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المعيار</th></tr>
+        <tr><td>السماكة</td><td>40-50mm</td></tr>
+        <tr><td>الدمك</td><td>≥ 98% TMD</td></tr>
+        <tr><td>نسبة البيتومين</td><td>5.0-6.5%</td></tr>
+        <tr><td>Marshall Stability</td><td>≥ 8 kN</td></tr>
+        <tr><td>Straightedge 3m</td><td>≤ 5mm</td></tr>
+        <tr><td>Crossfall</td><td>2-3%</td></tr>
+        <tr><td>Skid Resistance</td><td>≥ 55 PSV</td></tr>
+      </table>
+      <h3>🧪 الاختبارات المطلوبة</h3>
+      <table class="dm-table">
+        <tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr>
+        <tr><td>Core Sample</td><td>كل 1000m²</td><td>≥ 98% TMD</td></tr>
+        <tr><td>Straightedge 3m</td><td>كل 100m</td><td>≤ 5mm</td></tr>
+        <tr><td>Crossfall</td><td>كل 25m</td><td>2-3%</td></tr>
+        <tr><td>Skid Resistance</td><td>كل 500m</td><td>≥ 55 PSV</td></tr>
+      </table>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-08:</strong> الفحص النهائي الكامل قبل التسليم</p>
+    `
+  },
+
+  finishing: {
+    title: '🚧 التشطيبات النهائية',
+    content: `
+      <h3>🎨 Road Markings</h3>
+      <table class="dm-table">
+        <tr><th>البند</th><th>المواصفة</th></tr>
+        <tr><td>نوع الدهان</td><td>Thermoplastic Paint</td></tr>
+        <tr><td>السماكة</td><td>≥ 3mm</td></tr>
+        <tr><td>Retroreflectivity</td><td>≥ 150 mcd/m²/lux</td></tr>
+        <tr><td>Road Studs</td><td>Cat Eyes كل 10m</td></tr>
+      </table>
+      <h3>🏗️ Kerbs والحدادير</h3>
+      <p>• مقاومة الخرسانة ≥ 40 MPa<br>• Bedding Mortar 1:3<br>• Haunching خلف الكيرب<br>• Joint Sealant بين الوحدات</p>
+      <h3>🔴 نقاط التوقف</h3>
+      <p>• <strong>HP-09:</strong> اعتماد Road Markings قبل فتح الطريق</p>
+    `
+  },
+
+  handover: {
+    title: '✅ التسليم النهائي',
+    content: `
+      <h3>📋 متطلبات التسليم</h3>
+      <table class="dm-table">
+        <tr><th>الوثيقة</th><th>المحتوى</th></tr>
+        <tr><td>As-Built Drawings</td><td>مخططات منفذة معتمدة</td></tr>
+        <tr><td>Test Results</td><td>كل نتائج الاختبارات</td></tr>
+        <tr><td>Material Certificates</td><td>شهادات كل المواد</td></tr>
+        <tr><td>ITR Register</td><td>كل طلبات التفتيش</td></tr>
+        <tr><td>NCR Log</td><td>Non-Conformance Reports</td></tr>
+      </table>
+      <h3>🛡️ فترة الضمان</h3>
+      <p>• مدة الضمان: <strong>12 شهر</strong> من تاريخ التسليم<br>• Routine Inspection كل 3 أشهر<br>• إصلاح أي عيوب خلال 14 يوم من الإشعار</p>
+      <h3>🔴 نقاط التوقف النهائية</h3>
+      <p>• <strong>HP-10:</strong> موافقة المهندس الاستشاري على التسليم<br>• <strong>HP-11:</strong> موافقة Ashghal / MMUP على الاستلام</p>
+    `
+  },
+
+  road_itps: {
+    title: '📋 Road ITPs — خطط الفحص والاختبار',
+    content: `
+      <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 جميع ITPs مبنية على QCS 2014</div>
+      <h3>📌 اختر الـ ITP المطلوب</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
+        <div onclick="openDetail('itp_subgrade')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🏔️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Subgrade</div></div>
+        <div onclick="openDetail('itp_subbase')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🪨</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Subbase</div></div>
+        <div onclick="openDetail('itp_base')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧱</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Base Course</div></div>
+        <div onclick="openDetail('itp_primecoat')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🛢️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Prime & Tack</div></div>
+        <div onclick="openDetail('itp_wearing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">⚫</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Binder & Wearing</div></div>
+        <div onclick="openDetail('itp_asphalt')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔬</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Asphalt Testing</div></div>
+      </div>
+    `
+  },
+
+  itp_subgrade: {
+    title: '📋 ITP — Subgrade',
+    content: `
+      <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 2</div>
+      <h3>اختبارات المواد</h3>
+      <table class="dm-table">
+        <tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+        <tr><td>2.1</td><td>Standard Proctor</td><td>ASTM D698</td><td>تحديد MDD و OMC</td><td>كل تغيير مادة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr>
+        <tr><td>2.2</td><td>CBR Soaked 4 days</td><td>ASTM D1883</td><td>≥ 8%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr>
+        <tr><td>2.3</td><td>Atterberg Limits</td><td>ASTM D4318</td><td>LL ≤ 35% | PI ≤ 10%</td><td>كل تغيير مادة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr>
+        <tr><td>2.4</td><td>Sulphate Content</td><td>BS 1377 Part 3</td><td>≤ 0.5%</td><td>كل 500m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr>
+      </table>
+      <h3>اختبارات الموقع</h3>
+      <table class="dm-table">
+        <tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+        <tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 95% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr>
+        <tr><td>3.2</td><td>Level Survey</td><td>Design Drawing</td><td>± 10mm من التصميم</td><td>كل 25m</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Survey Report</td></tr>
+        <tr><td>3.3</td><td>Moisture Content</td><td>ASTM D2216</td><td>OMC ± 2%</td><td>كل 500m²</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Test Report</td></tr>
+      </table>
+      <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point &nbsp;|&nbsp; <strong style="color:#f1c40f;">W</strong> = Witness Point &nbsp;|&nbsp; <strong style="color:#2ecc71;">R</strong> = Review</div>
+    `
+  },
+
+  itp_subbase: {
+    title: '📋 ITP — Subbase',
+    content: `
+      <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 3</div>
+      <table class="dm-table">
+        <tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+        <tr><td>2.1</td><td>CBR Soaked</td><td>ASTM D1883</td><td>≥ 30%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr>
+        <tr><td>2.2</td><td>Plasticity Index</td><td>ASTM D4318</td><td>≤ 6%</td><td>كل 500m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr>
+        <tr><td>2.3</td><td>LA Abrasion</td><td>ASTM C131</td><td>≤ 30%</td><td>كل 1000m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr>
+        <tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 98% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr>
+        <tr><td>3.2</td><td>Level Survey</td><td>Design Drawing</td><td>± 10mm</td><td>كل 25m</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Survey Report</td></tr>
+      </table>
+      <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point &nbsp;|&nbsp; <strong style="color:#f1c40f;">W</strong> = Witness Point &nbsp;|&nbsp; <strong style="color:#2ecc71;">R</strong> = Review</div>
+    `
+  },
+
+  itp_base: {
+    title: '📋 ITP — Base Course',
+    content: `
+      <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 3</div>
+      <table class="dm-table">
+        <tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+        <tr><td>2.1</td><td>CBR Soaked</td><td>ASTM D1883</td><td>≥ 80%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr>
+        <tr><td>2.2</td><td>LA Abrasion</td><td>ASTM C131</td><td>≤ 25%</td><td>كل 1000m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr>
+        <tr><td>2.3</td><td>Flakiness Index</td><td>ASTM D4791</td><td>≤ 25%</td><td>كل 500m³</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Test Report</td></tr>
+        <tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 98% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr>
+        <tr><td>3.2</td><td>Plate Load Test</td><td>BS 1377 Part 9</td><td>حسب التصميم</td><td>كل 2000m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr>
+      </table>
+      <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point &nbsp;|&nbsp; <strong style="color:#f1c40f;">W</strong> = Witness Point &nbsp;|&nbsp; <strong style="color:#2ecc71;">R</strong> = Review</div>
+    `
+  },
+
+  itp_primecoat: {
+    title: '📋 ITP — Prime Coat & Tack Coat',
+    content: `
+      <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 5 Cl.5.4</div>
+      <table class="dm-table">
+        <tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+        <tr><td>2.1</td><td>Prime Coat Material</td><td>S.6 P.5 Cl.5.4</td><td>شهادة المصنع + مطابقة المواصفة</td><td>كل دفعة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Certificate</td></tr>
+        <tr><td>3.1</td><td>Prime Coat Application Rate</td><td>S.6 P.5</td><td>0.8 - 1.2 L/m²</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Application Record</td></tr>
+        <tr><td>3.2</td><td>Prime Coat Temperature</td><td>S.6 P.5</td><td>50 - 80°C عند التطبيق</td><td>مستمر</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Temperature Log</td></tr>
+        <tr><td>3.3</td><td>Tack Coat Application Rate</td><td>S.6 P.5</td><td>Binder: 0.3-0.5 L/m² | Wearing: 0.2-0.4 L/m²</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Application Record</td></tr>
+      </table>
+      <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point &nbsp;|&nbsp; <strong style="color:#f1c40f;">W</strong> = Witness Point &nbsp;|&nbsp; <strong style="color:#2ecc71;">R</strong> = Review</div>
+    `
+  },
+
+  itp_wearing: {
+    title: '📋 ITP — Binder & Wearing Course',
+    content: `
+      <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 5 Cl.5.5 & 5.6</div>
+      <table class="dm-table">
+        <tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+        <tr><td>2.1</td><td>Plant Calibration</td><td>S.6 P.5</td><td>معايرة المحطة قبل الإنتاج</td><td>كل موسم</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Calibration Certificate</td></tr>
+        <tr><td>3.1</td><td>Delivery Temperature</td><td>S.6 P.5</td><td>≥ 140°C عند الوصول للموقع</td><td>كل حمولة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Temperature Log</td></tr>
+        <tr><td>4.1</td><td>Core Sample — Density</td><td>BS EN 12697-6</td><td>≥ 98% TMD</td><td>كل 1000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Core Report</td></tr>
+        <tr><td>4.2</td><td>Core Sample — Thickness</td><td>Design Drawing</td><td>± 5mm من التصميم</td><td>كل 1000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Core Report</td></tr>
+        <tr><td>4.3</td><td>Straightedge 3m</td><td>S.6 P.5</td><td>≤ 5mm</td><td>كل 100m</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Inspection Record</td></tr>
+        <tr><td>4.4</td><td>Skid Resistance</td><td>S.6 P.5</td><td>≥ 55 PSV (Wearing فقط)</td><td>كل 500m</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr>
+      </table>
+      <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point &nbsp;|&nbsp; <strong style="color:#f1c40f;">W</strong> = Witness Point &nbsp;|&nbsp; <strong style="color:#2ecc71;">R</strong> = Review</div>
+    `
+  },
+
+  itp_asphalt: {
+    title: '📋 ITP — Asphalt Material Testing',
+    content: `
+      <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 5</div>
+      <h3>اختبارات البيتومين</h3>
+      <table class="dm-table">
+        <tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th></tr>
+        <tr><td>2.1</td><td>Bitumen Pen 60-70</td><td>S.6 P.5 Table 5.4</td><td>Penetration 60-70 | SP ≥46°C | Ductility ≥100cm</td><td>كل 75 طن</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr>
+      </table>
+      <h3>اختبارات الخلطة</h3>
+      <table class="dm-table">
+        <tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th></tr>
+        <tr><td>2.2</td><td>Marshall Test</td><td>S.6 P.5 Table 5.8</td><td>Stability ≥9.5kN | Flow 2-4mm | Va 3-8%</td><td>يومياً + كل 300 طن</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr>
+        <tr><td>2.3</td><td>Extraction & Gradation</td><td>S.6 P.5 Table 5.7</td><td>حسب JMF ± tolerance</td><td>كل 200 طن</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr>
+      </table>
+      <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point &nbsp;|&nbsp; <strong style="color:#f1c40f;">W</strong> = Witness Point &nbsp;|&nbsp; <strong style="color:#2ecc71;">R</strong> = Review</div>
+    `
+  },
+
+  water_supply_stages: {
+    title: '💧 شبكة مياه الشرب — مراحل التنفيذ الكاملة',
+    content: `
+      <h3>📌 اختر المرحلة للتفاصيل الكاملة</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
+        <div onclick="openDetail('ws_survey')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">📐</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الدراسة والتصميم</div></div>
+        <div onclick="openDetail('ws_materials')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔩</div><div style="color:var(--gold);font-weight:700;font-size:13px;">المواد والمواسير</div></div>
+        <div onclick="openDetail('ws_excavation')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">⛏️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الحفر والبيدنج</div></div>
+        <div onclick="openDetail('ws_laying')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔧</div><div style="color:var(--gold);font-weight:700;font-size:13px;">وضع المواسير</div></div>
+        <div onclick="openDetail('ws_testing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧪</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الاختبارات</div></div>
+        <div onclick="openDetail('ws_disinfection')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">💊</div><div style="color:var(--gold);font-weight:700;font-size:13px;">التعقيم والتشغيل</div></div>
+        <div onclick="openDetail('ws_backfill')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🏗️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الردم والتشطيب</div></div>
+        <div onclick="openDetail('ws_handover')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">✅</div><div style="color:var(--gold);font-weight:700;font-size:13px;">التسليم</div></div>
+      </div>
+      <div style="margin-top:16px;"><div onclick="openDetail('itp_water_supply')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;"><div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">ITP مياه الشرب</div></div></div>
+    `
+  },
+
+  ws_survey: { title: '📐 مياه الشرب — الدراسة والتصميم', content: `<h3>📋 متطلبات ما قبل التنفيذ</h3><table class="dm-table"><tr><th>البند</th><th>المتطلب</th></tr><tr><td>مخططات التصميم</td><td>معتمدة من KAHRAMAA / Ashghal</td></tr><tr><td>Existing Services</td><td>As-Built للخدمات الموجودة — NOC من كل جهة</td></tr><tr><td>Material Submittal</td><td>اعتماد المواسير والـ Fittings قبل التوريد</td></tr><tr><td>Method Statement</td><td>معتمد قبل البدء في الحفر</td></tr></table><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-01:</strong> اعتماد المخططات والـ Method Statement قبل الحفر</p>` },
+  ws_materials: { title: '🔩 مياه الشرب — المواد والمواسير', content: `<h3>📐 مواصفات المواسير</h3><table class="dm-table"><tr><th>النوع</th><th>المواصفة</th><th>الاستخدام</th></tr><tr><td>HDPE PE100</td><td>ISO 4427 | PN10-16</td><td>الشبكات الرئيسية</td></tr><tr><td>Ductile Iron (DI)</td><td>ISO 2531 | Class K9</td><td>مناطق الضغط العالي</td></tr><tr><td>uPVC</td><td>ISO 1452 | PN10-16</td><td>التوصيلات الفرعية</td></tr></table><h3>📐 Fittings</h3><p>• Gate Valves: BS 5163 | PN16<br>• Marker Tape: أصفر — "WATER MAIN" على عمق 300mm<br>• Thrust Blocks: خرسانة C25 عند كل كوع</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-02:</strong> اعتماد كل المواد قبل التوريد للموقع</p>` },
+  ws_excavation: { title: '⛏️ مياه الشرب — الحفر والبيدنج', content: `<h3>📐 مواصفات الحفر</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>عمق الحفر</td><td>≥ 1.0m من سطح الطريق لأعلى الماسورة</td></tr><tr><td>Bedding تحت الماسورة</td><td>150mm رمل مدكوك</td></tr><tr><td>Cover فوق الماسورة</td><td>300mm رمل</td></tr><tr><td>الفصل عن الصرف</td><td>≥ 1.0m أفقياً | مياه الشرب دايماً فوق</td></tr></table><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-03:</strong> فحص Bedding والعمق والمناسيب قبل وضع المواسير</p>` },
+  ws_laying: { title: '🔧 مياه الشرب — وضع المواسير', content: `<h3>🔧 كيفية التنفيذ</h3><p>1. التحقق من اعتماد Bedding (HP-03)<br>2. إنزال المواسير بعناية<br>3. توصيل الـ Joints حسب النوع (Butt Fusion / Push-in)<br>4. تركيب Fittings و Valves<br>5. Thrust Blocks عند كل كوع<br>6. Marker Tape أصفر على عمق 300mm</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-04:</strong> فحص المواسير والـ Fittings قبل الردم الجانبي</p>` },
+  ws_testing: { title: '🧪 مياه الشرب — الاختبارات', content: `<h3>Hydrostatic Pressure Test</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>ضغط الاختبار</td><td>1.5 × الضغط التصميمي</td></tr><tr><td>مدة الاختبار</td><td>ساعتان بدون انخفاض</td></tr><tr><td>الانخفاض المسموح</td><td>صفر — لا يُقبل أي انخفاض</td></tr></table><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-05:</strong> اعتماد Pressure Test قبل Disinfection والردم النهائي</p>` },
+  ws_disinfection: { title: '💊 مياه الشرب — التعقيم والتشغيل', content: `<h3>إجراءات التعقيم</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>تركيز الكلور</td><td>50 mg/L (ppm)</td></tr><tr><td>مدة التلامس</td><td>24 ساعة كحد أدنى</td></tr><tr><td>Flushing بعد التعقيم</td><td>حتى Residual Chlorine ≤ 0.5 ppm</td></tr></table><h3>اختبارات جودة المياه</h3><p>• Total Coliform: صفر / 100ml<br>• E. Coli: صفر / 100ml<br>• Residual Chlorine: 0.2 - 0.5 ppm</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-06:</strong> اعتماد نتائج Water Quality من KAHRAMAA قبل التشغيل</p>` },
+  ws_backfill: { title: '🏗️ مياه الشرب — الردم والتشطيب', content: `<table class="dm-table"><tr><th>المنطقة</th><th>المادة</th><th>الدمك</th></tr><tr><td>0-300mm فوق الماسورة</td><td>رمل نظيف</td><td>يدوي ≥ 90% MDD</td></tr><tr><td>300mm للسطح</td><td>حسب نوع الطريق</td><td>≥ 95-98% MDD</td></tr></table><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-07:</strong> اعتماد Compaction Test للردم قبل إعادة الطريق</p>` },
+  ws_handover: { title: '✅ مياه الشرب — التسليم', content: `<h3>وثائق التسليم</h3><table class="dm-table"><tr><th>الوثيقة</th><th>المحتوى</th></tr><tr><td>As-Built Drawings</td><td>مخططات منفذة بالمناسيب والمواضع الفعلية</td></tr><tr><td>Pressure Test Records</td><td>كل نتائج Hydrostatic Test</td></tr><tr><td>Water Quality Reports</td><td>نتائج KAHRAMAA المعتمدة</td></tr><tr><td>Valve Schedule</td><td>جدول كل الـ Valves</td></tr></table><h3>🛡️ فترة الضمان</h3><p>• المدة: <strong>12 شهر</strong><br>• إصلاح أي تسريب خلال 48 ساعة</p>` },
+
+  itp_water_supply: { title: '📋 ITP — شبكة مياه الشرب', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 8 Part 1 | KAHRAMAA Standards</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>1.1</td><td>Material Approval</td><td>ISO Certificate — قبل التوريد</td><td>كل دفعة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Approved Submittal</td></tr><tr><td>3.1</td><td>Trench Depth</td><td>≥ 1.0m | العرض = OD + 600mm</td><td>كل 50m</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Survey</td></tr><tr><td>5.1</td><td>Hydrostatic Pressure Test</td><td>1.5x التصميمي / ساعتان / صفر انخفاض</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR + Pressure Chart</td></tr><tr><td>6.2</td><td>Bacteriological Test</td><td>Total Coliform = 0 / 100ml</td><td>كل Section</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>KAHRAMAA Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point &nbsp;|&nbsp; <strong style="color:#f1c40f;">W</strong> = Witness Point &nbsp;|&nbsp; <strong style="color:#2ecc71;">R</strong> = Review</div>` },
+
+  sewer_stages: { title: '🚽 شبكة الصرف الصحي — مراحل التنفيذ', content: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;"><div onclick="openDetail('ss_survey')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">📐</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الدراسة والتصميم</div></div><div onclick="openDetail('ss_materials')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔩</div><div style="color:var(--gold);font-weight:700;font-size:13px;">المواد والمواسير</div></div><div onclick="openDetail('ss_excavation')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">⛏️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الحفر والبيدنج</div></div><div onclick="openDetail('ss_laying')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔧</div><div style="color:var(--gold);font-weight:700;font-size:13px;">وضع المواسير</div></div><div onclick="openDetail('ss_manholes')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🕳️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Manholes</div></div><div onclick="openDetail('ss_testing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧪</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الاختبارات</div></div><div onclick="openDetail('ss_backfill')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🏗️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الردم والتشطيب</div></div><div onclick="openDetail('ss_handover')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">✅</div><div style="color:var(--gold);font-weight:700;font-size:13px;">التسليم</div></div></div><div style="margin-top:16px;"><div onclick="openDetail('itp_sewer')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;"><div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">ITP الصرف الصحي</div></div></div>` },
+
+  ss_survey: { title: '📐 الصرف الصحي — الدراسة والتصميم', content: `<table class="dm-table"><tr><th>البند</th><th>المتطلب</th></tr><tr><td>مخططات التصميم</td><td>معتمدة من Ashghal / MME</td></tr><tr><td>Invert Levels</td><td>مناسيب قيعان الغرف محددة</td></tr><tr><td>NOC</td><td>من كل الجهات</td></tr></table><h3>⚠️ تنبيهات</h3><p>• الصرف الصحي دايماً أسفل مياه الشرب رأسياً<br>• فصل ≥ 1.0m أفقياً</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-01:</strong> اعتماد المخططات والمناسيب قبل الحفر</p>` },
+  ss_materials: { title: '🔩 الصرف الصحي — المواد', content: `<table class="dm-table"><tr><th>النوع</th><th>المواصفة</th><th>الاستخدام</th></tr><tr><td>uPVC</td><td>ISO 4435 | SN8</td><td>DN150-DN600</td></tr><tr><td>GRP</td><td>ISO 10467 | SN5000</td><td>DN600+</td></tr></table><h3>Manholes</h3><p>• خرسانة ≥ C35<br>• Cover D400 للطرق الرئيسية<br>• Step Irons HDPE Coated كل 300mm</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-02:</strong> اعتماد كل المواد قبل التوريد</p>` },
+  ss_excavation: { title: '⛏️ الصرف الصحي — الحفر والبيدنج', content: `<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>عمق الحفر</td><td>≥ 1.2m من السطح</td></tr><tr><td>الانحدار</td><td>حسب التصميم — من المنبع للمصب</td></tr><tr><td>Bedding تحت الماسورة</td><td>150mm رمل</td></tr><tr><td>الانحدار الدقيق</td><td>بـ Laser Level — ± 3mm</td></tr></table><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-03:</strong> فحص Bedding والانحدار قبل وضع المواسير</p>` },
+  ss_laying: { title: '🔧 الصرف الصحي — وضع المواسير', content: `<p>1. وضع المواسير من المصب للمنبع<br>2. Rubber Ring Joints — تشحيم بزيت نباتي<br>3. Marker Tape أخضر على عمق 300mm<br>4. عدم الردم قبل اعتماد Air Test</p><h3>📐 متطلبات</h3><p>• Max Section بين غرفتين: 90m للـ DN300<br>• Drop Connection للفروع العالية</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-04:</strong> فحص المواسير قبل الردم الجانبي</p>` },
+  ss_manholes: { title: '🕳️ الصرف الصحي — Manholes', content: `<h3>مراحل البناء</h3><p>1. صب Base Slab خرسانة C35<br>2. تركيب Precast Rings<br>3. Benching بالملاط 1:2 — ميل 1:12<br>4. تركيب Step Irons كل 300mm<br>5. تركيب Cover بالمنسوب الصح</p><h3>🧪 اختبار</h3><p>• Water Tightness Test — ملء 24 ساعة — صفر تسريب</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-05:</strong> اعتماد Manhole قبل الردم الجانبي</p>` },
+  ss_testing: { title: '🧪 الصرف الصحي — الاختبارات', content: `<h3>Air Test</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>ضغط الاختبار</td><td>100mm Water Gauge</td></tr><tr><td>الانخفاض المسموح</td><td>≤ 25mm خلال 5 دقائق</td></tr></table><h3>CCTV Inspection — إلزامي</h3><p>• 100% كل المواسير<br>• Grade ≤ 2 مقبول | Grade 3+ يُعاد</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-06:</strong> اعتماد Air Test قبل الردم<br>• <strong>HP-07:</strong> اعتماد CCTV قبل التسليم</p>` },
+  ss_backfill: { title: '🏗️ الصرف الصحي — الردم', content: `<table class="dm-table"><tr><th>المنطقة</th><th>المادة</th><th>الدمك</th></tr><tr><td>0-300mm فوق الماسورة</td><td>رمل نظيف</td><td>يدوي ≥ 90% MDD</td></tr><tr><td>300mm للسطح</td><td>حسب الطريق</td><td>≥ 95-98% MDD</td></tr></table><p>• Marker Tape أخضر إلزامي على عمق 300mm</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-08:</strong> اعتماد Compaction قبل إعادة الطريق</p>` },
+  ss_handover: { title: '✅ الصرف الصحي — التسليم', content: `<table class="dm-table"><tr><th>الوثيقة</th><th>المحتوى</th></tr><tr><td>As-Built Drawings</td><td>مخططات منفذة بالمناسيب الفعلية</td></tr><tr><td>Air Test Records</td><td>كل نتائج الاختبار</td></tr><tr><td>CCTV Report</td><td>Video + تقرير كامل</td></tr></table><h3>🛡️ DLP</h3><p>• المدة: <strong>12 شهر</strong><br>• CCTV Re-inspection عند نهاية DLP</p>` },
+  itp_sewer: { title: '📋 ITP — شبكة الصرف الصحي', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 8 Part 2 | Ashghal Standards</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>1.1</td><td>Material Approval</td><td>ISO Certificate قبل التوريد</td><td>كل دفعة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Approved Submittal</td></tr><tr><td>2.2</td><td>Bedding Gradient</td><td>حسب التصميم ± 3mm</td><td>كل 25m</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR + Laser Record</td></tr><tr><td>5.1</td><td>Air Test</td><td>100mm WG — انخفاض ≤ 25mm / 5 دقائق</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR + Test Chart</td></tr><tr><td>5.2</td><td>CCTV Inspection</td><td>100% — Grade ≤ 2</td><td>100% قبل التسليم</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR + CCTV Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point &nbsp;|&nbsp; <strong style="color:#f1c40f;">W</strong> = Witness Point &nbsp;|&nbsp; <strong style="color:#2ecc71;">R</strong> = Review</div>` },
+
+  storm_stages: { title: '🌧️ شبكة الصرف السطحي — مراحل التنفيذ', content: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;"><div onclick="openDetail('sw_survey')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">📐</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الدراسة والتصميم</div></div><div onclick="openDetail('sw_materials')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔩</div><div style="color:var(--gold);font-weight:700;font-size:13px;">المواد والمواسير</div></div><div onclick="openDetail('sw_excavation')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">⛏️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الحفر والبيدنج</div></div><div onclick="openDetail('sw_laying')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔧</div><div style="color:var(--gold);font-weight:700;font-size:13px;">وضع المواسير</div></div><div onclick="openDetail('sw_gullies')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🕳️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Gullies & Manholes</div></div><div onclick="openDetail('sw_testing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧪</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الاختبارات</div></div><div onclick="openDetail('sw_backfill')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🏗️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الردم والتشطيب</div></div><div onclick="openDetail('sw_handover')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">✅</div><div style="color:var(--gold);font-weight:700;font-size:13px;">التسليم</div></div></div><div style="margin-top:16px;"><div onclick="openDetail('itp_storm')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;"><div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">ITP الصرف السطحي</div></div></div>` },
+
+  sw_survey: { title: '📐 الصرف السطحي — الدراسة', content: `<table class="dm-table"><tr><th>البند</th><th>المتطلب</th></tr><tr><td>مخططات التصميم</td><td>معتمدة من Ashghal</td></tr><tr><td>Gully Spacing</td><td>كل 25-40m حسب الانحدار</td></tr><tr><td>Outfall Location</td><td>موقع مخرج الشبكة معتمد</td></tr></table><p>⚠️ عدم توصيل الصرف الصحي بشبكة السطحي — مخالفة قانونية</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-01:</strong> اعتماد المخططات قبل الحفر</p>` },
+  sw_materials: { title: '🔩 الصرف السطحي — المواد', content: `<table class="dm-table"><tr><th>النوع</th><th>المواصفة</th></tr><tr><td>RCP</td><td>BS 5911 Part 100</td></tr><tr><td>HDPE Corrugated</td><td>EN 13476 | SN8</td></tr></table><p>• Gully Grating D400 للطرق الرئيسية<br>• Silt Bucket إلزامي في كل Gully</p>` },
+  sw_excavation: { title: '⛏️ الصرف السطحي — الحفر', content: `<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>عمق الحفر</td><td>≥ 0.9m من السطح</td></tr><tr><td>الانحدار</td><td>≥ 1:200</td></tr><tr><td>Bedding</td><td>رمل أو كسر حجر 150mm</td></tr></table><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-03:</strong> فحص Bedding والانحدار قبل وضع المواسير</p>` },
+  sw_laying: { title: '🔧 الصرف السطحي — وضع المواسير', content: `<p>1. وضع المواسير من المصب للمنبع<br>2. توصيل Gullies بـ Y-Junction أو T-Junction<br>3. Marker Tape رمادي على عمق 300mm<br>4. Max Section: 120m بين Manholes</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-04:</strong> فحص المواسير قبل الردم</p>` },
+  sw_gullies: { title: '🕳️ الصرف السطحي — Gullies', content: `<p>1. وضع Gully Pot على Concrete Bed 150mm<br>2. ضبط منسوب Grating ± 5mm من الطريق<br>3. تركيب Silt Bucket</p><h3>📐 Manholes</h3><p>• Base Slab C30 — 200mm<br>• Silt Trap إلزامي قبل مخرج الشبكة</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-05:</strong> فحص منسوب Gullies قبل الصب النهائي</p>` },
+  sw_testing: { title: '🧪 الصرف السطحي — الاختبارات', content: `<h3>Hydraulic Test</h3><p>• ملء الخط بالمياه — صفر تسريب — 30 دقيقة</p><h3>CCTV Inspection</h3><p>• 100% كل المواسير | Grade ≤ 2</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-06:</strong> اعتماد Hydraulic Test قبل الردم<br>• <strong>HP-07:</strong> اعتماد CCTV قبل التسليم</p>` },
+  sw_backfill: { title: '🏗️ الصرف السطحي — الردم', content: `<table class="dm-table"><tr><th>المنطقة</th><th>المادة</th><th>الدمك</th></tr><tr><td>0-300mm فوق الماسورة</td><td>رمل نظيف</td><td>≥ 90% MDD</td></tr><tr><td>300mm للسطح</td><td>حسب الطريق</td><td>≥ 95-98% MDD</td></tr></table><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-08:</strong> اعتماد Compaction قبل إعادة الطريق</p>` },
+  sw_handover: { title: '✅ الصرف السطحي — التسليم', content: `<table class="dm-table"><tr><th>الوثيقة</th><th>المحتوى</th></tr><tr><td>As-Built Drawings</td><td>مخططات منفذة</td></tr><tr><td>CCTV Report</td><td>Video + تقرير كامل</td></tr><tr><td>Gully Schedule</td><td>جدول كل Gullies</td></tr></table><h3>🛡️ DLP</h3><p>• المدة: <strong>12 شهر</strong><br>• تنظيف Silt Buckets كل 3 أشهر</p>` },
+  itp_storm: { title: '📋 ITP — شبكة الصرف السطحي', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 8 Part 3</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.2</td><td>Bedding Gradient</td><td>≥ 1:200 ± 5mm</td><td>كل 25m</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR + Laser Record</td></tr><tr><td>3.1</td><td>Gully Level</td><td>± 5mm من مستوى الطريق</td><td>كل Gully</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Survey</td></tr><tr><td>4.1</td><td>Hydraulic Test</td><td>صفر تسريب / 30 دقيقة</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR + Test Record</td></tr><tr><td>4.2</td><td>CCTV Inspection</td><td>100% — Grade ≤ 2</td><td>100%</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR + CCTV Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point &nbsp;|&nbsp; <strong style="color:#f1c40f;">W</strong> = Witness Point &nbsp;|&nbsp; <strong style="color:#2ecc71;">R</strong> = Review</div>` },
+
+  treated_stages: { title: '♻️ شبكة المياه المعالجة — مراحل التنفيذ', content: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;"><div onclick="openDetail('tw_survey')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">📐</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الدراسة والتصميم</div></div><div onclick="openDetail('tw_materials')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🟣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">المواسير البنفسجية</div></div><div onclick="openDetail('tw_excavation')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">⛏️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الحفر والفصل</div></div><div onclick="openDetail('tw_laying')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔧</div><div style="color:var(--gold);font-weight:700;font-size:13px;">وضع المواسير</div></div><div onclick="openDetail('tw_testing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧪</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الاختبارات</div></div><div onclick="openDetail('tw_handover')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">✅</div><div style="color:var(--gold);font-weight:700;font-size:13px;">التسليم</div></div></div><div style="margin-top:16px;"><div onclick="openDetail('itp_treated')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;"><div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">ITP المياه المعالجة</div></div></div>` },
+
+  tw_survey: { title: '📐 المياه المعالجة — الدراسة', content: `<table class="dm-table"><tr><th>البند</th><th>المتطلب</th></tr><tr><td>Cross Connection Study</td><td>دراسة الفصل عن مياه الشرب — إلزامي</td></tr><tr><td>NOC</td><td>من KAHRAMAA + Ashghal + MME</td></tr></table><h3>⛔ تحذير خطير</h3><p>• المياه المعالجة غير صالحة للشرب<br>• Cross Connection مع مياه الشرب = كارثة صحية</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-01:</strong> اعتماد Cross Connection Study قبل أي تنفيذ</p>` },
+  tw_materials: { title: '🟣 المياه المعالجة — المواسير البنفسجية', content: `<table class="dm-table"><tr><th>النوع</th><th>المواصفة</th><th>اللون</th></tr><tr><td>HDPE PE100</td><td>ISO 4427 | PN10</td><td>بنفسجي كامل</td></tr><tr><td>uPVC</td><td>ISO 1452 | PN10</td><td>بنفسجي أو شريط بنفسجي</td></tr></table><p>• Marker Tape بنفسجي — "RECLAIMED WATER — NOT POTABLE"<br>• اللون البنفسجي إلزامي بدون استثناء</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-02:</strong> اعتماد لون المواسير قبل التوريد</p>` },
+  tw_excavation: { title: '⛏️ المياه المعالجة — الحفر والفصل', content: `<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>عمق الدفن</td><td>≥ 0.9m من السطح</td></tr><tr><td>الفصل عن مياه الشرب</td><td>≥ 1.0m أفقياً — إلزامي</td></tr><tr><td>الوضع الرأسي</td><td>مياه الشرب دايماً فوق</td></tr></table><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-03:</strong> فحص الفصل عن مياه الشرب قبل وضع المواسير</p>` },
+  tw_laying: { title: '🔧 المياه المعالجة — وضع المواسير', content: `<p>1. فحص لون المواسير — بنفسجي 100%<br>2. Double Check Valve عند كل نقطة اتصال<br>3. Marker Tape بنفسجي على عمق 300mm<br>4. لافتات تحذيرية عند كل نقطة ري</p><h3>⛔ محظورات</h3><p>• ⛔ أي توصيل مع مياه الشرب<br>• ⛔ مواسير غير بنفسجية</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-04:</strong> فحص كل Joints والـ Valves قبل الردم</p>` },
+  tw_testing: { title: '🧪 المياه المعالجة — الاختبارات', content: `<h3>Pressure Test</h3><p>• 1.5x الضغط التصميمي / ساعتان / صفر انخفاض</p><h3>Cross Connection Test — الأهم</h3><p>• Tracer Dye Test — صفر تلوث في مياه الشرب</p><h3>Water Quality</h3><p>• BOD + TSS + E. Coli حسب MME Standard</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-05:</strong> Pressure Test قبل الردم<br>• <strong>HP-06:</strong> Cross Connection Test — إلزامي<br>• <strong>HP-07:</strong> Water Quality من MME قبل التشغيل</p>` },
+  tw_handover: { title: '✅ المياه المعالجة — التسليم', content: `<table class="dm-table"><tr><th>الوثيقة</th><th>المحتوى</th></tr><tr><td>As-Built Drawings</td><td>لون بنفسجي واضح</td></tr><tr><td>Cross Connection Certificate</td><td>شهادة الفصل الكامل عن مياه الشرب</td></tr><tr><td>Water Quality Reports</td><td>نتائج MME المعتمدة</td></tr></table><h3>🛡️ DLP</h3><p>• المدة: <strong>12 شهر</strong><br>• Water Quality Test كل 3 أشهر</p>` },
+  itp_treated: { title: '📋 ITP — شبكة المياه المعالجة', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 8 | MME & Ashghal Standards</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>1.1</td><td>Material Approval — Purple Pipes</td><td>بنفسجي — ISO Certificate</td><td>كل دفعة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Approved Submittal</td></tr><tr><td>1.2</td><td>Cross Connection Study</td><td>معتمد قبل أي تنفيذ</td><td>مرة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Approved Study</td></tr><tr><td>2.1</td><td>Pipe Color Verification</td><td>بنفسجي 100% — بدون استثناء</td><td>100%</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Inspection Record</td></tr><tr><td>3.1</td><td>Pressure Test</td><td>1.5x التصميمي / ساعتان / صفر</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR + Chart</td></tr><tr><td>3.2</td><td>Cross Connection Test</td><td>صفر تلوث في مياه الشرب</td><td>كل Section</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR + Certificate</td></tr><tr><td>3.3</td><td>Water Quality</td><td>حسب MME Standard</td><td>كل Section</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>MME Lab Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point &nbsp;|&nbsp; <strong style="color:#f1c40f;">W</strong> = Witness Point &nbsp;|&nbsp; <strong style="color:#2ecc71;">R</strong> = Review</div>` }
+
 
 };
 </script>
