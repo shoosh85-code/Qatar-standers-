@@ -395,7 +395,6 @@ function getRelevantParts(query) {
 // ===== STATE =====
 let apiKey = sessionStorage.getItem('orKey') || '';
 let navStack = [];
-let pdfJsLoaded = false;
 
 // ===== INIT =====
 window.onload = () => {
@@ -429,42 +428,9 @@ function updateKeyStatus(active) {
   document.getElementById('keyStatusText').textContent = active ? 'AI مفعّل ✓' : 'إعداد AI';
 }
 
-// ===== PDF.JS LOADER =====
-async function loadPdfJs() {
-  if (pdfJsLoaded) return;
-  await new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
-    s.onload = resolve; s.onerror = reject;
-    document.head.appendChild(s);
-  });
-  window.pdfjsLib.GlobalWorkerOptions.workerSrc =
-    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-  pdfJsLoaded = true;
-}
-
-// ===== FETCH PDF TEXT =====
-async function fetchPdfText(partNum, maxPages = 25) {
-  try {
-    const url = `https://corsproxy.io/?${encodeURIComponent(BLOB_BASE + '/QCS%202024%20Full%20_Part' + partNum + '.pdf')}`;
-    const response = await fetch(url);
-    if (!response.ok) return null;
-    const buffer = await response.arrayBuffer();
-    await loadPdfJs();
-    const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
-    const pages = Math.min(pdf.numPages, maxPages);
-    let text = `[QCS 2024 — Part ${partNum} | ${pdf.numPages} pages]\n\n`;
-    for (let i = 1; i <= pages; i++) {
-      const page = await pdf.getPage(i);
-      const content = await page.getTextContent();
-      const pageText = content.items.map(item => item.str).join(' ').trim();
-      if (pageText) text += `[Page ${i}]\n${pageText}\n\n`;
-    }
-    return text.slice(0, 10000);
-  } catch (e) {
-    console.error(`Part ${partNum} error:`, e);
-    return null;
-  }
+// ===== FETCH PDF URL =====
+function getPdfUrl(partNum) {
+  return `${BLOB_BASE}/QCS%202024%20Full%20_Part${partNum}.pdf`;
 }
 
 // ===== SEARCH =====
@@ -508,39 +474,20 @@ async function doSearch() {
     setStep(steps, 1);
     sourceEl.textContent = `QCS 2024 — Part ${parts.join(', ')}`;
 
-    // Step 2 & 3: Fetch PDF text
-    let qcsText = '';
-    let usedPart = parts[0];
-
-    for (const part of parts) {
-      setStep(steps, 2);
-      const text = await fetchPdfText(part);
-      if (text && text.length > 200) {
-        qcsText = text;
-        usedPart = part;
-        break;
-      }
-    }
-
-    if (!qcsText) {
-      textEl.innerHTML = `❌ <strong>تعذر تحميل QCS Part ${parts[0]}</strong><br>تأكد من الاتصال بالإنترنت وأن الملفات مرفوعة على Vercel Blob.`;
-      refEl.textContent = '';
-      return;
-    }
-
-    // Step 4: Ask AI
+    // Step 2 & 3: Get PDF URL
+    setStep(steps, 2);
+    const usedPart = parts[0];
+    const pdfUrl = getPdfUrl(usedPart);
     setStep(steps, 3);
 
     const systemPrompt = `أنت مهندس متخصص في المواصفات القطرية QCS 2024.
-أمامك نص مباشر من الكود القطري الرسمي QCS 2024.
-
+لديك ملف PDF من الكود القطري الرسمي. أجب على السؤال بالعربية بدقة تامة.
 قواعد الإجابة:
-1. أجب من النص المقدم فقط — لا تخترع معلومات
-2. اذكر رقم الصفحة [Page X] من النص
-3. اذكر الأرقام والمعايير بدقة تامة
-4. استخدم <strong> للأرقام والمعايير المهمة
-5. إذا لم تجد الإجابة في النص — قل ذلك صراحة وأشر للقسم المناسب
-6. أجب بالعربية دائماً بأسلوب مهني مختصر`;
+1. اذكر رقم الصفحة والقسم
+2. اذكر الأرقام والمعايير بدقة
+3. استخدم ** للنقاط المهمة
+4. إذا لم تجد الإجابة قل ذلك صراحة
+5. أجب بالعربية دائماً بأسلوب مهني`;
 
     const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
@@ -551,10 +498,22 @@ async function doSearch() {
         'X-Title': 'QatarSpec Pro'
       },
       body: JSON.stringify({
-        model: 'google/gemini-flash-1.5',
+        model: 'google/gemini-2.0-flash-exp:free',
         messages: [
           { role: 'system', content: systemPrompt },
-          { role: 'user', content: `نص QCS 2024 — Part ${usedPart}:\n\n${qcsText}\n\n---\nالسؤال: ${query}` }
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text: `هذا ملف QCS 2024 Part ${usedPart}. السؤال: ${query}`
+              },
+              {
+                type: 'image_url',
+                image_url: { url: pdfUrl }
+              }
+            ]
+          }
         ],
         max_tokens: 2000,
         temperature: 0.1
