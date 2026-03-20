@@ -1,5 +1,4 @@
-انسخ كل النص اللي جوا هذا الملف وحطه في GitHub في ملف اسمه: api/search.js
-=====================================================================
+export const config = { runtime: 'nodejs' };
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,22 +9,28 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { query, apiKey, partNum } = req.body;
-
   if (!query || !apiKey || !partNum) {
     return res.status(400).json({ error: 'Missing parameters' });
   }
 
   try {
+    // Fetch PDF from Vercel Blob
     const pdfUrl = `https://ds8ubkfeifm6jjwv.public.blob.vercel-storage.com/QCS%202024%20Full%20_Part${partNum}.pdf`;
     const pdfResponse = await fetch(pdfUrl);
-
     if (!pdfResponse.ok) {
       return res.status(404).json({ error: `QCS Part ${partNum} not found` });
     }
 
-    const pdfBuffer = await pdfResponse.arrayBuffer();
-    const pdfBase64 = Buffer.from(pdfBuffer).toString('base64');
+    // Convert to base64
+    const arrayBuffer = await pdfResponse.arrayBuffer();
+    const uint8Array = new Uint8Array(arrayBuffer);
+    let binary = '';
+    for (let i = 0; i < uint8Array.length; i++) {
+      binary += String.fromCharCode(uint8Array[i]);
+    }
+    const pdfBase64 = btoa(binary);
 
+    // Send to OpenRouter
     const aiResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -39,15 +44,7 @@ export default async function handler(req, res) {
         messages: [
           {
             role: 'system',
-            content: `أنت مهندس متخصص في المواصفات القطرية QCS 2024.
-أمامك ملف PDF من الكود القطري الرسمي.
-قواعد الإجابة:
-1. أجب من محتوى الـ PDF فقط
-2. اذكر رقم الصفحة والقسم
-3. اذكر الأرقام والمعايير بدقة تامة
-4. استخدم ** للنقاط المهمة
-5. إذا لم تجد الإجابة قل ذلك صراحة
-6. أجب بالعربية دائماً بأسلوب مهني`
+            content: 'أنت مهندس متخصص في المواصفات القطرية QCS 2024. أجب من محتوى الـ PDF المقدم فقط. اذكر رقم الصفحة والقسم. اذكر الأرقام والمعايير بدقة. أجب بالعربية بأسلوب مهني. إذا لم تجد الإجابة قل ذلك صراحة.'
           },
           {
             role: 'user',
@@ -77,7 +74,6 @@ export default async function handler(req, res) {
 
     const data = await aiResponse.json();
     const answer = data.choices?.[0]?.message?.content || 'لم أجد إجابة.';
-
     return res.status(200).json({ answer, partNum });
 
   } catch (error) {
