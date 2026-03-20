@@ -8,12 +8,14 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { query, apiKey, partNum } = req.body;
-  if (!query || !apiKey || !partNum) {
-    return res.status(400).json({ error: 'Missing parameters' });
-  }
-
   try {
+    const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+    const { query, apiKey, partNum } = body;
+
+    if (!query || !apiKey || !partNum) {
+      return res.status(400).json({ error: 'Missing parameters' });
+    }
+
     // Fetch PDF from Vercel Blob
     const pdfUrl = `https://ds8ubkfeifm6jjwv.public.blob.vercel-storage.com/QCS%202024%20Full%20_Part${partNum}.pdf`;
     const pdfResponse = await fetch(pdfUrl);
