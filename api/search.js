@@ -1,38 +1,50 @@
-export const config = { runtime: 'nodejs' };
+export const config = { api: { bodyParser: true } };
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
+  let query, apiKey, partNum;
+
   try {
-    const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-    const { query, apiKey, partNum } = body;
-
-    if (!query || !apiKey || !partNum) {
-      return res.status(400).json({ error: 'Missing parameters' });
+    if (typeof req.body === 'string') {
+      const parsed = JSON.parse(req.body);
+      query = parsed.query;
+      apiKey = parsed.apiKey;
+      partNum = parsed.partNum;
+    } else {
+      query = req.body.query;
+      apiKey = req.body.apiKey;
+      partNum = req.body.partNum;
     }
+  } catch (e) {
+    return res.status(400).json({ error: 'Invalid request body: ' + e.message });
+  }
 
-    // Fetch PDF from Vercel Blob
+  if (!query) return res.status(400).json({ error: 'Missing query' });
+  if (!apiKey) return res.status(400).json({ error: 'Missing apiKey - received: ' + JSON.stringify(req.body).slice(0, 100) });
+  if (!partNum) return res.status(400).json({ error: 'Missing partNum' });
+
+  try {
     const pdfUrl = `https://ds8ubkfeifm6jjwv.public.blob.vercel-storage.com/QCS%202024%20Full%20_Part${partNum}.pdf`;
     const pdfResponse = await fetch(pdfUrl);
     if (!pdfResponse.ok) {
       return res.status(404).json({ error: `QCS Part ${partNum} not found` });
     }
 
-    // Convert to base64
     const arrayBuffer = await pdfResponse.arrayBuffer();
     const uint8Array = new Uint8Array(arrayBuffer);
     let binary = '';
-    for (let i = 0; i < uint8Array.length; i++) {
-      binary += String.fromCharCode(uint8Array[i]);
+    const chunkSize = 8192;
+    for (let i = 0; i < uint8Array.length; i += chunkSize) {
+      binary += String.fromCharCode(...uint8Array.slice(i, i + chunkSize));
     }
     const pdfBase64 = btoa(binary);
 
-    // Send to OpenRouter
     const aiResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -46,21 +58,13 @@ export default async function handler(req, res) {
         messages: [
           {
             role: 'system',
-            content: 'أنت مهندس متخصص في المواصفات القطرية QCS 2024. أجب من محتوى الـ PDF المقدم فقط. اذكر رقم الصفحة والقسم. اذكر الأرقام والمعايير بدقة. أجب بالعربية بأسلوب مهني. إذا لم تجد الإجابة قل ذلك صراحة.'
+            content: 'أنت مهندس متخصص في المواصفات القطرية QCS 2024. أجب من محتوى الـ PDF المقدم فقط. اذكر رقم الصفحة والقسم. اذكر الأرقام والمعايير بدقة. أجب بالعربية بأسلوب مهني.'
           },
           {
             role: 'user',
             content: [
-              {
-                type: 'text',
-                text: `هذا ملف QCS 2024 Part ${partNum}. السؤال: ${query}`
-              },
-              {
-                type: 'image_url',
-                image_url: {
-                  url: `data:application/pdf;base64,${pdfBase64}`
-                }
-              }
+              { type: 'text', text: `QCS 2024 Part ${partNum}. السؤال: ${query}` },
+              { type: 'image_url', image_url: { url: `data:application/pdf;base64,${pdfBase64}` } }
             ]
           }
         ],
