@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QatarSpec Pro | دليل المواصفات القطرية</title>
+<title>دليل المواصفات القطرية | Qatar Engineering Standards</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -17,8 +17,6 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:'Tajawal',sans-serif; background:var(--dark); color:var(--text); min-height:100vh; }
 body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; z-index:9999; opacity:0.4; }
-
-/* HEADER */
 header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); backdrop-filter:blur(24px); border-bottom:1px solid var(--border); padding:0 28px; }
 .header-inner { max-width:1300px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:64px; }
 .logo { display:flex; align-items:center; gap:12px; }
@@ -30,8 +28,6 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 .key-status:hover { border-color:var(--border2); color:var(--text2); }
 .key-dot { width:6px; height:6px; border-radius:50%; background:#666; }
 .key-dot.active { background:#4CAF50; box-shadow:0 0 6px rgba(76,175,80,0.5); }
-
-/* HERO */
 .hero { max-width:1300px; margin:0 auto; padding:56px 28px 36px; display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; }
 .hero-eyebrow { display:inline-flex; align-items:center; gap:6px; background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.2); border-radius:20px; padding:5px 14px; font-size:11px; color:var(--gold); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:20px; }
 .hero h1 { font-family:'Cairo',sans-serif; font-size:clamp(32px,4vw,52px); font-weight:900; line-height:1.1; margin-bottom:16px; }
@@ -40,24 +36,30 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 .hero-stats { display:flex; gap:28px; }
 .hero-stat-num { font-family:'Cairo',sans-serif; font-size:28px; font-weight:900; color:var(--gold); display:block; }
 .hero-stat-label { font-size:11px; color:var(--text3); }
-
-/* QCS STATUS BOX */
-.qcs-status-box { background:var(--dark3); border:1px solid rgba(76,175,80,0.3); border-radius:20px; padding:28px; position:relative; overflow:hidden; }
-.qcs-status-box::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 0%,rgba(76,175,80,0.06) 0%,transparent 70%); pointer-events:none; }
-.qcs-status-title { font-family:'Cairo',sans-serif; font-size:16px; font-weight:700; color:var(--text); margin-bottom:16px; display:flex; align-items:center; gap:8px; }
-.qcs-status-badge { background:rgba(76,175,80,0.15); border:1px solid rgba(76,175,80,0.3); border-radius:6px; padding:3px 10px; font-size:10px; color:#4CAF50; font-weight:700; }
-.qcs-parts-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-bottom:16px; }
-.qcs-part { background:var(--dark4); border:1px solid var(--border); border-radius:8px; padding:8px; text-align:center; font-size:10px; color:var(--text3); transition:.2s; }
-.qcs-part.loaded { border-color:rgba(76,175,80,0.4); color:#4CAF50; background:rgba(76,175,80,0.05); }
-.qcs-part.loading { border-color:rgba(201,168,76,0.3); color:var(--gold); }
-.qcs-info { font-size:12px; color:var(--text3); display:flex; align-items:center; gap:6px; }
-.qcs-dot { width:8px; height:8px; border-radius:50%; background:#4CAF50; box-shadow:0 0 6px rgba(76,175,80,0.5); flex-shrink:0; }
-
-/* SEARCH */
+.upload-zone { background:var(--dark3); border:2px dashed rgba(201,168,76,0.2); border-radius:20px; padding:36px 28px; text-align:center; cursor:pointer; transition:all .3s; position:relative; overflow:hidden; }
+.upload-zone::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 0%,rgba(122,21,21,0.12) 0%,transparent 70%); pointer-events:none; }
+.upload-zone:hover { border-color:rgba(201,168,76,0.45); background:var(--dark4); transform:translateY(-2px); }
+.upload-zone.drag-over { border-color:var(--gold); background:rgba(201,168,76,0.05); }
+.upload-icon-wrap { width:72px; height:72px; margin:0 auto 16px; background:linear-gradient(135deg,rgba(122,21,21,0.3),rgba(90,15,15,0.2)); border:1px solid rgba(201,168,76,0.2); border-radius:18px; display:flex; align-items:center; justify-content:center; font-size:32px; }
+.upload-title { font-size:18px; font-weight:700; color:var(--text); margin-bottom:8px; }
+.upload-desc { font-size:13px; color:var(--text3); line-height:1.6; margin-bottom:20px; }
+.upload-btn-main { background:linear-gradient(135deg,var(--maroon),var(--maroon2)); border:1px solid rgba(201,168,76,0.3); border-radius:10px; padding:11px 28px; color:var(--gold2); font-family:'Tajawal',sans-serif; font-size:14px; font-weight:600; cursor:pointer; transition:.3s; }
+.upload-btn-main:hover { box-shadow:0 0 24px rgba(122,21,21,0.5); transform:translateY(-1px); }
+.upload-formats { margin-top:12px; font-size:11px; color:var(--text3); }
+.files-list { margin-top:16px; display:flex; flex-direction:column; gap:8px; }
+.file-item { background:var(--dark4); border:1px solid var(--border); border-radius:10px; padding:10px 14px; display:flex; align-items:center; gap:10px; animation:slideIn .3s ease; }
+@keyframes slideIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+.file-icon { font-size:20px; }
+.file-info { flex:1; }
+.file-name { font-size:13px; font-weight:600; color:var(--text); }
+.file-size { font-size:11px; color:var(--text3); }
+.file-status { font-size:11px; padding:3px 10px; border-radius:8px; font-weight:600; }
+.file-status.ready { background:rgba(76,175,80,0.15); color:#4CAF50; }
+.file-status.loading { background:rgba(201,168,76,0.15); color:var(--gold); }
 .search-section { max-width:1300px; margin:0 auto; padding:0 28px 40px; }
 .search-label { font-size:12px; color:var(--text3); letter-spacing:1px; text-transform:uppercase; margin-bottom:12px; }
 .search-wrap { position:relative; }
-.search-input { width:100%; background:var(--dark3); border:1px solid var(--border); border-radius:14px; padding:18px 180px 18px 56px; font-family:'Tajawal',sans-serif; font-size:16px; color:var(--text); outline:none; transition:.3s; }
+.search-input { width:100%; background:var(--dark3); border:1px solid var(--border); border-radius:14px; padding:18px 160px 18px 56px; font-family:'Tajawal',sans-serif; font-size:16px; color:var(--text); outline:none; transition:.3s; }
 .search-input:focus { border-color:var(--border2); box-shadow:0 0 0 3px rgba(201,168,76,0.06); background:var(--dark4); }
 .search-input::placeholder { color:var(--text3); }
 .search-icon-btn { position:absolute; right:8px; top:50%; transform:translateY(-50%); background:linear-gradient(135deg,var(--maroon),var(--maroon2)); border:1px solid rgba(201,168,76,0.3); border-radius:9px; padding:10px 22px; color:var(--gold2); font-family:'Tajawal',sans-serif; font-size:14px; font-weight:700; cursor:pointer; transition:.3s; display:flex; align-items:center; gap:6px; }
@@ -66,8 +68,6 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 .quick-tags { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
 .quick-tag { background:var(--dark3); border:1px solid var(--border); border-radius:20px; padding:5px 14px; font-size:12px; color:var(--text2); cursor:pointer; transition:.2s; }
 .quick-tag:hover { border-color:var(--border2); color:var(--gold2); background:rgba(201,168,76,0.06); }
-
-/* AI ANSWER */
 .ai-answer-box { max-width:1300px; margin:0 auto 32px; padding:0 28px; display:none; }
 .ai-answer-box.show { display:block; }
 .ai-card { background:linear-gradient(135deg,rgba(122,21,21,0.12) 0%,rgba(201,168,76,0.04) 100%); border:1px solid rgba(201,168,76,0.2); border-radius:18px; padding:28px; animation:fadeUp .4s ease; }
@@ -84,14 +84,8 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 .ai-ref-text { font-size:12px; color:var(--text3); }
 .ai-disclaimer { font-size:11px; color:var(--text3); font-style:italic; }
 .loading-wrap { display:flex; align-items:center; gap:10px; color:var(--text2); font-size:14px; }
-.loading-steps { display:flex; flex-direction:column; gap:6px; }
-.loading-step { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text3); }
-.loading-step.active { color:var(--gold); }
-.loading-step.done { color:#4CAF50; }
-.spinner { width:18px; height:18px; border:2px solid rgba(201,168,76,0.2); border-top:2px solid var(--gold); border-radius:50%; animation:spin .8s linear infinite; flex-shrink:0; }
+.spinner { width:18px; height:18px; border:2px solid rgba(201,168,76,0.2); border-top:2px solid var(--gold); border-radius:50%; animation:spin .8s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
-
-/* CATEGORIES */
 .content-section { max-width:1300px; margin:0 auto; padding:0 28px 60px; }
 .section-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
 .section-title { font-family:'Cairo',sans-serif; font-size:20px; font-weight:700; color:var(--text); }
@@ -107,8 +101,6 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 .cat-bottom { display:flex; justify-content:space-between; align-items:center; }
 .cat-count { background:var(--dark5); border-radius:8px; padding:3px 10px; font-size:11px; color:var(--text3); }
 .cat-arr { color:var(--gold); font-size:16px; }
-
-/* SPECS */
 .specs-section { margin-top:8px; }
 .spec-row { background:var(--dark3); border:1px solid var(--border); border-radius:12px; padding:16px 20px; display:grid; grid-template-columns:120px 1fr auto auto; align-items:center; gap:16px; margin-bottom:8px; cursor:pointer; transition:.2s; }
 .spec-row:hover { border-color:var(--border2); background:var(--dark4); }
@@ -117,8 +109,6 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 .spec-sub { font-size:11px; color:var(--text3); margin-top:2px; }
 .spec-tag { background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.15); border-radius:6px; padding:3px 8px; font-size:10px; color:var(--gold); white-space:nowrap; }
 .spec-arr { color:var(--text3); font-size:18px; }
-
-/* MODALS */
 .modal-bg { position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(10px); z-index:200; display:none; align-items:center; justify-content:center; padding:20px; }
 .modal-bg.open { display:flex; }
 .modal-box { background:var(--dark3); border:1px solid var(--border2); border-radius:20px; padding:32px; max-width:480px; width:100%; animation:modalPop .3s ease; }
@@ -150,10 +140,8 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 .dm-table tr:hover td { background:rgba(201,168,76,0.03); }
 .toast { position:fixed; bottom:28px; right:28px; z-index:999; background:var(--dark4); border:1px solid var(--border2); border-radius:12px; padding:14px 20px; font-size:14px; color:var(--text); box-shadow:0 8px 32px rgba(0,0,0,0.5); transform:translateY(80px); opacity:0; transition:all .3s ease; display:flex; align-items:center; gap:10px; }
 .toast.show { transform:translateY(0); opacity:1; }
-
-/* RESPONSIVE */
-@media(max-width:900px) { .hero { grid-template-columns:1fr; gap:32px; } .cats-grid { grid-template-columns:repeat(2,1fr); } .spec-row { grid-template-columns:90px 1fr; } .spec-tag,.spec-arr { display:none; } .qcs-parts-grid { grid-template-columns:repeat(3,1fr); } }
-@media(max-width:600px) { header { padding:0 16px; } .hero,.search-section,.content-section,.ai-answer-box { padding-left:16px; padding-right:16px; } .cats-grid { grid-template-columns:1fr; } .hero-stats { gap:16px; } .qcs-parts-grid { grid-template-columns:repeat(2,1fr); } }
+@media(max-width:900px) { .hero { grid-template-columns:1fr; gap:32px; } .cats-grid { grid-template-columns:repeat(2,1fr); } .spec-row { grid-template-columns:90px 1fr; } .spec-tag,.spec-arr { display:none; } }
+@media(max-width:600px) { header { padding:0 16px; } .hero,.search-section,.content-section,.ai-answer-box { padding-left:16px; padding-right:16px; } .cats-grid { grid-template-columns:1fr; } .hero-stats { gap:16px; } }
 ::-webkit-scrollbar { width:6px; }
 ::-webkit-scrollbar-track { background:var(--dark2); }
 ::-webkit-scrollbar-thumb { background:rgba(201,168,76,0.2); border-radius:3px; }
@@ -166,8 +154,8 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div class="logo">
       <div class="logo-mark">🏗️</div>
       <div>
-        <div class="logo-name">QatarSpec Pro</div>
-        <div class="logo-sub">Qatar Engineering Standards — QCS 2024</div>
+        <div class="logo-name">دليل المواصفات القطرية</div>
+        <div class="logo-sub">Qatar Engineering Standards</div>
       </div>
     </div>
     <div class="header-actions">
@@ -183,7 +171,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <div class="hero-left">
     <div class="hero-eyebrow">⚡ بحث ذكي في QCS 2024 الرسمي</div>
     <h1>كل المواصفات<br>القطرية في<br><span>مكان واحد</span></h1>
-    <p class="hero-desc">بحث ذكي حقيقي في الكود القطري QCS 2024 — إجابات مباشرة من النص الرسمي مع رقم الصفحة والقسم</p>
+    <p class="hero-desc">ارفع ملفات PDF وابحث بذكاء في الكود القطري والمواصفات الإنشائية — إجابات فورية دقيقة من خبرتك وتقنية الذكاء الاصطناعي</p>
     <div class="hero-stats">
       <div class="hero-stat"><span class="hero-stat-num">5000+</span><div class="hero-stat-label">صفحة مواصفات</div></div>
       <div class="hero-stat"><span class="hero-stat-num">103</span><div class="hero-stat-label">ملف QCS 2024</div></div>
@@ -191,19 +179,15 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     </div>
   </div>
   <div class="hero-right">
-    <div class="qcs-status-box">
-      <div class="qcs-status-title">
-        📚 QCS 2024 — متصل ومجاهز
-        <span class="qcs-status-badge">✓ LIVE</span>
-      </div>
-      <div class="qcs-parts-grid" id="qcsPartsGrid">
-        <!-- Generated by JS -->
-      </div>
-      <div class="qcs-info">
-        <div class="qcs-dot"></div>
-        <span>الـ 103 ملف متاحة — البحث يقرأ من QCS الرسمي مباشرة</span>
-      </div>
+    <div class="upload-zone" id="uploadZone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" onclick="document.getElementById('fileInput').click()">
+      <div class="upload-icon-wrap">📄</div>
+      <div class="upload-title">ارفع المواصفات هنا</div>
+      <div class="upload-desc">اسحب ملفات PDF الكود القطري والمواصفات<br>أو اضغط لاختيار الملفات</div>
+      <button class="upload-btn-main" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">📤 اختر ملفات PDF</button>
+      <div class="upload-formats">يدعم: PDF • حجم أقصى 50MB لكل ملف</div>
+      <input type="file" id="fileInput" style="display:none" accept=".pdf" multiple onchange="handleFiles(event)">
     </div>
+    <div class="files-list" id="filesList"></div>
   </div>
 </div>
 
@@ -211,20 +195,17 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <div class="search-label">🔍 البحث الذكي في QCS 2024</div>
   <div class="search-wrap">
     <span class="search-mic">🎙️</span>
-    <input type="text" class="search-input" id="searchInput"
-      placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة Base Course وفق QCS 2024؟"
-      onkeydown="if(event.key==='Enter') doSearch()">
-    <button class="search-icon-btn" onclick="doSearch()">⚡ بحث في QCS</button>
+    <input type="text" class="search-input" id="searchInput" placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة الخرسانة في الأساسات وفق الكود القطري؟" onkeydown="if(event.key==='Enter') doSearch()">
+    <button class="search-icon-btn" onclick="doSearch()">⚡ بحث ذكي</button>
   </div>
   <div class="quick-tags">
-    <span class="quick-tag" onclick="quickSearch('متطلبات دمك Subgrade CBR')">🏔️ Subgrade</span>
-    <span class="quick-tag" onclick="quickSearch('مواصفات Base Course سماكة دمك')">🧱 Base Course</span>
-    <span class="quick-tag" onclick="quickSearch('Marshall Test Binder Course wearing')">⚫ الإسفلت</span>
-    <span class="quick-tag" onclick="quickSearch('مواصفات الخرسانة المسلحة درجة قوة')">🏛️ الخرسانة</span>
-    <span class="quick-tag" onclick="quickSearch('شبكة مياه الشرب pressure test')">💧 مياه الشرب</span>
-    <span class="quick-tag" onclick="quickSearch('اختبارات التربة SPT جسات')">🔬 اختبارات التربة</span>
-    <span class="quick-tag" onclick="quickSearch('Air Test CCTV صرف صحي')">🚽 الصرف الصحي</span>
-    <span class="quick-tag" onclick="quickSearch('hold point ITP inspection')">📋 Hold Points</span>
+    <span class="quick-tag" onclick="quickSearch('متطلبات الخرسانة المسلحة')">🏛️ الخرسانة المسلحة</span>
+    <span class="quick-tag" onclick="quickSearch('مواصفات الأساسات والخوازيق')">⚓ الأساسات</span>
+    <span class="quick-tag" onclick="quickSearch('اشتراطات الحريق للمباني')">🔥 متطلبات الحريق</span>
+    <span class="quick-tag" onclick="quickSearch('مواصفات الطرق والأرصفة')">🛣️ الطرق</span>
+    <span class="quick-tag" onclick="quickSearch('العزل الحراري والرطوبي')">🌡️ العزل</span>
+    <span class="quick-tag" onclick="quickSearch('اختبارات التربة')">🔬 اختبارات التربة</span>
+    <span class="quick-tag" onclick="quickSearch('مراحل تنفيذ المشاريع')">⚒️ مراحل التنفيذ</span>
   </div>
 </div>
 
@@ -233,15 +214,15 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div class="ai-card-header">
       <div class="ai-badge-wrap">
         <div class="ai-badge">📖 QCS 2024</div>
-        <div class="ai-source" id="aiSource">الكود القطري الرسمي</div>
+        <div class="ai-source" id="aiSource">الكود القطري</div>
       </div>
       <button class="ai-copy-btn" onclick="copyAnswer()">📋 نسخ الإجابة</button>
     </div>
     <div class="ai-answer-text" id="aiAnswerText">
-      <div class="loading-wrap"><div class="spinner"></div> جاري البحث...</div>
+      <div class="loading-wrap"><div class="spinner"></div> جاري البحث في المواصفات...</div>
     </div>
     <div class="ai-ref-bar">
-      <div class="ai-ref-text" id="aiRefText">📖 المرجع: QCS 2024</div>
+      <div class="ai-ref-text" id="aiRefText">📖 المرجع: الكود القطري QCS 2024</div>
       <div class="ai-disclaimer">⚠️ راجع المواصفة الأصلية للتأكد</div>
     </div>
   </div>
@@ -250,86 +231,29 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <div class="content-section">
   <div class="section-head"><div class="section-title">الأقسام <span>الرئيسية</span></div></div>
   <div class="cats-grid">
-    <div class="cat-card" onclick="openDetail('structural')">
-      <span class="cat-emoji">🏛️</span>
-      <div class="cat-name">الكود الإنشائي</div>
-      <div class="cat-desc">الخرسانة، الحديد، الأعمدة، الأسقف، الأساسات، الخوازيق</div>
-      <div class="cat-bottom"><span class="cat-count">Parts 4-5</span><span class="cat-arr">←</span></div>
-    </div>
-    <div class="cat-card" onclick="openDetail('roads')">
-      <span class="cat-emoji">🛣️</span>
-      <div class="cat-name">أعمال الطرق</div>
-      <div class="cat-desc">Subgrade، Subbase، Base Course، الإسفلت، التسليم</div>
-      <div class="cat-bottom"><span class="cat-count">Parts 6-8</span><span class="cat-arr">←</span></div>
-    </div>
-    <div class="cat-card" onclick="openDetail('utilities')">
-      <span class="cat-emoji">🔧</span>
-      <div class="cat-name">شبكات المرافق</div>
-      <div class="cat-desc">مياه الشرب، الصرف الصحي، السطحي، المياه المعالجة</div>
-      <div class="cat-bottom"><span class="cat-count">Parts 9-11</span><span class="cat-arr">←</span></div>
-    </div>
-    <div class="cat-card" onclick="openDetail('materials')">
-      <span class="cat-emoji">🧱</span>
-      <div class="cat-name">مواد البناء</div>
-      <div class="cat-desc">الخرسانة، الطوب، الزجاج، الألمنيوم، العزل</div>
-      <div class="cat-bottom"><span class="cat-count">Parts 2-3</span><span class="cat-arr">←</span></div>
-    </div>
-    <div class="cat-card" onclick="openDetail('execution')">
-      <span class="cat-emoji">⚒️</span>
-      <div class="cat-name">مراحل التنفيذ</div>
-      <div class="cat-desc">خطوات المشروع من الجسات حتى التسليم</div>
-      <div class="cat-bottom"><span class="cat-count">كامل QCS</span><span class="cat-arr">←</span></div>
-    </div>
-    <div class="cat-card" onclick="openDetail('testing')">
-      <span class="cat-emoji">🔬</span>
-      <div class="cat-name">الاختبارات والفحص</div>
-      <div class="cat-desc">اختبارات التربة، الخرسانة، الحديد، الإسفلت</div>
-      <div class="cat-bottom"><span class="cat-count">ITPs كاملة</span><span class="cat-arr">←</span></div>
-    </div>
-    <div class="cat-card" onclick="openDetail('fire')">
-      <span class="cat-emoji">🔥</span>
-      <div class="cat-name">الحريق والسلامة</div>
-      <div class="cat-desc">كود QCDD، مخارج الطوارئ، أنظمة الإطفاء</div>
-      <div class="cat-bottom"><span class="cat-count">Parts 12-13</span><span class="cat-arr">←</span></div>
-    </div>
+    <div class="cat-card" onclick="openDetail('structural')"><span class="cat-emoji">🏛️</span><div class="cat-name">الكود الإنشائي</div><div class="cat-desc">الخرسانة، الحديد، الأعمدة، الأسقف، الأساسات</div><div class="cat-bottom"><span class="cat-count">89 مواصفة</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('roads')"><span class="cat-emoji">🛣️</span><div class="cat-name">أعمال الطرق</div><div class="cat-desc">الطبقات، الإسفلت، الاختبارات، التسليم</div><div class="cat-bottom"><span class="cat-count">67 مواصفة</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('utilities')"><span class="cat-emoji">🔧</span><div class="cat-name">شبكات المرافق</div><div class="cat-desc">مياه الشرب، الصرف الصحي، السطحي، المعالجة</div><div class="cat-bottom"><span class="cat-count">52 مواصفة</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('materials')"><span class="cat-emoji">🧱</span><div class="cat-name">مواد البناء</div><div class="cat-desc">الخرسانة، الطوب، الزجاج، الألمنيوم، العزل</div><div class="cat-bottom"><span class="cat-count">54 مواصفة</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('execution')"><span class="cat-emoji">⚒️</span><div class="cat-name">مراحل التنفيذ</div><div class="cat-desc">خطوات المشروع من الجسات حتى التسليم</div><div class="cat-bottom"><span class="cat-count">35 مرحلة</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('testing')"><span class="cat-emoji">🔬</span><div class="cat-name">الاختبارات والفحص</div><div class="cat-desc">اختبارات التربة، الخرسانة، الحديد، الجودة</div><div class="cat-bottom"><span class="cat-count">43 اختبار</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('fire')"><span class="cat-emoji">🔥</span><div class="cat-name">الحريق والسلامة</div><div class="cat-desc">كود QCDD، مخارج الطوارئ، أنظمة الإطفاء</div><div class="cat-bottom"><span class="cat-count">38 مواصفة</span><span class="cat-arr">←</span></div></div>
   </div>
-
-  <div class="section-head"><div class="section-title">بحث <span>سريع</span></div></div>
+  <div class="section-head"><div class="section-title">آخر <span>المواصفات</span></div></div>
   <div class="specs-section">
-    <div class="spec-row" onclick="quickSearch('متطلبات الخرسانة المسلحة درجة قوة نسبة ماء اسمنت')">
-      <div class="spec-code">QCS S5-C3</div>
-      <div><div class="spec-title">متطلبات الخرسانة المسلحة</div><div class="spec-sub">الفصل الخامس — الخرسانة</div></div>
-      <span class="spec-tag">إنشاء</span><span class="spec-arr">←</span>
-    </div>
-    <div class="spec-row" onclick="quickSearch('CBR Subgrade دمك 95% Standard Proctor')">
-      <div class="spec-code">QCS S6-P2</div>
-      <div><div class="spec-title">مواصفات Subgrade والدمك</div><div class="spec-sub">Section 6 Part 2 — Earthworks</div></div>
-      <span class="spec-tag">طرق</span><span class="spec-arr">←</span>
-    </div>
-    <div class="spec-row" onclick="quickSearch('Marshall Test stability flow binder wearing course')">
-      <div class="spec-code">QCS S6-P5</div>
-      <div><div class="spec-title">اختبارات الإسفلت Marshall</div><div class="spec-sub">Section 6 Part 5 — Asphalt</div></div>
-      <span class="spec-tag">إسفلت</span><span class="spec-arr">←</span>
-    </div>
-    <div class="spec-row" onclick="quickSearch('hydrostatic pressure test water supply KAHRAMAA')">
-      <div class="spec-code">QCS S8-P1</div>
-      <div><div class="spec-title">اختبار ضغط شبكة المياه</div><div class="spec-sub">Section 8 Part 1 — Water Supply</div></div>
-      <span class="spec-tag">مرافق</span><span class="spec-arr">←</span>
-    </div>
-    <div class="spec-row" onclick="quickSearch('Air Test CCTV foul sewer gradient manhole')">
-      <div class="spec-code">QCS S8-P2</div>
-      <div><div class="spec-title">اختبارات شبكة الصرف الصحي</div><div class="spec-sub">Section 8 Part 2 — Foul Sewer</div></div>
-      <span class="spec-tag">مرافق</span><span class="spec-arr">←</span>
-    </div>
+    <div class="spec-row" onclick="quickSearch('متطلبات الخرسانة المسلحة QCS')"><div class="spec-code">QCS-S6-C3</div><div><div class="spec-title">متطلبات الخرسانة المسلحة</div><div class="spec-sub">الفصل السادس — القسم الثالث</div></div><span class="spec-tag">إنشاء</span><span class="spec-arr">←</span></div>
+    <div class="spec-row" onclick="quickSearch('مواصفات تصميم الطرق MMUP')"><div class="spec-code">MMUP-RD-S2</div><div><div class="spec-title">مواصفات تصميم الطرق الداخلية</div><div class="spec-sub">وزارة البلدية — القسم الثاني</div></div><span class="spec-tag">طرق</span><span class="spec-arr">←</span></div>
+    <div class="spec-row" onclick="quickSearch('اشتراطات الحريق مباني سكنية')"><div class="spec-code">QCDD-F-C8</div><div><div class="spec-title">اشتراطات الحريق للمباني السكنية</div><div class="spec-sub">كود الحريق القطري — الفصل الثامن</div></div><span class="spec-tag">حريق</span><span class="spec-arr">←</span></div>
+    <div class="spec-row" onclick="quickSearch('اختبارات التربة والجسات')"><div class="spec-code">QCS-S2-SOIL</div><div><div class="spec-title">اختبارات التربة ومتطلبات الجسات</div><div class="spec-sub">الفصل الثاني — التربة والأساسات</div></div><span class="spec-tag">تربة</span><span class="spec-arr">←</span></div>
+    <div class="spec-row" onclick="quickSearch('العزل الحراري والرطوبي للمباني')"><div class="spec-code">QCS-S5-C8</div><div><div class="spec-title">متطلبات العزل الحراري والرطوبي</div><div class="spec-sub">الفصل الخامس — العزل والتشطيبات</div></div><span class="spec-tag">عزل</span><span class="spec-arr">←</span></div>
   </div>
 </div>
 
-<!-- KEY MODAL -->
 <div class="modal-bg" id="keyModal">
   <div class="modal-box">
     <div class="modal-title">🔑 OpenRouter API Key</div>
-    <div class="modal-desc">أدخل OpenRouter API Key للبحث الذكي في QCS 2024. الـ Key يُحفظ محلياً على جهازك فقط ولا يُرسل لأي جهة.</div>
-    <input type="password" class="modal-input" id="keyInput" placeholder="sk-or-v1-..." />
+    <div class="modal-desc">أدخل OpenRouter API Key للبحث الذكي في المواصفات. الـ Key يُحفظ محلياً على جهازك فقط.</div>
+    <input type="password" class="modal-input" id="keyInput" placeholder="sk-or-..." />
     <div class="modal-actions">
       <button class="modal-save" onclick="saveKey()">✅ حفظ وتفعيل</button>
       <button class="modal-cancel" onclick="closeKeyModal()">إلغاء</button>
@@ -337,7 +261,6 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   </div>
 </div>
 
-<!-- DETAIL MODAL -->
 <div class="detail-modal-bg" id="detailModal" onclick="closeDetailModal(event)">
   <div class="detail-modal">
     <div class="dm-header">
@@ -354,101 +277,104 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <div class="toast" id="toast">✅ تم!</div>
 
 <script>
-// ===== CONFIG =====
-const BLOB_BASE = 'https://ds8ubkfeifm6jjwv.public.blob.vercel-storage.com';
-const TOTAL_PARTS = 103;
-
-// Map keywords to QCS Part numbers
-const QCS_MAP = [
-  { keywords: ['subgrade','سابجريد','تربة طبيعية','earthwork','ردم','حفر','دمك','proctor','cbr','atterberg'], parts: [6,7] },
-  { keywords: ['subbase','sub-base','سابيس','طبقة اساسية سفلية'], parts: [7,8] },
-  { keywords: ['base course','بيس كورس','طبقة اساس'], parts: [7,8] },
-  { keywords: ['prime coat','tack coat','بريم كوت','تاك كوت'], parts: [8,9] },
-  { keywords: ['binder','wearing','asphalt','اسفلت','اسفالت','marshall','bitumen','بيتومين','خلطة'], parts: [8,9,10] },
-  { keywords: ['طرق','road','طريق','pavement','رصيف','كيرب','تشطيب طريق'], parts: [6,7,8,9] },
-  { keywords: ['مياه الشرب','water supply','kahramaa','hdpe','ductile iron','pressure test','hydrostatic','chlorination','تعقيم'], parts: [20,21,22] },
-  { keywords: ['صرف صحي','foul sewer','air test','cctv','manhole','غرفة تفتيش','uPVC','انحدار'], parts: [22,23,24] },
-  { keywords: ['صرف سطحي','storm water','gully','تصريف سطحي','outfall'], parts: [24,25] },
-  { keywords: ['مياه معالجة','treated water','reclaimed','بنفسجي','purple'], parts: [25,26] },
-  { keywords: ['مرافق','utilities','شبكة','network','pipe','ماسورة'], parts: [20,21,22,23] },
-  { keywords: ['خرسانة','concrete','mix design','slump','cube','مكعب','curing','صب','دمك خرسانة'], parts: [40,41,42] },
-  { keywords: ['حديد','rebar','reinforcement','تسليح','tensile','bend test','lap','cover'], parts: [40,41] },
-  { keywords: ['اساسات','foundation','خوازيق','piles','pile','raft','strip footing','pad footing'], parts: [42,43,44] },
-  { keywords: ['شدات','formwork','striking','فك الشدة'], parts: [41,42] },
-  { keywords: ['حريق','fire','qcdd','اطفاء','sprinkler','مخرج طوارئ','درج'], parts: [60,61,62] },
-  { keywords: ['جسات','soil investigation','spt','geotechnical','تربة','كبريتات','تحليل تربة'], parts: [2,3,4] },
-  { keywords: ['عزل','insulation','waterproofing','عزل حراري','عزل رطوبي'], parts: [50,51] },
-  { keywords: ['itp','hold point','witness point','inspection','فحص','خطة فحص'], parts: [1,6,20,40] },
-  { keywords: ['تسليم','handover','as-built','dlp','ضمان','ncr','snagging'], parts: [1,2] },
-];
-
-function getRelevantParts(query) {
-  const q = query.toLowerCase();
-  for (const entry of QCS_MAP) {
-    if (entry.keywords.some(k => q.includes(k.toLowerCase()))) {
-      return entry.parts.slice(0, 2); // Max 2 parts
-    }
-  }
-  return [1]; // Default: Part 1 (General)
-}
-
 // ===== STATE =====
-let apiKey = sessionStorage.getItem('orKey') || '';
-let navStack = [];
+let geminiKey = sessionStorage.getItem('openrouterKey') || '';
+let uploadedFiles = [];
 
 // ===== INIT =====
 window.onload = () => {
-  buildPartsGrid();
-  if (apiKey) updateKeyStatus(true);
-  else setTimeout(() => openKeyModal(), 1000);
+  if (geminiKey) updateKeyStatus(true);
+  else setTimeout(() => openKeyModal(), 800);
 };
 
-function buildPartsGrid() {
-  const grid = document.getElementById('qcsPartsGrid');
-  const sample = [1,6,7,8,9,20,21,22,40,41,42,60,61];
-  grid.innerHTML = sample.map(n => `
-    <div class="qcs-part loaded" id="part-${n}">Part ${n}</div>
-  `).join('') + `<div class="qcs-part loaded" style="grid-column:span 2">+ ${TOTAL_PARTS - sample.length} أجزاء أخرى</div>`;
-}
-
 // ===== KEY MANAGEMENT =====
-function openKeyModal() { document.getElementById('keyInput').value = apiKey; document.getElementById('keyModal').classList.add('open'); }
+function openKeyModal() { document.getElementById('keyInput').value = geminiKey; document.getElementById('keyModal').classList.add('open'); }
 function closeKeyModal() { document.getElementById('keyModal').classList.remove('open'); }
 function saveKey() {
   const k = document.getElementById('keyInput').value.trim();
   if (!k || k.length < 20) { showToast('❌ Key غير صحيح'); return; }
-  apiKey = k;
-  sessionStorage.setItem('orKey', k);
+  geminiKey = k;
+  sessionStorage.setItem('openrouterKey', k);
   updateKeyStatus(true);
   closeKeyModal();
-  showToast('✅ تم تفعيل البحث الذكي!');
+  showToast('✅ تم تفعيل AI!');
 }
 function updateKeyStatus(active) {
   document.getElementById('keyDot').className = 'key-dot' + (active ? ' active' : '');
   document.getElementById('keyStatusText').textContent = active ? 'AI مفعّل ✓' : 'إعداد AI';
 }
 
-// ===== FETCH PDF URL =====
-function getPdfUrl(partNum) {
-  return `${BLOB_BASE}/QCS%202024%20Full%20_Part${partNum}.pdf`;
+// ===== FILE UPLOAD =====
+function handleFiles(e) { processFiles(Array.from(e.target.files)); }
+function handleDragOver(e) { e.preventDefault(); document.getElementById('uploadZone').classList.add('drag-over'); }
+function handleDragLeave(e) { document.getElementById('uploadZone').classList.remove('drag-over'); }
+function handleDrop(e) { e.preventDefault(); document.getElementById('uploadZone').classList.remove('drag-over'); processFiles(Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf')); }
+function processFiles(files) {
+  files.forEach(file => {
+    if (file.type !== 'application/pdf') return;
+    const id = Date.now() + Math.random();
+    uploadedFiles.push({ id, file, name: file.name, size: file.size });
+    renderFileItem(id, file.name, file.size, 'loading');
+    setTimeout(() => {
+      document.querySelector(`[data-file-id="${id}"] .file-status`).textContent = 'جاهز ✓';
+      document.querySelector(`[data-file-id="${id}"] .file-status`).className = 'file-status ready';
+      showToast(`✅ تم رفع: ${file.name}`);
+    }, 2000);
+  });
+}
+function renderFileItem(id, name, size, status) {
+  const list = document.getElementById('filesList');
+  const div = document.createElement('div');
+  div.className = 'file-item';
+  div.setAttribute('data-file-id', id);
+  div.innerHTML = `<span class="file-icon">📄</span><div class="file-info"><div class="file-name">${name.length > 30 ? name.slice(0,30)+'...' : name}</div><div class="file-size">${(size/1024/1024).toFixed(1)} MB</div></div><span class="file-status ${status}">${status === 'loading' ? 'جاري الرفع...' : 'جاهز ✓'}</span>`;
+  list.appendChild(div);
 }
 
-// ===== SEARCH =====
-function quickSearch(q) { document.getElementById('searchInput').value = q; doSearch(); }
+// ===== SMART SEARCH — QCS 2024 =====
+const QCS_MAP = [
+  { keywords: ['subgrade','سابجريد','تربة طبيعية','earthwork','ردم','حفر','دمك','proctor','cbr','atterberg'], parts: [6,7] },
+  { keywords: ['subbase','sub-base','سابيس'], parts: [7,8] },
+  { keywords: ['base course','بيس كورس','طبقة اساس'], parts: [7,8] },
+  { keywords: ['prime coat','tack coat','بريم','تاك'], parts: [8,9] },
+  { keywords: ['binder','wearing','asphalt','اسفلت','اسفالت','marshall','bitumen','بيتومين','خلطة'], parts: [8,9,10] },
+  { keywords: ['طرق','road','طريق','pavement'], parts: [6,7,8,9] },
+  { keywords: ['مياه الشرب','water supply','kahramaa','hdpe','pressure test','hydrostatic','chlorination','تعقيم'], parts: [20,21,22] },
+  { keywords: ['صرف صحي','foul sewer','air test','cctv','manhole','انحدار'], parts: [22,23,24] },
+  { keywords: ['صرف سطحي','storm water','gully'], parts: [24,25] },
+  { keywords: ['مياه معالجة','treated water','reclaimed','بنفسجي'], parts: [25,26] },
+  { keywords: ['مرافق','utilities','شبكة','ماسورة'], parts: [20,21,22] },
+  { keywords: ['خرسانة','concrete','mix design','slump','cube','مكعب','curing','صب'], parts: [40,41,42] },
+  { keywords: ['حديد','rebar','reinforcement','تسليح','tensile','lap'], parts: [40,41] },
+  { keywords: ['اساسات','foundation','خوازيق','piles','pile'], parts: [42,43,44] },
+  { keywords: ['حريق','fire','qcdd','اطفاء','sprinkler'], parts: [60,61,62] },
+  { keywords: ['جسات','soil investigation','spt','geotechnical','كبريتات'], parts: [2,3,4] },
+];
 
-function setStep(steps, activeIndex) {
+function getRelevantParts(query) {
+  const q = query.toLowerCase();
+  for (const entry of QCS_MAP) {
+    if (entry.keywords.some(k => q.includes(k.toLowerCase()))) return entry.parts.slice(0,2);
+  }
+  return [1];
+}
+
+function setLoadingSteps(steps, activeIndex) {
   const html = steps.map((s, i) => {
-    const cls = i < activeIndex ? 'done' : i === activeIndex ? 'active' : '';
-    const icon = i < activeIndex ? '✅' : i === activeIndex ? '<div class="spinner"></div>' : '⏳';
-    return `<div class="loading-step ${cls}">${icon} ${s}</div>`;
+    const done = i < activeIndex, active = i === activeIndex;
+    const icon = done ? '✅' : active ? '<div class="spinner" style="width:14px;height:14px;border:2px solid rgba(201,168,76,0.2);border-top:2px solid var(--gold);border-radius:50%;animation:spin .8s linear infinite;display:inline-block;vertical-align:middle;"></div>' : '⏳';
+    const color = done ? '#4CAF50' : active ? 'var(--gold)' : 'var(--text3)';
+    return `<div style="display:flex;align-items:center;gap:8px;font-size:13px;color:${color};margin:4px 0;">${icon} ${s}</div>`;
   }).join('');
-  document.getElementById('aiAnswerText').innerHTML = `<div class="loading-steps">${html}</div>`;
+  document.getElementById('aiAnswerText').innerHTML = `<div style="display:flex;flex-direction:column;gap:2px;">${html}</div>`;
 }
+
+function quickSearch(q) { document.getElementById('searchInput').value = q; doSearch(); }
 
 async function doSearch() {
   const query = document.getElementById('searchInput').value.trim();
   if (!query) return;
-  if (!apiKey) { openKeyModal(); return; }
+  if (!geminiKey) { openKeyModal(); return; }
 
   const box = document.getElementById('aiAnswerBox');
   const textEl = document.getElementById('aiAnswerText');
@@ -456,84 +382,44 @@ async function doSearch() {
   const sourceEl = document.getElementById('aiSource');
 
   box.classList.add('show');
-  box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  box.scrollIntoView({ behavior:'smooth', block:'nearest' });
 
   const steps = [
     'تحديد القسم المناسب من QCS 2024',
     'تحميل ملف QCS من السيرفر',
-    'استخراج النص من الـ PDF',
-    'تحليل المواصفات والإجابة'
+    'تحليل المواصفات بالذكاء الاصطناعي',
+    'تجهيز الإجابة'
   ];
 
-  setStep(steps, 0);
-  sourceEl.textContent = 'QCS 2024 — جاري التحميل...';
+  setLoadingSteps(steps, 0);
+  sourceEl.textContent = 'QCS 2024 — جاري البحث...';
 
   try {
-    // Step 1: Find relevant parts
     const parts = getRelevantParts(query);
-    setStep(steps, 1);
-    sourceEl.textContent = `QCS 2024 — Part ${parts.join(', ')}`;
+    const partNum = parts[0];
+    sourceEl.textContent = `QCS 2024 — Part ${partNum}`;
+    setLoadingSteps(steps, 1);
 
-    // Step 2 & 3: Get PDF URL
-    setStep(steps, 2);
-    const usedPart = parts[0];
-    const pdfUrl = getPdfUrl(usedPart);
-    setStep(steps, 3);
-
-    const systemPrompt = `أنت مهندس متخصص في المواصفات القطرية QCS 2024.
-لديك ملف PDF من الكود القطري الرسمي. أجب على السؤال بالعربية بدقة تامة.
-قواعد الإجابة:
-1. اذكر رقم الصفحة والقسم
-2. اذكر الأرقام والمعايير بدقة
-3. استخدم ** للنقاط المهمة
-4. إذا لم تجد الإجابة قل ذلك صراحة
-5. أجب بالعربية دائماً بأسلوب مهني`;
-
-    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    const response = await fetch('/api/search', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
-        'HTTP-Referer': 'https://qatar-standers.vercel.app',
-        'X-Title': 'QatarSpec Pro'
-      },
-      body: JSON.stringify({
-        model: 'google/gemini-2.0-flash-exp:free',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          {
-            role: 'user',
-            content: [
-              {
-                type: 'text',
-                text: `هذا ملف QCS 2024 Part ${usedPart}. السؤال: ${query}`
-              },
-              {
-                type: 'image_url',
-                image_url: { url: pdfUrl }
-              }
-            ]
-          }
-        ],
-        max_tokens: 2000,
-        temperature: 0.1
-      })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query, apiKey: geminiKey, partNum })
     });
 
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.error?.message || `HTTP ${res.status}`);
+    setLoadingSteps(steps, 2);
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err.error || `خطأ ${response.status}`);
     }
 
-    const data = await res.json();
-    const answer = data.choices?.[0]?.message?.content || 'لم أجد إجابة في هذا القسم.';
+    setLoadingSteps(steps, 3);
+    const data = await response.json();
+    const answer = data.answer || 'لم أجد إجابة.';
 
-    textEl.innerHTML = answer
-      .replace(/\n/g, '<br>')
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-
-    refEl.textContent = `📖 المرجع: QCS 2024 — Part ${usedPart} | راجع المواصفة الأصلية للتأكد`;
-    sourceEl.textContent = `QCS 2024 — Part ${usedPart}`;
+    textEl.innerHTML = answer.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    refEl.textContent = `📖 المرجع: QCS 2024 — Part ${partNum} | راجع المواصفة الأصلية للتأكد`;
+    sourceEl.textContent = `QCS 2024 — Part ${partNum}`;
 
   } catch (err) {
     const msg = err.message || 'خطأ غير معروف';
@@ -543,7 +429,7 @@ async function doSearch() {
     } else if (msg.includes('429')) {
       textEl.innerHTML = '⏳ <strong>تجاوزت حد الطلبات</strong><br>انتظر دقيقة واحدة ثم أعد المحاولة.';
     } else {
-      textEl.innerHTML = `❌ <strong>خطأ:</strong> ${msg}<br><br>تأكد من الاتصال بالإنترنت.`;
+      textEl.innerHTML = `❌ <strong>خطأ:</strong> ${msg}`;
     }
     refEl.textContent = '';
   }
@@ -554,95 +440,79 @@ function copyAnswer() {
   navigator.clipboard.writeText(text).then(() => showToast('✅ تم نسخ الإجابة'));
 }
 
-// ===== TOAST =====
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
+// ===== DETAIL MODALS =====
+const detailData = {
+  structural: { title: '🏛️ الكود الإنشائي القطري', content: `<h3>نظرة عامة</h3><p>الكود الإنشائي القطري QCS-2024 هو المرجع الرسمي لجميع أعمال البناء في قطر.</p><h3>أقسام الكود</h3><table class="dm-table"><tr><th>الفصل</th><th>الموضوع</th><th>الصفحات</th></tr><tr><td>الفصل 1</td><td>أعمال الحفر والردم</td><td>1-89</td></tr><tr><td>الفصل 2</td><td>الأساسات والخوازيق</td><td>90-180</td></tr><tr><td>الفصل 3</td><td>الخرسانة المسلحة</td><td>181-320</td></tr><tr><td>الفصل 4</td><td>الأعمال المعدنية</td><td>321-420</td></tr><tr><td>الفصل 5</td><td>العزل والتشطيبات</td><td>421-560</td></tr></table>` },
+  execution: { title: '⚒️ مراحل تنفيذ المشاريع', content: `<h3>الخطوات الأساسية</h3><table class="dm-table"><tr><th>المرحلة</th><th>الأعمال</th><th>المتطلبات</th></tr><tr><td>1 - الجسات</td><td>اختبارات التربة</td><td>تقرير جيوتكني</td></tr><tr><td>2 - الحفر</td><td>حفر وتدعيم</td><td>موافقة المهندس</td></tr><tr><td>3 - الأساسات</td><td>صب الأساسات</td><td>اختبار العينات</td></tr><tr><td>4 - الهيكل</td><td>الأعمدة والأسقف</td><td>فحص الحديد</td></tr><tr><td>5 - المرافق</td><td>الكهرباء والسباكة</td><td>رسومات معتمدة</td></tr><tr><td>6 - التشطيب</td><td>جميع التشطيبات</td><td>شهادات المواد</td></tr></table>` },
+  materials: { title: '🧱 مواد البناء والمنتجات', content: `<h3>المواصفات الأساسية</h3><table class="dm-table"><tr><th>المادة</th><th>المعيار</th><th>الملاحظة</th></tr><tr><td>الأسمنت</td><td>BS EN 197-1</td><td>مقاوم للكبريتات</td></tr><tr><td>الحديد</td><td>BS 4449</td><td>درجة 500B</td></tr><tr><td>الخرسانة</td><td>QCS-2024</td><td>نسبة ماء/أسمنت ≤ 0.45</td></tr><tr><td>الطوب</td><td>BS EN 771</td><td>مقاومة ≥ 7 N/mm²</td></tr></table>` },
+  testing: { title: '🔬 الاختبارات والفحص', content: `<h3>اختبارات إلزامية</h3><p>• <strong>SPT:</strong> Standard Penetration Test للتربة</p><p>• <strong>قوة الخرسانة:</strong> مكعبات 150×150 عند 7 و 28 يوم</p><p>• <strong>الحديد:</strong> شد وانحناء لكل دفعة</p><p>• <strong>الكبريتات والكلوريدات:</strong> في التربة والمياه</p><h3>عدد الجسات</h3><p>• جسة واحدة لكل 500 م² كحد أدنى</p><p>• عمق يتجاوز مستوى التأثير بـ 5 متر</p>` },
+  fire: { title: '🔥 الحريق والسلامة — QCDD', content: `<h3>المتطلبات الأساسية</h3><p>• كاشفات دخان في كل غرفة</p><p>• رشاشات مياه للمباني فوق 4 طوابق</p><p>• مخارج طوارئ كل 30 متر</p><p>• عرض درج الإخلاء: 1.2 متر كحد أدنى</p><h3>مقاومة الحريق</h3><table class="dm-table"><tr><th>العنصر</th><th>تجاري</th><th>سكني</th></tr><tr><td>الأعمدة</td><td>3 ساعات</td><td>2 ساعة</td></tr><tr><td>الأسقف</td><td>2 ساعة</td><td>ساعة</td></tr><tr><td>الجدران الفاصلة</td><td>2 ساعة</td><td>ساعة</td></tr></table>` },
+  roads: { title: '🛣️ أعمال الطرق — QCS 2024', content: `<h3>📌 اختر الطبقة للتفاصيل الكاملة</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;"><div onclick="openDetail('subgrade')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🏔️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subgrade</div></div><div onclick="openDetail('subbase')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🪨</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subbase</div></div><div onclick="openDetail('base')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧱</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Base Course</div></div><div onclick="openDetail('prime')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🛢️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Prime Coat</div></div><div onclick="openDetail('binder')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">⚫</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Binder Course</div></div><div onclick="openDetail('wearing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🛣️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Wearing Course</div></div><div onclick="openDetail('finishing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🚧</div><div style="color:var(--gold);font-weight:700;font-size:13px;">التشطيبات</div></div><div onclick="openDetail('handover')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">✅</div><div style="color:var(--gold);font-weight:700;font-size:13px;">التسليم</div></div></div><div style="margin-top:16px;"><div onclick="openDetail('road_itps')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;"><div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">Road ITPs</div></div></div>` },
+  subgrade: { title: '🏔️ Subgrade — طبقة التربة الطبيعية', content: `<h3>📐 المواصفات</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>الدمك</td><td>≥ 95% MDD (Standard Proctor)</td></tr><tr><td>CBR</td><td>≥ 8% (Soaked 4 days)</td></tr><tr><td>سماكة كل طبقة ردم</td><td>≤ 200mm قبل الدمك</td></tr><tr><td>نسبة الرطوبة</td><td>OMC ± 2%</td></tr><tr><td>المنسوب</td><td>± 10mm من التصميم</td></tr></table><h3>🧪 الاختبارات</h3><table class="dm-table"><tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr><tr><td>Standard Proctor</td><td>كل تغيير مادة</td><td>MDD و OMC</td></tr><tr><td>Sand Cone</td><td>كل 500m²</td><td>≥ 95% MDD</td></tr><tr><td>CBR Soaked</td><td>كل 2000m²</td><td>≥ 8%</td></tr><tr><td>Atterberg Limits</td><td>كل تغيير مادة</td><td>LL ≤35% PI ≤10%</td></tr><tr><td>Sulphate Content</td><td>كل 500m³</td><td>≤ 0.5%</td></tr><tr><td>Level Survey</td><td>كل 25m</td><td>± 10mm</td></tr></table><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-01:</strong> اعتماد مصدر مواد الردم قبل الاستخدام<br>• <strong>HP-02:</strong> اعتماد نتائج Subgrade قبل البدء في Subbase</p>` },
+  subbase: { title: '🪨 Subbase — الطبقة الأساسية السفلية', content: `<h3>📐 المواصفات</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>السماكة</td><td>150-300mm</td></tr><tr><td>الدمك</td><td>≥ 98% MDD</td></tr><tr><td>CBR</td><td>≥ 30% (Soaked)</td></tr><tr><td>Plasticity Index</td><td>≤ 6%</td></tr><tr><td>LA Abrasion</td><td>≤ 30%</td></tr><tr><td>Sand Equivalent</td><td>≥ 30%</td></tr><tr><td>Sulphate Content</td><td>≤ 0.5%</td></tr></table><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-03:</strong> اعتماد Subbase قبل البدء في Base Course</p>` },
+  base: { title: '🧱 Base Course — طبقة الأساس', content: `<h3>📐 المواصفات</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>السماكة</td><td>150-250mm</td></tr><tr><td>الدمك</td><td>≥ 98% MDD</td></tr><tr><td>CBR</td><td>≥ 80% (Soaked)</td></tr><tr><td>LA Abrasion</td><td>≤ 25%</td></tr><tr><td>Flakiness Index</td><td>≤ 25%</td></tr><tr><td>Plasticity Index</td><td>≤ 4%</td></tr></table><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-04:</strong> اعتماد Base Course قبل أعمال الإسفلت</p>` },
+  prime: { title: '🛢️ Prime Coat', content: `<h3>📐 المواصفات</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>معدل الرش</td><td>0.8 - 1.2 L/m²</td></tr><tr><td>نوع المادة</td><td>Cutback Bitumen MC-30 أو MC-70</td></tr><tr><td>درجة التطبيق</td><td>50-80°C</td></tr><tr><td>وقت الجفاف</td><td>24-48 ساعة</td></tr></table><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-05:</strong> اعتماد Prime Coat قبل Binder Course</p>` },
+  binder: { title: '⚫ Binder Course', content: `<h3>📐 المواصفات</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>السماكة</td><td>60-80mm</td></tr><tr><td>الدمك</td><td>≥ 98% TMD</td></tr><tr><td>نسبة البيتومين</td><td>4.5-6.0%</td></tr><tr><td>Marshall Stability</td><td>≥ 8 kN</td></tr><tr><td>Flow</td><td>2-4 mm</td></tr><tr><td>Air Voids</td><td>3-5%</td></tr><tr><td>درجة الفرش</td><td>≥ 140°C</td></tr></table><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-06:</strong> اعتماد Mix Design قبل الإنتاج<br>• <strong>HP-07:</strong> اعتماد Binder Course قبل Wearing Course</p>` },
+  wearing: { title: '🛣️ Wearing Course', content: `<h3>📐 المواصفات</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>السماكة</td><td>40-50mm</td></tr><tr><td>الدمك</td><td>≥ 98% TMD</td></tr><tr><td>نسبة البيتومين</td><td>5.0-6.5%</td></tr><tr><td>Marshall Stability</td><td>≥ 8 kN</td></tr><tr><td>Straightedge 3m</td><td>≤ 5mm</td></tr><tr><td>Crossfall</td><td>2-3%</td></tr><tr><td>Skid Resistance</td><td>≥ 55 PSV</td></tr></table><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-08:</strong> الفحص النهائي الكامل قبل التسليم</p>` },
+  finishing: { title: '🚧 التشطيبات النهائية', content: `<h3>🎨 Road Markings</h3><table class="dm-table"><tr><th>البند</th><th>المواصفة</th></tr><tr><td>نوع الدهان</td><td>Thermoplastic Paint</td></tr><tr><td>السماكة</td><td>≥ 3mm</td></tr><tr><td>Retroreflectivity</td><td>≥ 150 mcd/m²/lux</td></tr><tr><td>Road Studs</td><td>Cat Eyes كل 10m</td></tr></table><h3>🏗️ Kerbs</h3><p>• مقاومة الخرسانة ≥ 40 MPa<br>• Bedding Mortar 1:3<br>• Haunching خلف الكيرب</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-09:</strong> اعتماد Road Markings قبل فتح الطريق</p>` },
+  handover: { title: '✅ التسليم النهائي', content: `<h3>📋 متطلبات التسليم</h3><table class="dm-table"><tr><th>الوثيقة</th><th>المحتوى</th></tr><tr><td>As-Built Drawings</td><td>مخططات منفذة معتمدة</td></tr><tr><td>Test Results</td><td>كل نتائج الاختبارات</td></tr><tr><td>Material Certificates</td><td>شهادات كل المواد</td></tr><tr><td>ITR Register</td><td>كل طلبات التفتيش</td></tr><tr><td>NCR Log</td><td>Non-Conformance Reports</td></tr><tr><td>O&M Manuals</td><td>دليل التشغيل والصيانة</td></tr></table><h3>🛡️ فترة الضمان</h3><p>• مدة الضمان: <strong>12 شهر</strong> من تاريخ التسليم<br>• HP-10: موافقة المهندس الاستشاري<br>• HP-11: موافقة Ashghal / MMUP</p>` },
+  road_itps: { title: '📋 Road ITPs', content: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;"><div onclick="openDetail('itp_subgrade')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🏔️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Subgrade</div></div><div onclick="openDetail('itp_subbase')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🪨</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Subbase</div></div><div onclick="openDetail('itp_base')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧱</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Base Course</div></div><div onclick="openDetail('itp_primecoat')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🛢️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Prime & Tack</div></div><div onclick="openDetail('itp_wearing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">⚫</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Binder & Wearing</div></div><div onclick="openDetail('itp_asphalt')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔬</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Asphalt Testing</div></div></div>` },
+  utilities: { title: '🔧 المرافق — شبكات المياه والصرف', content: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;"><div onclick="openDetail('water_supply_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:24px">💧</div><div style="color:var(--gold);font-weight:700;font-size:13px;">شبكة مياه الشرب</div></div><div onclick="openDetail('sewer_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:24px">🚽</div><div style="color:var(--gold);font-weight:700;font-size:13px;">شبكة الصرف الصحي</div></div><div onclick="openDetail('storm_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:24px">🌧️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">شبكة الصرف السطحي</div></div><div onclick="openDetail('treated_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:24px">♻️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">شبكة المياه المعالجة</div></div></div>` },
+  water_supply_stages: { title: '💧 شبكة مياه الشرب', content: `<h3>📐 المواصفات العامة</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>نوع المواسير</td><td>HDPE / DI / uPVC</td></tr><tr><td>الضغط التصميمي</td><td>10-16 bar</td></tr><tr><td>عمق الدفن</td><td>≥ 1.0m من سطح الطريق</td></tr><tr><td>Bedding</td><td>رمل مدكوك 150mm تحت وجانب</td></tr><tr><td>Marker Tape</td><td>أصفر — "WATER MAIN" على عمق 300mm</td></tr></table><h3>🧪 الاختبارات</h3><p>• Hydrostatic Pressure Test: 1.5x الضغط / ساعتين / صفر انخفاض<br>• Chlorination: 50 ppm / 24hr قبل التشغيل<br>• Total Coliform: صفر / 100ml</p><h3>🔴 نقاط التوقف</h3><p>• HP-03: Pressure Test قبل الردم<br>• HP-04: Water Quality قبل التشغيل</p>` },
+  sewer_stages: { title: '🚽 شبكة الصرف الصحي', content: `<h3>📐 المواصفات العامة</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>نوع المواسير</td><td>uPVC / GRP / HDPE</td></tr><tr><td>الانحدار الأدنى</td><td>1:100 (DN150) / 1:150 (DN225+)</td></tr><tr><td>عمق الدفن</td><td>≥ 1.2m من سطح الطريق</td></tr><tr><td>أقصى مسافة بين Manholes</td><td>90m للمواسير ≤ 300mm</td></tr></table><h3>🧪 الاختبارات</h3><p>• Air Test: 100mm WG | انخفاض ≤ 25mm / 5 دقائق<br>• CCTV Inspection: 100% كل المواسير | Grade ≤ 2</p><h3>🔴 نقاط التوقف</h3><p>• HP-03: Air Test قبل الردم<br>• HP-04: CCTV قبل التسليم</p>` },
+  storm_stages: { title: '🌧️ شبكة الصرف السطحي', content: `<h3>📐 المواصفات</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>الانحدار الأدنى</td><td>1:200</td></tr><tr><td>Gully Spacing</td><td>كل 25-40m حسب الانحدار</td></tr><tr><td>Gully Grating</td><td>D400 في الطرق</td></tr></table><h3>⚠️ تنبيه</h3><p>عدم توصيل الصرف الصحي بشبكة السطحي — مخالفة قانونية</p>` },
+  treated_stages: { title: '♻️ شبكة المياه المعالجة', content: `<h3>⛔ تحذير خطير</h3><p>المياه المعالجة غير صالحة للشرب<br>Cross Connection مع مياه الشرب = كارثة صحية</p><h3>📐 المواصفات</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>اللون</td><td>بنفسجي — إلزامي بدون استثناء</td></tr><tr><td>Marker Tape</td><td>بنفسجي — "RECLAIMED WATER"</td></tr><tr><td>الفصل عن مياه الشرب</td><td>≥ 1.0m أفقياً</td></tr><tr><td>Double Check Valve</td><td>عند كل نقطة اتصال</td></tr></table>` },
+  itp_subgrade: { title: '📋 ITP — Subgrade', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 2</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>Standard Proctor</td><td>ASTM D698</td><td>تحديد MDD و OMC</td><td>كل تغيير مادة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.2</td><td>CBR Soaked 4 days</td><td>ASTM D1883</td><td>≥ 8%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.3</td><td>Atterberg Limits</td><td>ASTM D4318</td><td>LL ≤ 35% | PI ≤ 10%</td><td>كل تغيير مادة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 95% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr><tr><td>3.2</td><td>Level Survey</td><td>Design Drawing</td><td>± 10mm</td><td>كل 25m</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Survey Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness Point | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
+  itp_subbase: { title: '📋 ITP — Subbase', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 3</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>CBR Soaked</td><td>ASTM D1883</td><td>≥ 30%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.2</td><td>Plasticity Index</td><td>ASTM D4318</td><td>≤ 6%</td><td>كل 500m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 98% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
+  itp_base: { title: '📋 ITP — Base Course', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 3</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>CBR Soaked</td><td>ASTM D1883</td><td>≥ 80%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.2</td><td>LA Abrasion</td><td>ASTM C131</td><td>≤ 25%</td><td>كل 1000m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 98% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr><tr><td>3.2</td><td>Plate Load Test</td><td>BS 1377 Part 9</td><td>حسب التصميم</td><td>كل 2000m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
+  itp_primecoat: { title: '📋 ITP — Prime Coat & Tack Coat', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 5 Cl.5.4</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>Prime Coat Material</td><td>S.6 P.5 Cl.5.4</td><td>شهادة المصنع + مطابقة المواصفة</td><td>كل دفعة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Certificate</td></tr><tr><td>3.1</td><td>Prime Coat Application Rate</td><td>S.6 P.5</td><td>0.8 - 1.2 L/m²</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Application Record</td></tr><tr><td>3.2</td><td>Tack Coat Rate</td><td>S.6 P.5</td><td>Binder: 0.3-0.5 | Wearing: 0.2-0.4 L/m²</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Application Record</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
+  itp_wearing: { title: '📋 ITP — Binder & Wearing Course', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 5</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>Plant Calibration</td><td>S.6 P.5</td><td>معايرة المحطة قبل الإنتاج</td><td>كل موسم</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Calibration Certificate</td></tr><tr><td>3.1</td><td>Delivery Temperature</td><td>S.6 P.5</td><td>≥ 140°C</td><td>كل حمولة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Temperature Log</td></tr><tr><td>4.1</td><td>Core Sample Density</td><td>BS EN 12697-6</td><td>≥ 98% TMD</td><td>كل 1000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Core Report</td></tr><tr><td>4.2</td><td>Straightedge 3m</td><td>S.6 P.5</td><td>≤ 5mm</td><td>كل 100m</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Inspection Record</td></tr><tr><td>4.3</td><td>Skid Resistance</td><td>S.6 P.5</td><td>≥ 55 PSV</td><td>كل 500m</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
+  itp_asphalt: { title: '📋 ITP — Asphalt Testing', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 5</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th></tr><tr><td>2.1</td><td>Bitumen Pen 60-70</td><td>Table 5.4</td><td>Penetration 60-70 | SP ≥46°C | Ductility ≥100cm</td><td>كل 75 طن</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr><tr><td>2.2</td><td>Marshall Test</td><td>Table 5.8</td><td>Stability ≥9.5kN | Flow 2-4mm | Va 3-8%</td><td>يومياً + كل 300 طن</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr><tr><td>2.3</td><td>Extraction & Gradation</td><td>Table 5.7</td><td>حسب JMF ± tolerance</td><td>كل 200 طن</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
+  itp_water_supply: { title: '📋 ITP — شبكة مياه الشرب', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 8 Part 1 | KAHRAMAA Standards</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th></tr><tr><td>1.1</td><td>Material Approval</td><td>ISO Certificate قبل التوريد</td><td>كل دفعة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td></tr><tr><td>3.1</td><td>Trench Depth & Width</td><td>≥ 1.0m | OD + 600mm</td><td>كل 50m</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td></tr><tr><td>5.1</td><td>Hydrostatic Pressure Test</td><td>1.5x / ساعتان / صفر انخفاض</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td></tr><tr><td>6.2</td><td>Bacteriological Test</td><td>Total Coliform = 0 / 100ml</td><td>كل Section</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
+  itp_sewer: { title: '📋 ITP — شبكة الصرف الصحي', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 8 Part 2 | Ashghal Standards</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th></tr><tr><td>1.1</td><td>Material Approval</td><td>ISO Certificate قبل التوريد</td><td>كل دفعة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td></tr><tr><td>2.2</td><td>Bedding Gradient</td><td>حسب التصميم ± 3mm</td><td>كل 25m</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td></tr><tr><td>5.1</td><td>Air Test</td><td>100mm WG — انخفاض ≤ 25mm / 5 دقائق</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td></tr><tr><td>5.2</td><td>CCTV Inspection</td><td>100% — Grade ≤ 2</td><td>100% قبل التسليم</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>` }
+};
 
-// ===== NAV =====
+let navStack = [];
+
 function openDetail(key) {
   const d = detailData[key];
   if (!d) return;
   const modal = document.getElementById('detailModal');
   if (modal.classList.contains('open')) {
-    const cur = modal.dataset.currentKey;
-    if (cur && cur !== key) navStack.push(cur);
+    const currentKey = modal.dataset.currentKey;
+    if (currentKey && currentKey !== key) navStack.push(currentKey);
   } else { navStack = []; }
   modal.dataset.currentKey = key;
   document.getElementById('dmTitle').textContent = d.title;
   document.getElementById('dmContent').innerHTML = d.content;
-  const btn = document.getElementById('dmBackBtn');
-  if (btn) btn.style.display = navStack.length > 0 ? 'flex' : 'none';
+  const backBtn = document.getElementById('dmBackBtn');
+  if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
   modal.classList.add('open');
 }
+
 function goBack() {
-  if (!navStack.length) return;
-  const prev = navStack.pop();
-  const d = detailData[prev];
+  if (navStack.length === 0) return;
+  const prevKey = navStack.pop();
+  const d = detailData[prevKey];
   if (!d) return;
   const modal = document.getElementById('detailModal');
-  modal.dataset.currentKey = prev;
+  modal.dataset.currentKey = prevKey;
   document.getElementById('dmTitle').textContent = d.title;
   document.getElementById('dmContent').innerHTML = d.content;
-  const btn = document.getElementById('dmBackBtn');
-  if (btn) btn.style.display = navStack.length > 0 ? 'flex' : 'none';
+  const backBtn = document.getElementById('dmBackBtn');
+  if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
 }
+
 function closeDetailModal(e) {
   if (e.target === document.getElementById('detailModal'))
     document.getElementById('detailModal').classList.remove('open');
 }
 
-// ===== DETAIL DATA =====
-const detailData = {
-  structural: {
-    title: '🏛️ الكود الإنشائي',
-    content: `
-      <h3>📌 اختر القسم للتفاصيل</h3>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
-        <div onclick="openDetail('concrete_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:24px">🔵</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الخرسانة المسلحة</div></div>
-        <div onclick="openDetail('rebar_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:24px">🔴</div><div style="color:var(--gold);font-weight:700;font-size:13px;">حديد التسليح</div></div>
-        <div onclick="openDetail('foundation_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:24px">🟡</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الأساسات والخوازيق</div></div>
-        <div onclick="openDetail('formwork_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:24px">🟤</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الشدات الخشبية</div></div>
-      </div>
-      <div onclick="openDetail('structural_itps')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;"><div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">ITPs الإنشائية</div></div>
-    `
-  },
-  concrete_stages: { title: '🔵 الخرسانة المسلحة', content: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;"><div onclick="openDetail('conc_materials')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧱</div><div style="color:var(--gold);font-weight:700;font-size:13px;">المواد والخلطة</div></div><div onclick="openDetail('conc_placing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🏗️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الصب والدمك</div></div><div onclick="openDetail('conc_curing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">💧</div><div style="color:var(--gold);font-weight:700;font-size:13px;">المعالجة</div></div><div onclick="openDetail('conc_testing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧪</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الاختبارات</div></div></div><div onclick="openDetail('itp_concrete')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;"><div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">ITP الخرسانة</div></div>` },
-  conc_materials: { title: '🧱 الخرسانة — المواد والخلطة', content: `<h3>📐 درجات الخرسانة — QCS 2024</h3><table class="dm-table"><tr><th>الاستخدام</th><th>الدرجة</th><th>fcu</th><th>w/c</th></tr><tr><td>عادل النظافة</td><td>C15</td><td>15 N/mm²</td><td>≤ 0.65</td></tr><tr><td>أساسات عادية</td><td>C25</td><td>25 N/mm²</td><td>≤ 0.55</td></tr><tr><td>أعمدة وأسقف</td><td>C30</td><td>30 N/mm²</td><td>≤ 0.50</td></tr><tr><td>بيئة كبريتات</td><td>C35</td><td>35 N/mm²</td><td>≤ 0.45</td></tr><tr><td>مناطق بحرية</td><td>C40</td><td>40 N/mm²</td><td>≤ 0.40</td></tr></table><h3>📐 المواد</h3><p>• الأسمنت: BS EN 197-1 | SRPC إلزامي للأساسات في قطر<br>• Chloride في الركام ≤ 0.04%<br>• Sulphate ≤ 4% SO3<br>• Slump: 75-100mm عادي | 100-150mm بمضخة</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-01:</strong> اعتماد Mix Design قبل أي صب</p>` },
-  conc_placing: { title: '🏗️ الخرسانة — الصب والدمك', content: `<h3>📐 Cover للحديد — QCS 2024</h3><table class="dm-table"><tr><th>العنصر</th><th>Cover عادي</th><th>Cover بيئة عدوانية</th></tr><tr><td>أساسات</td><td>75mm</td><td>75mm</td></tr><tr><td>أعمدة خارجية</td><td>40mm</td><td>50mm</td></tr><tr><td>أعمدة داخلية</td><td>25mm</td><td>40mm</td></tr><tr><td>أسقف خارجية</td><td>40mm</td><td>50mm</td></tr><tr><td>أسقف داخلية</td><td>20mm</td><td>35mm</td></tr></table><h3>📐 الصب</h3><p>• ارتفاع الصب ≤ 1.5m<br>• سماكة الطبقة ≤ 400mm<br>• Poker Vibrator كل 400-500mm | 5-15 ثانية<br>• درجة حرارة الخرسانة ≤ 32°C</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-05:</strong> اعتماد الشدة والحديد قبل الصب — إلزامي</p>` },
-  conc_curing: { title: '💧 الخرسانة — المعالجة', content: `<h3>📐 متطلبات المعالجة</h3><table class="dm-table"><tr><th>النوع</th><th>المدة</th></tr><tr><td>OPC عادي</td><td>≥ 7 أيام</td></tr><tr><td>SRPC</td><td>≥ 10 أيام</td></tr><tr><td>بيئة عدوانية</td><td>≥ 14 يوم</td></tr></table><h3>⚠️ في قطر — الطقس الحار</h3><p>• ابدأ المعالجة فوراً بعد الصب<br>• حماية من الشمس والرياح<br>• رش أكثر في الصيف كل ساعة<br>• درجة حرارة ≥ 40°C = وقف الصب</p>` },
-  conc_testing: { title: '🧪 الخرسانة — الاختبارات', content: `<h3>1. Slump Test</h3><p>• كل 50m³ | ±25mm من المصمم | رفض > 175mm</p><h3>2. Cube Test — BS EN 12390</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>العدد</td><td>3 مكعبات / 50m³</td></tr><tr><td>7 أيام</td><td>≥ 70% fcu</td></tr><tr><td>28 يوم</td><td>≥ 100% fcu</td></tr></table><h3>3. Core Test</h3><p>• عند فشل مكعبات 28 يوم<br>• معيار القبول ≥ 85% fcu</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-07:</strong> نتائج 28 يوم قبل فك الشدة</p>` },
-  itp_concrete: { title: '📋 ITP — الخرسانة المسلحة', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2024 — Section 5 | BS EN 206</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th></tr><tr><td>1.1</td><td>Mix Design Approval</td><td>معتمد قبل أي صب</td><td>كل Mix</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td></tr><tr><td>2.1</td><td>Formwork Inspection</td><td>سليمة — مدعومة — نظيفة</td><td>قبل كل صب</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td></tr><tr><td>2.2</td><td>Reinforcement Inspection</td><td>Cover صح — Laps صح — نظيف</td><td>قبل كل صب</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td></tr><tr><td>3.1</td><td>Slump Test</td><td>±25mm من المصمم</td><td>كل 50m³</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td></tr><tr><td>3.2</td><td>Temperature Check</td><td>≤ 32°C</td><td>كل حمولة</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr><tr><td>3.3</td><td>Cube Sampling</td><td>3 مكعبات / 50m³</td><td>كل 50m³</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr><tr><td>4.3</td><td>Cube Test — 28 Days</td><td>≥ 100% fcu</td><td>كل Set</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness Point | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
-  rebar_stages: { title: '🔴 حديد التسليح', content: `<h3>📐 المواصفات الأساسية — BS 4449</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>الدرجة</td><td>Grade 500B</td></tr><tr><td>fy الخضوع</td><td>≥ 500 N/mm²</td></tr><tr><td>fu الشد</td><td>≥ 600 N/mm²</td></tr><tr><td>fu/fy</td><td>≥ 1.15</td></tr><tr><td>الاستطالة</td><td>≥ 14%</td></tr></table><h3>📐 أطوال الوصلات</h3><p>• شد: 40d | 50d في بيئة عدوانية<br>• ضغط: 30d<br>• لا وصلات في مناطق الإجهاد الأقصى</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-02:</strong> نتائج Tensile + Bend قبل استخدام أي دفعة</p>` },
-  foundation_stages: { title: '🟡 الأساسات والخوازيق', content: `<h3>📐 Bored Piles — المواصفات</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>الخرسانة</td><td>C35 SRPC — w/c ≤ 0.45</td></tr><tr><td>Slump</td><td>175-225mm</td></tr><tr><td>Cover</td><td>75mm</td></tr><tr><td>Tremie Pipe</td><td>إلزامي — لا صب من الأعلى</td></tr></table><h3>📐 اختبارات الخوازيق</h3><table class="dm-table"><tr><th>الاختبار</th><th>النسبة</th><th>المعيار</th></tr><tr><td>Integrity Test (PIT)</td><td>100%</td><td>بدون انكسار</td></tr><tr><td>PDA Dynamic</td><td>10%</td><td>تحمل ≥ التصميمي</td></tr><tr><td>Static Load Test</td><td>1-2%</td><td>2x التحمل التصميمي</td></tr></table><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-05:</strong> اعتماد PIT قبل صب الـ Pile Cap</p>` },
-  formwork_stages: { title: '🟤 الشدات الخشبية', content: `<h3>📐 فك الشدة — Striking Times</h3><table class="dm-table"><tr><th>العنصر</th><th>الوقت الأدنى</th></tr><tr><td>جوانب الأعمدة</td><td>12-24 ساعة</td></tr><tr><td>أسفل الجسور (بدعم)</td><td>7 أيام</td></tr><tr><td>أسفل الأسقف ≤ 5m</td><td>14 يوم</td></tr><tr><td>أسفل الأسقف > 5m</td><td>21 يوم</td></tr><tr><td>الكابولي</td><td>21 يوم</td></tr></table><h3>⚠️ تنبيهات</h3><p>• لا فك قبل اعتماد نتائج 7 أيام<br>• Re-propping عند صب الطابق الجديد فوق</p><h3>🔴 نقاط التوقف</h3><p>• <strong>HP-01:</strong> اعتماد الشدة من المهندس قبل أي صب</p>` },
-  structural_itps: { title: '📋 ITPs الإنشائية', content: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;"><div onclick="openDetail('itp_concrete')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔵</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP الخرسانة</div></div><div onclick="openDetail('rebar_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔴</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP الحديد</div></div><div onclick="openDetail('foundation_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🟡</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP الأساسات</div></div><div onclick="openDetail('formwork_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🟤</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الشدات</div></div></div>` },
-  roads: { title: '🛣️ أعمال الطرق — QCS 2024', content: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;"><div onclick="openDetail('subgrade')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🏔️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subgrade</div></div><div onclick="openDetail('subbase')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🪨</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subbase</div></div><div onclick="openDetail('base')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧱</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Base Course</div></div><div onclick="openDetail('prime')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🛢️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Prime Coat</div></div><div onclick="openDetail('binder')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">⚫</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Binder Course</div></div><div onclick="openDetail('wearing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🛣️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Wearing Course</div></div><div onclick="openDetail('finishing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🚧</div><div style="color:var(--gold);font-weight:700;font-size:13px;">التشطيبات</div></div><div onclick="openDetail('handover')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">✅</div><div style="color:var(--gold);font-weight:700;font-size:13px;">التسليم</div></div></div><div onclick="openDetail('road_itps')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;"><div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">Road ITPs</div></div>` },
-  subgrade: { title: '🏔️ Subgrade', content: `<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>الدمك</td><td>≥ 95% MDD (Standard Proctor)</td></tr><tr><td>CBR Soaked</td><td>≥ 8%</td></tr><tr><td>سماكة الطبقة</td><td>≤ 200mm قبل الدمك</td></tr><tr><td>نسبة الرطوبة</td><td>OMC ± 2%</td></tr><tr><td>المنسوب</td><td>± 10mm من التصميم</td></tr><tr><td>Sulphate</td><td>≤ 0.5%</td></tr></table><h3>🧪 الاختبارات</h3><table class="dm-table"><tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr><tr><td>Sand Cone</td><td>كل 500m²</td><td>≥ 95% MDD</td></tr><tr><td>CBR Soaked</td><td>كل 2000m²</td><td>≥ 8%</td></tr><tr><td>Level Survey</td><td>كل 25m</td><td>± 10mm</td></tr></table><h3>🔴 HP-02:</h3><p>اعتماد Subgrade قبل البدء في Subbase</p>` },
-  subbase: { title: '🪨 Subbase', content: `<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>السماكة</td><td>150-300mm</td></tr><tr><td>الدمك</td><td>≥ 98% MDD</td></tr><tr><td>CBR</td><td>≥ 30%</td></tr><tr><td>Plasticity Index</td><td>≤ 6%</td></tr><tr><td>LA Abrasion</td><td>≤ 30%</td></tr></table><h3>🔴 HP-03:</h3><p>اعتماد Subbase قبل Base Course</p>` },
-  base: { title: '🧱 Base Course', content: `<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>السماكة</td><td>150-250mm</td></tr><tr><td>الدمك</td><td>≥ 98% MDD</td></tr><tr><td>CBR</td><td>≥ 80%</td></tr><tr><td>LA Abrasion</td><td>≤ 25%</td></tr><tr><td>Plasticity Index</td><td>≤ 4%</td></tr></table><h3>🔴 HP-04:</h3><p>اعتماد Base Course قبل أعمال الإسفلت</p>` },
-  prime: { title: '🛢️ Prime Coat', content: `<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>معدل الرش</td><td>0.8 - 1.2 L/m²</td></tr><tr><td>المادة</td><td>MC-30 أو MC-70</td></tr><tr><td>درجة التطبيق</td><td>50-80°C</td></tr><tr><td>وقت الجفاف</td><td>24-48 ساعة</td></tr></table><h3>🔴 HP-05:</h3><p>اعتماد Prime Coat قبل Binder Course</p>` },
-  binder: { title: '⚫ Binder Course', content: `<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>السماكة</td><td>60-80mm</td></tr><tr><td>الدمك</td><td>≥ 98% TMD</td></tr><tr><td>نسبة البيتومين</td><td>4.5-6.0%</td></tr><tr><td>Marshall Stability</td><td>≥ 8 kN</td></tr><tr><td>Flow</td><td>2-4 mm</td></tr><tr><td>Air Voids</td><td>3-5%</td></tr><tr><td>درجة الفرش</td><td>≥ 140°C</td></tr></table><h3>🔴 HP-07:</h3><p>اعتماد Binder Course قبل Wearing Course</p>` },
-  wearing: { title: '🛣️ Wearing Course', content: `<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>السماكة</td><td>40-50mm</td></tr><tr><td>الدمك</td><td>≥ 98% TMD</td></tr><tr><td>Straightedge 3m</td><td>≤ 5mm</td></tr><tr><td>Crossfall</td><td>2-3%</td></tr><tr><td>Skid Resistance</td><td>≥ 55 PSV</td></tr></table><h3>🔴 HP-08:</h3><p>الفحص النهائي الكامل قبل التسليم</p>` },
-  finishing: { title: '🚧 التشطيبات النهائية', content: `<h3>Road Markings</h3><p>• Thermoplastic Paint | سماكة ≥ 3mm<br>• Retroreflectivity ≥ 150 mcd/m²/lux<br>• Road Studs كل 10m</p><h3>Kerbs</h3><p>• خرسانة ≥ 40 MPa | Bedding Mortar 1:3</p><h3>🔴 HP-09:</h3><p>اعتماد Road Markings قبل فتح الطريق</p>` },
-  handover: { title: '✅ التسليم النهائي', content: `<table class="dm-table"><tr><th>الوثيقة</th><th>المحتوى</th></tr><tr><td>As-Built Drawings</td><td>مخططات منفذة معتمدة</td></tr><tr><td>Test Results</td><td>كل نتائج الاختبارات</td></tr><tr><td>Material Certificates</td><td>شهادات كل المواد</td></tr><tr><td>ITR Register</td><td>كل طلبات التفتيش</td></tr><tr><td>NCR Log</td><td>Non-Conformance Reports</td></tr></table><h3>🛡️ الضمان</h3><p>• <strong>12 شهر</strong> من تاريخ التسليم<br>• HP-10: موافقة Ashghal / MMUP على الاستلام</p>` },
-  road_itps: { title: '📋 Road ITPs', content: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;"><div onclick="openDetail('itp_subgrade')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🏔️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Subgrade</div></div><div onclick="openDetail('itp_subbase')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🪨</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Subbase</div></div><div onclick="openDetail('itp_base')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧱</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Base Course</div></div><div onclick="openDetail('itp_wearing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">⚫</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Binder & Wearing</div></div></div>` },
-  itp_subgrade: { title: '📋 ITP — Subgrade', content: `<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المعيار</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th></tr><tr><td>2.1</td><td>Standard Proctor</td><td>MDD و OMC</td><td>كل تغيير مادة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr><tr><td>2.2</td><td>CBR Soaked 4 days</td><td>≥ 8%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>≥ 95% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td></tr><tr><td>3.2</td><td>Level Survey</td><td>± 10mm</td><td>كل 25m</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
-  itp_subbase: { title: '📋 ITP — Subbase', content: `<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المعيار</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th></tr><tr><td>2.1</td><td>CBR Soaked</td><td>≥ 30%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr><tr><td>2.2</td><td>Plasticity Index</td><td>≤ 6%</td><td>كل 500m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>≥ 98% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
-  itp_base: { title: '📋 ITP — Base Course', content: `<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المعيار</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th></tr><tr><td>2.1</td><td>CBR Soaked</td><td>≥ 80%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr><tr><td>2.2</td><td>LA Abrasion</td><td>≤ 25%</td><td>كل 1000m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>≥ 98% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td></tr><tr><td>3.2</td><td>Plate Load Test</td><td>حسب التصميم</td><td>كل 2000m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
-  itp_wearing: { title: '📋 ITP — Binder & Wearing Course', content: `<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المعيار</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th></tr><tr><td>2.1</td><td>Trial Section</td><td>50m معتمد قبل الإنتاج</td><td>مرة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td></tr><tr><td>3.1</td><td>Delivery Temperature</td><td>≥ 140°C</td><td>كل حمولة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td></tr><tr><td>4.1</td><td>Core Sample Density</td><td>≥ 98% TMD</td><td>كل 1000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr><tr><td>4.2</td><td>Straightedge 3m</td><td>≤ 5mm</td><td>كل 100m</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr><tr><td>4.3</td><td>Skid Resistance</td><td>≥ 55 PSV</td><td>كل 500m</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
-  utilities: { title: '🔧 شبكات المرافق', content: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;"><div onclick="openDetail('water_supply_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:24px">💧</div><div style="color:var(--gold);font-weight:700;font-size:13px;">مياه الشرب</div></div><div onclick="openDetail('sewer_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:24px">🚽</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الصرف الصحي</div></div><div onclick="openDetail('storm_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:24px">🌧️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الصرف السطحي</div></div><div onclick="openDetail('treated_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:24px">♻️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">المياه المعالجة</div></div></div>` },
-  water_supply_stages: { title: '💧 شبكة مياه الشرب', content: `<h3>📐 المواصفات الأساسية</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>HDPE PE100</td><td>ISO 4427 | PN10-16</td></tr><tr><td>عمق الدفن</td><td>≥ 1.0m من السطح</td></tr><tr><td>Bedding</td><td>رمل 150mm تحت وجانب</td></tr><tr><td>الفصل عن الصرف</td><td>≥ 1.0m أفقياً</td></tr><tr><td>Marker Tape</td><td>أصفر — "WATER MAIN" على 300mm</td></tr></table><h3>🧪 Pressure Test</h3><p>• 1.5x الضغط التصميمي | ساعتان | صفر انخفاض</p><h3>🧪 Disinfection</h3><p>• Chlorination 50 ppm / 24 ساعة<br>• Total Coliform = 0 / 100ml قبل التشغيل</p><h3>🔴 نقاط التوقف</h3><p>• HP-05: Pressure Test قبل الردم<br>• HP-06: Water Quality من KAHRAMAA قبل التشغيل</p>` },
-  sewer_stages: { title: '🚽 شبكة الصرف الصحي', content: `<h3>📐 المواصفات الأساسية</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>uPVC</td><td>ISO 4435 | SN8</td></tr><tr><td>الانحدار الأدنى</td><td>1:100 للـ DN150 | 1:150 للـ DN225+</td></tr><tr><td>عمق الدفن</td><td>≥ 1.2m من السطح</td></tr><tr><td>Max Manhole Distance</td><td>90m للـ DN300</td></tr></table><h3>🧪 Air Test</h3><p>• 100mm Water Gauge | انخفاض ≤ 25mm / 5 دقائق</p><h3>🧪 CCTV Inspection</h3><p>• 100% كل المواسير | Grade ≤ 2</p><h3>🔴 نقاط التوقف</h3><p>• HP-06: Air Test قبل الردم<br>• HP-07: CCTV قبل التسليم</p>` },
-  storm_stages: { title: '🌧️ شبكة الصرف السطحي', content: `<h3>📐 المواصفات</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>الانحدار الأدنى</td><td>1:200</td></tr><tr><td>Gully Spacing</td><td>كل 25-40m</td></tr><tr><td>Gully Grating</td><td>D400 في الطرق</td></tr></table><h3>⚠️</h3><p>عدم توصيل الصرف الصحي بشبكة السطحي — مخالفة قانونية</p>` },
-  treated_stages: { title: '♻️ شبكة المياه المعالجة', content: `<h3>⛔ تحذير خطير</h3><p>المياه المعالجة غير صالحة للشرب<br>Cross Connection مع مياه الشرب = كارثة صحية</p><h3>📐 المواصفات</h3><table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>اللون</td><td>بنفسجي — إلزامي بدون استثناء</td></tr><tr><td>Marker Tape</td><td>بنفسجي — "RECLAIMED WATER"</td></tr><tr><td>الفصل عن مياه الشرب</td><td>≥ 1.0m أفقياً</td></tr><tr><td>Double Check Valve</td><td>عند كل نقطة اتصال</td></tr></table>` },
-  materials: { title: '🧱 مواد البناء', content: `<table class="dm-table"><tr><th>المادة</th><th>المعيار</th><th>ملاحظة</th></tr><tr><td>الأسمنت OPC</td><td>BS EN 197-1</td><td>SRPC إلزامي للأساسات</td></tr><tr><td>الحديد</td><td>BS 4449 | Grade 500B</td><td>fy ≥ 500 N/mm²</td></tr><tr><td>الخرسانة</td><td>BS EN 206</td><td>w/c ≤ 0.45 في قطر</td></tr><tr><td>الطوب</td><td>BS EN 771</td><td>مقاومة ≥ 7 N/mm²</td></tr><tr><td>العزل الحراري</td><td>QCS Section 5</td><td>U-value حسب التصميم</td></tr></table>` },
-  execution: { title: '⚒️ مراحل التنفيذ', content: `<table class="dm-table"><tr><th>المرحلة</th><th>الأعمال</th><th>المتطلبات</th></tr><tr><td>1 - الجسات</td><td>اختبارات التربة</td><td>تقرير جيوتكني معتمد</td></tr><tr><td>2 - الحفر</td><td>حفر وتدعيم</td><td>موافقة المهندس</td></tr><tr><td>3 - الأساسات</td><td>صب الأساسات</td><td>اختبار العينات</td></tr><tr><td>4 - الهيكل</td><td>الأعمدة والأسقف</td><td>فحص الحديد والشدة</td></tr><tr><td>5 - المرافق</td><td>الشبكات والكهرباء</td><td>رسومات معتمدة</td></tr><tr><td>6 - التشطيب</td><td>جميع التشطيبات</td><td>شهادات المواد</td></tr></table>` },
-  testing: { title: '🔬 الاختبارات والفحص', content: `<h3>اختبارات إلزامية رئيسية</h3><table class="dm-table"><tr><th>الاختبار</th><th>المعيار</th><th>التكرار</th></tr><tr><td>SPT التربة</td><td>حسب الجيوتكني</td><td>كل 1.5m في الجسة</td></tr><tr><td>Cube Test الخرسانة</td><td>fcu في 28 يوم</td><td>3 مكعبات / 50m³</td></tr><tr><td>Tensile Test الحديد</td><td>fy ≥ 500 N/mm²</td><td>3 عينات / 50 طن</td></tr><tr><td>Marshall Test الإسفلت</td><td>Stability ≥ 8kN</td><td>كل 200 طن</td></tr><tr><td>Pressure Test المياه</td><td>1.5x ضغط التصميم</td><td>كل Section</td></tr><tr><td>Air Test الصرف</td><td>100mm WG / 5 دقائق</td><td>كل Section</td></tr></table>` },
-  fire: { title: '🔥 الحريق والسلامة — QCDD', content: `<h3>المتطلبات الأساسية</h3><p>• كاشفات دخان في كل غرفة<br>• رشاشات مياه للمباني فوق 4 طوابق<br>• مخارج طوارئ كل 30 متر<br>• عرض درج الإخلاء: 1.2 متر كحد أدنى</p><h3>مقاومة الحريق</h3><table class="dm-table"><tr><th>العنصر</th><th>تجاري</th><th>سكني</th></tr><tr><td>الأعمدة</td><td>3 ساعات</td><td>2 ساعة</td></tr><tr><td>الأسقف</td><td>2 ساعة</td><td>ساعة</td></tr><tr><td>الجدران الفاصلة</td><td>2 ساعة</td><td>ساعة</td></tr></table>` }
-};
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
 </script>
 </body>
 </html>
