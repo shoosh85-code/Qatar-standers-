@@ -278,7 +278,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 
 <script>
 // ===== STATE =====
-let geminiKey = sessionStorage.getItem('openrouterKey') || '';
+let geminiKey = localStorage.getItem('openrouterKey') || '';
 let uploadedFiles = [];
 
 // ===== INIT =====
@@ -294,7 +294,7 @@ function saveKey() {
   const k = document.getElementById('keyInput').value.trim();
   if (!k || k.length < 20) { showToast('❌ Key غير صحيح'); return; }
   geminiKey = k;
-  sessionStorage.setItem('openrouterKey', k);
+  localStorage.setItem('openrouterKey', k);
   updateKeyStatus(true);
   closeKeyModal();
   showToast('✅ تم تفعيل AI!');
