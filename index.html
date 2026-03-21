@@ -614,7 +614,8 @@ const detailData = {
 <h3>📐 المواصفات العامة</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th><th>المرجع</th></tr><tr><td>نوع المواسير</td><td>uPVC SN8 / GRP SN5000</td><td>ISO 4435</td></tr><tr><td>الانحدار الأدنى DN150</td><td>1:100 (1%)</td><td>QCS S8 P2</td></tr><tr><td>الانحدار الأدنى DN225+</td><td>1:150 (0.67%)</td><td>QCS S8 P2</td></tr><tr><td>عمق الدفن</td><td>≥ 1.2m من سطح الطريق</td><td>QCS S8 P2</td></tr><tr><td>أقصى مسافة بين Manholes</td><td>90m لـ DN ≤ 300mm</td><td>QCS S8 P2</td></tr><tr><td>Manhole Cover للطرق</td><td>D400 (400 kN)</td><td>BS EN 124</td></tr><tr><td>Benching</td><td>ملاط 1:2 — ميل 1:12 نحو القناة</td><td>QCS S8 P2</td></tr><tr><td>Air Test</td><td>100mm WG | ≤ 25mm / 5 دقائق</td><td>QCS S8 P2</td></tr><tr><td>CCTV Inspection</td><td>100% | Grade ≤ 2</td><td>QCS S8 P2</td></tr><tr><td>Marker Tape</td><td>أخضر على عمق 300mm</td><td>QCS S8</td></tr></table>
 ` },
-  storm_stages: { title: '🌧️ شبكة الصرف السطحي', content: `
+  storm_stages: { title: '🌧️ شبكة الصرف السطحي', content: `<div style="margin-top:16px;"><div onclick="openDetail('itp_storm')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;"><div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">ITP الصرف السطحي الكامل</div></div></div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 3 | Storm Water Drainage</div>
 <h3>📋 نظرة عامة</h3>
 <p>شبكات الصرف السطحي تصرف مياه الأمطار من الطرق والمناطق المفتوحة. في قطر الأمطار نادرة لكن مفاجئة وغزيرة — الشبكة يجب أن تتعامل مع تصريف سريع.</p>
@@ -634,7 +635,8 @@ const detailData = {
 <h3>⚠️ قاعدة أساسية</h3>
 <p>عدم توصيل الصرف الصحي بشبكة السطحي — <strong>مخالفة قانونية</strong></p>
 ` },
-  treated_stages: { title: '♻️ شبكة المياه المعالجة', content: `
+  treated_stages: { title: '♻️ شبكة المياه المعالجة', content: `<div style="margin-top:16px;"><div onclick="openDetail('itp_treated')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;"><div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">ITP المياه المعالجة الكامل</div></div></div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 | Treated / Reclaimed Water Network</div>
 <h3>⛔ تحذير خطير — اقرأ أولاً</h3>
 <p>المياه المعالجة <strong>غير صالحة للشرب</strong>. Cross Connection مع مياه الشرب = <strong>كارثة صحية</strong>. اللون البنفسجي إلزامي بدون استثناء على كل مواسير ومعدات الشبكة.</p>
@@ -962,6 +964,106 @@ const detailData = {
 <p>• المدة: <strong>12 شهر</strong><br>• Water Quality Test كل 3 أشهر<br>• Cross Connection Check عند نهاية DLP</p>
 <h3>🔴 Hold Points النهائية</h3>
 <p>• <strong>HP-08:</strong> موافقة MME + Ashghal على التسليم النهائي</p>
+` },
+
+
+  itp_storm: { title: '📋 ITP — شبكة الصرف السطحي | Storm Water', content: `
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">
+📌 المرجع: QCS 2024 — Section 8 Part 3 | Ashghal Standards
+</div>
+<h3>1.0 — وثائق ما قبل التنفيذ</h3>
+<table class="dm-table">
+<tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+<tr><td>1.1</td><td>Material Approval</td><td>QCS S8 P3</td><td>اعتماد قبل التوريد</td><td>كل دفعة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Approved Submittal</td></tr>
+<tr><td>1.2</td><td>Method Statement</td><td>QCS S1 P7</td><td>معتمد قبل الحفر</td><td>مرة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Approved MS</td></tr>
+<tr><td>1.3</td><td>Shop Drawings</td><td>QCS S1 P7</td><td>معتمدة من Ashghal</td><td>كل submittal</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Approved Drawings</td></tr>
+</table>
+<h3>2.0 — الحفر والبيدنج</h3>
+<table class="dm-table">
+<tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+<tr><td>2.1</td><td>Trench Depth</td><td>QCS S8 P3</td><td>≥ 0.9m من السطح</td><td>كل 50m</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Survey</td></tr>
+<tr><td>2.2</td><td>Bedding Gradient</td><td>Design Drawing</td><td>≥ 1:200 ± 5mm</td><td>كل 25m</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR + Laser Record</td></tr>
+<tr><td>2.3</td><td>Bedding Compaction</td><td>ASTM D1556</td><td>≥ 90% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Density Report</td></tr>
+</table>
+<h3>3.0 — Gullies & Manholes</h3>
+<table class="dm-table">
+<tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+<tr><td>3.1</td><td>Gully Level</td><td>Design Drawing</td><td>± 5mm من مستوى الطريق</td><td>كل Gully</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Survey</td></tr>
+<tr><td>3.2</td><td>Gully Spacing</td><td>Design Drawing</td><td>حسب التصميم ± 500mm</td><td>كل Section</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Survey Record</td></tr>
+<tr><td>3.3</td><td>Manhole Water Tightness</td><td>QCS S8 P3</td><td>صفر تسريب / 24hr</td><td>كل Manhole</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Record</td></tr>
+<tr><td>3.4</td><td>Silt Trap Installation</td><td>QCS S8 P3</td><td>موجود قبل كل Outfall</td><td>كل Outfall</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Inspection Record</td></tr>
+<tr><td>3.5</td><td>Silt Bucket in Gullies</td><td>QCS S8 P3</td><td>موجود في كل Gully</td><td>100%</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Inspection Record</td></tr>
+</table>
+<h3>4.0 — الاختبارات</h3>
+<table class="dm-table">
+<tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+<tr><td>4.1</td><td>Hydraulic Test</td><td>QCS S8 P3</td><td>صفر تسريب / 30 دقيقة</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR + Test Record</td></tr>
+<tr><td>4.2</td><td>CCTV Inspection</td><td>QCS S8 P3</td><td>100% — Grade ≤ 2</td><td>قبل التسليم</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR + CCTV Report</td></tr>
+<tr><td>4.3</td><td>Pipe Gradient Check</td><td>Design Drawing</td><td>≥ 1:200 ± 5mm</td><td>كل Section</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Survey Record</td></tr>
+</table>
+<h3>5.0 — الردم</h3>
+<table class="dm-table">
+<tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+<tr><td>5.1</td><td>Backfill Compaction</td><td>QCS S6 P2</td><td>≥ 95% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr>
+<tr><td>5.2</td><td>Road Reinstatement</td><td>QCS S6 P5</td><td>بنفس مواصفة الطريق الأصلي</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Record</td></tr>
+</table>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+<strong style="color:#e74c3c;">H</strong> = Hold Point &nbsp;|&nbsp; <strong style="color:#f1c40f;">W</strong> = Witness Point &nbsp;|&nbsp; <strong style="color:#2ecc71;">R</strong> = Review
+</div>
+` },
+
+  itp_treated: { title: '📋 ITP — شبكة المياه المعالجة | Treated Water', content: `
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">
+📌 المرجع: QCS 2024 — Section 8 | MME & Ashghal Standards
+</div>
+<h3>1.0 — وثائق ما قبل التنفيذ</h3>
+<table class="dm-table">
+<tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+<tr><td>1.1</td><td>Material Approval — Purple Pipes</td><td>QCS S8</td><td>بنفسجي — ISO Certificate</td><td>كل دفعة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Approved Submittal</td></tr>
+<tr><td>1.2</td><td>Cross Connection Study</td><td>MME Std</td><td>معتمد قبل أي تنفيذ</td><td>مرة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Approved Study</td></tr>
+<tr><td>1.3</td><td>Method Statement</td><td>QCS S1 P7</td><td>معتمد قبل الحفر</td><td>مرة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Approved MS</td></tr>
+<tr><td>1.4</td><td>Shop Drawings</td><td>QCS S1 P7</td><td>معتمدة من MME / Ashghal</td><td>كل submittal</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Approved Drawings</td></tr>
+</table>
+<h3>2.0 — اختبارات المواد</h3>
+<table class="dm-table">
+<tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+<tr><td>2.1</td><td>Pipe Color Verification</td><td>MME Std</td><td>بنفسجي RAL 4001 — 100%</td><td>100% كل ماسورة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Inspection Record</td></tr>
+<tr><td>2.2</td><td>Pipe Wall Thickness</td><td>ISO 4427</td><td>حسب المواصفة ± 5%</td><td>عينة عشوائية</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>MRR + Certificate</td></tr>
+<tr><td>2.3</td><td>Valve Color — Purple</td><td>MME Std</td><td>بنفسجي إلزامي</td><td>كل دفعة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Inspection Record</td></tr>
+</table>
+<h3>3.0 — الحفر والفصل</h3>
+<table class="dm-table">
+<tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+<tr><td>3.1</td><td>Separation from Potable Water</td><td>QCS S8</td><td>≥ 1.0m أفقياً — مياه الشرب فوق</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR + Survey</td></tr>
+<tr><td>3.2</td><td>Trench Depth</td><td>QCS S8</td><td>≥ 0.9m من السطح</td><td>كل 50m</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Survey</td></tr>
+<tr><td>3.3</td><td>Bedding Compaction</td><td>ASTM D1556</td><td>≥ 90% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Density Report</td></tr>
+</table>
+<h3>4.0 — وضع المواسير</h3>
+<table class="dm-table">
+<tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+<tr><td>4.1</td><td>Pipe Color — Field Check</td><td>MME Std</td><td>بنفسجي 100% — لا استثناء</td><td>100%</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Inspection Record</td></tr>
+<tr><td>4.2</td><td>Double Check Valve</td><td>MME Std</td><td>موجود عند كل نقطة اتصال</td><td>كل نقطة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Record</td></tr>
+<tr><td>4.3</td><td>Warning Signs</td><td>MME Std</td><td>لافتة عند كل نقطة استخدام</td><td>100%</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Inspection Record</td></tr>
+<tr><td>4.4</td><td>Marker Tape Purple</td><td>MME Std</td><td>بنفسجي — RECLAIMED WATER — 300mm</td><td>100%</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Inspection Record</td></tr>
+</table>
+<h3>5.0 — الاختبارات</h3>
+<table class="dm-table">
+<tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+<tr><td>5.1</td><td>Pressure Test</td><td>QCS S8</td><td>1.5x التصميمي / ساعتان / صفر انخفاض</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR + Pressure Chart</td></tr>
+<tr><td>5.2</td><td>Cross Connection Test</td><td>MME Std</td><td>صفر تلوث في مياه الشرب</td><td>كل Section</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR + Certificate</td></tr>
+<tr><td>5.3</td><td>Water Quality — BOD/TSS</td><td>MME Std</td><td>حسب MME Standard</td><td>كل Section</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>MME Lab Report</td></tr>
+<tr><td>5.4</td><td>Leakage Test</td><td>QCS S8</td><td>صفر تسريب مرئي</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Record</td></tr>
+</table>
+<h3>6.0 — الردم والتشطيب</h3>
+<table class="dm-table">
+<tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+<tr><td>6.1</td><td>Backfill Compaction</td><td>QCS S6 P2</td><td>≥ 95% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr>
+<tr><td>6.2</td><td>Purple Marker Tape Verification</td><td>MME Std</td><td>بنفسجي — عمق 300mm صح</td><td>100%</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Inspection Record</td></tr>
+<tr><td>6.3</td><td>Road Reinstatement</td><td>QCS S6 P5</td><td>بنفس مواصفة الطريق الأصلي</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Record</td></tr>
+</table>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+<strong style="color:#e74c3c;">H</strong> = Hold Point &nbsp;|&nbsp; <strong style="color:#f1c40f;">W</strong> = Witness Point &nbsp;|&nbsp; <strong style="color:#2ecc71;">R</strong> = Review
+</div>
 ` },
 
   itp_subgrade: { title: '📋 ITP — Subgrade', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 2</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>Standard Proctor</td><td>ASTM D698</td><td>تحديد MDD و OMC</td><td>كل تغيير مادة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.2</td><td>CBR Soaked 4 days</td><td>ASTM D1883</td><td>≥ 8%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.3</td><td>Atterberg Limits</td><td>ASTM D4318</td><td>LL ≤ 35% | PI ≤ 10%</td><td>كل تغيير مادة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 95% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr><tr><td>3.2</td><td>Level Survey</td><td>Design Drawing</td><td>± 10mm</td><td>كل 25m</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Survey Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness Point | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
