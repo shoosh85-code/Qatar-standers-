@@ -426,7 +426,7 @@ async function doSearch() {
     const response = await fetch('/api/search', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query, apiKey: geminiKey, partNum })
+      body: JSON.stringify({ query, partNum })
     });
 
     setLoadingSteps(steps, 2);
