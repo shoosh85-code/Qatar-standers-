@@ -1092,21 +1092,37 @@ const detailData = {
 
   calculator: { title: '🧮 حاسبة المواصفات — Pass / Fail', content: `
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:16px;font-size:12px;">
-أدخل نتيجة الاختبار → الحاسبة تقول Pass ✅ أو Fail ❌ فوراً حسب QCS 2024
+أدخل نتيجة أي اختبار → Pass ✅ أو Fail ❌ فوراً حسب QCS 2024
 </div>
 
+<div style="display:flex;gap:8px;margin-bottom:16px;">
+  <button onclick="switchMainCat('roads',this)" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(201,168,76,0.3);background:rgba(201,168,76,0.15);color:var(--gold2);font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;" id="main-tab-roads">🛣️ طرق</button>
+  <button onclick="switchMainCat('utilities',this)" style="flex:1;padding:10px;border-radius:10px;border:1px solid var(--border);background:var(--dark4);color:var(--text2);font-family:Tajawal,sans-serif;font-size:13px;cursor:pointer;" id="main-tab-utilities">🔧 مرافق</button>
+  <button onclick="switchMainCat('structural',this)" style="flex:1;padding:10px;border-radius:10px;border:1px solid var(--border);background:var(--dark4);color:var(--text2);font-family:Tajawal,sans-serif;font-size:13px;cursor:pointer;" id="main-tab-structural">🏗️ إنشاء</button>
+</div>
+
+<!-- ===== ROADS ===== -->
+<div id="cat-roads">
 <div class="calc-tabs">
-  <div class="calc-tab active" onclick="switchCalc('compaction',this)">🏔️ دمك</div>
-  <div class="calc-tab" onclick="switchCalc('cbr',this)">📊 CBR</div>
-  <div class="calc-tab" onclick="switchCalc('marshall',this)">⚫ Marshall</div>
-  <div class="calc-tab" onclick="switchCalc('concrete',this)">🏗️ خرسانة</div>
-  <div class="calc-tab" onclick="switchCalc('airtest',this)">💨 Air Test</div>
-  <div class="calc-tab" onclick="switchCalc('pressure',this)">💧 Pressure</div>
-  <div class="calc-tab" onclick="switchCalc('rebar',this)">🔩 حديد</div>
-  <div class="calc-tab" onclick="switchCalc('level',this)">📐 منسوب</div>
+  <div class="calc-tab active" onclick="switchCalc('compaction',this)">دمك</div>
+  <div class="calc-tab" onclick="switchCalc('cbr',this)">CBR</div>
+  <div class="calc-tab" onclick="switchCalc('atterberg',this)">Atterberg</div>
+  <div class="calc-tab" onclick="switchCalc('la_abrasion',this)">LA Abrasion</div>
+  <div class="calc-tab" onclick="switchCalc('flakiness',this)">Flakiness</div>
+  <div class="calc-tab" onclick="switchCalc('sand_eq',this)">Sand Eq.</div>
+  <div class="calc-tab" onclick="switchCalc('sulphate',this)">Sulphate</div>
+  <div class="calc-tab" onclick="switchCalc('marshall',this)">Marshall</div>
+  <div class="calc-tab" onclick="switchCalc('core_density',this)">Core</div>
+  <div class="calc-tab" onclick="switchCalc('bitumen_ext',this)">Extraction</div>
+  <div class="calc-tab" onclick="switchCalc('temperature',this)">Temp.</div>
+  <div class="calc-tab" onclick="switchCalc('straightedge',this)">Straightedge</div>
+  <div class="calc-tab" onclick="switchCalc('crossfall',this)">Crossfall</div>
+  <div class="calc-tab" onclick="switchCalc('skid',this)">PSV</div>
+  <div class="calc-tab" onclick="switchCalc('level',this)">منسوب</div>
+  <div class="calc-tab" onclick="switchCalc('plate_load',this)">Plate Load</div>
+  <div class="calc-tab" onclick="switchCalc('prime_rate',this)">Prime Rate</div>
 </div>
 
-<!-- COMPACTION -->
 <div id="calc-compaction" class="calc-section">
   <div class="calc-title">🏔️ Compaction Test — نسبة الدمك</div>
   <div class="calc-row"><span class="calc-label">نوع الطبقة:</span>
@@ -1114,19 +1130,18 @@ const detailData = {
       <option value="95">Subgrade (≥ 95% MDD)</option>
       <option value="98">Subbase / Base Course (≥ 98% MDD)</option>
       <option value="90">Bedding المرافق (≥ 90% MDD)</option>
-      <option value="93">Backfill المرافق 300-600mm (≥ 93% MDD)</option>
+      <option value="93">Backfill 300-600mm (≥ 93% MDD)</option>
       <option value="95">Backfill الطريق (≥ 95% MDD)</option>
     </select>
   </div>
   <div class="calc-row"><span class="calc-label">Dry Density الفعلية:</span><input class="calc-input" id="comp-actual" type="number" placeholder="1.85" step="0.01"><span class="calc-unit">g/cm³</span></div>
   <div class="calc-row"><span class="calc-label">MDD (Maximum):</span><input class="calc-input" id="comp-mdd" type="number" placeholder="1.95" step="0.01"><span class="calc-unit">g/cm³</span></div>
-  <button class="calc-btn" onclick="calcCompaction()">احسب النتيجة</button>
+  <button class="calc-btn" onclick="calcCompaction()">احسب</button>
   <div id="comp-result" class="calc-result"></div>
 </div>
 
-<!-- CBR -->
 <div id="calc-cbr" class="calc-section" style="display:none;">
-  <div class="calc-title">📊 CBR Test — نسبة تحمل التربة</div>
+  <div class="calc-title">📊 CBR Test</div>
   <div class="calc-row"><span class="calc-label">نوع الطبقة:</span>
     <select class="calc-select" id="cbr-layer">
       <option value="8">Subgrade (≥ 8%)</option>
@@ -1135,19 +1150,80 @@ const detailData = {
     </select>
   </div>
   <div class="calc-row"><span class="calc-label">نتيجة CBR:</span><input class="calc-input" id="cbr-val" type="number" placeholder="12"><span class="calc-unit">%</span></div>
-  <div class="calc-row"><span class="calc-label">نوع النقع:</span>
-    <select class="calc-select" id="cbr-soak">
-      <option value="soaked">Soaked 4 days (مطلوب)</option>
-      <option value="unsoaked">Unsoaked</option>
-    </select>
-  </div>
-  <button class="calc-btn" onclick="calcCBR()">احسب النتيجة</button>
+  <button class="calc-btn" onclick="calcCBR()">احسب</button>
   <div id="cbr-result" class="calc-result"></div>
 </div>
 
-<!-- MARSHALL -->
+<div id="calc-atterberg" class="calc-section" style="display:none;">
+  <div class="calc-title">🧪 Atterberg Limits</div>
+  <div class="calc-row"><span class="calc-label">نوع الطبقة:</span>
+    <select class="calc-select" id="att-layer">
+      <option value="subgrade">Subgrade (LL≤35% | PI≤10%)</option>
+      <option value="subbase">Subbase (PI≤6%)</option>
+      <option value="base">Base Course (PI≤4%)</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">Liquid Limit (LL):</span><input class="calc-input" id="att-ll" type="number" placeholder="28"><span class="calc-unit">%</span></div>
+  <div class="calc-row"><span class="calc-label">Plastic Limit (PL):</span><input class="calc-input" id="att-pl" type="number" placeholder="18"><span class="calc-unit">%</span></div>
+  <button class="calc-btn" onclick="calcAtterberg()">احسب</button>
+  <div id="att-result" class="calc-result"></div>
+</div>
+
+<div id="calc-la_abrasion" class="calc-section" style="display:none;">
+  <div class="calc-title">🪨 LA Abrasion Test</div>
+  <div class="calc-row"><span class="calc-label">نوع الطبقة:</span>
+    <select class="calc-select" id="la-layer">
+      <option value="30">Subbase (≤ 30%)</option>
+      <option value="25">Base Course (≤ 25%)</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">نتيجة LA Abrasion:</span><input class="calc-input" id="la-val" type="number" placeholder="22"><span class="calc-unit">%</span></div>
+  <button class="calc-btn" onclick="calcLA()">احسب</button>
+  <div id="la-result" class="calc-result"></div>
+</div>
+
+<div id="calc-flakiness" class="calc-section" style="display:none;">
+  <div class="calc-title">🪨 Flakiness Index</div>
+  <div class="calc-row"><span class="calc-label">نوع الطبقة:</span>
+    <select class="calc-select" id="fli-layer">
+      <option value="35">Subbase (≤ 35%)</option>
+      <option value="25">Base Course / Asphalt (≤ 25%)</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">نتيجة Flakiness Index:</span><input class="calc-input" id="fli-val" type="number" placeholder="20"><span class="calc-unit">%</span></div>
+  <button class="calc-btn" onclick="calcFlakiness()">احسب</button>
+  <div id="fli-result" class="calc-result"></div>
+</div>
+
+<div id="calc-sand_eq" class="calc-section" style="display:none;">
+  <div class="calc-title">🏔️ Sand Equivalent Test</div>
+  <div class="calc-row"><span class="calc-label">نوع الطبقة:</span>
+    <select class="calc-select" id="se-layer">
+      <option value="30">Subbase (≥ 30%)</option>
+      <option value="45">Asphalt Fine Aggregate (≥ 45%)</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">نتيجة Sand Equivalent:</span><input class="calc-input" id="se-val" type="number" placeholder="38"><span class="calc-unit">%</span></div>
+  <button class="calc-btn" onclick="calcSandEq()">احسب</button>
+  <div id="se-result" class="calc-result"></div>
+</div>
+
+<div id="calc-sulphate" class="calc-section" style="display:none;">
+  <div class="calc-title">🧪 Sulphate & Chloride Content</div>
+  <div class="calc-row"><span class="calc-label">Sulphate Content (SO3):</span><input class="calc-input" id="sul-val" type="number" placeholder="0.3" step="0.01"><span class="calc-unit">%</span></div>
+  <div class="calc-row"><span class="calc-label">Chloride Content (Cl):</span><input class="calc-input" id="chl-val" type="number" placeholder="0.4" step="0.01"><span class="calc-unit">%</span></div>
+  <div class="calc-row"><span class="calc-label">نوع المادة:</span>
+    <select class="calc-select" id="sul-type">
+      <option value="soil">تربة / ردم (SO3≤0.5% | Cl≤0.6%)</option>
+      <option value="aggregate">ركام خرسانة (SO3≤0.4% | Cl≤0.04%)</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcSulphate()">احسب</button>
+  <div id="sul-result" class="calc-result"></div>
+</div>
+
 <div id="calc-marshall" class="calc-section" style="display:none;">
-  <div class="calc-title">⚫ Marshall Test — الخلطة الإسفلتية</div>
+  <div class="calc-title">⚫ Marshall Test</div>
   <div class="calc-row"><span class="calc-label">نوع الطبقة:</span>
     <select class="calc-select" id="mar-layer">
       <option value="binder">Binder Course</option>
@@ -1158,68 +1234,69 @@ const detailData = {
   <div class="calc-row"><span class="calc-label">Marshall Flow:</span><input class="calc-input" id="mar-flow" type="number" placeholder="3.0" step="0.1"><span class="calc-unit">mm</span></div>
   <div class="calc-row"><span class="calc-label">Air Voids (Va):</span><input class="calc-input" id="mar-va" type="number" placeholder="4.0" step="0.1"><span class="calc-unit">%</span></div>
   <div class="calc-row"><span class="calc-label">Bitumen Content:</span><input class="calc-input" id="mar-bit" type="number" placeholder="5.2" step="0.1"><span class="calc-unit">%</span></div>
-  <button class="calc-btn" onclick="calcMarshall()">احسب النتيجة</button>
+  <button class="calc-btn" onclick="calcMarshall()">احسب</button>
   <div id="mar-result" class="calc-result"></div>
 </div>
 
-<!-- CONCRETE -->
-<div id="calc-concrete" class="calc-section" style="display:none;">
-  <div class="calc-title">🏗️ Concrete Cube Test — مقاومة الخرسانة</div>
-  <div class="calc-row"><span class="calc-label">درجة الخرسانة:</span>
-    <select class="calc-select" id="con-grade">
-      <option value="25">C25 (fcu = 25 N/mm²)</option>
-      <option value="30">C30 (fcu = 30 N/mm²)</option>
-      <option value="35">C35 (fcu = 35 N/mm²)</option>
-      <option value="40">C40 (fcu = 40 N/mm²)</option>
+<div id="calc-core_density" class="calc-section" style="display:none;">
+  <div class="calc-title">🔬 Core Sample — Density (TMD%)</div>
+  <div class="calc-row"><span class="calc-label">Bulk Density الفعلية:</span><input class="calc-input" id="core-bulk" type="number" placeholder="2.38" step="0.01"><span class="calc-unit">g/cm³</span></div>
+  <div class="calc-row"><span class="calc-label">TMD (Max Theoretical):</span><input class="calc-input" id="core-tmd" type="number" placeholder="2.45" step="0.01"><span class="calc-unit">g/cm³</span></div>
+  <button class="calc-btn" onclick="calcCoreDensity()">احسب</button>
+  <div id="core-result" class="calc-result"></div>
+</div>
+
+<div id="calc-bitumen_ext" class="calc-section" style="display:none;">
+  <div class="calc-title">⚗️ Bitumen Extraction Test</div>
+  <div class="calc-row"><span class="calc-label">نوع الطبقة:</span>
+    <select class="calc-select" id="bit-layer">
+      <option value="binder">Binder Course (4.5-6.0%)</option>
+      <option value="wearing">Wearing Course (5.0-6.5%)</option>
     </select>
   </div>
-  <div class="calc-row"><span class="calc-label">عمر المكعب:</span>
-    <select class="calc-select" id="con-age">
-      <option value="7">7 أيام (≥ 70% fcu)</option>
-      <option value="28">28 يوم (≥ 100% fcu)</option>
+  <div class="calc-row"><span class="calc-label">نسبة البيتومين في JMF:</span><input class="calc-input" id="bit-jmf" type="number" placeholder="5.2" step="0.1"><span class="calc-unit">%</span></div>
+  <div class="calc-row"><span class="calc-label">نسبة البيتومين الفعلية:</span><input class="calc-input" id="bit-actual" type="number" placeholder="5.1" step="0.1"><span class="calc-unit">%</span></div>
+  <button class="calc-btn" onclick="calcBitumen()">احسب</button>
+  <div id="bit-result" class="calc-result"></div>
+</div>
+
+<div id="calc-temperature" class="calc-section" style="display:none;">
+  <div class="calc-title">🌡️ Temperature Check — الإسفلت</div>
+  <div class="calc-row"><span class="calc-label">مرحلة القياس:</span>
+    <select class="calc-select" id="temp-stage">
+      <option value="delivery">عند الوصول للموقع (≥ 140°C)</option>
+      <option value="laying">عند الفرش (≥ 130°C)</option>
+      <option value="initial">Initial Rolling (130-145°C)</option>
+      <option value="intermediate">Intermediate Rolling (100-125°C)</option>
+      <option value="final">Final Rolling (80-100°C)</option>
     </select>
   </div>
-  <div class="calc-row"><span class="calc-label">نتيجة المكعب:</span><input class="calc-input" id="con-result-val" type="number" placeholder="28.5" step="0.1"><span class="calc-unit">N/mm²</span></div>
-  <button class="calc-btn" onclick="calcConcrete()">احسب النتيجة</button>
-  <div id="con-result" class="calc-result"></div>
+  <div class="calc-row"><span class="calc-label">درجة الحرارة الفعلية:</span><input class="calc-input" id="temp-val" type="number" placeholder="142"><span class="calc-unit">°C</span></div>
+  <button class="calc-btn" onclick="calcTemperature()">احسب</button>
+  <div id="temp-result" class="calc-result"></div>
 </div>
 
-<!-- AIR TEST -->
-<div id="calc-airtest" class="calc-section" style="display:none;">
-  <div class="calc-title">💨 Air Test — اختبار الصرف الصحي</div>
-  <div class="calc-row"><span class="calc-label">ضغط البداية:</span><input class="calc-input" id="air-start" type="number" placeholder="100"><span class="calc-unit">mm WG</span></div>
-  <div class="calc-row"><span class="calc-label">ضغط النهاية (بعد 5 دقائق):</span><input class="calc-input" id="air-end" type="number" placeholder="82"><span class="calc-unit">mm WG</span></div>
-  <button class="calc-btn" onclick="calcAirTest()">احسب النتيجة</button>
-  <div id="air-result" class="calc-result"></div>
+<div id="calc-straightedge" class="calc-section" style="display:none;">
+  <div class="calc-title">📏 Straightedge 3m Test</div>
+  <div class="calc-row"><span class="calc-label">الفجوة القصوى المقاسة:</span><input class="calc-input" id="str-val" type="number" placeholder="4" step="0.1"><span class="calc-unit">mm</span></div>
+  <button class="calc-btn" onclick="calcStraightedge()">احسب</button>
+  <div id="str-result" class="calc-result"></div>
 </div>
 
-<!-- PRESSURE TEST -->
-<div id="calc-pressure" class="calc-section" style="display:none;">
-  <div class="calc-title">💧 Hydrostatic Pressure Test — مياه الشرب</div>
-  <div class="calc-row"><span class="calc-label">الضغط التصميمي:</span><input class="calc-input" id="pres-design" type="number" placeholder="10"><span class="calc-unit">bar</span></div>
-  <div class="calc-row"><span class="calc-label">ضغط الاختبار الفعلي:</span><input class="calc-input" id="pres-test" type="number" placeholder="15" step="0.1"><span class="calc-unit">bar</span></div>
-  <div class="calc-row"><span class="calc-label">ضغط البداية:</span><input class="calc-input" id="pres-start" type="number" placeholder="15.0" step="0.1"><span class="calc-unit">bar</span></div>
-  <div class="calc-row"><span class="calc-label">ضغط النهاية (بعد 2hr):</span><input class="calc-input" id="pres-end" type="number" placeholder="14.9" step="0.1"><span class="calc-unit">bar</span></div>
-  <button class="calc-btn" onclick="calcPressure()">احسب النتيجة</button>
-  <div id="pres-result" class="calc-result"></div>
+<div id="calc-crossfall" class="calc-section" style="display:none;">
+  <div class="calc-title">📐 Crossfall Check</div>
+  <div class="calc-row"><span class="calc-label">الانحدار العرضي الفعلي:</span><input class="calc-input" id="crf-val" type="number" placeholder="2.5" step="0.1"><span class="calc-unit">%</span></div>
+  <button class="calc-btn" onclick="calcCrossfall()">احسب</button>
+  <div id="crf-result" class="calc-result"></div>
 </div>
 
-<!-- REBAR -->
-<div id="calc-rebar" class="calc-section" style="display:none;">
-  <div class="calc-title">🔩 Rebar Tensile Test — حديد التسليح</div>
-  <div class="calc-row"><span class="calc-label">قطر الحديد:</span>
-    <select class="calc-select" id="reb-dia">
-      <option value="500">Grade 500B (fy ≥ 500 N/mm²)</option>
-    </select>
-  </div>
-  <div class="calc-row"><span class="calc-label">Yield Strength (fy):</span><input class="calc-input" id="reb-fy" type="number" placeholder="520"><span class="calc-unit">N/mm²</span></div>
-  <div class="calc-row"><span class="calc-label">Ultimate Strength (fu):</span><input class="calc-input" id="reb-fu" type="number" placeholder="630"><span class="calc-unit">N/mm²</span></div>
-  <div class="calc-row"><span class="calc-label">Elongation:</span><input class="calc-input" id="reb-elong" type="number" placeholder="16" step="0.1"><span class="calc-unit">%</span></div>
-  <button class="calc-btn" onclick="calcRebar()">احسب النتيجة</button>
-  <div id="reb-result" class="calc-result"></div>
+<div id="calc-skid" class="calc-section" style="display:none;">
+  <div class="calc-title">🛣️ Skid Resistance (PSV)</div>
+  <div class="calc-row"><span class="calc-label">نتيجة PSV:</span><input class="calc-input" id="skid-val" type="number" placeholder="58"><span class="calc-unit">PSV</span></div>
+  <button class="calc-btn" onclick="calcSkid()">احسب</button>
+  <div id="skid-result" class="calc-result"></div>
 </div>
 
-<!-- LEVEL -->
 <div id="calc-level" class="calc-section" style="display:none;">
   <div class="calc-title">📐 Level Survey — دقة المنسوب</div>
   <div class="calc-row"><span class="calc-label">نوع الطبقة:</span>
@@ -1232,10 +1309,245 @@ const detailData = {
   </div>
   <div class="calc-row"><span class="calc-label">المنسوب التصميمي:</span><input class="calc-input" id="lev-design" type="number" placeholder="100.000" step="0.001"><span class="calc-unit">m</span></div>
   <div class="calc-row"><span class="calc-label">المنسوب الفعلي:</span><input class="calc-input" id="lev-actual" type="number" placeholder="100.008" step="0.001"><span class="calc-unit">m</span></div>
-  <button class="calc-btn" onclick="calcLevel()">احسب النتيجة</button>
+  <button class="calc-btn" onclick="calcLevel()">احسب</button>
   <div id="lev-result" class="calc-result"></div>
 </div>
+
+<div id="calc-plate_load" class="calc-section" style="display:none;">
+  <div class="calc-title">⚖️ Plate Load Test — Modulus of Subgrade Reaction</div>
+  <div class="calc-row"><span class="calc-label">نتيجة K (CBR method):</span><input class="calc-input" id="plt-val" type="number" placeholder="45" step="1"><span class="calc-unit">MN/m³</span></div>
+  <div class="calc-row"><span class="calc-label">القيمة التصميمية:</span><input class="calc-input" id="plt-req" type="number" placeholder="40" step="1"><span class="calc-unit">MN/m³</span></div>
+  <button class="calc-btn" onclick="calcPlateLoad()">احسب</button>
+  <div id="plt-result" class="calc-result"></div>
+</div>
+
+<div id="calc-prime_rate" class="calc-section" style="display:none;">
+  <div class="calc-title">🛢️ Prime / Tack Coat Application Rate</div>
+  <div class="calc-row"><span class="calc-label">نوع الطبقة:</span>
+    <select class="calc-select" id="prate-type">
+      <option value="prime">Prime Coat (0.8-1.2 L/m²)</option>
+      <option value="tack-binder">Tack Coat — Binder (0.3-0.5 L/m²)</option>
+      <option value="tack-wearing">Tack Coat — Wearing (0.2-0.4 L/m²)</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">الكمية المرشوشة:</span><input class="calc-input" id="prate-qty" type="number" placeholder="2.4" step="0.1"><span class="calc-unit">L</span></div>
+  <div class="calc-row"><span class="calc-label">المساحة:</span><input class="calc-input" id="prate-area" type="number" placeholder="2.5" step="0.1"><span class="calc-unit">m²</span></div>
+  <button class="calc-btn" onclick="calcPrimeRate()">احسب</button>
+  <div id="prate-result" class="calc-result"></div>
+</div>
+</div>
+
+<!-- ===== UTILITIES ===== -->
+<div id="cat-utilities" style="display:none;">
+<div class="calc-tabs">
+  <div class="calc-tab active" onclick="switchCalc('pressure',this)">Pressure Test</div>
+  <div class="calc-tab" onclick="switchCalc('airtest',this)">Air Test</div>
+  <div class="calc-tab" onclick="switchCalc('chlorine',this)">Chlorination</div>
+  <div class="calc-tab" onclick="switchCalc('residual_cl',this)">Residual Cl</div>
+  <div class="calc-tab" onclick="switchCalc('turbidity',this)">Turbidity</div>
+  <div class="calc-tab" onclick="switchCalc('ph_test',this)">pH</div>
+  <div class="calc-tab" onclick="switchCalc('pipe_sep',this)">Pipe Sep.</div>
+  <div class="calc-tab" onclick="switchCalc('sewer_grad',this)">Gradient</div>
+  <div class="calc-tab" onclick="switchCalc('manhole_wt',this)">Manhole</div>
+  <div class="calc-tab" onclick="switchCalc('cctv_grade',this)">CCTV</div>
+  <div class="calc-tab" onclick="switchCalc('gully_level',this)">Gully Level</div>
+</div>
+
+<div id="calc-pressure" class="calc-section">
+  <div class="calc-title">💧 Hydrostatic Pressure Test — مياه الشرب / معالجة</div>
+  <div class="calc-row"><span class="calc-label">الضغط التصميمي:</span><input class="calc-input" id="pres-design" type="number" placeholder="10"><span class="calc-unit">bar</span></div>
+  <div class="calc-row"><span class="calc-label">ضغط الاختبار الفعلي:</span><input class="calc-input" id="pres-test" type="number" placeholder="15" step="0.1"><span class="calc-unit">bar</span></div>
+  <div class="calc-row"><span class="calc-label">ضغط البداية:</span><input class="calc-input" id="pres-start" type="number" placeholder="15.0" step="0.1"><span class="calc-unit">bar</span></div>
+  <div class="calc-row"><span class="calc-label">ضغط النهاية (2hr):</span><input class="calc-input" id="pres-end" type="number" placeholder="14.9" step="0.1"><span class="calc-unit">bar</span></div>
+  <button class="calc-btn" onclick="calcPressure()">احسب</button>
+  <div id="pres-result" class="calc-result"></div>
+</div>
+
+<div id="calc-airtest" class="calc-section" style="display:none;">
+  <div class="calc-title">💨 Air Test — الصرف الصحي</div>
+  <div class="calc-row"><span class="calc-label">ضغط البداية:</span><input class="calc-input" id="air-start" type="number" placeholder="100"><span class="calc-unit">mm WG</span></div>
+  <div class="calc-row"><span class="calc-label">ضغط النهاية (5 دقائق):</span><input class="calc-input" id="air-end" type="number" placeholder="82"><span class="calc-unit">mm WG</span></div>
+  <button class="calc-btn" onclick="calcAirTest()">احسب</button>
+  <div id="air-result" class="calc-result"></div>
+</div>
+
+<div id="calc-chlorine" class="calc-section" style="display:none;">
+  <div class="calc-title">💊 Chlorination — تعقيم مياه الشرب</div>
+  <div class="calc-row"><span class="calc-label">تركيز الكلور:</span><input class="calc-input" id="chl-conc" type="number" placeholder="55" step="1"><span class="calc-unit">ppm</span></div>
+  <div class="calc-row"><span class="calc-label">مدة التلامس:</span><input class="calc-input" id="chl-time" type="number" placeholder="26" step="1"><span class="calc-unit">ساعة</span></div>
+  <button class="calc-btn" onclick="calcChlorination()">احسب</button>
+  <div id="chl-result" class="calc-result"></div>
+</div>
+
+<div id="calc-residual_cl" class="calc-section" style="display:none;">
+  <div class="calc-title">💧 Residual Chlorine — بعد Flushing</div>
+  <div class="calc-row"><span class="calc-label">Residual Chlorine:</span><input class="calc-input" id="rcl-val" type="number" placeholder="0.35" step="0.01"><span class="calc-unit">ppm</span></div>
+  <button class="calc-btn" onclick="calcResidualCl()">احسب</button>
+  <div id="rcl-result" class="calc-result"></div>
+</div>
+
+<div id="calc-turbidity" class="calc-section" style="display:none;">
+  <div class="calc-title">🌊 Turbidity — عكارة المياه</div>
+  <div class="calc-row"><span class="calc-label">نتيجة Turbidity:</span><input class="calc-input" id="turb-val" type="number" placeholder="0.5" step="0.1"><span class="calc-unit">NTU</span></div>
+  <button class="calc-btn" onclick="calcTurbidity()">احسب</button>
+  <div id="turb-result" class="calc-result"></div>
+</div>
+
+<div id="calc-ph_test" class="calc-section" style="display:none;">
+  <div class="calc-title">🧪 pH Test — حموضة المياه</div>
+  <div class="calc-row"><span class="calc-label">نتيجة pH:</span><input class="calc-input" id="ph-val" type="number" placeholder="7.2" step="0.1"><span class="calc-unit">pH</span></div>
+  <button class="calc-btn" onclick="calcPH()">احسب</button>
+  <div id="ph-result" class="calc-result"></div>
+</div>
+
+<div id="calc-pipe_sep" class="calc-section" style="display:none;">
+  <div class="calc-title">📏 Pipe Separation — الفصل بين الشبكات</div>
+  <div class="calc-row"><span class="calc-label">المسافة الأفقية الفعلية:</span><input class="calc-input" id="psep-val" type="number" placeholder="1.2" step="0.1"><span class="calc-unit">m</span></div>
+  <div class="calc-row"><span class="calc-label">نوع الفصل:</span>
+    <select class="calc-select" id="psep-type">
+      <option value="1.0">مياه شرب / صرف صحي (≥ 1.0m)</option>
+      <option value="1.0">مياه شرب / معالجة (≥ 1.0m)</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcPipeSep()">احسب</button>
+  <div id="psep-result" class="calc-result"></div>
+</div>
+
+<div id="calc-sewer_grad" class="calc-section" style="display:none;">
+  <div class="calc-title">📐 Sewer Gradient — انحدار الصرف الصحي</div>
+  <div class="calc-row"><span class="calc-label">قطر الماسورة (DN):</span>
+    <select class="calc-select" id="grad-dn">
+      <option value="100">DN150 (≥ 1:100)</option>
+      <option value="150">DN225+ (≥ 1:150)</option>
+      <option value="200">DN300+ (≥ 1:200)</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">فرق المنسوب:</span><input class="calc-input" id="grad-diff" type="number" placeholder="0.90" step="0.01"><span class="calc-unit">m</span></div>
+  <div class="calc-row"><span class="calc-label">طول القطعة:</span><input class="calc-input" id="grad-len" type="number" placeholder="90" step="1"><span class="calc-unit">m</span></div>
+  <button class="calc-btn" onclick="calcSewerGrad()">احسب</button>
+  <div id="grad-result" class="calc-result"></div>
+</div>
+
+<div id="calc-manhole_wt" class="calc-section" style="display:none;">
+  <div class="calc-title">🕳️ Manhole Water Tightness</div>
+  <div class="calc-row"><span class="calc-label">مستوى المياه البداية:</span><input class="calc-input" id="mh-start" type="number" placeholder="1000" step="1"><span class="calc-unit">mm</span></div>
+  <div class="calc-row"><span class="calc-label">مستوى المياه بعد 24hr:</span><input class="calc-input" id="mh-end" type="number" placeholder="998" step="1"><span class="calc-unit">mm</span></div>
+  <button class="calc-btn" onclick="calcManholeWT()">احسب</button>
+  <div id="mh-result" class="calc-result"></div>
+</div>
+
+<div id="calc-cctv_grade" class="calc-section" style="display:none;">
+  <div class="calc-title">📹 CCTV Inspection Grade</div>
+  <div class="calc-row"><span class="calc-label">Grade المعطى:</span>
+    <select class="calc-select" id="cctv-grade">
+      <option value="1">Grade 1 — لا عيوب</option>
+      <option value="2">Grade 2 — عيوب بسيطة</option>
+      <option value="3">Grade 3 — عيوب متوسطة</option>
+      <option value="4">Grade 4 — عيوب خطيرة</option>
+      <option value="5">Grade 5 — انهيار</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcCCTV()">احسب</button>
+  <div id="cctv-result" class="calc-result"></div>
+</div>
+
+<div id="calc-gully_level" class="calc-section" style="display:none;">
+  <div class="calc-title">🕳️ Gully Level Check</div>
+  <div class="calc-row"><span class="calc-label">منسوب الطريق:</span><input class="calc-input" id="gul-road" type="number" placeholder="100.000" step="0.001"><span class="calc-unit">m</span></div>
+  <div class="calc-row"><span class="calc-label">منسوب Gully Grating:</span><input class="calc-input" id="gul-gully" type="number" placeholder="99.997" step="0.001"><span class="calc-unit">m</span></div>
+  <button class="calc-btn" onclick="calcGullyLevel()">احسب</button>
+  <div id="gul-result" class="calc-result"></div>
+</div>
+</div>
+
+<!-- ===== STRUCTURAL ===== -->
+<div id="cat-structural" style="display:none;">
+<div class="calc-tabs">
+  <div class="calc-tab active" onclick="switchCalc('concrete',this)">خرسانة</div>
+  <div class="calc-tab" onclick="switchCalc('rebar',this)">حديد</div>
+  <div class="calc-tab" onclick="switchCalc('slump',this)">Slump</div>
+  <div class="calc-tab" onclick="switchCalc('cover',this)">Cover</div>
+  <div class="calc-tab" onclick="switchCalc('lap_length',this)">Lap Length</div>
+</div>
+
+<div id="calc-concrete" class="calc-section">
+  <div class="calc-title">🏗️ Concrete Cube Test</div>
+  <div class="calc-row"><span class="calc-label">درجة الخرسانة:</span>
+    <select class="calc-select" id="con-grade">
+      <option value="25">C25 (25 N/mm²)</option>
+      <option value="30">C30 (30 N/mm²)</option>
+      <option value="35">C35 (35 N/mm²)</option>
+      <option value="40">C40 (40 N/mm²)</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">عمر المكعب:</span>
+    <select class="calc-select" id="con-age">
+      <option value="7">7 أيام (≥ 70% fcu)</option>
+      <option value="28">28 يوم (≥ 100% fcu)</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">نتيجة المكعب:</span><input class="calc-input" id="con-result-val" type="number" placeholder="28.5" step="0.1"><span class="calc-unit">N/mm²</span></div>
+  <button class="calc-btn" onclick="calcConcrete()">احسب</button>
+  <div id="con-result" class="calc-result"></div>
+</div>
+
+<div id="calc-rebar" class="calc-section" style="display:none;">
+  <div class="calc-title">🔩 Rebar Tensile Test — Grade 500B</div>
+  <div class="calc-row"><span class="calc-label">Yield Strength (fy):</span><input class="calc-input" id="reb-fy" type="number" placeholder="520"><span class="calc-unit">N/mm²</span></div>
+  <div class="calc-row"><span class="calc-label">Ultimate Strength (fu):</span><input class="calc-input" id="reb-fu" type="number" placeholder="630"><span class="calc-unit">N/mm²</span></div>
+  <div class="calc-row"><span class="calc-label">Elongation:</span><input class="calc-input" id="reb-elong" type="number" placeholder="16" step="0.1"><span class="calc-unit">%</span></div>
+  <button class="calc-btn" onclick="calcRebar()">احسب</button>
+  <div id="reb-result" class="calc-result"></div>
+</div>
+
+<div id="calc-slump" class="calc-section" style="display:none;">
+  <div class="calc-title">🏗️ Slump Test — هبوط الخرسانة</div>
+  <div class="calc-row"><span class="calc-label">نوع الصب:</span>
+    <select class="calc-select" id="slump-type">
+      <option value="75,100">صب عادي (75-100mm)</option>
+      <option value="100,150">صب بمضخة (100-150mm)</option>
+      <option value="175,225">Bored Piles (175-225mm)</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">نتيجة Slump:</span><input class="calc-input" id="slump-val" type="number" placeholder="90"><span class="calc-unit">mm</span></div>
+  <button class="calc-btn" onclick="calcSlump()">احسب</button>
+  <div id="slump-result" class="calc-result"></div>
+</div>
+
+<div id="calc-cover" class="calc-section" style="display:none;">
+  <div class="calc-title">📏 Concrete Cover — غطاء الحديد</div>
+  <div class="calc-row"><span class="calc-label">نوع العنصر:</span>
+    <select class="calc-select" id="cover-type">
+      <option value="75">أساسات (75mm)</option>
+      <option value="40">أعمدة خارجية (40mm)</option>
+      <option value="25">أعمدة داخلية (25mm)</option>
+      <option value="40">بلاطات خارجية (40mm)</option>
+      <option value="20">بلاطات داخلية (20mm)</option>
+      <option value="75">خوازيق (75mm)</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">Cover الفعلي المقاس:</span><input class="calc-input" id="cover-val" type="number" placeholder="42"><span class="calc-unit">mm</span></div>
+  <button class="calc-btn" onclick="calcCover()">احسب</button>
+  <div id="cover-result" class="calc-result"></div>
+</div>
+
+<div id="calc-lap_length" class="calc-section" style="display:none;">
+  <div class="calc-title">🔩 Lap Length — طول الوصلة</div>
+  <div class="calc-row"><span class="calc-label">نوع الوصلة:</span>
+    <select class="calc-select" id="lap-type">
+      <option value="40">Tension — عادي (40d)</option>
+      <option value="50">Tension — بيئة عدوانية (50d)</option>
+      <option value="30">Compression (30d)</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">قطر الحديد (d):</span><input class="calc-input" id="lap-dia" type="number" placeholder="16"><span class="calc-unit">mm</span></div>
+  <div class="calc-row"><span class="calc-label">طول الوصلة الفعلي:</span><input class="calc-input" id="lap-actual" type="number" placeholder="680"><span class="calc-unit">mm</span></div>
+  <button class="calc-btn" onclick="calcLapLength()">احسب</button>
+  <div id="lap-result" class="calc-result"></div>
+</div>
+</div>
 ` },
+
 
   itp_subgrade: { title: '📋 ITP — Subgrade', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 2</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>Standard Proctor</td><td>ASTM D698</td><td>تحديد MDD و OMC</td><td>كل تغيير مادة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.2</td><td>CBR Soaked 4 days</td><td>ASTM D1883</td><td>≥ 8%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.3</td><td>Atterberg Limits</td><td>ASTM D4318</td><td>LL ≤ 35% | PI ≤ 10%</td><td>كل تغيير مادة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 95% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr><tr><td>3.2</td><td>Level Survey</td><td>Design Drawing</td><td>± 10mm</td><td>كل 25m</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Survey Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness Point | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
   itp_subbase: { title: '📋 ITP — Subbase', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 3</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>CBR Soaked</td><td>ASTM D1883</td><td>≥ 30%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.2</td><td>Plasticity Index</td><td>ASTM D4318</td><td>≤ 6%</td><td>كل 500m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 98% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
@@ -1291,44 +1603,115 @@ function showToast(msg) {
 
 
 // ===== CALCULATOR =====
+function switchMainCat(cat, btn) {
+  ['roads','utilities','structural'].forEach(c => {
+    const el = document.getElementById('cat-' + c);
+    const tab = document.getElementById('main-tab-' + c);
+    if (el) el.style.display = c === cat ? 'block' : 'none';
+    if (tab) {
+      if (c === cat) {
+        tab.style.background = 'rgba(201,168,76,0.15)';
+        tab.style.borderColor = 'rgba(201,168,76,0.3)';
+        tab.style.color = 'var(--gold2)';
+        tab.style.fontWeight = '700';
+      } else {
+        tab.style.background = 'var(--dark4)';
+        tab.style.borderColor = 'var(--border)';
+        tab.style.color = 'var(--text2)';
+        tab.style.fontWeight = '400';
+      }
+    }
+  });
+  // Reset tabs in the activated category
+  const catEl = document.getElementById('cat-' + cat);
+  if (catEl) {
+    catEl.querySelectorAll('.calc-section').forEach((s,i) => s.style.display = i===0 ? 'block' : 'none');
+    catEl.querySelectorAll('.calc-tab').forEach((t,i) => { t.classList.toggle('active', i===0); });
+  }
+}
+
 function switchCalc(id, tab) {
-  document.querySelectorAll('.calc-section').forEach(s => s.style.display = 'none');
-  document.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('calc-' + id).style.display = 'block';
+  const parent = tab.closest('[id^="cat-"]');
+  if (parent) {
+    parent.querySelectorAll('.calc-section').forEach(s => s.style.display = 'none');
+    parent.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('active'));
+  }
+  const el = document.getElementById('calc-' + id);
+  if (el) el.style.display = 'block';
   tab.classList.add('active');
 }
 
 function showResult(elId, pass, value, required, detail) {
   const el = document.getElementById(elId);
+  if (!el) return;
   el.style.display = 'block';
   el.className = 'calc-result ' + (pass ? 'pass' : 'fail');
-  el.innerHTML = `
-    <span class="calc-result-icon">${pass ? '✅' : '❌'}</span>
-    <div class="calc-result-text">${pass ? 'PASS — مطابق للمواصفة' : 'FAIL — لا يطابق المواصفة'}</div>
-    <div class="calc-result-detail">${detail}</div>
-  `;
+  el.innerHTML = `<span class="calc-result-icon">${pass ? '✅' : '❌'}</span><div class="calc-result-text">${pass ? 'PASS — مطابق للمواصفة' : 'FAIL — لا يطابق المواصفة'}</div><div class="calc-result-detail">${detail}</div>`;
 }
 
+// ROADS
 function calcCompaction() {
   const actual = parseFloat(document.getElementById('comp-actual').value);
   const mdd = parseFloat(document.getElementById('comp-mdd').value);
   const req = parseFloat(document.getElementById('comp-layer').value);
   if (!actual || !mdd) return showToast('❌ أدخل كل البيانات');
   const pct = (actual / mdd * 100).toFixed(1);
-  const pass = parseFloat(pct) >= req;
-  showResult('comp-result', pass, pct, req,
-    `نسبة الدمك الفعلية: ${pct}% | المطلوب: ≥ ${req}% MDD | الفرق: ${(pct - req).toFixed(1)}%`);
+  showResult('comp-result', parseFloat(pct) >= req, pct, req, `نسبة الدمك: ${pct}% | المطلوب: ≥ ${req}% MDD | الفرق: ${(pct - req).toFixed(1)}%`);
 }
 
 function calcCBR() {
   const val = parseFloat(document.getElementById('cbr-val').value);
   const req = parseFloat(document.getElementById('cbr-layer').value);
-  const soak = document.getElementById('cbr-soak').value;
   if (!val) return showToast('❌ أدخل نتيجة CBR');
-  const pass = val >= req;
-  const soakNote = soak === 'unsoaked' ? ' ⚠️ تنبيه: المطلوب Soaked 4 days' : '';
-  showResult('cbr-result', pass, val, req,
-    `CBR الفعلي: ${val}% | المطلوب: ≥ ${req}%${soakNote}`);
+  showResult('cbr-result', val >= req, val, req, `CBR الفعلي: ${val}% | المطلوب: ≥ ${req}% (Soaked 4 days)`);
+}
+
+function calcAtterberg() {
+  const ll = parseFloat(document.getElementById('att-ll').value);
+  const pl = parseFloat(document.getElementById('att-pl').value);
+  const layer = document.getElementById('att-layer').value;
+  if (!ll || !pl) return showToast('❌ أدخل LL و PL');
+  const pi = ll - pl;
+  let llReq = 35, piReq = 10;
+  if (layer === 'subbase') { llReq = 999; piReq = 6; }
+  if (layer === 'base') { llReq = 999; piReq = 4; }
+  const llPass = ll <= llReq;
+  const piPass = pi <= piReq;
+  const allPass = llPass && piPass;
+  showResult('att-result', allPass, null, null, `PI = ${pi.toFixed(1)}% ${piPass ? '✅' : '❌'} (≤${piReq}%) | LL = ${ll}% ${llPass && llReq < 100 ? (ll <= llReq ? '✅' : '❌') : '✅'} ${llReq < 100 ? '(≤'+llReq+'%)' : ''}`);
+}
+
+function calcLA() {
+  const val = parseFloat(document.getElementById('la-val').value);
+  const req = parseFloat(document.getElementById('la-layer').value);
+  if (!val) return showToast('❌ أدخل النتيجة');
+  showResult('la-result', val <= req, val, req, `LA Abrasion: ${val}% | المطلوب: ≤ ${req}%`);
+}
+
+function calcFlakiness() {
+  const val = parseFloat(document.getElementById('fli-val').value);
+  const req = parseFloat(document.getElementById('fli-layer').value);
+  if (!val) return showToast('❌ أدخل النتيجة');
+  showResult('fli-result', val <= req, val, req, `Flakiness Index: ${val}% | المطلوب: ≤ ${req}%`);
+}
+
+function calcSandEq() {
+  const val = parseFloat(document.getElementById('se-val').value);
+  const req = parseFloat(document.getElementById('se-layer').value);
+  if (!val) return showToast('❌ أدخل النتيجة');
+  showResult('se-result', val >= req, val, req, `Sand Equivalent: ${val}% | المطلوب: ≥ ${req}%`);
+}
+
+function calcSulphate() {
+  const sul = parseFloat(document.getElementById('sul-val').value);
+  const chl = parseFloat(document.getElementById('chl-val').value);
+  const type = document.getElementById('sul-type').value;
+  if (!sul) return showToast('❌ أدخل نتيجة Sulphate');
+  const sulReq = type === 'soil' ? 0.5 : 0.4;
+  const chlReq = type === 'soil' ? 0.6 : 0.04;
+  const sulPass = sul <= sulReq;
+  const chlPass = !chl || chl <= chlReq;
+  showResult('sul-result', sulPass && chlPass, null, null, `SO3: ${sul}% ${sulPass ? '✅' : '❌'} (≤${sulReq}%)${chl ? ` | Cl: ${chl}% ${chlPass ? '✅' : '❌'} (≤${chlReq}%)` : ''}`);
 }
 
 function calcMarshall() {
@@ -1338,44 +1721,91 @@ function calcMarshall() {
   const bit = parseFloat(document.getElementById('mar-bit').value);
   const layer = document.getElementById('mar-layer').value;
   if (!stab || !flow || !va) return showToast('❌ أدخل كل البيانات');
-  const minStab = layer === 'binder' ? 8 : 8;
   const bitMin = layer === 'binder' ? 4.5 : 5.0;
   const bitMax = layer === 'binder' ? 6.0 : 6.5;
-  const stabPass = stab >= minStab;
+  const stabPass = stab >= 8;
   const flowPass = flow >= 2 && flow <= 4;
   const vaPass = va >= 3 && va <= 5;
   const bitPass = !bit || (bit >= bitMin && bit <= bitMax);
   const allPass = stabPass && flowPass && vaPass && bitPass;
-  const details = [
-    `Stability: ${stab} kN ${stabPass ? '✅' : '❌'} (≥${minStab})`,
-    `Flow: ${flow} mm ${flowPass ? '✅' : '❌'} (2-4mm)`,
-    `Air Voids: ${va}% ${vaPass ? '✅' : '❌'} (3-5%)`,
-    bit ? `Bitumen: ${bit}% ${bitPass ? '✅' : '❌'} (${bitMin}-${bitMax}%)` : ''
-  ].filter(Boolean).join(' | ');
-  showResult('mar-result', allPass, null, null, details);
+  showResult('mar-result', allPass, null, null, `Stability: ${stab}kN ${stabPass?'✅':'❌'} | Flow: ${flow}mm ${flowPass?'✅':'❌'} | Va: ${va}% ${vaPass?'✅':'❌'}${bit ? ` | Bitumen: ${bit}% ${bitPass?'✅':'❌'} (${bitMin}-${bitMax}%)` : ''}`);
 }
 
-function calcConcrete() {
-  const grade = parseFloat(document.getElementById('con-grade').value);
-  const age = parseInt(document.getElementById('con-age').value);
-  const result = parseFloat(document.getElementById('con-result-val').value);
-  if (!result) return showToast('❌ أدخل نتيجة المكعب');
-  const req = age === 7 ? grade * 0.7 : grade;
-  const pass = result >= req;
-  showResult('con-result', pass, result, req,
-    `نتيجة المكعب: ${result} N/mm² | المطلوب عند ${age} يوم: ≥ ${req.toFixed(1)} N/mm² | درجة الخرسانة: C${grade}`);
+function calcCoreDensity() {
+  const bulk = parseFloat(document.getElementById('core-bulk').value);
+  const tmd = parseFloat(document.getElementById('core-tmd').value);
+  if (!bulk || !tmd) return showToast('❌ أدخل كل البيانات');
+  const pct = (bulk / tmd * 100).toFixed(1);
+  showResult('core-result', parseFloat(pct) >= 98, pct, 98, `نسبة الدمك: ${pct}% TMD | المطلوب: ≥ 98% TMD`);
 }
 
-function calcAirTest() {
-  const start = parseFloat(document.getElementById('air-start').value);
-  const end = parseFloat(document.getElementById('air-end').value);
-  if (!start || !end) return showToast('❌ أدخل كل البيانات');
-  const drop = start - end;
-  const pass = drop <= 25;
-  showResult('air-result', pass, drop, 25,
-    `الانخفاض الفعلي: ${drop.toFixed(1)} mm WG | المسموح: ≤ 25mm خلال 5 دقائق`);
+function calcBitumen() {
+  const jmf = parseFloat(document.getElementById('bit-jmf').value);
+  const actual = parseFloat(document.getElementById('bit-actual').value);
+  if (!jmf || !actual) return showToast('❌ أدخل كل البيانات');
+  const diff = Math.abs(actual - jmf).toFixed(2);
+  const pass = parseFloat(diff) <= 0.3;
+  showResult('bit-result', pass, diff, 0.3, `JMF: ${jmf}% | الفعلي: ${actual}% | الفرق: ${diff}% | المسموح: ± 0.3%`);
 }
 
+function calcTemperature() {
+  const val = parseFloat(document.getElementById('temp-val').value);
+  const stage = document.getElementById('temp-stage').value;
+  if (!val) return showToast('❌ أدخل درجة الحرارة');
+  const limits = {delivery:[140,999],laying:[130,999],initial:[130,145],intermediate:[100,125],final:[80,100]};
+  const [min,max] = limits[stage];
+  const pass = val >= min && val <= max;
+  showResult('temp-result', pass, val, null, `درجة الحرارة: ${val}°C | المطلوب: ${min}${max<999?'-'+max:'+'} °C`);
+}
+
+function calcStraightedge() {
+  const val = parseFloat(document.getElementById('str-val').value);
+  if (isNaN(val)) return showToast('❌ أدخل النتيجة');
+  showResult('str-result', val <= 5, val, 5, `الفجوة الفعلية: ${val}mm | المطلوب: ≤ 5mm`);
+}
+
+function calcCrossfall() {
+  const val = parseFloat(document.getElementById('crf-val').value);
+  if (isNaN(val)) return showToast('❌ أدخل النتيجة');
+  const pass = val >= 2 && val <= 3;
+  showResult('crf-result', pass, val, null, `Crossfall الفعلي: ${val}% | المطلوب: 2-3%`);
+}
+
+function calcSkid() {
+  const val = parseFloat(document.getElementById('skid-val').value);
+  if (!val) return showToast('❌ أدخل النتيجة');
+  showResult('skid-result', val >= 55, val, 55, `PSV الفعلي: ${val} | المطلوب: ≥ 55 PSV`);
+}
+
+function calcLevel() {
+  const design = parseFloat(document.getElementById('lev-design').value);
+  const actual = parseFloat(document.getElementById('lev-actual').value);
+  const tol = parseFloat(document.getElementById('lev-layer').value);
+  if (isNaN(design) || isNaN(actual)) return showToast('❌ أدخل كل البيانات');
+  const diff = Math.abs(actual - design) * 1000;
+  showResult('lev-result', diff <= tol, diff, tol, `الفرق الفعلي: ${diff.toFixed(1)}mm | المسموح: ±${tol}mm | ${actual>design?'مرتفع':'منخفض'} بـ ${diff.toFixed(1)}mm`);
+}
+
+function calcPlateLoad() {
+  const val = parseFloat(document.getElementById('plt-val').value);
+  const req = parseFloat(document.getElementById('plt-req').value);
+  if (!val || !req) return showToast('❌ أدخل كل البيانات');
+  showResult('plt-result', val >= req, val, req, `K الفعلي: ${val} MN/m³ | المطلوب: ≥ ${req} MN/m³`);
+}
+
+function calcPrimeRate() {
+  const qty = parseFloat(document.getElementById('prate-qty').value);
+  const area = parseFloat(document.getElementById('prate-area').value);
+  const type = document.getElementById('prate-type').value;
+  if (!qty || !area) return showToast('❌ أدخل كل البيانات');
+  const rate = qty / area;
+  const limits = {prime:[0.8,1.2],'tack-binder':[0.3,0.5],'tack-wearing':[0.2,0.4]};
+  const [min,max] = limits[type];
+  const pass = rate >= min && rate <= max;
+  showResult('prate-result', pass, rate.toFixed(3), null, `معدل الرش الفعلي: ${rate.toFixed(3)} L/m² | المطلوب: ${min}-${max} L/m²`);
+}
+
+// UTILITIES
 function calcPressure() {
   const design = parseFloat(document.getElementById('pres-design').value);
   const test = parseFloat(document.getElementById('pres-test').value);
@@ -1385,10 +1815,96 @@ function calcPressure() {
   const reqTest = design * 1.5;
   const drop = start - end;
   const testPass = test >= reqTest;
-  const dropPass = drop === 0;
-  const allPass = testPass && dropPass;
-  showResult('pres-result', allPass, null, null,
-    `ضغط الاختبار: ${test} bar ${testPass ? '✅' : '❌'} (المطلوب ≥ ${reqTest} bar) | الانخفاض: ${drop.toFixed(2)} bar ${dropPass ? '✅' : '❌'} (المطلوب = صفر)`);
+  const dropPass = drop <= 0.01;
+  showResult('pres-result', testPass && dropPass, null, null, `ضغط الاختبار: ${test} bar ${testPass?'✅':'❌'} (≥${reqTest}) | الانخفاض: ${drop.toFixed(3)} bar ${dropPass?'✅':'❌'} (يجب = صفر)`);
+}
+
+function calcAirTest() {
+  const start = parseFloat(document.getElementById('air-start').value);
+  const end = parseFloat(document.getElementById('air-end').value);
+  if (!start || !end) return showToast('❌ أدخل كل البيانات');
+  const drop = start - end;
+  showResult('air-result', drop <= 25, drop, 25, `الانخفاض: ${drop.toFixed(1)} mm WG | المسموح: ≤ 25mm في 5 دقائق`);
+}
+
+function calcChlorination() {
+  const conc = parseFloat(document.getElementById('chl-conc').value);
+  const time = parseFloat(document.getElementById('chl-time').value);
+  if (!conc || !time) return showToast('❌ أدخل كل البيانات');
+  const concPass = conc >= 50;
+  const timePass = time >= 24;
+  showResult('chl-result', concPass && timePass, null, null, `التركيز: ${conc} ppm ${concPass?'✅':'❌'} (≥50ppm) | المدة: ${time}hr ${timePass?'✅':'❌'} (≥24hr)`);
+}
+
+function calcResidualCl() {
+  const val = parseFloat(document.getElementById('rcl-val').value);
+  if (isNaN(val)) return showToast('❌ أدخل النتيجة');
+  const pass = val >= 0.2 && val <= 0.5;
+  showResult('rcl-result', pass, val, null, `Residual Cl: ${val} ppm | المطلوب: 0.2-0.5 ppm`);
+}
+
+function calcTurbidity() {
+  const val = parseFloat(document.getElementById('turb-val').value);
+  if (isNaN(val)) return showToast('❌ أدخل النتيجة');
+  showResult('turb-result', val <= 1, val, 1, `Turbidity: ${val} NTU | المطلوب: ≤ 1 NTU`);
+}
+
+function calcPH() {
+  const val = parseFloat(document.getElementById('ph-val').value);
+  if (isNaN(val)) return showToast('❌ أدخل النتيجة');
+  const pass = val >= 6.5 && val <= 8.5;
+  showResult('ph-result', pass, val, null, `pH: ${val} | المطلوب: 6.5-8.5`);
+}
+
+function calcPipeSep() {
+  const val = parseFloat(document.getElementById('psep-val').value);
+  const req = parseFloat(document.getElementById('psep-type').value);
+  if (isNaN(val)) return showToast('❌ أدخل المسافة');
+  showResult('psep-result', val >= req, val, req, `المسافة الفعلية: ${val}m | المطلوب: ≥ ${req}m`);
+}
+
+function calcSewerGrad() {
+  const diff = parseFloat(document.getElementById('grad-diff').value);
+  const len = parseFloat(document.getElementById('grad-len').value);
+  const minRatio = parseFloat(document.getElementById('grad-dn').value);
+  if (!diff || !len) return showToast('❌ أدخل كل البيانات');
+  const ratio = len / diff;
+  const pass = ratio <= minRatio;
+  const pct = (diff / len * 100).toFixed(3);
+  showResult('grad-result', pass, ratio.toFixed(0), minRatio, `الانحدار: 1:${ratio.toFixed(0)} (${pct}%) | المطلوب: 1:${minRatio} أو أشد`);
+}
+
+function calcManholeWT() {
+  const start = parseFloat(document.getElementById('mh-start').value);
+  const end = parseFloat(document.getElementById('mh-end').value);
+  if (!start || !end) return showToast('❌ أدخل كل البيانات');
+  const drop = start - end;
+  showResult('mh-result', drop === 0, drop, 0, `انخفاض المياه: ${drop}mm خلال 24hr | المطلوب: صفر تسريب`);
+}
+
+function calcCCTV() {
+  const grade = parseInt(document.getElementById('cctv-grade').value);
+  const pass = grade <= 2;
+  const desc = {1:'لا عيوب',2:'عيوب بسيطة مقبولة',3:'عيوب متوسطة — يُعاد',4:'عيوب خطيرة — يُعاد',5:'انهيار — يُعاد'};
+  showResult('cctv-result', pass, grade, 2, `Grade ${grade}: ${desc[grade]} | المقبول: Grade 1 أو 2 فقط`);
+}
+
+function calcGullyLevel() {
+  const road = parseFloat(document.getElementById('gul-road').value);
+  const gully = parseFloat(document.getElementById('gul-gully').value);
+  if (isNaN(road) || isNaN(gully)) return showToast('❌ أدخل كل البيانات');
+  const diff = Math.abs(road - gully) * 1000;
+  showResult('gul-result', diff <= 5, diff, 5, `الفرق: ${diff.toFixed(1)}mm | المسموح: ±5mm من مستوى الطريق`);
+}
+
+// STRUCTURAL
+function calcConcrete() {
+  const grade = parseFloat(document.getElementById('con-grade').value);
+  const age = parseInt(document.getElementById('con-age').value);
+  const result = parseFloat(document.getElementById('con-result-val').value);
+  if (!result) return showToast('❌ أدخل نتيجة المكعب');
+  const req = age === 7 ? grade * 0.7 : grade;
+  showResult('con-result', result >= req, result, req, `نتيجة المكعب: ${result} N/mm² | المطلوب عند ${age} يوم: ≥ ${req.toFixed(1)} N/mm² (C${grade})`);
 }
 
 function calcRebar() {
@@ -1398,23 +1914,33 @@ function calcRebar() {
   if (!fy || !fu) return showToast('❌ أدخل كل البيانات');
   const fyPass = fy >= 500;
   const fuPass = fu >= 600;
-  const ratioPass = fu / fy >= 1.15;
+  const ratioPass = fu/fy >= 1.15;
   const elongPass = !elong || elong >= 14;
-  const allPass = fyPass && fuPass && ratioPass && elongPass;
-  showResult('reb-result', allPass, null, null,
-    `fy: ${fy} ${fyPass ? '✅' : '❌'} (≥500) | fu: ${fu} ${fuPass ? '✅' : '❌'} (≥600) | fu/fy: ${(fu/fy).toFixed(2)} ${ratioPass ? '✅' : '❌'} (≥1.15)${elong ? ` | Elong: ${elong}% ${elongPass ? '✅' : '❌'} (≥14%)` : ''}`);
+  showResult('reb-result', fyPass&&fuPass&&ratioPass&&elongPass, null, null, `fy: ${fy} ${fyPass?'✅':'❌'} | fu: ${fu} ${fuPass?'✅':'❌'} | fu/fy: ${(fu/fy).toFixed(2)} ${ratioPass?'✅':'❌'}${elong ? ` | Elong: ${elong}% ${elongPass?'✅':'❌'}` : ''}`);
 }
 
-function calcLevel() {
-  const design = parseFloat(document.getElementById('lev-design').value);
-  const actual = parseFloat(document.getElementById('lev-actual').value);
-  const tol = parseFloat(document.getElementById('lev-layer').value);
-  if (isNaN(design) || isNaN(actual)) return showToast('❌ أدخل كل البيانات');
-  const diff = Math.abs(actual - design) * 1000;
-  const pass = diff <= tol;
-  showResult('lev-result', pass, diff, tol,
-    `الفرق الفعلي: ${diff.toFixed(1)} mm | المسموح: ± ${tol} mm | ${actual > design ? 'السطح مرتفع بـ' : 'السطح منخفض بـ'} ${diff.toFixed(1)} mm`);
+function calcSlump() {
+  const val = parseFloat(document.getElementById('slump-val').value);
+  const type = document.getElementById('slump-type').value.split(',');
+  const min = parseFloat(type[0]), max = parseFloat(type[1]);
+  if (isNaN(val)) return showToast('❌ أدخل النتيجة');
+  const pass = val >= min && val <= max;
+  showResult('slump-result', pass, val, null, `Slump الفعلي: ${val}mm | المطلوب: ${min}-${max}mm`);
+}
+
+function calcCover() {
+  const req = parseFloat(document.getElementById('cover-type').value);
+  const val = parseFloat(document.getElementById('cover-val').value);
+  if (isNaN(val)) return showToast('❌ أدخل القياس');
+  showResult('cover-result', val >= req, val, req, `Cover الفعلي: ${val}mm | المطلوب: ≥ ${req}mm`);
+}
+
+function calcLapLength() {
+  const mult = parseFloat(document.getElementById('lap-type').value);
+  const dia = parseFloat(document.getElementById('lap-dia').value);
+  const actual = parseFloat(document.getElementById('lap-actual').value);
+  if (!dia || !actual) return showToast('❌ أدخل كل البيانات');
+  const req = mult * dia;
+  showResult('lap-result', actual >= req, actual, req, `الطول الفعلي: ${actual}mm | المطلوب: ${mult}d = ${req}mm (d=${dia}mm)`);
 }
 </script>
-</body>
-</html>
