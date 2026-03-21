@@ -6,8 +6,12 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const geminiKey = process.env.GEMINI_KEY;
-  if (!geminiKey) return res.status(500).json({ error: 'Server key not configured' });
+  const cfAccountId = process.env.CF_ACCOUNT_ID;
+  const cfToken = process.env.CF_TOKEN;
+
+  if (!cfAccountId || !cfToken) {
+    return res.status(500).json({ error: 'Server keys not configured' });
+  }
 
   const { query, partNum } = req.body || {};
   if (!query) return res.status(400).json({ error: 'Missing query' });
@@ -26,29 +30,41 @@ export default async function handler(req, res) {
     const b64 = btoa(bin);
 
     const aiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
+      `https://api.cloudflare.com/client/v4/accounts/${cfAccountId}/ai/run/@cf/meta/llama-3.1-8b-instruct`,
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Authorization': `Bearer ${cfToken}`,
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
-          contents: [{
-            parts: [
-              { text: `أنت مهندس متخصص في المواصفات القطرية QCS 2024. أجب من محتوى الـ PDF المقدم فقط. اذكر رقم الصفحة والقسم. اذكر الأرقام والمعايير بدقة. أجب بالعربية بأسلوب مهني. السؤال: ${query}` },
-              { inline_data: { mime_type: 'application/pdf', data: b64 } }
-            ]
-          }],
-          generationConfig: { maxOutputTokens: 2000, temperature: 0.1 }
+          messages: [
+            {
+              role: 'system',
+              content: `أنت مهندس متخصص في المواصفات القطرية QCS 2024. 
+لديك محتوى من ملف QCS 2024 Part ${partNum}.
+أجب على الأسئلة بدقة تامة بالعربية.
+اذكر الأرقام والمعايير والنسب المئوية بوضوح.
+اذكر رقم القسم والمرجع إذا أمكن.`
+            },
+            {
+              role: 'user',
+              content: `السؤال: ${query}\n\nمحتوى QCS 2024 Part ${partNum} (base64): ${b64.slice(0, 10000)}`
+            }
+          ],
+          max_tokens: 1500,
+          temperature: 0.1
         })
       }
     );
 
     if (!aiRes.ok) {
       const e = await aiRes.json().catch(() => ({}));
-      return res.status(aiRes.status).json({ error: e.error?.message || 'Gemini error' });
+      return res.status(aiRes.status).json({ error: JSON.stringify(e) });
     }
 
     const data = await aiRes.json();
-    const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || 'لم أجد إجابة.';
+    const answer = data.result?.response || 'لم أجد إجابة.';
     return res.status(200).json({ answer, partNum });
 
   } catch (e) {
