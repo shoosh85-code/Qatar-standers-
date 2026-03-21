@@ -145,6 +145,28 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 ::-webkit-scrollbar { width:6px; }
 ::-webkit-scrollbar-track { background:var(--dark2); }
 ::-webkit-scrollbar-thumb { background:rgba(201,168,76,0.2); border-radius:3px; }
+
+.calc-section { margin-bottom:20px; }
+.calc-title { font-family:"Cairo",sans-serif; font-size:14px; font-weight:700; color:var(--gold2); margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+.calc-row { display:flex; gap:8px; align-items:center; margin-bottom:8px; flex-wrap:wrap; }
+.calc-label { font-size:12px; color:var(--text2); min-width:140px; }
+.calc-input { background:var(--dark4); border:1px solid var(--border); border-radius:8px; padding:8px 12px; font-family:"Tajawal",sans-serif; font-size:14px; color:var(--text); outline:none; width:110px; transition:.2s; }
+.calc-input:focus { border-color:var(--border2); }
+.calc-unit { font-size:11px; color:var(--text3); min-width:40px; }
+.calc-select { background:var(--dark4); border:1px solid var(--border); border-radius:8px; padding:8px 12px; font-family:"Tajawal",sans-serif; font-size:13px; color:var(--text); outline:none; flex:1; }
+.calc-btn { background:linear-gradient(135deg,var(--maroon),var(--maroon2)); border:1px solid rgba(201,168,76,0.3); border-radius:10px; padding:10px 24px; color:var(--gold2); font-family:"Tajawal",sans-serif; font-size:14px; font-weight:700; cursor:pointer; transition:.3s; width:100%; margin-top:4px; }
+.calc-btn:hover { box-shadow:0 0 20px rgba(122,21,21,0.5); }
+.calc-result { border-radius:12px; padding:16px; margin-top:12px; text-align:center; display:none; }
+.calc-result.pass { background:rgba(76,175,80,0.12); border:1px solid rgba(76,175,80,0.3); }
+.calc-result.fail { background:rgba(231,76,60,0.12); border:1px solid rgba(231,76,60,0.3); }
+.calc-result-icon { font-size:32px; display:block; margin-bottom:6px; }
+.calc-result-text { font-family:"Cairo",sans-serif; font-size:18px; font-weight:700; }
+.calc-result.pass .calc-result-text { color:#4CAF50; }
+.calc-result.fail .calc-result-text { color:#e74c3c; }
+.calc-result-detail { font-size:12px; color:var(--text2); margin-top:6px; }
+.calc-tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
+.calc-tab { background:var(--dark4); border:1px solid var(--border); border-radius:8px; padding:6px 12px; font-size:12px; color:var(--text2); cursor:pointer; transition:.2s; }
+.calc-tab.active { background:rgba(201,168,76,0.1); border-color:var(--border2); color:var(--gold2); }
 </style>
 </head>
 <body>
@@ -238,6 +260,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div class="cat-card" onclick="openDetail('execution')"><span class="cat-emoji">⚒️</span><div class="cat-name">مراحل التنفيذ</div><div class="cat-desc">خطوات المشروع من الجسات حتى التسليم</div><div class="cat-bottom"><span class="cat-count">35 مرحلة</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="openDetail('testing')"><span class="cat-emoji">🔬</span><div class="cat-name">الاختبارات والفحص</div><div class="cat-desc">اختبارات التربة، الخرسانة، الحديد، الجودة</div><div class="cat-bottom"><span class="cat-count">43 اختبار</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="openDetail('fire')"><span class="cat-emoji">🔥</span><div class="cat-name">الحريق والسلامة</div><div class="cat-desc">كود QCDD، مخارج الطوارئ، أنظمة الإطفاء</div><div class="cat-bottom"><span class="cat-count">38 مواصفة</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('calculator')"><span class="cat-emoji">🧮</span><div class="cat-name">حاسبة المواصفات</div><div class="cat-desc">أدخل نتيجة أي اختبار → Pass أو Fail فوراً</div><div class="cat-bottom"><span class="cat-count">12 اختبار</span><span class="cat-arr">←</span></div></div>
   </div>
   <div class="section-head"><div class="section-title">آخر <span>المواصفات</span></div></div>
   <div class="specs-section">
@@ -1066,6 +1089,154 @@ const detailData = {
 </div>
 ` },
 
+
+  calculator: { title: '🧮 حاسبة المواصفات — Pass / Fail', content: `
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:16px;font-size:12px;">
+أدخل نتيجة الاختبار → الحاسبة تقول Pass ✅ أو Fail ❌ فوراً حسب QCS 2024
+</div>
+
+<div class="calc-tabs">
+  <div class="calc-tab active" onclick="switchCalc('compaction',this)">🏔️ دمك</div>
+  <div class="calc-tab" onclick="switchCalc('cbr',this)">📊 CBR</div>
+  <div class="calc-tab" onclick="switchCalc('marshall',this)">⚫ Marshall</div>
+  <div class="calc-tab" onclick="switchCalc('concrete',this)">🏗️ خرسانة</div>
+  <div class="calc-tab" onclick="switchCalc('airtest',this)">💨 Air Test</div>
+  <div class="calc-tab" onclick="switchCalc('pressure',this)">💧 Pressure</div>
+  <div class="calc-tab" onclick="switchCalc('rebar',this)">🔩 حديد</div>
+  <div class="calc-tab" onclick="switchCalc('level',this)">📐 منسوب</div>
+</div>
+
+<!-- COMPACTION -->
+<div id="calc-compaction" class="calc-section">
+  <div class="calc-title">🏔️ Compaction Test — نسبة الدمك</div>
+  <div class="calc-row"><span class="calc-label">نوع الطبقة:</span>
+    <select class="calc-select" id="comp-layer">
+      <option value="95">Subgrade (≥ 95% MDD)</option>
+      <option value="98">Subbase / Base Course (≥ 98% MDD)</option>
+      <option value="90">Bedding المرافق (≥ 90% MDD)</option>
+      <option value="93">Backfill المرافق 300-600mm (≥ 93% MDD)</option>
+      <option value="95">Backfill الطريق (≥ 95% MDD)</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">Dry Density الفعلية:</span><input class="calc-input" id="comp-actual" type="number" placeholder="1.85" step="0.01"><span class="calc-unit">g/cm³</span></div>
+  <div class="calc-row"><span class="calc-label">MDD (Maximum):</span><input class="calc-input" id="comp-mdd" type="number" placeholder="1.95" step="0.01"><span class="calc-unit">g/cm³</span></div>
+  <button class="calc-btn" onclick="calcCompaction()">احسب النتيجة</button>
+  <div id="comp-result" class="calc-result"></div>
+</div>
+
+<!-- CBR -->
+<div id="calc-cbr" class="calc-section" style="display:none;">
+  <div class="calc-title">📊 CBR Test — نسبة تحمل التربة</div>
+  <div class="calc-row"><span class="calc-label">نوع الطبقة:</span>
+    <select class="calc-select" id="cbr-layer">
+      <option value="8">Subgrade (≥ 8%)</option>
+      <option value="30">Subbase (≥ 30%)</option>
+      <option value="80">Base Course (≥ 80%)</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">نتيجة CBR:</span><input class="calc-input" id="cbr-val" type="number" placeholder="12"><span class="calc-unit">%</span></div>
+  <div class="calc-row"><span class="calc-label">نوع النقع:</span>
+    <select class="calc-select" id="cbr-soak">
+      <option value="soaked">Soaked 4 days (مطلوب)</option>
+      <option value="unsoaked">Unsoaked</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcCBR()">احسب النتيجة</button>
+  <div id="cbr-result" class="calc-result"></div>
+</div>
+
+<!-- MARSHALL -->
+<div id="calc-marshall" class="calc-section" style="display:none;">
+  <div class="calc-title">⚫ Marshall Test — الخلطة الإسفلتية</div>
+  <div class="calc-row"><span class="calc-label">نوع الطبقة:</span>
+    <select class="calc-select" id="mar-layer">
+      <option value="binder">Binder Course</option>
+      <option value="wearing">Wearing Course</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">Marshall Stability:</span><input class="calc-input" id="mar-stab" type="number" placeholder="8.5" step="0.1"><span class="calc-unit">kN</span></div>
+  <div class="calc-row"><span class="calc-label">Marshall Flow:</span><input class="calc-input" id="mar-flow" type="number" placeholder="3.0" step="0.1"><span class="calc-unit">mm</span></div>
+  <div class="calc-row"><span class="calc-label">Air Voids (Va):</span><input class="calc-input" id="mar-va" type="number" placeholder="4.0" step="0.1"><span class="calc-unit">%</span></div>
+  <div class="calc-row"><span class="calc-label">Bitumen Content:</span><input class="calc-input" id="mar-bit" type="number" placeholder="5.2" step="0.1"><span class="calc-unit">%</span></div>
+  <button class="calc-btn" onclick="calcMarshall()">احسب النتيجة</button>
+  <div id="mar-result" class="calc-result"></div>
+</div>
+
+<!-- CONCRETE -->
+<div id="calc-concrete" class="calc-section" style="display:none;">
+  <div class="calc-title">🏗️ Concrete Cube Test — مقاومة الخرسانة</div>
+  <div class="calc-row"><span class="calc-label">درجة الخرسانة:</span>
+    <select class="calc-select" id="con-grade">
+      <option value="25">C25 (fcu = 25 N/mm²)</option>
+      <option value="30">C30 (fcu = 30 N/mm²)</option>
+      <option value="35">C35 (fcu = 35 N/mm²)</option>
+      <option value="40">C40 (fcu = 40 N/mm²)</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">عمر المكعب:</span>
+    <select class="calc-select" id="con-age">
+      <option value="7">7 أيام (≥ 70% fcu)</option>
+      <option value="28">28 يوم (≥ 100% fcu)</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">نتيجة المكعب:</span><input class="calc-input" id="con-result-val" type="number" placeholder="28.5" step="0.1"><span class="calc-unit">N/mm²</span></div>
+  <button class="calc-btn" onclick="calcConcrete()">احسب النتيجة</button>
+  <div id="con-result" class="calc-result"></div>
+</div>
+
+<!-- AIR TEST -->
+<div id="calc-airtest" class="calc-section" style="display:none;">
+  <div class="calc-title">💨 Air Test — اختبار الصرف الصحي</div>
+  <div class="calc-row"><span class="calc-label">ضغط البداية:</span><input class="calc-input" id="air-start" type="number" placeholder="100"><span class="calc-unit">mm WG</span></div>
+  <div class="calc-row"><span class="calc-label">ضغط النهاية (بعد 5 دقائق):</span><input class="calc-input" id="air-end" type="number" placeholder="82"><span class="calc-unit">mm WG</span></div>
+  <button class="calc-btn" onclick="calcAirTest()">احسب النتيجة</button>
+  <div id="air-result" class="calc-result"></div>
+</div>
+
+<!-- PRESSURE TEST -->
+<div id="calc-pressure" class="calc-section" style="display:none;">
+  <div class="calc-title">💧 Hydrostatic Pressure Test — مياه الشرب</div>
+  <div class="calc-row"><span class="calc-label">الضغط التصميمي:</span><input class="calc-input" id="pres-design" type="number" placeholder="10"><span class="calc-unit">bar</span></div>
+  <div class="calc-row"><span class="calc-label">ضغط الاختبار الفعلي:</span><input class="calc-input" id="pres-test" type="number" placeholder="15" step="0.1"><span class="calc-unit">bar</span></div>
+  <div class="calc-row"><span class="calc-label">ضغط البداية:</span><input class="calc-input" id="pres-start" type="number" placeholder="15.0" step="0.1"><span class="calc-unit">bar</span></div>
+  <div class="calc-row"><span class="calc-label">ضغط النهاية (بعد 2hr):</span><input class="calc-input" id="pres-end" type="number" placeholder="14.9" step="0.1"><span class="calc-unit">bar</span></div>
+  <button class="calc-btn" onclick="calcPressure()">احسب النتيجة</button>
+  <div id="pres-result" class="calc-result"></div>
+</div>
+
+<!-- REBAR -->
+<div id="calc-rebar" class="calc-section" style="display:none;">
+  <div class="calc-title">🔩 Rebar Tensile Test — حديد التسليح</div>
+  <div class="calc-row"><span class="calc-label">قطر الحديد:</span>
+    <select class="calc-select" id="reb-dia">
+      <option value="500">Grade 500B (fy ≥ 500 N/mm²)</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">Yield Strength (fy):</span><input class="calc-input" id="reb-fy" type="number" placeholder="520"><span class="calc-unit">N/mm²</span></div>
+  <div class="calc-row"><span class="calc-label">Ultimate Strength (fu):</span><input class="calc-input" id="reb-fu" type="number" placeholder="630"><span class="calc-unit">N/mm²</span></div>
+  <div class="calc-row"><span class="calc-label">Elongation:</span><input class="calc-input" id="reb-elong" type="number" placeholder="16" step="0.1"><span class="calc-unit">%</span></div>
+  <button class="calc-btn" onclick="calcRebar()">احسب النتيجة</button>
+  <div id="reb-result" class="calc-result"></div>
+</div>
+
+<!-- LEVEL -->
+<div id="calc-level" class="calc-section" style="display:none;">
+  <div class="calc-title">📐 Level Survey — دقة المنسوب</div>
+  <div class="calc-row"><span class="calc-label">نوع الطبقة:</span>
+    <select class="calc-select" id="lev-layer">
+      <option value="10">Subgrade / Subbase (± 10mm)</option>
+      <option value="8">Base Course (± 8mm)</option>
+      <option value="6">Wearing Course (± 6mm)</option>
+      <option value="5">Kerbs / Gullies (± 5mm)</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">المنسوب التصميمي:</span><input class="calc-input" id="lev-design" type="number" placeholder="100.000" step="0.001"><span class="calc-unit">m</span></div>
+  <div class="calc-row"><span class="calc-label">المنسوب الفعلي:</span><input class="calc-input" id="lev-actual" type="number" placeholder="100.008" step="0.001"><span class="calc-unit">m</span></div>
+  <button class="calc-btn" onclick="calcLevel()">احسب النتيجة</button>
+  <div id="lev-result" class="calc-result"></div>
+</div>
+` },
+
   itp_subgrade: { title: '📋 ITP — Subgrade', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 2</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>Standard Proctor</td><td>ASTM D698</td><td>تحديد MDD و OMC</td><td>كل تغيير مادة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.2</td><td>CBR Soaked 4 days</td><td>ASTM D1883</td><td>≥ 8%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.3</td><td>Atterberg Limits</td><td>ASTM D4318</td><td>LL ≤ 35% | PI ≤ 10%</td><td>كل تغيير مادة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 95% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr><tr><td>3.2</td><td>Level Survey</td><td>Design Drawing</td><td>± 10mm</td><td>كل 25m</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Survey Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness Point | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
   itp_subbase: { title: '📋 ITP — Subbase', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 3</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>CBR Soaked</td><td>ASTM D1883</td><td>≥ 30%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.2</td><td>Plasticity Index</td><td>ASTM D4318</td><td>≤ 6%</td><td>كل 500m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 98% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
   itp_base: { title: '📋 ITP — Base Course', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 3</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>CBR Soaked</td><td>ASTM D1883</td><td>≥ 80%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.2</td><td>LA Abrasion</td><td>ASTM C131</td><td>≤ 25%</td><td>كل 1000m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 98% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr><tr><td>3.2</td><td>Plate Load Test</td><td>BS 1377 Part 9</td><td>حسب التصميم</td><td>كل 2000m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
@@ -1116,6 +1287,133 @@ function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+
+// ===== CALCULATOR =====
+function switchCalc(id, tab) {
+  document.querySelectorAll('.calc-section').forEach(s => s.style.display = 'none');
+  document.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('calc-' + id).style.display = 'block';
+  tab.classList.add('active');
+}
+
+function showResult(elId, pass, value, required, detail) {
+  const el = document.getElementById(elId);
+  el.style.display = 'block';
+  el.className = 'calc-result ' + (pass ? 'pass' : 'fail');
+  el.innerHTML = `
+    <span class="calc-result-icon">${pass ? '✅' : '❌'}</span>
+    <div class="calc-result-text">${pass ? 'PASS — مطابق للمواصفة' : 'FAIL — لا يطابق المواصفة'}</div>
+    <div class="calc-result-detail">${detail}</div>
+  `;
+}
+
+function calcCompaction() {
+  const actual = parseFloat(document.getElementById('comp-actual').value);
+  const mdd = parseFloat(document.getElementById('comp-mdd').value);
+  const req = parseFloat(document.getElementById('comp-layer').value);
+  if (!actual || !mdd) return showToast('❌ أدخل كل البيانات');
+  const pct = (actual / mdd * 100).toFixed(1);
+  const pass = parseFloat(pct) >= req;
+  showResult('comp-result', pass, pct, req,
+    `نسبة الدمك الفعلية: ${pct}% | المطلوب: ≥ ${req}% MDD | الفرق: ${(pct - req).toFixed(1)}%`);
+}
+
+function calcCBR() {
+  const val = parseFloat(document.getElementById('cbr-val').value);
+  const req = parseFloat(document.getElementById('cbr-layer').value);
+  const soak = document.getElementById('cbr-soak').value;
+  if (!val) return showToast('❌ أدخل نتيجة CBR');
+  const pass = val >= req;
+  const soakNote = soak === 'unsoaked' ? ' ⚠️ تنبيه: المطلوب Soaked 4 days' : '';
+  showResult('cbr-result', pass, val, req,
+    `CBR الفعلي: ${val}% | المطلوب: ≥ ${req}%${soakNote}`);
+}
+
+function calcMarshall() {
+  const stab = parseFloat(document.getElementById('mar-stab').value);
+  const flow = parseFloat(document.getElementById('mar-flow').value);
+  const va = parseFloat(document.getElementById('mar-va').value);
+  const bit = parseFloat(document.getElementById('mar-bit').value);
+  const layer = document.getElementById('mar-layer').value;
+  if (!stab || !flow || !va) return showToast('❌ أدخل كل البيانات');
+  const minStab = layer === 'binder' ? 8 : 8;
+  const bitMin = layer === 'binder' ? 4.5 : 5.0;
+  const bitMax = layer === 'binder' ? 6.0 : 6.5;
+  const stabPass = stab >= minStab;
+  const flowPass = flow >= 2 && flow <= 4;
+  const vaPass = va >= 3 && va <= 5;
+  const bitPass = !bit || (bit >= bitMin && bit <= bitMax);
+  const allPass = stabPass && flowPass && vaPass && bitPass;
+  const details = [
+    `Stability: ${stab} kN ${stabPass ? '✅' : '❌'} (≥${minStab})`,
+    `Flow: ${flow} mm ${flowPass ? '✅' : '❌'} (2-4mm)`,
+    `Air Voids: ${va}% ${vaPass ? '✅' : '❌'} (3-5%)`,
+    bit ? `Bitumen: ${bit}% ${bitPass ? '✅' : '❌'} (${bitMin}-${bitMax}%)` : ''
+  ].filter(Boolean).join(' | ');
+  showResult('mar-result', allPass, null, null, details);
+}
+
+function calcConcrete() {
+  const grade = parseFloat(document.getElementById('con-grade').value);
+  const age = parseInt(document.getElementById('con-age').value);
+  const result = parseFloat(document.getElementById('con-result-val').value);
+  if (!result) return showToast('❌ أدخل نتيجة المكعب');
+  const req = age === 7 ? grade * 0.7 : grade;
+  const pass = result >= req;
+  showResult('con-result', pass, result, req,
+    `نتيجة المكعب: ${result} N/mm² | المطلوب عند ${age} يوم: ≥ ${req.toFixed(1)} N/mm² | درجة الخرسانة: C${grade}`);
+}
+
+function calcAirTest() {
+  const start = parseFloat(document.getElementById('air-start').value);
+  const end = parseFloat(document.getElementById('air-end').value);
+  if (!start || !end) return showToast('❌ أدخل كل البيانات');
+  const drop = start - end;
+  const pass = drop <= 25;
+  showResult('air-result', pass, drop, 25,
+    `الانخفاض الفعلي: ${drop.toFixed(1)} mm WG | المسموح: ≤ 25mm خلال 5 دقائق`);
+}
+
+function calcPressure() {
+  const design = parseFloat(document.getElementById('pres-design').value);
+  const test = parseFloat(document.getElementById('pres-test').value);
+  const start = parseFloat(document.getElementById('pres-start').value);
+  const end = parseFloat(document.getElementById('pres-end').value);
+  if (!design || !test || !start || !end) return showToast('❌ أدخل كل البيانات');
+  const reqTest = design * 1.5;
+  const drop = start - end;
+  const testPass = test >= reqTest;
+  const dropPass = drop === 0;
+  const allPass = testPass && dropPass;
+  showResult('pres-result', allPass, null, null,
+    `ضغط الاختبار: ${test} bar ${testPass ? '✅' : '❌'} (المطلوب ≥ ${reqTest} bar) | الانخفاض: ${drop.toFixed(2)} bar ${dropPass ? '✅' : '❌'} (المطلوب = صفر)`);
+}
+
+function calcRebar() {
+  const fy = parseFloat(document.getElementById('reb-fy').value);
+  const fu = parseFloat(document.getElementById('reb-fu').value);
+  const elong = parseFloat(document.getElementById('reb-elong').value);
+  if (!fy || !fu) return showToast('❌ أدخل كل البيانات');
+  const fyPass = fy >= 500;
+  const fuPass = fu >= 600;
+  const ratioPass = fu / fy >= 1.15;
+  const elongPass = !elong || elong >= 14;
+  const allPass = fyPass && fuPass && ratioPass && elongPass;
+  showResult('reb-result', allPass, null, null,
+    `fy: ${fy} ${fyPass ? '✅' : '❌'} (≥500) | fu: ${fu} ${fuPass ? '✅' : '❌'} (≥600) | fu/fy: ${(fu/fy).toFixed(2)} ${ratioPass ? '✅' : '❌'} (≥1.15)${elong ? ` | Elong: ${elong}% ${elongPass ? '✅' : '❌'} (≥14%)` : ''}`);
+}
+
+function calcLevel() {
+  const design = parseFloat(document.getElementById('lev-design').value);
+  const actual = parseFloat(document.getElementById('lev-actual').value);
+  const tol = parseFloat(document.getElementById('lev-layer').value);
+  if (isNaN(design) || isNaN(actual)) return showToast('❌ أدخل كل البيانات');
+  const diff = Math.abs(actual - design) * 1000;
+  const pass = diff <= tol;
+  showResult('lev-result', pass, diff, tol,
+    `الفرق الفعلي: ${diff.toFixed(1)} mm | المسموح: ± ${tol} mm | ${actual > design ? 'السطح مرتفع بـ' : 'السطح منخفض بـ'} ${diff.toFixed(1)} mm`);
 }
 </script>
 </body>
