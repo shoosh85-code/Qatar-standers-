@@ -161,7 +161,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div class="header-actions">
       <div class="key-status" onclick="openKeyModal()">
         <div class="key-dot" id="keyDot"></div>
-        <span id="keyStatusText">إعداد AI</span>
+        <span id="keyStatusText">AI مفعّل ✓</span>
       </div>
     </div>
   </div>
@@ -251,12 +251,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 
 <div class="modal-bg" id="keyModal">
   <div class="modal-box">
-    <div class="modal-title">🔑 OpenRouter API Key</div>
-    <div class="modal-desc">أدخل OpenRouter API Key للبحث الذكي في المواصفات. الـ Key يُحفظ محلياً على جهازك فقط.</div>
-    <input type="password" class="modal-input" id="keyInput" placeholder="sk-or-..." />
+    <div class="modal-title">✅ البحث الذكي جاهز</div>
+    <div class="modal-desc">التطبيق متصل بـ Gemini AI ومستعد للبحث في QCS 2024.</div>
     <div class="modal-actions">
-      <button class="modal-save" onclick="saveKey()">✅ حفظ وتفعيل</button>
-      <button class="modal-cancel" onclick="closeKeyModal()">إلغاء</button>
+      <button class="modal-save" onclick="closeKeyModal()">ابدأ البحث</button>
     </div>
   </div>
 </div>
@@ -283,8 +281,7 @@ let uploadedFiles = [];
 
 // ===== INIT =====
 window.onload = () => {
-  if (geminiKey) updateKeyStatus(true);
-  else setTimeout(() => openKeyModal(), 800);
+  updateKeyStatus(true);
 };
 
 // ===== KEY MANAGEMENT =====
@@ -374,7 +371,7 @@ function quickSearch(q) { document.getElementById('searchInput').value = q; doSe
 async function doSearch() {
   const query = document.getElementById('searchInput').value.trim();
   if (!query) return;
-  if (!geminiKey) { openKeyModal(); return; }
+
 
   const box = document.getElementById('aiAnswerBox');
   const textEl = document.getElementById('aiAnswerText');
@@ -403,7 +400,7 @@ async function doSearch() {
     const response = await fetch('/api/search', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query, apiKey: geminiKey, partNum })
+      body: JSON.stringify({ query, partNum })
     });
 
     setLoadingSteps(steps, 2);
