@@ -2649,42 +2649,26 @@ function showToast(msg) {
 
 
 function printCurrentDetail() {
-  const title = document.getElementById('dmTitle').textContent;
-  const contentEl = document.getElementById('dmContent');
+  var title = document.getElementById('dmTitle').textContent;
+  var printArea = document.getElementById('print-area');
+  var originalContent = printArea.innerHTML;
+  var today = new Date().toLocaleDateString('ar-QA');
   
-  // Create print-area content
-  const printArea = document.getElementById('print-area');
+  var header = '<div class="print-header"><div style="display:flex;justify-content:space-between;">' +
+    '<div><div style="font-size:20px;font-weight:700;color:#7a1515;">QatarSpec Pro</div>' +
+    '<div style="font-size:12px;color:#666;">المرجع: QCS 2024</div></div>' +
+    '<div style="text-align:left;"><div style="font-size:12px;color:#666;">' + today + '</div>' +
+    '<div style="font-size:10px;color:#999;">qatar-standers.vercel.app</div></div></div>' +
+    '<div style="font-size:16px;font-weight:700;margin-top:8px;">' + title + '</div></div>';
   
-  // Add header and footer for print
-  const originalContent = printArea.innerHTML;
-  printArea.innerHTML = \`
-    <div class="print-header">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <div>
-          <div style="font-size:20px;font-weight:700;color:#7a1515;">QatarSpec Pro</div>
-          <div style="font-size:12px;color:#666;">المرجع: QCS 2024</div>
-        </div>
-        <div style="text-align:left;">
-          <div style="font-size:12px;color:#666;">تاريخ الطباعة: \${new Date().toLocaleDateString('ar-QA')}</div>
-          <div style="font-size:10px;color:#999;">qatar-standers.vercel.app</div>
-        </div>
-      </div>
-      <div style="font-size:16px;font-weight:700;margin-top:8px;">\${title}</div>
-    </div>
-    \${originalContent}
-    <div class="print-footer">
-      <div style="display:flex;justify-content:space-between;">
-        <span>QatarSpec Pro — مرجع المواصفات القطرية</span>
-        <span>المصدر: QCS 2024 | qatar-standers.vercel.app</span>
-      </div>
-    </div>
-  \`;
+  var footer = '<div class="print-footer"><div style="display:flex;justify-content:space-between;">' +
+    '<span>QatarSpec Pro</span><span>QCS 2024 | qatar-standers.vercel.app</span></div></div>';
   
+  printArea.innerHTML = header + originalContent + footer;
   window.print();
-  
-  // Restore original content
-  setTimeout(() => { printArea.innerHTML = originalContent; }, 1000);
+  setTimeout(function() { printArea.innerHTML = originalContent; }, 1000);
 }
+
 
 // ===== CALCULATOR =====
 function switchMainCat(cat, btn) {
