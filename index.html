@@ -3,6 +3,11 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#1a0a0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="QatarSpec">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>دليل المواصفات القطرية | Qatar Engineering Standards</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -188,6 +193,9 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 </style>
 </head>
 <body>
+<div id="update-banner" style="display:none;background:linear-gradient(135deg,#7a1515,#c9a84c);padding:10px 16px;text-align:center;font-size:13px;color:#fff;font-family:Tajawal,sans-serif;">
+  🔔 يوجد تحديث جديد للتطبيق — <a onclick="location.reload(true)" style="color:#fff;font-weight:700;cursor:pointer;text-decoration:underline;">تحديث الآن</a>
+</div>
 
 <header>
   <div class="header-inner">
@@ -321,13 +329,25 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 
 <div class="detail-modal-bg" id="detailModal" onclick="closeDetailModal(event)">
   <div class="detail-modal">
-    <div class="dm-header">
+    <div id="itp-project-bar" style="display:none;background:rgba(201,168,76,0.06);border-bottom:1px solid var(--border);padding:8px 16px;">
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+    <input id="itp-project-name" placeholder="اسم المشروع" style="background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--text);width:160px;outline:none;">
+    <input id="itp-number" placeholder="رقم ITP" style="background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--text);width:100px;outline:none;">
+    <input id="itp-engineer" placeholder="المهندس" style="background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--text);width:120px;outline:none;">
+    <input id="itp-date" type="date" style="background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--text);outline:none;">
+    <span style="font-size:10px;color:var(--text3);">للتصدير الرسمي</span>
+  </div>
+</div>
+<div class="dm-header">
       <div style="display:flex;align-items:center;gap:10px;">
         <div id="dmBackBtn" onclick="goBack()" style="display:none;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:var(--gold);">←</div>
         <div class="modal-title" id="dmTitle"></div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;">
-        <div onclick="printCurrentDetail()" title="طباعة / PDF" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:var(--gold);">🖨️</div>
+        <div style="display:flex;gap:6px;">
+        <div onclick="exportToPDF()" title="تصدير PDF" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.3);border-radius:8px;cursor:pointer;font-size:14px;color:#e74c3c;">PDF</div>
+        <div onclick="printCurrentDetail()" title="طباعة" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:var(--gold);">🖨️</div>
+      </div>
         <div class="dm-close" onclick="document.getElementById('detailModal').classList.remove('open');navStack=[];">✕</div>
       </div>
     </div>
@@ -337,6 +357,8 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 
 <div class="toast" id="toast">✅ تم!</div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script>
 // ===== STATE =====
 let geminiKey = localStorage.getItem('openrouterKey') || '';
@@ -3165,4 +3187,142 @@ function calcLapLength() {
   const req = mult * dia;
   showResult('lap-result', actual >= req, actual, req, `الطول الفعلي: ${actual}mm | المطلوب: ${mult}d = ${req}mm (d=${dia}mm)`);
 }
+
+// ===== VERSION CHECK =====
+const APP_VERSION = '1.2.0';
+async function checkForUpdates() {
+  try {
+    const res = await fetch('/version.json?t=' + Date.now());
+    if (res.ok) {
+      const data = await res.json();
+      if (data.version && data.version !== APP_VERSION) {
+        document.getElementById('update-banner').style.display = 'block';
+      }
+    }
+  } catch(e) {}
+}
+setTimeout(checkForUpdates, 3000);
+
+// ===== SERVICE WORKER =====
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').catch(function(err) {
+      console.log('SW failed:', err);
+    });
+  });
+}
+
+// ===== ITP PROJECT BAR =====
+function toggleITPBar(show) {
+  var bar = document.getElementById('itp-project-bar');
+  if (bar) bar.style.display = show ? 'block' : 'none';
+}
+
+// ===== PDF EXPORT =====
+function exportToPDF() {
+  var title = document.getElementById('dmTitle').textContent;
+  var isITP = title.includes('ITP') || title.includes('خطة الفحص');
+  
+  if (typeof window.jspdf === 'undefined') {
+    printCurrentDetail();
+    return;
+  }
+  
+  try {
+    var jsPDFClass = window.jspdf.jsPDF;
+    var doc = new jsPDFClass({ orientation: 'p', unit: 'mm', format: 'a4' });
+    
+    var projectName = document.getElementById('itp-project-name').value || 'QatarSpec Pro';
+    var itpNum = document.getElementById('itp-number').value || 'N/A';
+    var engineer = document.getElementById('itp-engineer').value || 'N/A';
+    var itpDate = document.getElementById('itp-date').value || new Date().toISOString().split('T')[0];
+    
+    doc.setFillColor(122, 21, 21);
+    doc.rect(0, 0, 210, 20, 'F');
+    doc.setTextColor(201, 168, 76);
+    doc.setFontSize(14);
+    doc.text('QatarSpec Pro', 10, 10);
+    doc.setFontSize(8);
+    doc.setTextColor(255, 255, 255);
+    doc.text('QCS 2024 | qatar-standers.vercel.app', 10, 16);
+    doc.text(itpDate, 190, 10, { align: 'right' });
+    
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(12);
+    var cleanTitle = title.replace(/[^؀-ۿ\w\s\-|]/g, '').trim();
+    doc.text(cleanTitle, 105, 28, { align: 'center' });
+    
+    var yPos = 35;
+    
+    if (isITP) {
+      doc.setFontSize(8);
+      doc.setFillColor(245, 245, 245);
+      doc.rect(10, yPos, 190, 14, 'F');
+      doc.text('Project: ' + projectName, 12, yPos + 5);
+      doc.text('ITP No: ' + itpNum, 80, yPos + 5);
+      doc.text('Engineer: ' + engineer, 140, yPos + 5);
+      doc.text('Date: ' + itpDate, 12, yPos + 11);
+      yPos += 18;
+    }
+    
+    var contentEl = document.getElementById('dmContent');
+    var tables = contentEl.querySelectorAll('.dm-table');
+    
+    tables.forEach(function(table) {
+      if (yPos > 240) { doc.addPage(); yPos = 15; }
+      var rows = [];
+      var headers = [];
+      table.querySelectorAll('tr').forEach(function(tr, idx) {
+        var cells = [];
+        tr.querySelectorAll('th, td').forEach(function(cell) {
+          cells.push(cell.textContent.trim().substring(0, 35));
+        });
+        if (idx === 0) headers = cells;
+        else if (cells.some(function(c) { return c.length > 0; })) rows.push(cells);
+      });
+      
+      if (headers.length > 0 && rows.length > 0) {
+        doc.autoTable({
+          head: [headers],
+          body: rows,
+          startY: yPos,
+          styles: { fontSize: 7, cellPadding: 1.5, overflow: 'linebreak', halign: 'center' },
+          headStyles: { fillColor: [122, 21, 21], textColor: [255, 255, 255] },
+          alternateRowStyles: { fillColor: [250, 250, 250] },
+          margin: { left: 8, right: 8 }
+        });
+        yPos = doc.lastAutoTable.finalY + 6;
+      }
+    });
+    
+    var pageCount = doc.internal.getNumberOfPages();
+    for (var i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.setFontSize(7);
+      doc.setTextColor(150, 150, 150);
+      doc.line(10, 285, 200, 285);
+      doc.text('QatarSpec Pro — QCS 2024 Reference | For Professional Use Only', 10, 290);
+      doc.text('Page ' + i + ' / ' + pageCount, 190, 290, { align: 'right' });
+    }
+    
+    doc.save(cleanTitle.substring(0, 25) + '.pdf');
+    showToast('تم تصدير PDF ✅');
+    
+  } catch(e) {
+    console.error(e);
+    printCurrentDetail();
+  }
+}
+
+// Override openDetail to show/hide ITP bar
+var _origOpen = window.openDetail;
+window.addEventListener('DOMContentLoaded', function() {
+  var orig = openDetail;
+  openDetail = function(key) {
+    orig(key);
+    toggleITPBar(key && key.startsWith('itp_'));
+  };
+});
 </script>
+</body>
+</html>
