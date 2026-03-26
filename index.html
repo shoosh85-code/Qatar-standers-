@@ -288,7 +288,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div class="cat-card" onclick="openDetail('testing')"><span class="cat-emoji">🔬</span><div class="cat-name">الاختبارات والفحص</div><div class="cat-desc">اختبارات التربة، الخرسانة، الحديد، الجودة</div><div class="cat-bottom"><span class="cat-count">43 اختبار</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="openDetail('structural_full')"><span class="cat-emoji">🏗️</span><div class="cat-name">الكود الإنشائي</div><div class="cat-desc">خرسانة، حديد، أساسات، خوازيق، شدات</div><div class="cat-bottom"><span class="cat-count">5 أقسام</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="openDetail('fire')"><span class="cat-emoji">🔥</span><div class="cat-name">الحريق والسلامة</div><div class="cat-desc">كود QCDD، مخارج الطوارئ، أنظمة الإطفاء</div><div class="cat-bottom"><span class="cat-count">38 مواصفة</span><span class="cat-arr">←</span></div></div>
-    </div>
+    <div class="cat-card" onclick="openDetail('structural')"><span class="cat-emoji">🏗️</span><div class="cat-name">الإنشاء</div><div class="cat-desc">خرسانة، حديد، أساسات، خوازيق</div><div class="cat-bottom"><span class="cat-count">4 أقسام</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('geotech')"><span class="cat-emoji">🔬</span><div class="cat-name">الجسات والتربة</div><div class="cat-desc">SPT، Boreholes، اختبارات التربة</div><div class="cat-bottom"><span class="cat-count">6 أقسام</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('calculator')"><span class="cat-emoji">🧮</span><div class="cat-name">حاسبة المواصفات</div><div class="cat-desc">أدخل نتيجة أي اختبار → Pass أو Fail فوراً</div><div class="cat-bottom"><span class="cat-count">38 اختبار</span><span class="cat-arr">←</span></div></div>
+  </div>
     <div class="cat-card" onclick="openDetail('structural')"><span class="cat-emoji">🏗️</span><div class="cat-name">الإنشاء</div><div class="cat-desc">خرسانة، حديد، أساسات، خوازيق</div><div class="cat-bottom"><span class="cat-count">4 أقسام</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="openDetail('calculator')"><span class="cat-emoji">🧮</span><div class="cat-name">حاسبة المواصفات</div><div class="cat-desc">أدخل نتيجة أي اختبار → Pass أو Fail فوراً</div><div class="cat-bottom"><span class="cat-count">12 اختبار</span><span class="cat-arr">←</span></div></div>
   </div>
@@ -2417,80 +2420,8 @@ const detailData = {
 <p>• <strong>HP-01:</strong> فحص الشدة من الاستشاري قبل الصب<br>• <strong>HP-02:</strong> اعتماد Cube 7 يوم قبل فك الشدة</p>
 ` },
 
-  itp_concrete: { title: '📋 ITP — الخرسانة | Concrete Works', content: `
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4</div>
-<h3>1.0 — وثائق ما قبل التنفيذ</h3>
-<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المعيار</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
-<tr><td>1.1</td><td>JMF Approval</td><td>اعتمادقبل الإنتاج</td><td>مرة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Approved JMF</td></tr>
-<tr><td>1.2</td><td>Trial Mix Results</td><td>7+28 يوم ≥ fcu</td><td>مرة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Lab Report</td></tr>
-<tr><td>1.3</td><td>Material Certs</td><td>Cement+Aggregate+Water</td><td>كل دفعة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Certificates</td></tr>
-</table>
-<h3>2.0 — الشدات والحديد</h3>
-<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المعيار</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
-<tr><td>2.1</td><td>Formwork Inspection</td><td>Level + Alignment ± 5mm</td><td>كل صبة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
-<tr><td>2.2</td><td>Rebar Inspection</td><td>Dia + Spacing + Lap</td><td>كل صبة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
-<tr><td>2.3</td><td>Cover Check</td><td>± 5mm من المطلوب</td><td>كل صبة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
-<tr><td>2.4</td><td>Pour Card</td><td>موقع من الاستشاري</td><td>كل صبة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Pour Card</td></tr>
-</table>
-<h3>3.0 — الصب</h3>
-<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المعيار</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
-<tr><td>3.1</td><td>Slump Test</td><td>حسب نوع الصب</td><td>كل حمولة</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Slump Record</td></tr>
-<tr><td>3.2</td><td>Temperature Check</td><td>≤ 32°C</td><td>كل حمولة</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Temp Record</td></tr>
-<tr><td>3.3</td><td>Cube Sampling</td><td>6 مكعبات / 50m³</td><td>كل 50m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Sample Record</td></tr>
-</table>
-<h3>4.0 — المعالجة والاختبارات</h3>
-<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المعيار</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
-<tr><td>4.1</td><td>Curing Method</td><td>≥ 7 أيام OPC / 10 SRPC</td><td>يومي</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Curing Record</td></tr>
-<tr><td>4.2</td><td>Cube Result 7 day</td><td>≥ 70% fcu</td><td>كل عينة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Lab Report</td></tr>
-<tr><td>4.3</td><td>Cube Result 28 day</td><td>≥ 100% fcu</td><td>كل عينة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Lab Report</td></tr>
-<tr><td>4.4</td><td>Formwork Striking</td><td>حسب Striking Times</td><td>كل صبة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR</td></tr>
-</table>
-<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point &nbsp;|&nbsp; <strong style="color:#f1c40f;">W</strong> = Witness Point &nbsp;|&nbsp; <strong style="color:#2ecc71;">R</strong> = Review</div>
-` },
 
-  itp_rebar: { title: '📋 ITP — حديد التسليح | Reinforcement', content: `
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3</div>
-<h3>1.0 — استلام المواد</h3>
-<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المعيار</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
-<tr><td>1.1</td><td>Mill Certificate</td><td>Grade 500B</td><td>كل دفعة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>MRR</td></tr>
-<tr><td>1.2</td><td>Tensile Test</td><td>fy≥500 | fu≥600 | fu/fy≥1.15</td><td>3 عينات/25t</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Lab Report</td></tr>
-<tr><td>1.3</td><td>Bend + Re-bend</td><td>بدون تشقق</td><td>3 عينات/25t</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Lab Report</td></tr>
-</table>
-<h3>2.0 — فحص ما قبل الصب</h3>
-<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المعيار</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
-<tr><td>2.1</td><td>Bar Diameter</td><td>حسب المخططات</td><td>كل صبة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
-<tr><td>2.2</td><td>Bar Spacing</td><td>± 10mm من المخططات</td><td>كل صبة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
-<tr><td>2.3</td><td>Lap Length</td><td>40d Tension / 30d Comp</td><td>كل صبة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
-<tr><td>2.4</td><td>Cover / Spacers</td><td>± 5mm من المطلوب</td><td>كل صبة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
-<tr><td>2.5</td><td>Cover Meter (Post-Pour)</td><td>± 5mm</td><td>عشوائي</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Cover Record</td></tr>
-</table>
-<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point &nbsp;|&nbsp; <strong style="color:#f1c40f;">W</strong> = Witness Point &nbsp;|&nbsp; <strong style="color:#2ecc71;">R</strong> = Review</div>
-` },
 
-  itp_foundations: { title: '📋 ITP — الأساسات | Foundations', content: `
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 QCS 2024 — Section 5 | Foundations</div>
-<h3>1.0 — الحفر والتأسيس</h3>
-<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المعيار</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
-<tr><td>1.1</td><td>Founding Level</td><td>موافقة Geotechnical</td><td>كل أساس</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR + Survey</td></tr>
-<tr><td>1.2</td><td>Sulphate + Chloride</td><td>SO3≤0.5% | Cl≤0.6%</td><td>كل 500m³ تربة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Lab Report</td></tr>
-<tr><td>1.3</td><td>Blinding Level + Thickness</td><td>± 5mm | 75-100mm</td><td>كل أساس</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Survey</td></tr>
-<tr><td>1.4</td><td>Waterproofing Inspection</td><td>100% بدون تلف</td><td>كل أساس</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
-</table>
-<h3>2.0 — الصب</h3>
-<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المعيار</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
-<tr><td>2.1</td><td>Rebar + Cover</td><td>حسب المخططات</td><td>كل صبة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
-<tr><td>2.2</td><td>Pour Card</td><td>موقع من الاستشاري</td><td>كل صبة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Pour Card</td></tr>
-<tr><td>2.3</td><td>Cube Sampling</td><td>6 مكعبات / 50m³</td><td>كل 50m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Sample Record</td></tr>
-<tr><td>2.4</td><td>Thermal Monitoring (Raft)</td><td>≤70°C | ΔT≤20°C</td><td>كل 4hr</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Thermal Log</td></tr>
-</table>
-<h3>3.0 — Bored Piles</h3>
-<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المعيار</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
-<tr><td>3.1</td><td>Pile Base Cleanliness</td><td>بدون رواسب</td><td>كل خازوق</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
-<tr><td>3.2</td><td>PIT Test</td><td>100% — بدون عيوب</td><td>كل خازوق</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>PIT Report</td></tr>
-<tr><td>3.3</td><td>Static Load Test</td><td>Settlement ≤ التصميم</td><td>1-2%</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Load Test Report</td></tr>
-</table>
-<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point &nbsp;|&nbsp; <strong style="color:#f1c40f;">W</strong> = Witness Point &nbsp;|&nbsp; <strong style="color:#2ecc71;">R</strong> = Review</div>
-` },
 
 
   geotech: { title: '🔬 الجسات والتربة', content: `
@@ -2698,7 +2629,7 @@ let navStack = [];
 
 function openDetail(key) {
   const d = detailData[key];
-  if (!d) return;
+  if (!d) { console.warn('Key not found:', key); return; }
   const modal = document.getElementById('detailModal');
   if (modal.classList.contains('open')) {
     const currentKey = modal.dataset.currentKey;
@@ -2710,6 +2641,9 @@ function openDetail(key) {
   const backBtn = document.getElementById('dmBackBtn');
   if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
   modal.classList.add('open');
+  // ITP bar
+  var bar = document.getElementById('itp-project-bar');
+  if (bar) bar.style.display = (key && key.startsWith('itp')) ? 'block' : 'none';
 }
 
 function goBack() {
@@ -2846,7 +2780,7 @@ function calcPIClass() {
 
 // ===== CALCULATOR =====
 function switchMainCat(cat, btn) {
-  ['roads','utilities','structural'].forEach(c => {
+  ['roads','utilities','structural','geotech_calc'].forEach(c => {
     const el = document.getElementById('cat-' + c);
     const tab = document.getElementById('main-tab-' + c);
     if (el) el.style.display = c === cat ? 'block' : 'none';
@@ -3278,15 +3212,7 @@ function exportToPDF() {
 }
 
 
-// Override openDetail to show/hide ITP bar
-window.addEventListener('DOMContentLoaded', function() {
-  var origOpen = openDetail;
-  openDetail = function(key) {
-    origOpen(key);
-    var bar = document.getElementById('itp-project-bar');
-    if (bar) bar.style.display = (key && key.startsWith('itp')) ? 'block' : 'none';
-  };
-});
+// ITP bar handled in openDetail directly
 </script>
 </body>
 </html>
