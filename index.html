@@ -279,21 +279,12 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <div class="content-section">
   <div class="section-head"><div class="section-title">الأقسام <span>الرئيسية</span></div></div>
   <div class="cats-grid">
-    <div class="cat-card" onclick="openDetail('geotech')"><span class="cat-emoji">🔬</span><div class="cat-name">الجسات والتربة</div><div class="cat-desc">SPT، Boreholes، اختبارات التربة</div><div class="cat-bottom"><span class="cat-count">6 أقسام</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('structural')"><span class="cat-emoji">🏛️</span><div class="cat-name">الكود الإنشائي</div><div class="cat-desc">الخرسانة، الحديد، الأعمدة، الأسقف، الأساسات</div><div class="cat-bottom"><span class="cat-count">89 مواصفة</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('roads')"><span class="cat-emoji">🛣️</span><div class="cat-name">أعمال الطرق</div><div class="cat-desc">الطبقات، الإسفلت، الاختبارات، التسليم</div><div class="cat-bottom"><span class="cat-count">67 مواصفة</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('utilities')"><span class="cat-emoji">🔧</span><div class="cat-name">شبكات المرافق</div><div class="cat-desc">مياه الشرب، الصرف الصحي، السطحي، المعالجة</div><div class="cat-bottom"><span class="cat-count">52 مواصفة</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('materials')"><span class="cat-emoji">🧱</span><div class="cat-name">مواد البناء</div><div class="cat-desc">الخرسانة، الطوب، الزجاج، الألمنيوم، العزل</div><div class="cat-bottom"><span class="cat-count">54 مواصفة</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('execution')"><span class="cat-emoji">⚒️</span><div class="cat-name">مراحل التنفيذ</div><div class="cat-desc">خطوات المشروع من الجسات حتى التسليم</div><div class="cat-bottom"><span class="cat-count">35 مرحلة</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('testing')"><span class="cat-emoji">🔬</span><div class="cat-name">الاختبارات والفحص</div><div class="cat-desc">اختبارات التربة، الخرسانة، الحديد، الجودة</div><div class="cat-bottom"><span class="cat-count">43 اختبار</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('structural_full')"><span class="cat-emoji">🏗️</span><div class="cat-name">الكود الإنشائي</div><div class="cat-desc">خرسانة، حديد، أساسات، خوازيق، شدات</div><div class="cat-bottom"><span class="cat-count">5 أقسام</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('fire')"><span class="cat-emoji">🔥</span><div class="cat-name">الحريق والسلامة</div><div class="cat-desc">كود QCDD، مخارج الطوارئ، أنظمة الإطفاء</div><div class="cat-bottom"><span class="cat-count">38 مواصفة</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('structural')"><span class="cat-emoji">🏗️</span><div class="cat-name">الإنشاء</div><div class="cat-desc">خرسانة، حديد، أساسات، خوازيق</div><div class="cat-bottom"><span class="cat-count">4 أقسام</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('geotech')"><span class="cat-emoji">🔬</span><div class="cat-name">الجسات والتربة</div><div class="cat-desc">SPT، Boreholes، اختبارات التربة</div><div class="cat-bottom"><span class="cat-count">6 أقسام</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('calculator')"><span class="cat-emoji">🧮</span><div class="cat-name">حاسبة المواصفات</div><div class="cat-desc">أدخل نتيجة أي اختبار → Pass أو Fail فوراً</div><div class="cat-bottom"><span class="cat-count">38 اختبار</span><span class="cat-arr">←</span></div></div>
-  </div>
-    <div class="cat-card" onclick="openDetail('structural')"><span class="cat-emoji">🏗️</span><div class="cat-name">الإنشاء</div><div class="cat-desc">خرسانة، حديد، أساسات، خوازيق</div><div class="cat-bottom"><span class="cat-count">4 أقسام</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('calculator')"><span class="cat-emoji">🧮</span><div class="cat-name">حاسبة المواصفات</div><div class="cat-desc">أدخل نتيجة أي اختبار → Pass أو Fail فوراً</div><div class="cat-bottom"><span class="cat-count">12 اختبار</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('roads')"><span class="cat-emoji">🛣️</span><div class="cat-name">أعمال الطرق</div><div class="cat-desc">Subgrade، Subbase، إسفلت، اختبارات، تسليم</div><div class="cat-bottom"><span class="cat-count">8 مراحل + ITPs</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('utilities')"><span class="cat-emoji">🔧</span><div class="cat-name">شبكات المرافق</div><div class="cat-desc">مياه الشرب، الصرف الصحي، السطحي، المعالجة</div><div class="cat-bottom"><span class="cat-count">4 شبكات + ITPs</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('structural')"><span class="cat-emoji">🏗️</span><div class="cat-name">الكود الإنشائي</div><div class="cat-desc">خرسانة، حديد، أساسات، خوازيق، شدات</div><div class="cat-bottom"><span class="cat-count">4 أقسام + ITPs</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('geotech')"><span class="cat-emoji">🔬</span><div class="cat-name">الجسات والتربة</div><div class="cat-desc">SPT، Boreholes، مختبر، مياه جوفية، تقرير</div><div class="cat-bottom"><span class="cat-count">6 أقسام + ITP</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('fire')"><span class="cat-emoji">🔥</span><div class="cat-name">الحريق والسلامة</div><div class="cat-desc">QCDD، Sprinkler، مخارج الطوارئ، Hose Reel</div><div class="cat-bottom"><span class="cat-count">متطلبات QCDD</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('calculator')"><span class="cat-emoji">🧮</span><div class="cat-name">حاسبة المواصفات</div><div class="cat-desc">أدخل أي اختبار → Pass أو Fail فوراً</div><div class="cat-bottom"><span class="cat-count">38+ اختبار</span><span class="cat-arr">←</span></div></div>
   </div>
   <div class="section-head"><div class="section-title">آخر <span>المواصفات</span></div></div>
   <div class="specs-section">
@@ -596,7 +587,48 @@ const detailData = {
 <tr><td>Smoke Evacuation</td><td>6 تبادل هواء/ساعة</td></tr>
 </table>
 ` },
-  roads: { title: '🛣️ أعمال الطرق — QCS 2024', content: `<h3>📌 اختر الطبقة للتفاصيل الكاملة</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;"><div onclick="openDetail('subgrade')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🏔️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subgrade</div></div><div onclick="openDetail('subbase')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🪨</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subbase</div></div><div onclick="openDetail('base')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧱</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Base Course</div></div><div onclick="openDetail('prime')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🛢️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Prime Coat</div></div><div onclick="openDetail('binder')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">⚫</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Binder Course</div></div><div onclick="openDetail('wearing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🛣️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Wearing Course</div></div><div onclick="openDetail('finishing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🚧</div><div style="color:var(--gold);font-weight:700;font-size:13px;">التشطيبات</div></div><div onclick="openDetail('handover')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">✅</div><div style="color:var(--gold);font-weight:700;font-size:13px;">التسليم</div></div></div><div style="margin-top:16px;"><div onclick="openDetail('road_itps')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;"><div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">Road ITPs</div></div></div>` },
+  roads: { title: '🛣️ أعمال الطرق — QCS 2024', content: `
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 6 | Road Works | Ashghal Standards
+</div>
+
+<h3>🗺️ مراحل تنفيذ الطريق — الترتيب الإلزامي</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
+<div onclick="openDetail('subgrade')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;"><div style="font-size:16px">1️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subgrade</div><div style="color:var(--text3);font-size:11px;">CBR≥8% | دمك≥95%</div></div>
+<div onclick="openDetail('subbase')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;"><div style="font-size:16px">2️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subbase</div><div style="color:var(--text3);font-size:11px;">CBR≥30% | دمك≥98%</div></div>
+<div onclick="openDetail('base')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;"><div style="font-size:16px">3️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Base Course</div><div style="color:var(--text3);font-size:11px;">CBR≥80% | دمك≥98%</div></div>
+<div onclick="openDetail('prime')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;"><div style="font-size:16px">4️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Prime Coat</div><div style="color:var(--text3);font-size:11px;">0.8-1.2 L/m²</div></div>
+<div onclick="openDetail('binder')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;"><div style="font-size:16px">5️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Binder Course</div><div style="color:var(--text3);font-size:11px;">60-80mm | Stab≥8kN</div></div>
+<div onclick="openDetail('wearing')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;"><div style="font-size:16px">6️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Wearing Course</div><div style="color:var(--text3);font-size:11px;">40-50mm | PSV≥55</div></div>
+<div onclick="openDetail('finishing')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;"><div style="font-size:16px">7️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">التشطيبات</div><div style="color:var(--text3);font-size:11px;">Kerbs + Markings + Lighting</div></div>
+<div onclick="openDetail('handover')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;"><div style="font-size:16px">8️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">التسليم</div><div style="color:var(--text3);font-size:11px;">As-Built + DLP 12-24 شهر</div></div>
+</div>
+
+<div onclick="openDetail('road_itps')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;margin-top:12px;">
+<div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">ITPs الطرق الكاملة</div>
+<div style="color:var(--text3);font-size:12px;margin-top:4px;">خطط الفحص والاختبار لكل مرحلة</div>
+</div>
+
+<h3>📐 ملخص مواصفات QCS 2024</h3>
+<table class="dm-table">
+<tr><th>الطبقة</th><th>السماكة</th><th>الدمك</th><th>المعيار الرئيسي</th></tr>
+<tr><td>Subgrade</td><td>—</td><td>≥ 95% MDD</td><td>CBR ≥ 8%</td></tr>
+<tr><td>Subbase</td><td>150-300mm</td><td>≥ 98% MDD</td><td>CBR ≥ 30%</td></tr>
+<tr><td>Base Course</td><td>150-250mm</td><td>≥ 98% MDD</td><td>CBR ≥ 80%</td></tr>
+<tr><td>Prime Coat</td><td>—</td><td>—</td><td>0.8-1.2 L/m²</td></tr>
+<tr><td>Binder Course</td><td>60-80mm</td><td>≥ 98% TMD</td><td>Marshall ≥ 8 kN</td></tr>
+<tr><td>Wearing Course</td><td>40-50mm</td><td>≥ 98% TMD</td><td>PSV ≥ 55</td></tr>
+</table>
+
+<h3>⚠️ أهم التنبيهات للمشرف في قطر</h3>
+<p>
+• <strong>Sabkha:</strong> اختبار كيميائي إلزامي قبل أي ردم — منتشرة في قطر<br>
+• <strong>PMB إلزامي:</strong> للطرق الرئيسية — درجات حرارة قطر تذيب البيتومين العادي<br>
+• <strong>Trial Section:</strong> 50m معتمدة قبل أي إنتاج إسفلت<br>
+• <strong>درجة الحرارة:</strong> رفض أي حمولة إسفلت أقل من 140°C<br>
+• <strong>Ashghal:</strong> لا تبدأ أي مرحلة بدون Hold Point معتمد
+</p>
+` },
   subgrade: { title: '🏔️ Subgrade — طبقة التربة الطبيعية', content: `
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 6 Part 2 | Earthworks & Roadworks</div>
 <h3>📋 نظرة عامة</h3>
