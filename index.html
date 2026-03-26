@@ -357,8 +357,6 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 
 <div class="toast" id="toast">✅ تم!</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script>
 // ===== STATE =====
 let geminiKey = localStorage.getItem('openrouterKey') || '';
@@ -3222,105 +3220,71 @@ function toggleITPBar(show) {
 function exportToPDF() {
   var title = document.getElementById('dmTitle').textContent;
   var isITP = title.includes('ITP') || title.includes('خطة الفحص');
-  
-  if (typeof window.jspdf === 'undefined') {
-    printCurrentDetail();
-    return;
+  var projectName = document.getElementById('itp-project-name').value || '';
+  var itpNum = document.getElementById('itp-number').value || '';
+  var engineer = document.getElementById('itp-engineer').value || '';
+  var today = new Date().toLocaleDateString('ar-QA');
+  var itpDate = document.getElementById('itp-date').value || today;
+  var contentEl = document.getElementById('dmContent');
+  var contentHTML = contentEl ? contentEl.innerHTML : '';
+
+  var printWindow = window.open('', '_blank', 'width=900,height=700');
+  if (!printWindow) { showToast('فعّل النوافذ المنبثقة في المتصفح'); return; }
+
+  var infoBar = '';
+  if (isITP) {
+    infoBar = '<div style="background:#f9f5ee;border:1px solid #e0d0b0;padding:8px 20px;display:flex;gap:20px;flex-wrap:wrap;font-size:11px;font-family:Cairo,sans-serif;">' +
+      '<span>المشروع: <strong>' + (projectName||'—') + '</strong></span>' +
+      '<span>رقم ITP: <strong>' + (itpNum||'—') + '</strong></span>' +
+      '<span>المهندس: <strong>' + (engineer||'—') + '</strong></span>' +
+      '<span>التاريخ: <strong>' + itpDate + '</strong></span></div>';
   }
-  
-  try {
-    var jsPDFClass = window.jspdf.jsPDF;
-    var doc = new jsPDFClass({ orientation: 'p', unit: 'mm', format: 'a4' });
-    
-    var projectName = document.getElementById('itp-project-name').value || 'QatarSpec Pro';
-    var itpNum = document.getElementById('itp-number').value || 'N/A';
-    var engineer = document.getElementById('itp-engineer').value || 'N/A';
-    var itpDate = document.getElementById('itp-date').value || new Date().toISOString().split('T')[0];
-    
-    doc.setFillColor(122, 21, 21);
-    doc.rect(0, 0, 210, 20, 'F');
-    doc.setTextColor(201, 168, 76);
-    doc.setFontSize(14);
-    doc.text('QatarSpec Pro', 10, 10);
-    doc.setFontSize(8);
-    doc.setTextColor(255, 255, 255);
-    doc.text('QCS 2024 | qatar-standers.vercel.app', 10, 16);
-    doc.text(itpDate, 190, 10, { align: 'right' });
-    
-    doc.setTextColor(0, 0, 0);
-    doc.setFontSize(12);
-    var cleanTitle = title.replace(/[^؀-ۿ\w\s\-|]/g, '').trim();
-    doc.text(cleanTitle, 105, 28, { align: 'center' });
-    
-    var yPos = 35;
-    
-    if (isITP) {
-      doc.setFontSize(8);
-      doc.setFillColor(245, 245, 245);
-      doc.rect(10, yPos, 190, 14, 'F');
-      doc.text('Project: ' + projectName, 12, yPos + 5);
-      doc.text('ITP No: ' + itpNum, 80, yPos + 5);
-      doc.text('Engineer: ' + engineer, 140, yPos + 5);
-      doc.text('Date: ' + itpDate, 12, yPos + 11);
-      yPos += 18;
-    }
-    
-    var contentEl = document.getElementById('dmContent');
-    var tables = contentEl.querySelectorAll('.dm-table');
-    
-    tables.forEach(function(table) {
-      if (yPos > 240) { doc.addPage(); yPos = 15; }
-      var rows = [];
-      var headers = [];
-      table.querySelectorAll('tr').forEach(function(tr, idx) {
-        var cells = [];
-        tr.querySelectorAll('th, td').forEach(function(cell) {
-          cells.push(cell.textContent.trim().substring(0, 35));
-        });
-        if (idx === 0) headers = cells;
-        else if (cells.some(function(c) { return c.length > 0; })) rows.push(cells);
-      });
-      
-      if (headers.length > 0 && rows.length > 0) {
-        doc.autoTable({
-          head: [headers],
-          body: rows,
-          startY: yPos,
-          styles: { fontSize: 7, cellPadding: 1.5, overflow: 'linebreak', halign: 'center' },
-          headStyles: { fillColor: [122, 21, 21], textColor: [255, 255, 255] },
-          alternateRowStyles: { fillColor: [250, 250, 250] },
-          margin: { left: 8, right: 8 }
-        });
-        yPos = doc.lastAutoTable.finalY + 6;
-      }
-    });
-    
-    var pageCount = doc.internal.getNumberOfPages();
-    for (var i = 1; i <= pageCount; i++) {
-      doc.setPage(i);
-      doc.setFontSize(7);
-      doc.setTextColor(150, 150, 150);
-      doc.line(10, 285, 200, 285);
-      doc.text('QatarSpec Pro — QCS 2024 Reference | For Professional Use Only', 10, 290);
-      doc.text('Page ' + i + ' / ' + pageCount, 190, 290, { align: 'right' });
-    }
-    
-    doc.save(cleanTitle.substring(0, 25) + '.pdf');
-    showToast('تم تصدير PDF ✅');
-    
-  } catch(e) {
-    console.error(e);
-    printCurrentDetail();
-  }
+
+  var css = '<style>' +
+    '* {box-sizing:border-box;margin:0;padding:0;}' +
+    'body {font-family:Cairo,Tajawal,Arial,sans-serif;direction:rtl;background:#fff;color:#1a1a1a;font-size:13px;line-height:1.6;}' +
+    '.hdr {background:#7a1515;color:#c9a84c;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #c9a84c;}' +
+    '.hdr .logo {font-size:20px;font-weight:700;}' +
+    '.hdr .sub {font-size:10px;color:#fff;margin-top:2px;}' +
+    '.hdr .meta {text-align:left;font-size:10px;color:#fff;}' +
+    '.wrap {padding:16px 20px;}' +
+    'h3 {font-size:14px;font-weight:700;color:#7a1515;margin:14px 0 8px;padding-bottom:4px;border-bottom:1px solid #e8d5b0;}' +
+    'h3:first-child {font-size:16px;border-bottom:2px solid #c9a84c;margin-bottom:14px;}' +
+    'p {font-size:12px;color:#333;margin:6px 0;line-height:1.7;}' +
+    'table {width:100%;border-collapse:collapse;margin:8px 0 14px;font-size:11px;}' +
+    'th {background:#7a1515;color:#fff;padding:7px 8px;font-weight:600;text-align:center;border:1px solid #6a1010;}' +
+    'td {padding:6px 8px;border:1px solid #ddd;text-align:center;vertical-align:middle;}' +
+    'tr:nth-child(even) td {background:#fafafa;}' +
+    '.ftr {margin-top:20px;padding:10px 20px;border-top:1px solid #ddd;display:flex;justify-content:space-between;font-size:10px;color:#888;}' +
+    'div[style*="rgba(201,168,76"] {display:none!important;}' +
+    '@media print {body {-webkit-print-color-adjust:exact;print-color-adjust:exact;}}' +
+    '</style>';
+
+  var html = '<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8">' +
+    '<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">' +
+    css + '</head><body>' +
+    '<div class="hdr"><div><div class="logo">QatarSpec Pro</div><div class="sub">مرجع المواصفات القطرية — QCS 2024</div></div>' +
+    '<div class="meta"><div>' + itpDate + '</div><div>qatar-standers.vercel.app</div></div></div>' +
+    infoBar +
+    '<div class="wrap"><h3>' + title + '</h3>' + contentHTML + '</div>' +
+    '<div class="ftr"><span>QatarSpec Pro — للاستخدام المهني فقط</span><span>QCS 2024 Reference</span></div>' +
+    '</body></html>';
+
+  printWindow.document.write(html);
+  printWindow.document.close();
+  printWindow.focus();
+  setTimeout(function() { printWindow.print(); }, 1800);
+  showToast('جاري فتح نافذة الطباعة ✅');
 }
 
+
 // Override openDetail to show/hide ITP bar
-var _origOpen = window.openDetail;
 window.addEventListener('DOMContentLoaded', function() {
-  var orig = openDetail;
+  var origOpen = openDetail;
   openDetail = function(key) {
-    orig(key);
-    toggleITPBar(key && key.startsWith('itp_'));
+    origOpen(key);
+    var bar = document.getElementById('itp-project-bar');
+    if (bar) bar.style.display = (key && key.startsWith('itp')) ? 'block' : 'none';
   };
 });
 </script>
