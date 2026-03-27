@@ -193,6 +193,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 </style>
 </head>
 <body>
+<div class="lang-toggle">
+  <button class="lang-btn active" id="btn-ar" onclick="setLang('ar')">عربي</button>
+  <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+</div>
 <div id="update-banner" style="display:none;background:linear-gradient(135deg,#7a1515,#c9a84c);padding:10px 16px;text-align:center;font-size:13px;color:#fff;font-family:Tajawal,sans-serif;">
   🔔 يوجد تحديث جديد للتطبيق — <a onclick="location.reload(true)" style="color:#fff;font-weight:700;cursor:pointer;text-decoration:underline;">تحديث الآن</a>
 </div>
@@ -544,6 +548,8 @@ const detailData = {
 <div style="font-size:20px">🧱</div><div style="color:var(--gold);font-weight:700;font-size:13px;">مواد الإنشاء</div></div>
 <div onclick="openDetail('structural_qcp')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
 <div style="font-size:20px">📊</div><div style="color:var(--gold);font-weight:700;font-size:13px;">خطة الجودة QCP</div></div>
+<div onclick="openDetail('ms_concrete')" style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:20px">📝</div><div style="color:#3498db;font-weight:700;font-size:13px;">Method Statement</div><div style="color:var(--text3);font-size:11px;">Concrete Works</div></div>
 <div onclick="openDetail('itp_concrete')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
 <div style="font-size:20px">📋</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP الخرسانة</div></div>
 <div onclick="openDetail('itp_rebar')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
@@ -631,6 +637,8 @@ const detailData = {
 <div style="font-size:20px">🧱</div><div style="color:var(--gold);font-weight:700;font-size:13px;">مواد الطرق</div></div>
 <div onclick="openDetail('roads_qcp')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
 <div style="font-size:20px">📊</div><div style="color:var(--gold);font-weight:700;font-size:13px;">خطة الجودة QCP</div></div>
+<div onclick="openDetail('ms_asphalt')" style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:20px">📝</div><div style="color:#3498db;font-weight:700;font-size:13px;">Method Statement</div><div style="color:var(--text3);font-size:11px;">PMB & Non-PMB Asphalt</div></div>
 <div onclick="openDetail('calculator')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
 <div style="font-size:20px">🧮</div><div style="color:var(--gold);font-weight:700;font-size:13px;">حاسبة الطرق</div></div>
 </div>
@@ -653,6 +661,11 @@ const detailData = {
 • <strong>Trial Section:</strong> 50m معتمدة قبل أي إنتاج إسفلت<br>
 • <strong>درجة الحرارة:</strong> رفض أي حمولة إسفلت أقل من 140°C<br>
 • <strong>Ashghal:</strong> لا تبدأ أي مرحلة بدون Hold Point معتمد
+</p>
+<div onclick="openDetail('ms_asphalt')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:12px;cursor:pointer;text-align:center;margin-top:10px;">
+<div style="font-size:20px">📋</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Method Statement — Asphalt Works</div>
+<div style="color:var(--text3);font-size:11px;">PMB & Non-PMB | Rolling Pattern | QC</div></div>
+<p style="display:none;">
 </p>
 ` },
   subgrade: { title: '🏔️ Subgrade — طبقة التربة الطبيعية', content: `
@@ -806,6 +819,8 @@ const detailData = {
 <div style="font-size:20px">🧱</div><div style="color:var(--gold);font-weight:700;font-size:13px;">مواد المرافق</div></div>
 <div onclick="openDetail('utilities_qcp')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
 <div style="font-size:20px">📊</div><div style="color:var(--gold);font-weight:700;font-size:13px;">خطة الجودة QCP</div></div>
+<div onclick="openDetail('ms_utilities')" style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:20px">📝</div><div style="color:#3498db;font-weight:700;font-size:13px;">Method Statement</div><div style="color:var(--text3);font-size:11px;">Utilities Works</div></div>
 </div>
 <h3>⚠️ قواعد الفصل الإلزامية</h3>
 <table class="dm-table">
@@ -3056,6 +3071,283 @@ const detailData = {
 </table>
 ` },
 
+
+  ms_asphalt: { title: '📋 Method Statement — Asphalt Works', content: `
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 Based on Parsons Approved MS | EXW-P008-0003-CS-CCC-MT-00040 Rev.CE | QCS 2014 Section 6
+</div>
+<div class="lang-content-ar">
+<h3>📋 نطاق العمل</h3>
+<p>يغطي هذا الـ Method Statement أعمال الإسفلت (PMB و Non-PMB) وفق QCS 2014 Section 6. يُطبَّق على جميع طبقات الإسفلت في مشاريع الطرق القطرية.</p>
+<h3>1.3 المعدات والآليات</h3>
+<table class="dm-table"><tr><th>المعدة</th><th>الملاحظات</th></tr>
+<tr><td>Paver VOGELE 1900-2100</td><td>Self-propelled + Sonic Averaging Beam</td></tr>
+<tr><td>Double Drum Roller 10-12t</td><td>Initial + Intermediate Rolling</td></tr>
+<tr><td>Pneumatic Tyre Roller (PTR)</td><td>4-5 passes intermediate</td></tr>
+<tr><td>Shuttle Buggy</td><td>للـ PMB Asphalt إلزامي</td></tr>
+<tr><td>Bitumen Spray Tanker</td><td>Calibration Report مطلوب قبل البدء</td></tr>
+<tr><td>Thermometers + 3m Straight Edge</td><td>Calibration Report مطلوب</td></tr>
+<tr><td>Truck Mounted Attenuator (TMA)</td><td>TTM Equipment إلزامي</td></tr>
+</table>
+<h3>1.4 المواد</h3>
+<p>• جميع مواد الإسفلت تُنتَج وفق JMF معتمد من المهندس<br>
+• محطة الإسفلت يجب أن تكون مدرجة في Ashghal Approved List<br>
+• Prime Coat / Tack Coat: MAR معتمد قبل التطبيق</p>
+<h3>2.1 التحضير والتنسيق</h3>
+<p>• اعتماد RFIT لإخلاء المرافق وطبقات Subbase/Base قبل الإسفلت<br>
+• Trial Section (50m) معتمد قبل الإنتاج الكامل — QCS 2014 S6 P5.7.3<br>
+• Paving Plan مُعدّ ومعتمد من المهندس قبل كل يوم فرش<br>
+• لا يبدأ الفرش بدون ITP Hold Point مكتمل</p>
+<h3>2.3 قبل الفرش مباشرة</h3>
+<table class="dm-table"><tr><th>البند</th><th>المتطلب</th></tr>
+<tr><td>تنظيف السطح</td><td>Power Broom + Power Blower</td></tr>
+<tr><td>Prime/Tack Coat</td><td>مُطبَّق ومعالج قبل الفرش</td></tr>
+<tr><td>حركة الشاحنات</td><td>تقليل إلى أدنى حد على الـ Tack Coat</td></tr>
+<tr><td>Drive Lines</td><td>معيّنة ومعتمدة من الفورمان</td></tr>
+<tr><td>Joints</td><td>قطع نظيف + طلاء بيتومين</td></tr>
+<tr><td>Transverse Joints</td><td>Offset ≥ 2m من الجوينت تحته</td></tr>
+</table>
+<h3>2.4 الفرش — Non-PMB Asphalt</h3>
+<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
+<tr><td>درجة الحرارة عند الوصول</td><td>≥ 135°C (Minimum Absolute)</td></tr>
+<tr><td>وقف الإنتاج</td><td>درجة حرارة محيط &lt; 8°C أو مطر أو غبار</td></tr>
+<tr><td>سماكة WC المفردة</td><td>45-55mm مضغوط</td></tr>
+<tr><td>سماكة BC-B</td><td>60-80mm مضغوط</td></tr>
+<tr><td>سماكة BC-A</td><td>80-100mm مضغوط</td></tr>
+<tr><td>المسافة بين Paver مجاورين</td><td>≤ 50m بدون rolling</td></tr>
+<tr><td>Hot-on-Hot Longitudinal Joint</td><td>قبل انخفاض الحرارة عن 90°C</td></tr>
+</table>
+<h3>2.4.1 نمط الدمك — Non-PMB</h3>
+<p>1️⃣ Pass Static — 10t Double Drum Roller<br>
+2️⃣ Passes Vibration — 10t Double Drum Roller<br>
+4️⃣ Passes — Pneumatic Tyre Roller (PTR)<br>
+1️⃣ Pass Static — 10t Double Drum Roller (Finishing)</p>
+<h3>2.5 الفرش — PMB Asphalt</h3>
+<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
+<tr><td>درجة حرارة الفرش (Minimum)</td><td>145°C عند الـ Paver</td></tr>
+<tr><td>نطاق درجة الحرارة</td><td>145-160°C</td></tr>
+<tr><td>Shuttle Buggy</td><td>إلزامي للـ PMB</td></tr>
+<tr><td>IRI للـ Wearing Course PMB</td><td>≤ 0.9 m/km (400m Section) — PWA IAN 013</td></tr>
+<tr><td>Straightedge 3m (PMB WC)</td><td>≤ 3mm Transverse (كل 20m)</td></tr>
+</table>
+<h3>2.5.1 نمط الدمك — PMB</h3>
+<p>1️⃣ Pass Static — 12t Double Drum Roller<br>
+2️⃣ Passes Vibration — 12t DDR (BC) / 3 Passes (WC)<br>
+4-5 Passes — PTR (2 Rollers)<br>
+1️⃣ Pass Static — 10t DDR (Finishing)</p>
+<h3>3.0 ضبط الجودة الميداني</h3>
+<table class="dm-table"><tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr>
+<tr><td>درجة الحرارة</td><td>كل حمولة</td><td>≥ 135°C (Non-PMB) / ≥ 145°C (PMB)</td></tr>
+<tr><td>Marshall Test</td><td>كل 200 طن</td><td>≥ 8kN (≥9 للطرق الرئيسية)</td></tr>
+<tr><td>Bitumen Extraction</td><td>كل 200 طن</td><td>JMF ± 0.3%</td></tr>
+<tr><td>Core Samples</td><td>كل 1000m²</td><td>≥ 98% TMD</td></tr>
+<tr><td>Straightedge 3m</td><td>كل 100m</td><td>≤ 5mm (≤3mm للـ PMB WC)</td></tr>
+<tr><td>Level Survey</td><td>كل 25m</td><td>± 6mm WC</td></tr>
+<tr><td>IRI Measurement (PMB WC)</td><td>كل Section 400m</td><td>≤ 0.9 m/km</td></tr>
+</table>
+<h3>2.8 معالجة عدم المطابقة</h3>
+<p>• قطع وإعادة رصف إذا خرجت عن التفاوتات<br>• Method Statement منفصل للأعمال التصحيحية<br>• أي إسفلت خارج المواصفة يُقشَط ويُعاد بموافقة المهندس</p>
+</div>
+<div class="lang-content-en" style="display:none;">
+<h3>📋 Scope</h3>
+<p>This Method Statement covers Asphalt Works (PMB & Non-PMB) in accordance with QCS 2014 Section 6. Applicable to all asphalt layers in Qatar road projects.</p>
+<h3>1.3 Plant & Equipment</h3>
+<table class="dm-table"><tr><th>Equipment</th><th>Notes</th></tr>
+<tr><td>Paver VOGELE 1900-2100</td><td>Self-propelled + Sonic Averaging Beam</td></tr>
+<tr><td>Double Drum Roller 10-12t</td><td>Initial + Intermediate Rolling</td></tr>
+<tr><td>Pneumatic Tyre Roller (PTR)</td><td>4-5 passes intermediate</td></tr>
+<tr><td>Shuttle Buggy</td><td>Mandatory for PMB Asphalt</td></tr>
+<tr><td>Bitumen Spray Tanker</td><td>Calibration Report required before start</td></tr>
+<tr><td>Thermometers + 3m Straight Edge</td><td>Calibration Report required</td></tr>
+<tr><td>Truck Mounted Attenuator (TMA)</td><td>Mandatory TTM Equipment</td></tr>
+</table>
+<h3>2.1 Preparation & Co-ordination</h3>
+<p>• RFIT for Utility clearance and previous layers (Subbase/Base) required before asphalt<br>
+• Trial Section (50m) approved before full production — QCS 2014 S6 P5.7.3<br>
+• Paving Plan prepared and approved by Engineer before each day's paving<br>
+• No paving without completed ITP Hold Points</p>
+<h3>2.4 Asphalt Laying (Non-PMB)</h3>
+<table class="dm-table"><tr><th>Item</th><th>Requirement</th></tr>
+<tr><td>Temperature at delivery</td><td>≥ 135°C (Absolute Minimum)</td></tr>
+<tr><td>Suspend production</td><td>Ambient &lt;8°C, rain, fog, dust storms</td></tr>
+<tr><td>WC compacted thickness</td><td>45-55mm</td></tr>
+<tr><td>BC-B compacted thickness</td><td>60-80mm</td></tr>
+<tr><td>Distance between adjacent pavers</td><td>≤ 50m without rolling</td></tr>
+<tr><td>Hot-on-Hot Longitudinal Joint</td><td>Before temperature falls below 90°C</td></tr>
+</table>
+<h3>2.4.1 Rolling Pattern — Non-PMB</h3>
+<p>1 Pass Static — 10t Double Drum Roller<br>
+2 Passes Vibration — 10t DDR<br>
+4 Passes — PTR (Pneumatic Tyre Roller)<br>
+1 Pass Static — 10t DDR (Finishing)</p>
+<h3>2.5 Asphalt Laying (PMB)</h3>
+<table class="dm-table"><tr><th>Item</th><th>Requirement</th></tr>
+<tr><td>Minimum laying temperature</td><td>145°C at Paver</td></tr>
+<tr><td>Temperature range</td><td>145-160°C</td></tr>
+<tr><td>Shuttle Buggy</td><td>Mandatory for PMB</td></tr>
+<tr><td>IRI (PMB Wearing Course)</td><td>≤ 0.9 m/km per 400m section — PWA IAN 013</td></tr>
+<tr><td>Straightedge 3m (PMB WC)</td><td>≤ 3mm Transverse every 20m</td></tr>
+</table>
+<h3>Quality Control</h3>
+<table class="dm-table"><tr><th>Test</th><th>Frequency</th><th>Standard</th></tr>
+<tr><td>Temperature Check</td><td>Every load</td><td>≥135°C (Non-PMB) / ≥145°C (PMB)</td></tr>
+<tr><td>Marshall Test</td><td>Every 200t</td><td>≥ 8kN stability</td></tr>
+<tr><td>Bitumen Extraction</td><td>Every 200t</td><td>JMF ± 0.3%</td></tr>
+<tr><td>Core Samples</td><td>Every 1000m²</td><td>≥ 98% TMD</td></tr>
+<tr><td>Straightedge 3m</td><td>Every 100m</td><td>≤ 5mm</td></tr>
+<tr><td>IRI (PMB WC only)</td><td>Per 400m section</td><td>≤ 0.9 m/km</td></tr>
+</table>
+</div>
+` },
+
+  ms_utilities: { title: '📋 Method Statement — Utilities Works', content: `
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 KAHRAMAA / Ashghal Requirements | QCS 2024 Section 8
+</div>
+<div class="lang-content-ar">
+<h3>📋 نطاق العمل</h3>
+<p>يغطي هذا الـ Method Statement أعمال تمديد وتركيب شبكات المرافق (مياه الشرب، الصرف الصحي، الصرف السطحي، المياه المعالجة) وفق متطلبات KAHRAMAA و Ashghal و QCS 2024.</p>
+<h3>1.0 المعدات</h3>
+<table class="dm-table"><tr><th>المعدة</th><th>الاستخدام</th></tr>
+<tr><td>Backhoe / Excavator</td><td>الحفر</td></tr>
+<tr><td>Trench Box / Shoring</td><td>للأعماق > 1.5m إلزامي</td></tr>
+<tr><td>Dewatering Pump</td><td>لتخفيض المياه الجوفية</td></tr>
+<tr><td>Laser Level</td><td>ضبط انحدار المواسير</td></tr>
+<tr><td>Pipe Fusion Machine</td><td>HDPE Butt Fusion</td></tr>
+<tr><td>Pressure Test Equipment</td><td>Hydrostatic Testing</td></tr>
+<tr><td>CCTV Camera</td><td>فحص الصرف</td></tr>
+</table>
+<h3>2.0 التسلسل التنفيذي</h3>
+<p><strong>المرحلة 1 — التحضير:</strong><br>
+• NOC من جميع الجهات (KAHRAMAA، Ashghal، Ooredoo، QP)<br>
+• تحديد المرافق المدفونة قبل الحفر<br>
+• اعتماد Method Statement + ITP + Shop Drawings</p>
+<p><strong>المرحلة 2 — الحفر:</strong><br>
+• بدء الحفر بعد NOC كامل<br>
+• Trench Box للأعماق > 1.5m<br>
+• Dewatering مستمر عند مستوى المياه الجوفية<br>
+• تفريغ مواسير قائمة قبل القطع</p>
+<p><strong>المرحلة 3 — وضع المواسير:</strong><br>
+• Sand Bedding 150mm قبل الوضع<br>
+• ضبط الانحدار بـ Laser Level<br>
+• فحص كل وصلة قبل الردم<br>
+• Marker Tape بالارتفاع الصحيح</p>
+<p><strong>المرحلة 4 — الاختبارات:</strong><br>
+• Pressure Test: 1.5x × PN / 2 ساعة / صفر تسرب (مياه الشرب)<br>
+• Air Test: 100mm WG / 5 دقائق / ≤ 25mm (صرف صحي)<br>
+• CCTV 100% (صرف صحي + سطحي)<br>
+• Water Quality (مياه الشرب)</p>
+<p><strong>المرحلة 5 — الردم:</strong><br>
+• Selected Fill بعد اعتماد الاختبارات فقط<br>
+• Compaction ≥ 90-95% MDD كل 300mm<br>
+• الطبقة العلوية (300-600mm) ≥ 93% MDD<br>
+• توثيق كل طبقة بـ Sand Cone Test</p>
+<h3>3.0 اشتراطات KAHRAMAA</h3>
+<table class="dm-table"><tr><th>البند</th><th>المتطلب</th></tr>
+<tr><td>الفصل الأفقي (مياه / صرف)</td><td>≥ 1.0m</td></tr>
+<tr><td>مياه الشرب دائماً</td><td>فوق الصرف الصحي</td></tr>
+<tr><td>Marker Tape لون مياه الشرب</td><td>أصفر</td></tr>
+<tr><td>Marker Tape لون صرف صحي</td><td>أخضر</td></tr>
+<tr><td>Marker Tape لون معالجة</td><td>بنفسجي</td></tr>
+<tr><td>Chlorination قبل التشغيل</td><td>≥ 50ppm / ≥ 24 ساعة</td></tr>
+<tr><td>Water Quality</td><td>Coliform = 0 / Turbidity ≤ 1 NTU</td></tr>
+</table>
+</div>
+<div class="lang-content-en" style="display:none;">
+<h3>Scope</h3>
+<p>This Method Statement covers installation of utility networks (Water Supply, Foul Sewer, Storm Water, Treated Water) in accordance with KAHRAMAA, Ashghal and QCS 2024 requirements.</p>
+<h3>Execution Sequence</h3>
+<p><strong>Phase 1 — Preparation:</strong> NOC from all authorities → Material Approval → ITP Hold Points → Trench design approval</p>
+<p><strong>Phase 2 — Excavation:</strong> Trench box for depths > 1.5m → Continuous dewatering → Protect existing utilities</p>
+<p><strong>Phase 3 — Pipe Laying:</strong> 150mm sand bedding → Laser level for gradient → Joint inspection before backfill → Marker tape at correct elevation</p>
+<p><strong>Phase 4 — Testing:</strong> Pressure Test 1.5x × PN / 2hr / zero drop (water) → Air Test 100mm WG / 5min / ≤25mm drop (sewer) → 100% CCTV (sewer+storm) → Water quality (drinking water)</p>
+<p><strong>Phase 5 — Backfill:</strong> Selected fill only after test approval → Compaction ≥ 90-95% MDD per 300mm lift → Document with Sand Cone</p>
+<h3>KAHRAMAA Requirements</h3>
+<table class="dm-table"><tr><th>Item</th><th>Requirement</th></tr>
+<tr><td>Horizontal separation (water/sewer)</td><td>≥ 1.0m</td></tr>
+<tr><td>Water supply always</td><td>Above foul sewer</td></tr>
+<tr><td>Water supply marker tape</td><td>Yellow</td></tr>
+<tr><td>Foul sewer marker tape</td><td>Green</td></tr>
+<tr><td>Treated water marker tape</td><td>Purple</td></tr>
+<tr><td>Chlorination before commissioning</td><td>≥ 50ppm / ≥ 24 hours</td></tr>
+<tr><td>Water quality acceptance</td><td>Coliform = 0 / Turbidity ≤ 1 NTU</td></tr>
+</table>
+</div>
+` },
+
+  ms_concrete: { title: '📋 Method Statement — Concrete Works', content: `
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 5 | Hot Weather Concreting — Qatar
+</div>
+<div class="lang-content-ar">
+<h3>1.0 النطاق والمواد</h3>
+<p>يغطي هذا الـ Method Statement أعمال الخرسانة في قطر مع التركيز على Hot Weather Concreting والبيئة العدوانية (كبريتات + كلوريدات).</p>
+<h3>2.0 المعدات</h3>
+<table class="dm-table"><tr><th>المعدة</th><th>الملاحظة</th></tr>
+<tr><td>Concrete Mixer Truck (Agitator)</td><td>≤ 90 دقيقة من الخلط</td></tr>
+<tr><td>Concrete Pump</td><td>Slump 100-150mm للضخ</td></tr>
+<tr><td>Internal Vibrator (Poker 50-75mm)</td><td>كل 450mm أفقياً</td></tr>
+<tr><td>Thermometer</td><td>قياس حرارة الخرسانة كل حمولة</td></tr>
+<tr><td>Thermocouple System</td><td>للـ Raft / Mass Concrete إلزامي</td></tr>
+</table>
+<h3>3.0 التسلسل التنفيذي</h3>
+<p><strong>قبل الصب:</strong><br>
+• اعتماد JMF + نتائج Trial Mix (7+28 يوم)<br>
+• Pour Card موقع من الاستشاري<br>
+• فحص Formwork + Rebar + Cover (Hold Point)<br>
+• تبريد الشدات والحديد بالماء في الصيف<br>
+• التحقق من جاهزية معدات الدمك والمعالجة</p>
+<p><strong>أثناء الصب:</strong><br>
+• قياس Slump كل حمولة<br>
+• قياس درجة الحرارة كل حمولة — رفض أي حمولة > 32°C<br>
+• أخذ Cube Samples: 6 مكعبات كل 50m³<br>
+• ردم بطبقات ≤ 500mm + دمك فوري<br>
+• لا تتوقف الصبة — استمرارية إلزامية</p>
+<p><strong>بعد الصب — المعالجة:</strong><br>
+• بدء المعالجة خلال ساعة من الصب<br>
+• Curing Compound فوري في الصيف<br>
+• Wet Hessian فوق الـ Compound<br>
+• ≥ 7 أيام OPC / ≥ 10 أيام SRPC/GGBS<br>
+• مراقبة كل 4 ساعات في درجات الحرارة العالية</p>
+<h3>4.0 Hot Weather Concreting — قطر</h3>
+<table class="dm-table"><tr><th>الإجراء</th><th>المتطلب</th></tr>
+<tr><td>تبريد مياه الخلط</td><td>إضافة ثلج — هدف ≤ 32°C عند الصب</td></tr>
+<tr><td>تبريد الركام</td><td>رش ماء + ظل</td></tr>
+<tr><td>وقت النقل</td><td>≤ 60 دقيقة في الصيف</td></tr>
+<tr><td>وقت الصب الليلي</td><td>مفضل للعناصر الكبيرة في الصيف</td></tr>
+<tr><td>Retarder Admixture</td><td>إلزامي في درجات > 35°C</td></tr>
+<tr><td>GGBS Replacement</td><td>30-50% لتقليل الحرارة في الـ Raft</td></tr>
+</table>
+<h3>5.0 Hold Points الإلزامية</h3>
+<table class="dm-table"><tr><th>HP</th><th>الشرط</th></tr>
+<tr><td>HP-01</td><td>JMF + Trial Mix Approval</td></tr>
+<tr><td>HP-02</td><td>Founding Level (Geotechnical Approval)</td></tr>
+<tr><td>HP-03</td><td>Rebar + Formwork + Cover Inspection</td></tr>
+<tr><td>HP-04</td><td>Pour Card Signed by Consultant</td></tr>
+<tr><td>HP-05</td><td>Cube Result 7 Day → to Consultant</td></tr>
+<tr><td>HP-06</td><td>Cube Result 28 Day → Final Acceptance</td></tr>
+<tr><td>HP-07</td><td>Formwork Striking After Cube 7 Day</td></tr>
+</table>
+</div>
+<div class="lang-content-en" style="display:none;">
+<h3>Scope</h3>
+<p>This Method Statement covers concrete works in Qatar with emphasis on Hot Weather Concreting and aggressive environment (sulphates + chlorides).</p>
+<h3>Execution Sequence</h3>
+<p><strong>Before Pour:</strong> JMF + Trial Mix approval (7+28 day) → Pour Card signed by Consultant → Formwork + Rebar + Cover inspection (Hold Point) → Pre-cool formwork and rebar in summer → Confirm vibrator and curing equipment readiness</p>
+<p><strong>During Pour:</strong> Slump test every load → Temperature check every load — reject any load > 32°C → Cube samples 6 cubes per 50m³ → Place in layers ≤ 500mm + immediate compaction → Maintain continuity</p>
+<p><strong>After Pour — Curing:</strong> Start curing within 1 hour → Curing compound immediately in summer → Wet hessian over compound → ≥ 7 days OPC / ≥ 10 days SRPC/GGBS → Monitor every 4 hours in extreme heat</p>
+<h3>Hot Weather Concreting — Qatar</h3>
+<table class="dm-table"><tr><th>Measure</th><th>Requirement</th></tr>
+<tr><td>Chilled mixing water</td><td>Add ice — target ≤ 32°C at point of placement</td></tr>
+<tr><td>Aggregate cooling</td><td>Water spray + shade</td></tr>
+<tr><td>Transport time</td><td>≤ 60 minutes in summer</td></tr>
+<tr><td>Night pouring</td><td>Preferred for large elements in summer</td></tr>
+<tr><td>Retarder admixture</td><td>Mandatory above 35°C ambient</td></tr>
+<tr><td>GGBS replacement</td><td>30-50% to reduce heat in Raft</td></tr>
+</table>
+</div>
+` },
+
   itp_subgrade: { title: '📋 ITP — Subgrade', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 2</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>Standard Proctor</td><td>ASTM D698</td><td>تحديد MDD و OMC</td><td>كل تغيير مادة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.2</td><td>CBR Soaked 4 days</td><td>ASTM D1883</td><td>≥ 8%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.3</td><td>Atterberg Limits</td><td>ASTM D4318</td><td>LL ≤ 35% | PI ≤ 10%</td><td>كل تغيير مادة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 95% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr><tr><td>3.2</td><td>Level Survey</td><td>Design Drawing</td><td>± 10mm</td><td>كل 25m</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Survey Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness Point | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
   itp_subbase: { title: '📋 ITP — Subbase', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 3</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>CBR Soaked</td><td>ASTM D1883</td><td>≥ 30%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.2</td><td>Plasticity Index</td><td>ASTM D4318</td><td>≤ 6%</td><td>كل 500m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 98% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
   itp_base: { title: '📋 ITP — Base Course', content: `<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2014 — Section 6 Part 3</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>CBR Soaked</td><td>ASTM D1883</td><td>≥ 80%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.2</td><td>LA Abrasion</td><td>ASTM C131</td><td>≤ 25%</td><td>كل 1000m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 98% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr><tr><td>3.2</td><td>Plate Load Test</td><td>BS 1377 Part 9</td><td>حسب التصميم</td><td>كل 2000m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>` },
@@ -3559,6 +3851,27 @@ function calcLapLength() {
   if (!dia || !actual) return showToast('❌ أدخل كل البيانات');
   const req = mult * dia;
   showResult('lap-result', actual >= req, actual, req, `الطول الفعلي: ${actual}mm | المطلوب: ${mult}d = ${req}mm (d=${dia}mm)`);
+}
+
+// ===== LANGUAGE TOGGLE =====
+var currentLang = 'ar';
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('btn-ar').className = 'lang-btn' + (lang === 'ar' ? ' active' : '');
+  document.getElementById('btn-en').className = 'lang-btn' + (lang === 'en' ? ' active' : '');
+  
+  // Toggle app direction and content
+  if (lang === 'en') {
+    document.documentElement.setAttribute('lang', 'en');
+    document.documentElement.setAttribute('dir', 'ltr');
+    document.querySelectorAll('.lang-content-ar').forEach(function(el) { el.style.display = 'none'; });
+    document.querySelectorAll('.lang-content-en').forEach(function(el) { el.style.display = 'block'; });
+  } else {
+    document.documentElement.setAttribute('lang', 'ar');
+    document.documentElement.setAttribute('dir', 'rtl');
+    document.querySelectorAll('.lang-content-ar').forEach(function(el) { el.style.display = 'block'; });
+    document.querySelectorAll('.lang-content-en').forEach(function(el) { el.style.display = 'none'; });
+  }
 }
 
 // ===== VERSION CHECK =====
