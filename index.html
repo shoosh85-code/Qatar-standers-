@@ -670,193 +670,301 @@ const detailData = {
 ` },
   subgrade: { title: '🏔️ Subgrade — طبقة التربة الطبيعية', content: `
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — Section 6 Part 3 | Subgrade Preparation
+📌 QCS 2024 — Section 6 Part 3 | Subgrade Preparation | Table 3:1 Page 8
 </div>
 
 <div class="lang-content-ar">
 <h3>📐 تعريف Subgrade</h3>
-<p>Subgrade هي الطبقة الطبيعية أو المحسّنة من التربة التي تُشكّل قاعدة الطريق. جودتها تحدد تصميم الرصيف بالكامل — ضعيفة = إسفلت أسمك وأغلى.</p>
+<p>Subgrade هي الطبقة الطبيعية أو المحسّنة من التربة التي تُشكّل قاعدة الرصيف. جودتها تحدد سماكة وتصميم الرصيف بالكامل.</p>
 
-<h3>⚠️ نوعان من CBR في قطر — QCS Section 6 Part 3</h3>
-<table class="dm-table">
-<tr><th>نوع التربة</th><th>CBR المطلوب</th><th>الدمك</th><th>المرجع</th></tr>
-<tr><td style="color:#2ecc71;font-weight:700;">تربة عادية (Normal Soil)</td><td style="color:#2ecc71;font-weight:700;">≥ 15% (Soaked 4 days)</td><td>≥ 95% MDD</td><td>QCS S6 P3 Table 3.1</td></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">Sabkha / تربة ملحية</td><td style="color:#e74c3c;font-weight:700;">≥ 8% (Soaked 4 days)</td><td>≥ 95% MDD</td><td>QCS S6 P3 Special</td></tr>
-</table>
-
-<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;">
-⚠️ <strong>تنبيه مهم:</strong> CBR 8% للـ Sabkha فقط — التربة العادية يجب ≥ 15%. أي تقرير جسات يذكر CBR < 15% للتربة العادية = استبدال أو معالجة.
+<h3>⚠️ المواد غير المقبولة في الـ Subgrade — Section 5:2:1</h3>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;">
+لا يُقبل استخدام المواد التالية في أي طبقة من طبقات الطريق:<br>
+• <strong>Peat أو Organic Soils</strong> — التربة العضوية<br>
+• <strong>Expansive Clays</strong> — طين منتفخ (PI &gt; 30%)<br>
+• <strong>Frozen Material</strong> — مواد متجمدة<br>
+• <strong>Material with deleterious substances</strong> — مواد ضارة أو ملوثة<br>
+• <strong>Sulphate SO3 &gt; 0.5%</strong> بدون موافقة مهندس + معالجة<br>
+• <strong>Chloride &gt; 0.6%</strong> بدون موافقة مهندس<br>
+• <strong>CBR &lt; 8%</strong> بدون معالجة أو استبدال<br>
+• <strong>Material with max size &gt; 75mm</strong>
 </div>
 
-<h3>📐 معالجة Sabkha في قطر</h3>
+<h3>📐 جدول 3:1 — مواصفات مواد الـ Fill Subgrade — QCS S6 P3 Page 8</h3>
 <table class="dm-table">
-<tr><th>درجة Sabkha</th><th>الإجراء</th></tr>
-<tr><td>Sulphate > 0.5% (Class 2)</td><td>استبدال بمادة مناسبة أو معالجة بـ Lime/Cement</td></tr>
-<tr><td>Sulphate > 1.0% (Class 3+)</td><td>استبدال كامل حتى مستوى التأسيس الصحيح</td></tr>
-<tr><td>Sabkha بعمق > 1.5m</td><td>تقرير جيوتقني خاص + موافقة Ashghal</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>المواصفة</th><th>المرجع</th></tr>
+<tr><td><strong>CBR — تربة عادية (Normal Soil)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 15% (Soaked 4 days @ 95% MDD)</td><td>Table 3:1</td></tr>
+<tr><td><strong>CBR — Sabkha / تربة ملحية</strong></td><td style="color:#f39c12;font-weight:700;">≥ 8% (Soaked 4 days @ 95% MDD)</td><td>Table 3:1 Special</td></tr>
+<tr><td>Max Size of Material</td><td>≤ 75 mm</td><td>Table 3:1</td></tr>
+<tr><td>Liquid Limit (LL)</td><td>≤ 35%</td><td>Table 3:1</td></tr>
+<tr><td>Plasticity Index (PI)</td><td>≤ 10%</td><td>Table 3:1</td></tr>
+<tr><td>Linear Shrinkage</td><td>≤ 3%</td><td>Table 3:1</td></tr>
+<tr><td>Organic Content</td><td>≤ 2%</td><td>Table 3:1</td></tr>
+<tr><td>Water Soluble Sulphate (SO3)</td><td>≤ 0.5%</td><td>Table 3:1</td></tr>
+<tr><td>Total Chloride</td><td>≤ 0.6%</td><td>Table 3:1</td></tr>
+<tr><td>Compaction (MDD Std Proctor)</td><td>≥ 95%</td><td>Table 3:1</td></tr>
+<tr><td>Layer Thickness (Max per layer)</td><td>≤ 200mm (نهار) / ≤ 150mm (Sabkha)</td><td>QCS S6 P3</td></tr>
+<tr><td>Level Tolerance</td><td>± 10mm من المنسوب التصميمي</td><td>QCS S6 P3</td></tr>
 </table>
 
-<h3>📐 مواصفات Subgrade الكاملة</h3>
-<table class="dm-table">
-<tr><th>البند</th><th>التربة العادية</th><th>Sabkha</th><th>المرجع</th></tr>
-<tr><td>CBR Soaked 4 days</td><td>≥ 15%</td><td>≥ 8%</td><td>QCS S6 P3</td></tr>
-<tr><td>Compaction MDD</td><td>≥ 95%</td><td>≥ 95%</td><td>ASTM D698</td></tr>
-<tr><td>Liquid Limit</td><td>≤ 35%</td><td>≤ 35%</td><td>ASTM D4318</td></tr>
-<tr><td>Plasticity Index</td><td>≤ 10%</td><td>≤ 10%</td><td>ASTM D4318</td></tr>
-<tr><td>Sulphate SO3</td><td>≤ 0.5%</td><td>تحقق جيوتقني</td><td>BS 1377</td></tr>
-<tr><td>Chloride</td><td>≤ 0.6%</td><td>تحقق جيوتقني</td><td>BS 1377</td></tr>
-<tr><td>Organic Content</td><td>≤ 2%</td><td>≤ 2%</td><td>ASTM D2974</td></tr>
-<tr><td>Max Size Material</td><td>≤ 75mm</td><td>≤ 75mm</td><td>QCS S6 P3</td></tr>
-<tr><td>Layer Thickness</td><td>≤ 200mm per layer</td><td>≤ 150mm per layer</td><td>QCS S6 P3</td></tr>
-</table>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+<strong>ملاحظة مهمة QCS:</strong> التربة الطبيعية في الموقع إذا كانت CBR ≥ 15% تُقبل مباشرة. إذا كانت بين 8-15% وكانت Sabkha → تُقبل بشروط. إذا &lt; 8% → استبدال أو معالجة بـ Lime/Cement إلزامي.
+</div>
 
-<h3>🔧 تسلسل التنفيذ</h3>
-<p>1. تسوية وحفر للمستوى التصميمي<br>
-2. اختبار التربة الطبيعية (CBR + Sulphate + Chloride)<br>
-3. إذا Sabkha → استبدال أو معالجة بموافقة Ashghal<br>
-4. ردم بطبقات ≤ 200mm (≤150mm للـ Sabkha) + دمك<br>
-5. Sand Cone كل 500m² → ≥ 95% MDD<br>
-6. CBR كل 2000m² → ≥ 15% (عادي) / ≥ 8% (Sabkha)<br>
-7. Level Survey كل 25m → ± 10mm</p>
+<h3>🔧 اختبارات الموقع</h3>
+<table class="dm-table">
+<tr><th>الاختبار</th><th>المعيار</th><th>التكرار</th><th>طريقة الاختبار</th></tr>
+<tr><td>CBR Field (DCP)</td><td>حسب نوع التربة</td><td>كل 500m طول</td><td>ASTM D6951</td></tr>
+<tr><td>Sand Cone Density</td><td>≥ 95% MDD</td><td>كل 500m²</td><td>ASTM D1556</td></tr>
+<tr><td>CBR Lab (Soaked)</td><td>≥ 15% / ≥ 8%</td><td>كل 2000m²</td><td>ASTM D1883</td></tr>
+<tr><td>Atterberg Limits</td><td>LL≤35% PI≤10%</td><td>كل تغيير مادة</td><td>ASTM D4318</td></tr>
+<tr><td>Proctor Compaction</td><td>MDD + OMC</td><td>كل تغيير مادة</td><td>ASTM D698</td></tr>
+<tr><td>Sulphate + Chloride</td><td>SO3≤0.5% Cl≤0.6%</td><td>كل 500m³</td><td>BS 1377</td></tr>
+<tr><td>Level Survey</td><td>± 10mm</td><td>كل 25m طول</td><td>Total Station</td></tr>
+</table>
 
 <h3>🔴 Hold Points</h3>
-<p>• <strong>HP-01:</strong> تقرير الجسات + تصنيف التربة قبل البدء<br>
-• <strong>HP-02:</strong> اعتماد CBR + Sulphate قبل Subbase<br>
-• <strong>HP-03:</strong> Level Survey معتمد قبل الطبقة التالية</p>
+<p>• <strong>HP-01:</strong> تقرير الجسات + تصنيف التربة قبل البدء — موافقة Geotechnical + Ashghal<br>
+• <strong>HP-02:</strong> CBR + Sulphate + Compaction معتمدة قبل الـ Subbase<br>
+• <strong>HP-03:</strong> Level Survey ± 10mm معتمد من الاستشاري</p>
 </div>
 
 <div class="lang-content-en" style="display:none;">
-<h3>📐 Subgrade Definition</h3>
-<p>The subgrade is the natural or improved soil layer forming the foundation of the road pavement. Its quality determines the entire pavement design — weak subgrade means thicker and more expensive asphalt.</p>
+<h3>Table 3:1 — Fill Subgrade Material Specifications — QCS S6 P3 Page 8</h3>
 
-<h3>⚠️ Two CBR Types in Qatar — QCS Section 6 Part 3</h3>
-<table class="dm-table">
-<tr><th>Soil Type</th><th>Required CBR</th><th>Compaction</th><th>Reference</th></tr>
-<tr><td style="color:#2ecc71;font-weight:700;">Normal Soil</td><td style="color:#2ecc71;font-weight:700;">≥ 15% (Soaked 4 days)</td><td>≥ 95% MDD</td><td>QCS S6 P3 Table 3.1</td></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">Sabkha / Saline Soil</td><td style="color:#e74c3c;font-weight:700;">≥ 8% (Soaked 4 days)</td><td>≥ 95% MDD</td><td>QCS S6 P3 Special</td></tr>
-</table>
-
-<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;">
-⚠️ <strong>Critical:</strong> CBR 8% applies to Sabkha ONLY. Normal soil must achieve ≥ 15%. Any GI report showing CBR < 15% for normal soil requires replacement or treatment.
+<h3>Unacceptable Materials — Section 5:2:1</h3>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;">
+The following shall NOT be used in any road layer:<br>
+• Peat or organic soils | Expansive clays (PI &gt; 30%) | Frozen material<br>
+• Material with deleterious substances | SO3 &gt; 0.5% without treatment<br>
+• Chloride &gt; 0.6% without approval | CBR &lt; 8% without treatment | Max size &gt; 75mm
 </div>
 
-<h3>📐 Full Subgrade Specifications</h3>
 <table class="dm-table">
-<tr><th>Item</th><th>Normal Soil</th><th>Sabkha</th><th>Reference</th></tr>
-<tr><td>CBR Soaked 4 days</td><td>≥ 15%</td><td>≥ 8%</td><td>QCS S6 P3</td></tr>
-<tr><td>Compaction MDD</td><td>≥ 95%</td><td>≥ 95%</td><td>ASTM D698</td></tr>
-<tr><td>Liquid Limit</td><td>≤ 35%</td><td>≤ 35%</td><td>ASTM D4318</td></tr>
-<tr><td>Plasticity Index</td><td>≤ 10%</td><td>≤ 10%</td><td>ASTM D4318</td></tr>
-<tr><td>Sulphate SO3</td><td>≤ 0.5%</td><td>Geotechnical Review</td><td>BS 1377</td></tr>
-<tr><td>Organic Content</td><td>≤ 2%</td><td>≤ 2%</td><td>ASTM D2974</td></tr>
-<tr><td>Layer Thickness</td><td>≤ 200mm per layer</td><td>≤ 150mm per layer</td><td>QCS S6 P3</td></tr>
+<tr><th>Property</th><th>Specification</th><th>Reference</th></tr>
+<tr><td><strong>CBR — Normal Soil</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 15% (Soaked 4 days @ 95% MDD)</td><td>Table 3:1</td></tr>
+<tr><td><strong>CBR — Sabkha</strong></td><td style="color:#f39c12;font-weight:700;">≥ 8% (Soaked 4 days @ 95% MDD)</td><td>Table 3:1 Special</td></tr>
+<tr><td>Max Particle Size</td><td>≤ 75 mm</td><td>Table 3:1</td></tr>
+<tr><td>Liquid Limit</td><td>≤ 35%</td><td>Table 3:1</td></tr>
+<tr><td>Plasticity Index</td><td>≤ 10%</td><td>Table 3:1</td></tr>
+<tr><td>Linear Shrinkage</td><td>≤ 3%</td><td>Table 3:1</td></tr>
+<tr><td>Organic Content</td><td>≤ 2%</td><td>Table 3:1</td></tr>
+<tr><td>Water Soluble Sulphate SO3</td><td>≤ 0.5%</td><td>Table 3:1</td></tr>
+<tr><td>Total Chloride</td><td>≤ 0.6%</td><td>Table 3:1</td></tr>
+<tr><td>Compaction</td><td>≥ 95% MDD (Std Proctor)</td><td>Table 3:1</td></tr>
+<tr><td>Max Layer Thickness</td><td>≤ 200mm (Normal) / ≤ 150mm (Sabkha)</td><td>QCS S6 P3</td></tr>
+<tr><td>Level Tolerance</td><td>± 10mm</td><td>QCS S6 P3</td></tr>
+</table>
+
+<h3>Site Testing</h3>
+<table class="dm-table">
+<tr><th>Test</th><th>Standard</th><th>Frequency</th><th>Method</th></tr>
+<tr><td>Sand Cone Density</td><td>≥ 95% MDD</td><td>Per 500m²</td><td>ASTM D1556</td></tr>
+<tr><td>CBR Lab (Soaked 4 days)</td><td>≥ 15% / ≥ 8%</td><td>Per 2000m²</td><td>ASTM D1883</td></tr>
+<tr><td>Atterberg Limits</td><td>LL≤35% PI≤10%</td><td>Per material change</td><td>ASTM D4318</td></tr>
+<tr><td>Sulphate + Chloride</td><td>SO3≤0.5% Cl≤0.6%</td><td>Per 500m³</td><td>BS 1377</td></tr>
+<tr><td>Level Survey</td><td>± 10mm</td><td>Per 25m</td><td>Total Station</td></tr>
 </table>
 </div>
 ` },
   subbase: { title: '🪨 Subbase — الطبقة الأساسية السفلية', content: `
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — Section 6 Part 3 | Subbase Course
+📌 QCS 2024 — Section 6 Part 4 | Subbase Course | Tables 4:1, 4:2, 4:3
 </div>
+
 <div class="lang-content-ar">
 <h3>📐 تعريف Subbase</h3>
-<p>Subbase هي الطبقة الحبيبية بين Subgrade والـ Base Course. وظيفتها توزيع الأحمال ومنع صعود التربة الناعمة وتوفير طبقة تصريف.</p>
+<p>الطبقة الحبيبية بين Subgrade والـ Base Course. وظيفتها توزيع الأحمال، منع صعود التربة الناعمة (Fines Migration)، وتوفير طبقة تصريف.</p>
 
-<h3>⚠️ CBR حسب نوع التربة التحتية</h3>
+<h3>⚠️ المواد غير المقبولة — Section 5:2:1</h3>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:8px;font-size:12px;">
+يُحظر استخدام: الطين الناعم | الحجر الجيري الهش | مواد عضوية | مواد منتفخة | مواد تحتوي SO3 &gt; 0.5% | Recycled Asphalt بدون موافقة خاصة
+</div>
+
+<h3>📐 جدول 4:1 — Fine Aggregate لـ Subbase و Road Base — QCS S6 P4 Page 5</h3>
 <table class="dm-table">
-<tr><th>الحالة</th><th>CBR Subbase المطلوب</th><th>المرجع</th></tr>
-<tr><td>Subgrade عادي (≥15%)</td><td>≥ 30% (Soaked 4 days)</td><td>QCS S6 P3</td></tr>
-<tr><td>Subgrade Sabkha (8-15%)</td><td>≥ 30% (Soaked 4 days) — لا يتغير</td><td>QCS S6 P3</td></tr>
-<tr><td>ملاحظة</td><td colspan="2">CBR الـ Subbase نفسه 30% في الحالتين — ما يتغير هو سماكة الـ Subbase</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>المنخل (Sieve Size)</th><th>نسبة المرور — Subbase %</th><th>نسبة المرور — Road Base %</th></tr>
+<tr><td>75.0 mm</td><td>100</td><td>100</td></tr>
+<tr><td>37.5 mm</td><td>95 - 100</td><td>95 - 100</td></tr>
+<tr><td>19.0 mm</td><td>—</td><td>—</td></tr>
+<tr><td>9.5 mm</td><td>50 - 80</td><td>50 - 75</td></tr>
+<tr><td>4.75 mm</td><td>35 - 65</td><td>30 - 60</td></tr>
+<tr><td>2.36 mm</td><td>25 - 50</td><td>20 - 45</td></tr>
+<tr><td>0.425 mm</td><td>15 - 30</td><td>10 - 25</td></tr>
+<tr><td>0.075 mm</td><td>5 - 15</td><td>5 - 12</td></tr>
 </table>
 
-<h3>📐 مواصفات Subbase الكاملة — QCS S6 P3</h3>
+<h3>📐 جدول 4:2 — Coarse Aggregate لـ Subbase و Road Base — QCS S6 P4 Page 6</h3>
 <table class="dm-table">
-<tr><th>البند</th><th>المواصفة</th><th>الاختبار</th><th>التكرار</th></tr>
-<tr><td>CBR Soaked 4 days</td><td>≥ 30%</td><td>ASTM D1883</td><td>كل 2000m²</td></tr>
-<tr><td>Compaction MDD</td><td>≥ 98%</td><td>ASTM D698</td><td>كل 500m²</td></tr>
-<tr><td>LA Abrasion</td><td>≤ 30%</td><td>ASTM C131</td><td>كل 1000m³</td></tr>
-<tr><td>Flakiness Index</td><td>≤ 35%</td><td>BS 812</td><td>كل 500m³</td></tr>
-<tr><td>Sand Equivalent</td><td>≥ 30%</td><td>ASTM D2419</td><td>كل 500m³</td></tr>
-<tr><td>Plasticity Index</td><td>≤ 6%</td><td>ASTM D4318</td><td>كل 500m³</td></tr>
-<tr><td>Sulphate SO3</td><td>≤ 0.5%</td><td>BS 1377</td><td>كل 500m³</td></tr>
-<tr><td>Max Size</td><td>75mm (ثلاثة أرباع السماكة)</td><td>Grading</td><td>كل 500m³</td></tr>
-<tr><td>Layer Thickness</td><td>150-300mm</td><td>—</td><td>—</td></tr>
-<tr><td>Level Tolerance</td><td>± 10mm</td><td>Survey</td><td>كل 25m</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>Subbase</th><th>Road Base</th><th>الاختبار</th></tr>
+<tr><td>LA Abrasion Loss</td><td>≤ 30%</td><td>≤ 25%</td><td>ASTM C131</td></tr>
+<tr><td>Flakiness Index</td><td>≤ 35%</td><td>≤ 25%</td><td>BS 812</td></tr>
+<tr><td>Elongation Index</td><td>≤ 35%</td><td>≤ 25%</td><td>BS 812</td></tr>
+<tr><td>Fractured Faces (1 face+)</td><td>≥ 50%</td><td>≥ 95%</td><td>ASTM D5821</td></tr>
+<tr><td>Fractured Faces (2 faces+)</td><td>—</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
+<tr><td>Water Absorption</td><td>≤ 3%</td><td>≤ 2%</td><td>ASTM C127</td></tr>
+<tr><td>Soundness (MgSO4 5 cycles)</td><td>≤ 18%</td><td>≤ 12%</td><td>ASTM C88</td></tr>
+<tr><td>Specific Gravity (SSD)</td><td>≥ 2.4</td><td>≥ 2.5</td><td>ASTM C127</td></tr>
+<tr><td>Sulphate Content SO3</td><td>≤ 0.5%</td><td>≤ 0.5%</td><td>BS 1377</td></tr>
+<tr><td>Chloride Content</td><td>≤ 0.6%</td><td>≤ 0.6%</td><td>BS 1377</td></tr>
+</table>
+
+<h3>📐 جدول 4:3 — Combined Aggregate لـ Subbase و Road Base — QCS S6 P4 Page 7</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>Subbase</th><th>Road Base</th><th>الاختبار</th></tr>
+<tr><td>CBR (Soaked 4 days @ 98% MDD)</td><td>≥ 30%</td><td>≥ 80%</td><td>ASTM D1883</td></tr>
+<tr><td>Plasticity Index (PI)</td><td>≤ 6%</td><td>≤ 4%</td><td>ASTM D4318</td></tr>
+<tr><td>Liquid Limit (LL)</td><td>≤ 25%</td><td>≤ 25%</td><td>ASTM D4318</td></tr>
+<tr><td>Sand Equivalent</td><td>≥ 30%</td><td>≥ 45%</td><td>ASTM D2419</td></tr>
+<tr><td>Organic Content</td><td>≤ 1%</td><td>≤ 1%</td><td>ASTM D2974</td></tr>
+<tr><td>Max Particle Size</td><td>75mm (= ¾ layer thickness)</td><td>50mm (= ½ layer thickness)</td><td>Grading</td></tr>
+<tr><td>Compaction MDD (Std Proctor)</td><td>≥ 98%</td><td>≥ 98%</td><td>ASTM D698</td></tr>
+<tr><td>Layer Thickness</td><td>150-300mm</td><td>150-250mm</td><td>—</td></tr>
+<tr><td>Level Tolerance</td><td>± 10mm</td><td>± 8mm</td><td>Survey</td></tr>
+</table>
+
+<h3>🔧 اختبارات الموقع</h3>
+<table class="dm-table">
+<tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr>
+<tr><td>Sand Cone Density</td><td>كل 500m²</td><td>≥ 98% MDD</td></tr>
+<tr><td>CBR Lab</td><td>كل 2000m²</td><td>≥ 30% (Subbase) / ≥ 80% (Base)</td></tr>
+<tr><td>Grading Analysis</td><td>كل 500m³</td><td>ضمن مغلف QCS</td></tr>
+<tr><td>LA Abrasion</td><td>كل 1000m³</td><td>≤ 30% / ≤ 25%</td></tr>
+<tr><td>Level Survey</td><td>كل 25m</td><td>± 10mm / ± 8mm</td></tr>
 </table>
 
 <h3>🔴 Hold Points</h3>
-<p>• <strong>HP-01:</strong> Material Approval (CBR + LA + Grading)<br>
-• <strong>HP-02:</strong> اعتماد Compaction 98% + CBR 30% قبل Base Course<br>
-• <strong>HP-03:</strong> Level Survey معتمد</p>
+<p>• <strong>HP-01:</strong> Material Approval (Table 4:1 + 4:2 + 4:3 متوافقة)<br>
+• <strong>HP-02:</strong> Compaction 98% + CBR معتمد قبل الطبقة التالية<br>
+• <strong>HP-03:</strong> Level Survey معتمد من الاستشاري</p>
 </div>
+
 <div class="lang-content-en" style="display:none;">
-<h3>Subbase Definition</h3>
-<p>The subbase is the granular layer between subgrade and base course. Its function is load distribution, preventing fines migration, and providing drainage.</p>
-<h3>CBR by Subgrade Condition</h3>
+<h3>Table 4:1 — Fine Aggregate Grading for Subbase & Road Base — QCS S6 P4 Page 5</h3>
 <table class="dm-table">
-<tr><th>Condition</th><th>Required Subbase CBR</th><th>Note</th></tr>
-<tr><td>Normal Subgrade (≥15%)</td><td>≥ 30% (Soaked 4 days)</td><td>Standard thickness per design</td></tr>
-<tr><td>Sabkha Subgrade (8-15%)</td><td>≥ 30% (Soaked 4 days)</td><td>Subbase thickness increased to compensate</td></tr>
+<tr><th>Sieve Size</th><th>% Passing — Subbase</th><th>% Passing — Road Base</th></tr>
+<tr><td>75.0 mm</td><td>100</td><td>100</td></tr>
+<tr><td>37.5 mm</td><td>95 - 100</td><td>95 - 100</td></tr>
+<tr><td>9.5 mm</td><td>50 - 80</td><td>50 - 75</td></tr>
+<tr><td>4.75 mm</td><td>35 - 65</td><td>30 - 60</td></tr>
+<tr><td>2.36 mm</td><td>25 - 50</td><td>20 - 45</td></tr>
+<tr><td>0.425 mm</td><td>15 - 30</td><td>10 - 25</td></tr>
+<tr><td>0.075 mm</td><td>5 - 15</td><td>5 - 12</td></tr>
 </table>
-<h3>Full Subbase Specifications — QCS S6 P3</h3>
+
+<h3>Table 4:2 — Coarse Aggregate for Subbase & Road Base — QCS S6 P4 Page 6</h3>
 <table class="dm-table">
-<tr><th>Item</th><th>Specification</th><th>Test</th><th>Frequency</th></tr>
-<tr><td>CBR Soaked 4 days</td><td>≥ 30%</td><td>ASTM D1883</td><td>Per 2000m²</td></tr>
-<tr><td>Compaction MDD</td><td>≥ 98%</td><td>ASTM D698</td><td>Per 500m²</td></tr>
-<tr><td>LA Abrasion</td><td>≤ 30%</td><td>ASTM C131</td><td>Per 1000m³</td></tr>
-<tr><td>Sand Equivalent</td><td>≥ 30%</td><td>ASTM D2419</td><td>Per 500m³</td></tr>
-<tr><td>Plasticity Index</td><td>≤ 6%</td><td>ASTM D4318</td><td>Per 500m³</td></tr>
-<tr><td>Level Tolerance</td><td>± 10mm</td><td>Survey</td><td>Per 25m</td></tr>
+<tr><th>Property</th><th>Subbase</th><th>Road Base</th><th>Test</th></tr>
+<tr><td>LA Abrasion</td><td>≤ 30%</td><td>≤ 25%</td><td>ASTM C131</td></tr>
+<tr><td>Flakiness Index</td><td>≤ 35%</td><td>≤ 25%</td><td>BS 812</td></tr>
+<tr><td>Fractured Faces (1+)</td><td>≥ 50%</td><td>≥ 95%</td><td>ASTM D5821</td></tr>
+<tr><td>Fractured Faces (2+)</td><td>—</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
+<tr><td>Water Absorption</td><td>≤ 3%</td><td>≤ 2%</td><td>ASTM C127</td></tr>
+<tr><td>Soundness MgSO4</td><td>≤ 18%</td><td>≤ 12%</td><td>ASTM C88</td></tr>
+</table>
+
+<h3>Table 4:3 — Combined Aggregate for Subbase & Road Base — QCS S6 P4 Page 7</h3>
+<table class="dm-table">
+<tr><th>Property</th><th>Subbase</th><th>Road Base</th><th>Test</th></tr>
+<tr><td>CBR (Soaked 4 days)</td><td>≥ 30%</td><td>≥ 80%</td><td>ASTM D1883</td></tr>
+<tr><td>Plasticity Index</td><td>≤ 6%</td><td>≤ 4%</td><td>ASTM D4318</td></tr>
+<tr><td>Sand Equivalent</td><td>≥ 30%</td><td>≥ 45%</td><td>ASTM D2419</td></tr>
+<tr><td>Compaction MDD</td><td>≥ 98%</td><td>≥ 98%</td><td>ASTM D698</td></tr>
+<tr><td>Layer Thickness</td><td>150-300mm</td><td>150-250mm</td><td>—</td></tr>
+<tr><td>Level Tolerance</td><td>± 10mm</td><td>± 8mm</td><td>Survey</td></tr>
 </table>
 </div>
 ` },
   base: { title: '🧱 Base Course — طبقة الأساس', content: `
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — Section 6 Part 5 | Base Course
+📌 QCS 2024 — Section 6 Part 4 & 5 | Road Base (Granular + Asphalt) | Tables 4:2, 4:3
 </div>
 <div class="lang-content-ar">
 <h3>📐 تعريف Base Course — QCS Section 6 Part 5 Page 7</h3>
-<p><strong>Base Course:</strong> الطبقة الحبيبية المدموكة الموضوعة مباشرة تحت طبقات الإسفلت. تُوزّع أحمال المحور (Axle Load) على الـ Subbase والـ Subgrade. جودتها حاسمة لمقاومة التشوه والتصدع.</p>
+<p><strong>Base Course (طبقة الأساس):</strong> الطبقة الحبيبية المدموكة الموضوعة مباشرة تحت طبقات الإسفلت. تُوزّع أحمال المحور (Axle Load) على الـ Subbase والـ Subgrade. جودتها حاسمة لمقاومة التشوه (Rutting) والتصدع (Cracking).</p>
 
-<h3>🚛 Axle Load — تعريف وأهمية</h3>
-<p><strong>Axle Load:</strong> الحمل المنقول من محور العجل الواحد للسيارة إلى سطح الطريق. يُقاس بـ kN أو طن. الحمل المحوري المعياري = 80 kN (8.2 طن). تصميم الرصيف يعتمد على تحويل كل المحاور لمكافئات Standard Axle (ESAL) — كلما زادت الـ ESAL زادت سماكة الرصيف.</p>
+<h3>🚛 Axle Load و ESAL — تعريفات</h3>
+<p><strong>Axle Load:</strong> الحمل المنقول من محور العجل الواحد للسيارة إلى سطح الطريق. يُقاس بـ kN. المحور المعياري = 80 kN (8.2 طن).<br>
+<strong>ESAL (Equivalent Standard Axle Load):</strong> تحويل كل المحاور المختلفة لمكافئات المحور المعياري. كلما زادت الـ ESAL زادت سماكة الرصيف والمتطلبات.</p>
 
-<h3>📐 مواصفات Base Course الكاملة — QCS S6 P5</h3>
+<h3>📐 جدول 4:2 — Coarse Aggregate لـ Road Base — QCS S6 P4 Page 6</h3>
 <table class="dm-table">
-<tr><th>البند</th><th>المواصفة</th><th>الاختبار</th><th>التكرار</th></tr>
-<tr><td>CBR Soaked 4 days</td><td>≥ 80%</td><td>ASTM D1883</td><td>كل 2000m²</td></tr>
-<tr><td>Compaction MDD</td><td>≥ 98%</td><td>ASTM D698</td><td>كل 500m²</td></tr>
-<tr><td>LA Abrasion</td><td>≤ 25%</td><td>ASTM C131</td><td>كل 1000m³</td></tr>
-<tr><td>Flakiness Index</td><td>≤ 25%</td><td>BS 812</td><td>كل 500m³</td></tr>
-<tr><td>Fractured Faces (1 face+)</td><td>≥ 95%</td><td>ASTM D5821</td><td>كل 500m³</td></tr>
-<tr><td>Fractured Faces (2 faces+)</td><td>≥ 90%</td><td>ASTM D5821</td><td>كل 500m³</td></tr>
-<tr><td>Sand Equivalent</td><td>≥ 45%</td><td>ASTM D2419</td><td>كل 500m³</td></tr>
-<tr><td>Plasticity Index</td><td>≤ 4%</td><td>ASTM D4318</td><td>كل 500m³</td></tr>
-<tr><td>Water Absorption</td><td>≤ 2%</td><td>ASTM C127</td><td>كل 1000m³</td></tr>
-<tr><td>Soundness MgSO4</td><td>≤ 12%</td><td>ASTM C88</td><td>كل 1000m³</td></tr>
-<tr><td>Layer Thickness</td><td>150-250mm</td><td>—</td><td>—</td></tr>
-<tr><td>Level Tolerance</td><td>± 8mm</td><td>Survey</td><td>كل 25m</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>Road Base</th><th>الاختبار</th></tr>
+<tr><td>LA Abrasion Loss</td><td>≤ 25%</td><td>ASTM C131</td></tr>
+<tr><td>Flakiness Index</td><td>≤ 25%</td><td>BS 812</td></tr>
+<tr><td>Elongation Index</td><td>≤ 25%</td><td>BS 812</td></tr>
+<tr><td>Fractured Faces (1 face+)</td><td>≥ 95%</td><td>ASTM D5821</td></tr>
+<tr><td>Fractured Faces (2 faces+)</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
+<tr><td>Water Absorption</td><td>≤ 2%</td><td>ASTM C127</td></tr>
+<tr><td>Soundness MgSO4</td><td>≤ 12%</td><td>ASTM C88</td></tr>
+<tr><td>Specific Gravity (SSD)</td><td>≥ 2.50</td><td>ASTM C127</td></tr>
+<tr><td>Sulphate SO3</td><td>≤ 0.5%</td><td>BS 1377</td></tr>
+<tr><td>Chloride</td><td>≤ 0.6%</td><td>BS 1377</td></tr>
 </table>
+
+<h3>📐 جدول 4:3 — Combined Aggregate لـ Road Base — QCS S6 P4 Page 7</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>Road Base</th><th>الاختبار</th></tr>
+<tr><td>CBR (Soaked 4 days @ 98% MDD)</td><td>≥ 80%</td><td>ASTM D1883</td></tr>
+<tr><td>Plasticity Index</td><td>≤ 4%</td><td>ASTM D4318</td></tr>
+<tr><td>Liquid Limit</td><td>≤ 25%</td><td>ASTM D4318</td></tr>
+<tr><td>Sand Equivalent</td><td>≥ 45%</td><td>ASTM D2419</td></tr>
+<tr><td>Organic Content</td><td>≤ 1%</td><td>ASTM D2974</td></tr>
+<tr><td>Max Particle Size</td><td>50mm (≤ ½ layer thickness)</td><td>Grading</td></tr>
+<tr><td>Compaction MDD (Std Proctor)</td><td>≥ 98%</td><td>ASTM D698</td></tr>
+<tr><td>Layer Thickness</td><td>150 - 250mm</td><td>—</td></tr>
+<tr><td>Level Tolerance</td><td>± 8mm</td><td>Survey</td></tr>
+</table>
+
+<h3>📐 Grading Envelope — Road Base (Table 4:1)</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>المنخل</th><th>% المرور — Road Base</th></tr>
+<tr><td>75.0 mm</td><td>100</td></tr>
+<tr><td>37.5 mm</td><td>95 - 100</td></tr>
+<tr><td>9.5 mm</td><td>50 - 75</td></tr>
+<tr><td>4.75 mm</td><td>30 - 60</td></tr>
+<tr><td>2.36 mm</td><td>20 - 45</td></tr>
+<tr><td>0.425 mm</td><td>10 - 25</td></tr>
+<tr><td>0.075 mm</td><td>5 - 12</td></tr>
+</table>
+
+<h3>🔧 اختبارات الموقع</h3>
+<table class="dm-table">
+<tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr>
+<tr><td>Sand Cone Density</td><td>كل 500m²</td><td>≥ 98% MDD</td></tr>
+<tr><td>CBR Lab</td><td>كل 2000m²</td><td>≥ 80%</td></tr>
+<tr><td>Grading Analysis</td><td>كل 500m³</td><td>ضمن مغلف Table 4:1</td></tr>
+<tr><td>LA Abrasion</td><td>كل 1000m³</td><td>≤ 25%</td></tr>
+<tr><td>Level Survey</td><td>كل 25m</td><td>± 8mm</td></tr>
+</table>
+
 <h3>🔴 Hold Points</h3>
-<p>• <strong>HP-01:</strong> Material Approval (CBR + LA + Grading + Fractured Faces)<br>
-• <strong>HP-02:</strong> اعتماد Compaction 98% + CBR 80% قبل Prime Coat<br>
+<p>• <strong>HP-01:</strong> Material Approval (Table 4:2 + 4:3 كاملة)<br>
+• <strong>HP-02:</strong> CBR ≥ 80% + Compaction 98% قبل Prime Coat<br>
 • <strong>HP-03:</strong> Level Survey ± 8mm معتمد</p>
 </div>
+
 <div class="lang-content-en" style="display:none;">
 <h3>Base Course Definition — QCS Section 6 Part 5 Page 7</h3>
-<p><strong>Base Course:</strong> The compacted granular layer placed directly beneath the asphalt layers. It distributes axle loads to the subbase and subgrade. Critical for deformation and cracking resistance.</p>
-<h3>Axle Load — Definition</h3>
-<p><strong>Axle Load:</strong> The load transferred from a single vehicle axle to the road surface. Measured in kN or tonnes. Standard axle = 80 kN (8.2 tonnes). Pavement design converts all axles to Equivalent Standard Axles (ESALs) — higher ESALs require thicker pavement.</p>
-<h3>Full Base Course Specifications — QCS S6 P5</h3>
+<p><strong>Base Course:</strong> The compacted granular layer directly beneath asphalt layers. Distributes axle loads. ESAL (Equivalent Standard Axle Load) determines design thickness requirements.</p>
+<h3>Table 4:2 — Coarse Aggregate Road Base — QCS S6 P4 P6</h3>
 <table class="dm-table">
-<tr><th>Item</th><th>Specification</th><th>Test</th><th>Frequency</th></tr>
-<tr><td>CBR Soaked 4 days</td><td>≥ 80%</td><td>ASTM D1883</td><td>Per 2000m²</td></tr>
-<tr><td>Compaction MDD</td><td>≥ 98%</td><td>ASTM D698</td><td>Per 500m²</td></tr>
-<tr><td>LA Abrasion</td><td>≤ 25%</td><td>ASTM C131</td><td>Per 1000m³</td></tr>
-<tr><td>Fractured Faces (1 face+)</td><td>≥ 95%</td><td>ASTM D5821</td><td>Per 500m³</td></tr>
-<tr><td>Sand Equivalent</td><td>≥ 45%</td><td>ASTM D2419</td><td>Per 500m³</td></tr>
-<tr><td>Plasticity Index</td><td>≤ 4%</td><td>ASTM D4318</td><td>Per 500m³</td></tr>
-<tr><td>Level Tolerance</td><td>± 8mm</td><td>Survey</td><td>Per 25m</td></tr>
+<tr><th>Property</th><th>Road Base</th><th>Test</th></tr>
+<tr><td>LA Abrasion</td><td>≤ 25%</td><td>ASTM C131</td></tr>
+<tr><td>Flakiness Index</td><td>≤ 25%</td><td>BS 812</td></tr>
+<tr><td>Fractured Faces (1+)</td><td>≥ 95%</td><td>ASTM D5821</td></tr>
+<tr><td>Fractured Faces (2+)</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
+<tr><td>Water Absorption</td><td>≤ 2%</td><td>ASTM C127</td></tr>
+<tr><td>Soundness MgSO4</td><td>≤ 12%</td><td>ASTM C88</td></tr>
+</table>
+<h3>Table 4:3 — Combined Aggregate Road Base — QCS S6 P4 P7</h3>
+<table class="dm-table">
+<tr><th>Property</th><th>Road Base</th><th>Test</th></tr>
+<tr><td>CBR (Soaked 4 days)</td><td>≥ 80%</td><td>ASTM D1883</td></tr>
+<tr><td>Plasticity Index</td><td>≤ 4%</td><td>ASTM D4318</td></tr>
+<tr><td>Sand Equivalent</td><td>≥ 45%</td><td>ASTM D2419</td></tr>
+<tr><td>Compaction MDD</td><td>≥ 98%</td><td>ASTM D698</td></tr>
+<tr><td>Level Tolerance</td><td>± 8mm</td><td>Survey</td></tr>
 </table>
 </div>
 ` },
@@ -2985,132 +3093,197 @@ AASHTO performance-based method | Uses SGC (Gyratory Compactor) | Gyrations: N-d
 
   roads_materials: { title: '🧱 مواد الطرق — المواصفات والاختبارات', content: `
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — Section 6 Part 5 | Road Materials Specifications
+📌 QCS 2024 — Section 6 Part 5 | Asphalt Mix Materials | Tables 5:1 — 5:5 Pages 9-13
 </div>
 
 <div class="lang-content-ar">
-<h3>1️⃣ خصائص البيتومين — Bitumen 60/70 (Non-PMB)</h3>
-<table class="dm-table">
-<tr><th>الخاصية</th><th>المتطلب</th><th>الاختبار</th></tr>
-<tr><td>Penetration @ 25°C</td><td>60-70 × 0.1mm</td><td>ASTM D5 / BS EN 1426</td></tr>
-<tr><td>Softening Point (R&B)</td><td>49-56°C</td><td>ASTM D36 / BS EN 1427</td></tr>
-<tr><td>Flash Point (COC)</td><td>≥ 232°C</td><td>ASTM D92</td></tr>
-<tr><td>Ductility @ 25°C</td><td>≥ 100 cm</td><td>ASTM D113</td></tr>
-<tr><td>Solubility in TCE</td><td>≥ 99%</td><td>ASTM D2042</td></tr>
-<tr><td>Specific Gravity @ 25°C</td><td>1.01-1.05</td><td>ASTM D70</td></tr>
-<tr><td>Loss on Heating (TFOT)</td><td>≤ 0.8%</td><td>ASTM D1754</td></tr>
-<tr><td>Penetration Ratio after TFOT</td><td>≥ 50%</td><td>ASTM D5</td></tr>
-<tr><td>Wax Content</td><td>≤ 2.2%</td><td>IP 336</td></tr>
-</table>
 
-<h3>2️⃣ خصائص البيتومين المعدّل بالبوليمر — PMB Properties</h3>
-<p style="font-size:11px;color:var(--text3);">PG Grade = Performance Grade | مثال: PG76-10 = يتحمل +76°C صيفاً و -10°C شتاءً</p>
+<h3>📐 جدول 5:1 — Fine Aggregate للـ Marshall Mix — QCS S6 P5 Page 9</h3>
+<p style="font-size:11px;color:var(--text3);">Fine Aggregate = المواد المارة من منخل 2.36mm (Marshall) أو 4.75mm (Superpave)</p>
 <table class="dm-table">
-<tr><th>الخاصية</th><th>PG76-10 (الشائع في قطر)</th><th>الاختبار</th></tr>
-<tr><td>Penetration @ 25°C</td><td>40-80 × 0.1mm (أقل من 60/70)</td><td>ASTM D5</td></tr>
-<tr><td>Softening Point (R&B)</td><td>≥ 65°C (أعلى بكثير)</td><td>ASTM D36</td></tr>
-<tr><td>Elastic Recovery @ 25°C</td><td>≥ 70%</td><td>ASTM D6084</td></tr>
-<tr><td>Force Ductility @ 4°C</td><td>≥ 2 N</td><td>EN 13589</td></tr>
-<tr><td>Flash Point</td><td>≥ 235°C</td><td>ASTM D92</td></tr>
-<tr><td>Dynamic Shear G*/sinδ</td><td>≥ 2.2 kPa @ 76°C</td><td>AASHTO T315 (DSR)</td></tr>
-<tr><td>Creep Stiffness (BBR)</td><td>S ≤ 300 MPa @ -10°C</td><td>AASHTO T313</td></tr>
-<tr><td>Storage Stability (Softening Point diff)</td><td>≤ 5°C</td><td>EN 13399</td></tr>
-<tr><td>Polymer Type</td><td>SBS أو SBR (Rubber)</td><td>مصدر معتمد</td></tr>
-</table>
-
-<h3>3️⃣ مواصفات الركام — Table 4.4 Fine Aggregate</h3>
-<table class="dm-table">
-<tr><th>الخاصية</th><th>المواصفة</th><th>الاختبار</th></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>المواصفة (Marshall)</th><th>الاختبار</th></tr>
 <tr><td>Sand Equivalent</td><td>≥ 45%</td><td>ASTM D2419</td></tr>
-<tr><td>Fine Aggregate Angularity (FAA)</td><td>≥ 45% (Uncompacted voids)</td><td>ASTM C1252</td></tr>
-<tr><td>Clay Content</td><td>≤ 1%</td><td>ASTM D4318</td></tr>
-<tr><td>Plasticity Index</td><td>Non-Plastic</td><td>ASTM D4318</td></tr>
-<tr><td>Soundness MgSO4</td><td>≤ 12%</td><td>ASTM C88</td></tr>
-<tr><td>Specific Gravity</td><td>≥ 2.5 Mg/m³</td><td>ASTM C128</td></tr>
+<tr><td>Fine Aggregate Angularity (FAA)</td><td>≥ 45% Uncompacted Voids</td><td>ASTM C1252</td></tr>
+<tr><td>Clay Content (SE alt.)</td><td>≤ 1%</td><td>ASTM D4318</td></tr>
+<tr><td>Plasticity Index</td><td>Non-Plastic (NP)</td><td>ASTM D4318</td></tr>
+<tr><td>Soundness (MgSO4)</td><td>≤ 12%</td><td>ASTM C88</td></tr>
+<tr><td>Specific Gravity (Bulk SSD)</td><td>≥ 2.50 Mg/m³</td><td>ASTM C128</td></tr>
 <tr><td>Water Absorption</td><td>≤ 2%</td><td>ASTM C128</td></tr>
-<tr><td>Organic Impurities</td><td>Colour ≤ No.3</td><td>ASTM C40</td></tr>
+<tr><td>Organic Impurities</td><td>Colour ≤ No. 3</td><td>ASTM C40</td></tr>
+<tr><td>Sulphate (SO3)</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
+<tr><td>Chloride</td><td>≤ 0.04%</td><td>BS 1377</td></tr>
 </table>
 
-<h3>4️⃣ مواصفات الركام — Table 4.4 Coarse Aggregate</h3>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:8px 0;font-size:12px;">
+<strong>Superpave فرق:</strong> Fine Aggregate يُعرَّف كـ مادة مارة من 4.75mm (بدل 2.36mm في Marshall). FAA ≥ 45% يبقى نفسه.
+</div>
+
+<h3>📐 جدول 5:2 — Coarse Aggregate للإسفلت — QCS S6 P5 Page 10</h3>
 <table class="dm-table">
-<tr><th>الخاصية</th><th>Wearing Course</th><th>Binder Course</th><th>الاختبار</th></tr>
-<tr><td>LA Abrasion</td><td>≤ 25%</td><td>≤ 30%</td><td>ASTM C131</td></tr>
-<tr><td>Flakiness Index</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812</td></tr>
-<tr><td>Elongation Index</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812</td></tr>
-<tr><td>PSV (Polished Stone Value)</td><td>≥ 55</td><td>—</td><td>BS 812 P114</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>Wearing Course</th><th>Binder Course</th><th>الاختبار</th></tr>
+<tr><td>LA Abrasion Loss</td><td>≤ 25%</td><td>≤ 30%</td><td>ASTM C131</td></tr>
+<tr><td>Flakiness Index</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812 P105</td></tr>
+<tr><td>Elongation Index</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812 P105</td></tr>
+<tr><td>Polished Stone Value (PSV)</td><td>≥ 55</td><td>لا يُشترط</td><td>BS 812 P114</td></tr>
 <tr><td>Fractured Faces (1 face+)</td><td>≥ 95%</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
 <tr><td>Fractured Faces (2 faces+)</td><td>≥ 90%</td><td>≥ 85%</td><td>ASTM D5821</td></tr>
-<tr><td>Soundness MgSO4</td><td>≤ 12%</td><td>≤ 12%</td><td>ASTM C88</td></tr>
+<tr><td>Soundness (MgSO4)</td><td>≤ 12%</td><td>≤ 12%</td><td>ASTM C88</td></tr>
 <tr><td>Water Absorption</td><td>≤ 2%</td><td>≤ 2%</td><td>ASTM C127</td></tr>
-<tr><td>Specific Gravity</td><td>≥ 2.5</td><td>≥ 2.5</td><td>ASTM C127</td></tr>
-<tr><td>Sulphate SO3</td><td>≤ 0.4%</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
+<tr><td>Specific Gravity (Bulk SSD)</td><td>≥ 2.50</td><td>≥ 2.50</td><td>ASTM C127</td></tr>
+<tr><td>Sulphate (SO3)</td><td>≤ 0.4%</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
 <tr><td>Chloride</td><td>≤ 0.04%</td><td>≤ 0.04%</td><td>BS 1377</td></tr>
+<tr><td>Alkali Silica Reactivity</td><td>Non-reactive</td><td>Non-reactive</td><td>ASTM C1260</td></tr>
 </table>
 
-<h3>5️⃣ مواد التربة والطبقات الحبيبية</h3>
+<h3>📐 جدول 5:3 — Mineral Filler — QCS S6 P5 Page 10</h3>
 <table class="dm-table">
-<tr><th>المادة</th><th>المواصفة</th><th>الاختبار</th><th>التكرار</th></tr>
-<tr><td>Subgrade — تربة عادية (CBR)</td><td>≥ 15%</td><td>ASTM D1883</td><td>كل 2000m²</td></tr>
-<tr><td>Subgrade — Sabkha (CBR)</td><td>≥ 8%</td><td>ASTM D1883</td><td>كل 2000m²</td></tr>
-<tr><td>Subbase CBR</td><td>≥ 30%</td><td>ASTM D1883</td><td>كل 2000m²</td></tr>
-<tr><td>Base Course CBR</td><td>≥ 80%</td><td>ASTM D1883</td><td>كل 2000m²</td></tr>
-<tr><td>Subgrade Compaction</td><td>≥ 95% MDD</td><td>ASTM D698</td><td>كل 500m²</td></tr>
-<tr><td>Subbase/Base Compaction</td><td>≥ 98% MDD</td><td>ASTM D698</td><td>كل 500m²</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>المواصفة</th><th>الاختبار</th></tr>
+<tr><td>المصدر</td><td>Stone Dust أو Portland Cement أو Hydrated Lime</td><td>—</td></tr>
+<tr><td>% Passing 0.600 mm</td><td>100%</td><td>ASTM C136</td></tr>
+<tr><td>% Passing 0.300 mm</td><td>95 - 100%</td><td>ASTM C136</td></tr>
+<tr><td>% Passing 0.075 mm</td><td>70 - 100%</td><td>ASTM C136</td></tr>
+<tr><td>Plasticity Index</td><td>Non-Plastic (NP)</td><td>ASTM D4318</td></tr>
+<tr><td>Voids in Dry Compacted Filler</td><td>28 - 45%</td><td>EN 1097-4</td></tr>
+<tr><td>Sulphate SO3</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
+<tr><td>Water Sensitivity (TSR)</td><td>≥ 75% (مع Filler فقط)</td><td>AASHTO T283</td></tr>
 </table>
 
-<h3>6️⃣ Prime Coat & Tack Coat</h3>
+<h3>📐 جدول 5:4 — Asphalt Binder 60/70 — QCS S6 P5 Page 11</h3>
 <table class="dm-table">
-<tr><th>المادة</th><th>المعدل</th><th>الحرارة</th></tr>
-<tr><td>Prime Coat (MC-30/MC-70)</td><td>0.8-1.2 L/m²</td><td>50-80°C</td></tr>
-<tr><td>Tack Coat (على Binder)</td><td>0.3-0.5 L/m²</td><td>50-70°C</td></tr>
-<tr><td>Tack Coat (على Wearing)</td><td>0.2-0.4 L/m²</td><td>50-70°C</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>المواصفة</th><th>الاختبار</th></tr>
+<tr><td>Penetration @ 25°C</td><td>60 - 70 × 0.1mm</td><td>ASTM D5 / BS EN 1426</td></tr>
+<tr><td>Softening Point R&B</td><td>49 - 56°C</td><td>ASTM D36 / BS EN 1427</td></tr>
+<tr><td>Ductility @ 25°C</td><td>≥ 100 cm</td><td>ASTM D113</td></tr>
+<tr><td>Flash Point (COC)</td><td>≥ 232°C</td><td>ASTM D92</td></tr>
+<tr><td>Solubility in TCE</td><td>≥ 99%</td><td>ASTM D2042</td></tr>
+<tr><td>Specific Gravity @ 25°C</td><td>1.01 - 1.05</td><td>ASTM D70</td></tr>
+<tr><td>Wax Content</td><td>≤ 2.2%</td><td>IP 336</td></tr>
+<tr><td>Loss on Heating (RTFOT)</td><td>≤ 0.8%</td><td>ASTM D1754</td></tr>
+<tr><td>Penetration Ratio after RTFOT</td><td>≥ 50%</td><td>ASTM D5</td></tr>
+<tr><td>Ductility after RTFOT @ 25°C</td><td>≥ 50 cm</td><td>ASTM D113</td></tr>
+<tr><td>Softening Point after RTFOT</td><td>Increase ≤ 8°C</td><td>ASTM D36</td></tr>
 </table>
+
+<h3>📐 جدول 5:5 — PMB Polymer Modified Bitumen — QCS S6 P5 Page 11</h3>
+<p style="font-size:11px;color:var(--text3);">PG = Performance Grade | PG76-10 = يتحمل +76°C صيفاً و -10°C شتاءً</p>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>المواصفة (PG76-10)</th><th>الاختبار</th></tr>
+<tr><td>Penetration @ 25°C</td><td>40 - 80 × 0.1mm</td><td>ASTM D5</td></tr>
+<tr><td>Softening Point R&B</td><td>≥ 65°C</td><td>ASTM D36</td></tr>
+<tr><td>Flash Point</td><td>≥ 235°C</td><td>ASTM D92</td></tr>
+<tr><td>Elastic Recovery @ 25°C</td><td>≥ 70%</td><td>ASTM D6084</td></tr>
+<tr><td>Force Ductility @ 4°C</td><td>≥ 2 N (at 5cm/min)</td><td>EN 13589</td></tr>
+<tr><td>Toughness & Tenacity</td><td>T ≥ 15 J / t ≥ 5 J</td><td>ASTM D5801</td></tr>
+<tr><td>G*/sinδ (DSR Unaged) @ 76°C</td><td>≥ 2.2 kPa</td><td>AASHTO T315</td></tr>
+<tr><td>G*/sinδ (DSR after RTFOT) @ 76°C</td><td>≥ 4.4 kPa</td><td>AASHTO T315</td></tr>
+<tr><td>Phase Angle δ (DSR) @ 76°C</td><td>≤ 75°</td><td>AASHTO T315</td></tr>
+<tr><td>Creep Stiffness S (BBR) @ -10°C</td><td>≤ 300 MPa</td><td>AASHTO T313</td></tr>
+<tr><td>m-value (BBR) @ -10°C</td><td>≥ 0.300</td><td>AASHTO T313</td></tr>
+<tr><td>Storage Stability (ΔSoftening Pt)</td><td>≤ 5°C (after 48hr @ 163°C)</td><td>EN 13399</td></tr>
+<tr><td>Solubility</td><td>≥ 99%</td><td>ASTM D2042</td></tr>
+<tr><td>Polymer Type</td><td>SBS أو SBR (معتمد من المهندس)</td><td>FTIR</td></tr>
+</table>
+
+<h3>📐 Prime Coat — QCS S6 P5 Page 13</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المواصفة</th><th>المرجع</th></tr>
+<tr><td>نوع المادة</td><td>Cutback Bitumen MC-30 أو MC-70</td><td>ASTM D2028</td></tr>
+<tr><td>معدل الرش</td><td>0.8 - 1.2 L/m²</td><td>QCS S6 P5 P13</td></tr>
+<tr><td>درجة الحرارة عند الرش</td><td>50 - 80°C (حسب grade)</td><td>QCS S6 P5</td></tr>
+<tr><td>وقت المعالجة قبل الإسفلت</td><td>24 ساعة كحد أدنى (حسب النفاذ)</td><td>QCS S6 P5</td></tr>
+<tr><td>عمق النفاذ</td><td>10 - 15mm في الطبقة</td><td>QCS S6 P5</td></tr>
+<tr><td>السطح</td><td>جاف + نظيف + مكنوس بـ Power Broom</td><td>MS</td></tr>
+<tr><td>الطقس</td><td>لا يُطبَّق عند مطر أو غبار أو &lt; 10°C</td><td>QCS S6 P5</td></tr>
+</table>
+
+<h3>📐 Tack Coat — QCS S6 P5 Page 13</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>Binder Course</th><th>Wearing Course</th><th>المرجع</th></tr>
+<tr><td>نوع المادة</td><td>Emulsified Bitumen SS-1 أو CSS-1</td><td>Emulsified Bitumen SS-1 أو CSS-1</td><td>ASTM D977</td></tr>
+<tr><td>معدل الرش (Residual)</td><td>0.3 - 0.5 L/m²</td><td>0.2 - 0.4 L/m²</td><td>QCS S6 P5 P13</td></tr>
+<tr><td>درجة الحرارة</td><td>50 - 70°C</td><td>50 - 70°C</td><td>QCS S6 P5</td></tr>
+<tr><td>وقت المعالجة</td><td>حتى يتحول من بني للأسود</td><td>حتى يتحول من بني للأسود</td><td>Visual</td></tr>
+<tr><td>السطح</td><td>جاف + نظيف</td><td>جاف + نظيف</td><td>MS</td></tr>
+<tr><td>تجنب الإفراط</td><td colspan="2">Tack زائد = Slippage بين الطبقات</td><td>QCS S6 P5</td></tr>
+</table>
+
 </div>
 
 <div class="lang-content-en" style="display:none;">
-<h3>1. Bitumen 60/70 Properties (Non-PMB)</h3>
-<table class="dm-table">
-<tr><th>Property</th><th>Requirement</th><th>Test</th></tr>
-<tr><td>Penetration @ 25°C</td><td>60-70 × 0.1mm</td><td>ASTM D5</td></tr>
-<tr><td>Softening Point (R&B)</td><td>49-56°C</td><td>ASTM D36</td></tr>
-<tr><td>Flash Point (COC)</td><td>≥ 232°C</td><td>ASTM D92</td></tr>
-<tr><td>Ductility @ 25°C</td><td>≥ 100 cm</td><td>ASTM D113</td></tr>
-<tr><td>Solubility in TCE</td><td>≥ 99%</td><td>ASTM D2042</td></tr>
-<tr><td>Loss on Heating (TFOT)</td><td>≤ 0.8%</td><td>ASTM D1754</td></tr>
-<tr><td>Wax Content</td><td>≤ 2.2%</td><td>IP 336</td></tr>
-</table>
-
-<h3>2. PMB Properties (PG76-10)</h3>
-<table class="dm-table">
-<tr><th>Property</th><th>PG76-10 Requirement</th><th>Test</th></tr>
-<tr><td>Penetration @ 25°C</td><td>40-80 × 0.1mm</td><td>ASTM D5</td></tr>
-<tr><td>Softening Point</td><td>≥ 65°C</td><td>ASTM D36</td></tr>
-<tr><td>Elastic Recovery @ 25°C</td><td>≥ 70%</td><td>ASTM D6084</td></tr>
-<tr><td>G*/sinδ (DSR) @ 76°C</td><td>≥ 2.2 kPa</td><td>AASHTO T315</td></tr>
-<tr><td>Creep Stiffness @ -10°C</td><td>≤ 300 MPa</td><td>AASHTO T313</td></tr>
-<tr><td>Storage Stability (ΔSP)</td><td>≤ 5°C</td><td>EN 13399</td></tr>
-</table>
-
-<h3>3. Fine Aggregate — Table 4.4</h3>
+<h3>Table 5:1 — Fine Aggregate for Asphalt Mix (Marshall) — QCS S6 P5 Page 9</h3>
+<p style="font-size:11px;color:var(--text3);">Fine Aggregate = passing 2.36mm sieve (Marshall) or 4.75mm sieve (Superpave)</p>
 <table class="dm-table">
 <tr><th>Property</th><th>Specification</th><th>Test</th></tr>
 <tr><td>Sand Equivalent</td><td>≥ 45%</td><td>ASTM D2419</td></tr>
-<tr><td>Fine Aggregate Angularity</td><td>≥ 45%</td><td>ASTM C1252</td></tr>
-<tr><td>Plasticity Index</td><td>Non-Plastic</td><td>ASTM D4318</td></tr>
+<tr><td>Fine Aggregate Angularity</td><td>≥ 45% Uncompacted Voids</td><td>ASTM C1252</td></tr>
+<tr><td>Plasticity Index</td><td>Non-Plastic (NP)</td><td>ASTM D4318</td></tr>
 <tr><td>Soundness MgSO4</td><td>≤ 12%</td><td>ASTM C88</td></tr>
 <tr><td>Water Absorption</td><td>≤ 2%</td><td>ASTM C128</td></tr>
+<tr><td>Sulphate SO3</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
+<tr><td>Chloride</td><td>≤ 0.04%</td><td>BS 1377</td></tr>
 </table>
 
-<h3>4. Coarse Aggregate — Table 4.4</h3>
+<h3>Table 5:2 — Coarse Aggregate for Asphalt — QCS S6 P5 Page 10</h3>
 <table class="dm-table">
-<tr><th>Property</th><th>Wearing Course</th><th>Binder Course</th><th>Test</th></tr>
+<tr><th>Property</th><th>Wearing</th><th>Binder</th><th>Test</th></tr>
 <tr><td>LA Abrasion</td><td>≤ 25%</td><td>≤ 30%</td><td>ASTM C131</td></tr>
 <tr><td>Flakiness Index</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812</td></tr>
-<tr><td>PSV</td><td>≥ 55</td><td>—</td><td>BS 812 P114</td></tr>
+<tr><td>PSV</td><td>≥ 55</td><td>N/A</td><td>BS 812 P114</td></tr>
 <tr><td>Fractured Faces (1+)</td><td>≥ 95%</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
+<tr><td>Fractured Faces (2+)</td><td>≥ 90%</td><td>≥ 85%</td><td>ASTM D5821</td></tr>
 <tr><td>Water Absorption</td><td>≤ 2%</td><td>≤ 2%</td><td>ASTM C127</td></tr>
 <tr><td>Sulphate SO3</td><td>≤ 0.4%</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
-<tr><td>Chloride</td><td>≤ 0.04%</td><td>≤ 0.04%</td><td>BS 1377</td></tr>
+</table>
+
+<h3>Table 5:3 — Mineral Filler — QCS S6 P5 Page 10</h3>
+<table class="dm-table">
+<tr><th>Property</th><th>Specification</th><th>Test</th></tr>
+<tr><td>Source</td><td>Stone Dust / Portland Cement / Hydrated Lime</td><td>—</td></tr>
+<tr><td>% Passing 0.600mm</td><td>100%</td><td>ASTM C136</td></tr>
+<tr><td>% Passing 0.075mm</td><td>70-100%</td><td>ASTM C136</td></tr>
+<tr><td>Plasticity Index</td><td>Non-Plastic</td><td>ASTM D4318</td></tr>
+<tr><td>Voids in Dry Compacted Filler</td><td>28-45%</td><td>EN 1097-4</td></tr>
+</table>
+
+<h3>Table 5:4 — Bitumen 60/70 — QCS S6 P5 Page 11</h3>
+<table class="dm-table">
+<tr><th>Property</th><th>Specification</th><th>Test</th></tr>
+<tr><td>Penetration @ 25°C</td><td>60-70 × 0.1mm</td><td>ASTM D5</td></tr>
+<tr><td>Softening Point R&B</td><td>49-56°C</td><td>ASTM D36</td></tr>
+<tr><td>Ductility @ 25°C</td><td>≥ 100 cm</td><td>ASTM D113</td></tr>
+<tr><td>Flash Point</td><td>≥ 232°C</td><td>ASTM D92</td></tr>
+<tr><td>Wax Content</td><td>≤ 2.2%</td><td>IP 336</td></tr>
+<tr><td>Loss on Heating RTFOT</td><td>≤ 0.8%</td><td>ASTM D1754</td></tr>
+<tr><td>Penetration Ratio after RTFOT</td><td>≥ 50%</td><td>ASTM D5</td></tr>
+</table>
+
+<h3>Table 5:5 — PMB (PG76-10) — QCS S6 P5 Page 11</h3>
+<table class="dm-table">
+<tr><th>Property</th><th>Specification</th><th>Test</th></tr>
+<tr><td>Penetration @ 25°C</td><td>40-80 × 0.1mm</td><td>ASTM D5</td></tr>
+<tr><td>Softening Point</td><td>≥ 65°C</td><td>ASTM D36</td></tr>
+<tr><td>Elastic Recovery @ 25°C</td><td>≥ 70%</td><td>ASTM D6084</td></tr>
+<tr><td>G*/sinδ (Unaged) @ 76°C</td><td>≥ 2.2 kPa</td><td>AASHTO T315</td></tr>
+<tr><td>G*/sinδ (after RTFOT) @ 76°C</td><td>≥ 4.4 kPa</td><td>AASHTO T315</td></tr>
+<tr><td>Creep Stiffness @ -10°C</td><td>≤ 300 MPa</td><td>AASHTO T313</td></tr>
+<tr><td>Storage Stability ΔSP</td><td>≤ 5°C</td><td>EN 13399</td></tr>
+</table>
+
+<h3>Prime Coat — QCS S6 P5 Page 13</h3>
+<table class="dm-table">
+<tr><th>Item</th><th>Specification</th></tr>
+<tr><td>Material</td><td>Cutback Bitumen MC-30 or MC-70</td></tr>
+<tr><td>Application Rate</td><td>0.8 - 1.2 L/m²</td></tr>
+<tr><td>Temperature at Spray</td><td>50 - 80°C</td></tr>
+<tr><td>Curing Time</td><td>Minimum 24 hours before asphalt</td></tr>
+</table>
+
+<h3>Tack Coat — QCS S6 P5 Page 13</h3>
+<table class="dm-table">
+<tr><th>Item</th><th>On Binder</th><th>On Wearing</th></tr>
+<tr><td>Material</td><td>SS-1 or CSS-1 Emulsion</td><td>SS-1 or CSS-1 Emulsion</td></tr>
+<tr><td>Rate (Residual)</td><td>0.3 - 0.5 L/m²</td><td>0.2 - 0.4 L/m²</td></tr>
+<tr><td>Temperature</td><td>50 - 70°C</td><td>50 - 70°C</td></tr>
 </table>
 </div>
 ` },
