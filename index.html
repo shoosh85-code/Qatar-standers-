@@ -461,6 +461,24 @@ window.onload = () => {
 };
 
 // ===== LANGUAGE =====
+function applyLangToContainer(container, lang) {
+  // Show/hide lang-content blocks
+  container.querySelectorAll('.lang-content-ar').forEach(el => el.style.display = lang==='ar'?'block':'none');
+  container.querySelectorAll('.lang-content-en').forEach(el => el.style.display = lang==='en'?'block':'none');
+  // Swap data-ar/data-en text
+  container.querySelectorAll('[data-ar]').forEach(el => {
+    const txt = el.getAttribute('data-' + lang);
+    if(txt) el.innerHTML = txt;
+  });
+  // Swap placeholders
+  container.querySelectorAll('[data-placeholder-ar]').forEach(el => {
+    const ph = el.getAttribute('data-placeholder-' + lang);
+    if(ph) el.placeholder = ph;
+  });
+  // Calc buttons
+  container.querySelectorAll('.calc-btn').forEach(btn => btn.textContent = i18n[lang].calcBtn);
+}
+
 function setLang(lang, save=true) {
   currentLang = lang;
   if(save) localStorage.setItem('qatarspec-lang', lang);
@@ -472,45 +490,39 @@ function setLang(lang, save=true) {
   document.documentElement.lang = lang;
   document.documentElement.dir = lang==='ar' ? 'rtl' : 'ltr';
 
-  // Swap all data-ar / data-en text nodes
-  document.querySelectorAll('[data-ar]').forEach(el => {
-    const txt = el.getAttribute('data-' + lang);
-    if (txt) el.innerHTML = txt;
-  });
+  // Apply to entire page
+  applyLangToContainer(document, lang);
 
-  // Swap placeholders
-  document.querySelectorAll('[data-placeholder-ar]').forEach(el => {
-    const ph = el.getAttribute('data-placeholder-' + lang);
-    if (ph) el.placeholder = ph;
-  });
-
-  // Swap lang-content blocks
-  document.querySelectorAll('.lang-content-ar').forEach(el => el.style.display = lang==='ar'?'block':'none');
-  document.querySelectorAll('.lang-content-en').forEach(el => el.style.display = lang==='en'?'block':'none');
-
-  // Update calc buttons
-  document.querySelectorAll('.calc-btn').forEach(btn => {
-    btn.textContent = i18n[lang].calcBtn;
-  });
-
-  // Update dynamic calc results
-  document.querySelectorAll('.calc-result-text').forEach(el => {
-    const parent = el.closest('.calc-result');
-    if(parent) {
-      if(parent.classList.contains('pass')) el.textContent = i18n[lang].passText;
-      else if(parent.classList.contains('fail')) el.textContent = i18n[lang].failText;
-    }
-  });
+  // Hero h1 special handling
+  const h1 = document.querySelector('.hero h1');
+  if(h1) { const v = h1.getAttribute('data-'+lang); if(v) h1.innerHTML = v; }
 
   // Update AI status
   const keyText = document.getElementById('keyStatusText');
   if(keyText) keyText.textContent = geminiKey ? i18n[lang].aiActive : i18n[lang].aiSetup;
 
-  // Hero h1 special handling (innerHTML with <br> and <span>)
-  const h1 = document.querySelector('.hero h1');
-  if(h1) {
-    const val = h1.getAttribute('data-' + lang);
-    if(val) h1.innerHTML = val;
+  // Update dynamic calc results
+  document.querySelectorAll('.calc-result-text').forEach(el => {
+    const p = el.closest('.calc-result');
+    if(p) {
+      if(p.classList.contains('pass')) el.textContent = i18n[lang].passText;
+      else if(p.classList.contains('fail')) el.textContent = i18n[lang].failText;
+    }
+  });
+
+  // RE-INJECT open modal with new language — this is the key fix
+  const modal = document.getElementById('detailModal');
+  if(modal && modal.classList.contains('open') && modal.dataset.currentKey) {
+    const key = modal.dataset.currentKey;
+    const d = detailData[key];
+    if(d) {
+      // Update modal title
+      const titleObj = d.title;
+      document.getElementById('dmTitle').textContent = typeof titleObj==='object' ? (titleObj[lang]||titleObj.ar) : titleObj;
+      // Re-inject content and apply language
+      document.getElementById('dmContent').innerHTML = d.content;
+      applyLangToContainer(document.getElementById('dmContent'), lang);
+    }
   }
 }
 
@@ -1171,16 +1183,8 @@ function openDetail(key) {
   modal.classList.add('open');
   const bar = document.getElementById('itp-project-bar');
   if (bar) bar.style.display = (key && key.startsWith('itp')) ? 'block' : 'none';
-  // Apply current language to newly rendered content
-  document.querySelectorAll('.lang-content-ar').forEach(el => el.style.display = currentLang==='ar'?'block':'none');
-  document.querySelectorAll('.lang-content-en').forEach(el => el.style.display = currentLang==='en'?'block':'none');
-  // Apply data-ar/en in modal content
-  document.getElementById('dmContent').querySelectorAll('[data-ar]').forEach(el => {
-    const txt = el.getAttribute('data-' + currentLang);
-    if (txt) el.innerHTML = txt;
-  });
-  // Apply calc btn text
-  document.querySelectorAll('.calc-btn').forEach(btn => btn.textContent = i18n[currentLang].calcBtn);
+  // Apply current language to injected content
+  applyLangToContainer(document.getElementById('dmContent'), currentLang);
 }
 
 function goBack() {
