@@ -535,6 +535,23 @@ function copyAnswer() {
 const detailData = {
   structural: { title: '🏛️ الكود الإنشائي القطري', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">أعمال الخرسانة المسلحة — الصب والمعالجة</span>
+</div>
+<button onclick="document.getElementById('vid-structural').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-structural" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-structural','vid-placeholder-structural')">
+<div id="vid-placeholder-structural" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">تحضير الخرسانة، الصب، المعالجة في الطقس الحار</div>
+<div style="font-size:11px;color:var(--text3);">اضغط "رفع فيديو" لتحميل ملف MP4</div>
+</div>
+<video id="vid-player-structural" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 — Section 5 | Structural Works
@@ -569,6 +586,23 @@ const detailData = {
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,70,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">Reinforced Concrete — Pouring & Curing</span>
+</div>
+<button onclick="document.getElementById('vid-structural-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-structural-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-structural-en','vid-placeholder-structural-en')">
+<div id="vid-placeholder-structural-en" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">Concrete preparation, pouring, hot weather curing</div>
+<div style="font-size:11px;">Click "Upload Video" to load MP4 file</div>
+</div>
+<video id="vid-player-structural-en" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
 <h3>📐 Structural Works — QCS 2024 Section 5</h3>
 <p>Select a structural section to view full specifications, ITPs, and quality control requirements.</p>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0;">
@@ -581,9 +615,43 @@ const detailData = {
 ` },
   execution: { title: '⚒️ مراحل تنفيذ المشاريع', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">تنفيذ الأساسات والهياكل الخرسانية</span>
+</div>
+<button onclick="document.getElementById('vid-execution').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-execution" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-execution','vid-placeholder-execution')">
+<div id="vid-placeholder-execution" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">حفر، أساسات، عزل مائي، خرسانة مسلحة</div>
+<div style="font-size:11px;color:var(--text3);">اضغط "رفع فيديو" لتحميل ملف MP4</div>
+</div>
+<video id="vid-player-execution" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
 <h3>الخطوات الأساسية</h3><table class="dm-table"><tr><th>المرحلة</th><th>الأعمال</th><th>المتطلبات</th></tr><tr><td>1 - الجسات</td><td>اختبارات التربة</td><td>تقرير جيوتكني</td></tr><tr><td>2 - الحفر</td><td>حفر وتدعيم</td><td>موافقة المهندس</td></tr><tr><td>3 - الأساسات</td><td>صب الأساسات</td><td>اختبار العينات</td></tr><tr><td>4 - الهيكل</td><td>الأعمدة والأسقف</td><td>فحص الRebar</td></tr><tr><td>5 - المرافق</td><td>الكهرباء والسباكة</td><td>رسومات معتمدة</td></tr><tr><td>6 - التشطيب</td><td>جميع التشطيبات</td><td>شهادات المواد</td></tr></table>
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,70,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">Foundation & Structural Concrete Execution</span>
+</div>
+<button onclick="document.getElementById('vid-execution-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-execution-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-execution-en','vid-placeholder-execution-en')">
+<div id="vid-placeholder-execution-en" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">Excavation, foundations, waterproofing, reinforced concrete</div>
+<div style="font-size:11px;">Click "Upload Video" to load MP4 file</div>
+</div>
+<video id="vid-player-execution-en" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | ⚒️ مراحل تنفيذ المشاريع
 </div>
@@ -823,6 +891,388 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 ` },
 
+
+  gabbro_specs: { title: '🪨 Gabbro — مواصفات وخصائص مادة الجابرو', content: `
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 6 Part 4 & 5 | Gabbro — الركام الأساسي في قطر
+</div>
+<div class="lang-content-ar">
+<h3>🪨 ما هو الجابرو؟</h3>
+<p>الجابرو (Gabbro) هو صخر ناري مُتبلور يُستخرج أساساً من المحاجر الإماراتية والفجيرة. هو الركام الأساسي المستخدم في قطر لجميع طبقات الطريق والخرسانة بسبب صلابته ومقاومته العالية.</p>
+
+<h3>📐 مواصفات الجابرو — Coarse Aggregate</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>طبقة Subbase</th><th>طبقة Base Course</th><th>إسفلت WC</th><th>إسفلت BC</th><th>الاختبار</th></tr>
+<tr><td>LA Abrasion</td><td>≤ 40%</td><td>≤ 30%</td><td>≤ 25%</td><td>≤ 30%</td><td>ASTM C131</td></tr>
+<tr><td>Flakiness Index</td><td>≤ 40%</td><td>≤ 30%</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812 P105</td></tr>
+<tr><td>Elongation Index</td><td>≤ 40%</td><td>≤ 30%</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812 P105</td></tr>
+<tr><td>Fractured Faces (1+)</td><td>≥ 25%</td><td>≥ 75%</td><td>≥ 95%</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
+<tr><td>Fractured Faces (2+)</td><td>—</td><td>≥ 50%</td><td>≥ 90%</td><td>≥ 85%</td><td>ASTM D5821</td></tr>
+<tr><td>PSV (Polished Stone Value)</td><td>—</td><td>—</td><td>≥ 55</td><td>—</td><td>BS 812 P114</td></tr>
+<tr><td>Water Absorption</td><td>≤ 3%</td><td>≤ 2%</td><td>≤ 2%</td><td>≤ 2%</td><td>ASTM C127</td></tr>
+<tr><td>Soundness (MgSO4)</td><td>≤ 18%</td><td>≤ 12%</td><td>≤ 12%</td><td>≤ 12%</td><td>ASTM C88</td></tr>
+<tr><td>Specific Gravity SSD</td><td>≥ 2.4</td><td>≥ 2.5</td><td>≥ 2.5</td><td>≥ 2.5</td><td>ASTM C127</td></tr>
+<tr><td>Sulphate SO3</td><td>≤ 0.5%</td><td>≤ 0.5%</td><td>≤ 0.4%</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
+<tr><td>Chloride</td><td>≤ 0.6%</td><td>≤ 0.6%</td><td>≤ 0.04%</td><td>≤ 0.04%</td><td>BS 1377</td></tr>
+<tr><td>Alkali-Silica Reactivity</td><td>Non-reactive</td><td>Non-reactive</td><td>Non-reactive</td><td>Non-reactive</td><td>ASTM C1260</td></tr>
+</table>
+
+<h3>📐 المصادر الشائعة في قطر</h3>
+<table class="dm-table">
+<tr><th>المحجر</th><th>الموقع</th><th>الملاحظة</th></tr>
+<tr><td>QPMC (Qatar Primary Materials Company)</td><td>الدوحة — مستودعات</td><td>موزع رئيسي في قطر</td></tr>
+<tr><td>Al Hodaifi / Al Jaber</td><td>الفجيرة — الإمارات</td><td>Gabbro Class A</td></tr>
+<tr><td>Fujairah Rocks & Aggregates</td><td>الفجيرة</td><td>مصدر رئيسي لقطر</td></tr>
+<tr><td>Doha Quarry</td><td>الدوحة</td><td>للاستخدام المحلي</td></tr>
+</table>
+
+<h3>📐 Conformity Certificate (شهادة المطابقة)</h3>
+<p>كل شحنة Gabbro يجب أن ترفق معها:<br>
+• <strong>Conformity Certificate</strong> من QGOS (Qatar General Organization for Standardization)<br>
+• تحليل مختبري يثبت: LA Abrasion + Flakiness + Fractured Faces + Water Absorption + Sulphate<br>
+• صلاحية الشهادة ≤ 12 شهر من تاريخ الإصدار<br>
+• MAR (Material Approval Request) معتمد من المهندس قبل الاستخدام</p>
+
+<h3>🔧 فحص الجابرو عند الموقع</h3>
+<table class="dm-table">
+<tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr>
+<tr><td>Visual Inspection (اللون والنظافة)</td><td>كل تسليم</td><td>نظيف، بدون تلوث</td></tr>
+<tr><td>Grading Analysis</td><td>كل 500m³</td><td>ASTM C136</td></tr>
+<tr><td>LA Abrasion</td><td>كل 1000m³</td><td>ASTM C131</td></tr>
+<tr><td>Flakiness Index</td><td>كل 500m³</td><td>BS 812</td></tr>
+<tr><td>Water Absorption</td><td>كل 500m³</td><td>ASTM C127</td></tr>
+<tr><td>Sulphate + Chloride</td><td>كل 1000m³</td><td>BS 1377</td></tr>
+</table>
+</div>
+<div class="lang-content-en" style="display:none;">
+<h3>🪨 What is Gabbro?</h3>
+<p>Gabbro is a crystalline igneous rock quarried primarily from the UAE (Fujairah area). It is the primary aggregate used in Qatar for all road layers and concrete due to its high hardness and abrasion resistance.</p>
+<h3>Gabbro Specifications by Application</h3>
+<table class="dm-table">
+<tr><th>Property</th><th>Subbase</th><th>Base Course</th><th>Asphalt WC</th><th>Asphalt BC</th><th>Test</th></tr>
+<tr><td>LA Abrasion</td><td>≤ 40%</td><td>≤ 30%</td><td>≤ 25%</td><td>≤ 30%</td><td>ASTM C131</td></tr>
+<tr><td>Flakiness Index</td><td>≤ 40%</td><td>≤ 30%</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812 P105</td></tr>
+<tr><td>Fractured Faces (1+)</td><td>≥ 25%</td><td>≥ 75%</td><td>≥ 95%</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
+<tr><td>PSV</td><td>—</td><td>—</td><td>≥ 55</td><td>—</td><td>BS 812 P114</td></tr>
+<tr><td>Water Absorption</td><td>≤ 3%</td><td>≤ 2%</td><td>≤ 2%</td><td>≤ 2%</td><td>ASTM C127</td></tr>
+<tr><td>Soundness MgSO4</td><td>≤ 18%</td><td>≤ 12%</td><td>≤ 12%</td><td>≤ 12%</td><td>ASTM C88</td></tr>
+<tr><td>Specific Gravity SSD</td><td>≥ 2.4</td><td>≥ 2.5</td><td>≥ 2.5</td><td>≥ 2.5</td><td>ASTM C127</td></tr>
+<tr><td>Sulphate SO3</td><td>≤ 0.5%</td><td>≤ 0.5%</td><td>≤ 0.4%</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
+</table>
+<h3>Conformity Certificate Requirements</h3>
+<p>Every Gabbro delivery must include: QGOS Conformity Certificate (valid ≤12 months) + Lab analysis (LA + Flakiness + Fractured Faces + Absorption + Sulphate) + Approved MAR before use.</p>
+</div>
+` },
+
+  geotextile_specs: { title: '🕸️ Geotextile — المواصفات والاختبارات', content: `
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 | Geotextile — Material for Separation, Filtration & Reinforcement
+</div>
+<div class="lang-content-ar">
+<h3>🕸️ ما هو Geotextile؟</h3>
+<p>مواد نسيجية هندسية مصنوعة من بوليمر (PP أو PET) تُستخدم في أعمال الطرق والتصريف والتعزيز. وظيفتها الأساسية: الفصل بين طبقات التربة والركام، التصفية، التسليح.</p>
+
+<h3>📐 أنواع Geotextile</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>النوع</th><th>التصنيع</th><th>الوظيفة الأساسية</th><th>الاستخدام في قطر</th></tr>
+<tr><td><strong>Woven (منسوج)</strong></td><td>خيوط بوليمر منسوجة</td><td>Separation + Reinforcement</td><td>تحت الـ Subbase فوق التربة الضعيفة</td></tr>
+<tr><td><strong>Non-Woven (غير منسوج)</strong></td><td>ألياف مرتبطة حرارياً</td><td>Filtration + Separation</td><td>تصريف + حماية طبقة Drainage</td></tr>
+<tr><td><strong>Geonet</strong></td><td>شبكة بلاستيكية</td><td>Drainage (تصريف)</td><td>تحت الـ Kerb + حوائل تصريف</td></tr>
+<tr><td><strong>Geogrid</strong></td><td>شبكة فتحات كبيرة</td><td>Reinforcement (تسليح)</td><td>تحت الـ Road Base لزيادة التحمل</td></tr>
+</table>
+
+<h3>📐 مواصفات Geotextile — QCS S6 P3</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>الحد الأدنى (Separation)</th><th>الحد الأدنى (Filtration)</th><th>الاختبار</th></tr>
+<tr><td>Mass Per Unit Area</td><td>≥ 150 g/m²</td><td>≥ 200 g/m²</td><td>ISO 9864</td></tr>
+<tr><td>Tensile Strength (MD)</td><td>≥ 20 kN/m</td><td>≥ 12 kN/m</td><td>ISO 10319</td></tr>
+<tr><td>Tensile Strength (CMD)</td><td>≥ 20 kN/m</td><td>≥ 12 kN/m</td><td>ISO 10319</td></tr>
+<tr><td>Elongation at Break</td><td>≤ 50%</td><td>≥ 30%</td><td>ISO 10319</td></tr>
+<tr><td>CBR Puncture Resistance</td><td>≥ 2500 N</td><td>≥ 1500 N</td><td>ISO 12236</td></tr>
+<tr><td>Apparent Opening Size (O90)</td><td>≤ 0.20mm</td><td>0.075-0.30mm</td><td>ISO 12956</td></tr>
+<tr><td>Permeability (Kn)</td><td>N/A</td><td>≥ 10×Ksoil</td><td>ISO 11058</td></tr>
+<tr><td>UV Resistance</td><td>≥ 50% retention after 500hr UV</td><td>≥ 50% after 500hr</td><td>ASTM D4355</td></tr>
+<tr><td>Chemical Resistance</td><td>pH 2-13 stable</td><td>pH 2-13 stable</td><td>ISO 14030</td></tr>
+</table>
+
+<h3>📐 متطلبات التركيب</h3>
+<table class="dm-table">
+<tr><th>البند</th><th>المتطلب</th></tr>
+<tr><td>الفردة (Overlap)</td><td>≥ 500mm في الاتجاهين</td></tr>
+<tr><td>التثبيت</td><td>U-pins أو رمل فوقه مباشرة</td></tr>
+<tr><td>الحماية من الأشعة</td><td>تغطية خلال 48hr من الفردة</td></tr>
+<tr><td>الفردة على منحدرات</td><td>من الأعلى للأسفل</td></tr>
+<tr><td>الوصل</td><td>Sewing أو Overlap ≥ 1m</td></tr>
+<tr><td>حماية من المعدات</td><td>لا تسير المعدات الثقيلة مباشرة</td></tr>
+</table>
+
+<h3>🔧 اختبارات الاستقبال</h3>
+<table class="dm-table">
+<tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th><th>HP/W</th></tr>
+<tr><td>Mass Per Unit Area (وزن المتر)</td><td>Per roll batch</td><td>ISO 9864</td><td>W</td></tr>
+<tr><td>Tensile Strength</td><td>Per roll batch</td><td>ISO 10319</td><td>HP</td></tr>
+<tr><td>CBR Puncture</td><td>Per roll batch</td><td>ISO 12236</td><td>W</td></tr>
+<tr><td>Apparent Opening Size</td><td>Per roll batch</td><td>ISO 12956</td><td>W</td></tr>
+<tr><td>Visual Inspection</td><td>100% of rolls</td><td>No holes/tears</td><td>W</td></tr>
+</table>
+</div>
+<div class="lang-content-en" style="display:none;">
+<h3>What is Geotextile?</h3>
+<p>Geotextiles are polymer (PP or PET) fabric materials used in road construction, drainage and reinforcement. Primary functions: separation between soil/aggregate layers, filtration, reinforcement.</p>
+<h3>Geotextile Types</h3>
+<table class="dm-table">
+<tr><th>Type</th><th>Manufacture</th><th>Primary Function</th><th>Qatar Use</th></tr>
+<tr><td>Woven</td><td>Woven polymer threads</td><td>Separation + Reinforcement</td><td>Under Subbase on weak subgrade</td></tr>
+<tr><td>Non-Woven</td><td>Thermally bonded fibres</td><td>Filtration + Separation</td><td>Drainage + protection layers</td></tr>
+<tr><td>Geogrid</td><td>Large aperture grid</td><td>Reinforcement</td><td>Under Road Base to increase bearing</td></tr>
+</table>
+<h3>Geotextile Specifications</h3>
+<table class="dm-table">
+<tr><th>Property</th><th>Min (Separation)</th><th>Min (Filtration)</th><th>Test</th></tr>
+<tr><td>Mass Per Unit Area</td><td>≥ 150 g/m²</td><td>≥ 200 g/m²</td><td>ISO 9864</td></tr>
+<tr><td>Tensile Strength (MD)</td><td>≥ 20 kN/m</td><td>≥ 12 kN/m</td><td>ISO 10319</td></tr>
+<tr><td>CBR Puncture Resistance</td><td>≥ 2500 N</td><td>≥ 1500 N</td><td>ISO 12236</td></tr>
+<tr><td>Apparent Opening Size O90</td><td>≤ 0.20mm</td><td>0.075-0.30mm</td><td>ISO 12956</td></tr>
+<tr><td>UV Resistance</td><td>≥ 50% retention after 500hr</td><td>≥ 50%</td><td>ASTM D4355</td></tr>
+</table>
+<h3>Installation Requirements</h3>
+<p>Overlap: ≥ 500mm both directions | Cover within 48hr of laying | Seams: sewing or ≥ 1m overlap | No heavy equipment directly on geotextile without cover</p>
+</div>
+` },
+
+  pipe_bedding: { title: '📐 Pipe Bedding Types — أنواع فرش المواسير', content: `
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 8 | Pipe Bedding — فرش المواسير وأنواعها
+</div>
+<div class="lang-content-ar">
+<h3>📐 ما هو فرش المواسير؟</h3>
+<p>طبقة المادة الموضوعة تحت وحول الماسورة داخل الخندق. وظيفتها توزيع الأحمال بشكل منتظم، منع نقاط الضغط الموضعية، وحماية الماسورة من الاهتزازات والحركة.</p>
+
+<h3>📐 الفئات الأساسية — Bedding Classes</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الفئة</th><th>المادة</th><th>الوصف</th><th>معامل الدعم (Bf)</th><th>الاستخدام</th></tr>
+<tr><td><strong>Class S (Special)</strong></td><td>Concrete Cradle/Surround</td><td>خرسانة تحيط الماسورة بالكامل</td><td>3.4</td><td>أحمال جداً عالية + عبور طرق</td></tr>
+<tr><td><strong>Class A</strong></td><td>Concrete Bed 100mm + Granular Surround</td><td>سرير خرساني + محيط حبيبي</td><td>2.6</td><td>طرق رئيسية + ESAL عالي</td></tr>
+<tr><td><strong>Class B</strong></td><td>Granular Bed 150mm + Granular Surround</td><td>رمل أو حجر مكسر ناعم</td><td>1.9</td><td>الاستخدام الأكثر شيوعاً في قطر</td></tr>
+<tr><td><strong>Class D</strong></td><td>Flat Bottom + Granular Surround</td><td>قاع الخندق مع معالجة</td><td>1.1</td><td>تربة صلبة جيدة</td></tr>
+</table>
+
+<h3>📐 تفاصيل Class B — الأكثر استخداماً</h3>
+<table class="dm-table">
+<tr><th>البند</th><th>المواصفة</th><th>المرجع</th></tr>
+<tr><td>مادة الفرش</td><td>Single-size Crushed Gabbro 5-20mm أو رمل نظيف</td><td>QCS S8</td></tr>
+<tr><td>سماكة الفرش تحت الماسورة</td><td>150mm (أو OD/4 الأكبر)</td><td>BS EN 1610</td></tr>
+<tr><td>ارتفاع الغطاء فوق قمة الماسورة</td><td>300mm (Pipe Zone)</td><td>QCS S8</td></tr>
+<tr><td>دمك Pipe Zone</td><td>يدوي — لا dمك آلي أثناء Pipe Zone</td><td>QCS S8</td></tr>
+<tr><td>الدمك بعد 300mm فوق الماسورة</td><td>≥ 90% MDD بمعدات مناسبة</td><td>ASTM D698</td></tr>
+<tr><td>Marker Tape</td><td>300mm فوق قمة الماسورة بلون محدد</td><td>KAHRAMAA</td></tr>
+</table>
+
+<h3>📐 Concrete Encasement (Class S) — عبور الطرق</h3>
+<table class="dm-table">
+<tr><th>البند</th><th>المواصفة</th></tr>
+<tr><td>درجة الخرسانة</td><td>C20 minimum</td></tr>
+<tr><td>الغطاء الجانبي (Cover)</td><td>≥ 150mm على جانبي الماسورة</td></tr>
+<tr><td>الغطاء فوق الماسورة</td><td>≥ 150mm</td></tr>
+<tr><td>الغطاء تحت الماسورة</td><td>≥ 100mm Concrete Bed</td></tr>
+<tr><td>حماية من الانكماش</td><td>Joints كل 5m في الـ Encasement</td></tr>
+<tr><td>المعالجة</td><td>≥ 3 أيام قبل الردم</td></tr>
+</table>
+
+<h3>📐 أنواع المواد المستخدمة في الفرش</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>المادة</th><th>المواصفة</th><th>الاستخدام</th></tr>
+<tr><td>Single-Size Gabbro 5-10mm</td><td>سرير مواسير مرنة (HDPE)</td><td>Class B مياه وصرف</td></tr>
+<tr><td>Single-Size Gabbro 5-20mm</td><td>سرير ومحيط مواسير كبيرة</td><td>Class B مواسير ≥ DN400</td></tr>
+<tr><td>Washed Sand</td><td>لا SO3 + لا Cl زائد</td><td>Class B مواسير صغيرة ≤ DN200</td></tr>
+<tr><td>CLSM (Controlled Low Strength Material)</td><td>0.3-2.5 N/mm² @ 28 day</td><td>خنادق ضيقة / تحت طرق رئيسية</td></tr>
+<tr><td>Concrete C15</td><td>Granular Haunch بديل</td><td>Class A + عبور طرق</td></tr>
+</table>
+
+<h3>🔧 اختبارات القبول</h3>
+<table class="dm-table">
+<tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th><th>HP/W</th></tr>
+<tr><td>Visual Inspection (بصري)</td><td>كل 50m</td><td>سماكة صحيحة + مادة نظيفة</td><td>W</td></tr>
+<tr><td>Bedding Compaction (Sand Cone)</td><td>كل 50m</td><td>≥ 90% MDD</td><td>W</td></tr>
+<tr><td>Grading of Bedding Material</td><td>Per source</td><td>ASTM C136</td><td>W</td></tr>
+<tr><td>Pipe Zone Inspection</td><td>قبل الردم</td><td>Visual — No voids, correct height</td><td>HP</td></tr>
+<tr><td>Marker Tape Inspection</td><td>100%</td><td>300mm above pipe, correct color</td><td>W</td></tr>
+</table>
+</div>
+<div class="lang-content-en" style="display:none;">
+<h3>What is Pipe Bedding?</h3>
+<p>The material layer placed under and around pipes in the trench. Functions: distribute loads uniformly, prevent stress concentrations, protect pipes from vibration and movement.</p>
+<h3>Bedding Classes</h3>
+<table class="dm-table">
+<tr><th>Class</th><th>Material</th><th>Support Factor (Bf)</th><th>Use</th></tr>
+<tr><td>Class S (Special)</td><td>Concrete Cradle/Surround</td><td>3.4</td><td>Very high loads + road crossings</td></tr>
+<tr><td>Class A</td><td>Concrete Bed + Granular Surround</td><td>2.6</td><td>Major roads + high ESAL</td></tr>
+<tr><td>Class B</td><td>Granular Bed 150mm + Granular Surround</td><td>1.9</td><td>Most common in Qatar</td></tr>
+<tr><td>Class D</td><td>Flat Bottom + Granular Surround</td><td>1.1</td><td>Good firm soil only</td></tr>
+</table>
+<h3>Class B Details — Most Common</h3>
+<table class="dm-table">
+<tr><th>Item</th><th>Specification</th><th>Reference</th></tr>
+<tr><td>Bedding Material</td><td>5-20mm Single-size Crushed Gabbro or Clean Sand</td><td>QCS S8</td></tr>
+<tr><td>Bedding Thickness</td><td>150mm (or OD/4 whichever greater)</td><td>BS EN 1610</td></tr>
+<tr><td>Pipe Zone Cover</td><td>300mm above pipe crown</td><td>QCS S8</td></tr>
+<tr><td>Pipe Zone Compaction</td><td>Hand tamping only — no mechanical compaction in pipe zone</td><td>QCS S8</td></tr>
+<tr><td>Above Pipe Zone</td><td>≥ 90% MDD after 300mm cover</td><td>ASTM D698</td></tr>
+<tr><td>Marker Tape</td><td>300mm above pipe crown — correct color</td><td>KAHRAMAA</td></tr>
+</table>
+<h3>Concrete Encasement (Class S) — Road Crossings</h3>
+<table class="dm-table">
+<tr><th>Item</th><th>Specification</th></tr>
+<tr><td>Concrete Grade</td><td>C20 minimum</td></tr>
+<tr><td>Side Cover</td><td>≥ 150mm each side</td></tr>
+<tr><td>Top Cover</td><td>≥ 150mm above pipe</td></tr>
+<tr><td>Bottom Bed</td><td>≥ 100mm concrete bed</td></tr>
+<tr><td>Curing before backfill</td><td>≥ 3 days</td></tr>
+</table>
+</div>
+` },
+
+  bitumen_tests: { title: '🧪 Bitumen Tests — كل اختبارات البيتومين 60/70 وPMB', content: `
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 S6 P5 | AASHTO | ASTM | EN | Full Bitumen Testing Programme
+</div>
+<div class="lang-content-ar">
+
+<h3>🧪 1. الاختبارات الأساسية — Bitumen 60/70 (Standard Tests)</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الاختبار</th><th>الشرح</th><th>المعيار QCS</th><th>الاختبار</th></tr>
+<tr><td><strong>Penetration @ 25°C</strong></td><td>قياس عمق غرز إبرة قياسية في البيتومين = مؤشر صلابة</td><td>60-70 × 0.1mm</td><td>ASTM D5 / EN 1426</td></tr>
+<tr><td><strong>Softening Point R&B</strong></td><td>درجة حرارة تبدأ فيها عينة البيتومين بالتليين (Ring & Ball)</td><td>49 - 56°C</td><td>ASTM D36 / EN 1427</td></tr>
+<tr><td><strong>Ductility @ 25°C</strong></td><td>قياس قابلية التمدد قبل القطع — مؤشر المرونة</td><td>≥ 100 cm</td><td>ASTM D113</td></tr>
+<tr><td><strong>Flash Point (COC)</strong></td><td>أدنى درجة حرارة يشتعل فيها البيتومين — للسلامة</td><td>≥ 232°C</td><td>ASTM D92</td></tr>
+<tr><td><strong>Specific Gravity @ 25°C</strong></td><td>الكثافة النسبية للبيتومين</td><td>1.01 - 1.05</td><td>ASTM D70</td></tr>
+<tr><td><strong>Solubility in TCE</strong></td><td>ذوبان في Trichloroethylene — مؤشر نقاء البيتومين</td><td>≥ 99%</td><td>ASTM D2042</td></tr>
+<tr><td><strong>Wax Content</strong></td><td>نسبة الشمع — الشمع الزائد يضر بالأداء الحراري</td><td>≤ 2.2%</td><td>IP 336</td></tr>
+</table>
+
+<h3>🧪 2. اختبارات التقادم — RTFOT + TFOT</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الاختبار</th><th>الشرح</th><th>المعيار QCS</th><th>الاختبار</th></tr>
+<tr><td><strong>RTFOT (Rolling Thin Film Oven Test)</strong></td><td>يحاكي تقادم البيتومين أثناء الخلط بالحرارة (163°C / 75 دقيقة). يقيس فقدان الكتلة وتغير الخصائص</td><td>Loss ≤ 0.8%</td><td>ASTM D2872 / EN 12607-1</td></tr>
+<tr><td><strong>TFOT (Thin Film Oven Test)</strong></td><td>بديل أقدم للـ RTFOT — نفس الهدف لكن أقل دقة</td><td>Loss ≤ 0.8%</td><td>ASTM D1754</td></tr>
+<tr><td><strong>Penetration after RTFOT</strong></td><td>قياس Penetration على العينة المُشاخة = مقارنة بالأصلي</td><td>≥ 50% of original</td><td>ASTM D5</td></tr>
+<tr><td><strong>Ductility after RTFOT @ 25°C</strong></td><td>قابلية التمدد بعد التقادم</td><td>≥ 50 cm</td><td>ASTM D113</td></tr>
+<tr><td><strong>Softening Point after RTFOT</strong></td><td>ارتفاع Softening Point بعد RTFOT — مؤشر تصلب</td><td>Increase ≤ 8°C</td><td>ASTM D36</td></tr>
+</table>
+
+<h3>🧪 3. PAV — Pressure Aging Vessel Residue</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الاختبار</th><th>الشرح</th><th>المعيار</th></tr>
+<tr><td><strong>PAV (Pressure Aging Vessel)</strong></td><td>يحاكي تقادم البيتومين طويل الأمد أثناء خدمة الطريق (20+ سنة). العينة تُعالج في وعاء ضغط عند 100°C / 2.1 MPa لمدة 20 ساعة بعد RTFOT</td><td>AASHTO R28 / EN 14769</td></tr>
+<tr><td><strong>المدخل</strong></td><td>RTFOT Residue مُسخَّن أولاً</td><td>—</td></tr>
+<tr><td><strong>الشروط</strong></td><td>100°C أو 110°C (حسب المناخ) / 2.1 MPa / 20 hr</td><td>AASHTO R28</td></tr>
+<tr><td><strong>المخرجات</strong></td><td>PAV Residue يُستخدم في DSR Creep + DTT</td><td>—</td></tr>
+</table>
+
+<h3>🧪 4. DSR — Dynamic Shear Rheometer</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الاختبار</th><th>الشرح</th><th>المعيار QCS (PMB)</th><th>المرجع</th></tr>
+<tr><td><strong>G*/sinδ (Unaged)</strong></td><td>قياس قساوة البيتومين عند درجات حرارة عالية (Summer Rutting). G* = Stiffness Module، δ = Phase Angle. كلما كان G*/sinδ أكبر = مقاومة Rutting أفضل</td><td>≥ 2.2 kPa @ 76°C (PMB)</td><td>AASHTO T315</td></tr>
+<tr><td><strong>G*/sinδ (RTFOT Residue)</strong></td><td>نفس الاختبار بعد RTFOT — مقاومة التشقق الحراري</td><td>≥ 4.4 kPa @ 76°C (PMB)</td><td>AASHTO T315</td></tr>
+<tr><td><strong>Phase Angle δ (PAV Residue)</strong></td><td>زاوية التأخر — مؤشر المرونة. δ صغير = أكثر مرونة</td><td>≤ 75° @ 25°C</td><td>AASHTO T315</td></tr>
+<tr><td><strong>G*×sinδ (PAV Residue)</strong></td><td>مقاومة التعب والتشقق عند درجات حرارة متوسطة</td><td>≤ 5000 kPa @ 25°C</td><td>AASHTO T315</td></tr>
+</table>
+
+<h3>🧪 5. BBR — Bending Beam Rheometer (Creep Stiffness)</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الاختبار</th><th>الشرح</th><th>المعيار QCS</th><th>المرجع</th></tr>
+<tr><td><strong>Creep Stiffness S</strong></td><td>قياس صلابة البيتومين عند درجات الحرارة المنخفضة (شتاء / ليل). عينة تُثنى عند -10°C لمدة 60 ثانية. S عالي = بيتومين صلب = تشقق حراري</td><td>S ≤ 300 MPa @ -10°C / 60s</td><td>AASHTO T313 / EN 14771</td></tr>
+<tr><td><strong>m-value (Rate of Relaxation)</strong></td><td>معدل تخفيف الإجهاد الحراري. m كبير = تخفيف أسرع = أقل تشققاً</td><td>m ≥ 0.300 @ -10°C</td><td>AASHTO T313</td></tr>
+</table>
+
+<h3>🧪 6. Direct Tension Test (DTT)</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الاختبار</th><th>الشرح</th><th>المعيار</th></tr>
+<tr><td><strong>Failure Strain</strong></td><td>قياس انزياع العينة عند الكسر بدرجات برودة. يكمل BBR لتقييم التشقق الحراري. يُستخدم عند m-value يكون قريباً من الحد (0.300)</td><td>AASHTO T314</td></tr>
+<tr><td><strong>شرط الاستخدام</strong></td><td>إذا كانت BBR Stiffness بين 300-600 MPa → يُجرى DTT</td><td>AASHTO MP1</td></tr>
+<tr><td><strong>معيار القبول</strong></td><td>Failure Strain ≥ 1.0%</td><td>AASHTO MP1</td></tr>
+</table>
+
+<h3>🧪 7. Rotational Viscosity (RV)</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الاختبار</th><th>الشرح</th><th>المعيار</th></tr>
+<tr><td><strong>Rotational Viscosity @ 135°C</strong></td><td>قياس لزوجة البيتومين عند درجة حرارة الضخ والإنتاج. اللزوجة العالية = صعوبة في الضخ والخلط</td><td>AASHTO T316 / ASTM D4402</td></tr>
+<tr><td><strong>معيار القبول (للضخ)</strong></td><td>≤ 3 Pa·s @ 135°C</td><td>AASHTO MP1</td></tr>
+<tr><td><strong>معيار القبول (للخلط)</strong></td><td>0.17 ± 0.02 Pa·s → يحدد Mixing Temperature</td><td>AASHTO T316</td></tr>
+<tr><td><strong>درجات الحرارة القياسية</strong></td><td>135°C و 165°C (لتحديد Equiviscous Temp)</td><td>AASHTO T316</td></tr>
+</table>
+
+<h3>🧪 8. اختبارات PMB الإضافية (Polymer Modified Bitumen)</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الاختبار</th><th>الشرح</th><th>المعيار QCS</th><th>المرجع</th></tr>
+<tr><td><strong>Elastic Recovery @ 25°C</strong></td><td>قياس استرداد الشكل بعد الشد = مؤشر البوليمر. PMB الجيد يسترد شكله &gt; 70%</td><td>≥ 70%</td><td>ASTM D6084 / EN 13398</td></tr>
+<tr><td><strong>Force Ductility @ 4°C</strong></td><td>مقاومة التشقق البارد عند تمديد العينة بسرعة 5cm/min</td><td>≥ 2 N (at 200mm)</td><td>EN 13589</td></tr>
+<tr><td><strong>Toughness & Tenacity</strong></td><td>قياس الطاقة الكلية عند الكسر — Toughness ≥15J / Tenacity ≥5J</td><td>T ≥ 15J, t ≥ 5J</td><td>ASTM D5801</td></tr>
+<tr><td><strong>Storage Stability (ΔSoftening Point)</strong></td><td>الفرق في Softening Point بين أعلى وأسفل الـ Tube بعد 48hr @ 163°C. يكشف انفصال البوليمر عن البيتومين</td><td>ΔSP ≤ 5°C</td><td>EN 13399</td></tr>
+<tr><td><strong>FTIR (Polymer Identification)</strong></td><td>تحديد نوع البوليمر (SBS أو SBR) وتأكيد عدم التزوير</td><td>SBS أو SBR مؤكد</td><td>FTIR Spectroscopy</td></tr>
+<tr><td><strong>Separation Test @ 163°C</strong></td><td>اختبار الاستقرار الحراري — PMB يجب أن يبقى متجانساً</td><td>ΔSP ≤ 5°C</td><td>EN 13399</td></tr>
+</table>
+
+<h3>📐 جدول PG Grade وترتيب الاختبارات</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>المرحلة</th><th>العينة</th><th>الاختبارات</th><th>الهدف</th></tr>
+<tr><td>1 — أصلي (Unaged)</td><td>بيتومين خام</td><td>Penetration, Softening, Flash, Viscosity, DSR G*/sinδ</td><td>خصائص التصنيع</td></tr>
+<tr><td>2 — بعد RTFOT</td><td>Short-term Aged</td><td>Penetration Ratio, Ductility, DSR G*/sinδ (RTFOT)</td><td>تقادم الخلط</td></tr>
+<tr><td>3 — بعد PAV</td><td>Long-term Aged</td><td>DSR Phase Angle، G*×sinδ، BBR S + m-value، DTT</td><td>تقادم الخدمة</td></tr>
+</table>
+</div>
+
+<div class="lang-content-en" style="display:none;">
+<h3>1. Standard Tests — Bitumen 60/70</h3>
+<table class="dm-table">
+<tr><th>Test</th><th>Description</th><th>QCS Requirement</th><th>Method</th></tr>
+<tr><td>Penetration @ 25°C</td><td>Depth of standard needle — hardness indicator</td><td>60-70 × 0.1mm</td><td>ASTM D5 / EN 1426</td></tr>
+<tr><td>Softening Point R&B</td><td>Temperature at which bitumen starts to soften (Ring & Ball)</td><td>49-56°C</td><td>ASTM D36 / EN 1427</td></tr>
+<tr><td>Ductility @ 25°C</td><td>Extension before breaking — flexibility indicator</td><td>≥ 100 cm</td><td>ASTM D113</td></tr>
+<tr><td>Flash Point (COC)</td><td>Minimum ignition temperature — safety</td><td>≥ 232°C</td><td>ASTM D92</td></tr>
+<tr><td>Specific Gravity</td><td>Relative density of bitumen</td><td>1.01-1.05</td><td>ASTM D70</td></tr>
+<tr><td>Solubility in TCE</td><td>Bitumen purity indicator</td><td>≥ 99%</td><td>ASTM D2042</td></tr>
+<tr><td>Wax Content</td><td>Excess wax degrades thermal performance</td><td>≤ 2.2%</td><td>IP 336</td></tr>
+</table>
+<h3>2. RTFOT — Short-Term Aging</h3>
+<table class="dm-table">
+<tr><th>Test</th><th>Description</th><th>QCS Requirement</th><th>Method</th></tr>
+<tr><td>Mass Loss (RTFOT)</td><td>Simulates mixing aging at 163°C for 75 min</td><td>≤ 0.8%</td><td>ASTM D2872</td></tr>
+<tr><td>Penetration Ratio after RTFOT</td><td>Hardening ratio vs original</td><td>≥ 50%</td><td>ASTM D5</td></tr>
+<tr><td>Ductility after RTFOT</td><td>Flexibility after aging</td><td>≥ 50 cm</td><td>ASTM D113</td></tr>
+</table>
+<h3>3. PAV — Long-Term Aging (Pressure Aging Vessel)</h3>
+<p>Simulates 20+ years of in-service aging. RTFOT residue is aged in pressure vessel at 100°C / 2.1 MPa / 20 hours. Output residue used for DSR creep and DTT testing. Method: AASHTO R28 / EN 14769.</p>
+<h3>4. DSR — Dynamic Shear Rheometer</h3>
+<table class="dm-table">
+<tr><th>Test</th><th>Description</th><th>PMB Requirement</th><th>Method</th></tr>
+<tr><td>G*/sinδ (Unaged)</td><td>Rutting resistance at high temp — higher = better</td><td>≥ 2.2 kPa @ 76°C</td><td>AASHTO T315</td></tr>
+<tr><td>G*/sinδ (RTFOT Residue)</td><td>Stiffness after short-term aging</td><td>≥ 4.4 kPa @ 76°C</td><td>AASHTO T315</td></tr>
+<tr><td>Phase Angle δ (PAV)</td><td>Elasticity indicator — lower = more elastic</td><td>≤ 75° @ 25°C</td><td>AASHTO T315</td></tr>
+<tr><td>G*×sinδ (PAV)</td><td>Fatigue cracking resistance</td><td>≤ 5000 kPa @ 25°C</td><td>AASHTO T315</td></tr>
+</table>
+<h3>5. BBR — Bending Beam Rheometer</h3>
+<table class="dm-table">
+<tr><th>Test</th><th>Description</th><th>QCS Requirement</th><th>Method</th></tr>
+<tr><td>Creep Stiffness S</td><td>Stiffness at low temperature — high S = thermal cracking risk</td><td>S ≤ 300 MPa @ -10°C / 60s</td><td>AASHTO T313</td></tr>
+<tr><td>m-value</td><td>Stress relaxation rate — higher = less cracking</td><td>m ≥ 0.300</td><td>AASHTO T313</td></tr>
+</table>
+<h3>6. Direct Tension Test (DTT)</h3>
+<p>Measures failure strain of PAV residue at low temperature. Used when BBR Stiffness is between 300-600 MPa. Acceptance: Failure Strain ≥ 1.0%. Method: AASHTO T314.</p>
+<h3>7. Rotational Viscosity (RV)</h3>
+<p>Measures bitumen viscosity at pumping/mixing temperatures. Max ≤ 3 Pa·s @ 135°C for pumpability. Used to determine mixing and compaction temperature equiviscous range. Method: AASHTO T316 / ASTM D4402.</p>
+<h3>8. PMB Additional Tests</h3>
+<table class="dm-table">
+<tr><th>Test</th><th>Description</th><th>QCS Requirement</th><th>Method</th></tr>
+<tr><td>Elastic Recovery @ 25°C</td><td>Shape recovery after stretching — polymer quality indicator</td><td>≥ 70%</td><td>ASTM D6084</td></tr>
+<tr><td>Force Ductility @ 4°C</td><td>Cold cracking resistance at 5cm/min extension</td><td>≥ 2 N</td><td>EN 13589</td></tr>
+<tr><td>Toughness & Tenacity</td><td>Energy at failure — Toughness ≥15J, Tenacity ≥5J</td><td>T≥15J, t≥5J</td><td>ASTM D5801</td></tr>
+<tr><td>Storage Stability ΔSP</td><td>Polymer separation test after 48hr @ 163°C</td><td>ΔSP ≤ 5°C</td><td>EN 13399</td></tr>
+<tr><td>FTIR</td><td>Polymer type identification (SBS vs SBR)</td><td>SBS or SBR confirmed</td><td>FTIR Spectroscopy</td></tr>
+</table>
+</div>
+` },
+
   roads: { title: '🛣️ أعمال الطرق — QCS 2024', content: `
 <div class="lang-content-ar">
 
@@ -833,7 +1283,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <h3 data-ar="🗺️ مراحل تنفيذ الطريق — الترتيب الإلزامي" data-en="🗺️ Road Construction Phases — Mandatory Sequence">🗺️ مراحل تنفيذ الطريق — الترتيب الإلزامي</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
 <div onclick="openDetail('subgrade')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;"><div style="font-size:16px">1️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subgrade</div><div style="color:var(--text3);font-size:11px;">CBR≥8% Sabkha | Comp≥95%</div></div>
-<div onclick="openDetail('subbase')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;"><div style="font-size:16px">2️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subbase</div><div style="color:var(--text3);font-size:11px;">CBR≥30% | Comp≥98%</div></div>
+<div onclick="openDetail('subbase')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;"><div style="font-size:16px">2️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subbase</div><div style="color:var(--text3);font-size:11px;">CBR≥70% | Comp≥98%</div></div>
 <div onclick="openDetail('base')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;"><div style="font-size:16px">3️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Base Course</div><div style="color:var(--text3);font-size:11px;">CBR≥80% | Comp≥98%</div></div>
 <div onclick="openDetail('prime')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;"><div style="font-size:16px">4️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Prime Coat</div><div style="color:var(--text3);font-size:11px;">0.8-1.2 L/m²</div></div>
 <div onclick="openDetail('binder')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;"><div style="font-size:16px">5️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Binder Course</div><div style="color:var(--text3);font-size:11px;">60-80mm | Stab≥8kN</div></div>
@@ -849,6 +1299,12 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="font-size:20px">🧱</div><div style="color:var(--gold);font-weight:700;font-size:13px;">مواد الطرق</div></div>
 <div onclick="openDetail('roads_qcp')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
 <div style="font-size:20px">📊</div><div style="color:var(--gold);font-weight:700;font-size:13px;">خطة الجودة QCP</div></div>
+<div onclick="openDetail('gabbro_specs')" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.3);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:20px">🪨</div><div style="color:#9b59b6;font-weight:700;font-size:13px;">مواصفات الجابرو</div><div style="color:var(--text3);font-size:11px;">Gabbro Specifications</div></div>
+<div onclick="openDetail('geotextile_specs')" style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:20px">🕸️</div><div style="color:#2ecc71;font-weight:700;font-size:13px;">Geotextile</div><div style="color:var(--text3);font-size:11px;">المواصفات والاختبارات</div></div>
+<div onclick="openDetail('bitumen_tests')" style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:20px">🧪</div><div style="color:#e74c3c;font-weight:700;font-size:13px;">اختبارات البيتومين</div><div style="color:var(--text3);font-size:11px;">PAV, DSR, BBR, DTT, RV, PMB</div></div>
 <div onclick="openDetail('ms_asphalt')" style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
 <div style="font-size:20px">📝</div><div style="color:#3498db;font-weight:700;font-size:13px;">Method Statement</div><div style="color:var(--text3);font-size:11px;">PMB & Non-PMB Asphalt</div></div>
 <div onclick="openDetail('calculator')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
@@ -881,7 +1337,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <table class="dm-table">
 <tr><th>الطبقة</th><th>السماكة</th><th>الCompaction</th><th>المعيار الرئيسي</th></tr>
 <tr><td>Subgrade</td><td>—</td><td>≥ 95% MDD</td><td>CBR ≥ 8%</td></tr>
-<tr><td>Subbase</td><td>150-300mm</td><td>≥ 98% MDD</td><td>CBR ≥ 30%</td></tr>
+<tr><td>Subbase</td><td>150-300mm</td><td>≥ 98% MDD</td><td>CBR ≥ 70%</td></tr>
 <tr><td>Base Course</td><td>150-250mm</td><td>≥ 98% MDD</td><td>CBR ≥ 80%</td></tr>
 <tr><td>Prime Coat</td><td>—</td><td>—</td><td>0.8-1.2 L/m²</td></tr>
 <tr><td>Binder Course</td><td>60-80mm</td><td>≥ 98% TMD</td><td>Marshall ≥ 8 kN</td></tr>
@@ -910,7 +1366,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <tr><th>Layer</th><th>Thickness</th><th>Compaction</th><th>Key Test</th></tr>
 <tr><td>Subgrade (Normal)</td><td>—</td><td>≥ 95% MDD</td><td>CBR ≥ 15%</td></tr>
 <tr><td>Subgrade (Sabkha)</td><td>—</td><td>≥ 95% MDD</td><td>CBR ≥ 8%</td></tr>
-<tr><td>Subbase</td><td>150-300mm</td><td>≥ 98% MDD</td><td>CBR ≥ 30%</td></tr>
+<tr><td>Subbase</td><td>150-300mm</td><td>≥ 98% MDD</td><td>CBR ≥ 70%</td></tr>
 <tr><td>Base Course</td><td>150-250mm</td><td>≥ 98% MDD</td><td>CBR ≥ 80%</td></tr>
 <tr><td>Binder Course</td><td>60-100mm</td><td>≥ 96% TMD</td><td>Marshall ≥ 8kN</td></tr>
 <tr><td>Wearing Course</td><td>40-55mm</td><td>≥ 96% TMD</td><td>PSV ≥ 55</td></tr>
@@ -923,6 +1379,23 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">طبقة Subgrade — التحضير والدمك</span>
+</div>
+<button onclick="document.getElementById('vid-subgrade').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-subgrade" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-subgrade','vid-placeholder-subgrade')">
+<div id="vid-placeholder-subgrade" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">شرح كامل لتحضير وتنفيذ طبقة Subgrade وفق QCS 2024</div>
+<div style="font-size:11px;color:var(--text3);">اضغط "رفع فيديو" لتحميل ملف MP4</div>
+</div>
+<video id="vid-player-subgrade" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
 <div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
 <span style="font-size:16px;">🎥</span>
@@ -995,6 +1468,23 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 <div class="lang-content-en" style="display:none;">
 <div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,70,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">Subgrade Preparation & Compaction</span>
+</div>
+<button onclick="document.getElementById('vid-subgrade-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-subgrade-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-subgrade-en','vid-placeholder-subgrade-en')">
+<div id="vid-placeholder-subgrade-en" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">Full Subgrade preparation and execution per QCS 2024</div>
+<div style="font-size:11px;">Click "Upload Video" to load MP4 file</div>
+</div>
+<video id="vid-player-subgrade-en" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
 <span style="font-size:16px;">🎥</span>
 <span style="color:var(--gold);font-weight:700;font-size:13px;">Subgrade Preparation & Compaction</span>
@@ -1053,6 +1543,23 @@ The following shall NOT be used in any road layer:<br>
 
 <div class="lang-content-ar">
 <div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">طبقة Subbase — المواد والتنفيذ</span>
+</div>
+<button onclick="document.getElementById('vid-subbase').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-subbase" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-subbase','vid-placeholder-subbase')">
+<div id="vid-placeholder-subbase" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">مواصفات مواد الـ Subbase، الدمك، اختبارات LA وCBR≥70%</div>
+<div style="font-size:11px;color:var(--text3);">اضغط "رفع فيديو" لتحميل ملف MP4</div>
+</div>
+<video id="vid-player-subbase" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
 <span style="font-size:16px;">🎥</span>
 <span style="color:var(--gold);font-weight:700;font-size:13px;">طبقة Subbase — المواد والتنفيذ</span>
@@ -1091,11 +1598,11 @@ The following shall NOT be used in any road layer:<br>
 <h3>📐 جدول 4:2 — Coarse Aggregate لـ Subbase و Road Base — QCS S6 P4 Page 6</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>Subbase</th><th>Road Base</th><th>الاختبار</th></tr>
-<tr><td>LA Abrasion Loss</td><td>≤ 30%</td><td>≤ 25%</td><td>ASTM C131</td></tr>
-<tr><td>Flakiness Index</td><td>≤ 35%</td><td>≤ 25%</td><td>BS 812</td></tr>
-<tr><td>Elongation Index</td><td>≤ 35%</td><td>≤ 25%</td><td>BS 812</td></tr>
-<tr><td>Fractured Faces (1 face+)</td><td>≥ 50%</td><td>≥ 95%</td><td>ASTM D5821</td></tr>
-<tr><td>Fractured Faces (2 faces+)</td><td>—</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
+<tr><td>LA Abrasion Loss</td><td>≤ 40%</td><td>≤ 30%</td><td>ASTM C131</td></tr>
+<tr><td>Flakiness Index</td><td>≤ 40%</td><td>≤ 30%</td><td>BS 812</td></tr>
+<tr><td>Elongation Index</td><td>≤ 40%</td><td>≤ 30%</td><td>BS 812</td></tr>
+<tr><td>Fractured Faces (1 face+)</td><td>≥ 25%</td><td>≥ 75%</td><td>ASTM D5821</td></tr>
+<tr><td>Fractured Faces (2 faces+)</td><td>—</td><td>≥ 50%</td><td>ASTM D5821</td></tr>
 <tr><td>Water Absorption</td><td>≤ 3%</td><td>≤ 2%</td><td>ASTM C127</td></tr>
 <tr><td>Soundness (MgSO4 5 cycles)</td><td>≤ 18%</td><td>≤ 12%</td><td>ASTM C88</td></tr>
 <tr><td>Specific Gravity (SSD)</td><td>≥ 2.4</td><td>≥ 2.5</td><td>ASTM C127</td></tr>
@@ -1106,10 +1613,10 @@ The following shall NOT be used in any road layer:<br>
 <h3>📐 جدول 4:3 — Combined Aggregate لـ Subbase و Road Base — QCS S6 P4 Page 7</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>Subbase</th><th>Road Base</th><th>الاختبار</th></tr>
-<tr><td>CBR (Soaked 4 days @ 98% MDD)</td><td>≥ 30%</td><td>≥ 80%</td><td>ASTM D1883</td></tr>
+<tr><td>CBR (Soaked 4 days @ 98% MDD)</td><td>≥ 70%</td><td>≥ 80%</td><td>ASTM D1883</td></tr>
 <tr><td>Plasticity Index (PI)</td><td>≤ 6%</td><td>≤ 4%</td><td>ASTM D4318</td></tr>
 <tr><td>Liquid Limit (LL)</td><td>≤ 25%</td><td>≤ 25%</td><td>ASTM D4318</td></tr>
-<tr><td>Sand Equivalent</td><td>≥ 30%</td><td>≥ 45%</td><td>ASTM D2419</td></tr>
+<tr><td>Sand Equivalent</td><td>≥ 25%</td><td>≥ 35%</td><td>ASTM D2419</td></tr>
 <tr><td>Organic Content</td><td>≤ 1%</td><td>≤ 1%</td><td>ASTM D2974</td></tr>
 <tr><td>Max Particle Size</td><td>75mm (= ¾ layer thickness)</td><td>50mm (= ½ layer thickness)</td><td>Grading</td></tr>
 <tr><td>Compaction MDD (Std Proctor)</td><td>≥ 98%</td><td>≥ 98%</td><td>ASTM D698</td></tr>
@@ -1121,7 +1628,7 @@ The following shall NOT be used in any road layer:<br>
 <table class="dm-table">
 <tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr>
 <tr><td>Sand Cone Density</td><td>كل 500m²</td><td>≥ 98% MDD</td></tr>
-<tr><td>CBR Lab</td><td>كل 2000m²</td><td>≥ 30% (Subbase) / ≥ 80% (Base)</td></tr>
+<tr><td>CBR Lab</td><td>كل 2000m²</td><td>≥ 70% (Subbase) / ≥ 80% (Base)</td></tr>
 <tr><td>Grading Analysis</td><td>كل 500m³</td><td>ضمن مغلف QCS</td></tr>
 <tr><td>LA Abrasion</td><td>كل 1000m³</td><td>≤ 30% / ≤ 25%</td></tr>
 <tr><td>Level Survey</td><td>كل 25m</td><td>± 10mm / ± 8mm</td></tr>
@@ -1134,6 +1641,23 @@ The following shall NOT be used in any road layer:<br>
 </div>
 
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,70,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">Subbase Course — Materials & Execution</span>
+</div>
+<button onclick="document.getElementById('vid-subbase-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-subbase-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-subbase-en','vid-placeholder-subbase-en')">
+<div id="vid-placeholder-subbase-en" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">Subbase material specs, compaction, LA and CBR≥70% tests</div>
+<div style="font-size:11px;">Click "Upload Video" to load MP4 file</div>
+</div>
+<video id="vid-player-subbase-en" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
 <div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
 <span style="font-size:16px;">🎥</span>
@@ -1165,7 +1689,7 @@ The following shall NOT be used in any road layer:<br>
 <table class="dm-table">
 <tr><th>Property</th><th>Subbase</th><th>Road Base</th><th>Test</th></tr>
 <tr><td>LA Abrasion</td><td>≤ 30%</td><td>≤ 25%</td><td>ASTM C131</td></tr>
-<tr><td>Flakiness Index</td><td>≤ 35%</td><td>≤ 25%</td><td>BS 812</td></tr>
+<tr><td>Flakiness Index</td><td>≤ 40%</td><td>≤ 30%</td><td>BS 812</td></tr>
 <tr><td>Fractured Faces (1+)</td><td>≥ 50%</td><td>≥ 95%</td><td>ASTM D5821</td></tr>
 <tr><td>Fractured Faces (2+)</td><td>—</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
 <tr><td>Water Absorption</td><td>≤ 3%</td><td>≤ 2%</td><td>ASTM C127</td></tr>
@@ -1175,9 +1699,9 @@ The following shall NOT be used in any road layer:<br>
 <h3>Table 4:3 — Combined Aggregate for Subbase & Road Base — QCS S6 P4 Page 7</h3>
 <table class="dm-table">
 <tr><th>Property</th><th>Subbase</th><th>Road Base</th><th>Test</th></tr>
-<tr><td>CBR (Soaked 4 days)</td><td>≥ 30%</td><td>≥ 80%</td><td>ASTM D1883</td></tr>
+<tr><td>CBR (Soaked 4 days)</td><td>≥ 70%</td><td>≥ 80%</td><td>ASTM D1883</td></tr>
 <tr><td>Plasticity Index</td><td>≤ 6%</td><td>≤ 4%</td><td>ASTM D4318</td></tr>
-<tr><td>Sand Equivalent</td><td>≥ 30%</td><td>≥ 45%</td><td>ASTM D2419</td></tr>
+<tr><td>Sand Equivalent</td><td>≥ 25%</td><td>≥ 35%</td><td>ASTM D2419</td></tr>
 <tr><td>Compaction MDD</td><td>≥ 98%</td><td>≥ 98%</td><td>ASTM D698</td></tr>
 <tr><td>Layer Thickness</td><td>150-300mm</td><td>150-250mm</td><td>—</td></tr>
 <tr><td>Level Tolerance</td><td>± 10mm</td><td>± 8mm</td><td>Survey</td></tr>
@@ -1189,6 +1713,23 @@ The following shall NOT be used in any road layer:<br>
 📌 QCS 2024 — Section 6 Part 4 & 5 | Road Base (Granular + Asphalt) | Tables 4:2, 4:3
 </div>
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">Road Base Course — الأساس الحبيبي</span>
+</div>
+<button onclick="document.getElementById('vid-base').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-base" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-base','vid-placeholder-base')">
+<div id="vid-placeholder-base" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">Road Base، Fractured Faces، CBR≥80%، جداول QCS</div>
+<div style="font-size:11px;color:var(--text3);">اضغط "رفع فيديو" لتحميل ملف MP4</div>
+</div>
+<video id="vid-player-base" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
 <div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
 <span style="font-size:16px;">🎥</span>
@@ -1217,8 +1758,8 @@ The following shall NOT be used in any road layer:<br>
 <tr><td>LA Abrasion Loss</td><td>≤ 25%</td><td>ASTM C131</td></tr>
 <tr><td>Flakiness Index</td><td>≤ 25%</td><td>BS 812</td></tr>
 <tr><td>Elongation Index</td><td>≤ 25%</td><td>BS 812</td></tr>
-<tr><td>Fractured Faces (1 face+)</td><td>≥ 95%</td><td>ASTM D5821</td></tr>
-<tr><td>Fractured Faces (2 faces+)</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
+<tr><td>Fractured Faces (1 face+)</td><td>≥ 75%</td><td>ASTM D5821</td></tr>
+<tr><td>Fractured Faces (2 faces+)</td><td>≥ 50%</td><td>ASTM D5821</td></tr>
 <tr><td>Water Absorption</td><td>≤ 2%</td><td>ASTM C127</td></tr>
 <tr><td>Soundness MgSO4</td><td>≤ 12%</td><td>ASTM C88</td></tr>
 <tr><td>Specific Gravity (SSD)</td><td>≥ 2.50</td><td>ASTM C127</td></tr>
@@ -1270,6 +1811,23 @@ The following shall NOT be used in any road layer:<br>
 
 <div class="lang-content-en" style="display:none;">
 <div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,70,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">Road Base Course — Granular Foundation</span>
+</div>
+<button onclick="document.getElementById('vid-base-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-base-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-base-en','vid-placeholder-base-en')">
+<div id="vid-placeholder-base-en" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">Road Base, Fractured Faces, CBR≥80%, QCS tables</div>
+<div style="font-size:11px;">Click "Upload Video" to load MP4 file</div>
+</div>
+<video id="vid-player-base-en" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
 <span style="font-size:16px;">🎥</span>
 <span style="color:var(--gold);font-weight:700;font-size:13px;">Road Base Course — Granular Foundation</span>
@@ -1289,7 +1847,7 @@ The following shall NOT be used in any road layer:<br>
 <h3>Table 4:2 — Coarse Aggregate Road Base — QCS S6 P4 P6</h3>
 <table class="dm-table">
 <tr><th>Property</th><th>Road Base</th><th>Test</th></tr>
-<tr><td>LA Abrasion</td><td>≤ 25%</td><td>ASTM C131</td></tr>
+<tr><td>LA Abrasion</td><td>≤ 30%</td><td>ASTM C131</td></tr>
 <tr><td>Flakiness Index</td><td>≤ 25%</td><td>BS 812</td></tr>
 <tr><td>Fractured Faces (1+)</td><td>≥ 95%</td><td>ASTM D5821</td></tr>
 <tr><td>Fractured Faces (2+)</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
@@ -1309,6 +1867,23 @@ The following shall NOT be used in any road layer:<br>
 ` },
   prime: { title: '🛢️ Prime Coat', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">Prime Coat & Tack Coat — تطبيق البيتومين</span>
+</div>
+<button onclick="document.getElementById('vid-prime').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-prime" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-prime','vid-placeholder-prime')">
+<div id="vid-placeholder-prime" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">معدلات الرش، حرارة التطبيق، وقت المعالجة</div>
+<div style="font-size:11px;color:var(--text3);">اضغط "رفع فيديو" لتحميل ملف MP4</div>
+</div>
+<video id="vid-player-prime" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 6 Part 5 Cl.5.4 | Prime Coat</div>
 <h3>📋 نظرة عامة</h3>
@@ -1326,6 +1901,23 @@ The following shall NOT be used in any road layer:<br>
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,70,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">Prime Coat & Tack Coat — Bitumen Application</span>
+</div>
+<button onclick="document.getElementById('vid-prime-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-prime-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-prime-en','vid-placeholder-prime-en')">
+<div id="vid-placeholder-prime-en" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">Application rates, spray temperatures, curing time</div>
+<div style="font-size:11px;">Click "Upload Video" to load MP4 file</div>
+</div>
+<video id="vid-player-prime-en" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
 <h3>Prime Coat — QCS S6 P5 Page 30</h3>
 <table class="dm-table"><tr><th>Item</th><th>Requirement</th><th>Reference</th></tr>
 <tr><td>Material Type</td><td>Cutback Bitumen MC-30 or MC-70</td><td>ASTM D2028</td></tr>
@@ -1343,6 +1935,23 @@ The following shall NOT be used in any road layer:<br>
 📌 QCS 2024 — Section 6 Part 5 | Binder Course (Base Course Asphalt)
 </div>
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">Binder Course — طبقة الربط الإسفلتية</span>
+</div>
+<button onclick="document.getElementById('vid-binder').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-binder" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-binder','vid-placeholder-binder')">
+<div id="vid-placeholder-binder" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">Marshall vs Superpave، NMAS، حرارة الفرش والدمك</div>
+<div style="font-size:11px;color:var(--text3);">اضغط "رفع فيديو" لتحميل ملف MP4</div>
+</div>
+<video id="vid-player-binder" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
 <div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
 <span style="font-size:16px;">🎥</span>
@@ -1413,6 +2022,23 @@ The following shall NOT be used in any road layer:<br>
 
 <div class="lang-content-en" style="display:none;">
 <div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,70,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">Binder Course — Asphalt Base Layer</span>
+</div>
+<button onclick="document.getElementById('vid-binder-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-binder-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-binder-en','vid-placeholder-binder-en')">
+<div id="vid-placeholder-binder-en" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">Marshall vs Superpave, NMAS, laying and rolling temperatures</div>
+<div style="font-size:11px;">Click "Upload Video" to load MP4 file</div>
+</div>
+<video id="vid-player-binder-en" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
 <span style="font-size:16px;">🎥</span>
 <span style="color:var(--gold);font-weight:700;font-size:13px;">Binder Course — Asphalt Base Layer</span>
@@ -1460,6 +2086,23 @@ AASHTO performance-based method | Uses SGC (Gyratory Compactor) | Gyrations: N-d
 📌 QCS 2024 — Section 6 Part 5 | Wearing Course (Surface Course)
 </div>
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">Wearing Course PMB — الطبقة السطحية</span>
+</div>
+<button onclick="document.getElementById('vid-wearing').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-wearing" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-wearing','vid-placeholder-wearing')">
+<div id="vid-placeholder-wearing" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">PMB، IRI، PSV≥55، نمط الدمك، اختبارات الجودة</div>
+<div style="font-size:11px;color:var(--text3);">اضغط "رفع فيديو" لتحميل ملف MP4</div>
+</div>
+<video id="vid-player-wearing" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
 <div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
 <span style="font-size:16px;">🎥</span>
@@ -1521,6 +2164,23 @@ AASHTO performance-based method | Uses SGC (Gyratory Compactor) | Gyrations: N-d
 
 <div class="lang-content-en" style="display:none;">
 <div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,70,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">Wearing Course — PMB Surface Layer</span>
+</div>
+<button onclick="document.getElementById('vid-wearing-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-wearing-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-wearing-en','vid-placeholder-wearing-en')">
+<div id="vid-placeholder-wearing-en" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">PMB, IRI, PSV≥55, rolling pattern, quality tests</div>
+<div style="font-size:11px;">Click "Upload Video" to load MP4 file</div>
+</div>
+<video id="vid-player-wearing-en" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
 <span style="font-size:16px;">🎥</span>
 <span style="color:var(--gold);font-weight:700;font-size:13px;">Wearing Course — PMB Surface Layer</span>
@@ -1553,6 +2213,23 @@ AASHTO performance-based method | Uses SGC (Gyratory Compactor) | Gyrations: N-d
 ` },
   finishing: { title: '🚧 التشطيبات النهائية', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">تشطيبات الطريق — Kerbs ومساطر وإشارات</span>
+</div>
+<button onclick="document.getElementById('vid-finishing').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-finishing" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-finishing','vid-placeholder-finishing')">
+<div id="vid-placeholder-finishing" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">تركيب الأرصفة، خطوط الطريق، منارات التوجيه</div>
+<div style="font-size:11px;color:var(--text3);">اضغط "رفع فيديو" لتحميل ملف MP4</div>
+</div>
+<video id="vid-player-finishing" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 6 | Road Finishing Works</div>
 <h3>🏗️ الكيرب (Kerbs & Edging)</h3>
@@ -1568,6 +2245,23 @@ AASHTO performance-based method | Uses SGC (Gyratory Compactor) | Gyrations: N-d
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,70,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">Road Finishing — Kerbs, Markings & Signs</span>
+</div>
+<button onclick="document.getElementById('vid-finishing-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-finishing-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-finishing-en','vid-placeholder-finishing-en')">
+<div id="vid-placeholder-finishing-en" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">Kerb installation, road markings, guide signs</div>
+<div style="font-size:11px;">Click "Upload Video" to load MP4 file</div>
+</div>
+<video id="vid-player-finishing-en" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
 <h3>Road Finishing Works — QCS S6</h3>
 <table class="dm-table"><tr><th>Item</th><th>Specification</th><th>Test</th></tr>
 <tr><td>Kerb Level Tolerance</td><td>±5mm level | ±10mm alignment</td><td>Survey</td></tr>
@@ -1580,6 +2274,23 @@ AASHTO performance-based method | Uses SGC (Gyratory Compactor) | Gyrations: N-d
 ` },
   handover: { title: '✅ التسليم النهائي', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">تسليم مشروع الطريق — كل الاختبارات النهائية</span>
+</div>
+<button onclick="document.getElementById('vid-handover').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-handover" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-handover','vid-placeholder-handover')">
+<div id="vid-placeholder-handover" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">IRI النهائي، مستوى السطح، فحص شامل</div>
+<div style="font-size:11px;color:var(--text3);">اضغط "رفع فيديو" لتحميل ملف MP4</div>
+</div>
+<video id="vid-player-handover" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 1 | Project Handover</div>
 <h3>📋 نظرة عامة</h3>
@@ -1597,6 +2308,23 @@ AASHTO performance-based method | Uses SGC (Gyratory Compactor) | Gyrations: N-d
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,70,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">Road Handover — Final Inspection & Tests</span>
+</div>
+<button onclick="document.getElementById('vid-handover-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-handover-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-handover-en','vid-placeholder-handover-en')">
+<div id="vid-placeholder-handover-en" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">Final IRI, level check, comprehensive inspection</div>
+<div style="font-size:11px;">Click "Upload Video" to load MP4 file</div>
+</div>
+<video id="vid-player-handover-en" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
 <h3>✅ Road Handover — Final Acceptance</h3>
 <table class="dm-table">
 <tr><th>Item</th><th>Requirement</th></tr>
@@ -1651,6 +2379,8 @@ AASHTO performance-based method | Uses SGC (Gyratory Compactor) | Gyrations: N-d
 <div style="font-size:20px">🧱</div><div style="color:var(--gold);font-weight:700;font-size:13px;">مواد المرافق</div></div>
 <div onclick="openDetail('utilities_qcp')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
 <div style="font-size:20px">📊</div><div style="color:var(--gold);font-weight:700;font-size:13px;">خطة الجودة QCP</div></div>
+<div onclick="openDetail('pipe_bedding')" style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:20px">📐</div><div style="color:#2ecc71;font-weight:700;font-size:13px;">أنواع فرش المواسير</div><div style="color:var(--text3);font-size:11px;">Class S, A, B, D — Bedding Types</div></div>
 <div onclick="openDetail('ms_utilities')" style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
 <div style="font-size:20px">📝</div><div style="color:#3498db;font-weight:700;font-size:13px;">Method Statement</div><div style="color:var(--text3);font-size:11px;">Utilities Works</div></div>
 </div>
@@ -1678,6 +2408,16 @@ AASHTO performance-based method | Uses SGC (Gyratory Compactor) | Gyrations: N-d
 ` },
   water_supply_stages: { title: '💧 شبكة مياه الشرب', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">مياه الشرب — نظرة عامة</span></div>
+<button onclick="document.getElementById('vid-water-supply-stages').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-water-supply-stages" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-water-supply-stages','vid-ph-water-supply-stages')">
+<div id="vid-ph-water-supply-stages" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">مراحل تنفيذ شبكة مياه الشرب</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-water-supply-stages" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 1 | Water Supply Networks</div>
 <h3>📋 نظرة عامة</h3>
@@ -1699,6 +2439,16 @@ AASHTO performance-based method | Uses SGC (Gyratory Compactor) | Gyrations: N-d
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Water Supply — Overview</span></div>
+<button onclick="document.getElementById('vid-water-supply-stages-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-water-supply-stages-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-water-supply-stages-en','vid-ph-water-supply-stages-en')">
+<div id="vid-ph-water-supply-stages-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Water supply network execution phases</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-water-supply-stages-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | 💧 شبكة مياه الشرب
 </div>
@@ -1711,6 +2461,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 ` },
   sewer_stages: { title: '🚽 شبكة Foul Sewer', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Foul Sewer — نظرة عامة</span></div>
+<button onclick="document.getElementById('vid-sewer-stages').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-sewer-stages" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-sewer-stages','vid-ph-sewer-stages')">
+<div id="vid-ph-sewer-stages" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">مراحل تنفيذ شبكة الصرف الصحي</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-sewer-stages" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 2 | Foul Sewer Networks</div>
 <h3>📋 نظرة عامة</h3>
@@ -1732,6 +2492,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Foul Sewer — Overview</span></div>
+<button onclick="document.getElementById('vid-sewer-stages-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-sewer-stages-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-sewer-stages-en','vid-ph-sewer-stages-en')">
+<div id="vid-ph-sewer-stages-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Foul sewer network execution phases</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-sewer-stages-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | 🚽 شبكة Foul Sewer
 </div>
@@ -1744,6 +2514,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 ` },
   storm_stages: { title: '🌧️ شبكة الصرف السطحي', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">الصرف السطحي — نظرة عامة</span></div>
+<button onclick="document.getElementById('vid-storm-stages').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-storm-stages" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-storm-stages','vid-ph-storm-stages')">
+<div id="vid-ph-storm-stages" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">مراحل تنفيذ شبكة الصرف السطحي</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-storm-stages" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="margin-top:16px;"><div onclick="openDetail('itp_storm')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;"><div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">ITP الصرف السطحي الكامل</div></div></div>
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 3 | Storm Water Drainage</div>
@@ -1767,6 +2547,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Storm Water — Overview</span></div>
+<button onclick="document.getElementById('vid-storm-stages-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-storm-stages-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-storm-stages-en','vid-ph-storm-stages-en')">
+<div id="vid-ph-storm-stages-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Storm water network execution phases</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-storm-stages-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | 🌧️ شبكة الصرف السطحي
 </div>
@@ -1835,6 +2625,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   ws_materials: { title: '🔩 مياه الشرب — المواد والمواسير', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">مواد شبكة مياه الشرب</span></div>
+<button onclick="document.getElementById('vid-ws-materials').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-ws-materials" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ws-materials','vid-ph-ws-materials')">
+<div id="vid-ph-ws-materials" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">HDPE PE100، DI Pipes، مواصفات KAHRAMAA</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-ws-materials" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 1 | Materials</div>
 <h3>📐 مواصفات المواسير</h3>
@@ -1848,6 +2648,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Water Supply Materials</span></div>
+<button onclick="document.getElementById('vid-ws-materials-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-ws-materials-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ws-materials-en','vid-ph-ws-materials-en')">
+<div id="vid-ph-ws-materials-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">HDPE PE100, DI Pipes, KAHRAMAA specs</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-ws-materials-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | 🔩 مياه الشرب — المواد والمواسير
 </div>
@@ -1861,6 +2671,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   ws_excavation: { title: '⛏️ مياه الشرب — الحفر والبيدنج', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">حفر وتحضير الخندق — مياه</span></div>
+<button onclick="document.getElementById('vid-ws-excavation').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-ws-excavation" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ws-excavation','vid-ph-ws-excavation')">
+<div id="vid-ph-ws-excavation" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">حفر الخندق، شورينج، بيدنج الرمل</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-ws-excavation" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 1 | Excavation & Bedding</div>
 <h3>📐 مواصفات الحفر</h3>
@@ -1872,6 +2692,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Trench Excavation — Water</span></div>
+<button onclick="document.getElementById('vid-ws-excavation-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-ws-excavation-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ws-excavation-en','vid-ph-ws-excavation-en')">
+<div id="vid-ph-ws-excavation-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Trench excavation, shoring, sand bedding</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-ws-excavation-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | ⛏️ مياه الشرب — الحفر والبيدنج
 </div>
@@ -1885,6 +2715,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   ws_laying: { title: '🔧 مياه الشرب — وضع المواسير', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">وضع المواسير وربطها — مياه</span></div>
+<button onclick="document.getElementById('vid-ws-laying').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-ws-laying" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ws-laying','vid-ph-ws-laying')">
+<div id="vid-ph-ws-laying" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">وضع المواسير، Butt Fusion، HDPE، الاختبار</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-ws-laying" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 1 | Pipe Laying</div>
 <h3>🔧 خطوات التنفيذ</h3>
@@ -1896,6 +2736,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Pipe Laying & Jointing — Water</span></div>
+<button onclick="document.getElementById('vid-ws-laying-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-ws-laying-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ws-laying-en','vid-ph-ws-laying-en')">
+<div id="vid-ph-ws-laying-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Pipe laying, butt fusion, HDPE, testing</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-ws-laying-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | 🔧 مياه الشرب — وضع المواسير
 </div>
@@ -1909,6 +2759,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   ws_testing: { title: '🧪 مياه الشرب — الاختبارات', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">اختبار ضغط مياه الشرب</span></div>
+<button onclick="document.getElementById('vid-ws-testing').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-ws-testing" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ws-testing','vid-ph-ws-testing')">
+<div id="vid-ph-ws-testing" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">1.5×PN لمدة ساعتين، صفر هبوط في الضغط</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-ws-testing" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 1 | Testing</div>
 <h3>1. Hydrostatic Pressure Test</h3>
@@ -1922,6 +2782,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Hydrostatic Pressure Test — Water</span></div>
+<button onclick="document.getElementById('vid-ws-testing-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-ws-testing-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ws-testing-en','vid-ph-ws-testing-en')">
+<div id="vid-ph-ws-testing-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">1.5×PN for 2 hours, zero pressure drop</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-ws-testing-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | 🧪 مياه الشرب — الاختبارات
 </div>
@@ -1935,6 +2805,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   ws_disinfection: { title: '💊 مياه الشرب — التعقيم والتشغيل', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">تعقيم وتطهير شبكة المياه</span></div>
+<button onclick="document.getElementById('vid-ws-disinfection').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-ws-disinfection" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ws-disinfection','vid-ph-ws-disinfection')">
+<div id="vid-ph-ws-disinfection" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Chlorination ≥50ppm / ≥24hr، جودة المياه</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-ws-disinfection" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 1 | Disinfection</div>
 <h3>📐 إجراءات التعقيم</h3>
@@ -1948,6 +2828,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Water Network Chlorination</span></div>
+<button onclick="document.getElementById('vid-ws-disinfection-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-ws-disinfection-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ws-disinfection-en','vid-ph-ws-disinfection-en')">
+<div id="vid-ph-ws-disinfection-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Chlorination ≥50ppm / ≥24hr, water quality</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-ws-disinfection-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | 💊 مياه الشرب — التعقيم والتشغيل
 </div>
@@ -1961,6 +2851,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   ws_backfill: { title: '🏗️ مياه الشرب — الردم والتشطيب', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">الردم والضغط — مياه الشرب</span></div>
+<button onclick="document.getElementById('vid-ws-backfill').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-ws-backfill" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ws-backfill','vid-ph-ws-backfill')">
+<div id="vid-ph-ws-backfill" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Compaction ≥95% MDD طبقة 300mm</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-ws-backfill" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 1 | Backfill</div>
 <h3>📐 مواصفات الردم</h3>
@@ -1972,6 +2872,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Backfill & Compaction — Water</span></div>
+<button onclick="document.getElementById('vid-ws-backfill-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-ws-backfill-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ws-backfill-en','vid-ph-ws-backfill-en')">
+<div id="vid-ph-ws-backfill-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Compaction ≥95% MDD per 300mm layer</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-ws-backfill-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | 🏗️ مياه الشرب — الردم والتشطيب
 </div>
@@ -1985,6 +2895,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   ws_handover: { title: '✅ مياه الشرب — التسليم', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">تسليم شبكة مياه الشرب</span></div>
+<button onclick="document.getElementById('vid-ws-handover').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-ws-handover" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ws-handover','vid-ph-ws-handover')">
+<div id="vid-ph-ws-handover" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">As-Built، اختبارات نهائية، تشغيل</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-ws-handover" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 1 | Handover</div>
 <h3>📋 وثائق التسليم المطلوبة</h3>
@@ -1996,6 +2916,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Water Network Handover</span></div>
+<button onclick="document.getElementById('vid-ws-handover-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-ws-handover-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ws-handover-en','vid-ph-ws-handover-en')">
+<div id="vid-ph-ws-handover-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">As-built, final tests, commissioning</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-ws-handover-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | ✅ مياه الشرب — التسليم
 </div>
@@ -2033,6 +2963,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   ss_materials: { title: '🔩 Foul Sewer — المواد والمواسير', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">مواد الصرف الصحي</span></div>
+<button onclick="document.getElementById('vid-ss-materials').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-ss-materials" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ss-materials','vid-ph-ss-materials')">
+<div id="vid-ph-ss-materials" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">uPVC، GRP، Manholes، مواصفات QCS</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-ss-materials" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 2 | Materials</div>
 <h3>📐 مواصفات المواسير</h3>
@@ -2044,6 +2984,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Sewer Materials</span></div>
+<button onclick="document.getElementById('vid-ss-materials-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-ss-materials-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ss-materials-en','vid-ph-ss-materials-en')">
+<div id="vid-ph-ss-materials-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">uPVC, GRP pipes, manholes, QCS specs</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-ss-materials-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | 🔩 Foul Sewer — المواد والمواسير
 </div>
@@ -2057,6 +3007,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   ss_excavation: { title: '⛏️ Foul Sewer — الحفر والبيدنج', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">حفر خنادق الصرف الصحي</span></div>
+<button onclick="document.getElementById('vid-ss-excavation').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-ss-excavation" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ss-excavation','vid-ph-ss-excavation')">
+<div id="vid-ph-ss-excavation" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">الحفر، Dewatering، بيدنج 150mm</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-ss-excavation" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 2 | Excavation</div>
 <h3>📐 مواصفات الحفر</h3>
@@ -2068,6 +3028,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Sewer Trench Excavation</span></div>
+<button onclick="document.getElementById('vid-ss-excavation-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-ss-excavation-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ss-excavation-en','vid-ph-ss-excavation-en')">
+<div id="vid-ph-ss-excavation-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Excavation, dewatering, 150mm bedding</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-ss-excavation-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | ⛏️ Foul Sewer — الحفر والبيدنج
 </div>
@@ -2081,6 +3051,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   ss_laying: { title: '🔧 Foul Sewer — وضع المواسير', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">تمديد مواسير الصرف الصحي</span></div>
+<button onclick="document.getElementById('vid-ss-laying').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-ss-laying" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ss-laying','vid-ph-ss-laying')">
+<div id="vid-ph-ss-laying" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">وضع المواسير، ضبط الانحدار بـ Laser</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-ss-laying" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 2 | Pipe Laying</div>
 <h3>🔧 خطوات التنفيذ</h3>
@@ -2092,6 +3072,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Sewer Pipe Laying</span></div>
+<button onclick="document.getElementById('vid-ss-laying-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-ss-laying-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ss-laying-en','vid-ph-ss-laying-en')">
+<div id="vid-ph-ss-laying-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Pipe laying, laser gradient control</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-ss-laying-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | 🔧 Foul Sewer — وضع المواسير
 </div>
@@ -2105,6 +3095,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   ss_manholes: { title: '🕳️ Foul Sewer — بناء Manholes', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">بناء Manholes</span></div>
+<button onclick="document.getElementById('vid-ss-manholes').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-ss-manholes" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ss-manholes','vid-ph-ss-manholes')">
+<div id="vid-ph-ss-manholes" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">بناء الـ MH، Benching، تغطية الغطاء</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-ss-manholes" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 2 | Manholes</div>
 <h3>🔧 مراحل البناء</h3>
@@ -2118,6 +3118,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Manhole Construction</span></div>
+<button onclick="document.getElementById('vid-ss-manholes-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-ss-manholes-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ss-manholes-en','vid-ph-ss-manholes-en')">
+<div id="vid-ph-ss-manholes-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Manhole building, benching, cover installation</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-ss-manholes-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | 🕳️ Foul Sewer — بناء Manholes
 </div>
@@ -2131,6 +3141,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   ss_testing: { title: '🧪 Foul Sewer — الاختبارات', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Air Test والـ CCTV للصرف</span></div>
+<button onclick="document.getElementById('vid-ss-testing').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-ss-testing" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ss-testing','vid-ph-ss-testing')">
+<div id="vid-ph-ss-testing" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">100mm WG / 5min / CCTV Grade ≤2</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-ss-testing" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 2 | Testing</div>
 <h3>1. Air Test — الاختبار الأساسي</h3>
@@ -2144,6 +3164,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Air Test & CCTV — Sewer</span></div>
+<button onclick="document.getElementById('vid-ss-testing-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-ss-testing-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ss-testing-en','vid-ph-ss-testing-en')">
+<div id="vid-ph-ss-testing-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Air test 100mm WG 5min / CCTV Grade ≤2</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-ss-testing-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | 🧪 Foul Sewer — الاختبارات
 </div>
@@ -2157,6 +3187,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   ss_backfill: { title: '🏗️ Foul Sewer — الردم', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">الردم — الصرف الصحي</span></div>
+<button onclick="document.getElementById('vid-ss-backfill').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-ss-backfill" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ss-backfill','vid-ph-ss-backfill')">
+<div id="vid-ph-ss-backfill" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Compaction ≥95% MDD، توثيق الطبقات</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-ss-backfill" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 2 | Backfill</div>
 <h3>📐 مواصفات الردم</h3>
@@ -2168,6 +3208,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Backfill — Sewer</span></div>
+<button onclick="document.getElementById('vid-ss-backfill-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-ss-backfill-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ss-backfill-en','vid-ph-ss-backfill-en')">
+<div id="vid-ph-ss-backfill-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Compaction ≥95% MDD, layer documentation</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-ss-backfill-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | 🏗️ Foul Sewer — الردم
 </div>
@@ -2181,6 +3231,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   ss_handover: { title: '✅ Foul Sewer — التسليم', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">تسليم شبكة الصرف الصحي</span></div>
+<button onclick="document.getElementById('vid-ss-handover').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-ss-handover" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ss-handover','vid-ph-ss-handover')">
+<div id="vid-ph-ss-handover" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">CCTV Final، As-Built، تشغيل</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-ss-handover" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 2 | Handover</div>
 <h3>📋 وثائق التسليم</h3>
@@ -2192,6 +3252,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Sewer Network Handover</span></div>
+<button onclick="document.getElementById('vid-ss-handover-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-ss-handover-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-ss-handover-en','vid-ph-ss-handover-en')">
+<div id="vid-ph-ss-handover-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Final CCTV, as-built, commissioning</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-ss-handover-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | ✅ Foul Sewer — التسليم
 </div>
@@ -2254,6 +3324,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   sw_excavation: { title: '⛏️ الصرف السطحي — الحفر والبيدنج', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">حفر الصرف السطحي</span></div>
+<button onclick="document.getElementById('vid-sw-excavation').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-sw-excavation" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-sw-excavation','vid-ph-sw-excavation')">
+<div id="vid-ph-sw-excavation" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">حفر الخنادق وتحضير السطح</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-sw-excavation" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 3 | Excavation</div>
 <h3>📐 مواصفات الحفر</h3>
@@ -2265,6 +3345,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Storm Drain Excavation</span></div>
+<button onclick="document.getElementById('vid-sw-excavation-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-sw-excavation-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-sw-excavation-en','vid-ph-sw-excavation-en')">
+<div id="vid-ph-sw-excavation-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Trench excavation and surface preparation</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-sw-excavation-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | ⛏️ الصرف السطحي — الحفر والبيدنج
 </div>
@@ -2278,6 +3368,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   sw_laying: { title: '🔧 الصرف السطحي — وضع المواسير', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">تمديد مواسير الصرف السطحي</span></div>
+<button onclick="document.getElementById('vid-sw-laying').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-sw-laying" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-sw-laying','vid-ph-sw-laying')">
+<div id="vid-ph-sw-laying" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Box Culverts، مواسير صرف، انحدار صحيح</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-sw-laying" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 3 | Pipe Laying</div>
 <h3>🔧 خطوات التنفيذ</h3>
@@ -2289,6 +3389,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Storm Drain Pipe Laying</span></div>
+<button onclick="document.getElementById('vid-sw-laying-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-sw-laying-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-sw-laying-en','vid-ph-sw-laying-en')">
+<div id="vid-ph-sw-laying-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Box culverts, storm pipes, correct gradient</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-sw-laying-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | 🔧 الصرف السطحي — وضع المواسير
 </div>
@@ -2302,6 +3412,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   sw_gullies: { title: '🕳️ الصرف السطحي — Gullies & Manholes', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">تركيب Gullies وInlets</span></div>
+<button onclick="document.getElementById('vid-sw-gullies').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-sw-gullies" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-sw-gullies','vid-ph-sw-gullies')">
+<div id="vid-ph-sw-gullies" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">تركيب الـ Gully، المنسوب الصحيح</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-sw-gullies" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 3 | Gullies</div>
 <h3>🔧 تركيب Gullies</h3>
@@ -2313,6 +3433,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Gully & Inlet Installation</span></div>
+<button onclick="document.getElementById('vid-sw-gullies-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-sw-gullies-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-sw-gullies-en','vid-ph-sw-gullies-en')">
+<div id="vid-ph-sw-gullies-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Gully installation, correct level setting</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-sw-gullies-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | 🕳️ الصرف السطحي — Gullies & Manholes
 </div>
@@ -2326,6 +3456,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   sw_testing: { title: '🧪 الصرف السطحي — الاختبارات', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">اختبارات الصرف السطحي</span></div>
+<button onclick="document.getElementById('vid-sw-testing').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-sw-testing" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-sw-testing','vid-ph-sw-testing')">
+<div id="vid-ph-sw-testing" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">CCTV 100%، Level Survey، Hydraulic Test</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-sw-testing" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 3 | Testing</div>
 <h3>1. Hydraulic Test</h3>
@@ -2339,6 +3479,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Storm Water Testing</span></div>
+<button onclick="document.getElementById('vid-sw-testing-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-sw-testing-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-sw-testing-en','vid-ph-sw-testing-en')">
+<div id="vid-ph-sw-testing-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">CCTV 100%, level survey, hydraulic test</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-sw-testing-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | 🧪 الصرف السطحي — الاختبارات
 </div>
@@ -2376,6 +3526,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   sw_handover: { title: '✅ الصرف السطحي — التسليم', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">تسليم الصرف السطحي</span></div>
+<button onclick="document.getElementById('vid-sw-handover').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-sw-handover" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-sw-handover','vid-ph-sw-handover')">
+<div id="vid-ph-sw-handover" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">As-Built، فحص مناهل، CCTV Final</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
+<video id="vid-player-sw-handover" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 3 | Handover</div>
 <h3>📋 وثائق التسليم</h3>
@@ -2387,6 +3547,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Storm Water Handover</span></div>
+<button onclick="document.getElementById('vid-sw-handover-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-sw-handover-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-sw-handover-en','vid-ph-sw-handover-en')">
+<div id="vid-ph-sw-handover-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">As-built, manhole check, final CCTV</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
+<video id="vid-player-sw-handover-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | ✅ الصرف السطحي — التسليم
 </div>
@@ -4356,6 +5526,23 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   geotech: { title: '🔬 الجسات والتربة', content: `
 <div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">أعمال الجسات والفحوصات الجيوتقنية</span>
+</div>
+<button onclick="document.getElementById('vid-geotech').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-geotech" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-geotech','vid-placeholder-geotech')">
+<div id="vid-placeholder-geotech" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">حفر آبار الجسات، SPT، أخذ العينات، التقرير الجيوتقني</div>
+<div style="font-size:11px;color:var(--text3);">اضغط "رفع فيديو" لتحميل ملف MP4</div>
+</div>
+<video id="vid-player-geotech" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 2 | Geotechnical Investigation</div>
 <h3>📋 نظرة عامة</h3>
@@ -4383,6 +5570,23 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,70,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">Geotechnical Investigation & Boreholes</span>
+</div>
+<button onclick="document.getElementById('vid-geotech-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-geotech-en" accept="video/*" style="display:none" onchange="loadLocalVideo(this,'vid-player-geotech-en','vid-placeholder-geotech-en')">
+<div id="vid-placeholder-geotech-en" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">Borehole drilling, SPT, sampling, GI report</div>
+<div style="font-size:11px;">Click "Upload Video" to load MP4 file</div>
+</div>
+<video id="vid-player-geotech-en" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+</div>
+
 <h3>🔬 Geotechnical Investigation — QCS 2024 Section 2</h3>
 <table class="dm-table">
 <tr><th>Item</th><th>Requirement</th></tr>
@@ -4878,7 +6082,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <tr><th>HP</th><th>المرحلة</th><th>الشرط</th><th>الجهة</th></tr>
 <tr><td>HP-01</td><td>قبل ردم Subgrade</td><td>Material Approval + Proctor + CBR</td><td>Consultant</td></tr>
 <tr><td>HP-02</td><td>اعتماد Subgrade</td><td>Density ≥95% + CBR ≥8% + Level</td><td>Consultant</td></tr>
-<tr><td>HP-03</td><td>اعتماد Subbase</td><td>Density ≥98% + CBR ≥30% + Level</td><td>Consultant</td></tr>
+<tr><td>HP-03</td><td>اعتماد Subbase</td><td>Density ≥98% + CBR ≥70% + Level</td><td>Consultant</td></tr>
 <tr><td>HP-04</td><td>اعتماد Base Course</td><td>Density ≥98% + CBR ≥80% + Level</td><td>Consultant</td></tr>
 <tr><td>HP-05</td><td>اعتماد Prime Coat</td><td>Rate + Coverage + Curing</td><td>Consultant</td></tr>
 <tr><td>HP-06</td><td>قبل إنتاج Asphalt</td><td>JMF + Trial Section معتمدة</td><td>Consultant</td></tr>
@@ -4919,7 +6123,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <tr><th>HP</th><th>Stage</th><th>Condition</th></tr>
 <tr><td>HP-01</td><td>Before Subgrade fill</td><td>Material Approval + CBR</td></tr>
 <tr><td>HP-02</td><td>Accept Subgrade</td><td>Density ≥95% + CBR ≥15%/8%</td></tr>
-<tr><td>HP-03</td><td>Accept Subbase</td><td>Density ≥98% + CBR ≥30%</td></tr>
+<tr><td>HP-03</td><td>Accept Subbase</td><td>Density ≥98% + CBR ≥70%</td></tr>
 <tr><td>HP-04</td><td>Accept Base Course</td><td>Density ≥98% + CBR ≥80%</td></tr>
 <tr><td>HP-05</td><td>Accept Prime Coat</td><td>Rate + Coverage + Curing 24hr</td></tr>
 <tr><td>HP-06</td><td>Before asphalt production</td><td>JMF + Trial Section approved</td></tr>
@@ -6840,6 +8044,20 @@ function calcLapLength() {
 }
 
 
+// ===== LOCAL VIDEO LOADER =====
+function loadLocalVideo(input, playerId, placeholderId) {
+  var file = input.files[0];
+  if (!file) return;
+  var url = URL.createObjectURL(file);
+  var player = document.getElementById(playerId);
+  var placeholder = document.getElementById(placeholderId);
+  if (player) {
+    player.src = url;
+    player.style.display = 'block';
+    if (placeholder) placeholder.style.display = 'none';
+  }
+}
+
 // ===== TESTING SCHEDULE CALCULATOR =====
 var TS_DATA = {
   subgrade: {
@@ -6863,7 +8081,7 @@ var TS_DATA = {
       { test: 'Sand Equivalent (≥30%)', freq_qty: 500, freq_unit: 'm³', standard: 'ASTM D2419', type: 'W' },
       { test: 'Plasticity Index (≤6%)', freq_qty: 500, freq_unit: 'm³', standard: 'ASTM D4318', type: 'W' },
       { test: 'Field Density (≥98% MDD)', freq_qty: 500, freq_unit: 'm²', standard: 'ASTM D1556', type: 'W' },
-      { test: 'CBR Soaked 4 days (≥30%)', freq_qty: 2000, freq_unit: 'm²', standard: 'ASTM D1883', type: 'HP' },
+      { test: 'CBR Soaked 4 days (≥70%)', freq_qty: 2000, freq_unit: 'm²', standard: 'ASTM D1883', type: 'HP' },
     ]
   },
   base: {
