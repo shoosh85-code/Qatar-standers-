@@ -7327,8 +7327,6 @@ All numerical values, specifications and test methods shown in Arabic are source
 let navStack = [];
 
 function openDetail(key) {
-  // Restore video UI badges
-  setTimeout(restoreAllVideoUI, 100);
   const d = detailData[key];
   if (!d) { console.warn('Key not found:', key); return; }
   const modal = document.getElementById('detailModal');
@@ -7342,6 +7340,10 @@ function openDetail(key) {
   const backBtn = document.getElementById('dmBackBtn');
   if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
   modal.classList.add('open');
+  // Re-inject stored videos after DOM rebuild
+  setTimeout(_restoreVideosAfterDOMRebuild, 50);
+  // Re-apply current language
+  if (typeof setLang === 'function') setLang(currentLang || 'ar');
   // ITP bar
   var bar = document.getElementById('itp-project-bar');
   if (bar) bar.style.display = (key && key.startsWith('itp')) ? 'block' : 'none';
@@ -7358,6 +7360,10 @@ function goBack() {
   document.getElementById('dmContent').innerHTML = d.content;
   const backBtn = document.getElementById('dmBackBtn');
   if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
+  // Re-inject stored videos after DOM rebuild
+  setTimeout(_restoreVideosAfterDOMRebuild, 50);
+  // Re-apply current language  
+  if (typeof setLang === 'function') setLang(currentLang || 'ar');
 }
 
 function closeDetailModal(e) {
@@ -7823,75 +7829,92 @@ function calcLapLength() {
 
 
 // ===== LOCAL VIDEO LOADER =====
-// ===== VIDEO PERSISTENCE SYSTEM =====
-// Videos stored as base64 in sessionStorage (persists during session)
-var _videoStore = {};
+// ===== VIDEO PERSISTENCE SYSTEM — PERMANENT FIX =====
+// Problem: openDetail/goBack uses innerHTML = d.content which destroys DOM
+// Solution: Store the actual File object in a Map keyed by input ID
+// After every DOM rebuild, re-inject all stored videos automatically
+
+var _videoFiles = new Map(); // key: input element ID → value: { file, url, name, size }
 
 function loadLocalVideo(input, playerId, placeholderId) {
   var file = input.files[0];
   if (!file) return;
   
-  var player = document.getElementById(playerId);
-  var ph = document.getElementById(placeholderId);
+  // Store File object by input ID (survives DOM rebuild)
+  var inputId = input.id || input.getAttribute('id');
+  var url = URL.createObjectURL(file);
+  _videoFiles.set(inputId, { file: file, url: url, name: file.name, size: file.size });
   
-  if (!player) {
-    var id = input.id;
-    player = document.getElementById(id + '-player') || document.getElementById(id.replace('vid-','vid-player-'));
-    ph = document.getElementById(id + '-ph') || document.getElementById(id.replace('vid-','vid-ph-'));
+  // Show immediately
+  _applyVideoToDOM(inputId, playerId, placeholderId, url, file.name, file.size);
+}
+
+function _applyVideoToDOM(inputId, playerId, phId, url, name, size) {
+  var player = document.getElementById(playerId);
+  var ph = document.getElementById(phId);
+  
+  if (player) {
+    player.src = url;
+    player.style.display = 'block';
+    player.load();
+  }
+  if (ph) {
+    ph.style.display = 'none';
   }
   
-  if (!player) { console.warn('Video player not found for', input.id); return; }
-  
-  // Use Object URL and store reference
-  var url = URL.createObjectURL(file);
-  _videoStore[playerId] = { url: url, name: file.name, size: file.size };
-  
-  player.src = url;
-  player.style.display = 'block';
-  player.load();
-  if (ph) ph.style.display = 'none';
-  
-  // Store filename in localStorage for UI feedback
-  try {
-    localStorage.setItem('vid_' + playerId, JSON.stringify({ name: file.name, size: file.size }));
-  } catch(e) {}
-  
-  // Show file info badge
-  var badge = document.createElement('div');
-  badge.id = 'badge_' + playerId;
-  badge.style.cssText = 'font-size:10px;color:#2ecc71;padding:3px 10px;background:rgba(46,204,113,0.1);';
-  badge.textContent = '✅ ' + file.name + ' (' + (file.size/1024/1024).toFixed(1) + ' MB)';
-  var parent = player.parentNode;
-  if (parent && !document.getElementById('badge_' + playerId)) parent.insertBefore(badge, player);
+  // Add or update badge
+  var badgeId = 'vbadge-' + playerId;
+  var existing = document.getElementById(badgeId);
+  if (!existing && player) {
+    var badge = document.createElement('div');
+    badge.id = badgeId;
+    badge.style.cssText = 'font-size:10px;color:#2ecc71;padding:3px 12px;background:rgba(46,204,113,0.1);border-top:1px solid rgba(46,204,113,0.2);';
+    badge.innerHTML = '✅ ' + name + ' &nbsp;(' + (size/1024/1024).toFixed(1) + ' MB)';
+    if (player.parentNode) player.parentNode.appendChild(badge);
+  }
 }
 
-function restoreVideoUI(playerId) {
-  // Restore filename badge from localStorage (file itself can't be restored - browser security)
-  try {
-    var stored = localStorage.getItem('vid_' + playerId);
-    if (stored) {
-      var info = JSON.parse(stored);
-      var ph = document.getElementById(playerId.replace('vid-player-','vid-ph-').replace('vid-player-','vid-ph-'));
-      if (ph) {
-        ph.style.cssText += ';border:1px dashed #2ecc71;';
-        var prev = ph.querySelector('.vid-prev-badge');
-        if (!prev) {
-          var badge = document.createElement('div');
-          badge.className = 'vid-prev-badge';
-          badge.style.cssText = 'font-size:10px;color:#f39c12;margin-top:6px;';
-          badge.textContent = '📎 آخر ملف: ' + info.name;
-          ph.appendChild(badge);
-        }
-      }
+// Called by openDetail and goBack after innerHTML is set
+// Scans new DOM for video inputs that have stored files and re-injects them
+function _restoreVideosAfterDOMRebuild() {
+  if (_videoFiles.size === 0) return;
+  
+  // Find all video file inputs in the current DOM
+  var inputs = document.querySelectorAll('input[type="file"][accept*="video"]');
+  inputs.forEach(function(input) {
+    var inputId = input.id;
+    if (!inputId) return;
+    
+    var stored = _videoFiles.get(inputId);
+    if (!stored) return;
+    
+    // Get player/placeholder from data attributes
+    var playerId = input.getAttribute('data-player');
+    var phId = input.getAttribute('data-ph');
+    
+    if (!playerId) {
+      // Fallback: derive from input ID
+      playerId = inputId.replace('vid-', 'vid-player-');
+      phId = inputId.replace('vid-', 'vid-ph-');
     }
-  } catch(e) {}
+    
+    // Re-attach the stored file to the rebuilt DOM element
+    // Create a new ObjectURL (old one may be revoked)
+    var newUrl = URL.createObjectURL(stored.file);
+    stored.url = newUrl;
+    
+    _applyVideoToDOM(inputId, playerId, phId, newUrl, stored.name, stored.size);
+    
+    // Re-wire the input's onchange in case it lost its handler
+    input.onchange = function() {
+      loadLocalVideo(this, playerId, phId);
+    };
+  });
 }
 
-// Restore all video UI badges on detail open
-function restoreAllVideoUI() {
-  var players = document.querySelectorAll('video[id^="vid-player-"]');
-  players.forEach(function(p) { restoreVideoUI(p.id); });
-}
+// Legacy alias used in some older sections
+function restoreAllVideoUI() { _restoreVideosAfterDOMRebuild(); }
+function restoreVideoUI(id) { _restoreVideosAfterDOMRebuild(); }
 
 
 // ===== DUAL CALCULATOR MODE =====
