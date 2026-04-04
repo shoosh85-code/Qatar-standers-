@@ -1,3 +1,4 @@
+<script src="qatarspec_patch.js"></script>
 // ============================================================
 // QATARSPEC PRO — COMPLETE PATCH
 // Insert this entire block BEFORE </script> in index.html
