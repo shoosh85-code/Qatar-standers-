@@ -8462,7 +8462,7 @@ function _showVid(inputId, playerId, phId, blobOrFile, name, size) {
     player.parentNode.appendChild(badge);
   }
   badge.innerHTML = '<span>✅ ' + name + ' &nbsp;(' + (size/1024/1024).toFixed(1) + ' MB)</span>'
-    + '<span onclick="javascript:_delVid('' + inputId + '')" style="color:#e74c3c;cursor:pointer;padding:2px 6px;border:1px solid rgba(231,76,60,0.3);border-radius:4px;font-size:10px;">حذف 🗑️</span>';
+    + '<span onclick="javascript:_delVid(\'' + inputId + '\')" style="color:#e74c3c;cursor:pointer;padding:2px 6px;border:1px solid rgba(231,76,60,0.3);border-radius:4px;font-size:10px;">حذف 🗑️</span>';
 }
 
 function _delVid(inputId) {
@@ -8554,7 +8554,7 @@ function _rebuildBadge(id, playerId, phId, name, size) {
   badge.id = bid;
   badge.style.cssText = 'font-size:11px;color:#2ecc71;padding:5px 12px;background:rgba(46,204,113,0.08);border-top:1px solid rgba(46,204,113,0.15);display:flex;align-items:center;justify-content:space-between;';
   badge.innerHTML = '<span>✅ ' + name + ' (' + ((size||0)/1024/1024).toFixed(1) + ' MB)</span>'
-    + '<span onclick="javascript:_delVid('' + id + '')" style="color:#e74c3c;cursor:pointer;padding:2px 6px;border:1px solid rgba(231,76,60,0.3);border-radius:4px;font-size:10px;">حذف 🗑️</span>';
+    + '<span onclick="javascript:_delVid(\'' + id + '\')" style="color:#e74c3c;cursor:pointer;padding:2px 6px;border:1px solid rgba(231,76,60,0.3);border-radius:4px;font-size:10px;">حذف 🗑️</span>';
   player.parentNode.appendChild(badge);
 }
 
