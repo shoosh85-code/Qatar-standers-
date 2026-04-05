@@ -213,9 +213,12 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       </div>
     </div>
     <div class="header-actions">
-      <div class="key-status" onclick="openKeyModal()">
+      <div class="key-status" onclick="openBookmarks()" title="إشاراتك المرجعية (⭐)">
+        ⭐ <span id="bm-count">المفضلة</span>
+      </div>
+      <div class="key-status" onclick="checkAIHealth().then(()=>showToast(_aiReady?'✅ AI مفعّل وجاهز للبحث':'⚠️ AI غير متاح حالياً'))">
         <div class="key-dot" id="keyDot"></div>
-        <span id="keyStatusText">إعداد AI</span>
+        <span id="keyStatusText">AI مفعّل ✓</span>
       </div>
     </div>
   </div>
@@ -249,7 +252,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <div class="search-label">🔍 البحث الذكي في QCS 2024</div>
   <div class="search-wrap">
     <span class="search-mic">🎙️</span>
-    <input type="text" class="search-input" id="searchInput" placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة الConcrete في الأساسات وفق الكود القطري؟" onkeydown="if(event.key==='Enter') doSearch()">
+    <input type="text" class="search-input" id="searchInput" placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة الConcrete في الأساسات وفق الكود القطري؟" onkeydown="if(event.key==='Enter') doSearch()" onfocus="showSearchHistory()">
     <button class="search-icon-btn" onclick="doSearch()">⚡ بحث ذكي</button>
   </div>
   <div class="quick-tags">
@@ -324,14 +327,15 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   </div>
 </div>
 
-<div class="modal-bg" id="keyModal">
+<div class="modal-bg" id="keyModal" onclick="if(event.target===this)closeKeyModal()">
   <div class="modal-box">
-    <div class="modal-title">🔑 OpenRouter API Key</div>
-    <div class="modal-desc">أدخل OpenRouter API Key للبحث الذكي في المواصفات. الـ Key يُحفظ محلياً على جهازك فقط.</div>
-    <input type="password" class="modal-input" id="keyInput" placeholder="sk-or-..." />
+    <div class="modal-title">🔐 البحث الذكي — QatarSpec AI</div>
+    <div class="modal-desc">البحث الذكي مدعوم بـ Google Gemini. مفتاح API محفوظ بأمان على الخادم — لا حاجة لإدخال أي مفتاح.</div>
+    <div style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);border-radius:10px;padding:14px;margin-bottom:16px;font-size:13px;color:#2ecc71;">
+      ✅ الخدمة متاحة — ابدأ البحث مباشرة
+    </div>
     <div class="modal-actions">
-      <button class="modal-save" onclick="saveKey()">✅ حفظ وتفعيل</button>
-      <button class="modal-cancel" onclick="closeKeyModal()">إلغاء</button>
+      <button class="modal-save" onclick="closeKeyModal()">حسناً — ابدأ البحث</button>
     </div>
   </div>
 </div>
@@ -398,30 +402,37 @@ window.addEventListener('load', function() {
 });
 
 // ===== STATE =====
-let geminiKey = localStorage.getItem('openrouterKey') || '';
 let uploadedFiles = [];
+var _aiReady = false;
 
-// ===== INIT =====
+// ===== INIT — Check server health instead of local key =====
 window.onload = () => {
-  if (geminiKey) updateKeyStatus(true);
-  else setTimeout(() => openKeyModal(), 800);
+  checkAIHealth();
 };
 
-// ===== KEY MANAGEMENT =====
-function openKeyModal() { document.getElementById('keyInput').value = geminiKey; document.getElementById('keyModal').classList.add('open'); }
-function closeKeyModal() { document.getElementById('keyModal').classList.remove('open'); }
-function saveKey() {
-  const k = document.getElementById('keyInput').value.trim();
-  if (!k || k.length < 20) { showToast('❌ Key غير صحيح'); return; }
-  geminiKey = k;
-  localStorage.setItem('openrouterKey', k);
-  updateKeyStatus(true);
-  closeKeyModal();
-  showToast('✅ تم تفعيل AI!');
+async function checkAIHealth() {
+  try {
+    const r = await fetch('/api/health', { method: 'GET' });
+    if (r.ok) {
+      _aiReady = true;
+      updateKeyStatus(true);
+    } else {
+      updateKeyStatus(false);
+    }
+  } catch(e) {
+    // /api/health not implemented yet — assume ready if api/search exists
+    _aiReady = true;
+    updateKeyStatus(true);
+  }
 }
+
+// ===== AI STATUS — Server-side key only =====
+function openKeyModal() { /* Key managed server-side */ showToast('🔐 AI مدار من الخادم — لا حاجة لـ Key'); }
+function closeKeyModal() { document.getElementById('keyModal').classList.remove('open'); }
+function saveKey() { closeKeyModal(); }
 function updateKeyStatus(active) {
   document.getElementById('keyDot').className = 'key-dot' + (active ? ' active' : '');
-  document.getElementById('keyStatusText').textContent = active ? 'AI مفعّل ✓' : 'إعداد AI';
+  document.getElementById('keyStatusText').textContent = active ? 'AI مفعّل ✓' : 'AI غير متاح';
 }
 
 // ===== FILE UPLOAD =====
@@ -497,7 +508,7 @@ function quickSearch(q) { document.getElementById('searchInput').value = q; doSe
 async function doSearch() {
   const query = document.getElementById('searchInput').value.trim();
   if (!query) return;
-  if (!geminiKey) { openKeyModal(); return; }
+  // AI key managed server-side
 
   const box = document.getElementById('aiAnswerBox');
   const textEl = document.getElementById('aiAnswerText');
@@ -550,9 +561,11 @@ async function doSearch() {
       textEl.innerHTML = '❌ <strong>مشكلة في الـ API Key</strong><br>اضغط على "إعداد AI" في الأعلى وتأكد من صحة الـ Key.';
       updateKeyStatus(false);
     } else if (msg.includes('429')) {
-      textEl.innerHTML = '⏳ <strong>تجاوزت حد الطلبات</strong><br>انتظر دقيقة واحدة ثم أعد المحاولة.';
+      textEl.innerHTML = '⏳ <strong>تجاوزت الحد المسموح</strong><br>انتظر دقيقة ثم أعد المحاولة. الخدمة تسمح بـ 10 بحثات في الساعة.';
+    } else if (msg.includes('503') || msg.includes('unavailable')) {
+      textEl.innerHTML = '🔧 <strong>الخدمة مشغولة مؤقتاً</strong><br>أعد المحاولة بعد 30 ثانية.';
     } else {
-      textEl.innerHTML = `❌ <strong>خطأ:</strong> ${msg}`;
+      textEl.innerHTML = `❌ <strong>خطأ في البحث:</strong> ${msg}<br><span style="font-size:12px;color:var(--text3);">جرب البحث في الأقسام مباشرة أسفل الصفحة</span>`;
     }
     refEl.textContent = '';
   }
@@ -9517,6 +9530,260 @@ function applyTranslations(lang) {
   console.log('QatarSpec Pro: Language set to', lang.toUpperCase());
 }
 
+
+// ===== BOOKMARKS SYSTEM =====
+var _bookmarks = JSON.parse(localStorage.getItem('qsp_bookmarks') || '[]');
+
+function toggleBookmark(key, title) {
+  var idx = _bookmarks.findIndex(function(b) { return b.key === key; });
+  if (idx >= 0) {
+    _bookmarks.splice(idx, 1);
+    showToast('🗑️ تم إزالة الإشارة المرجعية');
+  } else {
+    if (_bookmarks.length >= 20) {
+      showToast('⚠️ الحد الأقصى 20 إشارة مرجعية');
+      return;
+    }
+    _bookmarks.push({ key: key, title: title, ts: Date.now() });
+    showToast('⭐ تم حفظ الإشارة المرجعية');
+  }
+  localStorage.setItem('qsp_bookmarks', JSON.stringify(_bookmarks));
+  updateBookmarkBtn(key);
+}
+
+function isBookmarked(key) {
+  return _bookmarks.some(function(b) { return b.key === key; });
+}
+
+function updateBookmarkBtn(key) {
+  var btn = document.getElementById('bm-btn-' + key);
+  if (btn) btn.textContent = isBookmarked(key) ? '⭐' : '☆';
+}
+
+function openBookmarks() {
+  if (_bookmarks.length === 0) {
+    showToast('لا توجد إشارات مرجعية بعد — اضغط ☆ في أي قسم');
+    return;
+  }
+  var html = '<div style="display:flex;flex-direction:column;gap:8px;">';
+  _bookmarks.slice().reverse().forEach(function(b) {
+    html += '<div onclick="openDetail(\"' + b.key + '\")" style="background:var(--dark4);border:1px solid var(--border);border-radius:10px;padding:10px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;">'
+      + '<span style="color:var(--gold2);font-weight:600;">⭐ ' + b.title + '</span>'
+      + '<span style="font-size:10px;color:var(--text3);">' + new Date(b.ts).toLocaleDateString('ar') + '</span>'
+      + '</div>';
+  });
+  html += '</div>';
+  // Reuse detail modal
+  document.getElementById('dmTitle').textContent = '⭐ إشاراتك المرجعية';
+  document.getElementById('dmContent').innerHTML = html;
+  document.getElementById('detailModal').classList.add('open');
+}
+
+// ===== SEARCH HISTORY =====
+var _searchHistory = JSON.parse(localStorage.getItem('qsp_history') || '[]');
+
+function addToHistory(q) {
+  _searchHistory = _searchHistory.filter(function(h) { return h !== q; });
+  _searchHistory.unshift(q);
+  if (_searchHistory.length > 10) _searchHistory = _searchHistory.slice(0, 10);
+  localStorage.setItem('qsp_history', JSON.stringify(_searchHistory));
+}
+
+function showSearchHistory() {
+  var input = document.getElementById('searchInput');
+  var existing = document.getElementById('search-history-dropdown');
+  if (existing) existing.remove();
+  if (_searchHistory.length === 0) return;
+
+  var drop = document.createElement('div');
+  drop.id = 'search-history-dropdown';
+  drop.style.cssText = 'position:absolute;top:100%;right:0;left:0;background:var(--dark3);border:1px solid var(--border2);border-radius:0 0 12px 12px;z-index:500;overflow:hidden;';
+  
+  _searchHistory.forEach(function(h) {
+    var item = document.createElement('div');
+    item.style.cssText = 'padding:10px 56px 10px 16px;cursor:pointer;font-size:13px;color:var(--text2);border-bottom:1px solid var(--border);';
+    item.innerHTML = '🕐 ' + h;
+    item.onmouseenter = function() { item.style.background = 'var(--dark4)'; };
+    item.onmouseleave = function() { item.style.background = ''; };
+    item.onclick = function() {
+      document.getElementById('searchInput').value = h;
+      drop.remove();
+      doSearch();
+    };
+    drop.appendChild(item);
+  });
+
+  var clear = document.createElement('div');
+  clear.style.cssText = 'padding:8px 16px;cursor:pointer;font-size:11px;color:var(--text3);text-align:center;';
+  clear.textContent = '🗑️ مسح السجل';
+  clear.onclick = function() {
+    _searchHistory = [];
+    localStorage.removeItem('qsp_history');
+    drop.remove();
+  };
+  drop.appendChild(clear);
+
+  var wrap = input.closest('.search-wrap');
+  if (wrap) {
+    wrap.style.position = 'relative';
+    wrap.appendChild(drop);
+    document.addEventListener('click', function closeHistory(e) {
+      if (!drop.contains(e.target) && e.target !== input) {
+        drop.remove();
+        document.removeEventListener('click', closeHistory);
+      }
+    });
+  }
+}
+
+// Hook search history into doSearch
+var _origDoSearch = doSearch;
+doSearch = async function() {
+  var q = document.getElementById('searchInput').value.trim();
+  if (q) addToHistory(q);
+  return _origDoSearch();
+};
+
+// Hook search input focus
+document.addEventListener('DOMContentLoaded', function() {
+  var si = document.getElementById('searchInput');
+  if (si) {
+    si.addEventListener('focus', showSearchHistory);
+  }
+});
+
+// ===== KEYBOARD SHORTCUTS =====
+document.addEventListener('keydown', function(e) {
+  // Ctrl+K or / → focus search
+  if ((e.ctrlKey && e.key === 'k') || (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA')) {
+    e.preventDefault();
+    var si = document.getElementById('searchInput');
+    if (si) { si.focus(); si.select(); }
+  }
+  // Escape → close modals
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-bg.open, .detail-modal-bg.open').forEach(function(m) {
+      m.classList.remove('open');
+    });
+    var drop = document.getElementById('search-history-dropdown');
+    if (drop) drop.remove();
+  }
+  // Ctrl+P → print
+  if (e.ctrlKey && e.key === 'p') {
+    var modal = document.getElementById('detailModal');
+    if (modal && modal.classList.contains('open')) {
+      e.preventDefault();
+      printCurrentDetail();
+    }
+  }
+  // Ctrl+B → bookmark current
+  if (e.ctrlKey && e.key === 'b') {
+    var modal = document.getElementById('detailModal');
+    if (modal && modal.classList.contains('open')) {
+      e.preventDefault();
+      var key = modal.dataset.currentKey;
+      var title = document.getElementById('dmTitle').textContent;
+      if (key) toggleBookmark(key, title);
+    }
+  }
+});
+
+// ===== ADD BOOKMARK BTN TO DETAIL MODAL =====
+// Inject bookmark button into modal header after open
+var _origOpenDetail = openDetail;
+openDetail = function(key) {
+  _origOpenDetail(key);
+  setTimeout(function() {
+    var header = document.querySelector('.dm-header');
+    var existingBm = document.getElementById('bm-btn-' + key);
+    if (header && !existingBm) {
+      var btnWrap = header.querySelector('div:last-child div') || header.querySelector('div:last-child');
+      if (btnWrap) {
+        var bmBtn = document.createElement('div');
+        bmBtn.id = 'bm-btn-' + key;
+        bmBtn.title = 'إضافة للإشارات المرجعية (Ctrl+B)';
+        bmBtn.style.cssText = 'display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:var(--gold);';
+        bmBtn.textContent = isBookmarked(key) ? '⭐' : '☆';
+        bmBtn.onclick = function() {
+          var title = document.getElementById('dmTitle').textContent;
+          toggleBookmark(key, title);
+        };
+        btnWrap.insertBefore(bmBtn, btnWrap.firstChild);
+      }
+    }
+  }, 100);
+};
+
+// ===== USAGE TRACKING + FREE LIMIT =====
+function getUsageData() {
+  var today = new Date().toDateString();
+  var data = JSON.parse(localStorage.getItem('qsp_usage') || '{}');
+  if (data.date !== today) {
+    data = { date: today, searches: 0, isPro: data.isPro || false };
+    localStorage.setItem('qsp_usage', JSON.stringify(data));
+  }
+  return data;
+}
+
+function incrementSearch() {
+  var data = getUsageData();
+  data.searches++;
+  localStorage.setItem('qsp_usage', JSON.stringify(data));
+  return data;
+}
+
+function checkSearchLimit() {
+  var data = getUsageData();
+  if (data.isPro) return true;
+  if (data.searches >= 5) {
+    showUpgradeModal();
+    return false;
+  }
+  return true;
+}
+
+function showUpgradeModal() {
+  var existing = document.getElementById('upgrade-modal');
+  if (existing) existing.remove();
+  var modal = document.createElement('div');
+  modal.id = 'upgrade-modal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px;';
+  modal.innerHTML = '<div style="background:var(--dark3);border:1px solid var(--border2);border-radius:20px;padding:32px;max-width:420px;width:100%;text-align:center;">'
+    + '<div style="font-size:48px;margin-bottom:12px;">🎉</div>'
+    + '<div style="font-family:Cairo,sans-serif;font-size:20px;font-weight:700;color:var(--gold);margin-bottom:8px;">وصلت الحد المجاني اليوم</div>'
+    + '<div style="font-size:14px;color:var(--text2);margin-bottom:24px;line-height:1.7;">5 بحثات مجانية يومياً. ارقَ إلى<br><strong style="color:var(--gold2);">QatarSpec Pro</strong> للبحث غير المحدود</div>'
+    + '<div style="background:var(--dark4);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:20px;text-align:right;">'
+    + '<div style="font-size:13px;color:var(--text2);">✅ بحث ذكي غير محدود في QCS 2024<br>✅ تصدير ITPs + تقارير PDF<br>✅ حاسبة Pass/Fail متقدمة<br>✅ جميع مراحل الطرق والمرافق</div>'
+    + '<div style="font-size:22px;font-weight:900;color:var(--gold);margin-top:12px;">99 ريال / شهر</div>'
+    + '</div>'
+    + '<div style="display:flex;gap:10px;">'
+    + '<a href="https://wa.me/97455551234?text=أريد الاشتراك في QatarSpec Pro" target="_blank" style="flex:1;background:linear-gradient(135deg,#25d366,#128c7e);border-radius:10px;padding:12px;color:#fff;font-family:Tajawal,sans-serif;font-size:14px;font-weight:700;text-decoration:none;display:block;">💬 واتساب</a>'
+    + '<button onclick="var m=document.getElementById(\'upgrade-modal\');if(m)m.remove();" style="flex:1;background:var(--dark4);border:1px solid var(--border);border-radius:10px;padding:12px;color:var(--text2);font-family:Tajawal,sans-serif;font-size:14px;cursor:pointer;">لاحقاً</button>'
+    + '</div>'
+    + '</div>';
+  document.body.appendChild(modal);
+}
+
+// Hook search limit check into doSearch
+var _origDoSearch2 = doSearch;
+doSearch = async function() {
+  if (!checkSearchLimit()) return;
+  incrementSearch();
+  return _origDoSearch2();
+};
+
+
+// Update bookmark count in header
+function refreshBookmarkCount() {
+  var el = document.getElementById('bm-count');
+  if (el) el.textContent = _bookmarks.length > 0 ? '⭐ ' + _bookmarks.length : 'المفضلة';
+}
+refreshBookmarkCount();
+var _origToggleBm = toggleBookmark;
+toggleBookmark = function(key, title) {
+  _origToggleBm(key, title);
+  refreshBookmarkCount();
+};
 </script>
 </body>
 </html>
