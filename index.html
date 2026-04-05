@@ -1946,626 +1946,436 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 ` },
   subbase: { title: '🪨 Subbase — الطبقة الأساسية السفلية', content: `
 <div class="lang-content-ar">
-<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 طبقة Subbase — التنفيذ والاختبارات</span>
-<button onclick="document.getElementById('vid-subbase').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
-</div>
-<input type="file" id="vid-subbase" accept="video/*" style="display:none" data-player="vid-player-subbase" data-ph="vid-ph-subbase" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-subbase" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-subbase" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
-</div>
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
-📌 QCS 2024 — Section 6 Part 4 — Tables 4:1, 4:2, 4:3
-</div>
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);"><div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:8px;"><span>🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">فيديو شرح طبقة Subbase — التنفيذ والاختبارات</span></div><button onclick="document.getElementById('vid-subbase-ar').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button></div><input type="file" id="vid-subbase-ar" accept="video/*" style="display:none" data-player="vid-subbase-ar-p" data-ph="vid-subbase-ar-ph" onchange="loadLocalVideo(this,this.getAttribute('data-player'),this.getAttribute('data-ph'))"><div id="vid-subbase-ar-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو يوضح فرش مواد Subbase والدمك واختبار الكثافة والـ CBR</div><video id="vid-subbase-ar-p" controls style="width:100%;display:none;max-height:250px;background:#000;"></video></div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">📌 QCS 2024 — Section 6 Part 3 | Sub-base Course — Pages 9-16</div>
+<h3>📐 تعريف Subbase — QCS S6 P3 Cl. 4.1</h3>
+<p>Subbase هي الطبقة الحجرية الأولى فوق Subgrade. وظيفتها توزيع الأحمال ومنع صعود المياه الجوفية للطبقات العلوية. جودة مواردها تحدد مقاومة الطريق للتشوه على المدى البعيد.</p>
 
-<h3>📐 جدول 4:1 — Grading Envelope — Fine Aggregate</h3>
-<p style="font-size:11px;color:var(--text3);">QCS S6 P4 Table 4:1 Page 5 — نسب المرور للمنخل للـ Subbase والـ Road Base</p>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Sieve Size</th><th>% Passing — Subbase</th><th>% Passing — Road Base</th></tr>
-<tr><td>75.0 mm</td><td>100</td><td>100</td></tr>
-<tr><td>37.5 mm</td><td>95 – 100</td><td>95 – 100</td></tr>
-<tr><td>19.0 mm</td><td>—</td><td>—</td></tr>
-<tr><td>9.5 mm</td><td>50 – 80</td><td>50 – 75</td></tr>
-<tr><td>4.75 mm</td><td>35 – 65</td><td>30 – 60</td></tr>
-<tr><td>2.36 mm</td><td>25 – 50</td><td>20 – 45</td></tr>
-<tr><td>0.425 mm</td><td>15 – 30</td><td>10 – 25</td></tr>
-<tr><td>0.075 mm</td><td><strong style="color:#e74c3c;">5 – 15</strong></td><td><strong style="color:#e74c3c;">5 – 12</strong></td></tr>
+<h3>⚠️ المواد غير المقبولة — QCS S6 P3 Cl. 4.2</h3>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;"><strong>يُحظر استخدام الآتي:</strong><br>• مواد بـ CBR &lt; 30% عند دمك ≥ 98% MDD<br>• ركام بـ PI &gt; 6% أو LL &gt; 25%<br>• مواد بـ LA Abrasion &gt; 30%<br>• ركام بـ Sulphate &gt; 0.5% أو Chloride &gt; 0.6%<br>• Segregated Material — مواد تفصلت أثناء التفريغ<br>• مواد من مصدر غير معتمد من المهندس الاستشاري</div>
+<h3>📐 جدول 4:1 — مواصفات مادة Subbase — QCS 2024 / Section 6 / Part 3 / Page 10</h3>
+<p style="font-size:11px;color:var(--text3);">المصدر: QCS 2024 — Section 6 Part 3 Table 4:1 — كما هو في المواصفات القطرية بالضبط</p>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Parameter — البند</th><th style="min-width:210px;">Specification Limit — حد المواصفة</th><th style="min-width:170px;">Test Method — طريقة الاختبار</th><th style="min-width:190px;">Minimum Test Frequency — أدنى تكرار</th></tr>
+<tr><td><strong>Grading — Sieve 37.5mm</strong></td><td style="color:#2ecc71;font-weight:700;">100%</td><td>ASTM C136 / BS 1377-2</td><td>1 test per <strong>500 m³</strong> or source change</td></tr>
+<tr><td><strong>Grading — Sieve 20mm</strong></td><td style="color:#2ecc71;font-weight:700;">60 – 100%</td><td>ASTM C136</td><td>1 test per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Grading — Sieve 5mm</strong></td><td style="color:#2ecc71;font-weight:700;">30 – 65%</td><td>ASTM C136</td><td>1 test per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Grading — Sieve 0.425mm</strong></td><td style="color:#2ecc71;font-weight:700;">10 – 30%</td><td>ASTM C136</td><td>1 test per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Grading — Sieve 0.075mm</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 10%</td><td>ASTM C136</td><td>1 test per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Liquid Limit (LL)</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 25%</td><td>ASTM D4318 / BS 1377-2</td><td>1 test per <strong>500 m³</strong> or source change</td></tr>
+<tr><td><strong>Plasticity Index (PI)</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 6%</td><td>ASTM D4318 / BS 1377-2</td><td>1 test per <strong>500 m³</strong> or source change</td></tr>
+<tr><td><strong>LA Abrasion</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 30%</td><td>ASTM C131</td><td>1 test per <strong>1,000 m³</strong> or source change</td></tr>
+<tr><td><strong>Soundness (MgSO₄)</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 18%</td><td>ASTM C88</td><td>1 test per <strong>1,000 m³</strong> or source change</td></tr>
+<tr><td><strong>Sand Equivalent (SE)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 30%</td><td>ASTM D2419</td><td>1 test per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Water Soluble Sulphate (SO₃)</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 0.5%</td><td>BS 1377-3 / AASHTO T290</td><td>1 test per <strong>500 m³</strong> or source change</td></tr>
+<tr><td><strong>Total Chloride Content</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 0.6%</td><td>BS 1377-3</td><td>1 test per <strong>500 m³</strong> or source change</td></tr>
+<tr style="background:rgba(201,168,76,0.06);"><td><strong>Maximum Dry Density (MDD)</strong></td><td>يُحدد من Standard Proctor<br><span style="font-size:10px;">مرجع للدمك الميداني</span></td><td>ASTM D698 / BS 1377-4</td><td>1 test per <strong>material/source change</strong></td></tr>
+<tr style="background:rgba(201,168,76,0.06);"><td><strong>Moisture Content during Compaction</strong></td><td style="color:#2ecc71;font-weight:700;">OMC ± 2%</td><td>ASTM D2216</td><td>Daily — min 1 per <strong>500 m²</strong></td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Field Density (Compaction)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 98% MDD (Standard Proctor)<br><span style="font-size:10px;">لكل طبقة مدموكة ≤ 200mm</span></td><td>ASTM D1556 (Sand Cone)<br>ASTM D6938 (Nuclear)</td><td>1 test per <strong>500 m²</strong> per layer</td></tr>
+<tr style="background:rgba(46,204,113,0.12);"><td><strong>CBR (Soaked 4 days)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 30%<br><span style="font-size:10px;">عند دمك ≥ 98% MDD</span></td><td>ASTM D1883 / BS 1377-4</td><td>1 test per <strong>2,000 m²</strong> or source change</td></tr>
+<tr><td><strong>Layer Thickness</strong></td><td>≤ <strong>200mm</strong> مدموك</td><td>Physical Measurement</td><td>Every compacted layer — <strong>100%</strong></td></tr>
+<tr style="background:rgba(201,168,76,0.06);"><td><strong>Surface Level Tolerance</strong></td><td style="font-weight:700;">± 10mm من المنسوب التصميمي</td><td>Total Station / Level</td><td>Every <strong>25m</strong> chainage × full width</td></tr>
+<tr><td><strong>Crossfall</strong></td><td style="font-weight:700;">2.5% ± 0.5%</td><td>Template / Level Board</td><td>Every <strong>25m</strong> chainage</td></tr>
 </table></div>
-<h3>📐 جدول 4:2 — Coarse Aggregate Properties — QCS S6 P4 Page 6</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Property — الخاصية</th><th>Subbase</th><th>Road Base</th><th>Test Method</th></tr>
-<tr><td>LA Abrasion Loss</td><td>≤ <strong>40%</strong></td><td>≤ <strong>30%</strong></td><td>ASTM C131</td></tr>
-<tr><td>Flakiness Index</td><td>≤ <strong>40%</strong></td><td>≤ <strong>30%</strong></td><td>BS 812 P105</td></tr>
-<tr><td>Elongation Index</td><td>≤ <strong>40%</strong></td><td>≤ <strong>30%</strong></td><td>BS 812 P105</td></tr>
-<tr><td>Fractured Faces (1 face+)</td><td>≥ <strong>25%</strong></td><td>≥ <strong>75%</strong></td><td>ASTM D5821</td></tr>
-<tr><td>Fractured Faces (2 faces+)</td><td><strong>—</strong> (لا يُشترط)</td><td>≥ <strong>50%</strong></td><td>ASTM D5821</td></tr>
-<tr><td>Water Absorption</td><td>≤ <strong>3%</strong></td><td>≤ <strong>2%</strong></td><td>ASTM C127</td></tr>
-<tr><td>Soundness (MgSO₄ — 5 cycles)</td><td>≤ <strong>18%</strong></td><td>≤ <strong>12%</strong></td><td>ASTM C88</td></tr>
-<tr><td>Specific Gravity (SSD)</td><td>≥ <strong>2.4</strong></td><td>≥ <strong>2.5</strong></td><td>ASTM C127</td></tr>
-<tr><td>Water-Soluble Sulphate SO₃</td><td>≤ <strong>0.5%</strong></td><td>≤ <strong>0.5%</strong></td><td>BS 1377-3</td></tr>
-<tr><td>Total Chloride</td><td>≤ <strong>0.6%</strong></td><td>≤ <strong>0.6%</strong></td><td>BS 1377-3</td></tr>
-</table></div>
-<h3>📐 جدول 4:3 — Combined Aggregate Properties — QCS S6 P4 Page 7</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Property — الخاصية</th><th>Subbase</th><th>Road Base</th><th>Test Method</th><th>Min Frequency</th></tr>
-<tr><td>CBR (Soaked 4 days @ 98% MDD)</td><td>≥ <strong style="color:#2ecc71;">70%</strong></td><td>≥ <strong style="color:#2ecc71;">80%</strong></td><td>ASTM D1883</td><td>1 per 2,000 m²</td></tr>
-<tr><td>Plasticity Index (PI)</td><td>≤ <strong>6%</strong></td><td>≤ <strong>4%</strong></td><td>ASTM D4318</td><td>1 per 500 m³</td></tr>
-<tr><td>Liquid Limit (LL)</td><td>≤ <strong>25%</strong></td><td>≤ <strong>25%</strong></td><td>ASTM D4318</td><td>1 per 500 m³</td></tr>
-<tr><td>Sand Equivalent (SE)</td><td>≥ <strong>25%</strong></td><td>≥ <strong>35%</strong></td><td>ASTM D2419</td><td>1 per 500 m³</td></tr>
-<tr><td>Organic Content</td><td>≤ <strong>1%</strong></td><td>≤ <strong>1%</strong></td><td>ASTM D2974</td><td>per source change</td></tr>
-<tr><td>Max Particle Size</td><td>75mm (≤ ¾ layer t.)</td><td>50mm (≤ ½ layer t.)</td><td>Sieve</td><td>per source change</td></tr>
-<tr><td>Compaction (MDD Std Proctor)</td><td>≥ <strong>98%</strong></td><td>≥ <strong>98%</strong></td><td>ASTM D698 + D1556</td><td>1 per 500 m²</td></tr>
-<tr><td>Layer Thickness (compacted)</td><td>150 – 300 mm</td><td>150 – 250 mm</td><td>Physical</td><td>100% each layer</td></tr>
-<tr><td>Level Tolerance</td><td>± 10 mm</td><td>± 8 mm</td><td>Total Station</td><td>Every 25 m</td></tr>
-</table></div>
-<h3>🔴 Hold Points</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>التوثيق</th></tr>
-<tr><td>HP-01</td><td>Material Approval (MAR) معتمد قبل التوريد — Grading + LA + CBR</td><td>Lab Reports + Engineer Approval</td></tr>
-<tr><td>HP-02</td><td>Subgrade مقبول وHP-05 الخاص به معتمد</td><td>Subgrade HP-05 Certificate</td></tr>
-<tr><td>HP-03</td><td>Compaction ≥ 98% MDD + CBR ≥ 70% معتمدان</td><td>Sand Cone + CBR Reports</td></tr>
-<tr><td>HP-04</td><td>Level Survey ± 10mm معتمد قبل Road Base</td><td>As-Built Survey</td></tr>
-</table></div>
+<h3>🔧 طريقة التنفيذ — QCS S6 P3 Cl. 4.4</h3>
+<p><strong>1. التحضير:</strong> التأكد من اعتماد Subgrade (HP-03) قبل البدء<br>
+<strong>2. الفرش:</strong> Motor Grader بطبقات موحدة ≤ 200mm — منع Segregation عند التفريغ<br>
+<strong>3. رش المياه:</strong> للوصول لـ OMC ± 2% قبل الدمك<br>
+<strong>4. الدمك:</strong> Vibratory Roller ≥ 8 طن — 6-8 ممرات — Speed ≤ 4 km/hr<br>
+<strong>5. القياس:</strong> Sand Cone Density كل 500m² — رفض أي نتيجة &lt; 98% MDD<br>
+<strong>6. Level Survey:</strong> Total Station كل 25m × العرض الكامل</p>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin:12px 0;font-size:12px;"><strong>🔵 ملاحظات QCS الجوهرية:</strong><br>• Quarry Approval إلزامي قبل التوريد — لا يُقبل ركام من مصدر غير معتمد<br>• Nuclear Gauge للمراقبة اليومية فقط — Sand Cone هو المرجع الرسمي للقبول<br>• Contamination بمواد ناعمة يرفع PI ويقلل CBR — فحص دوري عند التفريغ<br>• لا تبدأ Base Course قبل HP رسمي معتمد من الاستشاري على Subbase<br>• في قطر: درجات الحرارة العالية تسرع تبخر المياه — رش متكرر للحفاظ على OMC</div><h3>🔴 Hold Points الإلزامية</h3><table class="dm-table"><tr><th>HP</th><th>الشرط</th><th>التوثيق المطلوب</th></tr><tr><td><strong>HP-04</strong></td><td>اعتماد Quarry Approval + نتائج المختبر قبل التوريد</td><td>Lab Reports + Engineer Approval</td></tr><tr><td><strong>HP-05</strong></td><td>اعتماد Proctor + CBR + Grading قبل بدء الفرش</td><td>Lab Reports + IR</td></tr><tr><td><strong>HP-06</strong></td><td>Field Density ≥ 98% MDD + CBR ≥ 30% + Level ± 10mm مكتملان</td><td>Density Reports + Level Survey + IR</td></tr></table>
 </div>
 
 <div class="lang-content-en" style="display:none;">
-<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Subbase Course — Execution & Testing</span>
-<button onclick="document.getElementById('vid-subbase-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
-</div>
-<input type="file" id="vid-subbase-en" accept="video/*" style="display:none" data-player="vid-player-subbase-en" data-ph="vid-ph-subbase-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-subbase-en" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV — Video saved for entire session</div>
-<video id="vid-player-subbase-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
-</div>
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
-📌 QCS 2024 — Section 6 Part 4 — Tables 4:1, 4:2, 4:3
-</div>
-<h3>Table 4:1 — Grading Envelope — QCS S6 P4 Page 5</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Sieve Size</th><th>% Passing — Subbase</th><th>% Passing — Road Base</th></tr>
-<tr><td>75.0 mm</td><td>100</td><td>100</td></tr>
-<tr><td>37.5 mm</td><td>95–100</td><td>95–100</td></tr>
-<tr><td>9.5 mm</td><td>50–80</td><td>50–75</td></tr>
-<tr><td>4.75 mm</td><td>35–65</td><td>30–60</td></tr>
-<tr><td>2.36 mm</td><td>25–50</td><td>20–45</td></tr>
-<tr><td>0.425 mm</td><td>15–30</td><td>10–25</td></tr>
-<tr><td>0.075 mm</td><td><strong>5–15</strong></td><td><strong>5–12</strong></td></tr>
-</table></div><h3>Table 4:2 — Coarse Aggregate — QCS S6 P4 Page 6</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Property</th><th>Subbase</th><th>Road Base</th><th>Test</th></tr>
-<tr><td>LA Abrasion</td><td>≤ 40%</td><td>≤ 30%</td><td>ASTM C131</td></tr>
-<tr><td>Flakiness Index</td><td>≤ 40%</td><td>≤ 30%</td><td>BS 812</td></tr>
-<tr><td>Fractured Faces (1+)</td><td>≥ 25%</td><td>≥ 75%</td><td>ASTM D5821</td></tr>
-<tr><td>Fractured Faces (2+)</td><td>—</td><td>≥ 50%</td><td>ASTM D5821</td></tr>
-<tr><td>Water Absorption</td><td>≤ 3%</td><td>≤ 2%</td><td>ASTM C127</td></tr>
-<tr><td>Soundness MgSO₄</td><td>≤ 18%</td><td>≤ 12%</td><td>ASTM C88</td></tr>
-<tr><td>Specific Gravity SSD</td><td>≥ 2.4</td><td>≥ 2.5</td><td>ASTM C127</td></tr>
-</table></div><h3>Table 4:3 — Combined Aggregate — QCS S6 P4 Page 7</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Property</th><th>Subbase</th><th>Road Base</th><th>Test</th><th>Frequency</th></tr>
-<tr><td>CBR (Soaked 4d)</td><td>≥ <strong>70%</strong></td><td>≥ <strong>80%</strong></td><td>ASTM D1883</td><td>1/2000m²</td></tr>
-<tr><td>Plasticity Index</td><td>≤ 6%</td><td>≤ 4%</td><td>ASTM D4318</td><td>1/500m³</td></tr>
-<tr><td>Sand Equivalent</td><td>≥ 25%</td><td>≥ 35%</td><td>ASTM D2419</td><td>1/500m³</td></tr>
-<tr><td>Compaction MDD</td><td>≥ 98%</td><td>≥ 98%</td><td>ASTM D1556</td><td>1/500m²</td></tr>
-<tr><td>Layer Thickness</td><td>150–300mm</td><td>150–250mm</td><td>Physical</td><td>100%</td></tr>
-<tr><td>Level Tolerance</td><td>± 10mm</td><td>± 8mm</td><td>Total Station</td><td>Every 25m</td></tr>
-</table></div>
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);"><div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:8px;"><span>🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Subbase Course — Construction & Testing Video</span></div><button onclick="document.getElementById('vid-subbase-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button></div><input type="file" id="vid-subbase-en" accept="video/*" style="display:none" data-player="vid-subbase-en-p" data-ph="vid-subbase-en-ph" onchange="loadLocalVideo(this,this.getAttribute('data-player'),this.getAttribute('data-ph'))"><div id="vid-subbase-en-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV showing Subbase material spreading, compaction and density testing</div><video id="vid-subbase-en-p" controls style="width:100%;display:none;max-height:250px;background:#000;"></video></div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">📌 QCS 2024 — Section 6 Part 3 | Sub-base Course — Pages 9-16</div>
+<h3>Subbase Definition — QCS S6 P3 Cl. 4.1</h3>
+<p>Subbase is the first granular layer above Subgrade. Its function is to distribute loads and prevent groundwater capillary rise to upper layers. Material quality determines long-term road deformation resistance.</p>
+
+<h3>Table 4:1 — Subbase Material Specification — QCS 2024 / Section 6 / Part 3 / Page 10</h3>
+<p style="font-size:11px;color:var(--text3);">Source: QCS 2024 — Section 6 Part 3 Table 4:1 — values as per Qatar Construction Specifications</p>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Parameter</th><th style="min-width:210px;">Specification Limit</th><th style="min-width:170px;">Test Method</th><th style="min-width:190px;">Minimum Test Frequency</th></tr>
+<tr><td><strong>Grading — 37.5mm</strong></td><td style="color:#2ecc71;font-weight:700;">100%</td><td>ASTM C136 / BS 1377-2</td><td>1 test per <strong>500 m³</strong> or source change</td></tr>
+<tr><td><strong>Grading — 20mm</strong></td><td style="color:#2ecc71;font-weight:700;">60 – 100%</td><td>ASTM C136</td><td>1 test per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Grading — 5mm</strong></td><td style="color:#2ecc71;font-weight:700;">30 – 65%</td><td>ASTM C136</td><td>1 test per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Grading — 0.075mm</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 10%</td><td>ASTM C136</td><td>1 test per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Liquid Limit (LL)</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 25%</td><td>ASTM D4318</td><td>1 per <strong>500 m³</strong> or source change</td></tr>
+<tr><td><strong>Plasticity Index (PI)</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 6%</td><td>ASTM D4318</td><td>1 per <strong>500 m³</strong> or source change</td></tr>
+<tr><td><strong>LA Abrasion</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 30%</td><td>ASTM C131</td><td>1 per <strong>1,000 m³</strong></td></tr>
+<tr><td><strong>Sand Equivalent</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 30%</td><td>ASTM D2419</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Sulphate (SO₃)</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 0.5%</td><td>BS 1377-3</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Field Density</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 98% MDD (Std. Proctor)<br>each layer ≤ 200mm</td><td>ASTM D1556 / D6938</td><td>1 per <strong>500 m²</strong> per layer</td></tr>
+<tr style="background:rgba(46,204,113,0.12);"><td><strong>CBR (Soaked 4 days)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 30% at 98% MDD</td><td>ASTM D1883</td><td>1 per <strong>2,000 m²</strong></td></tr>
+<tr><td><strong>Surface Level Tolerance</strong></td><td style="font-weight:700;">± 10mm from design</td><td>Total Station</td><td>Every <strong>25m</strong> chainage</td></tr>
+</table></div><h3>Hold Points — Mandatory</h3><table class="dm-table"><tr><th>HP</th><th>Condition</th><th>Documentation Required</th></tr><tr><td><strong>HP-04</strong></td><td>Quarry Approval + lab results approved before supply</td><td>Lab Reports + Engineer Approval</td></tr><tr><td><strong>HP-05</strong></td><td>Proctor + CBR + Grading approved before spreading</td><td>Lab Reports + IR</td></tr><tr><td><strong>HP-06</strong></td><td>Field Density ≥ 98% MDD + CBR ≥ 30% + Level ± 10mm complete</td><td>Density Reports + Level Survey + IR</td></tr></table>
 </div>
 ` },
   base: { title: '🧱 Base Course — طبقة الأساس', content: `
 <div class="lang-content-ar">
-<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Road Base Course — التنفيذ والاختبارات</span>
-<button onclick="document.getElementById('vid-base').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
-</div>
-<input type="file" id="vid-base" accept="video/*" style="display:none" data-player="vid-player-base" data-ph="vid-ph-base" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-base" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-base" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
-</div>
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
-📌 QCS 2024 — Section 6 Part 4 — Tables 4:2, 4:3 (Road Base values only)
-</div>
-<h3>📐 جدول 4:2 — Coarse Aggregate — Road Base فقط — QCS S6 P4 Page 6</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Property — الخاصية</th><th>Road Base Spec Limit</th><th>Test Method</th><th>Min Frequency</th></tr>
-<tr><td>LA Abrasion Loss</td><td>≤ <strong>30%</strong></td><td>ASTM C131</td><td>1 per 1,000 m³</td></tr>
-<tr><td>Flakiness Index</td><td>≤ <strong>30%</strong></td><td>BS 812 P105</td><td>1 per 500 m³</td></tr>
-<tr><td>Elongation Index</td><td>≤ <strong>30%</strong></td><td>BS 812 P105</td><td>1 per 500 m³</td></tr>
-<tr><td>Fractured Faces (1 face+)</td><td>≥ <strong>75%</strong></td><td>ASTM D5821</td><td>1 per 500 m³</td></tr>
-<tr><td>Fractured Faces (2 faces+)</td><td>≥ <strong>50%</strong></td><td>ASTM D5821</td><td>1 per 500 m³</td></tr>
-<tr><td>Water Absorption</td><td>≤ <strong>2%</strong></td><td>ASTM C127</td><td>1 per 500 m³</td></tr>
-<tr><td>Soundness (MgSO₄)</td><td>≤ <strong>12%</strong></td><td>ASTM C88</td><td>1 per 1,000 m³</td></tr>
-<tr><td>Specific Gravity (SSD)</td><td>≥ <strong>2.5</strong></td><td>ASTM C127</td><td>1 per source change</td></tr>
-<tr><td>Water-Soluble Sulphate SO₃</td><td>≤ <strong>0.5%</strong></td><td>BS 1377-3</td><td>1 per 1,000 m³</td></tr>
-<tr><td>Total Chloride</td><td>≤ <strong>0.6%</strong></td><td>BS 1377-3</td><td>1 per 1,000 m³</td></tr>
-</table></div>
-<h3>📐 جدول 4:3 — Combined Aggregate — Road Base — QCS S6 P4 Page 7</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Property — الخاصية</th><th>Road Base Spec Limit</th><th>Test Method</th><th>Min Frequency</th></tr>
-<tr><td>CBR (Soaked 4 days @ 98% MDD)</td><td>≥ <strong style="color:#2ecc71;">80%</strong></td><td>ASTM D1883</td><td>1 per 2,000 m²</td></tr>
-<tr><td>Plasticity Index (PI)</td><td>≤ <strong>4%</strong></td><td>ASTM D4318</td><td>1 per 500 m³</td></tr>
-<tr><td>Liquid Limit (LL)</td><td>≤ <strong>25%</strong></td><td>ASTM D4318</td><td>1 per 500 m³</td></tr>
-<tr><td>Sand Equivalent (SE)</td><td>≥ <strong>35%</strong></td><td>ASTM D2419</td><td>1 per 500 m³</td></tr>
-<tr><td>Organic Content</td><td>≤ <strong>1%</strong></td><td>ASTM D2974</td><td>per source change</td></tr>
-<tr><td>Max Particle Size</td><td>50 mm (≤ ½ layer thickness)</td><td>Sieve</td><td>per source change</td></tr>
-<tr><td>Compaction (Field Density)</td><td>≥ <strong>98% MDD</strong> (Std Proctor)</td><td>ASTM D1556 (Sand Cone)</td><td>1 per 500 m²</td></tr>
-<tr><td>Layer Thickness (compacted)</td><td>150 – 250 mm</td><td>Physical Measurement</td><td>100% each layer</td></tr>
-<tr><td>Level Tolerance</td><td>± <strong>8 mm</strong> from design</td><td>Total Station / Level</td><td>Every 25 m chainage</td></tr>
-</table></div>
-<h3>📐 Grading Envelope — Road Base (Table 4:1) — QCS S6 P4 Page 5</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Sieve Size</th><th>% Passing — Road Base</th></tr>
-<tr><td>75.0 mm</td><td>100</td></tr>
-<tr><td>37.5 mm</td><td>95 – 100</td></tr>
-<tr><td>9.5 mm</td><td>50 – 75</td></tr>
-<tr><td>4.75 mm</td><td>30 – 60</td></tr>
-<tr><td>2.36 mm</td><td>20 – 45</td></tr>
-<tr><td>0.425 mm</td><td>10 – 25</td></tr>
-<tr><td>0.075 mm</td><td><strong>5 – 12</strong></td></tr>
-</table></div>
-<h3>🔴 Hold Points</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>التوثيق</th></tr>
-<tr><td>HP-01</td><td>Material Approval (MAR): Table 4:2 + 4:3 كاملة معتمدة</td><td>Lab Reports + MAR Form</td></tr>
-<tr><td>HP-02</td><td>Subbase HP-04 معتمد</td><td>Subbase Completion Certificate</td></tr>
-<tr><td>HP-03</td><td>Compaction ≥ 98% MDD + CBR ≥ 80% معتمدان</td><td>Sand Cone + CBR Lab Reports</td></tr>
-<tr><td>HP-04</td><td>Level Survey ± 8mm معتمد قبل Prime Coat</td><td>As-Built Survey Report</td></tr>
-</table></div>
-</div>
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);"><div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:8px;"><span>🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">فيديو طبقة Base Course — التنفيذ والاختبارات</span></div><button onclick="document.getElementById('vid-base-ar').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button></div><input type="file" id="vid-base-ar" accept="video/*" style="display:none" data-player="vid-base-ar-p" data-ph="vid-base-ar-ph" onchange="loadLocalVideo(this,this.getAttribute('data-player'),this.getAttribute('data-ph'))"><div id="vid-base-ar-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو يوضح فرش مواد Base Course والدمك وPlate Load Test</div><video id="vid-base-ar-p" controls style="width:100%;display:none;max-height:250px;background:#000;"></video></div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">📌 QCS 2024 — Section 6 Part 3 | Base Course — Pages 17-24</div>
+<h3>📐 تعريف Base Course — QCS S6 P3 Cl. 5.1</h3>
+<p>Base Course هي الطبقة الحجرية المباشرة أسفل الإسفلت. مواد أعلى جودة من Subbase مطلوبة — CBR ≥ 80% إلزامي. Fractured Faces تضمن قفل الركام وتقاوم الانزلاق تحت الأحمال.</p>
 
-<div class="lang-content-en" style="display:none;">
-<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Road Base Course — Execution & Testing</span>
-<button onclick="document.getElementById('vid-base-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
-</div>
-<input type="file" id="vid-base-en" accept="video/*" style="display:none" data-player="vid-player-base-en" data-ph="vid-ph-base-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-base-en" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV — Video saved for entire session</div>
-<video id="vid-player-base-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
-</div>
-<h3>Table 4:2 — Coarse Aggregate — Road Base — QCS S6 P4 Page 6</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Property</th><th>Road Base Limit</th><th>Test</th><th>Frequency</th></tr>
-<tr><td>LA Abrasion</td><td>≤ 30%</td><td>ASTM C131</td><td>1/1000m³</td></tr>
-<tr><td>Flakiness Index</td><td>≤ 30%</td><td>BS 812 P105</td><td>1/500m³</td></tr>
-<tr><td>Fractured Faces (1+)</td><td>≥ 75%</td><td>ASTM D5821</td><td>1/500m³</td></tr>
-<tr><td>Fractured Faces (2+)</td><td>≥ 50%</td><td>ASTM D5821</td><td>1/500m³</td></tr>
-<tr><td>Water Absorption</td><td>≤ 2%</td><td>ASTM C127</td><td>1/500m³</td></tr>
-<tr><td>Soundness MgSO₄</td><td>≤ 12%</td><td>ASTM C88</td><td>1/1000m³</td></tr>
-<tr><td>Specific Gravity SSD</td><td>≥ 2.5</td><td>ASTM C127</td><td>per source</td></tr>
-<tr><td>SO₃</td><td>≤ 0.5%</td><td>BS 1377-3</td><td>1/1000m³</td></tr>
-<tr><td>Chloride</td><td>≤ 0.6%</td><td>BS 1377-3</td><td>1/1000m³</td></tr>
-</table></div><h3>Table 4:3 — Combined Road Base — QCS S6 P4 Page 7</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Property</th><th>Road Base Limit</th><th>Test</th><th>Frequency</th></tr>
-<tr><td>CBR (Soaked 4d)</td><td>≥ <strong>80%</strong></td><td>ASTM D1883</td><td>1/2000m²</td></tr>
-<tr><td>Plasticity Index</td><td>≤ 4%</td><td>ASTM D4318</td><td>1/500m³</td></tr>
-<tr><td>Sand Equivalent</td><td>≥ 35%</td><td>ASTM D2419</td><td>1/500m³</td></tr>
-<tr><td>Compaction MDD</td><td>≥ 98%</td><td>ASTM D1556</td><td>1/500m²</td></tr>
-<tr><td>Layer Thickness</td><td>150–250mm</td><td>Physical</td><td>100%</td></tr>
-<tr><td>Level Tolerance</td><td>± 8mm</td><td>Total Station</td><td>Every 25m</td></tr>
+<h3>⚠️ المواد غير المقبولة — QCS S6 P3 Cl. 5.2</h3>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;"><strong>يُحظر استخدام الآتي:</strong><br>• ركام بـ CBR &lt; 80%<br>• ركام بـ LA Abrasion &gt; 25%<br>• ركام بـ PI &gt; 4%<br>• ركام بـ Fractured Faces (1+) &lt; 95%<br>• ركام بـ Water Absorption &gt; 2%<br>• ركام بـ Sulphate &gt; 0.5%<br>• Segregated Material أو مواد من مصدر غير معتمد</div>
+<h3>📐 جدول 5:1 — مواصفات مادة Base Course — QCS 2024 / Section 6 / Part 3 / Page 18</h3>
+<p style="font-size:11px;color:var(--text3);">المصدر: QCS 2024 — Section 6 Part 3 Table 5:1 — كما هو في المواصفات القطرية بالضبط</p>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Parameter — البند</th><th style="min-width:210px;">Specification Limit — حد المواصفة</th><th style="min-width:170px;">Test Method — طريقة الاختبار</th><th style="min-width:190px;">Minimum Test Frequency — أدنى تكرار</th></tr>
+<tr><td><strong>Grading — Sieve 25mm</strong></td><td style="color:#2ecc71;font-weight:700;">100%</td><td>ASTM C136</td><td>1 per <strong>500 m³</strong> or source change</td></tr>
+<tr><td><strong>Grading — Sieve 19mm</strong></td><td style="color:#2ecc71;font-weight:700;">75 – 100%</td><td>ASTM C136</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Grading — Sieve 9.5mm</strong></td><td style="color:#2ecc71;font-weight:700;">50 – 80%</td><td>ASTM C136</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Grading — Sieve 4.75mm</strong></td><td style="color:#2ecc71;font-weight:700;">35 – 60%</td><td>ASTM C136</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Grading — Sieve 0.425mm</strong></td><td style="color:#2ecc71;font-weight:700;">10 – 30%</td><td>ASTM C136</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Grading — Sieve 0.075mm</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 8%</td><td>ASTM C136</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Plasticity Index (PI)</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 4%</td><td>ASTM D4318</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr><td><strong>LA Abrasion</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 25%</td><td>ASTM C131</td><td>1 per <strong>1,000 m³</strong></td></tr>
+<tr><td><strong>Flakiness Index</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 25%</td><td>BS 812 Part 105</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Water Absorption</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 2%</td><td>ASTM C127</td><td>1 per <strong>1,000 m³</strong></td></tr>
+<tr><td><strong>Soundness (MgSO₄)</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 12%</td><td>ASTM C88</td><td>1 per <strong>1,000 m³</strong></td></tr>
+<tr><td><strong>Fractured Faces — 1 or more faces</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 95%</td><td>ASTM D5821</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Fractured Faces — 2 or more faces</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 90%</td><td>ASTM D5821</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Sand Equivalent (SE)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 45%</td><td>ASTM D2419</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Sulphate (SO₃)</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 0.5%</td><td>BS 1377-3</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr style="background:rgba(201,168,76,0.06);"><td><strong>MDD (Standard Proctor)</strong></td><td>يُحدد من اختبار Proctor</td><td>ASTM D698</td><td>1 per material change</td></tr>
+<tr style="background:rgba(201,168,76,0.06);"><td><strong>Moisture Content at Compaction</strong></td><td style="color:#2ecc71;font-weight:700;">OMC ± 2%</td><td>ASTM D2216</td><td>Daily — min 1 per <strong>500 m²</strong></td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Field Density</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 98% MDD (Standard Proctor)<br>طبقات ≤ 150mm</td><td>ASTM D1556 / D6938</td><td>1 per <strong>500 m²</strong> per layer</td></tr>
+<tr style="background:rgba(46,204,113,0.12);"><td><strong>CBR (Soaked 4 days)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 80%<br>عند دمك ≥ 98% MDD</td><td>ASTM D1883</td><td>1 per <strong>2,000 m²</strong></td></tr>
+<tr><td><strong>Plate Load Test (k value)</strong></td><td style="font-weight:700;">حسب متطلبات التصميم<br>يُوثَّق قبل Prime Coat</td><td>ASTM D1196</td><td>1 per <strong>2,000 m²</strong></td></tr>
+<tr style="background:rgba(201,168,76,0.06);"><td><strong>Surface Level Tolerance</strong></td><td style="font-weight:700;">± 8mm من المنسوب التصميمي</td><td>Total Station / Level</td><td>Every <strong>25m</strong> chainage</td></tr>
+<tr><td><strong>Crossfall</strong></td><td style="font-weight:700;">2.5% ± 0.5%</td><td>Template / Level Board</td><td>Every <strong>25m</strong></td></tr>
+<tr><td><strong>Layer Thickness</strong></td><td>150 – 250mm مدموك</td><td>Core / Physical</td><td>Every <strong>500 m²</strong></td></tr>
 </table></div>
+<h3>🔧 طريقة التنفيذ — QCS S6 P3 Cl. 5.4</h3>
+<p><strong>1.</strong> التأكد من اعتماد Subbase (HP-06) قبل البدء<br>
+<strong>2.</strong> فرش المواد بـ Motor Grader — Segregation ممنوع عند التفريغ<br>
+<strong>3.</strong> رش المياه للوصول لـ OMC ± 2%<br>
+<strong>4.</strong> الدمك بـ Vibratory Roller 10-12 طن — 6-8 ممرات<br>
+<strong>5.</strong> Plate Load Test كل 2000m² لقياس قيمة k<br>
+<strong>6.</strong> Level Survey ± 8mm + Crossfall 2.5% كل 25m</p>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin:12px 0;font-size:12px;"><strong>🔵 ملاحظات QCS الجوهرية:</strong><br>• CBR أقل من 80% = الطبقة فاشلة — لا تُقبل تحت أي ظرف<br>• Fractured Faces ضرورية لقفل الركام — حجر ناعم أو مستدير = رفض<br>• Segregation يضعف الطبقة بشكل كبير — مراقبة مستمرة عند التفريغ<br>• لا تبدأ Prime Coat قبل HP رسمي معتمد من الاستشاري<br>• Level Tolerance ± 8mm (أشد من Subbase ± 10mm) — دقة أعلى مطلوبة</div><h3>🔴 Hold Points الإلزامية</h3><table class="dm-table"><tr><th>HP</th><th>الشرط</th><th>التوثيق المطلوب</th></tr><tr><td><strong>HP-07</strong></td><td>اعتماد Quarry Approval + Lab Results لـ Base Course</td><td>Lab Reports + Engineer Approval</td></tr><tr><td><strong>HP-08</strong></td><td>Proctor + CBR + Grading + Fractured Faces معتمد</td><td>Lab Reports + IR</td></tr><tr><td><strong>HP-09</strong></td><td>Field Density ≥ 98% MDD + CBR ≥ 80% + Level ± 8mm معتمد</td><td>Density + CBR + Level Reports + IR</td></tr></table>
+</div>
+<div class="lang-content-en" style="display:none;">
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);"><div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:8px;"><span>🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Base Course — Construction & Testing Video</span></div><button onclick="document.getElementById('vid-base-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button></div><input type="file" id="vid-base-en" accept="video/*" style="display:none" data-player="vid-base-en-p" data-ph="vid-base-en-ph" onchange="loadLocalVideo(this,this.getAttribute('data-player'),this.getAttribute('data-ph'))"><div id="vid-base-en-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV showing Base Course spreading, compaction and Plate Load Test</div><video id="vid-base-en-p" controls style="width:100%;display:none;max-height:250px;background:#000;"></video></div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">📌 QCS 2024 — Section 6 Part 3 | Base Course — Pages 17-24</div>
+<h3>Base Course Definition — QCS S6 P3 Cl. 5.1</h3>
+<p>Base Course is the granular layer directly beneath asphalt. Higher quality than Subbase — CBR ≥ 80% mandatory. Fractured Faces ensure aggregate interlock resisting deformation under traffic loads.</p>
+<h3>Table 5:1 — Base Course Material Specification — QCS 2024 / Section 6 / Part 3 / Page 18</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Parameter</th><th style="min-width:210px;">Specification Limit</th><th style="min-width:170px;">Test Method</th><th style="min-width:190px;">Minimum Test Frequency</th></tr>
+<tr><td><strong>Grading — 25mm</strong></td><td style="color:#2ecc71;font-weight:700;">100%</td><td>ASTM C136</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Grading — 19mm</strong></td><td style="color:#2ecc71;font-weight:700;">75 – 100%</td><td>ASTM C136</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Grading — 4.75mm</strong></td><td style="color:#2ecc71;font-weight:700;">35 – 60%</td><td>ASTM C136</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Grading — 0.075mm</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 8%</td><td>ASTM C136</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr><td><strong>PI</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 4%</td><td>ASTM D4318</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr><td><strong>LA Abrasion</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 25%</td><td>ASTM C131</td><td>1 per <strong>1,000 m³</strong></td></tr>
+<tr><td><strong>Flakiness Index</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 25%</td><td>BS 812</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Water Absorption</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 2%</td><td>ASTM C127</td><td>1 per <strong>1,000 m³</strong></td></tr>
+<tr><td><strong>Fractured Faces (1+)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 95%</td><td>ASTM D5821</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Fractured Faces (2+)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 90%</td><td>ASTM D5821</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr><td><strong>Sand Equivalent</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 45%</td><td>ASTM D2419</td><td>1 per <strong>500 m³</strong></td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Field Density</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 98% MDD — layers ≤ 150mm</td><td>ASTM D1556 / D6938</td><td>1 per <strong>500 m²</strong> per layer</td></tr>
+<tr style="background:rgba(46,204,113,0.12);"><td><strong>CBR (Soaked 4 days)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 80% at 98% MDD</td><td>ASTM D1883</td><td>1 per <strong>2,000 m²</strong></td></tr>
+<tr><td><strong>Plate Load Test</strong></td><td style="font-weight:700;">As per design requirement</td><td>ASTM D1196</td><td>1 per <strong>2,000 m²</strong></td></tr>
+<tr style="background:rgba(201,168,76,0.06);"><td><strong>Surface Level Tolerance</strong></td><td style="font-weight:700;">± 8mm from design</td><td>Total Station</td><td>Every <strong>25m</strong></td></tr>
+</table></div><h3>Hold Points — Mandatory</h3><table class="dm-table"><tr><th>HP</th><th>Condition</th><th>Documentation Required</th></tr><tr><td><strong>HP-07</strong></td><td>Quarry Approval + Lab Results approved</td><td>Lab Reports + Engineer Approval</td></tr><tr><td><strong>HP-08</strong></td><td>Proctor + CBR + Grading + Fractured Faces approved</td><td>Lab Reports + IR</td></tr><tr><td><strong>HP-09</strong></td><td>Density ≥ 98% + CBR ≥ 80% + Level ± 8mm complete</td><td>Density + CBR + Level Reports + IR</td></tr></table>
 </div>
 ` },
-  prime: { title: '🛢️ Prime Coat', content: `
+  prime: { title: '🛢️ Prime Coat & Tack Coat', content: `
 <div class="lang-content-ar">
-<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Prime Coat — التطبيق والاختبارات</span>
-<button onclick="document.getElementById('vid-prime').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
-</div>
-<input type="file" id="vid-prime" accept="video/*" style="display:none" data-player="vid-player-prime" data-ph="vid-ph-prime" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-prime" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-prime" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
-</div>
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
-📌 QCS 2024 — Section 6 Part 5 — Page 13 | Prime Coat
-</div>
-<h3>📐 Prime Coat — المواصفات الكاملة — QCS S6 P5 Page 13</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المواصفة</th><th>المرجع</th><th>أدنى تكرار</th></tr>
-<tr><td>نوع المادة</td><td>Cutback Bitumen MC-30 أو MC-70</td><td>ASTM D2028</td><td>MAR قبل الاستخدام</td></tr>
-<tr><td>معدل الرش (Rate)</td><td>0.8 – 1.2 L/m²</td><td>QCS S6 P5 P13</td><td>يومياً — calibration report</td></tr>
-<tr><td>درجة حرارة الرش</td><td>50 – 80°C (حسب grade)</td><td>QCS S6 P5</td><td>كل شاحنة</td></tr>
-<tr><td>حالة السطح</td><td>جاف + نظيف + مكنوس بـ Power Broom + Power Blower</td><td>MS</td><td>قبل كل رش</td></tr>
-<tr><td>وقت المعالجة الأدنى</td><td>24 ساعة قبل أي طبقة إسفلتية</td><td>QCS S6 P5</td><td>100%</td></tr>
-<tr><td>عمق النفاذ</td><td>10 – 15 mm في الـ Road Base</td><td>QCS S6 P5</td><td>Core sample inspection</td></tr>
-<tr><td>درجة حرارة الجو</td><td>لا يُرش عند &lt; 10°C أو أثناء مطر أو غبار</td><td>QCS S6 P5</td><td>قبل كل رش</td></tr>
-<tr><td>تغطية Kerbs/Manholes</td><td>إلزامية قبل الرش</td><td>MS</td><td>100%</td></tr>
-<tr><td>Tanker Calibration</td><td>تقرير معايرة مقدَّم قبل الاستخدام</td><td>QCS S6 P5</td><td>Per tanker</td></tr>
-</table></div>
-<h3>📐 Tack Coat — QCS S6 P5 Page 13</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>على Binder Course</th><th>على Wearing Course</th><th>المرجع</th></tr>
-<tr><td>نوع المادة</td><td>SS-1h أو CSS-1h Emulsion</td><td>SS-1h أو CSS-1h Emulsion</td><td>ASTM D977</td></tr>
-<tr><td>معدل الرش (Residual)</td><td>0.30 – 0.50 L/m²</td><td>0.20 – 0.40 L/m²</td><td>QCS S6 P5 P13</td></tr>
-<tr><td>درجة الحرارة</td><td>50 – 70°C</td><td>50 – 70°C</td><td>QCS S6 P5</td></tr>
-<tr><td>علامة الجهوزية</td><td>لون أسود كامل (Breakup)</td><td>لون أسود كامل (Breakup)</td><td>Visual</td></tr>
-<tr><td>خطر الزيادة</td><td>Excess = Slippage بين الطبقات</td><td>Excess = Slippage</td><td>QCS Note</td></tr>
-</table></div>
-<h3>🔴 Hold Points</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>التوثيق</th></tr>
-<tr><td>HP-01</td><td>Road Base HP-04 معتمد (Level ±8mm)</td><td>Completion Certificate</td></tr>
-<tr><td>HP-02</td><td>Tanker Calibration Report مقدَّم</td><td>Calibration Certificate</td></tr>
-<tr><td>HP-03</td><td>معدل رش مسجَّل (qty/area = rate)</td><td>Daily Spray Rate Records</td></tr>
-<tr><td>HP-04</td><td>Prime Coat جاف (أسود + غير لازج) قبل Binder</td><td>Visual Inspection Record</td></tr>
-</table></div>
-</div>
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);"><div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:8px;"><span>🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">فيديو Prime Coat & Tack Coat — التطبيق والاختبارات</span></div><button onclick="document.getElementById('vid-prime-ar').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button></div><input type="file" id="vid-prime-ar" accept="video/*" style="display:none" data-player="vid-prime-ar-p" data-ph="vid-prime-ar-ph" onchange="loadLocalVideo(this,this.getAttribute('data-player'),this.getAttribute('data-ph'))"><div id="vid-prime-ar-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو يوضح رش Prime Coat بمعدل صحيح وقياس كمية الرش</div><video id="vid-prime-ar-p" controls style="width:100%;display:none;max-height:250px;background:#000;"></video></div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">📌 QCS 2024 — Section 6 Part 5 Cl. 5.4 & 5.5 | Bituminous Surface Treatments — Pages 30-38</div>
+<h3>📐 تعريف — QCS S6 P5 Cl. 5.4</h3>
+<p><strong>Prime Coat:</strong> طبقة رابطة تُرش على Base Course لتحقيق الربط مع Binder Course. تحمي Base Course من الماء وتقوي سطحها.<br>
+<strong>Tack Coat:</strong> طبقة رابطة رقيقة بين الطبقات الإسفلتية لضمان التماسك الكامل.</p>
 
-<div class="lang-content-en" style="display:none;">
-<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Prime Coat & Tack Coat</span>
-<button onclick="document.getElementById('vid-prime-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
-</div>
-<input type="file" id="vid-prime-en" accept="video/*" style="display:none" data-player="vid-player-prime-en" data-ph="vid-ph-prime-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-prime-en" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV — Video saved for entire session</div>
-<video id="vid-player-prime-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
-</div>
-<h3>Prime Coat — Full Specifications — QCS S6 P5 Page 13</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Specification</th><th>Reference</th><th>Frequency</th></tr>
-<tr><td>Material</td><td>Cutback Bitumen MC-30 or MC-70</td><td>ASTM D2028</td><td>MAR before use</td></tr>
-<tr><td>Application Rate</td><td>0.8 – 1.2 L/m²</td><td>QCS S6 P5 P13</td><td>Daily — calibration report</td></tr>
-<tr><td>Spray Temperature</td><td>50 – 80°C</td><td>QCS S6 P5</td><td>Each tanker</td></tr>
-<tr><td>Surface Condition</td><td>Dry + clean + power broom + blower</td><td>MS</td><td>Before each spray</td></tr>
-<tr><td>Min Curing Time</td><td>24 hours before asphalt</td><td>QCS S6 P5</td><td>100%</td></tr>
-<tr><td>Penetration Depth</td><td>10 – 15mm into Road Base</td><td>QCS S6 P5</td><td>Core inspection</td></tr>
-<tr><td>Stop Work</td><td>Rain / dust / temp &lt; 10°C</td><td>QCS S6 P5</td><td>Before each spray</td></tr>
-</table></div><h3>Tack Coat — QCS S6 P5 Page 13</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>On Binder</th><th>On Wearing</th><th>Reference</th></tr>
-<tr><td>Material</td><td>SS-1h or CSS-1h</td><td>SS-1h or CSS-1h</td><td>ASTM D977</td></tr>
-<tr><td>Rate (Residual)</td><td>0.30–0.50 L/m²</td><td>0.20–0.40 L/m²</td><td>QCS S6 P5 P13</td></tr>
-<tr><td>Temperature</td><td>50–70°C</td><td>50–70°C</td><td>QCS S6 P5</td></tr>
-<tr><td>Ready Sign</td><td>Full black (breakup)</td><td>Full black (breakup)</td><td>Visual</td></tr>
-<tr><td>Excess Risk</td><td>Slippage between layers</td><td>Slippage = NCR</td><td>QCS Note</td></tr>
+<h3>⚠️ الحالات غير المقبولة — QCS S6 P5 Cl. 5.4.3</h3>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;"><strong>يُحظر استخدام الآتي:</strong><br>• رش في الطقس الممطر أو الرطب أو عند الرطوبة النسبية &gt; 80%<br>• رش عند الرياح الشديدة — تلوث المناطق المجاورة<br>• رش على سطح Base Course ملوث بالغبار أو الطين<br>• رش على سطح رطب أو غير جاف تماماً<br>• رش بمعدل خارج النطاق 0.8-1.2 L/m² (Prime) أو 0.2-0.5 L/m² (Tack)<br>• استخدام مواد غير معتمدة من المهندس الاستشاري</div>
+<h3>📐 جدول مواصفات Prime & Tack Coat — QCS 2024 / Section 6 / Part 5 / Pages 30-38</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Parameter — البند</th><th style="min-width:210px;">Specification Limit — حد المواصفة</th><th style="min-width:170px;">Test Method — طريقة الاختبار</th><th style="min-width:190px;">Minimum Test Frequency — أدنى تكرار</th></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Prime Coat — رش على Base Course</strong></td></tr>
+<tr><td><strong>Material Type</strong></td><td style="font-weight:700;">Cutback Bitumen MC-30 أو MC-70<br>أو Bitumen Emulsion حسب التصميم</td><td>Material Certificate</td><td>كل دفعة</td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Application Rate — Prime</strong></td><td style="color:#2ecc71;font-weight:700;">0.8 – 1.2 L/m²<br><span style="font-size:10px;">يُقاس بورق مقاس محدد + وزن قبل وبعد</span></td><td>Spray Rate Test</td><td>كل Section — <strong>100%</strong></td></tr>
+<tr><td><strong>Surface Temperature</strong></td><td style="font-weight:700;">≥ 10°C<br>لا رش في درجات حرارة منخفضة</td><td>Thermometer</td><td>قبل كل Section</td></tr>
+<tr><td><strong>Material Temperature at Spray</strong></td><td style="color:#2ecc71;font-weight:700;">50 – 80°C<br>حسب نوع Cutback</td><td>Thermometer</td><td>كل حمولة</td></tr>
+<tr><td><strong>Curing Time</strong></td><td style="font-weight:700;">24 – 48 ساعة قبل وضع Binder<br>حتى تتبخر المذيبات كاملاً</td><td>Visual Inspection</td><td>100% قبل Binder</td></tr>
+<tr><td><strong>Surface Coverage</strong></td><td style="color:#2ecc71;font-weight:700;">100% — بدون فراغات أو تفاوت</td><td>Visual Inspection</td><td>100% كل Section</td></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Tack Coat — رش بين الطبقات الإسفلتية</strong></td></tr>
+<tr><td><strong>Material Type</strong></td><td style="font-weight:700;">Bitumen Emulsion SS-1 أو CSS-1</td><td>Material Certificate</td><td>كل دفعة</td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Application Rate — Tack على Binder</strong></td><td style="color:#2ecc71;font-weight:700;">0.3 – 0.5 L/m²</td><td>Spray Rate Test</td><td>كل Section</td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Application Rate — Tack على Wearing</strong></td><td style="color:#2ecc71;font-weight:700;">0.2 – 0.4 L/m²</td><td>Spray Rate Test</td><td>كل Section</td></tr>
+<tr><td><strong>Surface Condition before Tack</strong></td><td style="font-weight:700;">نظيف + جاف + خالٍ من الغبار<br>Air Compressor إلزامي قبل الرش</td><td>Visual Inspection</td><td>100%</td></tr>
+<tr><td><strong>Spray Uniformity</strong></td><td style="font-weight:700;">تغطية موحدة — لا زيادة أو نقص</td><td>Visual Inspection</td><td>100%</td></tr>
+<tr><td><strong>Traffic Restriction</strong></td><td style="color:#e74c3c;font-weight:700;">غلق الطريق كاملاً حتى الجفاف<br>لا مرور على Prime / Tack</td><td>Traffic Management</td><td>100%</td></tr>
 </table></div>
+<h3>🔧 طريقة التنفيذ — QCS S6 P5 Cl. 5.4</h3>
+<p><strong>1.</strong> تنظيف Base Course بـ Air Compressor — إزالة كل الغبار والمواد الرخوة<br>
+<strong>2.</strong> التأكد من جفاف السطح تماماً<br>
+<strong>3.</strong> معايرة الـ Bitumen Sprayer على معدل الرش المطلوب<br>
+<strong>4.</strong> قياس الكمية الفعلية: ورق مقاس (0.5m × 0.5m) + وزن قبل وبعد<br>
+<strong>5.</strong> غلق الطريق — انتظار 24-48 ساعة<br>
+<strong>6.</strong> فحص التغطية 100% بصرياً قبل Binder</p>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin:12px 0;font-size:12px;"><strong>🔵 ملاحظات QCS الجوهرية:</strong><br>• معايرة الـ Sprayer إلزامية في بداية كل يوم عمل<br>• في قطر: الحرارة العالية تسرع الجفاف — راقب التغطية فوراً<br>• حماية المباني والأشجار والكيرب من رذاذ البيتومين<br>• Tack يُرش مباشرة قبل الإسفلت — لا يترك لأكثر من 4 ساعات قبل الفرش</div><h3>🔴 Hold Points الإلزامية</h3><table class="dm-table"><tr><th>HP</th><th>الشرط</th><th>التوثيق المطلوب</th></tr><tr><td><strong>HP-09</strong></td><td>اعتماد Base Course قبل رش Prime Coat</td><td>Base Course HP-09 Approved</td></tr><tr><td><strong>HP-10</strong></td><td>معدل رش Prime 0.8-1.2 L/m² موثق + تغطية 100%</td><td>Spray Rate Records + IR</td></tr><tr><td><strong>HP-11</strong></td><td>Curing 24-48hr مكتمل + موافقة قبل Binder</td><td>Visual Inspection Record + IR</td></tr><tr><td><strong>HP-12</strong></td><td>Tack Coat معدل صحيح + جفاف قبل فرش الإسفلت</td><td>Spray Rate Records + IR</td></tr></table>
+</div>
+<div class="lang-content-en" style="display:none;">
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);"><div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:8px;"><span>🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Prime Coat & Tack Coat — Application Video</span></div><button onclick="document.getElementById('vid-prime-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button></div><input type="file" id="vid-prime-en" accept="video/*" style="display:none" data-player="vid-prime-en-p" data-ph="vid-prime-en-ph" onchange="loadLocalVideo(this,this.getAttribute('data-player'),this.getAttribute('data-ph'))"><div id="vid-prime-en-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV showing Prime Coat application, spray rate measurement and curing</div><video id="vid-prime-en-p" controls style="width:100%;display:none;max-height:250px;background:#000;"></video></div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">📌 QCS 2024 — Section 6 Part 5 Cl. 5.4 & 5.5 | Bituminous Treatments — Pages 30-38</div>
+<h3>Prime & Tack Coat Specification Table — QCS 2024 / Section 6 / Part 5</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Parameter</th><th style="min-width:210px;">Specification Limit</th><th style="min-width:170px;">Test Method</th><th style="min-width:190px;">Minimum Test Frequency</th></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Prime Coat — Applied on Base Course</strong></td></tr>
+<tr><td><strong>Material Type</strong></td><td style="font-weight:700;">Cutback Bitumen MC-30 or MC-70<br>or Bitumen Emulsion per design</td><td>Material Certificate</td><td>Each batch</td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Application Rate — Prime</strong></td><td style="color:#2ecc71;font-weight:700;">0.8 – 1.2 L/m²<br>Measured by spray pad: weight before/after</td><td>Spray Rate Test</td><td>Every Section — <strong>100%</strong></td></tr>
+<tr><td><strong>Material Temperature</strong></td><td style="color:#2ecc71;font-weight:700;">50 – 80°C at spray point</td><td>Thermometer</td><td>Every load</td></tr>
+<tr><td><strong>Curing Time</strong></td><td style="font-weight:700;">24 – 48 hours before Binder placement</td><td>Visual Inspection</td><td>100% before Binder</td></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Tack Coat — Applied Between Asphalt Layers</strong></td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Rate — Tack on Binder</strong></td><td style="color:#2ecc71;font-weight:700;">0.3 – 0.5 L/m²</td><td>Spray Rate Test</td><td>Every Section</td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Rate — Tack on Wearing</strong></td><td style="color:#2ecc71;font-weight:700;">0.2 – 0.4 L/m²</td><td>Spray Rate Test</td><td>Every Section</td></tr>
+<tr><td><strong>Traffic Restriction</strong></td><td style="color:#e74c3c;font-weight:700;">Full road closure until dry</td><td>Traffic Management</td><td>100%</td></tr>
+</table></div><h3>Hold Points — Mandatory</h3><table class="dm-table"><tr><th>HP</th><th>Condition</th><th>Documentation Required</th></tr><tr><td><strong>HP-09</strong></td><td>Base Course approved before Prime Coat</td><td>Base Course HP-09 Approved</td></tr><tr><td><strong>HP-10</strong></td><td>Prime Rate 0.8-1.2 L/m² documented + 100% coverage</td><td>Spray Rate Records + IR</td></tr><tr><td><strong>HP-11</strong></td><td>Curing 24-48hr complete before Binder</td><td>Visual Inspection Record + IR</td></tr><tr><td><strong>HP-12</strong></td><td>Tack Coat correct rate + dry before asphalt laying</td><td>Spray Rate Records + IR</td></tr></table>
 </div>
 ` },
-  binder: { title: '⚫ Binder Course', content: `
+  binder: { title: '⚫ Binder Course — طبقة الرابط الإسفلتي', content: `
 <div class="lang-content-ar">
-<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Binder Course — التنفيذ والاختبارات</span>
-<button onclick="document.getElementById('vid-binder').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
-</div>
-<input type="file" id="vid-binder" accept="video/*" style="display:none" data-player="vid-player-binder" data-ph="vid-ph-binder" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-binder" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-binder" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
-</div>
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
-📌 QCS 2024 — Section 6 Part 5 — Tables 5:6, 5:7, 5:8
-</div>
-<h3>📐 جدول 5:6 — Marshall Mix Design Criteria — QCS S6 P5 Page 15</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>الخاصية</th><th>BC Class A</th><th>BC Class B</th><th>Test Method</th><th>Min Frequency</th></tr>
-<tr><td>Compaction Blows (per face)</td><td>75</td><td>75</td><td>ASTM D1559</td><td>per JMF</td></tr>
-<tr><td>Marshall Stability (min)</td><td>≥ <strong>9.0 kN</strong></td><td>≥ <strong>8.0 kN</strong></td><td>ASTM D1559</td><td>1 per 200t</td></tr>
-<tr><td>Marshall Flow</td><td>2 – 4 mm</td><td>2 – 4 mm</td><td>ASTM D1559</td><td>1 per 200t</td></tr>
-<tr><td>Air Voids Va</td><td>3 – 5%</td><td>3 – 5%</td><td>ASTM D3203</td><td>1 per 200t</td></tr>
-<tr><td>VMA (Voids in Mineral Agg)</td><td>≥ <strong>14%</strong></td><td>≥ <strong>14%</strong></td><td>Calculation</td><td>1 per 200t</td></tr>
-<tr><td>VFA (Voids Filled w/ Asphalt)</td><td>65 – 75%</td><td>65 – 75%</td><td>Calculation</td><td>1 per 200t</td></tr>
-<tr><td>TSR (Moisture Sensitivity)</td><td>≥ 80%</td><td>≥ 75%</td><td>AASHTO T283</td><td>per JMF</td></tr>
-<tr><td>Dust-to-Binder Ratio (P0.075/Pb)</td><td>0.6 – 1.2</td><td>0.6 – 1.2</td><td>Calculation</td><td>1 per 200t</td></tr>
-</table></div>
-<h3>📐 جدول 5:8 — Layer Thickness — QCS S6 P5 Page 15</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>الطبقة</th><th>السماكة المضغوطة</th><th>الحد الأدنى</th><th>الحد الأقصى</th></tr>
-<tr><td>Base Course Class A (BC-A)</td><td>80 – 100 mm</td><td>80 mm</td><td>100 mm</td></tr>
-<tr><td>Base Course Class B (BC-B)</td><td>60 – 80 mm</td><td>60 mm</td><td>80 mm</td></tr>
-<tr><td>ملاحظة: &gt; 100mm</td><td>يُقسَّم لطبقتين</td><td>—</td><td>≤ 100mm per layer</td></tr>
-</table></div>
-<h3>📐 درجات الحرارة — QCS S6 P5</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>المرحلة</th><th>Non-PMB</th><th>PMB</th><th>ملاحظة</th></tr>
-<tr><td>الإنتاج (Mixing)</td><td>140 – 165°C</td><td>150 – 175°C</td><td>Ashghal Plant List</td></tr>
-<tr><td>التسليم (Delivery)</td><td>≥ 135°C</td><td>≥ 145°C</td><td>Rejection if below</td></tr>
-<tr><td>بدء الدمك (Breakdown)</td><td>≥ 120°C</td><td>≥ 125°C</td><td>QCS S6 P5 P28</td></tr>
-<tr><td>Intermediate (PTR)</td><td>80 – 120°C</td><td>90 – 130°C</td><td>QCS S6 P5 P29</td></tr>
-<tr><td>Finish Rolling</td><td>≥ 60°C</td><td>≥ 70°C</td><td>QCS S6 P5 P29</td></tr>
-</table></div>
-<h3>📐 Field Density — QCS S6 P5 Table 5:11</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>الاختبار</th><th>المعيار</th><th>التكرار</th><th>الرفض</th></tr>
-<tr><td>Core Density (TMD%)</td><td>≥ 96% TMD</td><td>1 per 1,000 m²</td><td>&lt; 93% = رفض فوري</td></tr>
-<tr><td>Mean of 5 Cores</td><td>≥ 97% TMD</td><td>per Lot (2000–3000m²)</td><td>&lt; 96% = NCR</td></tr>
-<tr><td>Nuclear Gauge</td><td>≥ 96% TMD</td><td>1 per 200 m² (مراقبة)</td><td>للمراقبة فقط</td></tr>
-<tr><td>Air Voids from Core</td><td>2 – 8%</td><td>per core</td><td>&gt; 8% = رفض</td></tr>
-</table></div>
-<h3>🔴 Hold Points</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>التوثيق</th></tr>
-<tr><td>HP-01</td><td>JMF (Job Mix Formula) معتمد من المهندس</td><td>JMF Approval + Trial Mix Results</td></tr>
-<tr><td>HP-02</td><td>Trial Section ≥ 200m × 1 lane معتمد</td><td>Trial Section Report + Core Results</td></tr>
-<tr><td>HP-03</td><td>Delivery Temp ≥ 135°C/145°C (Non-PMB/PMB)</td><td>Daily Temperature Log</td></tr>
-<tr><td>HP-04</td><td>Core Density ≥ 96% TMD معتمد</td><td>Core Density Report per Lot</td></tr>
-</table></div>
-</div>
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);"><div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:8px;"><span>🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">فيديو Binder Course — الفرش والدمك والاختبارات</span></div><button onclick="document.getElementById('vid-binder-ar').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button></div><input type="file" id="vid-binder-ar" accept="video/*" style="display:none" data-player="vid-binder-ar-p" data-ph="vid-binder-ar-ph" onchange="loadLocalVideo(this,this.getAttribute('data-player'),this.getAttribute('data-ph'))"><div id="vid-binder-ar-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو يوضح وصول الشاحنات وقياس الحرارة وفرش Paver ودمك الرولر وأخذ Core Sample</div><video id="vid-binder-ar-p" controls style="width:100%;display:none;max-height:250px;background:#000;"></video></div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">📌 QCS 2024 — Section 6 Part 5 Cl. 5.5 | Binder Course — Pages 39-55</div>
+<h3>📐 تعريف Binder Course — QCS S6 P5 Cl. 5.5.1</h3>
+<p>Binder Course الطبقة الإسفلتية الأولى السميكة فوق Base Course. تُوزع الأحمال قبل Wearing Course. سماكتها وجودتها يحددان عمر الطريق. في قطر: PMB (Polymer Modified Bitumen) مطلوب للطرق الرئيسية لمقاومة الـ Rutting في الصيف.</p>
 
-<div class="lang-content-en" style="display:none;">
-<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Binder Course — Execution & Testing</span>
-<button onclick="document.getElementById('vid-binder-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
-</div>
-<input type="file" id="vid-binder-en" accept="video/*" style="display:none" data-player="vid-player-binder-en" data-ph="vid-ph-binder-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-binder-en" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV — Video saved for entire session</div>
-<video id="vid-player-binder-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
-</div>
-<h3>Table 5:6 — Marshall Mix Criteria — QCS S6 P5 Page 15</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Property</th><th>BC Class A</th><th>BC Class B</th><th>Test</th><th>Frequency</th></tr>
-<tr><td>Stability (min)</td><td>≥ 9.0 kN</td><td>≥ 8.0 kN</td><td>ASTM D1559</td><td>1/200t</td></tr>
-<tr><td>Flow</td><td>2–4mm</td><td>2–4mm</td><td>ASTM D1559</td><td>1/200t</td></tr>
-<tr><td>Air Voids Va</td><td>3–5%</td><td>3–5%</td><td>ASTM D3203</td><td>1/200t</td></tr>
-<tr><td>VMA</td><td>≥ 14%</td><td>≥ 14%</td><td>Calc</td><td>1/200t</td></tr>
-<tr><td>VFA</td><td>65–75%</td><td>65–75%</td><td>Calc</td><td>1/200t</td></tr>
-<tr><td>TSR</td><td>≥ 80%</td><td>≥ 75%</td><td>AASHTO T283</td><td>per JMF</td></tr>
-</table></div><h3>Layer Thickness — Table 5:8</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Layer</th><th>Compacted Thickness</th></tr>
-<tr><td>BC Class A</td><td>80–100mm</td></tr>
-<tr><td>BC Class B</td><td>60–80mm</td></tr>
-</table></div><h3>Temperatures — QCS S6 P5</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Stage</th><th>Non-PMB</th><th>PMB</th></tr>
-<tr><td>Production</td><td>140–165°C</td><td>150–175°C</td></tr>
-<tr><td>Delivery (min)</td><td>≥ 135°C</td><td>≥ 145°C</td></tr>
-<tr><td>Breakdown Rolling (min)</td><td>≥ 120°C</td><td>≥ 125°C</td></tr>
-<tr><td>Finish Rolling (min)</td><td>≥ 60°C</td><td>≥ 70°C</td></tr>
-</table></div><h3>Field Density — Table 5:11</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Test</th><th>Requirement</th><th>Frequency</th></tr>
-<tr><td>Core TMD%</td><td>≥ 96% TMD</td><td>1/1000m²</td></tr>
-<tr><td>Mean 5 Cores</td><td>≥ 97% TMD</td><td>per Lot</td></tr>
-<tr><td>Any Core Min</td><td>≥ 93% TMD (below = reject)</td><td>per core</td></tr>
+<h3>⚠️ حالات الرفض الفوري — QCS S6 P5 Cl. 5.5.3</h3>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;"><strong>يُحظر استخدام الآتي:</strong><br>• حمولة وصلت بدرجة حرارة &lt; 140°C — رفض فوري بدون أخذ عينة<br>• Marshall Stability &lt; 8 kN (أو &lt; 9 kN للطرق الرئيسية)<br>• Air Voids خارج النطاق 3-5%<br>• Core Density &lt; 98% TMD<br>• Bitumen Content خارج JMF ± 0.3%<br>• Segregation مرئي أثناء الفرش<br>• الدمك بعد انخفاض الحرارة عن 80°C</div>
+<h3>📐 جدول مواصفات Binder Course — QCS 2024 / Section 6 / Part 5 / Pages 39-55</h3>
+<p style="font-size:11px;color:var(--text3);">المصدر: QCS 2024 — Section 6 Part 5 Table 5.5 — كما هو في المواصفات القطرية بالضبط</p>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Parameter — البند</th><th style="min-width:210px;">Specification Limit — حد المواصفة</th><th style="min-width:170px;">Test Method — طريقة الاختبار</th><th style="min-width:190px;">Minimum Test Frequency — أدنى تكرار</th></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Mix Design — JMF Requirements</strong></td></tr>
+<tr><td><strong>JMF Approval</strong></td><td style="color:#e74c3c;font-weight:700;">معتمد قبل الإنتاج — إلزامي</td><td>Marshall Design ASTM D1559</td><td>مرة لكل JMF</td></tr>
+<tr><td><strong>Layer Thickness</strong></td><td style="color:#2ecc71;font-weight:700;">60 – 80mm مدموك</td><td>Core Sample</td><td>1 core per <strong>1,000 m²</strong></td></tr>
+<tr><td><strong>Nominal Max Aggregate Size</strong></td><td style="font-weight:700;">19mm</td><td>ASTM C136</td><td>Per JMF approval</td></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Temperature Requirements — درجات الحرارة</strong></td></tr>
+<tr style="background:rgba(231,76,60,0.06);"><td><strong>Delivery Temperature at Site</strong></td><td style="color:#e74c3c;font-weight:700;">≥ 140°C<br><span style="font-size:10px;">قياس فوري عند وصول الشاحنة — رفض &lt; 140°C</span></td><td>Calibrated Thermometer</td><td><strong>Every load — 100%</strong></td></tr>
+<tr><td><strong>Initial Rolling Temperature</strong></td><td style="color:#2ecc71;font-weight:700;">130 – 145°C</td><td>Thermometer</td><td>Every section</td></tr>
+<tr><td><strong>Intermediate Rolling</strong></td><td style="color:#2ecc71;font-weight:700;">100 – 125°C</td><td>Thermometer</td><td>Every section</td></tr>
+<tr><td><strong>Final Rolling</strong></td><td style="color:#2ecc71;font-weight:700;">80 – 100°C</td><td>Thermometer</td><td>Every section</td></tr>
+<tr><td><strong>No Compaction After</strong></td><td style="color:#e74c3c;font-weight:700;">&lt; 80°C — ممنوع الدمك</td><td>Thermometer</td><td>مستمر</td></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Marshall Test Properties — اختبار Marshall</strong></td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Marshall Stability</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 8.0 kN (طرق فرعية)<br>≥ 9.0 kN (طرق رئيسية)</td><td>ASTM D1559</td><td>1 per <strong>200 tonnes</strong></td></tr>
+<tr><td><strong>Marshall Flow</strong></td><td style="color:#2ecc71;font-weight:700;">2.0 – 4.0 mm</td><td>ASTM D1559</td><td>1 per <strong>200 tonnes</strong></td></tr>
+<tr><td><strong>Air Voids (Va)</strong></td><td style="color:#2ecc71;font-weight:700;">3 – 5%</td><td>ASTM D2041</td><td>1 per <strong>200 tonnes</strong></td></tr>
+<tr><td><strong>VMA (Voids in Mineral Aggregate)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 13%</td><td>Calculation</td><td>Per Marshall Test</td></tr>
+<tr><td><strong>VFA (Voids Filled with Asphalt)</strong></td><td style="color:#2ecc71;font-weight:700;">60 – 75%</td><td>Calculation</td><td>Per Marshall Test</td></tr>
+<tr><td><strong>Retained Stability (Moisture Sensitivity)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 75%</td><td>AASHTO T165</td><td>Per JMF + قبل إنتاج</td></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Field Tests — الاختبارات الميدانية</strong></td></tr>
+<tr style="background:rgba(46,204,113,0.12);"><td><strong>Core Density (%TMD)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 98% TMD<br>(Theoretical Maximum Density)</td><td>BS EN 12697-6</td><td>1 core per <strong>1,000 m²</strong></td></tr>
+<tr><td><strong>Core Thickness</strong></td><td style="color:#2ecc71;font-weight:700;">± 5mm من السماكة التصميمية</td><td>Physical Measurement</td><td>1 core per <strong>1,000 m²</strong></td></tr>
+<tr><td><strong>Bitumen Extraction + Grading</strong></td><td style="color:#2ecc71;font-weight:700;">بيتومين ± 0.3% من JMF<br>Grading في حدود JMF</td><td>ASTM D2172 / C136</td><td>1 per <strong>200 tonnes</strong></td></tr>
+<tr style="background:rgba(201,168,76,0.06);"><td><strong>Surface Level Tolerance</strong></td><td style="font-weight:700;">± 8mm من المنسوب التصميمي</td><td>Total Station / Level</td><td>Every <strong>25m</strong></td></tr>
+<tr><td><strong>Crossfall</strong></td><td style="font-weight:700;">2.5% ± 0.5%</td><td>Template</td><td>Every <strong>25m</strong></td></tr>
 </table></div>
+<h3>🔧 طريقة التنفيذ — QCS S6 P5 Cl. 5.5.4</h3>
+<p><strong>1. قبل الفرش:</strong> رش Tack Coat (HP-12) + انتظار الجفاف + Trial Section 50m معتمد (HP-13)<br>
+<strong>2. عند الوصول:</strong> قياس درجة الحرارة فوراً — رفض &lt; 140°C<br>
+<strong>3. الفرش:</strong> Paver بسرعة ثابتة 4-6 m/min — لا توقف<br>
+<strong>4. الدمك:</strong> Initial (Vibratory) → Intermediate (Pneumatic) → Final (Static)<br>
+<strong>5. الفواصل البارية:</strong> قطع عمودي نظيف + Tack Coat + تداخل ≥ 150mm</p>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin:12px 0;font-size:12px;"><strong>🔵 ملاحظات QCS الجوهرية:</strong><br>• PMB (Polymer Modified Bitumen) إلزامي للطرق الرئيسية في قطر — حرارة الصيف تذيب OPC Bitumen<br>• Trial Section 50m لازم تكون معتمدة قبل الإنتاج الفعلي<br>• Segregation أثناء الفرش = إيقاف فوري + تحقيق + إصلاح<br>• Cold Joint: لا تترك Binder بدون Wearing أكثر من 24 ساعة</div><h3>🔴 Hold Points الإلزامية</h3><table class="dm-table"><tr><th>HP</th><th>الشرط</th><th>التوثيق المطلوب</th></tr><tr><td><strong>HP-11</strong></td><td>Tack Coat جاف + Prime معتمد</td><td>HP-12 Approved</td></tr><tr><td><strong>HP-12</strong></td><td>JMF Approval + Trial Section 50m معتمد</td><td>JMF + Trial Section Report</td></tr><tr><td><strong>HP-13</strong></td><td>Core Density ≥ 98% TMD + Thickness ± 5mm + Level ± 8mm</td><td>Core Reports + Level Survey + IR</td></tr></table>
+</div>
+<div class="lang-content-en" style="display:none;">
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);"><div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:8px;"><span>🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Binder Course — Paving & Compaction Video</span></div><button onclick="document.getElementById('vid-binder-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button></div><input type="file" id="vid-binder-en" accept="video/*" style="display:none" data-player="vid-binder-en-p" data-ph="vid-binder-en-ph" onchange="loadLocalVideo(this,this.getAttribute('data-player'),this.getAttribute('data-ph'))"><div id="vid-binder-en-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV showing temperature checks, Paver operation, roller sequence and Core sampling</div><video id="vid-binder-en-p" controls style="width:100%;display:none;max-height:250px;background:#000;"></video></div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">📌 QCS 2024 — Section 6 Part 5 Cl. 5.5 | Binder Course — Pages 39-55</div>
+<h3>Binder Course Specification Table — QCS 2024 / Section 6 / Part 5</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Parameter</th><th style="min-width:210px;">Specification Limit</th><th style="min-width:170px;">Test Method</th><th style="min-width:190px;">Minimum Test Frequency</th></tr>
+<tr><td><strong>Layer Thickness</strong></td><td style="color:#2ecc71;font-weight:700;">60 – 80mm compacted</td><td>Core Sample</td><td>1 per <strong>1,000 m²</strong></td></tr>
+<tr style="background:rgba(231,76,60,0.06);"><td><strong>Delivery Temperature</strong></td><td style="color:#e74c3c;font-weight:700;">≥ 140°C — reject &lt; 140°C immediately</td><td>Calibrated Thermometer</td><td><strong>Every load — 100%</strong></td></tr>
+<tr><td><strong>Initial Rolling</strong></td><td style="color:#2ecc71;font-weight:700;">130 – 145°C</td><td>Thermometer</td><td>Every section</td></tr>
+<tr><td><strong>Final Rolling</strong></td><td style="color:#2ecc71;font-weight:700;">80 – 100°C</td><td>Thermometer</td><td>Every section</td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Marshall Stability</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 8.0 kN (local) | ≥ 9.0 kN (arterial)</td><td>ASTM D1559</td><td>1 per <strong>200 tonnes</strong></td></tr>
+<tr><td><strong>Marshall Flow</strong></td><td style="color:#2ecc71;font-weight:700;">2.0 – 4.0 mm</td><td>ASTM D1559</td><td>1 per <strong>200 tonnes</strong></td></tr>
+<tr><td><strong>Air Voids (Va)</strong></td><td style="color:#2ecc71;font-weight:700;">3 – 5%</td><td>ASTM D2041</td><td>1 per <strong>200 tonnes</strong></td></tr>
+<tr><td><strong>VMA</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 13%</td><td>Calculation</td><td>Per Marshall Test</td></tr>
+<tr><td><strong>Retained Stability</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 75%</td><td>AASHTO T165</td><td>Per JMF</td></tr>
+<tr style="background:rgba(46,204,113,0.12);"><td><strong>Core Density (%TMD)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 98% TMD</td><td>BS EN 12697-6</td><td>1 per <strong>1,000 m²</strong></td></tr>
+<tr><td><strong>Core Thickness</strong></td><td style="color:#2ecc71;font-weight:700;">± 5mm of design</td><td>Physical</td><td>1 per <strong>1,000 m²</strong></td></tr>
+<tr><td><strong>Bitumen Extraction</strong></td><td style="color:#2ecc71;font-weight:700;">± 0.3% of JMF</td><td>ASTM D2172</td><td>1 per <strong>200 tonnes</strong></td></tr>
+<tr style="background:rgba(201,168,76,0.06);"><td><strong>Level Tolerance</strong></td><td style="font-weight:700;">± 8mm from design</td><td>Total Station</td><td>Every <strong>25m</strong></td></tr>
+</table></div><h3>Hold Points — Mandatory</h3><table class="dm-table"><tr><th>HP</th><th>Condition</th><th>Documentation Required</th></tr><tr><td><strong>HP-12</strong></td><td>JMF Approval + Trial Section 50m approved</td><td>JMF + Trial Section Report</td></tr><tr><td><strong>HP-13</strong></td><td>Core Density ≥ 98% TMD + Thickness ± 5mm + Level ± 8mm</td><td>Core Reports + Level + IR</td></tr></table>
 </div>
 ` },
-  wearing: { title: '🛣️ Wearing Course', content: `
+  wearing: { title: '🛣️ Wearing Course — طبقة الرديان الإسفلتي', content: `
 <div class="lang-content-ar">
-<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Wearing Course — التنفيذ والاختبارات</span>
-<button onclick="document.getElementById('vid-wearing').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
-</div>
-<input type="file" id="vid-wearing" accept="video/*" style="display:none" data-player="vid-player-wearing" data-ph="vid-ph-wearing" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-wearing" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-wearing" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
-</div>
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
-📌 QCS 2024 — Section 6 Part 5 — Tables 5:6, 5:9, 5:10, 5:11 / Pages 15–19
-</div>
-<h3>📐 جدول 5:6 — Marshall Mix Criteria — Wearing Course — QCS S6 P5 Page 15</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>الخاصية</th><th>Wearing Course</th><th>Test Method</th><th>Min Frequency</th></tr>
-<tr><td>Compaction Blows (per face)</td><td>75</td><td>ASTM D1559</td><td>per JMF</td></tr>
-<tr><td>Marshall Stability (min)</td><td>≥ <strong>9.0 kN</strong></td><td>ASTM D1559</td><td>1 per 200t</td></tr>
-<tr><td>Marshall Flow</td><td>2 – 4 mm</td><td>ASTM D1559</td><td>1 per 200t</td></tr>
-<tr><td>Air Voids Va (design)</td><td>4.0% (JMF)</td><td>ASTM D3203</td><td>1 per 200t</td></tr>
-<tr><td>Air Voids Va (field accept)</td><td>3 – 5%</td><td>ASTM D3203</td><td>1 per 200t</td></tr>
-<tr><td>VMA (Voids in Mineral Agg)</td><td>≥ <strong>15%</strong></td><td>Calculation</td><td>1 per 200t</td></tr>
-<tr><td>VFA (Voids Filled with Asphalt)</td><td>65 – 80%</td><td>Calculation</td><td>1 per 200t</td></tr>
-<tr><td>TSR (Moisture Sensitivity)</td><td>≥ 80%</td><td>AASHTO T283</td><td>per JMF</td></tr>
-<tr><td>Dust-to-Binder Ratio</td><td>0.6 – 1.2</td><td>Calculation</td><td>1 per 200t</td></tr>
-</table></div>
-<h3>📐 جدول 5:8 — Layer Thickness — Wearing Course</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>الطبقة</th><th>السماكة المضغوطة</th><th>Min</th><th>Max</th></tr>
-<tr><td>Wearing Course (WC)</td><td>40 – 55 mm</td><td>40 mm</td><td>55 mm</td></tr>
-</table></div>
-<h3>📐 جدول 5:9 — Air Voids قبل وبعد الفرش — QCS S6 P5 Page 16</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>المرحلة</th><th>Air Voids %</th><th>ملاحظة</th></tr>
-<tr><td>JMF Design Target</td><td>4.0%</td><td>نقطة التصميم المرجعية</td></tr>
-<tr><td>Acceptable Field Range</td><td>3 – 5%</td><td>نطاق القبول الميداني</td></tr>
-<tr><td>Max any single specimen</td><td>7%</td><td>أقصى حد لعينة فردية</td></tr>
-<tr><td>Min field Va</td><td>2%</td><td>أدنى حد مقبول</td></tr>
-<tr><td>TMD Target (%)</td><td>≥ 96% TMD</td><td>نسبة الكثافة القصوى</td></tr>
-</table></div>
-<h3>📐 جدول 5:10 — Tolerances (Actual vs JMF) — QCS S6 P5 Page 17</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>التفاوت المسموح</th><th>ملاحظة</th></tr>
-<tr><td>Bitumen Content (% of mix)</td><td>± 0.3%</td><td>أهم بند في الجودة</td></tr>
-<tr><td>Passing 0.075mm sieve</td><td>± 2.0%</td><td>—</td></tr>
-<tr><td>Passing 2.36mm sieve</td><td>± 5.0%</td><td>—</td></tr>
-<tr><td>Passing 4.75mm sieve</td><td>± 5.0%</td><td>—</td></tr>
-<tr><td>Passing 9.5mm sieve</td><td>± 6.0%</td><td>—</td></tr>
-<tr><td>Passing 12.5mm sieve</td><td>± 6.0%</td><td>—</td></tr>
-<tr><td>Passing 19.0mm sieve</td><td>± 7.0%</td><td>—</td></tr>
-<tr><td>Passing 25.0mm sieve</td><td>± 7.0%</td><td>—</td></tr>
-<tr><td>Mixing Temperature</td><td>± 10°C من JMF</td><td>—</td></tr>
-</table></div>
-<h3>📐 جدول 5:11 — Field Density Acceptance — QCS S6 P5 Pages 18–19</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>الاختبار</th><th>المعيار</th><th>التكرار</th><th>إجراء الفشل</th></tr>
-<tr><td>Core TMD%</td><td>≥ 96% TMD (كل كور)</td><td>1 per 1,000 m²</td><td>NCR + Investigation</td></tr>
-<tr><td>Mean of 5 Cores</td><td>≥ 97% TMD</td><td>per Lot</td><td>NCR + Possible Mill & Relay</td></tr>
-<tr><td>Minimum single core</td><td>≥ 93% TMD</td><td>per core</td><td>رفض فوري + إعادة دمك أو فرز</td></tr>
-<tr><td>Air Voids from Core</td><td>2 – 8%</td><td>per core</td><td>&gt; 8% = NCR</td></tr>
-<tr><td>Nuclear Gauge</td><td>≥ 96% TMD</td><td>1 per 200 m²</td><td>مراقبة فقط — ليس للقبول الرسمي</td></tr>
-</table></div>
-<h3>📐 Smoothness — IRI & Straightedge</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>الاختبار</th><th>Non-PMB WC</th><th>PMB WC</th><th>الاختبار</th><th>التكرار</th></tr>
-<tr><td>IRI (International Roughness Index)</td><td>≤ 1.5 m/km</td><td>≤ 0.9 m/km</td><td>PWA IAN 013</td><td>per 400m section</td></tr>
-<tr><td>3m Straightedge</td><td>≤ 5 mm</td><td>≤ 3 mm</td><td>QCS S6 P5</td><td>every 100m</td></tr>
-<tr><td>Level Survey</td><td>± 6 mm</td><td>± 6 mm</td><td>Total Station</td><td>every 25m</td></tr>
-<tr><td>PSV (Polished Stone Value)</td><td>≥ 55 (WC only)</td><td>≥ 55</td><td>BS 812 P114</td><td>per source</td></tr>
-</table></div>
-<h3>🔴 Hold Points</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>التوثيق</th></tr>
-<tr><td>HP-01</td><td>JMF + Trial Mix معتمدان</td><td>JMF Approval Letter</td></tr>
-<tr><td>HP-02</td><td>Tack Coat مكتمل + جاف</td><td>Visual Inspection + Rate Record</td></tr>
-<tr><td>HP-03</td><td>Trial Section ≥ 200m معتمد</td><td>Trial Section Report + IRI + Cores</td></tr>
-<tr><td>HP-04</td><td>Core Density ≥ 96% TMD معتمد</td><td>Core Report per Lot</td></tr>
-<tr><td>HP-05</td><td>IRI Final ≤ 0.9/1.5 m/km معتمد</td><td>IRI Survey Report</td></tr>
-</table></div>
-</div>
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);"><div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:8px;"><span>🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">فيديو Wearing Course — الفرش والاختبارات النهائية</span></div><button onclick="document.getElementById('vid-wearing-ar').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button></div><input type="file" id="vid-wearing-ar" accept="video/*" style="display:none" data-player="vid-wearing-ar-p" data-ph="vid-wearing-ar-ph" onchange="loadLocalVideo(this,this.getAttribute('data-player'),this.getAttribute('data-ph'))"><div id="vid-wearing-ar-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو يوضح تنفيذ Wearing Course واختبار Skid Resistance وStraightedge</div><video id="vid-wearing-ar-p" controls style="width:100%;display:none;max-height:250px;background:#000;"></video></div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">📌 QCS 2024 — Section 6 Part 5 Cl. 5.6 | Wearing Course — Pages 56-72</div>
+<h3>📐 تعريف Wearing Course — QCS S6 P5 Cl. 5.6.1</h3>
+<p>Wearing Course الطبقة الإسفلتية النهائية المرئية. تتحمل حركة المرور والعوامل الجوية مباشرة. Skid Resistance = السلامة المرورية. مواد أعلى جودة من Binder مطلوبة + PSV ≥ 55 للركام. في قطر: PMB إلزامي للطرق الرئيسية.</p>
 
-<div class="lang-content-en" style="display:none;">
-<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Wearing Course — Execution & Testing</span>
-<button onclick="document.getElementById('vid-wearing-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
-</div>
-<input type="file" id="vid-wearing-en" accept="video/*" style="display:none" data-player="vid-player-wearing-en" data-ph="vid-ph-wearing-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-wearing-en" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV — Video saved for entire session</div>
-<video id="vid-player-wearing-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
-</div>
-<h3>Table 5:6 — Marshall Criteria — Wearing Course — Page 15</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Property</th><th>WC Requirement</th><th>Test</th><th>Frequency</th></tr>
-<tr><td>Stability</td><td>≥ 9.0 kN</td><td>ASTM D1559</td><td>1/200t</td></tr>
-<tr><td>Flow</td><td>2–4mm</td><td>ASTM D1559</td><td>1/200t</td></tr>
-<tr><td>Va (field)</td><td>3–5%</td><td>ASTM D3203</td><td>1/200t</td></tr>
-<tr><td>VMA</td><td>≥ 15%</td><td>Calc</td><td>1/200t</td></tr>
-<tr><td>VFA</td><td>65–80%</td><td>Calc</td><td>1/200t</td></tr>
-<tr><td>TSR</td><td>≥ 80%</td><td>AASHTO T283</td><td>per JMF</td></tr>
-</table></div><h3>Table 5:10 — Mix Tolerances vs JMF — Page 17</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Tolerance</th></tr>
-<tr><td>Bitumen Content</td><td>± 0.3%</td></tr>
-<tr><td>0.075mm passing</td><td>± 2.0%</td></tr>
-<tr><td>2.36–4.75mm passing</td><td>± 5.0%</td></tr>
-<tr><td>9.5–12.5mm passing</td><td>± 6.0%</td></tr>
-<tr><td>19–25mm passing</td><td>± 7.0%</td></tr>
-<tr><td>Mixing Temp</td><td>± 10°C</td></tr>
-</table></div><h3>Table 5:11 — Field Density — Pages 18–19</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Test</th><th>Requirement</th><th>Frequency</th></tr>
-<tr><td>Core TMD%</td><td>≥ 96% TMD</td><td>1/1000m²</td></tr>
-<tr><td>Mean 5 Cores</td><td>≥ 97% TMD</td><td>per Lot</td></tr>
-<tr><td>Min single core</td><td>≥ 93% TMD (below = reject)</td><td>per core</td></tr>
-</table></div><h3>Smoothness</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Test</th><th>Non-PMB</th><th>PMB</th><th>Method</th></tr>
-<tr><td>IRI</td><td>≤ 1.5 m/km</td><td>≤ 0.9 m/km</td><td>PWA IAN 013</td></tr>
-<tr><td>3m Straightedge</td><td>≤ 5mm</td><td>≤ 3mm</td><td>QCS S6 P5</td></tr>
-<tr><td>PSV</td><td>≥ 55</td><td>≥ 55</td><td>BS 812 P114</td></tr>
+<h3>⚠️ حالات الرفض الفوري — QCS S6 P5 Cl. 5.6.3</h3>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;"><strong>يُحظر استخدام الآتي:</strong><br>• حمولة وصلت بدرجة حرارة &lt; 140°C — رفض فوري<br>• PSV الركام &lt; 55 — رفض مصدر الركام كاملاً<br>• Straightedge 3m &gt; 5mm<br>• Skid Resistance SFC &lt; 0.50 (Pendulum)<br>• Core Density &lt; 98% TMD<br>• Air Voids خارج النطاق 3-5%<br>• Bleeding مرئي (بيتومين زائد يطفو على السطح)</div>
+<h3>📐 جدول مواصفات Wearing Course — QCS 2024 / Section 6 / Part 5 / Pages 56-72</h3>
+<p style="font-size:11px;color:var(--text3);">المصدر: QCS 2024 — Section 6 Part 5 Table 5.6 — كما هو في المواصفات القطرية بالضبط</p>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Parameter — البند</th><th style="min-width:210px;">Specification Limit — حد المواصفة</th><th style="min-width:170px;">Test Method — طريقة الاختبار</th><th style="min-width:190px;">Minimum Test Frequency — أدنى تكرار</th></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Mix Design — JMF Requirements</strong></td></tr>
+<tr><td><strong>JMF Approval</strong></td><td style="color:#e74c3c;font-weight:700;">معتمد قبل الإنتاج — إلزامي</td><td>Marshall Design</td><td>مرة لكل JMF</td></tr>
+<tr><td><strong>Layer Thickness</strong></td><td style="color:#2ecc71;font-weight:700;">40 – 50mm مدموك</td><td>Core Sample</td><td>1 core per <strong>1,000 m²</strong></td></tr>
+<tr><td><strong>Nominal Max Aggregate Size</strong></td><td style="font-weight:700;">12.5mm</td><td>ASTM C136</td><td>Per JMF</td></tr>
+<tr><td><strong>Aggregate PSV (Polished Stone Value)</strong></td><td style="color:#e74c3c;font-weight:700;">≥ 55<br><span style="font-size:10px;">مطلوب من الركام — ليس كل محاجر قطر تعطي PSV ≥ 55</span></td><td>BS 812 Part 114</td><td>Per quarry approval</td></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Temperature — درجات الحرارة</strong></td></tr>
+<tr style="background:rgba(231,76,60,0.06);"><td><strong>Delivery Temperature</strong></td><td style="color:#e74c3c;font-weight:700;">≥ 140°C — رفض فوري &lt; 140°C</td><td>Calibrated Thermometer</td><td><strong>Every load — 100%</strong></td></tr>
+<tr><td><strong>Initial Rolling</strong></td><td style="color:#2ecc71;font-weight:700;">130 – 145°C</td><td>Thermometer</td><td>Every section</td></tr>
+<tr><td><strong>Intermediate Rolling</strong></td><td style="color:#2ecc71;font-weight:700;">100 – 125°C</td><td>Thermometer</td><td>Every section</td></tr>
+<tr><td><strong>Final Rolling</strong></td><td style="color:#2ecc71;font-weight:700;">80 – 100°C</td><td>Thermometer</td><td>Every section</td></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Marshall Test Properties</strong></td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Marshall Stability</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 8.0 kN (فرعي) | ≥ 9.0 kN (رئيسي)</td><td>ASTM D1559</td><td>1 per <strong>200 tonnes</strong></td></tr>
+<tr><td><strong>Marshall Flow</strong></td><td style="color:#2ecc71;font-weight:700;">2.0 – 4.0 mm</td><td>ASTM D1559</td><td>1 per <strong>200 tonnes</strong></td></tr>
+<tr><td><strong>Air Voids (Va)</strong></td><td style="color:#2ecc71;font-weight:700;">3 – 5%</td><td>ASTM D2041</td><td>1 per <strong>200 tonnes</strong></td></tr>
+<tr><td><strong>VMA</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 14%</td><td>Calculation</td><td>Per Marshall Test</td></tr>
+<tr><td><strong>VFA</strong></td><td style="color:#2ecc71;font-weight:700;">65 – 78%</td><td>Calculation</td><td>Per Marshall Test</td></tr>
+<tr><td><strong>Bitumen Content</strong></td><td style="color:#2ecc71;font-weight:700;">5.0 – 6.5% (أعلى من Binder)</td><td>ASTM D2172</td><td>1 per <strong>200 tonnes</strong></td></tr>
+<tr><td><strong>Retained Stability</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 75%</td><td>AASHTO T165</td><td>Per JMF</td></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Field Tests — الاختبارات الميدانية</strong></td></tr>
+<tr style="background:rgba(46,204,113,0.12);"><td><strong>Core Density (%TMD)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 98% TMD</td><td>BS EN 12697-6</td><td>1 per <strong>1,000 m²</strong></td></tr>
+<tr><td><strong>Core Thickness</strong></td><td style="color:#2ecc71;font-weight:700;">± 5mm من التصميم</td><td>Physical</td><td>1 per <strong>1,000 m²</strong></td></tr>
+<tr><td><strong>Bitumen Extraction + Grading</strong></td><td style="color:#2ecc71;font-weight:700;">± 0.3% من JMF</td><td>ASTM D2172</td><td>1 per <strong>200 tonnes</strong></td></tr>
+<tr style="background:rgba(46,204,113,0.12);"><td><strong>Straightedge 3m</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 5mm<br>(أدق من Binder)</td><td>3m Straightedge</td><td>Every <strong>100m</strong> longitudinal</td></tr>
+<tr style="background:rgba(46,204,113,0.12);"><td><strong>Skid Resistance (PSV المواد)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 55 PSV للركام</td><td>BS 812 Part 114</td><td>Per quarry — each source</td></tr>
+<tr><td><strong>Skid Resistance (Field — SFC)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 0.50 SFC (Pendulum)<br>أو حسب متطلبات Ashghal</td><td>Pendulum Tester BS 7976</td><td>1 per <strong>500m</strong> lane</td></tr>
+<tr style="background:rgba(201,168,76,0.06);"><td><strong>Surface Level Tolerance</strong></td><td style="font-weight:700;">± 6mm من المنسوب التصميمي<br>(أدق من Binder ± 8mm)</td><td>Total Station / Level</td><td>Every <strong>25m</strong></td></tr>
+<tr><td><strong>Crossfall</strong></td><td style="font-weight:700;">2.0 – 3.0%</td><td>Template / Digital Level</td><td>Every <strong>25m</strong></td></tr>
+<tr><td><strong>Ride Quality (IRI)</strong></td><td style="font-weight:700;">≤ 2.5 m/km (طرق رئيسية)<br>≤ 3.5 m/km (طرق محلية)</td><td>Roughometer / Profilometer</td><td>100% كل الطول</td></tr>
 </table></div>
+<h3>🔧 طريقة التنفيذ — QCS S6 P5 Cl. 5.6.4</h3>
+<p><strong>1.</strong> اعتماد Binder Core (HP-13) + رش Tack Coat (0.2-0.4 L/m²)<br>
+<strong>2.</strong> اعتماد JMF + PSV Quarry Approval + Trial Section 50m (HP-14)<br>
+<strong>3.</strong> قياس درجة الحرارة عند كل حمولة — رفض فوري &lt; 140°C<br>
+<strong>4.</strong> Paver بسرعة ثابتة 3-5 m/min<br>
+<strong>5.</strong> Straightedge Check مباشرة بعد الدمك كل 100m<br>
+<strong>6.</strong> Skid Resistance بعد التبريد الكامل</p>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin:12px 0;font-size:12px;"><strong>🔵 ملاحظات QCS الجوهرية:</strong><br>• PSV Quarry Approval: ليس كل محاجر قطر تعطي PSV ≥ 55 — اختبر قبل الموافقة<br>• Rutting خطر في قطر: PMB إلزامي للطرق الرئيسية والتقاطعات<br>• Bleeding = بيتومين زائد + حرارة = انزلاق خطير — مراقبة Va بدقة<br>• لا يُفتح الطريق للمرور قبل تبرد Wearing تماماً (≤ 50°C)</div><h3>🔴 Hold Points الإلزامية</h3><table class="dm-table"><tr><th>HP</th><th>الشرط</th><th>التوثيق المطلوب</th></tr><tr><td><strong>HP-14</strong></td><td>JMF + PSV Quarry Approval + Trial Section 50m معتمد</td><td>JMF + PSV Report + Trial Section IR</td></tr><tr><td><strong>HP-15</strong></td><td>Core Density ≥ 98% TMD + Thickness ± 5mm + Level ± 6mm</td><td>Core + Level Reports + IR</td></tr><tr><td><strong>HP-16</strong></td><td>Straightedge ≤ 5mm + Skid Resistance SFC ≥ 0.50 معتمد</td><td>Straightedge Record + Skid Report + IR</td></tr></table>
+</div>
+<div class="lang-content-en" style="display:none;">
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);"><div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:8px;"><span>🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Wearing Course — Full Video</span></div><button onclick="document.getElementById('vid-wearing-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button></div><input type="file" id="vid-wearing-en" accept="video/*" style="display:none" data-player="vid-wearing-en-p" data-ph="vid-wearing-en-ph" onchange="loadLocalVideo(this,this.getAttribute('data-player'),this.getAttribute('data-ph'))"><div id="vid-wearing-en-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV showing Wearing Course paving, Straightedge and Skid Resistance testing</div><video id="vid-wearing-en-p" controls style="width:100%;display:none;max-height:250px;background:#000;"></video></div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">📌 QCS 2024 — Section 6 Part 5 Cl. 5.6 | Wearing Course — Pages 56-72</div>
+<h3>Wearing Course Specification Table — QCS 2024 / Section 6 / Part 5</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Parameter</th><th style="min-width:210px;">Specification Limit</th><th style="min-width:170px;">Test Method</th><th style="min-width:190px;">Minimum Test Frequency</th></tr>
+<tr><td><strong>Layer Thickness</strong></td><td style="color:#2ecc71;font-weight:700;">40 – 50mm compacted</td><td>Core Sample</td><td>1 per <strong>1,000 m²</strong></td></tr>
+<tr><td><strong>Aggregate PSV</strong></td><td style="color:#e74c3c;font-weight:700;">≥ 55 PSV</td><td>BS 812 Part 114</td><td>Per quarry approval</td></tr>
+<tr style="background:rgba(231,76,60,0.06);"><td><strong>Delivery Temperature</strong></td><td style="color:#e74c3c;font-weight:700;">≥ 140°C — reject immediately &lt; 140°C</td><td>Thermometer</td><td><strong>Every load — 100%</strong></td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Marshall Stability</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 8.0 kN (local) | ≥ 9.0 kN (arterial)</td><td>ASTM D1559</td><td>1 per <strong>200 tonnes</strong></td></tr>
+<tr><td><strong>Air Voids (Va)</strong></td><td style="color:#2ecc71;font-weight:700;">3 – 5%</td><td>ASTM D2041</td><td>1 per <strong>200 tonnes</strong></td></tr>
+<tr><td><strong>VMA</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 14%</td><td>Calculation</td><td>Per Marshall Test</td></tr>
+<tr style="background:rgba(46,204,113,0.12);"><td><strong>Core Density</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 98% TMD</td><td>BS EN 12697-6</td><td>1 per <strong>1,000 m²</strong></td></tr>
+<tr style="background:rgba(46,204,113,0.12);"><td><strong>Straightedge 3m</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 5mm</td><td>3m Straightedge</td><td>Every <strong>100m</strong></td></tr>
+<tr style="background:rgba(46,204,113,0.12);"><td><strong>Skid Resistance (Field)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 0.50 SFC (Pendulum)</td><td>Pendulum BS 7976</td><td>1 per <strong>500m</strong></td></tr>
+<tr style="background:rgba(201,168,76,0.06);"><td><strong>Level Tolerance</strong></td><td style="font-weight:700;">± 6mm from design</td><td>Total Station</td><td>Every <strong>25m</strong></td></tr>
+<tr><td><strong>Crossfall</strong></td><td style="font-weight:700;">2.0 – 3.0%</td><td>Template / Digital Level</td><td>Every <strong>25m</strong></td></tr>
+<tr><td><strong>Ride Quality (IRI)</strong></td><td style="font-weight:700;">≤ 2.5 m/km (arterial) | ≤ 3.5 (local)</td><td>Profilometer</td><td>100% full length</td></tr>
+</table></div><h3>Hold Points — Mandatory</h3><table class="dm-table"><tr><th>HP</th><th>Condition</th><th>Documentation Required</th></tr><tr><td><strong>HP-14</strong></td><td>JMF + PSV Quarry + Trial Section 50m approved</td><td>JMF + PSV Report + Trial Section IR</td></tr><tr><td><strong>HP-15</strong></td><td>Core Density ≥ 98% + Thickness ± 5mm + Level ± 6mm</td><td>Core + Level Reports + IR</td></tr><tr><td><strong>HP-16</strong></td><td>Straightedge ≤ 5mm + Skid SFC ≥ 0.50 approved</td><td>Straightedge + Skid Report + IR</td></tr></table>
 </div>
 ` },
-  finishing: { title: '🚧 التشطيبات النهائية', content: `
+  finishing: { title: '🚧 التشطيبات النهائية — Road Finishing', content: `
 <div class="lang-content-ar">
-<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;">
-<span style="font-size:16px;">🎥</span>
-<span style="color:var(--gold);font-weight:700;font-size:13px;">تشطيبات الطريق — Kerbs ومساطر وإشارات</span>
-</div>
-<button onclick="document.getElementById('vid-finishing').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
-</div>
-<input type="file" id="vid-finishing" accept="video/*" style="display:none" data-player="vid-player-finishing" data-ph="vid-placeholder-finishing" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-placeholder-finishing" style="padding:24px;text-align:center;color:var(--text3);">
-<div style="font-size:32px;margin-bottom:8px;">📹</div>
-<div style="font-size:13px;margin-bottom:4px;">تركيب الأرصفة، خطوط الطريق، منارات التوجيه</div>
-<div style="font-size:11px;color:var(--text3);">اضغط "رفع فيديو" لتحميل ملف MP4</div>
-</div>
-<video id="vid-player-finishing" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
-</div>
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);"><div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:8px;"><span>🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">فيديو التشطيبات النهائية للطريق</span></div><button onclick="document.getElementById('vid-finishing-ar').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button></div><input type="file" id="vid-finishing-ar" accept="video/*" style="display:none" data-player="vid-finishing-ar-p" data-ph="vid-finishing-ar-ph" onchange="loadLocalVideo(this,this.getAttribute('data-player'),this.getAttribute('data-ph'))"><div id="vid-finishing-ar-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو يوضح تركيب الكيرب ودهان Road Markings وفحص Retroreflectivity</div><video id="vid-finishing-ar-p" controls style="width:100%;display:none;max-height:250px;background:#000;"></video></div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">📌 QCS 2024 — Section 6 | Road Finishing Works — Pages 73-90</div>
+<h3>📐 تعريف — QCS S6 Cl. 7.1</h3>
+<p>التشطيبات النهائية تشمل: Kerbs وRoad Markings والإنارة والصرف السطحي. لا يُفتح الطريق للمرور قبل اكتمال كل التشطيبات والحصول على موافقة Ashghal/MOI.</p>
 
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 6 | Road Finishing Works</div>
-<h3>🏗️ الكيرب (Kerbs & Edging)</h3>
-<table class="dm-table"><tr><th>البند</th><th>المواصفة</th></tr><tr><td>مقاومة الConcrete</td><td>≥ C40 (40 N/mm²)</td></tr><tr><td>Bedding Mortar</td><td>1:3 سمنت:رمل — سماكة 25-50mm</td></tr><tr><td>Haunching</td><td>Concrete C25 خلف وتحت الكيرب</td></tr><tr><td>Joint Sealant</td><td>بين الوحدات كل 3-5m</td></tr><tr><td>Level Accuracy</td><td>± 5mm</td></tr><tr><td>الاستقامة</td><td>Straightedge 3m ≤ 5mm</td></tr></table>
-<h3>🎨 Road Markings</h3>
-<table class="dm-table"><tr><th>البند</th><th>المواصفة</th></tr><tr><td>نوع الدهان</td><td>Thermoplastic Paint (إلزامي للرئيسية)</td></tr><tr><td>السماكة</td><td>≥ 3mm</td></tr><tr><td>Retroreflectivity (جديد)</td><td>≥ 150 mcd/m²/lux</td></tr><tr><td>Retroreflectivity (قديم)</td><td>≥ 100 mcd/m²/lux</td></tr><tr><td>عرض الخط الطولي</td><td>100mm (فرعي) / 150mm (رئيسي)</td></tr><tr><td>Road Studs</td><td>Cat Eyes كل 10m للطرق السريعة</td></tr></table>
-<h3>💡 الإنارة</h3>
-<p>• ارتفاع الأعمدة حسب تصنيف الطريق (8-14m)<br>• Illuminance Level Test بعد التركيب<br>• Earth Testing كل عمود — مقاومة ≤ 5Ω<br>• Cable Continuity Test<br>• موافقة KAHRAMAA قبل التشغيل</p>
-<h3>🌊 الصرف السطحي</h3>
-<p>• Gully Gratings بالLevel الصح مع مستوى Asphalt<br>• CCTV Inspection للمواسير<br>• Hydraulic Test للتأكد من عدم التسريب<br>• Silt Traps قبل مخرج الشبكة</p>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-17:</strong> اعتماد Road Markings قبل فتح الطريق<br>• <strong>HP-18:</strong> موافقة MOI/Ashghal على Traffic Signs<br>• <strong>HP-19:</strong> موافقة KAHRAMAA على الإنارة</p>
-
+<h3>⚠️ الحالات غير المقبولة</h3>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;"><strong>يُحظر استخدام الآتي:</strong><br>• Kerb بدون Haunching خرساني خلفها<br>• Road Marking بـ Retroreflectivity &lt; 150 mcd/m²/lux (جديد)<br>• Gully Level خارج ± 5mm من مستوى الطريق<br>• إنارة بدون Earth Test لكل عمود<br>• Traffic Signs بدون موافقة MOI</div>
+<h3>📐 جدول مواصفات التشطيبات — QCS 2024 / Section 6</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Parameter — البند</th><th style="min-width:210px;">Specification Limit — حد المواصفة</th><th style="min-width:170px;">Test Method — طريقة الاختبار</th><th style="min-width:190px;">Minimum Test Frequency — أدنى تكرار</th></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Kerbs & Edging — الكيرب</strong></td></tr>
+<tr><td><strong>Kerb Concrete Grade</strong></td><td style="color:#2ecc71;font-weight:700;">≥ C40 (40 N/mm²)<br>Precast أو Cast in-situ</td><td>Cube Test</td><td>كل 50m³ أو كل دفعة Precast</td></tr>
+<tr><td><strong>Bedding Mortar</strong></td><td style="font-weight:700;">1:3 سمنت:رمل<br>سماكة 25 – 50mm</td><td>Physical Measurement</td><td>100% فحص بصري</td></tr>
+<tr><td><strong>Haunching Concrete</strong></td><td style="font-weight:700;">C25 خلف وتحت الكيرب</td><td>Visual Inspection</td><td>100%</td></tr>
+<tr><td><strong>Kerb Level Tolerance</strong></td><td style="color:#2ecc71;font-weight:700;">± 5mm من المنسوب التصميمي</td><td>Level Survey</td><td>Every <strong>10m</strong></td></tr>
+<tr><td><strong>Kerb Alignment</strong></td><td style="color:#2ecc71;font-weight:700;">Straightedge 3m ≤ 5mm</td><td>Straightedge</td><td>Every <strong>25m</strong></td></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Road Markings — دهانات الطريق</strong></td></tr>
+<tr><td><strong>Marking Type</strong></td><td style="font-weight:700;">Thermoplastic — إلزامي للطرق الرئيسية<br>Cold Paint مقبول للطرق الفرعية</td><td>Material Certificate</td><td>كل دفعة</td></tr>
+<tr><td><strong>Thickness — Thermoplastic</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 3.0mm</td><td>Physical Measurement</td><td>1 per <strong>500m</strong></td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Retroreflectivity — New Marking</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 150 mcd/m²/lux</td><td>Retro-Reflectometer</td><td>1 per <strong>200m</strong> per lane</td></tr>
+<tr><td><strong>Retroreflectivity — Existing</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 100 mcd/m²/lux</td><td>Retro-Reflectometer</td><td>عند الفحص الدوري</td></tr>
+<tr><td><strong>Line Width — Main Road</strong></td><td style="font-weight:700;">150mm</td><td>Physical Measurement</td><td>كل 100m</td></tr>
+<tr><td><strong>Road Studs (Cat Eyes)</strong></td><td style="font-weight:700;">كل 10m — Motorway<br>كل 20m — Arterial</td><td>Visual / Physical</td><td>100%</td></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Street Lighting — الإنارة</strong></td></tr>
+<tr><td><strong>Earth Resistance per Pole</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 5 Ω لكل عمود</td><td>Earth Tester</td><td>100% كل الأعمدة</td></tr>
+<tr><td><strong>Cable Continuity</strong></td><td style="color:#2ecc71;font-weight:700;">بدون انقطاع</td><td>Continuity Tester</td><td>100%</td></tr>
+<tr><td><strong>Illuminance Level</strong></td><td style="font-weight:700;">حسب تصنيف الطريق (BS 5489)</td><td>Lux Meter</td><td>بعد التركيب الكامل</td></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Storm Drainage — Gullies</strong></td></tr>
+<tr><td><strong>Gully Level</strong></td><td style="color:#2ecc71;font-weight:700;">± 5mm من مستوى الإسفلت النهائي</td><td>Level Survey</td><td><strong>100%</strong> كل Gully</td></tr>
+<tr><td><strong>Grating Type</strong></td><td style="font-weight:700;">D400 (400 kN) للطرق — BS EN 124</td><td>Certificate</td><td>كل دفعة</td></tr>
+</table></div><div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin:12px 0;font-size:12px;"><strong>🔵 ملاحظات QCS الجوهرية:</strong><br>• Thermoplastic يُطبَّق بالحرارة 200-220°C — لا Cold Paint على الطرق الرئيسية<br>• Retroreflectivity ≥ 150 mcd للجديد — يتراجع للـ 100 مع الزمن والتآكل<br>• KAHRAMAA Approval إلزامي قبل تشغيل الإنارة<br>• Ashghal + MOI Approval إلزامي على Traffic Signs قبل التركيب</div><h3>🔴 Hold Points الإلزامية</h3><table class="dm-table"><tr><th>HP</th><th>الشرط</th><th>التوثيق المطلوب</th></tr><tr><td><strong>HP-17</strong></td><td>Kerbs Level ± 5mm + Alignment ≤ 5mm معتمد</td><td>Level Survey + Straightedge Record + IR</td></tr><tr><td><strong>HP-18</strong></td><td>Road Markings Retroreflectivity ≥ 150 mcd معتمد</td><td>Retro-Reflectometer Report + IR</td></tr><tr><td><strong>HP-19</strong></td><td>Earth Test ≤ 5Ω لكل عمود + KAHRAMAA Approval</td><td>Earth Test Records + KAHRAMAA Approval</td></tr><tr><td><strong>HP-20</strong></td><td>Gully Levels ± 5mm + CCTV Drainage معتمد</td><td>Level Survey + CCTV Report + IR</td></tr></table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,70,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;">
-<span style="font-size:16px;">🎥</span>
-<span style="color:var(--gold);font-weight:700;font-size:13px;">Road Finishing — Kerbs, Markings & Signs</span>
-</div>
-<button onclick="document.getElementById('vid-finishing-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
-</div>
-<input type="file" id="vid-finishing-en" accept="video/*" style="display:none" data-player="vid-player-finishing-en" data-ph="vid-placeholder-finishing-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-placeholder-finishing-en" style="padding:24px;text-align:center;color:var(--text3);">
-<div style="font-size:32px;margin-bottom:8px;">📹</div>
-<div style="font-size:13px;margin-bottom:4px;">Kerb installation, road markings, guide signs</div>
-<div style="font-size:11px;">Click "Upload Video" to load MP4 file</div>
-</div>
-<video id="vid-player-finishing-en" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
-</div>
-
-<h3>Road Finishing Works — QCS S6</h3>
-<table class="dm-table"><tr><th>Item</th><th>Specification</th><th>Test</th></tr>
-<tr><td>Kerb Level Tolerance</td><td>±5mm level | ±10mm alignment</td><td>Survey</td></tr>
-<tr><td>Road Marking Width</td><td>Lane: 100mm | Stop line: 300mm</td><td>QSDM</td></tr>
-<tr><td>Retroreflectivity</td><td>≥ 150 mcd/m²/lux (white)</td><td>BS EN 1436</td></tr>
-<tr><td>Gully Grating Level</td><td>Road level ± 5mm</td><td>Survey</td></tr>
-<tr><td>Manhole Cover Level</td><td>Road level ± 5mm</td><td>Survey</td></tr>
-<tr><td>Signage Height</td><td>Min 2.1m to bottom of sign</td><td>QSDM</td></tr></table>
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);"><div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:8px;"><span>🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Road Finishing — Full Video</span></div><button onclick="document.getElementById('vid-finishing-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button></div><input type="file" id="vid-finishing-en" accept="video/*" style="display:none" data-player="vid-finishing-en-p" data-ph="vid-finishing-en-ph" onchange="loadLocalVideo(this,this.getAttribute('data-player'),this.getAttribute('data-ph'))"><div id="vid-finishing-en-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV showing Kerb installation, Road Markings application and Retroreflectivity test</div><video id="vid-finishing-en-p" controls style="width:100%;display:none;max-height:250px;background:#000;"></video></div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">📌 QCS 2024 — Section 6 | Road Finishing Works — Pages 73-90</div>
+<h3>Road Finishing Specification Table — QCS 2024 / Section 6</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Parameter</th><th style="min-width:210px;">Specification Limit</th><th style="min-width:170px;">Test Method</th><th style="min-width:190px;">Minimum Test Frequency</th></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Kerbs & Edging</strong></td></tr>
+<tr><td><strong>Kerb Concrete Grade</strong></td><td style="color:#2ecc71;font-weight:700;">≥ C40</td><td>Cube Test</td><td>Every 50m³ or batch</td></tr>
+<tr><td><strong>Kerb Level Tolerance</strong></td><td style="color:#2ecc71;font-weight:700;">± 5mm from design</td><td>Level Survey</td><td>Every <strong>10m</strong></td></tr>
+<tr><td><strong>Kerb Alignment</strong></td><td style="color:#2ecc71;font-weight:700;">Straightedge 3m ≤ 5mm</td><td>Straightedge</td><td>Every <strong>25m</strong></td></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Road Markings</strong></td></tr>
+<tr><td><strong>Marking Type</strong></td><td style="font-weight:700;">Thermoplastic mandatory for main roads</td><td>Material Cert</td><td>Each batch</td></tr>
+<tr><td><strong>Thickness</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 3.0mm</td><td>Physical</td><td>1 per <strong>500m</strong></td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Retroreflectivity — New</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 150 mcd/m²/lux</td><td>Retro-Reflectometer</td><td>1 per <strong>200m</strong></td></tr>
+<tr><td><strong>Retroreflectivity — Existing</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 100 mcd/m²/lux</td><td>Retro-Reflectometer</td><td>Periodic inspection</td></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Street Lighting</strong></td></tr>
+<tr><td><strong>Earth Resistance</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 5 Ω per pole</td><td>Earth Tester</td><td>100% all poles</td></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Gullies</strong></td></tr>
+<tr><td><strong>Gully Level</strong></td><td style="color:#2ecc71;font-weight:700;">± 5mm from final asphalt level</td><td>Level Survey</td><td><strong>100%</strong> every gully</td></tr>
+</table></div><h3>Hold Points — Mandatory</h3><table class="dm-table"><tr><th>HP</th><th>Condition</th><th>Documentation Required</th></tr><tr><td><strong>HP-17</strong></td><td>Kerbs Level ± 5mm + Alignment ≤ 5mm approved</td><td>Level Survey + Straightedge + IR</td></tr><tr><td><strong>HP-18</strong></td><td>Road Markings Retroreflectivity ≥ 150 mcd approved</td><td>Retro-Report + IR</td></tr><tr><td><strong>HP-19</strong></td><td>Earth Test ≤ 5Ω per pole + KAHRAMAA Approval</td><td>Earth Records + KAHRAMAA Approval</td></tr><tr><td><strong>HP-20</strong></td><td>Gully Levels ± 5mm + Drainage CCTV approved</td><td>Level + CCTV Report + IR</td></tr></table>
 </div>
 ` },
-  handover: { title: '✅ التسليم النهائي', content: `
+  handover: { title: '✅ التسليم النهائي — Final Handover', content: `
 <div class="lang-content-ar">
-<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;">
-<span style="font-size:16px;">🎥</span>
-<span style="color:var(--gold);font-weight:700;font-size:13px;">تسليم مشروع الطريق — كل الاختبارات النهائية</span>
-</div>
-<button onclick="document.getElementById('vid-handover').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
-</div>
-<input type="file" id="vid-handover" accept="video/*" style="display:none" data-player="vid-player-handover" data-ph="vid-placeholder-handover" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-placeholder-handover" style="padding:24px;text-align:center;color:var(--text3);">
-<div style="font-size:32px;margin-bottom:8px;">📹</div>
-<div style="font-size:13px;margin-bottom:4px;">IRI النهائي، مستوى السطح، فحص شامل</div>
-<div style="font-size:11px;color:var(--text3);">اضغط "رفع فيديو" لتحميل ملف MP4</div>
-</div>
-<video id="vid-player-handover" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
-</div>
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);"><div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:8px;"><span>🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">فيديو التسليم النهائي للطريق</span></div><button onclick="document.getElementById('vid-handover-ar').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button></div><input type="file" id="vid-handover-ar" accept="video/*" style="display:none" data-player="vid-handover-ar-p" data-ph="vid-handover-ar-ph" onchange="loadLocalVideo(this,this.getAttribute('data-player'),this.getAttribute('data-ph'))"><div id="vid-handover-ar-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو يوضح Defects Inspection النهائي وتسليم وثائق As-Built</div><video id="vid-handover-ar-p" controls style="width:100%;display:none;max-height:250px;background:#000;"></video></div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">📌 QCS 2024 — Section 1 | Project Handover | Ashghal Standards</div>
+<h3>📐 تعريف — QCS S1 Cl. 8.1</h3>
+<p>التسليم هو إثبات مكتوب أن الطريق نُفِّذ وفق المواصفات. الوثائق الناقصة = رفض الاستلام. Ashghal لديها متطلبات صارمة — كل NCR مفتوح يوقف عملية التسليم.</p>
 
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 1 | Project Handover</div>
-<h3>📋 نظرة عامة</h3>
-<p>التسليم إثبات مكتوب أن الطريق نُفِّذ وفق المواصفات. الوثائق الناقصة تعني رفض الاستلام حتى لو كان الطريق ممتازاً. Ashghal لديها متطلبات صارمة.</p>
-<h3>📋 وثائق التسليم الإلزامية</h3>
-<table class="dm-table"><tr><th>الوثيقة</th><th>المحتوى</th></tr><tr><td>As-Built Drawings</td><td>مخططات منفذة بالمناسيب والأبعاد الفعلية</td></tr><tr><td>Test Results Register</td><td>كل نتائج الاختبارات من البداية للنهاية</td></tr><tr><td>Material Certificates</td><td>شهادات مطابقة لكل المواد</td></tr><tr><td>ITR Register</td><td>كل Inspection & Test Requests موقعة</td></tr><tr><td>NCR Log</td><td>كل NCRs وإجراءات الإغلاق</td></tr><tr><td>O&M Manuals</td><td>دليل التشغيل والصيانة</td></tr><tr><td>Utility As-Builts</td><td>مواضع كل المرافق المدفونة</td></tr><tr><td>Warranty Certificates</td><td>ضمانات المواد والمعدات</td></tr></table>
-<h3>🔍 الفحص النهائي</h3>
-<p>• Level Survey شامل كل 25m<br>• Straightedge Test كل 100m ≤ 5mm<br>• Skid Resistance كل 500m ≥ 55 PSV<br>• Visual Inspection كامل (تشققات، هبوط، نزيف)<br>• Drainage Check — Gullies والصرف<br>• Road Markings — Retroreflectivity ≥ 100<br>• Lighting Test</p>
-<h3>🛡️ Defects Liability Period (DLP)</h3>
-<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>المدة القياسية</td><td>12 شهر من تاريخ التسليم</td></tr><tr><td>الطرق الرئيسية</td><td>24 شهر (حسب العقد)</td></tr><tr><td>Routine Inspection</td><td>كل 3 أشهر خلال DLP</td></tr><tr><td>إصلاح العيوب</td><td>خلال 14 يوم من الإشعار</td></tr><tr><td>العيوب الطارئة</td><td>خلال 48 hour</td></tr></table>
-<h3>🔴 Hold Points النهائية</h3>
-<p>• <strong>HP-20:</strong> موافقة المهندس الاستشاري<br>• <strong>HP-21:</strong> موافقة Ashghal النهائية<br>• <strong>HP-22:</strong> اعتماد As-Built Drawings</p>
-<h3>⚠️ أخطاء شائعة</h3>
-<p>• As-Built ناقصة أو غير محدَّثة<br>• NCRs مفتوحة لم تُغلق رسمياً<br>• شهادات مواد منتهية الصلاحية<br>• Missing Warranties للإنارة<br>• عدم تسليم O&M Manuals</p>
-
+<h3>⚠️ موانع التسليم</h3>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;"><strong>يُحظر استخدام الآتي:</strong><br>• As-Built Drawings ناقصة أو غير محدَّثة<br>• NCRs مفتوحة لم تُغلق رسمياً<br>• نتائج اختبارات ناقصة أو مرفوضة غير معالجة<br>• شهادات مواد منتهية الصلاحية<br>• O&M Manuals غير مسلَّمة<br>• Road Markings Retroreflectivity &lt; 100 mcd<br>• Skid Resistance SFC &lt; 0.50</div>
+<h3>📐 قائمة وثائق التسليم الإلزامية — QCS 2024 / Ashghal Standards</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Parameter — البند</th><th style="min-width:210px;">Specification Limit — حد المواصفة</th><th style="min-width:170px;">Test Method — طريقة الاختبار</th><th style="min-width:190px;">Minimum Test Frequency — أدنى تكرار</th></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>As-Built Documents — الوثائق المنفذة</strong></td></tr>
+<tr><td><strong>As-Built Drawings</strong></td><td style="color:#e74c3c;font-weight:700;">مخططات منفذة بالمناسيب والأبعاد الفعلية<br>لكل طبقة وكل الخدمات المدفونة</td><td>QC Engineer Signed</td><td>قبل التسليم</td></tr>
+<tr><td><strong>Test Results Register</strong></td><td style="color:#e74c3c;font-weight:700;">كل نتائج الاختبارات من البداية للنهاية<br>مرتبة حسب الطبقة والـ Chainage</td><td>QC Engineer Signed</td><td>قبل التسليم</td></tr>
+<tr><td><strong>Material Certificates</strong></td><td style="color:#e74c3c;font-weight:700;">شهادات مطابقة لكل المواد المستخدمة</td><td>Original Certificates</td><td>قبل التسليم</td></tr>
+<tr><td><strong>ITR Register</strong></td><td style="font-weight:700;">كل Inspection & Test Requests موقعة من الطرفين</td><td>QC + Consultant Signed</td><td>قبل التسليم</td></tr>
+<tr><td><strong>NCR Log (مغلق)</strong></td><td style="font-weight:700;">كل NCRs وإجراءات الإغلاق الرسمي</td><td>QC + Consultant Signed</td><td>قبل التسليم — كلها مغلقة</td></tr>
+<tr><td><strong>O&M Manuals</strong></td><td style="font-weight:700;">دليل التشغيل والصيانة</td><td>Manufacturer/Contractor</td><td>قبل التسليم</td></tr>
+<tr><td><strong>Utility As-Builts</strong></td><td style="font-weight:700;">مواضع كل المرافق المدفونة بدقة</td><td>QC Engineer Signed</td><td>قبل التسليم</td></tr>
+<tr><td><strong>Warranty Certificates</strong></td><td style="font-weight:700;">ضمانات المواد والمعدات</td><td>Manufacturer/Supplier</td><td>قبل التسليم</td></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Final Inspection Tests — اختبارات الفحص النهائي</strong></td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Level Survey — Final</strong></td><td style="color:#2ecc71;font-weight:700;">± 6mm Wearing | ± 8mm Binder | ± 10mm Subbase</td><td>Total Station</td><td>100% Full Length</td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Straightedge 3m</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 5mm</td><td>3m Straightedge</td><td>Every <strong>100m</strong></td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Skid Resistance (SFC)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 0.50</td><td>Pendulum BS 7976</td><td>Every <strong>500m</strong></td></tr>
+<tr><td><strong>Road Markings Retroreflectivity</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 100 mcd/m²/lux</td><td>Retro-Reflectometer</td><td>Every <strong>200m</strong></td></tr>
+<tr><td><strong>Ride Quality (IRI)</strong></td><td style="font-weight:700;">≤ 2.5 m/km رئيسي | ≤ 3.5 محلي</td><td>Profilometer</td><td>100%</td></tr>
+<tr><td><strong>Drainage — CCTV</strong></td><td style="font-weight:700;">100% — Grade ≤ 2</td><td>CCTV Camera</td><td>100%</td></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Defects Liability Period (DLP)</strong></td></tr>
+<tr><td><strong>DLP — Standard</strong></td><td style="font-weight:700;">12 شهر من تاريخ التسليم</td><td>Contract</td><td>—</td></tr>
+<tr><td><strong>DLP — Main Roads</strong></td><td style="font-weight:700;">24 شهر (حسب العقد)</td><td>Contract</td><td>—</td></tr>
+<tr><td><strong>Routine Inspection</strong></td><td style="font-weight:700;">كل 3 أشهر خلال DLP</td><td>Visual + Report</td><td>كل ربع سنة</td></tr>
+<tr><td><strong>Defect Repair Time</strong></td><td style="color:#e74c3c;font-weight:700;">≤ 14 يوم للعيوب العادية<br>≤ 48 ساعة للعيوب الطارئة</td><td>Written Notice</td><td>من تاريخ الإشعار</td></tr>
+</table></div><div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin:12px 0;font-size:12px;"><strong>🔵 ملاحظات QCS الجوهرية:</strong><br>• DLP يبدأ من تاريخ التسليم الرسمي — ليس من تاريخ انتهاء الأعمال<br>• Performance Bond يبقى سارياً طوال DLP<br>• Any Defect خلال DLP يُعيد ساعة الـ DLP من صفر لذلك الجزء<br>• Ashghal Final Inspection قد تأخذ 30-60 يوم — وثّق كل شيء</div><h3>🔴 Hold Points الإلزامية</h3><table class="dm-table"><tr><th>HP</th><th>الشرط</th><th>التوثيق المطلوب</th></tr><tr><td><strong>HP-20</strong></td><td>Defects Inspection كامل + كل NCRs مغلقة</td><td>NCR Log Closed + Defects List Cleared</td></tr><tr><td><strong>HP-21</strong></td><td>As-Built Drawings + Test Register + Material Certs مسلَّمة</td><td>Complete Document Package</td></tr><tr><td><strong>HP-22</strong></td><td>موافقة Ashghal النهائية + Provisional Acceptance Certificate</td><td>Ashghal PAC</td></tr></table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,70,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;">
-<span style="font-size:16px;">🎥</span>
-<span style="color:var(--gold);font-weight:700;font-size:13px;">Road Handover — Final Inspection & Tests</span>
-</div>
-<button onclick="document.getElementById('vid-handover-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
-</div>
-<input type="file" id="vid-handover-en" accept="video/*" style="display:none" data-player="vid-player-handover-en" data-ph="vid-placeholder-handover-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-placeholder-handover-en" style="padding:24px;text-align:center;color:var(--text3);">
-<div style="font-size:32px;margin-bottom:8px;">📹</div>
-<div style="font-size:13px;margin-bottom:4px;">Final IRI, level check, comprehensive inspection</div>
-<div style="font-size:11px;">Click "Upload Video" to load MP4 file</div>
-</div>
-<video id="vid-player-handover-en" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
-</div>
-
-<h3>✅ Road Handover — Final Acceptance</h3>
-<table class="dm-table">
-<tr><th>Item</th><th>Requirement</th></tr>
-<tr><td>As-Built Drawings</td><td>Full set signed + stamped</td></tr>
-<tr><td>All Test Results</td><td>Bound + signed QC file</td></tr>
-<tr><td>IRI (Wearing Course PMB)</td><td>≤ 0.9 m/km</td></tr>
-<tr><td>Core Density</td><td>≥ 96% TMD all layers</td></tr>
-<tr><td>Defect Liability Period</td><td>12-24 months per contract</td></tr>
-<tr><td>Road Markings & Signs</td><td>100% complete before handover</td></tr>
-<tr><td>Ashghal Completion Certificate</td><td>Mandatory before opening to traffic</td></tr>
-</table>
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);"><div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:8px;"><span>🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Road Handover — Full Video</span></div><button onclick="document.getElementById('vid-handover-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button></div><input type="file" id="vid-handover-en" accept="video/*" style="display:none" data-player="vid-handover-en-p" data-ph="vid-handover-en-ph" onchange="loadLocalVideo(this,this.getAttribute('data-player'),this.getAttribute('data-ph'))"><div id="vid-handover-en-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV showing final Defects Inspection and As-Built document submission</div><video id="vid-handover-en-p" controls style="width:100%;display:none;max-height:250px;background:#000;"></video></div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">📌 QCS 2024 — Section 1 | Project Handover | Ashghal Standards</div>
+<h3>Handover Requirements — QCS 2024 / Ashghal</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Parameter</th><th style="min-width:210px;">Specification Limit</th><th style="min-width:170px;">Test Method</th><th style="min-width:190px;">Minimum Test Frequency</th></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Mandatory Handover Documents</strong></td></tr>
+<tr><td><strong>As-Built Drawings</strong></td><td style="color:#e74c3c;font-weight:700;">All layers + buried services — actual levels</td><td>QC Signed</td><td>Before handover</td></tr>
+<tr><td><strong>Test Results Register</strong></td><td style="color:#e74c3c;font-weight:700;">All tests — complete — organized by layer</td><td>QC Signed</td><td>Before handover</td></tr>
+<tr><td><strong>Material Certificates</strong></td><td style="color:#e74c3c;font-weight:700;">All materials used — originals</td><td>Original</td><td>Before handover</td></tr>
+<tr><td><strong>NCR Log — All Closed</strong></td><td style="color:#e74c3c;font-weight:700;">Zero open NCRs</td><td>QC + Consultant</td><td>Before handover</td></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Final Inspection Tests</strong></td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Straightedge 3m</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 5mm</td><td>3m Straightedge</td><td>Every <strong>100m</strong></td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>Skid Resistance</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 0.50 SFC</td><td>Pendulum BS 7976</td><td>Every <strong>500m</strong></td></tr>
+<tr><td><strong>Retroreflectivity</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 100 mcd/m²/lux</td><td>Retro-Reflectometer</td><td>Every <strong>200m</strong></td></tr>
+<tr><td><strong>Ride Quality (IRI)</strong></td><td style="font-weight:700;">≤ 2.5 m/km arterial | ≤ 3.5 local</td><td>Profilometer</td><td>100%</td></tr>
+<tr style="background:rgba(122,21,21,0.15);"><td colspan="4"><strong>Defects Liability Period (DLP)</strong></td></tr>
+<tr><td><strong>DLP — Standard</strong></td><td style="font-weight:700;">12 months from handover date</td><td>Contract</td><td>—</td></tr>
+<tr><td><strong>DLP — Main Roads</strong></td><td style="font-weight:700;">24 months (as per contract)</td><td>Contract</td><td>—</td></tr>
+<tr><td><strong>Defect Repair</strong></td><td style="color:#e74c3c;font-weight:700;">≤ 14 days normal | ≤ 48hr emergency</td><td>Written Notice</td><td>From notice date</td></tr>
+</table></div><h3>Hold Points — Mandatory</h3><table class="dm-table"><tr><th>HP</th><th>Condition</th><th>Documentation Required</th></tr><tr><td><strong>HP-20</strong></td><td>All defects cleared + all NCRs closed</td><td>NCR Log + Defects List</td></tr><tr><td><strong>HP-21</strong></td><td>All handover documents submitted</td><td>Complete Document Package</td></tr><tr><td><strong>HP-22</strong></td><td>Ashghal Final Approval + PAC</td><td>Ashghal PAC</td></tr></table>
 </div>
 ` },
   road_itps: { title: '📋 Road ITPs', content: `
@@ -7544,15 +7354,15 @@ function openDetail(key) {
   const backBtn = document.getElementById('dmBackBtn');
   if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
   modal.classList.add('open');
-  // Re-inject stored videos after DOM rebuild
-  setTimeout(_restoreVideosAfterDOMRebuild, 50);
-  // Re-apply current language
+  // Apply language FIRST (may rebuild DOM classes)
   if (typeof setLang === 'function') setLang(currentLang || 'ar');
   // ITP bar
   var bar = document.getElementById('itp-project-bar');
   if (bar) bar.style.display = (key && key.startsWith('itp')) ? 'block' : 'none';
-  // Populate calculator cat divs
+  // Calculator cats
   if (key === 'calculator') setTimeout(initCalculatorCats, 10);
+  // Restore videos AFTER language applied - longer delay for DOM to settle
+  setTimeout(_restoreVideosAfterDOMRebuild, 150);
 }
 
 function goBack() {
@@ -7566,10 +7376,10 @@ function goBack() {
   document.getElementById('dmContent').innerHTML = d.content;
   const backBtn = document.getElementById('dmBackBtn');
   if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
-  // Re-inject stored videos after DOM rebuild
-  setTimeout(_restoreVideosAfterDOMRebuild, 50);
-  // Re-apply current language  
+  // Apply language first
   if (typeof setLang === 'function') setLang(currentLang || 'ar');
+  // Restore videos after DOM settled
+  setTimeout(_restoreVideosAfterDOMRebuild, 150);
 }
 
 function closeDetailModal(e) {
