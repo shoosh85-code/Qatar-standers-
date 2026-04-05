@@ -8353,88 +8353,165 @@ function calcLapLength() {
 // ===== LOCAL VIDEO LOADER =====
 // ===== VIDEO PERSISTENCE SYSTEM — PERMANENT FIX =====
 // Problem: openDetail/goBack uses innerHTML = d.content which destroys DOM
-// Solution: Store the actual File object in a Map keyed by input ID
-// After every DOM rebuild, re-inject all stored videos automatically
+// ===== VIDEO SYSTEM — IndexedDB Persistent Storage =====
+// Stores ArrayBuffer of video in IndexedDB — survives page reload, app restart, DOM rebuild
+// In-memory Map caches ObjectURLs for fast re-use within session
 
-var _videoFiles = new Map(); // key: input element ID → value: { file, url, name, size }
+var _vidDB = null;
+var _vidMeta = {}; // { inputId: { name, size, type, playerId, phId } }
 
-function loadLocalVideo(input, playerId, placeholderId) {
-  var file = input.files[0];
-  if (!file) return;
-  
-  // Store File object by input ID (survives DOM rebuild)
-  var inputId = input.id || input.getAttribute('id');
-  var url = URL.createObjectURL(file);
-  _videoFiles.set(inputId, { file: file, url: url, name: file.name, size: file.size });
-  
-  // Show immediately
-  _applyVideoToDOM(inputId, playerId, placeholderId, url, file.name, file.size);
+// Load meta from localStorage on startup
+(function() {
+  try {
+    var saved = localStorage.getItem('_qsp_vidmeta');
+    if (saved) _vidMeta = JSON.parse(saved);
+  } catch(e) {}
+})();
+
+function _openVidDB(cb) {
+  if (_vidDB) { cb(_vidDB); return; }
+  var req = indexedDB.open('QatarSpecVideoDB', 2);
+  req.onupgradeneeded = function(e) {
+    var db = e.target.result;
+    if (!db.objectStoreNames.contains('videos')) {
+      db.createObjectStore('videos');
+    }
+  };
+  req.onsuccess = function(e) {
+    _vidDB = e.target.result;
+    cb(_vidDB);
+  };
+  req.onerror = function() {
+    console.warn('QSP: IndexedDB unavailable');
+    cb(null);
+  };
 }
 
-function _applyVideoToDOM(inputId, playerId, phId, url, name, size) {
+function _saveVideoToDB(inputId, file, cb) {
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var buf = e.target.result;
+    _openVidDB(function(db) {
+      if (!db) { cb && cb(false); return; }
+      try {
+        var tx = db.transaction('videos', 'readwrite');
+        tx.objectStore('videos').put({ buf: buf, name: file.name, size: file.size, type: file.type }, inputId);
+        tx.oncomplete = function() { cb && cb(true); };
+        tx.onerror = function() { cb && cb(false); };
+      } catch(e2) { cb && cb(false); }
+    });
+  };
+  reader.onerror = function() { cb && cb(false); };
+  reader.readAsArrayBuffer(file);
+}
+
+function _loadVideoFromDB(inputId, cb) {
+  _openVidDB(function(db) {
+    if (!db) { cb(null); return; }
+    try {
+      var tx = db.transaction('videos', 'readonly');
+      var req = tx.objectStore('videos').get(inputId);
+      req.onsuccess = function(e) { cb(e.target.result || null); };
+      req.onerror = function() { cb(null); };
+    } catch(e) { cb(null); }
+  });
+}
+
+function _deleteVideoFromDB(inputId) {
+  _openVidDB(function(db) {
+    if (!db) return;
+    try {
+      var tx = db.transaction('videos', 'readwrite');
+      tx.objectStore('videos').delete(inputId);
+    } catch(e) {}
+  });
+  delete _vidMeta[inputId];
+  _saveMeta();
+}
+
+function _saveMeta() {
+  try { localStorage.setItem('_qsp_vidmeta', JSON.stringify(_vidMeta)); } catch(e) {}
+}
+
+function _showVideoInDOM(inputId, playerId, phId, blob, name, size) {
+  var url = URL.createObjectURL(blob);
   var player = document.getElementById(playerId);
   var ph = document.getElementById(phId);
-  
   if (player) {
     player.src = url;
     player.style.display = 'block';
     player.load();
   }
-  if (ph) {
-    ph.style.display = 'none';
-  }
-  
-  // Add or update badge
+  if (ph) ph.style.display = 'none';
+  // Badge
   var badgeId = 'vbadge-' + playerId;
-  var existing = document.getElementById(badgeId);
-  if (!existing && player) {
-    var badge = document.createElement('div');
+  var badge = document.getElementById(badgeId);
+  if (!badge) {
+    badge = document.createElement('div');
     badge.id = badgeId;
-    badge.style.cssText = 'font-size:10px;color:#2ecc71;padding:3px 12px;background:rgba(46,204,113,0.1);border-top:1px solid rgba(46,204,113,0.2);';
-    badge.innerHTML = '✅ ' + name + ' &nbsp;(' + (size/1024/1024).toFixed(1) + ' MB)';
-    if (player.parentNode) player.parentNode.appendChild(badge);
+    badge.style.cssText = 'font-size:10px;color:#2ecc71;padding:4px 12px;background:rgba(46,204,113,0.08);border-top:1px solid rgba(46,204,113,0.15);display:flex;align-items:center;justify-content:space-between;';
+    if (player && player.parentNode) player.parentNode.appendChild(badge);
   }
+  badge.innerHTML = '✅ ' + name + ' (' + (size/1024/1024).toFixed(1) + ' MB) &nbsp;<span onclick="_deleteVideoFromDB(\'' + inputId + '\');location.reload();" style="color:#e74c3c;cursor:pointer;font-size:10px;">🗑️</span>';
 }
 
-// Called by openDetail and goBack after innerHTML is set
-// Scans new DOM for video inputs that have stored files and re-injects them
-function _restoreVideosAfterDOMRebuild() {
-  if (_videoFiles.size === 0) return;
-  
-  // Find all video file inputs in the current DOM
-  var inputs = document.querySelectorAll('input[type="file"][accept*="video"]');
-  inputs.forEach(function(input) {
-    var inputId = input.id;
-    if (!inputId) return;
-    
-    var stored = _videoFiles.get(inputId);
-    if (!stored) return;
-    
-    // Get player/placeholder from data attributes
-    var playerId = input.getAttribute('data-player');
-    var phId = input.getAttribute('data-ph');
-    
-    if (!playerId) {
-      // Fallback: derive from input ID
-      playerId = inputId.replace('vid-', 'vid-player-');
-      phId = inputId.replace('vid-', 'vid-ph-');
-    }
-    
-    // Re-attach the stored file to the rebuilt DOM element
-    // Create a new ObjectURL (old one may be revoked)
-    var newUrl = URL.createObjectURL(stored.file);
-    stored.url = newUrl;
-    
-    _applyVideoToDOM(inputId, playerId, phId, newUrl, stored.name, stored.size);
-    
-    // Re-wire the input's onchange in case it lost its handler
-    input.onchange = function() {
-      loadLocalVideo(this, playerId, phId);
-    };
+// Main function called by file input onchange
+function loadLocalVideo(input, playerId, phId) {
+  var file = input.files[0];
+  if (!file) return;
+  var inputId = input.id;
+  if (!playerId) playerId = input.getAttribute('data-player') || inputId.replace('vid-','vid-player-');
+  if (!phId) phId = input.getAttribute('data-ph') || inputId.replace('vid-','vid-ph-');
+
+  // Save meta
+  _vidMeta[inputId] = { name: file.name, size: file.size, type: file.type, playerId: playerId, phId: phId };
+  _saveMeta();
+
+  // Show immediately via ObjectURL
+  _showVideoInDOM(inputId, playerId, phId, file, file.name, file.size);
+
+  // Save to IndexedDB in background (no UI block)
+  _saveVideoToDB(inputId, file, function(ok) {
+    if (!ok) console.warn('QSP: video save to IndexedDB failed for', inputId);
   });
 }
 
-// Legacy alias used in some older sections
+// Called after every openDetail / goBack to restore all known videos
+function _restoreVideosAfterDOMRebuild() {
+  var ids = Object.keys(_vidMeta);
+  if (ids.length === 0) return;
+
+  ids.forEach(function(inputId) {
+    var meta = _vidMeta[inputId];
+    var playerId = meta.playerId || inputId.replace('vid-','vid-player-');
+    var phId = meta.phId || inputId.replace('vid-','vid-ph-');
+
+    // Only restore if player element exists in current DOM
+    var player = document.getElementById(playerId);
+    if (!player) return;
+
+    // Re-wire input onchange if it exists in DOM
+    var inputEl = document.getElementById(inputId);
+    if (inputEl) {
+      inputEl.onchange = function() { loadLocalVideo(this, playerId, phId); };
+    }
+
+    // Load from IndexedDB and show
+    _loadVideoFromDB(inputId, function(stored) {
+      if (!stored) return;
+      var blob = new Blob([stored.buf], { type: stored.type || 'video/mp4' });
+      _showVideoInDOM(inputId, playerId, phId, blob, stored.name, stored.size);
+    });
+  });
+}
+
+// Restore all saved videos on page load (after DOM ready)
+window.addEventListener('DOMContentLoaded', function() {
+  // Small delay to let page render first
+  setTimeout(_restoreVideosAfterDOMRebuild, 300);
+});
+
+// Legacy aliases
 function restoreAllVideoUI() { _restoreVideosAfterDOMRebuild(); }
 function restoreVideoUI(id) { _restoreVideosAfterDOMRebuild(); }
 
