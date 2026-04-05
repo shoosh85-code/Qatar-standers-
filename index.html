@@ -7147,7 +7147,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="background:var(--dark4);border-radius:10px;padding:14px;margin:10px 0;">
 <div style="margin-bottom:10px;">
 <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">نوع المادة:</label>
-<select id="ts-material" onchange="calcTestSchedule()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text1);font-family:Tajawal,sans-serif;font-size:13px;">
+<select id="ts2-material" onchange="calcTestSchedule2()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text1);font-family:Tajawal,sans-serif;font-size:13px;">
 <option value="">-- اختر المادة --</option>
 <option value="subgrade">Subgrade (تربة Subgrade)</option>
 <option value="subbase">Subbase Course</option>
@@ -7163,11 +7163,11 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
 <div>
 <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">الكمية:</label>
-<input type="number" id="ts-qty" placeholder="الكمية" oninput="calcTestSchedule()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text1);font-family:Tajawal,sans-serif;">
+<input type="number" id="ts2-qty" placeholder="الكمية" oninput="calcTestSchedule2()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text1);font-family:Tajawal,sans-serif;">
 </div>
 <div>
 <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">الوحدة:</label>
-<select id="ts-unit" onchange="calcTestSchedule()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text1);font-family:Tajawal,sans-serif;">
+<select id="ts2-unit" onchange="calcTestSchedule2()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text1);font-family:Tajawal,sans-serif;">
 <option value="m3">م³ (متر مكعب)</option>
 <option value="m2">م² (متر مربع)</option>
 <option value="ton">طن</option>
@@ -7177,7 +7177,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 </div>
 
-<div id="ts-result" style="display:none;margin-top:10px;"></div>
+<div id="ts2-result" style="display:none;margin-top:10px;"></div>
 </div>
 
 <div class="lang-content-en" style="display:none;">
@@ -7187,7 +7187,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="background:var(--dark4);border-radius:10px;padding:14px;margin:10px 0;">
 <div style="margin-bottom:10px;">
 <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">Material Type:</label>
-<select id="ts-material-en" onchange="calcTestScheduleEn()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text1);font-family:Tajawal,sans-serif;font-size:13px;">
+<select id="ts2-material-en" onchange="calcTestScheduleEn()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text1);font-family:Tajawal,sans-serif;font-size:13px;">
 <option value="">-- Select Material --</option>
 <option value="subgrade">Subgrade Soil</option>
 <option value="subbase">Subbase Course</option>
@@ -7203,11 +7203,11 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
 <div>
 <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">Quantity:</label>
-<input type="number" id="ts-qty-en" placeholder="Enter quantity" oninput="calcTestScheduleEn()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text1);font-family:Tajawal,sans-serif;">
+<input type="number" id="ts2-qty-en" placeholder="Enter quantity" oninput="calcTestScheduleEn()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text1);font-family:Tajawal,sans-serif;">
 </div>
 <div>
 <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">Unit:</label>
-<select id="ts-unit-en" onchange="calcTestScheduleEn()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text1);font-family:Tajawal,sans-serif;">
+<select id="ts2-unit-en" onchange="calcTestScheduleEn()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text1);font-family:Tajawal,sans-serif;">
 <option value="m3">m³ (cubic metre)</option>
 <option value="m2">m² (square metre)</option>
 <option value="ton">tonne</option>
@@ -7217,7 +7217,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 </div>
 
-<div id="ts-result-en" style="display:none;margin-top:10px;"></div>
+<div id="ts2-result-en" style="display:none;margin-top:10px;"></div>
 </div>
 ` },
 
@@ -8606,6 +8606,13 @@ function calcFreq() {
   calcTestScheduleCore('ts-mat','ts-qty','ts-unit','ts-result-box', false);
 }
 
+
+function calcTestSchedule2() {
+  calcTestScheduleCore('ts2-material','ts2-qty','ts2-unit','ts2-result', false);
+}
+function calcTestScheduleEn() {
+  calcTestScheduleCore('ts2-material-en','ts2-qty-en','ts2-unit-en','ts2-result-en', true);
+}
 // ===== TESTING SCHEDULE CALCULATOR =====
 var TS_DATA = {
   subgrade: {
