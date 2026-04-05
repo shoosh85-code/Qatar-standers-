@@ -1,4 +1,4 @@
-<script src="qatarspec_patch.js"></script>
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -895,125 +895,91 @@ All numerical values, specifications and test methods shown in Arabic are source
   roads_mat_card: { title: '🧱 Materials — Bitumen + Aggregates + Geotextile', content: `
 <div class="lang-content-ar">
 
-<div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
-📌 QCS 2024 Section 6 Part 4 & 5 — كل المواد المستخدمة في أعمال الطرق
+<div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
+📌 QCS 2024 Section 6 Part 4 & 5 — Materials Specifications
 </div>
 
-<h3 style="margin:12px 0 8px;">🛢️ البيتومين والمواد الرابطة — QCS S6 P5 Pages 11–13</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px;">
-
-<div onclick="openDetail('bitumen_tests')" style="background:rgba(231,76,60,0.07);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">🛢️</div>
-<div style="color:#e74c3c;font-weight:700;font-size:12px;">بيتومين 60/70</div>
-<div style="color:var(--text3);font-size:10px;">Table 5:4 | Pen + SP + Ductility + Flash</div>
+<h3>🛢️ البيتومين والمواد الرابطة</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
+<div onclick="openDetail('roads_materials')" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🛢️</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">بيتومين 60/70</div>
+<div style="color:var(--text3);font-size:10px;">Table 5:4 | Pen + Soft + Ductility</div></div>
+<div onclick="openDetail('roads_materials')" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🔴</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">PMB (Polymer Modified)</div>
+<div style="color:var(--text3);font-size:10px;">Table 5:5 | PG76-10 | SBS/SBR</div></div>
+<div onclick="openDetail('prime_tack_summary')" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🪣</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">Prime Coat</div>
+<div style="color:var(--text3);font-size:10px;">MC-30/70 | 0.8-1.2 L/m²</div></div>
+<div onclick="openDetail('prime_tack_summary')" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🪣</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">Tack Coat</div>
+<div style="color:var(--text3);font-size:10px;">SS-1h | 0.20-0.50 L/m²</div></div>
 </div>
 
-<div onclick="openDetail('bitumen_tests')" style="background:rgba(231,76,60,0.07);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">🔴</div>
-<div style="color:#e74c3c;font-weight:700;font-size:12px;">PMB — PG76-10</div>
-<div style="color:var(--text3);font-size:10px;">Table 5:5 | SBS/SBR | Elastic Recovery</div>
+<h3>🧪 اختبارات البيتومين الكاملة</h3>
+<div onclick="openDetail('bitumen_tests')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:22px;">🧪</div>
+<div style="color:#e74c3c;font-weight:700;font-size:13px;">PAV + DSR + BBR + DTT + RV + PMB Tests</div>
+<div style="color:var(--text3);font-size:11px;">RTFOT · PAV · Dynamic Shear · Creep Stiffness · Direct Tension · Rotational Viscosity</div>
 </div>
 
-<div onclick="openDetail('prime')" style="background:rgba(231,76,60,0.07);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">🪣</div>
-<div style="color:#e74c3c;font-weight:700;font-size:12px;">Prime Coat</div>
-<div style="color:var(--text3);font-size:10px;">MC-30/70 | 0.8–1.2 L/m²</div>
+<h3>🪨 الركام — Aggregates</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0;">
+<div onclick="openDetail('gabbro_specs')" style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🪨</div><div style="color:#9b59b6;font-weight:700;font-size:12px;">Gabbro Specs</div>
+<div style="color:var(--text3);font-size:10px;">Table 4:2 | All layers</div></div>
+<div onclick="openDetail('subbase')" style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">📊</div><div style="color:#9b59b6;font-weight:700;font-size:12px;">Subbase/Base Specs</div>
+<div style="color:var(--text3);font-size:10px;">Tables 4:1, 4:2, 4:3</div></div>
+<div onclick="openDetail('roads_materials')" style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🏔️</div><div style="color:#9b59b6;font-weight:700;font-size:12px;">Asphalt Aggregate</div>
+<div style="color:var(--text3);font-size:10px;">Tables 5:1, 5:2, 5:3</div></div>
 </div>
 
-<div onclick="openDetail('prime_tack_summary')" style="background:rgba(231,76,60,0.07);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">🪣</div>
-<div style="color:#e74c3c;font-weight:700;font-size:12px;">Tack Coat</div>
-<div style="color:var(--text3);font-size:10px;">SS-1h/CSS-1h | 0.20–0.50 L/m²</div>
-</div>
-</div>
-
-<div onclick="openDetail('bitumen_tests')" style="background:rgba(231,76,60,0.05);border:1px solid rgba(231,76,60,0.2);border-radius:10px;padding:12px;cursor:pointer;display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-<span style="font-size:26px;">🧪</span>
-<div>
-<div style="color:#e74c3c;font-weight:700;font-size:13px;">اختبارات البيتومين الكاملة</div>
-<div style="color:var(--text3);font-size:11px;">PAV · DSR · BBR · DTT · Rotational Viscosity · RTFOT · PMB Tests</div>
-</div>
-<span style="margin-right:auto;color:var(--text3);font-size:16px;">←</span>
-</div>
-
-<hr style="border:none;border-top:1px solid var(--border);margin:10px 0;">
-
-<h3 style="margin:10px 0 8px;">🪨 الركام — Aggregates | QCS S6 P4 Tables 4:1–4:3 & P5 Tables 5:1–5:3</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px;">
-
-<div onclick="openDetail('gabbro_specs')" style="background:rgba(155,89,182,0.07);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">🪨</div>
-<div style="color:#9b59b6;font-weight:700;font-size:12px;">مواصفات الجابرو</div>
-<div style="color:var(--text3);font-size:10px;">LA · Flakiness · FF · PSV · Water Abs</div>
-</div>
-
-<div onclick="openDetail('subbase')" style="background:rgba(155,89,182,0.07);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">📊</div>
-<div style="color:#9b59b6;font-weight:700;font-size:12px;">Subbase/Base Aggregate</div>
-<div style="color:var(--text3);font-size:10px;">Tables 4:1 · 4:2 · 4:3</div>
-</div>
-
-<div onclick="openDetail('roads_materials')" style="background:rgba(155,89,182,0.07);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">🔬</div>
-<div style="color:#9b59b6;font-weight:700;font-size:12px;">Fine Aggregate الإسفلت</div>
-<div style="color:var(--text3);font-size:10px;">Table 5:1 | Marshall / Superpave</div>
-</div>
-
-<div onclick="openDetail('roads_materials')" style="background:rgba(155,89,182,0.07);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">🏔️</div>
-<div style="color:#9b59b6;font-weight:700;font-size:12px;">Coarse Aggregate الإسفلت</div>
-<div style="color:var(--text3);font-size:10px;">Table 5:2 | WC / BC</div>
-</div>
-</div>
-
-<hr style="border:none;border-top:1px solid var(--border);margin:10px 0;">
-
-<h3 style="margin:10px 0 8px;">🕸️ Geotextile & Bedding</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
-
-<div onclick="openDetail('geotextile_specs')" style="background:rgba(46,204,113,0.07);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">🕸️</div>
-<div style="color:#2ecc71;font-weight:700;font-size:12px;">Geotextile</div>
-<div style="color:var(--text3);font-size:10px;">Woven · Non-Woven · Geogrid</div>
-</div>
-
-<div onclick="openDetail('roads_materials')" style="background:rgba(46,204,113,0.07);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">📋</div>
-<div style="color:#2ecc71;font-weight:700;font-size:12px;">Mineral Filler</div>
-<div style="color:var(--text3);font-size:10px;">Table 5:3 | 0.075mm</div>
-</div>
+<h3>🕸️ Geotextile</h3>
+<div onclick="openDetail('geotextile_specs')" style="background:rgba(46,204,113,0.06);border:1px solid rgba(46,204,113,0.2);border-radius:8px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:22px;">🕸️</div>
+<div style="color:#2ecc71;font-weight:700;font-size:13px;">Geotextile Specifications</div>
+<div style="color:var(--text3);font-size:11px;">Woven · Non-Woven · Geogrid | ISO 10319, 12236, 12956</div>
 </div>
 
 </div>
 
 <div class="lang-content-en" style="display:none;">
 
-<div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
-📌 QCS 2024 Section 6 Part 4 & 5 — All Road Works Materials
+<div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
+📌 QCS 2024 Section 6 Part 4 & 5 — Materials Specifications
 </div>
-<h3 style="margin:12px 0 8px;">🛢️ Bitumen & Binders — QCS S6 P5 Pages 11–13</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px;">
-<div onclick="openDetail('bitumen_tests')" style="background:rgba(231,76,60,0.07);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:20px;">🛢️</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">Bitumen 60/70</div><div style="color:var(--text3);font-size:10px;">Table 5:4 | Pen · SP · Ductility</div></div>
-<div onclick="openDetail('bitumen_tests')" style="background:rgba(231,76,60,0.07);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:20px;">🔴</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">PMB PG76-10</div><div style="color:var(--text3);font-size:10px;">Table 5:5 | SBS | DSR | BBR</div></div>
-<div onclick="openDetail('prime')" style="background:rgba(231,76,60,0.07);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:20px;">🪣</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">Prime Coat</div><div style="color:var(--text3);font-size:10px;">MC-30/70 | 0.8–1.2 L/m²</div></div>
-<div onclick="openDetail('prime_tack_summary')" style="background:rgba(231,76,60,0.07);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:20px;">🪣</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">Tack Coat</div><div style="color:var(--text3);font-size:10px;">SS-1h | 0.20–0.50 L/m²</div></div>
+<h3>🛢️ Bitumen & Binder Materials</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
+<div onclick="openDetail('roads_materials')" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🛢️</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">Bitumen 60/70</div>
+<div style="color:var(--text3);font-size:10px;">Table 5:4 | Pen + SP + Ductility</div></div>
+<div onclick="openDetail('roads_materials')" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🔴</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">PMB (Polymer Modified)</div>
+<div style="color:var(--text3);font-size:10px;">Table 5:5 | PG76-10 | SBS</div></div>
+<div onclick="openDetail('prime_tack_summary')" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🪣</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">Prime Coat</div>
+<div style="color:var(--text3);font-size:10px;">MC-30/70 | 0.8-1.2 L/m²</div></div>
+<div onclick="openDetail('prime_tack_summary')" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🪣</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">Tack Coat</div>
+<div style="color:var(--text3);font-size:10px;">SS-1h | 0.20-0.50 L/m²</div></div>
 </div>
-<div onclick="openDetail('bitumen_tests')" style="background:rgba(231,76,60,0.05);border:1px solid rgba(231,76,60,0.2);border-radius:10px;padding:12px;cursor:pointer;display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-<span style="font-size:26px;">🧪</span><div><div style="color:#e74c3c;font-weight:700;font-size:13px;">Full Bitumen Testing Programme</div><div style="color:var(--text3);font-size:11px;">PAV · DSR · BBR · DTT · RV · RTFOT · PMB Tests</div></div><span style="margin-left:auto;color:var(--text3);">→</span>
+<div onclick="openDetail('bitumen_tests')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:12px;cursor:pointer;text-align:center;margin-bottom:10px;">
+<div style="font-size:22px;">🧪</div>
+<div style="color:#e74c3c;font-weight:700;font-size:13px;">PAV + DSR + BBR + DTT + RV + PMB Tests</div>
+<div style="color:var(--text3);font-size:11px;">Full bitumen testing programme per QCS 2024</div>
 </div>
-<hr style="border:none;border-top:1px solid var(--border);margin:10px 0;">
-<h3 style="margin:10px 0 8px;">🪨 Aggregates | Tables 4:1–4:3 & 5:1–5:3</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px;">
-<div onclick="openDetail('gabbro_specs')" style="background:rgba(155,89,182,0.07);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:20px;">🪨</div><div style="color:#9b59b6;font-weight:700;font-size:12px;">Gabbro Specs</div><div style="color:var(--text3);font-size:10px;">LA · Flakiness · FF · PSV · Abs</div></div>
-<div onclick="openDetail('subbase')" style="background:rgba(155,89,182,0.07);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:20px;">📊</div><div style="color:#9b59b6;font-weight:700;font-size:12px;">Subbase/Base Agg</div><div style="color:var(--text3);font-size:10px;">Tables 4:1 · 4:2 · 4:3</div></div>
-<div onclick="openDetail('roads_materials')" style="background:rgba(155,89,182,0.07);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:20px;">🔬</div><div style="color:#9b59b6;font-weight:700;font-size:12px;">Fine Aggregate</div><div style="color:var(--text3);font-size:10px;">Table 5:1 | FAA | SE</div></div>
-<div onclick="openDetail('roads_materials')" style="background:rgba(155,89,182,0.07);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:20px;">🏔️</div><div style="color:#9b59b6;font-weight:700;font-size:12px;">Coarse Aggregate</div><div style="color:var(--text3);font-size:10px;">Table 5:2 | WC/BC</div></div>
-</div>
-<hr style="border:none;border-top:1px solid var(--border);margin:10px 0;">
-<h3 style="margin:10px 0 8px;">🕸️ Geotextile & Filler</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
-<div onclick="openDetail('geotextile_specs')" style="background:rgba(46,204,113,0.07);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:20px;">🕸️</div><div style="color:#2ecc71;font-weight:700;font-size:12px;">Geotextile</div><div style="color:var(--text3);font-size:10px;">ISO 10319 · 12236 · 12956</div></div>
-<div onclick="openDetail('roads_materials')" style="background:rgba(46,204,113,0.07);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:20px;">📋</div><div style="color:#2ecc71;font-weight:700;font-size:12px;">Mineral Filler</div><div style="color:var(--text3);font-size:10px;">Table 5:3 | Stone Dust · Lime</div></div>
+<h3>🪨 Aggregates</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0;">
+<div onclick="openDetail('gabbro_specs')" style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🪨</div><div style="color:#9b59b6;font-weight:700;font-size:12px;">Gabbro Specs</div>
+<div style="color:var(--text3);font-size:10px;">Table 4:2 | All layers</div></div>
+<div onclick="openDetail('subbase')" style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">📊</div><div style="color:#9b59b6;font-weight:700;font-size:12px;">Subbase/Base Agg</div>
+<div style="color:var(--text3);font-size:10px;">Tables 4:1, 4:2, 4:3</div></div>
+<div onclick="openDetail('geotextile_specs')" style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🕸️</div><div style="color:#2ecc71;font-weight:700;font-size:12px;">Geotextile</div>
+<div style="color:var(--text3);font-size:10px;">ISO 10319, 12236</div></div>
 </div>
 
 </div>
@@ -1436,102 +1402,201 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   roads: { title: '🛣️ أعمال الطرق — QCS 2024', content: `
 <div class="lang-content-ar">
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
 📌 QCS 2024 — Section 6 | أعمال الطرق | Ashghal Standards
 </div>
 
 <h3>🗺️ مراحل التنفيذ — الترتيب الإلزامي</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
-<div onclick="openDetail('subgrade')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:16px;">1️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Subgrade</div><div style="color:var(--text3);font-size:10px;">CBR≥15% | Comp≥95% MDD</div></div>
-<div onclick="openDetail('subbase')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:16px;">2️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Subbase</div><div style="color:var(--text3);font-size:10px;">CBR≥70% | Comp≥98% MDD</div></div>
-<div onclick="openDetail('base')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:16px;">3️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Road Base</div><div style="color:var(--text3);font-size:10px;">CBR≥80% | Comp≥98% MDD</div></div>
-<div onclick="openDetail('prime')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:16px;">4️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Prime Coat</div><div style="color:var(--text3);font-size:10px;">MC-30/70 | 0.8–1.2 L/m²</div></div>
-<div onclick="openDetail('binder')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:16px;">5️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Binder Course</div><div style="color:var(--text3);font-size:10px;">BC-A/B | Stab≥8kN | 96%TMD</div></div>
-<div onclick="openDetail('wearing')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:16px;">6️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Wearing Course</div><div style="color:var(--text3);font-size:10px;">PSV≥55 | IRI | 96%TMD</div></div>
-<div onclick="openDetail('finishing')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:16px;">7️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px;">التشطيبات</div><div style="color:var(--text3);font-size:10px;">Kerbs + Markings + Signs</div></div>
-<div onclick="openDetail('handover')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:16px;">8️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px;">التسليم</div><div style="color:var(--text3);font-size:10px;">IRI Final + As-Built</div></div>
+<div onclick="openDetail('subgrade')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">1️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subgrade</div>
+<div style="color:var(--text3);font-size:11px;">CBR≥15% | Comp≥95% MDD</div></div>
+<div onclick="openDetail('subbase')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">2️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subbase</div>
+<div style="color:var(--text3);font-size:11px;">CBR≥70% | Comp≥98% MDD</div></div>
+<div onclick="openDetail('base')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">3️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Road Base</div>
+<div style="color:var(--text3);font-size:11px;">CBR≥80% | Comp≥98% MDD</div></div>
+<div onclick="openDetail('prime')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">4️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Prime Coat</div>
+<div style="color:var(--text3);font-size:11px;">MC-30/70 | 0.8-1.2 L/m²</div></div>
+<div onclick="openDetail('binder')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">5️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Binder Course</div>
+<div style="color:var(--text3);font-size:11px;">BC-A/B | Stab≥8kN | 96%TMD</div></div>
+<div onclick="openDetail('wearing')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">6️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Wearing Course</div>
+<div style="color:var(--text3);font-size:11px;">WC | PSV≥55 | IRI | 96%TMD</div></div>
+<div onclick="openDetail('finishing')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">7️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">التشطيبات</div>
+<div style="color:var(--text3);font-size:11px;">Kerbs + Markings + Signs</div></div>
+<div onclick="openDetail('handover')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">8️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">التسليم</div>
+<div style="color:var(--text3);font-size:11px;">Final IRI + As-Built + Punch List</div></div>
 </div>
 
-<h3>🧱 المواد + 🔬 التصميم + 📋 ضبط الجودة</h3>
+<h3>🧱 المواد — Materials</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0;">
-<div onclick="openDetail('roads_mat_card')" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.4);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:24px;margin-bottom:4px;">🧱</div>
-<div style="color:#9b59b6;font-weight:700;font-size:13px;">كرت المواد</div>
-<div style="color:var(--text3);font-size:10px;">بيتومين • جابرو • Geotextile<br>Prime • Tack</div>
-</div>
-<div onclick="openDetail('roads_design')" style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.4);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:24px;margin-bottom:4px;">🔬</div>
-<div style="color:#3498db;font-weight:700;font-size:13px;">التصميم والإنتاج</div>
-<div style="color:var(--text3);font-size:10px;">Marshall • Superpave<br>ESAL • Pavement Design</div>
-</div>
-<div onclick="openDetail('road_itps')" style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.4);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:24px;margin-bottom:4px;">📋</div>
-<div style="color:#2ecc71;font-weight:700;font-size:13px;">ITPs & QCP</div>
-<div style="color:var(--text3);font-size:10px;">Hold Points<br>Testing Schedule</div>
-</div>
+<div onclick="openDetail('roads_materials')" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🛢️</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">بيتومين 60/70 + PMB</div>
+<div style="color:var(--text3);font-size:10px;">Tables 5:4 & 5:5</div></div>
+<div onclick="openDetail('gabbro_specs')" style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🪨</div><div style="color:#9b59b6;font-weight:700;font-size:12px;">مواصفات الجابرو</div>
+<div style="color:var(--text3);font-size:10px;">Tables 4:1, 4:2, 5:1, 5:2</div></div>
+<div onclick="openDetail('geotextile_specs')" style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🕸️</div><div style="color:#2ecc71;font-weight:700;font-size:12px;">Geotextile</div>
+<div style="color:var(--text3);font-size:10px;">ISO 10319, 12236</div></div>
 </div>
 
-<h3>🚦 Traffic & 📁 Documents</h3>
+<h3>🔬 تصميم الخلطة — Mix Design</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
+<div onclick="openDetail('marshall_mix')" style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🔬</div><div style="color:#3498db;font-weight:700;font-size:12px;">Marshall Mix Design</div>
+<div style="color:var(--text3);font-size:10px;">Tables 5:6, 5:7, 5:8</div></div>
+<div onclick="openDetail('superpave_mix')" style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">⚙️</div><div style="color:#3498db;font-weight:700;font-size:12px;">Superpave + SGC</div>
+<div style="color:var(--text3);font-size:10px;">Table 5:17 | PG Grade</div></div>
+<div onclick="openDetail('air_voids_tolerances')" style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">📐</div><div style="color:#3498db;font-weight:700;font-size:12px;">Air Voids & Tolerances</div>
+<div style="color:var(--text3);font-size:10px;">Tables 5:9, 5:10, 5:11</div></div>
+<div onclick="openDetail('pavement_production')" style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🏭</div><div style="color:#3498db;font-weight:700;font-size:12px;">الإنتاج والفرش</div>
+<div style="color:var(--text3);font-size:10px;">Temp + Elevation + Production</div></div>
+</div>
+
+<h3>🔗 التنفيذ والوصلات</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
+<div onclick="openDetail('paving_joints')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🔗</div><div style="color:var(--gold);font-weight:700;font-size:12px;">الجوانت والدمك</div>
+<div style="color:var(--text3);font-size:10px;">Joints + Rolling Pattern</div></div>
+<div onclick="openDetail('prime_tack_summary')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🛢️</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Prime & Tack Coat</div>
+<div style="color:var(--text3);font-size:10px;">Rates + Temps + Curing</div></div>
+</div>
+
+<h3>📋 ضبط الجودة والاختبارات</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
+<div onclick="openDetail('road_itps')" style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">📋</div><div style="color:#2ecc71;font-weight:700;font-size:12px;">ITPs الطرق</div>
+<div style="color:var(--text3);font-size:10px;">Hold Points + Witness Points</div></div>
+<div onclick="openDetail('testing_schedule')" style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🗓️</div><div style="color:#2ecc71;font-weight:700;font-size:12px;">جدول الاختبارات</div>
+<div style="color:var(--text3);font-size:10px;">Tests by Quantity</div></div>
+<div onclick="openDetail('bitumen_tests')" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🧪</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">اختبارات البيتومين</div>
+<div style="color:var(--text3);font-size:10px;">PAV, DSR, BBR, DTT, RV, PMB</div></div>
+<div onclick="openDetail('roads_qcp')" style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">✅</div><div style="color:#2ecc71;font-weight:700;font-size:12px;">QCP الطرق</div>
+<div style="color:var(--text3);font-size:10px;">Quality Control Plan</div></div>
+</div>
+
+<h3>📄 Method Statements & Design</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
+<div onclick="openDetail('ms_asphalt')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">📄</div><div style="color:#3498db;font-weight:700;font-size:12px;">Method Statement الإسفلت</div>
+<div style="color:var(--text3);font-size:10px;">Sequence + Resources + QC</div></div>
+<div onclick="openDetail('traffic_axle')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🚛</div><div style="color:#3498db;font-weight:700;font-size:12px;">تصميم الرصيف</div>
+<div style="color:var(--text3);font-size:10px;">ESAL + Traffic T1-T6</div></div>
+<div onclick="openDetail('concrete_pavement')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🏗️</div><div style="color:#3498db;font-weight:700;font-size:12px;">رصف الخرسانة</div>
+<div style="color:var(--text3);font-size:10px;">JPCP + CRCP + Joints</div></div>
+<div onclick="openDetail('doc_analyzer')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">📁</div><div style="color:#3498db;font-weight:700;font-size:12px;">محلل الوثائق</div>
+<div style="color:var(--text3);font-size:10px;">Specs + Drawings + BOQ</div></div>
+</div>
+
+
+<h3>🚦 Traffic Management + وثائق</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
 <div onclick="openDetail('traffic_management_plan')" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">🚦</div>
-<div style="color:#e74c3c;font-weight:700;font-size:12px;">Traffic Management Plan</div>
-<div style="color:var(--text3);font-size:10px;">TMP | Ashghal Requirements</div>
-</div>
+<div style="font-size:18px;">🚦</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">Traffic Management Plan</div>
+<div style="color:var(--text3);font-size:10px;">TMP + Ashghal Requirements</div></div>
 <div onclick="openDetail('doc_analyzer')" style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">📁</div>
-<div style="color:#3498db;font-weight:700;font-size:12px;">محلل الوثائق</div>
-<div style="color:var(--text3);font-size:10px;">Specs + Drawings + BOQ</div>
-</div>
+<div style="font-size:18px;">📁</div><div style="color:#3498db;font-weight:700;font-size:12px;">محلل الوثائق</div>
+<div style="color:var(--text3);font-size:10px;">Specs + Drawings + BOQ + AI</div></div>
 </div>
 </div>
 
 <div class="lang-content-en" style="display:none;">
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
 📌 QCS 2024 — Section 6 | Road Works | Ashghal Standards
 </div>
+
 <h3>🗺️ Execution Phases — Mandatory Sequence</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
-<div onclick="openDetail('subgrade')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:16px;">1️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Subgrade</div><div style="color:var(--text3);font-size:10px;">CBR≥15% | Comp≥95% MDD</div></div>
-<div onclick="openDetail('subbase')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:16px;">2️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Subbase</div><div style="color:var(--text3);font-size:10px;">CBR≥70% | Comp≥98% MDD</div></div>
-<div onclick="openDetail('base')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:16px;">3️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Road Base</div><div style="color:var(--text3);font-size:10px;">CBR≥80% | Comp≥98% MDD</div></div>
-<div onclick="openDetail('prime')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:16px;">4️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Prime Coat</div><div style="color:var(--text3);font-size:10px;">MC-30/70 | 0.8–1.2 L/m²</div></div>
-<div onclick="openDetail('binder')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:16px;">5️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Binder Course</div><div style="color:var(--text3);font-size:10px;">BC-A/B | Stab≥8kN | 96%TMD</div></div>
-<div onclick="openDetail('wearing')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:16px;">6️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Wearing Course</div><div style="color:var(--text3);font-size:10px;">PSV≥55 | IRI | 96%TMD</div></div>
-<div onclick="openDetail('finishing')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:16px;">7️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Finishing</div><div style="color:var(--text3);font-size:10px;">Kerbs + Markings + Signs</div></div>
-<div onclick="openDetail('handover')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:16px;">8️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Handover</div><div style="color:var(--text3);font-size:10px;">IRI Final + As-Built</div></div>
+<div onclick="openDetail('subgrade')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">1️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subgrade</div>
+<div style="color:var(--text3);font-size:11px;">CBR≥15% | Comp≥95% MDD</div></div>
+<div onclick="openDetail('subbase')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">2️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subbase</div>
+<div style="color:var(--text3);font-size:11px;">CBR≥70% | Comp≥98% MDD</div></div>
+<div onclick="openDetail('base')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">3️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Road Base</div>
+<div style="color:var(--text3);font-size:11px;">CBR≥80% | Comp≥98% MDD</div></div>
+<div onclick="openDetail('prime')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">4️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Prime Coat</div>
+<div style="color:var(--text3);font-size:11px;">MC-30/70 | 0.8-1.2 L/m²</div></div>
+<div onclick="openDetail('binder')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">5️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Binder Course</div>
+<div style="color:var(--text3);font-size:11px;">BC-A/B | Stab≥8kN | 96%TMD</div></div>
+<div onclick="openDetail('wearing')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">6️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Wearing Course</div>
+<div style="color:var(--text3);font-size:11px;">WC | PSV≥55 | IRI | 96%TMD</div></div>
+<div onclick="openDetail('finishing')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">7️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Finishing</div>
+<div style="color:var(--text3);font-size:11px;">Kerbs + Markings + Signs</div></div>
+<div onclick="openDetail('handover')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">8️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Handover</div>
+<div style="color:var(--text3);font-size:11px;">Final IRI + As-Built + Punch List</div></div>
 </div>
-<h3>🧱 Materials + 🔬 Design + 📋 QC</h3>
+
+<h3>🧱 Materials</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0;">
-<div onclick="openDetail('roads_mat_card')" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.4);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:24px;margin-bottom:4px;">🧱</div>
-<div style="color:#9b59b6;font-weight:700;font-size:13px;">Materials</div>
-<div style="color:var(--text3);font-size:10px;">Bitumen • Gabbro • Geotextile<br>Prime • Tack</div>
+<div onclick="openDetail('roads_materials')" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🛢️</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">Bitumen 60/70 + PMB</div>
+<div style="color:var(--text3);font-size:10px;">Tables 5:4 & 5:5</div></div>
+<div onclick="openDetail('gabbro_specs')" style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🪨</div><div style="color:#9b59b6;font-weight:700;font-size:12px;">Gabbro Specs</div>
+<div style="color:var(--text3);font-size:10px;">Tables 4:1, 4:2, 5:1, 5:2</div></div>
+<div onclick="openDetail('geotextile_specs')" style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🕸️</div><div style="color:#2ecc71;font-weight:700;font-size:12px;">Geotextile</div>
+<div style="color:var(--text3);font-size:10px;">ISO 10319, 12236</div></div>
 </div>
-<div onclick="openDetail('roads_design')" style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.4);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:24px;margin-bottom:4px;">🔬</div>
-<div style="color:#3498db;font-weight:700;font-size:13px;">Design & Production</div>
-<div style="color:var(--text3);font-size:10px;">Marshall • Superpave<br>ESAL • Pavement Design</div>
-</div>
-<div onclick="openDetail('road_itps')" style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.4);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:24px;margin-bottom:4px;">📋</div>
-<div style="color:#2ecc71;font-weight:700;font-size:13px;">ITPs & QCP</div>
-<div style="color:var(--text3);font-size:10px;">Hold Points<br>Testing Schedule</div>
-</div>
-</div>
-<h3>🚦 Traffic & 📁 Documents</h3>
+
+<h3>🔬 Mix Design</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
-<div onclick="openDetail('traffic_management_plan')" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">🚦</div>
-<div style="color:#e74c3c;font-weight:700;font-size:12px;">Traffic Management Plan</div>
-<div style="color:var(--text3);font-size:10px;">TMP | Ashghal</div>
+<div onclick="openDetail('marshall_mix')" style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🔬</div><div style="color:#3498db;font-weight:700;font-size:12px;">Marshall Mix Design</div>
+<div style="color:var(--text3);font-size:10px;">Tables 5:6, 5:7, 5:8</div></div>
+<div onclick="openDetail('superpave_mix')" style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">⚙️</div><div style="color:#3498db;font-weight:700;font-size:12px;">Superpave + SGC</div>
+<div style="color:var(--text3);font-size:10px;">Table 5:17 | PG Grade</div></div>
+<div onclick="openDetail('air_voids_tolerances')" style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">📐</div><div style="color:#3498db;font-weight:700;font-size:12px;">Air Voids & Tolerances</div>
+<div style="color:var(--text3);font-size:10px;">Tables 5:9, 5:10, 5:11</div></div>
+<div onclick="openDetail('pavement_production')" style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🏭</div><div style="color:#3498db;font-weight:700;font-size:12px;">Production & Paving</div>
+<div style="color:var(--text3);font-size:10px;">Temp + Elevation + Production</div></div>
 </div>
-<div onclick="openDetail('doc_analyzer')" style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">📁</div>
-<div style="color:#3498db;font-weight:700;font-size:12px;">Document Analyzer</div>
-<div style="color:var(--text3);font-size:10px;">Specs + Drawings + BOQ</div>
+
+<h3>📋 QC & Testing</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
+<div onclick="openDetail('road_itps')" style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">📋</div><div style="color:#2ecc71;font-weight:700;font-size:12px;">Road ITPs</div>
+<div style="color:var(--text3);font-size:10px;">Hold Points + Witness</div></div>
+<div onclick="openDetail('testing_schedule')" style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🗓️</div><div style="color:#2ecc71;font-weight:700;font-size:12px;">Testing Schedule</div>
+<div style="color:var(--text3);font-size:10px;">Tests by Quantity</div></div>
+<div onclick="openDetail('bitumen_tests')" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🧪</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">Bitumen Tests</div>
+<div style="color:var(--text3);font-size:10px;">PAV, DSR, BBR, DTT, RV</div></div>
+<div onclick="openDetail('roads_qcp')" style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">✅</div><div style="color:#2ecc71;font-weight:700;font-size:12px;">QCP Roads</div>
+<div style="color:var(--text3);font-size:10px;">Quality Control Plan</div></div>
 </div>
-</div>
+
 </div>
 ` },
   subgrade: { title: '🏔️ Subgrade — طبقة التربة الطبيعية', content: `
@@ -6345,99 +6410,76 @@ All numerical values, specifications and test methods shown in Arabic are source
   roads_design: { title: '🏗️ Mix Design + Production + Pavement Design', content: `
 <div class="lang-content-ar">
 
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
-📌 QCS 2024 Section 6 Part 2 & 5 — الدراسة والتصميم والإنتاج
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
+📌 QCS 2024 Section 6 Part 5 — Mix Design + Production + Pavement Design
 </div>
 
-<h3 style="margin:12px 0 8px;">🔬 تصميم الخلطة — Mix Design</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px;">
-
-<div onclick="openDetail('marshall_mix')" style="background:rgba(52,152,219,0.07);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">🔬</div>
-<div style="color:#3498db;font-weight:700;font-size:12px;">Marshall Mix Design</div>
-<div style="color:var(--text3);font-size:10px;">Tables 5:6 · 5:7 · 5:8 | Stability · Flow · Va · VMA</div>
+<h3>🔬 Marshall Mix Design — Tables 5:6, 5:7, 5:8</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
+<div onclick="openDetail('marshall_mix')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🔬</div><div style="color:#3498db;font-weight:700;font-size:12px;">Marshall Design Criteria</div>
+<div style="color:var(--text3);font-size:10px;">Stability / Flow / Va / VMA / VFA</div></div>
+<div onclick="openDetail('superpave_mix')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">⚙️</div><div style="color:#3498db;font-weight:700;font-size:12px;">Superpave + SGC</div>
+<div style="color:var(--text3);font-size:10px;">Ndesign / PG Grade / Table 5:17</div></div>
+<div onclick="openDetail('air_voids_tolerances')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">📐</div><div style="color:#3498db;font-weight:700;font-size:12px;">Air Voids & Tolerances</div>
+<div style="color:var(--text3);font-size:10px;">Tables 5:9, 5:10, 5:11</div></div>
+<div onclick="openDetail('pavement_production')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🏭</div><div style="color:#3498db;font-weight:700;font-size:12px;">الإنتاج والفرش</div>
+<div style="color:var(--text3);font-size:10px;">Temp + Elevation Technique</div></div>
 </div>
 
-<div onclick="openDetail('superpave_mix')" style="background:rgba(52,152,219,0.07);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">⚙️</div>
-<div style="color:#3498db;font-weight:700;font-size:12px;">Superpave + SGC</div>
-<div style="color:var(--text3);font-size:10px;">Table 5:17 | PG Grade | Ndesign</div>
-</div>
-
-<div onclick="openDetail('air_voids_tolerances')" style="background:rgba(52,152,219,0.07);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">📐</div>
-<div style="color:#3498db;font-weight:700;font-size:12px;">Air Voids & Tolerances</div>
-<div style="color:var(--text3);font-size:10px;">Tables 5:9 · 5:10 · 5:11</div>
-</div>
-
-<div onclick="openDetail('pavement_production')" style="background:rgba(52,152,219,0.07);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">🏭</div>
-<div style="color:#3498db;font-weight:700;font-size:12px;">الإنتاج والفرش</div>
-<div style="color:var(--text3);font-size:10px;">Temp · Elevation · Production</div>
-</div>
-</div>
-
-<hr style="border:none;border-top:1px solid var(--border);margin:10px 0;">
-
-<h3 style="margin:10px 0 8px;">🔗 التنفيذ — Joints & Rolling</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px;">
-
+<h3>🔗 التنفيذ — Joints & Rolling</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
 <div onclick="openDetail('paving_joints')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">🔗</div>
-<div style="color:var(--gold);font-weight:700;font-size:12px;">الجوانت ونمط الدمك</div>
-<div style="color:var(--text3);font-size:10px;">Transverse · Longitudinal · Rolling</div>
-</div>
-
+<div style="font-size:18px;">🔗</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Joints & Rolling Pattern</div>
+<div style="color:var(--text3);font-size:10px;">Transverse + Longitudinal</div></div>
 <div onclick="openDetail('prime_tack_summary')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">🛢️</div>
-<div style="color:var(--gold);font-weight:700;font-size:12px;">Prime & Tack Summary</div>
-<div style="color:var(--text3);font-size:10px;">Rates · Temps · Curing · HP</div>
-</div>
+<div style="font-size:18px;">🛢️</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Prime & Tack Coat Summary</div>
+<div style="color:var(--text3);font-size:10px;">Rates + Temps + HP</div></div>
 </div>
 
-<hr style="border:none;border-top:1px solid var(--border);margin:10px 0;">
-
-<h3 style="margin:10px 0 8px;">🚛 تصميم الرصيف — Pavement Design</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
-
+<h3>🚛 تصميم الرصيف — Pavement Design</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
 <div onclick="openDetail('traffic_axle')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">🚛</div>
-<div style="color:#e74c3c;font-weight:700;font-size:12px;">Axle Load & ESAL</div>
-<div style="color:var(--text3);font-size:10px;">Tables 1·2·3·5 | T1–T6 Traffic</div>
-</div>
-
+<div style="font-size:18px;">🚛</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">Axle Load & ESAL</div>
+<div style="color:var(--text3);font-size:10px;">Traffic T1–T6 + Pavement Tables</div></div>
 <div onclick="openDetail('concrete_pavement')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
-<div style="font-size:20px;">🏗️</div>
-<div style="color:#e74c3c;font-weight:700;font-size:12px;">رصف الخرسانة</div>
-<div style="color:var(--text3);font-size:10px;">JPCP · CRCP · Joints · Dowels</div>
-</div>
+<div style="font-size:18px;">🏗️</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">Concrete Pavement</div>
+<div style="color:var(--text3);font-size:10px;">JPCP + CRCP + Joints + Dowels</div></div>
 </div>
 
 </div>
 
 <div class="lang-content-en" style="display:none;">
 
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
-📌 QCS 2024 Section 6 Part 2 & 5 — Design, Mix Design & Production
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
+📌 QCS 2024 Section 6 Part 5 — Mix Design + Production + Pavement Design
 </div>
-<h3 style="margin:12px 0 8px;">🔬 Mix Design</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px;">
-<div onclick="openDetail('marshall_mix')" style="background:rgba(52,152,219,0.07);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:20px;">🔬</div><div style="color:#3498db;font-weight:700;font-size:12px;">Marshall Mix Design</div><div style="color:var(--text3);font-size:10px;">Tables 5:6·5:7·5:8 | Stability · Flow · Va</div></div>
-<div onclick="openDetail('superpave_mix')" style="background:rgba(52,152,219,0.07);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:20px;">⚙️</div><div style="color:#3498db;font-weight:700;font-size:12px;">Superpave + SGC</div><div style="color:var(--text3);font-size:10px;">Table 5:17 | PG Grade</div></div>
-<div onclick="openDetail('air_voids_tolerances')" style="background:rgba(52,152,219,0.07);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:20px;">📐</div><div style="color:#3498db;font-weight:700;font-size:12px;">Air Voids & Tolerances</div><div style="color:var(--text3);font-size:10px;">Tables 5:9·5:10·5:11</div></div>
-<div onclick="openDetail('pavement_production')" style="background:rgba(52,152,219,0.07);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:20px;">🏭</div><div style="color:#3498db;font-weight:700;font-size:12px;">Production & Paving</div><div style="color:var(--text3);font-size:10px;">Temp · Elevation · Output</div></div>
+<h3>🔬 Mix Design</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
+<div onclick="openDetail('marshall_mix')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🔬</div><div style="color:#3498db;font-weight:700;font-size:12px;">Marshall Design</div>
+<div style="color:var(--text3);font-size:10px;">Stability / Flow / Va / VMA</div></div>
+<div onclick="openDetail('superpave_mix')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">⚙️</div><div style="color:#3498db;font-weight:700;font-size:12px;">Superpave + SGC</div>
+<div style="color:var(--text3);font-size:10px;">Ndesign / PG Grade</div></div>
+<div onclick="openDetail('air_voids_tolerances')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">📐</div><div style="color:#3498db;font-weight:700;font-size:12px;">Air Voids & Tolerances</div>
+<div style="color:var(--text3);font-size:10px;">Tables 5:9, 5:10, 5:11</div></div>
+<div onclick="openDetail('pavement_production')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🏭</div><div style="color:#3498db;font-weight:700;font-size:12px;">Production & Paving</div>
+<div style="color:var(--text3);font-size:10px;">Temp + Elevation</div></div>
 </div>
-<hr style="border:none;border-top:1px solid var(--border);margin:10px 0;">
-<h3 style="margin:10px 0 8px;">🔗 Execution — Joints & Rolling</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px;">
-<div onclick="openDetail('paving_joints')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:20px;">🔗</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Joints & Rolling</div><div style="color:var(--text3);font-size:10px;">Transverse · Longitudinal</div></div>
-<div onclick="openDetail('prime_tack_summary')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:20px;">🛢️</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Prime & Tack Summary</div><div style="color:var(--text3);font-size:10px;">Rates · Temps · HP</div></div>
-</div>
-<hr style="border:none;border-top:1px solid var(--border);margin:10px 0;">
-<h3 style="margin:10px 0 8px;">🚛 Pavement Design</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
-<div onclick="openDetail('traffic_axle')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:20px;">🚛</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">Axle Load & ESAL</div><div style="color:var(--text3);font-size:10px;">T1–T6 Traffic Designation</div></div>
-<div onclick="openDetail('concrete_pavement')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:20px;">🏗️</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">Concrete Pavement</div><div style="color:var(--text3);font-size:10px;">JPCP · CRCP · Joints</div></div>
+<h3>🚛 Pavement Design</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
+<div onclick="openDetail('traffic_axle')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🚛</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">Axle Load & ESAL</div>
+<div style="color:var(--text3);font-size:10px;">T1–T6 Traffic Designation</div></div>
+<div onclick="openDetail('concrete_pavement')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
+<div style="font-size:18px;">🏗️</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">Concrete Pavement</div>
+<div style="color:var(--text3);font-size:10px;">JPCP + CRCP + Joints</div></div>
 </div>
 
 </div>
@@ -7305,6 +7347,8 @@ function openDetail(key) {
   // ITP bar
   var bar = document.getElementById('itp-project-bar');
   if (bar) bar.style.display = (key && key.startsWith('itp')) ? 'block' : 'none';
+  // Populate calculator cat divs
+  if (key === 'calculator') setTimeout(initCalculatorCats, 10);
 }
 
 function goBack() {
@@ -7358,6 +7402,526 @@ function printCurrentDetail() {
   setTimeout(function() { printArea.innerHTML = originalContent; }, 1000);
 }
 
+
+
+// ===== CALCULATOR CATEGORIES INIT =====
+function initCalculatorCats() {
+  var roadsHTML = `
+<div class="calc-tabs">
+  <button class="calc-tab active" onclick="switchCalc('comp',this)">🏔️ الدمك</button>
+  <button class="calc-tab" onclick="switchCalc('cbr',this)">📊 CBR</button>
+  <button class="calc-tab" onclick="switchCalc('att',this)">🔬 Atterberg</button>
+  <button class="calc-tab" onclick="switchCalc('la',this)">⚒️ LA Abrasion</button>
+  <button class="calc-tab" onclick="switchCalc('fli',this)">📐 Flakiness</button>
+  <button class="calc-tab" onclick="switchCalc('se',this)">🪣 Sand Eq</button>
+  <button class="calc-tab" onclick="switchCalc('sul',this)">🧪 SO₃/Cl</button>
+  <button class="calc-tab" onclick="switchCalc('mar',this)">⚫ Marshall</button>
+  <button class="calc-tab" onclick="switchCalc('core',this)">🔩 Core Density</button>
+  <button class="calc-tab" onclick="switchCalc('bit',this)">🛢️ Bitumen</button>
+  <button class="calc-tab" onclick="switchCalc('temp',this)">🌡️ Temperature</button>
+  <button class="calc-tab" onclick="switchCalc('str',this)">📏 Straightedge</button>
+  <button class="calc-tab" onclick="switchCalc('crf',this)">📐 Crossfall</button>
+  <button class="calc-tab" onclick="switchCalc('skid',this)">🛞 Skid/PSV</button>
+  <button class="calc-tab" onclick="switchCalc('lev',this)">📡 Level</button>
+  <button class="calc-tab" onclick="switchCalc('plt',this)">🔩 Plate Load</button>
+  <button class="calc-tab" onclick="switchCalc('prate',this)">🪣 Spray Rate</button>
+</div>
+
+<div class="calc-section" id="calc-comp">
+  <div class="calc-title">🏔️ Field Compaction — Density Check</div>
+  <div class="calc-row"><span class="calc-label">الكثافة الحقلية (γd):</span><input class="calc-input" id="comp-actual" type="number" placeholder="1.85"><span class="calc-unit">t/m³</span></div>
+  <div class="calc-row"><span class="calc-label">MDD (Proctor):</span><input class="calc-input" id="comp-mdd" type="number" placeholder="1.95"><span class="calc-unit">t/m³</span></div>
+  <div class="calc-row"><span class="calc-label">الطبقة / Layer:</span>
+    <select class="calc-select" id="comp-layer">
+      <option value="95">Subgrade — 95% MDD</option>
+      <option value="98">Subbase / Base — 98% MDD</option>
+      <option value="100">Asphalt / Special — 100% MDD</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcCompaction()">احسب Compaction %</button>
+  <div class="calc-result" id="comp-result"></div>
+</div>
+
+<div class="calc-section" id="calc-cbr" style="display:none">
+  <div class="calc-title">📊 CBR — California Bearing Ratio</div>
+  <div class="calc-row"><span class="calc-label">نتيجة CBR (%):</span><input class="calc-input" id="cbr-val" type="number" placeholder="25"></div>
+  <div class="calc-row"><span class="calc-label">الطبقة:</span>
+    <select class="calc-select" id="cbr-layer">
+      <option value="15">Subgrade عادي — 15%</option>
+      <option value="8">Subgrade Sabkha — 8%</option>
+      <option value="70">Subbase — 70%</option>
+      <option value="80">Road Base — 80%</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcCBR()">تحقق من CBR</button>
+  <div class="calc-result" id="cbr-result"></div>
+</div>
+
+<div class="calc-section" id="calc-att" style="display:none">
+  <div class="calc-title">🔬 Atterberg Limits</div>
+  <div class="calc-row"><span class="calc-label">Liquid Limit (LL %):</span><input class="calc-input" id="att-ll" type="number" placeholder="28"></div>
+  <div class="calc-row"><span class="calc-label">Plastic Limit (PL %):</span><input class="calc-input" id="att-pl" type="number" placeholder="18"></div>
+  <div class="calc-row"><span class="calc-label">الطبقة:</span>
+    <select class="calc-select" id="att-layer">
+      <option value="subgrade">Subgrade — LL≤35 PI≤10</option>
+      <option value="subbase">Subbase — PI≤6</option>
+      <option value="base">Road Base — PI≤4</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcAtterberg()">تحقق من Atterberg</button>
+  <div class="calc-result" id="att-result"></div>
+</div>
+
+<div class="calc-section" id="calc-la" style="display:none">
+  <div class="calc-title">⚒️ LA Abrasion Test</div>
+  <div class="calc-row"><span class="calc-label">النتيجة (%):</span><input class="calc-input" id="la-val" type="number" placeholder="28"></div>
+  <div class="calc-row"><span class="calc-label">الطبقة:</span>
+    <select class="calc-select" id="la-layer">
+      <option value="40">Subgrade / Subbase — ≤40%</option>
+      <option value="30">Road Base / BC — ≤30%</option>
+      <option value="25">Wearing Course — ≤25%</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcLA()">تحقق من LA</button>
+  <div class="calc-result" id="la-result"></div>
+</div>
+
+<div class="calc-section" id="calc-fli" style="display:none">
+  <div class="calc-title">📐 Flakiness Index</div>
+  <div class="calc-row"><span class="calc-label">النتيجة (%):</span><input class="calc-input" id="fli-val" type="number" placeholder="18"></div>
+  <div class="calc-row"><span class="calc-label">الطبقة:</span>
+    <select class="calc-select" id="fli-layer">
+      <option value="40">Subbase — ≤40%</option>
+      <option value="30">Road Base — ≤30%</option>
+      <option value="25">Binder Course — ≤25%</option>
+      <option value="20">Wearing Course — ≤20%</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcFlakiness()">تحقق من Flakiness</button>
+  <div class="calc-result" id="fli-result"></div>
+</div>
+
+<div class="calc-section" id="calc-se" style="display:none">
+  <div class="calc-title">🪣 Sand Equivalent (SE)</div>
+  <div class="calc-row"><span class="calc-label">النتيجة (%):</span><input class="calc-input" id="se-val" type="number" placeholder="38"></div>
+  <div class="calc-row"><span class="calc-label">الطبقة:</span>
+    <select class="calc-select" id="se-layer">
+      <option value="25">Subbase — ≥25%</option>
+      <option value="35">Road Base — ≥35%</option>
+      <option value="45">Asphalt Fine Agg — ≥45%</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcSandEq()">تحقق من SE</button>
+  <div class="calc-result" id="se-result"></div>
+</div>
+
+<div class="calc-section" id="calc-sul" style="display:none">
+  <div class="calc-title">🧪 Sulphate SO₃ + Chloride</div>
+  <div class="calc-row"><span class="calc-label">نوع العينة:</span>
+    <select class="calc-select" id="sul-type">
+      <option value="soil">تربة (Soil)</option>
+      <option value="aggregate">ركام (Aggregate)</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">Sulphate SO₃ (%):</span><input class="calc-input" id="sul-val" type="number" step="0.01" placeholder="0.3"></div>
+  <div class="calc-row"><span class="calc-label">Chloride (%) اختياري:</span><input class="calc-input" id="chl-val" type="number" step="0.01" placeholder="0.02"></div>
+  <button class="calc-btn" onclick="calcSulphate()">تحقق</button>
+  <div class="calc-result" id="sul-result"></div>
+</div>
+
+<div class="calc-section" id="calc-mar" style="display:none">
+  <div class="calc-title">⚫ Marshall Test Results</div>
+  <div class="calc-row"><span class="calc-label">Stability (kN):</span><input class="calc-input" id="mar-stab" type="number" step="0.1" placeholder="9.5"></div>
+  <div class="calc-row"><span class="calc-label">Flow (mm):</span><input class="calc-input" id="mar-flow" type="number" step="0.1" placeholder="3.0"></div>
+  <div class="calc-row"><span class="calc-label">Air Voids Va (%):</span><input class="calc-input" id="mar-va" type="number" step="0.1" placeholder="4.0"></div>
+  <div class="calc-row"><span class="calc-label">Bitumen Content % (اختياري):</span><input class="calc-input" id="mar-bit" type="number" step="0.1" placeholder="5.2"></div>
+  <div class="calc-row"><span class="calc-label">الطبقة:</span>
+    <select class="calc-select" id="mar-layer">
+      <option value="wearing">Wearing Course</option>
+      <option value="binder">Binder Course</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcMarshall()">تحقق من Marshall</button>
+  <div class="calc-result" id="mar-result"></div>
+</div>
+
+<div class="calc-section" id="calc-core" style="display:none">
+  <div class="calc-title">🔩 Core Density (TMD%)</div>
+  <div class="calc-row"><span class="calc-label">Bulk Density الكور:</span><input class="calc-input" id="core-bulk" type="number" step="0.001" placeholder="2.380"><span class="calc-unit">g/cm³</span></div>
+  <div class="calc-row"><span class="calc-label">TMD (Max Density):</span><input class="calc-input" id="core-tmd" type="number" step="0.001" placeholder="2.450"><span class="calc-unit">g/cm³</span></div>
+  <button class="calc-btn" onclick="calcCoreDensity()">احسب % TMD</button>
+  <div class="calc-result" id="core-result"></div>
+</div>
+
+<div class="calc-section" id="calc-bit" style="display:none">
+  <div class="calc-title">🛢️ Bitumen Content Check</div>
+  <div class="calc-row"><span class="calc-label">JMF Target (%):</span><input class="calc-input" id="bit-jmf" type="number" step="0.1" placeholder="5.2"></div>
+  <div class="calc-row"><span class="calc-label">Actual (%):</span><input class="calc-input" id="bit-actual" type="number" step="0.1" placeholder="5.0"></div>
+  <button class="calc-btn" onclick="calcBitumen()">تحقق من Bitumen</button>
+  <div class="calc-result" id="bit-result"></div>
+</div>
+
+<div class="calc-section" id="calc-temp" style="display:none">
+  <div class="calc-title">🌡️ Asphalt Temperature</div>
+  <div class="calc-row"><span class="calc-label">درجة الحرارة (°C):</span><input class="calc-input" id="temp-val" type="number" placeholder="145"></div>
+  <div class="calc-row"><span class="calc-label">المرحلة:</span>
+    <select class="calc-select" id="temp-stage">
+      <option value="delivery">Delivery — ≥135°C</option>
+      <option value="laying">Laying — ≥130°C</option>
+      <option value="initial">Initial Rolling — ≥120°C</option>
+      <option value="intermediate">Intermediate Rolling — 80-120°C</option>
+      <option value="final">Final Rolling — ≥60°C</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcTemperature()">تحقق من الحرارة</button>
+  <div class="calc-result" id="temp-result"></div>
+</div>
+
+<div class="calc-section" id="calc-str" style="display:none">
+  <div class="calc-title">📏 3m Straightedge</div>
+  <div class="calc-row"><span class="calc-label">أكبر فجوة (mm):</span><input class="calc-input" id="str-val" type="number" step="0.1" placeholder="3.5"></div>
+  <button class="calc-btn" onclick="calcStraightedge()">تحقق (≤5mm)</button>
+  <div class="calc-result" id="str-result"></div>
+</div>
+
+<div class="calc-section" id="calc-crf" style="display:none">
+  <div class="calc-title">📐 Crossfall Check</div>
+  <div class="calc-row"><span class="calc-label">Crossfall الفعلي (%):</span><input class="calc-input" id="crf-val" type="number" step="0.1" placeholder="2.5"></div>
+  <button class="calc-btn" onclick="calcCrossfall()">تحقق (2-3%)</button>
+  <div class="calc-result" id="crf-result"></div>
+</div>
+
+<div class="calc-section" id="calc-skid" style="display:none">
+  <div class="calc-title">🛞 Skid Resistance / PSV</div>
+  <div class="calc-row"><span class="calc-label">PSV الفعلي:</span><input class="calc-input" id="skid-val" type="number" placeholder="57"></div>
+  <button class="calc-btn" onclick="calcSkid()">تحقق (≥55 PSV)</button>
+  <div class="calc-result" id="skid-result"></div>
+</div>
+
+<div class="calc-section" id="calc-lev" style="display:none">
+  <div class="calc-title">📡 Level Tolerance</div>
+  <div class="calc-row"><span class="calc-label">المنسوب التصميمي (m):</span><input class="calc-input" id="lev-design" type="number" step="0.001" placeholder="12.500"></div>
+  <div class="calc-row"><span class="calc-label">المنسوب الفعلي (m):</span><input class="calc-input" id="lev-actual" type="number" step="0.001" placeholder="12.506"></div>
+  <div class="calc-row"><span class="calc-label">التفاوت المسموح:</span>
+    <select class="calc-select" id="lev-layer">
+      <option value="10">Subgrade/Subbase — ±10mm</option>
+      <option value="8">Road Base — ±8mm</option>
+      <option value="6">Wearing Course — ±6mm</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcLevel()">تحقق من Level</button>
+  <div class="calc-result" id="lev-result"></div>
+</div>
+
+<div class="calc-section" id="calc-plt" style="display:none">
+  <div class="calc-title">🔩 Plate Load Test</div>
+  <div class="calc-row"><span class="calc-label">K الفعلي (MN/m³):</span><input class="calc-input" id="plt-val" type="number" placeholder="50"></div>
+  <div class="calc-row"><span class="calc-label">K المطلوب:</span><input class="calc-input" id="plt-req" type="number" placeholder="40"></div>
+  <button class="calc-btn" onclick="calcPlateLoad()">تحقق من K</button>
+  <div class="calc-result" id="plt-result"></div>
+</div>
+
+<div class="calc-section" id="calc-prate" style="display:none">
+  <div class="calc-title">🪣 Spray Rate — Prime / Tack</div>
+  <div class="calc-row"><span class="calc-label">الكمية (لتر):</span><input class="calc-input" id="prate-qty" type="number" placeholder="850"></div>
+  <div class="calc-row"><span class="calc-label">المساحة (م²):</span><input class="calc-input" id="prate-area" type="number" placeholder="900"></div>
+  <div class="calc-row"><span class="calc-label">النوع:</span>
+    <select class="calc-select" id="prate-type">
+      <option value="prime">Prime Coat — 0.8-1.2 L/m²</option>
+      <option value="tack-binder">Tack على Binder — 0.3-0.5 L/m²</option>
+      <option value="tack-wearing">Tack على Wearing — 0.2-0.4 L/m²</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcPrimeRate()">احسب معدل الرش</button>
+  <div class="calc-result" id="prate-result"></div>
+</div>`;
+
+  var utilitiesHTML = `
+<div class="calc-tabs">
+  <button class="calc-tab active" onclick="switchCalc('pres',this)">💧 Pressure Test</button>
+  <button class="calc-tab" onclick="switchCalc('air',this)">💨 Air Test</button>
+  <button class="calc-tab" onclick="switchCalc('chl',this)">🧪 Chlorination</button>
+  <button class="calc-tab" onclick="switchCalc('rcl',this)">💊 Residual Cl</button>
+  <button class="calc-tab" onclick="switchCalc('turb',this)">🌊 Turbidity</button>
+  <button class="calc-tab" onclick="switchCalc('ph',this)">⚗️ pH</button>
+  <button class="calc-tab" onclick="switchCalc('psep',this)">📏 Separation</button>
+  <button class="calc-tab" onclick="switchCalc('grad',this)">📐 Gradient</button>
+  <button class="calc-tab" onclick="switchCalc('mh',this)">🕳️ Manhole WT</button>
+  <button class="calc-tab" onclick="switchCalc('cctv',this)">📹 CCTV Grade</button>
+  <button class="calc-tab" onclick="switchCalc('gul',this)">🌊 Gully Level</button>
+</div>
+
+<div class="calc-section" id="calc-pres">
+  <div class="calc-title">💧 Hydrostatic Pressure Test — Water Supply</div>
+  <div class="calc-row"><span class="calc-label">Nominal Pressure PN (bar):</span><input class="calc-input" id="pres-design" type="number" step="0.1" placeholder="10"></div>
+  <div class="calc-row"><span class="calc-label">ضغط الاختبار الفعلي (bar):</span><input class="calc-input" id="pres-test" type="number" step="0.1" placeholder="15"></div>
+  <div class="calc-row"><span class="calc-label">ضغط البداية (bar):</span><input class="calc-input" id="pres-start" type="number" step="0.01" placeholder="15.00"></div>
+  <div class="calc-row"><span class="calc-label">ضغط النهاية / 2hr (bar):</span><input class="calc-input" id="pres-end" type="number" step="0.01" placeholder="15.00"></div>
+  <button class="calc-btn" onclick="calcPressure()">تحقق من الضغط</button>
+  <div class="calc-result" id="pres-result"></div>
+</div>
+
+<div class="calc-section" id="calc-air" style="display:none">
+  <div class="calc-title">💨 Air Test — Foul Sewer (BS EN 1610)</div>
+  <div class="calc-row"><span class="calc-label">الضغط الأولي (mm WG):</span><input class="calc-input" id="air-start" type="number" placeholder="100"></div>
+  <div class="calc-row"><span class="calc-label">الضغط بعد 5 دقائق (mm WG):</span><input class="calc-input" id="air-end" type="number" placeholder="82"></div>
+  <button class="calc-btn" onclick="calcAirTest()">تحقق (انخفاض ≤25mm)</button>
+  <div class="calc-result" id="air-result"></div>
+</div>
+
+<div class="calc-section" id="calc-chl" style="display:none">
+  <div class="calc-title">🧪 Chlorination — Water Supply</div>
+  <div class="calc-row"><span class="calc-label">تركيز الكلور (ppm):</span><input class="calc-input" id="chl-conc" type="number" placeholder="60"></div>
+  <div class="calc-row"><span class="calc-label">مدة التعقيم (hour):</span><input class="calc-input" id="chl-time" type="number" placeholder="24"></div>
+  <button class="calc-btn" onclick="calcChlorination()">تحقق (≥50ppm / ≥24hr)</button>
+  <div class="calc-result" id="chl-result"></div>
+</div>
+
+<div class="calc-section" id="calc-rcl" style="display:none">
+  <div class="calc-title">💊 Residual Chlorine</div>
+  <div class="calc-row"><span class="calc-label">Residual Cl (ppm):</span><input class="calc-input" id="rcl-val" type="number" step="0.01" placeholder="0.3"></div>
+  <button class="calc-btn" onclick="calcResidualCl()">تحقق (0.2-0.5 ppm)</button>
+  <div class="calc-result" id="rcl-result"></div>
+</div>
+
+<div class="calc-section" id="calc-turb" style="display:none">
+  <div class="calc-title">🌊 Turbidity</div>
+  <div class="calc-row"><span class="calc-label">Turbidity (NTU):</span><input class="calc-input" id="turb-val" type="number" step="0.1" placeholder="0.5"></div>
+  <button class="calc-btn" onclick="calcTurbidity()">تحقق (≤1 NTU)</button>
+  <div class="calc-result" id="turb-result"></div>
+</div>
+
+<div class="calc-section" id="calc-ph" style="display:none">
+  <div class="calc-title">⚗️ pH Check</div>
+  <div class="calc-row"><span class="calc-label">pH الفعلي:</span><input class="calc-input" id="ph-val" type="number" step="0.1" placeholder="7.2"></div>
+  <button class="calc-btn" onclick="calcPH()">تحقق (6.5-8.5)</button>
+  <div class="calc-result" id="ph-result"></div>
+</div>
+
+<div class="calc-section" id="calc-psep" style="display:none">
+  <div class="calc-title">📏 Pipe Separation Check</div>
+  <div class="calc-row"><span class="calc-label">المسافة الأفقية (m):</span><input class="calc-input" id="psep-val" type="number" step="0.01" placeholder="1.2"></div>
+  <div class="calc-row"><span class="calc-label">النوع:</span>
+    <select class="calc-select" id="psep-type">
+      <option value="1.0">مياه شرب / صرف — ≥1.0m</option>
+      <option value="0.5">صرف صحي / سطحي — ≥0.5m</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcPipeSep()">تحقق</button>
+  <div class="calc-result" id="psep-result"></div>
+</div>
+
+<div class="calc-section" id="calc-grad" style="display:none">
+  <div class="calc-title">📐 Sewer Gradient Check</div>
+  <div class="calc-row"><span class="calc-label">فرق المناسيب (m):</span><input class="calc-input" id="grad-diff" type="number" step="0.001" placeholder="0.350"></div>
+  <div class="calc-row"><span class="calc-label">طول الخط (m):</span><input class="calc-input" id="grad-len" type="number" placeholder="50"></div>
+  <div class="calc-row"><span class="calc-label">الحد الأدنى (1:X):</span>
+    <select class="calc-select" id="grad-dn">
+      <option value="100">DN150 — 1:100</option>
+      <option value="150">DN200 — 1:150</option>
+      <option value="200">DN300 — 1:200</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcSewerGrad()">تحقق من الانحدار</button>
+  <div class="calc-result" id="grad-result"></div>
+</div>
+
+<div class="calc-section" id="calc-mh" style="display:none">
+  <div class="calc-title">🕳️ Manhole Water Tightness</div>
+  <div class="calc-row"><span class="calc-label">منسوب المياه الأولي (m):</span><input class="calc-input" id="mh-start" type="number" step="0.001" placeholder="1.500"></div>
+  <div class="calc-row"><span class="calc-label">منسوب المياه بعد 24hr (m):</span><input class="calc-input" id="mh-end" type="number" step="0.001" placeholder="1.500"></div>
+  <button class="calc-btn" onclick="calcManholeWT()">تحقق (صفر تسريب)</button>
+  <div class="calc-result" id="mh-result"></div>
+</div>
+
+<div class="calc-section" id="calc-cctv" style="display:none">
+  <div class="calc-title">📹 CCTV Survey Grade</div>
+  <div class="calc-row"><span class="calc-label">الـ Grade:</span>
+    <select class="calc-select" id="cctv-grade">
+      <option value="1">Grade 1 — No Defects</option>
+      <option value="2">Grade 2 — Minor Defects</option>
+      <option value="3">Grade 3 — Moderate</option>
+      <option value="4">Grade 4 — Severe</option>
+      <option value="5">Grade 5 — Collapse</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcCCTV()">تحقق (≤Grade 2)</button>
+  <div class="calc-result" id="cctv-result"></div>
+</div>
+
+<div class="calc-section" id="calc-gul" style="display:none">
+  <div class="calc-title">🌊 Gully Level Check</div>
+  <div class="calc-row"><span class="calc-label">مستوى الطريق (m):</span><input class="calc-input" id="gul-road" type="number" step="0.001" placeholder="12.500"></div>
+  <div class="calc-row"><span class="calc-label">مستوى Gully (m):</span><input class="calc-input" id="gul-gully" type="number" step="0.001" placeholder="12.497"></div>
+  <button class="calc-btn" onclick="calcGullyLevel()">تحقق (±5mm)</button>
+  <div class="calc-result" id="gul-result"></div>
+</div>`;
+
+  var structuralHTML = `
+<div class="calc-tabs">
+  <button class="calc-tab active" onclick="switchCalc('con',this)">🧱 Cube Test</button>
+  <button class="calc-tab" onclick="switchCalc('reb',this)">🔩 Rebar</button>
+  <button class="calc-tab" onclick="switchCalc('slump',this)">💧 Slump</button>
+  <button class="calc-tab" onclick="switchCalc('cover',this)">📏 Cover</button>
+  <button class="calc-tab" onclick="switchCalc('lap',this)">🔗 Lap Length</button>
+</div>
+
+<div class="calc-section" id="calc-con">
+  <div class="calc-title">🧱 Cube Test — Compressive Strength</div>
+  <div class="calc-row"><span class="calc-label">درجة الخرسانة fcu:</span>
+    <select class="calc-select" id="con-grade">
+      <option value="25">C25</option>
+      <option value="30">C30</option>
+      <option value="35" selected>C35</option>
+      <option value="40">C40</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">عمر الاختبار:</span>
+    <select class="calc-select" id="con-age">
+      <option value="7">7 يوم (≥70% fcu)</option>
+      <option value="28">28 يوم (≥100% fcu)</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">نتيجة المكعب (N/mm²):</span><input class="calc-input" id="con-result-val" type="number" step="0.1" placeholder="28.5"></div>
+  <button class="calc-btn" onclick="calcConcrete()">تحقق من النتيجة</button>
+  <div class="calc-result" id="con-result"></div>
+</div>
+
+<div class="calc-section" id="calc-reb" style="display:none">
+  <div class="calc-title">🔩 Rebar — Grade 500B Check</div>
+  <div class="calc-row"><span class="calc-label">Yield Strength fy (N/mm²):</span><input class="calc-input" id="reb-fy" type="number" placeholder="520"></div>
+  <div class="calc-row"><span class="calc-label">Ultimate Strength fu (N/mm²):</span><input class="calc-input" id="reb-fu" type="number" placeholder="640"></div>
+  <div class="calc-row"><span class="calc-label">Elongation % (اختياري):</span><input class="calc-input" id="reb-elong" type="number" step="0.1" placeholder="16"></div>
+  <button class="calc-btn" onclick="calcRebar()">تحقق (Grade 500B)</button>
+  <div class="calc-result" id="reb-result"></div>
+</div>
+
+<div class="calc-section" id="calc-slump" style="display:none">
+  <div class="calc-title">💧 Slump Test</div>
+  <div class="calc-row"><span class="calc-label">Slump الفعلي (mm):</span><input class="calc-input" id="slump-val" type="number" placeholder="90"></div>
+  <div class="calc-row"><span class="calc-label">نوع الصب:</span>
+    <select class="calc-select" id="slump-type">
+      <option value="75,100">صب عادي — 75-100mm</option>
+      <option value="100,150">صب بمضخة — 100-150mm</option>
+      <option value="175,225">Bored Piles — 175-225mm</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcSlump()">تحقق من Slump</button>
+  <div class="calc-result" id="slump-result"></div>
+</div>
+
+<div class="calc-section" id="calc-cover" style="display:none">
+  <div class="calc-title">📏 Concrete Cover Check</div>
+  <div class="calc-row"><span class="calc-label">نوع العنصر:</span>
+    <select class="calc-select" id="cover-type">
+      <option value="75">أساسات على تربة — 75mm</option>
+      <option value="50">جدران / Retaining — 50mm</option>
+      <option value="40">أعمدة / كمرات خارجي — 40mm</option>
+      <option value="25">أعمدة داخلي — 25mm</option>
+      <option value="20">بلاطات داخلي — 20mm</option>
+      <option value="75">Bored Piles — 75mm</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">Cover الفعلي (mm):</span><input class="calc-input" id="cover-val" type="number" placeholder="42"></div>
+  <button class="calc-btn" onclick="calcCover()">تحقق من Cover</button>
+  <div class="calc-result" id="cover-result"></div>
+</div>
+
+<div class="calc-section" id="calc-lap" style="display:none">
+  <div class="calc-title">🔗 Lap Length Check</div>
+  <div class="calc-row"><span class="calc-label">نوع الوصلة:</span>
+    <select class="calc-select" id="lap-type">
+      <option value="40">Tension عادي — 40d</option>
+      <option value="50">Tension بيئة عدوانية — 50d</option>
+      <option value="30">Compression — 30d</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">قطر الحديدة d (mm):</span><input class="calc-input" id="lap-dia" type="number" placeholder="16"></div>
+  <div class="calc-row"><span class="calc-label">الطول الفعلي (mm):</span><input class="calc-input" id="lap-actual" type="number" placeholder="700"></div>
+  <button class="calc-btn" onclick="calcLapLength()">تحقق من Lap</button>
+  <div class="calc-result" id="lap-result"></div>
+</div>`;
+
+  var geotechHTML = `
+<div class="calc-tabs">
+  <button class="calc-tab active" onclick="switchCalc('spt',this)">🔨 SPT</button>
+  <button class="calc-tab" onclick="switchCalc('sul-class',this)">🧪 Sulphate Class</button>
+  <button class="calc-tab" onclick="switchCalc('cbr-road',this)">📊 CBR Road</button>
+  <button class="calc-tab" onclick="switchCalc('bc',this)">🏛️ Bearing Cap</button>
+  <button class="calc-tab" onclick="switchCalc('pi-class',this)">🔬 PI Class</button>
+</div>
+
+<div class="calc-section" id="calc-spt">
+  <div class="calc-title">🔨 SPT N-Value — تفسير النتيجة</div>
+  <div class="calc-row"><span class="calc-label">N-Value (ضربات/300mm):</span><input class="calc-input" id="spt-val" type="number" placeholder="25"></div>
+  <div class="calc-row"><span class="calc-label">نوع التربة:</span>
+    <select class="calc-select" id="spt-type">
+      <option value="sand">رمل / Sand</option>
+      <option value="clay">طين / Clay</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcSPT()">صنّف التربة</button>
+  <div class="calc-result" id="spt-result"></div>
+</div>
+
+<div class="calc-section" id="calc-sul-class" style="display:none">
+  <div class="calc-title">🧪 Sulphate Classification — QCS S6 P3</div>
+  <div class="calc-row"><span class="calc-label">نوع العينة:</span>
+    <select class="calc-select" id="sul-sample">
+      <option value="soil">تربة — SO3 %</option>
+      <option value="water">مياه جوفية — SO4 mg/L</option>
+    </select>
+  </div>
+  <div class="calc-row"><span class="calc-label">النتيجة:</span><input class="calc-input" id="sul-class-val" type="number" step="0.01" placeholder="0.8"></div>
+  <button class="calc-btn" onclick="calcSulphateClass()">صنّف الكبريتات</button>
+  <div class="calc-result" id="sul-class-result"></div>
+</div>
+
+<div class="calc-section" id="calc-cbr-road" style="display:none">
+  <div class="calc-title">📊 CBR — Road Design</div>
+  <div class="calc-row"><span class="calc-label">CBR الفعلي (%):</span><input class="calc-input" id="cbr-road-val" type="number" placeholder="12"></div>
+  <button class="calc-btn" onclick="calcCBRRoad()">صنّف CBR للطريق</button>
+  <div class="calc-result" id="cbr-road-result"></div>
+</div>
+
+<div class="calc-section" id="calc-bc" style="display:none">
+  <div class="calc-title">🏛️ Bearing Capacity — تقدير أولي</div>
+  <div class="calc-row"><span class="calc-label">N60 (SPT):</span><input class="calc-input" id="bc-n" type="number" placeholder="25"></div>
+  <div class="calc-row"><span class="calc-label">عرض الأساس B (m):</span><input class="calc-input" id="bc-b" type="number" step="0.1" placeholder="1.5"></div>
+  <button class="calc-btn" onclick="calcBearingCap()">احسب التحمل</button>
+  <div class="calc-result" id="bc-result"></div>
+</div>
+
+<div class="calc-section" id="calc-pi-class" style="display:none">
+  <div class="calc-title">🔬 PI Classification & Swell Potential</div>
+  <div class="calc-row"><span class="calc-label">Liquid Limit LL (%):</span><input class="calc-input" id="pi-ll" type="number" placeholder="35"></div>
+  <div class="calc-row"><span class="calc-label">Plastic Limit PL (%):</span><input class="calc-input" id="pi-pl" type="number" placeholder="18"></div>
+  <button class="calc-btn" onclick="calcPIClass()">صنّف</button>
+  <div class="calc-result" id="pi-result"></div>
+</div>`;
+
+  var catRoads = document.getElementById('cat-roads');
+  var catUtils = document.getElementById('cat-utilities');
+  var catStruct = document.getElementById('cat-structural');
+  var catGeo = document.getElementById('cat-geotech_calc');
+
+  if (catRoads && !catRoads.dataset.initialized) {
+    catRoads.innerHTML = roadsHTML;
+    catRoads.dataset.initialized = '1';
+  }
+  if (catUtils && !catUtils.dataset.initialized) {
+    catUtils.innerHTML = utilitiesHTML;
+    catUtils.dataset.initialized = '1';
+  }
+  if (catStruct && !catStruct.dataset.initialized) {
+    catStruct.innerHTML = structuralHTML;
+    catStruct.dataset.initialized = '1';
+  }
+  if (catGeo && !catGeo.dataset.initialized) {
+    catGeo.innerHTML = geotechHTML;
+    catGeo.dataset.initialized = '1';
+  }
+}
 
 // ===== GEOTECH CALCULATOR =====
 function calcSPT() {
@@ -7787,155 +8351,118 @@ function calcLapLength() {
 
 
 // ===== LOCAL VIDEO LOADER =====
-// ===== VIDEO SYSTEM — IndexedDB Persistent Storage =====
-// Stores actual video file data in IndexedDB so it survives DOM rebuilds
-// IndexedDB persists for the browser session + beyond (until user clears)
+// ===== VIDEO PERSISTENCE SYSTEM — PERMANENT FIX =====
+// Problem: openDetail/goBack uses innerHTML = d.content which destroys DOM
+// Solution: Store the actual File object in a Map keyed by input ID
+// After every DOM rebuild, re-inject all stored videos automatically
 
-var _vidDB = null;
-var _vidMemory = {}; // in-memory cache of ObjectURLs
+var _videoFiles = new Map(); // key: input element ID → value: { file, url, name, size }
 
-function _openVidDB(callback) {
-  if (_vidDB) { callback(_vidDB); return; }
-  var req = indexedDB.open('QatarSpecVideos', 1);
-  req.onupgradeneeded = function(e) {
-    e.target.result.createObjectStore('videos');
-  };
-  req.onsuccess = function(e) {
-    _vidDB = e.target.result;
-    callback(_vidDB);
-  };
-  req.onerror = function() {
-    console.warn('IndexedDB unavailable, using memory only');
-    callback(null);
-  };
-}
-
-function _saveVidToDB(key, file, callback) {
-  _openVidDB(function(db) {
-    if (!db) { callback && callback(); return; }
-    var tx = db.transaction('videos', 'readwrite');
-    tx.objectStore('videos').put({ file: file, name: file.name, size: file.size, ts: Date.now() }, key);
-    tx.oncomplete = function() { callback && callback(); };
-    tx.onerror = function() { callback && callback(); };
-  });
-}
-
-function _loadVidFromDB(key, callback) {
-  _openVidDB(function(db) {
-    if (!db) { callback(null); return; }
-    var tx = db.transaction('videos', 'readonly');
-    var req = tx.objectStore('videos').get(key);
-    req.onsuccess = function(e) { callback(e.target.result || null); };
-    req.onerror = function() { callback(null); };
-  });
-}
-
-function _showVideo(playerId, phId, url, name, size) {
-  var player = document.getElementById(playerId);
-  var ph = document.getElementById(phId);
-  if (!player) return;
-  _vidMemory[playerId] = url;
-  player.src = url;
-  player.style.display = 'block';
-  player.load();
-  if (ph) ph.style.display = 'none';
-  // Badge
-  var badgeId = 'vbadge-' + playerId;
-  var badge = document.getElementById(badgeId);
-  if (!badge) {
-    badge = document.createElement('div');
-    badge.id = badgeId;
-    badge.style.cssText = 'font-size:10px;color:#2ecc71;padding:4px 12px;background:rgba(46,204,113,0.08);border-top:1px solid rgba(46,204,113,0.15);';
-    if (player.parentNode) player.parentNode.appendChild(badge);
-  }
-  badge.innerHTML = '✅ ' + name + ' &nbsp;<span style="color:var(--text3);">(' + (size/1024/1024).toFixed(1) + ' MB)</span>';
-}
-
-function loadLocalVideo(input, playerId, phId) {
+function loadLocalVideo(input, playerId, placeholderId) {
   var file = input.files[0];
   if (!file) return;
   
-  // Derive IDs from data attributes if not passed
-  if (!playerId) playerId = input.getAttribute('data-player') || input.id.replace('vid-','vid-player-');
-  if (!phId) phId = input.getAttribute('data-ph') || input.id.replace('vid-','vid-ph-');
-  
-  var dbKey = input.id;
+  // Store File object by input ID (survives DOM rebuild)
+  var inputId = input.id || input.getAttribute('id');
   var url = URL.createObjectURL(file);
+  _videoFiles.set(inputId, { file: file, url: url, name: file.name, size: file.size });
   
   // Show immediately
-  _showVideo(playerId, phId, url, file.name, file.size);
-  
-  // Save to IndexedDB for persistence across DOM rebuilds
-  _saveVidToDB(dbKey, file, null);
-  
-  // Also save key mapping in localStorage for discovery
-  try {
-    var saved = JSON.parse(localStorage.getItem('_vidKeys') || '[]');
-    if (!saved.includes(dbKey)) { saved.push(dbKey); localStorage.setItem('_vidKeys', JSON.stringify(saved)); }
-    localStorage.setItem('_vidInfo_' + dbKey, JSON.stringify({ name: file.name, size: file.size, player: playerId, ph: phId }));
-  } catch(e) {}
+  _applyVideoToDOM(inputId, playerId, placeholderId, url, file.name, file.size);
 }
 
+function _applyVideoToDOM(inputId, playerId, phId, url, name, size) {
+  var player = document.getElementById(playerId);
+  var ph = document.getElementById(phId);
+  
+  if (player) {
+    player.src = url;
+    player.style.display = 'block';
+    player.load();
+  }
+  if (ph) {
+    ph.style.display = 'none';
+  }
+  
+  // Add or update badge
+  var badgeId = 'vbadge-' + playerId;
+  var existing = document.getElementById(badgeId);
+  if (!existing && player) {
+    var badge = document.createElement('div');
+    badge.id = badgeId;
+    badge.style.cssText = 'font-size:10px;color:#2ecc71;padding:3px 12px;background:rgba(46,204,113,0.1);border-top:1px solid rgba(46,204,113,0.2);';
+    badge.innerHTML = '✅ ' + name + ' &nbsp;(' + (size/1024/1024).toFixed(1) + ' MB)';
+    if (player.parentNode) player.parentNode.appendChild(badge);
+  }
+}
+
+// Called by openDetail and goBack after innerHTML is set
+// Scans new DOM for video inputs that have stored files and re-injects them
 function _restoreVideosAfterDOMRebuild() {
-  // Get all video inputs in current DOM
+  if (_videoFiles.size === 0) return;
+  
+  // Find all video file inputs in the current DOM
   var inputs = document.querySelectorAll('input[type="file"][accept*="video"]');
   inputs.forEach(function(input) {
-    var dbKey = input.id;
-    if (!dbKey) return;
-    var playerId = input.getAttribute('data-player') || dbKey.replace('vid-','vid-player-');
-    var phId = input.getAttribute('data-ph') || dbKey.replace('vid-','vid-ph-');
+    var inputId = input.id;
+    if (!inputId) return;
     
-    // Re-wire onchange handler (lost after innerHTML rebuild)
-    input.onchange = function() { loadLocalVideo(this, playerId, phId); };
+    var stored = _videoFiles.get(inputId);
+    if (!stored) return;
     
-    // Check memory cache first (fast)
-    if (_vidMemory[playerId]) {
-      _showVideo(playerId, phId, _vidMemory[playerId],
-        _getVidName(dbKey), _getVidSize(dbKey));
-      return;
+    // Get player/placeholder from data attributes
+    var playerId = input.getAttribute('data-player');
+    var phId = input.getAttribute('data-ph');
+    
+    if (!playerId) {
+      // Fallback: derive from input ID
+      playerId = inputId.replace('vid-', 'vid-player-');
+      phId = inputId.replace('vid-', 'vid-ph-');
     }
     
-    // Load from IndexedDB
-    _loadVidFromDB(dbKey, function(stored) {
-      if (!stored) {
-        // Show "previously uploaded" badge if we know about it
-        _showPrevBadge(phId, dbKey);
-        return;
-      }
-      var url = URL.createObjectURL(stored.file);
-      _vidMemory[playerId] = url;
-      _showVideo(playerId, phId, url, stored.name, stored.size);
-    });
+    // Re-attach the stored file to the rebuilt DOM element
+    // Create a new ObjectURL (old one may be revoked)
+    var newUrl = URL.createObjectURL(stored.file);
+    stored.url = newUrl;
+    
+    _applyVideoToDOM(inputId, playerId, phId, newUrl, stored.name, stored.size);
+    
+    // Re-wire the input's onchange in case it lost its handler
+    input.onchange = function() {
+      loadLocalVideo(this, playerId, phId);
+    };
   });
 }
 
-function _getVidName(key) {
-  try { return JSON.parse(localStorage.getItem('_vidInfo_' + key) || '{}').name || 'video'; } catch(e) { return 'video'; }
-}
-function _getVidSize(key) {
-  try { return JSON.parse(localStorage.getItem('_vidInfo_' + key) || '{}').size || 0; } catch(e) { return 0; }
-}
-function _showPrevBadge(phId, key) {
-  try {
-    var info = JSON.parse(localStorage.getItem('_vidInfo_' + key) || 'null');
-    if (!info) return;
-    var ph = document.getElementById(phId);
-    if (!ph) return;
-    var prev = ph.querySelector('.vprev');
-    if (!prev) {
-      prev = document.createElement('div');
-      prev.className = 'vprev';
-      prev.style.cssText = 'font-size:10px;color:#f39c12;margin-top:6px;';
-      ph.appendChild(prev);
-    }
-    prev.textContent = '📎 ' + info.name + ' — ارفع مجدداً لاستعادة';
-  } catch(e) {}
-}
-
-// Legacy aliases
+// Legacy alias used in some older sections
 function restoreAllVideoUI() { _restoreVideosAfterDOMRebuild(); }
 function restoreVideoUI(id) { _restoreVideosAfterDOMRebuild(); }
 
+
+// ===== DUAL CALCULATOR MODE =====
+function switchCalcMode(mode, btn) {
+  var freqPanel = document.getElementById('calc-freq-panel');
+  var passPanel = document.getElementById('calc-pass-panel');
+  var tabFreq = document.getElementById('calc-tab-freq');
+  var tabPass = document.getElementById('calc-tab-pass');
+  
+  if (mode === 'freq') {
+    if (freqPanel) freqPanel.style.display = 'block';
+    if (passPanel) passPanel.style.display = 'none';
+    if (tabFreq) { tabFreq.style.background = 'rgba(201,168,76,0.2)'; tabFreq.style.color = 'var(--gold)'; tabFreq.style.fontWeight = '700'; }
+    if (tabPass) { tabPass.style.background = 'var(--dark4)'; tabPass.style.color = 'var(--text2)'; tabPass.style.fontWeight = '400'; }
+  } else {
+    if (freqPanel) freqPanel.style.display = 'none';
+    if (passPanel) passPanel.style.display = 'block';
+    if (tabPass) { tabPass.style.background = 'rgba(201,168,76,0.2)'; tabPass.style.color = 'var(--gold)'; tabPass.style.fontWeight = '700'; }
+    if (tabFreq) { tabFreq.style.background = 'var(--dark4)'; tabFreq.style.color = 'var(--text2)'; tabFreq.style.fontWeight = '400'; }
+  }
+}
+
+// Alias for frequency calculator
+function calcFreq() {
+  calcTestScheduleCore('ts-mat','ts-qty','ts-unit','ts-result-box', false);
+}
 
 // ===== TESTING SCHEDULE CALCULATOR =====
 var TS_DATA = {
@@ -8506,11 +9033,306 @@ function exportToPDF() {
     'div[style*="rgba(201,168,76"] {display:none!important;}' +
     '@media print {body {-webkit-print-color-adjust:exact;print-color-adjust:exact;}}' +
     '</style>';
-// --- نهاية كود الباتش ---
-    })(); 
-} catch(e) { console.error("Patch Error:", e); }
+
+  var html = '<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8">' +
+    '<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">' +
+    css + '</head><body>' +
+    '<div class="hdr"><div><div class="logo">QatarSpec Pro</div><div class="sub">مرجع المواصفات القطرية — QCS 2024</div></div>' +
+    '<div class="meta"><div>' + itpDate + '</div><div>qatar-standers.vercel.app</div></div></div>' +
+    infoBar +
+    '<div class="wrap"><h3>' + title + '</h3>' + contentHTML + '</div>' +
+    '<div class="ftr"><span>QatarSpec Pro — للاستخدام المهني فقط</span><span>QCS 2024 Reference</span></div>' +
+    '</body></html>';
+
+  printWindow.document.write(html);
+  printWindow.document.close();
+  printWindow.focus();
+  setTimeout(function() { printWindow.print(); }, 1800);
+  showToast('جاري فتح نافذة الطباعة ✅');
+}
+
+
+// ITP bar handled in openDetail directly
+
+// ===== FULL BILINGUAL SYSTEM — QATARSPEC PRO =====
+// One block handles ALL UI text translation AR <-> EN
+
+const TRANSLATIONS = {
+  ar: {
+    // Header
+    appSubtitle: 'مرجع المواصفات القطرية — QCS 2024',
+    searchPlaceholder: 'اسأل أي سؤال... مثال: ما هي متطلبات سماكة الConcrete في الأساسات وفق الكود القطري؟',
+    searchBtn: '⚡ بحث ذكي',
+    aiSetup: '🔑 إعداد AI',
+    keyStatus: '✅ مفعّل',
+    keyStatusOff: '⚠️ غير مفعّل',
+    // Hero
+    heroEyebrow: '⚡ بحث ذكي في QCS 2024 الرسمي',
+    heroTitle: 'كل المواصفات<br>القطرية في<br><span>مكان واحد</span>',
+    heroDesc: 'ابحث بذكاء في الكود القطري والمواصفات الإنشائية — إجابات فورية دقيقة من خبرتك وتقنية الذكاء الاصطناعي',
+    statPages: 'صفحة مواصفات',
+    statFiles: 'ملف QCS 2024',
+    statYears: 'سنة خبرة',
+    // Quick tags
+    qt1: '🏛️ الConcrete المسلحة',
+    qt2: '⚓ الأساسات',
+    qt3: '🔥 متطلبات الحريق',
+    qt4: '🛣️ الطرق',
+    qt5: '🌡️ العزل',
+    // Cat cards
+    cat_roads_name: 'أعمال الطرق',
+    cat_roads_desc: 'Subgrade، Subbase، إسفلت، اختبارات، تسليم',
+    cat_roads_count: '8 مراحل + ITPs',
+    cat_utilities_name: 'شبكات المرافق',
+    cat_utilities_desc: 'مياه الشرب، Foul Sewer، السطحي، المعالجة',
+    cat_utilities_count: '4 شبكات + ITPs',
+    cat_structural_name: 'الكود الإنشائي',
+    cat_structural_desc: 'Concrete، Rebar، أساسات، خوازيق، شدات',
+    cat_structural_count: '4 أقسام + ITPs',
+    cat_geotech_name: 'الجسات والتربة',
+    cat_geotech_desc: 'SPT، Boreholes، مختبر، مياه جوفية، تقرير',
+    cat_geotech_count: '6 أقسام + ITP',
+    cat_fire_name: 'الحريق والسلامة',
+    cat_fire_desc: 'QCDD، Sprinkler، مخارج الطوارئ، Hose Reel',
+    cat_fire_count: 'متطلبات QCDD',
+    cat_calc_name: 'حاسبة المواصفات',
+    cat_calc_desc: 'أدخل أي اختبار → Pass أو Fail فوراً',
+    cat_calc_count: '38+ اختبار',
+    // Search results
+    searchRef: 'المرجع:',
+    searchModel: 'النموذج:',
+    searchCopy: '📋 نسخ الإجابة',
+    searchLoading: 'جاري البحث...',
+    searchError: '❌ خطأ:',
+    // ITP bar
+    itpProject: 'اسم المشروع',
+    itpNumber: 'رقم ITP',
+    itpEngineer: 'المهندس',
+    itpExport: 'للتصدير الرسمي',
+    // PDF / Print buttons
+    btnPDF: 'PDF',
+    btnPrint: '🖨️',
+    // Footer
+    footerTitle: 'QatarSpec Pro',
+    footerSubtitle: 'مرجع المواصفات القطرية — QCS 2024',
+    footerNote: 'جميع المعلومات مستندة إلى QCS 2024 | للاستخدام المهني فقط',
+    // Section labels
+    secRoads: '🛣️ الطرق',
+    secUtils: '🔧 المرافق',
+    secStruct: '🏗️ الإنشاء',
+    secGeo: '🔬 الجسات',
+    secCalc: '🧮 الحاسبة',
+    // Update banner
+    updateMsg: '🔔 يوجد تحديث جديد للتطبيق —',
+    updateBtn: 'تحديث الآن',
+    // Calculator main tabs
+    calcRoads: '🛣️ طرق',
+    calcUtils: '🔧 مرافق',
+    calcStruct: '🏗️ إنشاء',
+    calcGeo: '🔬 جسات',
+    calcBtn: 'Calculate',
+    calcClassify: 'صنّف',
+  },
+  en: {
+    // Header
+    appSubtitle: 'Qatar Specifications Reference — QCS 2024',
+    searchPlaceholder: 'Ask any question... e.g. What are the concrete foundation thickness requirements per Qatar code?',
+    searchBtn: '⚡ Smart Search',
+    aiSetup: '🔑 AI Setup',
+    keyStatus: '✅ Active',
+    keyStatusOff: '⚠️ Not Active',
+    // Hero
+    heroEyebrow: '⚡ Smart Search in Official QCS 2024',
+    heroTitle: 'All Qatar<br>Specifications in<br><span>One Place</span>',
+    heroDesc: 'Search intelligently through Qatar Code and construction specifications — instant accurate answers powered by AI and engineering expertise',
+    statPages: 'Specification Pages',
+    statFiles: 'QCS 2024 Files',
+    statYears: 'Years Experience',
+    // Quick tags
+    qt1: '🏛️ Reinforced Concrete',
+    qt2: '⚓ Foundations',
+    qt3: '🔥 Fire Requirements',
+    qt4: '🛣️ Roads',
+    qt5: '🌡️ Insulation',
+    // Cat cards
+    cat_roads_name: 'Road Works',
+    cat_roads_desc: 'Subgrade, Subbase, Asphalt, Testing, Handover',
+    cat_roads_count: '8 Stages + ITPs',
+    cat_utilities_name: 'Utility Networks',
+    cat_utilities_desc: 'Water Supply, Foul Sewer, Storm Water, Treated Water',
+    cat_utilities_count: '4 Networks + ITPs',
+    cat_structural_name: 'Structural Code',
+    cat_structural_desc: 'Concrete, Rebar, Foundations, Piles, Formwork',
+    cat_structural_count: '4 Sections + ITPs',
+    cat_geotech_name: 'Geotechnical Investigation',
+    cat_geotech_desc: 'SPT, Boreholes, Laboratory, Groundwater, Report',
+    cat_geotech_count: '6 Sections + ITP',
+    cat_fire_name: 'Fire & Safety',
+    cat_fire_desc: 'QCDD, Sprinkler, Emergency Exits, Hose Reel',
+    cat_fire_count: 'QCDD Requirements',
+    cat_calc_name: 'Specifications Calculator',
+    cat_calc_desc: 'Enter any test result → Pass or Fail instantly',
+    cat_calc_count: '38+ Tests',
+    // Search results
+    searchRef: 'Reference:',
+    searchModel: 'Model:',
+    searchCopy: '📋 Copy Answer',
+    searchLoading: 'Searching...',
+    searchError: '❌ Error:',
+    // ITP bar
+    itpProject: 'Project Name',
+    itpNumber: 'ITP No.',
+    itpEngineer: 'Engineer',
+    itpExport: 'For Official Export',
+    // PDF / Print
+    btnPDF: 'PDF',
+    btnPrint: '🖨️',
+    // Footer
+    footerTitle: 'QatarSpec Pro',
+    footerSubtitle: 'Qatar Specifications Reference — QCS 2024',
+    footerNote: 'All information based on QCS 2024 | For Professional Use Only',
+    // Section labels
+    secRoads: '🛣️ Roads',
+    secUtils: '🔧 Utilities',
+    secStruct: '🏗️ Structural',
+    secGeo: '🔬 Geotech',
+    secCalc: '🧮 Calculator',
+    // Update banner
+    updateMsg: '🔔 A new app update is available —',
+    updateBtn: 'Update Now',
+    // Calculator main tabs
+    calcRoads: '🛣️ Roads',
+    calcUtils: '🔧 Utilities',
+    calcStruct: '🏗️ Structural',
+    calcGeo: '🔬 Geotech',
+    calcBtn: 'Calculate',
+    calcClassify: 'Classify',
+  }
+};
+
+function applyTranslations(lang) {
+  var t = TRANSLATIONS[lang];
+  var isAR = lang === 'ar';
+
+  // 1. Document direction
+  document.documentElement.lang = lang;
+  document.documentElement.dir = isAR ? 'rtl' : 'ltr';
+
+  // 2. Hero section
+  var eyebrow = document.querySelector('.hero-eyebrow');
+  if (eyebrow) eyebrow.textContent = t.heroEyebrow;
+  var heroH1 = document.querySelector('.hero-left h1');
+  if (heroH1) heroH1.innerHTML = t.heroTitle;
+  var heroDesc = document.querySelector('.hero-desc');
+  if (heroDesc) heroDesc.textContent = t.heroDesc;
+  var statLabels = document.querySelectorAll('.hero-stat-label');
+  var labelKeys = ['statPages','statFiles','statYears'];
+  statLabels.forEach(function(el,i){ if(labelKeys[i]) el.textContent = t[labelKeys[i]]; });
+
+  // 3. App subtitle
+  var subtitles = document.querySelectorAll('.footer-subtitle, [data-i18n="appSubtitle"]');
+  subtitles.forEach(function(el){ el.textContent = t.appSubtitle; });
+
+  // 4. Search box
+  var searchInput = document.getElementById('searchInput');
+  if (searchInput) searchInput.placeholder = t.searchPlaceholder;
+  var searchBtn = document.querySelector('.search-icon-btn');
+  if (searchBtn) searchBtn.textContent = t.searchBtn;
+
+  // 5. Quick tags text
+  var qtags = document.querySelectorAll('.quick-tag');
+  var qtKeys = ['qt1','qt2','qt3','qt4','qt5'];
+  qtags.forEach(function(el,i){ if(qtKeys[i] && t[qtKeys[i]]) el.textContent = t[qtKeys[i]]; });
+
+  // 6. Cat cards — update all 6 cards
+  var catCards = document.querySelectorAll('.cat-card');
+  var catData = [
+    { name: 'cat_roads_name', desc: 'cat_roads_desc', count: 'cat_roads_count' },
+    { name: 'cat_utilities_name', desc: 'cat_utilities_desc', count: 'cat_utilities_count' },
+    { name: 'cat_structural_name', desc: 'cat_structural_desc', count: 'cat_structural_count' },
+    { name: 'cat_geotech_name', desc: 'cat_geotech_desc', count: 'cat_geotech_count' },
+    { name: 'cat_fire_name', desc: 'cat_fire_desc', count: 'cat_fire_count' },
+    { name: 'cat_calc_name', desc: 'cat_calc_desc', count: 'cat_calc_count' },
+  ];
+  catCards.forEach(function(card, i) {
+    if (!catData[i]) return;
+    var nameEl = card.querySelector('.cat-name');
+    var descEl = card.querySelector('.cat-desc');
+    var countEl = card.querySelector('.cat-count');
+    if (nameEl && t[catData[i].name]) nameEl.textContent = t[catData[i].name];
+    if (descEl && t[catData[i].desc]) descEl.textContent = t[catData[i].desc];
+    if (countEl && t[catData[i].count]) countEl.textContent = t[catData[i].count];
+    // Arrow direction
+    var arr = card.querySelector('.cat-arr');
+    if (arr) arr.textContent = isAR ? '←' : '→';
+  });
+
+  // 7. ITP bar placeholders
+  var itpFields = [
+    { id: 'itp-project-name', key: 'itpProject' },
+    { id: 'itp-number', key: 'itpNumber' },
+    { id: 'itp-engineer', key: 'itpEngineer' },
+  ];
+  itpFields.forEach(function(f) {
+    var el = document.getElementById(f.id);
+    if (el) el.placeholder = t[f.key];
+  });
+  var itpNote = document.querySelector('#itp-project-bar span');
+  if (itpNote) itpNote.textContent = t.itpExport;
+
+  // 8. Update banner
+  var banner = document.getElementById('update-banner');
+  if (banner) {
+    banner.childNodes.forEach(function(node) {
+      if (node.nodeType === 3) node.textContent = ' ' + t.updateMsg + ' ';
+    });
+    var bannerBtn = banner.querySelector('a');
+    if (bannerBtn) bannerBtn.textContent = t.updateBtn;
+  }
+
+  // 9. Footer sections
+  var footerSections = document.querySelectorAll('.footer-section span');
+  var secKeys = ['secRoads','secUtils','secStruct','secGeo','secCalc'];
+  footerSections.forEach(function(el,i){ if(secKeys[i]) el.textContent = t[secKeys[i]]; });
+
+  // 10. Calculator main tabs
+  var mainTabs = ['main-tab-roads','main-tab-utilities','main-tab-structural','main-tab-geotech_calc'];
+  var tabKeys = ['calcRoads','calcUtils','calcStruct','calcGeo'];
+  mainTabs.forEach(function(id,i) {
+    var el = document.getElementById(id);
+    if (el && t[tabKeys[i]]) el.textContent = t[tabKeys[i]];
+  });
+
+  // 11. All calc buttons
+  document.querySelectorAll('.calc-btn').forEach(function(btn) {
+    if (btn.textContent === 'Calculate' || btn.textContent === 'Calculate') btn.textContent = t.calcBtn;
+    if (btn.textContent === 'صنّف' || btn.textContent === 'Classify') btn.textContent = t.calcClassify;
+  });
+
+  // 12. lang-content classes — show/hide bilingual sections
+  document.querySelectorAll('.lang-content-ar').forEach(function(el) {
+    el.style.display = isAR ? 'block' : 'none';
+  });
+  document.querySelectorAll('.lang-content-en').forEach(function(el) {
+    el.style.display = isAR ? 'none' : 'block';
+  });
+
+  // 13. AI Setup button in header
+  var aiBtn = document.querySelector('[onclick*="keyModal"]');
+  if (aiBtn) {
+    var txt = aiBtn.querySelector('span') || aiBtn;
+    // keep icon, replace text
+    var spans = aiBtn.querySelectorAll('span');
+    spans.forEach(function(s){
+      if (s.textContent.includes('إعداد') || s.textContent.includes('Setup')) {
+        s.textContent = isAR ? 'إعداد AI' : 'AI Setup';
+      }
+    });
+  }
+
+  console.log('QatarSpec Pro: Language set to', lang.toUpperCase());
+}
+
 </script>
-</div></div></div></div></div>
-<script src="qatarspec_patch.js"></script>
 </body>
 </html>
