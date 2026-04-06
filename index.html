@@ -360,6 +360,8 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
         <div style="display:flex;gap:6px;">
         <div onclick="exportToPDF()" title="تصدير PDF" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.3);border-radius:8px;cursor:pointer;font-size:14px;color:#e74c3c;">PDF</div>
         <div onclick="printCurrentDetail()" title="طباعة" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:var(--gold);">🖨️</div>
+      <div onclick="exportITPasHTML(document.getElementById('detailModal').dataset.currentKey)" title="تصدير ITP" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(46,204,113,0.12);border:1px solid rgba(46,204,113,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:#2ecc71;">📥</div>
+      <div onclick="copyITPtoClipboard()" title="نسخ للـ Word" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(52,152,219,0.12);border:1px solid rgba(52,152,219,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:#3498db;">📋</div>
       </div>
         <div class="dm-close" onclick="document.getElementById('detailModal').classList.remove('open');navStack=[];">✕</div>
       </div>
@@ -4587,6 +4589,11 @@ All numerical values, specifications and test methods shown in Arabic are source
   calculator: { title: '🧮 حاسبة المواصفات — Pass / Fail', content: `
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
 📌 QCS 2024 | Dual Calculator — جدول الاختبارات + التحقق من النتائج
+</div>
+
+<div style="display:flex;gap:8px;margin-bottom:12px;">
+  <div onclick="clearCalcResults()" style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);border-radius:8px;padding:7px 14px;font-size:12px;color:#e74c3c;cursor:pointer;flex:1;text-align:center;">🗑️ مسح النتائج</div>
+  <div onclick="exportCalcReport()" style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.25);border-radius:8px;padding:7px 14px;font-size:12px;color:#2ecc71;cursor:pointer;flex:1;text-align:center;">📄 تصدير تقرير</div>
 </div>
 
 <!-- TAB SWITCHER -->
@@ -9784,6 +9791,442 @@ toggleBookmark = function(key, title) {
   _origToggleBm(key, title);
   refreshBookmarkCount();
 };
+
+// ============================================================
+// PRO SYSTEM — checkPro / showProGate / Pro Toggle
+// ============================================================
+function checkPro() {
+  return localStorage.getItem('qsp_pro') === 'true';
+}
+
+function activatePro(code) {
+  // Simple code check - replace with real validation
+  if (code === 'QATARSPEC99' || code === 'PRO2024' || code === 'TESTPRO') {
+    localStorage.setItem('qsp_pro', 'true');
+    showToast('🎉 تم تفعيل QatarSpec Pro!');
+    document.getElementById('upgrade-modal') && document.getElementById('upgrade-modal').remove();
+    return true;
+  }
+  showToast('❌ كود غير صحيح');
+  return false;
+}
+
+function showProGate(featureName) {
+  var existing = document.getElementById('pro-gate-modal');
+  if (existing) existing.remove();
+
+  var modal = document.createElement('div');
+  modal.id = 'pro-gate-modal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9500;display:flex;align-items:center;justify-content:center;padding:20px;';
+  modal.innerHTML =
+    '<div style="background:var(--dark3);border:1px solid rgba(201,168,76,0.4);border-radius:20px;padding:28px;max-width:400px;width:100%;text-align:center;direction:rtl;">' +
+    '<div style="font-size:40px;margin-bottom:10px;">🔒</div>' +
+    '<div style="font-size:18px;font-weight:700;color:var(--gold);margin-bottom:8px;">' + featureName + '</div>' +
+    '<div style="font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.7;">هذه الميزة متاحة لمشتركي<br><strong style="color:var(--gold2);">QatarSpec Pro</strong> فقط</div>' +
+    '<div style="background:var(--dark4);border-radius:12px;padding:16px;margin-bottom:16px;text-align:right;">' +
+    '<div style="font-size:12px;color:var(--text2);line-height:2;">✅ بحث ذكي غير محدود<br>✅ تصدير ITP احترافي (Word/PDF)<br>✅ Method Statements كاملة<br>✅ قوالب Ashghal الرسمية<br>✅ NCR/RFI Templates</div>' +
+    '<div style="font-size:24px;font-weight:900;color:var(--gold);margin-top:10px;">99 ريال / شهر</div>' +
+    '</div>' +
+    '<input id="pro-code-input" placeholder="لديك كود تفعيل؟ أدخله هنا" style="width:100%;box-sizing:border-box;background:var(--dark2);border:1px solid var(--border2);border-radius:8px;padding:10px;color:var(--text1);font-size:13px;margin-bottom:12px;text-align:center;" />' +
+    '<div style="display:flex;gap:8px;">' +
+    '<button onclick="var c=document.getElementById(\'pro-code-input\');if(c)activatePro(c.value.trim());" style="flex:1;background:linear-gradient(135deg,#c9a84c,#7a1515);border:none;border-radius:10px;padding:12px;color:#fff;font-family:Tajawal,sans-serif;font-size:14px;font-weight:700;cursor:pointer;">تفعيل الكود</button>' +
+    '<a href="https://wa.me/97455551234?text=أريد الاشتراك في QatarSpec Pro" target="_blank" style="flex:1;background:linear-gradient(135deg,#25d366,#128c7e);border-radius:10px;padding:12px;color:#fff;font-family:Tajawal,sans-serif;font-size:14px;font-weight:700;text-decoration:none;display:flex;align-items:center;justify-content:center;">💬 اشترك الآن</a>' +
+    '</div>' +
+    '<div onclick="var m=document.getElementById(\'pro-gate-modal\');if(m)m.remove();" style="margin-top:12px;font-size:12px;color:var(--text3);cursor:pointer;">إغلاق</div>' +
+    '</div>';
+  document.body.appendChild(modal);
+}
+
+// Add Pro badge to header if active
+(function() {
+  if (checkPro()) {
+    var header = document.querySelector('.header-actions');
+    if (header) {
+      var badge = document.createElement('div');
+      badge.style.cssText = 'background:linear-gradient(135deg,#c9a84c,#7a1515);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;color:#fff;';
+      badge.textContent = '⭐ Pro';
+      header.insertBefore(badge, header.firstChild);
+    }
+  }
+})();
+
+// ============================================================
+// SMART CROSSLINKS — inject related links into detail pages
+// ============================================================
+var CROSSLINK_MAP = {
+  // Road sections → calculator + ITP
+  subgrade:  { calc: 'compaction', itp: 'itp_roads', label: 'اختبار دمك Subgrade' },
+  subbase:   { calc: 'compaction', itp: 'itp_roads', label: 'اختبار دمك Subbase' },
+  base:      { calc: 'cbr',        itp: 'itp_roads', label: 'اختبار CBR Base Course' },
+  prime:     { calc: null,         itp: 'itp_roads', label: null },
+  binder:    { calc: 'marshall',   itp: 'itp_roads', label: 'اختبار Marshall Binder' },
+  wearing:   { calc: 'marshall',   itp: 'itp_roads', label: 'اختبار Marshall Wearing' },
+  finishing: { calc: null,         itp: 'itp_roads', label: null },
+  handover:  { calc: null,         itp: 'itp_roads', label: 'ITP الطريق الكامل' },
+  // Water supply
+  ws_excavation: { calc: 'compaction', itp: 'itp_water_supply', label: 'دمك Bedding' },
+  ws_laying:     { calc: null,         itp: 'itp_water_supply', label: 'ITP مياه الشرب' },
+  ws_testing:    { calc: 'pressure',   itp: 'itp_water_supply', label: 'Pressure Test' },
+  ws_backfill:   { calc: 'compaction', itp: 'itp_water_supply', label: 'دمك الردم' },
+  // Sewer
+  ss_testing:  { calc: null, itp: 'itp_sewer', label: 'ITP الصرف الصحي' },
+  ss_backfill: { calc: 'compaction', itp: 'itp_sewer', label: 'دمك الردم' },
+  // Storm
+  sw_testing:  { calc: null, itp: 'itp_storm', label: 'ITP الصرف السطحي' },
+  sw_backfill: { calc: 'compaction', itp: 'itp_storm', label: 'دمك الردم' },
+  // Structural
+  concrete_full:    { calc: 'concrete',    itp: 'itp_structural', label: 'حاسبة الخرسانة' },
+  rebar_full:       { calc: 'rebar',       itp: 'itp_structural', label: 'حاسبة حديد التسليح' },
+  foundations_full: { calc: 'compaction',  itp: 'itp_structural', label: 'ITP الأساسات' },
+  piles_full:       { calc: 'concrete',    itp: 'itp_structural', label: 'حاسبة خرسانة الخوازيق' },
+};
+
+function injectCrosslinks(key) {
+  var map = CROSSLINK_MAP[key];
+  if (!map) return;
+
+  var content_el = document.getElementById('dmContent');
+  if (!content_el) return;
+
+  // Remove existing crosslinks
+  var existing = document.getElementById('crosslinks-bar');
+  if (existing) existing.remove();
+
+  var bar = document.createElement('div');
+  bar.id = 'crosslinks-bar';
+  bar.style.cssText = 'background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:10px 14px;margin:12px 0;display:flex;flex-wrap:wrap;gap:8px;align-items:center;';
+
+  var label = document.createElement('span');
+  label.style.cssText = 'font-size:11px;color:var(--text3);margin-left:4px;';
+  label.textContent = '🔗 ذات صلة:';
+  bar.appendChild(label);
+
+  // Calculator link
+  if (map.calc) {
+    var calcBtn = document.createElement('div');
+    calcBtn.onclick = function() {
+      openDetail('calculator');
+      setTimeout(function() {
+        var cat = document.getElementById('cat-' + map.calc);
+        if (cat) cat.click();
+      }, 300);
+    };
+    calcBtn.style.cssText = 'background:rgba(52,152,219,0.15);border:1px solid rgba(52,152,219,0.3);border-radius:6px;padding:4px 10px;font-size:11px;color:#3498db;cursor:pointer;';
+    calcBtn.textContent = '🧮 ' + (map.label || 'الحاسبة');
+    bar.appendChild(calcBtn);
+  }
+
+  // ITP link
+  if (map.itp) {
+    var itpBtn = document.createElement('div');
+    itpBtn.onclick = function() { openDetail(map.itp); };
+    itpBtn.style.cssText = 'background:rgba(46,204,113,0.12);border:1px solid rgba(46,204,113,0.25);border-radius:6px;padding:4px 10px;font-size:11px;color:#2ecc71;cursor:pointer;';
+    itpBtn.textContent = '📋 ' + (map.itp.replace('itp_','ITP ').replace('_',' '));
+    bar.appendChild(itpBtn);
+  }
+
+  // Export ITP button
+  var exportBtn = document.createElement('div');
+  exportBtn.onclick = function() { exportITPasHTML(key); };
+  exportBtn.style.cssText = 'background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.25);border-radius:6px;padding:4px 10px;font-size:11px;color:#e74c3c;cursor:pointer;';
+  exportBtn.textContent = '📥 تصدير ITP';
+  bar.appendChild(exportBtn);
+
+  // Insert after first child of dmContent
+  var printArea = document.getElementById('print-area');
+  if (printArea && printArea.parentNode === content_el) {
+    content_el.insertBefore(bar, printArea.nextSibling);
+  } else {
+    content_el.insertBefore(bar, content_el.firstChild);
+  }
+}
+
+// Hook into openDetail
+var _origOpenDetailCross = openDetail;
+openDetail = function(key) {
+  _origOpenDetailCross(key);
+  setTimeout(function() { injectCrosslinks(key); }, 200);
+};
+
+// ============================================================
+// ITP EXPORT — Professional HTML export with signatures
+// ============================================================
+function exportITPasHTML(key) {
+  if (!checkPro()) {
+    showProGate('تصدير ITP الاحترافي');
+    return;
+  }
+
+  var modal = document.getElementById('detailModal');
+  var title = document.getElementById('dmTitle') ? document.getElementById('dmTitle').textContent : 'ITP';
+  var tableContent = '';
+
+  // Get table HTML from current detail
+  var printArea = document.getElementById('print-area');
+  if (printArea) {
+    tableContent = printArea.innerHTML;
+  }
+
+  var today = new Date();
+  var dateStr = today.toLocaleDateString('ar-QA');
+  var projectNo = prompt('رقم المشروع (اختياري):', 'QSP-001') || 'QSP-001';
+  var watermark = checkPro() ? 'APPROVED' : 'DRAFT';
+
+  var itpNumber = 'ITP-' + projectNo + '-' + today.getFullYear() +
+    String(today.getMonth()+1).padStart(2,'0') +
+    String(today.getDate()).padStart(2,'0') + '-001';
+
+  var htmlContent = '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8">' +
+    '<title>' + itpNumber + ' — ' + title + '</title>' +
+    '<style>' +
+    'body{font-family:Cairo,Tajawal,Arial,sans-serif;margin:20px;color:#1a1a1a;background:#fff;direction:rtl;}' +
+    'h1{color:#7a1515;font-size:18px;margin-bottom:4px;}' +
+    '.header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #7a1515;padding-bottom:12px;margin-bottom:20px;}' +
+    '.itp-num{font-size:13px;color:#666;font-weight:700;}' +
+    'table{width:100%;border-collapse:collapse;margin:16px 0;font-size:12px;}' +
+    'th{background:#7a1515;color:#fff;padding:8px;text-align:right;border:1px solid #ccc;}' +
+    'td{padding:7px 8px;border:1px solid #ccc;vertical-align:top;}' +
+    'tr:nth-child(even){background:#f9f9f9;}' +
+    '.sig-section{margin-top:40px;page-break-inside:avoid;}' +
+    '.sig-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:16px;}' +
+    '.sig-box{border:1px solid #999;border-radius:6px;padding:12px;text-align:center;}' +
+    '.sig-line{border-top:1px solid #333;margin:40px 8px 8px;font-size:11px;color:#666;}' +
+    '.watermark{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-size:80px;color:rgba(122,21,21,0.06);font-weight:900;pointer-events:none;white-space:nowrap;z-index:0;}' +
+    '.footer{margin-top:30px;padding-top:10px;border-top:1px solid #ccc;font-size:10px;color:#888;display:flex;justify-content:space-between;}' +
+    '@media print{.watermark{position:fixed;}}' +
+    '</style></head><body>' +
+    '<div class="watermark">' + watermark + '</div>' +
+    '<div class="header">' +
+    '<div><h1>Inspection & Test Plan — خطة الفحص والاختبار</h1>' +
+    '<div style="font-size:14px;font-weight:700;color:#333;margin:4px 0;">' + title + '</div>' +
+    '<div style="font-size:11px;color:#666;">المرجع: QCS 2024 | Qatar Construction Specifications</div></div>' +
+    '<div style="text-align:left;">' +
+    '<div class="itp-num">' + itpNumber + '</div>' +
+    '<div style="font-size:11px;color:#666;margin-top:4px;">التاريخ: ' + dateStr + '</div>' +
+    '<div style="font-size:11px;color:#666;">المشروع: ' + projectNo + '</div>' +
+    '<div style="font-size:11px;color:#' + (watermark==='APPROVED'?'2ecc71':'e74c3c') + ';font-weight:700;">' + watermark + '</div>' +
+    '</div></div>' +
+    tableContent +
+    '<div class="sig-section">' +
+    '<div style="font-size:13px;font-weight:700;color:#7a1515;margin-bottom:8px;">توقيعات الاعتماد</div>' +
+    '<div class="sig-grid">' +
+    '<div class="sig-box"><div style="font-weight:700;font-size:12px;margin-bottom:8px;">مهندس ضبط الجودة</div><div style="font-size:11px;color:#666;">QC Engineer</div><div class="sig-line">التوقيع والتاريخ</div></div>' +
+    '<div class="sig-box"><div style="font-weight:700;font-size:12px;margin-bottom:8px;">المشرف الإنشائي</div><div style="font-size:11px;color:#666;">Site Consultant</div><div class="sig-line">التوقيع والتاريخ</div></div>' +
+    '<div class="sig-box"><div style="font-weight:700;font-size:12px;margin-bottom:8px;">ممثل العميل</div><div style="font-size:11px;color:#666;">Client Representative</div><div class="sig-line">التوقيع والتاريخ</div></div>' +
+    '</div></div>' +
+    '<div class="footer"><span>QatarSpec Pro — qatar-standers.vercel.app</span><span>QCS 2024 — Qatar Construction Specifications</span><span>' + itpNumber + '</span></div>' +
+    '</body></html>';
+
+  // Download as HTML file
+  var blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = itpNumber + '.html';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('✅ تم تصدير ITP — ' + itpNumber);
+}
+
+// Copy to clipboard as text (for Word paste)
+function copyITPtoClipboard() {
+  var printArea = document.getElementById('print-area');
+  if (!printArea) { showToast('❌ لا يوجد محتوى للنسخ'); return; }
+
+  var title = document.getElementById('dmTitle') ? document.getElementById('dmTitle').textContent : '';
+  var tables = printArea.querySelectorAll('table');
+  var text = title + '\n' + '='.repeat(60) + '\n\n';
+
+  tables.forEach(function(table) {
+    var rows = table.querySelectorAll('tr');
+    rows.forEach(function(row) {
+      var cells = row.querySelectorAll('td, th');
+      var rowText = Array.from(cells).map(function(c) {
+        return c.textContent.trim().replace(/\s+/g, ' ');
+      }).join(' | ');
+      text += rowText + '\n';
+    });
+    text += '\n';
+  });
+
+  text += '\nالمرجع: QCS 2024 — QatarSpec Pro';
+
+  navigator.clipboard.writeText(text).then(function() {
+    showToast('✅ تم النسخ — الصق في Word بـ Ctrl+V');
+  }).catch(function() {
+    showToast('❌ فشل النسخ — جرب متصفح آخر');
+  });
+}
+
+// ============================================================
+// SKELETON LOADER — Loading states
+// ============================================================
+function showSkeletonLoader() {
+  var content_el = document.getElementById('dmContent');
+  if (!content_el) return;
+  var printArea = document.getElementById('print-area');
+  if (printArea) {
+    printArea.innerHTML =
+      '<div style="animation:pulse 1.5s infinite;">' +
+      ['60%','80%','70%','90%','50%','75%'].map(function(w) {
+        return '<div style="height:16px;background:rgba(255,255,255,0.06);border-radius:6px;margin:10px 0;width:'+w+';"></div>';
+      }).join('') +
+      '<div style="height:120px;background:rgba(255,255,255,0.04);border-radius:10px;margin:16px 0;"></div>' +
+      ['85%','65%','90%'].map(function(w) {
+        return '<div style="height:14px;background:rgba(255,255,255,0.06);border-radius:6px;margin:8px 0;width:'+w+';"></div>';
+      }).join('') +
+      '</div>';
+  }
+}
+
+// Add pulse CSS animation
+(function() {
+  var style = document.createElement('style');
+  style.textContent = '@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}';
+  document.head.appendChild(style);
+})();
+
+// ============================================================
+// CALCULATOR UX — Last result + clear + FAIL crosslink
+// ============================================================
+var _calcLastResults = JSON.parse(localStorage.getItem('qsp_calc_last') || '{}');
+
+function saveCalcResult(calcId, result) {
+  _calcLastResults[calcId] = { result: result, ts: Date.now() };
+  try { localStorage.setItem('qsp_calc_last', JSON.stringify(_calcLastResults)); } catch(e) {}
+}
+
+function showLastCalcResult(calcId, containerEl) {
+  var last = _calcLastResults[calcId];
+  if (!last) return;
+  var age = Math.round((Date.now() - last.ts) / 60000);
+  var ageStr = age < 60 ? age + ' دقيقة' : Math.round(age/60) + ' ساعة';
+
+  var hint = document.createElement('div');
+  hint.style.cssText = 'background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:8px 12px;margin-bottom:10px;font-size:11px;color:var(--text3);display:flex;justify-content:space-between;align-items:center;';
+  hint.innerHTML = '<span>📌 آخر نتيجة منذ ' + ageStr + ': <strong style="color:var(--gold2);">' + last.result + '</strong></span>' +
+    '<span onclick="this.parentNode.remove()" style="cursor:pointer;color:var(--text3);">✕</span>';
+  containerEl.insertBefore(hint, containerEl.firstChild);
+}
+
+function clearCalcResults() {
+  _calcLastResults = {};
+  localStorage.removeItem('qsp_calc_last');
+  showToast('🗑️ تم مسح كل نتائج الحاسبة');
+}
+
+// FAIL → open related section crosslink
+var FAIL_CROSSLINKS = {
+  compaction: 'subgrade',
+  cbr: 'base',
+  marshall: 'binder',
+  concrete: 'concrete_full',
+  rebar: 'rebar_full',
+  pressure: 'ws_testing',
+};
+
+function showFailAction(calcId, resultEl) {
+  var related = FAIL_CROSSLINKS[calcId];
+  if (!related) return;
+  var existing = resultEl.parentNode.querySelector('.fail-action');
+  if (existing) existing.remove();
+
+  var action = document.createElement('div');
+  action.className = 'fail-action';
+  action.onclick = function() { openDetail(related); };
+  action.style.cssText = 'background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px 14px;margin-top:8px;cursor:pointer;font-size:12px;color:#e74c3c;text-align:center;';
+  action.innerHTML = '⚠️ النتيجة FAIL — اضغط لمراجعة مواصفات <strong>' + related.replace(/_/g,' ') + '</strong>';
+  resultEl.parentNode.appendChild(action);
+}
+
+// ============================================================
+// ENHANCED PRINT — Add copy button to modal print
+// ============================================================
+// Hook into openDetail to add Copy button alongside Print
+var _origOpenDetailPrint = openDetail;
+openDetail = function(key) {
+  _origOpenDetailPrint(key);
+  setTimeout(function() {
+    // Add copy button next to print button if not exists
+    var printBtn = document.querySelector('[onclick="printCurrentDetail()"]');
+    if (printBtn && !document.getElementById('copy-itp-btn')) {
+      var copyBtn = document.createElement('div');
+      copyBtn.id = 'copy-itp-btn';
+      copyBtn.title = 'نسخ للـ Word';
+      copyBtn.onclick = copyITPtoClipboard;
+      copyBtn.style.cssText = printBtn.style.cssText || 'display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(52,152,219,0.12);border:1px solid rgba(52,152,219,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:#3498db;';
+      copyBtn.textContent = '📋';
+      printBtn.parentNode.insertBefore(copyBtn, printBtn.nextSibling);
+    }
+  }, 150);
+};
+
+// ============================================================
+// LANG PREFERENCE — Save language choice
+// ============================================================
+(function() {
+  var savedLang = localStorage.getItem('qsp_lang');
+  if (savedLang && typeof setLang === 'function') {
+    setTimeout(function() { setLang(savedLang); }, 100);
+  }
+  var origSetLang = typeof setLang === 'function' ? setLang : null;
+  if (origSetLang) {
+    window.setLang = function(lang) {
+      origSetLang(lang);
+      localStorage.setItem('qsp_lang', lang);
+    };
+  }
+})();
+
+// ============================================================
+// SERVICE WORKER ENHANCED — Offline fallback
+// ============================================================
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.ready.then(function(reg) {
+    reg.update();
+  });
+  // Listen for offline
+  window.addEventListener('offline', function() {
+    showToast('📴 لا يوجد اتصال — التطبيق يعمل بالبيانات المحفوظة');
+  });
+  window.addEventListener('online', function() {
+    showToast('✅ تم استعادة الاتصال');
+  });
+}
+
+console.log('QatarSpec Pro — All features loaded ✅');
+
+// Calculator PDF Report
+function exportCalcReport() {
+  if (!checkPro()) { showProGate('تصدير تقرير الحاسبة'); return; }
+  var results = [];
+  document.querySelectorAll('.calc-result, [id$="-result"]').forEach(function(el) {
+    if (el.textContent.trim()) results.push(el.textContent.trim());
+  });
+  if (results.length === 0) { showToast('❌ لا توجد نتائج — شغّل الحاسبة أولاً'); return; }
+
+  var html = '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>تقرير الاختبارات</title>' +
+    '<style>body{font-family:Cairo,Arial,sans-serif;margin:30px;direction:rtl;} h1{color:#7a1515;} .result{background:#f5f5f5;border-right:4px solid #7a1515;padding:10px;margin:8px 0;border-radius:4px;} .footer{margin-top:40px;font-size:11px;color:#888;border-top:1px solid #ccc;padding-top:8px;}</style></head><body>' +
+    '<h1>📊 تقرير نتائج الاختبارات</h1>' +
+    '<p style="color:#666;font-size:12px;">التاريخ: ' + new Date().toLocaleDateString('ar-QA') + ' | QatarSpec Pro</p>' +
+    results.map(function(r) { return '<div class="result">' + r + '</div>'; }).join('') +
+    '<div class="footer">QatarSpec Pro — المرجع: QCS 2024</div></body></html>';
+
+  var blob = new Blob([html], {type:'text/html;charset=utf-8'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'calc-report-' + Date.now() + '.html';
+  a.click();
+  showToast('✅ تم تصدير التقرير');
+}
+
+// Offline / Online detection
+window.addEventListener('offline', function() {
+  showToast('📴 لا يوجد اتصال — التطبيق يعمل بالبيانات المحفوظة');
+});
+window.addEventListener('online', function() {
+  showToast('✅ تم استعادة الاتصال بالإنترنت');
+});
 </script>
 </body>
 </html>
