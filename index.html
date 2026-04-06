@@ -193,6 +193,16 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 </style>
 </head>
 <body>
+
+<!-- PROMO BANNER — hidden for Pro users -->
+<div id="promo-banner" style="background:linear-gradient(90deg,#7a1515,#c9a84c,#7a1515);padding:10px 20px;text-align:center;font-family:Tajawal,sans-serif;font-size:13px;color:#fff;position:relative;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;">
+  <span>🔓 <strong>30 بحثاً مجانياً</strong> هذا الشهر</span>
+  <span style="opacity:0.7;">|</span>
+  <span>اشترك <strong>Pro</strong> بـ <strong>99 ر.ق/شهر</strong> للوصول الكامل غير المحدود</span>
+  <button onclick="showProGate('QatarSpec Pro')" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.5);border-radius:20px;padding:4px 16px;color:#fff;font-family:Tajawal,sans-serif;font-size:12px;cursor:pointer;white-space:nowrap;">اشترك الآن →</button>
+  <span onclick="document.getElementById('promo-banner').style.display='none'" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);cursor:pointer;opacity:0.7;font-size:16px;">✕</span>
+</div>
+
 <div class="lang-toggle">
   <button class="lang-btn active" id="btn-ar" onclick="setLang('ar')">عربي</button>
   <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
@@ -213,6 +223,9 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       </div>
     </div>
     <div class="header-actions">
+      <div class="key-status" id="search-counter-wrap" onclick="showUpgradeModal()" title="بحثاتك المتبقية هذا الشهر" style="cursor:pointer;">
+        🔍 <span id="search-counter">30/30 بحث</span>
+      </div>
       <div class="key-status" onclick="openBookmarks()" title="إشاراتك المرجعية (⭐)">
         ⭐ <span id="bm-count">المفضلة</span>
       </div>
@@ -796,10 +809,17 @@ function initCalculatorCats() {
   <div class="calc-row"><span class="calc-label">Bitumen Content % (اختياري):</span><input class="calc-input" id="mar-bit" type="number" step="0.1" placeholder="5.2"></div>
   <div class="calc-row"><span class="calc-label">الطبقة:</span>
     <select class="calc-select" id="mar-layer">
-      <option value="wearing">Wearing Course</option>
-      <option value="binder">Binder Course</option>
+      <option value="wearing">Wearing Course (≥8.5 kN)</option>
+      <option value="binder">Binder Course (≥8.0 kN)</option>
     </select>
   </div>
+  <div class="calc-row"><span class="calc-label">نوع البيتومين:</span>
+    <select class="calc-select" id="mar-pmb-sel">
+      <option value="conv">Conventional Bitumen</option>
+      <option value="pmb">PMB — Polymer Modified (≥10 kN)</option>
+    </select>
+  </div>
+  <div style="font-size:11px;color:var(--text3);padding:4px 0 8px;">QCS S6 P5 Cl.5.6.2 | ASTM D1559</div>
   <button class="calc-btn" onclick="calcMarshall()">تحقق من Marshall</button>
   <div class="calc-result" id="mar-result"></div>
 </div>
@@ -893,6 +913,57 @@ function initCalculatorCats() {
   </div>
   <button class="calc-btn" onclick="calcPrimeRate()">احسب معدل الرش</button>
   <div class="calc-result" id="prate-result"></div>
+</div>
+
+<div class="calc-section" id="calc-iri" style="display:none">
+  <div class="calc-title">📏 IRI — International Roughness Index</div>
+  <div style="font-size:11px;color:var(--text3);margin-bottom:10px;">QCS S6 P5 + PWA IAN-013 | قياس انتظام سطح الطريق</div>
+  <div class="calc-row">
+    <label class="calc-label">قيمة IRI المقاسة (m/km)</label>
+    <input class="calc-input" id="iri-val" type="number" step="0.1" placeholder="مثال: 1.1" />
+  </div>
+  <div class="calc-row">
+    <label class="calc-label">نوع الإسفلت</label>
+    <select class="calc-input" id="iri-type">
+      <option value="conv">Conventional — تقليدي (≤1.2 m/km)</option>
+      <option value="pmb">PMB — بوليمر (≤0.9 m/km)</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcIRI()">احسب Pass/Fail</button>
+  <div class="calc-result" id="iri-result"></div>
+</div>
+
+<div class="calc-section" id="calc-defl" style="display:none">
+  <div class="calc-title">📉 Deflectograph — Rebound Deflection</div>
+  <div style="font-size:11px;color:var(--text3);margin-bottom:10px;">QCS S6 P5 | انحراف الارتداد — بناء جديد ≤0.5mm</div>
+  <div class="calc-row">
+    <label class="calc-label">قراءة الانحراف المقاسة (mm)</label>
+    <input class="calc-input" id="defl-val" type="number" step="0.01" placeholder="مثال: 0.45" />
+  </div>
+  <div class="calc-row">
+    <label class="calc-label">نوع التطبيق</label>
+    <select class="calc-input" id="defl-type">
+      <option value="new">بناء جديد (≤0.5mm)</option>
+      <option value="overlay">Overlay (≤0.8mm)</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcDeflectograph()">احسب Pass/Fail</button>
+  <div class="calc-result" id="defl-result"></div>
+</div>
+
+<div class="calc-section" id="calc-predefl" style="display:none">
+  <div class="calc-title">🔧 Pre-deflection — Mandrel / Pipe Ovality Test</div>
+  <div style="font-size:11px;color:var(--text3);margin-bottom:10px;">BS EN 1610 | الانبعاج المسموح ≤5% من القطر الاسمي خلال 24 ساعة</div>
+  <div class="calc-row">
+    <label class="calc-label">القطر الاسمي للماسورة (mm)</label>
+    <input class="calc-input" id="pd-nominal" type="number" placeholder="مثال: 300" />
+  </div>
+  <div class="calc-row">
+    <label class="calc-label">القطر المقاس بعد الردم (mm)</label>
+    <input class="calc-input" id="pd-actual" type="number" placeholder="مثال: 287" />
+  </div>
+  <button class="calc-btn" onclick="calcPreDeflection()">احسب نسبة الانبعاج</button>
+  <div class="calc-result" id="pd-result"></div>
 </div>`;
 
   var utilitiesHTML = `
@@ -908,6 +979,8 @@ function initCalculatorCats() {
   <button class="calc-tab" onclick="switchCalc('mh',this)">🕳️ Manhole WT</button>
   <button class="calc-tab" onclick="switchCalc('cctv',this)">📹 CCTV Grade</button>
   <button class="calc-tab" onclick="switchCalc('gul',this)">🌊 Gully Level</button>
+  <button class="calc-tab" onclick="switchCalc('pgrad',this)">📐 Pipe Gradient</button>
+  <button class="calc-tab" onclick="switchCalc('ec',this)">⚡ EC Water</button>
 </div>
 
 <div class="calc-section" id="calc-pres">
@@ -1014,6 +1087,53 @@ function initCalculatorCats() {
   <div class="calc-row"><span class="calc-label">مستوى Gully (m):</span><input class="calc-input" id="gul-gully" type="number" step="0.001" placeholder="12.497"></div>
   <button class="calc-btn" onclick="calcGullyLevel()">تحقق (±5mm)</button>
   <div class="calc-result" id="gul-result"></div>
+</div>
+
+<div class="calc-section" id="calc-pgrad" style="display:none">
+  <div class="calc-title">📐 Pipe Gradient — Grade Calculator</div>
+  <div style="font-size:11px;color:var(--text3);margin-bottom:10px;">QCS S8 P2 | احسب الانحدار من المناسيب والمسافات</div>
+  <div class="calc-row">
+    <label class="calc-label">Invert Level — مستوى القاع الأول (m)</label>
+    <input class="calc-input" id="pg-il1" type="number" step="0.001" placeholder="مثال: 10.500" />
+  </div>
+  <div class="calc-row">
+    <label class="calc-label">Invert Level — مستوى القاع الثاني (m)</label>
+    <input class="calc-input" id="pg-il2" type="number" step="0.001" placeholder="مثال: 10.000" />
+  </div>
+  <div class="calc-row">
+    <label class="calc-label">المسافة الأفقية (m)</label>
+    <input class="calc-input" id="pg-dist" type="number" step="0.1" placeholder="مثال: 80.0" />
+  </div>
+  <div class="calc-row">
+    <label class="calc-label">قطر الماسورة (mm)</label>
+    <select class="calc-input" id="pg-dia">
+      <option value="150">DN 150 (min 1:80)</option>
+      <option value="200">DN 200 (min 1:150)</option>
+      <option value="300">DN 300 (min 1:200)</option>
+      <option value="400">DN 400 (min 1:300)</option>
+      <option value="other">Other (verify design)</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcPipeGradient()">احسب الانحدار</button>
+  <div class="calc-result" id="pgrad-result"></div>
+</div>
+
+<div class="calc-section" id="calc-ec" style="display:none">
+  <div class="calc-title">⚡ EC — Electrical Conductivity (Water Quality)</div>
+  <div style="font-size:11px;color:var(--text3);margin-bottom:10px;">KAHRAMAA ETA-C | ≤2.5 mS/cm لمياه الشرب</div>
+  <div class="calc-row">
+    <label class="calc-label">قراءة EC المقاسة (mS/cm)</label>
+    <input class="calc-input" id="ec-val" type="number" step="0.01" placeholder="مثال: 1.8" />
+  </div>
+  <div class="calc-row">
+    <label class="calc-label">نوع الشبكة</label>
+    <select class="calc-input" id="ec-type">
+      <option value="potable">مياه الشرب — Potable (≤2.5 mS/cm)</option>
+      <option value="treated">مياه معالجة — Treated (≤5.0 mS/cm)</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcEC()">احسب Pass/Fail</button>
+  <div class="calc-result" id="ec-result"></div>
 </div>`;
 
   var structuralHTML = `
@@ -1322,6 +1442,14 @@ function showResult(elId, pass, value, required, detail) {
   el.style.display = 'block';
   el.className = 'calc-result ' + (pass ? 'pass' : 'fail');
   el.innerHTML = `<span class="calc-result-icon">${pass ? '✅' : '❌'}</span><div class="calc-result-text">${pass ? 'PASS — مطابق للمواصفة' : 'FAIL — لا يطابق المواصفة'}</div><div class="calc-result-detail">${detail}</div>`;
+  // Save last result for next session display
+  var resultText = (pass ? 'PASS' : 'FAIL') + ' — ' + value;
+  var calcId = elId.replace('-result','').replace('comp','compaction').replace('cbr','cbr').replace('marsh','marshall');
+  if (typeof saveCalcResult === 'function') saveCalcResult(calcId, resultText);
+  // Show FAIL crosslink after 300ms
+  if (!pass && typeof showFailAction === 'function') {
+    setTimeout(function() { showFailAction(calcId, el); }, 300);
+  }
 }
 
 // ROADS
@@ -1398,12 +1526,15 @@ function calcMarshall() {
   if (!stab || !flow || !va) return showToast('❌ أدخل كل البيانات');
   const bitMin = layer === 'binder' ? 4.5 : 5.0;
   const bitMax = layer === 'binder' ? 6.0 : 6.5;
-  const stabPass = stab >= 8;
+  // QCS S6 P5: Binder≥8kN, Wearing≥8.5kN, PMB≥10kN
+  const isPMB = document.getElementById('mar-pmb') && document.getElementById('mar-pmb').checked;
+  const stabMin = layer === 'wearing' ? (isPMB ? 10 : 8.5) : 8;
+  const stabPass = stab >= stabMin;
   const flowPass = flow >= 2 && flow <= 4;
   const vaPass = va >= 3 && va <= 5;
   const bitPass = !bit || (bit >= bitMin && bit <= bitMax);
   const allPass = stabPass && flowPass && vaPass && bitPass;
-  showResult('mar-result', allPass, null, null, `Stability: ${stab}kN ${stabPass?'✅':'❌'} | Flow: ${flow}mm ${flowPass?'✅':'❌'} | Va: ${va}% ${vaPass?'✅':'❌'}${bit ? ` | Bitumen: ${bit}% ${bitPass?'✅':'❌'} (${bitMin}-${bitMax}%)` : ''}`);
+  showResult('mar-result', allPass, null, null, `Stability: ${stab}kN ${stabPass?'✅':'❌'} (min ${stabMin}kN) | Flow: ${flow}mm ${flowPass?'✅':'❌'} | Va: ${va}% ${vaPass?'✅':'❌'}${bit ? ` | Bitumen: ${bit}% ${bitPass?'✅':'❌'} (${bitMin}-${bitMax}%)` : ''}`);
 }
 
 function calcCoreDensity() {
@@ -1411,7 +1542,7 @@ function calcCoreDensity() {
   const tmd = parseFloat(document.getElementById('core-tmd').value);
   if (!bulk || !tmd) return showToast('❌ أدخل كل البيانات');
   const pct = (bulk / tmd * 100).toFixed(1);
-  showResult('core-result', parseFloat(pct) >= 98, pct, 98, `Compaction %: ${pct}% TMD | المطلوب: ≥ 98% TMD`);
+  showResult('core-result', parseFloat(pct) >= 96, pct, 96, `Compaction %: ${pct}% TMD | المطلوب: ≥ 96% TMD`);
 }
 
 function calcBitumen() {
@@ -1427,7 +1558,7 @@ function calcTemperature() {
   const val = parseFloat(document.getElementById('temp-val').value);
   const stage = document.getElementById('temp-stage').value;
   if (!val) return showToast('❌ أدخل درجة الحرارة');
-  const limits = {delivery:[140,999],laying:[130,999],initial:[130,145],intermediate:[100,125],final:[80,100]};
+  const limits = {delivery:[135,999],laying:[130,999],initial:[125,145],intermediate:[100,125],final:[65,999]}; // QCS S6 P5 — corrected values
   const [min,max] = limits[stage];
   const pass = val >= min && val <= max;
   showResult('temp-result', pass, val, null, `درجة الحرارة: ${val}°C | المطلوب: ${min}${max<999?'-'+max:'+'} °C`);
@@ -2959,10 +3090,11 @@ openDetail = function(key) {
 
 // ===== USAGE TRACKING + FREE LIMIT =====
 function getUsageData() {
-  var today = new Date().toDateString();
+  var now = new Date();
+  var thisMonth = now.getFullYear() + '-' + (now.getMonth()+1);
   var data = JSON.parse(localStorage.getItem('qsp_usage') || '{}');
-  if (data.date !== today) {
-    data = { date: today, searches: 0, isPro: data.isPro || false };
+  if (data.month !== thisMonth) {
+    data = { month: thisMonth, searches: 0, isPro: data.isPro || false };
     localStorage.setItem('qsp_usage', JSON.stringify(data));
   }
   return data;
@@ -2972,15 +3104,24 @@ function incrementSearch() {
   var data = getUsageData();
   data.searches++;
   localStorage.setItem('qsp_usage', JSON.stringify(data));
+  setTimeout(refreshSearchCounter, 100);
   return data;
 }
 
+var FREE_LIMIT = 30;
+var WARN_AT = 25; // show warning when 5 searches remaining
+
 function checkSearchLimit() {
   var data = getUsageData();
-  if (data.isPro) return true;
-  if (data.searches >= 5) {
+  if (data.isPro || checkPro()) return true;
+  if (data.searches >= FREE_LIMIT) {
     showUpgradeModal();
     return false;
+  }
+  // Early warning — 5 searches remaining
+  if (data.searches >= WARN_AT && data.searches < FREE_LIMIT) {
+    var remaining = FREE_LIMIT - data.searches;
+    showToast('⚠️ تبقّى لك ' + remaining + ' بحث مجاني هذا الشهر');
   }
   return true;
 }
@@ -2994,7 +3135,7 @@ function showUpgradeModal() {
   modal.innerHTML = '<div style="background:var(--dark3);border:1px solid var(--border2);border-radius:20px;padding:32px;max-width:420px;width:100%;text-align:center;">'
     + '<div style="font-size:48px;margin-bottom:12px;">🎉</div>'
     + '<div style="font-family:Cairo,sans-serif;font-size:20px;font-weight:700;color:var(--gold);margin-bottom:8px;">وصلت الحد المجاني اليوم</div>'
-    + '<div style="font-size:14px;color:var(--text2);margin-bottom:24px;line-height:1.7;">5 بحثات مجانية يومياً. ارقَ إلى<br><strong style="color:var(--gold2);">QatarSpec Pro</strong> للبحث غير المحدود</div>'
+    + '<div style="font-size:14px;color:var(--text2);margin-bottom:24px;line-height:1.7;">30 بحثاً مجانياً شهرياً. ارقَ إلى<br><strong style="color:var(--gold2);">QatarSpec Pro</strong> للبحث غير المحدود</div>'
     + '<div style="background:var(--dark4);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:20px;text-align:right;">'
     + '<div style="font-size:13px;color:var(--text2);">✅ بحث ذكي غير محدود في QCS 2024<br>✅ تصدير ITPs + تقارير PDF<br>✅ حاسبة Pass/Fail متقدمة<br>✅ جميع مراحل الطرق والمرافق</div>'
     + '<div style="font-size:22px;font-weight:900;color:var(--gold);margin-top:12px;">99 ريال / شهر</div>'
@@ -3016,12 +3157,29 @@ doSearch = async function() {
 };
 
 
+// Update search counter in header
+function refreshSearchCounter() {
+  var el = document.getElementById('search-counter');
+  if (!el) return;
+  var data = getUsageData();
+  if (data.isPro || checkPro()) {
+    el.textContent = '⭐ Pro';
+    el.style.color = 'var(--gold)';
+    return;
+  }
+  var used = data.searches || 0;
+  var remaining = Math.max(0, FREE_LIMIT - used);
+  el.textContent = remaining + '/' + FREE_LIMIT + ' بحث';
+  el.style.color = remaining <= 5 ? '#e74c3c' : remaining <= 10 ? '#f39c12' : 'var(--text3)';
+}
+
 // Update bookmark count in header
 function refreshBookmarkCount() {
   var el = document.getElementById('bm-count');
   if (el) el.textContent = _bookmarks.length > 0 ? '⭐ ' + _bookmarks.length : 'المفضلة';
 }
 refreshBookmarkCount();
+refreshSearchCounter();
 var _origToggleBm = toggleBookmark;
 toggleBookmark = function(key, title) {
   _origToggleBm(key, title);
@@ -3666,9 +3824,269 @@ goBack = async function() {
 // Start preloading on page load
 window.addEventListener('load', function() {
   preloadPriorityData();
+  // Hide promo banner for Pro users
+  if (checkPro()) {
+    var banner = document.getElementById('promo-banner');
+    if (banner) banner.style.display = 'none';
+    var wrap = document.getElementById('search-counter-wrap');
+    if (wrap) wrap.style.display = 'none';
+  }
+  // Handle deep links — e.g. ?section=subgrade
+  var params = new URLSearchParams(window.location.search);
+  var section = params.get('section');
+  if (section) {
+    setTimeout(function() { openDetail(section); }, 800);
+  }
+  // First visit landing page
+  if (!localStorage.getItem('qsp_visited')) {
+    setTimeout(showLandingPage, 500);
+  }
 });
 
 console.log('Lazy loading system ready — data loads on demand ✅');
+
+// ============================================================
+// DEEP LINKS — Share section URL
+// ============================================================
+function shareSection(key, title) {
+  var url = window.location.origin + window.location.pathname + '?section=' + key;
+  if (navigator.share) {
+    navigator.share({ title: title + ' — QatarSpec Pro', url: url })
+      .then(function() { showToast('✅ تم المشاركة'); })
+      .catch(function() {});
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(function() {
+      showToast('✅ تم نسخ الرابط — الصقه في واتساب أو البريد');
+    });
+  } else {
+    prompt('انسخ الرابط:', url);
+  }
+}
+
+// Inject share button into detail modal
+var _origOpenDetailShare = openDetail;
+openDetail = async function(key) {
+  await _origOpenDetailShare(key);
+  setTimeout(function() {
+    var header = document.querySelector('.dm-header');
+    if (header && !document.getElementById('share-btn-' + key)) {
+      var btnWrap = header.querySelector('div:last-child');
+      if (btnWrap) {
+        var shareBtn = document.createElement('div');
+        shareBtn.id = 'share-btn-' + key;
+        shareBtn.title = 'مشاركة هذا القسم';
+        shareBtn.style.cssText = 'display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(52,152,219,0.12);border:1px solid rgba(52,152,219,0.3);border-radius:8px;cursor:pointer;font-size:16px;';
+        shareBtn.textContent = '🔗';
+        shareBtn.onclick = function() {
+          var title = document.getElementById('dmTitle').textContent;
+          shareSection(key, title);
+        };
+        btnWrap.insertBefore(shareBtn, btnWrap.firstChild);
+      }
+    }
+  }, 120);
+};
+
+// ============================================================
+// PRO OVERLAY — on utility/structural/geotech cat cards
+// ============================================================
+var PRO_SECTIONS = ['utilities', 'structural', 'geotech'];
+
+function addProOverlays() {
+  if (checkPro()) return;
+  PRO_SECTIONS.forEach(function(sec) {
+    var card = document.querySelector('[onclick*="' + sec + '"]');
+    if (card && !card.querySelector('.pro-overlay')) {
+      card.style.position = 'relative';
+      var overlay = document.createElement('div');
+      overlay.className = 'pro-overlay';
+      overlay.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,0.55);backdrop-filter:blur(2px);border-radius:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;z-index:2;';
+      overlay.innerHTML = '<span style="font-size:22px;">🔒</span><span style="font-size:11px;color:#fff;font-weight:700;font-family:Tajawal;">Pro فقط</span><span style="background:linear-gradient(135deg,#c9a84c,#7a1515);border-radius:12px;padding:3px 12px;font-size:10px;color:#fff;font-family:Tajawal;">فعّل Pro</span>';
+      overlay.onclick = function(e) {
+        e.stopPropagation();
+        showProGate('محتوى ' + sec.charAt(0).toUpperCase() + sec.slice(1));
+      };
+      card.appendChild(overlay);
+    }
+  });
+}
+
+// ============================================================
+// LANDING PAGE — First visit only
+// ============================================================
+function showLandingPage() {
+  if (checkPro()) return;
+  localStorage.setItem('qsp_visited', '1');
+
+  var modal = document.createElement('div');
+  modal.id = 'landing-modal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;';
+  modal.innerHTML =
+    '<div style="background:var(--dark3);border:1px solid rgba(201,168,76,0.3);border-radius:24px;padding:32px;max-width:480px;width:100%;text-align:center;direction:rtl;">' +
+    '<div style="font-size:48px;margin-bottom:8px;">🏗️</div>' +
+    '<div style="font-size:22px;font-weight:900;color:var(--gold);margin-bottom:4px;font-family:Cairo,sans-serif;">QatarSpec Pro</div>' +
+    '<div style="font-size:13px;color:var(--text3);margin-bottom:24px;">المرجع الأول للمهندسين في قطر</div>' +
+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;text-align:right;">' +
+    '<div style="background:var(--dark4);border-radius:12px;padding:14px;">' +
+    '<div style="font-size:20px;margin-bottom:6px;">📋</div>' +
+    '<div style="font-size:12px;font-weight:700;color:var(--text1);margin-bottom:4px;">QCS 2024 كامل</div>' +
+    '<div style="font-size:11px;color:var(--text3);">كل المواصفات القطرية في مكان واحد</div>' +
+    '</div>' +
+    '<div style="background:var(--dark4);border-radius:12px;padding:14px;">' +
+    '<div style="font-size:20px;margin-bottom:6px;">🤖</div>' +
+    '<div style="font-size:12px;font-weight:700;color:var(--text1);margin-bottom:4px;">بحث ذكي</div>' +
+    '<div style="font-size:11px;color:var(--text3);">إجابات فورية من Gemini AI</div>' +
+    '</div>' +
+    '<div style="background:var(--dark4);border-radius:12px;padding:14px;">' +
+    '<div style="font-size:20px;margin-bottom:6px;">🧮</div>' +
+    '<div style="font-size:12px;font-weight:700;color:var(--text1);margin-bottom:4px;">حاسبة Pass/Fail</div>' +
+    '<div style="font-size:11px;color:var(--text3);">38+ اختبار QCS بنتيجة فورية</div>' +
+    '</div>' +
+    '<div style="background:var(--dark4);border-radius:12px;padding:14px;">' +
+    '<div style="font-size:20px;margin-bottom:6px;">📥</div>' +
+    '<div style="font-size:12px;font-weight:700;color:var(--text1);margin-bottom:4px;">تصدير ITP</div>' +
+    '<div style="font-size:11px;color:var(--text3);">بتوقيعات وWatermark احترافي</div>' +
+    '</div>' +
+    '</div>' +
+
+    '<div style="background:linear-gradient(135deg,rgba(122,21,21,0.3),rgba(201,168,76,0.1));border:1px solid rgba(201,168,76,0.2);border-radius:14px;padding:16px;margin-bottom:20px;">' +
+    '<div style="font-size:13px;color:var(--text2);margin-bottom:8px;">🎁 ابدأ مجاناً</div>' +
+    '<div style="font-size:24px;font-weight:900;color:var(--gold);">30 بحثاً مجانياً</div>' +
+    '<div style="font-size:11px;color:var(--text3);margin-top:4px;">بدون تسجيل — ابدأ الآن</div>' +
+    '</div>' +
+
+    '<div style="display:flex;gap:10px;">' +
+    '<button onclick="var m=document.getElementById(\'landing-modal\');if(m)m.remove();addProOverlays();" style="flex:1;background:linear-gradient(135deg,#c9a84c,#7a1515);border:none;border-radius:12px;padding:14px;color:#fff;font-family:Cairo,sans-serif;font-size:15px;font-weight:700;cursor:pointer;">ابدأ مجاناً 🚀</button>' +
+    '</div>' +
+    '<div onclick="showProGate(\'QatarSpec Pro\')" style="margin-top:12px;font-size:12px;color:var(--gold);cursor:pointer;">اشترك Pro — 99 ر.ق/شهر ←</div>' +
+    '</div>';
+
+  document.body.appendChild(modal);
+}
+
+// Init Pro overlays after DOM ready
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(addProOverlays, 1000);
+});
+
+// ============================================================
+// NEW CALCULATOR FUNCTIONS — QCS 2024 Corrected Values
+// ============================================================
+
+// IRI — International Roughness Index
+// QCS S6 P5 + PWA IAN-013
+function calcIRI() {
+  var val = parseFloat(document.getElementById('iri-val').value);
+  var type = document.getElementById('iri-type').value;
+  if (isNaN(val)) return showToast('❌ أدخل قيمة IRI');
+  var limit = type === 'pmb' ? 0.9 : 1.2;
+  var pass = val <= limit;
+  var ref = type === 'pmb' ? 'PMB ≤0.9 m/km — PWA IAN-013' : 'Conventional ≤1.2 m/km — QCS S6 P5';
+  showResult('iri-result', pass, val, limit,
+    'IRI المقاس: ' + val + ' m/km | الحد: ' + limit + ' m/km | ' + ref);
+  saveCalcResult('iri', (pass?'PASS':'FAIL') + ' ' + val + ' m/km');
+}
+
+// Deflectograph — Rebound Deflection
+// QCS S6 P5 | new construction ≤0.5mm
+function calcDeflectograph() {
+  var val = parseFloat(document.getElementById('defl-val').value);
+  var type = document.getElementById('defl-type').value;
+  if (isNaN(val)) return showToast('❌ أدخل قراءة الانحراف');
+  var limit = type === 'overlay' ? 0.8 : 0.5;
+  var pass = val <= limit;
+  showResult('defl-result', pass, val, limit,
+    'الانحراف: ' + val + 'mm | الحد: ≤' + limit + 'mm | QCS S6 P5');
+  saveCalcResult('defl', (pass?'PASS':'FAIL') + ' ' + val + 'mm');
+}
+
+// Pre-deflection / Mandrel Test — Pipe Ovality
+// BS EN 1610 | ≤5% nominal diameter within 24hr
+function calcPreDeflection() {
+  var nominal = parseFloat(document.getElementById('pd-nominal').value);
+  var actual = parseFloat(document.getElementById('pd-actual').value);
+  if (isNaN(nominal) || isNaN(actual)) return showToast('❌ أدخل القطر الاسمي والمقاس');
+  if (actual > nominal) return showToast('❌ القطر المقاس أكبر من الاسمي — تحقق من القيم');
+  var reduction = ((nominal - actual) / nominal * 100).toFixed(2);
+  var pass = parseFloat(reduction) <= 5.0;
+  showResult('pd-result', pass, reduction, 5.0,
+    'القطر الاسمي: ' + nominal + 'mm | المقاس: ' + actual + 'mm | الانبعاج: ' + reduction + '% | الحد: ≤5% — BS EN 1610');
+  if (!pass) showFailAction('predefl', document.getElementById('pd-result'));
+  saveCalcResult('predefl', (pass?'PASS':'FAIL') + ' ' + reduction + '%');
+}
+
+// Pipe Gradient Calculator
+// QCS S8 P2 — min gradients: DN150=1:80, DN200=1:150, DN300=1:200, DN400=1:300
+function calcPipeGradient() {
+  var il1 = parseFloat(document.getElementById('pg-il1').value);
+  var il2 = parseFloat(document.getElementById('pg-il2').value);
+  var dist = parseFloat(document.getElementById('pg-dist').value);
+  var dia = document.getElementById('pg-dia').value;
+  if (isNaN(il1) || isNaN(il2) || isNaN(dist) || dist <= 0) {
+    return showToast('❌ أدخل كل البيانات بشكل صحيح');
+  }
+  var fall = il1 - il2;
+  if (fall < 0) return showToast('⚠️ المنسوب الأول أقل من الثاني — تحقق من الاتجاه');
+  var gradientRatio = dist / fall; // 1:X format
+  var minGradients = { '150':80, '200':150, '300':200, '400':300, 'other':0 };
+  var minRatio = minGradients[dia] || 0;
+  var gradientPct = (fall / dist * 100).toFixed(4);
+  var pass = minRatio === 0 || gradientRatio <= minRatio;
+  var detail = 'الهبوط: ' + fall.toFixed(3) + 'm | المسافة: ' + dist + 'm | ' +
+    'الانحدار: 1:' + Math.round(gradientRatio) + ' (' + gradientPct + '%) | ';
+  if (minRatio > 0) {
+    detail += 'الحد الأدنى: 1:' + minRatio + ' — QCS S8 P2';
+  } else {
+    detail += 'تحقق من التصميم';
+    pass = true;
+  }
+  showResult('pgrad-result', pass, gradientRatio, minRatio, detail);
+  saveCalcResult('pgrad', (pass?'PASS':'FAIL') + ' 1:' + Math.round(gradientRatio));
+}
+
+// EC — Electrical Conductivity Water Quality
+// KAHRAMAA ETA-C | Potable ≤2.5 mS/cm | Treated ≤5.0 mS/cm
+function calcEC() {
+  var val = parseFloat(document.getElementById('ec-val').value);
+  var type = document.getElementById('ec-type').value;
+  if (isNaN(val)) return showToast('❌ أدخل قراءة EC');
+  var limit = type === 'treated' ? 5.0 : 2.5;
+  var standard = type === 'treated' ? 'Treated Water' : 'KAHRAMAA ETA-C Potable';
+  var pass = val <= limit;
+  showResult('ec-result', pass, val, limit,
+    'EC المقاسة: ' + val + ' mS/cm | الحد: ≤' + limit + ' mS/cm | ' + standard);
+  saveCalcResult('ec', (pass?'PASS':'FAIL') + ' ' + val + ' mS/cm');
+}
+
+// Fix Marshall to use PMB selector
+var _origCalcMarshall = calcMarshall;
+calcMarshall = function() {
+  // Patch: read PMB from select instead of checkbox
+  var pmbSel = document.getElementById('mar-pmb-sel');
+  var pmbCheck = document.getElementById('mar-pmb');
+  if (pmbSel && pmbCheck) {
+    pmbCheck.checked = pmbSel.value === 'pmb';
+  }
+  _origCalcMarshall();
+};
+
+// Add new calc IDs to FAIL_CROSSLINKS
+if (typeof FAIL_CROSSLINKS !== 'undefined') {
+  FAIL_CROSSLINKS['iri'] = 'wearing';
+  FAIL_CROSSLINKS['defl'] = 'wearing';
+  FAIL_CROSSLINKS['predefl'] = 'ss_laying';
+  FAIL_CROSSLINKS['pgrad'] = 'ss_laying';
+  FAIL_CROSSLINKS['ec'] = 'ws_testing';
+}
+
+// Add new calc IDs to CROSSLINK_MAP
+if (typeof CROSSLINK_MAP !== 'undefined') {
+  CROSSLINK_MAP['wearing']['calc'] = 'iri';
+  CROSSLINK_MAP['wearing']['label'] = 'IRI Roughness + Marshall';
+}
+
+console.log('New calculators loaded: IRI, Deflectograph, Pre-deflection, Pipe Gradient, EC ✅');
 </script>
 </body>
 </html>
