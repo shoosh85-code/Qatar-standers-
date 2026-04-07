@@ -223,7 +223,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       </div>
     </div>
     <div class="header-actions">
-      <div class="key-status" id="search-counter-wrap" onclick="showUpgradeModal()" title="بحثاتك المتبقية هذا الشهر" style="cursor:pointer;">
+      <div class="key-status" id="search-counter-wrap" onclick="showUpgradeModal()" title="بحثاتك المتبقية هذا الشهر — اضغط للترقية" style="cursor:pointer;">
         🔍 <span id="search-counter">30/30 بحث</span>
       </div>
       <div class="key-status" onclick="openBookmarks()" title="إشاراتك المرجعية (⭐)">
@@ -3190,6 +3190,7 @@ toggleBookmark = function(key, title) {
 // PRO SYSTEM — checkPro / showProGate / Pro Toggle
 // ============================================================
 function checkPro() {
+  // Pro check — localStorage only (no backend required)
   return localStorage.getItem('qsp_pro') === 'true';
 }
 
@@ -3697,7 +3698,7 @@ async function _loadDataFile(fileName) {
   }
   _loadingKeys[fileName] = true;
   try {
-    var response = await fetch('/data/' + fileName + '.json');
+    var response = await fetch('/data/' + fileName + '.json?v=3.0');
     if (!response.ok) throw new Error('HTTP ' + response.status);
     var data = await response.json();
     _dataCache[fileName] = data;
@@ -3837,10 +3838,8 @@ window.addEventListener('load', function() {
   if (section) {
     setTimeout(function() { openDetail(section); }, 800);
   }
-  // First visit landing page
-  if (!localStorage.getItem('qsp_visited')) {
-    setTimeout(showLandingPage, 500);
-  }
+  // Landing page disabled — direct access preferred
+  localStorage.setItem('qsp_visited', '1');
 });
 
 console.log('Lazy loading system ready — data loads on demand ✅');
@@ -3893,22 +3892,8 @@ openDetail = async function(key) {
 var PRO_SECTIONS = ['utilities', 'structural', 'geotech'];
 
 function addProOverlays() {
-  if (checkPro()) return;
-  PRO_SECTIONS.forEach(function(sec) {
-    var card = document.querySelector('[onclick*="' + sec + '"]');
-    if (card && !card.querySelector('.pro-overlay')) {
-      card.style.position = 'relative';
-      var overlay = document.createElement('div');
-      overlay.className = 'pro-overlay';
-      overlay.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,0.55);backdrop-filter:blur(2px);border-radius:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;z-index:2;';
-      overlay.innerHTML = '<span style="font-size:22px;">🔒</span><span style="font-size:11px;color:#fff;font-weight:700;font-family:Tajawal;">Pro فقط</span><span style="background:linear-gradient(135deg,#c9a84c,#7a1515);border-radius:12px;padding:3px 12px;font-size:10px;color:#fff;font-family:Tajawal;">فعّل Pro</span>';
-      overlay.onclick = function(e) {
-        e.stopPropagation();
-        showProGate('محتوى ' + sec.charAt(0).toUpperCase() + sec.slice(1));
-      };
-      card.appendChild(overlay);
-    }
-  });
+  // All sections open for all users — Pro overlay disabled
+  // Pro features limited to: ITP Export + Calc Report + unlimited search
 }
 
 // ============================================================
