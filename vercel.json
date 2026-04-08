@@ -1,17 +1,15 @@
 {
+  "rewrites": [
+    { "source": "/api/search", "destination": "/search.js" },
+    { "source": "/api/health", "destination": "/health.js" }
+  ],
   "headers": [
     {
-      "source": "/data/(.*)",
+      "source": "/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=3600" },
-        { "key": "Access-Control-Allow-Origin", "value": "*" }
-      ]
-    },
-    {
-      "source": "/sw.js",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
-        { "key": "Service-Worker-Allowed", "value": "/" }
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET,OPTIONS,POST" },
+        { "key": "Access-Control-Allow-Headers", "value": "X-Requested-With, Content-Type, Authorization" }
       ]
     }
   ]
