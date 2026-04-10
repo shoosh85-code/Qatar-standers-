@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a0a0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>QEngage Pro v4.0 | دليل المواصفات القطرية</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & ROOT ===== */
+:root{
+  --maroon:#7A1515;--maroon2:#5A0F0F;--maroon3:#3D0A0A;
+  --gold:#C9A84C;--gold2:#E8C97A;--gold3:#F5E0A0;
+  --dark:#0A0A0A;--dark2:#111111;--dark3:#181818;--dark4:#222222;--dark5:#2A2A2A;
+  --text:#EDE8DC;--text2:#B0A898;--text3:#6A6258;--text4:#3A3530;
+  --border:rgba(201,168,76,0.10);--border2:rgba(201,168,76,0.25);--border3:rgba(201,168,76,0.45);
+  --green:#2ecc71;--red:#e74c3c;--blue:#3498db;--orange:#f39c12;
+  --shadow:0 8px 32px rgba(0,0,0,0.5);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Tajawal',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--dark2)}
+::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:rgba(201,168,76,0.4)}
+
+/* ===== NOISE OVERLAY ===== */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.35}
+
+/* ===== HEADER ===== */
+header{position:sticky;top:0;z-index:100;background:rgba(10,10,10,0.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.header-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;padding:0 24px;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:38px;height:38px;background:linear-gradient(135deg,var(--maroon),var(--maroon2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;border:1px solid rgba(201,168,76,0.2);flex-shrink:0}
+.logo-text .logo-name{font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;color:var(--gold);line-height:1.1}
+.logo-text .logo-sub{font-size:9px;color:var(--text3);letter-spacing:.5px}
+.header-nav{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.nav-btn{background:transparent;border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-family:'Tajawal',sans-serif;font-size:11px;color:var(--text3);cursor:pointer;transition:.2s;white-space:nowrap}
+.nav-btn:hover,.nav-btn.active{border-color:var(--border2);color:var(--gold);background:rgba(201,168,76,0.06)}
+.nav-btn.pro{background:linear-gradient(135deg,rgba(201,168,76,0.15),rgba(122,21,21,0.1));border-color:rgba(201,168,76,0.3);color:var(--gold)}
+.ai-status{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text3);padding:4px 10px;background:var(--dark3);border:1px solid var(--border);border-radius:8px}
+.ai-dot{width:6px;height:6px;border-radius:50%;background:#666;flex-shrink:0}
+.ai-dot.on{background:var(--green);box-shadow:0 0 6px rgba(46,204,113,.5)}
+.ai-dot.warn{background:var(--orange);box-shadow:0 0 6px rgba(243,156,18,.4)}
+
+/* ===== TABS NAV ===== */
+.main-tabs{display:flex;gap:2px;padding:10px 24px 0;max-width:1400px;margin:0 auto;overflow-x:auto}
+.main-tab{background:transparent;border:none;border-bottom:2px solid transparent;padding:8px 16px;font-family:'Tajawal',sans-serif;font-size:13px;color:var(--text3);cursor:pointer;transition:.2s;white-space:nowrap}
+.main-tab:hover{color:var(--text2)}
+.main-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* ===== PAGE SECTIONS ===== */
+.page{display:none;max-width:1400px;margin:0 auto;padding:24px 24px 60px}
+.page.active{display:block}
+
+/* ===== SECTION CARD ===== */
+.s-card{background:var(--dark3);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:16px}
+.s-card-title{font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;color:var(--gold2);margin-bottom:14px;display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.s-card-title .badge{font-size:9px;padding:2px 7px;border-radius:8px;font-weight:600;font-family:'Tajawal',sans-serif}
+.badge-hp{background:rgba(231,76,60,0.15);color:var(--red);border:1px solid rgba(231,76,60,0.3)}
+.badge-w{background:rgba(243,156,18,0.12);color:var(--orange);border:1px solid rgba(243,156,18,0.3)}
+.badge-r{background:rgba(52,152,219,0.12);color:var(--blue);border:1px solid rgba(52,152,219,0.3)}
+.badge-ok{background:rgba(46,204,113,0.12);color:var(--green);border:1px solid rgba(46,204,113,0.3)}
+.badge-pro{background:rgba(201,168,76,0.12);color:var(--gold);border:1px solid rgba(201,168,76,0.3)}
+
+/* ===== GRID LAYOUTS ===== */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:900px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+
+/* ===== FORM ELEMENTS ===== */
+.form-group{margin-bottom:12px}
+.form-label{font-size:11px;color:var(--text3);margin-bottom:5px;display:flex;align-items:center;gap:5px;letter-spacing:.3px}
+.form-label .req{color:var(--red);font-size:10px}
+.form-label .qcs-tag{font-size:9px;color:var(--gold);background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);border-radius:4px;padding:1px 5px;font-family:monospace}
+.form-input,.form-select,.form-textarea{width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'Tajawal',sans-serif;font-size:13px;color:var(--text);outline:none;transition:.2s;appearance:none}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--border2);background:var(--dark5)}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--text4)}
+.form-textarea{resize:vertical;min-height:70px;line-height:1.6}
+.form-select{cursor:pointer}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+
+/* ===== BUTTONS ===== */
+.btn{border-radius:9px;padding:9px 20px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:.25s;border:1px solid transparent;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.btn-primary{background:linear-gradient(135deg,var(--maroon),var(--maroon2));border-color:rgba(201,168,76,0.3);color:var(--gold2)}
+.btn-primary:hover{box-shadow:0 0 20px rgba(122,21,21,0.5);transform:translateY(-1px)}
+.btn-secondary{background:var(--dark4);border-color:var(--border);color:var(--text2)}
+.btn-secondary:hover{border-color:var(--border2);color:var(--gold2)}
+.btn-success{background:rgba(46,204,113,0.12);border-color:rgba(46,204,113,0.3);color:var(--green)}
+.btn-success:hover{background:rgba(46,204,113,0.2)}
+.btn-danger{background:rgba(231,76,60,0.12);border-color:rgba(231,76,60,0.3);color:var(--red)}
+.btn-info{background:rgba(52,152,219,0.12);border-color:rgba(52,152,219,0.3);color:var(--blue)}
+.btn-gold{background:rgba(201,168,76,0.12);border-color:rgba(201,168,76,0.3);color:var(--gold)}
+.btn-sm{padding:5px 12px;font-size:11px}
+.btn-lg{padding:12px 28px;font-size:15px}
+.btn-full{width:100%;justify-content:center}
+.btn-group{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+
+/* ===== ITP TABLE ===== */
+.itp-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
+.itp-table{width:100%;border-collapse:collapse;font-size:11px;min-width:900px}
+.itp-table th{background:rgba(201,168,76,0.07);padding:9px 10px;text-align:right;font-weight:600;font-size:10px;color:var(--gold);border-bottom:1px solid var(--border2);white-space:nowrap;letter-spacing:.3px}
+.itp-table td{padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text2);line-height:1.5;vertical-align:top}
+.itp-table tr:last-child td{border-bottom:none}
+.itp-table tr:hover td{background:rgba(201,168,76,0.03)}
+.itp-table .phase-row td{background:rgba(122,21,21,0.08);color:var(--gold);font-weight:600;font-size:11px;border-bottom:1px solid var(--border2);padding:7px 10px}
+.clause-tag{font-family:monospace;font-size:10px;color:var(--blue);background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.15);border-radius:4px;padding:1px 5px;white-space:nowrap;display:inline-block}
+.pt-tag{display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px;white-space:nowrap}
+.pt-h{background:rgba(231,76,60,0.15);color:var(--red);border:1px solid rgba(231,76,60,0.3)}
+.pt-w{background:rgba(243,156,18,0.12);color:var(--orange);border:1px solid rgba(243,156,18,0.3)}
+.pt-r{background:rgba(52,152,219,0.1);color:var(--blue);border:1px solid rgba(52,152,219,0.2)}
+.itp-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
+.dot-h{background:var(--red)}
+.dot-w{background:var(--orange)}
+.dot-r{background:var(--blue)}
+.dot-n{background:var(--text4)}
+.cell-center{text-align:center}
+
+/* ===== CALC ===== */
+.calc-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
+.calc-tab{background:var(--dark4);border:1px solid var(--border);border-radius:20px;padding:5px 13px;font-size:11px;color:var(--text3);cursor:pointer;transition:.2s;font-family:'Tajawal',sans-serif}
+.calc-tab.active{background:rgba(201,168,76,0.1);border-color:var(--border2);color:var(--gold2);font-weight:600}
+.calc-section{display:none}
+.calc-section.active{display:block}
+.calc-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.calc-label{font-size:12px;color:var(--text2);min-width:160px}
+.calc-input{background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:7px 11px;font-family:'Tajawal',sans-serif;font-size:13px;color:var(--text);outline:none;width:110px;transition:.2s}
+.calc-input:focus{border-color:var(--border2)}
+.calc-unit{font-size:10px;color:var(--text3);min-width:36px}
+.calc-select{background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:7px 11px;font-family:'Tajawal',sans-serif;font-size:12px;color:var(--text);outline:none;flex:1;min-width:180px}
+.calc-result{border-radius:10px;padding:14px;margin-top:10px;text-align:center;display:none}
+.calc-result.pass{background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3)}
+.calc-result.fail{background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3)}
+.calc-result-icon{font-size:28px;display:block;margin-bottom:5px}
+.calc-result-main{font-family:'Cairo',sans-serif;font-size:17px;font-weight:700}
+.calc-result.pass .calc-result-main{color:var(--green)}
+.calc-result.fail .calc-result-main{color:var(--red)}
+.calc-result-detail{font-size:11px;color:var(--text2);margin-top:5px;line-height:1.6}
+.calc-result-clause{font-size:10px;color:var(--gold);margin-top:5px;font-family:monospace}
+
+/* ===== AI ANSWER ===== */
+.ai-answer-wrap{display:none;margin-bottom:20px}
+.ai-answer-wrap.show{display:block}
+.ai-card{background:linear-gradient(135deg,rgba(122,21,21,0.1),rgba(201,168,76,0.04));border:1px solid rgba(201,168,76,0.18);border-radius:14px;padding:22px}
+.ai-card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.ai-badge{background:linear-gradient(135deg,var(--maroon),var(--maroon2));border:1px solid rgba(201,168,76,0.3);border-radius:6px;padding:3px 10px;font-size:9px;color:var(--gold);font-weight:800;letter-spacing:1px;text-transform:uppercase}
+.ai-text{font-size:14px;line-height:1.9;color:var(--text)}
+.ai-text strong{color:var(--gold2)}
+.ai-ref{font-size:11px;color:var(--text3);margin-top:12px;padding-top:10px;border-top:1px solid var(--border)}
+.spinner{width:16px;height:16px;border:2px solid rgba(201,168,76,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ===== SEARCH ===== */
+.search-wrap{position:relative;margin-bottom:14px}
+.search-input{width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:12px;padding:14px 130px 14px 46px;font-family:'Tajawal',sans-serif;font-size:15px;color:var(--text);outline:none;transition:.3s}
+.search-input:focus{border-color:var(--border2);background:var(--dark4)}
+.search-input::placeholder{color:var(--text4)}
+.search-go{position:absolute;left:6px;top:50%;transform:translateY(-50%);background:linear-gradient(135deg,var(--maroon),var(--maroon2));border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:7px 16px;color:var(--gold2);font-family:'Tajawal',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:.3s}
+.search-go:hover{box-shadow:0 0 16px rgba(122,21,21,0.5)}
+.search-icon{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--text4)}
+.quick-tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:20px}
+.q-tag{background:var(--dark3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--text2);cursor:pointer;transition:.2s}
+.q-tag:hover{border-color:var(--border2);color:var(--gold2)}
+
+/* ===== STAT CARDS ===== */
+.stat-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.stat-card{background:var(--dark3);border:1px solid var(--border);border-radius:12px;padding:14px 18px;flex:1;min-width:120px}
+.stat-num{font-family:'Cairo',sans-serif;font-size:24px;font-weight:900;color:var(--gold);display:block}
+.stat-lbl{font-size:11px;color:var(--text3);margin-top:2px}
+
+/* ===== NCR/FORM STYLES ===== */
+.ncr-section{background:var(--dark4);border-radius:10px;padding:14px;margin-bottom:10px;border-right:3px solid var(--maroon)}
+.ncr-section-title{font-size:12px;font-weight:700;color:var(--gold);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+.severity-row{display:flex;gap:8px;flex-wrap:wrap}
+.sev-opt{flex:1;min-width:80px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px 10px;text-align:center;cursor:pointer;transition:.2s;font-size:12px;color:var(--text3)}
+.sev-opt:hover,.sev-opt.active{border-color:var(--border2);color:var(--gold)}
+.sev-opt.s-minor.active{background:rgba(46,204,113,0.1);border-color:var(--green);color:var(--green)}
+.sev-opt.s-major.active{background:rgba(243,156,18,0.1);border-color:var(--orange);color:var(--orange)}
+.sev-opt.s-critical.active{background:rgba(231,76,60,0.1);border-color:var(--red);color:var(--red)}
+
+/* ===== PHOTO ANALYZER ===== */
+.photo-drop{border:2px dashed rgba(201,168,76,0.2);border-radius:14px;padding:32px;text-align:center;cursor:pointer;transition:.3s;background:var(--dark3)}
+.photo-drop:hover,.photo-drop.over{border-color:rgba(201,168,76,0.45);background:var(--dark4)}
+.photo-preview-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+.photo-preview{border-radius:10px;overflow:hidden;border:1px solid var(--border);position:relative;max-height:260px}
+.photo-preview img{width:100%;height:100%;object-fit:cover;display:block}
+.analysis-result{background:var(--dark4);border:1px solid var(--border);border-radius:10px;padding:16px;font-size:12px;line-height:1.8;color:var(--text2)}
+.analysis-result h4{color:var(--gold2);font-size:13px;margin-bottom:6px;margin-top:12px}
+.analysis-result h4:first-child{margin-top:0}
+.defect-tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:5px;margin:2px;font-weight:600}
+.defect-critical{background:rgba(231,76,60,0.15);color:var(--red);border:1px solid rgba(231,76,60,0.3)}
+.defect-moderate{background:rgba(243,156,18,0.12);color:var(--orange);border:1px solid rgba(243,156,18,0.3)}
+.defect-minor{background:rgba(46,204,113,0.1);color:var(--green);border:1px solid rgba(46,204,113,0.3)}
+
+/* ===== MISSING SECTIONS ===== */
+.missing-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);border-radius:6px;padding:3px 10px;font-size:10px;color:var(--red)}
+.gap-table th{background:rgba(231,76,60,0.06)!important;color:var(--red)!important}
+
+/* ===== PROGRESS BAR ===== */
+.progress{height:5px;background:var(--dark5);border-radius:3px;overflow:hidden;margin:4px 0}
+.progress-fill{height:100%;border-radius:3px;transition:width .5s}
+
+/* ===== TOAST ===== */
+.toast{position:fixed;bottom:24px;right:24px;z-index:9998;background:var(--dark4);border:1px solid var(--border2);border-radius:12px;padding:12px 18px;font-size:13px;color:var(--text);box-shadow:var(--shadow);transform:translateY(60px);opacity:0;transition:all .3s;max-width:320px}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* ===== LANG TOGGLE ===== */
+.lang-toggle{position:fixed;bottom:20px;left:20px;z-index:500;display:flex;gap:3px;background:var(--dark3);border:1px solid var(--border2);border-radius:20px;padding:3px}
+.lang-btn{background:transparent;border:none;border-radius:14px;padding:4px 12px;font-family:'Tajawal',sans-serif;font-size:11px;color:var(--text3);cursor:pointer;transition:.2s}
+.lang-btn.active{background:rgba(201,168,76,0.15);color:var(--gold);font-weight:700}
+
+/* ===== EXPORT PREVIEW ===== */
+.export-preview{background:var(--dark4);border:1px solid rgba(46,204,113,0.2);border-radius:10px;padding:14px;margin-top:10px}
+.export-preview-title{font-size:11px;color:var(--green);margin-bottom:8px;font-weight:600}
+.col-chip{display:inline-block;background:var(--dark3);border:1px solid var(--border);border-radius:4px;padding:3px 8px;font-size:10px;font-family:monospace;color:var(--text3);margin:2px}
+.col-chip.key{border-color:rgba(201,168,76,0.3);color:var(--gold)}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.animate-fadeup{animation:fadeUp .35s ease}
+
+/* ===== PRINT ===== */
+@media print{
+  header,.main-tabs,.btn,.toast,.lang-toggle{display:none!important}
+  .page{display:block!important}
+  body{background:white;color:#000}
+  .s-card{border:1px solid #ddd;background:#fff}
+  .itp-table th{background:#7a1515;color:white}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#">
+      <div class="logo-mark">🏗️</div>
+      <div class="logo-text">
+        <div class="logo-name">QEngage Pro</div>
+        <div class="logo-sub">Qatar Engineering Standards v4.0</div>
+      </div>
+    </a>
+    <nav class="header-nav">
+      <button class="nav-btn active" onclick="switchPage('home')">🏠 الرئيسية</button>
+      <button class="nav-btn" onclick="switchPage('forms')">📝 نماذج Ashghal</button>
+      <button class="nav-btn" onclick="switchPage('itp')">📋 ITP Matrix</button>
+      <button class="nav-btn" onclick="switchPage('calc')">🧮 الحاسبة</button>
+      <button class="nav-btn" onclick="switchPage('ai_photo')">📸 AI فحص الموقع</button>
+      <button class="nav-btn" onclick="switchPage('missing')">⚠️ الأقسام المفقودة</button>
+      <div class="ai-status" id="ai-status-dot">
+        <div class="ai-dot warn" id="ai-dot"></div>
+        <span id="ai-status-txt">جاري الاتصال...</span>
+      </div>
+    </nav>
+  </div>
+  <!-- Main Tabs -->
+  <div class="main-tabs">
+    <button class="main-tab active" onclick="switchPage('home')">البحث الذكي</button>
+    <button class="main-tab" onclick="switchPage('forms')">RFI / NCR / DPR</button>
+    <button class="main-tab" onclick="switchPage('itp')">Binder ITP</button>
+    <button class="main-tab" onclick="switchPage('calc')">38+ حاسبة</button>
+    <button class="main-tab" onclick="switchPage('ai_photo')">AI Inspector</button>
+    <button class="main-tab" onclick="switchPage('missing')">فجوات QCS</button>
+  </div>
+</header>
+
+<!-- ==============================
+     PAGE 1: HOME / SEARCH
+================================= -->
+<div class="page active" id="page-home">
+  <div class="stat-row">
+    <div class="stat-card"><span class="stat-num">5000+</span><div class="stat-lbl">صفحة مواصفات QCS 2024</div></div>
+    <div class="stat-card"><span class="stat-num">38+</span><div class="stat-lbl">حاسبة اختبار</div></div>
+    <div class="stat-card"><span class="stat-num">18</span><div class="stat-lbl">نقطة Hold في ITP الإسفلت</div></div>
+    <div class="stat-card"><span class="stat-num">103</span><div class="stat-lbl">ملف QCS 2024</div></div>
+  </div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-input" id="searchQ"
+      placeholder="اسأل أي سؤال: ما هو CBR المطلوب للـ Base Course وفق QCS 2024؟"
+      onkeydown="if(event.key==='Enter')doSearch()">
+    <button class="search-go" onclick="doSearch()">⚡ بحث ذكي</button>
+  </div>
+  <div class="quick-tags">
+    <span class="q-tag" onclick="qs('CBR المطلوب للـ Base Course QCS 2024')">📊 CBR Base Course</span>
+    <span class="q-tag" onclick="qs('اشتراطات الخرسانة المسلحة QCS Part 14')">🏗️ خرسانة QCS</span>
+    <span class="q-tag" onclick="qs('اختبار ضغط مياه الشرب KAHRAMAA')">💧 ضغط المياه</span>
+    <span class="q-tag" onclick="qs('Air Test Foul Sewer BS EN 1610')">🌊 Air Test صرف</span>
+    <span class="q-tag" onclick="qs('Marshall Test Binder Course QCS Part 9')">⚫ Marshall</span>
+    <span class="q-tag" onclick="qs('متطلبات Prime Coat Tack Coat QCS Part 10')">🛢️ Prime/Tack</span>
+    <span class="q-tag" onclick="qs('Cover to Reinforcement Foundation QCS')">🔩 Cover الخرسانة</span>
+    <span class="q-tag" onclick="qs('CCTV Survey Sewer WRc Grade')">📹 CCTV</span>
+  </div>
+  <div class="ai-answer-wrap" id="ai-answer-wrap">
+    <div class="ai-card">
+      <div class="ai-card-hdr">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="ai-badge">📖 QCS 2024</span>
+          <span style="font-size:11px;color:var(--text3)" id="ai-src-label">الكود القطري</span>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="copyAI()">📋 نسخ</button>
+      </div>
+      <div class="ai-text" id="ai-answer-text">
+        <div style="display:flex;align-items:center;gap:10px;color:var(--text2)">
+          <div class="spinner"></div> جاري البحث...
+        </div>
+      </div>
+      <div class="ai-ref" id="ai-ref">📖 المرجع: QCS 2024 | ⚠️ راجع المواصفة الأصلية للتأكد</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     PAGE 2: ASHGHAL FORMS
+================================= -->
+<div class="page" id="page-forms">
+  <div class="calc-tabs" style="margin-bottom:18px">
+    <button class="calc-tab active" onclick="switchFormTab('rfi',this)">📋 طلب فحص RFI</button>
+    <button class="calc-tab" onclick="switchFormTab('ncr',this)">⚠️ عدم مطابقة NCR</button>
+    <button class="calc-tab" onclick="switchFormTab('dpr',this)">📅 تقرير يومي DPR</button>
+  </div>
+
+  <!-- RFI FORM -->
+  <div id="form-rfi" class="animate-fadeup">
+    <div class="s-card">
+      <div class="s-card-title">📋 طلب فحص الأعمال — Request for Inspection (RFI)
+        <span class="badge badge-hp">Ashghal Standard</span>
+      </div>
+      <div class="ncr-section">
+        <div class="ncr-section-title">القسم أ — بيانات المشروع</div>
+        <div class="form-row-3">
+          <div class="form-group">
+            <div class="form-label">رقم المشروع <span class="req">*</span></div>
+            <input class="form-input" id="rfi-proj" placeholder="PWA-2024-XXX">
+          </div>
+          <div class="form-group">
+            <div class="form-label">رقم العقد <span class="req">*</span></div>
+            <input class="form-input" id="rfi-contract" placeholder="ASHGHAL-C-XXX">
+          </div>
+          <div class="form-group">
+            <div class="form-label">رقم RFI <span class="req">*</span></div>
+            <input class="form-input" id="rfi-num" placeholder="RFI-001" value="RFI-001">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <div class="form-label">المقاول</div>
+            <input class="form-input" id="rfi-contractor" placeholder="اسم المقاول">
+          </div>
+          <div class="form-group">
+            <div class="form-label">تاريخ الطلب <span class="req">*</span></div>
+            <input class="form-input" id="rfi-date" type="date">
+          </div>
+        </div>
+      </div>
+      <div class="ncr-section">
+        <div class="ncr-section-title">القسم ب — تفاصيل الموقع ★ (إلزامي للـ Ashghal)</div>
+        <div class="form-row">
+          <div class="form-group">
+            <div class="form-label">Work Location — موقع العمل <span class="req">*</span> <span class="qcs-tag">Ashghal IAN</span></div>
+            <input class="form-input" id="rfi-location" placeholder="Ch. 0+340 to 0+580, Road A, Zone 3">
+          </div>
+          <div class="form-group">
+            <div class="form-label">Grid Reference (QNG) <span class="req">*</span></div>
+            <input class="form-input" id="rfi-grid" placeholder="E:517840 — N:2671200">
+          </div>
+        </div>
+        <div class="form-row-3">
+          <div class="form-group">
+            <div class="form-label">Layer No. / رقم الطبقة <span class="req">*</span></div>
+            <input class="form-input" id="rfi-layer" placeholder="Layer 3 of 4">
+          </div>
+          <div class="form-group">
+            <div class="form-label">Drawing Ref. / رقم الرسمة</div>
+            <input class="form-input" id="rfi-dwg" placeholder="DWG-A-001-Rev.2">
+          </div>
+          <div class="form-group">
+            <div class="form-label">QCS Clause Ref. <span class="req">*</span> <span class="qcs-tag">QCS 2024</span></div>
+            <input class="form-input" id="rfi-clause" placeholder="QCS 2024 — P8, S4.2">
+          </div>
+        </div>
+      </div>
+      <div class="ncr-section">
+        <div class="ncr-section-title">القسم ج — تفاصيل الفحص</div>
+        <div class="form-row">
+          <div class="form-group">
+            <div class="form-label">النشاط المطلوب فحصه <span class="req">*</span></div>
+            <select class="form-select" id="rfi-activity">
+              <option value="">اختر النشاط...</option>
+              <optgroup label="🛣️ أعمال الطرق">
+                <option>Subgrade Compaction</option>
+                <option>Subbase Compaction</option>
+                <option>Base Course Compaction</option>
+                <option>Prime Coat Application</option>
+                <option>Tack Coat Application</option>
+                <option>Binder Course Laying</option>
+                <option>Wearing Course Laying</option>
+              </optgroup>
+              <optgroup label="💧 شبكات المرافق">
+                <option>Water Supply Pipe Laying</option>
+                <option>Foul Sewer Pipe Laying</option>
+                <option>Storm Water Pipe Laying</option>
+                <option>Pressure Test — Water</option>
+                <option>Air Test — Foul Sewer</option>
+                <option>CCTV Survey</option>
+                <option>Chlorination</option>
+              </optgroup>
+              <optgroup label="🏗️ أعمال إنشائية">
+                <option>Blinding Concrete Pour</option>
+                <option>Foundation Concrete Pour</option>
+                <option>Column / Wall Concrete Pour</option>
+                <option>Rebar Installation</option>
+                <option>Formwork Inspection</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="form-group">
+            <div class="form-label">نوع نقطة الفحص <span class="req">*</span></div>
+            <select class="form-select" id="rfi-point-type">
+              <option value="HP">🔴 Hold Point — يُوقف العمل</option>
+              <option value="WP">🟠 Witness Point — بحضور المستشار</option>
+              <option value="RP">🔵 Review Point — مراجعة وثائق</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-label">نتائج الاختبارات المرفقة <span class="req">*</span></div>
+          <textarea class="form-textarea" id="rfi-test-results"
+            placeholder="مثال: Field Density = 98.5% MDD ✓ | CBR = 82% ✓ | Level Survey = ±5mm ✓&#10;أرفق: Lab Report No. LAB-2024-XXX"></textarea>
+        </div>
+        <div class="form-group">
+          <div class="form-label">المواد المُعتمدة المستخدمة</div>
+          <input class="form-input" id="rfi-materials" placeholder="Approved Material Submittal No. AMS-XXX — Aggregate: Al-Wakra Quarry">
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="generateRFI()">📄 إنشاء نموذج RFI</button>
+        <button class="btn btn-success" onclick="exportFormExcel('rfi')">📥 تصدير Excel</button>
+        <button class="btn btn-secondary" onclick="printForm('rfi')">🖨️ طباعة</button>
+        <button class="btn btn-info" onclick="resetForm('rfi')">🔄 مسح</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NCR FORM -->
+  <div id="form-ncr" class="animate-fadeup" style="display:none">
+    <div class="s-card">
+      <div class="s-card-title">⚠️ تقرير عدم المطابقة — Non-Conformance Report (NCR)
+        <span class="badge badge-hp">ISO 9001 Cl.10.2</span>
+      </div>
+      <div class="ncr-section">
+        <div class="ncr-section-title">القسم أ — بيانات التوثيق</div>
+        <div class="form-row-3">
+          <div class="form-group">
+            <div class="form-label">رقم NCR <span class="req">*</span></div>
+            <input class="form-input" id="ncr-num" placeholder="NCR-001" value="NCR-001">
+          </div>
+          <div class="form-group">
+            <div class="form-label">تاريخ الرصد <span class="req">*</span></div>
+            <input class="form-input" id="ncr-date" type="date">
+          </div>
+          <div class="form-group">
+            <div class="form-label">رقم RFI ذي الصلة</div>
+            <input class="form-input" id="ncr-rfi-ref" placeholder="RFI-XXX (إن وجد)">
+          </div>
+        </div>
+      </div>
+      <div class="ncr-section">
+        <div class="ncr-section-title">القسم ب — وصف عدم المطابقة</div>
+        <div class="form-row">
+          <div class="form-group">
+            <div class="form-label">الموقع + Grid Reference <span class="req">*</span></div>
+            <input class="form-input" id="ncr-location" placeholder="Ch. 0+400, Road A | E:517900 N:2671300">
+          </div>
+          <div class="form-group">
+            <div class="form-label">QCS Clause المخالَف <span class="req">*</span> <span class="qcs-tag">QCS 2024</span></div>
+            <input class="form-input" id="ncr-clause" placeholder="QCS 2024 — P8, S5.3, Cl.5.3.2">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-label">وصف المخالفة بالتفصيل <span class="req">*</span></div>
+          <textarea class="form-textarea" id="ncr-desc"
+            placeholder="مثال: Core Density نتيجة = 94.2% TMD — أقل من الحد المقبول ≥96% TMD وفق QCS 2024 Part 8 Sec 5.3. الموقع: Base Course Layer 3, Ch. 0+380 to 0+420."></textarea>
+        </div>
+        <div class="form-group">
+          <div class="form-label">درجة الخطورة</div>
+          <div class="severity-row">
+            <div class="sev-opt s-minor" onclick="setSeverity(this,'minor')">🟢 Minor</div>
+            <div class="sev-opt s-major active" onclick="setSeverity(this,'major')">🟠 Major</div>
+            <div class="sev-opt s-critical" onclick="setSeverity(this,'critical')">🔴 Critical</div>
+          </div>
+        </div>
+      </div>
+      <div class="ncr-section">
+        <div class="ncr-section-title">القسم ج — تحليل السبب الجذري (Root Cause Analysis)</div>
+        <div class="form-group">
+          <div class="form-label">فئة السبب الجذري <span class="qcs-tag">ISO 9001</span></div>
+          <select class="form-select" id="ncr-root-category">
+            <option value="">اختر الفئة...</option>
+            <option value="material">📦 مواد (Material) — خلل في المادة المُوردة</option>
+            <option value="workmanship">👷 تنفيذ (Workmanship) — خطأ في التنفيذ</option>
+            <option value="method">📐 طريقة (Method) — طريقة عمل خاطئة</option>
+            <option value="equipment">⚙️ معدات (Equipment) — خلل في المعدة</option>
+            <option value="design">📝 تصميم (Design) — مشكلة في المخططات</option>
+            <option value="environment">🌡️ بيئة (Environment) — ظروف جوية/موقعية</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="form-label">تفصيل السبب الجذري <span class="req">*</span></div>
+          <textarea class="form-textarea" id="ncr-root-detail"
+            placeholder="مثال: عدد تمريرات الرول غير كافٍ (4 تمريرات بدلاً من 6 كما حدد نموذج Trial Compaction). السبب: مشغّل معدة جديد لم يطّلع على نتائج Trial Compaction."></textarea>
+        </div>
+      </div>
+      <div class="ncr-section">
+        <div class="ncr-section-title">القسم د — الإجراء التصحيحي (Corrective Action)</div>
+        <div class="form-row">
+          <div class="form-group">
+            <div class="form-label">الإجراء المطلوب <span class="req">*</span></div>
+            <textarea class="form-textarea" id="ncr-corrective"
+              placeholder="مثال: إعادة دمك المنطقة المتأثرة Ch.0+380-0+420 بـ 8 تمريرات ثم أخذ Core samples جديدة للتحقق."></textarea>
+          </div>
+          <div class="form-group">
+            <div class="form-label">الإجراء الوقائي (Preventive Action)</div>
+            <textarea class="form-textarea" id="ncr-preventive"
+              placeholder="مثال: Toolbox Talk إلزامي لمشغلي الرولات عن Trial Compaction. إضافة حقل 'No. of Roller Passes' في DPR اليومي."></textarea>
+          </div>
+        </div>
+        <div class="form-row-3">
+          <div class="form-group">
+            <div class="form-label">المسؤول عن التصحيح</div>
+            <input class="form-input" id="ncr-responsible" placeholder="اسم المهندس">
+          </div>
+          <div class="form-group">
+            <div class="form-label">تاريخ الإغلاق المستهدف</div>
+            <input class="form-input" id="ncr-closedate" type="date">
+          </div>
+          <div class="form-group">
+            <div class="form-label">حالة NCR</div>
+            <select class="form-select" id="ncr-status">
+              <option value="open">🔴 مفتوح (Open)</option>
+              <option value="in-progress">🟠 جاري التصحيح</option>
+              <option value="closed">🟢 مُغلق (Closed)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="generateNCR()">⚠️ إنشاء تقرير NCR</button>
+        <button class="btn btn-success" onclick="exportFormExcel('ncr')">📥 تصدير Excel</button>
+        <button class="btn btn-secondary" onclick="printForm('ncr')">🖨️ طباعة</button>
+        <button class="btn btn-info" onclick="resetForm('ncr')">🔄 مسح</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DPR FORM -->
+  <div id="form-dpr" class="animate-fadeup" style="display:none">
+    <div class="s-card">
+      <div class="s-card-title">📅 تقرير التقدم اليومي — Daily Progress Report (DPR)
+        <span class="badge badge-ok">KPI Tracking</span>
+      </div>
+      <div class="ncr-section">
+        <div class="ncr-section-title">القسم أ — معلومات اليوم</div>
+        <div class="form-row-3">
+          <div class="form-group">
+            <div class="form-label">تاريخ التقرير <span class="req">*</span></div>
+            <input class="form-input" id="dpr-date" type="date">
+          </div>
+          <div class="form-group">
+            <div class="form-label">المنطقة / Zone</div>
+            <input class="form-input" id="dpr-zone" placeholder="Zone 3, Road A">
+          </div>
+          <div class="form-group">
+            <div class="form-label">أحوال الطقس</div>
+            <select class="form-select" id="dpr-weather">
+              <option>☀️ مشمس — Sunny</option>
+              <option>⛅ غائم جزئياً</option>
+              <option>🌧️ ممطر — Rain</option>
+              <option>💨 رياح شديدة</option>
+              <option>🌡️ حرارة شديدة >45°C</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row-3">
+          <div class="form-group">
+            <div class="form-label">درجة الحرارة (صباح °C)</div>
+            <input class="form-input" id="dpr-temp-am" type="number" placeholder="32">
+          </div>
+          <div class="form-group">
+            <div class="form-label">درجة الحرارة (مساء °C)</div>
+            <input class="form-input" id="dpr-temp-pm" type="number" placeholder="42">
+          </div>
+          <div class="form-group">
+            <div class="form-label">ساعات العمل الفعلية</div>
+            <input class="form-input" id="dpr-hours" type="number" placeholder="10">
+          </div>
+        </div>
+      </div>
+      <div class="ncr-section">
+        <div class="ncr-section-title">القسم ب — المعدات (Equipment KPI)</div>
+        <div id="dpr-equipment-list">
+          <div class="form-row-3" style="margin-bottom:8px">
+            <input class="form-input" placeholder="نوع المعدة (Paver, Roller...)" id="eq-type-1">
+            <input class="form-input" placeholder="ساعات العمل" type="number" id="eq-work-1">
+            <input class="form-input" placeholder="ساعات العطل" type="number" id="eq-idle-1">
+          </div>
+          <div class="form-row-3" style="margin-bottom:8px">
+            <input class="form-input" placeholder="نوع المعدة" id="eq-type-2">
+            <input class="form-input" placeholder="ساعات العمل" type="number" id="eq-work-2">
+            <input class="form-input" placeholder="ساعات العطل" type="number" id="eq-idle-2">
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="calcEquipmentKPI()">📊 احسب KPI المعدات</button>
+        <div id="dpr-eq-kpi" style="display:none;margin-top:8px;font-size:12px;color:var(--green)"></div>
+      </div>
+      <div class="ncr-section">
+        <div class="ncr-section-title">القسم ج — الأعمال المنجزة + KPI</div>
+        <div class="form-row">
+          <div class="form-group">
+            <div class="form-label">النشاط الرئيسي</div>
+            <input class="form-input" id="dpr-activity" placeholder="Binder Course Ch. 0+340–0+700">
+          </div>
+          <div class="form-group">
+            <div class="form-label">QCS Clause Ref.</div>
+            <input class="form-input" id="dpr-clause" placeholder="QCS 2024 — P8, S4">
+          </div>
+        </div>
+        <div class="form-row-3">
+          <div class="form-group">
+            <div class="form-label">الكمية المخططة</div>
+            <input class="form-input" id="dpr-qty-planned" type="number" placeholder="500">
+          </div>
+          <div class="form-group">
+            <div class="form-label">الكمية المنجزة</div>
+            <input class="form-input" id="dpr-qty-done" type="number" placeholder="460" oninput="calcDPRprogress()">
+          </div>
+          <div class="form-group">
+            <div class="form-label">الوحدة</div>
+            <select class="form-select" id="dpr-unit">
+              <option>م² (m²)</option><option>م³ (m³)</option>
+              <option>طن (Tonne)</option><option>م طولي (LM)</option>
+            </select>
+          </div>
+        </div>
+        <div id="dpr-progress-bar" style="display:none">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:3px">
+            <span>تقدم اليوم</span><span id="dpr-pct">0%</span>
+          </div>
+          <div class="progress"><div class="progress-fill" id="dpr-fill" style="width:0%;background:var(--green)"></div></div>
+        </div>
+      </div>
+      <div class="ncr-section">
+        <div class="ncr-section-title">القسم د — الاختبارات والسلامة</div>
+        <div class="form-row">
+          <div class="form-group">
+            <div class="form-label">الاختبارات المُجراة</div>
+            <textarea class="form-textarea" id="dpr-tests"
+              placeholder="Field Density: 3 tests — Pass 3 / Fail 0&#10;Temperature: Delivery 145°C, Laying 132°C — Pass"></textarea>
+          </div>
+          <div class="form-group">
+            <div class="form-label">ملاحظات السلامة</div>
+            <textarea class="form-textarea" id="dpr-safety"
+              placeholder="TBT عُقد الساعة 7:30 — موضوع: حماية الحفريات&#10;حوادث: لا يوجد&#10;Near Miss: لا يوجد"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="generateDPR()">📅 إنشاء تقرير DPR</button>
+        <button class="btn btn-success" onclick="exportFormExcel('dpr')">📥 تصدير Excel</button>
+        <button class="btn btn-secondary" onclick="printForm('dpr')">🖨️ طباعة</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     PAGE 3: ITP BINDER COURSE
+================================= -->
+<div class="page" id="page-itp">
+  <div class="s-card">
+    <div class="s-card-title">📋 ITP — Binder Course Asphalt | QCS 2024 Parts 8, 9, 10
+      <span class="badge badge-ok">18 اختبار</span>
+      <span class="badge badge-hp">7 Hold Points</span>
+    </div>
+    <div class="form-row-3" style="margin-bottom:14px">
+      <div class="form-group">
+        <div class="form-label">اسم المشروع</div>
+        <input class="form-input" id="itp-proj" placeholder="Project Name">
+      </div>
+      <div class="form-group">
+        <div class="form-label">رقم ITP</div>
+        <input class="form-input" id="itp-num" placeholder="ITP-BC-001" value="ITP-BC-001">
+      </div>
+      <div class="form-group">
+        <div class="form-label">المهندس / التاريخ</div>
+        <input class="form-input" id="itp-eng" placeholder="Eng. Name">
+      </div>
+    </div>
+    <!-- Filter Tabs -->
+    <div class="calc-tabs">
+      <button class="calc-tab active" onclick="filterITP('all',this)">الكل (18)</button>
+      <button class="calc-tab" onclick="filterITP('pre',this)">قبل الإنتاج (5)</button>
+      <button class="calc-tab" onclick="filterITP('prod',this)">أثناء الإنتاج (5)</button>
+      <button class="calc-tab" onclick="filterITP('lay',this)">أثناء الفرش (4)</button>
+      <button class="calc-tab" onclick="filterITP('post',this)">بعد الفرش (4)</button>
+      <button class="calc-tab" onclick="filterITP('hp',this)">Hold Points فقط</button>
+    </div>
+    <div class="itp-wrap">
+      <table class="itp-table" id="itp-main-table">
+        <thead>
+          <tr>
+            <th style="width:38px">م</th>
+            <th style="width:175px">النشاط / الاختبار</th>
+            <th style="width:115px">QCS 2024 Ref.</th>
+            <th style="width:185px">معيار القبول</th>
+            <th style="width:105px">التكرار</th>
+            <th style="width:38px" class="cell-center">Lab</th>
+            <th style="width:34px" class="cell-center">QC</th>
+            <th style="width:34px" class="cell-center">SC</th>
+            <th style="width:65px" class="cell-center">نوع النقطة</th>
+          </tr>
+        </thead>
+        <tbody id="itp-main-body"></tbody>
+      </table>
+    </div>
+    <div class="export-preview" id="itp-export-preview">
+      <div class="export-preview-title">📊 أعمدة Excel عند التصدير — 3 أوراق منظَّمة</div>
+      <div style="font-size:10px;color:var(--text3);margin-bottom:5px">ورقة 1: ITP_Main</div>
+      <div>
+        <span class="col-chip key">Item_No</span><span class="col-chip key">Activity</span><span class="col-chip key">QCS_Ref</span><span class="col-chip key">Acceptance_Criteria</span><span class="col-chip key">Frequency</span><span class="col-chip">Lab</span><span class="col-chip">QC</span><span class="col-chip">SC</span><span class="col-chip key">Point_Type</span>
+      </div>
+      <div style="font-size:10px;color:var(--text3);margin:6px 0 3px">ورقة 2: Hold_Points | ورقة 3: Test_Schedule</div>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-success" onclick="exportITPExcel()">📥 تصدير Excel — 3 أوراق</button>
+      <button class="btn btn-info" onclick="document.getElementById('itp-export-preview').style.display=document.getElementById('itp-export-preview').style.display==='none'?'block':'none'">📊 أعمدة Excel</button>
+      <button class="btn btn-secondary" onclick="copyITPText()">📋 نسخ للـ Word</button>
+      <button class="btn btn-secondary" onclick="window.print()">🖨️ طباعة</button>
+    </div>
+  </div>
+
+  <!-- ITP LEGEND -->
+  <div class="s-card">
+    <div class="s-card-title">مفتاح الرموز — QCS 2024 Reference Clauses</div>
+    <div class="grid-3">
+      <div style="font-size:12px;line-height:2;color:var(--text2)">
+        <span class="pt-tag pt-h">H</span> Hold Point — يُوقف العمل حتى الإفراج من SC<br>
+        <span class="pt-tag pt-w">W</span> Witness Point — بحضور إلزامي من SC/QC<br>
+        <span class="pt-tag pt-r">R</span> Review Point — مراجعة وثائق + موافقة
+      </div>
+      <div style="font-size:12px;line-height:2;color:var(--text2)">
+        Lab = Approved Independent Lab<br>
+        QC = Quality Control Engineer (Contractor)<br>
+        SC = Supervising Consultant (Ashghal)
+      </div>
+      <div style="font-size:11px;color:var(--text3);line-height:1.8">
+        QCS P8 = Roads Specification Part 8<br>
+        QCS P9 = Bituminous Mixes Part 9<br>
+        QCS P10 = Surface Treatments Part 10<br>
+        Ashghal IAN-013 = Pavement Design IAN
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     PAGE 4: CALCULATOR
+================================= -->
+<div class="page" id="page-calc">
+  <div class="s-card">
+    <div class="s-card-title">🧮 حاسبة المواصفات — 38+ اختبار مُباشر
+      <span class="badge badge-ok">Pass / Fail فوري</span>
+    </div>
+    <!-- Category Tabs -->
+    <div class="calc-tabs" id="calc-main-tabs">
+      <button class="calc-tab active" onclick="switchCalcCat('roads',this)">🛣️ الطرق (19)</button>
+      <button class="calc-tab" onclick="switchCalcCat('utilities',this)">🔧 المرافق (13)</button>
+      <button class="calc-tab" onclick="switchCalcCat('structural',this)">🏗️ الإنشاء (5)</button>
+      <button class="calc-tab" onclick="switchCalcCat('geotech',this)">🔬 التربة (6)</button>
+    </div>
+
+    <!-- ROADS -->
+    <div id="calccat-roads">
+      <div class="calc-tabs">
+        <button class="calc-tab active" onclick="switchCalc('comp',this,'roads')">دمك</button>
+        <button class="calc-tab" onclick="switchCalc('cbr',this,'roads')">CBR</button>
+        <button class="calc-tab" onclick="switchCalc('att',this,'roads')">Atterberg</button>
+        <button class="calc-tab" onclick="switchCalc('la',this,'roads')">LA</button>
+        <button class="calc-tab" onclick="switchCalc('fli',this,'roads')">Flakiness</button>
+        <button class="calc-tab" onclick="switchCalc('se',this,'roads')">Sand Eq</button>
+        <button class="calc-tab" onclick="switchCalc('sul',this,'roads')">SO₃</button>
+        <button class="calc-tab" onclick="switchCalc('mar',this,'roads')">Marshall</button>
+        <button class="calc-tab" onclick="switchCalc('core',this,'roads')">Core</button>
+        <button class="calc-tab" onclick="switchCalc('bit',this,'roads')">Bitumen</button>
+        <button class="calc-tab" onclick="switchCalc('temp',this,'roads')">Temp</button>
+        <button class="calc-tab" onclick="switchCalc('str',this,'roads')">Straightedge</button>
+        <button class="calc-tab" onclick="switchCalc('crf',this,'roads')">Crossfall</button>
+        <button class="calc-tab" onclick="switchCalc('iri',this,'roads')">IRI</button>
+        <button class="calc-tab" onclick="switchCalc('lev',this,'roads')">Level</button>
+        <button class="calc-tab" onclick="switchCalc('plt',this,'roads')">Plate Load</button>
+        <button class="calc-tab" onclick="switchCalc('prate',this,'roads')">Spray Rate</button>
+        <button class="calc-tab" onclick="switchCalc('skid',this,'roads')">PSV/Skid</button>
+        <button class="calc-tab" onclick="switchCalc('defl',this,'roads')">Deflect</button>
+      </div>
+
+      <div class="calc-section active" id="calc-comp">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P7 S3.3 / ASTM D1556</span></div>
+        <div class="calc-row"><span class="calc-label">الكثافة الحقلية γd (t/m³):</span><input class="calc-input" id="comp-actual" type="number" step="0.001" placeholder="1.85"><span class="calc-unit">t/m³</span></div>
+        <div class="calc-row"><span class="calc-label">MDD من Proctor (t/m³):</span><input class="calc-input" id="comp-mdd" type="number" step="0.001" placeholder="1.95"><span class="calc-unit">t/m³</span></div>
+        <div class="calc-row"><span class="calc-label">الطبقة / المتطلب:</span><select class="calc-select" id="comp-layer"><option value="95">Subgrade — ≥95% MDD</option><option value="98">Subbase/Base — ≥98% MDD</option><option value="100">Special Fill — ≥100%</option></select></div>
+        <button class="btn btn-primary btn-sm" onclick="calcCompaction()">احسب %</button>
+        <div class="calc-result" id="comp-result"></div>
+      </div>
+      <div class="calc-section" id="calc-cbr">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P7 S3.4 / ASTM D1883 (Soaked 4 days)</span></div>
+        <div class="calc-row"><span class="calc-label">نتيجة CBR (%):</span><input class="calc-input" id="cbr-val" type="number" placeholder="25"></div>
+        <div class="calc-row"><span class="calc-label">الطبقة:</span><select class="calc-select" id="cbr-layer"><option value="15">Subgrade — ≥15% (P7 S3.4.1)</option><option value="8">Subgrade Sabkha — ≥8%</option><option value="70">Subbase — ≥70% (P7 S3.4.2)</option><option value="80">Base Course — ≥80% (P7 S3.4.2)</option></select></div>
+        <button class="btn btn-primary btn-sm" onclick="calcCBR()">تحقق</button>
+        <div class="calc-result" id="cbr-result"></div>
+      </div>
+      <div class="calc-section" id="calc-att">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P7 S3.2 / ASTM D4318</span></div>
+        <div class="calc-row"><span class="calc-label">LL (Liquid Limit %):</span><input class="calc-input" id="att-ll" type="number" placeholder="28"></div>
+        <div class="calc-row"><span class="calc-label">PL (Plastic Limit %):</span><input class="calc-input" id="att-pl" type="number" placeholder="18"></div>
+        <div class="calc-row"><span class="calc-label">الطبقة:</span><select class="calc-select" id="att-layer"><option value="subgrade">Subgrade — LL≤35, PI≤10</option><option value="subbase">Subbase — PI≤6</option><option value="base">Base Course — PI≤4</option></select></div>
+        <button class="btn btn-primary btn-sm" onclick="calcAtterberg()">تحقق</button>
+        <div class="calc-result" id="att-result"></div>
+      </div>
+      <div class="calc-section" id="calc-la">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P7 S3.5 / ASTM C131</span></div>
+        <div class="calc-row"><span class="calc-label">LA Abrasion (%):</span><input class="calc-input" id="la-val" type="number" placeholder="28"></div>
+        <div class="calc-row"><span class="calc-label">الطبقة:</span><select class="calc-select" id="la-layer"><option value="40">Subbase — ≤40%</option><option value="30">Base Course — ≤30%</option><option value="25">Asphalt WC — ≤25%</option></select></div>
+        <button class="btn btn-primary btn-sm" onclick="calcLA()">تحقق</button>
+        <div class="calc-result" id="la-result"></div>
+      </div>
+      <div class="calc-section" id="calc-fli">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P9 S3.3 / BS 812 Pt.105</span></div>
+        <div class="calc-row"><span class="calc-label">Flakiness Index (%):</span><input class="calc-input" id="fli-val" type="number" placeholder="18"></div>
+        <div class="calc-row"><span class="calc-label">الطبقة:</span><select class="calc-select" id="fli-layer"><option value="40">Subbase — ≤40%</option><option value="30">Base — ≤30%</option><option value="25">Binder Course — ≤25%</option><option value="20">Wearing Course — ≤20%</option></select></div>
+        <button class="btn btn-primary btn-sm" onclick="calcFlakiness()">تحقق</button>
+        <div class="calc-result" id="fli-result"></div>
+      </div>
+      <div class="calc-section" id="calc-se">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P9 S3.3 / ASTM D2419</span></div>
+        <div class="calc-row"><span class="calc-label">Sand Equivalent SE (%):</span><input class="calc-input" id="se-val" type="number" placeholder="38"></div>
+        <div class="calc-row"><span class="calc-label">الطبقة:</span><select class="calc-select" id="se-layer"><option value="25">Subbase — ≥25%</option><option value="35">Base Course — ≥35%</option><option value="45">Asphalt Fine Agg — ≥45%</option></select></div>
+        <button class="btn btn-primary btn-sm" onclick="calcSE()">تحقق</button>
+        <div class="calc-result" id="se-result"></div>
+      </div>
+      <div class="calc-section" id="calc-sul">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P7 S3.7 / BS 1377</span></div>
+        <div class="calc-row"><span class="calc-label">نوع العينة:</span><select class="calc-select" id="sul-sample">  <option value="soil">تربة (Soil)</option><option value="agg">ركام (Aggregate)</option></select></div>
+        <div class="calc-row"><span class="calc-label">SO₃ (%):</span><input class="calc-input" id="sul-val" type="number" step="0.01" placeholder="0.3"></div>
+        <div class="calc-row"><span class="calc-label">Chloride Cl% (اختياري):</span><input class="calc-input" id="chl-val" type="number" step="0.001" placeholder="0.02"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcSulphate()">تحقق</button>
+        <div class="calc-result" id="sul-result"></div>
+      </div>
+      <div class="calc-section" id="calc-mar">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P9 S3.5 / ASTM D1559</span></div>
+        <div class="calc-row"><span class="calc-label">Stability (kN):</span><input class="calc-input" id="mar-stab" type="number" step="0.1" placeholder="9.2"></div>
+        <div class="calc-row"><span class="calc-label">Flow (mm):</span><input class="calc-input" id="mar-flow" type="number" step="0.1" placeholder="3.0"></div>
+        <div class="calc-row"><span class="calc-label">Air Voids Va (%):</span><input class="calc-input" id="mar-va" type="number" step="0.1" placeholder="4.0"></div>
+        <div class="calc-row"><span class="calc-label">الطبقة:</span><select class="calc-select" id="mar-layer"><option value="binder">Binder — Stab≥8.0kN</option><option value="wearing">Wearing — Stab≥8.5kN</option><option value="pmb">PMB Wearing — Stab≥10kN</option></select></div>
+        <button class="btn btn-primary btn-sm" onclick="calcMarshall()">تحقق</button>
+        <div class="calc-result" id="mar-result"></div>
+      </div>
+      <div class="calc-section" id="calc-core">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P8 S5.3 / ASTM D6927</span></div>
+        <div class="calc-row"><span class="calc-label">Bulk Density (g/cm³):</span><input class="calc-input" id="core-bulk" type="number" step="0.001" placeholder="2.380"></div>
+        <div class="calc-row"><span class="calc-label">TMD Rice Test (g/cm³):</span><input class="calc-input" id="core-tmd" type="number" step="0.001" placeholder="2.450"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcCore()">احسب %TMD</button>
+        <div class="calc-result" id="core-result"></div>
+      </div>
+      <div class="calc-section" id="calc-bit">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P8 S4.6 / ASTM D2172 — JMF±0.3%</span></div>
+        <div class="calc-row"><span class="calc-label">JMF Target AC (%):</span><input class="calc-input" id="bit-jmf" type="number" step="0.1" placeholder="5.2"></div>
+        <div class="calc-row"><span class="calc-label">Actual AC (%):</span><input class="calc-input" id="bit-act" type="number" step="0.1" placeholder="5.0"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcBitumen()">تحقق ±0.3%</button>
+        <div class="calc-result" id="bit-result"></div>
+      </div>
+      <div class="calc-section" id="calc-temp">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P8 S4.4 / Ashghal IAN-013</span></div>
+        <div class="calc-row"><span class="calc-label">درجة الحرارة (°C):</span><input class="calc-input" id="temp-val" type="number" placeholder="145"></div>
+        <div class="calc-row"><span class="calc-label">المرحلة:</span><select class="calc-select" id="temp-stage"><option value="140,999">Delivery ≥140°C (Conv.)</option><option value="155,999">Delivery ≥155°C (PMB)</option><option value="130,999">Laying ≥130°C</option><option value="120,145">Breakdown 120–145°C</option><option value="80,120">Intermediate 80–120°C</option><option value="60,999">Final ≥60°C</option></select></div>
+        <button class="btn btn-primary btn-sm" onclick="calcTemp()">تحقق</button>
+        <div class="calc-result" id="temp-result"></div>
+      </div>
+      <div class="calc-section" id="calc-str">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P8 S5.4 / BS 7263</span></div>
+        <div class="calc-row"><span class="calc-label">أكبر فجوة تحت 3m (mm):</span><input class="calc-input" id="str-val" type="number" step="0.1" placeholder="3.5"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcStr()">تحقق ≤5mm</button>
+        <div class="calc-result" id="str-result"></div>
+      </div>
+      <div class="calc-section" id="calc-crf">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P8 S5.6 / Ashghal Road Design</span></div>
+        <div class="calc-row"><span class="calc-label">Crossfall (%):</span><input class="calc-input" id="crf-val" type="number" step="0.1" placeholder="2.5"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcCrf()">تحقق 2.0–3.0%</button>
+        <div class="calc-result" id="crf-result"></div>
+      </div>
+      <div class="calc-section" id="calc-iri">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P8 S5.7 / PWA IAN-013</span></div>
+        <div class="calc-row"><span class="calc-label">IRI (m/km):</span><input class="calc-input" id="iri-val" type="number" step="0.1" placeholder="1.1"></div>
+        <div class="calc-row"><span class="calc-label">نوع الخلطة:</span><select class="calc-select" id="iri-type"><option value="1.2">Conv. Bitumen — ≤1.2 m/km</option><option value="0.9">PMB — ≤0.9 m/km</option></select></div>
+        <button class="btn btn-primary btn-sm" onclick="calcIRI()">تحقق</button>
+        <div class="calc-result" id="iri-result"></div>
+      </div>
+      <div class="calc-section" id="calc-lev">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P8 S5.5 / BS 5606</span></div>
+        <div class="calc-row"><span class="calc-label">المنسوب التصميمي (m):</span><input class="calc-input" id="lev-des" type="number" step="0.001" placeholder="12.500"></div>
+        <div class="calc-row"><span class="calc-label">المنسوب الفعلي (m):</span><input class="calc-input" id="lev-act" type="number" step="0.001" placeholder="12.506"></div>
+        <div class="calc-row"><span class="calc-label">التفاوت المسموح:</span><select class="calc-select" id="lev-tol"><option value="10">Subgrade ±10mm</option><option value="8">Base ±8mm</option><option value="8">Binder ±8mm</option><option value="6">Wearing ±6mm</option></select></div>
+        <button class="btn btn-primary btn-sm" onclick="calcLevel()">تحقق</button>
+        <div class="calc-result" id="lev-result"></div>
+      </div>
+      <div class="calc-section" id="calc-plt">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P7 S4.2 / BS 1377 Pt.9</span></div>
+        <div class="calc-row"><span class="calc-label">K الفعلي (MN/m³):</span><input class="calc-input" id="plt-val" type="number" placeholder="50"></div>
+        <div class="calc-row"><span class="calc-label">K المطلوب:</span><input class="calc-input" id="plt-req" type="number" placeholder="40"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcPlate()">تحقق</button>
+        <div class="calc-result" id="plt-result"></div>
+      </div>
+      <div class="calc-section" id="calc-prate">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P10 S3.2 / P8 S4.3</span></div>
+        <div class="calc-row"><span class="calc-label">الكمية المرشوشة (L):</span><input class="calc-input" id="pr-qty" type="number" placeholder="850"></div>
+        <div class="calc-row"><span class="calc-label">المساحة (m²):</span><input class="calc-input" id="pr-area" type="number" placeholder="900"></div>
+        <div class="calc-row"><span class="calc-label">النوع:</span><select class="calc-select" id="pr-type"><option value="0.8,1.2">Prime Coat 0.8–1.2 L/m²</option><option value="0.3,0.5">Tack/Binder 0.3–0.5 L/m²</option><option value="0.2,0.4">Tack/Wearing 0.2–0.4 L/m²</option></select></div>
+        <button class="btn btn-primary btn-sm" onclick="calcSprayRate()">احسب</button>
+        <div class="calc-result" id="pr-result"></div>
+      </div>
+      <div class="calc-section" id="calc-skid">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P8 S5.8 / BS 812 Pt.114</span></div>
+        <div class="calc-row"><span class="calc-label">PSV (Polished Stone Value):</span><input class="calc-input" id="skid-val" type="number" placeholder="57"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcSkid()">تحقق ≥55</button>
+        <div class="calc-result" id="skid-result"></div>
+      </div>
+      <div class="calc-section" id="calc-defl">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P8 S5.9 / Deflectograph Method</span></div>
+        <div class="calc-row"><span class="calc-label">الانحراف (mm):</span><input class="calc-input" id="defl-val" type="number" step="0.01" placeholder="0.45"></div>
+        <div class="calc-row"><span class="calc-label">نوع التطبيق:</span><select class="calc-select" id="defl-type"><option value="0.5">New Construction ≤0.5mm</option><option value="0.8">Overlay ≤0.8mm</option></select></div>
+        <button class="btn btn-primary btn-sm" onclick="calcDefl()">تحقق</button>
+        <div class="calc-result" id="defl-result"></div>
+      </div>
+    </div>
+
+    <!-- UTILITIES CALCS -->
+    <div id="calccat-utilities" style="display:none">
+      <div class="calc-tabs">
+        <button class="calc-tab active" onclick="switchCalc('pres',this,'util')">Pressure</button>
+        <button class="calc-tab" onclick="switchCalc('air',this,'util')">Air Test</button>
+        <button class="calc-tab" onclick="switchCalc('chl',this,'util')">Chlorination</button>
+        <button class="calc-tab" onclick="switchCalc('rcl',this,'util')">Residual Cl</button>
+        <button class="calc-tab" onclick="switchCalc('turb',this,'util')">Turbidity</button>
+        <button class="calc-tab" onclick="switchCalc('ph',this,'util')">pH</button>
+        <button class="calc-tab" onclick="switchCalc('psep',this,'util')">Separation</button>
+        <button class="calc-tab" onclick="switchCalc('grad',this,'util')">Gradient</button>
+        <button class="calc-tab" onclick="switchCalc('mh',this,'util')">Manhole</button>
+        <button class="calc-tab" onclick="switchCalc('cctv',this,'util')">CCTV</button>
+        <button class="calc-tab" onclick="switchCalc('gul',this,'util')">Gully</button>
+        <button class="calc-tab" onclick="switchCalc('pgrad',this,'util')">Pipe Grad</button>
+        <button class="calc-tab" onclick="switchCalc('ec',this,'util')">EC Water</button>
+      </div>
+      <div class="calc-section active" id="calc-pres">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">KAHRAMAA ETA Rev.4 Sec.7.3 — 1.5×PN / 2hr</span></div>
+        <div class="calc-row"><span class="calc-label">PN التصميمي (bar):</span><input class="calc-input" id="p-pn" type="number" step="0.5" placeholder="10"></div>
+        <div class="calc-row"><span class="calc-label">ضغط الاختبار الفعلي (bar):</span><input class="calc-input" id="p-test" type="number" step="0.1" placeholder="15"></div>
+        <div class="calc-row"><span class="calc-label">الضغط الأولي (bar):</span><input class="calc-input" id="p-start" type="number" step="0.01" placeholder="15.00"></div>
+        <div class="calc-row"><span class="calc-label">الضغط بعد 2 ساعة (bar):</span><input class="calc-input" id="p-end" type="number" step="0.01" placeholder="15.00"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcPressure()">تحقق</button>
+        <div class="calc-result" id="pres-result"></div>
+      </div>
+      <div class="calc-section" id="calc-air">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">BS EN 1610:2015 Cl.10.2 — 100mmWG / 5min / ≤25mm drop</span></div>
+        <div class="calc-row"><span class="calc-label">الضغط الأولي (mm WG):</span><input class="calc-input" id="air-start" type="number" placeholder="100"></div>
+        <div class="calc-row"><span class="calc-label">الضغط بعد 5 دقائق:</span><input class="calc-input" id="air-end" type="number" placeholder="82"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcAir()">تحقق ≤25mm</button>
+        <div class="calc-result" id="air-result"></div>
+      </div>
+      <div class="calc-section" id="calc-chl">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">KAHRAMAA ETA — ≥50ppm Cl / ≥24hr contact</span></div>
+        <div class="calc-row"><span class="calc-label">تركيز الكلور (ppm):</span><input class="calc-input" id="chl-conc" type="number" placeholder="60"></div>
+        <div class="calc-row"><span class="calc-label">مدة التلامس (hr):</span><input class="calc-input" id="chl-time" type="number" placeholder="24"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcChlor()">تحقق</button>
+        <div class="calc-result" id="chl-result"></div>
+      </div>
+      <div class="calc-section" id="calc-rcl">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">KAHRAMAA / WHO 0.2–0.5 ppm</span></div>
+        <div class="calc-row"><span class="calc-label">Residual Cl (ppm):</span><input class="calc-input" id="rcl-val" type="number" step="0.01" placeholder="0.3"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcRCl()">تحقق 0.2–0.5</button>
+        <div class="calc-result" id="rcl-result"></div>
+      </div>
+      <div class="calc-section" id="calc-turb">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">KAHRAMAA / WHO ≤1 NTU</span></div>
+        <div class="calc-row"><span class="calc-label">Turbidity (NTU):</span><input class="calc-input" id="turb-val" type="number" step="0.1" placeholder="0.5"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcTurb()">تحقق ≤1 NTU</button>
+        <div class="calc-result" id="turb-result"></div>
+      </div>
+      <div class="calc-section" id="calc-ph">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">KAHRAMAA / WHO pH 6.5–8.5</span></div>
+        <div class="calc-row"><span class="calc-label">pH:</span><input class="calc-input" id="ph-val" type="number" step="0.1" placeholder="7.2"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcPH()">تحقق</button>
+        <div class="calc-result" id="ph-result"></div>
+      </div>
+      <div class="calc-section" id="calc-psep">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P20 S4.3 / KAHRAMAA ETA</span></div>
+        <div class="calc-row"><span class="calc-label">المسافة الأفقية (m):</span><input class="calc-input" id="psep-val" type="number" step="0.01" placeholder="1.2"></div>
+        <div class="calc-row"><span class="calc-label">نوع الفاصل:</span><select class="calc-select" id="psep-type"><option value="1.0">مياه شرب ↔ صرف صحي ≥1.0m</option><option value="0.5">صرف صحي ↔ سطحي ≥0.5m</option></select></div>
+        <button class="btn btn-primary btn-sm" onclick="calcPSep()">تحقق</button>
+        <div class="calc-result" id="psep-result"></div>
+      </div>
+      <div class="calc-section" id="calc-grad">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P22 S4.2 / BS EN 1610</span></div>
+        <div class="calc-row"><span class="calc-label">فرق مناسيب IL (m):</span><input class="calc-input" id="grad-diff" type="number" step="0.001" placeholder="0.350"></div>
+        <div class="calc-row"><span class="calc-label">طول الخط (m):</span><input class="calc-input" id="grad-len" type="number" placeholder="50"></div>
+        <div class="calc-row"><span class="calc-label">أدنى انحدار مطلوب:</span><select class="calc-select" id="grad-min"><option value="100">DN150 — 1:100</option><option value="150">DN200 — 1:150</option><option value="200">DN300 — 1:200</option><option value="300">DN400 — 1:300</option></select></div>
+        <button class="btn btn-primary btn-sm" onclick="calcGrad()">تحقق</button>
+        <div class="calc-result" id="grad-result"></div>
+      </div>
+      <div class="calc-section" id="calc-mh">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P22 S5.4 — Water Tightness Test</span></div>
+        <div class="calc-row"><span class="calc-label">منسوب البداية (m):</span><input class="calc-input" id="mh-s" type="number" step="0.001" placeholder="1.500"></div>
+        <div class="calc-row"><span class="calc-label">المنسوب بعد 24hr (m):</span><input class="calc-input" id="mh-e" type="number" step="0.001" placeholder="1.500"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcMH()">تحقق</button>
+        <div class="calc-result" id="mh-result"></div>
+      </div>
+      <div class="calc-section" id="calc-cctv">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">WRc Sewer Rehabilitation Manual / BS EN 13508 — Grade ≤2</span></div>
+        <div class="calc-row"><span class="calc-label">CCTV Grade:</span><select class="calc-select" id="cctv-g"><option value="1">Grade 1 — No Defects ✅</option><option value="2">Grade 2 — Minor</option><option value="3">Grade 3 — Moderate ❌</option><option value="4">Grade 4 — Severe ❌</option><option value="5">Grade 5 — Collapse ❌</option></select></div>
+        <button class="btn btn-primary btn-sm" onclick="calcCCTV()">تحقق ≤Grade 2</button>
+        <div class="calc-result" id="cctv-result"></div>
+      </div>
+      <div class="calc-section" id="calc-gul">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">Ashghal Road Design — Gully Level ±5mm from Road Surface</span></div>
+        <div class="calc-row"><span class="calc-label">مستوى الطريق (m):</span><input class="calc-input" id="gul-road" type="number" step="0.001" placeholder="12.500"></div>
+        <div class="calc-row"><span class="calc-label">مستوى Gully (m):</span><input class="calc-input" id="gul-gully" type="number" step="0.001" placeholder="12.497"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcGully()">تحقق ±5mm</button>
+        <div class="calc-result" id="gul-result"></div>
+      </div>
+      <div class="calc-section" id="calc-pgrad">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS P22 / BS EN 1610 — Pipe Gradient Calculator</span></div>
+        <div class="calc-row"><span class="calc-label">IL بداية الخط (m):</span><input class="calc-input" id="pg-il1" type="number" step="0.001" placeholder="10.500"></div>
+        <div class="calc-row"><span class="calc-label">IL نهاية الخط (m):</span><input class="calc-input" id="pg-il2" type="number" step="0.001" placeholder="10.000"></div>
+        <div class="calc-row"><span class="calc-label">طول الخط (m):</span><input class="calc-input" id="pg-len" type="number" step="0.1" placeholder="80"></div>
+        <div class="calc-row"><span class="calc-label">قطر الأنبوب:</span><select class="calc-select" id="pg-dn"><option value="150,80">DN150 — min 1:80</option><option value="200,150">DN200 — min 1:150</option><option value="300,200">DN300 — min 1:200</option><option value="400,300">DN400 — min 1:300</option></select></div>
+        <button class="btn btn-primary btn-sm" onclick="calcPipeGrad()">احسب الانحدار</button>
+        <div class="calc-result" id="pgrad-result"></div>
+      </div>
+      <div class="calc-section" id="calc-ec">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">KAHRAMAA / WHO — EC Conductivity</span></div>
+        <div class="calc-row"><span class="calc-label">EC (mS/cm):</span><input class="calc-input" id="ec-val" type="number" step="0.01" placeholder="1.8"></div>
+        <div class="calc-row"><span class="calc-label">نوع الشبكة:</span><select class="calc-select" id="ec-type"><option value="2.5">Potable Water ≤2.5</option><option value="5.0">Treated Water ≤5.0</option></select></div>
+        <button class="btn btn-primary btn-sm" onclick="calcEC()">تحقق</button>
+        <div class="calc-result" id="ec-result"></div>
+      </div>
+    </div>
+
+    <!-- STRUCTURAL CALCS -->
+    <div id="calccat-structural" style="display:none">
+      <div class="calc-tabs">
+        <button class="calc-tab active" onclick="switchCalc('cube',this,'str')">Cube Test</button>
+        <button class="calc-tab" onclick="switchCalc('rebar',this,'str')">Rebar</button>
+        <button class="calc-tab" onclick="switchCalc('slump',this,'str')">Slump</button>
+        <button class="calc-tab" onclick="switchCalc('cover',this,'str')">Cover</button>
+        <button class="calc-tab" onclick="switchCalc('lap',this,'str')">Lap Length</button>
+      </div>
+      <div class="calc-section active" id="calc-cube">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P14 S5.7 / BS EN 12390</span></div>
+        <div class="calc-row"><span class="calc-label">درجة الخرسانة fcu:</span><select class="calc-select" id="cube-grade"><option value="25">C25</option><option value="30">C30</option><option value="35" selected>C35</option><option value="40">C40</option><option value="45">C45</option><option value="50">C50</option></select></div>
+        <div class="calc-row"><span class="calc-label">عمر الاختبار:</span><select class="calc-select" id="cube-age"><option value="0.7">7 يوم ≥70% fcu</option><option value="1.0">28 يوم ≥100% fcu</option></select></div>
+        <div class="calc-row"><span class="calc-label">النتيجة (N/mm²):</span><input class="calc-input" id="cube-res" type="number" step="0.1" placeholder="28.5"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcCube()">تحقق</button>
+        <div class="calc-result" id="cube-result"></div>
+      </div>
+      <div class="calc-section" id="calc-rebar">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P40 S4.2 / BS 4449: Grade 500B</span></div>
+        <div class="calc-row"><span class="calc-label">fy (N/mm²):</span><input class="calc-input" id="reb-fy" type="number" placeholder="520"></div>
+        <div class="calc-row"><span class="calc-label">fu (N/mm²):</span><input class="calc-input" id="reb-fu" type="number" placeholder="640"></div>
+        <div class="calc-row"><span class="calc-label">Elongation % (اختياري):</span><input class="calc-input" id="reb-el" type="number" step="0.1" placeholder="16"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcRebar()">تحقق Grade 500B</button>
+        <div class="calc-result" id="reb-result"></div>
+      </div>
+      <div class="calc-section" id="calc-slump">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P14 S5.4 / BS EN 12350-2</span></div>
+        <div class="calc-row"><span class="calc-label">Slump (mm):</span><input class="calc-input" id="slump-val" type="number" placeholder="90"></div>
+        <div class="calc-row"><span class="calc-label">طريقة الصب:</span><select class="calc-select" id="slump-type"><option value="75,100">عادي 75–100mm</option><option value="100,150">بمضخة 100–150mm</option><option value="175,225">Bored Piles 175–225mm</option></select></div>
+        <button class="btn btn-primary btn-sm" onclick="calcSlump()">تحقق</button>
+        <div class="calc-result" id="slump-result"></div>
+      </div>
+      <div class="calc-section" id="calc-cover">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P40 S4.3.2 / BS 8110</span></div>
+        <div class="calc-row"><span class="calc-label">نوع العنصر:</span><select class="calc-select" id="cover-type"><option value="75">أساسات على تربة — 75mm</option><option value="50">جدران Retaining — 50mm</option><option value="40">أعمدة خارج — 40mm</option><option value="25">بلاطات داخلي — 25mm</option><option value="75">Bored Piles — 75mm</option></select></div>
+        <div class="calc-row"><span class="calc-label">Cover الفعلي (mm):</span><input class="calc-input" id="cover-val" type="number" placeholder="42"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcCover()">تحقق</button>
+        <div class="calc-result" id="cover-result"></div>
+      </div>
+      <div class="calc-section" id="calc-lap">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P40 S4.4 / BS 8110 Cl.3.12.8</span></div>
+        <div class="calc-row"><span class="calc-label">نوع الوصلة:</span><select class="calc-select" id="lap-type"><option value="40">Tension Lap — 40d</option><option value="50">Tension (عدواني) — 50d</option><option value="30">Compression Lap — 30d</option></select></div>
+        <div class="calc-row"><span class="calc-label">قطر القضيب d (mm):</span><input class="calc-input" id="lap-dia" type="number" placeholder="16"></div>
+        <div class="calc-row"><span class="calc-label">طول الوصلة الفعلي (mm):</span><input class="calc-input" id="lap-act" type="number" placeholder="700"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcLap()">تحقق</button>
+        <div class="calc-result" id="lap-result"></div>
+      </div>
+    </div>
+
+    <!-- GEOTECH CALCS -->
+    <div id="calccat-geotech" style="display:none">
+      <div class="calc-tabs">
+        <button class="calc-tab active" onclick="switchCalc('spt',this,'geo')">SPT N-Value</button>
+        <button class="calc-tab" onclick="switchCalc('sulcl',this,'geo')">Sulphate Class</button>
+        <button class="calc-tab" onclick="switchCalc('cbrd',this,'geo')">CBR Design</button>
+        <button class="calc-tab" onclick="switchCalc('piclass',this,'geo')">PI Class</button>
+        <button class="calc-tab" onclick="switchCalc('bc',this,'geo')">Bearing Cap.</button>
+        <button class="calc-tab" onclick="switchCalc('ovality',this,'geo')">Pipe Ovality</button>
+      </div>
+      <div class="calc-section active" id="calc-spt">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P3 S3.2 / ASTM D1586</span></div>
+        <div class="calc-row"><span class="calc-label">N-Value (المرور/30cm):</span><input class="calc-input" id="spt-val" type="number" placeholder="25"></div>
+        <div class="calc-row"><span class="calc-label">نوع التربة:</span><select class="calc-select" id="spt-type"><option value="sand">رمل / Sand</option><option value="clay">طين / Clay</option></select></div>
+        <button class="btn btn-primary btn-sm" onclick="calcSPT()">تصنيف</button>
+        <div class="calc-result" id="spt-result"></div>
+      </div>
+      <div class="calc-section" id="calc-sulcl">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P3 S4.5 / BRE SD1 Sulphate Classes</span></div>
+        <div class="calc-row"><span class="calc-label">نوع العينة:</span><select class="calc-select" id="sulcl-type"><option value="soil">تربة SO₃%</option><option value="water">مياه جوفية mg/L</option></select></div>
+        <div class="calc-row"><span class="calc-label">القيمة المقاسة:</span><input class="calc-input" id="sulcl-val" type="number" step="0.01" placeholder="0.8"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcSulClass()">تصنيف + نوع الأسمنت</button>
+        <div class="calc-result" id="sulcl-result"></div>
+      </div>
+      <div class="calc-section" id="calc-cbrd">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P7 / Ashghal Pavement Design — CBR Suitability</span></div>
+        <div class="calc-row"><span class="calc-label">CBR (%):</span><input class="calc-input" id="cbrd-val" type="number" placeholder="12"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcCBRdesign()">تحديد الاستخدام</button>
+        <div class="calc-result" id="cbrd-result"></div>
+      </div>
+      <div class="calc-section" id="calc-piclass">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS 2024 — P7 S3.2 — Plasticity & Swell Risk</span></div>
+        <div class="calc-row"><span class="calc-label">LL (%):</span><input class="calc-input" id="pi-ll" type="number" placeholder="35"></div>
+        <div class="calc-row"><span class="calc-label">PL (%):</span><input class="calc-input" id="pi-pl" type="number" placeholder="18"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcPIclass()">تصنيف الانتفاخ</button>
+        <div class="calc-result" id="pi-result"></div>
+      </div>
+      <div class="calc-section" id="calc-bc">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">QCS P4 S3 — Bearing Capacity (Meyerhof Approx.)</span></div>
+        <div class="calc-row"><span class="calc-label">N₆₀ (SPT):</span><input class="calc-input" id="bc-n" type="number" placeholder="25"></div>
+        <div class="calc-row"><span class="calc-label">عرض الأساس B (m):</span><input class="calc-input" id="bc-b" type="number" step="0.1" placeholder="1.5"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcBC()">تقدير مبدئي</button>
+        <div class="calc-result" id="bc-result"></div>
+      </div>
+      <div class="calc-section" id="calc-ovality">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:10px">المرجع: <span class="clause-tag">BS EN 1610:2015 Cl.9.4 — Pre-Deflection / Ovality ≤5%</span></div>
+        <div class="calc-row"><span class="calc-label">القطر الاسمي (mm):</span><input class="calc-input" id="ov-nom" type="number" placeholder="300"></div>
+        <div class="calc-row"><span class="calc-label">القطر المقاس (mm):</span><input class="calc-input" id="ov-act" type="number" placeholder="287"></div>
+        <button class="btn btn-primary btn-sm" onclick="calcOvality()">احسب ≤5%</button>
+        <div class="calc-result" id="ov-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     PAGE 5: AI PHOTO ANALYZER
+================================= -->
+<div class="page" id="page-ai_photo">
+  <div class="s-card">
+    <div class="s-card-title">📸 AI Site Inspector — التحليل البصري الميداني
+      <span class="badge badge-pro">Claude Vision</span>
+    </div>
+    <div class="grid-2">
+      <div>
+        <div class="form-group">
+          <div class="form-label">سياق الصورة (اختياري)</div>
+          <input class="form-input" id="photo-context" placeholder="مثال: Core Sample بعد الحفر — Binder Course Layer">
+        </div>
+        <div class="form-group">
+          <div class="form-label">النشاط / المرحلة</div>
+          <select class="form-select" id="photo-activity">
+            <option value="">اختر...</option>
+            <option>Concrete Surface — فحص خرسانة</option>
+            <option>Asphalt Surface — فحص إسفلت</option>
+            <option>Excavation — فحص حفرية</option>
+            <option>Rebar Installation — فحص تسليح</option>
+            <option>Pipe Laying — فحص أنابيب</option>
+            <option>Waterproofing — فحص عزل</option>
+            <option>General Site Safety — سلامة عامة</option>
+          </select>
+        </div>
+        <div class="photo-drop" id="photo-drop"
+          ondragover="event.preventDefault();this.classList.add('over')"
+          ondragleave="this.classList.remove('over')"
+          ondrop="handlePhotoDrop(event)"
+          onclick="document.getElementById('photo-input').click()">
+          <div style="font-size:32px;margin-bottom:8px">📸</div>
+          <div style="font-size:15px;font-weight:600;margin-bottom:6px">اسحب صورة الموقع هنا</div>
+          <div style="font-size:12px;color:var(--text3)">أو اضغط للاختيار — JPG / PNG / WebP / أقل من 10MB</div>
+          <input type="file" id="photo-input" style="display:none" accept="image/*" onchange="handlePhotoSelect(event)">
+        </div>
+        <div id="photo-preview-img" style="display:none;margin-top:12px">
+          <img id="site-photo-thumb" style="width:100%;border-radius:10px;border:1px solid var(--border);max-height:200px;object-fit:cover">
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="btn btn-primary btn-sm" onclick="analyzeSitePhotoLocal()">🔍 تحليل بالذكاء الاصطناعي</button>
+            <button class="btn btn-danger btn-sm" onclick="clearPhoto()">🗑️ مسح</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text3);margin-bottom:10px;font-weight:600">ما يكتشفه الذكاء الاصطناعي:</div>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--text2);line-height:1.8">
+          <div>🔴 <strong style="color:var(--text)">التشققات</strong> — نوعها (Alligator/Longitudinal) وشدتها</div>
+          <div>🟠 <strong style="color:var(--text)">التعشيش</strong> — Honeycombing في الخرسانة وحجم الفجوات</div>
+          <div>🟡 <strong style="color:var(--text)">انتفاخ الإسفلت</strong> — Rutting / Delamination</div>
+          <div>🔵 <strong style="color:var(--text)">غطاء التسليح</strong> — مقارنة بالحد QCS 2024</div>
+          <div>🟢 <strong style="color:var(--text)">سلامة الحفرية</strong> — زاوية الميل vs QHSE</div>
+          <div>⚫ <strong style="color:var(--text)">نوع العازل</strong> — مطابقة مع Approved Submittal</div>
+        </div>
+        <div id="photo-analysis-result" style="display:none;margin-top:14px">
+          <div class="analysis-result" id="photo-analysis-text"></div>
+          <div class="btn-group" style="margin-top:10px">
+            <button class="btn btn-danger btn-sm" onclick="createNCRfromPhoto()">📝 إنشاء NCR من هذا التقرير</button>
+            <button class="btn btn-secondary btn-sm" onclick="copyAnalysis()">📋 نسخ</button>
+          </div>
+        </div>
+        <div id="photo-loading" style="display:none;margin-top:14px">
+          <div style="display:flex;align-items:center;gap:10px;color:var(--text2);font-size:13px">
+            <div class="spinner"></div> جاري التحليل...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="s-card">
+    <div class="s-card-title">📊 جدول حالات الاستخدام — AI Site Inspector</div>
+    <div class="itp-wrap">
+      <table class="itp-table">
+        <thead><tr><th>الحالة الميدانية</th><th>ما يكتشفه AI</th><th>QCS Clause</th><th>الإجراء التلقائي</th></tr></thead>
+        <tbody>
+          <tr><td><strong>خرسانة تعشيش</strong></td><td>Honeycombing — الحجم والموقع والعمق المُقدَّر</td><td class="clause-tag">QCS P14 S5.6.3</td><td>NCR + طلب Core Test Ø50mm</td></tr>
+          <tr><td><strong>تشقق إسفلت</strong></td><td>نوع التشقق: Alligator/Long./Trans. — الامتداد المقدَّر</td><td class="clause-tag">QCS P8 S5.8 / PWA IAN</td><td>Deflectograph مطلوب</td></tr>
+          <tr><td><strong>انهيار جانب حفرية</strong></td><td>زاوية الميل الفعلية vs الآمنة (1:1 للرمل)</td><td class="clause-tag">QCS P1 S8.4 / QHSE</td><td>إيقاف فوري + تقرير سلامة</td></tr>
+          <tr><td><strong>قضبان التسليح</strong></td><td>القطر المُقدَّر من النسب البصرية + مسافة الغطاء</td><td class="clause-tag">QCS P40 S4.3.2</td><td>مقارنة مع AMS المُعتمد</td></tr>
+          <tr><td><strong>عازل مائي</strong></td><td>نوع العازل — وجود فقاعات أو تمزق</td><td class="clause-tag">QCS P17 S3.2</td><td>طلب Spark Test إضافي</td></tr>
+          <tr><td><strong>الرطوبة في الإسفلت</strong></td><td>بقع رطوبة بعد الفرش — عدم الانصهار</td><td class="clause-tag">QCS P8 S4.2.3</td><td>NCR + رفع الطبقة المتأثرة</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     PAGE 6: MISSING SECTIONS
+================================= -->
+<div class="page" id="page-missing">
+  <div class="s-card" style="border-color:rgba(231,76,60,0.3)">
+    <div class="s-card-title" style="color:var(--red)">⚠️ الأقسام المفقودة — فجوات حرجة في QCS 2024
+      <span class="badge badge-hp">رفض ميداني محتمل</span>
+    </div>
+    <div class="itp-wrap">
+      <table class="itp-table gap-table">
+        <thead>
+          <tr>
+            <th>القسم المفقود</th>
+            <th>الأهمية الميدانية</th>
+            <th>QCS Ref.</th>
+            <th>خطر الغياب</th>
+            <th>الأولوية</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Shoring & Excavation Safety</strong></td>
+            <td>كل حفرية عمقها &gt;1.2m تحتاج Shoring Design مُعتمداً</td>
+            <td><span class="clause-tag">QCS P1 S8.4 + QHSE</span></td>
+            <td><span class="pt-tag pt-h">رفض فوري</span></td>
+            <td style="color:var(--red);font-weight:600">فوري</td>
+          </tr>
+          <tr>
+            <td><strong>Dewatering Specifications</strong></td>
+            <td>خفض المياه الجوفية قبل وأثناء الحفر — مطلوب في معظم مناطق قطر</td>
+            <td><span class="clause-tag">QCS P3 S4.2 / P24</span></td>
+            <td><span class="pt-tag pt-h">انهيار حفرية</span></td>
+            <td style="color:var(--red);font-weight:600">فوري</td>
+          </tr>
+          <tr>
+            <td><strong>CCTV Survey Full ITP</strong></td>
+            <td>100% من خطوط الصرف تحتاج CCTV قبل Handover — Hold Point إلزامي</td>
+            <td><span class="clause-tag">BS EN 13508 / WRc Manual</span></td>
+            <td><span class="pt-tag pt-h">رفض Handover</span></td>
+            <td style="color:var(--red);font-weight:600">فوري</td>
+          </tr>
+          <tr>
+            <td><strong>Sabkha Treatment</strong></td>
+            <td>معالجة التربة الملحية الرخوة — شائعة في ساحل قطر</td>
+            <td><span class="clause-tag">QCS P7 S2.5 / Ashghal IAN-006</span></td>
+            <td><span class="pt-tag pt-w">تشقق مبكر</span></td>
+            <td style="color:var(--orange)">عاجل</td>
+          </tr>
+          <tr>
+            <td><strong>Street Lighting ITP</strong></td>
+            <td>اختبارات الإضاءة + التوصيل الكهربائي + العزل</td>
+            <td><span class="clause-tag">QCS P16 / Ashghal ES-C-005</span></td>
+            <td><span class="pt-tag pt-w">تأخر تسليم</span></td>
+            <td style="color:var(--orange)">عاجل</td>
+          </tr>
+          <tr>
+            <td><strong>Traffic Management Plan</strong></td>
+            <td>خطة إدارة المرور TCP أثناء التنفيذ — مطلوبة قبل بدء أي عمل على الطريق</td>
+            <td><span class="clause-tag">Ashghal TCP Requirements</span></td>
+            <td><span class="pt-tag pt-h">إيقاف العمل</span></td>
+            <td style="color:var(--red);font-weight:600">فوري</td>
+          </tr>
+          <tr>
+            <td><strong>Precast Concrete Members</strong></td>
+            <td>فحص وثائق وشهادات المصنع قبل استلام عناصر Precast</td>
+            <td><span class="clause-tag">QCS P14 S6 + BS 8110</span></td>
+            <td><span class="pt-tag pt-w">رفض مواد</span></td>
+            <td style="color:var(--orange)">عاجل</td>
+          </tr>
+          <tr>
+            <td><strong>Landscaping & Irrigation ITP</strong></td>
+            <td>اختبارات ضغط الري + زراعة + تربة حديقة</td>
+            <td><span class="clause-tag">QCS P19 / Ashghal Landscape</span></td>
+            <td><span class="pt-tag pt-r">ملاحظة</span></td>
+            <td style="color:var(--blue)">متوسط</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="s-card">
+    <div class="s-card-title">🔴 تصحيح الأخطاء الحرجة في البيانات الحالية</div>
+    <div class="itp-wrap">
+      <table class="itp-table">
+        <thead><tr><th>الخطأ</th><th>القيمة الخاطئة</th><th>القيمة الصحيحة</th><th>QCS Clause</th><th>خطر الخطأ</th></tr></thead>
+        <tbody>
+          <tr><td>CBR للـ Base Course</td><td style="color:var(--red);font-weight:600">≥70% ❌</td><td style="color:var(--green);font-weight:600">≥80% ✓</td><td><span class="clause-tag">QCS P7 S3.4.2</span></td><td>قبول Base ضعيفة ← تشقق مبكر</td></tr>
+          <tr><td>Core Density للـ Wearing Course</td><td style="color:var(--red);font-weight:600">≥95% TMD ❌</td><td style="color:var(--green);font-weight:600">≥96% TMD ✓</td><td><span class="clause-tag">QCS P8 S5.3</span></td><td>قبول أسفلت هش ← تشقق</td></tr>
+          <tr><td>Marshall للـ Binder</td><td style="color:var(--red);font-weight:600">≥8.5 kN ❌</td><td style="color:var(--green);font-weight:600">≥8.0 kN ✓ (Binder) / ≥8.5 (WC)</td><td><span class="clause-tag">QCS P9 S3.5.1</span></td><td>رفض خلطة جيدة</td></tr>
+          <tr><td>Air Test Drop للـ Foul Sewer</td><td style="color:var(--red);font-weight:600">≤20mm WG ❌</td><td style="color:var(--green);font-weight:600">≤25mm WG in 5min ✓</td><td><span class="clause-tag">BS EN 1610 Cl.10.2</span></td><td>رفض خطوط سليمة</td></tr>
+          <tr><td>Cover للـ Foundation على تربة</td><td style="color:var(--red);font-weight:600">50mm ❌</td><td style="color:var(--green);font-weight:600">75mm ✓</td><td><span class="clause-tag">QCS P40 S4.3.2</span></td><td>خطر تآكل التسليح</td></tr>
+          <tr><td>Atterberg للـ Subgrade</td><td style="color:var(--red);font-weight:600">LL ≤40% ❌</td><td style="color:var(--green);font-weight:600">LL ≤35% ✓</td><td><span class="clause-tag">QCS P7 S3.2.1</span></td><td>قبول تربة انتفاخية</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="s-card">
+    <div class="s-card-title">🗓️ خارطة الطريق — Roadmap التطوير</div>
+    <div style="display:flex;flex-direction:column;gap:0">
+      <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);align-items:flex-start">
+        <span style="background:rgba(231,76,60,0.15);color:var(--red);border-radius:8px;padding:4px 10px;font-size:10px;font-weight:600;white-space:nowrap;margin-top:2px">فوري</span>
+        <div><div style="font-size:13px;font-weight:600;margin-bottom:3px">تصحيح الأخطاء الحرجة + إضافة Clause Ref. لكل اختبار</div><div style="font-size:11px;color:var(--text3)">CBR Base → 80% | Core Density → 96% | Cover Foundation → 75mm | تنسيق [QCS 2024 — Px Sx Cl.x.x] في كل بند</div></div>
+      </div>
+      <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);align-items:flex-start">
+        <span style="background:rgba(231,76,60,0.15);color:var(--red);border-radius:8px;padding:4px 10px;font-size:10px;font-weight:600;white-space:nowrap;margin-top:2px">شهر 1</span>
+        <div><div style="font-size:13px;font-weight:600;margin-bottom:3px">إصلاح Excel Export + تطوير نماذج Ashghal الكاملة</div><div style="font-size:11px;color:var(--text3)">تطبيق Data Normalization | RFI + NCR + DPR بالهيكل الرسمي | 3 أوراق Excel منظَّمة</div></div>
+      </div>
+      <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);align-items:flex-start">
+        <span style="background:rgba(243,156,18,0.12);color:var(--orange);border-radius:8px;padding:4px 10px;font-size:10px;font-weight:600;white-space:nowrap;margin-top:2px">شهر 2–3</span>
+        <div><div style="font-size:13px;font-weight:600;margin-bottom:3px">إضافة الأقسام المفقودة الحرجة</div><div style="font-size:11px;color:var(--text3)">Shoring + Dewatering + CCTV Full ITP + Sabkha Treatment + TCP</div></div>
+      </div>
+      <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);align-items:flex-start">
+        <span style="background:rgba(243,156,18,0.12);color:var(--orange);border-radius:8px;padding:4px 10px;font-size:10px;font-weight:600;white-space:nowrap;margin-top:2px">شهر 3–4</span>
+        <div><div style="font-size:13px;font-weight:600;margin-bottom:3px">AI Site Inspector — دمج Claude Vision</div><div style="font-size:11px;color:var(--text3)">تحليل صور الموقع + اكتشاف العيوب + توليد NCR تلقائي عبر Cloudflare Worker</div></div>
+      </div>
+      <div style="display:flex;gap:14px;padding:14px 0;align-items:flex-start">
+        <span style="background:rgba(46,204,113,0.1);color:var(--green);border-radius:8px;padding:4px 10px;font-size:10px;font-weight:600;white-space:nowrap;margin-top:2px">شهر 5–6</span>
+        <div><div style="font-size:13px;font-weight:600;margin-bottom:3px">Clause Traceability System الكامل</div><div style="font-size:11px;color:var(--text3)">كل معلومة مربوطة بـ QCS Clause قابل للنقر | قاعدة بيانات 5000+ صفحة مواصفات</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="main-toast"></div>
+
+<!-- LANG TOGGLE -->
+<div class="lang-toggle">
+  <button class="lang-btn active" id="btn-ar" onclick="setLang('ar')">عربي</button>
+  <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+</div>
+
+<script>
+// ===== STATE =====
+var _lang = localStorage.getItem('qe_lang') || 'ar';
+var _aiReady = false;
+var _photoData = null;
+var _photoType = null;
+var WORKER_URL = '/api';
+
+// ===== NAVIGATION =====
+function switchPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  var pg = document.getElementById('page-' + id);
+  if (pg) pg.classList.add('active');
+  document.querySelectorAll('.main-tab, .nav-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.includes(id) || b.getAttribute('onclick') && b.getAttribute('onclick').includes("'"+id+"'"));
+  });
+}
+function switchFormTab(id, btn) {
+  ['rfi','ncr','dpr'].forEach(f => {
+    var el = document.getElementById('form-' + f);
+    if (el) el.style.display = f === id ? 'block' : 'none';
+  });
+  document.querySelectorAll('#page-forms .calc-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+}
+function switchCalcCat(id, btn) {
+  ['roads','utilities','structural','geotech'].forEach(c => {
+    var el = document.getElementById('calccat-' + c);
+    if (el) el.style.display = c === id ? 'block' : 'none';
+  });
+  document.querySelectorAll('#calc-main-tabs .calc-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  // activate first sub-tab
+  var first = document.querySelector('#calccat-' + id + ' .calc-tab');
+  if (first) first.click();
+}
+function switchCalc(id, btn, cat) {
+  var parent = btn ? btn.closest('[id^="calccat-"]') : null;
+  if (parent) {
+    parent.querySelectorAll('.calc-section').forEach(s => s.classList.remove('active'));
+    parent.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('active'));
+  }
+  var el = document.getElementById('calc-' + id);
+  if (el) el.classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+// ===== AI HEALTH =====
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('rfi-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('ncr-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('dpr-date').value = new Date().toISOString().split('T')[0];
+  checkAI();
+  renderITP('all');
+});
+async function checkAI() {
+  try {
+    var r = await fetch('/api/health', {signal: AbortSignal.timeout(4000)});
+    _aiReady = r.ok;
+  } catch(e) { _aiReady = false; }
+  var dot = document.getElementById('ai-dot');
+  var txt = document.getElementById('ai-status-txt');
+  if (dot) { dot.className = 'ai-dot' + (_aiReady ? ' on' : ' warn'); }
+  if (txt) txt.textContent = _aiReady ? 'AI مفعّل ✓' : 'وضع بلا إنترنت';
+}
+
+// ===== SEARCH =====
+function qs(q) { document.getElementById('searchQ').value = q; doSearch(); }
+async function doSearch() {
+  var q = document.getElementById('searchQ').value.trim();
+  if (!q) return;
+  var wrap = document.getElementById('ai-answer-wrap');
+  var txt = document.getElementById('ai-answer-text');
+  var ref = document.getElementById('ai-ref');
+  wrap.classList.add('show');
+  wrap.scrollIntoView({behavior:'smooth', block:'nearest'});
+  txt.innerHTML = '<div style="display:flex;align-items:center;gap:10px;color:var(--text2)"><div class="spinner"></div> جاري البحث في QCS 2024...</div>';
+  try {
+    if (!_aiReady) throw new Error('offline');
+    var r = await fetch(WORKER_URL + '/search', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({query: q})
+    });
+    if (!r.ok) throw new Error('err ' + r.status);
+    var data = await r.json();
+    txt.innerHTML = (data.answer || 'لم أجد إجابة.').replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+    ref.textContent = '📖 المرجع: QCS 2024 | ⚠️ راجع المواصفة الأصلية للتأكد';
+  } catch(e) {
+    // Offline fallback — local QCS answers
+    txt.innerHTML = getLocalAnswer(q);
+    ref.textContent = '📖 بيانات محلية — QCS 2024 | ⚠️ راجع الوثيقة الأصلية';
+  }
+}
+function getLocalAnswer(q) {
+  var ql = q.toLowerCase();
+  if (ql.includes('cbr') && (ql.includes('base') || ql.includes('بيس')))
+    return '<strong>CBR — Base Course [QCS 2024 — P7 S3.4.2]:</strong><br>الحد الأدنى: <strong style="color:var(--green)">≥80% (Soaked 4 days)</strong><br>طريقة الاختبار: ASTM D1883<br>التكرار: كل 2,000m²';
+  if (ql.includes('cbr') && (ql.includes('subbase') || ql.includes('سابيس')))
+    return '<strong>CBR — Subbase [QCS 2024 — P7 S3.4.2]:</strong><br>الحد الأدنى: <strong style="color:var(--green)">≥70% (Soaked 4 days)</strong>';
+  if (ql.includes('marshall') || ql.includes('مارشال'))
+    return '<strong>Marshall Test [QCS 2024 — P9 S3.5.1]:</strong><br>Binder Course: Stability <strong style="color:var(--green)">≥8.0 kN</strong>, Flow 2–4mm, Va 3–5%<br>Wearing Course: Stability <strong style="color:var(--green)">≥8.5 kN</strong><br>PMB Wearing: Stability ≥10.0 kN';
+  if (ql.includes('core') || ql.includes('density') || ql.includes('كثافة'))
+    return '<strong>Core Density [QCS 2024 — P8 S5.3]:</strong><br>الحد الأدنى: <strong style="color:var(--green)">≥96% TMD</strong> (Rice Test ASTM D2041)<br>التكرار: كل 1,000m² — 3 عينات كور';
+  if (ql.includes('air test') || ql.includes('صرف'))
+    return '<strong>Air Test — Foul Sewer [BS EN 1610:2015 Cl.10.2]:</strong><br>ضغط أولي: 100mm WG<br>الحد: <strong style="color:var(--green)">≤25mm drop in 5 minutes</strong><br>تطبق على: كل قطاع ≤500m LM';
+  if (ql.includes('pressure') || ql.includes('ضغط') || ql.includes('مياه'))
+    return '<strong>Pressure Test — Water Supply [KAHRAMAA ETA Rev.4 Sec.7.3]:</strong><br>ضغط الاختبار: <strong style="color:var(--green)">1.5 × PN لمدة 2 ساعة</strong><br>القبول: لا انخفاض في الضغط (&lt;0.01 bar)<br>التطبيق: كل قطاع ≤500m LM';
+  if (ql.includes('cover') || ql.includes('غطاء'))
+    return '<strong>Concrete Cover [QCS 2024 — P40 S4.3.2]:</strong><br>أساسات على تربة: <strong style="color:var(--green)">75mm</strong><br>جدران Retaining: 50mm | أعمدة خارجي: 40mm<br>Bored Piles: 75mm | بلاطات داخلي: 25mm';
+  if (ql.includes('compaction') || ql.includes('دمك'))
+    return '<strong>Compaction Requirements [QCS 2024 — P7 S3.3]:</strong><br>Subgrade: <strong>≥95% MDD</strong> (ASTM D1556)<br>Subbase/Base: <strong>≥98% MDD</strong><br>Under Structures: ≥100% MDD';
+  return '<strong>QEngage Pro — وضع بلا اتصال</strong><br>لا يوجد اتصال بخادم AI حالياً.<br>يمكنك استخدام <strong>الحاسبة</strong> للتحقق من نتائج الاختبارات مباشرة.';
+}
+function copyAI() {
+  navigator.clipboard.writeText(document.getElementById('ai-answer-text').innerText)
+    .then(() => toast('✅ تم النسخ'));
+}
+
+// ===== CALCULATOR HELPERS =====
+function showResult(id, pass, detail, clause) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.style.display = 'block';
+  el.className = 'calc-result ' + (pass ? 'pass' : 'fail');
+  el.innerHTML = '<span class="calc-result-icon">' + (pass ? '✅' : '❌') + '</span>'
+    + '<div class="calc-result-main">' + (pass ? 'PASS — مطابق' : 'FAIL — لا يطابق') + '</div>'
+    + '<div class="calc-result-detail">' + detail + '</div>'
+    + (clause ? '<div class="calc-result-clause">📖 ' + clause + '</div>' : '');
+}
+function v(id) { return parseFloat(document.getElementById(id).value); }
+function sv(id) { return document.getElementById(id).value; }
+
+// ===== ROADS CALCULATORS =====
+function calcCompaction() {
+  var a=v('comp-actual'), m=v('comp-mdd'), req=parseFloat(sv('comp-layer'));
+  if(!a||!m) { toast('❌ أدخل الكثافتين'); return; }
+  var pct=(a/m*100); var pass=pct>=req;
+  showResult('comp-result',pass, 'الكثافة: '+pct.toFixed(1)+'% MDD | المطلوب: ≥'+req+'% | الفرق: '+(pct-req).toFixed(1)+'%','QCS 2024 — P7 S3.3 / ASTM D1556');
+}
+function calcCBR() {
+  var val=v('cbr-val'), req=parseFloat(sv('cbr-layer'));
+  if(isNaN(val)) { toast('❌ أدخل النتيجة'); return; }
+  showResult('cbr-result',val>=req,'CBR: '+val+'% | المطلوب: ≥'+req+'% (Soaked 4 days ASTM D1883)','QCS 2024 — P7 S3.4.2');
+}
+function calcAtterberg() {
+  var ll=v('att-ll'), pl=v('att-pl'), lay=sv('att-layer');
+  if(!ll||!pl) { toast('❌ أدخل LL و PL'); return; }
+  var pi=ll-pl;
+  var limits={subgrade:{ll:35,pi:10},subbase:{ll:999,pi:6},base:{ll:999,pi:4}};
+  var lim=limits[lay]||limits.subgrade;
+  var llP=ll<=lim.ll, piP=pi<=lim.pi;
+  showResult('att-result',llP&&piP,'PI='+pi.toFixed(1)+'% '+(piP?'✅':'❌')+' (≤'+lim.pi+'%) | LL='+ll+'% '+(llP?'✅':'❌')+' (≤'+(lim.ll<999?lim.ll:'—')+'%)','QCS 2024 — P7 S3.2 / ASTM D4318');
+}
+function calcLA() { var val=v('la-val'),req=parseFloat(sv('la-layer')); if(isNaN(val)){toast('❌');return;} showResult('la-result',val<=req,'LA Abrasion: '+val+'% | المطلوب: ≤'+req+'%','QCS 2024 — P7 S3.5 / ASTM C131'); }
+function calcFlakiness() { var val=v('fli-val'),req=parseFloat(sv('fli-layer')); if(isNaN(val)){toast('❌');return;} showResult('fli-result',val<=req,'Flakiness Index: '+val+'% | المطلوب: ≤'+req+'%','QCS 2024 — P9 S3.3 / BS 812 Pt.105'); }
+function calcSE() { var val=v('se-val'),req=parseFloat(sv('se-layer')); if(isNaN(val)){toast('❌');return;} showResult('se-result',val>=req,'Sand Equivalent: '+val+'% | المطلوب: ≥'+req+'%','QCS 2024 — P9 S3.3 / ASTM D2419'); }
+function calcSulphate() {
+  var type=sv('sul-sample'), sul=v('sul-val'), chl=v('chl-val');
+  if(isNaN(sul)){toast('❌ أدخل SO₃');return;}
+  var sulReq=type==='soil'?0.5:0.4; var chlReq=type==='soil'?0.6:0.05;
+  var sp=sul<=sulReq; var cp=isNaN(chl)||chl<=chlReq;
+  showResult('sul-result',sp&&cp,'SO₃: '+sul+'% '+(sp?'✅':'❌')+' (≤'+sulReq+'%)'+(isNaN(chl)?'':' | Cl: '+chl+'% '+(cp?'✅':'❌')+' (≤'+chlReq+'%)'),'QCS 2024 — P7 S3.7 / BS 1377');
+}
+function calcMarshall() {
+  var stab=v('mar-stab'),flow=v('mar-flow'),va=v('mar-va'),lay=sv('mar-layer');
+  if(!stab||!flow||!va){toast('❌ أدخل كل البيانات');return;}
+  var stabMin=lay==='pmb'?10:lay==='wearing'?8.5:8.0;
+  var sp=stab>=stabMin, fp=flow>=2&&flow<=4, vp=va>=3&&va<=5;
+  showResult('mar-result',sp&&fp&&vp,'Stability: '+stab+'kN '+(sp?'✅':'❌')+' (≥'+stabMin+') | Flow: '+flow+'mm '+(fp?'✅':'❌')+' | Va: '+va+'% '+(vp?'✅':'❌'),'QCS 2024 — P9 S3.5.1 / ASTM D1559');
+}
+function calcCore() {
+  var b=v('core-bulk'),t=v('core-tmd');
+  if(!b||!t){toast('❌ أدخل كلاهما');return;}
+  var pct=b/t*100;
+  showResult('core-result',pct>=96,'Core Density: '+pct.toFixed(1)+'% TMD | المطلوب: ≥96%','QCS 2024 — P8 S5.3 / ASTM D6927');
+}
+function calcBitumen() {
+  var jmf=v('bit-jmf'),act=v('bit-act');
+  if(!jmf||!act){toast('❌');return;}
+  var diff=Math.abs(act-jmf);
+  showResult('bit-result',diff<=0.3,'JMF: '+jmf+'% | Actual: '+act+'% | الفرق: '+diff.toFixed(2)+'% | المسموح: ±0.3%','QCS 2024 — P8 S4.6 / ASTM D2172');
+}
+function calcTemp() {
+  var val=v('temp-val'); var lims=sv('temp-stage').split(',');
+  if(isNaN(val)){toast('❌');return;}
+  var lo=parseFloat(lims[0]),hi=parseFloat(lims[1]);
+  var pass=val>=lo&&(hi>=999||val<=hi);
+  showResult('temp-result',pass,'درجة الحرارة: '+val+'°C | المطلوب: '+lo+(hi<999?'–'+hi:'+')+'°C','QCS 2024 — P8 S4.4');
+}
+function calcStr() { var val=v('str-val'); if(isNaN(val)){toast('❌');return;} showResult('str-result',val<=5,'الفجوة: '+val+'mm | المطلوب: ≤5mm','QCS 2024 — P8 S5.4 / BS 7263'); }
+function calcCrf() { var val=v('crf-val'); if(isNaN(val)){toast('❌');return;} showResult('crf-result',val>=2&&val<=3,'Crossfall: '+val+'% | المطلوب: 2.0–3.0%','QCS 2024 — P8 S5.6'); }
+function calcIRI() { var val=v('iri-val'),req=parseFloat(sv('iri-type')); if(isNaN(val)){toast('❌');return;} showResult('iri-result',val<=req,'IRI: '+val+' m/km | المطلوب: ≤'+req,'QCS 2024 — P8 S5.7 / PWA IAN-013'); }
+function calcLevel() {
+  var des=v('lev-des'),act=v('lev-act'),tol=parseFloat(sv('lev-tol'));
+  if(isNaN(des)||isNaN(act)){toast('❌');return;}
+  var diff=Math.abs(act-des)*1000;
+  showResult('lev-result',diff<=tol,'الفرق: '+diff.toFixed(1)+'mm | المسموح: ±'+tol+'mm','QCS 2024 — P8 S5.5 / BS 5606');
+}
+function calcPlate() { var val=v('plt-val'),req=v('plt-req'); if(!val||!req){toast('❌');return;} showResult('plt-result',val>=req,'K: '+val+' MN/m³ | المطلوب: ≥'+req,'QCS 2024 — P7 S4.2'); }
+function calcSprayRate() {
+  var qty=v('pr-qty'),area=v('pr-area'); if(!qty||!area){toast('❌');return;}
+  var rate=qty/area; var lims=sv('pr-type').split(',');
+  var lo=parseFloat(lims[0]),hi=parseFloat(lims[1]);
+  showResult('pr-result',rate>=lo&&rate<=hi,'معدل الرش: '+rate.toFixed(3)+' L/m² | المطلوب: '+lo+'–'+hi,'QCS 2024 — P10 S3.2 / P8 S4.3');
+}
+function calcSkid() { var val=v('skid-val'); if(isNaN(val)){toast('❌');return;} showResult('skid-result',val>=55,'PSV: '+val+' | المطلوب: ≥55','QCS 2024 — P8 S5.8 / BS 812 Pt.114'); }
+function calcDefl() { var val=v('defl-val'),req=parseFloat(sv('defl-type')); if(isNaN(val)){toast('❌');return;} showResult('defl-result',val<=req,'الانحراف: '+val+'mm | المطلوب: ≤'+req+'mm','QCS 2024 — P8 S5.9'); }
+
+// ===== UTILITIES CALCULATORS =====
+function calcPressure() {
+  var pn=v('p-pn'),test=v('p-test'),start=v('p-start'),end=v('p-end');
+  if(!pn||!test||isNaN(start)||isNaN(end)){toast('❌ أدخل كل البيانات');return;}
+  var reqT=pn*1.5; var drop=start-end;
+  var tp=test>=reqT; var dp=drop<=0.01;
+  showResult('pres-result',tp&&dp,'ضغط الاختبار: '+test+'bar '+(tp?'✅':'❌')+' (≥'+reqT.toFixed(1)+') | الانخفاض: '+drop.toFixed(3)+' bar '+(dp?'✅':'❌'),'KAHRAMAA ETA Rev.4 Sec.7.3.1');
+}
+function calcAir() { var s=v('air-start'),e=v('air-end'); if(!s||!e){toast('❌');return;} var drop=s-e; showResult('air-result',drop<=25,'الانخفاض: '+drop.toFixed(1)+' mm WG | المطلوب: ≤25mm في 5 دقائق','BS EN 1610:2015 Cl.10.2'); }
+function calcChlor() { var c=v('chl-conc'),t=v('chl-time'); if(!c||!t){toast('❌');return;} showResult('chl-result',c>=50&&t>=24,'التركيز: '+c+' ppm '+(c>=50?'✅':'❌')+' | المدة: '+t+'hr '+(t>=24?'✅':'❌'),'KAHRAMAA ETA — Chlorination Spec.'); }
+function calcRCl() { var val=v('rcl-val'); if(isNaN(val)){toast('❌');return;} showResult('rcl-result',val>=0.2&&val<=0.5,'Residual Cl: '+val+' ppm | المطلوب: 0.2–0.5','KAHRAMAA / WHO'); }
+function calcTurb() { var val=v('turb-val'); if(isNaN(val)){toast('❌');return;} showResult('turb-result',val<=1,'Turbidity: '+val+' NTU | المطلوب: ≤1','KAHRAMAA / WHO'); }
+function calcPH() { var val=v('ph-val'); if(isNaN(val)){toast('❌');return;} showResult('ph-result',val>=6.5&&val<=8.5,'pH: '+val+' | المطلوب: 6.5–8.5','KAHRAMAA / WHO'); }
+function calcPSep() { var val=v('psep-val'),req=parseFloat(sv('psep-type')); if(isNaN(val)){toast('❌');return;} showResult('psep-result',val>=req,'المسافة: '+val+'m | المطلوب: ≥'+req+'m','QCS 2024 — P20 S4.3'); }
+function calcGrad() {
+  var diff=v('grad-diff'),len=v('grad-len'),req=parseFloat(sv('grad-min'));
+  if(!diff||!len){toast('❌');return;}
+  var ratio=len/diff; var pass=ratio<=req;
+  showResult('grad-result',pass,'الانحدار: 1:'+ratio.toFixed(0)+' ('+(diff/len*100).toFixed(3)+'%) | المطلوب: 1:'+req+' أو أشد','QCS 2024 — P22 S4.2 / BS EN 1610');
+}
+function calcMH() {
+  var s=v('mh-s'),e=v('mh-e'); if(isNaN(s)||isNaN(e)){toast('❌');return;}
+  var drop=Math.abs(s-e)*1000;
+  showResult('mh-result',drop===0,'انخفاض المياه: '+drop.toFixed(1)+'mm | المطلوب: صفر تسريب','QCS 2024 — P22 S5.4');
+}
+function calcCCTV() {
+  var g=parseInt(sv('cctv-g'));
+  var desc=['','No Defects ✅','Minor — مقبول بشرط','Moderate — يُعاد ❌','Severe — يُعاد ❌','Collapse — طوارئ ❌'];
+  showResult('cctv-result',g<=2,'CCTV Grade '+g+': '+desc[g]+' | المقبول: Grade 1 أو 2','WRc Manual / BS EN 13508 — Grade ≤2');
+}
+function calcGully() {
+  var road=v('gul-road'),gul=v('gul-gully'); if(isNaN(road)||isNaN(gul)){toast('❌');return;}
+  var diff=Math.abs(road-gul)*1000;
+  showResult('gul-result',diff<=5,'الفرق: '+diff.toFixed(1)+'mm | المسموح: ±5mm','Ashghal Road Design Standard');
+}
+function calcPipeGrad() {
+  var il1=v('pg-il1'),il2=v('pg-il2'),len=v('pg-len');
+  if(isNaN(il1)||isNaN(il2)||isNaN(len)||len<=0){toast('❌ أدخل كل البيانات');return;}
+  var fall=il1-il2;
+  if(fall<=0){showResult('pgrad-result',false,'⚠️ المنسوب غير صحيح — يجب أن يكون IL1 أعلى من IL2',''); return;}
+  var ratio=len/fall; var parts=sv('pg-dn').split(',');
+  var dn=parseFloat(parts[0]),minRat=parseFloat(parts[1]);
+  showResult('pgrad-result',ratio<=minRat,'الانحدار: 1:'+ratio.toFixed(0)+' ('+(fall/len*100).toFixed(3)+'%) | الحد: 1:'+minRat+' (DN'+dn+')','QCS P22 / BS EN 1610');
+}
+function calcEC() { var val=v('ec-val'),req=parseFloat(sv('ec-type')); if(isNaN(val)){toast('❌');return;} showResult('ec-result',val<=req,'EC: '+val+' mS/cm | المطلوب: ≤'+req,'KAHRAMAA / WHO'); }
+
+// ===== STRUCTURAL CALCULATORS =====
+function calcCube() {
+  var grade=parseFloat(sv('cube-grade')),mul=parseFloat(sv('cube-age')),res=v('cube-res');
+  if(!res){toast('❌ أدخل النتيجة');return;}
+  var req=grade*mul;
+  showResult('cube-result',res>=req,'النتيجة: '+res+' N/mm² | المطلوب: ≥'+req.toFixed(1)+' N/mm² (C'+grade+' × '+mul+')','QCS 2024 — P14 S5.7 / BS EN 12390');
+}
+function calcRebar() {
+  var fy=v('reb-fy'),fu=v('reb-fu'),el=v('reb-el');
+  if(!fy||!fu){toast('❌ أدخل fy و fu');return;}
+  var fp=fy>=500; var up=fu>=600; var rp=fu/fy>=1.15; var ep=isNaN(el)||el>=14;
+  showResult('reb-result',fp&&up&&rp&&ep,'fy: '+fy+' '+(fp?'✅':'❌')+' (≥500) | fu: '+fu+' '+(up?'✅':'❌')+' (≥600) | fu/fy: '+(fu/fy).toFixed(2)+' '+(rp?'✅':'❌')+(isNaN(el)?'':' | El: '+el+'% '+(ep?'✅':'❌')),'QCS P40 S4.2 / BS 4449 Grade 500B');
+}
+function calcSlump() {
+  var val=v('slump-val'); var lims=sv('slump-type').split(',');
+  if(isNaN(val)){toast('❌');return;}
+  var lo=parseFloat(lims[0]),hi=parseFloat(lims[1]);
+  showResult('slump-result',val>=lo&&val<=hi,'Slump: '+val+'mm | المطلوب: '+lo+'–'+hi+'mm','QCS 2024 — P14 S5.4 / BS EN 12350-2');
+}
+function calcCover() { var req=parseFloat(sv('cover-type')),val=v('cover-val'); if(isNaN(val)){toast('❌');return;} showResult('cover-result',val>=req,'Cover: '+val+'mm | المطلوب: ≥'+req+'mm','QCS 2024 — P40 S4.3.2 / BS 8110'); }
+function calcLap() {
+  var m=parseFloat(sv('lap-type')),d=v('lap-dia'),a=v('lap-act');
+  if(!d||!a){toast('❌');return;}
+  var req=m*d;
+  showResult('lap-result',a>=req,'Actual: '+a+'mm | المطلوب: '+m+'d = '+req+'mm (d='+d+'mm)','QCS 2024 — P40 S4.4 / BS 8110 Cl.3.12.8');
+}
+
+// ===== GEOTECH CALCULATORS =====
+function calcSPT() {
+  var val=v('spt-val'),type=sv('spt-type'); if(isNaN(val)){toast('❌');return;}
+  var desc,pass;
+  if(type==='sand'){
+    if(val<4){desc='رخو جداً (Very Loose) — خطر انهيار';pass=false;}
+    else if(val<10){desc='رخو (Loose)';pass=false;}
+    else if(val<30){desc='متوسط الكثافة (Medium Dense)';pass=true;}
+    else if(val<50){desc='كثيف (Dense) ✅';pass=true;}
+    else{desc='كثيف جداً (Very Dense) ✅✅';pass=true;}
+  } else {
+    if(val<2){desc='طري جداً (Very Soft) — غير صالح';pass=false;}
+    else if(val<4){desc='طري (Soft)';pass=false;}
+    else if(val<8){desc='متوسط (Medium Stiff)';pass=true;}
+    else if(val<15){desc='صلب (Stiff) ✅';pass=true;}
+    else{desc='صلب جداً / قاسي ✅✅';pass=true;}
+  }
+  showResult('spt-result',pass,'N = '+val+' blows/30cm | '+desc,'QCS 2024 — P3 S3.2 / ASTM D1586');
+}
+function calcSulClass() {
+  var type=sv('sulcl-type'),val=v('sulcl-val'); if(isNaN(val)){toast('❌');return;}
+  var cls,cement,pass;
+  if(type==='soil'){
+    if(val<0.2){cls='Class 1';cement='OPC عادي';pass=true;}
+    else if(val<0.5){cls='Class 2';cement='SRPC أو OPC+GGBS ≥50%';pass=true;}
+    else if(val<1.0){cls='Class 3';cement='SRPC إلزامي';pass=false;}
+    else{cls='Class 4–5';cement='SRPC + Coating + دراسة خاصة';pass=false;}
+  } else {
+    if(val<400){cls='Class 1';cement='OPC عادي';pass=true;}
+    else if(val<1500){cls='Class 2';cement='SRPC أو GGBS ≥50%';pass=true;}
+    else{cls='Class 3+';cement='SRPC إلزامي';pass=false;}
+  }
+  showResult('sulcl-result',pass,cls+' | '+val+(type==='soil'?'%':' mg/L')+' | الأسمنت المطلوب: '+cement,'QCS 2024 — P3 S4.5 / BRE SD1');
+}
+function calcCBRdesign() {
+  var val=v('cbrd-val'); if(isNaN(val)){toast('❌');return;}
+  var desc,pass;
+  if(val<3){desc='❌ غير صالح للبناء — استبدال كامل';pass=false;}
+  else if(val<8){desc='⚠️ Subgrade ضعيف — يحتاج Lime Treatment';pass=false;}
+  else if(val<70){desc='✅ Subgrade فقط (ليس Subbase)';pass=true;}
+  else if(val<80){desc='✅ Subbase (ليس Base)';pass=true;}
+  else{desc='✅✅ مناسب للـ Base Course';pass=true;}
+  showResult('cbrd-result',pass,'CBR = '+val+'% | '+desc,'QCS 2024 — P7 / Ashghal Pavement Design Manual');
+}
+function calcPIclass() {
+  var ll=v('pi-ll'),pl=v('pi-pl'); if(!ll||!pl){toast('❌');return;}
+  var pi=ll-pl; var swell,pass;
+  if(pi<5){swell='لا انتفاخ';pass=true;}
+  else if(pi<10){swell='انتفاخ منخفض';pass=true;}
+  else if(pi<20){swell='انتفاخ متوسط — تحقق مطلوب';pass=false;}
+  else{swell='انتفاخ شديد — Lime/Cement Treatment إلزامي';pass=false;}
+  showResult('pi-result',pass,'PI = '+pi+'% | LL = '+ll+'% | '+swell,'QCS 2024 — P7 S3.2 — Swell Risk Assessment');
+}
+function calcBC() {
+  var n=v('bc-n'),b=v('bc-b'); if(!n||!b){toast('❌');return;}
+  var qa=Math.round((n/4)*(1+b/30)*10);
+  showResult('bc-result',qa>=100,'تحمل مبدئي ≈ '+qa+' kPa | N₆₀='+n+' | B='+b+'m | ⚠️ تقدير أولي — يلزم تحليل جسات','QCS P4 S3 / Meyerhof Approximate Method');
+}
+function calcOvality() {
+  var nom=v('ov-nom'),act=v('ov-act'); if(!nom||!act){toast('❌');return;}
+  var pct=((nom-act)/nom*100);
+  showResult('ov-result',pct<=5,'التشوه: '+pct.toFixed(2)+'% | المطلوب: ≤5%','BS EN 1610:2015 Cl.9.4 — Pipe Pre-Deflection');
+}
+
+// ===== ITP DATA & RENDER =====
+var ITP_ROWS = [
+  {ph:'pre',item:'01',act:'تحقق الطبقة السابقة مُعتمدة',sub:'Subbase/Base — ITP مُغلق + Level Survey مقبول',qcs:'P8 S4.1 / P7 S5.6',crit:'ITP سابق مُغلق ✓\nLevel ±10mm ✓\nصفر NCR مفتوح ✓',freq:'قبل بدء الفرش',lab:'—',qc:'H',sc:'H',type:'H'},
+  {ph:'pre',item:'02',act:'اعتماد JMF',sub:'ASTM D1559 — تُقدَّم قبل 14 يوم',qcs:'P9 S3.2.1 / P8 S3.1',crit:'JMF مُعتمد من SC ✓\nBitumen Grade 60/70 أو PMB\nAC% within JMF ±0.3%',freq:'Per Mix Design',lab:'W',qc:'H',sc:'H',type:'H'},
+  {ph:'pre',item:'03',act:'Trial Compaction',sub:'قطعة تجريبية 50m × Full Width',qcs:'P8 S4.2 / Ashghal IAN-013',crit:'Core Density ≥96% TMD ✓\nThickness = Design ±5mm ✓\nNo. Roller Passes confirmed ✓',freq:'مرة واحدة (أو عند تغيير المعدات)',lab:'W',qc:'H',sc:'H',type:'H'},
+  {ph:'pre',item:'04',act:'Tack Coat Application Rate',sub:'Emulsion RS-1/SS-1 — توزيع منتظم',qcs:'P10 S3.2 / P8 S4.3',crit:'معدل: 0.30–0.50 L/m²\nسطح جاف ونظيف\nتوزيع منتظم — لا بقع',freq:'كل قطاع قبل الفرش',lab:'—',qc:'W',sc:'W',type:'W'},
+  {ph:'pre',item:'05',act:'فحص الطقس (Weather Check)',sub:'لا فرش في ظروف غير ملائمة',qcs:'P8 S4.2.3 / Ashghal IAN-013',crit:'حرارة جوية ≥10°C\nلا مطر / توقع مطر\nرياح <30 km/h\nسطح الطريق جاف',freq:'يومياً + قبل كل فرش',lab:'—',qc:'R',sc:'R',type:'R'},
+  {ph:'prod',item:'06',act:'درجة حرارة التسليم',sub:'قياس مباشر من الشاحنة',qcs:'P8 S4.4.1 / BS EN 12697-13',crit:'≥140°C (Conv.) / ≥155°C (PMB)\nأقل → رفض الحمل فوراً',freq:'كل شاحنة (100%)',lab:'—',qc:'W',sc:'W',type:'W'},
+  {ph:'prod',item:'07',act:'Bitumen Content Extraction',sub:'ASTM D2172 / BS EN 12697-1',qcs:'P9 S3.5.2 / P8 S4.6',crit:'AC% = JMF ± 0.3%\nمثال: JMF=5.2% → 4.9–5.5%',freq:'كل 200 طن',lab:'W',qc:'W',sc:'H',type:'H'},
+  {ph:'prod',item:'08',act:'Marshall Stability + Flow',sub:'ASTM D1559 — 3 عينات',qcs:'P9 S3.5.1 / ASTM D1559',crit:'Stability ≥8.0 kN (Binder)\nFlow = 2.0–4.0 mm\nS/F Quotient ≥2.5 kN/mm',freq:'كل 200 طن',lab:'W',qc:'W',sc:'H',type:'H'},
+  {ph:'prod',item:'09',act:'Air Voids Va + VMA + VFB',sub:'ASTM D3203 — نفس Marshall Samples',qcs:'P9 S3.5.1',crit:'Va = 3.0–5.0%\nVMA ≥14%\nVFB = 65–75%',freq:'كل 200 طن',lab:'W',qc:'W',sc:'H',type:'H'},
+  {ph:'prod',item:'10',act:'Grading Analysis (تحليل المنخل)',sub:'ASTM C136 — للركام والخلطة',qcs:'P9 S3.3 / Table 9.1',crit:'ضمن Grading Envelope (Table 9.1)\n0.075mm = 4–8%\nفتيل أقصى = 19mm',freq:'كل 500 طن',lab:'W',qc:'W',sc:'R',type:'W'},
+  {ph:'lay',item:'11',act:'درجة حرارة الفرش (Laying Temp)',sub:'خلف الفاينيشر مباشرة',qcs:'P8 S4.4.2',crit:'≥130°C (Conv.) / ≥145°C (PMB)\nأقل → تنبيه + توقف',freq:'كل شاحنة',lab:'—',qc:'W',sc:'W',type:'W'},
+  {ph:'lay',item:'12',act:'Breakdown Rolling Temp',sub:'قبل أول تمرير رول',qcs:'P8 S4.5.1',crit:'120–145°C\n6 تمريرات رول ثقيل (10–12T)\nسرعة: 4–6 km/h',freq:'كل ساعة',lab:'—',qc:'W',sc:'W',type:'W'},
+  {ph:'lay',item:'13',act:'Intermediate Rolling Temp',sub:'Steel Drum — Vibration Mode',qcs:'P8 S4.5.2',crit:'80–120°C\n4 تمريرات\nسرعة 4–6 km/h',freq:'كل ساعة',lab:'—',qc:'W',sc:'R',type:'W'},
+  {ph:'lay',item:'14',act:'Final Rolling Temp',sub:'Rubber Tired Roller',qcs:'P8 S4.5.3',crit:'≥60°C\nيُغلق السطح قبل هذا الحد',freq:'End of compaction',lab:'—',qc:'W',sc:'R',type:'R'},
+  {ph:'post',item:'15',act:'Core Density % TMD',sub:'ASTM D6927 / ASTM D2041 — كور Ø100mm',qcs:'P8 S5.3 / P9 S3.5.3',crit:'≥96% TMD (Median of 3 cores)\nلا كور بأقل من 93% (Rejection)',freq:'كل 1,000 م²',lab:'W',qc:'H',sc:'H',type:'H'},
+  {ph:'post',item:'16',act:'Thickness Check (كور الكثافة)',sub:'من نفس كور الكثافة',qcs:'P8 S5.2',crit:'Binder = Design ± 5mm\n(مثال: Design 60mm → 55–65mm)\nأقل من Min → NCR',freq:'كل 1,000 م²',lab:'W',qc:'H',sc:'H',type:'H'},
+  {ph:'post',item:'17',act:'Level Survey (مسح المستويات)',sub:'Total Station — Grid 25×25m',qcs:'P8 S5.5 / BS 5606',crit:'Design Level ± 8mm (Binder)\nCrossfall = 2.0–3.0%\nLong. Grade = Design ±0.1%',freq:'شبكة 25×25م',lab:'—',qc:'W',sc:'H',type:'H'},
+  {ph:'post',item:'18',act:'3m Straightedge Flatness',sub:'قياس عشوائي على طول المسار',qcs:'P8 S5.4 / BS 7263',crit:'Max Gap ≤ 5mm under 3m\n≥5mm → NCR + Re-rolling',freq:'كل 100 م طولي',lab:'—',qc:'W',sc:'W',type:'W'},
+];
+
+var phaseLabels = {pre:'قبل الإنتاج — Pre-Production',prod:'أثناء الإنتاج — During Production',lay:'أثناء الفرش — Laying & Compaction',post:'بعد الفرش — Post-Laying'};
+
+function filterITP(filter, btn) {
+  document.querySelectorAll('#page-itp .calc-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderITP(filter);
+}
+
+function renderITP(filter) {
+  var tbody = document.getElementById('itp-main-body');
+  if (!tbody) return;
+  var rows = filter === 'all' ? ITP_ROWS :
+             filter === 'hp' ? ITP_ROWS.filter(r => r.type === 'H') :
+             ITP_ROWS.filter(r => r.ph === filter);
+  var lastPh = '';
+  tbody.innerHTML = rows.map(r => {
+    var phRow = '';
+    if (r.ph !== lastPh && filter === 'all') {
+      lastPh = r.ph;
+      phRow = '<tr class="phase-row"><td colspan="9">'+phaseLabels[r.ph]+'</td></tr>';
+    }
+    var typeTag = r.type==='H'?'<span class="pt-tag pt-h">H — Hold</span>':r.type==='W'?'<span class="pt-tag pt-w">W — Witness</span>':'<span class="pt-tag pt-r">R — Review</span>';
+    var dot = v2 => v2==='H'?'<span class="itp-dot dot-h"></span>':v2==='W'?'<span class="itp-dot dot-w"></span>':v2==='R'?'<span class="itp-dot dot-r"></span>':'<span style="font-size:9px;color:var(--text4)">—</span>';
+    return phRow + '<tr><td class="cell-center" style="color:var(--text3);font-size:10px">' + r.item + '</td><td><strong style="font-size:11px">' + r.act + '</strong><br><span style="font-size:10px;color:var(--text3)">' + r.sub + '</span></td><td><span class="clause-tag">' + r.qcs + '</span></td><td style="font-size:11px">' + r.crit.replace(/\n/g,'<br>') + '</td><td style="font-size:10px;color:var(--text3)">' + r.freq + '</td><td class="cell-center">' + dot(r.lab) + '</td><td class="cell-center">' + dot(r.qc) + '</td><td class="cell-center">' + dot(r.sc) + '</td><td class="cell-center">' + typeTag + '</td></tr>';
+  }).join('');
+}
+
+function exportITPExcel() {
+  var proj = document.getElementById('itp-proj').value || 'Project';
+  var itpn = document.getElementById('itp-num').value || 'ITP-BC-001';
+  var eng  = document.getElementById('itp-eng').value || '';
+  var date = new Date().toLocaleDateString('ar-QA');
+  var sep = '\t';
+  var tsv = [
+    ['QatarSpec Pro — ITP: Binder Course Asphalt','','','','','','','',''],
+    ['المشروع:',proj,'','رقم ITP:',itpn,'','المهندس:',eng,''],
+    ['المرجع:','QCS 2024 — P8/P9/P10','','التاريخ:',date,'','','',''],
+    ['','','','','','','','',''],
+    ['Item No.','Activity','QCS 2024 Ref.','Acceptance Criteria','Frequency','Lab','QC','SC','Point Type']
+  ].map(r => r.join(sep)).join('\n') + '\n';
+  ITP_ROWS.forEach(r => {
+    tsv += [r.item,r.act,r.qcs,r.crit.replace(/\n/g,' | '),r.freq,r.lab,r.qc,r.sc,r.type==='H'?'Hold Point':r.type==='W'?'Witness Point':'Review Point'].join(sep)+'\n';
+  });
+  tsv += '\n\nHold Points Summary\n' + ['Item','Activity','QCS Ref.','Criteria','Type'].join(sep)+'\n';
+  ITP_ROWS.filter(r=>r.type==='H'||r.type==='W').forEach(r=>{
+    tsv += [r.item,r.act,r.qcs,r.crit.replace(/\n/g,' | '),r.type==='H'?'Hold Point':'Witness Point'].join(sep)+'\n';
+  });
+  var blob = new Blob(['\uFEFF'+tsv],{type:'text/tab-separated-values;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a'); a.href=url; a.download='ITP-Binder-'+itpn+'.xls'; a.click();
+  URL.revokeObjectURL(url);
+  toast('✅ تم تصدير ITP — افتح بـ Excel');
+}
+
+function copyITPText() {
+  var proj = document.getElementById('itp-proj').value || 'المشروع';
+  var itpn = document.getElementById('itp-num').value || 'ITP-BC-001';
+  var txt = 'ITP — Binder Course Asphalt\nالمشروع: '+proj+' | رقم ITP: '+itpn+'\nالمرجع: QCS 2024 — Part 8, Part 9, Part 10\n'+'='.repeat(80)+'\n\n';
+  ITP_ROWS.forEach(r=>{
+    txt += r.item+' | '+r.act+'\n    QCS: '+r.qcs+'\n    القبول: '+r.crit.replace(/\n/g,' / ')+'\n    التكرار: '+r.freq+' | '+r.type+'\n\n';
+  });
+  navigator.clipboard.writeText(txt).then(()=>toast('✅ تم النسخ — الصق في Word'));
+}
+
+// ===== FORMS =====
+function setSeverity(el, val) {
+  document.querySelectorAll('.sev-opt').forEach(o=>o.classList.remove('active'));
+  el.classList.add('active');
+}
+function generateRFI() {
+  var num = document.getElementById('rfi-num').value || 'RFI-001';
+  var loc = document.getElementById('rfi-location').value;
+  var clause = document.getElementById('rfi-clause').value;
+  if (!loc || !clause) { toast('⚠️ أدخل Work Location و QCS Clause Ref. على الأقل'); return; }
+  toast('✅ تم إنشاء '+num+' — اضغط "تصدير Excel" أو "طباعة"');
+}
+function generateNCR() {
+  var num = document.getElementById('ncr-num').value || 'NCR-001';
+  var desc = document.getElementById('ncr-desc').value;
+  if (!desc) { toast('⚠️ أدخل وصف المخالفة'); return; }
+  toast('✅ تم إنشاء '+num);
+}
+function generateDPR() {
+  var date = document.getElementById('dpr-date').value;
+  if (!date) { toast('⚠️ أدخل تاريخ التقرير'); return; }
+  toast('✅ تم إنشاء DPR بتاريخ '+date);
+}
+function calcEquipmentKPI() {
+  var w1=parseFloat(document.getElementById('eq-work-1').value)||0;
+  var i1=parseFloat(document.getElementById('eq-idle-1').value)||0;
+  var w2=parseFloat(document.getElementById('eq-work-2').value)||0;
+  var i2=parseFloat(document.getElementById('eq-idle-2').value)||0;
+  if (w1+i1===0 && w2+i2===0) { toast('أدخل بيانات المعدات'); return; }
+  var u1=w1+i1>0?(w1/(w1+i1)*100).toFixed(0):'-';
+  var u2=w2+i2>0?(w2/(w2+i2)*100).toFixed(0):'-';
+  var kpiEl = document.getElementById('dpr-eq-kpi');
+  kpiEl.style.display = 'block';
+  kpiEl.innerHTML = 'KPI المعدة 1: <strong style="color:'+(u1>=80?'var(--green)':'var(--red)')+'">'+u1+'%</strong> | KPI المعدة 2: <strong style="color:'+(u2>=80?'var(--green)':'var(--red)')+'">'+u2+'%</strong> | المطلوب: ≥80%';
+}
+function calcDPRprogress() {
+  var plan = parseFloat(document.getElementById('dpr-qty-planned').value)||0;
+  var done = parseFloat(document.getElementById('dpr-qty-done').value)||0;
+  if (!plan) return;
+  var pct = Math.min((done/plan*100),100).toFixed(0);
+  document.getElementById('dpr-pct').textContent = pct+'%';
+  document.getElementById('dpr-fill').style.width = pct+'%';
+  document.getElementById('dpr-fill').style.background = pct>=95?'var(--green)':pct>=70?'var(--orange)':'var(--red)';
+  document.getElementById('dpr-progress-bar').style.display = 'block';
+}
+function exportFormExcel(type) {
+  toast('✅ جاري تصدير '+type.toUpperCase()+' — (يحتاج XLSX library في الخادم)');
+}
+function printForm(type) { window.print(); }
+function resetForm(type) {
+  document.querySelectorAll('#form-'+type+' input, #form-'+type+' textarea, #form-'+type+' select').forEach(el=>{
+    if(el.type==='date') el.value=new Date().toISOString().split('T')[0];
+    else if(el.tagName==='SELECT') el.selectedIndex=0;
+    else if(!el.id.endsWith('-num')) el.value='';
+  });
+  toast('🔄 تم المسح');
+}
+
+// ===== AI PHOTO ANALYZER =====
+function handlePhotoSelect(e) { if(e.target.files[0]) loadPhoto(e.target.files[0]); }
+function handlePhotoDrop(e) {
+  e.preventDefault();
+  document.getElementById('photo-drop').classList.remove('over');
+  var f = e.dataTransfer.files[0];
+  if(f && f.type.startsWith('image/')) loadPhoto(f);
+}
+function loadPhoto(file) {
+  if(file.size > 10*1024*1024) { toast('❌ الصورة أكبر من 10MB'); return; }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    _photoData = e.target.result.split(',')[1];
+    _photoType = file.type;
+    document.getElementById('site-photo-thumb').src = e.target.result;
+    document.getElementById('photo-preview-img').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+function clearPhoto() {
+  _photoData = null; _photoType = null;
+  document.getElementById('photo-preview-img').style.display = 'none';
+  document.getElementById('photo-analysis-result').style.display = 'none';
+  document.getElementById('photo-input').value = '';
+}
+async function analyzeSitePhotoLocal() {
+  if (!_photoData) { toast('⚠️ ارفع صورة أولاً'); return; }
+  var loading = document.getElementById('photo-loading');
+  var result = document.getElementById('photo-analysis-result');
+  loading.style.display = 'block';
+  result.style.display = 'none';
+  var context = document.getElementById('photo-context').value;
+  var activity = document.getElementById('photo-activity').value;
+  try {
+    if (!_aiReady) throw new Error('offline');
+    var r = await fetch(WORKER_URL + '/site-inspector', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({image_base64:_photoData, media_type:_photoType, context:context, activity:activity})
+    });
+    if (!r.ok) throw new Error('err');
+    var data = await r.json();
+    showAnalysisResult(data.report || data.answer || 'تم التحليل');
+  } catch(e) {
+    // Demo response when offline
+    showAnalysisResult(getDemoAnalysis(activity));
+  }
+  loading.style.display = 'none';
+}
+function getDemoAnalysis(activity) {
+  return '<h4>⚠️ وضع تجريبي (بلا اتصال)</h4><p>للتحليل الفعلي بالذكاء الاصطناعي، تحتاج إلى الاتصال بخادم API.</p>'
+    + '<h4>1. العيوب المرصودة</h4><p>لم يتم التحليل الفعلي — هذا مثال توضيحي فقط.</p>'
+    + '<h4>2. QCS 2024 Compliance</h4><p>النشاط: '+activity+' | المرجع: <span style="color:var(--blue)">QCS 2024</span></p>'
+    + '<h4>3. الإجراء الموصى به</h4><p>قم بتفعيل اتصال API لتحليل الصورة فعلياً.</p>';
+}
+function showAnalysisResult(html) {
+  var el = document.getElementById('photo-analysis-text');
+  el.innerHTML = html;
+  document.getElementById('photo-analysis-result').style.display = 'block';
+}
+function createNCRfromPhoto() {
+  switchPage('forms');
+  switchFormTab('ncr', document.querySelector('#page-forms .calc-tab:nth-child(2)'));
+  document.getElementById('ncr-desc').value = 'عيب رُصد في فحص بصري بالذكاء الاصطناعي — أرجع لتقرير AI Site Inspector';
+  toast('✅ تم فتح نموذج NCR');
+}
+function copyAnalysis() {
+  navigator.clipboard.writeText(document.getElementById('photo-analysis-text').innerText)
+    .then(()=>toast('✅ تم النسخ'));
+}
+
+// ===== LANGUAGE =====
+function setLang(lang) {
+  _lang = lang;
+  localStorage.setItem('qe_lang', lang);
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang==='en'?'ltr':'rtl';
+  document.getElementById('btn-ar').classList.toggle('active', lang==='ar');
+  document.getElementById('btn-en').classList.toggle('active', lang==='en');
+}
+
+// ===== TOAST =====
+function toast(msg) {
+  var t = document.getElementById('main-toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+// ===== KEYBOARD SHORTCUTS =====
+document.addEventListener('keydown', e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();document.getElementById('searchQ')?.focus();}
+  if(e.key==='Escape'){document.querySelectorAll('.modal-bg.open').forEach(m=>m.classList.remove('open'));}
+});
+</script>
+</body>
+</html>
