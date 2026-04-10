@@ -302,6 +302,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <div class="cat-card" onclick="openDetail('esal_calculator_full')"><span class="cat-emoji">🚛</span><div class="cat-name">حاسبة ESAL</div><div class="cat-desc">AADT → ESAL → Traffic Designation</div><div class="cat-bottom"><span class="cat-count">AASHTO 1993</span><span class="cat-arr">←</span></div></div>
 <div class="cat-card" onclick="openDetail('qcs_changes_2014_2024')"><span class="cat-emoji">📊</span><div class="cat-name">QCS 2014 vs 2024</div><div class="cat-desc">أهم 10 تغييرات بين الإصدارين</div><div class="cat-bottom"><span class="cat-count">مقارنة كاملة</span><span class="cat-arr">←</span></div></div>
 
+<div class="cat-card" onclick="openDetail('mix_design_validator')"><span class="cat-emoji">🧪</span><div class="cat-name">Mix Design Validator</div><div class="cat-desc">تحقق من خلطة الخرسانة vs QCS Durability</div><div class="cat-bottom"><span class="cat-count">Sulphate + w/c</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('pipe_sizing_calc')"><span class="cat-emoji">🔧</span><div class="cat-name">حاسبة أقطار المواسير</div><div class="cat-desc">Q → DN + Velocity Check + Material</div><div class="cat-bottom"><span class="cat-count">Manning + Hazen</span><span class="cat-arr">←</span></div></div>
+
+
 
     <div class="cat-card" onclick="openDetail('doc_analyzer')" style="background:linear-gradient(135deg,rgba(52,152,219,0.15),rgba(52,152,219,0.05));border-color:rgba(52,152,219,0.4);">
       <span class="cat-emoji">📁</span>
@@ -691,6 +695,20 @@ All numerical values, specifications and test methods shown in Arabic are source
 All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
 </div>
 </div>
+
+<h3>مواد البناء الرئيسية — QCS 2024</h3>
+<table class="dm-table"><thead><tr><th>المادة</th><th>المعيار</th><th>الاشتراطات الرئيسية</th><th>اعتماد المصدر</th></tr></thead><tbody>
+<tr><td><strong>الإسمنت OPC</strong></td><td>BS EN 197-1 / ASTM C150</td><td>C3A ≤8% للبيئة العدوانية<br>Fineness ≥275 m²/kg</td><td>QAQC approved list</td></tr>
+<tr><td><strong>SRPC</strong></td><td>BS 4027 / ASTM C150 Type V</td><td>C3A ≤3.5% | SO₃ >0.5% في التربة</td><td>إلزامي في Sabkha</td></tr>
+<tr><td><strong>GGBS</strong></td><td>BS EN 15167</td><td>≥50% replacement للسلفات</td><td>مع OPC أو SRPC</td></tr>
+<tr><td><strong>Aggregate (Gabbro)</strong></td><td>BS EN 12620 / ASTM C33</td><td>LA ≤30% (Base) ≤25% (WC)<br>Flakiness ≤25%</td><td>Approved quarry</td></tr>
+<tr><td><strong>Bitumen 60/70</strong></td><td>ASTM D946</td><td>Penetration 60-70 @25°C<br>Softening Point ≥49°C</td><td>Per consignment</td></tr>
+<tr><td><strong>PMB 45/80-65</strong></td><td>EN 14023</td><td>Elastic Recovery ≥70%<br>Softening Point ≥65°C</td><td>Per consignment</td></tr>
+<tr><td><strong>HDPE Pipe</strong></td><td>ISO 4427 / BS EN 12201</td><td>PE100 SDR11/17<br>MRS 10 MPa</td><td>KAHRAMAA approved</td></tr>
+<tr><td><strong>uPVC Pipe</strong></td><td>BS EN 1401 / ASTM D3034</td><td>SN4/SN8 ring stiffness</td><td>Ashghal approved</td></tr>
+<tr><td><strong>DI Pipe</strong></td><td>BS EN 545</td><td>Cement mortar lined<br>Zinc + PE external</td><td>KAHRAMAA approved</td></tr>
+<tr><td><strong>Steel Rebar B500B</strong></td><td>BS 4449</td><td>fy ≥500 | fu ≥600 | fu/fy 1.15-1.35<br>Elongation ≥14%</td><td>Mill certificate + site test</td></tr>
+</tbody></table>
 ` },
   testing: { title: '🔬 الاختبارات والفحص', content: `
 <div class="lang-content-ar">
@@ -706,6 +724,28 @@ All numerical values, specifications and test methods shown in Arabic are source
 All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
 </div>
 </div>
+
+<h3>قاعدة بيانات الاختبارات الشاملة — QCS 2024</h3>
+<table class="dm-table"><thead><tr><th>الاختبار</th><th>المعيار</th><th>التطبيق</th><th>التكرار</th><th>HP/W</th></tr></thead><tbody>
+<tr><td>Standard Proctor</td><td>ASTM D698</td><td>Subgrade/Fill</td><td>Per source change</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Modified Proctor</td><td>ASTM D1557</td><td>Base/Subbase</td><td>Per source change</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Field Density (Sand Cone)</td><td>ASTM D1556</td><td>كل الطبقات</td><td>1/500m² per layer</td><td style="color:#f39c12">W</td></tr>
+<tr><td>CBR (Soaked 4 days)</td><td>ASTM D1883</td><td>Subgrade/Subbase/Base</td><td>1/2000m²</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Atterberg Limits</td><td>ASTM D4318</td><td>Soil classification</td><td>1/500m³</td><td style="color:#f39c12">W</td></tr>
+<tr><td>LA Abrasion</td><td>ASTM C131</td><td>Aggregate quality</td><td>Per source</td><td style="color:#f39c12">W</td></tr>
+<tr><td>Marshall Stability</td><td>ASTM D6927</td><td>Asphalt mix</td><td>1/200 tonne</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Bitumen Extraction</td><td>ASTM D2172</td><td>AC% verification</td><td>1/200 tonne</td><td style="color:#f39c12">W</td></tr>
+<tr><td>Core Density</td><td>ASTM D2041</td><td>Compacted asphalt</td><td>1/1000m²</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Cube Test (7d + 28d)</td><td>BS EN 12390</td><td>Concrete strength</td><td>6 cubes/50m³</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Slump Test</td><td>BS EN 12350</td><td>Concrete workability</td><td>Every truck</td><td style="color:#f39c12">W</td></tr>
+<tr><td>Rebar Tensile Test</td><td>BS 4449</td><td>Steel quality</td><td>Per consignment</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Pressure Test (Water)</td><td>KAHRAMAA</td><td>Water supply pipe</td><td>Per section ≤500m</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Air Test (Sewer)</td><td>BS EN 1610</td><td>Foul sewer pipe</td><td>Per section ≤500m</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>CCTV Survey</td><td>BS EN 13508</td><td>Sewer inspection</td><td>100% pipes</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Chlorination</td><td>KAHRAMAA</td><td>Water disinfection</td><td>Per section</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>SPT</td><td>ASTM D1586</td><td>Soil strength</td><td>Every 1.5m depth</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Sulphate SO₃</td><td>BS 1377</td><td>Soil/water chemistry</td><td>1/500m³</td><td style="color:#f39c12">W</td></tr>
+</tbody></table>
 ` },
   fire: { title: '🔥 الحريق والسلامة — QCDD', content: `
 <div class="lang-content-ar">
@@ -3096,6 +3136,15 @@ All numerical values, specifications and test methods shown in Arabic are source
 All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
 </div>
 </div>
+
+<h3>متطلبات التصميم — Foul Sewer</h3>
+<table class="dm-table"><thead><tr><th>البند</th><th>الاشتراط</th><th>المرجع</th></tr></thead><tbody>
+<tr><td>المعايير التصميمية</td><td>Self-cleansing velocity ≥0.6 m/s<br>Max velocity ≤3.0 m/s<br>Min gradient: DN150→1:80, DN200→1:150<br>Manhole spacing ≤120m</td><td>QCS 2024 S8 / Ashghal</td></tr>
+<tr><td>الدراسة الطبوغرافية</td><td>Total Station survey — Grid 25m<br>Benchmarks كل 200m</td><td>Ashghal Survey Manual</td></tr>
+<tr><td>Utility Detection</td><td>GPR scan قبل الحفر — كشف المرافق القائمة</td><td>Ashghal NOC</td></tr>
+<tr><td>Soil Investigation</td><td>Trial pits كل 100m أو BH حسب الأهمية<br>GWT level confirmation</td><td>QCS P3</td></tr>
+<tr><td>Drawings</td><td>Plan + Long Section + Cross Section + Details<br>1:500 plan, 1:100 H / 1:10 V for sections</td><td>Ashghal CAD Standards</td></tr>
+</tbody></table>
 ` },
 
   ss_materials: { title: '🔩 Foul Sewer — المواد والمواسير', content: `
@@ -3422,6 +3471,15 @@ All numerical values, specifications and test methods shown in Arabic are source
 All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
 </div>
 </div>
+
+<h3>متطلبات التصميم — Storm Water</h3>
+<table class="dm-table"><thead><tr><th>البند</th><th>الاشتراط</th><th>المرجع</th></tr></thead><tbody>
+<tr><td>المعايير التصميمية</td><td>Design Return Period: 5-year for local, 25-year for trunk<br>Time of Concentration calculation<br>Rational Method: Q = CIA/360<br>Min pipe DN300</td><td>QCS 2024 S8 / Ashghal</td></tr>
+<tr><td>الدراسة الطبوغرافية</td><td>Total Station survey — Grid 25m<br>Benchmarks كل 200m</td><td>Ashghal Survey Manual</td></tr>
+<tr><td>Utility Detection</td><td>GPR scan قبل الحفر — كشف المرافق القائمة</td><td>Ashghal NOC</td></tr>
+<tr><td>Soil Investigation</td><td>Trial pits كل 100m أو BH حسب الأهمية<br>GWT level confirmation</td><td>QCS P3</td></tr>
+<tr><td>Drawings</td><td>Plan + Long Section + Cross Section + Details<br>1:500 plan, 1:100 H / 1:10 V for sections</td><td>Ashghal CAD Standards</td></tr>
+</tbody></table>
 ` },
 
   sw_materials: { title: '🔩 الصرف السطحي — المواد والمواسير', content: `
@@ -3445,6 +3503,17 @@ All numerical values, specifications and test methods shown in Arabic are source
 <strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
 All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
 </div>
+</div>
+
+<h3>مواصفات المواسير — Storm Water</h3>
+<table class="dm-table"><thead><tr><th>المادة</th><th>المعيار</th><th>القطر</th><th>Ring Stiffness</th><th>التطبيق</th></tr></thead><tbody>
+<tr><td>GRP</td><td>BS EN 14364</td><td>300-3000mm</td><td>SN5000/SN10000</td><td>خطوط رئيسية</td></tr>
+<tr><td>Reinforced Concrete</td><td>BS EN 1916</td><td>300-3000mm</td><td>Class 120/180</td><td>Culverts + trunk</td></tr>
+<tr><td>uPVC SN8</td><td>BS EN 13476</td><td>110-630mm</td><td>SN8</td><td>فروع صغيرة</td></tr>
+<tr><td>HDPE</td><td>ISO 4427</td><td>110-1200mm</td><td>SN8</td><td>مناطق Sabkha</td></tr>
+</tbody></table>
+<div style="background:rgba(149,165,166,.15);border:1px solid rgba(149,165,166,.3);border-radius:8px;padding:8px;margin-top:8px;font-size:12px;color:var(--text2)">
+💡 Marker Tape: <strong style="color:#95a5a6">رمادي (Grey)</strong> — 300mm فوق قمة الماسورة
 </div>
 ` },
 
@@ -3632,6 +3701,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
 </div>
 </div>
+
+<h3>مواصفات الردم — QCS 2024</h3>
+<table class="dm-table"><thead><tr><th>المرحلة</th><th>المادة</th><th>السماكة</th><th>الدمك</th><th>HP/W</th></tr></thead><tbody>
+<tr><td>Initial Backfill</td><td>Selected granular (no Sabkha)</td><td>150mm above pipe crown</td><td>≥85% MDD — حذر حول الماسورة</td><td style="color:#f39c12">W</td></tr>
+<tr><td>Main Backfill</td><td>Selected or site material</td><td>طبقات ≤200mm</td><td>≥90% MDD</td><td style="color:#f39c12">W</td></tr>
+<tr><td>Final Backfill</td><td>As main or road layers</td><td>آخر 300mm</td><td>≥95% MDD</td><td style="color:#e74c3c">HP</td></tr>
+</tbody></table>
+<div style="background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.2);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;color:#e74c3c">
+⚠️ <strong>ممنوعات الردم:</strong> مواد Sabkha (SO₃ >0.5%) | مواد عضوية | حجارة >75mm | تربة طينية رطبة | مخلفات بناء
+</div>
 ` },
 
   sw_handover: { title: '✅ الصرف السطحي — التسليم', content: `
@@ -3700,6 +3779,15 @@ All numerical values, specifications and test methods shown in Arabic are source
 All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
 </div>
 </div>
+
+<h3>متطلبات التصميم — Treated Water (TSE)</h3>
+<table class="dm-table"><thead><tr><th>البند</th><th>الاشتراط</th><th>المرجع</th></tr></thead><tbody>
+<tr><td>المعايير التصميمية</td><td>Design flow: peak irrigation demand<br>Storage tank sizing: 2-day demand<br>Purple pipe mandatory<br>No cross-connection with potable</td><td>QCS 2024 S8 / Ashghal</td></tr>
+<tr><td>الدراسة الطبوغرافية</td><td>Total Station survey — Grid 25m<br>Benchmarks كل 200m</td><td>Ashghal Survey Manual</td></tr>
+<tr><td>Utility Detection</td><td>GPR scan قبل الحفر — كشف المرافق القائمة</td><td>Ashghal NOC</td></tr>
+<tr><td>Soil Investigation</td><td>Trial pits كل 100m أو BH حسب الأهمية<br>GWT level confirmation</td><td>QCS P3</td></tr>
+<tr><td>Drawings</td><td>Plan + Long Section + Cross Section + Details<br>1:500 plan, 1:100 H / 1:10 V for sections</td><td>Ashghal CAD Standards</td></tr>
+</tbody></table>
 ` },
 
   tw_materials: { title: '🔩 المياه المعالجة — المواسير البنفسجية', content: `
@@ -3724,6 +3812,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
 </div>
 </div>
+
+<h3>مواصفات المواسير البنفسجية — Treated Water</h3>
+<table class="dm-table"><thead><tr><th>المادة</th><th>المعيار</th><th>القطر</th><th>PN</th><th>اللون</th></tr></thead><tbody>
+<tr><td>uPVC</td><td>BS EN 1452</td><td>63-315mm</td><td>PN10/16</td><td style="background:#8e44ad;color:#fff;text-align:center">بنفسجي</td></tr>
+<tr><td>HDPE PE100</td><td>ISO 4427</td><td>63-630mm</td><td>SDR11/17</td><td style="background:#8e44ad;color:#fff;text-align:center">بنفسجي</td></tr>
+<tr><td>GRP</td><td>BS EN 1796</td><td>300-2400mm</td><td>PN10/16</td><td>Purple marking</td></tr>
+</tbody></table>
+<div style="background:rgba(142,68,173,.1);border:1px solid rgba(142,68,173,.3);border-radius:8px;padding:8px;margin-top:8px;font-size:12px;color:#8e44ad">
+⚠️ <strong>إلزامي:</strong> جميع مواسير المياه المعالجة يجب أن تكون بنفسجية اللون — أي لون آخر = رفض فوري. لا يجوز استخدام مواسير مياه الشرب (زرقاء) للمياه المعالجة.
+</div>
 ` },
 
   tw_excavation: { title: '⛏️ المياه المعالجة — الحفر والبيدنج', content: `
@@ -3746,6 +3844,17 @@ All numerical values, specifications and test methods shown in Arabic are source
 All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
 </div>
 </div>
+
+<h3>مواصفات الحفر — Treated Water Network</h3>
+<table class="dm-table"><thead><tr><th>البند</th><th>الاشتراط</th><th>المرجع</th></tr></thead><tbody>
+<tr><td>عرض الخندق</td><td>DN + 600mm (300mm كل جانب) — حد أدنى</td><td>QCS S8</td></tr>
+<tr><td>عمق الغطاء</td><td>≥900mm في الطرق | ≥600mm خارج الطرق</td><td>Ashghal Standard</td></tr>
+<tr><td>Bedding Material</td><td>Clean sand أو Type 1 granular — سماكة 150mm</td><td>QCS S8</td></tr>
+<tr><td>دمك Bedding</td><td>≥90% MDD — Level ±10mm</td><td>ASTM D1556</td></tr>
+<tr><td>Shoring</td><td>إلزامي >1.2m عمق</td><td>QCS P1 S8.4</td></tr>
+<tr><td>Dewatering</td><td>GWT يجب أن يكون ≥0.5m تحت قاع الحفر</td><td>QCS P3 S4</td></tr>
+<tr><td>Marker Tape</td><td>بنفسجي (Purple) — 300mm فوق الماسورة</td><td>KAHRAMAA</td></tr>
+</tbody></table>
 ` },
 
   tw_laying: { title: '🔧 المياه المعالجة — وضع المواسير', content: `
@@ -3770,6 +3879,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
 </div>
 </div>
+
+<h3>شروط وضع المواسير — Treated Water</h3>
+<table class="dm-table"><thead><tr><th>البند</th><th>الاشتراط</th><th>ملاحظة</th></tr></thead><tbody>
+<tr><td>نوع المواسير</td><td>uPVC بنفسجي أو HDPE PE100 بنفسجي</td><td>اللون يميز عن مياه الشرب</td></tr>
+<tr><td>Pressure Class</td><td>PN10 أو PN16 حسب التصميم</td><td>حسب ضغط التشغيل</td></tr>
+<tr><td>الانحدار الأدنى</td><td>≥1:500 (0.2%)</td><td>لتفادي الركود</td></tr>
+<tr><td>فحص الوصلات</td><td>كل وصلة تُفحص بصرياً + ضغط</td><td>Hold Point قبل الردم</td></tr>
+<tr><td>Thrust Blocks</td><td>عند كل تغيير اتجاه >11.25°</td><td>خرسانة C20 minimum</td></tr>
+<tr><td>Separation</td><td>≥500mm أفقي عن Foul Sewer<br>≥300mm رأسي (Treated تحت)</td><td>Treated Water لا تتقاطع مع Potable</td></tr>
+</tbody></table>
 ` },
 
   tw_testing: { title: '🧪 المياه المعالجة — الاختبارات', content: `
@@ -3820,6 +3939,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
 </div>
 </div>
+
+<h3>متطلبات التسليم — Treated Water Handover</h3>
+<table class="dm-table"><thead><tr><th>المستند</th><th>المحتوى</th><th>النسخ</th></tr></thead><tbody>
+<tr><td>As-Built Drawings</td><td>Plan + sections بالمناسيب الفعلية<br>GPS coordinates لكل fitting</td><td>3 hard + 1 digital</td></tr>
+<tr><td>Test Certificates</td><td>Pressure test + Chlorination + Water quality</td><td>Original + 2 copies</td></tr>
+<tr><td>Material Certificates</td><td>Pipe + fittings + valves — Mill certs</td><td>Original</td></tr>
+<tr><td>ITP Signed</td><td>كل ITPs مغلقة + صفر NCR مفتوح</td><td>Original signed</td></tr>
+<tr><td>O&M Manual</td><td>Operating instructions + valve schedule<br>Emergency procedures</td><td>2 copies</td></tr>
+<tr><td>CCTV Report</td><td>إذا كانت gravity — 100% CCTV Grade ≤2</td><td>Digital + report</td></tr>
+</tbody></table>
 ` },
 
 
@@ -4946,6 +5075,24 @@ All numerical values, specifications and test methods shown in Arabic are source
 </table>
 <h3>Fixing Requirements</h3>
 <p>• Tie all intersections with wire<br>• Stagger laps — max 50% of bars at same section<br>• No field bending with heat<br>• Mill Certificate required for every delivery</p></div>
+
+<h3>جدول أطوال التراكب — Lap Length (QCS 2024)</h3>
+<table class="dm-table"><thead><tr><th>القطر d</th><th>Tension Lap (40d)</th><th>Tension عدواني (50d)</th><th>Compression (30d)</th></tr></thead><tbody>
+<tr><td>10mm</td><td>400mm</td><td>500mm</td><td>300mm</td></tr>
+<tr><td>12mm</td><td>480mm</td><td>600mm</td><td>360mm</td></tr>
+<tr><td>16mm</td><td>640mm</td><td>800mm</td><td>480mm</td></tr>
+<tr><td>20mm</td><td>800mm</td><td>1000mm</td><td>600mm</td></tr>
+<tr><td>25mm</td><td>1000mm</td><td>1250mm</td><td>750mm</td></tr>
+<tr><td>32mm</td><td>1280mm</td><td>1600mm</td><td>960mm</td></tr>
+</tbody></table>
+<h3>اشتراطات التوزيع</h3>
+<table class="dm-table"><thead><tr><th>البند</th><th>الاشتراط</th><th>المرجع</th></tr></thead><tbody>
+<tr><td>Max spacing (Slabs)</td><td>3h أو 400mm أيهما أقل</td><td>QCS S5</td></tr>
+<tr><td>Max spacing (Walls)</td><td>3h أو 400mm</td><td>QCS S5</td></tr>
+<tr><td>Min spacing</td><td>≥ (bar diameter) أو 25mm أو (max agg +5mm)</td><td>QCS S5</td></tr>
+<tr><td>Staggering laps</td><td>≤50% من الحديد في مقطع واحد</td><td>QCS S5</td></tr>
+<tr><td>Bend radius</td><td>≤16mm → 4d | >16mm → 7d</td><td>BS 8666</td></tr>
+</tbody></table>
 ` },
 
   rebar_cover: { title: '📏 Rebar التسليح — Cover & Spacers', content: `<div class="lang-content-ar">
@@ -7572,6 +7719,55 @@ content: `
 </tbody></table>
 `},
 
+// ===== CONCRETE MIX DESIGN VALIDATOR =====
+mix_design_validator: {
+title: '🧪 Concrete Mix Design Validator — QCS 2024',
+content: `
+<div class="qcs-ref-badge">QCS 2024 — Section 5 + BS EN 206 + BS 8500</div>
+<h3>أدخل بيانات الخلطة</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+<div><label style="font-size:11px;color:var(--text3)">درجة الخرسانة fcu (N/mm²)</label><select class="calc-select" id="mix-grade"><option value="25">C25</option><option value="30">C30</option><option value="35" selected>C35</option><option value="40">C40</option><option value="45">C45</option><option value="50">C50</option></select></div>
+<div><label style="font-size:11px;color:var(--text3)">SO₃ في التربة (%)</label><select class="calc-select" id="mix-so3"><option value="0.1">< 0.2% — Class 1</option><option value="0.3">0.2-0.5% — Class 2</option><option value="0.7" selected>0.5-1.0% — Class 3</option><option value="1.5">> 1.0% — Class 4+</option></select></div>
+<div><label style="font-size:11px;color:var(--text3)">نوع الإسمنت</label><select class="calc-select" id="mix-cement"><option value="opc">OPC (BS EN 197-1)</option><option value="srpc" selected>SRPC (BS 4027)</option><option value="ggbs">OPC + GGBS ≥50%</option></select></div>
+<div><label style="font-size:11px;color:var(--text3)">w/c ratio</label><input class="calc-input" id="mix-wc" type="number" step="0.01" style="width:100%" value="0.45" placeholder="0.45"></div>
+<div><label style="font-size:11px;color:var(--text3)">محتوى الإسمنت (kg/m³)</label><input class="calc-input" id="mix-cc" type="number" style="width:100%" value="350" placeholder="350"></div>
+<div><label style="font-size:11px;color:var(--text3)">التطبيق</label><select class="calc-select" id="mix-use"><option value="foundation">أساسات على تربة</option><option value="column_ext">أعمدة خارجية</option><option value="slab_int">بلاطات داخلية</option><option value="pile">خوازيق</option><option value="retaining">جدران استنادية</option></select></div>
+</div>
+<button class="calc-btn" onclick="validateMixDesign()">🔍 تحقق من الخلطة</button>
+<div class="calc-result" id="mix-result"></div>
+<h3>جدول متطلبات Durability — قطر</h3>
+<table class="dm-table"><thead><tr><th>SO₃ في التربة</th><th>الإسمنت المطلوب</th><th>Max w/c</th><th>Min Cement</th><th>Min fcu</th></tr></thead><tbody>
+<tr><td>< 0.2%</td><td>OPC مقبول</td><td>0.55</td><td>300 kg/m³</td><td>C25</td></tr>
+<tr><td>0.2–0.5%</td><td>SRPC أو OPC+GGBS≥50%</td><td>0.50</td><td>320 kg/m³</td><td>C30</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700">0.5–1.0%</td><td style="color:#e74c3c">SRPC إلزامي</td><td>0.45</td><td>350 kg/m³</td><td>C35</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700">> 1.0%</td><td style="color:#e74c3c">SRPC + Coating + دراسة</td><td>0.40</td><td>380 kg/m³</td><td>C40</td></tr>
+</tbody></table>
+`},
+
+// ===== PIPE SIZING CALCULATOR =====
+pipe_sizing_calc: {
+title: '🔧 حاسبة أقطار المواسير — Pipe Sizing',
+content: `
+<div class="qcs-ref-badge">QCS 2024 S8 + KAHRAMAA + Ashghal Drainage Design Manual</div>
+<h3>حاسبة القطر المثالي</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+<div><label style="font-size:11px;color:var(--text3)">نوع الشبكة</label><select class="calc-select" id="pipe-type"><option value="water">💧 مياه شرب</option><option value="sewer">🚽 صرف صحي (gravity)</option><option value="storm">🌧️ صرف سطحي</option></select></div>
+<div><label style="font-size:11px;color:var(--text3)">تدفق التصميم Q (L/s)</label><input class="calc-input" id="pipe-q" type="number" step="0.1" style="width:100%" placeholder="15"></div>
+<div><label style="font-size:11px;color:var(--text3)">الانحدار % (gravity فقط)</label><input class="calc-input" id="pipe-slope" type="number" step="0.01" style="width:100%" placeholder="0.5"></div>
+<div><label style="font-size:11px;color:var(--text3)">ضغط التشغيل PN (bar) — مياه فقط</label><input class="calc-input" id="pipe-pn" type="number" style="width:100%" placeholder="10"></div>
+</div>
+<button class="calc-btn" onclick="calcPipeSize()">🔧 احسب القطر</button>
+<div class="calc-result" id="pipe-result"></div>
+<h3>جدول السرعات المسموحة</h3>
+<table class="dm-table"><thead><tr><th>الشبكة</th><th>Min Velocity</th><th>Max Velocity</th><th>ملاحظة</th></tr></thead><tbody>
+<tr><td>مياه شرب</td><td>0.3 m/s</td><td>3.0 m/s</td><td>KAHRAMAA</td></tr>
+<tr><td>Foul Sewer</td><td>0.6 m/s (self-cleansing)</td><td>3.0 m/s</td><td>BS EN 752</td></tr>
+<tr><td>Storm Water</td><td>0.6 m/s</td><td>4.5 m/s</td><td>Ashghal Drainage Manual</td></tr>
+</tbody></table>
+`},
+
+
+
 // ===== QCS 2014 vs 2024 CHANGES =====
 qcs_changes_2014_2024: {
 title: '📊 أهم التغييرات — QCS 2014 vs QCS 2024',
@@ -9348,6 +9544,79 @@ showResult('esal-result',true,null,null,
 +'سماكة الرصيف: '+thick+'<br>'
 +'البيتومين: '+bitumen+'<br>'
 +'<small style="color:var(--text3)">Growth Factor: '+gf.toFixed(1)+' | Design Life: '+life+' سنة</small>');
+}
+
+// ===== MIX DESIGN VALIDATOR =====
+function validateMixDesign(){
+var grade=parseInt(document.getElementById('mix-grade').value);
+var so3=parseFloat(document.getElementById('mix-so3').value);
+var cement=document.getElementById('mix-cement').value;
+var wc=parseFloat(document.getElementById('mix-wc').value);
+var cc=parseInt(document.getElementById('mix-cc').value);
+var use=document.getElementById('mix-use').value;
+var issues=[];var pass=true;
+// Sulphate class check
+if(so3>=0.5&&cement==='opc'){issues.push('❌ SO₃ ≥0.5% — OPC غير مقبول. استخدم SRPC أو GGBS≥50%');pass=false;}
+if(so3>=1.0&&cement!=='srpc'){issues.push('❌ SO₃ >1.0% — SRPC إلزامي + Protective Coating');pass=false;}
+// w/c ratio check
+var maxWC=so3<0.2?0.55:so3<0.5?0.50:so3<1.0?0.45:0.40;
+if(wc>maxWC){issues.push('❌ w/c = '+wc+' > max '+maxWC+' لتصنيف السلفات');pass=false;}
+else{issues.push('✅ w/c = '+wc+' ≤ '+maxWC);}
+// Cement content check
+var minCC=so3<0.2?300:so3<0.5?320:so3<1.0?350:380;
+if(cc<minCC){issues.push('❌ Cement = '+cc+' < min '+minCC+' kg/m³');pass=false;}
+else{issues.push('✅ Cement = '+cc+' ≥ '+minCC+' kg/m³');}
+// Grade check
+var minGrade=so3<0.2?25:so3<0.5?30:so3<1.0?35:40;
+if(grade<minGrade){issues.push('❌ Grade C'+grade+' < min C'+minGrade);pass=false;}
+else{issues.push('✅ Grade C'+grade+' ≥ C'+minGrade);}
+// Cover
+var covers={foundation:50,column_ext:40,slab_int:20,pile:75,retaining:50};
+issues.push('📏 Cover المطلوب: '+covers[use]+'mm ('+use+')');
+showResult('mix-result',pass,null,null,issues.join('<br>'));
+}
+
+// ===== PIPE SIZING CALCULATOR =====
+function calcPipeSize(){
+var type=document.getElementById('pipe-type').value;
+var q=parseFloat(document.getElementById('pipe-q').value);
+var slope=parseFloat(document.getElementById('pipe-slope').value)/100;
+var pn=parseFloat(document.getElementById('pipe-pn').value);
+if(!q){showToast('❌ أدخل تدفق التصميم Q');return;}
+var result='';
+if(type==='water'){
+// V = Q/A → A = Q/V → D = sqrt(4A/π)
+// Target velocity 1.5 m/s
+var v=1.5;var a=q/1000/v;var d=Math.sqrt(4*a/Math.PI)*1000;
+var dn=d<63?63:d<90?90:d<110?110:d<160?160:d<200?200:d<250?250:d<315?315:d<400?400:d<500?500:630;
+var actualV=(q/1000)/(Math.PI*Math.pow(dn/2000,2));
+var vOk=actualV>=0.3&&actualV<=3.0;
+result='القطر المحسوب: '+d.toFixed(0)+'mm → <strong>DN'+dn+'</strong><br>';
+result+='السرعة: '+actualV.toFixed(2)+' m/s '+(vOk?'✅ (0.3-3.0)':'❌ خارج النطاق')+'<br>';
+if(pn) result+='Pressure Class: PN'+pn+' → SDR'+(pn<=10?'17':'11')+'<br>';
+result+='المادة: HDPE PE100 أو DI (KAHRAMAA)';
+}else{
+// Manning: Q = (1/n)×A×R^(2/3)×S^(1/2)
+if(!slope){showToast('❌ أدخل الانحدار');return;}
+var n=type==='sewer'?0.013:0.012;
+// Iterate to find D
+var d=100;
+for(var iter=0;iter<50;iter++){
+var r=d/4000;var a=Math.PI*Math.pow(d/2000,2);
+var qCalc=1000*(1/n)*a*Math.pow(r,2/3)*Math.pow(slope,0.5);
+if(qCalc>=q) break;
+d+=25;
+}
+var dn=d<150?150:d<200?200:d<250?250:d<300?300:d<400?400:d<500?500:d<600?600:d<800?800:d<1000?1000:1200;
+var aFinal=Math.PI*Math.pow(dn/2000,2);var vFinal=(q/1000)/aFinal;
+var vMin=0.6;var vMax=type==='sewer'?3.0:4.5;
+var vOk=vFinal>=vMin&&vFinal<=vMax;
+result='القطر المحسوب: '+d.toFixed(0)+'mm → <strong>DN'+dn+'</strong><br>';
+result+='السرعة: '+vFinal.toFixed(2)+' m/s '+(vOk?'✅':'❌')+' ('+vMin+'-'+vMax+')<br>';
+result+='Manning n = '+n+'<br>';
+result+='المادة: '+(type==='sewer'?'uPVC SN8 أو GRP':'GRP أو RC');
+}
+showResult('pipe-result',true,null,null,result);
 }
 </script>
 </body>
