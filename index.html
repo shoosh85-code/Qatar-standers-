@@ -301,16 +301,19 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <div class="group-header" style="background:linear-gradient(135deg,#7A151522,#7A151508);border:1px solid #7A151533">
     <div class="group-header-icon">🏗️</div>
     <div class="group-header-text">
-      <div class="group-header-title" style="color:#7A1515">البنية التحتية والطرق</div>
-      <div class="group-header-sub" style="color:#7A1515">Infrastructure & Roads</div>
+      <div class="group-header-title" style="color:#7A1515">البنية التحتية والطرق والمرافق</div>
+      <div class="group-header-sub" style="color:#7A1515">Infrastructure, Roads & Utilities</div>
     </div>
-    <div class="group-header-count" style="background:#7A151533;color:#7A1515">4 أقسام</div>
+    <div class="group-header-count" style="background:#7A151533;color:#7A1515">7 أقسام</div>
   </div>
   <div class="group-grid">
     <div class="cat-card" onclick="openDetail('roads')"><span class="cat-emoji">🛣️</span><div class="cat-name" data-ar="أعمال الطرق" data-en="Road Works">أعمال الطرق</div><div class="cat-desc" data-ar="Subgrade، Subbase، إسفلت، اختبارات، تسليم" data-en="Subgrade, Subbase, Asphalt, Tests, Handover">Subgrade، Subbase، إسفلت، اختبارات، تسليم</div><div class="cat-bottom"><span class="cat-count" data-ar="8 مراحل + ITPs" data-en="8 Phases + ITPs">8 مراحل + ITPs</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="openDetail('utilities')"><span class="cat-emoji">🔧</span><div class="cat-name" data-ar="شبكات المرافق" data-en="Utility Networks">شبكات المرافق</div><div class="cat-desc">مياه الشرب، Foul Sewer، السطحي، المعالجة</div><div class="cat-bottom"><span class="cat-count">4 شبكات + ITPs</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('road_design_criteria')"><span class="cat-emoji">📐</span><div class="cat-name">معايير تصميم الطرق</div><div class="cat-desc">عروض، مسافات رؤية، انحدار، Superelevation</div><div class="cat-bottom"><span class="cat-count">QCS S6 P2</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('shoring_itp')"><span class="cat-emoji">⛏️</span><div class="cat-name">التدعيم والحفريات</div><div class="cat-desc">Shoring, Dewatering, سلامة الحفريات</div><div class="cat-bottom"><span class="cat-count">10 بنود + ITP</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="openDetail('cctv_itp')"><span class="cat-emoji">📹</span><div class="cat-name">فحص CCTV</div><div class="cat-desc">BS EN 13508, WRc, Grade System</div><div class="cat-bottom"><span class="cat-count">8 بنود + رموز</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="openDetail('marker_tape_colors')"><span class="cat-emoji">🎨</span><div class="cat-name">ألوان شريط التحذير</div><div class="cat-desc">KAHRAMAA Official — 7 شبكات</div><div class="cat-bottom"><span class="cat-count">QCS S8</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('fire')"><span class="cat-emoji">🔥</span><div class="cat-name" data-ar="الحريق والسلامة" data-en="Fire & Safety">الحريق والسلامة</div><div class="cat-desc">QCDD، Sprinkler، مخارج الطوارئ، Hose Reel</div><div class="cat-bottom"><span class="cat-count">متطلبات QCDD</span><span class="cat-arr">←</span></div></div>
   </div>
 </div>
 
@@ -321,14 +324,13 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       <div class="group-header-title" style="color:#5A0F0F">الإنشاء والجيوتقنية</div>
       <div class="group-header-sub" style="color:#5A0F0F">Structural & Geotechnical</div>
     </div>
-    <div class="group-header-count" style="background:#5A0F0F33;color:#5A0F0F">5 أقسام</div>
+    <div class="group-header-count" style="background:#5A0F0F33;color:#5A0F0F">4 أقسام</div>
   </div>
   <div class="group-grid">
     <div class="cat-card" onclick="openDetail('structural')"><span class="cat-emoji">🏗️</span><div class="cat-name" data-ar="الكود الإنشائي" data-en="Structural Code">الكود الإنشائي</div><div class="cat-desc">Concrete، Rebar، أساسات، خوازيق، شدات</div><div class="cat-bottom"><span class="cat-count">4 أقسام + ITPs</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="openDetail('geotech')"><span class="cat-emoji">🔬</span><div class="cat-name" data-ar="الجسات والتربة" data-en="Geotechnical">الجسات والتربة</div><div class="cat-desc" data-ar="SPT، Boreholes، مختبر، مياه جوفية، تقرير" data-en="SPT, Boreholes, Lab, Groundwater, Reports">SPT، Boreholes، مختبر، مياه جوفية، تقرير</div><div class="cat-bottom"><span class="cat-count" data-ar="6 أقسام + ITP" data-en="6 Sections + ITP">6 أقسام + ITP</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="openDetail('pile_load_testing')"><span class="cat-emoji">🏗️</span><div class="cat-name">اختبار الخوازيق</div><div class="cat-desc">Static Load Test, PIT, Kentledge</div><div class="cat-bottom"><span class="cat-count">QCS S5 + BS 8004</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="openDetail('sabkha_treatment')"><span class="cat-emoji">🏜️</span><div class="cat-name">معالجة السبخة</div><div class="cat-desc">Sabkha ID, Geotextile, Stabilization</div><div class="cat-bottom"><span class="cat-count">7 بنود IAN-006</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('shoring_itp')"><span class="cat-emoji">⛏️</span><div class="cat-name">التدعيم والحفريات</div><div class="cat-desc">Shoring, Dewatering, سلامة الحفريات</div><div class="cat-bottom"><span class="cat-count">10 بنود + ITP</span><span class="cat-arr">←</span></div></div>
   </div>
 </div>
 
@@ -339,14 +341,13 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       <div class="group-header-title" style="color:#C9A84C">مركز التصميم والحاسبات</div>
       <div class="group-header-sub" style="color:#C9A84C">Design & Calculation Hub</div>
     </div>
-    <div class="group-header-count" style="background:#C9A84C33;color:#C9A84C">5 أقسام</div>
+    <div class="group-header-count" style="background:#C9A84C33;color:#C9A84C">4 أقسام</div>
   </div>
   <div class="group-grid">
     <div class="cat-card" onclick="openDetail('calculator')"><span class="cat-emoji">🧮</span><div class="cat-name">حاسبة المواصفات</div><div class="cat-desc">أدخل أي اختبار → Pass أو Fail فوراً</div><div class="cat-bottom"><span class="cat-count">38+ اختبار</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="openDetail('esal_calculator_full')"><span class="cat-emoji">🚛</span><div class="cat-name">حاسبة ESAL</div><div class="cat-desc">AADT → ESAL → Traffic Designation</div><div class="cat-bottom"><span class="cat-count">AASHTO 1993</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="openDetail('mix_design_validator')"><span class="cat-emoji">🧪</span><div class="cat-name">Mix Design Validator</div><div class="cat-desc">تحقق من خلطة الخرسانة vs QCS Durability</div><div class="cat-bottom"><span class="cat-count">Sulphate + w/c</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="openDetail('pipe_sizing_calc')"><span class="cat-emoji">🔧</span><div class="cat-name">حاسبة أقطار المواسير</div><div class="cat-desc">Q → DN + Velocity Check + Material</div><div class="cat-bottom"><span class="cat-count">Manning + Hazen</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('road_design_criteria')"><span class="cat-emoji">📐</span><div class="cat-name">معايير تصميم الطرق</div><div class="cat-desc">عروض، مسافات رؤية، انحدار، Superelevation</div><div class="cat-bottom"><span class="cat-count">QCS S6 P2</span><span class="cat-arr">←</span></div></div>
   </div>
 </div>
 
@@ -357,7 +358,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       <div class="group-header-title" style="color:#8e44ad">الأدوات الذكية والمستندات</div>
       <div class="group-header-sub" style="color:#8e44ad">AI Tools & Documentation</div>
     </div>
-    <div class="group-header-count" style="background:#8e44ad33;color:#8e44ad">5 أقسام</div>
+    <div class="group-header-count" style="background:#8e44ad33;color:#8e44ad">4 أقسام</div>
   </div>
   <div class="group-grid">
     <div class="cat-card" onclick="openDetail('ashghal_forms')" style="background:linear-gradient(135deg,rgba(122,21,21,.15),rgba(201,168,76,.05));border-color:rgba(201,168,76,.3)">
@@ -371,53 +372,14 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
         <span class="cat-arr">←</span>
       </div>
     </div>
-    <div class="cat-card" onclick="openDetail('photo_analyzer')"><span class="cat-emoji">📸</span><div class="cat-name">تحليل صور الموقع</div><div class="cat-desc">ارفع صورة → كشف العيوب → NCR</div><div class="cat-bottom"><span class="cat-count">AI Vision</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('fire')"><span class="cat-emoji">🔥</span><div class="cat-name" data-ar="الحريق والسلامة" data-en="Fire & Safety">الحريق والسلامة</div><div class="cat-desc">QCDD، Sprinkler، مخارج الطوارئ، Hose Reel</div><div class="cat-bottom"><span class="cat-count">متطلبات QCDD</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('photo_analyzer')"><span class="cat-emoji">🤖</span><div class="cat-name">المفتش الذكي</div><div class="cat-desc">فحص ومطابقة الأعمال مع QCS والمخططات</div><div class="cat-bottom"><span class="cat-count">AI Inspector</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="openDetail('qcs_changes_2014_2024')"><span class="cat-emoji">📊</span><div class="cat-name">QCS 2014 vs 2024</div><div class="cat-desc">أهم 10 تغييرات بين الإصدارين</div><div class="cat-bottom"><span class="cat-count">مقارنة كاملة</span><span class="cat-arr">←</span></div></div>
   </div>
 </div>
 
 </div>
-
 <div class="content-section">
-<div class="section-head"><div class="section-title">الأقسام <span>الرئيسية</span></div></div>
-  <div class="cats-grid">
-    <div class="cat-card" onclick="openDetail('roads')"><span class="cat-emoji">🛣️</span><div class="cat-name" data-ar="أعمال الطرق" data-en="Road Works">أعمال الطرق</div><div class="cat-desc" data-ar="Subgrade، Subbase، إسفلت، اختبارات، تسليم" data-en="Subgrade, Subbase, Asphalt, Tests, Handover">Subgrade، Subbase، إسفلت، اختبارات، تسليم</div><div class="cat-bottom"><span class="cat-count" data-ar="8 مراحل + ITPs" data-en="8 Phases + ITPs">8 مراحل + ITPs</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('utilities')"><span class="cat-emoji">🔧</span><div class="cat-name" data-ar="شبكات المرافق" data-en="Utility Networks">شبكات المرافق</div><div class="cat-desc">مياه الشرب، Foul Sewer، السطحي، المعالجة</div><div class="cat-bottom"><span class="cat-count">4 شبكات + ITPs</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('structural')"><span class="cat-emoji">🏗️</span><div class="cat-name" data-ar="الكود الإنشائي" data-en="Structural Code">الكود الإنشائي</div><div class="cat-desc">Concrete، Rebar، أساسات، خوازيق، شدات</div><div class="cat-bottom"><span class="cat-count">4 أقسام + ITPs</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('geotech')"><span class="cat-emoji">🔬</span><div class="cat-name" data-ar="الجسات والتربة" data-en="Geotechnical">الجسات والتربة</div><div class="cat-desc" data-ar="SPT، Boreholes، مختبر، مياه جوفية، تقرير" data-en="SPT, Boreholes, Lab, Groundwater, Reports">SPT، Boreholes، مختبر، مياه جوفية، تقرير</div><div class="cat-bottom"><span class="cat-count" data-ar="6 أقسام + ITP" data-en="6 Sections + ITP">6 أقسام + ITP</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('fire')"><span class="cat-emoji">🔥</span><div class="cat-name" data-ar="الحريق والسلامة" data-en="Fire & Safety">الحريق والسلامة</div><div class="cat-desc">QCDD، Sprinkler، مخارج الطوارئ، Hose Reel</div><div class="cat-bottom"><span class="cat-count">متطلبات QCDD</span><span class="cat-arr">←</span></div></div>
-
-<div class="cat-card" onclick="openDetail('ashghal_forms')" style="background:linear-gradient(135deg,rgba(122,21,21,.15),rgba(201,168,76,.05));border-color:rgba(201,168,76,.3)">
-<span class="cat-emoji">📝</span><div class="cat-name">نماذج Ashghal</div><div class="cat-desc">RFI، NCR، Daily Report — تصدير Excel</div><div class="cat-bottom"><span class="cat-count" style="color:var(--gold)">3 نماذج</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('shoring_itp')"><span class="cat-emoji">⛏️</span><div class="cat-name">التدعيم والحفريات</div><div class="cat-desc">Shoring, Dewatering, سلامة الحفريات</div><div class="cat-bottom"><span class="cat-count">10 بنود + ITP</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('cctv_itp')"><span class="cat-emoji">📹</span><div class="cat-name">فحص CCTV</div><div class="cat-desc">BS EN 13508, WRc, Grade System</div><div class="cat-bottom"><span class="cat-count">8 بنود + رموز</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('sabkha_treatment')"><span class="cat-emoji">🏜️</span><div class="cat-name">معالجة السبخة</div><div class="cat-desc">Sabkha ID, Geotextile, Stabilization</div><div class="cat-bottom"><span class="cat-count">7 بنود IAN-006</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('photo_analyzer')"><span class="cat-emoji">📸</span><div class="cat-name">تحليل صور الموقع</div><div class="cat-desc">ارفع صورة → كشف العيوب → NCR</div><div class="cat-bottom"><span class="cat-count">AI Vision</span><span class="cat-arr">←</span></div></div>
-
-<div class="cat-card" onclick="openDetail('road_design_criteria')"><span class="cat-emoji">📐</span><div class="cat-name">معايير تصميم الطرق</div><div class="cat-desc">عروض، مسافات رؤية، انحدار، Superelevation</div><div class="cat-bottom"><span class="cat-count">QCS S6 P2</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('marker_tape_colors')"><span class="cat-emoji">🎨</span><div class="cat-name">ألوان شريط التحذير</div><div class="cat-desc">KAHRAMAA Official — 7 شبكات</div><div class="cat-bottom"><span class="cat-count">QCS S8</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('pile_load_testing')"><span class="cat-emoji">🏗️</span><div class="cat-name">اختبار الخوازيق</div><div class="cat-desc">Static Load Test, PIT, Kentledge</div><div class="cat-bottom"><span class="cat-count">QCS S5 + BS 8004</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('esal_calculator_full')"><span class="cat-emoji">🚛</span><div class="cat-name">حاسبة ESAL</div><div class="cat-desc">AADT → ESAL → Traffic Designation</div><div class="cat-bottom"><span class="cat-count">AASHTO 1993</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('qcs_changes_2014_2024')"><span class="cat-emoji">📊</span><div class="cat-name">QCS 2014 vs 2024</div><div class="cat-desc">أهم 10 تغييرات بين الإصدارين</div><div class="cat-bottom"><span class="cat-count">مقارنة كاملة</span><span class="cat-arr">←</span></div></div>
-
-<div class="cat-card" onclick="openDetail('mix_design_validator')"><span class="cat-emoji">🧪</span><div class="cat-name">Mix Design Validator</div><div class="cat-desc">تحقق من خلطة الخرسانة vs QCS Durability</div><div class="cat-bottom"><span class="cat-count">Sulphate + w/c</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('pipe_sizing_calc')"><span class="cat-emoji">🔧</span><div class="cat-name">حاسبة أقطار المواسير</div><div class="cat-desc">Q → DN + Velocity Check + Material</div><div class="cat-bottom"><span class="cat-count">Manning + Hazen</span><span class="cat-arr">←</span></div></div>
-
-
-
-    <div class="cat-card" onclick="openDetail('doc_analyzer')" style="background:linear-gradient(135deg,rgba(52,152,219,0.15),rgba(52,152,219,0.05));border-color:rgba(52,152,219,0.4);">
-      <span class="cat-emoji">📁</span>
-      <div class="cat-name" data-ar="محلل الوثائق" data-en="Document Analyzer">محلل الوثائق</div>
-      <div class="cat-desc" data-ar="ارفع المواصفات والرسومات وجداول الكميات" data-en="Upload Specs, Drawings & BOQ for AI Analysis">ارفع المواصفات والرسومات وجداول الكميات</div>
-      <div class="cat-bottom">
-        <span class="cat-count" data-ar="AI تحليل ذكي" data-en="AI Smart Analysis">AI تحليل ذكي</span>
-        <span class="cat-arr">←</span>
-      </div>
-    </div>
-    <div class="cat-card" onclick="openDetail('calculator')"><span class="cat-emoji">🧮</span><div class="cat-name">حاسبة المواصفات</div><div class="cat-desc">أدخل أي اختبار → Pass أو Fail فوراً</div><div class="cat-bottom"><span class="cat-count">38+ اختبار</span><span class="cat-arr">←</span></div></div>
-  </div>
-  <div class="section-head"><div class="section-title">آخر <span>المواصفات</span></div></div>
+<div class="section-head"><div class="section-title">آخر <span>المواصفات</span></div></div>
   <div class="specs-section">
     <div class="spec-row" onclick="quickSearch('متطلبات الConcrete المسلحة QCS')"><div class="spec-code">QCS-S6-C3</div><div><div class="spec-title">متطلبات الConcrete المسلحة</div><div class="spec-sub">الفصل السادس — القسم الثالث</div></div><span class="spec-tag">إنشاء</span><span class="spec-arr">←</span></div>
     <div class="spec-row" onclick="quickSearch('مواصفات تصميم الطرق MMUP')"><div class="spec-code">MMUP-RD-S2</div><div><div class="spec-title">مواصفات تصميم الطرق الداخلية</div><div class="spec-sub">وزارة البلدية — القسم الثاني</div></div><span class="spec-tag">طرق</span><span class="spec-arr">←</span></div>
@@ -7893,67 +7855,108 @@ content: `
 ashghal_forms: {
 title: '📝 نماذج Ashghal الرسمية — RFI / NCR / Daily Report',
 content: `
-<h3>📋 طلب فحص (RFI)</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
-<div><label style="font-size:11px;color:var(--text3)">رقم المشروع *</label><input id="rfi-proj" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal" placeholder="PWA-2024-XXX"></div>
-<div><label style="font-size:11px;color:var(--text3)">رقم RFI *</label><input id="rfi-num" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal" value="RFI-001"></div>
-<div><label style="font-size:11px;color:var(--text3)">التاريخ</label><input id="rfi-date" type="date" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal"></div>
-</div>
-<div style="background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);border-radius:10px;padding:12px;margin-bottom:12px;">
-<div style="font-size:12px;color:var(--gold);font-weight:700;margin-bottom:6px;">★ بيانات الموقع (Ashghal)</div>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
-<div><label style="font-size:11px;color:var(--text3)">الموقع *</label><input id="rfi-loc" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal" placeholder="Ch. 0+340 to 0+580"></div>
-<div><label style="font-size:11px;color:var(--text3)">Chainage *</label><input id="rfi-ch" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal" placeholder="CH 0+000"></div>
-<div><label style="font-size:11px;color:var(--text3)">Grid *</label><input id="rfi-grid" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal" placeholder="E:517840 N:2671200"></div>
-<div><label style="font-size:11px;color:var(--text3)">Layer No. *</label><input id="rfi-layer" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal" placeholder="Layer 3"></div>
-<div><label style="font-size:11px;color:var(--text3)">QCS Clause *</label><input id="rfi-clause" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal" placeholder="QCS P8 S5.3"></div>
-<div><label style="font-size:11px;color:var(--text3)">Drawing Ref.</label><input id="rfi-dwg" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal" placeholder="DWG-001-Rev.C"></div>
-</div></div>
-<div style="margin-bottom:12px"><label style="font-size:11px;color:var(--text3)">نتائج الاختبارات *</label><textarea id="rfi-results" style="width:100%;min-height:60px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;resize:vertical" placeholder="Field Density = 98.5% MDD ✓"></textarea></div>
-<div style="display:flex;gap:8px;flex-wrap:wrap;">
-<button onclick="exportRFIExcel()" style="background:linear-gradient(135deg,#2ecc71,#27ae60);border:none;border-radius:8px;padding:8px 16px;color:#fff;font-family:Tajawal;font-weight:700;cursor:pointer">📥 تصدير Excel</button>
-<button onclick="printCurrentDetail()" style="background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px 16px;color:var(--text2);font-family:Tajawal;cursor:pointer">🖨️ طباعة</button>
-</div>
-<hr style="border:none;border-top:1px solid var(--border);margin:20px 0">
-<h3>⚠️ عدم مطابقة (NCR)</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
-<div><label style="font-size:11px;color:var(--text3)">NCR No. *</label><input id="ncr-num" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal" value="NCR-001"></div>
-<div><label style="font-size:11px;color:var(--text3)">التاريخ</label><input id="ncr-date" type="date" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal"></div>
-<div><label style="font-size:11px;color:var(--text3)">الأولوية</label><select id="ncr-priority" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal"><option>🔴 Critical</option><option selected>🟠 Major</option><option>🟡 Minor</option></select></div>
-</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
-<div><label style="font-size:11px;color:var(--text3)">الموقع + Grid *</label><input id="ncr-loc" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal" placeholder="Zone C, Road 4, Grid D5"></div>
-<div><label style="font-size:11px;color:var(--text3)">QCS Clause *</label><input id="ncr-clause" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal" placeholder="QCS P8 S5.3.1"></div>
-</div>
-<div style="margin-bottom:8px"><label style="font-size:11px;color:var(--text3)">وصف العيب *</label><textarea id="ncr-desc" style="width:100%;min-height:60px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;resize:vertical" placeholder="Core Density = 94.8% TMD — أقل من 96%"></textarea></div>
-<div style="margin-bottom:8px"><label style="font-size:11px;color:var(--text3)">السبب الجذري (Root Cause)</label><textarea id="ncr-root" style="width:100%;min-height:50px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;resize:vertical" placeholder="Insufficient roller passes"></textarea></div>
-<div style="margin-bottom:8px"><label style="font-size:11px;color:var(--text3)">الإجراء التصحيحي *</label><textarea id="ncr-corrective" style="width:100%;min-height:50px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;resize:vertical" placeholder="Mill and re-lay affected section"></textarea></div>
-<div style="margin-bottom:12px"><label style="font-size:11px;color:var(--text3)">الإجراء الوقائي</label><textarea id="ncr-preventive" style="width:100%;min-height:50px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;resize:vertical" placeholder="Mandatory temp check per truck"></textarea></div>
-<div style="display:flex;gap:8px;flex-wrap:wrap;">
-<button onclick="exportNCRExcel()" style="background:linear-gradient(135deg,#2ecc71,#27ae60);border:none;border-radius:8px;padding:8px 16px;color:#fff;font-family:Tajawal;font-weight:700;cursor:pointer">📥 تصدير NCR Excel</button>
-<button onclick="printCurrentDetail()" style="background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px 16px;color:var(--text2);font-family:Tajawal;cursor:pointer">🖨️ طباعة</button>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+<button onclick="document.getElementById('rfi-section').style.display='block';document.getElementById('ncr-section').style.display='none';document.getElementById('dpr-section').style.display='none'" style="background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);border-radius:10px;padding:8px 18px;color:var(--gold2);font-family:Cairo,Tajawal;font-size:13px;font-weight:700;cursor:pointer">📋 RFI — طلب فحص</button>
+<button onclick="document.getElementById('rfi-section').style.display='none';document.getElementById('ncr-section').style.display='block';document.getElementById('dpr-section').style.display='none'" style="background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.3);border-radius:10px;padding:8px 18px;color:#e74c3c;font-family:Cairo,Tajawal;font-size:13px;font-weight:700;cursor:pointer">⚠️ NCR — عدم مطابقة</button>
+<button onclick="document.getElementById('rfi-section').style.display='none';document.getElementById('ncr-section').style.display='none';document.getElementById('dpr-section').style.display='block'" style="background:rgba(52,152,219,.1);border:1px solid rgba(52,152,219,.3);border-radius:10px;padding:8px 18px;color:#3498db;font-family:Cairo,Tajawal;font-size:13px;font-weight:700;cursor:pointer">📊 DPR — التقرير اليومي</button>
 </div>
 
-<hr style="border:none;border-top:1px solid var(--border);margin:20px 0">
-<h3>📊 التقرير اليومي (DPR)</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
-<div><label style="font-size:11px;color:var(--text3)">المشروع</label><input id="dpr-proj" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal" placeholder="Project Name"></div>
-<div><label style="font-size:11px;color:var(--text3)">التاريخ</label><input id="dpr-date" type="date" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal"></div>
-<div><label style="font-size:11px;color:var(--text3)">الطقس</label><select id="dpr-weather" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal"><option>صافي</option><option>غائم جزئياً</option><option>ممطر</option><option>عاصفة رملية</option></select></div>
+<div id="rfi-section" style="background:var(--dark4);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px;">
+<h3 style="color:var(--gold2);font-family:Cairo;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)">📋 Request for Inspection — RFI</h3>
+<div style="background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);border-radius:8px;padding:8px;margin-bottom:12px;font-size:11px;color:var(--gold)">
+📌 وفق متطلبات Ashghal QA/QC — يشمل Chainage + Grid + Layer + QCS Clause + نوع Hold/Witness Point
 </div>
-<div style="margin-bottom:12px"><label style="font-size:11px;color:var(--text3)">👷 العمالة (وصف | عدد | ساعات — سطر لكل فئة)</label><textarea id="dpr-manpower" style="width:100%;min-height:80px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;resize:vertical" placeholder="عمال فرش إسفلت | 12 | 8&#10;مشغلي معدات | 4 | 10&#10;مساحين | 2 | 8"></textarea></div>
-<div style="margin-bottom:12px"><label style="font-size:11px;color:var(--text3)">🚜 المعدات (المعدة | العدد | ساعات التشغيل)</label><textarea id="dpr-equipment" style="width:100%;min-height:80px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;resize:vertical" placeholder="Roller 12T | 2 | 8&#10;Paver VOGELE | 1 | 6&#10;Backhoe | 1 | 10"></textarea></div>
-<div style="margin-bottom:12px"><label style="font-size:11px;color:var(--text3)">📈 تقدم الإنجاز (النشاط | الكمية | الوحدة | نسبة)</label><textarea id="dpr-progress" style="width:100%;min-height:80px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;resize:vertical" placeholder="Wearing Course Laying | 1200 | m² | 85%&#10;Subbase Compaction | 800 | m² | 60%"></textarea></div>
-<div style="margin-bottom:12px"><label style="font-size:11px;color:var(--text3)">⚠️ مشاكل / ملاحظات</label><textarea id="dpr-issues" style="width:100%;min-height:50px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;resize:vertical" placeholder="Roller breakdown 2hrs | Rain delay 1hr"></textarea></div>
-<div style="display:flex;gap:8px;flex-wrap:wrap;">
-<button onclick="exportDPRExcel()" style="background:linear-gradient(135deg,#2ecc71,#27ae60);border:none;border-radius:8px;padding:8px 16px;color:#fff;font-family:Tajawal;font-weight:700;cursor:pointer">📥 تصدير Excel</button>
-<button onclick="printCurrentDetail()" style="background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px 16px;color:var(--text2);font-family:Tajawal;cursor:pointer">🖨️ طباعة</button>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
+<div><label style="font-size:10px;color:var(--text3)">رقم المشروع <span style="color:#e74c3c">*</span></label><input id="rfi-proj" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="PWA-2024-XXX"></div>
+<div><label style="font-size:10px;color:var(--text3)">رقم العقد</label><input id="rfi-contract" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="ASHGHAL-C-XXX"></div>
+<div><label style="font-size:10px;color:var(--text3)">رقم RFI <span style="color:#e74c3c">*</span></label><input id="rfi-num" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" value="RFI-001"></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+<div><label style="font-size:10px;color:var(--text3)">المقاول</label><input id="rfi-contractor" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="اسم المقاول"></div>
+<div><label style="font-size:10px;color:var(--text3)">التاريخ <span style="color:#e74c3c">*</span></label><input id="rfi-date" type="date" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px"></div>
+</div>
+<div style="background:rgba(122,21,21,.06);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px;margin-bottom:10px;">
+<div style="font-size:11px;color:var(--gold);font-weight:700;margin-bottom:8px">★ بيانات الموقع — Ashghal Mandatory Fields</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+<div><label style="font-size:10px;color:var(--text3)">الموقع <span style="color:#e74c3c">*</span></label><input id="rfi-loc" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:7px;padding:7px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="Zone 3, Road A"></div>
+<div><label style="font-size:10px;color:var(--text3)">Chainage <span style="color:#e74c3c">*</span></label><input id="rfi-ch" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:7px;padding:7px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="CH 0+340 to 0+580"></div>
+<div><label style="font-size:10px;color:var(--text3)">Grid (QNG) <span style="color:#e74c3c">*</span></label><input id="rfi-grid" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:7px;padding:7px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="E:517840 N:2671200"></div>
+<div><label style="font-size:10px;color:var(--text3)">Layer No. <span style="color:#e74c3c">*</span></label><input id="rfi-layer" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:7px;padding:7px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="Layer 3 of 4"></div>
+<div><label style="font-size:10px;color:var(--text3)">QCS Clause <span style="color:#e74c3c">*</span></label><input id="rfi-clause" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:7px;padding:7px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="QCS 2024 P8 S5.3"></div>
+<div><label style="font-size:10px;color:var(--text3)">Drawing Ref.</label><input id="rfi-dwg" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:7px;padding:7px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="DWG-RD-001 Rev.C"></div>
+</div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+<div><label style="font-size:10px;color:var(--text3)">النشاط المطلوب فحصه <span style="color:#e74c3c">*</span></label><select id="rfi-activity" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px"><optgroup label="🛣️ الطرق"><option>Subgrade Compaction</option><option>Subbase Compaction</option><option>Base Course Compaction</option><option>Prime Coat Application</option><option>Tack Coat Application</option><option>Binder Course Laying</option><option>Wearing Course Laying</option></optgroup><optgroup label="💧 المرافق"><option>Water Pipe Laying</option><option>Sewer Pipe Laying</option><option>Pressure Test</option><option>Air Test</option><option>CCTV Survey</option><option>Chlorination</option></optgroup><optgroup label="🏗️ إنشائي"><option>Rebar Installation</option><option>Formwork Check</option><option>Concrete Pour</option><option>Blinding Concrete</option></optgroup></select></div>
+<div><label style="font-size:10px;color:var(--text3)">نوع النقطة <span style="color:#e74c3c">*</span></label><select id="rfi-point" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px"><option value="HP">🔴 Hold Point — يُوقف العمل</option><option value="WP">🟠 Witness Point — بحضور SC</option><option value="RP">🔵 Review Point — مراجعة وثائق</option></select></div>
+</div>
+<div style="margin-bottom:10px"><label style="font-size:10px;color:var(--text3)">نتائج الاختبارات <span style="color:#e74c3c">*</span></label><textarea id="rfi-results" style="width:100%;min-height:60px;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="Field Density = 98.5% MDD ✓ | CBR = 82% ✓ | Level = ±5mm ✓"></textarea></div>
+<div style="margin-bottom:12px"><label style="font-size:10px;color:var(--text3)">المواد المُعتمدة</label><input id="rfi-materials" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="AMS-XXX — Al-Wakra Quarry Gabbro"></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;padding:12px;background:var(--dark3);border:1px solid var(--border);border-radius:8px;">
+<div><label style="font-size:10px;color:var(--text3)">توقيع المهندس</label><div style="border-bottom:1px solid var(--text3);height:30px;margin-top:4px"></div></div>
+<div><label style="font-size:10px;color:var(--text3)">قرار SC: <span style="font-size:11px">مقبول ☐ &nbsp; مرفوض ☐ &nbsp; Hold ☐</span></label><div style="border-bottom:1px solid var(--text3);height:30px;margin-top:4px"></div></div>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button onclick="exportRFIExcel()" style="background:linear-gradient(135deg,#2ecc71,#27ae60);border:none;border-radius:8px;padding:8px 16px;color:#fff;font-family:Tajawal;font-weight:700;cursor:pointer;font-size:12px">📥 تصدير Excel</button>
+<button onclick="printCurrentDetail()" style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px 16px;color:var(--text2);font-family:Tajawal;cursor:pointer;font-size:12px">🖨️ طباعة</button>
+</div>
+</div>
+
+<div id="ncr-section" style="display:none;background:var(--dark4);border:1px solid rgba(231,76,60,.2);border-radius:14px;padding:20px;margin-bottom:16px;">
+<h3 style="color:#e74c3c;font-family:Cairo;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(231,76,60,.2)">⚠️ Non-Conformance Report — NCR</h3>
+<div style="background:rgba(231,76,60,.06);border:1px solid rgba(231,76,60,.15);border-radius:8px;padding:8px;margin-bottom:12px;font-size:11px;color:#e74c3c">
+📌 وفق ISO 9001 Cl.10.2 + Ashghal QA/QC — يشمل Root Cause Analysis + CAPA (Corrective & Preventive Actions)
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
+<div><label style="font-size:10px;color:var(--text3)">NCR No. <span style="color:#e74c3c">*</span></label><input id="ncr-num" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" value="NCR-001"></div>
+<div><label style="font-size:10px;color:var(--text3)">التاريخ</label><input id="ncr-date" type="date" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px"></div>
+<div><label style="font-size:10px;color:var(--text3)">الأولوية</label><select id="ncr-priority" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px"><option>🔴 Critical — إيقاف عمل فوري</option><option selected>🟠 Major — تصحيح خلال 48hr</option><option>🟡 Minor — تصحيح مُجدوَل</option></select></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+<div><label style="font-size:10px;color:var(--text3)">الموقع + Grid + Chainage <span style="color:#e74c3c">*</span></label><input id="ncr-loc" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="Zone C, Road 4, CH 2+350, Grid D5"></div>
+<div><label style="font-size:10px;color:var(--text3)">QCS Clause المُنتهك <span style="color:#e74c3c">*</span></label><input id="ncr-clause" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="QCS 2024 P8 S5.3.1"></div>
+</div>
+<div style="margin-bottom:10px"><label style="font-size:10px;color:var(--text3)">وصف عدم المطابقة <span style="color:#e74c3c">*</span></label><textarea id="ncr-desc" style="width:100%;min-height:70px;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="Core Density = 94.8% TMD — أقل من الحد الأدنى 96% TMD&#10;الموقع: الحارة اليمنى CH 2+350 to 2+400&#10;عدد الكورات المرفوضة: 3 من 5"></textarea></div>
+<div style="background:rgba(243,156,18,.06);border:1px solid rgba(243,156,18,.15);border-radius:10px;padding:12px;margin-bottom:10px;">
+<div style="font-size:11px;color:#f39c12;font-weight:700;margin-bottom:6px">🔍 Root Cause Analysis — تحليل السبب الجذري</div>
+<textarea id="ncr-root" style="width:100%;min-height:60px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="1. Roller passes insufficient (4 instead of 8)&#10;2. Laying temperature dropped below 130°C&#10;3. Mix delivery exceeded 90 minutes"></textarea>
+</div>
+<div style="background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);border-radius:10px;padding:12px;margin-bottom:10px;">
+<div style="font-size:11px;color:#2ecc71;font-weight:700;margin-bottom:6px">🔧 CAPA — Corrective & Preventive Actions</div>
+<div style="margin-bottom:8px"><label style="font-size:10px;color:var(--text3)">الإجراء التصحيحي <span style="color:#e74c3c">*</span></label><textarea id="ncr-corrective" style="width:100%;min-height:50px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="Mill and re-lay affected 50m section&#10;Achieve ≥96% TMD on re-test&#10;Re-submit RFI after correction"></textarea></div>
+<div><label style="font-size:10px;color:var(--text3)">الإجراء الوقائي</label><textarea id="ncr-preventive" style="width:100%;min-height:50px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="Mandatory temp check per truck (reject <130°C)&#10;Min 8 roller passes before stopping&#10;Delivery time limit: 60 minutes max"></textarea></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
+<div><label style="font-size:10px;color:var(--text3)">المسؤول</label><input id="ncr-resp" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="Site Engineer"></div>
+<div><label style="font-size:10px;color:var(--text3)">تاريخ الإغلاق المستهدف</label><input id="ncr-target" type="date" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px"></div>
+<div><label style="font-size:10px;color:var(--text3)">الحالة</label><select id="ncr-status" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px"><option>🔴 Open</option><option>🟡 In Progress</option><option>🟢 Closed</option></select></div>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button onclick="exportNCRExcel()" style="background:linear-gradient(135deg,#e74c3c,#c0392b);border:none;border-radius:8px;padding:8px 16px;color:#fff;font-family:Tajawal;font-weight:700;cursor:pointer;font-size:12px">📥 تصدير NCR Excel</button>
+<button onclick="printCurrentDetail()" style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px 16px;color:var(--text2);font-family:Tajawal;cursor:pointer;font-size:12px">🖨️ طباعة</button>
+</div>
+</div>
+
+<div id="dpr-section" style="display:none;background:var(--dark4);border:1px solid rgba(52,152,219,.2);border-radius:14px;padding:20px;margin-bottom:16px;">
+<h3 style="color:#3498db;font-family:Cairo;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(52,152,219,.2)">📊 Daily Progress Report — DPR</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
+<div><label style="font-size:10px;color:var(--text3)">المشروع</label><input id="dpr-proj" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="Project Name"></div>
+<div><label style="font-size:10px;color:var(--text3)">التاريخ</label><input id="dpr-date" type="date" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px"></div>
+<div><label style="font-size:10px;color:var(--text3)">الطقس</label><select id="dpr-weather" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px"><option>☀️ صافي</option><option>🌤️ غائم جزئياً</option><option>☁️ غائم</option><option>🌧️ ممطر</option><option>🌪️ عاصفة رملية</option></select></div>
+</div>
+<div style="margin-bottom:10px"><label style="font-size:10px;color:var(--text3)">👷 العمالة (وصف | عدد | ساعات — سطر لكل فئة)</label><textarea id="dpr-manpower" style="width:100%;min-height:70px;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="عمال فرش إسفلت | 12 | 8&#10;مشغلي معدات | 4 | 10&#10;مساحين | 2 | 8"></textarea></div>
+<div style="margin-bottom:10px"><label style="font-size:10px;color:var(--text3)">🚜 المعدات (المعدة | العدد | ساعات)</label><textarea id="dpr-equipment" style="width:100%;min-height:70px;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="Roller 12T | 2 | 8&#10;Paver VOGELE | 1 | 6&#10;Backhoe CAT 420 | 1 | 10"></textarea></div>
+<div style="margin-bottom:10px"><label style="font-size:10px;color:var(--text3)">📈 تقدم الإنجاز (النشاط | الكمية | الوحدة | نسبة)</label><textarea id="dpr-progress" style="width:100%;min-height:70px;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="WC Laying | 1200 | m² | 85%&#10;Subbase Compaction | 800 | m² | 60%"></textarea></div>
+<div style="margin-bottom:12px"><label style="font-size:10px;color:var(--text3)">⚠️ مشاكل وملاحظات</label><textarea id="dpr-issues" style="width:100%;min-height:50px;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="Roller breakdown 2hrs | Rain delay 1hr | Material shortage"></textarea></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button onclick="exportDPRExcel()" style="background:linear-gradient(135deg,#3498db,#2980b9);border:none;border-radius:8px;padding:8px 16px;color:#fff;font-family:Tajawal;font-weight:700;cursor:pointer;font-size:12px">📥 تصدير DPR Excel</button>
+<button onclick="printCurrentDetail()" style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px 16px;color:var(--text2);font-family:Tajawal;cursor:pointer;font-size:12px">🖨️ طباعة</button>
+</div>
 </div>
 `},
 
 // ===== NEW SECTION: PHOTO ANALYZER =====
 photo_analyzer: {
-title: '📸 تحليل صور الموقع — Field Photo Analysis',
+title: '🤖 المفتش الذكي — AI Site Inspector',
 content: `
 <div style="background:var(--dark4);border:2px dashed rgba(201,168,76,.2);border-radius:16px;padding:28px;text-align:center;cursor:pointer;margin-bottom:14px" onclick="document.getElementById('photo-input').click()">
 <div style="font-size:40px;margin-bottom:10px">📷</div>
