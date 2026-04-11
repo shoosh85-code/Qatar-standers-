@@ -3,6 +3,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.anthropic.com https://generativelanguage.googleapis.com">
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#1a0a0a">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -786,7 +787,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <tr><td><strong>الإسمنت OPC</strong></td><td>BS EN 197-1 / ASTM C150</td><td>C3A ≤8% للبيئة العدوانية<br>Fineness ≥275 m²/kg</td><td>QAQC approved list</td></tr>
 <tr><td><strong>SRPC</strong></td><td>BS 4027 / ASTM C150 Type V</td><td>C3A ≤3.5% | SO₃ >0.5% في التربة</td><td>إلزامي في Sabkha</td></tr>
 <tr><td><strong>GGBS</strong></td><td>BS EN 15167</td><td>≥50% replacement للسلفات</td><td>مع OPC أو SRPC</td></tr>
-<tr><td><strong>Aggregate (Gabbro)</strong></td><td>BS EN 12620 / ASTM C33</td><td>LA ≤30% (Base) ≤25% (WC)<br>Flakiness ≤25%</td><td>Approved quarry</td></tr>
+<tr><td><strong>Aggregate (Gabbro)</strong></td><td>BS EN 12620 / ASTM C33</td><td>LA ≤35% (Subbase) ≤30% (Base) ≤25% (WC) // QCS-2024 Verified: P6<br>Flakiness ≤25%</td><td>Approved quarry</td></tr>
 <tr><td><strong>Bitumen 60/70</strong></td><td>ASTM D946</td><td>Penetration 60-70 @25°C<br>Softening Point ≥49°C</td><td>Per consignment</td></tr>
 <tr><td><strong>PMB 45/80-65</strong></td><td>EN 14023</td><td>Elastic Recovery ≥70%<br>Softening Point ≥65°C</td><td>Per consignment</td></tr>
 <tr><td><strong>HDPE Pipe</strong></td><td>ISO 4427 / BS EN 12201</td><td>PE100 SDR11/17<br>MRS 10 MPa</td><td>KAHRAMAA approved</td></tr>
@@ -1551,7 +1552,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
 <div onclick="openDetail('subgrade')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
 <div style="font-size:18px;">1️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subgrade</div>
-<div style="color:var(--text3);font-size:11px;">CBR≥15% | Comp≥95% MDD</div></div>
+<div style="color:var(--text3);font-size:11px;">CBR≥8% | Comp≥95% MDD</div></div>
 <div onclick="openDetail('subbase')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
 <div style="font-size:18px;">2️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subbase</div>
 <div style="color:var(--text3);font-size:11px;">CBR≥70% | Comp≥98% MDD</div></div>
@@ -1563,10 +1564,10 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="color:var(--text3);font-size:11px;">MC-30/70 | 0.8-1.2 L/m²</div></div>
 <div onclick="openDetail('binder')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
 <div style="font-size:18px;">5️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Binder Course</div>
-<div style="color:var(--text3);font-size:11px;">BC-A/B | Stab≥8kN | 96%TMD</div></div>
+<div style="color:var(--text3);font-size:11px;">BC-A/B | Stab≥8kN | 97%TMD</div></div>
 <div onclick="openDetail('wearing')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
 <div style="font-size:18px;">6️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Wearing Course</div>
-<div style="color:var(--text3);font-size:11px;">WC | PSV≥55 | IRI | 96%TMD</div></div>
+<div style="color:var(--text3);font-size:11px;">WC | PSV≥55 | IRI | 97%TMD</div></div>
 <div onclick="openDetail('finishing')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
 <div style="font-size:18px;">7️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">التشطيبات</div>
 <div style="color:var(--text3);font-size:11px;">Kerbs + Markings + Signs</div></div>
@@ -1668,7 +1669,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
 <div onclick="openDetail('subgrade')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
 <div style="font-size:18px;">1️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subgrade</div>
-<div style="color:var(--text3);font-size:11px;">CBR≥15% | Comp≥95% MDD</div></div>
+<div style="color:var(--text3);font-size:11px;">CBR≥8% | Comp≥95% MDD</div></div>
 <div onclick="openDetail('subbase')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
 <div style="font-size:18px;">2️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subbase</div>
 <div style="color:var(--text3);font-size:11px;">CBR≥70% | Comp≥98% MDD</div></div>
@@ -1680,10 +1681,10 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="color:var(--text3);font-size:11px;">MC-30/70 | 0.8-1.2 L/m²</div></div>
 <div onclick="openDetail('binder')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
 <div style="font-size:18px;">5️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Binder Course</div>
-<div style="color:var(--text3);font-size:11px;">BC-A/B | Stab≥8kN | 96%TMD</div></div>
+<div style="color:var(--text3);font-size:11px;">BC-A/B | Stab≥8kN | 97%TMD</div></div>
 <div onclick="openDetail('wearing')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
 <div style="font-size:18px;">6️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Wearing Course</div>
-<div style="color:var(--text3);font-size:11px;">WC | PSV≥55 | IRI | 96%TMD</div></div>
+<div style="color:var(--text3);font-size:11px;">WC | PSV≥55 | IRI | 97%TMD</div></div>
 <div onclick="openDetail('finishing')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
 <div style="font-size:18px;">7️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Finishing</div>
 <div style="color:var(--text3);font-size:11px;">Kerbs + Markings + Signs</div></div>
@@ -1764,7 +1765,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 • مواد ملوثة أو ضارة (Deleterious Materials)<br>
 • مواد تحتوي SO₃ &gt; 0.5% بدون موافقة مهندس ومعالجة<br>
 • مواد تحتوي Chloride &gt; 0.6% بدون موافقة<br>
-• تربة CBR &lt; 15% (عادية) أو &lt; 8% (Sabkha) بدون معالجة معتمدة<br>
+• تربة CBR &lt; 8% (عادية) أو &lt; 8% (Sabkha) بدون معالجة معتمدة<br>
 • أي مادة بحجم يتجاوز 75mm
 </div>
 
@@ -1894,7 +1895,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>HP-01</td><td>اعتماد تقرير الجسات + تصنيف التربة قبل أي حفر</td><td>GI Report + Ashghal/Engineer Approval</td></tr>
 <tr><td>HP-02</td><td>إزالة المواد غير المقبولة وتأكيد الاستبدال</td><td>Disposal Records + Replacement Lab Tests</td></tr>
 <tr><td>HP-03</td><td>Proctor MDD + OMC معتمد قبل بدء الدمك</td><td>Lab Compaction Report — per material change</td></tr>
-<tr><td>HP-04</td><td>Field Density ≥ 95% MDD + CBR ≥ 15%/8% مكتملان ومعتمدان</td><td>Sand Cone Reports + CBR Reports</td></tr>
+<tr><td>HP-04</td><td>Field Density ≥ 95% MDD + CBR ≥ 8%/8% مكتملان ومعتمدان</td><td>Sand Cone Reports + CBR Reports</td></tr>
 <tr><td>HP-05</td><td>Level Survey ± 10mm معتمد من الاستشاري</td><td>As-Built Survey Report</td></tr>
 </table>
 
@@ -1924,7 +1925,7 @@ The following SHALL NOT be used in the Subgrade layer:<br>
 • Deleterious or contaminated materials<br>
 • SO₃ &gt; 0.5% without Engineer approval + treatment<br>
 • Chloride &gt; 0.6% without Engineer approval<br>
-• Soil with CBR &lt; 15% (general) or &lt; 8% (Sabkha) without approved treatment<br>
+• Soil with CBR &lt; 8% (general) or &lt; 8% (Sabkha) without approved treatment<br>
 • Material with any particle exceeding 75mm
 </div>
 
@@ -2046,7 +2047,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>HP-01</td><td>GI Report + soil classification approved before any excavation</td><td>GI Report + Engineer Approval</td></tr>
 <tr><td>HP-02</td><td>Unsuitable material removed and replacement confirmed</td><td>Disposal Records + Lab Tests</td></tr>
 <tr><td>HP-03</td><td>Proctor MDD + OMC approved before compaction starts</td><td>Lab Compaction Report — per material change</td></tr>
-<tr><td>HP-04</td><td>Field Density ≥ 95% MDD + CBR ≥ 15%/8% complete and approved</td><td>Sand Cone Reports + CBR Reports</td></tr>
+<tr><td>HP-04</td><td>Field Density ≥ 95% MDD + CBR ≥ 8%/8% complete and approved</td><td>Sand Cone Reports + CBR Reports</td></tr>
 <tr><td>HP-05</td><td>Level Survey ± 10mm approved by Consultant</td><td>As-Built Survey Report</td></tr>
 </table>
 
@@ -2323,7 +2324,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </table></div><h3>Tack Coat — QCS S6 P5 Page 13</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
 <tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>On Binder</th><th>On Wearing</th><th>Reference</th></tr>
 <tr><td>Material</td><td>SS-1h or CSS-1h</td><td>SS-1h or CSS-1h</td><td>ASTM D977</td></tr>
-<tr><td>Rate (Residual)</td><td>0.20–0.40 L/m²</td><td>0.20–0.40 L/m²</td><td>QCS S6 P5 P13</td></tr>
+<tr><td>Rate (Residual)</td><td>0.15–0.35 L/m²</td><td>0.15–0.35 L/m²</td><td>QCS S6 P5 P13</td></tr>
 <tr><td>Temperature</td><td>50–70°C</td><td>50–70°C</td><td>QCS S6 P5</td></tr>
 <tr><td>Ready Sign</td><td>Full black (breakup)</td><td>Full black (breakup)</td><td>Visual</td></tr>
 <tr><td>Excess Risk</td><td>Slippage between layers</td><td>Slippage = NCR</td><td>QCS Note</td></tr>
@@ -2348,7 +2349,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
 <tr style="background:rgba(122,21,21,0.85);"><th>الخاصية</th><th>BC Class A</th><th>BC Class B</th><th>Test Method</th><th>Min Frequency</th></tr>
 <tr><td>Compaction Blows (per face)</td><td>75</td><td>75</td><td>ASTM D1559</td><td>per JMF</td></tr>
-<tr><td>Marshall Stability (min)</td><td>≥ <strong>9.0 kN</strong></td><td>≥ <strong>8.0 kN</strong></td><td>ASTM D1559</td><td>1 per 200t</td></tr>
+<tr><td>Marshall Stability (min)</td><td>≥ <strong>8.0 kN</strong></td><td>≥ <strong>8.0 kN</strong></td><td>ASTM D1559</td><td>1 per 200t</td></tr>
 <tr><td>Marshall Flow</td><td>2 – 4 mm</td><td>2 – 4 mm</td><td>ASTM D1559</td><td>1 per 200t</td></tr>
 <tr><td>Air Voids Va</td><td>3 – 5%</td><td>3 – 5%</td><td>ASTM D3203</td><td>1 per 200t</td></tr>
 <tr><td>VMA (Voids in Mineral Agg)</td><td>≥ <strong>14%</strong></td><td>≥ <strong>14%</strong></td><td>Calculation</td><td>1 per 200t</td></tr>
@@ -2375,9 +2376,9 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <h3>📐 Field Density — QCS S6 P5 Table 5:11</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
 <tr style="background:rgba(122,21,21,0.85);"><th>الاختبار</th><th>المعيار</th><th>التكرار</th><th>الرفض</th></tr>
-<tr><td>Core Density (TMD%)</td><td>≥ 96% TMD</td><td>1 per 1,000 m²</td><td>&lt; 93% = رفض فوري</td></tr>
-<tr><td>Mean of 5 Cores</td><td>≥ 97% TMD</td><td>per Lot (2000–3000m²)</td><td>&lt; 96% = NCR</td></tr>
-<tr><td>Nuclear Gauge</td><td>≥ 96% TMD</td><td>1 per 200 m² (مراقبة)</td><td>للمراقبة فقط</td></tr>
+<tr><td>Core Density (TMD%)</td><td>≥97% TMD</td><td>1 per 1,000 m²</td><td>&lt; 93% = رفض فوري</td></tr>
+<tr><td>Mean of 5 Cores</td><td>≥97% TMD</td><td>per Lot (2000–3000m²)</td><td>&lt; 97% = NCR</td></tr>
+<tr><td>Nuclear Gauge</td><td>≥97% TMD</td><td>1 per 200 m² (مراقبة)</td><td>للمراقبة فقط</td></tr>
 <tr><td>Air Voids from Core</td><td>2 – 8%</td><td>per core</td><td>&gt; 8% = رفض</td></tr>
 </table></div>
 <h3>🔴 Hold Points</h3>
@@ -2386,7 +2387,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>HP-01</td><td>JMF (Job Mix Formula) معتمد من المهندس</td><td>JMF Approval + Trial Mix Results</td></tr>
 <tr><td>HP-02</td><td>Trial Section ≥ 200m × 1 lane معتمد</td><td>Trial Section Report + Core Results</td></tr>
 <tr><td>HP-03</td><td>Delivery Temp ≥ 135°C/145°C (Non-PMB/PMB)</td><td>Daily Temperature Log</td></tr>
-<tr><td>HP-04</td><td>Core Density ≥ 96% TMD معتمد</td><td>Core Density Report per Lot</td></tr>
+<tr><td>HP-04</td><td>Core Density ≥97% TMD معتمد</td><td>Core Density Report per Lot</td></tr>
 </table></div>
 </div>
 
@@ -2403,7 +2404,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <h3>Table 5:6 — Marshall Mix Criteria — QCS S6 P5 Page 15</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
 <tr style="background:rgba(122,21,21,0.85);"><th>Property</th><th>BC Class A</th><th>BC Class B</th><th>Test</th><th>Frequency</th></tr>
-<tr><td>Stability (min)</td><td>≥ 9.0 kN</td><td>≥ 8.0 kN</td><td>ASTM D1559</td><td>1/200t</td></tr>
+<tr><td>Stability (min)</td><td>≥ 8.0 kN</td><td>≥ 8.0 kN</td><td>ASTM D1559</td><td>1/200t</td></tr>
 <tr><td>Flow</td><td>2–4mm</td><td>2–4mm</td><td>ASTM D1559</td><td>1/200t</td></tr>
 <tr><td>Air Voids Va</td><td>3–5%</td><td>3–5%</td><td>ASTM D3203</td><td>1/200t</td></tr>
 <tr><td>VMA</td><td>≥ 14%</td><td>≥ 14%</td><td>Calc</td><td>1/200t</td></tr>
@@ -2421,8 +2422,8 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>Finish Rolling (min)</td><td>≥ 60°C</td><td>≥ 70°C</td></tr>
 </table></div><h3>Field Density — Table 5:11</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
 <tr style="background:rgba(122,21,21,0.85);"><th>Test</th><th>Requirement</th><th>Frequency</th></tr>
-<tr><td>Core TMD%</td><td>≥ 96% TMD</td><td>1/1000m²</td></tr>
-<tr><td>Mean 5 Cores</td><td>≥ 97% TMD</td><td>per Lot</td></tr>
+<tr><td>Core TMD%</td><td>≥97% TMD</td><td>1/1000m²</td></tr>
+<tr><td>Mean 5 Cores</td><td>≥97% TMD</td><td>per Lot</td></tr>
 <tr><td>Any Core Min</td><td>≥ 93% TMD (below = reject)</td><td>per core</td></tr>
 </table></div>
 </div>
@@ -2445,7 +2446,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
 <tr style="background:rgba(122,21,21,0.85);"><th>الخاصية</th><th>Wearing Course</th><th>Test Method</th><th>Min Frequency</th></tr>
 <tr><td>Compaction Blows (per face)</td><td>75</td><td>ASTM D1559</td><td>per JMF</td></tr>
-<tr><td>Marshall Stability (min)</td><td>≥ <strong>9.0 kN</strong></td><td>ASTM D1559</td><td>1 per 200t</td></tr>
+<tr><td>Marshall Stability (min)</td><td>≥ <strong>8.0 kN</strong></td><td>ASTM D1559</td><td>1 per 200t</td></tr>
 <tr><td>Marshall Flow</td><td>2 – 4 mm</td><td>ASTM D1559</td><td>1 per 200t</td></tr>
 <tr><td>Air Voids Va (design)</td><td>4.0% (JMF)</td><td>ASTM D3203</td><td>1 per 200t</td></tr>
 <tr><td>Air Voids Va (field accept)</td><td>3 – 5%</td><td>ASTM D3203</td><td>1 per 200t</td></tr>
@@ -2466,7 +2467,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>Acceptable Field Range</td><td>3 – 5%</td><td>نطاق القبول الميداني</td></tr>
 <tr><td>Max any single specimen</td><td>7%</td><td>أقصى حد لعينة فردية</td></tr>
 <tr><td>Min field Va</td><td>2%</td><td>أدنى حد مقبول</td></tr>
-<tr><td>TMD Target (%)</td><td>≥ 96% TMD</td><td>نسبة الكثافة القصوى</td></tr>
+<tr><td>TMD Target (%)</td><td>≥97% TMD</td><td>نسبة الكثافة القصوى</td></tr>
 </table></div>
 <h3>📐 جدول 5:10 — Tolerances (Actual vs JMF) — QCS S6 P5 Page 17</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
@@ -2484,11 +2485,11 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <h3>📐 جدول 5:11 — Field Density Acceptance — QCS S6 P5 Pages 18–19</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
 <tr style="background:rgba(122,21,21,0.85);"><th>الاختبار</th><th>المعيار</th><th>التكرار</th><th>إجراء الفشل</th></tr>
-<tr><td>Core TMD%</td><td>≥ 96% TMD (كل كور)</td><td>1 per 1,000 m²</td><td>NCR + Investigation</td></tr>
-<tr><td>Mean of 5 Cores</td><td>≥ 97% TMD</td><td>per Lot</td><td>NCR + Possible Mill & Relay</td></tr>
+<tr><td>Core TMD%</td><td>≥97% TMD (كل كور)</td><td>1 per 1,000 m²</td><td>NCR + Investigation</td></tr>
+<tr><td>Mean of 5 Cores</td><td>≥97% TMD</td><td>per Lot</td><td>NCR + Possible Mill & Relay</td></tr>
 <tr><td>Minimum single core</td><td>≥ 93% TMD</td><td>per core</td><td>رفض فوري + إعادة دمك أو فرز</td></tr>
 <tr><td>Air Voids from Core</td><td>2 – 8%</td><td>per core</td><td>&gt; 8% = NCR</td></tr>
-<tr><td>Nuclear Gauge</td><td>≥ 96% TMD</td><td>1 per 200 m²</td><td>مراقبة فقط — ليس للقبول الرسمي</td></tr>
+<tr><td>Nuclear Gauge</td><td>≥97% TMD</td><td>1 per 200 m²</td><td>مراقبة فقط — ليس للقبول الرسمي</td></tr>
 </table></div>
 <h3>📐 Smoothness — IRI & Straightedge</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
@@ -2504,7 +2505,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>HP-01</td><td>JMF + Trial Mix معتمدان</td><td>JMF Approval Letter</td></tr>
 <tr><td>HP-02</td><td>Tack Coat مكتمل + جاف</td><td>Visual Inspection + Rate Record</td></tr>
 <tr><td>HP-03</td><td>Trial Section ≥ 200m معتمد</td><td>Trial Section Report + IRI + Cores</td></tr>
-<tr><td>HP-04</td><td>Core Density ≥ 96% TMD معتمد</td><td>Core Report per Lot</td></tr>
+<tr><td>HP-04</td><td>Core Density ≥97% TMD معتمد</td><td>Core Report per Lot</td></tr>
 <tr><td>HP-05</td><td>IRI Final ≤ 0.9/1.5 m/km معتمد</td><td>IRI Survey Report</td></tr>
 </table></div>
 </div>
@@ -2522,7 +2523,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <h3>Table 5:6 — Marshall Criteria — Wearing Course — Page 15</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
 <tr style="background:rgba(122,21,21,0.85);"><th>Property</th><th>WC Requirement</th><th>Test</th><th>Frequency</th></tr>
-<tr><td>Stability</td><td>≥ 9.0 kN</td><td>ASTM D1559</td><td>1/200t</td></tr>
+<tr><td>Stability</td><td>≥ 8.0 kN</td><td>ASTM D1559</td><td>1/200t</td></tr>
 <tr><td>Flow</td><td>2–4mm</td><td>ASTM D1559</td><td>1/200t</td></tr>
 <tr><td>Va (field)</td><td>3–5%</td><td>ASTM D3203</td><td>1/200t</td></tr>
 <tr><td>VMA</td><td>≥ 15%</td><td>Calc</td><td>1/200t</td></tr>
@@ -2538,8 +2539,8 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>Mixing Temp</td><td>± 10°C</td></tr>
 </table></div><h3>Table 5:11 — Field Density — Pages 18–19</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
 <tr style="background:rgba(122,21,21,0.85);"><th>Test</th><th>Requirement</th><th>Frequency</th></tr>
-<tr><td>Core TMD%</td><td>≥ 96% TMD</td><td>1/1000m²</td></tr>
-<tr><td>Mean 5 Cores</td><td>≥ 97% TMD</td><td>per Lot</td></tr>
+<tr><td>Core TMD%</td><td>≥97% TMD</td><td>1/1000m²</td></tr>
+<tr><td>Mean 5 Cores</td><td>≥97% TMD</td><td>per Lot</td></tr>
 <tr><td>Min single core</td><td>≥ 93% TMD (below = reject)</td><td>per core</td></tr>
 </table></div><h3>Smoothness</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
 <tr style="background:rgba(122,21,21,0.85);"><th>Test</th><th>Non-PMB</th><th>PMB</th><th>Method</th></tr>
@@ -2669,7 +2670,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>As-Built Drawings</td><td>Full set signed + stamped</td></tr>
 <tr><td>All Test Results</td><td>Bound + signed QC file</td></tr>
 <tr><td>IRI (Wearing Course PMB)</td><td>≤ 0.9 m/km</td></tr>
-<tr><td>Core Density</td><td>≥ 96% TMD all layers</td></tr>
+<tr><td>Core Density</td><td>≥97% TMD all layers</td></tr>
 <tr><td>Defect Liability Period</td><td>12-24 months per contract</td></tr>
 <tr><td>Road Markings & Signs</td><td>100% complete before handover</td></tr>
 <tr><td>Ashghal Completion Certificate</td><td>Mandatory before opening to traffic</td></tr>
@@ -3224,7 +3225,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 <h3>متطلبات التصميم — Foul Sewer</h3>
 <table class="dm-table"><thead><tr><th>البند</th><th>الاشتراط</th><th>المرجع</th></tr></thead><tbody>
-<tr><td>المعايير التصميمية</td><td>Self-cleansing velocity ≥0.6 m/s<br>Max velocity ≤3.0 m/s<br>Min gradient: DN150→1:80, DN200→1:150<br>Manhole spacing ≤120m</td><td>QCS 2024 S8 / Ashghal</td></tr>
+<tr><td>المعايير التصميمية</td><td>Self-cleansing velocity ≥0.6 m/s<br>Max velocity ≤3.0 m/s<br>Min gradient: DN150→1:100, DN200→1:150<br>Manhole spacing ≤120m</td><td>QCS 2024 S8 / Ashghal</td></tr>
 <tr><td>الدراسة الطبوغرافية</td><td>Total Station survey — Grid 25m<br>Benchmarks كل 200m</td><td>Ashghal Survey Manual</td></tr>
 <tr><td>Utility Detection</td><td>GPR scan قبل الحفر — كشف المرافق القائمة</td><td>Ashghal NOC</td></tr>
 <tr><td>Soil Investigation</td><td>Trial pits كل 100m أو BH حسب الأهمية<br>GWT level confirmation</td><td>QCS P3</td></tr>
@@ -4401,7 +4402,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th><th>المرجع</th></tr>
 <tr><td>درجة الConcrete</td><td>C35 SRPC كحد أدنى</td><td>QCS S5</td></tr>
 <tr><td>w/c</td><td>≤ 0.45</td><td>QCS S5</td></tr>
-<tr><td>Slump</td><td>150-220mm (Self Compacting)</td><td>QCS S5</td></tr>
+<tr><td>Slump</td><td>160-220mm (Self Compacting)</td><td>QCS S5</td></tr>
 <tr><td>Cover</td><td>75mm</td><td>QCS S5</td></tr>
 <tr><td>Verticality</td><td>≤ 1:75 انحراف</td><td>QCS S5</td></tr>
 <tr><td>Position Tolerance</td><td>≤ 75mm من المحور</td><td>QCS S5</td></tr>
@@ -4426,7 +4427,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <tr><td>PIT (Pile Integrity Test)</td><td>100% كل الخوازيق</td><td>بعد التصلد</td></tr>
 <tr><td>Static Load Test</td><td>2x الحمل التصميمي</td><td>1-2% من العدد الكلي</td></tr>
 <tr><td>Verticality Check</td><td>≤ 1:75</td><td>أثناء الحفر</td></tr>
-<tr><td>Slump Test</td><td>150-220mm</td><td>كل حمولة</td></tr>
+<tr><td>Slump Test</td><td>160-220mm</td><td>كل حمولة</td></tr>
 <tr><td>Cube Test 28 يوم</td><td>≥ 35 N/mm²</td><td>3/50m³</td></tr>
 <tr><td>Base Cleaning</td><td>بصري + فحص التربة</td><td>كل خازوق</td></tr></table>
 <h3>🔴 Hold Points</h3>
@@ -4651,7 +4652,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <tr><td>1.2</td><td>Pile Depth</td><td>Design Drawing</td><td>حسب التصميم + موافقة المهندس</td><td>كل خازوق</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Bore Log</td></tr>
 <tr><td>1.3</td><td>Base Cleaning</td><td>QCS S5</td><td>نظيف بدون فضلات</td><td>كل خازوق</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
 <tr><td>1.4</td><td>Rebar Cage & Cover</td><td>QCS S5</td><td>Cover 75mm + Spacers دائرية</td><td>كل خازوق</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
-<tr><td>1.5</td><td>Slump Test</td><td>QCS S5</td><td>150-220mm</td><td>كل حمولة</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Slump Record</td></tr>
+<tr><td>1.5</td><td>Slump Test</td><td>QCS S5</td><td>160-220mm</td><td>كل حمولة</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Slump Record</td></tr>
 <tr><td>1.6</td><td>Cube Test 28 يوم</td><td>QCS S5</td><td>≥ 35 N/mm²</td><td>3/50m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Test Report</td></tr>
 <tr><td>1.7</td><td>PIT Test</td><td>QCS S5</td><td>100% — No Defects هيكلية</td><td>100% خوازيق</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>PIT Report</td></tr>
 <tr><td>1.8</td><td>Static Load Test</td><td>QCS S5</td><td>2x الحمل التصميمي</td><td>1-2% من الكلي</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Load Test Report</td></tr>
@@ -4967,7 +4968,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <table class="dm-table"><tr><th>نوع الصب</th><th>المعيار</th></tr>
 <tr><td>صب عادي</td><td>75-100mm</td></tr>
 <tr><td>صب بمضخة</td><td>100-150mm</td></tr>
-<tr><td>Bored Piles</td><td>150-220mm</td></tr>
+<tr><td>Bored Piles</td><td>160-220mm</td></tr>
 <tr><td>Self Compacting</td><td>650-750mm (Flow)</td></tr>
 </table>
 <h3>2. Cube Sampling</h3>
@@ -4994,7 +4995,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <tr><th>Pour Type</th><th>Target Slump</th></tr>
 <tr><td>Normal pour</td><td>75-100mm</td></tr>
 <tr><td>Pump pour</td><td>100-150mm</td></tr>
-<tr><td>Bored Piles</td><td>150-220mm</td></tr>
+<tr><td>Bored Piles</td><td>160-220mm</td></tr>
 </table>
 <h3>Cube Sampling</h3>
 <table class="dm-table">
@@ -5362,7 +5363,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <h3>📐 المواصفات</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
 <tr><td>درجة الConcrete</td><td>C35-C40</td></tr>
-<tr><td>Slump</td><td>150-220mm (Self Leveling)</td></tr>
+<tr><td>Slump</td><td>160-220mm (Self Leveling)</td></tr>
 <tr><td>Cover</td><td>75mm</td></tr>
 <tr><td>Casing</td><td>إلزامي في المناطق الرخوة</td></tr>
 <tr><td>Bentonite Slurry</td><td>في التربة غير المستقرة</td></tr>
@@ -6067,12 +6068,12 @@ All numerical values, specifications and test methods shown in Arabic are source
 <table class="dm-table">
 <tr><th>HP</th><th>Stage</th><th>Condition</th></tr>
 <tr><td>HP-01</td><td>Before Subgrade fill</td><td>Material Approval + CBR</td></tr>
-<tr><td>HP-02</td><td>Accept Subgrade</td><td>Density ≥95% + CBR ≥15%/8%</td></tr>
+<tr><td>HP-02</td><td>Accept Subgrade</td><td>Density ≥95% + CBR ≥8%/8%</td></tr>
 <tr><td>HP-03</td><td>Accept Subbase</td><td>Density ≥98% + CBR ≥70%</td></tr>
 <tr><td>HP-04</td><td>Accept Base Course</td><td>Density ≥98% + CBR ≥80%</td></tr>
 <tr><td>HP-05</td><td>Accept Prime Coat</td><td>Rate + Coverage + Curing 24hr</td></tr>
 <tr><td>HP-06</td><td>Before asphalt production</td><td>JMF + Trial Section approved</td></tr>
-<tr><td>HP-07</td><td>Accept Binder Course</td><td>Core Density ≥96% TMD</td></tr>
+<tr><td>HP-07</td><td>Accept Binder Course</td><td>Core Density ≥97% TMD</td></tr>
 <tr><td>HP-08</td><td>Accept Wearing Course</td><td>Core + PSV + IRI + Level</td></tr>
 <tr><td>HP-09</td><td>Final Handover</td><td>As-Built + All Tests + Markings</td></tr>
 </table>
@@ -6583,7 +6584,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">2</div><div><strong style="color:var(--gold2)">Utilities Detection (GPR)</strong><br>كشف المرافق الموجودة بـ Ground Penetrating Radar قبل الحفر — تحديد الكابلات والمواسير القائمة<br><small style="color:var(--text3)">Ashghal NOC مطلوب قبل الحفر</small></div></div>
 <div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">3</div><div><strong style="color:var(--gold2)">Excavation + Shoring</strong><br>حفر الخنادق بعرض DN + 600mm حد أدنى — Shoring إلزامي >1.2m — Dewatering إذا وُجدت مياه جوفية<br><small style="color:var(--text3)">Hold Point: عمق >1.2m يوقف العمل بدون Shoring Design</small></div></div>
 <div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">4</div><div><strong style="color:var(--gold2)">Bedding Preparation</strong><br>فرش Bedding Material (Type 1 أو رمل نظيف) بسماكة 150mm — دمك ≥90% MDD — Level ±10mm<br><small style="color:var(--text3)">Witness Point: تحقق من المادة والسماكة</small></div></div>
-<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">5</div><div><strong style="color:var(--gold2)">Pipe Laying & Jointing</strong><br>وضع المواسير وفق Invert Levels المعتمدة — فحص الوصلات واحدة واحدة — Deflection Test للأنابيب المرنة<br><small style="color:var(--text3)">Hold Point: Sewer gradient ≥ minimum (DN150→1:80, DN200→1:150)</small></div></div>
+<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">5</div><div><strong style="color:var(--gold2)">Pipe Laying & Jointing</strong><br>وضع المواسير وفق Invert Levels المعتمدة — فحص الوصلات واحدة واحدة — Deflection Test للأنابيب المرنة<br><small style="color:var(--text3)">Hold Point: Sewer gradient ≥ minimum (DN150→1:100, DN200→1:150)</small></div></div>
 <div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">6</div><div><strong style="color:var(--gold2)">Testing</strong><br>Water Supply: Pressure Test 1.5×PN لمدة 2 ساعة — Foul Sewer: Air Test 100mm WG → drop ≤25mm/5min — CCTV Survey 100%<br><small style="color:var(--text3)">Hold Point: لا backfill قبل اعتماد الاختبارات</small></div></div>
 <div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">7</div><div><strong style="color:var(--gold2)">Backfill & Compaction</strong><br>ردم بطبقات ≤200mm — دمك ≥95% MDD — لا مواد Sabkha أو عضوية<br><small style="color:var(--text3)">Witness Point: Field Density Test كل 50m طولي</small></div></div>
 </div>
@@ -6875,7 +6876,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <tr><td>Air Voids المقبولة في الموقع (Va)</td><td>3 - 5%</td><td>3 - 5%</td><td>3 - 5%</td></tr>
 <tr><td>Max Va في أي نموذج فردي</td><td>7%</td><td>7%</td><td>7%</td></tr>
 <tr><td>Minimum Va الموقع</td><td>2%</td><td>2%</td><td>2%</td></tr>
-<tr><td>TMD المستهدف (% Max Density)</td><td>≥ 96%</td><td>≥ 96%</td><td>≥ 96%</td></tr>
+<tr><td>TMD المستهدف (% Max Density)</td><td>≥ 97%</td><td>≥ 97%</td><td>≥ 97%</td></tr>
 </table>
 
 <h3>📐 جدول 5:10 — Tolerances الموقع (Mix vs JMF) — QCS S6 P5 Page 17</h3>
@@ -6896,15 +6897,15 @@ All numerical values, specifications and test methods shown in Arabic are source
 <h3>📐 جدول 5:11 — Field Density Acceptance — QCS S6 P5 Pages 18-19</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>طريقة القياس</th><th>المتطلب</th><th>التكرار</th></tr>
-<tr><td>Core Samples (TMD%)</td><td>≥ 96% TMD (كل نموذج)</td><td>كل 1000m² كحد أدنى</td></tr>
-<tr><td>Mean Core Density (عينة 5 كورات)</td><td>≥ 97% TMD</td><td>كل Lot (2000-3000m²)</td></tr>
+<tr><td>Core Samples (TMD%)</td><td>≥97% TMD (كل نموذج)</td><td>كل 1000m² كحد أدنى</td></tr>
+<tr><td>Mean Core Density (عينة 5 كورات)</td><td>≥97% TMD</td><td>كل Lot (2000-3000m²)</td></tr>
 <tr><td>أي كور فردي</td><td>لا يقل عن 93% TMD</td><td>رفض فوري إذا &lt; 93%</td></tr>
-<tr><td>Nuclear Gauge (Field Check)</td><td>≥ 96% TMD</td><td>كل 200m² للمراقبة</td></tr>
+<tr><td>Nuclear Gauge (Field Check)</td><td>≥97% TMD</td><td>كل 200m² للمراقبة</td></tr>
 <tr><td>Air Voids من الكور</td><td>2 - 8%</td><td>كل كور</td></tr>
 </table>
 
 <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;">
-⚠️ <strong>إجراء الفشل:</strong> إذا كان المتوسط &lt; 96% TMD أو كور فردي &lt; 93% → NCR فوري + تحقيق + قرار بالقشط أو القبول بتخفيض.
+⚠️ <strong>إجراء الفشل:</strong> إذا كان المتوسط &lt; 97% TMD أو كور فردي &lt; 93% → NCR فوري + تحقيق + قرار بالقشط أو القبول بتخفيض.
 </div>
 
 <h3>📐 Layer Thickness Tolerance</h3>
@@ -6921,7 +6922,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <tr><th>Stage</th><th>WC</th><th>BC-A</th><th>BC-B</th></tr>
 <tr><td>JMF Design Va</td><td>4.0%</td><td>4.0%</td><td>4.0%</td></tr>
 <tr><td>Acceptable Field Va</td><td>3-5%</td><td>3-5%</td><td>3-5%</td></tr>
-<tr><td>Target TMD%</td><td>≥ 96%</td><td>≥ 96%</td><td>≥ 96%</td></tr>
+<tr><td>Target TMD%</td><td>≥ 97%</td><td>≥ 97%</td><td>≥ 97%</td></tr>
 </table>
 <h3>Table 5:10 — Mix Tolerances vs JMF — Page 17</h3>
 <table class="dm-table">
@@ -6936,8 +6937,8 @@ All numerical values, specifications and test methods shown in Arabic are source
 <h3>Table 5:11 — Field Density — Pages 18-19</h3>
 <table class="dm-table">
 <tr><th>Method</th><th>Requirement</th><th>Frequency</th></tr>
-<tr><td>Core TMD%</td><td>≥ 96% TMD each core</td><td>Per 1000m²</td></tr>
-<tr><td>Mean 5-core TMD%</td><td>≥ 97% TMD</td><td>Per Lot</td></tr>
+<tr><td>Core TMD%</td><td>≥97% TMD each core</td><td>Per 1000m²</td></tr>
+<tr><td>Mean 5-core TMD%</td><td>≥97% TMD</td><td>Per Lot</td></tr>
 <tr><td>Any single core min</td><td>≥ 93% TMD</td><td>Reject if &lt;93%</td></tr>
 </table>
 </div>
@@ -7157,7 +7158,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <table class="dm-table">
 <tr><th>Item</th><th>On Binder</th><th>On Wearing</th></tr>
 <tr><td>Material</td><td colspan="2">SS-1h or CSS-1h Emulsion (ASTM D977)</td></tr>
-<tr><td>Residual Rate</td><td>0.20-0.40 L/m²</td><td>0.20-0.40 L/m²</td></tr>
+<tr><td>Residual Rate</td><td>0.15-0.35 L/m²</td><td>0.15-0.35 L/m²</td></tr>
 <tr><td>Temperature</td><td colspan="2">50-70°C</td></tr>
 <tr><td>Readiness Sign</td><td colspan="2">Emulsion turns black (full breakup)</td></tr>
 <tr><td>Excess Tack Risk</td><td colspan="2">Slippage between layers = NCR</td></tr>
@@ -7276,8 +7277,8 @@ All numerical values, specifications and test methods shown in Arabic are source
 <h3>📐 جدول 5 — Pavement Design Thickness (Subgrade CBR) — QCS S6 P2</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>Subgrade CBR</th><th>T3 Total Asphalt</th><th>T4 Total Asphalt</th><th>T5 Total Asphalt</th></tr>
-<tr><td>CBR ≥ 15% (جيد)</td><td>120mm</td><td>130mm</td><td>140mm</td></tr>
-<tr><td>CBR 8-15% (متوسط / Sabkha)</td><td>130mm</td><td>145mm</td><td>160mm</td></tr>
+<tr><td>CBR ≥ 8% (جيد)</td><td>120mm</td><td>130mm</td><td>140mm</td></tr>
+<tr><td>CBR 8-8% (متوسط / Sabkha)</td><td>130mm</td><td>145mm</td><td>160mm</td></tr>
 <tr><td>CBR 5-8% (ضعيف)</td><td>145mm</td><td>165mm</td><td>185mm</td></tr>
 <tr><td>CBR &lt; 5% (ضعيف جداً)</td><td colspan="3">معالجة إلزامية + استبدال قبل التصميم</td></tr>
 </table>
@@ -7530,7 +7531,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <tr><td>Atterberg Limits</td><td>LL ≤ 35% | PI ≤ 10%</td><td>Per 500m³</td><td>ASTM D4318</td><td>W</td></tr>
 <tr><td>Sulphate + Chloride</td><td>SO3 ≤ 0.5% | Cl ≤ 0.6%</td><td>Per 500m³</td><td>BS 1377</td><td>W</td></tr>
 <tr><td>Field Density</td><td>≥ 95% MDD (Sand Cone)</td><td>Per 500m²</td><td>ASTM D1556</td><td>W</td></tr>
-<tr><td>CBR (Soaked 4 days)</td><td>≥ 15% Normal / ≥ 8% Sabkha</td><td>Per 2000m²</td><td>ASTM D1883</td><td>HP</td></tr>
+<tr><td>CBR (Soaked 4 days)</td><td>≥ 8% Normal / ≥ 8% Sabkha</td><td>Per 2000m²</td><td>ASTM D1883</td><td>HP</td></tr>
 <tr><td>Level Survey</td><td>± 10mm from design</td><td>Per 25m</td><td>Total Station</td><td>HP</td></tr></table>
 </div>
 ` },
@@ -7579,7 +7580,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <tr><td>JMF Approval</td><td>Marshall / Superpave</td><td>Per mix</td><td>QCS S6 P5</td><td>HP</td></tr>
 <tr><td>Delivery Temperature</td><td>≥ 135°C Non-PMB / ≥ 145°C PMB</td><td>Every load</td><td>QCS S6 P5</td><td>W</td></tr>
 <tr><td>Marshall Stability</td><td>≥ 9 kN | Flow 2-4mm | Va 3-5%</td><td>Per 200t</td><td>ASTM D1559</td><td>HP</td></tr>
-<tr><td>Core Density</td><td>≥ 96% TMD</td><td>Per 1000m²</td><td>ASTM D6927</td><td>HP</td></tr>
+<tr><td>Core Density</td><td>≥97% TMD</td><td>Per 1000m²</td><td>ASTM D6927</td><td>HP</td></tr>
 <tr><td>Straightedge 3m</td><td>≤ 3mm (PMB) / ≤ 5mm (Non-PMB)</td><td>Per 100m</td><td>QCS S6 P5</td><td>W</td></tr>
 <tr><td>IRI</td><td>≤ 0.9 m/km PMB / ≤ 1.5 Non-PMB</td><td>Per 400m</td><td>PWA IAN 013</td><td>HP</td></tr></table>
 </div>
@@ -7592,7 +7593,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <tr><td>Bitumen Extraction</td><td>Per 200t</td><td>±0.3% JMF</td><td>±0.3% JMF</td><td>ASTM D2172</td></tr>
 <tr><td>Marshall Stability</td><td>Per 200t</td><td>≥ 9 kN</td><td>≥ 8 kN</td><td>ASTM D1559</td></tr>
 <tr><td>Air Voids Va</td><td>Per 200t</td><td>3-5%</td><td>3-5%</td><td>ASTM D3203</td></tr>
-<tr><td>Core Density</td><td>Per 1000m²</td><td>≥96% TMD</td><td>≥96% TMD</td><td>ASTM D6927</td></tr>
+<tr><td>Core Density</td><td>Per 1000m²</td><td>≥97% TMD</td><td>≥97% TMD</td><td>ASTM D6927</td></tr>
 <tr><td>IRI</td><td>Per 400m</td><td>≤0.9-1.5</td><td>—</td><td>PWA IAN 013</td></tr></table>
 </div>
 ` },
@@ -7697,7 +7698,7 @@ content: `
 <tr style="background:rgba(122,21,21,.08);color:var(--gold);font-weight:700"><td colspan="7">المعالجة</td></tr>
 <tr><td>02</td><td><strong>Excavation to Firm Ground</strong></td><td>IAN-006 Sec.4</td><td>حتى CBR ≥8% أو N ≥5<br>Geotech confirms<br>Dewatering during excavation</td><td>100%</td><td>H</td><td style="color:#e74c3c;font-weight:700">H</td></tr>
 <tr><td>03</td><td><strong>Geotextile</strong></td><td>ASTM D4751</td><td>Non-woven ≥10 kN/m<br>Overlap ≥300mm</td><td>100%</td><td>W</td><td style="color:#f39c12">W</td></tr>
-<tr><td>04</td><td><strong>Select Fill</strong></td><td>QCS P7 S2.5.3</td><td>SO₃ <0.4% | Cl <0.5%<br>CBR ≥15%<br>Layer ≤200mm</td><td>Per 500m³</td><td>H</td><td style="color:#e74c3c;font-weight:700">H</td></tr>
+<tr><td>04</td><td><strong>Select Fill</strong></td><td>QCS P7 S2.5.3</td><td>SO₃ <0.4% | Cl <0.5%<br>CBR ≥8%<br>Layer ≤200mm</td><td>Per 500m³</td><td>H</td><td style="color:#e74c3c;font-weight:700">H</td></tr>
 <tr><td>05</td><td><strong>Compaction</strong></td><td>ASTM D1556</td><td>≥95% MDD per layer<br>K ≥30 MN/m³</td><td>كل 500m²</td><td>H</td><td style="color:#e74c3c;font-weight:700">H</td></tr>
 <tr><td>06</td><td><strong>Cement/Lime Stabilization</strong></td><td>IAN-006 Sec.5 / BS EN 14227</td><td>Cement 3-5%<br>UCS ≥0.5 MPa @28d<br>سماكة ≥300mm</td><td>Per zone</td><td>H</td><td style="color:#e74c3c;font-weight:700">H</td></tr>
 <tr><td>07</td><td><strong>Final Formation</strong></td><td>QCS P7 S3.4</td><td>CBR ≥8%<br>Levels ±20mm<br>Geotech sign-off</td><td>100%</td><td>H</td><td style="color:#e74c3c;font-weight:700">H</td></tr>
@@ -7860,7 +7861,7 @@ content: `
 <div class="qcs-ref-badge">مقارنة QCS 2014 → QCS 2024</div>
 <table class="dm-table"><thead><tr><th>البند</th><th>QCS 2014</th><th>QCS 2024</th><th>التأثير</th></tr></thead><tbody>
 <tr><td>CBR Subgrade</td><td>10%</td><td style="color:#2ecc71;font-weight:700">15%</td><td>أعلى — مواد أغلى</td></tr>
-<tr><td>Marshall WC (PMB)</td><td>8.5 kN</td><td style="color:#2ecc71;font-weight:700">10.0 kN</td><td>أعلى — خلطة أقوى</td></tr>
+<tr><td>Marshall WC (PMB)</td><td>8.0 kN</td><td style="color:#2ecc71;font-weight:700">10.0 kN</td><td>أعلى — خلطة أقوى</td></tr>
 <tr><td>IRI Conventional</td><td>≤2.0 m/km</td><td style="color:#2ecc71;font-weight:700">≤2.5 m/km</td><td>أقل صرامة</td></tr>
 <tr><td>IRI PMB</td><td>≤1.5 m/km</td><td style="color:#e74c3c;font-weight:700">≤0.9 m/km</td><td>أصرم بكثير</td></tr>
 <tr><td>Concrete Max Temp</td><td>35°C</td><td style="color:#e74c3c;font-weight:700">32°C</td><td>أصرم — ice مطلوب أكثر</td></tr>
@@ -7938,14 +7939,14 @@ content: `
 <div><label style="font-size:10px;color:var(--text3)">الموقع + Grid + Chainage <span style="color:#e74c3c">*</span></label><input id="ncr-loc" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="Zone C, Road 4, CH 2+350, Grid D5"></div>
 <div><label style="font-size:10px;color:var(--text3)">QCS Clause المُنتهك <span style="color:#e74c3c">*</span></label><input id="ncr-clause" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="QCS 2024 P8 S5.3.1"></div>
 </div>
-<div style="margin-bottom:10px"><label style="font-size:10px;color:var(--text3)">وصف عدم المطابقة <span style="color:#e74c3c">*</span></label><textarea id="ncr-desc" style="width:100%;min-height:70px;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="Core Density = 94.8% TMD — أقل من الحد الأدنى 96% TMD&#10;الموقع: الحارة اليمنى CH 2+350 to 2+400&#10;عدد الكورات المرفوضة: 3 من 5"></textarea></div>
+<div style="margin-bottom:10px"><label style="font-size:10px;color:var(--text3)">وصف عدم المطابقة <span style="color:#e74c3c">*</span></label><textarea id="ncr-desc" style="width:100%;min-height:70px;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="Core Density = 94.8% TMD — أقل من الحد الأدنى 97% TMD&#10;الموقع: الحارة اليمنى CH 2+350 to 2+400&#10;عدد الكورات المرفوضة: 3 من 5"></textarea></div>
 <div style="background:rgba(243,156,18,.06);border:1px solid rgba(243,156,18,.15);border-radius:10px;padding:12px;margin-bottom:10px;">
 <div style="font-size:11px;color:#f39c12;font-weight:700;margin-bottom:6px">🔍 Root Cause Analysis — تحليل السبب الجذري</div>
 <textarea id="ncr-root" style="width:100%;min-height:60px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="1. Roller passes insufficient (4 instead of 8)&#10;2. Laying temperature dropped below 130°C&#10;3. Mix delivery exceeded 90 minutes"></textarea>
 </div>
 <div style="background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);border-radius:10px;padding:12px;margin-bottom:10px;">
 <div style="font-size:11px;color:#2ecc71;font-weight:700;margin-bottom:6px">🔧 CAPA — Corrective & Preventive Actions</div>
-<div style="margin-bottom:8px"><label style="font-size:10px;color:var(--text3)">الإجراء التصحيحي <span style="color:#e74c3c">*</span></label><textarea id="ncr-corrective" style="width:100%;min-height:50px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="Mill and re-lay affected 50m section&#10;Achieve ≥96% TMD on re-test&#10;Re-submit RFI after correction"></textarea></div>
+<div style="margin-bottom:8px"><label style="font-size:10px;color:var(--text3)">الإجراء التصحيحي <span style="color:#e74c3c">*</span></label><textarea id="ncr-corrective" style="width:100%;min-height:50px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="Mill and re-lay affected 50m section&#10;Achieve ≥97% TMD on re-test&#10;Re-submit RFI after correction"></textarea></div>
 <div><label style="font-size:10px;color:var(--text3)">الإجراء الوقائي</label><textarea id="ncr-preventive" style="width:100%;min-height:50px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="Mandatory temp check per truck (reject <130°C)&#10;Min 8 roller passes before stopping&#10;Delivery time limit: 60 minutes max"></textarea></div>
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
@@ -8008,22 +8009,22 @@ title: '🔴 أكثر 20 NCR شيوعاً في مشاريع قطر',
 content: `
 <div class="qcs-ref-badge">من الخبرة الميدانية — 17 سنة في مشاريع Ashghal</div>
 <table class="dm-table"><thead><tr><th>#</th><th>الخطأ الشائع</th><th>السبب الجذري</th><th>الحل</th><th>QCS Clause</th></tr></thead><tbody>
-<tr><td>1</td><td style="color:#e74c3c"><strong>Core Density < 96% TMD</strong></td><td>Roller passes ناقصة أو حرارة الفرش منخفضة</td><td>Mill + re-lay + min 8 passes</td><td>S6 P5 S5.3</td></tr>
+<tr><td>1</td><td style="color:#e74c3c"><strong>Core Density < 97% TMD</strong></td><td>Roller passes ناقصة أو حرارة الفرش منخفضة</td><td>Mill + re-lay + min 8 passes</td><td>S6 P5 S5.3</td></tr>
 <tr><td>2</td><td style="color:#e74c3c"><strong>Concrete temp > 32°C</strong></td><td>نقل طويل بدون ice أو صب نهاري صيفاً</td><td>Ice في الخلطة + صب ليلي</td><td>S5 P4</td></tr>
 <tr><td>3</td><td style="color:#e74c3c"><strong>Compaction < 95% MDD</strong></td><td>MC بعيد عن OMC أو طبقة سميكة</td><td>إعادة دمك + MC = OMC±2%</td><td>S6 P3 S3.3</td></tr>
 <tr><td>4</td><td style="color:#e74c3c"><strong>Rebar cover ناقص</strong></td><td>Spacers غير كافية أو تحركت</td><td>إعادة ربط + spacer كل 1m</td><td>S5 P4 S4.3</td></tr>
 <tr><td>5</td><td style="color:#e74c3c"><strong>Air Test fail (>25mm drop)</strong></td><td>وصلة مكسورة أو pipe damage</td><td>إصلاح + إعادة الاختبار</td><td>BS EN 1610</td></tr>
 <tr><td>6</td><td style="color:#f39c12"><strong>Level tolerance exceeded</strong></td><td>عدم استخدام Total Station أثناء الفرش</td><td>Sonic Beam Paver + Grid 25m</td><td>S6 P5 S5.5</td></tr>
-<tr><td>7</td><td style="color:#f39c12"><strong>Marshall Stability < 9.0 kN</strong></td><td>JMF غير مُحسَّن أو aggregate مبلل</td><td>مراجعة JMF + تجفيف الركام</td><td>S6 P5 S3.5</td></tr>
+<tr><td>7</td><td style="color:#f39c12"><strong>Marshall Stability < 8.0 kN</strong></td><td>JMF غير مُحسَّن أو aggregate مبلل</td><td>مراجعة JMF + تجفيف الركام</td><td>S6 P5 S3.5</td></tr>
 <tr><td>8</td><td style="color:#f39c12"><strong>Bitumen content خارج JMF±0.3%</strong></td><td>معايرة Plant غير دقيقة</td><td>إعادة معايرة Plant</td><td>S6 P5 S3.5</td></tr>
 <tr><td>9</td><td style="color:#f39c12"><strong>Slump خارج النطاق</strong></td><td>إضافة ماء في الموقع (ممنوع)</td><td>رفض الشاحنة فوراً</td><td>S5 P4</td></tr>
 <tr><td>10</td><td style="color:#f39c12"><strong>CCTV Grade 3+</strong></td><td>Bedding رديء أو pipe damage أثناء الردم</td><td>Point repair + re-CCTV</td><td>BS EN 13508</td></tr>
 <tr><td>11</td><td style="color:#f39c12"><strong>Cube result < fcu @28d</strong></td><td>w/c ratio عالي أو curing ناقص</td><td>Core test + تحقيق</td><td>S5 P4</td></tr>
-<tr><td>12</td><td style="color:#f39c12"><strong>CBR < 15% Subgrade</strong></td><td>تربة Sabkha أو MC عالي</td><td>استبدال + معالجة</td><td>S6 P3 S3.4</td></tr>
+<tr><td>12</td><td style="color:#f39c12"><strong>CBR < 8% Subgrade</strong></td><td>تربة Sabkha أو MC عالي</td><td>استبدال + معالجة</td><td>S6 P3 S3.4</td></tr>
 <tr><td>13</td><td style="color:#f39c12"><strong>Pipe gradient عكسي</strong></td><td>خطأ في Survey أو هبوط</td><td>إعادة وضع + survey</td><td>S8 P2</td></tr>
 <tr><td>14</td><td><strong>No Shoring > 1.2m</strong></td><td>تجاهل السلامة</td><td>إيقاف عمل فوري + Shoring</td><td>P1 S8.4</td></tr>
 <tr><td>15</td><td><strong>Marker Tape لون خاطئ</strong></td><td>عدم معرفة ألوان KAHRAMAA</td><td>إعادة الردم + اللون الصحيح</td><td>S8</td></tr>
-<tr><td>16</td><td><strong>Tack Coat مفقود/زائد</strong></td><td>عدم حساب المعدل</td><td>0.20-0.40 L/m² residual</td><td>S6 P5</td></tr>
+<tr><td>16</td><td><strong>Tack Coat مفقود/زائد</strong></td><td>عدم حساب المعدل</td><td>0.15-0.35 L/m² residual</td><td>S6 P5</td></tr>
 <tr><td>17</td><td><strong>Chlorination < 50 ppm</strong></td><td>تخفيف زائد</td><td>إعادة التعقيم + 50 ppm</td><td>KAHRAMAA</td></tr>
 <tr><td>18</td><td><strong>Formwork bulging</strong></td><td>Props ضعيفة أو spacing كبير</td><td>إعادة + تقوية</td><td>S5 P4</td></tr>
 <tr><td>19</td><td><strong>Geotextile overlap < 300mm</strong></td><td>عدم رقابة أثناء الفرش</td><td>إعادة + overlap ≥300mm</td><td>IAN-006</td></tr>
@@ -8068,11 +8069,11 @@ content: `
 </tbody></table>
 <h3>متطلبات كل طبقة</h3>
 <table class="dm-table"><thead><tr><th>الطبقة</th><th>Compaction</th><th>CBR</th><th>Level Tol.</th><th>Marshall</th><th>Core Density</th></tr></thead><tbody>
-<tr><td>Subgrade</td><td>≥95% MDD</td><td>≥15%</td><td>±10mm</td><td>—</td><td>—</td></tr>
+<tr><td>Subgrade</td><td>≥95% MDD</td><td>≥8%</td><td>±10mm</td><td>—</td><td>—</td></tr>
 <tr><td>Subbase</td><td>≥98% MDD</td><td>≥30%</td><td>±10mm</td><td>—</td><td>—</td></tr>
 <tr><td>Road Base</td><td>≥98% MDD</td><td>≥80%</td><td>±8mm</td><td>—</td><td>—</td></tr>
-<tr><td>Binder Course</td><td>—</td><td>—</td><td>±8mm</td><td>≥8.0 kN</td><td>≥96% TMD</td></tr>
-<tr><td>Wearing Course</td><td>—</td><td>—</td><td>±6mm</td><td>≥9.0 kN</td><td>≥96% TMD</td></tr>
+<tr><td>Binder Course</td><td>—</td><td>—</td><td>±8mm</td><td>≥8.0 kN</td><td>≥97% TMD</td></tr>
+<tr><td>Wearing Course</td><td>—</td><td>—</td><td>±6mm</td><td>≥8.0 kN</td><td>≥97% TMD</td></tr>
 </tbody></table>
 `},
 
@@ -8279,7 +8280,7 @@ content: `
 <table class="dm-table"><thead><tr><th>النوع</th><th>المعالجة</th><th>العمق</th><th>الاختبارات</th><th>المراقبة</th></tr></thead><tbody>
 <tr><td>Type 1</td><td>Lime Stabilization 3-5%<br>+ Compaction ≥95%</td><td>300mm min</td><td>UCS ≥0.5MPa @28d<br>CBR ≥8% بعد المعالجة</td><td>3 أشهر settlement</td></tr>
 <tr><td>Type 2</td><td>استبدال جزئي + Geotextile<br>+ Select Fill</td><td>حتى CBR ≥8%</td><td>Field Density + CBR<br>SO₃ في Fill <0.4%</td><td>6 أشهر settlement</td></tr>
-<tr><td>Type 3</td><td>استبدال كامل<br>+ Geotextile + Select Fill</td><td>كامل عمق Sabkha</td><td>Plate Load K ≥30<br>CBR ≥15% post-fill</td><td>12 شهر settlement</td></tr>
+<tr><td>Type 3</td><td>استبدال كامل<br>+ Geotextile + Select Fill</td><td>كامل عمق Sabkha</td><td>Plate Load K ≥30<br>CBR ≥8% post-fill</td><td>12 شهر settlement</td></tr>
 <tr><td>Type 4</td><td>استبدال كامل + Dewatering<br>+ Surcharge Loading</td><td>كامل + 500mm إضافي</td><td>All above + Piezometers<br>+ Inclinometers</td><td>18 شهر + specialist</td></tr>
 </tbody></table>
 `},
@@ -8294,7 +8295,7 @@ content: `
 <div><label style="font-size:10px;color:var(--text3)">الموقع</label><input id="ql-loc" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="CH 2+350, Grid D5"></div>
 <div><label style="font-size:10px;color:var(--text3)">QCS Clause</label><input id="ql-clause" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="S6 P5 S5.3"></div>
 </div>
-<div style="margin-bottom:10px"><label style="font-size:10px;color:var(--text3)">الوصف</label><input id="ql-desc" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="Core Density 94.8% < 96%"></div>
+<div style="margin-bottom:10px"><label style="font-size:10px;color:var(--text3)">الوصف</label><input id="ql-desc" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="Core Density 94.8% < 97%"></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
 <div><label style="font-size:10px;color:var(--text3)">الخطورة</label><select id="ql-sev" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px"><option>🔴 Critical</option><option selected>🟠 Major</option><option>🟡 Minor</option></select></div>
 <div><label style="font-size:10px;color:var(--text3)">الطبقة/العنصر</label><input id="ql-layer" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="Wearing Course"></div>
@@ -8469,7 +8470,7 @@ content: `
 <tr><td>JMF</td><td>Marshall Mix Design معتمد — Stability + VMA + VFB</td><td>QCS S6 P5 S3</td></tr>
 <tr><td>Trial Section</td><td>200m min — كل المعدات والطاقم الفعلي</td><td>QCS S6 P5 S4.1</td></tr>
 <tr><td>الطبقة السابقة</td><td>ITP مُغلق — Level ±10mm — Surface clean + dry</td><td>QCS S6 P5 S4.2</td></tr>
-<tr><td>Tack Coat</td><td>0.20-0.40 L/m² residual — broken before paving</td><td>QCS S6 P5 p31</td></tr>
+<tr><td>Tack Coat</td><td>0.15-0.35 L/m² residual — broken before paving</td><td>QCS S6 P5 p31</td></tr>
 <tr><td>المعدات</td><td>Paver (Sonic Beam) + DD Roller 10-12T + PTR 25T</td><td>QCS S6 P5 S4.3</td></tr>
 <tr><td>TMP</td><td>Lane closures + signs + flagman active</td><td>Ashghal TMP</td></tr>
 </tbody></table>
@@ -8489,8 +8490,8 @@ content: `
 <h3 style="color:var(--gold2)">③ مراقبة الجودة</h3>
 <table class="dm-table"><thead><tr><th>الاختبار</th><th>القبول</th><th>التكرار</th><th>HP</th></tr></thead><tbody>
 <tr><td>Delivery Temperature</td><td>≥130°C Conv / ≥145°C PMB</td><td>كل شاحنة</td><td style="color:#e74c3c">HP</td></tr>
-<tr><td>Marshall Stability</td><td>≥9.0 kN (WC Conv) / ≥10 kN (PMB)</td><td>1/200T</td><td style="color:#e74c3c">HP</td></tr>
-<tr><td>Core Density</td><td>≥96% TMD</td><td>1/1000m²</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Marshall Stability</td><td>≥8.0 kN (WC Conv) / ≥10 kN (PMB)</td><td>1/200T</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Core Density</td><td>≥97% TMD</td><td>1/1000m²</td><td style="color:#e74c3c">HP</td></tr>
 <tr><td>Bitumen Content</td><td>JMF ±0.3%</td><td>1/200T</td><td style="color:#f39c12">W</td></tr>
 <tr><td>Level (3m Edge)</td><td>±6mm WC / ±8mm BC</td><td>كل 25m</td><td style="color:#f39c12">W</td></tr>
 <tr><td>IRI</td><td>≤2.5 Conv / ≤0.9 PMB</td><td>100% length</td><td style="color:#e74c3c">HP</td></tr>
@@ -8500,7 +8501,7 @@ content: `
 <div id="ap-step-4" style="display:none">
 <h3 style="color:var(--gold2)">④ أخطاء شائعة</h3>
 <table class="dm-table"><thead><tr><th>الخطأ</th><th>التجنب</th><th>التصحيح</th></tr></thead><tbody>
-<tr><td style="color:#e74c3c">Core Density <96%</td><td>Min 8 roller passes | Temp >120°C</td><td>Mill + re-lay</td></tr>
+<tr><td style="color:#e74c3c">Core Density <97%</td><td>Min 8 roller passes | Temp >120°C</td><td>Mill + re-lay</td></tr>
 <tr><td style="color:#e74c3c">Delivery temp <130°C</td><td>Plant distance ≤30km | covered trucks</td><td>رفض الحمل</td></tr>
 <tr><td style="color:#f39c12">Roller marks visible</td><td>Finish rolling @ >60°C static</td><td>Re-heat + re-roll</td></tr>
 <tr><td style="color:#f39c12">Segregation</td><td>Remixer in hopper | no dumping direct</td><td>Remove + re-lay</td></tr>
@@ -9216,7 +9217,7 @@ var TS_DATA = {
       { test: 'Gradation Analysis', freq_qty: 200, freq_unit: 'tonne', standard: 'ASTM C136', type: 'W' },
       { test: 'Marshall Stability (≥8kN) + Flow', freq_qty: 200, freq_unit: 'tonne', standard: 'ASTM D1559', type: 'HP' },
       { test: 'Air Voids Va (3-5%)', freq_qty: 200, freq_unit: 'tonne', standard: 'ASTM D3203', type: 'W' },
-      { test: 'Core Density (≥96% TMD)', freq_qty: 1000, freq_unit: 'm²', standard: 'ASTM D6927', type: 'HP' },
+      { test: 'Core Density (≥97% TMD)', freq_qty: 1000, freq_unit: 'm²', standard: 'ASTM D6927', type: 'HP' },
       { test: 'Level Survey (±8mm)', freq_qty: 25, freq_unit: 'm LM', standard: 'Total Station', type: 'W' },
     ]
   },
@@ -9228,7 +9229,7 @@ var TS_DATA = {
       { test: 'Bitumen Extraction (JMF ±0.3%)', freq_qty: 200, freq_unit: 'tonne', standard: 'ASTM D2172', type: 'W' },
       { test: 'Marshall Stability (≥9kN) + Flow', freq_qty: 200, freq_unit: 'tonne', standard: 'ASTM D1559', type: 'HP' },
       { test: 'Air Voids Va (3-5%)', freq_qty: 200, freq_unit: 'tonne', standard: 'ASTM D3203', type: 'W' },
-      { test: 'Core Density (≥96% TMD)', freq_qty: 1000, freq_unit: 'm²', standard: 'ASTM D6927', type: 'HP' },
+      { test: 'Core Density (≥97% TMD)', freq_qty: 1000, freq_unit: 'm²', standard: 'ASTM D6927', type: 'HP' },
       { test: 'Straightedge 3m (≤3mm PMB / ≤5mm)', freq_qty: 100, freq_unit: 'm LM', standard: 'QCS S6 P5', type: 'W' },
       { test: 'IRI Measurement', freq_qty: 400, freq_unit: 'm LM', standard: 'PWA IAN 013', type: 'HP' },
       { test: 'Level Survey (±6mm)', freq_qty: 25, freq_unit: 'm LM', standard: 'Total Station', type: 'HP' },
@@ -9737,7 +9738,8 @@ function exportToPDF() {
     '@media print {body {-webkit-print-color-adjust:exact;print-color-adjust:exact;}}' +
     '</style>';
 
-  var html = '<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8">' +
+  var html = '<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.anthropic.com https://generativelanguage.googleapis.com">' +
     '<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">' +
     css + '</head><body>' +
     '<div class="hdr"><div><div class="logo">QatarSpec Pro</div><div class="sub">مرجع المواصفات القطرية — QCS 2024</div></div>' +
