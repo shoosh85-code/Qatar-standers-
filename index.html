@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.anthropic.com https://generativelanguage.googleapis.com">
-<link rel="manifest" href="/manifest.json">
+
 <meta name="theme-color" content="#1a0a0a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -9851,14 +9851,7 @@ async function checkForUpdates() {
 }
 setTimeout(checkForUpdates, 3000);
 
-// ===== SERVICE WORKER =====
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js').catch(function(err) {
-      console.log('SW failed:', err);
-    });
-  });
-}
+// ===== SERVICE WORKER — disabled (no sw.js in this environment) =====
 
 // ===== ITP PROJECT BAR =====
 function toggleITPBar(show) {
