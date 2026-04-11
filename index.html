@@ -9910,8 +9910,7 @@ function exportToPDF() {
     '@media print {body {-webkit-print-color-adjust:exact;print-color-adjust:exact;}}' +
     '</style>';
 
-  var html = '<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.anthropic.com https://generativelanguage.googleapis.com">' +
+  var html = '<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8">' +
     '<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">' +
     css + '</head><body>' +
     '<div class="hdr"><div><div class="logo">QatarSpec Pro</div><div class="sub">مرجع المواصفات القطرية — QCS 2024</div></div>' +
@@ -10946,7 +10945,7 @@ function resetInspector() {
     bc += '<span class="bc-sep">\u2190</span>';
     
     if (map.parent && map.parent !== 'home' && detailData[map.parent]) {
-      bc += '<span class="bc-link" onclick="openDetail('' + map.parent + '')">' + map.group + '</span>';
+      bc += '<span class="bc-link" onclick="openDetail(\'' + map.parent + '\')">' + map.group + '</span>';
       bc += '<span class="bc-sep">\u2190</span>';
     }
     bc += '<span class="bc-current">' + title + '</span></div>';
@@ -10955,16 +10954,16 @@ function resetInspector() {
     var nav = '';
     if (map.prev || map.next) {
       nav += '<div class="section-nav">';
-      nav += map.prev && detailData[map.prev] ? '<button onclick="openDetail('' + map.prev + '')">\u2192 السابق</button>' : '<div></div>';
-      nav += map.next && detailData[map.next] ? '<button onclick="openDetail('' + map.next + '')">\u2190 التالي</button>' : '';
+      nav += map.prev && detailData[map.prev] ? '<button onclick="openDetail(\'' + map.prev + '\')">\u2192 السابق</button>' : '<div></div>';
+      nav += map.next && detailData[map.next] ? '<button onclick="openDetail(\'' + map.next + '\')">\u2190 التالي</button>' : '';
       nav += '</div>';
     }
     
     // Related links
     var links = '<div class="related-links">';
-    if (map.equipment && detailData[map.equipment]) links += '<a onclick="openDetail('' + map.equipment + '')">\u{1F527} المعدات</a>';
-    if (map.itp && detailData[map.itp]) links += '<a onclick="openDetail('' + map.itp + '')">\u{1F4CB} ITP</a>';
-    if (map.parent && map.parent !== 'home' && detailData[map.parent]) links += '<a onclick="openDetail('' + map.parent + '')">\u{1F4C2} القسم</a>';
+    if (map.equipment && detailData[map.equipment]) links += '<a onclick="openDetail(\'' + map.equipment + '\')">\u{1F527} المعدات</a>';
+    if (map.itp && detailData[map.itp]) links += '<a onclick="openDetail(\'' + map.itp + '\')">\u{1F4CB} ITP</a>';
+    if (map.parent && map.parent !== 'home' && detailData[map.parent]) links += '<a onclick="openDetail(\'' + map.parent + '\')">\u{1F4C2} القسم</a>';
     links += '</div>';
     
     var pa = document.getElementById('print-area');
