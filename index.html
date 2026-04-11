@@ -219,6 +219,8 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 .related-links a{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.15);border-radius:6px;font-size:10px;color:var(--gold);cursor:pointer;text-decoration:none;font-family:Tajawal}
 .related-links a:hover{background:rgba(201,168,76,.15)}
 
+
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -7996,24 +7998,100 @@ content: `
 photo_analyzer: {
 title: '🤖 المفتش الذكي — AI Site Inspector',
 content: `
-<div style="background:var(--dark4);border:2px dashed rgba(201,168,76,.2);border-radius:16px;padding:28px;text-align:center;cursor:pointer;margin-bottom:14px" onclick="document.getElementById('photo-input').click()">
-<div style="font-size:40px;margin-bottom:10px">📷</div>
-<div style="font-size:16px;font-weight:700;margin-bottom:6px">ارفع صورة من الموقع</div>
-<div style="font-size:12px;color:var(--text3)">JPG, PNG, WebP</div>
-<input type="file" id="photo-input" accept="image/*" style="display:none" onchange="handleSitePhoto(this)">
+<div style="text-align:center;margin-bottom:16px">
+<div style="font-size:40px;margin-bottom:6px">🤖</div>
+<div style="font-size:18px;font-weight:800;color:var(--gold2);font-family:Cairo">المفتش الذكي — AI Site Inspector</div>
+<div style="font-size:12px;color:var(--text3)">التقط صورة من الموقع → اختر نوع الفحص → تقرير فوري مع مراجع QCS 2024</div>
 </div>
-<div id="photo-preview-box" style="display:none;margin-bottom:14px;border-radius:12px;overflow:hidden"><img id="photo-img" style="width:100%;max-height:350px;object-fit:contain;border-radius:12px"></div>
-<div id="defect-buttons" style="display:none;">
-<div style="font-size:13px;font-weight:700;color:var(--gold2);margin-bottom:8px">🔍 اختر نوع العيب → فتح NCR تلقائي</div>
-<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">
-<button onclick="photoNCR('crack')" style="background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);border-radius:8px;padding:6px 12px;font-size:11px;color:#e74c3c;cursor:pointer;font-family:Tajawal">🔨 تشققات</button>
-<button onclick="photoNCR('honeycomb')" style="background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);border-radius:8px;padding:6px 12px;font-size:11px;color:#e74c3c;cursor:pointer;font-family:Tajawal">🧱 تعشيش</button>
-<button onclick="photoNCR('bleeding')" style="background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);border-radius:8px;padding:6px 12px;font-size:11px;color:#e74c3c;cursor:pointer;font-family:Tajawal">🛢️ نزيف إسفلت</button>
-<button onclick="photoNCR('rutting')" style="background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);border-radius:8px;padding:6px 12px;font-size:11px;color:#e74c3c;cursor:pointer;font-family:Tajawal">🛣️ تخدد</button>
-<button onclick="photoNCR('spalling')" style="background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);border-radius:8px;padding:6px 12px;font-size:11px;color:#e74c3c;cursor:pointer;font-family:Tajawal">💥 تقشّر</button>
-<button onclick="photoNCR('settlement')" style="background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);border-radius:8px;padding:6px 12px;font-size:11px;color:#e74c3c;cursor:pointer;font-family:Tajawal">⬇️ هبوط</button>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+<div onclick="document.getElementById('inspector-camera').click()" style="background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.03));border:2px dashed rgba(201,168,76,.3);border-radius:14px;padding:24px;text-align:center;cursor:pointer">
+<div style="font-size:32px;margin-bottom:8px">📷</div>
+<div style="font-size:13px;font-weight:700;color:var(--gold2)">التقاط من الكاميرا</div>
+<div style="font-size:10px;color:var(--text3)">مباشرة من كاميرا الهاتف</div>
+<input type="file" accept="image/*" capture="environment" id="inspector-camera" style="display:none" onchange="inspectorLoadImage(this)">
 </div>
-<div id="photo-ncr-result" style="display:none"></div>
+<div onclick="document.getElementById('inspector-upload').click()" style="background:linear-gradient(135deg,rgba(52,152,219,.08),rgba(52,152,219,.02));border:2px dashed rgba(52,152,219,.25);border-radius:14px;padding:24px;text-align:center;cursor:pointer">
+<div style="font-size:32px;margin-bottom:8px">📁</div>
+<div style="font-size:13px;font-weight:700;color:#3498db">رفع من الجهاز</div>
+<div style="font-size:10px;color:var(--text3)">صورة أو PDF</div>
+<input type="file" accept="image/*,application/pdf" id="inspector-upload" style="display:none" onchange="inspectorLoadImage(this)">
+</div>
+</div>
+
+<div id="inspector-preview" style="display:none;margin-bottom:14px;border-radius:12px;overflow:hidden;border:1px solid var(--border)">
+<img id="inspector-img" style="width:100%;max-height:300px;object-fit:contain;background:var(--dark3)">
+</div>
+
+<div id="inspector-form" style="display:none">
+<div style="background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);border-radius:12px;padding:14px;margin-bottom:14px">
+<div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:10px">📋 قائمة الفحص — حدد قبل التحليل</div>
+
+<div style="margin-bottom:10px"><label style="font-size:10px;color:var(--text3)">① نوع العمل <span style="color:#e74c3c">*</span></label>
+<select id="insp-work-type" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px">
+<option value="">— اختر —</option>
+<optgroup label="🛣️ الطرق">
+<option value="roads_subgrade">Subgrade — طبقة التأسيس</option>
+<option value="roads_subbase">Subbase — الطبقة السفلية</option>
+<option value="roads_base">Base Course — طبقة الأساس</option>
+<option value="roads_prime">Prime Coat — طبقة الربط</option>
+<option value="roads_asphalt">Asphalt (Binder/Wearing) — الإسفلت</option>
+</optgroup>
+<optgroup label="🏗️ الإنشاء">
+<option value="struct_rebar">تسليح — Rebar Installation</option>
+<option value="struct_formwork">شدة — Formwork</option>
+<option value="struct_concrete">صب خرسانة — Concrete Pour</option>
+<option value="struct_curing">معالجة — Curing</option>
+</optgroup>
+<optgroup label="💧 المرافق">
+<option value="util_excavation">حفريات — Excavation</option>
+<option value="util_pipe">وضع مواسير — Pipe Laying</option>
+<option value="util_backfill">ردم — Backfill</option>
+<option value="util_manhole">غرف تفتيش — Manholes</option>
+</optgroup>
+<optgroup label="🔬 جيوتقنية">
+<option value="geo_borehole">جسات — Boreholes</option>
+<option value="geo_sabkha">سبخة — Sabkha</option>
+</optgroup>
+</select></div>
+
+<div style="margin-bottom:10px"><label style="font-size:10px;color:var(--text3)">② مرحلة العمل <span style="color:#e74c3c">*</span></label>
+<select id="insp-phase" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px">
+<option value="before">قبل التنفيذ — Pre-execution</option>
+<option value="during" selected>أثناء التنفيذ — During execution</option>
+<option value="after">بعد التنفيذ — Post-execution</option>
+<option value="defect">عيب مكتشف — Defect found</option>
+</select></div>
+
+<div style="margin-bottom:10px"><label style="font-size:10px;color:var(--text3)">③ ما الذي تريد فحصه تحديداً؟</label>
+<input id="insp-specific" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="مثال: فحص cover التسليح قبل الصب / تشققات في السطح / gradient الماسورة"></div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+<div><label style="font-size:10px;color:var(--text3)">الموقع</label><input id="insp-location" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="CH 2+350, Zone C"></div>
+<div><label style="font-size:10px;color:var(--text3)">المشروع</label><input id="insp-project" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="PWA-2024-XXX"></div>
+</div>
+</div>
+
+<button onclick="runInspector()" id="insp-analyze-btn" style="width:100%;background:linear-gradient(135deg,var(--maroon),var(--maroon2));border:1px solid rgba(201,168,76,.4);border-radius:10px;padding:12px;color:var(--gold2);font-family:Cairo;font-weight:800;font-size:14px;cursor:pointer;margin-bottom:14px">🔍 ابدأ التحليل — Analyze</button>
+
+<div id="inspector-loading" style="display:none;text-align:center;padding:20px;color:var(--gold)">
+<div style="font-size:24px;animation:spin 1s linear infinite">⚙️</div>
+<div style="margin-top:8px;font-size:13px">جاري التحليل بالذكاء الاصطناعي...</div>
+</div>
+</div>
+
+<div id="inspector-result" style="display:none">
+<div style="background:var(--dark4);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px">
+<div style="font-size:14px;font-weight:700;color:var(--gold2);margin-bottom:10px;font-family:Cairo">📊 تقرير المفتش الذكي</div>
+<div id="inspector-report" style="font-size:12px;color:var(--text2);line-height:1.9"></div>
+</div>
+
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button onclick="printCurrentDetail()" style="background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);border-radius:8px;padding:8px 14px;color:#2ecc71;font-family:Tajawal;cursor:pointer;font-size:11px;font-weight:700">📄 حفظ التقرير PDF</button>
+<button onclick="shareInspectorReport()" style="background:rgba(52,152,219,.12);border:1px solid rgba(52,152,219,.3);border-radius:8px;padding:8px 14px;color:#3498db;font-family:Tajawal;cursor:pointer;font-size:11px;font-weight:700">📤 شارك WhatsApp</button>
+<button onclick="inspectorToNCR()" style="background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);border-radius:8px;padding:8px 14px;color:#e74c3c;font-family:Tajawal;cursor:pointer;font-size:11px;font-weight:700">⚠️ أضف لـ NCR</button>
+<button onclick="resetInspector()" style="background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px 14px;color:var(--text3);font-family:Tajawal;cursor:pointer;font-size:11px">🔄 فحص جديد</button>
+</div>
 </div>
 `},
 
@@ -10687,6 +10765,210 @@ openDetail = function(key) {
     pa.insertAdjacentHTML('beforeend', links + nav);
   }
 };
+
+
+// ================================================================
+// المفتش الذكي — AI Site Inspector Engine
+// ================================================================
+var _inspectorImageData = null;
+
+function inspectorLoadImage(input) {
+  var file = input.files[0];
+  if (!file) return;
+  
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    _inspectorImageData = e.target.result;
+    var img = document.getElementById('inspector-img');
+    var preview = document.getElementById('inspector-preview');
+    var form = document.getElementById('inspector-form');
+    if (img) img.src = _inspectorImageData;
+    if (preview) preview.style.display = 'block';
+    if (form) form.style.display = 'block';
+    document.getElementById('inspector-result').style.display = 'none';
+    showToast('✅ تم تحميل الصورة — اختر نوع الفحص');
+  };
+  reader.readAsDataURL(file);
+}
+
+async function runInspector() {
+  var workType = document.getElementById('insp-work-type').value;
+  var phase = document.getElementById('insp-phase').value;
+  var specific = document.getElementById('insp-specific').value;
+  
+  if (!_inspectorImageData) { showToast('❌ ارفع صورة أولاً'); return; }
+  if (!workType) { showToast('❌ اختر نوع العمل'); return; }
+  
+  var loading = document.getElementById('inspector-loading');
+  var btn = document.getElementById('insp-analyze-btn');
+  loading.style.display = 'block';
+  btn.style.opacity = '0.5';
+  btn.disabled = true;
+  
+  var phaseNames = {before:'قبل التنفيذ',during:'أثناء التنفيذ',after:'بعد التنفيذ',defect:'عيب مكتشف'};
+  var workNames = {
+    roads_subgrade:'Subgrade',roads_subbase:'Subbase',roads_base:'Base Course',
+    roads_prime:'Prime Coat',roads_asphalt:'Asphalt',
+    struct_rebar:'تسليح',struct_formwork:'شدة',struct_concrete:'صب خرسانة',struct_curing:'معالجة',
+    util_excavation:'حفريات',util_pipe:'مواسير',util_backfill:'ردم',util_manhole:'غرف تفتيش',
+    geo_borehole:'جسات',geo_sabkha:'سبخة'
+  };
+  
+  var systemPrompt = 'أنت مهندس مدني متخصص في مراقبة الجودة بدولة قطر، خبير في QCS 2024.\n'
+    + 'نوع العمل: ' + (workNames[workType]||workType) + '\n'
+    + 'المرحلة: ' + (phaseNames[phase]||phase) + '\n'
+    + (specific ? 'الفحص المطلوب: ' + specific + '\n' : '')
+    + '\nافحص الصورة وقدم:\n'
+    + '١. تحديد ما تراه بدقة\n'
+    + '٢. تقييم المطابقة: Pass ✅ أو Fail ❌ أو Warning ⚠️ مع بند QCS\n'
+    + '٣. المشاكل + الإجراء التصحيحي + المرجع QCS 2024 Part/Clause\n'
+    + '٤. نقاط تحقق مرئي + ما يحتاج فحص إضافي\n'
+    + '٥. توصية نهائية: هل يمكن المتابعة؟\n'
+    + 'الرد بالعربية. كن دقيقاً — لا تخمن.';
+  
+  try {
+    // Try Gemini API first (configured in Vercel)
+    var base64 = _inspectorImageData.split(',')[1];
+    var mimeType = _inspectorImageData.split(';')[0].split(':')[1];
+    
+    var response = await fetch('/api/search', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        query: systemPrompt,
+        image: { data: base64, mimeType: mimeType }
+      })
+    });
+    
+    if (response.ok) {
+      var data = await response.json();
+      showInspectorResult(data.answer || data.result || 'لم يتمكن من التحليل');
+    } else {
+      // Fallback: local analysis based on work type
+      showInspectorResult(generateLocalAnalysis(workType, phase, specific));
+    }
+  } catch(e) {
+    // Offline fallback
+    showInspectorResult(generateLocalAnalysis(workType, phase, specific));
+  }
+  
+  loading.style.display = 'none';
+  btn.style.opacity = '1';
+  btn.disabled = false;
+}
+
+function generateLocalAnalysis(workType, phase, specific) {
+  var checklists = {
+    roads_subgrade: {
+      items: ['مستوى السطح ±10mm','دمك ≥95% MDD','CBR ≥8%','MC = OMC±2%','لا مواد عضوية أو Sabkha'],
+      qcs: 'QCS 2024 S6 P3 Table 6.3',
+      equipment: 'Nuclear Gauge + DCP + Survey'
+    },
+    roads_asphalt: {
+      items: ['Delivery temp ≥130°C (Conv) / ≥145°C (PMB)','Tack Coat 0.15-0.35 L/m² broken','Layer thickness ±6mm','Core Density ≥97% TMD','IRI ≤2.5 (Conv) / ≤0.9 (PMB)','Marshall ≥8.0 kN (Conv) / ≥10.0 kN (PMB)'],
+      qcs: 'QCS 2024 S6 P5',
+      equipment: 'Thermometer + 3m Straightedge + NDG'
+    },
+    struct_rebar: {
+      items: ['Cover: 75mm (foundation) / 40mm (external) / 25mm (internal)','Spacing per drawing','Lap Length: 40d (tension) / 50d (seismic)','Spacers كل 1m','Embedded items in place','Cleanliness — no rust/oil/mud'],
+      qcs: 'QCS 2024 S5 P4 / BS 4449',
+      equipment: 'Cover Meter + Tape + Drawing'
+    },
+    struct_concrete: {
+      items: ['Temp ≤32°C at placement','Slump within ±25mm of target','Delivery time ≤90min (60 summer)','6 cubes per 50m³','Free fall ≤1.5m','Vibration every 450mm'],
+      qcs: 'QCS 2024 S5 P4',
+      equipment: 'Slump Cone + Thermometer + Cube Moulds'
+    },
+    util_pipe: {
+      items: ['Bedding 150mm ≥90% MDD','Pipe per design level ±10mm','Joints checked 100%','Thrust blocks at bends >11.25°','Marker Tape correct color 300mm above pipe'],
+      qcs: 'QCS 2024 S8 + KAHRAMAA',
+      equipment: 'Level + Tape + Fusion Machine'
+    },
+    util_excavation: {
+      items: ['Width DN+600mm min','Shoring >1.2m depth','Dewatering if GWT high','Barricade ≥1.5m from edge','PPE 100%'],
+      qcs: 'QCS 2024 P1 S8.4',
+      equipment: 'Excavator + Shoring + Dewatering'
+    }
+  };
+  
+  var cl = checklists[workType] || checklists['roads_asphalt'];
+  var phaseNames = {before:'قبل التنفيذ',during:'أثناء التنفيذ',after:'بعد التنفيذ',defect:'عيب مكتشف'};
+  
+  var report = '<div style="background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);border-radius:8px;padding:10px;margin-bottom:12px">';
+  report += '<strong style="color:var(--gold)">⚠️ تحليل محلي (Offline)</strong> — للتحليل الكامل بالذكاء الاصطناعي يحتاج اتصال بالإنترنت';
+  report += '</div>';
+  
+  report += '<h4 style="color:var(--gold2)">📋 قائمة الفحص — ' + (phaseNames[phase]||phase) + '</h4>';
+  report += '<div style="font-size:12px;line-height:2">';
+  cl.items.forEach(function(item) {
+    report += '<div onclick="this.innerHTML=this.innerHTML.startsWith(\'☐\')?this.innerHTML.replace(\'☐\',\'✅\'):this.innerHTML.replace(\'✅\',\'☐\')" style="cursor:pointer;padding:6px 10px;background:var(--dark3);border:1px solid var(--border);border-radius:6px;margin:3px 0">☐ ' + item + '</div>';
+  });
+  report += '</div>';
+  
+  report += '<div style="margin-top:12px;padding:10px;background:var(--dark3);border:1px solid var(--border);border-radius:8px">';
+  report += '<div style="font-size:11px;color:var(--text3)">📖 المرجع: <strong style="color:var(--gold)">' + cl.qcs + '</strong></div>';
+  report += '<div style="font-size:11px;color:var(--text3);margin-top:4px">🔧 المعدات: ' + cl.equipment + '</div>';
+  report += '</div>';
+  
+  if (specific) {
+    report += '<div style="margin-top:10px;padding:8px;background:rgba(52,152,219,.06);border:1px solid rgba(52,152,219,.15);border-radius:8px;font-size:11px;color:#3498db">';
+    report += '🔍 فحص محدد: ' + specific;
+    report += '</div>';
+  }
+  
+  return report;
+}
+
+function showInspectorResult(content) {
+  var result = document.getElementById('inspector-result');
+  var report = document.getElementById('inspector-report');
+  if (result) result.style.display = 'block';
+  if (report) report.innerHTML = content;
+}
+
+function shareInspectorReport() {
+  var report = document.getElementById('inspector-report');
+  if (!report) return;
+  var text = 'تقرير المفتش الذكي — QatarSpec Pro\n' + report.textContent.substring(0, 500);
+  var url = 'https://wa.me/?text=' + encodeURIComponent(text);
+  window.open(url, '_blank');
+}
+
+function inspectorToNCR() {
+  var workType = document.getElementById('insp-work-type');
+  var specific = document.getElementById('insp-specific');
+  var location = document.getElementById('insp-location');
+  
+  openDetail('ashghal_forms');
+  setTimeout(function() {
+    // Switch to NCR tab
+    var ncrSection = document.getElementById('ncr-section');
+    var rfiSection = document.getElementById('rfi-section');
+    var dprSection = document.getElementById('dpr-section');
+    if (ncrSection) ncrSection.style.display = 'block';
+    if (rfiSection) rfiSection.style.display = 'none';
+    if (dprSection) dprSection.style.display = 'none';
+    
+    // Pre-fill NCR
+    var desc = document.getElementById('ncr-desc');
+    var loc = document.getElementById('ncr-loc');
+    if (desc && specific) desc.value = (specific.value || '') + ' — مكتشف بالمفتش الذكي';
+    if (loc && location) loc.value = location.value || '';
+    showToast('✅ تم نقل البيانات لنموذج NCR');
+  }, 400);
+}
+
+function resetInspector() {
+  _inspectorImageData = null;
+  document.getElementById('inspector-preview').style.display = 'none';
+  document.getElementById('inspector-form').style.display = 'none';
+  document.getElementById('inspector-result').style.display = 'none';
+  document.getElementById('inspector-img').src = '';
+  document.getElementById('insp-work-type').value = '';
+  document.getElementById('insp-specific').value = '';
+  document.getElementById('insp-location').value = '';
+  showToast('🔄 جاهز لفحص جديد');
+}
 
 </script>
 </body>
