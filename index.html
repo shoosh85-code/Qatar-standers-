@@ -205,6 +205,20 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 @media(max-width:900px){.group-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.group-grid{grid-template-columns:1fr}}
 
+
+/* ===== BREADCRUMB NAVIGATION ===== */
+.breadcrumb{display:flex;align-items:center;gap:6px;padding:8px 14px;margin-bottom:12px;font-size:11px;color:var(--text3);flex-wrap:wrap}
+.breadcrumb a,.breadcrumb span.bc-link{color:var(--gold);cursor:pointer;text-decoration:none}
+.breadcrumb a:hover,.breadcrumb span.bc-link:hover{text-decoration:underline}
+.breadcrumb .bc-sep{color:var(--text3);opacity:.5}
+.breadcrumb .bc-current{color:var(--text2);font-weight:600}
+.section-nav{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;margin-top:14px;background:var(--dark4);border:1px solid var(--border);border-radius:10px}
+.section-nav button{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:6px 14px;color:var(--gold);font-family:Tajawal;font-size:11px;cursor:pointer}
+.section-nav button:hover{background:rgba(201,168,76,.2)}
+.related-links{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:10px}
+.related-links a{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.15);border-radius:6px;font-size:10px;color:var(--gold);cursor:pointer;text-decoration:none;font-family:Tajawal}
+.related-links a:hover{background:rgba(201,168,76,.15)}
+
 </style>
 </head>
 <body>
@@ -8541,6 +8555,71 @@ content: `
 </tbody></table>
 `},
 
+// ===== ROADS EQUIPMENT =====
+roads_equipment: {
+title: '🚜 معدات أعمال الطرق — Roads Equipment',
+content: `
+<div class="qcs-ref-badge">QCS 2024 S6 + Ashghal Equipment Standards</div>
+<table class="dm-table"><thead><tr><th>المعدة</th><th>الوصف</th><th>الإعدادات / المواصفات</th><th>فحوصات QC</th></tr></thead><tbody>
+<tr><td><strong>Motor Grader</strong><br>مُشَط الأرض</td><td>تسوية Subgrade/Subbase قبل الدمك</td><td>Blade width 3.7-4.3m<br>GPS/Laser control مُفضَّل</td><td>مستوى ±10mm كل 25m<br>Crossfall 2.5%±0.5%</td></tr>
+<tr><td><strong>Vibratory Roller</strong><br>حمّالة هزازة</td><td>دمك الطبقات الحبيبية + إسفلت</td><td>وزن 10-12 طن<br>تردد 25-40 Hz<br>سعة 0.5-1.0mm</td><td>≥95% MDD (Subgrade)<br>≥98% MDD (Base)<br>4-8 تمريرات</td></tr>
+<tr><td><strong>Pneumatic Roller (PTR)</strong><br>حمّالة إطارات</td><td>Intermediate rolling للإسفلت</td><td>وزن 20-25 طن<br>9 إطارات<br>ضغط 6-8 bar</td><td>4 تمريرات<br>سرعة 4-6 km/h<br>بعد DD roller</td></tr>
+<tr><td><strong>Asphalt Paver (Finisher)</strong><br>ماكينة فرد الإسفلت</td><td>فرد الإسفلت بسُمك وعرض محددين</td><td>Sonic Averaging Beam<br>Screed temp ≥100°C<br>سرعة 3-5 m/min</td><td>سُمك: design ±6mm<br>Level: ±6mm<br>Crossfall بـ 3m straightedge</td></tr>
+<tr><td><strong>Bitumen Distributor</strong><br>ناثر البيتومين</td><td>رش Prime Coat + Tack Coat</td><td>معدل رش قابل للتعديل<br>spray bar calibrated</td><td>Prime: 0.8-1.2 L/m²<br>Tack: 0.15-0.35 L/m²<br>تغطية متساوية</td></tr>
+<tr><td><strong>Nuclear Density Gauge</strong><br>جهاز الكثافة النووية</td><td>قياس الكثافة والرطوبة ميدانياً</td><td>Troxler 3440/3450<br>معاير كل 6 أشهر<br>رخصة إشعاع</td><td>Standard Count يومي<br>مقارنة مع Sand Cone<br>تقرير فوري</td></tr>
+<tr><td><strong>3m Straightedge</strong><br>مسطرة 3 أمتار</td><td>قياس استواء السطح</td><td>ألمنيوم أو فولاذ<br>عتبة ≤3mm مسموح</td><td>WC: ±6mm<br>BC: ±8mm<br>كل 25m طولي</td></tr>
+<tr><td><strong>DCP</strong><br>مخترق مخروطي ديناميكي</td><td>تقدير CBR ميداني سريع</td><td>8 kg hammer<br>575mm drop<br>60° cone</td><td>CBR = 292/DCP^1.12<br>فحص Subgrade سريع</td></tr>
+</tbody></table>
+`},
+
+// ===== UTILITIES EQUIPMENT =====
+utilities_equipment: {
+title: '🔧 معدات أعمال المرافق — Utilities Equipment',
+content: `
+<div class="qcs-ref-badge">QCS 2024 S8 + KAHRAMAA + BS EN Standards</div>
+<table class="dm-table"><thead><tr><th>المعدة</th><th>الوصف</th><th>المواصفات</th><th>فحوصات QC</th></tr></thead><tbody>
+<tr><td><strong>Excavator / Backhoe</strong><br>حفارة</td><td>حفر الخنادق</td><td>CAT 320/420<br>Bucket width per trench<br>GPS optional</td><td>عرض خندق DN+600mm<br>عمق per design<br>لا damage للمواسير القائمة</td></tr>
+<tr><td><strong>Pipe Fusion Machine</strong><br>ماكينة لحام HDPE</td><td>لحام Electrofusion + Butt Fusion</td><td>Machine لكل DN range<br>معايرة سنوية<br>Logger مدمج</td><td>Temperature per ISO 12176<br>Cool time per table<br>Bead inspection 100%</td></tr>
+<tr><td><strong>Pressure Test Unit</strong><br>وحدة اختبار الضغط</td><td>اختبار ضغط خطوط المياه</td><td>Pump + gauge ±0.1 bar<br>معاير<br>Chart recorder</td><td>1.5×PN لمدة 2hr<br>Drop ≤0.1 bar<br>كل 500m section</td></tr>
+<tr><td><strong>CCTV Camera</strong><br>كاميرا فحص المجاري</td><td>فحص داخلي لخطوط الصرف</td><td>Color HD ≥720p<br>360° rotation<br>Distance counter ±0.1m</td><td>Speed ≤0.1 m/s<br>Grade ≤2 = مقبول<br>BS EN 13508 coding</td></tr>
+<tr><td><strong>Chlorination Equipment</strong><br>معدات التعقيم</td><td>تعقيم خطوط المياه</td><td>Dosing pump<br>Chlorine solution<br>DPD test kit</td><td>≥50 ppm لمدة 24hr<br>Flushing بعدها<br>Bacteriological test</td></tr>
+<tr><td><strong>Compaction Plate</strong><br>حمّالة صغيرة للخنادق</td><td>دمك الردم في الخنادق</td><td>Plate 400-600mm<br>وزن 60-120 kg<br>Vibratory</td><td>طبقات ≤200mm<br>≥95% MDD<br>حذر حول الماسورة</td></tr>
+<tr><td><strong>Pipe Layer Crane</strong><br>رافعة مواسير</td><td>إنزال المواسير الكبيرة</td><td>Spreader bar<br>Nylon slings (no chains!)<br>SWL per DN</td><td>لا scratching<br>Bedding ready قبل الإنزال<br>2 slings minimum</td></tr>
+</tbody></table>
+`},
+
+// ===== STRUCTURAL EQUIPMENT =====
+structural_equipment: {
+title: '🏗️ معدات الأعمال الإنشائية — Structural Equipment',
+content: `
+<div class="qcs-ref-badge">QCS 2024 S5 + BS EN 12350/12390</div>
+<table class="dm-table"><thead><tr><th>المعدة</th><th>الوصف</th><th>المواصفات</th><th>فحوصات QC</th></tr></thead><tbody>
+<tr><td><strong>Transit Mixer</strong><br>شاحنة الخلط</td><td>نقل الخرسانة من المحطة</td><td>سعة 6-9 m³<br>سرعة الدوران 2-6 RPM<br>Agitator mode أثناء النقل</td><td>Delivery ticket<br>Temp ≤32°C<br>زمن ≤90 دقيقة (60 صيف)</td></tr>
+<tr><td><strong>Concrete Pump</strong><br>مضخة خرسانة</td><td>ضخ الخرسانة لأماكن بعيدة/عالية</td><td>Boom 36-52m<br>Slump 100-150mm للضخ<br>Pipeline Ø125mm</td><td>لا segregation<br>Pipeline clean<br>Slump check at pump</td></tr>
+<tr><td><strong>Internal Vibrator (Poker)</strong><br>هزاز داخلي</td><td>دمك الخرسانة داخل الشدة</td><td>Ø50-75mm<br>تردد ≥12,000 VPM<br>مرن + طويل</td><td>كل 450mm أفقي<br>10-15 ثانية/نقطة<br>لا over-vibration</td></tr>
+<tr><td><strong>Slump Cone + Base</strong><br>مخروط الهبوط</td><td>قياس Workability</td><td>BS EN 12350-2<br>معدني + معاير<br>Tamping rod 16mm</td><td>كل شاحنة<br>±25mm من Target<br>خارج = رفض</td></tr>
+<tr><td><strong>Cube Moulds 150mm</strong><br>قوالب مكعبات</td><td>أخذ عينات اختبار القوة</td><td>150×150×150mm<br>Steel أو Cast Iron<br>معايرة سنوية</td><td>6 cubes/50m³<br>Curing tank 20±2°C<br>7d + 28d test</td></tr>
+<tr><td><strong>Bar Bending + Cutting</strong><br>ثني وقطع الحديد</td><td>تجهيز حديد التسليح</td><td>Bending: 4d (≤16mm) / 7d (>16mm)<br>Cutting: disc cutter (no flame)</td><td>per Schedule<br>لا flame cutting<br>Tolerance ±25mm</td></tr>
+<tr><td><strong>Cover Meter</strong><br>جهاز قياس الغطاء</td><td>فحص concrete cover</td><td>Electromagnetic<br>Profoscope/Proceq<br>معاير</td><td>Cover per QCS S5<br>Scan كل 2m²<br>قبل الصب</td></tr>
+</tbody></table>
+`},
+
+// ===== GEOTECH EQUIPMENT =====
+geotech_equipment: {
+title: '🔬 معدات الجسات والتربة — Geotech Equipment',
+content: `
+<div class="qcs-ref-badge">QCS 2024 S3 + BS EN ISO 22476 + ASTM D1586</div>
+<table class="dm-table"><thead><tr><th>المعدة</th><th>الوصف</th><th>المواصفات</th><th>فحوصات QC</th></tr></thead><tbody>
+<tr><td><strong>Rotary Drill Rig</strong><br>جهاز الحفر الدوراني</td><td>حفر الجسات لأعماق كبيرة</td><td>Depth capacity ≥50m<br>NX/HQ core barrel<br>Drilling fluid (bentonite)</td><td>Core recovery ≥85%<br>RQD log<br>Water loss record</td></tr>
+<tr><td><strong>SPT Hammer</strong><br>مطرقة الاختراق القياسي</td><td>قياس مقاومة التربة N-value</td><td>63.5 kg hammer<br>760mm free fall<br>Auto-trip hammer مُفضَّل</td><td>كل 1.5m عمق<br>N count per 300mm<br>Energy ratio 60%</td></tr>
+<tr><td><strong>Shelby Tube Sampler</strong><br>أنبوب عينات غير مُقلقلة</td><td>أخذ عينات undisturbed</td><td>Ø75mm thin-wall<br>Stainless steel<br>Sharp cutting edge</td><td>Sealed + waxed فوراً<br>Vertical transport<br>Lab within 48hr</td></tr>
+<tr><td><strong>Piezometer</strong><br>جهاز قياس المياه الجوفية</td><td>رصد مستوى GWT</td><td>Standpipe أو Vibrating Wire<br>Data logger<br>Sand filter pack</td><td>قراءة أسبوعية<br>Seasonal variation<br>تقرير GWT</td></tr>
+<tr><td><strong>DCP (Dynamic Cone)</strong><br>المخترق المخروطي</td><td>تقدير CBR ميداني</td><td>8 kg hammer<br>575mm drop<br>20mm cone</td><td>CBR = 292/DCP^1.12<br>كل 500m²<br>مقارنة مع Lab CBR</td></tr>
+</tbody></table>
+`},
+
+
+
 
 
 
@@ -10476,6 +10555,139 @@ function showExecStep(prefix, step) {
     if(el) el.style.display=(i===step)?'block':'none';
   }
 }
+
+// ================================================================
+// BREADCRUMB + SECTION NAVIGATION SYSTEM
+// ================================================================
+var SECTION_MAP = {
+  // === ROADS ===
+  roads:{parent:'home',group:'🛣️ الطرق',next:'subgrade',prev:null,equipment:'roads_equipment',itp:'road_itps'},
+  subgrade:{parent:'roads',group:'🛣️ الطرق',next:'subbase',prev:'roads',equipment:'roads_equipment',itp:'itp_subgrade'},
+  subbase:{parent:'roads',group:'🛣️ الطرق',next:'base',prev:'subgrade',equipment:'roads_equipment',itp:'itp_subbase'},
+  base:{parent:'roads',group:'🛣️ الطرق',next:'prime',prev:'subbase',equipment:'roads_equipment',itp:'itp_base'},
+  prime:{parent:'roads',group:'🛣️ الطرق',next:'binder',prev:'base',equipment:'roads_equipment',itp:'itp_primecoat'},
+  binder:{parent:'roads',group:'🛣️ الطرق',next:'wearing',prev:'prime',equipment:'roads_equipment',itp:'itp_asphalt'},
+  wearing:{parent:'roads',group:'🛣️ الطرق',next:'finishing',prev:'binder',equipment:'roads_equipment',itp:'itp_wearing'},
+  finishing:{parent:'roads',group:'🛣️ الطرق',next:'handover',prev:'wearing',equipment:'roads_equipment',itp:null},
+  handover:{parent:'roads',group:'🛣️ الطرق',next:null,prev:'finishing',equipment:'roads_equipment',itp:null},
+  road_itps:{parent:'roads',group:'🛣️ الطرق',next:null,prev:null,equipment:'roads_equipment',itp:null},
+  roads_materials:{parent:'roads',group:'🛣️ الطرق',next:null,prev:null,equipment:'roads_equipment',itp:null},
+  roads_design:{parent:'roads',group:'🛣️ الطرق',next:null,prev:null,equipment:null,itp:null},
+  road_design_criteria:{parent:'roads',group:'🛣️ الطرق',next:null,prev:null,equipment:null,itp:null},
+  marshall_mix:{parent:'roads',group:'🛣️ الطرق',next:null,prev:null,equipment:'roads_equipment',itp:null},
+  asphalt_quick_ref:{parent:'roads',group:'🛣️ الطرق',next:null,prev:null,equipment:'roads_equipment',itp:null},
+  ms_asphalt:{parent:'roads',group:'🛣️ الطرق',next:null,prev:null,equipment:'roads_equipment',itp:null},
+  exec_asphalt_paving:{parent:'roads',group:'🛣️ الطرق',next:null,prev:null,equipment:'roads_equipment',itp:'itp_wearing'},
+  // === UTILITIES ===
+  utilities:{parent:'home',group:'🔧 المرافق',next:'water_supply_stages',prev:null,equipment:'utilities_equipment',itp:null},
+  water_supply_stages:{parent:'utilities',group:'💧 مياه الشرب',next:'sewer_stages',prev:'utilities',equipment:'utilities_equipment',itp:'itp_water_supply'},
+  ws_survey:{parent:'water_supply_stages',group:'💧 مياه الشرب',next:'ws_materials',prev:null,equipment:'utilities_equipment',itp:'itp_water_supply'},
+  ws_materials:{parent:'water_supply_stages',group:'💧 مياه الشرب',next:'ws_excavation',prev:'ws_survey',equipment:'utilities_equipment',itp:'itp_water_supply'},
+  ws_excavation:{parent:'water_supply_stages',group:'💧 مياه الشرب',next:'ws_laying',prev:'ws_materials',equipment:'utilities_equipment',itp:'itp_water_supply'},
+  ws_laying:{parent:'water_supply_stages',group:'💧 مياه الشرب',next:'ws_testing',prev:'ws_excavation',equipment:'utilities_equipment',itp:'itp_water_supply'},
+  ws_testing:{parent:'water_supply_stages',group:'💧 مياه الشرب',next:'ws_disinfection',prev:'ws_laying',equipment:'utilities_equipment',itp:'itp_water_supply'},
+  ws_disinfection:{parent:'water_supply_stages',group:'💧 مياه الشرب',next:'ws_backfill',prev:'ws_testing',equipment:'utilities_equipment',itp:'itp_water_supply'},
+  ws_backfill:{parent:'water_supply_stages',group:'💧 مياه الشرب',next:'ws_handover',prev:'ws_disinfection',equipment:'utilities_equipment',itp:'itp_water_supply'},
+  ws_handover:{parent:'water_supply_stages',group:'💧 مياه الشرب',next:null,prev:'ws_backfill',equipment:'utilities_equipment',itp:'itp_water_supply'},
+  sewer_stages:{parent:'utilities',group:'🚽 صرف صحي',next:'storm_stages',prev:'water_supply_stages',equipment:'utilities_equipment',itp:'itp_sewer'},
+  ss_survey:{parent:'sewer_stages',group:'🚽 صرف صحي',next:'ss_materials',prev:null,equipment:'utilities_equipment',itp:'itp_sewer'},
+  ss_materials:{parent:'sewer_stages',group:'🚽 صرف صحي',next:'ss_excavation',prev:'ss_survey',equipment:'utilities_equipment',itp:'itp_sewer'},
+  ss_excavation:{parent:'sewer_stages',group:'🚽 صرف صحي',next:'ss_laying',prev:'ss_materials',equipment:'utilities_equipment',itp:'itp_sewer'},
+  ss_laying:{parent:'sewer_stages',group:'🚽 صرف صحي',next:'ss_manholes',prev:'ss_excavation',equipment:'utilities_equipment',itp:'itp_sewer'},
+  ss_manholes:{parent:'sewer_stages',group:'🚽 صرف صحي',next:'ss_testing',prev:'ss_laying',equipment:'utilities_equipment',itp:'itp_sewer'},
+  ss_testing:{parent:'sewer_stages',group:'🚽 صرف صحي',next:'ss_backfill',prev:'ss_manholes',equipment:'utilities_equipment',itp:'itp_sewer'},
+  ss_backfill:{parent:'sewer_stages',group:'🚽 صرف صحي',next:'ss_handover',prev:'ss_testing',equipment:'utilities_equipment',itp:'itp_sewer'},
+  ss_handover:{parent:'sewer_stages',group:'🚽 صرف صحي',next:null,prev:'ss_backfill',equipment:'utilities_equipment',itp:'itp_sewer'},
+  storm_stages:{parent:'utilities',group:'🌧️ صرف سطحي',next:'treated_stages',prev:'sewer_stages',equipment:'utilities_equipment',itp:'itp_storm'},
+  treated_stages:{parent:'utilities',group:'♻️ مياه معالجة',next:null,prev:'storm_stages',equipment:'utilities_equipment',itp:'itp_treated'},
+  cctv_itp:{parent:'utilities',group:'🔧 المرافق',next:null,prev:null,equipment:'utilities_equipment',itp:null},
+  shoring_itp:{parent:'utilities',group:'🔧 المرافق',next:null,prev:null,equipment:'utilities_equipment',itp:null},
+  exec_water_pipe:{parent:'utilities',group:'💧 مياه الشرب',next:null,prev:null,equipment:'utilities_equipment',itp:'itp_water_supply'},
+  exec_pressure_test:{parent:'utilities',group:'💧 مياه الشرب',next:null,prev:null,equipment:'utilities_equipment',itp:'itp_water_supply'},
+  pipe_quick_ref:{parent:'utilities',group:'🔧 المرافق',next:null,prev:null,equipment:null,itp:null},
+  ms_utilities:{parent:'utilities',group:'🔧 المرافق',next:null,prev:null,equipment:'utilities_equipment',itp:null},
+  // === STRUCTURAL ===
+  structural:{parent:'home',group:'🏗️ الإنشاء',next:null,prev:null,equipment:'structural_equipment',itp:'itp_structural'},
+  concrete_full:{parent:'structural',group:'🏗️ الإنشاء',next:'rebar_full',prev:null,equipment:'structural_equipment',itp:'itp_concrete'},
+  rebar_full:{parent:'structural',group:'🏗️ الإنشاء',next:'foundations_full',prev:'concrete_full',equipment:'structural_equipment',itp:'itp_rebar'},
+  foundations_full:{parent:'structural',group:'🏗️ الإنشاء',next:'piles_full',prev:'rebar_full',equipment:'structural_equipment',itp:'itp_foundations'},
+  piles_full:{parent:'structural',group:'🏗️ الإنشاء',next:'formwork_full',prev:'foundations_full',equipment:'structural_equipment',itp:'itp_piles'},
+  formwork_full:{parent:'structural',group:'🏗️ الإنشاء',next:null,prev:'piles_full',equipment:'structural_equipment',itp:null},
+  concrete_quick_ref:{parent:'structural',group:'🏗️ الإنشاء',next:null,prev:null,equipment:'structural_equipment',itp:null},
+  exec_concrete_pour:{parent:'structural',group:'🏗️ الإنشاء',next:null,prev:null,equipment:'structural_equipment',itp:'itp_concrete'},
+  ms_concrete:{parent:'structural',group:'🏗️ الإنشاء',next:null,prev:null,equipment:'structural_equipment',itp:null},
+  hot_weather_detailed:{parent:'structural',group:'🏗️ الإنشاء',next:null,prev:null,equipment:'structural_equipment',itp:null},
+  pile_load_testing:{parent:'structural',group:'🏗️ الإنشاء',next:null,prev:null,equipment:'structural_equipment',itp:'itp_piles'},
+  // === GEOTECH ===
+  geotech:{parent:'home',group:'🔬 الجيوتقنية',next:null,prev:null,equipment:'geotech_equipment',itp:'itp_geotech'},
+  geo_planning:{parent:'geotech',group:'🔬 الجيوتقنية',next:'geo_borehole',prev:null,equipment:'geotech_equipment',itp:'itp_geotech'},
+  geo_borehole:{parent:'geotech',group:'🔬 الجيوتقنية',next:'geo_spt',prev:'geo_planning',equipment:'geotech_equipment',itp:'itp_geotech'},
+  geo_spt:{parent:'geotech',group:'🔬 الجيوتقنية',next:'geo_lab',prev:'geo_borehole',equipment:'geotech_equipment',itp:'itp_geotech'},
+  geo_lab:{parent:'geotech',group:'🔬 الجيوتقنية',next:'geo_water',prev:'geo_spt',equipment:'geotech_equipment',itp:'itp_geotech'},
+  sabkha_treatment:{parent:'geotech',group:'🔬 الجيوتقنية',next:null,prev:null,equipment:'geotech_equipment',itp:null},
+  sabkha_classification:{parent:'geotech',group:'🔬 الجيوتقنية',next:null,prev:null,equipment:'geotech_equipment',itp:null}
+};
+
+// Inject breadcrumb into detail modal when opened
+var _origOpen = openDetail;
+openDetail = function(key) {
+  _origOpen(key);
+  var map = SECTION_MAP[key];
+  if (!map) return;
+  
+  // Build breadcrumb
+  var bc = '<div class="breadcrumb">';
+  bc += '<span class="bc-link" onclick="document.getElementById(\'detailModal\').classList.remove(\'open\')">🏠 الرئيسية</span>';
+  bc += '<span class="bc-sep">←</span>';
+  
+  if (map.parent && map.parent !== 'home' && detailData[map.parent]) {
+    bc += '<span class="bc-link" onclick="openDetail(\''+map.parent+'\')">' + map.group + '</span>';
+    bc += '<span class="bc-sep">←</span>';
+  }
+  
+  var title = detailData[key] ? detailData[key].title.replace(/[🛣️🔧🏗️🔬📋📐📏⚡☀️🏜️🔴✅🧱🧪💧💪📹⛏️🤖🎨🚛📊📸📝🔥]/g,'').trim() : key;
+  bc += '<span class="bc-current">' + title.substring(0,40) + '</span>';
+  bc += '</div>';
+  
+  // Build navigation + related links
+  var nav = '';
+  if (map.prev || map.next) {
+    nav += '<div class="section-nav">';
+    if (map.prev && detailData[map.prev]) {
+      nav += '<button onclick="openDetail(\''+map.prev+'\')">→ السابق</button>';
+    } else {
+      nav += '<div></div>';
+    }
+    if (map.next && detailData[map.next]) {
+      nav += '<button onclick="openDetail(\''+map.next+'\')">← التالي</button>';
+    }
+    nav += '</div>';
+  }
+  
+  // Related links
+  var links = '<div class="related-links">';
+  if (map.equipment && detailData[map.equipment]) links += '<a onclick="openDetail(\''+map.equipment+'\')">🔧 المعدات</a>';
+  if (map.itp && detailData[map.itp]) links += '<a onclick="openDetail(\''+map.itp+'\')">📋 ITP</a>';
+  if (map.parent && map.parent !== 'home' && detailData[map.parent]) links += '<a onclick="openDetail(\''+map.parent+'\')">📂 القسم الرئيسي</a>';
+  links += '</div>';
+  
+  // Inject into print-area
+  var pa = document.getElementById('print-area');
+  if (pa) {
+    var firstChild = pa.firstElementChild;
+    // Remove old breadcrumb if exists
+    var oldBc = pa.querySelector('.breadcrumb');
+    if (oldBc) oldBc.remove();
+    var oldNav = pa.querySelector('.section-nav');
+    if (oldNav) oldNav.remove();
+    var oldLinks = pa.querySelector('.related-links');
+    if (oldLinks) oldLinks.remove();
+    
+    pa.insertAdjacentHTML('afterbegin', bc);
+    pa.insertAdjacentHTML('beforeend', links + nav);
+  }
+};
+
 </script>
 </body>
 </html<div onclick="exportITPExcel()" title="Excel Export" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);border-radius:8px;cursor:pointer;font-size:16px;color:#2ecc71;">📥</div>
