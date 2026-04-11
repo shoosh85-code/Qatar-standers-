@@ -319,7 +319,11 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <div class="cat-card" onclick="openDetail('pipe_quick_ref')"><span class="cat-emoji">🔧</span><div class="cat-name">مرجع اختيار المواسير</div><div class="cat-desc">مادة + قطر + PN لكل شبكة</div><div class="cat-bottom"><span class="cat-count">Quick Ref</span><span class="cat-arr">←</span></div>
 <div class="cat-card" onclick="openDetail('mmup_road_design')"><span class="cat-emoji">📐</span><div class="cat-name">MMUP Road Design</div><div class="cat-desc">مقاطع + عروض حارات + Kerb standards</div><div class="cat-bottom"><span class="cat-count">MMUP Manual</span><span class="cat-arr">←</span></div></div>
 <div class="cat-card" onclick="openDetail('ashghal_std_details')"><span class="cat-emoji">📏</span><div class="cat-name">Ashghal Standard Details</div><div class="cat-desc">Manholes + Thrust Blocks + Trenches</div><div class="cat-bottom"><span class="cat-count">Standard Details</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('kahramaa_standards')"><span class="cat-emoji">⚡</span><div class="cat-name">KAHRAMAA Standards</div><div class="cat-desc">مواد معتمدة + توصيلات + ضغط</div><div class="cat-bottom"><span class="cat-count">KAHRAMAA</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('kahramaa_standards')"><span class="cat-emoji">⚡</span><div class="cat-name">KAHRAMAA Standards</div><div class="cat-desc">مواد معتمدة + توصيلات + ضغط</div><div class="cat-bottom"><span class="cat-count">KAHRAMAA</span><span class="cat-arr">←</span></div>
+<div class="cat-card" onclick="openDetail('exec_asphalt_paving')" style="background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.02));border-color:rgba(201,168,76,.25)"><span class="cat-emoji">🛣️</span><div class="cat-name">آلية فرد الإسفلت</div><div class="cat-desc">4 خطوات تفاعلية + أخطاء شائعة</div><div class="cat-bottom"><span class="cat-count" style="color:var(--gold)">Stepper</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('exec_water_pipe')" style="background:linear-gradient(135deg,rgba(52,152,219,.08),rgba(52,152,219,.02));border-color:rgba(52,152,219,.25)"><span class="cat-emoji">💧</span><div class="cat-name">آلية مد المواسير</div><div class="cat-desc">7 خطوات + HP + اختبارات</div><div class="cat-bottom"><span class="cat-count" style="color:#3498db">Stepper</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('exec_pressure_test')" style="background:linear-gradient(135deg,rgba(46,204,113,.08),rgba(46,204,113,.02));border-color:rgba(46,204,113,.25)"><span class="cat-emoji">💪</span><div class="cat-name">آلية اختبار الضغط</div><div class="cat-desc">1.5×PN + 2hr + pass/fail criteria</div><div class="cat-bottom"><span class="cat-count" style="color:#2ecc71">Stepper</span><span class="cat-arr">←</span></div></div>
+</div>
 </div>
 </div>
 </div>
@@ -341,7 +345,9 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   
 <div class="cat-card" onclick="openDetail('concrete_quick_ref')"><span class="cat-emoji">🧱</span><div class="cat-name">مرجع درجات الخرسانة</div><div class="cat-desc">Grade + Cover + Cement لكل عنصر</div><div class="cat-bottom"><span class="cat-count">Quick Ref</span><span class="cat-arr">←</span></div>
 <div class="cat-card" onclick="openDetail('hot_weather_detailed')"><span class="cat-emoji">☀️</span><div class="cat-name">Hot Weather Concreting</div><div class="cat-desc">جدول إجراءات + كمية الثلج + Curing</div><div class="cat-bottom"><span class="cat-count">QCS S5 P4</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('sabkha_classification')"><span class="cat-emoji">🏜️</span><div class="cat-name">تصنيف السبخة IAN-006</div><div class="cat-desc">4 أنواع + معالجة + اختبارات لكل نوع</div><div class="cat-bottom"><span class="cat-count">IAN-006 Full</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('sabkha_classification')"><span class="cat-emoji">🏜️</span><div class="cat-name">تصنيف السبخة IAN-006</div><div class="cat-desc">4 أنواع + معالجة + اختبارات لكل نوع</div><div class="cat-bottom"><span class="cat-count">IAN-006 Full</span><span class="cat-arr">←</span></div>
+<div class="cat-card" onclick="openDetail('exec_concrete_pour')" style="background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.02));border-color:rgba(201,168,76,.25)"><span class="cat-emoji">🏗️</span><div class="cat-name">آلية صب الخرسانة</div><div class="cat-desc">6 خطوات تفصيلية + QA + أخطاء</div><div class="cat-bottom"><span class="cat-count" style="color:var(--gold)">Stepper</span><span class="cat-arr">←</span></div></div>
+</div>
 </div>
 </div>
 </div>
@@ -8301,6 +8307,241 @@ content: `
 </div>
 `},
 
+// ===== آلية تنفيذ: صب الخرسانة =====
+exec_concrete_pour: {
+title: '🏗️ آلية تنفيذ — صب الخرسانة | Concrete Pouring',
+content: `
+<div class="qcs-ref-badge">QCS 2024 — Part 5, Section 4 + ACI 318 + BS EN 206</div>
+
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+<button onclick="showExecStep('cp',1)" style="background:var(--dark4);border:1px solid var(--gold);border-radius:20px;padding:6px 14px;font-size:11px;color:var(--gold);cursor:pointer;font-family:Tajawal;font-weight:700">① التحضير</button>
+<button onclick="showExecStep('cp',2)" style="background:var(--dark4);border:1px solid var(--gold);border-radius:20px;padding:6px 14px;font-size:11px;color:var(--gold);cursor:pointer;font-family:Tajawal;font-weight:700">② التنفيذ</button>
+<button onclick="showExecStep('cp',3)" style="background:var(--dark4);border:1px solid var(--gold);border-radius:20px;padding:6px 14px;font-size:11px;color:var(--gold);cursor:pointer;font-family:Tajawal;font-weight:700">③ مراقبة الجودة</button>
+<button onclick="showExecStep('cp',4)" style="background:var(--dark4);border:1px solid var(--gold);border-radius:20px;padding:6px 14px;font-size:11px;color:var(--gold);cursor:pointer;font-family:Tajawal;font-weight:700">④ الأخطاء الشائعة</button>
+</div>
+
+<div id="cp-step-1">
+<h3 style="color:var(--gold2)">الخطوة ① التحضير والمتطلبات</h3>
+<div style="background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);border-radius:10px;padding:12px;margin-bottom:10px">
+<div style="font-weight:700;color:var(--gold);margin-bottom:6px">📋 متطلبات مسبقة</div>
+<div style="font-size:12px;color:var(--text2);line-height:1.8">
+• RFI معتمد من SC لفحص الحديد والشدة — <span style="color:#e74c3c">Hold Point</span><br>
+• Mix Design Certificate معتمد — Grade + w/c + Cement type<br>
+• ITP مُوقَّع — كل بنود ما قبل الصب مُغلقة<br>
+• Formwork checked: alignment + levels + cleanliness + oiling<br>
+• Rebar checked: cover + spacing + lap length + continuity<br>
+• Embedded items in place: sleeves + inserts + MEP boxes<br>
+• <span style="color:var(--gold)">QCS 2024 S5 P4 Cl.4.1</span>
+</div></div>
+<div style="background:rgba(52,152,219,.06);border:1px solid rgba(52,152,219,.15);border-radius:10px;padding:12px;margin-bottom:10px">
+<div style="font-weight:700;color:#3498db;margin-bottom:6px">🧱 المواد المطلوبة + مواصفاتها</div>
+<div style="font-size:12px;color:var(--text2);line-height:1.8">
+• الإسمنت: SRPC (SO₃ >0.5% في التربة) أو OPC (داخلي فقط) — <span style="color:var(--gold)">QCS S5 P2</span><br>
+• الركام: Gabbro — LA ≤30% — Flakiness ≤25% — Absorption ≤2%<br>
+• الماء: شرب أو معتمد — Chloride <500ppm — Sulphate <1000ppm<br>
+• الثلج: Crushed/Flaked — max 50% من وزن الماء (صيف فقط)<br>
+• Admixtures: Superplasticizer + Retarder (صيف) — مُعتمدة<br>
+• Curing Compound: ASTM C309 Type 1 Class B
+</div></div>
+<div style="background:rgba(231,76,60,.06);border:1px solid rgba(231,76,60,.15);border-radius:10px;padding:12px">
+<div style="font-weight:700;color:#e74c3c;margin-bottom:6px">⛑️ السلامة — PPE إلزامي</div>
+<div style="font-size:12px;color:var(--text2);line-height:1.8">
+• خوذة + نظارة + سترة عاكسة + حذاء أمان + قفازات مقاومة للقلوية<br>
+• حبل أمان إذا العمل على ارتفاع >2m<br>
+• إضاءة ≥50 Lux (صب ليلي)<br>
+• ماء شرب + استراحة كل ساعة (صيف >35°C)
+</div></div>
+</div>
+
+<div id="cp-step-2" style="display:none">
+<h3 style="color:var(--gold2)">الخطوة ② تسلسل التنفيذ</h3>
+<div style="margin-bottom:12px">
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">1</div><div style="font-size:12px"><strong style="color:var(--gold2)">فحص الشدة والحديد</strong><br>SC يفحص: Formwork alignment ±3mm | Cover spacers كل 1m | Rebar per drawing<br><span style="color:#e74c3c;font-weight:700">🔴 HOLD POINT — لا صب بدون اعتماد — QCS S5 P4 Cl.4.2</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">2</div><div style="font-size:12px"><strong style="color:var(--gold2)">استلام الشاحنة + فحوصات</strong><br>Delivery Ticket: Grade + Slump + w/c + Admixtures + Time of batching<br>Temp check: ≤32°C — أي شاحنة >32°C تُرفض فوراً<br>زمن: ≤90 دقيقة (≤60 صيفاً) من الخلط — <span style="color:var(--gold)">QCS S5 P4 Cl.4.3</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">3</div><div style="font-size:12px"><strong style="color:var(--gold2)">Slump Test + Cube Sampling</strong><br>Slump: 75-100mm (عادي) أو 100-150mm (ضخ) — خارج = رفض<br>6 مكعبات/50m³ (3 لـ 7 يوم + 3 لـ 28 يوم) — <span style="color:var(--gold)">BS EN 12350</span><br><span style="color:#e74c3c;font-weight:700">🔴 HOLD POINT — QCS S5 P4 Cl.4.5</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">4</div><div style="font-size:12px"><strong style="color:var(--gold2)">الصب والهز</strong><br>Free fall ≤1.5m | Layer ≤500mm | Poker 50-75mm كل 450mm أفقياً<br>مدة الهز 10-15 ثانية — لا over-vibration (segregation)<br>Cold Joint: لا يتجاوز 30 دقيقة بين الطبقات — <span style="color:var(--gold)">QCS S5 P4 Cl.4.6</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">5</div><div style="font-size:12px"><strong style="color:var(--gold2)">التسوية والإنهاء</strong><br>Bull float → Power trowel (بعد اختفاء ماء النزيف)<br>Curing compound فوري خلال 30 دقيقة — ثم Hessian مبلل<br><span style="color:var(--gold)">QCS S5 P4 Cl.4.7</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">6</div><div style="font-size:12px"><strong style="color:var(--gold2)">المعالجة Curing</strong><br>OPC: 7 أيام min | SRPC: 14 يوم إلزامي في قطر<br>Hessian + water رش كل 4 ساعات | أو Curing compound ASTM C309<br>Stripping: أعمدة بعد 24hr | بلاطات بعد 14 يوم — <span style="color:var(--gold)">QCS S5 P4 Cl.4.8</span></div></div>
+</div>
+</div>
+
+<div id="cp-step-3" style="display:none">
+<h3 style="color:var(--gold2)">الخطوة ③ مراقبة الجودة</h3>
+<table class="dm-table"><thead><tr><th>الاختبار</th><th>المعيار</th><th>معيار القبول</th><th>التكرار</th><th>HP/W</th></tr></thead><tbody>
+<tr><td>Slump Test</td><td>BS EN 12350-2</td><td>±25mm من Target</td><td>كل شاحنة</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Concrete Temperature</td><td>QCS S5</td><td>≤32°C</td><td>كل شاحنة</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Cube Sampling</td><td>BS EN 12390-2</td><td>—</td><td>6 cubes/50m³</td><td style="color:#f39c12">W</td></tr>
+<tr><td>7-day Cube</td><td>BS EN 12390-3</td><td>≥70% fcu</td><td>3 cubes</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>28-day Cube</td><td>BS EN 12390-3</td><td>≥100% fcu (avg 3)</td><td>3 cubes</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Air Content</td><td>BS EN 12350-7</td><td>Per mix design</td><td>1/day</td><td style="color:#f39c12">W</td></tr>
+</tbody></table>
+<div style="background:rgba(231,76,60,.06);border:1px solid rgba(231,76,60,.15);border-radius:8px;padding:10px;margin-top:10px;font-size:11px;color:#e74c3c">
+⚠️ <strong>إذا 7-day < 70% fcu:</strong> إيقاف فوري + تحقيق + انتظار 28 يوم → إذا <100% → Core Test + NCR
+</div>
+</div>
+
+<div id="cp-step-4" style="display:none">
+<h3 style="color:var(--gold2)">الخطوة ④ أكثر 5 أخطاء شيوعاً</h3>
+<table class="dm-table"><thead><tr><th>#</th><th>الخطأ</th><th>كيفية التجنب</th><th>الإجراء التصحيحي</th></tr></thead><tbody>
+<tr><td>1</td><td style="color:#e74c3c"><strong>إضافة ماء في الموقع</strong></td><td>ممنوع نهائياً — Slump يُعدَّل بـ Admixture فقط</td><td>رفض الشاحنة + NCR</td></tr>
+<tr><td>2</td><td style="color:#e74c3c"><strong>Concrete temp >32°C</strong></td><td>Ice + Chilled water + صب ليلي</td><td>رفض الشاحنة</td></tr>
+<tr><td>3</td><td style="color:#e74c3c"><strong>Cold Joint (>30 دقيقة)</strong></td><td>خطة صب مستمرة + شاحنة احتياطية</td><td>Chipping + bonding agent + NCR</td></tr>
+<tr><td>4</td><td style="color:#f39c12"><strong>Honeycomb تعشيش</strong></td><td>هز كافي + free fall ≤1.5m + spacing rebar</td><td>Structural repair + grout</td></tr>
+<tr><td>5</td><td style="color:#f39c12"><strong>Curing ناقص</strong></td><td>Hessian فوري + رش كل 4hr + 14 يوم SRPC</td><td>Surface crazing → sealant + NCR</td></tr>
+</tbody></table>
+</div>
+`},
+
+// ===== آلية تنفيذ: مد مواسير المياه =====
+exec_water_pipe: {
+title: '💧 آلية تنفيذ — مد مواسير المياه | Water Pipe Laying',
+content: `
+<div class="qcs-ref-badge">QCS 2024 S8 + KAHRAMAA Standards + BS EN 805</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+<button onclick="showExecStep('wp',1)" style="background:var(--dark4);border:1px solid var(--gold);border-radius:20px;padding:6px 14px;font-size:11px;color:var(--gold);cursor:pointer;font-family:Tajawal;font-weight:700">① التحضير</button>
+<button onclick="showExecStep('wp',2)" style="background:var(--dark4);border:1px solid var(--gold);border-radius:20px;padding:6px 14px;font-size:11px;color:var(--gold);cursor:pointer;font-family:Tajawal;font-weight:700">② التنفيذ</button>
+<button onclick="showExecStep('wp',3)" style="background:var(--dark4);border:1px solid var(--gold);border-radius:20px;padding:6px 14px;font-size:11px;color:var(--gold);cursor:pointer;font-family:Tajawal;font-weight:700">③ مراقبة الجودة</button>
+<button onclick="showExecStep('wp',4)" style="background:var(--dark4);border:1px solid var(--gold);border-radius:20px;padding:6px 14px;font-size:11px;color:var(--gold);cursor:pointer;font-family:Tajawal;font-weight:700">④ الأخطاء الشائعة</button>
+</div>
+
+<div id="wp-step-1">
+<h3 style="color:var(--gold2)">① التحضير</h3>
+<table class="dm-table"><thead><tr><th>البند</th><th>الاشتراط</th><th>المرجع</th></tr></thead><tbody>
+<tr><td>NOC</td><td>Ashghal حفر permit + KAHRAMAA connection approval</td><td>Ashghal ROW</td></tr>
+<tr><td>GPR Scan</td><td>كشف المرافق القائمة — تقرير مُعتمد</td><td>Ashghal Safety</td></tr>
+<tr><td>المواسير</td><td>HDPE PE100 Blue SDR11 PN16 — KAHRAMAA approved</td><td>ISO 4427</td></tr>
+<tr><td>Fittings</td><td>Electrofusion — certified + calibrated machine</td><td>BS EN 12201</td></tr>
+<tr><td>Shoring</td><td>Design مُعتمد إذا عمق >1.2m</td><td>QCS P1 S8.4</td></tr>
+<tr><td>PPE</td><td>خوذة + سترة + حذاء + قفازات — 100%</td><td>QHSE</td></tr>
+</tbody></table>
+</div>
+
+<div id="wp-step-2" style="display:none">
+<h3 style="color:var(--gold2)">② تسلسل التنفيذ</h3>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:24px;height:24px;background:rgba(201,168,76,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gold)">1</div><div style="font-size:12px"><strong>Survey + Setting Out</strong> — Total Station | Invert levels كل 25m | CH markers<br><span style="color:#e74c3c">HP: SC يعتمد المناسيب</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:24px;height:24px;background:rgba(201,168,76,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gold)">2</div><div style="font-size:12px"><strong>الحفر</strong> — عرض DN+600mm | عمق ≥900mm تحت الطريق | Shoring >1.2m<br>Dewatering إذا GWT < 0.5m تحت القاع — <span style="color:var(--gold)">QCS S8</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:24px;height:24px;background:rgba(201,168,76,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gold)">3</div><div style="font-size:12px"><strong>Bedding</strong> — 150mm clean sand/Type 1 | دمك ≥90% | Level ±10mm<br><span style="color:#f39c12">WP: تحقق من المادة والسماكة</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:24px;height:24px;background:rgba(201,168,76,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gold)">4</div><div style="font-size:12px"><strong>Pipe Laying + Jointing</strong> — Electrofusion per ISO 12176 | Cool time per table<br>Thrust blocks C20 عند تغيير الاتجاه >11.25° — <span style="color:#e74c3c">HP: كل وصلة</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:24px;height:24px;background:rgba(201,168,76,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gold)">5</div><div style="font-size:12px"><strong>Pressure Test</strong> — 1.5 × PN لمدة 2 ساعة | Drop ≤ 0.1 bar<br><span style="color:#e74c3c">HP: لا ردم بدون اعتماد — QCS S8 + KAHRAMAA</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:24px;height:24px;background:rgba(201,168,76,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gold)">6</div><div style="font-size:12px"><strong>Chlorination + Flushing</strong> — 50 ppm لمدة 24 ساعة → Flushing → Bacteriological test<br><span style="color:#e74c3c">HP: لا تشغيل بدون نتيجة سلبية — KAHRAMAA</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:24px;height:24px;background:rgba(201,168,76,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gold)">7</div><div style="font-size:12px"><strong>Backfill</strong> — Initial: 200mm above crown حذر | Main: layers ≤200mm ≥95% MDD<br>Marker Tape أصفر 300mm فوق الماسورة — <span style="color:var(--gold)">QCS S8</span></div></div>
+</div>
+</div>
+
+<div id="wp-step-3" style="display:none">
+<h3 style="color:var(--gold2)">③ مراقبة الجودة</h3>
+<table class="dm-table"><thead><tr><th>الاختبار</th><th>المعيار</th><th>القبول</th><th>التكرار</th><th>HP</th></tr></thead><tbody>
+<tr><td>Pressure Test</td><td>BS EN 805</td><td>1.5×PN | 2hr | drop ≤0.1bar</td><td>Per section ≤500m</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Chlorination</td><td>KAHRAMAA</td><td>≥50 ppm / 24hr</td><td>Per section</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Bacteriological</td><td>WHO</td><td>0 Coliform/100ml</td><td>Per section</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Backfill Density</td><td>ASTM D1556</td><td>≥95% MDD</td><td>1/50m</td><td style="color:#f39c12">W</td></tr>
+<tr><td>Joint Inspection</td><td>ISO 12176</td><td>Visual + bead check</td><td>100%</td><td style="color:#e74c3c">HP</td></tr>
+</tbody></table>
+</div>
+
+<div id="wp-step-4" style="display:none">
+<h3 style="color:var(--gold2)">④ أخطاء شائعة</h3>
+<table class="dm-table"><thead><tr><th>الخطأ</th><th>التجنب</th><th>التصحيح</th></tr></thead><tbody>
+<tr><td style="color:#e74c3c">Pipe exposed to sun >24hr</td><td>تغطية فورية بعد التوريد</td><td>فحص UV damage + اختبار</td></tr>
+<tr><td style="color:#e74c3c">Contaminated interior</td><td>أغطية نهايات إلزامية</td><td>Flushing مكثف + re-chlorination</td></tr>
+<tr><td style="color:#e74c3c">Wrong marker tape color</td><td>أصفر فقط لمياه الشرب</td><td>إعادة ردم + اللون الصحيح</td></tr>
+<tr><td style="color:#f39c12">Fusion in rain/wind</td><td>Shelter إلزامي أثناء اللحام</td><td>قطع الوصلة + إعادة</td></tr>
+<tr><td style="color:#f39c12">No Thrust Block</td><td>كل bend >11.25° يحتاج</td><td>حفر + صب C20 + انتظار 7 أيام</td></tr>
+</tbody></table>
+</div>
+`},
+
+// ===== آلية تنفيذ: فرد الإسفلت =====
+exec_asphalt_paving: {
+title: '🛣️ آلية تنفيذ — فرد الإسفلت | Asphalt Paving',
+content: `
+<div class="qcs-ref-badge">QCS 2024 S6 P5 + Ashghal PWA IAN-013</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+<button onclick="showExecStep('ap',1)" style="background:var(--dark4);border:1px solid var(--gold);border-radius:20px;padding:6px 14px;font-size:11px;color:var(--gold);cursor:pointer;font-family:Tajawal;font-weight:700">① التحضير</button>
+<button onclick="showExecStep('ap',2)" style="background:var(--dark4);border:1px solid var(--gold);border-radius:20px;padding:6px 14px;font-size:11px;color:var(--gold);cursor:pointer;font-family:Tajawal;font-weight:700">② التنفيذ</button>
+<button onclick="showExecStep('ap',3)" style="background:var(--dark4);border:1px solid var(--gold);border-radius:20px;padding:6px 14px;font-size:11px;color:var(--gold);cursor:pointer;font-family:Tajawal;font-weight:700">③ مراقبة الجودة</button>
+<button onclick="showExecStep('ap',4)" style="background:var(--dark4);border:1px solid var(--gold);border-radius:20px;padding:6px 14px;font-size:11px;color:var(--gold);cursor:pointer;font-family:Tajawal;font-weight:700">④ الأخطاء الشائعة</button>
+</div>
+
+<div id="ap-step-1">
+<h3 style="color:var(--gold2)">① التحضير</h3>
+<table class="dm-table"><thead><tr><th>البند</th><th>الاشتراط</th><th>المرجع</th></tr></thead><tbody>
+<tr><td>JMF</td><td>Marshall Mix Design معتمد — Stability + VMA + VFB</td><td>QCS S6 P5 S3</td></tr>
+<tr><td>Trial Section</td><td>200m min — كل المعدات والطاقم الفعلي</td><td>QCS S6 P5 S4.1</td></tr>
+<tr><td>الطبقة السابقة</td><td>ITP مُغلق — Level ±10mm — Surface clean + dry</td><td>QCS S6 P5 S4.2</td></tr>
+<tr><td>Tack Coat</td><td>0.20-0.40 L/m² residual — broken before paving</td><td>QCS S6 P5 p31</td></tr>
+<tr><td>المعدات</td><td>Paver (Sonic Beam) + DD Roller 10-12T + PTR 25T</td><td>QCS S6 P5 S4.3</td></tr>
+<tr><td>TMP</td><td>Lane closures + signs + flagman active</td><td>Ashghal TMP</td></tr>
+</tbody></table>
+</div>
+
+<div id="ap-step-2" style="display:none">
+<h3 style="color:var(--gold2)">② تسلسل التنفيذ</h3>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:24px;height:24px;background:rgba(201,168,76,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gold)">1</div><div style="font-size:12px"><strong>فحص Tack Coat</strong> — مُطبَّق ومكسور (Broken) — لا فرش على Tack wet<br><span style="color:#f39c12">WP — QCS S6 P5</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:24px;height:24px;background:rgba(201,168,76,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gold)">2</div><div style="font-size:12px"><strong>استلام الحمل + Temp Check</strong><br>Non-PMB: Delivery ≥130°C | PMB: ≥145°C — أقل = رفض<br><span style="color:#e74c3c">HP — QCS S6 P5 S4.4</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:24px;height:24px;background:rgba(201,168,76,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gold)">3</div><div style="font-size:12px"><strong>Paving</strong> — Paver speed 3-5 m/min | Screed temp ≥100°C | Sonic Beam levelling<br>سماكة مبدئية = Design + 15-20% (compaction allowance)</div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:24px;height:24px;background:rgba(201,168,76,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gold)">4</div><div style="font-size:12px"><strong>Rolling</strong><br>Breakdown: DD 10-12T @ ≥120°C (Non-PMB) | ≥125°C (PMB) — min 4 passes<br>Intermediate: PTR 25T — 4 passes<br>Finish: DD static @ ≥60°C — 2 passes — <span style="color:var(--gold)">QCS S6 P5 S5.2</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:24px;height:24px;background:rgba(201,168,76,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gold)">5</div><div style="font-size:12px"><strong>Joints</strong><br>Longitudinal: straight edge + sealant | Transverse: hot iron + compacted<br>Joint offset ≥150mm من الطبقة تحت — <span style="color:var(--gold)">QCS S6 P5 S5.4</span></div></div>
+</div>
+</div>
+
+<div id="ap-step-3" style="display:none">
+<h3 style="color:var(--gold2)">③ مراقبة الجودة</h3>
+<table class="dm-table"><thead><tr><th>الاختبار</th><th>القبول</th><th>التكرار</th><th>HP</th></tr></thead><tbody>
+<tr><td>Delivery Temperature</td><td>≥130°C Conv / ≥145°C PMB</td><td>كل شاحنة</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Marshall Stability</td><td>≥9.0 kN (WC Conv) / ≥10 kN (PMB)</td><td>1/200T</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Core Density</td><td>≥96% TMD</td><td>1/1000m²</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>Bitumen Content</td><td>JMF ±0.3%</td><td>1/200T</td><td style="color:#f39c12">W</td></tr>
+<tr><td>Level (3m Edge)</td><td>±6mm WC / ±8mm BC</td><td>كل 25m</td><td style="color:#f39c12">W</td></tr>
+<tr><td>IRI</td><td>≤2.5 Conv / ≤0.9 PMB</td><td>100% length</td><td style="color:#e74c3c">HP</td></tr>
+</tbody></table>
+</div>
+
+<div id="ap-step-4" style="display:none">
+<h3 style="color:var(--gold2)">④ أخطاء شائعة</h3>
+<table class="dm-table"><thead><tr><th>الخطأ</th><th>التجنب</th><th>التصحيح</th></tr></thead><tbody>
+<tr><td style="color:#e74c3c">Core Density <96%</td><td>Min 8 roller passes | Temp >120°C</td><td>Mill + re-lay</td></tr>
+<tr><td style="color:#e74c3c">Delivery temp <130°C</td><td>Plant distance ≤30km | covered trucks</td><td>رفض الحمل</td></tr>
+<tr><td style="color:#f39c12">Roller marks visible</td><td>Finish rolling @ >60°C static</td><td>Re-heat + re-roll</td></tr>
+<tr><td style="color:#f39c12">Segregation</td><td>Remixer in hopper | no dumping direct</td><td>Remove + re-lay</td></tr>
+<tr><td style="color:#f39c12">Joint cracking</td><td>Hot iron + overlap ≥50mm | infrared heater</td><td>Seal + monitor</td></tr>
+</tbody></table>
+</div>
+`},
+
+// ===== آلية تنفيذ: اختبار الضغط =====
+exec_pressure_test: {
+title: '💪 آلية تنفيذ — اختبار الضغط | Pressure Testing',
+content: `
+<div class="qcs-ref-badge">KAHRAMAA + BS EN 805 + QCS 2024 S8</div>
+<h3>① التحضير</h3>
+<table class="dm-table"><thead><tr><th>البند</th><th>الاشتراط</th></tr></thead><tbody>
+<tr><td>Section Length</td><td>≤500m per test — all joints exposed</td></tr>
+<tr><td>End Caps</td><td>Welded/flanged — rated for test pressure</td></tr>
+<tr><td>Thrust Blocks</td><td>Cured ≥7 أيام قبل الاختبار</td></tr>
+<tr><td>Equipment</td><td>Calibrated gauge ±0.1 bar + pump + recorder</td></tr>
+<tr><td>Fill + Bleed</td><td>Fill slowly from low point — bleed air from high point</td></tr>
+<tr><td>Stabilization</td><td>24hr pre-pressurization soak — let pipe absorb</td></tr>
+</tbody></table>
+<h3>② إجراء الاختبار</h3>
+<table class="dm-table"><thead><tr><th>الخطوة</th><th>الإجراء</th><th>المرجع</th></tr></thead><tbody>
+<tr><td>1. Pressurize</td><td>رفع الضغط تدريجياً إلى <strong>1.5 × PN</strong></td><td>BS EN 805 Cl.11</td></tr>
+<tr><td>2. Hold</td><td>الحفاظ على الضغط <strong>2 ساعات</strong></td><td>KAHRAMAA Spec</td></tr>
+<tr><td>3. Monitor</td><td>تسجيل الضغط كل 15 دقيقة</td><td>QCS S8</td></tr>
+<tr><td style="color:#2ecc71;font-weight:700">4. Pass Criteria</td><td>Drop ≤ <strong>0.1 bar</strong> في 2 ساعات</td><td>KAHRAMAA</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700">5. Fail</td><td>Drop > 0.1 bar → find leak → repair → re-test</td><td>—</td></tr>
+</tbody></table>
+<h3>③ أخطاء شائعة</h3>
+<table class="dm-table"><thead><tr><th>الخطأ</th><th>النتيجة</th><th>التصحيح</th></tr></thead><tbody>
+<tr><td>Trapped air</td><td>False fail — pressure drops</td><td>Re-bleed from high points</td></tr>
+<tr><td>Thrust block not cured</td><td>Movement → joint leak</td><td>Wait 7 days + re-test</td></tr>
+<tr><td>Gauge not calibrated</td><td>Invalid test</td><td>Calibrated gauge + re-test</td></tr>
+<tr><td>Test in hot sun</td><td>Thermal expansion = false readings</td><td>Test early morning or shade pipe</td></tr>
+</tbody></table>
+`},
+
+
+
 
 
 
@@ -10225,6 +10466,14 @@ openDetail = function(key) {
   _origOpenDetail2(key);
   if(key === 'ncr_quick_logger') setTimeout(renderQuickNCRs, 200);
 };
+
+// ===== آلية التنفيذ — Stepper Function =====
+function showExecStep(prefix, step) {
+  for(var i=1;i<=4;i++){
+    var el=document.getElementById(prefix+'-step-'+i);
+    if(el) el.style.display=(i===step)?'block':'none';
+  }
+}
 </script>
 </body>
 </html<div onclick="exportITPExcel()" title="Excel Export" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);border-radius:8px;cursor:pointer;font-size:16px;color:#2ecc71;">📥</div>
