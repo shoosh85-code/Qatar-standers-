@@ -21,7 +21,7 @@
   --border: rgba(201,168,76,0.12); --border2: rgba(201,168,76,0.25);
 }
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Tajawal',sans-serif; background:var(--dark); color:var(--text); min-height:100vh; }
+body { font-family:'Tajawal',sans-serif; background:var(--dark); color:var(--text); min-height:100vh; overflow-x:hidden; }
 body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; z-index:9999; opacity:0.4; }
 header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); backdrop-filter:blur(24px); border-bottom:1px solid var(--border); padding:0 28px; }
 .header-inner { max-width:1300px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:64px; }
@@ -96,17 +96,32 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 .section-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
 .section-title { font-family:'Cairo',sans-serif; font-size:20px; font-weight:700; color:var(--text); }
 .section-title span { color:var(--gold); }
+/* ─── [٤-أ] Unified Grid ─── */
 .cats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:36px; }
-.cat-card { background:var(--dark3); border:1px solid var(--border); border-radius:16px; padding:22px; cursor:pointer; transition:all .25s; position:relative; overflow:hidden; }
+@media(max-width:900px){ .cats-grid { grid-template-columns:repeat(2,1fr); } }
+@media(max-width:600px){ .cats-grid { grid-template-columns:1fr; } }
+
+/* ─── [٤-ب] Card Standard — 160px fixed height ─── */
+.cat-card {
+  background:var(--dark3); border:1px solid var(--border); border-radius:16px;
+  padding:20px; cursor:pointer; transition:all .25s; position:relative;
+  overflow:hidden;
+  height:160px;
+  display:flex; flex-direction:column; justify-content:space-between;
+}
 .cat-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); opacity:0; transition:.3s; }
 .cat-card:hover { border-color:var(--border2); background:var(--dark4); transform:translateY(-3px); box-shadow:0 12px 32px rgba(0,0,0,0.4); }
 .cat-card:hover::after { opacity:1; }
-.cat-emoji { font-size:28px; margin-bottom:12px; display:block; }
-.cat-name { font-family:'Cairo',sans-serif; font-size:15px; font-weight:700; color:var(--text); margin-bottom:5px; }
-.cat-desc { font-size:12px; color:var(--text3); line-height:1.5; margin-bottom:14px; }
-.cat-bottom { display:flex; justify-content:space-between; align-items:center; }
+.cat-emoji { font-size:24px; display:block; }
+.cat-name { font-family:'Cairo',sans-serif; font-size:14px; font-weight:700; color:var(--text); }
+.cat-desc {
+  font-size:11px; color:var(--text3); line-height:1.4;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.cat-bottom { display:flex; justify-content:space-between; align-items:center; font-size:11px; }
 .cat-count { background:var(--dark5); border-radius:8px; padding:3px 10px; font-size:11px; color:var(--text3); }
-.cat-arr { color:var(--gold); font-size:16px; }
+.cat-arr { color:var(--gold); font-size:14px; }
 .specs-section { margin-top:8px; }
 .spec-row { background:var(--dark3); border:1px solid var(--border); border-radius:12px; padding:16px 20px; display:grid; grid-template-columns:120px 1fr auto auto; align-items:center; gap:16px; margin-bottom:8px; cursor:pointer; transition:.2s; }
 .spec-row:hover { border-color:var(--border2); background:var(--dark4); }
@@ -146,8 +161,8 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 .dm-table tr:hover td { background:rgba(201,168,76,0.03); }
 .toast { position:fixed; bottom:28px; right:28px; z-index:999; background:var(--dark4); border:1px solid var(--border2); border-radius:12px; padding:14px 20px; font-size:14px; color:var(--text); box-shadow:0 8px 32px rgba(0,0,0,0.5); transform:translateY(80px); opacity:0; transition:all .3s ease; display:flex; align-items:center; gap:10px; }
 .toast.show { transform:translateY(0); opacity:1; }
-@media(max-width:900px) { .hero { grid-template-columns:1fr; gap:32px; } .cats-grid { grid-template-columns:repeat(2,1fr); } .spec-row { grid-template-columns:90px 1fr; } .spec-tag,.spec-arr { display:none; } }
-@media(max-width:600px) { header { padding:0 16px; } .hero,.search-section,.content-section,.ai-answer-box { padding-left:16px; padding-right:16px; } .cats-grid { grid-template-columns:1fr; } .hero-stats { gap:16px; } }
+@media(max-width:900px) { .hero { grid-template-columns:1fr; gap:32px; } .spec-row { grid-template-columns:90px 1fr; } .spec-tag,.spec-arr { display:none; } }
+@media(max-width:600px) { header { padding:0 16px; } .hero,.search-section,.content-section,.ai-answer-box { padding-left:16px; padding-right:16px; } .hero-stats { gap:16px; } }
 ::-webkit-scrollbar { width:6px; }
 ::-webkit-scrollbar-track { background:var(--dark2); }
 ::-webkit-scrollbar-thumb { background:rgba(201,168,76,0.2); border-radius:3px; }
@@ -333,10 +348,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div class="cat-card" onclick="openDetail('fire')"><span class="cat-emoji">🔥</span><div class="cat-name" data-ar="الحريق والسلامة" data-en="Fire & Safety">الحريق والسلامة</div><div class="cat-desc">QCDD، Sprinkler، مخارج الطوارئ، Hose Reel</div><div class="cat-bottom"><span class="cat-count">متطلبات QCDD</span><span class="cat-arr">←</span></div></div>
   
 <div class="cat-card" onclick="openDetail('asphalt_quick_ref')"><span class="cat-emoji">🛣️</span><div class="cat-name">مرجع طبقات الإسفلت</div><div class="cat-desc">سماكات + اختبارات لكل طريق</div><div class="cat-bottom"><span class="cat-count">Quick Ref</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('pipe_quick_ref')"><span class="cat-emoji">🔧</span><div class="cat-name">مرجع اختيار المواسير</div><div class="cat-desc">مادة + قطر + PN لكل شبكة</div><div class="cat-bottom"><span class="cat-count">Quick Ref</span><span class="cat-arr">←</span></div>
+<div class="cat-card" onclick="openDetail('pipe_quick_ref')"><span class="cat-emoji">🔧</span><div class="cat-name">مرجع اختيار المواسير</div><div class="cat-desc">مادة + قطر + PN لكل شبكة</div><div class="cat-bottom"><span class="cat-count">Quick Ref</span><span class="cat-arr">←</span></div></div>
 <div class="cat-card" onclick="openDetail('mmup_road_design')"><span class="cat-emoji">📐</span><div class="cat-name">MMUP Road Design</div><div class="cat-desc">مقاطع + عروض حارات + Kerb standards</div><div class="cat-bottom"><span class="cat-count">MMUP Manual</span><span class="cat-arr">←</span></div></div>
 <div class="cat-card" onclick="openDetail('ashghal_std_details')"><span class="cat-emoji">📏</span><div class="cat-name">Ashghal Standard Details</div><div class="cat-desc">Manholes + Thrust Blocks + Trenches</div><div class="cat-bottom"><span class="cat-count">Standard Details</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('kahramaa_standards')"><span class="cat-emoji">⚡</span><div class="cat-name">KAHRAMAA Standards</div><div class="cat-desc">مواد معتمدة + توصيلات + ضغط</div><div class="cat-bottom"><span class="cat-count">KAHRAMAA</span><span class="cat-arr">←</span></div>
+<div class="cat-card" onclick="openDetail('kahramaa_standards')"><span class="cat-emoji">⚡</span><div class="cat-name">KAHRAMAA Standards</div><div class="cat-desc">مواد معتمدة + توصيلات + ضغط</div><div class="cat-bottom"><span class="cat-count">KAHRAMAA</span><span class="cat-arr">←</span></div></div>
 <div class="cat-card" onclick="openDetail('exec_asphalt_paving')" style="background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.02));border-color:rgba(201,168,76,.25)"><span class="cat-emoji">🛣️</span><div class="cat-name">آلية فرد الإسفلت</div><div class="cat-desc">4 خطوات تفاعلية + أخطاء شائعة</div><div class="cat-bottom"><span class="cat-count" style="color:var(--gold)">Stepper</span><span class="cat-arr">←</span></div></div>
 <div class="cat-card" onclick="openDetail('exec_water_pipe')" style="background:linear-gradient(135deg,rgba(52,152,219,.08),rgba(52,152,219,.02));border-color:rgba(52,152,219,.25)"><span class="cat-emoji">💧</span><div class="cat-name">آلية مد المواسير</div><div class="cat-desc">7 خطوات + HP + اختبارات</div><div class="cat-bottom"><span class="cat-count" style="color:#3498db">Stepper</span><span class="cat-arr">←</span></div></div>
 <div class="cat-card" onclick="openDetail('exec_pressure_test')" style="background:linear-gradient(135deg,rgba(46,204,113,.08),rgba(46,204,113,.02));border-color:rgba(46,204,113,.25)"><span class="cat-emoji">💪</span><div class="cat-name">آلية اختبار الضغط</div><div class="cat-desc">1.5×PN + 2hr + pass/fail criteria</div><div class="cat-bottom"><span class="cat-count" style="color:#2ecc71">Stepper</span><span class="cat-arr">←</span></div></div>
@@ -360,9 +375,9 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div class="cat-card" onclick="openDetail('pile_load_testing')"><span class="cat-emoji">🏗️</span><div class="cat-name">اختبار الخوازيق</div><div class="cat-desc">Static Load Test, PIT, Kentledge</div><div class="cat-bottom"><span class="cat-count">QCS S5 + BS 8004</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="openDetail('sabkha_treatment')"><span class="cat-emoji">🏜️</span><div class="cat-name">معالجة السبخة</div><div class="cat-desc">Sabkha ID, Geotextile, Stabilization</div><div class="cat-bottom"><span class="cat-count">7 بنود IAN-006</span><span class="cat-arr">←</span></div></div>
   
-<div class="cat-card" onclick="openDetail('concrete_quick_ref')"><span class="cat-emoji">🧱</span><div class="cat-name">مرجع درجات الخرسانة</div><div class="cat-desc">Grade + Cover + Cement لكل عنصر</div><div class="cat-bottom"><span class="cat-count">Quick Ref</span><span class="cat-arr">←</span></div>
+<div class="cat-card" onclick="openDetail('concrete_quick_ref')"><span class="cat-emoji">🧱</span><div class="cat-name">مرجع درجات الخرسانة</div><div class="cat-desc">Grade + Cover + Cement لكل عنصر</div><div class="cat-bottom"><span class="cat-count">Quick Ref</span><span class="cat-arr">←</span></div></div>
 <div class="cat-card" onclick="openDetail('hot_weather_detailed')"><span class="cat-emoji">☀️</span><div class="cat-name">Hot Weather Concreting</div><div class="cat-desc">جدول إجراءات + كمية الثلج + Curing</div><div class="cat-bottom"><span class="cat-count">QCS S5 P4</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('sabkha_classification')"><span class="cat-emoji">🏜️</span><div class="cat-name">تصنيف السبخة IAN-006</div><div class="cat-desc">4 أنواع + معالجة + اختبارات لكل نوع</div><div class="cat-bottom"><span class="cat-count">IAN-006 Full</span><span class="cat-arr">←</span></div>
+<div class="cat-card" onclick="openDetail('sabkha_classification')"><span class="cat-emoji">🏜️</span><div class="cat-name">تصنيف السبخة IAN-006</div><div class="cat-desc">4 أنواع + معالجة + اختبارات لكل نوع</div><div class="cat-bottom"><span class="cat-count">IAN-006 Full</span><span class="cat-arr">←</span></div></div>
 <div class="cat-card" onclick="openDetail('exec_concrete_pour')" style="background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.02));border-color:rgba(201,168,76,.25)"><span class="cat-emoji">🏗️</span><div class="cat-name">آلية صب الخرسانة</div><div class="cat-desc">6 خطوات تفصيلية + QA + أخطاء</div><div class="cat-bottom"><span class="cat-count" style="color:var(--gold)">Stepper</span><span class="cat-arr">←</span></div></div>
 </div>
 </div>
@@ -10927,7 +10942,7 @@ function resetInspector() {
     var title = d ? d.title.replace(/[^\w\s\u0600-\u06FF—|]/g, '').trim().substring(0, 40) : key;
     
     var bc = '<div class="breadcrumb">';
-    bc += '<span class="bc-link" onclick="document.getElementById('detailModal').classList.remove('open')">\u{1F3E0} الرئيسية</span>';
+    bc += '<span class="bc-link" onclick="document.getElementById(\'detailModal\').classList.remove(\'open\')">\u{1F3E0} الرئيسية</span>';
     bc += '<span class="bc-sep">\u2190</span>';
     
     if (map.parent && map.parent !== 'home' && detailData[map.parent]) {
@@ -10973,6 +10988,4 @@ function resetInspector() {
 
 </script>
 </body>
-</html<div onclick="exportITPExcel()" title="Excel Export" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);border-radius:8px;cursor:pointer;font-size:16px;color:#2ecc71;">📥</div>
-<div onclick="copyITPtoClipboard()" title="نسخ Word" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(52,152,219,.12);border:1px solid rgba(52,152,219,.3);border-radius:8px;cursor:pointer;font-size:16px;color:#3498db;">📋</div>
->
+</html>
