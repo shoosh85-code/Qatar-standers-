@@ -10620,11 +10620,7 @@ showToast('✅ تم تصدير '+_quickNCRs.length+' NCR');
 }
 
 // Show saved NCRs on section open
-var _origOpenDetail2 = openDetail;
-openDetail = function(key) {
-  _origOpenDetail2(key);
-  if(key === 'ncr_quick_logger') setTimeout(renderQuickNCRs, 200);
-};
+
 
 // ===== آلية التنفيذ — Stepper Function =====
 function showExecStep(prefix, step) {
@@ -10707,64 +10703,7 @@ var SECTION_MAP = {
 };
 
 // Inject breadcrumb into detail modal when opened
-var _origOpen = openDetail;
-openDetail = function(key) {
-  _origOpen(key);
-  var map = SECTION_MAP[key];
-  if (!map) return;
-  
-  // Build breadcrumb
-  var bc = '<div class="breadcrumb">';
-  bc += '<span class="bc-link" onclick="document.getElementById(\'detailModal\').classList.remove(\'open\')">🏠 الرئيسية</span>';
-  bc += '<span class="bc-sep">←</span>';
-  
-  if (map.parent && map.parent !== 'home' && detailData[map.parent]) {
-    bc += '<span class="bc-link" onclick="openDetail(\''+map.parent+'\')">' + map.group + '</span>';
-    bc += '<span class="bc-sep">←</span>';
-  }
-  
-  var title = detailData[key] ? detailData[key].title.replace(/[🛣️🔧🏗️🔬📋📐📏⚡☀️🏜️🔴✅🧱🧪💧💪📹⛏️🤖🎨🚛📊📸📝🔥]/g,'').trim() : key;
-  bc += '<span class="bc-current">' + title.substring(0,40) + '</span>';
-  bc += '</div>';
-  
-  // Build navigation + related links
-  var nav = '';
-  if (map.prev || map.next) {
-    nav += '<div class="section-nav">';
-    if (map.prev && detailData[map.prev]) {
-      nav += '<button onclick="openDetail(\''+map.prev+'\')">→ السابق</button>';
-    } else {
-      nav += '<div></div>';
-    }
-    if (map.next && detailData[map.next]) {
-      nav += '<button onclick="openDetail(\''+map.next+'\')">← التالي</button>';
-    }
-    nav += '</div>';
-  }
-  
-  // Related links
-  var links = '<div class="related-links">';
-  if (map.equipment && detailData[map.equipment]) links += '<a onclick="openDetail(\''+map.equipment+'\')">🔧 المعدات</a>';
-  if (map.itp && detailData[map.itp]) links += '<a onclick="openDetail(\''+map.itp+'\')">📋 ITP</a>';
-  if (map.parent && map.parent !== 'home' && detailData[map.parent]) links += '<a onclick="openDetail(\''+map.parent+'\')">📂 القسم الرئيسي</a>';
-  links += '</div>';
-  
-  // Inject into print-area
-  var pa = document.getElementById('print-area');
-  if (pa) {
-    var firstChild = pa.firstElementChild;
-    // Remove old breadcrumb if exists
-    var oldBc = pa.querySelector('.breadcrumb');
-    if (oldBc) oldBc.remove();
-    var oldNav = pa.querySelector('.section-nav');
-    if (oldNav) oldNav.remove();
-    var oldLinks = pa.querySelector('.related-links');
-    if (oldLinks) oldLinks.remove();
-    
-    pa.insertAdjacentHTML('afterbegin', bc);
-    pa.insertAdjacentHTML('beforeend', links + nav);
-  }
-};
+
 
 
 // ================================================================
@@ -10969,6 +10908,68 @@ function resetInspector() {
   document.getElementById('insp-location').value = '';
   showToast('🔄 جاهز لفحص جديد');
 }
+
+
+// ================================================================
+// CLEAN BREADCRUMB + SECTION NAV — Overrides openDetail once
+// ================================================================
+(function() {
+  var _baseOpenDetail = openDetail;
+  
+  openDetail = function(key) {
+    _baseOpenDetail(key);
+    
+    // === BREADCRUMB ===
+    var map = typeof SECTION_MAP !== 'undefined' ? SECTION_MAP[key] : null;
+    if (!map) return;
+    
+    var d = detailData[key];
+    var title = d ? d.title.replace(/[^\w\s\u0600-\u06FF—|]/g, '').trim().substring(0, 40) : key;
+    
+    var bc = '<div class="breadcrumb">';
+    bc += '<span class="bc-link" onclick="document.getElementById('detailModal').classList.remove('open')">\u{1F3E0} الرئيسية</span>';
+    bc += '<span class="bc-sep">\u2190</span>';
+    
+    if (map.parent && map.parent !== 'home' && detailData[map.parent]) {
+      bc += '<span class="bc-link" onclick="openDetail('' + map.parent + '')">' + map.group + '</span>';
+      bc += '<span class="bc-sep">\u2190</span>';
+    }
+    bc += '<span class="bc-current">' + title + '</span></div>';
+    
+    // Navigation buttons
+    var nav = '';
+    if (map.prev || map.next) {
+      nav += '<div class="section-nav">';
+      nav += map.prev && detailData[map.prev] ? '<button onclick="openDetail('' + map.prev + '')">\u2192 السابق</button>' : '<div></div>';
+      nav += map.next && detailData[map.next] ? '<button onclick="openDetail('' + map.next + '')">\u2190 التالي</button>' : '';
+      nav += '</div>';
+    }
+    
+    // Related links
+    var links = '<div class="related-links">';
+    if (map.equipment && detailData[map.equipment]) links += '<a onclick="openDetail('' + map.equipment + '')">\u{1F527} المعدات</a>';
+    if (map.itp && detailData[map.itp]) links += '<a onclick="openDetail('' + map.itp + '')">\u{1F4CB} ITP</a>';
+    if (map.parent && map.parent !== 'home' && detailData[map.parent]) links += '<a onclick="openDetail('' + map.parent + '')">\u{1F4C2} القسم</a>';
+    links += '</div>';
+    
+    var pa = document.getElementById('print-area');
+    if (pa) {
+      var old = pa.querySelector('.breadcrumb');
+      if (old) old.remove();
+      old = pa.querySelector('.section-nav');
+      if (old) old.remove();
+      old = pa.querySelector('.related-links');
+      if (old) old.remove();
+      pa.insertAdjacentHTML('afterbegin', bc);
+      pa.insertAdjacentHTML('beforeend', links + nav);
+    }
+    
+    // === NCR QUICK LOGGER RENDER ===
+    if (key === 'ncr_quick_logger' && typeof renderQuickNCRs === 'function') {
+      setTimeout(renderQuickNCRs, 200);
+    }
+  };
+})();
 
 </script>
 </body>
