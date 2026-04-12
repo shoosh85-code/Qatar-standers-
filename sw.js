@@ -1,59 +1,112 @@
-const CACHE = 'qatarspec-v3';
-const STATIC = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/data/roads.json',
-  '/data/utilities.json',
-  '/data/structural.json',
-  '/data/geotech.json',
-  '/data/tools.json',
-  '/data/ashghal.json'
+// QatarSpec Pro — Service Worker v1.2
+// Offline-first caching for Qatar Engineering Standards app
+
+const CACHE_NAME = 'qatarspec-v1.2';
+const FONT_CACHE = 'qatarspec-fonts-v1';
+
+// Core assets to cache on install (app shell)
+const CORE_ASSETS = [
+  './',
+  './index.html',
+  './manifest.json'
 ];
 
-self.addEventListener('install', e => {
-  self.skipWaiting();
-  e.waitUntil(
-    caches.open(CACHE).then(c => {
-      return Promise.allSettled(STATIC.map(url =>
-        c.add(url).catch(err => console.warn('SW: failed to cache', url, err))
-      ));
-    })
+// Google Fonts to pre-cache for offline use
+const FONT_URLS = [
+  'https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;600;700;900&display=swap'
+];
+
+// ===== INSTALL — cache app shell =====
+self.addEventListener('install', event => {
+  console.log('[QatarSpec SW] Installing v1.2...');
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        console.log('[QatarSpec SW] Caching app shell');
+        return cache.addAll(CORE_ASSETS);
+      })
+      .then(() => self.skipWaiting())
+      .catch(err => console.log('[QatarSpec SW] Cache install error:', err))
   );
 });
 
-self.addEventListener('activate', e => {
-  e.waitUntil(
+// ===== ACTIVATE — clean old caches =====
+self.addEventListener('activate', event => {
+  console.log('[QatarSpec SW] Activating...');
+  event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+      Promise.all(
+        keys
+          .filter(key => key !== CACHE_NAME && key !== FONT_CACHE)
+          .map(key => {
+            console.log('[QatarSpec SW] Deleting old cache:', key);
+            return caches.delete(key);
+          })
+      )
     ).then(() => self.clients.claim())
   );
 });
 
-self.addEventListener('fetch', e => {
-  const url = new URL(e.request.url);
-  // Never cache API calls
-  if (url.pathname.startsWith('/api/')) return;
-  // Never cache version check
-  if (url.pathname === '/version.json') return;
+// ===== FETCH — serve from cache, fallback to network =====
+self.addEventListener('fetch', event => {
+  const url = new URL(event.request.url);
 
-  e.respondWith(
-    caches.match(e.request).then(cached => {
+  // Skip non-GET and API calls (always go to network for Anthropic API)
+  if (event.request.method !== 'GET') return;
+  if (url.hostname === 'api.anthropic.com') return;
+  if (url.hostname === 'generativelanguage.googleapis.com') return;
+
+  // Fonts: cache-first strategy
+  if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
+    event.respondWith(
+      caches.open(FONT_CACHE).then(cache =>
+        cache.match(event.request).then(cached => {
+          if (cached) return cached;
+          return fetch(event.request).then(response => {
+            if (response.ok) cache.put(event.request, response.clone());
+            return response;
+          }).catch(() => cached || new Response('/* Font unavailable offline */', {
+            headers: { 'Content-Type': 'text/css' }
+          }));
+        })
+      )
+    );
+    return;
+  }
+
+  // App shell: cache-first, fallback to network then offline page
+  event.respondWith(
+    caches.match(event.request).then(cached => {
       if (cached) return cached;
-      return fetch(e.request).then(res => {
-        if (res.ok && res.type !== 'opaque') {
-          const clone = res.clone();
-          caches.open(CACHE).then(c => c.put(e.request, clone));
+
+      return fetch(event.request).then(response => {
+        // Cache successful responses for the app
+        if (response.ok && url.origin === self.location.origin) {
+          caches.open(CACHE_NAME).then(cache =>
+            cache.put(event.request, response.clone())
+          );
         }
-        return res;
+        return response;
       }).catch(() => {
-        // Offline fallback
-        if (e.request.destination === 'document') return caches.match('/index.html');
+        // Offline fallback: return cached index.html for navigation requests
+        if (event.request.mode === 'navigate') {
+          return caches.match('./index.html');
+        }
+        return new Response('Offline — QatarSpec Pro', {
+          status: 503,
+          headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+        });
       });
     })
   );
 });
 
-self.addEventListener('message', e => {
-  if (e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting();
+// ===== MESSAGE — handle cache refresh from app =====
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+  if (event.data && event.data.type === 'CACHE_REFRESH') {
+    caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS));
+  }
 });
