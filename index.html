@@ -387,6 +387,8 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <div class="cat-card" onclick="openDetail('hot_weather_detailed')"><span class="cat-emoji">☀️</span><div class="cat-name">Hot Weather Concreting</div><div class="cat-desc">جدول إجراءات + كمية الثلج + Curing</div><div class="cat-bottom"><span class="cat-count">QCS S5 P4</span><span class="cat-arr">←</span></div></div>
 <div class="cat-card" onclick="openDetail('sabkha_classification')"><span class="cat-emoji">🏜️</span><div class="cat-name">تصنيف السبخة IAN-006</div><div class="cat-desc">4 أنواع + معالجة + اختبارات لكل نوع</div><div class="cat-bottom"><span class="cat-count">IAN-006 Full</span><span class="cat-arr">←</span></div></div>
 <div class="cat-card" onclick="openDetail('exec_concrete_pour')" style="background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.02));border-color:rgba(201,168,76,.25)"><span class="cat-emoji">🏗️</span><div class="cat-name">آلية صب الخرسانة</div><div class="cat-desc">6 خطوات تفصيلية + QA + أخطاء</div><div class="cat-bottom"><span class="cat-count" style="color:var(--gold)">Stepper</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('exec_foundation_excavation')" style="background:linear-gradient(135deg,rgba(155,89,182,.1),rgba(155,89,182,.02));border-color:rgba(155,89,182,.3)"><span class="cat-emoji">⛏️</span><div class="cat-name">آلية حفر الأساسات</div><div class="cat-desc">6 خطوات + Shoring + Dewatering + HP</div><div class="cat-bottom"><span class="cat-count" style="color:#9b59b6">Stepper</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('exec_bridge_rebar')" style="background:linear-gradient(135deg,rgba(231,76,60,.08),rgba(231,76,60,.02));border-color:rgba(231,76,60,.25)"><span class="cat-emoji">🌉</span><div class="cat-name">آلية تسليح الجسور</div><div class="cat-desc">4 خطوات + Lap + Cover + Durability</div><div class="cat-bottom"><span class="cat-count" style="color:#e74c3c">Stepper</span><span class="cat-arr">←</span></div></div>
 </div>
 </div>
 </div>
@@ -436,6 +438,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <div class="cat-card" onclick="openDetail('top20_ncr')"><span class="cat-emoji">🔴</span><div class="cat-name">أكثر 20 NCR شيوعاً</div><div class="cat-desc">أخطاء ميدانية + حلول + QCS clause</div><div class="cat-bottom"><span class="cat-count">17 سنة خبرة</span><span class="cat-arr">←</span></div></div>
 <div class="cat-card" onclick="openDetail('prequalification_checklist')"><span class="cat-emoji">✅</span><div class="cat-name">Checklist قبل كل مرحلة</div><div class="cat-desc">تفقيص تفاعلي — طرق + مرافق + خرسانة</div><div class="cat-bottom"><span class="cat-count">Interactive</span><span class="cat-arr">←</span></div>
 <div class="cat-card" onclick="openDetail('ncr_quick_logger')" style="background:linear-gradient(135deg,rgba(231,76,60,.1),rgba(231,76,60,.03));border-color:rgba(231,76,60,.3)"><span class="cat-emoji">🔴</span><div class="cat-name">NCR Quick Logger</div><div class="cat-desc">سجّل NCR بـ 5 حقول + تصدير دفعة</div><div class="cat-bottom"><span class="cat-count" style="color:#e74c3c">localStorage</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('drawing_analyzer')" style="background:linear-gradient(135deg,rgba(46,204,113,.1),rgba(46,204,113,.02));border-color:rgba(46,204,113,.35)"><span class="cat-emoji">📐</span><div class="cat-name">محلل المخططات الذكي</div><div class="cat-desc">Structural · Road · ITP · Shop Drawing — فحص QCS 2024</div><div class="cat-bottom"><span class="cat-count" style="color:#2ecc71">AI Drawing</span><span class="cat-arr">←</span></div></div>
 </div>
 </div>
 </div>
@@ -1072,6 +1075,76 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 ` },
 
+// ════════════════════════════════════════════════════════════════
+// المرحلة ٩ — محلل المخططات الذكي (Drawing Analyzer)
+// ════════════════════════════════════════════════════════════════
+drawing_analyzer: {
+title: '📐 محلل المخططات الذكي — Drawing Analyzer',
+content: `
+<div class="qcs-ref-badge">QCS 2024 — تحليل ذكي متخصص في المخططات الإنشائية</div>
+
+<!-- نوع المخطط -->
+<div style="margin-bottom:14px">
+<div style="font-size:12px;color:var(--text3);margin-bottom:8px;font-weight:700;letter-spacing:1px">① اختر نوع المخطط</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div class="da-type-btn active-type" onclick="selectDaType('structural',this)" style="background:rgba(201,168,76,.1);border:2px solid rgba(201,168,76,.4);border-radius:10px;padding:12px;cursor:pointer;text-align:center;transition:.2s">
+<div style="font-size:22px">🏗️</div>
+<div style="color:var(--gold);font-weight:700;font-size:12px;margin-top:4px">مخطط إنشائي</div>
+<div style="color:var(--text3);font-size:10px">Cover · Rebar · Lap Zones</div>
+</div>
+<div class="da-type-btn" onclick="selectDaType('road',this)" style="background:rgba(52,152,219,.06);border:2px dashed rgba(52,152,219,.3);border-radius:10px;padding:12px;cursor:pointer;text-align:center;transition:.2s">
+<div style="font-size:22px">🛣️</div>
+<div style="color:#3498db;font-weight:700;font-size:12px;margin-top:4px">مقطع طريق</div>
+<div style="color:var(--text3);font-size:10px">Layer · Slope · Width</div>
+</div>
+<div class="da-type-btn" onclick="selectDaType('itp',this)" style="background:rgba(46,204,113,.06);border:2px dashed rgba(46,204,113,.3);border-radius:10px;padding:12px;cursor:pointer;text-align:center;transition:.2s">
+<div style="font-size:22px">📋</div>
+<div style="color:#2ecc71;font-weight:700;font-size:12px;margin-top:4px">نموذج ITP</div>
+<div style="color:var(--text3);font-size:10px">Hold Points · Witness Points</div>
+</div>
+<div class="da-type-btn" onclick="selectDaType('shop',this)" style="background:rgba(155,89,182,.06);border:2px dashed rgba(155,89,182,.3);border-radius:10px;padding:12px;cursor:pointer;text-align:center;transition:.2s">
+<div style="font-size:22px">🔧</div>
+<div style="color:#9b59b6;font-weight:700;font-size:12px;margin-top:4px">Shop Drawing</div>
+<div style="color:var(--text3);font-size:10px">QCS Requirements Check</div>
+</div>
+</div>
+</div>
+
+<!-- رفع المخطط -->
+<div style="margin-bottom:14px">
+<div style="font-size:12px;color:var(--text3);margin-bottom:8px;font-weight:700;letter-spacing:1px">② ارفع المخطط</div>
+<div onclick="document.getElementById('da-img-input').click()" id="da-upload-zone" style="background:rgba(201,168,76,.04);border:2px dashed rgba(201,168,76,.3);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:.3s">
+<div style="font-size:36px;margin-bottom:8px">📐</div>
+<div style="color:var(--gold);font-weight:700;font-size:13px">اسحب المخطط هنا أو اضغط للرفع</div>
+<div style="color:var(--text3);font-size:11px;margin-top:4px">PNG · JPG · PDF (صورة أو screenshot) — حتى 10MB</div>
+<input type="file" id="da-img-input" accept="image/*,.pdf" style="display:none" onchange="handleDaUpload(this)">
+</div>
+<div id="da-preview-wrap" style="display:none;margin-top:10px;text-align:center">
+<img id="da-preview-img" style="max-width:100%;max-height:220px;border-radius:10px;border:1px solid var(--border2)">
+<div style="font-size:11px;color:var(--text3);margin-top:4px" id="da-file-name"></div>
+</div>
+</div>
+
+<!-- ملاحظات إضافية -->
+<div style="margin-bottom:14px">
+<div style="font-size:12px;color:var(--text3);margin-bottom:6px;font-weight:700;letter-spacing:1px">③ ملاحظات إضافية (اختياري)</div>
+<textarea id="da-notes" placeholder="مثال: هذا مخطط قاعدة معزولة Grade C40, Cover 75mm, رقم المبنى B-03..." style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:10px;padding:10px;font-family:Tajawal,sans-serif;font-size:13px;color:var(--text);resize:vertical;min-height:64px;outline:none"></textarea>
+</div>
+
+<!-- زر التحليل -->
+<button onclick="runDrawingAnalysis()" id="da-analyze-btn" style="width:100%;background:linear-gradient(135deg,var(--maroon),var(--maroon2));border:1px solid rgba(201,168,76,.4);border-radius:12px;padding:14px;color:var(--gold2);font-family:Cairo,sans-serif;font-weight:800;font-size:15px;cursor:pointer;margin-bottom:14px;letter-spacing:.5px">
+🔍 تحليل المخطط — Analyze Drawing
+</button>
+
+<!-- منطقة التحميل والنتيجة -->
+<div id="da-loading" style="display:none;text-align:center;padding:20px">
+<div style="font-size:32px;margin-bottom:10px">⚡</div>
+<div class="spinner" style="width:24px;height:24px;border:3px solid rgba(201,168,76,.2);border-top:3px solid var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px"></div>
+<div style="color:var(--gold);font-size:13px">جاري تحليل المخطط بالذكاء الاصطناعي...</div>
+<div style="color:var(--text3);font-size:11px;margin-top:4px">فحص مقارنة QCS 2024</div>
+</div>
+<div id="da-result" style="margin-top:4px"></div>
+`},
 
   roads_mat_card: { title: '🧱 Materials — Bitumen + Aggregates + Geotextile', content: `
 <div class="lang-content-ar">
@@ -8788,6 +8861,203 @@ content: `
 </tbody></table>
 `},
 
+// ════════════════════════════════════════════════════════════════
+// المرحلة ١٠ — آلية تنفيذ: حفر الأساسات
+// ════════════════════════════════════════════════════════════════
+exec_foundation_excavation: {
+title: '⛏️ آلية تنفيذ — حفر الأساسات | Foundation Excavation',
+content: `
+<div class="qcs-ref-badge">QCS 2024 S5 P2 + BS EN 1997-1 (EC7) + Ashghal PWA</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+<button onclick="showExecStep('fe',1)" style="background:linear-gradient(135deg,rgba(155,89,182,.3),rgba(155,89,182,.1));border:1px solid rgba(155,89,182,.5);border-radius:20px;padding:6px 14px;font-size:11px;color:#9b59b6;cursor:pointer;font-family:Tajawal;font-weight:700">① التحضير</button>
+<button onclick="showExecStep('fe',2)" style="background:var(--dark4);border:1px solid rgba(155,89,182,.3);border-radius:20px;padding:6px 14px;font-size:11px;color:#9b59b6;cursor:pointer;font-family:Tajawal;font-weight:700">② التنفيذ</button>
+<button onclick="showExecStep('fe',3)" style="background:var(--dark4);border:1px solid rgba(155,89,182,.3);border-radius:20px;padding:6px 14px;font-size:11px;color:#9b59b6;cursor:pointer;font-family:Tajawal;font-weight:700">③ مراقبة الجودة</button>
+<button onclick="showExecStep('fe',4)" style="background:var(--dark4);border:1px solid rgba(155,89,182,.3);border-radius:20px;padding:6px 14px;font-size:11px;color:#9b59b6;cursor:pointer;font-family:Tajawal;font-weight:700">④ الأخطاء الشائعة</button>
+</div>
+
+<div id="fe-step-1">
+<h3 style="color:var(--gold2)">الخطوة ① التحضير والمتطلبات</h3>
+<div style="background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);border-radius:10px;padding:12px;margin-bottom:10px">
+<div style="font-weight:700;color:var(--gold);margin-bottom:6px">📋 متطلبات مسبقة — Pre-requisites</div>
+<div style="font-size:12px;color:var(--text2);line-height:1.9">
+• تقرير الجسات (GIR) معتمد — نوع التربة + GWT Level + Bearing Capacity<br>
+• مخططات الأساسات معتمدة من المهندس المشرف<br>
+• Excavation Permit + Method Statement معتمد<br>
+• <span style="color:#e74c3c;font-weight:700">HOLD POINT: Survey check — levels + setting out </span> — <span style="color:var(--gold)">QCS S5 P2 Cl.2.1</span><br>
+• تحديد كل الخدمات القائمة (Gas · Water · Electric · Telecom) قبل الحفر<br>
+• خطة Dewatering إذا GWT &lt; 2m من مستوى الحفر<br>
+• Risk Assessment + TBT للطاقم
+</div></div>
+<div style="background:rgba(52,152,219,.06);border:1px solid rgba(52,152,219,.15);border-radius:10px;padding:12px;margin-bottom:10px">
+<div style="font-weight:700;color:#3498db;margin-bottom:6px">🚜 المعدات المطلوبة</div>
+<div style="font-size:12px;color:var(--text2);line-height:1.9">
+• Excavator (CAT 320 أو مكافئ) — Bucket width مناسب<br>
+• Shoring System: Sheet Piles أو Soldier Piles + Lagging (عمق >1.5m)<br>
+• Dewatering Pump: Submersible ≥50m³/hr إذا GWT مرتفع<br>
+• Level + Total Station للرقابة المستمرة<br>
+• DCP لفحص Subgrade بعد الوصول للمستوى<br>
+• Spoil Trucks + Skip Boxes
+</div></div>
+<div style="background:rgba(231,76,60,.06);border:1px solid rgba(231,76,60,.15);border-radius:10px;padding:12px">
+<div style="font-weight:700;color:#e74c3c;margin-bottom:6px">⛑️ سلامة الحفريات — إلزامي</div>
+<div style="font-size:12px;color:var(--text2);line-height:1.9">
+• Shoring إلزامي لأي حفر >1.2m (QCS S1 P3)<br>
+• Barricade + Warning Tape مسافة ≥1.5m من حافة الحفرة<br>
+• Ladder/Ramp إخلاء — كل 15m طولي<br>
+• مراقب سلامة دائم أثناء الحفر<br>
+• لا مركبات ثقيلة <3m من حافة الحفرة<br>
+• إضاءة ليلية ≥50 Lux إذا عمل ليلي
+</div></div>
+</div>
+
+<div id="fe-step-2" style="display:none">
+<h3 style="color:var(--gold2)">الخطوة ② تسلسل التنفيذ</h3>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px">
+<div style="min-width:28px;height:28px;background:rgba(155,89,182,.2);border:1px solid rgba(155,89,182,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#9b59b6">1</div>
+<div style="font-size:12px"><strong style="color:var(--gold2)">Setting Out + Levels</strong><br>Survey team يحدد حدود الحفر + المستويات (Founding Level per drawing)<br>Pins + Chalk lines كل زاوية<br><span style="color:#e74c3c;font-weight:700">🔴 HOLD POINT — QCS S5 P2 Cl.2.2</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px">
+<div style="min-width:28px;height:28px;background:rgba(155,89,182,.2);border:1px solid rgba(155,89,182,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#9b59b6">2</div>
+<div style="font-size:12px"><strong style="color:var(--gold2)">Shoring تركيب الدعامات</strong><br>تركيب Sheet Piles أو Shoring Boxes قبل الحفر للأعماق >1.5m<br>Waling beams + Struts حسب Method Statement<br><span style="color:var(--gold)">QCS S1 P3 Cl.8.4</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px">
+<div style="min-width:28px;height:28px;background:rgba(155,89,182,.2);border:1px solid rgba(155,89,182,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#9b59b6">3</div>
+<div style="font-size:12px"><strong style="color:var(--gold2)">الحفر المتدرج — Staged Excavation</strong><br>حفر بمراحل: 1.5m - 1.5m - حتى Founding Level<br>مراقبة جدران الحفرة بعد كل مرحلة<br>تصريف المياه Dewatering مستمر<br><span style="color:var(--gold)">QCS S5 P2 Cl.2.3</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.3);border-radius:8px">
+<div style="min-width:28px;height:28px;background:rgba(231,76,60,.3);border:1px solid rgba(231,76,60,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#e74c3c">4</div>
+<div style="font-size:12px"><strong style="color:#e74c3c">🔴 HOLD POINT — فحص مستوى التأسيس</strong><br>Geotechnical Engineer يوافق على Founding Level — Bearing Capacity مقبولة<br>DCP Reading + Visual inspection — No Sabkha + No Soft Spots<br><span style="color:#e74c3c;font-weight:700">لا يُسمح بالمتابعة قبل الاعتماد — QCS S5 P2 Cl.2.4 + EC7</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px">
+<div style="min-width:28px;height:28px;background:rgba(155,89,182,.2);border:1px solid rgba(155,89,182,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#9b59b6">5</div>
+<div style="font-size:12px"><strong style="color:var(--gold2)">Blinding Concrete</strong><br>صب Lean Concrete C15 سُمك 75mm فوراً بعد الموافقة على مستوى التأسيس<br>يحمي التربة من الجفاف والتلوث<br><span style="color:var(--gold)">QCS S5 P2 Cl.2.5</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px">
+<div style="min-width:28px;height:28px;background:rgba(155,89,182,.2);border:1px solid rgba(155,89,182,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#9b59b6">6</div>
+<div style="font-size:12px"><strong style="color:var(--gold2)">التسوية النهائية + Drainage</strong><br>تسوية قاع الحفرة ±10mm | Sump Pit للصرف المستمر<br>RFI مفتوح لفحص التسليح — القدم التالية<br><span style="color:var(--gold)">QCS S5 P2</span></div></div>
+</div>
+
+<div id="fe-step-3" style="display:none">
+<h3 style="color:var(--gold2)">الخطوة ③ مراقبة الجودة</h3>
+<table class="dm-table"><thead><tr><th>الفحص</th><th>المعيار</th><th>التكرار</th><th>HP/W</th><th>المرجع</th></tr></thead><tbody>
+<tr><td>Setting Out</td><td>±10mm level | ±25mm plan</td><td>قبل الحفر</td><td style="color:#e74c3c">HP</td><td>QCS S5 P2</td></tr>
+<tr><td>Founding Level</td><td>per drawing ±25mm</td><td>100% عند الوصول</td><td style="color:#e74c3c">HP</td><td>EC7 + QCS</td></tr>
+<tr><td>DCP at Founding</td><td>CBR ≥ design requirement</td><td>كل 5m²</td><td style="color:#e74c3c">HP</td><td>ASTM D6951</td></tr>
+<tr><td>Shoring Inspection</td><td>per Method Statement</td><td>يومي</td><td style="color:#f39c12">W</td><td>QCS S1 P3</td></tr>
+<tr><td>GWT Level</td><td>≥500mm below founding</td><td>يومي</td><td style="color:#f39c12">W</td><td>EC7</td></tr>
+<tr><td>Side Slopes</td><td>per soil type (1:1 to 1:2)</td><td>بعد كل مرحلة</td><td style="color:#f39c12">W</td><td>QCS S5</td></tr>
+<tr><td>Blinding Thickness</td><td>75mm min (C15)</td><td>100%</td><td style="color:#e74c3c">HP</td><td>QCS S5 P2</td></tr>
+</tbody></table>
+<div style="background:rgba(231,76,60,.06);border:1px solid rgba(231,76,60,.15);border-radius:8px;padding:10px;margin-top:10px">
+<div style="font-weight:700;color:#e74c3c;font-size:12px;margin-bottom:6px">📋 Hold Points الإلزامية — لا متابعة بدون اعتماد</div>
+<div style="font-size:11px;color:var(--text2);line-height:1.8">
+1️⃣ <strong>HP-FE-01:</strong> Setting Out — Survey approval قبل الحفر<br>
+2️⃣ <strong>HP-FE-02:</strong> Founding Level — Geotechnical Engineer + SC signature<br>
+3️⃣ <strong>HP-FE-03:</strong> Blinding acceptance — قبل تسليح القاعدة
+</div></div>
+</div>
+
+<div id="fe-step-4" style="display:none">
+<h3 style="color:var(--gold2)">④ أخطاء شائعة في حفر الأساسات</h3>
+<table class="dm-table"><thead><tr><th>الخطأ</th><th>الخطورة</th><th>التجنب</th><th>الإجراء التصحيحي</th></tr></thead><tbody>
+<tr><td style="color:#e74c3c">الحفر أعمق من Founding Level</td><td>🔴 عالي</td><td>Survey spot checks مستمر</td><td>Lean Concrete C15 لملء الفائض + موافقة جيوتقنية</td></tr>
+<tr><td style="color:#e74c3c">Soft Spot في القاع</td><td>🔴 عالي</td><td>DCP كل 5m²</td><td>Over-excavation + Granular Fill + Compaction 95% + Geotechnical approval</td></tr>
+<tr><td style="color:#e74c3c">انهيار جدار الحفرة</td><td>🔴 خطر نفسي</td><td>Shoring صحيح + لا أحمال قريبة</td><td>إيقاف فوري + Rescue plan + تعزيز الشoring</td></tr>
+<tr><td style="color:#f39c12">التأخر في Blinding</td><td>🟠 متوسط</td><td>صب خلال 4 ساعات</td><td>رش ماء لمنع الجفاف + صب فوري</td></tr>
+<tr><td style="color:#f39c12">Sabkha غير مُشخَّصة</td><td>🟠 متوسط</td><td>GIR تفصيلي + Chemical tests</td><td>استشاري جيوتقني + معالجة per IAN-006</td></tr>
+<tr><td style="color:#f39c12">ارتفاع GWT مفاجئ</td><td>🟠 متوسط</td><td>Dewatering plan مسبق</td><td>تشغيل مضخات إضافية + Sump pits</td></tr>
+</tbody></table>
+</div>
+`},
+
+// ════════════════════════════════════════════════════════════════
+// المرحلة ١٠ — آلية تنفيذ: تسليح الجسور
+// ════════════════════════════════════════════════════════════════
+exec_bridge_rebar: {
+title: '🌉 آلية تنفيذ — تسليح الجسور | Bridge Reinforcement',
+content: `
+<div class="qcs-ref-badge">QCS 2024 S5 P3 + BS EN 1992-2 (Eurocode 2 Bridges) + Ashghal Bridge Manual</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+<button onclick="showExecStep('br',1)" style="background:linear-gradient(135deg,rgba(231,76,60,.3),rgba(231,76,60,.1));border:1px solid rgba(231,76,60,.5);border-radius:20px;padding:6px 14px;font-size:11px;color:#e74c3c;cursor:pointer;font-family:Tajawal;font-weight:700">① التحضير</button>
+<button onclick="showExecStep('br',2)" style="background:var(--dark4);border:1px solid rgba(231,76,60,.3);border-radius:20px;padding:6px 14px;font-size:11px;color:#e74c3c;cursor:pointer;font-family:Tajawal;font-weight:700">② التنفيذ</button>
+<button onclick="showExecStep('br',3)" style="background:var(--dark4);border:1px solid rgba(231,76,60,.3);border-radius:20px;padding:6px 14px;font-size:11px;color:#e74c3c;cursor:pointer;font-family:Tajawal;font-weight:700">③ مراقبة الجودة</button>
+<button onclick="showExecStep('br',4)" style="background:var(--dark4);border:1px solid rgba(231,76,60,.3);border-radius:20px;padding:6px 14px;font-size:11px;color:#e74c3c;cursor:pointer;font-family:Tajawal;font-weight:700">④ الأخطاء الشائعة</button>
+</div>
+
+<div id="br-step-1">
+<h3 style="color:var(--gold2)">الخطوة ① التحضير والمتطلبات</h3>
+<div style="background:rgba(231,76,60,.06);border:1px solid rgba(231,76,60,.15);border-radius:10px;padding:12px;margin-bottom:10px">
+<div style="font-weight:700;color:#e74c3c;margin-bottom:6px">🌉 متطلبات خاصة بالجسور</div>
+<div style="font-size:12px;color:var(--text2);line-height:1.9">
+• Shop Drawings معتمدة — bar schedule + bending schedule مطابق للـ BS 8666<br>
+• Mill Certificates للحديد: BS 4449 Grade B500B أو B500C (Ductility Class للجسور)<br>
+• Cover for Bridge Deck: <strong style="color:#e74c3c">75mm min</strong> (Saline Qatar environment) — <span style="color:var(--gold)">QCS S5 P3 Table 5:4</span><br>
+• Cover for Piers/Abutments: <strong style="color:#e74c3c">75mm min</strong> — Splash Zone يحتاج 85mm<br>
+• Coupler system معتمد إذا Bar >40mm diameter<br>
+• <span style="color:#e74c3c;font-weight:700">HOLD POINT: Rebar acceptance inspection قبل أي صب</span>
+</div></div>
+<div style="background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);border-radius:10px;padding:12px;margin-bottom:10px">
+<div style="font-weight:700;color:var(--gold);margin-bottom:6px">📏 Cover Requirements — جسور قطر</div>
+<table class="dm-table" style="margin-top:6px"><thead><tr><th>العنصر</th><th>Minimum Cover</th><th>المرجع</th></tr></thead><tbody>
+<tr><td>Bridge Deck (Top)</td><td style="color:#e74c3c;font-weight:700">75mm</td><td>QCS S5 P3</td></tr>
+<tr><td>Bridge Deck (Soffit)</td><td style="color:#e74c3c;font-weight:700">75mm</td><td>QCS S5 P3</td></tr>
+<tr><td>Piers / Columns</td><td style="color:#e74c3c;font-weight:700">75mm</td><td>QCS S5 P3</td></tr>
+<tr><td>Abutments</td><td style="color:#e74c3c;font-weight:700">75mm</td><td>QCS S5 P3</td></tr>
+<tr><td>Pile Caps</td><td style="color:#f39c12;font-weight:700">75mm (blinding 75mm extra)</td><td>QCS S5 P2</td></tr>
+<tr><td>Splash Zone (tidal)</td><td style="color:#e74c3c;font-weight:700">85mm</td><td>BS EN 1992-2</td></tr>
+</tbody></table>
+</div>
+<div style="background:rgba(52,152,219,.06);border:1px solid rgba(52,152,219,.15);border-radius:10px;padding:12px">
+<div style="font-weight:700;color:#3498db;margin-bottom:6px">🔗 Lap Lengths للجسور</div>
+<div style="font-size:12px;color:var(--text2);line-height:1.9">
+• Tension Lap: <strong>50d</strong> min للجسور (vs 40d للأبنية) — بيئة قاسية<br>
+• Compression Lap: <strong>40d</strong><br>
+• No laps في Zones of Maximum Stress (Mid-span + Pier tops)<br>
+• Stagger laps: 50% stagger minimum — لا laps في نفس القطاع<br>
+• <span style="color:var(--gold)">QCS S5 P3 Cl.3.6 + EC2-2</span>
+</div></div>
+</div>
+
+<div id="br-step-2" style="display:none">
+<h3 style="color:var(--gold2)">الخطوة ② تسلسل التنفيذ</h3>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px">
+<div style="min-width:28px;height:28px;background:rgba(231,76,60,.2);border:1px solid rgba(231,76,60,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#e74c3c">1</div>
+<div style="font-size:12px"><strong style="color:var(--gold2)">Blinding + Setting Out التسليح</strong><br>قياس Blinding thickness: 75mm min | Centerline marking + Cover chairs layout<br>Cover chairs: Concrete (لا plastic) — كل 1m شبكي<br><span style="color:var(--gold)">QCS S5 P3</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px">
+<div style="min-width:28px;height:28px;background:rgba(231,76,60,.2);border:1px solid rgba(231,76,60,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#e74c3c">2</div>
+<div style="font-size:12px"><strong style="color:var(--gold2)">تركيب الطبقة السفلية</strong><br>Bottom mat: طبقة أفقية + Transverse bars<br>فحص spacing: per drawing ±10mm | Bar sizes per schedule<br>Chairs/Spacers: plastic-capped wire ty أو precast concrete blocks<br><span style="color:var(--gold)">QCS S5 P3 Cl.3.3</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px">
+<div style="min-width:28px;height:28px;background:rgba(231,76,60,.2);border:1px solid rgba(231,76,60,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#e74c3c">3</div>
+<div style="font-size:12px"><strong style="color:var(--gold2)">Shear Links + Stirrups</strong><br>كل حلقات قص per drawing — 135° hook ends إلزامي للجسور<br>Link spacing: Tension Zone أضيق — per drawing<br><span style="color:var(--gold)">EC2-2 Cl.9.2.2</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.3);border-radius:8px">
+<div style="min-width:28px;height:28px;background:rgba(231,76,60,.3);border:1px solid rgba(231,76,60,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#e74c3c">4</div>
+<div style="font-size:12px"><strong style="color:#e74c3c">🔴 HOLD POINT — فحص التسليح الكامل</strong><br>SC + Resident Engineer يفحص: Cover ≥75mm كل 2m² | Spacing per drawing | Lap Zones | Links<br>Cover Meter scan + Photography documentation<br><span style="color:#e74c3c;font-weight:700">لا صب قبل الاعتماد الخطي — QCS S5 P3 Cl.3.8</span></div></div>
+<div style="display:flex;gap:10px;margin-bottom:6px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px">
+<div style="min-width:28px;height:28px;background:rgba(231,76,60,.2);border:1px solid rgba(231,76,60,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#e74c3c">5</div>
+<div style="font-size:12px"><strong style="color:var(--gold2)">Continuity Steel + Deck Reinforcement</strong><br>Continuity bars across joints | Top mat deck: Cover 75mm from top<br>Expansion joint rebar details per design<br>Pre-stressing ducts (if PT) — duct location per drawing ±5mm<br><span style="color:var(--gold)">Ashghal Bridge Manual + EC2-2</span></div></div>
+</div>
+
+<div id="br-step-3" style="display:none">
+<h3 style="color:var(--gold2)">الخطوة ③ مراقبة الجودة</h3>
+<table class="dm-table"><thead><tr><th>الفحص</th><th>معيار القبول</th><th>التكرار</th><th>HP/W</th><th>المرجع</th></tr></thead><tbody>
+<tr><td>Cover (Bottom)</td><td>75mm ± 5mm</td><td>كل 2m²</td><td style="color:#e74c3c">HP</td><td>QCS S5 P3</td></tr>
+<tr><td>Cover (Top Deck)</td><td>75mm ± 5mm</td><td>كل 2m²</td><td style="color:#e74c3c">HP</td><td>QCS S5 P3</td></tr>
+<tr><td>Bar Diameter</td><td>per drawing ±2%</td><td>10% sample</td><td style="color:#f39c12">W</td><td>BS 4449</td></tr>
+<tr><td>Bar Spacing</td><td>per drawing ±10mm</td><td>كل 5m</td><td style="color:#f39c12">W</td><td>QCS S5 P3</td></tr>
+<tr><td>Lap Length</td><td>≥50d (Tension) / ≥40d (Comp)</td><td>كل Lap</td><td style="color:#e74c3c">HP</td><td>EC2-2</td></tr>
+<tr><td>Link hooks</td><td>135° min</td><td>100%</td><td style="color:#e74c3c">HP</td><td>EC2-2 Cl.8.5</td></tr>
+<tr><td>Mill Certificate</td><td>BS 4449 B500B/C</td><td>كل batch</td><td style="color:#e74c3c">HP</td><td>BS 4449</td></tr>
+<tr><td>Coupler (if used)</td><td>Tensile test ≥ bar capacity</td><td>5% sample</td><td style="color:#e74c3c">HP</td><td>BS EN ISO 15630</td></tr>
+</tbody></table>
+</div>
+
+<div id="br-step-4" style="display:none">
+<h3 style="color:var(--gold2)">④ أخطاء شائعة في تسليح الجسور</h3>
+<table class="dm-table"><thead><tr><th>الخطأ</th><th>الأثر</th><th>التجنب</th><th>التصحيح</th></tr></thead><tbody>
+<tr><td style="color:#e74c3c">Cover &lt;75mm</td><td>Corrosion خلال 10-15 سنة</td><td>Concrete chairs — لا wire فقط</td><td>إعادة فك التسليح + Chairs صحيحة</td></tr>
+<tr><td style="color:#e74c3c">Laps في Sagging Zone</td><td>Failure عند أقصى عزم</td><td>Lap schedule واضح + تحقق</td><td>إزالة + Couplers بديلاً</td></tr>
+<tr><td style="color:#e74c3c">90° Hook بدل 135°</td><td>Anchorage failure under dynamic load</td><td>Bar schedule يحدد الـ hook</td><td>فك + إعادة ثني أو استبدال</td></tr>
+<tr><td style="color:#f39c12">عدم Staggering الـ Laps</td><td>Crack concentration</td><td>50% stagger minimum</td><td>إعادة تحديد positions</td></tr>
+<tr><td style="color:#f39c12">Duct Clash مع Rebar (PT)</td><td>تعذر التوتر اللاحق</td><td>Clash detection رقمي قبل التنفيذ</td><td>إعادة رسم + Structural Engineer</td></tr>
+</tbody></table>
+</div>
+`},
+
 // ===== ROADS EQUIPMENT =====
 roads_equipment: {
 title: '🚜 معدات أعمال الطرق — Roads Equipment',
@@ -11653,6 +11923,312 @@ showToast('✅ تم تصدير '+_quickNCRs.length+' NCR');
 // Show saved NCRs on section open
 
 
+// ================================================================
+// المرحلة ٩ — Drawing Analyzer Functions
+// ================================================================
+
+// متغير عام لبيانات الصورة المرفوعة
+var _daImageData = null;
+var _daDrawingType = 'structural';
+
+// تحديد نوع المخطط المختار
+function selectDaType(type, el) {
+  _daDrawingType = type;
+  // إزالة التحديد من كل الأزرار
+  document.querySelectorAll('.da-type-btn').forEach(function(btn) {
+    btn.style.border = '2px dashed rgba(201,168,76,.2)';
+    btn.style.background = 'rgba(201,168,76,.03)';
+  });
+  // تحديد الزر المضغوط
+  var colors = {
+    structural: 'rgba(201,168,76',
+    road:       'rgba(52,152,219',
+    itp:        'rgba(46,204,113',
+    shop:       'rgba(155,89,182'
+  };
+  var c = colors[type] || colors.structural;
+  el.style.border = '2px solid ' + c + ',.6)';
+  el.style.background = c + ',.12)';
+}
+
+// معالجة رفع الصورة
+function handleDaUpload(input) {
+  var file = input.files[0];
+  if (!file) return;
+  if (file.size > 10 * 1024 * 1024) { showToast('❌ الملف كبير جداً — الحد 10MB'); return; }
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    // للـ PDF نحفظ كـ data URL ونعرض أيقونة بديلاً
+    _daImageData = e.target.result;
+    var isPdf = file.type === 'application/pdf';
+    var previewWrap = document.getElementById('da-preview-wrap');
+    var previewImg = document.getElementById('da-preview-img');
+    var fileName = document.getElementById('da-file-name');
+    if (previewWrap) previewWrap.style.display = 'block';
+    if (fileName) fileName.textContent = '📎 ' + file.name + ' (' + (file.size/1024).toFixed(0) + ' KB)';
+    if (previewImg) {
+      if (isPdf) {
+        previewImg.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100"><rect width="200" height="100" rx="10" fill="%23222"/><text x="100" y="55" text-anchor="middle" fill="%23C9A84C" font-size="32">📄</text></svg>';
+      } else {
+        previewImg.src = _daImageData;
+      }
+    }
+    // تحديث zone
+    var zone = document.getElementById('da-upload-zone');
+    if (zone) zone.style.borderColor = 'rgba(201,168,76,.6)';
+    showToast('✅ تم رفع المخطط — اضغط تحليل');
+  };
+  reader.readAsDataURL(file);
+}
+
+// بناء System Prompt حسب نوع المخطط
+function getDaSystemPrompt(type, notes) {
+  var base = 'أنت مهندس متخصص في قراءة وتحليل المخططات الإنشائية في دولة قطر، خبير في QCS 2024.\n'
+    + (notes ? 'ملاحظات المهندس: ' + notes + '\n' : '')
+    + '\nافحص المخطط المرفق وقدم تقريراً مهنياً دقيقاً يشمل:\n\n';
+
+  var prompts = {
+    structural:
+      base
+      + '١. **نوع المخطط:** تحديد دقيق (قاعدة، عمود، جسر، بلاطة، جدار...)\n'
+      + '٢. **المعلومات المقروءة:** Grade الخرسانة، أقطار الحديد، التباعد، أبعاد العناصر\n'
+      + '٣. **فحص Cover:**\n'
+      + '   - هل الغطاء المعروض مطابق لـ QCS 2024 Part 5, Section 3?\n'
+      + '   - Cover مطلوب: أساسات 75mm، خارجي 40mm، داخلي 25mm\n'
+      + '٤. **فحص تباعد التسليح:**\n'
+      + '   - هل Spacing يتوافق مع QCS 2024 S5 P3 Cl.3.3?\n'
+      + '   - Max spacing ≤3×h أو 400mm أيهما أصغر\n'
+      + '٥. **فحص Lap Zones:**\n'
+      + '   - هل Lap Length صحيح؟ Tension: 40d Compression: 35d\n'
+      + '   - هل الـ Laps مُفصَّلة بعيداً عن نقاط الإجهاد الأقصى؟\n'
+      + '٦. **تعارضات أو ملاحظات تقنية**\n'
+      + '٧. **قائمة checkpoints للمفتش في الموقع** (5 نقاط عملية)\n'
+      + '\nاذكر دائماً: المرجع = QCS 2024, Part X, Clause X.X\nالرد بالعربية.',
+
+    road:
+      base
+      + '١. **نوع المقطع:** تصنيف الطريق (Primary · Secondary · Local) وعدد الحارات\n'
+      + '٢. **أسماك الطبقات المقروءة:** Subgrade · Subbase · Base · Binder · Wearing\n'
+      + '٣. **فحص أسماك الطبقات مقابل QCS 2024 S6 P3 Table 3:1:**\n'
+      + '   - هل Wearing Course = 50mm؟\n'
+      + '   - هل Binder Course مناسب لتصنيف الطريق؟\n'
+      + '   - هل Subbase ≥ 150mm؟\n'
+      + '٤. **فحص Crossfall والانحدار:**\n'
+      + '   - Carriageway: 2.5% ± 0.5%\n'
+      + '   - Superelevation per MMUP Road Design Manual\n'
+      + '٥. **فحص عروض الحارات والأرصفة** مقابل MMUP\n'
+      + '٦. **ملاحظات المسافات الجانبية** (Clearances)\n'
+      + '٧. **قائمة checkpoints للمفتش** (5 نقاط)\n'
+      + '\nالمرجع = QCS 2024 S6 + MMUP Road Design Manual. الرد بالعربية.',
+
+    itp:
+      base
+      + '١. **نشاط الـ ITP:** تحديد العمل (طرق · مرافق · خرسانة · غيره)\n'
+      + '٢. **استخراج Hold Points (HP) تلقائياً:**\n'
+      + '   - اذكر كل Hold Point بالرقم والوصف والـ clause\n'
+      + '٣. **استخراج Witness Points (W):**\n'
+      + '   - اذكر كل Witness Point بالوصف\n'
+      + '٤. **الاختبارات المطلوبة:** مع معيار القبول والتكرار\n'
+      + '٥. **المستندات المطلوبة للغلق:** Certificates · Test Reports · RFI\n'
+      + '٦. **هل الـ ITP مكتمل؟** أي بنود ناقصة؟\n'
+      + '٧. **تسلسل الأنشطة:** هل منطقي ومتسلسل؟\n'
+      + '\nالمرجع = QCS 2024 + Ashghal ITP Requirements. الرد بالعربية.',
+
+    shop:
+      base
+      + '١. **نوع الـ Shop Drawing:** (Structural · MEP · Architectural · Civil)\n'
+      + '٢. **المعلومات الأساسية:** Project · Drawing No · Revision · Scale\n'
+      + '٣. **مقارنة مع QCS 2024:**\n'
+      + '   - هل المواد المحددة مطابقة لـ QCS؟\n'
+      + '   - هل الأبعاد والمقاسات ضمن الحدود المسموحة؟\n'
+      + '   - هل أنواع الوصلات والتفاصيل مقبولة؟\n'
+      + '٤. **تعارضات مع المواصفات أو مخططات أخرى**\n'
+      + '٥. **بنود تحتاج Engineer Approval**\n'
+      + '٦. **توصية:** مقبول / مقبول مع تعليقات / مرفوض + الأسباب\n'
+      + '٧. **قائمة checkpoints للمفتش** (5 نقاط)\n'
+      + '\nالمرجع = QCS 2024 + relevant British Standards. الرد بالعربية.'
+  };
+  return prompts[type] || prompts.structural;
+}
+
+// تنسيق نتيجة التحليل في HTML جميل
+function formatDaResult(text, type) {
+  var colors = {
+    structural: { main: 'var(--gold)', bg: 'rgba(201,168,76,.08)', border: 'rgba(201,168,76,.25)' },
+    road:       { main: '#3498db',     bg: 'rgba(52,152,219,.08)', border: 'rgba(52,152,219,.25)' },
+    itp:        { main: '#2ecc71',     bg: 'rgba(46,204,113,.08)', border: 'rgba(46,204,113,.25)' },
+    shop:       { main: '#9b59b6',     bg: 'rgba(155,89,182,.08)', border: 'rgba(155,89,182,.25)' }
+  };
+  var col = colors[type] || colors.structural;
+  var typeNames = { structural:'مخطط إنشائي', road:'مقطع طريق', itp:'نموذج ITP', shop:'Shop Drawing' };
+
+  // تحويل النص إلى HTML: Bold، Hold Points بالأحمر
+  var html = text
+    .replace(/\*\*(.*?)\*\*/g, '<strong style="color:' + col.main + '">$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em style="color:var(--text2)">$1</em>')
+    .replace(/(Hold Point|HP-|🔴)/g, '<span style="color:#e74c3c;font-weight:700">$1</span>')
+    .replace(/(✅)/g, '<span style="color:#2ecc71">$1</span>')
+    .replace(/(❌)/g, '<span style="color:#e74c3c">$1</span>')
+    .replace(/(⚠️)/g, '<span style="color:#f39c12">$1</span>')
+    .replace(/QCS 2024[^<\n]*/g, '<span style="color:' + col.main + ';font-size:11px;font-weight:700">$&</span>')
+    .replace(/\n/g, '<br>');
+
+  return '<div style="background:' + col.bg + ';border:1px solid ' + col.border + ';border-radius:14px;padding:16px;margin-bottom:10px">'
+    + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid ' + col.border + '">'
+    + '<div style="display:flex;align-items:center;gap:8px">'
+    + '<div style="background:' + col.main + ';color:#000;border-radius:6px;padding:3px 10px;font-size:10px;font-weight:800;letter-spacing:1px">DRAWING ANALYSIS</div>'
+    + '<span style="font-size:12px;color:' + col.main + ';font-weight:700">' + (typeNames[type]||type) + '</span>'
+    + '</div>'
+    + '<button onclick="copyDaResult()" style="background:var(--dark4);border:1px solid var(--border);border-radius:7px;padding:5px 12px;font-size:11px;color:var(--text2);cursor:pointer">نسخ</button>'
+    + '</div>'
+    + '<div style="font-size:13px;line-height:2;color:var(--text)">' + html + '</div>'
+    + '<div style="margin-top:12px;padding-top:10px;border-top:1px solid ' + col.border + ';font-size:11px;color:var(--text3)">'
+    + '📖 المرجع: QCS 2024 | هذا التحليل مساعد — راجع المهندس المختص للقرار النهائي</div>'
+    + '</div>';
+}
+
+function copyDaResult() {
+  var el = document.getElementById('da-result');
+  if (el) navigator.clipboard.writeText(el.innerText).then(function(){ showToast('✅ تم نسخ التقرير'); });
+}
+
+// دالة تحليل المخطط الرئيسية
+async function runDrawingAnalysis() {
+  if (!_daImageData) { showToast('❌ ارفع مخططاً أولاً'); return; }
+
+  var notes = (document.getElementById('da-notes') || {}).value || '';
+  var loading = document.getElementById('da-loading');
+  var result = document.getElementById('da-result');
+  var btn = document.getElementById('da-analyze-btn');
+
+  loading.style.display = 'block';
+  result.innerHTML = '';
+  if (btn) { btn.style.opacity = '0.5'; btn.disabled = true; }
+
+  var systemPrompt = getDaSystemPrompt(_daDrawingType, notes);
+
+  try {
+    var isPdf = _daImageData.startsWith('data:application/pdf');
+    var messages;
+
+    if (isPdf) {
+      // PDF: نرسل كـ document
+      messages = [{
+        role: 'user',
+        content: [
+          { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: _daImageData.split(',')[1] } },
+          { type: 'text', text: systemPrompt }
+        ]
+      }];
+    } else {
+      // صورة عادية
+      var base64 = _daImageData.split(',')[1];
+      var mimeType = _daImageData.split(';')[0].split(':')[1];
+      messages = [{
+        role: 'user',
+        content: [
+          { type: 'image', source: { type: 'base64', media_type: mimeType, data: base64 } },
+          { type: 'text', text: systemPrompt }
+        ]
+      }];
+    }
+
+    var response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1500,
+        system: 'أنت مهندس مدني خبير في المواصفات القطرية QCS 2024. قدم تقارير دقيقة ومهنية بالعربية. لا تخمن — إذا لم تستطع قراءة تفصيل اذكر ذلك صراحة.',
+        messages: messages
+      })
+    });
+
+    var data = await response.json();
+
+    if (data.content && data.content[0] && data.content[0].text) {
+      result.innerHTML = formatDaResult(data.content[0].text, _daDrawingType);
+    } else if (data.error) {
+      result.innerHTML = generateDaFallback(_daDrawingType);
+      showToast('⚠️ تم استخدام التحليل المحلي');
+    } else {
+      result.innerHTML = generateDaFallback(_daDrawingType);
+    }
+  } catch(e) {
+    // Fallback محلي إذا لم يعمل الـ API
+    result.innerHTML = generateDaFallback(_daDrawingType);
+    showToast('⚠️ تحليل محلي — تحقق من الاتصال للتحليل الكامل');
+  }
+
+  loading.style.display = 'none';
+  if (btn) { btn.style.opacity = '1'; btn.disabled = false; }
+}
+
+// Fallback محلي حسب نوع المخطط
+function generateDaFallback(type) {
+  var checklists = {
+    structural: {
+      title: 'مخطط إنشائي — Checklist الفحص الميداني',
+      items: [
+        '✅ Cover Bottom: ≥75mm (أساسات) / ≥40mm (خارجي) / ≥25mm (داخلي) — QCS S5 P3',
+        '✅ Rebar Spacing: ≤3×h أو ≤400mm أيهما أصغر — QCS S5 P3 Cl.3.3',
+        '✅ Lap Length: 40d (Tension) / 35d (Compression) بعيداً عن نقاط الإجهاد',
+        '✅ Bar Diameter: مطابق لجدول الحديد المعتمد (Mill Certificate موجود)',
+        '✅ Stirrups/Links: 135° hooks — ليس 90° — QCS S5 P3',
+        '🔴 HP: RFI مفتوح وموقّع قبل أي صب — QCS S5 P4 Cl.4.1'
+      ]
+    },
+    road: {
+      title: 'مقطع طريق — Checklist الفحص الميداني',
+      items: [
+        '✅ Wearing Course: 50mm (T1-T3) / 50mm+BC للحركة الثقيلة — QCS S6 P3',
+        '✅ Binder Course: 60-160mm حسب Traffic Designation — QCS S6 P3 Table 3:1',
+        '✅ Base Course: 150-250mm — CBR ≥80% — QCS S6 P3',
+        '✅ Subbase: 150-350mm — CBR ≥25% — QCS S6 P3',
+        '✅ Crossfall: 2.5% ± 0.5% — قياس 3m Straightedge',
+        '🔴 HP: Level Survey ±10mm before next layer — Ashghal ITP'
+      ]
+    },
+    itp: {
+      title: 'نموذج ITP — Hold Points المستخرجة',
+      items: [
+        '🔴 HP-01: Pre-activity — Material Approval + Method Statement',
+        '🔴 HP-02: During — Critical inspection point (per activity)',
+        '🔴 HP-03: Testing — Test results reviewed before proceeding',
+        '⚠️ W-01: Witness — Engineer present during inspection',
+        '⚠️ W-02: Witness — Sampling & testing witnessed',
+        '📋 Review: Record Books + Test Reports + Photos — before closure'
+      ]
+    },
+    shop: {
+      title: 'Shop Drawing — نقاط الفحص',
+      items: [
+        '✅ Drawing Number + Revision + Scale — مكتملة وصحيحة',
+        '✅ Materials: مطابقة لـ QCS 2024 + Approved Materials List',
+        '✅ Dimensions: ضمن Tolerance المسموحة (per element type)',
+        '✅ Details: تفاصيل الوصلات والـ Embedments موضحة',
+        '⚠️ Clash Check: لا تعارض مع MEP / Structural drawings',
+        '🔴 Action: Stamp + Engineer Approval قبل التنفيذ'
+      ]
+    }
+  };
+
+  var cl = checklists[type] || checklists.structural;
+  var col = { structural:'rgba(201,168,76', road:'rgba(52,152,219', itp:'rgba(46,204,113', shop:'rgba(155,89,182' };
+  var c = (col[type] || col.structural);
+
+  return '<div style="background:' + c + ',.08);border:1px solid ' + c + ',.25);border-radius:14px;padding:16px">'
+    + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">'
+    + '<span style="font-size:18px">⚠️</span>'
+    + '<span style="color:var(--gold);font-weight:700;font-size:13px">تحليل محلي (Offline Mode)</span>'
+    + '</div>'
+    + '<div style="font-weight:700;color:var(--text);margin-bottom:10px">' + cl.title + '</div>'
+    + cl.items.map(function(i){ return '<div style="font-size:12px;color:var(--text2);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)">' + i + '</div>'; }).join('')
+    + '<div style="margin-top:12px;font-size:11px;color:var(--text3)">⚡ للتحليل الكامل بالذكاء الاصطناعي — تأكد من الاتصال بالإنترنت</div>'
+    + '</div>';
+}
+
 // ===== آلية التنفيذ — Stepper Function =====
 function showExecStep(prefix, step) {
   for(var i=1;i<=4;i++){
@@ -11720,6 +12296,8 @@ var SECTION_MAP = {
   formwork_full:{parent:'structural',group:'🏗️ الإنشاء',next:null,prev:'piles_full',equipment:'structural_equipment',itp:null},
   concrete_quick_ref:{parent:'structural',group:'🏗️ الإنشاء',next:null,prev:null,equipment:'structural_equipment',itp:null},
   exec_concrete_pour:{parent:'structural',group:'🏗️ الإنشاء',next:null,prev:null,equipment:'structural_equipment',itp:'itp_concrete'},
+  exec_foundation_excavation:{parent:'structural',group:'🏗️ الإنشاء',next:null,prev:null,equipment:'structural_equipment',itp:'itp_concrete'},
+  exec_bridge_rebar:{parent:'structural',group:'🏗️ الإنشاء',next:null,prev:null,equipment:'structural_equipment',itp:'itp_rebar'},
   ms_concrete:{parent:'structural',group:'🏗️ الإنشاء',next:null,prev:null,equipment:'structural_equipment',itp:null},
   hot_weather_detailed:{parent:'structural',group:'🏗️ الإنشاء',next:null,prev:null,equipment:'structural_equipment',itp:null},
   pile_load_testing:{parent:'structural',group:'🏗️ الإنشاء',next:null,prev:null,equipment:'structural_equipment',itp:'itp_piles'},
@@ -11730,7 +12308,13 @@ var SECTION_MAP = {
   geo_spt:{parent:'geotech',group:'🔬 الجيوتقنية',next:'geo_lab',prev:'geo_borehole',equipment:'geotech_equipment',itp:'itp_geotech'},
   geo_lab:{parent:'geotech',group:'🔬 الجيوتقنية',next:'geo_water',prev:'geo_spt',equipment:'geotech_equipment',itp:'itp_geotech'},
   sabkha_treatment:{parent:'geotech',group:'🔬 الجيوتقنية',next:null,prev:null,equipment:'geotech_equipment',itp:null},
-  sabkha_classification:{parent:'geotech',group:'🔬 الجيوتقنية',next:null,prev:null,equipment:'geotech_equipment',itp:null}
+  sabkha_classification:{parent:'geotech',group:'🔬 الجيوتقنية',next:null,prev:null,equipment:'geotech_equipment',itp:null},
+  // === TOOLS + DRAWING ANALYZER ===
+  drawing_analyzer:{parent:'home',group:'📋 الأدوات الذكية',next:null,prev:null,equipment:null,itp:null},
+  doc_analyzer:{parent:'home',group:'📋 الأدوات الذكية',next:null,prev:null,equipment:null,itp:null},
+  photo_analyzer:{parent:'home',group:'📋 الأدوات الذكية',next:null,prev:null,equipment:null,itp:null},
+  ncr_quick_logger:{parent:'home',group:'📋 الأدوات الذكية',next:null,prev:null,equipment:null,itp:null},
+  ashghal_forms:{parent:'home',group:'📋 الأدوات الذكية',next:null,prev:null,equipment:null,itp:null}
 };
 
 // Inject breadcrumb into detail modal when opened
