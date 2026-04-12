@@ -3,16 +3,33 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.anthropic.com https://generativelanguage.googleapis.com">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://api.anthropic.com https://generativelanguage.googleapis.com">
 
 <meta name="theme-color" content="#1a0a0a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="QatarSpec">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
 <title>دليل المواصفات القطرية | Qatar Engineering Standards</title>
+<!-- Google Fonts with local fallback for offline support -->
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
+/* Offline-safe font fallback */
+@font-face {
+  font-family: 'Tajawal';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Tajawal'), local('Tajawal-Regular');
+  unicode-range: U+0600-06FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE80-FEFC;
+}
+@font-face {
+  font-family: 'Cairo';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Cairo'), local('Cairo-Bold');
+  unicode-range: U+0600-06FF;
+}
 :root {
   --maroon: #7A1515; --maroon2: #5A0F0F;
   --gold: #C9A84C; --gold2: #E8C97A;
@@ -337,6 +354,17 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <div class="content-section">
 <div class="section-head"><div class="section-title" data-ar="الأقسام الرئيسية" data-en="Main Sections">الأقسام <span>الرئيسية</span></div></div>
 
+<!-- ===== CARD FILTER SEARCH BAR ===== -->
+<div id="cardFilterWrap" style="margin-bottom:18px;position:relative;">
+  <input type="text" id="cardFilterInput"
+    placeholder="🔍  ابحث في الكروت... مثال: إسفلت، خوازيق، خرسانة، CCTV"
+    oninput="filterCards(this.value)"
+    style="width:100%;padding:12px 48px 12px 16px;background:var(--dark3);border:1px solid var(--border2);border-radius:12px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:14px;outline:none;transition:.3s;"
+    onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border2)'">
+  <span id="cardFilterClear" onclick="clearCardFilter()" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:16px;color:var(--text3);display:none;">✕</span>
+  <div id="cardFilterCount" style="display:none;margin-top:6px;font-size:11px;color:var(--text3);text-align:center;"></div>
+</div>
+
 <div class="section-group" id="group-infra">
   <div class="group-header" style="background:linear-gradient(135deg,#7A151522,#7A151508);border:1px solid #7A151533">
     <div class="group-header-icon">🏗️</div>
@@ -344,25 +372,25 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       <div class="group-header-title" style="color:#7A1515">البنية التحتية والطرق والمرافق</div>
       <div class="group-header-sub" style="color:#7A1515">Infrastructure, Roads & Utilities</div>
     </div>
-    <div class="group-header-count" style="background:#7A151533;color:#7A1515">7 أقسام</div>
+    <div class="group-header-count" style="background:#7A151533;color:#7A1515">13 قسماً</div>
   </div>
   <div class="group-grid">
-    <div class="cat-card" onclick="openDetail('roads')"><span class="cat-emoji">🛣️</span><div class="cat-name" data-ar="أعمال الطرق" data-en="Road Works">أعمال الطرق</div><div class="cat-desc" data-ar="Subgrade، Subbase، إسفلت، اختبارات، تسليم" data-en="Subgrade, Subbase, Asphalt, Tests, Handover">Subgrade، Subbase، إسفلت، اختبارات، تسليم</div><div class="cat-bottom"><span class="cat-count" data-ar="8 مراحل + ITPs" data-en="8 Phases + ITPs">8 مراحل + ITPs</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('utilities')"><span class="cat-emoji">🔧</span><div class="cat-name" data-ar="شبكات المرافق" data-en="Utility Networks">شبكات المرافق</div><div class="cat-desc">مياه الشرب، Foul Sewer، السطحي، المعالجة</div><div class="cat-bottom"><span class="cat-count">4 شبكات + ITPs</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('road_design_criteria')"><span class="cat-emoji">📐</span><div class="cat-name">معايير تصميم الطرق</div><div class="cat-desc">عروض، مسافات رؤية، انحدار، Superelevation</div><div class="cat-bottom"><span class="cat-count">QCS S6 P2</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('shoring_itp')"><span class="cat-emoji">⛏️</span><div class="cat-name">التدعيم والحفريات</div><div class="cat-desc">Shoring, Dewatering, سلامة الحفريات</div><div class="cat-bottom"><span class="cat-count">10 بنود + ITP</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('cctv_itp')"><span class="cat-emoji">📹</span><div class="cat-name">فحص CCTV</div><div class="cat-desc">BS EN 13508, WRc, Grade System</div><div class="cat-bottom"><span class="cat-count">8 بنود + رموز</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('marker_tape_colors')"><span class="cat-emoji">🎨</span><div class="cat-name">ألوان شريط التحذير</div><div class="cat-desc">KAHRAMAA Official — 7 شبكات</div><div class="cat-bottom"><span class="cat-count">QCS S8</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('fire')"><span class="cat-emoji">🔥</span><div class="cat-name" data-ar="الحريق والسلامة" data-en="Fire & Safety">الحريق والسلامة</div><div class="cat-desc">QCDD، Sprinkler، مخارج الطوارئ، Hose Reel</div><div class="cat-bottom"><span class="cat-count">متطلبات QCDD</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('roads')" data-keywords="طرق road asphalt إسفلت subgrade subbase itp hold point"><span class="cat-emoji">🛣️</span><div class="cat-name" data-ar="أعمال الطرق" data-en="Road Works">أعمال الطرق</div><div class="cat-desc" data-ar="Subgrade، Subbase، إسفلت، اختبارات، تسليم" data-en="Subgrade, Subbase, Asphalt, Tests, Handover">Subgrade، Subbase، إسفلت، اختبارات، تسليم</div><div class="cat-bottom"><span class="cat-count" data-ar="8 مراحل + ITPs" data-en="8 Phases + ITPs">8 مراحل + ITPs</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('utilities')" data-keywords="مرافق utilities مياه sewer صرف pipe mawater"><span class="cat-emoji">🔧</span><div class="cat-name" data-ar="شبكات المرافق" data-en="Utility Networks">شبكات المرافق</div><div class="cat-desc">مياه الشرب، Foul Sewer، السطحي، المعالجة</div><div class="cat-bottom"><span class="cat-count">4 شبكات + ITPs</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('road_design_criteria')" data-keywords="تصميم طرق design criteria superelevation عروض"><span class="cat-emoji">📐</span><div class="cat-name">معايير تصميم الطرق</div><div class="cat-desc">عروض، مسافات رؤية، انحدار، Superelevation</div><div class="cat-bottom"><span class="cat-count">QCS S6 P2</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('shoring_itp')" data-keywords="شورينج حفريات dewatering shoring excavation"><span class="cat-emoji">⛏️</span><div class="cat-name">التدعيم والحفريات</div><div class="cat-desc">Shoring, Dewatering, سلامة الحفريات</div><div class="cat-bottom"><span class="cat-count">10 بنود + ITP</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('cctv_itp')" data-keywords="cctv كاميرا faulted sewer صرف تفتيش"><span class="cat-emoji">📹</span><div class="cat-name">فحص CCTV</div><div class="cat-desc">BS EN 13508, WRc, Grade System</div><div class="cat-bottom"><span class="cat-count">8 بنود + رموز</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('marker_tape_colors')" data-keywords="شريط تحذير ألوان kahramaa كهرماء"><span class="cat-emoji">🎨</span><div class="cat-name">ألوان شريط التحذير</div><div class="cat-desc">KAHRAMAA Official — 7 شبكات</div><div class="cat-bottom"><span class="cat-count">QCS S8</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('fire')" data-keywords="حريق fire sprinkler qcdd سلامة safety"><span class="cat-emoji">🔥</span><div class="cat-name" data-ar="الحريق والسلامة" data-en="Fire & Safety">الحريق والسلامة</div><div class="cat-desc">QCDD، Sprinkler، مخارج الطوارئ، Hose Reel</div><div class="cat-bottom"><span class="cat-count">متطلبات QCDD</span><span class="cat-arr">←</span></div></div>
   
-<div class="cat-card" onclick="openDetail('asphalt_quick_ref')"><span class="cat-emoji">🛣️</span><div class="cat-name">مرجع طبقات الإسفلت</div><div class="cat-desc">سماكات + اختبارات لكل طريق</div><div class="cat-bottom"><span class="cat-count">Quick Ref</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('pipe_quick_ref')"><span class="cat-emoji">🔧</span><div class="cat-name">مرجع اختيار المواسير</div><div class="cat-desc">مادة + قطر + PN لكل شبكة</div><div class="cat-bottom"><span class="cat-count">Quick Ref</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('mmup_road_design')"><span class="cat-emoji">📐</span><div class="cat-name">MMUP Road Design</div><div class="cat-desc">مقاطع + عروض حارات + Kerb standards</div><div class="cat-bottom"><span class="cat-count">MMUP Manual</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('ashghal_std_details')"><span class="cat-emoji">📏</span><div class="cat-name">Ashghal Standard Details</div><div class="cat-desc">Manholes + Thrust Blocks + Trenches</div><div class="cat-bottom"><span class="cat-count">Standard Details</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('kahramaa_standards')"><span class="cat-emoji">⚡</span><div class="cat-name">KAHRAMAA Standards</div><div class="cat-desc">مواد معتمدة + توصيلات + ضغط</div><div class="cat-bottom"><span class="cat-count">KAHRAMAA</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('exec_asphalt_paving')" style="background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.02));border-color:rgba(201,168,76,.25)"><span class="cat-emoji">🛣️</span><div class="cat-name">آلية فرد الإسفلت</div><div class="cat-desc">4 خطوات تفاعلية + أخطاء شائعة</div><div class="cat-bottom"><span class="cat-count" style="color:var(--gold)">Stepper</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('exec_water_pipe')" style="background:linear-gradient(135deg,rgba(52,152,219,.08),rgba(52,152,219,.02));border-color:rgba(52,152,219,.25)"><span class="cat-emoji">💧</span><div class="cat-name">آلية مد المواسير</div><div class="cat-desc">7 خطوات + HP + اختبارات</div><div class="cat-bottom"><span class="cat-count" style="color:#3498db">Stepper</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('exec_pressure_test')" style="background:linear-gradient(135deg,rgba(46,204,113,.08),rgba(46,204,113,.02));border-color:rgba(46,204,113,.25)"><span class="cat-emoji">💪</span><div class="cat-name">آلية اختبار الضغط</div><div class="cat-desc">1.5×PN + 2hr + pass/fail criteria</div><div class="cat-bottom"><span class="cat-count" style="color:#2ecc71">Stepper</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('asphalt_quick_ref')" data-keywords="إسفلت asphalt طبقات سماكات quick ref"><span class="cat-emoji">🛣️</span><div class="cat-name">مرجع طبقات الإسفلت</div><div class="cat-desc">سماكات + اختبارات لكل طريق</div><div class="cat-bottom"><span class="cat-count">Quick Ref</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('pipe_quick_ref')" data-keywords="مواسير pipe quick ref اختيار"><span class="cat-emoji">🔧</span><div class="cat-name">مرجع اختيار المواسير</div><div class="cat-desc">مادة + قطر + PN لكل شبكة</div><div class="cat-bottom"><span class="cat-count">Quick Ref</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('mmup_road_design')" data-keywords="mmup road طرق حارات kerb"><span class="cat-emoji">📐</span><div class="cat-name">MMUP Road Design</div><div class="cat-desc">مقاطع + عروض حارات + Kerb standards</div><div class="cat-bottom"><span class="cat-count">MMUP Manual</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('ashghal_std_details')" data-keywords="ashghal manholes thrust blocks trenches"><span class="cat-emoji">📏</span><div class="cat-name">Ashghal Standard Details</div><div class="cat-desc">Manholes + Thrust Blocks + Trenches</div><div class="cat-bottom"><span class="cat-count">Standard Details</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('kahramaa_standards')" data-keywords="kahramaa كهرماء كهرباء مياه"><span class="cat-emoji">⚡</span><div class="cat-name">KAHRAMAA Standards</div><div class="cat-desc">مواد معتمدة + توصيلات + ضغط</div><div class="cat-bottom"><span class="cat-count">KAHRAMAA</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('exec_asphalt_paving')" data-keywords="إسفلت فرد paving stepper آلية" style="background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.02));border-color:rgba(201,168,76,.25)"><span class="cat-emoji">🛣️</span><div class="cat-name">آلية فرد الإسفلت</div><div class="cat-desc">4 خطوات تفاعلية + أخطاء شائعة</div><div class="cat-bottom"><span class="cat-count" style="color:var(--gold)">Stepper</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('exec_water_pipe')" data-keywords="مواسير water pipe مد stepper آلية" style="background:linear-gradient(135deg,rgba(52,152,219,.08),rgba(52,152,219,.02));border-color:rgba(52,152,219,.25)"><span class="cat-emoji">💧</span><div class="cat-name">آلية مد المواسير</div><div class="cat-desc">7 خطوات + HP + اختبارات</div><div class="cat-bottom"><span class="cat-count" style="color:#3498db">Stepper</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('exec_pressure_test')" data-keywords="ضغط pressure test اختبار stepper" style="background:linear-gradient(135deg,rgba(46,204,113,.08),rgba(46,204,113,.02));border-color:rgba(46,204,113,.25)"><span class="cat-emoji">💪</span><div class="cat-name">آلية اختبار الضغط</div><div class="cat-desc">1.5×PN + 2hr + pass/fail criteria</div><div class="cat-bottom"><span class="cat-count" style="color:#2ecc71">Stepper</span><span class="cat-arr">←</span></div></div>
 </div>
 </div>
 </div>
@@ -378,17 +406,17 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div class="group-header-count" style="background:#5A0F0F33;color:#5A0F0F">4 أقسام</div>
   </div>
   <div class="group-grid">
-    <div class="cat-card" onclick="openDetail('structural')"><span class="cat-emoji">🏗️</span><div class="cat-name" data-ar="الكود الإنشائي" data-en="Structural Code">الكود الإنشائي</div><div class="cat-desc">Concrete، Rebar، أساسات، خوازيق، شدات</div><div class="cat-bottom"><span class="cat-count">4 أقسام + ITPs</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('geotech')"><span class="cat-emoji">🔬</span><div class="cat-name" data-ar="الجسات والتربة" data-en="Geotechnical">الجسات والتربة</div><div class="cat-desc" data-ar="SPT، Boreholes، مختبر، مياه جوفية، تقرير" data-en="SPT, Boreholes, Lab, Groundwater, Reports">SPT، Boreholes، مختبر، مياه جوفية، تقرير</div><div class="cat-bottom"><span class="cat-count" data-ar="6 أقسام + ITP" data-en="6 Sections + ITP">6 أقسام + ITP</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('pile_load_testing')"><span class="cat-emoji">🏗️</span><div class="cat-name">اختبار الخوازيق</div><div class="cat-desc">Static Load Test, PIT, Kentledge</div><div class="cat-bottom"><span class="cat-count">QCS S5 + BS 8004</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('sabkha_treatment')"><span class="cat-emoji">🏜️</span><div class="cat-name">معالجة السبخة</div><div class="cat-desc">Sabkha ID, Geotextile, Stabilization</div><div class="cat-bottom"><span class="cat-count">7 بنود IAN-006</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('structural')" data-keywords="خرسانة concrete rebar إنشائي أساسات structural"><span class="cat-emoji">🏗️</span><div class="cat-name" data-ar="الكود الإنشائي" data-en="Structural Code">الكود الإنشائي</div><div class="cat-desc">Concrete، Rebar، أساسات، خوازيق، شدات</div><div class="cat-bottom"><span class="cat-count">4 أقسام + ITPs</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('geotech')" data-keywords="تربة geotech spt borehole جسات"><span class="cat-emoji">🔬</span><div class="cat-name" data-ar="الجسات والتربة" data-en="Geotechnical">الجسات والتربة</div><div class="cat-desc" data-ar="SPT، Boreholes، مختبر، مياه جوفية، تقرير" data-en="SPT, Boreholes, Lab, Groundwater, Reports">SPT، Boreholes، مختبر، مياه جوفية، تقرير</div><div class="cat-bottom"><span class="cat-count" data-ar="6 أقسام + ITP" data-en="6 Sections + ITP">6 أقسام + ITP</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('pile_load_testing')" data-keywords="خوازيق piles load test static pit"><span class="cat-emoji">🏗️</span><div class="cat-name">اختبار الخوازيق</div><div class="cat-desc">Static Load Test, PIT, Kentledge</div><div class="cat-bottom"><span class="cat-count">QCS S5 + BS 8004</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('sabkha_treatment')" data-keywords="سبخة sabkha ian-006 معالجة"><span class="cat-emoji">🏜️</span><div class="cat-name">معالجة السبخة</div><div class="cat-desc">Sabkha ID, Geotextile, Stabilization</div><div class="cat-bottom"><span class="cat-count">7 بنود IAN-006</span><span class="cat-arr">←</span></div></div>
   
-<div class="cat-card" onclick="openDetail('concrete_quick_ref')"><span class="cat-emoji">🧱</span><div class="cat-name">مرجع درجات الخرسانة</div><div class="cat-desc">Grade + Cover + Cement لكل عنصر</div><div class="cat-bottom"><span class="cat-count">Quick Ref</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('hot_weather_detailed')"><span class="cat-emoji">☀️</span><div class="cat-name">Hot Weather Concreting</div><div class="cat-desc">جدول إجراءات + كمية الثلج + Curing</div><div class="cat-bottom"><span class="cat-count">QCS S5 P4</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('sabkha_classification')"><span class="cat-emoji">🏜️</span><div class="cat-name">تصنيف السبخة IAN-006</div><div class="cat-desc">4 أنواع + معالجة + اختبارات لكل نوع</div><div class="cat-bottom"><span class="cat-count">IAN-006 Full</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('exec_concrete_pour')" style="background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.02));border-color:rgba(201,168,76,.25)"><span class="cat-emoji">🏗️</span><div class="cat-name">آلية صب الخرسانة</div><div class="cat-desc">6 خطوات تفصيلية + QA + أخطاء</div><div class="cat-bottom"><span class="cat-count" style="color:var(--gold)">Stepper</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('exec_foundation_excavation')" style="background:linear-gradient(135deg,rgba(155,89,182,.1),rgba(155,89,182,.02));border-color:rgba(155,89,182,.3)"><span class="cat-emoji">⛏️</span><div class="cat-name">آلية حفر الأساسات</div><div class="cat-desc">6 خطوات + Shoring + Dewatering + HP</div><div class="cat-bottom"><span class="cat-count" style="color:#9b59b6">Stepper</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('exec_bridge_rebar')" style="background:linear-gradient(135deg,rgba(231,76,60,.08),rgba(231,76,60,.02));border-color:rgba(231,76,60,.25)"><span class="cat-emoji">🌉</span><div class="cat-name">آلية تسليح الجسور</div><div class="cat-desc">4 خطوات + Lap + Cover + Durability</div><div class="cat-bottom"><span class="cat-count" style="color:#e74c3c">Stepper</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('concrete_quick_ref')" data-keywords="خرسانة concrete grade cover cement درجات"><span class="cat-emoji">🧱</span><div class="cat-name">مرجع درجات الخرسانة</div><div class="cat-desc">Grade + Cover + Cement لكل عنصر</div><div class="cat-bottom"><span class="cat-count">Quick Ref</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('hot_weather_detailed')" data-keywords="حر حرارة hot weather ثلج ice curing"><span class="cat-emoji">☀️</span><div class="cat-name">Hot Weather Concreting</div><div class="cat-desc">جدول إجراءات + كمية الثلج + Curing</div><div class="cat-bottom"><span class="cat-count">QCS S5 P4</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('sabkha_classification')" data-keywords="سبخة sabkha تصنيف ian-006"><span class="cat-emoji">🏜️</span><div class="cat-name">تصنيف السبخة IAN-006</div><div class="cat-desc">4 أنواع + معالجة + اختبارات لكل نوع</div><div class="cat-bottom"><span class="cat-count">IAN-006 Full</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('exec_concrete_pour')" data-keywords="صب خرسانة concrete pour stepper آلية" style="background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.02));border-color:rgba(201,168,76,.25)"><span class="cat-emoji">🏗️</span><div class="cat-name">آلية صب الخرسانة</div><div class="cat-desc">6 خطوات تفصيلية + QA + أخطاء</div><div class="cat-bottom"><span class="cat-count" style="color:var(--gold)">Stepper</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('exec_foundation_excavation')" data-keywords="حفر أساسات foundation excavation stepper" style="background:linear-gradient(135deg,rgba(155,89,182,.1),rgba(155,89,182,.02));border-color:rgba(155,89,182,.3)"><span class="cat-emoji">⛏️</span><div class="cat-name">آلية حفر الأساسات</div><div class="cat-desc">6 خطوات + Shoring + Dewatering + HP</div><div class="cat-bottom"><span class="cat-count" style="color:#9b59b6">Stepper</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('exec_bridge_rebar')" data-keywords="جسر bridge rebar تسليح stepper" style="background:linear-gradient(135deg,rgba(231,76,60,.08),rgba(231,76,60,.02));border-color:rgba(231,76,60,.25)"><span class="cat-emoji">🌉</span><div class="cat-name">آلية تسليح الجسور</div><div class="cat-desc">4 خطوات + Lap + Cover + Durability</div><div class="cat-bottom"><span class="cat-count" style="color:#e74c3c">Stepper</span><span class="cat-arr">←</span></div></div>
 </div>
 </div>
 </div>
@@ -404,10 +432,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div class="group-header-count" style="background:#C9A84C33;color:#C9A84C">4 أقسام</div>
   </div>
   <div class="group-grid">
-    <div class="cat-card" onclick="openDetail('calculator')"><span class="cat-emoji">🧮</span><div class="cat-name">حاسبة المواصفات</div><div class="cat-desc">أدخل أي اختبار → Pass أو Fail فوراً</div><div class="cat-bottom"><span class="cat-count">38+ اختبار</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('esal_calculator_full')"><span class="cat-emoji">🚛</span><div class="cat-name">حاسبة ESAL</div><div class="cat-desc">AADT → ESAL → Traffic Designation</div><div class="cat-bottom"><span class="cat-count">AASHTO 1993</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('mix_design_validator')"><span class="cat-emoji">🧪</span><div class="cat-name">Mix Design Validator</div><div class="cat-desc">تحقق من خلطة الخرسانة vs QCS Durability</div><div class="cat-bottom"><span class="cat-count">Sulphate + w/c</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('pipe_sizing_calc')"><span class="cat-emoji">🔧</span><div class="cat-name">حاسبة أقطار المواسير</div><div class="cat-desc">Q → DN + Velocity Check + Material</div><div class="cat-bottom"><span class="cat-count">Manning + Hazen</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('calculator')" data-keywords="حاسبة calculator pass fail اختبار"><span class="cat-emoji">🧮</span><div class="cat-name">حاسبة المواصفات</div><div class="cat-desc">أدخل أي اختبار → Pass أو Fail فوراً</div><div class="cat-bottom"><span class="cat-count">38+ اختبار</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('esal_calculator_full')" data-keywords="esal حاسبة traffic aashto"><span class="cat-emoji">🚛</span><div class="cat-name">حاسبة ESAL</div><div class="cat-desc">AADT → ESAL → Traffic Designation</div><div class="cat-bottom"><span class="cat-count">AASHTO 1993</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('mix_design_validator')" data-keywords="خلطة mix design validator sulphate"><span class="cat-emoji">🧪</span><div class="cat-name">Mix Design Validator</div><div class="cat-desc">تحقق من خلطة الخرسانة vs QCS Durability</div><div class="cat-bottom"><span class="cat-count">Sulphate + w/c</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('pipe_sizing_calc')" data-keywords="مواسير pipe sizing حاسبة manning"><span class="cat-emoji">🔧</span><div class="cat-name">حاسبة أقطار المواسير</div><div class="cat-desc">Q → DN + Velocity Check + Material</div><div class="cat-bottom"><span class="cat-count">Manning + Hazen</span><span class="cat-arr">←</span></div></div>
   </div>
 </div>
 
@@ -418,12 +446,12 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       <div class="group-header-title" style="color:#8e44ad">الأدوات الذكية والمستندات</div>
       <div class="group-header-sub" style="color:#8e44ad">AI Tools & Documentation</div>
     </div>
-    <div class="group-header-count" style="background:#8e44ad33;color:#8e44ad">4 أقسام</div>
+    <div class="group-header-count" style="background:#8e44ad33;color:#8e44ad">8 أقسام</div>
   </div>
   <div class="group-grid">
-    <div class="cat-card" onclick="openDetail('ashghal_forms')" style="background:linear-gradient(135deg,rgba(122,21,21,.15),rgba(201,168,76,.05));border-color:rgba(201,168,76,.3)">
+    <div class="cat-card" onclick="openDetail('ashghal_forms')" data-keywords="نماذج forms rfi ncr itp excel أشغال" style="background:linear-gradient(135deg,rgba(122,21,21,.15),rgba(201,168,76,.05));border-color:rgba(201,168,76,.3)">
 <span class="cat-emoji">📝</span><div class="cat-name">نماذج Ashghal</div><div class="cat-desc">RFI، NCR، Daily Report — تصدير Excel</div><div class="cat-bottom"><span class="cat-count" style="color:var(--gold)">3 نماذج</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('doc_analyzer')" style="background:linear-gradient(135deg,rgba(52,152,219,0.15),rgba(52,152,219,0.05));border-color:rgba(52,152,219,0.4);">
+    <div class="cat-card" onclick="openDetail('doc_analyzer')" data-keywords="محلل مستندات document analyzer ai ذكي" style="background:linear-gradient(135deg,rgba(52,152,219,0.15),rgba(52,152,219,0.05));border-color:rgba(52,152,219,0.4);">
       <span class="cat-emoji">📁</span>
       <div class="cat-name" data-ar="محلل الوثائق" data-en="Document Analyzer">محلل الوثائق</div>
       <div class="cat-desc" data-ar="ارفع المواصفات والرسومات وجداول الكميات" data-en="Upload Specs, Drawings & BOQ for AI Analysis">ارفع المواصفات والرسومات وجداول الكميات</div>
@@ -432,13 +460,13 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
         <span class="cat-arr">←</span>
       </div>
     </div>
-    <div class="cat-card" onclick="openDetail('photo_analyzer')"><span class="cat-emoji">🤖</span><div class="cat-name">المفتش الذكي</div><div class="cat-desc">فحص ومطابقة الأعمال مع QCS والمخططات</div><div class="cat-bottom"><span class="cat-count">AI Inspector</span><span class="cat-arr">←</span></div></div>
-    <div class="cat-card" onclick="openDetail('qcs_changes_2014_2024')"><span class="cat-emoji">📊</span><div class="cat-name">QCS 2014 vs 2024</div><div class="cat-desc">أهم 10 تغييرات بين الإصدارين</div><div class="cat-bottom"><span class="cat-count">مقارنة كاملة</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('photo_analyzer')" data-keywords="مفتش ذكي photo inspector ai صورة"><span class="cat-emoji">🤖</span><div class="cat-name">المفتش الذكي</div><div class="cat-desc">فحص ومطابقة الأعمال مع QCS والمخططات</div><div class="cat-bottom"><span class="cat-count">AI Inspector</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('qcs_changes_2014_2024')" data-keywords="تغييرات changes 2014 2024 qcs مقارنة"><span class="cat-emoji">📊</span><div class="cat-name">QCS 2014 vs 2024</div><div class="cat-desc">أهم 10 تغييرات بين الإصدارين</div><div class="cat-bottom"><span class="cat-count">مقارنة كاملة</span><span class="cat-arr">←</span></div></div>
   
-<div class="cat-card" onclick="openDetail('top20_ncr')"><span class="cat-emoji">🔴</span><div class="cat-name">أكثر 20 NCR شيوعاً</div><div class="cat-desc">أخطاء ميدانية + حلول + QCS clause</div><div class="cat-bottom"><span class="cat-count">17 سنة خبرة</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('prequalification_checklist')"><span class="cat-emoji">✅</span><div class="cat-name">Checklist قبل كل مرحلة</div><div class="cat-desc">تفقيص تفاعلي — طرق + مرافق + خرسانة</div><div class="cat-bottom"><span class="cat-count">Interactive</span><span class="cat-arr">←</span></div>
-<div class="cat-card" onclick="openDetail('ncr_quick_logger')" style="background:linear-gradient(135deg,rgba(231,76,60,.1),rgba(231,76,60,.03));border-color:rgba(231,76,60,.3)"><span class="cat-emoji">🔴</span><div class="cat-name">NCR Quick Logger</div><div class="cat-desc">سجّل NCR بـ 5 حقول + تصدير دفعة</div><div class="cat-bottom"><span class="cat-count" style="color:#e74c3c">localStorage</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="openDetail('drawing_analyzer')" style="background:linear-gradient(135deg,rgba(46,204,113,.1),rgba(46,204,113,.02));border-color:rgba(46,204,113,.35)"><span class="cat-emoji">📐</span><div class="cat-name">محلل المخططات الذكي</div><div class="cat-desc">Structural · Road · ITP · Shop Drawing — فحص QCS 2024</div><div class="cat-bottom"><span class="cat-count" style="color:#2ecc71">AI Drawing</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('top20_ncr')" data-keywords="ncr شائعة common أخطاء mistakes ميداني"><span class="cat-emoji">🔴</span><div class="cat-name">أكثر 20 NCR شيوعاً</div><div class="cat-desc">أخطاء ميدانية + حلول + QCS clause</div><div class="cat-bottom"><span class="cat-count">17 سنة خبرة</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('prequalification_checklist')" data-keywords="checklist تفقيص مرحلة phase قبل"><span class="cat-emoji">✅</span><div class="cat-name">Checklist قبل كل مرحلة</div><div class="cat-desc">تفقيص تفاعلي — طرق + مرافق + خرسانة</div><div class="cat-bottom"><span class="cat-count">Interactive</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('ncr_quick_logger')" data-keywords="ncr logger سجل تصدير quick" style="background:linear-gradient(135deg,rgba(231,76,60,.1),rgba(231,76,60,.03));border-color:rgba(231,76,60,.3)"><span class="cat-emoji">🔴</span><div class="cat-name">NCR Quick Logger</div><div class="cat-desc">سجّل NCR بـ 5 حقول + تصدير دفعة</div><div class="cat-bottom"><span class="cat-count" style="color:#e74c3c">localStorage</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="openDetail('drawing_analyzer')" data-keywords="مخططات drawing analyzer ai shop structural road" style="background:linear-gradient(135deg,rgba(46,204,113,.1),rgba(46,204,113,.02));border-color:rgba(46,204,113,.35)"><span class="cat-emoji">📐</span><div class="cat-name">محلل المخططات الذكي</div><div class="cat-desc">Structural · Road · ITP · Shop Drawing — فحص QCS 2024</div><div class="cat-bottom"><span class="cat-count" style="color:#2ecc71">AI Drawing</span><span class="cat-arr">←</span></div></div>
 </div>
 </div>
 </div>
@@ -471,9 +499,9 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 
 <div class="modal-bg" id="keyModal">
   <div class="modal-box">
-    <div class="modal-title">🔑 OpenRouter API Key</div>
-    <div class="modal-desc">أدخل OpenRouter API Key للبحث الذكي في المواصفات. الـ Key يُحفظ محلياً على جهازك فقط.</div>
-    <input type="password" class="modal-input" id="keyInput" placeholder="sk-or-..." />
+    <div class="modal-title">🔑 Anthropic API Key</div>
+    <div class="modal-desc">أدخل Anthropic API Key للبحث الذكي في المواصفات. الـ Key يُحفظ محلياً على جهازك فقط ولا يُرسل لأي جهة غير Anthropic.</div>
+    <input type="password" class="modal-input" id="keyInput" placeholder="sk-ant-..." />
     <div class="modal-actions">
       <button class="modal-save" onclick="saveKey()">✅ حفظ وتفعيل</button>
       <button class="modal-cancel" onclick="closeKeyModal()">إلغاء</button>
@@ -520,7 +548,7 @@ let uploadedFiles = [];
 // ===== INIT =====
 window.onload = () => {
   if (geminiKey) updateKeyStatus(true);
-  else setTimeout(() => openKeyModal(), 800);
+  // نافذة API Key تظهر فقط عند الضغط على بحث ذكي — لا تظهر تلقائياً
 };
 
 // ===== KEY MANAGEMENT =====
@@ -610,6 +638,21 @@ function setLoadingSteps(steps, activeIndex) {
 
 function quickSearch(q) { document.getElementById('searchInput').value = q; doSearch(); }
 
+function buildQCSPrompt(query, partNum) {
+  return `أنت خبير متخصص في QCS 2024 (Qatar Construction Specifications) ومواصفات البناء والبنية التحتية القطرية.
+أجب على السؤال التالي بدقة مهنية عالية، مع ذكر القسم والبند الدقيق من QCS 2024 أو المعيار القطري المعمول به:
+
+السؤال: ${query}
+
+يُرجى تقديم إجابة منظمة تشمل:
+1. الإجابة المباشرة مع الرقم/القيمة الدقيقة إن وُجدت
+2. المرجع الدقيق: القسم، البند، الجدول من QCS 2024 (Part ${partNum})
+3. أي اشتراطات أو استثناءات مهمة
+4. ملاحظة إن كانت المواصفة تختلف حسب نوع المشروع أو الموقع
+
+أجب باللغة العربية مع الاصطلاحات الهندسية الإنجليزية المقبولة.`;
+}
+
 async function doSearch() {
   const query = document.getElementById('searchInput').value.trim();
   if (!query) return;
@@ -624,10 +667,9 @@ async function doSearch() {
   box.scrollIntoView({ behavior:'smooth', block:'nearest' });
 
   const steps = [
-    'تRebar القسم المناسب من QCS 2024',
-    'تحميل ملف QCS من السيرفر',
-    'تحليل المواصفات بالذكاء الاصطناعي',
-    'تجهيز الإجابة'
+    'تحديد القسم المناسب من QCS 2024',
+    'معالجة الإجابة',
+    'تجهيز النتيجة'
   ];
 
   setLoadingSteps(steps, 0);
@@ -639,22 +681,30 @@ async function doSearch() {
     sourceEl.textContent = `QCS 2024 — Part ${partNum}`;
     setLoadingSteps(steps, 1);
 
-    const response = await fetch('/api/search', {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query, partNum })
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': geminiKey,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 800,
+        messages: [{ role: 'user', content: buildQCSPrompt(query, partNum) }]
+      })
     });
 
     setLoadingSteps(steps, 2);
 
     if (!response.ok) {
       const err = await response.json().catch(() => ({}));
-      throw new Error(err.error || `خطأ ${response.status}`);
+      throw new Error(err.error?.message || err.error || `خطأ ${response.status}`);
     }
 
     setLoadingSteps(steps, 3);
     const data = await response.json();
-    const answer = data.answer || 'لم أجد إجابة.';
+    const answer = (data.content && data.content[0] && data.content[0].text) || 'لم أجد إجابة.';
 
     textEl.innerHTML = answer.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     refEl.textContent = `📖 المرجع: QCS 2024 — Part ${partNum} | راجع المواصفة الأصلية للتأكد`;
@@ -677,6 +727,46 @@ async function doSearch() {
 function copyAnswer() {
   const text = document.getElementById('aiAnswerText').innerText;
   navigator.clipboard.writeText(text).then(() => showToast('✅ تم نسخ الإجابة'));
+}
+
+// ===== CARD FILTER (Live Search) =====
+function filterCards(query) {
+  const q = query.trim().toLowerCase();
+  const cards = document.querySelectorAll('.cat-card');
+  const clearBtn = document.getElementById('cardFilterClear');
+  const countEl = document.getElementById('cardFilterCount');
+  const groups = document.querySelectorAll('.section-group');
+
+  clearBtn.style.display = q ? 'block' : 'none';
+
+  let visible = 0;
+  cards.forEach(card => {
+    const name = (card.querySelector('.cat-name') || card).textContent.toLowerCase();
+    const desc = (card.querySelector('.cat-desc') || card).textContent.toLowerCase();
+    const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
+    const match = !q || name.includes(q) || desc.includes(q) || keywords.includes(q);
+    card.style.display = match ? '' : 'none';
+    if (match) visible++;
+  });
+
+  // show/hide group headers based on whether they have visible cards
+  groups.forEach(group => {
+    const anyVisible = [...group.querySelectorAll('.cat-card')].some(c => c.style.display !== 'none');
+    group.style.display = anyVisible ? '' : 'none';
+  });
+
+  if (q) {
+    countEl.style.display = 'block';
+    countEl.textContent = visible > 0 ? `✅ ${visible} نتيجة للبحث عن "${query}"` : `❌ لا توجد نتائج لـ "${query}"`;
+  } else {
+    countEl.style.display = 'none';
+    groups.forEach(g => g.style.display = '');
+  }
+}
+
+function clearCardFilter() {
+  document.getElementById('cardFilterInput').value = '';
+  filterCards('');
 }
 
 // ===== DETAIL MODALS =====
@@ -2608,6 +2698,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
 <tr style="background:rgba(122,21,21,0.85);"><th>الاختبار</th><th>Non-PMB WC</th><th>PMB WC</th><th>الاختبار</th><th>التكرار</th></tr>
 <tr><td>IRI (International Roughness Index)</td><td>≤ 1.5 m/km</td><td>≤ 0.9 m/km</td><td>PWA IAN 013</td><td>per 400m section</td></tr>
+<tr style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);"><td><strong>🆕 IRI للطريق الجديد — QCS 2024 S6</strong></td><td colspan="2"><strong style="color:#2ecc71">≤ 2.0 m/km</strong> — شرط الاستلام النهائي للطرق الجديدة وفق QCS 2024 Section 6</td><td>QCS 2024 S6</td><td>Full road survey</td></tr>
 <tr><td>3m Straightedge</td><td>≤ 5 mm</td><td>≤ 3 mm</td><td>QCS S6 P5</td><td>every 100m</td></tr>
 <tr><td>Level Survey</td><td>± 6 mm</td><td>± 6 mm</td><td>Total Station</td><td>every 25m</td></tr>
 <tr><td>PSV (Polished Stone Value)</td><td>≥ 55 (WC only)</td><td>≥ 55</td><td>BS 812 P114</td><td>per source</td></tr>
@@ -5477,6 +5568,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
 <tr><td>درجة الConcrete</td><td>C35-C40</td></tr>
 <tr><td>Slump</td><td>160-220mm (Self Leveling)</td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>🆕 SCC Bored Piles — Slump Flow</strong></td><td><strong style="color:#2ecc71">600-750mm / Flow Time SF2 class</strong> — QCS 2024 S5</td></tr>
 <tr><td>Cover</td><td>75mm</td></tr>
 <tr><td>Casing</td><td>إلزامي في المناطق الرخوة</td></tr>
 <tr><td>Bentonite Slurry</td><td>في التربة غير المستقرة</td></tr>
@@ -8558,6 +8650,7 @@ hot_weather_detailed: {
 title: '☀️ Hot Weather Concreting — خطة تفصيلية لقطر',
 content: `
 <div class="qcs-ref-badge">QCS 2024 S5 P4 + ACI 305R + خبرة ميدانية قطر</div>
+<div style="background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.3);border-radius:10px;padding:12px;margin-bottom:10px;font-size:12px;color:#2ecc71;line-height:1.7">🆕 <strong>QCS 2024 S5 P4 — الاشتراط الأساسي:</strong> درجة حرارة الخرسانة عند الصب ≤ 35°C — يُقاس مباشرة من عربة الخلط</div>
 <div style="background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.2);border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:#e74c3c;line-height:1.7">⚠️ قطر: 6 أشهر من السنة حرارة > 35°C — Hot Weather Protocol ليس اختيارياً بل إلزامي من مايو لأكتوبر</div>
 <h3>جدول الإجراءات حسب درجة الحرارة</h3>
 <table class="dm-table"><thead><tr><th>Ambient °C</th><th>الإجراء</th><th>Max Concrete Temp</th><th>Ice</th><th>Max Transport</th><th>Curing</th><th>صب ليلي</th></tr></thead><tbody>
@@ -12381,22 +12474,34 @@ async function runInspector() {
     + 'الرد بالعربية. كن دقيقاً — لا تخمن.';
   
   try {
-    // Try Gemini API first (configured in Vercel)
+    // Use Anthropic API directly with vision
     var base64 = _inspectorImageData.split(',')[1];
     var mimeType = _inspectorImageData.split(';')[0].split(':')[1];
     
-    var response = await fetch('/api/search', {
+    var response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': geminiKey,
+        'anthropic-version': '2023-06-01'
+      },
       body: JSON.stringify({
-        query: systemPrompt,
-        image: { data: base64, mimeType: mimeType }
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: mimeType, data: base64 } },
+            { type: 'text', text: systemPrompt }
+          ]
+        }]
       })
     });
     
     if (response.ok) {
       var data = await response.json();
-      showInspectorResult(data.answer || data.result || 'لم يتمكن من التحليل');
+      var answer = (data.content && data.content[0] && data.content[0].text) || 'لم يتمكن من التحليل';
+      showInspectorResult(answer);
     } else {
       // Fallback: local analysis based on work type
       showInspectorResult(generateLocalAnalysis(workType, phase, specific));
@@ -12579,6 +12684,31 @@ function resetInspector() {
   };
 })();
 
+// ===== SERVICE WORKER REGISTRATION (PWA Offline) =====
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(reg => console.log('✅ QatarSpec SW registered:', reg.scope))
+      .catch(err => console.log('SW registration skipped (standalone mode):', err.message));
+  });
+}
+
 </script>
+
+<!-- ===== APP FOOTER ===== -->
+<div id="appFooter" style="background:linear-gradient(135deg,#111,#0A0A0A);border-top:1px solid rgba(201,168,76,0.2);padding:16px 20px;text-align:center;margin-top:24px;">
+  <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:8px;">
+    <span style="color:var(--gold);font-family:'Cairo',sans-serif;font-weight:700;font-size:13px;">QatarSpec Pro</span>
+    <span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:2px 10px;font-size:10px;color:var(--gold);letter-spacing:1px;">v1.2</span>
+    <span style="color:rgba(255,255,255,0.3);font-size:10px;">|</span>
+    <span style="color:var(--text3);font-size:11px;">آخر تحديث للمواصفات: <strong style="color:var(--text2);">أبريل 2026 — QCS 2024</strong></span>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
+    <span style="font-size:10px;color:var(--text3);">مرجع المواصفات القطرية | Qatar Construction Specifications</span>
+    <span style="font-size:10px;color:var(--text3);">للاستخدام المهني فقط — Not for Design Purposes</span>
+  </div>
+  <div style="margin-top:8px;font-size:10px;color:var(--text3);opacity:0.6;">Reviewed April 2026 | QCS 2024 · Ashghal · KAHRAMAA · MMUP · QCDD</div>
+</div>
+
 </body>
 </html>
