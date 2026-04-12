@@ -496,7 +496,8 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       </div>
       <div style="display:flex;align-items:center;gap:8px;">
         <div style="display:flex;gap:6px;">
-        <div onclick="exportToPDF()" title="تصدير PDF" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.3);border-radius:8px;cursor:pointer;font-size:14px;color:#e74c3c;">PDF</div>
+        <div onclick="exportToPDF()" title="تصدير PDF احترافي" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.3);border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;color:#e74c3c;">PDF</div>
+        <div onclick="exportToWord()" title="تصدير Word" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(52,152,219,0.12);border:1px solid rgba(52,152,219,0.3);border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;color:#3498db;">DOC</div>
         <div onclick="printCurrentDetail()" title="طباعة" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:var(--gold);">🖨️</div>
       </div>
         <div class="dm-close" onclick="document.getElementById('detailModal').classList.remove('open');navStack=[];">✕</div>
@@ -8859,7 +8860,197 @@ content: `
 
 
 
-};
+// ════════════════════════════════════════════════════════════════
+// PHASE 8 — EQUIPMENT SECTIONS
+// ════════════════════════════════════════════════════════════════
+
+roads_equipment: { title: '🛣️ معدات أعمال الطرق — Road Works Equipment', content: `
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
+📌 QCS 2024 Section 6 — متطلبات المعدات وإعداداتها القياسية
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;">
+
+${[
+{emoji:'📐',name:'Motor Grader',ar:'مُسوّي الأرض (Motor Grader)',ref:'QCS S6 P3.4',desc:'تسوية وتشكيل الطبقات بالدقة المطلوبة قبل الضغط',cap:'حسب التصميم',sets:{Blade:'3.7-4.3m','Cutting Angle':'30-40°','Grading Speed':'3-5 km/h'},qc:['فحص المستوى بـ 3m Straightedge كل 50m','التحقق من Cross-fall بـ Camber Board','قياس Level Survey كل 25m LM'],acc:'Level: ±10mm (Subgrade) | ±8mm (Base)',safe:'لا أحد خلف الـ blade أثناء التشغيل'},
+{emoji:'🔄',name:'Vibratory Roller',ar:'الرولر الهزاز (Vibratory Roller)',ref:'QCS S6 P8.6',desc:'الضغط الأساسي لجميع الطبقات الإنشائية بالاهتزاز',cap:'Min 10 tonnes static weight',sets:{Frequency:'25-35 Hz','Amplitude':'0.4-0.8mm','Speed':'≤5 km/h','Passes':'Min 8 passes'},qc:['عدد المرورات ≥ 8 passes','السرعة ≤ 5 km/h خلال الضغط','فحص Field Density (Sand Cone) كل 500m²'],acc:'Subgrade ≥95% MDD | Subbase ≥98% | Base ≥98%',safe:'مسافة أمان 2m من حافة الحفر'},
+{emoji:'⚪',name:'Smooth Drum Roller',ar:'الرولر الأملس (Smooth Drum)',ref:'QCS S6 P5.4',desc:'الضغط الثانوي والنهائي للإسفلت',cap:'8-12 tonnes',sets:{Mode:'Static only (no vibration near joints)','Speed':'≤4 km/h','Temp Range':'Must finish >100°C'},qc:['إنهاء الضغط قبل انخفاض الحرارة لـ 100°C','لا اهتزاز بالقرب من الجسور والمنشآت','Overlap بين ممرات الرولر ≥200mm'],acc:'Core Density ≥97% TMD | Level ±6mm (WC)',safe:'ممنوع التشغيل على منحدرات >10%'},
+{emoji:'🟤',name:'Pneumatic Tyre Roller',ar:'الرولر المطاطي (PTR)',ref:'QCS S6 P5.5',desc:'الضغط الوسيط — يُحسّن التشابك بين حبيبات الإسفلت (Kneading)',cap:'15-25 tonnes',sets:{'Tyre Pressure':'500-700 kPa (adjust per mix)','Speed':'≤6 km/h','Passes':'Min 5 passes'},qc:['ضبط ضغط الإطارات لكل خلطة','فحص Air Voids Va بعد الضغط (3-5%)','Wandering pattern لتفادي التخدد'],acc:'Air Voids: 3-5% | Uniform surface texture',safe:'فحص الإطارات يومياً قبل العمل'},
+{emoji:'🚜',name:'Asphalt Paver',ar:'ماكينة فرد الإسفلت (Paver)',ref:'QCS S6 P5.3',desc:'فرد خلطة الإسفلت بسُمك وعرض محددين بدقة عالية',cap:'Output ≥200 tonne/hr',sets:{'Screed Temp':'100-120°C قبل البدء','Paving Speed':'3-5 m/min (uniform)','Pre-strike-off':'Design thickness ×1.20-1.25'},qc:['درجة حرارة Screed قبل كل جلسة','قياس سُمك كل 25m بـ thickness gauge','فحص Crossfall بـ Slope board كل 50m','Delivery rate = paving speed × width × thickness × density'],acc:'Thickness: Design ±6mm | Level: ±6mm (BC) ±4mm (WC)',safe:'لا تقف خلف الـ Paver أثناء التشغيل — Pinch Point خطر'},
+{emoji:'🌊',name:'Asphalt Distributor',ar:'موزّع البيتومين (Distributor)',ref:'QCS S6 P4.2',desc:'رش Tack Coat و Prime Coat بمعدل منتظم',cap:'4000-8000 L capacity',sets:{'Spray Temp':'120-165°C (حسب نوع البيتومين)','Application Rate':'0.2-0.4 L/m² (Tack) | 0.8-1.2 L/m² (Prime)','Spray Width':'adjustable 2-5m'},qc:['معايرة المضخة قبل كل جلسة (Tray Test)','Breaktime: SS-1H 1-2hr | RS-1 0.5-1hr','اختبار تجانس الرش كل 250m'],acc:'Rate: ±10% من الاشتراطات | Temp during spray ≥120°C',safe:'معدات الوقاية من البيتومين الساخن — PPE كامل'},
+{emoji:'☢️',name:'Nuclear Density Gauge',ar:'جهاز الكثافة النووي (NDG)',ref:'QCS S6 P3.2 + ASTM D2922',desc:'قياس الكثافة الحقلية ونسبة الرطوبة بسرعة ودقة',cap:'Direct transmission depth: 50-300mm',sets:{'Mode':'Direct Transmission للدقة الأعلى','Calibration':'Daily Standard Count + Annual Cert.','Count Time':'Min 1 min/reading'},qc:['معايرة الجهاز على Standard Block يومياً','تسجيل Standard Count ±1% قبل كل جلسة','5 قراءات كل 500m² (random locations)'],acc:'Field Density ≥ 95/98% Proctor MDD | MC ±2%',safe:'ترخيص استخدام الجهاز + ALARA principle + Dosimeter'},
+{emoji:'📏',name:'3m Straightedge',ar:'المسطرة 3m',ref:'QCS S6 P5.9.4',desc:'فحص استواء سطح الإسفلت',cap:'3000mm ±1mm accuracy',sets:{'Placement':'Parallel + Perpendicular to centerline','Frequency':'Every 25m LM','Reading':'Max gap under edge'},qc:['فحص في الاتجاهين — طولي وعرضي','التحقق من calibration الـ straightedge','تسجيل جميع القراءات في نموذج ITP'],acc:'WC PMB ≤3mm | WC Standard ≤5mm | BC ≤8mm',safe:'لا مخاطر خاصة — استخدام بعد برودة كافية'},
+{emoji:'🔩',name:'Dynamic Cone Penetrometer (DCP)',ar:'DCP — مخترق المخروط الديناميكي',ref:'ASTM D6951 + QCS S6',desc:'تقدير CBR ميداني للطبقات المدمكة سريعاً',cap:'Cone angle: 60° | Hammer: 8kg | Drop: 575mm',sets:{'Test Method':'Drop hammer 10 blows, record penetration','Correlation':'CBR = 292/DN^1.12 (DN=mm/blow)','Depth':'Up to 800mm'},qc:['3 اختبارات لكل 500m²','مقارنة النتائج مع Lab CBR','تسجيل DN و حساب CBR'],acc:'Subgrade CBR≥8% | Subbase≥70% | Base≥80% (Correlated)',safe:'حذر عند الضرب — استخدام قفازات ونظارات'},
+].map(function(e){return `
+<div style="background:var(--dark3);border:1px solid var(--border);border-radius:14px;overflow:hidden;">
+  <div style="background:rgba(201,168,76,0.08);padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)">
+    <span style="font-size:24px">${e.emoji}</span>
+    <div><div style="font-size:14px;font-weight:700;color:var(--text)">${e.ar}</div><div style="font-size:10px;color:var(--gold)">${e.ref}</div></div>
+  </div>
+  <div style="padding:12px 14px">
+    <p style="font-size:12px;color:var(--text2);margin-bottom:10px">${e.desc} — <strong style="color:var(--text3)">الطاقة: ${e.cap}</strong></p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div style="background:var(--dark4);border-radius:8px;padding:8px">
+        <div style="font-size:10px;color:var(--gold);font-weight:700;margin-bottom:6px">⚙️ الإعدادات القياسية</div>
+        ${Object.entries(e.sets).map(([k,v])=>`<div style="font-size:11px;color:var(--text2);display:flex;justify-content:space-between"><span>${k}:</span><span style="color:var(--text);font-weight:600">${v}</span></div>`).join('')}
+      </div>
+      <div style="background:var(--dark4);border-radius:8px;padding:8px">
+        <div style="font-size:10px;color:var(--gold);font-weight:700;margin-bottom:6px">✅ فحوصات QC</div>
+        ${e.qc.map(c=>`<div style="font-size:11px;color:var(--text2);margin-bottom:3px">• ${c}</div>`).join('')}
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div style="background:rgba(76,175,80,0.08);border:1px solid rgba(76,175,80,0.2);border-radius:8px;padding:8px">
+        <div style="font-size:10px;color:#4CAF50;font-weight:700;margin-bottom:4px">📐 معيار القبول</div>
+        <div style="font-size:11px;color:var(--text2)">${e.acc}</div>
+      </div>
+      <div style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px">
+        <div style="font-size:10px;color:#e74c3c;font-weight:700;margin-bottom:4px">⚠️ السلامة</div>
+        <div style="font-size:11px;color:var(--text2)">${e.safe}</div>
+      </div>
+    </div>
+  </div>
+</div>`}).join('')}
+</div>
+`},
+
+utilities_equipment: { title: '🔧 معدات أعمال المرافق — Utilities Equipment', content: `
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.2);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;color:#3498db;">
+📌 QCS 2024 Sections 7 & 8 — Pipe Laying, Pressure Testing, CCTV
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;">
+
+${[
+{emoji:'⛏️',name:'Excavator / Backhoe',ar:'الحفارة / الباكهو',ref:'QCS S7 P3 + OSHA',desc:'حفر الخنادق والحفريات للشبكات',cap:'0.3-1.0m³ bucket',sets:{Bucket:'0.3-0.5m³ للخنادق الضيقة','Track Width':'Min 500mm للخنادق','Working Radius':'Max 6m reach','Trench Width':'OD + 2×300mm min haunch'},qc:['GPR Scan قبل الحفر — كشف المرافق القائمة','NOC من Ashghal + permit','قياس عمق الخندق كل 20m','شورينج للعمق >1.2m'],acc:'Trench width: OD+600mm min | Bed Level: ±20mm | Slope as design',safe:'Exclusion Zone 2m من حافة الحفر | Spotter إلزامي'},
+{emoji:'🏗️',name:'Pipe Layer Crane',ar:'رافعة مد الأنابيب',ref:'QCS S7 P4.2',desc:'رفع ومد الأنابيب الثقيلة وتحديد الموضع',cap:'3-10 tonnes SWL',sets:{Slings:'Nylon slings — no metal on pipes','Lift Angle':'Max 60° from horizontal','Speed':'Slow controlled lowering','Bedding':'Check Grade before lowering'},qc:['شهادة صلاحية الرافعة (3rd party tested)','Rigging Plan معتمد','فحص Grade (Laser Level) قبل الإنزال','Pipe joints aligned before lowering'],acc:'Grade: Design ±5mm | Alignment: ±10mm | Joint gap: per pipe spec',safe:'لا أحد تحت الحمولة المرفوعة — Zone Clear'},
+{emoji:'🔥',name:'HDPE Butt Fusion Machine',ar:'ماكينة لحام HDPE (Butt Fusion)',ref:'QCS S8 P2.4 + ISO 21307',desc:'لحام أنابيب HDPE بالحرارة والضغط',cap:'DN63-1200mm (حسب الموديل)',sets:{'Heater Plate Temp':'200-220°C','Heating Pressure':'≤0.15 bar (min)','Fusion Pressure':'per pipe SDR','Cooling Time':'Min 30 min (ambient)'},qc:['Bead Width: 2×3mm (مزدوج)','Bead Shape: Symmetric + Rolled back','التحقق من درجة حرارة الـ Heater كل 30min','Log sheet لكل وصلة (رقم، وقت، ضغط)'],acc:'Bead Width ±20% من القياسي | No cracks | No cold fusion',safe:'قفازات حرارية + درع وجه عند استخدام Heater'},
+{emoji:'💧',name:'Hydrostatic Test Pump',ar:'مضخة اختبار الضغط',ref:'QCS S8 P5.2',desc:'اختبار محكمية خطوط المياه',cap:'Up to 25 bar test pressure',sets:{'Pressure Source':'Manual or electric pump','Gauge Accuracy':'±0.1 bar (calibrated)','Fill Speed':'Slow — purge air first','Stabilize':'30 min before test clock'},qc:['معايرة المانومتر (6 أشهر)','تصريف الهواء الكامل قبل الاختبار','تسجيل القراءة كل 30min خلال 2hr','Leakage check بالعين + Soap solution'],acc:'Test Pressure = 1.5×PN | Drop ≤0.2 bar / 2hr | Zero visible leaks',safe:'فصل قطاعات ≤1000m | خوذة + بُعد عند الضغط العالي'},
+{emoji:'📹',name:'CCTV Camera (Sewer)',ar:'كاميرا CCTV للصرف الصحي',ref:'QCS S7 P7 + BS EN 13508',desc:'فحص الأنابيب المدفونة من الداخل وتصنيف العيوب',cap:'DN100-2000mm coverage',sets:{Crawlers:'Self-propelled — min 4 wheels','Camera':'360° rotating HD','Lighting':'LED Kaleidoscope','Software':'WinCan / Granite XP'},qc:['تنظيف الماسورة قبل CCTV (Jetting)','Speed ≤ 0.3 m/s خلال التصوير','تصنيف العيوب وفق WRc Grade System','PDF Report + Video file'],acc:'All defects Grade ≥3 → Remediation | Report within 5 days',safe:'Confined Space Entry Permit إذا دخل شخص | مراقبة الغازات'},
+{emoji:'🔨',name:'Trench Compaction Rammer',ar:'دكاكة الخنادق (Rammer)',ref:'QCS S7 P5 + S8 P5',desc:'دمك التعبئة الرملية حول وفوق الأنابيب في الخنادق الضيقة',cap:'60-100kg rammer | 25-75mm lifts',sets:{Lift:'Max 200mm loose per lift','Compaction':'Min 3 passes / lift','Haunch':'Hand compact only — no heavy equipment'},qc:['لا دمك مباشر فوق الأنبوب','Sand Cone كل 100m خندق','الارتفاع من Haunch: يدوي → رامر → حتى Finished Level'],acc:'≥95% MDD (Haunching & Initial) | ≥98% MDD (Final Backfill)',safe:'لا تدخل الخندق أثناء التشغيل | حافة +300mm clearance'},
+{emoji:'🧪',name:'Chlorination Equipment',ar:'معدات التعقيم بالكلور (Chlorination)',ref:'QCS S8 P6 + KAHRAMAA + WHO',desc:'تعقيم خطوط مياه الشرب بعد الاختبار',cap:'Dosing: 20-50 mg/L Cl₂',sets:{'Chlorine Source':'Sodium Hypochlorite 10% | Chlorine Gas','Contact Time':'Min 24 hours','Residual Target':'≥0.2 mg/L after flushing','Flush Volume':'3× pipe volume'},qc:['قياس Residual Chlorine بعد 24hr','Bacteriological Sample من 3 نقاط','تقرير معتمد من مختبر KAHRAMAA مُعتمد','Flush حتى Residual ≤0.5 mg/L'],acc:'Residual ≥0.2 mg/L | E.coli = 0 | Coliform = 0 | pH 6.5-8.5',safe:'Handling Hypochlorite: قفازات + نظارات + تهوية | No Mixing مع المواد الحمضية'},
+].map(function(e){return `
+<div style="background:var(--dark3);border:1px solid var(--border);border-radius:14px;overflow:hidden;">
+  <div style="background:rgba(52,152,219,0.08);padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)">
+    <span style="font-size:24px">${e.emoji}</span>
+    <div><div style="font-size:14px;font-weight:700;color:var(--text)">${e.ar}</div><div style="font-size:10px;color:#3498db">${e.ref}</div></div>
+  </div>
+  <div style="padding:12px 14px">
+    <p style="font-size:12px;color:var(--text2);margin-bottom:10px">${e.desc} — <strong style="color:var(--text3)">الطاقة: ${e.cap}</strong></p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div style="background:var(--dark4);border-radius:8px;padding:8px">
+        <div style="font-size:10px;color:#3498db;font-weight:700;margin-bottom:6px">⚙️ الإعدادات</div>
+        ${Object.entries(e.sets).map(([k,v])=>`<div style="font-size:11px;color:var(--text2);display:flex;justify-content:space-between;gap:4px"><span>${k}:</span><span style="color:var(--text);font-weight:600">${v}</span></div>`).join('')}
+      </div>
+      <div style="background:var(--dark4);border-radius:8px;padding:8px">
+        <div style="font-size:10px;color:#3498db;font-weight:700;margin-bottom:6px">✅ فحوصات QC</div>
+        ${e.qc.map(c=>`<div style="font-size:11px;color:var(--text2);margin-bottom:3px">• ${c}</div>`).join('')}
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div style="background:rgba(76,175,80,0.08);border:1px solid rgba(76,175,80,0.2);border-radius:8px;padding:8px">
+        <div style="font-size:10px;color:#4CAF50;font-weight:700;margin-bottom:4px">📐 معيار القبول</div>
+        <div style="font-size:11px;color:var(--text2)">${e.acc}</div>
+      </div>
+      <div style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px">
+        <div style="font-size:10px;color:#e74c3c;font-weight:700;margin-bottom:4px">⚠️ السلامة</div>
+        <div style="font-size:11px;color:var(--text2)">${e.safe}</div>
+      </div>
+    </div>
+  </div>
+</div>`}).join('')}
+</div>
+`},
+
+structural_equipment: { title: '🏗️ معدات أعمال الإنشاء — Structural Equipment', content: `
+<div style="background:rgba(122,21,21,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;color:var(--gold);">
+📌 QCS 2024 Section 5 — Concrete, Rebar, Formwork, Piling
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;">
+
+${[
+{emoji:'🚛',name:'Transit Mixer',ar:'ميكسر الخرسانة (Transit Mixer)',ref:'QCS S5 P4.4 + BS EN 206',desc:'نقل وخلط الخرسانة الجاهزة من المصنع إلى الموقع',cap:'6-10 m³/truck',sets:{'Rotation Speed (Transport)':'1-2 rpm','Rotation Speed (Discharge)':'6-18 rpm','Max Delivery Time':'≤90 min (Summer Qatar: ≤45 min)','Max Drum Turns':'≤300 after water added'},qc:['فحص Slump عند الوصول','قياس درجة الحرارة ≤32°C','رقم Batch + وقت الخروج من المصنع','رفض أي ميكسر تجاوز 90 دقيقة'],acc:'Slump: per design | Temp ≤32°C | Delivery ≤90min',safe:'ممنوع الوقوف تحت Chute أثناء التفريغ'},
+{emoji:'🏗️',name:'Concrete Pump',ar:'مضخة الخرسانة',ref:'QCS S5 P4.5',desc:'ضخ الخرسانة للمواضع البعيدة أو الارتفاعات',cap:'60-150 m³/hr | Up to 100m vertical',sets:{'Line Diameter':'Min 125mm','Max Stone Size':'20mm (smaller than pipe × 1/3)','Prime':'Cement mortar + water first','Pressure':'Monitor per chart'},qc:['Prime the line بـ Cement mortar','Slump عند المضخة ≥100mm (100-150mm)','فحص Pipe connections قبل الضخ','عدم رج الخرسانة بالماء أثناء الضخ'],acc:'No segregation | Slump 100-150mm | Continuous pour (no cold joints)',safe:'PPE كامل | Pressure line مُؤمَّن | Boom locked when stationary'},
+{emoji:'📳',name:'Internal Vibrator (Poker)',ar:'المرتجّ الداخلي (Poker Vibrator)',ref:'QCS S5 P4.7 + BS 8500',desc:'دمك الخرسانة وإزالة فراغات الهواء',cap:'Dia: 50-75mm | Freq: 150-200Hz',sets:{'Insertion Spacing':'≤450mm (1.5× radius of action)','Depth':'Penetrate 150mm into previous layer','Duration':'5-15 sec per insertion','Withdrawal':'Slow — 100mm/sec'},qc:['الإدخال العمودي قدر الإمكان','لا يلامس الـ Formwork أو الحديد','مراقبة الفقاعات على السطح','Radius of action: 300mm'],acc:'No visible voids | No honeycombing on striking | Uniform surface',safe:'ممنوع استخدام الـ Vibrator لنقل الخرسانة أفقياً'},
+{emoji:'🔩',name:'Bar Bending Machine',ar:'آلة ثني الحديد',ref:'QCS S5 P3.3 + BS 4449',desc:'ثني حديد التسليح بالزوايا والأقطار الصحيحة',cap:'Up to dia. 40mm',sets:{'Bend Radius':'Min 4d (d=bar diameter)','Bend Angle':'Accurate ±2°','Temperature':'No bending <5°C (embrittlement)','Cage Support':'Every 1.5m'},qc:['قياس Bend radius بالـ Template','لا ثني على اللحام أو في نقطة العيب','فحص قطر الحديد vs الرسم','Mill Certificate مرافق لكل شحنة'],acc:'Dimensions: ±10mm | Cover blocks: per drawing | Spacing: ±10mm',safe:'قفازات + أحذية فولاذية | Bar ends protected with caps'},
+{emoji:'✂️',name:'Bar Cutting Machine',ar:'آلة قطع الحديد',ref:'QCS S5 P3.3',desc:'قطع حديد التسليح بالأطوال المحددة',cap:'Up to dia. 40mm',sets:{'Cut Face':'Perpendicular — no angle','Blade Condition':'Inspect daily','Work Area':'Clear 2m radius'},qc:['قياس الطول بعد القطع ±25mm','لا قطع حراري (Flame Cutting)','Laps وفق الرسم — تجنب Lap في منطقة الشد'],acc:'Length: ±25mm | No flame cutting | End face perpendicular',safe:'Guard في مكانه | خوذة + واقي وجه | لا أحد في Zone القطع'},
+{emoji:'🧪',name:'Slump Cone + Cube Moulds',ar:'مخروط Slump + قوالب Cube',ref:'BS EN 12350 + BS EN 12390',desc:'اختبار قوام وقوة الخرسانة في الموقع',cap:'Cone: 300mm H | Cube: 150×150×150mm',sets:{'Sampling':'Random from middle of truck discharge','Filling':'3 layers × 25 rods each','Leveling':'Strike off flush','Curing':'Damp cloth + plastic 24hr'},qc:['أخذ عينة Slump + 6 Cubes كل 50m³','ترقيم + تاريخ + موقع + Batch number','نقل الـ Cubes للمختبر خلال 24hr','قراءة 7يوم + 28يوم'],acc:'7-day: ≥70% fcu | 28-day: ≥100% fcu | Slump: per mix design',safe:'لا حوادث خاصة — التخلص من الكيماويات بشكل صحيح'},
+{emoji:'🏛️',name:'Formwork System',ar:'الشدة الخشبية/المعدنية (Formwork)',ref:'QCS S5 P4.2 + BS 5975',desc:'قالب لحصر الخرسانة بالشكل المطلوب حتى التصلب',cap:'حسب التصميم الإنشائي',sets:{'Lateral Pressure':'ρ × g × h (kN/m²)','Strike Time':'Columns: 16hr | Slabs: 21 days | Beams: 14 days','Plywood':'Min 18mm Marine Grade','Props':'Adjustable every 1.5m'},qc:['Formwork Design معتمد من مهندس إنشائي','فحص Plumb + Level + Alignment قبل الصب','التأكد من Chamfer strips عند الزوايا','لا ثقوب — توصيلات محكمة'],acc:'Deviation: ±6mm (Plumb) | ±10mm (Level) | No grout loss',safe:'لا إزالة مبكرة — Prop loading حسب الجدول'},
+].map(function(e){return `
+<div style="background:var(--dark3);border:1px solid var(--border);border-radius:14px;overflow:hidden;">
+  <div style="background:rgba(122,21,21,0.08);padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)">
+    <span style="font-size:24px">${e.emoji}</span>
+    <div><div style="font-size:14px;font-weight:700;color:var(--text)">${e.ar}</div><div style="font-size:10px;color:var(--gold)">${e.ref}</div></div>
+  </div>
+  <div style="padding:12px 14px">
+    <p style="font-size:12px;color:var(--text2);margin-bottom:10px">${e.desc} — <strong style="color:var(--text3)">الطاقة: ${e.cap}</strong></p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div style="background:var(--dark4);border-radius:8px;padding:8px">
+        <div style="font-size:10px;color:var(--gold);font-weight:700;margin-bottom:6px">⚙️ الإعدادات</div>
+        ${Object.entries(e.sets).map(([k,v])=>`<div style="font-size:11px;color:var(--text2);display:flex;justify-content:space-between;gap:4px"><span>${k}:</span><span style="color:var(--text);font-weight:600">${v}</span></div>`).join('')}
+      </div>
+      <div style="background:var(--dark4);border-radius:8px;padding:8px">
+        <div style="font-size:10px;color:var(--gold);font-weight:700;margin-bottom:6px">✅ فحوصات QC</div>
+        ${e.qc.map(c=>`<div style="font-size:11px;color:var(--text2);margin-bottom:3px">• ${c}</div>`).join('')}
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div style="background:rgba(76,175,80,0.08);border:1px solid rgba(76,175,80,0.2);border-radius:8px;padding:8px">
+        <div style="font-size:10px;color:#4CAF50;font-weight:700;margin-bottom:4px">📐 معيار القبول</div>
+        <div style="font-size:11px;color:var(--text2)">${e.acc}</div>
+      </div>
+      <div style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px">
+        <div style="font-size:10px;color:#e74c3c;font-weight:700;margin-bottom:4px">⚠️ السلامة</div>
+        <div style="font-size:11px;color:var(--text2)">${e.safe}</div>
+      </div>
+    </div>
+  </div>
+</div>`}).join('')}
+</div>
+`},
+
+geotech_equipment: { title: '🔬 معدات الجيوتقنية — Geotechnical Equipment', content: `
+<div style="background:rgba(46,204,113,0.06);border:1px solid rgba(46,204,113,0.2);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;color:#2ecc71;">
+📌 QCS 2024 Section 4 + BS EN 1997 — Site Investigation & Testing
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;">
+
+${[
+{emoji:'🔩',name:'Rotary Boring Rig',ar:'حفارة الجسات الدوّارة',ref:'QCS S4 + BS EN ISO 22475',desc:'حفر آبار الجسات (Boreholes) للتربة والصخور',cap:'Depth: up to 100m',sets:{'Diameter':'Min 100mm (NQ/HQ core)','Flushing':'Water/Mud flush','Core Recovery':'CORE BARREL with liner','Speed':'60-120 rpm (soil) | 30-60 rpm (rock)'},qc:['RQD + Core Recovery لكل Run','SCR + TCR قياسات','تصوير Core Box مباشرة','مستوى ماء جوفي (GWT) تسجيل'],acc:'Core Recovery ≥95% (soil) | RQD classified per Deere 1963',safe:'Casing installation للعمق >3m | Hard hat Zone'},
+{emoji:'🔨',name:'SPT Equipment',ar:'SPT — اختبار الاختراق القياسي',ref:'ASTM D1586 + BS EN ISO 22476-3',desc:'قياس مقاومة التربة عند أعماق مختلفة',cap:'Hammer: 63.5kg | Drop: 760mm',sets:{'Split Spoon':'35mm ID × 50mm OD','Blow Count':'Record N per 300mm','Energy Efficiency':'60% (N60)','Test Interval':'Min every 1.5m'},qc:['تسجيل Blows per 150mm (3 readings)','Reject first 150mm (seating)','Hammer free fall — no friction','Energy Ratio Correction: CE×CB×CS×CR'],acc:'N-value used for soil classification + bearing capacity estimation',safe:'صيانة الحبل والبكرة يومياً | لا يقف أحد تحت الـ Hammer'},
+{emoji:'🧪',name:'Laboratory Testing Equipment',ar:'معدات المختبر الجيوتقني',ref:'BS 1377 Parts 1-9',desc:'اختبارات خصائص التربة في المختبر',cap:'حسب الاختبار',sets:{'Atterberg':' BS 1377-2 | Casagrande','Proctor':'Standard or Modified ASTM D698/D1557','Grading':'Sieve + Hydrometer BS 1377-2','Consolidation':'Oedometer — BS 1377-5'},qc:['معايرة الأجهزة (Annual)','عينات مُغلقة ومُرقّمة','تقرير معتمد من مختبر ثالث','حفظ عينة مرجعية 30 يوم'],acc:'Per test standard limits — compare with site design assumptions',safe:'SDS لكل كيماوي | تهوية المختبر'},
+].map(function(e){return `
+<div style="background:var(--dark3);border:1px solid var(--border);border-radius:14px;overflow:hidden;">
+  <div style="background:rgba(46,204,113,0.06);padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)">
+    <span style="font-size:24px">${e.emoji}</span>
+    <div><div style="font-size:14px;font-weight:700;color:var(--text)">${e.ar}</div><div style="font-size:10px;color:#2ecc71">${e.ref}</div></div>
+  </div>
+  <div style="padding:12px 14px">
+    <p style="font-size:12px;color:var(--text2);margin-bottom:10px">${e.desc} — <strong style="color:var(--text3)">${e.cap}</strong></p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div style="background:var(--dark4);border-radius:8px;padding:8px">
+        <div style="font-size:10px;color:#2ecc71;font-weight:700;margin-bottom:6px">⚙️ المعاملات</div>
+        ${Object.entries(e.sets).map(([k,v])=>`<div style="font-size:11px;color:var(--text2);display:flex;justify-content:space-between;gap:4px"><span>${k}:</span><span style="color:var(--text);font-weight:600">${v}</span></div>`).join('')}
+      </div>
+      <div style="background:var(--dark4);border-radius:8px;padding:8px">
+        <div style="font-size:10px;color:#2ecc71;font-weight:700;margin-bottom:6px">✅ فحوصات QC</div>
+        ${e.qc.map(c=>`<div style="font-size:11px;color:var(--text2);margin-bottom:3px">• ${c}</div>`).join('')}
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div style="background:rgba(76,175,80,0.08);border:1px solid rgba(76,175,80,0.2);border-radius:8px;padding:8px">
+        <div style="font-size:10px;color:#4CAF50;font-weight:700;margin-bottom:4px">📐 معيار القبول</div>
+        <div style="font-size:11px;color:var(--text2)">${e.acc}</div>
+      </div>
+      <div style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px">
+        <div style="font-size:10px;color:#e74c3c;font-weight:700;margin-bottom:4px">⚠️ السلامة</div>
+        <div style="font-size:11px;color:var(--text2)">${e.safe}</div>
+      </div>
+    </div>
+  </div>
+</div>`}).join('')}
+</div>
+`},
+
+}; // ←── end detailData
 
 let navStack = [];
 
@@ -10380,64 +10571,234 @@ function toggleITPBar(show) {
 }
 
 // ===== PDF EXPORT =====
-function exportToPDF() {
-  var title = document.getElementById('dmTitle').textContent;
-  var isITP = title.includes('ITP') || title.includes('خطة الفحص');
-  var projectName = document.getElementById('itp-project-name').value || '';
-  var itpNum = document.getElementById('itp-number').value || '';
-  var engineer = document.getElementById('itp-engineer').value || '';
-  var today = new Date().toLocaleDateString('ar-QA');
-  var itpDate = document.getElementById('itp-date').value || today;
-  var contentEl = document.getElementById('dmContent');
-  var contentHTML = contentEl ? contentEl.innerHTML : '';
+// ═══════════════════════════════════════════════════════════════
+// PHASE 7 — PROFESSIONAL EXPORT ENGINE
+// ═══════════════════════════════════════════════════════════════
 
-  var printWindow = window.open('', '_blank', 'width=900,height=700');
-  if (!printWindow) { showToast('فعّل النوافذ المنبثقة في المتصفح'); return; }
+// --- Library loaders ---
+function loadJsPDF() {
+  if (window.jspdf) return Promise.resolve(window.jspdf);
+  return new Promise(function(res, rej) {
+    var s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    s.onload = function() { res(window.jspdf); };
+    s.onerror = function() { rej(new Error('jsPDF load failed')); };
+    document.head.appendChild(s);
+  });
+}
+function loadHtml2Canvas() {
+  if (window.html2canvas) return Promise.resolve(window.html2canvas);
+  return new Promise(function(res, rej) {
+    var s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+    s.onload = function() { res(window.html2canvas); };
+    s.onerror = function() { rej(new Error('html2canvas load failed')); };
+    document.head.appendChild(s);
+  });
+}
 
-  var infoBar = '';
-  if (isITP) {
-    infoBar = '<div style="background:#f9f5ee;border:1px solid #e0d0b0;padding:8px 20px;display:flex;gap:20px;flex-wrap:wrap;font-size:11px;font-family:Cairo,sans-serif;">' +
-      '<span>المشروع: <strong>' + (projectName||'—') + '</strong></span>' +
-      '<span>رقم ITP: <strong>' + (itpNum||'—') + '</strong></span>' +
-      '<span>المهندس: <strong>' + (engineer||'—') + '</strong></span>' +
-      '<span>التاريخ: <strong>' + itpDate + '</strong></span></div>';
+// --- PDF Export (jsPDF + html2canvas) ---
+async function exportToPDF() {
+  var title  = document.getElementById('dmTitle').textContent.trim();
+  var today  = new Date().toLocaleDateString('ar-QA');
+  var projEl = document.getElementById('itp-project-name');
+  var proj   = projEl ? (projEl.value || '') : '';
+
+  showToast('⏳ جاري إعداد PDF...');
+  try {
+    var jsPDFLib = await loadJsPDF();
+    var h2c      = await loadHtml2Canvas();
+  } catch(e) {
+    // Fallback to print window if CDN unreachable
+    return _printFallback(title, proj, today);
   }
 
-  var css = '<style>' +
-    '* {box-sizing:border-box;margin:0;padding:0;}' +
-    'body {font-family:Cairo,Tajawal,Arial,sans-serif;direction:rtl;background:#fff;color:#1a1a1a;font-size:13px;line-height:1.6;}' +
-    '.hdr {background:#7a1515;color:#c9a84c;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #c9a84c;}' +
-    '.hdr .logo {font-size:20px;font-weight:700;}' +
-    '.hdr .sub {font-size:10px;color:#fff;margin-top:2px;}' +
-    '.hdr .meta {text-align:left;font-size:10px;color:#fff;}' +
-    '.wrap {padding:16px 20px;}' +
-    'h3 {font-size:14px;font-weight:700;color:#7a1515;margin:14px 0 8px;padding-bottom:4px;border-bottom:1px solid #e8d5b0;}' +
-    'h3:first-child {font-size:16px;border-bottom:2px solid #c9a84c;margin-bottom:14px;}' +
-    'p {font-size:12px;color:#333;margin:6px 0;line-height:1.7;}' +
-    'table {width:100%;border-collapse:collapse;margin:8px 0 14px;font-size:11px;}' +
-    'th {background:#7a1515;color:#fff;padding:7px 8px;font-weight:600;text-align:center;border:1px solid #6a1010;}' +
-    'td {padding:6px 8px;border:1px solid #ddd;text-align:center;vertical-align:middle;}' +
-    'tr:nth-child(even) td {background:#fafafa;}' +
-    '.ftr {margin-top:20px;padding:10px 20px;border-top:1px solid #ddd;display:flex;justify-content:space-between;font-size:10px;color:#888;}' +
-    'div[style*="rgba(201,168,76"] {display:none!important;}' +
-    '@media print {body {-webkit-print-color-adjust:exact;print-color-adjust:exact;}}' +
-    '</style>';
+  var contentEl = document.getElementById('dmContent');
+  if (!contentEl) return;
 
-  var html = '<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8">' +
-    '<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">' +
-    css + '</head><body>' +
-    '<div class="hdr"><div><div class="logo">QatarSpec Pro</div><div class="sub">مرجع المواصفات القطرية — QCS 2024</div></div>' +
-    '<div class="meta"><div>' + itpDate + '</div><div>qatar-standers.vercel.app</div></div></div>' +
-    infoBar +
-    '<div class="wrap"><h3>' + title + '</h3>' + contentHTML + '</div>' +
-    '<div class="ftr"><span>QatarSpec Pro — للاستخدام المهني فقط</span><span>QCS 2024 Reference</span></div>' +
-    '</body></html>';
+  // Render the content area to canvas
+  var canvas = await h2c(contentEl, {
+    scale: 2,
+    useCORS: true,
+    backgroundColor: '#181818',
+    logging: false,
+    removeContainer: true
+  });
 
-  printWindow.document.write(html);
-  printWindow.document.close();
-  printWindow.focus();
-  setTimeout(function() { printWindow.print(); }, 1800);
-  showToast('جاري فتح نافذة الطباعة ✅');
+  var { jsPDF } = jsPDFLib;
+  var pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  var pageW = pdf.internal.pageSize.getWidth();
+  var pageH = pdf.internal.pageSize.getHeight();
+  var margin = 12;
+
+  // ── Header band ──
+  pdf.setFillColor(122, 21, 21);
+  pdf.rect(0, 0, pageW, 18, 'F');
+  pdf.setFontSize(13);
+  pdf.setFont('helvetica', 'bold');
+  pdf.setTextColor(201, 168, 76);
+  pdf.text('QatarSpec Pro', margin, 11);
+  pdf.setFontSize(8);
+  pdf.setFont('helvetica', 'normal');
+  pdf.setTextColor(255, 255, 255);
+  pdf.text('QCS 2024 Reference', margin, 16);
+  pdf.text(today, pageW - margin, 11, { align: 'right' });
+  if (proj) pdf.text(proj, pageW - margin, 16, { align: 'right' });
+
+  // ── Title bar ──
+  pdf.setFillColor(42, 42, 42);
+  pdf.rect(0, 18, pageW, 10, 'F');
+  pdf.setFontSize(10);
+  pdf.setFont('helvetica', 'bold');
+  pdf.setTextColor(201, 168, 76);
+  var safeTitle = title.replace(/[^\x00-\x7F]/g, ' ').substring(0, 80);
+  pdf.text(safeTitle, margin, 25);
+
+  // ── Watermark ──
+  pdf.setFontSize(28);
+  pdf.setFont('helvetica', 'bold');
+  pdf.setTextColor(255, 255, 255);
+  pdf.setGState(new pdf.GState({ opacity: 0.04 }));
+  pdf.text('QatarSpec Pro — QCS 2024', pageW / 2, pageH / 2, { align: 'center', angle: 45 });
+  pdf.setGState(new pdf.GState({ opacity: 1 }));
+
+  // ── Content image ──
+  var imgData   = canvas.toDataURL('image/jpeg', 0.85);
+  var imgW      = pageW - margin * 2;
+  var imgH      = (canvas.height * imgW) / canvas.width;
+  var contentY  = 32;
+  var available = pageH - contentY - 16; // leave footer room
+
+  if (imgH <= available) {
+    pdf.addImage(imgData, 'JPEG', margin, contentY, imgW, imgH);
+  } else {
+    // Multi-page split
+    var ratio     = canvas.width / imgW;
+    var sliceH_px = Math.floor(available * ratio);
+    var offsetY   = 0;
+    var page      = 0;
+    while (offsetY < canvas.height) {
+      if (page > 0) {
+        pdf.addPage();
+        _pdfPageHeader(pdf, pageW, today);
+        contentY = 14;
+      }
+      var sliceCanvas = document.createElement('canvas');
+      sliceCanvas.width  = canvas.width;
+      sliceCanvas.height = Math.min(sliceH_px, canvas.height - offsetY);
+      var ctx = sliceCanvas.getContext('2d');
+      ctx.drawImage(canvas, 0, offsetY, canvas.width, sliceCanvas.height, 0, 0, canvas.width, sliceCanvas.height);
+      var sliceData = sliceCanvas.toDataURL('image/jpeg', 0.85);
+      var sliceImgH = (sliceCanvas.height / ratio);
+      pdf.addImage(sliceData, 'JPEG', margin, contentY, imgW, sliceImgH);
+      offsetY += sliceH_px;
+      page++;
+    }
+  }
+
+  // ── Footer ──
+  var totalPages = pdf.internal.getNumberOfPages();
+  for (var p = 1; p <= totalPages; p++) {
+    pdf.setPage(p);
+    pdf.setFillColor(42, 42, 42);
+    pdf.rect(0, pageH - 10, pageW, 10, 'F');
+    pdf.setFontSize(7);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setTextColor(150, 150, 150);
+    pdf.text('QatarSpec Pro — للاستخدام المهني | QCS 2024', margin, pageH - 4);
+    pdf.text(p + ' / ' + totalPages, pageW - margin, pageH - 4, { align: 'right' });
+  }
+
+  var fileName = 'QatarSpec-' + safeTitle.trim().replace(/\s+/g, '-').substring(0, 30) + '.pdf';
+  pdf.save(fileName);
+  showToast('✅ تم تصدير PDF — ' + fileName);
+}
+
+function _pdfPageHeader(pdf, pageW, today) {
+  pdf.setFillColor(42, 42, 42);
+  pdf.rect(0, 0, pageW, 12, 'F');
+  pdf.setFontSize(7); pdf.setFont('helvetica', 'normal');
+  pdf.setTextColor(150, 150, 150);
+  pdf.text('QatarSpec Pro — QCS 2024', 12, 8);
+  pdf.text(today, pageW - 12, 8, { align: 'right' });
+}
+
+function _printFallback(title, proj, today) {
+  var contentEl = document.getElementById('dmContent');
+  var contentHTML = contentEl ? contentEl.innerHTML : '';
+  var w = window.open('', '_blank', 'width=900,height=700');
+  if (!w) { showToast('فعّل النوافذ المنبثقة'); return; }
+  w.document.write('<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8">' +
+    '<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">' +
+    '<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Cairo,Tajawal,Arial,sans-serif;direction:rtl;background:#fff;color:#1a1a1a;font-size:13px;line-height:1.6}.hdr{background:#7a1515;color:#c9a84c;padding:14px 20px;display:flex;justify-content:space-between}.wrap{padding:16px 20px}table{width:100%;border-collapse:collapse;font-size:11px}th{background:#7a1515;color:#fff;padding:7px 8px;border:1px solid #6a1010}td{padding:6px 8px;border:1px solid #ddd}tr:nth-child(even)td{background:#fafafa}.ftr{padding:10px 20px;border-top:1px solid #ddd;display:flex;justify-content:space-between;font-size:10px;color:#888}@media print{body{-webkit-print-color-adjust:exact}}</style>' +
+    '</head><body><div class="hdr"><div style="font-size:18px;font-weight:700">QatarSpec Pro</div><div style="font-size:10px;color:#fff;text-align:left">' + today + (proj ? '<br>' + proj : '') + '</div></div>' +
+    '<div class="wrap"><h2 style="color:#7a1515;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #c9a84c;font-size:16px">' + title + '</h2>' + contentHTML + '</div>' +
+    '<div class="ftr"><span>QatarSpec Pro — QCS 2024</span><span>qatar-standers.vercel.app</span></div></body></html>');
+  w.document.close(); w.focus();
+  setTimeout(function() { w.print(); }, 1800);
+  showToast('✅ جاري الطباعة');
+}
+
+// --- Word Export (HTML-in-docx via Blob) ---
+async function exportToWord() {
+  var title      = document.getElementById('dmTitle').textContent.trim();
+  var today      = new Date().toLocaleDateString('ar-QA');
+  var projEl     = document.getElementById('itp-project-name');
+  var proj       = projEl ? (projEl.value || '') : '';
+  var contentEl  = document.getElementById('dmContent');
+  if (!contentEl) return;
+
+  showToast('⏳ جاري إعداد Word...');
+
+  // Extract tables and text cleanly
+  var clone = contentEl.cloneNode(true);
+  // Remove buttons and interactive elements
+  clone.querySelectorAll('button, input, select, textarea, .calc-result').forEach(function(el) { el.remove(); });
+
+  var bodyHTML = clone.innerHTML
+    .replace(/style="[^"]*color:\s*var\([^)]+\)[^"]*"/g, '')
+    .replace(/background:[^;";]+;?/g, '')
+    .replace(/rgba\([^)]+\)/g, '#333');
+
+  var wordHTML = '<!DOCTYPE html>' +
+    '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">' +
+    '<head><meta charset="UTF-8">' +
+    '<xml><w:WordDocument><w:View>Print</w:View><w:Zoom>90</w:Zoom>' +
+    '<w:DoNotOptimizeForBrowser/></w:WordDocument></xml>' +
+    '<style>' +
+    '@page Section1 { size: 21cm 29.7cm; margin: 2cm 2.5cm 2cm 2.5cm; mso-header-margin: 1cm; mso-footer-margin: 1cm; }' +
+    'div.Section1 { page: Section1; }' +
+    'body { font-family: "Times New Roman", Arial, sans-serif; direction: rtl; color: #1a1a1a; font-size: 12pt; line-height: 1.6; }' +
+    'h1 { font-size: 16pt; font-weight: bold; color: #7a1515; border-bottom: 2pt solid #c9a84c; padding-bottom: 6pt; margin-bottom: 12pt; }' +
+    'h2, h3 { font-size: 13pt; font-weight: bold; color: #7a1515; margin: 12pt 0 6pt; }' +
+    'p { margin: 6pt 0; font-size: 11pt; }' +
+    'table { width: 100%; border-collapse: collapse; margin: 10pt 0; font-size: 10pt; }' +
+    'th { background: #7a1515; color: white; padding: 6pt 8pt; text-align: center; border: 1pt solid #6a1010; font-weight: bold; }' +
+    'td { padding: 5pt 8pt; border: 1pt solid #cccccc; vertical-align: top; }' +
+    'tr:nth-child(even) td { background: #f9f5ee; }' +
+    '.header-band { background: #7a1515; color: #c9a84c; padding: 12pt 16pt; margin-bottom: 12pt; display: block; }' +
+    '.footer-band { border-top: 1pt solid #cccccc; margin-top: 16pt; padding-top: 6pt; font-size: 9pt; color: #888; }' +
+    'strong { color: #7a1515; }' +
+    '</style></head><body><div class="Section1">' +
+    '<div class="header-band">' +
+    '<span style="font-size:18pt;font-weight:bold;">QatarSpec Pro</span>' +
+    '<span style="float:left;font-size:10pt;color:white;">التاريخ: ' + today + (proj ? ' | المشروع: ' + proj : '') + '</span>' +
+    '</div>' +
+    '<h1>' + title + '</h1>' +
+    bodyHTML +
+    '<div class="footer-band">QatarSpec Pro — مرجع المواصفات القطرية | QCS 2024 | qatar-standers.vercel.app</div>' +
+    '</div></body></html>';
+
+  var blob     = new Blob(['\ufeff', wordHTML], { type: 'application/msword' });
+  var url      = URL.createObjectURL(blob);
+  var a        = document.createElement('a');
+  var safeName = title.replace(/[^\u0600-\u06FFa-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '-').substring(0, 40);
+  a.href       = url;
+  a.download   = 'QatarSpec-' + safeName + '.doc';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function() { URL.revokeObjectURL(url); document.body.removeChild(a); }, 1000);
+  showToast('✅ تم تصدير Word — ' + a.download);
 }
 
 
@@ -10828,31 +11189,109 @@ X.writeFile(wb,'NCR-'+gv('ncr-num','001')+'-'+Date.now()+'.xlsx');
 showToast('✅ تم تصدير NCR Excel بكامل الحقول');
 }
 
-// ===== ITP EXCEL EXPORT (STRUCTURED) =====
+// ===== ITP EXCEL EXPORT (MULTI-SHEET STRUCTURED) =====
 async function exportITPExcel(){
 try{var X=await loadXLSX()}catch(e){showToast('❌ يحتاج إنترنت');return}
-var rows=[];
+var today = new Date().toLocaleDateString('ar-QA');
+var projectName = (document.getElementById('itp-project-name')||{}).value || '';
+var itpNum      = (document.getElementById('itp-number')||{}).value || '';
+var engineer    = (document.getElementById('itp-engineer')||{}).value || '';
+var itpDate     = (document.getElementById('itp-date')||{}).value || today;
+var title       = (document.getElementById('dmTitle')||{}).textContent || 'ITP';
+
+// ── Collect ITP rows from table ──
+var rows = [];
+var hp_rows = [];
+var wp_rows = [];
 document.querySelectorAll('#print-area .dm-table tbody tr').forEach(function(tr){
-var cells=tr.querySelectorAll('td');
-if(cells.length>=4){rows.push(Array.from(cells).map(function(c){return c.textContent.trim()}))}
+  var cells = tr.querySelectorAll('td');
+  if(cells.length >= 4){
+    var row = Array.from(cells).map(function(c){ return c.textContent.trim(); });
+    rows.push(row);
+    var pointType = (row[7] || row[5] || '').toUpperCase();
+    if(pointType.includes('H')) hp_rows.push(row);
+    else if(pointType.includes('W')) wp_rows.push(row);
+  }
 });
-if(!rows.length){showToast('⚠️ لا بيانات');return}
-var ws=X.utils.aoa_to_sheet([
-['\uFEFFQatarSpec Pro — ITP Export','','','','','','',''],
-['المرجع:','QCS 2024','التاريخ:',new Date().toLocaleDateString('ar-QA'),'','','',''],
-['','','','','','','',''],
-['م','النشاط','المرجع','معيار القبول','التكرار','QC','SC','النقطة']
-].concat(rows));
-ws['!cols']=[{wch:6},{wch:40},{wch:22},{wch:38},{wch:18},{wch:7},{wch:7},{wch:10}];
-ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:7}}];
-var wb=X.utils.book_new();X.utils.book_append_sheet(wb,ws,'ITP');
-var hpRows=rows.filter(function(r){return r[7]&&(r[7].includes('H')||r[5]==='H')});
-if(hpRows.length){
-var ws2=X.utils.aoa_to_sheet([['Hold Points Summary'],['م','النشاط','معيار القبول','النوع']].concat(hpRows.map(function(r){return[r[0],r[1],r[3],r[7]||r[5]]})));
-X.utils.book_append_sheet(wb,ws2,'Hold Points');
-}
-X.writeFile(wb,'ITP-'+Date.now()+'.xlsx');
-showToast('✅ تم تصدير ITP بأعمدة منظمة');
+if(!rows.length){ showToast('⚠️ لا بيانات ITP'); return; }
+
+// ── Sheet 1: ITP Main ──
+var headerRows = [
+  ['\uFEFFQatarSpec Pro — Inspection & Test Plan (ITP)', '', '', '', '', '', '', '', '', ''],
+  ['المشروع:', projectName, '', '', 'رقم ITP:', itpNum, '', '', '', ''],
+  ['التاريخ:', itpDate, '', '', 'المهندس:', engineer, '', '', '', ''],
+  ['المرجع:', 'QCS 2024', '', '', 'تاريخ الطباعة:', today, '', '', '', ''],
+  [], // blank
+  ['م', 'النشاط / Activity', 'مرجع QCS', 'معيار القبول', 'التكرار', 'طريقة الاختبار', 'Lab', 'QC', 'SC', 'النقطة']
+];
+var ws1 = X.utils.aoa_to_sheet(headerRows.concat(rows));
+ws1['!cols'] = [
+  {wch:5},  // م
+  {wch:42}, // Activity
+  {wch:18}, // QCS Ref
+  {wch:38}, // Acceptance
+  {wch:18}, // Frequency
+  {wch:18}, // Method
+  {wch:6},  // Lab
+  {wch:6},  // QC
+  {wch:6},  // SC
+  {wch:12}  // Point
+];
+ws1['!merges'] = [
+  {s:{r:0,c:0}, e:{r:0,c:9}}, // Title
+  {s:{r:1,c:0}, e:{r:1,c:3}},
+  {s:{r:1,c:4}, e:{r:1,c:9}},
+  {s:{r:2,c:0}, e:{r:2,c:3}},
+  {s:{r:2,c:4}, e:{r:2,c:9}},
+];
+
+// ── Sheet 2: Hold Points ──
+var ws2 = X.utils.aoa_to_sheet([
+  ['\uFEFFHold Points Summary — نقاط الإيقاق الإلزامية', '', '', ''],
+  ['المشروع:', projectName, 'ITP No:', itpNum],
+  [],
+  ['م', 'النشاط', 'معيار القبول', 'النوع']
+].concat(hp_rows.map(function(r){ return [r[0]||'', r[1]||'', r[3]||'', 'H']; })));
+ws2['!cols'] = [{wch:6},{wch:45},{wch:40},{wch:8}];
+ws2['!merges'] = [{s:{r:0,c:0},e:{r:0,c:3}}];
+
+// ── Sheet 3: Witness Points ──
+var ws3 = X.utils.aoa_to_sheet([
+  ['\uFEFFWitness Points Summary — نقاط الشهود', '', '', ''],
+  ['المشروع:', projectName, 'ITP No:', itpNum],
+  [],
+  ['م', 'النشاط', 'معيار القبول', 'النوع']
+].concat(wp_rows.map(function(r){ return [r[0]||'', r[1]||'', r[3]||'', 'W']; })));
+ws3['!cols'] = [{wch:6},{wch:45},{wch:40},{wch:8}];
+ws3['!merges'] = [{s:{r:0,c:0},e:{r:0,c:3}}];
+
+// ── Sheet 4: Summary Stats ──
+var ws4 = X.utils.aoa_to_sheet([
+  ['\uFEFFITP Statistics — إحصائيات خطة الفحص', ''],
+  [],
+  ['البيان', 'القيمة'],
+  ['إجمالي بنود ITP',       rows.length],
+  ['Hold Points (H)',       hp_rows.length],
+  ['Witness Points (W)',    wp_rows.length],
+  ['Review Points (R)',     rows.length - hp_rows.length - wp_rows.length],
+  [],
+  ['المشروع', projectName],
+  ['رقم ITP',  itpNum],
+  ['المهندس',  engineer],
+  ['تاريخ ITP', itpDate],
+  ['تاريخ التصدير', today],
+  ['المرجع',   'QCS 2024 — QatarSpec Pro']
+]);
+ws4['!cols'] = [{wch:28},{wch:36}];
+ws4['!merges'] = [{s:{r:0,c:0},e:{r:0,c:1}}];
+
+var wb = X.utils.book_new();
+X.utils.book_append_sheet(wb, ws1, 'ITP Main');
+X.utils.book_append_sheet(wb, ws2, 'Hold Points');
+X.utils.book_append_sheet(wb, ws3, 'Witness Points');
+X.utils.book_append_sheet(wb, ws4, 'Summary');
+X.writeFile(wb, 'ITP-' + (itpNum||'Export') + '-' + Date.now() + '.xlsx');
+showToast('✅ تم تصدير ITP Excel — 4 أوراق');
 }
 
 function gv(id,def){var el=document.getElementById(id);return el?(el.value||def||''):(def||'')}
