@@ -3081,126 +3081,250 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div class="lang-content-ar">
 <div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 مواد شبكة مياه الشرب — المواصفات</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 مواد شبكة مياه الشرب</span>
 <button onclick="document.getElementById('vid-ws-materials').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
 </div>
 <input type="file" id="vid-ws-materials" accept="video/*" style="display:none" data-player="vid-player-ws-materials" data-ph="vid-ph-ws-materials" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ws-materials" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
 <video id="vid-player-ws-materials" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
-📌 KAHRAMAA Standards | QCS 2024 Section 8
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 KAHRAMAA Standards | QCS 2024 Section 8 Part 1 | Material Specifications</div>
+
+<h3>📐 1. أنواع المواسير المعتمدة — KAHRAMAA</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>نوع الماسورة</th><th>المعيار</th><th>Pressure Class</th><th>القطر</th><th>الاستخدام</th><th>اختبار المصنع</th></tr>
+<tr><td>HDPE PE100</td><td>ISO 4427 / KAHRAMAA</td><td>PN10 – PN16</td><td>DN50 – DN1200</td><td>التوزيع + الرئيسي</td><td>Hydrostatic 2×PN / 1hr</td></tr>
+<tr><td>Ductile Iron K9</td><td>ISO 2531 / BS EN 545</td><td>K9</td><td>DN80 – DN1600</td><td>الخطوط الرئيسية + العبور</td><td>Hydrostatic + Hoop Stress</td></tr>
+<tr><td>GRP / FRP</td><td>ISO 10467 / AWWA C950</td><td>PN6 – PN25</td><td>DN300 – DN3000</td><td>الخطوط الكبيرة</td><td>Hydrostatic + Stiffness</td></tr>
+<tr><td>uPVC PN10/PN16</td><td>ISO 1452 / BS EN 1452</td><td>PN10 – PN16</td><td>DN50 – DN400</td><td>التوزيع الثانوي</td><td>Hydrostatic 2×PN</td></tr>
+</table></div>
+
+<h3>📐 2. مواصفات الجودة الإلزامية — جدول الاختبارات</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>مواصفة القبول</th><th>طريقة الاختبار</th><th>الحد الأدنى للتكرار</th><th>المرجع</th></tr>
+<tr><td>Pressure Rating</td><td>≥ PN10 (PN16 للمناطق العالية)</td><td>Factory Hydrostatic Test</td><td>كل batch</td><td>ISO 4427 / KAHRAMAA</td></tr>
+<tr><td>SDR HDPE</td><td>SDR 11 لـ PE100</td><td>Wall Thickness Measurement</td><td>كل delivery</td><td>ISO 4427</td></tr>
+<tr><td>لون الماسورة</td><td>أزرق أو أصفر (داخلي) — KAHRAMAA</td><td>Visual + Color Chart</td><td>100% per delivery</td><td>KAHRAMAA Std.</td></tr>
+<tr><td>Marking on Pipe</td><td>اسم المصنع + Material + PN + DN + Lot No</td><td>Visual Check</td><td>100%</td><td>ISO 4427</td></tr>
+<tr><td>Conformity Certificate</td><td>QGOS أو معادل معتمد من KAHRAMAA</td><td>Document Check</td><td>كل Submittal</td><td>KAHRAMAA</td></tr>
+<tr><td>Tensile Strength HDPE</td><td>≥ 25 N/mm²</td><td>ISO 527-2</td><td>كل batch</td><td>ISO 4427</td></tr>
+<tr><td>Ring Stiffness uPVC</td><td>≥ SN4 (min)</td><td>ISO 9969</td><td>كل batch</td><td>ISO 1452</td></tr>
+<tr><td>Impact Strength</td><td>لا كسور في 10 قطع</td><td>ISO 3127 Drop Test</td><td>كل batch</td><td>ISO 4427</td></tr>
+</table></div>
+
+<h3>📐 3. مواد Fittings والوصلات</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>المادة</th><th>النوع</th><th>المواصفة</th><th>الملاحظة</th></tr>
+<tr><td>HDPE Fittings</td><td>Butt Fusion / Electrofusion</td><td>ISO 8085-3</td><td>SDR نفس الماسورة إلزامياً</td></tr>
+<tr><td>Ductile Iron Fittings</td><td>Mechanical Joint / Push-on</td><td>ISO 2531</td><td>Epoxy lined داخلياً</td></tr>
+<tr><td>Gaskets</td><td>EPDM Rubber</td><td>BS EN 681-1</td><td>Grade لمياه الشرب فقط</td></tr>
+<tr><td>Bolts / Nuts</td><td>SS316 أو Hot-dipped Galv.</td><td>ASTM A307</td><td>لا Mild Steel بدون حماية</td></tr>
+<tr><td>Thrust Blocks</td><td>Concrete in-situ</td><td>C20 minimum</td><td>عند كل تغيير اتجاه ≥ 11.25°</td></tr>
+<tr><td>Air Valves</td><td>Double Air Release</td><td>BS EN 1074-4</td><td>عند كل نقطة عالية</td></tr>
+<tr><td>Isolation Valves</td><td>Gate / Butterfly Valve</td><td>BS EN 1074-2</td><td>Epoxy lined / SS internals</td></tr>
+</table></div>
+
+<h3>⛔ 4. المواد المرفوضة فوراً في الموقع</h3>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;">
+<p>• مواسير بدون علامات المصنع (UN-MARKED PIPES) — رفض فوري<br>
+• مواسير HDPE بدون شهادة PE100 — رفض<br>
+• Gaskets بدون تصنيف مياه شرب — رفض<br>
+• DI Pipes بدون Epoxy Lining — رفض<br>
+• مواسير بها خدوش عميقة > 10% من سماكة الجدار — رفض<br>
+• أي مواسير مخزنة في الشمس المباشرة > 3 أشهر بدون حماية — رفض HDPE<br>
+• Fittings بدون SDR مطابق لماسورة الربط — رفض</p>
 </div>
-<h3>📐 أنواع مواسير مياه الشرب</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>نوع الماسورة</th><th>المعيار</th><th>المقاسات الشائعة</th><th>الاستخدام</th></tr><tr><td>HDPE PE100 (PN10/PN16)</td><td>ISO 4427 / KAHRAMAA</td><td>DN50–DN1200</td><td>التوزيع + الرئيسي</td></tr><tr><td>Ductile Iron (DI) Class K9</td><td>ISO 2531 / BS EN 545</td><td>DN80–DN1600</td><td>الخطوط الرئيسية + العبور</td></tr><tr><td>GRP (Glass Reinforced Plastic)</td><td>ISO 10467 / AWWA C950</td><td>DN300–DN3000</td><td>الخطوط الكبيرة</td></tr><tr><td>uPVC PN10/PN16</td><td>ISO 1452</td><td>DN50–DN400</td><td>التوزيع الثانوي</td></tr></table></div>
-<h3>📐 المواصفات الإلزامية — KAHRAMAA</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المواصفة</th><th>Test / Reference</th><th>Min Frequency</th></tr><tr><td>لون الماسورة (مياه شرب)</td><td>أزرق أو أصفر داخلي</td><td>Visual</td><td>100% per delivery</td></tr><tr><td>Pressure Rating</td><td>PN10 min (PN16 للمناطق العالية)</td><td>ISO 4427</td><td>MAR per batch</td></tr><tr><td>SDR (Standard Dimension Ratio)</td><td>SDR 11 لـ HDPE PE100</td><td>ISO 4427</td><td>per MAR</td></tr><tr><td>Hydrostatic Test (Factory)</td><td>2× PN لمدة 1hr — zero failure</td><td>ISO 4427</td><td>per batch</td></tr><tr><td>Marking on Pipe</td><td>اسم المصنع + المادة + PN + DN + Lot</td><td>Visual</td><td>100%</td></tr><tr><td>Conformity Certificate</td><td>QGOS أو معتمد مكافئ</td><td>—</td><td>per delivery</td></tr><tr><td>Marker Tape اللون</td><td>أصفر — فوق الماسورة بـ 300mm</td><td>KAHRAMAA Std.</td><td>100%</td></tr><tr><td>Pipe Separation (Sewer)</td><td>≥ 1.0m أفقياً</td><td>KAHRAMAA</td><td>Design check</td></tr></table></div>
-<h3>📐 مواد Fittings & Joints</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المواصفة</th></tr><tr><td>HDPE Fittings</td><td>Butt Fusion أو Electrofusion — SDR نفس الماسورة</td></tr><tr><td>DI Fittings</td><td>Mechanical Joint أو Push-on — Epoxy Lined</td></tr><tr><td>Gaskets</td><td>EPDM rubber — grade drinking water</td></tr><tr><td>Bolts/Nuts</td><td>SS316 أو Hot-dipped Galvanized</td></tr><tr><td>Thrust Blocks</td><td>C20 minimum concrete</td></tr></table></div>
+
+<h3>🔴 5. Hold Points</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-01</td><td>اعتماد Material Submittal قبل التوريد</td><td>Consultant + KAHRAMAA</td><td>Approved MAR</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-02</td><td>استلام المواد + فحص التسليم</td><td>QC Engineer</td><td>Delivery Inspection Record</td></tr>
+</table></div>
 </div>
 
 <div class="lang-content-en" style="display:none;">
-<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Water Supply Materials</span>
-<button onclick="document.getElementById('vid-ws-materials-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
+📌 KAHRAMAA Standards | QCS 2024 Section 8 Part 1
 </div>
-<input type="file" id="vid-ws-materials-en" accept="video/*" style="display:none" data-player="vid-player-ws-materials-en" data-ph="vid-ph-ws-materials-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-ws-materials-en" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV — persists for entire session</div>
-<video id="vid-player-ws-materials-en" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<h3>Pipe Types — KAHRAMAA Approved</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Pipe Type</th><th>Standard</th><th>Pressure Class</th><th>Diameter</th><th>Use</th></tr>
+<tr><td>HDPE PE100</td><td>ISO 4427</td><td>PN10 – PN16</td><td>DN50–DN1200</td><td>Distribution + Transmission</td></tr>
+<tr><td>Ductile Iron K9</td><td>ISO 2531 / BS EN 545</td><td>K9</td><td>DN80–DN1600</td><td>Major mains + crossings</td></tr>
+<tr><td>GRP / FRP</td><td>ISO 10467</td><td>PN6 – PN25</td><td>DN300–DN3000</td><td>Large diameter mains</td></tr>
+<tr><td>uPVC</td><td>ISO 1452</td><td>PN10 – PN16</td><td>DN50–DN400</td><td>Secondary distribution</td></tr>
+</table></div>
+<h3>Quality Tests — Minimum Requirements</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Parameter</th><th>Acceptance</th><th>Test Method</th><th>Min Frequency</th><th>Reference</th></tr>
+<tr><td>Pressure Rating</td><td>≥ PN10 minimum</td><td>Factory Hydrostatic</td><td>Per batch</td><td>ISO 4427</td></tr>
+<tr><td>SDR (HDPE PE100)</td><td>SDR 11</td><td>Wall thickness measurement</td><td>Per delivery</td><td>ISO 4427</td></tr>
+<tr><td>Pipe colour</td><td>Blue or Yellow (internal) — KAHRAMAA</td><td>Visual + colour chart</td><td>100% per delivery</td><td>KAHRAMAA</td></tr>
+<tr><td>Marking</td><td>Manufacturer + Material + PN + DN + Lot</td><td>Visual</td><td>100%</td><td>ISO 4427</td></tr>
+<tr><td>Conformity Certificate</td><td>QGOS or KAHRAMAA-approved equivalent</td><td>Document check</td><td>Per submittal</td><td>KAHRAMAA</td></tr>
+<tr><td>Tensile Strength</td><td>≥ 25 N/mm²</td><td>ISO 527-2</td><td>Per batch</td><td>ISO 4427</td></tr>
+<tr><td>Impact Strength</td><td>No fracture in 10 specimens</td><td>ISO 3127 Drop Test</td><td>Per batch</td><td>ISO 4427</td></tr>
+</table></div>
+<h3>Rejected Materials — Immediate Site Rejection</h3>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
+• Unmarked pipes (no manufacturer markings) — REJECT<br>
+• HDPE without PE100 certificate — REJECT<br>
+• Gaskets without potable water grade — REJECT<br>
+• DI Pipes without epoxy lining — REJECT<br>
+• Pipes with scratches > 10% wall thickness — REJECT<br>
+• HDPE stored in direct sun > 3 months unprotected — REJECT
 </div>
-<h3>Pipe Types — KAHRAMAA Standards</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Pipe Type</th><th>Standard</th><th>Sizes</th><th>Use</th></tr><tr><td>HDPE PE100 (PN10/PN16)</td><td>ISO 4427</td><td>DN50–DN1200</td><td>Distribution + Main</td></tr><tr><td>Ductile Iron Class K9</td><td>ISO 2531</td><td>DN80–DN1600</td><td>Main lines + crossings</td></tr><tr><td>GRP</td><td>ISO 10467</td><td>DN300–DN3000</td><td>Large diameter mains</td></tr><tr><td>uPVC PN10/PN16</td><td>ISO 1452</td><td>DN50–DN400</td><td>Secondary distribution</td></tr></table></div><h3>Mandatory Specifications — KAHRAMAA</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Specification</th><th>Test</th><th>Frequency</th></tr><tr><td>Pipe Color (drinking water)</td><td>Blue or yellow internal lining</td><td>Visual</td><td>100%</td></tr><tr><td>Pressure Rating</td><td>Min PN10 (PN16 high zones)</td><td>ISO 4427</td><td>per MAR</td></tr><tr><td>Factory Hydrostatic Test</td><td>2×PN for 1hr</td><td>ISO 4427</td><td>per batch</td></tr><tr><td>Yellow Marker Tape</td><td>300mm above pipe crown</td><td>KAHRAMAA Std.</td><td>100%</td></tr><tr><td>Pipe Separation from Sewer</td><td>≥ 1.0m horizontal</td><td>KAHRAMAA</td><td>Design check</td></tr><tr><td>Conformity Certificate</td><td>QGOS or equivalent</td><td>—</td><td>per delivery</td></tr></table></div>
 </div>
 ` },
+
 
   ws_excavation: { title: '⛏️ مياه الشرب — الحفر والبيدنج', content: `
 <div class="lang-content-ar">
-<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">حفر وتحضير الخندق — مياه</span></div>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 حفر وتحضير الخندق — مياه الشرب</span>
 <button onclick="document.getElementById('vid-ws-excavation').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
 </div>
 <input type="file" id="vid-ws-excavation" accept="video/*" style="display:none" data-player="vid-player-ws-excavation" data-ph="vid-ph-ws-excavation" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-ws-excavation" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">حفر الخندق، شورينج، بيدنج الرمل</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
-<video id="vid-player-ws-excavation" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<div id="vid-ph-ws-excavation" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
+<video id="vid-player-ws-excavation" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+</div>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 1 | KAHRAMAA | Trench Excavation & Bedding</div>
+
+<h3>📐 1. مواصفات الخندق — Trench Geometry</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المواصفة</th><th>طريقة القياس</th><th>التكرار</th><th>المرجع</th></tr>
+<tr><td>عمق الدفن (cover)</td><td>≥ 1.0m من سطح الأرض لأعلى الماسورة</td><td>قياس مباشر</td><td>كل 50m</td><td>KAHRAMAA</td></tr>
+<tr><td>عرض الخندق</td><td>OD + 600mm (300mm كل جانب)</td><td>شريط قياس</td><td>كل 50m</td><td>QCS S8</td></tr>
+<tr><td>انحراف الخندق</td><td>± 25mm أفقياً، ± 10mm رأسياً</td><td>Total Station</td><td>كل 50m</td><td>KAHRAMAA</td></tr>
+<tr><td>سماكة Bedding</td><td>150mm أسفل الماسورة — Class B</td><td>قياس مباشر</td><td>كل Pipe Length</td><td>KAHRAMAA</td></tr>
+<tr><td>Haunch Bedding</td><td>رمل نظيف حتى المحور + 300mm</td><td>قياس مباشر</td><td>كل Pipe Length</td><td>QCS S8</td></tr>
+<tr><td>Dewatering</td><td>مستوى الماء ≤ 300mm أسفل قاع الحفر</td><td>بصري + قياس</td><td>مستمر</td><td>QCS S8</td></tr>
+<tr><td>Shoring</td><td>إلزامي لأعماق > 1.5m</td><td>Design Check</td><td>قبل الحفر</td><td>QCS S1</td></tr>
+</table></div>
+
+<h3>📐 2. مواصفات مواد الـ Bedding</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>المنطقة</th><th>المادة</th><th>المواصفة</th><th>اختبار</th><th>تكرار</th></tr>
+<tr><td>Bedding (أسفل الماسورة)</td><td>Sand — clean, free draining</td><td>≤ 5mm max size، PI=0</td><td>Grading + PI</td><td>كل 500m³</td></tr>
+<tr><td>Haunch (جانبي للمحور)</td><td>Sand — hand compacted</td><td>نفس Bedding</td><td>بصري</td><td>100%</td></tr>
+<tr><td>Initial Backfill (فوق +300mm)</td><td>Selected Fill ≤ 75mm</td><td>CBR ≥ 5% | PI ≤ 10</td><td>CBR + Grading</td><td>كل 500m³</td></tr>
+<tr><td>Marker Tape</td><td>أصفر WATER MAIN</td><td>300mm أعلى الماسورة</td><td>100% بصري</td><td>كل Pipe Run</td></tr>
+</table></div>
+
+<h3>⛔ 3. المواد المرفوضة للـ Bedding</h3>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
+• رمل فيه طين أو Silt (PI > 6) — رفض<br>
+• حجر > 5mm في منطقة الـ Bedding — رفض<br>
+• تربة طبيعية من الحفر كـ Bedding — رفض<br>
+• سبخة أو تربة منتفخة — رفض فوري + تقرير فوري للمهندس
 </div>
 
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 1 | Excavation & Bedding</div>
-<h3>📐 مواصفات الحفر</h3>
-<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>عمق الحفر</td><td>≥ 1.0m من سطح الطريق لأعلى الماسورة</td></tr><tr><td>عرض الخندق</td><td>قطر الماسورة + 300mm على كل جانب</td></tr><tr><td>Dewatering</td><td>إزالة المياه الجوفية قبل الوضع</td></tr><tr><td>Shoring</td><td>إلزامي لأعماق أكثر من 1.5m</td></tr><tr><td>الفصل عن الصرف</td><td>≥ 1.0m أفقياً — مياه الشرب دائماً فوق</td></tr></table>
-<h3>📐 مواصفات الـ Bedding</h3>
-<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>مادة الـ Bedding</td><td>رمل نظيف خالي من حجارة أكبر من 20mm</td></tr><tr><td>سماكة تحت الماسورة</td><td>150mm مدكوكة</td></tr><tr><td>جانبي الماسورة</td><td>رمل حتى منتصف الماسورة — طبقات 150mm</td></tr><tr><td>فوق الماسورة</td><td>300mm رمل مدكوك</td></tr><tr><td>الCompaction</td><td>يدوي بجانب الماسورة ≥ 90% MDD</td></tr></table>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-03:</strong> فحص Bedding والعمق والمناسيب قبل وضع المواسير</p>
-
+<h3>🔴 4. Hold Points</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-03</td><td>فحص الخندق: العمق + العرض + Bedding قبل وضع المواسير</td><td>QC + Consultant</td><td>Trench Inspection Record</td></tr>
+</table></div>
 </div>
+
 <div class="lang-content-en" style="display:none;">
-<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Trench Excavation — Water</span></div>
-<button onclick="document.getElementById('vid-ws-excavation-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
+📌 QCS 2024 Section 8 Part 1 | KAHRAMAA | Trench Excavation & Bedding
 </div>
-<input type="file" id="vid-ws-excavation-en" accept="video/*" style="display:none" data-player="vid-player-ws-excavation-en" data-ph="vid-ph-ws-excavation-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-ws-excavation-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Trench excavation, shoring, sand bedding</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
-<video id="vid-player-ws-excavation-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
-</div>
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | ⛏️ مياه الشرب — الحفر والبيدنج
-</div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<h3>Trench Geometry Requirements</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Parameter</th><th>Specification</th><th>Measurement</th><th>Frequency</th><th>Reference</th></tr>
+<tr><td>Cover Depth</td><td>≥ 1.0m from surface to top of pipe</td><td>Direct measurement</td><td>Every 50m</td><td>KAHRAMAA</td></tr>
+<tr><td>Trench Width</td><td>OD + 600mm (300mm each side)</td><td>Tape measure</td><td>Every 50m</td><td>QCS S8</td></tr>
+<tr><td>Bedding Thickness</td><td>150mm below pipe — Class B</td><td>Direct measurement</td><td>Per pipe length</td><td>KAHRAMAA</td></tr>
+<tr><td>Haunch Fill</td><td>Clean sand to centreline + 300mm</td><td>Direct measurement</td><td>Per pipe length</td><td>QCS S8</td></tr>
+<tr><td>Dewatering</td><td>GWT ≤ 300mm below trench bottom</td><td>Visual + measurement</td><td>Continuous</td><td>QCS S8</td></tr>
+<tr><td>Shoring</td><td>Mandatory for depths > 1.5m</td><td>Design check</td><td>Before excavation</td><td>QCS S1</td></tr>
+</table></div>
+<h3>Hold Point</h3>
+<p><strong>HP-03:</strong> Trench inspection — depth + width + bedding BEFORE pipe laying | QC Engineer + Consultant</p>
 </div>
 ` },
+
 
   ws_laying: { title: '🔧 مياه الشرب — وضع المواسير', content: `
 <div class="lang-content-ar">
-<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">وضع المواسير وربطها — مياه</span></div>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 مد مواسير مياه الشرب</span>
 <button onclick="document.getElementById('vid-ws-laying').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
 </div>
 <input type="file" id="vid-ws-laying" accept="video/*" style="display:none" data-player="vid-player-ws-laying" data-ph="vid-ph-ws-laying" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-ws-laying" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">وضع المواسير، Butt Fusion، HDPE، الاختبار</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
-<video id="vid-player-ws-laying" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<div id="vid-ph-ws-laying" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
+<video id="vid-player-ws-laying" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+</div>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 KAHRAMAA Standards | QCS 2024 Section 8 Part 1 | Pipe Laying</div>
+
+<h3>📐 1. متطلبات وضع المواسير — Pipe Laying Requirements</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المواصفة</th><th>طريقة التحقق</th><th>التكرار</th><th>المرجع</th></tr>
+<tr><td>اتجاه وضع المواسير</td><td>من المصب للمنبع (downhill to uphill)</td><td>بصري</td><td>مستمر</td><td>KAHRAMAA</td></tr>
+<tr><td>محاذاة الماسورة</td><td>± 25mm أفقياً من خط التصميم</td><td>Total Station</td><td>كل 50m</td><td>KAHRAMAA</td></tr>
+<tr><td>فراغ الوصلة</td><td>حسب مواصفة المصنع (عادة 10-15mm)</td><td>قياس مباشر</td><td>كل وصلة</td><td>ISO 4427</td></tr>
+<tr><td>فحص الوصلات HDPE</td><td>Butt Fusion: bead width + bead height = uniform</td><td>بصري + قياس Bead</td><td>كل وصلة</td><td>KAHRAMAA</td></tr>
+<tr><td>Electrofusion Records</td><td>تسجيل Barcode + Time + Temp + Operator ID</td><td>Datalogger Print</td><td>كل وصلة</td><td>KAHRAMAA</td></tr>
+<tr><td>حماية نهايات المواسير</td><td>End Caps عند نهاية العمل اليومي</td><td>بصري</td><td>يومياً</td><td>QCS S8</td></tr>
+<tr><td>Thrust Blocks</td><td>C20 عند كل Bend + Tee + Reducer</td><td>بصري + أبعاد</td><td>كل موقع</td><td>KAHRAMAA</td></tr>
+<tr><td>Air Valve تركيب</td><td>عند كل قمة في Profile</td><td>مقارنة بالمخططات</td><td>كل موقع</td><td>KAHRAMAA</td></tr>
+<tr><td>Scour Valve تركيب</td><td>عند كل أخفض نقطة في Profile</td><td>مقارنة بالمخططات</td><td>كل موقع</td><td>KAHRAMAA</td></tr>
+</table></div>
+
+<h3>📐 2. متطلبات الفصل الإلزامية</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>الشبكتان</th><th>الفصل الأفقي</th><th>الوضع الرأسي</th><th>المرجع</th></tr>
+<tr><td>مياه الشرب / Foul Sewer</td><td>≥ 1.0m أفقياً</td><td>مياه الشرب فوق دائماً</td><td>KAHRAMAA</td></tr>
+<tr><td>مياه الشرب / Treated Water</td><td>≥ 1.0m أفقياً</td><td>مياه الشرب فوق دائماً</td><td>KAHRAMAA</td></tr>
+<tr><td>مياه الشرب / Storm Water</td><td>≥ 0.5m أفقياً</td><td>مياه الشرب يُفضَّل فوق</td><td>QCS S8</td></tr>
+<tr><td>مياه الشرب / كهرباء HV</td><td>≥ 0.5m أفقياً</td><td>حسب KAHRAMAA</td><td>KAHRAMAA</td></tr>
+</table></div>
+
+<h3>⛔ 3. ممارسات محظورة</h3>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
+• لا توصيل مباشر بين مياه الشرب والمياه المعالجة بأي شكل<br>
+• لا Backfill قبل اعتماد فحص الوصلات (HP-04)<br>
+• لا Butt Fusion بدون اعتماد Fusion Parameters من المصنع<br>
+• لا إنزال مواسير بمعدات ثقيلة مباشرة — استخدام Slings فقط<br>
+• لا تخزين مواسير HDPE في الشمس > أسبوع بدون تغطية
 </div>
 
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 1 | Pipe Laying</div>
-<h3>🔧 خطوات التنفيذ</h3>
-<p><strong>1.</strong> التحقق من اعتماد Bedding (HP-03)<br><strong>2.</strong> إنزال المواسير بعناية — بدون صدمات<br><strong>3.</strong> فحص كل ماسورة قبل الوضع<br><strong>4.</strong> توصيل الـ Joints حسب النوع:<br>&nbsp;&nbsp;&nbsp;• HDPE: Butt Fusion أو Electrofusion<br>&nbsp;&nbsp;&nbsp;• DI: Push-in Rubber Ring<br>&nbsp;&nbsp;&nbsp;• uPVC: Solvent Cement أو Rubber Ring<br><strong>5.</strong> Thrust Blocks عند كل كوع وتفريعة وطرف مسدود<br><strong>6.</strong> Marker Tape أصفر على عمق 300mm<br><strong>7.</strong> Marker Posts كل 50m وعند كل Valve</p>
-<h3>📐 مواصفات التوصيلات</h3>
-<table class="dm-table"><tr><th>النوع</th><th>المتطلب</th></tr><tr><td>Butt Fusion (HDPE)</td><td>200-220°C | ضغط حسب قطر الماسورة</td></tr><tr><td>Electrofusion</td><td>جهاز معايَر + سجل كل وصلة</td></tr><tr><td>Rubber Ring (DI)</td><td>تشحيم بزيت نباتي فقط</td></tr><tr><td>Thrust Block</td><td>Concrete C25 — انتظار 7 أيام قبل الاختبار</td></tr></table>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-04:</strong> فحص المواسير والـ Fittings قبل الردم الجانبي</p>
-
+<h3>🔴 4. Hold Points</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-04</td><td>فحص الوصلات والمواسير + مسافات الفصل قبل الردم</td><td>QC + Consultant</td><td>Joint Inspection Record</td></tr>
+</table></div>
 </div>
+
 <div class="lang-content-en" style="display:none;">
-<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Pipe Laying & Jointing — Water</span></div>
-<button onclick="document.getElementById('vid-ws-laying-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
+📌 KAHRAMAA | QCS 2024 Section 8 Part 1 | Pipe Laying
 </div>
-<input type="file" id="vid-ws-laying-en" accept="video/*" style="display:none" data-player="vid-player-ws-laying-en" data-ph="vid-ph-ws-laying-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-ws-laying-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Pipe laying, butt fusion, HDPE, testing</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
-<video id="vid-player-ws-laying-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
-</div>
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🔧 مياه الشرب — وضع المواسير
-</div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<h3>Pipe Laying Requirements</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Parameter</th><th>Specification</th><th>Verification</th><th>Frequency</th><th>Reference</th></tr>
+<tr><td>Laying Direction</td><td>Downhill to uphill (downgrade to upgrade)</td><td>Visual</td><td>Continuous</td><td>KAHRAMAA</td></tr>
+<tr><td>Horizontal Alignment</td><td>± 25mm from design centreline</td><td>Total Station</td><td>Every 50m</td><td>KAHRAMAA</td></tr>
+<tr><td>HDPE Butt Fusion</td><td>Uniform bead width + height around full circumference</td><td>Visual + bead measurement</td><td>Every joint</td><td>KAHRAMAA</td></tr>
+<tr><td>Electrofusion Records</td><td>Barcode + Time + Temperature + Operator ID</td><td>Datalogger printout</td><td>Every joint</td><td>KAHRAMAA</td></tr>
+<tr><td>Thrust Blocks</td><td>C20 concrete at every bend, tee, reducer</td><td>Visual + dimensions</td><td>Every location</td><td>KAHRAMAA</td></tr>
+<tr><td>Air Valves</td><td>At every high point in profile</td><td>Compare to drawings</td><td>Every location</td><td>KAHRAMAA</td></tr>
+</table></div>
+<h3>Mandatory Separation Distances</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Networks</th><th>Horizontal Separation</th><th>Vertical Position</th><th>Reference</th></tr>
+<tr><td>Water Supply / Foul Sewer</td><td>≥ 1.0m</td><td>Water always ABOVE sewer</td><td>KAHRAMAA</td></tr>
+<tr><td>Water Supply / Treated Water</td><td>≥ 1.0m</td><td>Water always ABOVE treated</td><td>KAHRAMAA</td></tr>
+<tr><td>Water Supply / Storm Water</td><td>≥ 0.5m</td><td>Water preferred above storm</td><td>QCS S8</td></tr>
+</table></div>
+<p><strong>HP-04:</strong> Joint inspection + separation distances check BEFORE backfill</p>
 </div>
 ` },
+
 
   ws_testing: { title: '🧪 مياه الشرب — الاختبارات', content: `
 <div class="lang-content-ar">
@@ -3450,91 +3574,138 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   ss_excavation: { title: '⛏️ Foul Sewer — الحفر والبيدنج', content: `
 <div class="lang-content-ar">
-<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">حفر خنادق الصرف الصحي</span></div>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 حفر الصرف الصحي</span>
 <button onclick="document.getElementById('vid-ss-excavation').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
 </div>
 <input type="file" id="vid-ss-excavation" accept="video/*" style="display:none" data-player="vid-player-ss-excavation" data-ph="vid-ph-ss-excavation" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-ss-excavation" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">الحفر، Dewatering، بيدنج 150mm</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
-<video id="vid-player-ss-excavation" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<div id="vid-ph-ss-excavation" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
+<video id="vid-player-ss-excavation" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+</div>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 2 | Ashghal | Sewer Trench Excavation</div>
+
+<h3>📐 1. مواصفات الخندق — Trench Geometry</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المواصفة</th><th>طريقة القياس</th><th>التكرار</th><th>المرجع</th></tr>
+<tr><td>عمق الدفن</td><td>≥ 1.2m من السطح لأعلى الماسورة</td><td>قياس مباشر</td><td>كل 50m</td><td>Ashghal</td></tr>
+<tr><td>عرض الخندق</td><td>OD + 600mm (300mm كل جانب)</td><td>شريط قياس</td><td>كل 50m</td><td>QCS S8</td></tr>
+<tr><td>الانحدار (Gradient)</td><td>DN150: 1:100 min | DN225: 1:150 min | DN300+: 1:200 min</td><td>Laser Level</td><td>كل 3 مواسير</td><td>Ashghal</td></tr>
+<tr><td>Shoring</td><td>إلزامي لأعماق > 1.5m</td><td>Design Check</td><td>قبل الحفر</td><td>QCS S1</td></tr>
+<tr><td>Dewatering</td><td>GWT ≤ 300mm أسفل الحفر</td><td>بصري + قياس</td><td>مستمر</td><td>QCS S8</td></tr>
+<tr><td>Formation Level</td><td>± 10mm من المنسوب التصميمي</td><td>Laser + Staff</td><td>كل 10m</td><td>Ashghal</td></tr>
+</table></div>
+
+<h3>📐 2. مواصفات Bedding — Sewer Pipes</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>نوع الماسورة</th><th>Bedding Class</th><th>المادة</th><th>السماكة</th><th>المواصفة</th></tr>
+<tr><td>uPVC DN150–DN600</td><td>Class B</td><td>رمل نظيف ≤ 5mm</td><td>150mm أسفل + Haunch</td><td>BS EN 1610 / Ashghal</td></tr>
+<tr><td>GRP DN600+</td><td>Class B أو S</td><td>Single-size aggregate 6-20mm</td><td>150mm + Haunch حتى المحور</td><td>ISO 10467</td></tr>
+<tr><td>Concrete Pipes RCP</td><td>Class B</td><td>حجر مكسر 10-20mm</td><td>150mm أسفل + Haunch</td><td>BS 5911</td></tr>
+</table></div>
+
+<h3>⛔ 3. المواد المرفوضة للـ Bedding</h3>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
+• تربة طبيعية من الحفر كـ Bedding — رفض<br>
+• سبخة أو تربة منتفخة (Expansive soil) — رفض + تقرير فوري<br>
+• حجر > 20mm في منطقة الـ Bedding — رفض<br>
+• رمل طيني (PI > 6) — رفض<br>
+• ردم بالمعدات الثقيلة على مسافة < 1.5m من الماسورة — ممنوع
 </div>
 
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 2 | Excavation</div>
-<h3>📐 مواصفات الحفر</h3>
-<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>عمق الحفر</td><td>≥ 1.2m من السطح لأعلى الماسورة</td></tr><tr><td>الانحدار</td><td>حسب التصميم — من المنبع للمصب</td></tr><tr><td>Shoring</td><td>إلزامي لأعماق أكثر من 1.5m</td></tr><tr><td>Dewatering</td><td>إزالة المياه قبل الـ Bedding</td></tr></table>
-<h3>📐 مواصفات الـ Bedding</h3>
-<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>مادة الـ Bedding</td><td>رمل أو حجر مكسر ≤ 10mm</td></tr><tr><td>سماكة تحت الماسورة</td><td>150mm مدكوكة</td></tr><tr><td>جانبي الماسورة</td><td>رمل حتى منتصف الماسورة</td></tr><tr><td>فوق الماسورة</td><td>300mm رمل</td></tr><tr><td>الانحدار الدقيق</td><td>Laser Level ± 3mm</td></tr></table>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-03:</strong> فحص Bedding والانحدار بـ Laser Level قبل وضع المواسير</p>
-
+<h3>🔴 4. Hold Points</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-03</td><td>فحص الخندق: العمق + الانحدار + Bedding قبل وضع المواسير</td><td>QC + Consultant</td><td>Trench Inspection Record</td></tr>
+</table></div>
 </div>
+
 <div class="lang-content-en" style="display:none;">
-<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Sewer Trench Excavation</span></div>
-<button onclick="document.getElementById('vid-ss-excavation-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
+📌 QCS 2024 Section 8 Part 2 | Ashghal | Sewer Trench Excavation
 </div>
-<input type="file" id="vid-ss-excavation-en" accept="video/*" style="display:none" data-player="vid-player-ss-excavation-en" data-ph="vid-ph-ss-excavation-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-ss-excavation-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Excavation, dewatering, 150mm bedding</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
-<video id="vid-player-ss-excavation-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
-</div>
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | ⛏️ Foul Sewer — الحفر والبيدنج
-</div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<h3>Trench Geometry — Foul Sewer</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Parameter</th><th>Specification</th><th>Measurement</th><th>Frequency</th><th>Reference</th></tr>
+<tr><td>Cover Depth</td><td>≥ 1.2m to top of pipe</td><td>Direct measurement</td><td>Every 50m</td><td>Ashghal</td></tr>
+<tr><td>Trench Width</td><td>OD + 600mm</td><td>Tape</td><td>Every 50m</td><td>QCS S8</td></tr>
+<tr><td>Gradient</td><td>DN150: 1:100 | DN225: 1:150 | DN300+: 1:200</td><td>Laser Level</td><td>Every 3 pipes</td><td>Ashghal</td></tr>
+<tr><td>Formation Level</td><td>± 10mm design level</td><td>Laser + staff</td><td>Every 10m</td><td>Ashghal</td></tr>
+</table></div>
+<p><strong>HP-03:</strong> Trench inspection — depth + gradient + bedding BEFORE pipe laying</p>
 </div>
 ` },
+
 
   ss_laying: { title: '🔧 Foul Sewer — وضع المواسير', content: `
 <div class="lang-content-ar">
-<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">تمديد مواسير الصرف الصحي</span></div>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 مد مواسير الصرف الصحي</span>
 <button onclick="document.getElementById('vid-ss-laying').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
 </div>
 <input type="file" id="vid-ss-laying" accept="video/*" style="display:none" data-player="vid-player-ss-laying" data-ph="vid-ph-ss-laying" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-ss-laying" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">وضع المواسير، ضبط الانحدار بـ Laser</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
-<video id="vid-player-ss-laying" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<div id="vid-ph-ss-laying" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
+<video id="vid-player-ss-laying" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+</div>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 2 | Ashghal | Pipe Laying & Jointing</div>
+
+<h3>📐 1. متطلبات وضع المواسير</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المواصفة</th><th>طريقة التحقق</th><th>التكرار</th><th>المرجع</th></tr>
+<tr><td>اتجاه الوضع</td><td>من المصب للمنبع — Spigot يواجه اتجاه التدفق</td><td>بصري</td><td>كل ماسورة</td><td>BS EN 1610</td></tr>
+<tr><td>الانحدار أثناء الوضع</td><td>فحص كل 3 مواسير بـ Laser Level</td><td>Laser Level</td><td>كل 3 مواسير</td><td>Ashghal</td></tr>
+<tr><td>Rubber Ring Lubricant</td><td>فقط المواد المعتمدة من المصنع — لا زيوت محلية</td><td>بصري</td><td>كل وصلة</td><td>ISO 4435</td></tr>
+<tr><td>Gap عند الوصلة</td><td>10mm minimum — يسمح للـ Thermal Movement</td><td>قياس</td><td>عينة</td><td>Ashghal</td></tr>
+<tr><td>فحص بصري للوصلة</td><td>Rubber Ring في مكانه + Gap صحيح + لا انقلاب</td><td>بصري</td><td>كل وصلة</td><td>BS EN 1610</td></tr>
+<tr><td>Marker Tape أخضر</td><td>300mm فوق الماسورة — "FOUL SEWER"</td><td>بصري</td><td>كل Pipe Run</td><td>Ashghal</td></tr>
+<tr><td>انحناء uPVC</td><td>لا deflection > 3° per joint (السماح بالانحناء الطولي)</td><td>Laser Level</td><td>عند الانحناءات</td><td>ISO 4435</td></tr>
+</table></div>
+
+<h3>📐 2. متطلبات توصيل الخدمات (Lateral Connections)</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المواصفة</th><th>المرجع</th></tr>
+<tr><td>زاوية التوصيل</td><td>45° في اتجاه التدفق — لا توصيل ضد التيار</td><td>Ashghal</td></tr>
+<tr><td>نوع التوصيل</td><td>Factory-made Y-Junction أو T-Junction</td><td>BS EN 476</td></tr>
+<tr><td>القطر الأدنى للـ Lateral</td><td>DN100 للمباني السكنية</td><td>Ashghal</td></tr>
+<tr><td>Inspection Chamber</td><td>عند كل تغيير اتجاه أو نقطة توصيل</td><td>Ashghal</td></tr>
+</table></div>
+
+<h3>⛔ 3. ممارسات محظورة — Sewer Laying</h3>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
+• لا توصيل Storm Water بشبكة Foul Sewer — مخالفة قانونية<br>
+• لا Backfill قبل فحص الوصلات (HP-04)<br>
+• لا ردم بمعدات ثقيلة على < 1.5m من الماسورة<br>
+• لا استخدام زيت محرك أو شحم عادي كـ Lubricant للـ Rubber Ring<br>
+• لا قطع Rubber Ring لتسهيل التركيب — الاستبدال إلزامي
 </div>
 
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 2 | Pipe Laying</div>
-<h3>🔧 خطوات التنفيذ</h3>
-<p><strong>1.</strong> التأكد من اعتماد Bedding والانحدار (HP-03)<br><strong>2.</strong> وضع المواسير من <strong>المصب للمنبع</strong><br><strong>3.</strong> Rubber Ring Joints — تشحيم بزيت نباتي<br><strong>4.</strong> التحقق من الانحدار بعد كل 3 مواسير<br><strong>5.</strong> Plug نهايات المواسير عند توقف العمل<br><strong>6.</strong> Marker Tape أخضر على عمق 300mm</p>
-<h3>📐 متطلبات خاصة</h3>
-<table class="dm-table"><tr><th>البند</th><th>المتطلب</th></tr><tr><td>Drop Connection</td><td>للفروع أعلى من قاع الغرفة بـ 600mm+</td></tr><tr><td>Flexible Joint</td><td>عند دخول الماسورة للـ Manhole</td></tr><tr><td>Max Section</td><td>90m بين غرفتين للـ DN300 فأقل</td></tr></table>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-04:</strong> فحص المواسير والانحدار قبل الردم الجانبي</p>
-
+<h3>🔴 4. Hold Points</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-04</td><td>فحص المواسير والوصلات والانحدار قبل الردم الجانبي</td><td>QC + Consultant</td><td>Pipe Laying Inspection Record</td></tr>
+</table></div>
 </div>
+
 <div class="lang-content-en" style="display:none;">
-<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Sewer Pipe Laying</span></div>
-<button onclick="document.getElementById('vid-ss-laying-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
+📌 QCS 2024 Section 8 Part 2 | Ashghal | Pipe Laying
 </div>
-<input type="file" id="vid-ss-laying-en" accept="video/*" style="display:none" data-player="vid-player-ss-laying-en" data-ph="vid-ph-ss-laying-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-ss-laying-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Pipe laying, laser gradient control</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
-<video id="vid-player-ss-laying-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
-</div>
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🔧 Foul Sewer — وضع المواسير
-</div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<h3>Pipe Laying Requirements — Foul Sewer</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Parameter</th><th>Specification</th><th>Verification</th><th>Frequency</th><th>Reference</th></tr>
+<tr><td>Laying Direction</td><td>Downstream to upstream — spigot faces flow direction</td><td>Visual</td><td>Each pipe</td><td>BS EN 1610</td></tr>
+<tr><td>Gradient Check</td><td>Every 3 pipes with laser level</td><td>Laser Level</td><td>Every 3 pipes</td><td>Ashghal</td></tr>
+<tr><td>Rubber Ring Lubricant</td><td>Manufacturer-approved only — no engine oil</td><td>Visual</td><td>Every joint</td><td>ISO 4435</td></tr>
+<tr><td>Joint Gap</td><td>10mm minimum for thermal movement</td><td>Measurement</td><td>Sample</td><td>Ashghal</td></tr>
+<tr><td>Joint Visual Check</td><td>Ring seated + gap correct + no rollback</td><td>Visual</td><td>Every joint</td><td>BS EN 1610</td></tr>
+<tr><td>Marker Tape</td><td>Green, 300mm above pipe — "FOUL SEWER"</td><td>Visual</td><td>Per pipe run</td><td>Ashghal</td></tr>
+</table></div>
+<p><strong>PROHIBITED:</strong> Connection of storm water to foul sewer — ILLEGAL. No backfill before HP-04 joint inspection.</p>
+<p><strong>HP-04:</strong> Pipe + joint + gradient inspection BEFORE lateral backfill</p>
 </div>
 ` },
+
 
   ss_manholes: { title: '🕳️ Foul Sewer — بناء Manholes', content: `
 <div class="lang-content-ar">
@@ -3619,47 +3790,69 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   ss_backfill: { title: '🏗️ Foul Sewer — الردم', content: `
 <div class="lang-content-ar">
-<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">الردم — الصرف الصحي</span></div>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 الردم — Foul Sewer</span>
 <button onclick="document.getElementById('vid-ss-backfill').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
 </div>
 <input type="file" id="vid-ss-backfill" accept="video/*" style="display:none" data-player="vid-player-ss-backfill" data-ph="vid-ph-ss-backfill" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-ss-backfill" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Compaction ≥95% MDD، توثيق الطبقات</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
-<video id="vid-player-ss-backfill" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<div id="vid-ph-ss-backfill" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
+<video id="vid-player-ss-backfill" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+</div>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 2 | Ashghal | Trench Backfill</div>
+
+<h3>📐 1. مواصفات الردم — جدول الطبقات الكامل</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>المنطقة</th><th>المادة</th><th>درجة الدمك</th><th>سماكة الطبقة</th><th>طريقة الاختبار</th><th>تكرار</th><th>المرجع</th></tr>
+<tr><td>0–300mm فوق الماسورة</td><td>رمل نظيف — يدوي فقط</td><td>≥ 90% MDD</td><td>—</td><td>Sand Cone / DCP</td><td>كل 50m</td><td>Ashghal</td></tr>
+<tr><td>300–600mm</td><td>Selected Fill ≤ 75mm | PI ≤ 10</td><td>≥ 93% MDD</td><td>300mm max/layer</td><td>Sand Cone / DCP</td><td>كل 50m</td><td>Ashghal</td></tr>
+<tr><td>600mm للسطح (تحت رصيف/طريق)</td><td>Selected Fill + QCS S6 Subbase</td><td>≥ 95–98% MDD</td><td>200mm max/layer</td><td>Sand Cone</td><td>كل 500m²</td><td>QCS S6</td></tr>
+<tr><td>Marker Tape (أخضر)</td><td>Polythene — "FOUL SEWER" — أخضر</td><td>—</td><td>300mm فوق الماسورة</td><td>100% بصري</td><td>كل Pipe Run</td><td>Ashghal</td></tr>
+</table></div>
+
+<h3>📐 2. جدول الاختبارات — Compaction Testing</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>الاختبار</th><th>معيار القبول</th><th>طريقة الاختبار</th><th>الحد الأدنى للتكرار</th><th>المرجع</th></tr>
+<tr><td>Moisture Density Relation (Proctor)</td><td>MDD + OMC من المختبر</td><td>BS 1377 Part 4</td><td>كل مصدر مادة</td><td>QCS S6</td></tr>
+<tr><td>In-situ Density (Sand Cone)</td><td>≥ 90-98% MDD حسب الطبقة</td><td>ASTM D1556 / BS 1377</td><td>كل 500m² / 50m للخندق</td><td>Ashghal</td></tr>
+<tr><td>DCP (Dynamic Cone)</td><td>CBR ≥ 8% للطبقة الأخيرة</td><td>ASTM D6951</td><td>عند الشك / قرب Structures</td><td>Ashghal</td></tr>
+<tr><td>Surface Settlement Check</td><td>لا هبوط مرئي بعد 48hr</td><td>بصري + مستوى</td><td>100%</td><td>Ashghal</td></tr>
+</table></div>
+
+<h3>⛔ 3. ممارسات محظورة</h3>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
+• ردم بمعدات ثقيلة مباشرة على الماسورة (< 1.5m) — ممنوع<br>
+• استخدام تربة الحفر المرفوضة كـ Selected Fill — ممنوع<br>
+• ردم بدون Marker Tape أخضر — NCR فوري<br>
+• تجاوز السماكة المحددة للطبقة دون اختبار — ممنوع<br>
+• ردم قبل إتمام Air Test و CCTV — لا يسمح
 </div>
 
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 2 | Backfill</div>
-<h3>📐 مواصفات الردم</h3>
-<table class="dm-table"><tr><th>المنطقة</th><th>المادة</th><th>الCompaction</th></tr><tr><td>0-300mm فوق الماسورة</td><td>رمل نظيف</td><td>يدوي ≥ 90% MDD</td></tr><tr><td>300mm-600mm</td><td>رمل أو حجر ≤ 75mm</td><td>≥ 93% MDD</td></tr><tr><td>600mm للسطح</td><td>حسب نوع الطريق</td><td>≥ 95-98% MDD</td></tr></table>
-<h3>⚠️ تنبيهات</h3>
-<p>• لا ردم بالمعدات الثقيلة على مسافة أقل من 1.5m من الماسورة<br>• Marker Tape أخضر إلزامي على عمق 300mm<br>• Compaction Test قبل إعادة الطريق</p>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-08:</strong> اعتماد Compaction Test قبل إعادة الطريق</p>
-
+<h3>🔴 4. Hold Points</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-07</td><td>Air Test Pass + CCTV مكتمل قبل الردم النهائي</td><td>QC + Consultant + Ashghal</td><td>Test Certificates</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-08</td><td>Compaction Test ≥ 95% MDD قبل إعادة الطريق</td><td>QC + Consultant</td><td>Compaction Test Report</td></tr>
+</table></div>
 </div>
+
 <div class="lang-content-en" style="display:none;">
-<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Backfill — Sewer</span></div>
-<button onclick="document.getElementById('vid-ss-backfill-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
+📌 QCS 2024 Section 8 Part 2 | Ashghal | Trench Backfill
 </div>
-<input type="file" id="vid-ss-backfill-en" accept="video/*" style="display:none" data-player="vid-player-ss-backfill-en" data-ph="vid-ph-ss-backfill-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-ss-backfill-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Compaction ≥95% MDD, layer documentation</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
-<video id="vid-player-ss-backfill-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
-</div>
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🏗️ Foul Sewer — الردم
-</div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<h3>Backfill Layers — Foul Sewer</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Zone</th><th>Material</th><th>Compaction</th><th>Layer Thickness</th><th>Test</th><th>Frequency</th></tr>
+<tr><td>0–300mm above pipe</td><td>Clean sand — manual compaction only</td><td>≥ 90% MDD</td><td>—</td><td>Sand Cone</td><td>Every 50m</td></tr>
+<tr><td>300–600mm</td><td>Selected Fill ≤ 75mm | PI ≤ 10</td><td>≥ 93% MDD</td><td>300mm max/layer</td><td>Sand Cone</td><td>Every 50m</td></tr>
+<tr><td>600mm to surface</td><td>Selected Fill + road subbase</td><td>≥ 95–98% MDD</td><td>200mm max/layer</td><td>Sand Cone</td><td>Every 500m²</td></tr>
+<tr><td>Marker Tape</td><td>Green — "FOUL SEWER"</td><td>—</td><td>300mm above pipe</td><td>Visual 100%</td><td>Per pipe run</td></tr>
+</table></div>
+<p><strong>HP-07:</strong> Air test pass + CCTV complete BEFORE final backfill<br>
+<strong>HP-08:</strong> Compaction ≥ 95% MDD BEFORE road reinstatement</p>
 </div>
 ` },
+
 
   ss_handover: { title: '✅ Foul Sewer — التسليم', content: `
 <div class="lang-content-ar">
@@ -3741,38 +3934,86 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   sw_materials: { title: '🔩 الصرف السطحي — المواد والمواسير', content: `
 <div class="lang-content-ar">
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 3 | Materials</div>
-<h3>📐 مواصفات المواسير</h3>
-<table class="dm-table"><tr><th>النوع</th><th>المواصفة</th><th>الاستخدام</th></tr><tr><td>RCP — Reinforced Concrete</td><td>BS 5911 Part 100</td><td>الخطوط الرئيسية</td></tr><tr><td>HDPE Corrugated</td><td>EN 13476 | SN8</td><td>الفروع الصغيرة</td></tr><tr><td>GRP</td><td>ISO 10467</td><td>الأقطار الكبيرة</td></tr></table>
-<h3>📐 مواصفات Gullies</h3>
-<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>Gully Pot</td><td>Precast Concrete أو HDPE</td></tr><tr><td>Grating D400</td><td>للطرق الرئيسية — BS EN 124</td></tr><tr><td>Grating B125</td><td>للمشاة والمناطق الخضراء</td></tr><tr><td>Silt Bucket</td><td>إلزامي في كل Gully</td></tr></table>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-02:</strong> اعتماد كل المواد قبل التوريد</p>
-
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 مواد الصرف السطحي</span>
+<button onclick="document.getElementById('vid-sw-materials').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
 </div>
+<input type="file" id="vid-sw-materials" accept="video/*" style="display:none" data-player="vid-player-sw-materials" data-ph="vid-ph-sw-materials" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
+<div id="vid-ph-sw-materials" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
+<video id="vid-player-sw-materials" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+</div>
+<div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 3 | Ashghal | Storm Water Materials</div>
+
+<h3>📐 1. أنواع مواسير الصرف السطحي</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>نوع الماسورة</th><th>المعيار</th><th>Stiffness Class</th><th>القطر</th><th>الاستخدام</th><th>اختبار المصنع</th></tr>
+<tr><td>RCP — Reinforced Concrete Pipe</td><td>BS 5911 Part 100</td><td>120D / 150D</td><td>DN300 – DN1800</td><td>الخطوط الرئيسية</td><td>Crushing Load Test</td></tr>
+<tr><td>HDPE Corrugated (SN8)</td><td>EN 13476 / ISO 21138</td><td>SN8 minimum</td><td>DN200 – DN1200</td><td>التوزيع + Cross-roads</td><td>Ring Stiffness Test</td></tr>
+<tr><td>uPVC SN8</td><td>EN 13476 / ISO 21138</td><td>SN8</td><td>DN150 – DN600</td><td>التوزيع الثانوي</td><td>Ring Stiffness + Impact</td></tr>
+<tr><td>GRP (Glass Reinforced Plastic)</td><td>ISO 10467</td><td>SN5000 min</td><td>DN600+</td><td>الخطوط الكبيرة</td><td>Stiffness + Hydrostatic</td></tr>
+<tr><td>Box Culvert RC</td><td>BS 5911 Part 200</td><td>حسب التحميل</td><td>Bespoke</td><td>عبور الطرق</td><td>Crushing + Permeability</td></tr>
+</table></div>
+
+<h3>📐 2. مواد Gullies والمداخل</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>المادة</th><th>المواصفة</th><th>Load Class</th><th>الاختبار</th><th>التكرار</th><th>المرجع</th></tr>
+<tr><td>Gully Grating — طرق</td><td>Cast Iron / Ductile Iron</td><td>D400 (400 kN)</td><td>Load Test</td><td>كل دفعة</td><td>BS EN 124</td></tr>
+<tr><td>Gully Grating — مشاة / رصيف</td><td>Cast Iron</td><td>B125 (125 kN)</td><td>Load Test</td><td>كل دفعة</td><td>BS EN 124</td></tr>
+<tr><td>Gully Frame</td><td>Ductile Iron</td><td>D400</td><td>Visual + Dimensions</td><td>كل دفعة</td><td>BS EN 124</td></tr>
+<tr><td>Silt Bucket</td><td>HDPE — مقاوم للكيماويات</td><td>—</td><td>Visual + Dimensions</td><td>كل unit</td><td>Ashghal Std.</td></tr>
+<tr><td>Gully Body</td><td>Precast Concrete C30 أو uPVC</td><td>—</td><td>Strength Test</td><td>كل batch</td><td>Ashghal</td></tr>
+</table></div>
+
+<h3>📐 3. مواصفات Manholes — Storm Water</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المواصفة</th><th>الاختبار</th><th>المرجع</th></tr>
+<tr><td>Manhole Rings</td><td>Precast RC — BS 5911 Part 200</td><td>Crushing Load</td><td>BS 5911</td></tr>
+<tr><td>Concrete Grade</td><td>≥ C35 — Sulphate-resistant</td><td>Cube Test @ 28 days</td><td>QCS S12</td></tr>
+<tr><td>Manhole Cover — طرق رئيسية</td><td>D400 (400 kN) — Ductile Iron</td><td>Load Test</td><td>BS EN 124</td></tr>
+<tr><td>Manhole Cover — طرق فرعية</td><td>C250 (250 kN)</td><td>Load Test</td><td>BS EN 124</td></tr>
+<tr><td>Step Irons</td><td>HDPE Coated Steel كل 300mm</td><td>Visual + Dimensions</td><td>Ashghal</td></tr>
+<tr><td>Joint Sealant</td><td>Hydrophilic Rubber Strip أو Bituminous</td><td>Visual 100%</td><td>Ashghal</td></tr>
+</table></div>
+
+<h3>⛔ 4. المواد المرفوضة فوراً</h3>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
+• RCP بدون شهادة Crushing Load Test — رفض<br>
+• HDPE أو uPVC بـ Ring Stiffness < SN8 — رفض<br>
+• Gully Grating بدون D400 في الطرق — رفض فوري + NCR<br>
+• Manhole Cover بدون Load Class صحيح — رفض<br>
+• Silt Bucket مكسور أو مشوه — رفض<br>
+• مواسير بدون علامات المصنع أو Class — رفض
+</div>
+
+<h3>🔴 5. Hold Points</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-01</td><td>اعتماد Material Submittal — كل مواد الصرف السطحي</td><td>Consultant + Ashghal</td><td>Approved MAR</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-02</td><td>استلام + فحص المواد في الموقع</td><td>QC Engineer</td><td>Delivery Inspection Record</td></tr>
+</table></div>
+</div>
+
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🔩 الصرف السطحي — المواد والمواسير
+<div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
+📌 QCS 2024 Section 8 Part 3 | Ashghal | Storm Water Materials
 </div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
-</div>
-
-<h3>مواصفات المواسير — Storm Water</h3>
-<table class="dm-table"><thead><tr><th>المادة</th><th>المعيار</th><th>القطر</th><th>Ring Stiffness</th><th>التطبيق</th></tr></thead><tbody>
-<tr><td>GRP</td><td>BS EN 14364</td><td>300-3000mm</td><td>SN5000/SN10000</td><td>خطوط رئيسية</td></tr>
-<tr><td>Reinforced Concrete</td><td>BS EN 1916</td><td>300-3000mm</td><td>Class 120/180</td><td>Culverts + trunk</td></tr>
-<tr><td>uPVC SN8</td><td>BS EN 13476</td><td>110-630mm</td><td>SN8</td><td>فروع صغيرة</td></tr>
-<tr><td>HDPE</td><td>ISO 4427</td><td>110-1200mm</td><td>SN8</td><td>مناطق Sabkha</td></tr>
-</tbody></table>
-<div style="background:rgba(149,165,166,.15);border:1px solid rgba(149,165,166,.3);border-radius:8px;padding:8px;margin-top:8px;font-size:12px;color:var(--text2)">
-💡 Marker Tape: <strong style="color:#95a5a6">رمادي (Grey)</strong> — 300mm فوق قمة الماسورة
+<h3>Pipe Types — Storm Water</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Pipe Type</th><th>Standard</th><th>Class</th><th>Diameter</th><th>Use</th></tr>
+<tr><td>RCP — Reinforced Concrete</td><td>BS 5911 Part 100</td><td>120D / 150D</td><td>DN300–DN1800</td><td>Main lines</td></tr>
+<tr><td>HDPE Corrugated</td><td>EN 13476</td><td>SN8 minimum</td><td>DN200–DN1200</td><td>Distribution + crossings</td></tr>
+<tr><td>uPVC</td><td>EN 13476</td><td>SN8</td><td>DN150–DN600</td><td>Secondary distribution</td></tr>
+<tr><td>GRP</td><td>ISO 10467</td><td>SN5000+</td><td>DN600+</td><td>Large diameter mains</td></tr>
+</table></div>
+<h3>Gully Gratings — Load Class</h3>
+<p>• Roads (vehicles): <strong>D400 (400 kN)</strong> — BS EN 124<br>
+• Footpaths/kerbs: <strong>B125 (125 kN)</strong> — BS EN 124<br>
+• Silt Bucket: HDPE, corrosion-resistant — Ashghal standard</p>
+<p><strong>HP-01:</strong> Material submittal approval BEFORE supply<br><strong>HP-02:</strong> Delivery inspection + material check</p>
 </div>
 ` },
+
 
   sw_excavation: { title: '⛏️ الصرف السطحي — الحفر والبيدنج', content: `
 <div class="lang-content-ar">
@@ -3917,24 +4158,68 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div id="vid-ph-sw-testing" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
 <video id="vid-player-sw-testing" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
-<h3>📐 اختبارات شبكة الصرف السطحي — QCS S8 / Ashghal</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>الاختبار</th><th>المواصفة</th><th>المرجع</th><th>التكرار</th><th>HP/W</th></tr><tr><td>CCTV Survey</td><td>100% — Grade ≤ 2</td><td>WRc / Ashghal</td><td>After backfill</td><td>HP</td></tr><tr><td>Hydraulic Flow Test</td><td>Full flow + velocity check</td><td>Ashghal</td><td>Per section</td><td>W</td></tr><tr><td>Gully Level</td><td>± 5mm من مستوى الطريق</td><td>Ashghal</td><td>100% gullies</td><td>W</td></tr><tr><td>Manhole Level</td><td>± 5mm من مستوى الطريق</td><td>Ashghal</td><td>100% manholes</td><td>W</td></tr><tr><td>Bedding Compaction</td><td>≥ 90% MDD (Sand Cone)</td><td>ASTM D1556</td><td>Per 50m</td><td>W</td></tr><tr><td>Backfill Compaction</td><td>≥ 95% MDD</td><td>ASTM D698</td><td>Per 500m²</td><td>W</td></tr><tr><td>Joint Inspection</td><td>Visual — no open joints before backfill</td><td>Ashghal</td><td>100%</td><td>HP</td></tr><tr><td>As-Built Survey</td><td>Level + Alignment</td><td>Ashghal</td><td>100%</td><td>HP</td></tr></table></div><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>التوثيق</th></tr><tr><td>HP-01</td><td>Joint Inspection مكتمل قبل الردم</td><td>Joint Inspection Record</td></tr><tr><td>HP-02</td><td>CCTV 100% Grade ≤ 2</td><td>CCTV Report</td></tr><tr><td>HP-03</td><td>Gully/Manhole Levels ± 5mm</td><td>Level Survey Certificate</td></tr></table></div>
+<div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 3 | Ashghal | Storm Water Testing</div>
+
+<h3>📐 1. جدول الاختبارات الكامل — Storm Water</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>الاختبار</th><th>معيار القبول</th><th>طريقة الاختبار</th><th>الحد الأدنى للتكرار</th><th>المرجع</th></tr>
+<tr><td>CCTV Survey</td><td>100% Grade ≤ 2 | لا انهيارات</td><td>Self-propelled CCTV Robot</td><td>100% كل المواسير</td><td>BS EN 13508 / Ashghal</td></tr>
+<tr><td>Hydraulic Test (Flooding)</td><td>تصريف كامل — لا مياه راكدة > 24hr</td><td>Flood Test + Visual Survey</td><td>عند كل Section</td><td>Ashghal</td></tr>
+<tr><td>Manhole Level Survey</td><td>± 5mm من مستوى التصميم</td><td>Digital Level / Total Station</td><td>كل Manhole / Gully</td><td>Ashghal</td></tr>
+<tr><td>Gully Level</td><td>5–15mm أسفل الرصيف (لا طوفان)</td><td>Level Staff</td><td>كل Gully</td><td>Ashghal</td></tr>
+<tr><td>Gradient Check (final)</td><td>≥ 1:200 (لمواسير الصرف السطحي)</td><td>Laser Level / As-Built Survey</td><td>كل Section</td><td>Ashghal</td></tr>
+<tr><td>Outfall Inspection</td><td>Rip-Rap أو Apron سليم | لا تآكل</td><td>بصري</td><td>كل Outfall</td><td>Ashghal</td></tr>
+<tr><td>Silt Trap Check</td><td>نظيف + في مكانه</td><td>بصري</td><td>كل Silt Trap</td><td>Ashghal</td></tr>
+<tr><td>RCP Joint Integrity</td><td>لا تسرب مرئي — فحص داخلي بـ CCTV</td><td>CCTV + Visual</td><td>100%</td><td>BS EN 13508</td></tr>
+</table></div>
+
+<h3>📐 2. CCTV Survey — Storm Water تفاصيل</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>
+<tr><td>التوقيت</td><td>بعد Backfill وقبل Handover — 100%</td><td>Ashghal</td></tr>
+<tr><td>Grade المقبول</td><td>Grade 1 أو 2 فقط</td><td>WRc / BS EN 13508</td></tr>
+<tr><td>Grade 4–5</td><td>رفض + إعادة تنفيذ + CCTV مجدداً</td><td>WRc</td></tr>
+<tr><td>التقرير</td><td>Video + Written Report + Defect Code + Grade per defect</td><td>Ashghal</td></tr>
+<tr><td>تنظيف قبل CCTV</td><td>High-pressure jetting إلزامي قبل CCTV</td><td>Ashghal</td></tr>
+</table></div>
+
+<h3>⚠️ 3. تحذير خطير</h3>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
+<strong style="color:#e74c3c;">لا يسمح بأي توصيل بين Foul Sewer وStorm Water تحت أي ظرف.</strong><br>
+الفحص يشمل التحقق بصرياً من عدم وجود Cross Connections خلال CCTV Survey.<br>
+أي Cross Connection = NCR فوري + إشعار Ashghal + إزالة إلزامية.
+</div>
+
+<h3>🔴 4. Hold Points</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-06</td><td>CCTV 100% Grade ≤ 2 قبل الردم النهائي</td><td>QC + Ashghal</td><td>CCTV Report + Video</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-07</td><td>Manhole + Gully Levels ± 5mm مكتملة</td><td>QC + Surveyor</td><td>Level Survey Certificate</td></tr>
+</table></div>
 </div>
 
 <div class="lang-content-en" style="display:none;">
-<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Storm Water Testing</span>
-<button onclick="document.getElementById('vid-sw-testing-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+<div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
+📌 QCS 2024 Section 8 Part 3 | Ashghal | Storm Water Testing
 </div>
-<input type="file" id="vid-sw-testing-en" accept="video/*" style="display:none" data-player="vid-player-sw-testing-en" data-ph="vid-ph-sw-testing-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-sw-testing-en" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV — persists for entire session</div>
-<video id="vid-player-sw-testing-en" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<h3>Testing Schedule — Storm Water</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Test</th><th>Acceptance Standard</th><th>Method</th><th>Min Frequency</th><th>Reference</th></tr>
+<tr><td>CCTV Survey</td><td>100% Grade ≤ 2 | no collapses</td><td>Self-propelled CCTV Robot</td><td>100% all pipes</td><td>BS EN 13508</td></tr>
+<tr><td>Hydraulic Test</td><td>Full drainage — no standing water > 24hr</td><td>Flood test + visual</td><td>Per section</td><td>Ashghal</td></tr>
+<tr><td>Manhole Level Survey</td><td>± 5mm design level</td><td>Digital level</td><td>Every manhole/gully</td><td>Ashghal</td></tr>
+<tr><td>Gully Level</td><td>5–15mm below kerb (no ponding)</td><td>Level staff</td><td>Every gully</td><td>Ashghal</td></tr>
+<tr><td>Gradient (final)</td><td>≥ 1:200 confirmed</td><td>Laser / as-built survey</td><td>Per section</td><td>Ashghal</td></tr>
+<tr><td>Silt Trap Check</td><td>Clean + in place</td><td>Visual</td><td>Every silt trap</td><td>Ashghal</td></tr>
+</table></div>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+<strong style="color:#e74c3c;">CRITICAL:</strong> NO cross-connection between foul sewer and storm water under any circumstances. Any cross connection = immediate NCR + Ashghal notification.
 </div>
-<h3>Storm Water Testing Requirements — QCS S8 / Ashghal</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Test</th><th>Specification</th><th>Reference</th><th>Frequency</th><th>HP/W</th></tr><tr><td>CCTV Survey</td><td>100% — Grade ≤ 2</td><td>WRc/Ashghal</td><td>After backfill</td><td>HP</td></tr><tr><td>Gully Level</td><td>± 5mm from road level</td><td>Ashghal</td><td>100%</td><td>W</td></tr><tr><td>Manhole Level</td><td>± 5mm from road level</td><td>Ashghal</td><td>100%</td><td>W</td></tr><tr><td>Bedding Compaction</td><td>≥ 90% MDD</td><td>ASTM D1556</td><td>Per 50m</td><td>W</td></tr><tr><td>Backfill Compaction</td><td>≥ 95% MDD</td><td>ASTM D698</td><td>Per 500m²</td><td>W</td></tr><tr><td>Joint Inspection</td><td>Visual before backfill</td><td>Ashghal</td><td>100%</td><td>HP</td></tr></table></div>
+<p style="margin-top:10px;"><strong>HP-06:</strong> CCTV 100% Grade ≤ 2 BEFORE final backfill<br>
+<strong>HP-07:</strong> Manhole + gully levels ± 5mm confirmed</p>
 </div>
 ` },
+
 
   sw_backfill: { title: '🏗️ الصرف السطحي — الردم', content: `
 <div class="lang-content-ar">
@@ -4049,37 +4334,94 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   tw_materials: { title: '🔩 المياه المعالجة — المواسير البنفسجية', content: `
 <div class="lang-content-ar">
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 | Treated Water Materials</div>
-<h3>📐 مواصفات المواسير</h3>
-<table class="dm-table"><tr><th>النوع</th><th>المواصفة</th><th>اللون</th></tr><tr><td>HDPE PE100</td><td>ISO 4427 | PN10</td><td>بنفسجي كامل</td></tr><tr><td>uPVC</td><td>ISO 1452 | PN10</td><td>بنفسجي أو شريط بنفسجي</td></tr></table>
-<h3>📐 متطلبات التمييز الإلزامية</h3>
-<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>لون المواسير</td><td>بنفسجي — RAL 4001</td></tr><tr><td>Marker Tape</td><td>بنفسجي — RECLAIMED WATER NOT POTABLE</td></tr><tr><td>Valve Covers</td><td>بنفسجية اللون</td></tr><tr><td>لافتات تحذيرية</td><td>عند كل نقطة استخدام — إلزامي</td></tr></table>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-02:</strong> اعتماد لون المواسير قبل التوريد — البنفسجي إلزامي بدون استثناء</p>
-
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 مواد المياه المعالجة</span>
+<button onclick="document.getElementById('vid-tw-materials').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
 </div>
+<input type="file" id="vid-tw-materials" accept="video/*" style="display:none" data-player="vid-player-tw-materials" data-ph="vid-ph-tw-materials" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
+<div id="vid-ph-tw-materials" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
+<video id="vid-player-tw-materials" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+</div>
+<div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 | MME Standards | Treated/Reclaimed Water</div>
+
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.4);border-radius:10px;padding:12px;margin-bottom:16px;">
+<strong style="color:#e74c3c;">⛔ تحذير إلزامي:</strong> اللون البنفسجي (RAL 4001) للمواسير والـ Fittings والـ Valves إلزامي بدون استثناء. أي ماسورة بلون مختلف تُرفض فوراً.
+</div>
+
+<h3>📐 1. أنواع المواسير المعتمدة — MME</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>نوع الماسورة</th><th>المعيار</th><th>Pressure Class</th><th>اللون</th><th>القطر</th><th>اختبار المصنع</th></tr>
+<tr><td>HDPE PE100 — بنفسجي</td><td>ISO 4427</td><td>PN6 – PN10</td><td>RAL 4001 بنفسجي</td><td>DN50 – DN630</td><td>Hydrostatic 2×PN / 1hr</td></tr>
+<tr><td>uPVC — بنفسجي</td><td>ISO 1452</td><td>PN6 – PN10</td><td>RAL 4001 بنفسجي</td><td>DN50 – DN315</td><td>Hydrostatic + Impact</td></tr>
+<tr><td>GRP — بنفسجي stripe</td><td>ISO 10467</td><td>حسب التصميم</td><td>شريط بنفسجي</td><td>DN315+</td><td>Stiffness + Hydrostatic</td></tr>
+</table></div>
+
+<h3>📐 2. جدول اختبارات المواد — Treated Water</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>مواصفة القبول</th><th>طريقة الاختبار</th><th>الحد الأدنى للتكرار</th><th>المرجع</th></tr>
+<tr><td>لون الماسورة</td><td>RAL 4001 بنفسجي — لا استثناء</td><td>Color Chart Check</td><td>100% per delivery</td><td>MME Standards</td></tr>
+<tr><td>Pressure Rating</td><td>≥ PN6 (PN10 للخطوط الرئيسية)</td><td>Factory Hydrostatic</td><td>كل batch</td><td>ISO 4427</td></tr>
+<tr><td>Wall Thickness</td><td>حسب SDR المصنع</td><td>Caliper Measurement</td><td>كل delivery</td><td>ISO 4427</td></tr>
+<tr><td>Marking</td><td>"RECLAIMED WATER" + لون بنفسجي</td><td>Visual</td><td>100%</td><td>MME</td></tr>
+<tr><td>Conformity Certificate</td><td>شهادة معتمدة من MME</td><td>Document Check</td><td>كل Submittal</td><td>MME</td></tr>
+<tr><td>Impact Resistance</td><td>لا كسور في 10 قطع</td><td>ISO 3127</td><td>كل batch</td><td>ISO 4427</td></tr>
+</table></div>
+
+<h3>📐 3. مواد Fittings والـ Valves — بنفسجي إلزامي</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>المادة</th><th>المواصفة</th><th>اللون</th><th>الملاحظة</th></tr>
+<tr><td>HDPE Fittings</td><td>ISO 8085-3 / Butt + Electrofusion</td><td>بنفسجي RAL 4001</td><td>SDR نفس الماسورة</td></tr>
+<tr><td>Isolation Valves</td><td>BS EN 1074-2</td><td>هيكل بنفسجي أو Label بنفسجي</td><td>Epoxy Lined أو SS</td></tr>
+<tr><td>Air Release Valves</td><td>BS EN 1074-4</td><td>Label بنفسجي</td><td>عند كل نقطة عالية</td></tr>
+<tr><td>Double Check Valves</td><td>BS EN 1717</td><td>بنفسجي أو Label واضح</td><td>إلزامي عند كل نقطة توصيل</td></tr>
+<tr><td>Marker Tape</td><td>Polythene — بنفسجي</td><td>RAL 4001 بنفسجي</td><td>"RECLAIMED WATER" على الشريط</td></tr>
+</table></div>
+
+<h3>⛔ 4. المواد المرفوضة فوراً</h3>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
+• أي ماسورة بلون غير بنفسجي (RAL 4001) — رفض فوري<br>
+• مواسير بدون نص "RECLAIMED WATER" — رفض<br>
+• Fittings بلون مختلف عن الماسورة — رفض<br>
+• Valves بدون تمييز بنفسجي واضح — رفض<br>
+• أي مادة تشبه مواسير مياه الشرب — رفض + تقرير فوري<br>
+• تخزين مياه الشرب والمياه المعالجة في نفس الموقع دون فصل واضح — خطر
+</div>
+
+<h3>🔴 5. Hold Points</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-01</td><td>اعتماد Material Submittal — التحقق من اللون البنفسجي</td><td>Consultant + MME</td><td>Approved MAR</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-02</td><td>استلام + فحص اللون في الموقع</td><td>QC Engineer</td><td>Delivery Inspection Record</td></tr>
+</table></div>
+</div>
+
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🔩 المياه المعالجة — المواسير البنفسجية
+<div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
+📌 QCS 2024 Section 8 | MME Standards | Treated Water
 </div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.4);border-radius:8px;padding:10px;margin-bottom:12px;font-size:12px;">
+<strong style="color:#e74c3c;">⛔ MANDATORY:</strong> Colour RAL 4001 purple for ALL pipes, fittings, and valves. No exceptions.
 </div>
-</div>
-
-<h3>مواصفات المواسير البنفسجية — Treated Water</h3>
-<table class="dm-table"><thead><tr><th>المادة</th><th>المعيار</th><th>القطر</th><th>PN</th><th>اللون</th></tr></thead><tbody>
-<tr><td>uPVC</td><td>BS EN 1452</td><td>63-315mm</td><td>PN10/16</td><td style="background:#8e44ad;color:#fff;text-align:center">بنفسجي</td></tr>
-<tr><td>HDPE PE100</td><td>ISO 4427</td><td>63-630mm</td><td>SDR11/17</td><td style="background:#8e44ad;color:#fff;text-align:center">بنفسجي</td></tr>
-<tr><td>GRP</td><td>BS EN 1796</td><td>300-2400mm</td><td>PN10/16</td><td>Purple marking</td></tr>
-</tbody></table>
-<div style="background:rgba(142,68,173,.1);border:1px solid rgba(142,68,173,.3);border-radius:8px;padding:8px;margin-top:8px;font-size:12px;color:#8e44ad">
-⚠️ <strong>إلزامي:</strong> جميع مواسير المياه المعالجة يجب أن تكون بنفسجية اللون — أي لون آخر = رفض فوري. لا يجوز استخدام مواسير مياه الشرب (زرقاء) للمياه المعالجة.
+<h3>Approved Pipe Types — Treated Water</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Type</th><th>Standard</th><th>Class</th><th>Colour</th><th>Diameter</th></tr>
+<tr><td>HDPE PE100 — Purple</td><td>ISO 4427</td><td>PN6–PN10</td><td>RAL 4001 Purple</td><td>DN50–DN630</td></tr>
+<tr><td>uPVC — Purple</td><td>ISO 1452</td><td>PN6–PN10</td><td>RAL 4001 Purple</td><td>DN50–DN315</td></tr>
+<tr><td>GRP — Purple stripe</td><td>ISO 10467</td><td>Design-based</td><td>Purple stripe</td><td>DN315+</td></tr>
+</table></div>
+<h3>Material Tests — Minimum Requirements</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Parameter</th><th>Acceptance</th><th>Test Method</th><th>Frequency</th></tr>
+<tr><td>Pipe Colour</td><td>RAL 4001 Purple — no exceptions</td><td>Colour chart check</td><td>100% per delivery</td></tr>
+<tr><td>Pressure Rating</td><td>≥ PN6 (PN10 for mains)</td><td>Factory hydrostatic</td><td>Per batch</td></tr>
+<tr><td>Marking</td><td>"RECLAIMED WATER" + purple colour</td><td>Visual</td><td>100%</td></tr>
+<tr><td>Certificate</td><td>MME-approved conformity certificate</td><td>Document check</td><td>Per submittal</td></tr>
+</table></div>
+<p><strong>REJECTED IMMEDIATELY:</strong> Any pipe not in RAL 4001 purple | Pipes without "RECLAIMED WATER" marking | Any material that resembles potable water pipes</p>
 </div>
 ` },
+
 
   tw_excavation: { title: '⛏️ المياه المعالجة — الحفر والبيدنج', content: `
 <div class="lang-content-ar">
@@ -4150,29 +4492,83 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   tw_testing: { title: '🧪 المياه المعالجة — الاختبارات', content: `
 <div class="lang-content-ar">
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 | Treated Water Testing</div>
-<h3>1. Pressure Test</h3>
-<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>ضغط الاختبار</td><td>1.5x الضغط التصميمي</td></tr><tr><td>المدة</td><td>ساعتان</td></tr><tr><td>الانخفاض المسموح</td><td>صفر</td></tr></table>
-<h3>2. Cross Connection Test — الأهم</h3>
-<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr><tr><td>الفحص</td><td>تأكيد الفصل الكامل عن مياه الشرب</td></tr><tr><td>الطريقة</td><td>Tracer Dye Test أو Pressure Differential</td></tr><tr><td>النتيجة</td><td>صفر تلوث في شبكة مياه الشرب</td></tr></table>
-<h3>3. Water Quality — MME</h3>
-<table class="dm-table"><tr><th>الاختبار</th><th>المعيار</th></tr><tr><td>BOD</td><td>حسب MME Standard</td></tr><tr><td>TSS</td><td>حسب MME Standard</td></tr><tr><td>E. Coli</td><td>حسب الاستخدام</td></tr></table>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-05:</strong> اعتماد Pressure Test قبل الردم<br>• <strong>HP-06:</strong> اعتماد Cross Connection Test — <strong>إلزامي</strong><br>• <strong>HP-07:</strong> اعتماد Water Quality من MME قبل التشغيل</p>
-
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 اختبارات المياه المعالجة</span>
+<button onclick="document.getElementById('vid-tw-testing').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
 </div>
+<input type="file" id="vid-tw-testing" accept="video/*" style="display:none" data-player="vid-player-tw-testing" data-ph="vid-ph-tw-testing" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
+<div id="vid-ph-tw-testing" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
+<video id="vid-player-tw-testing" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+</div>
+<div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 | MME Standards | Treated Water Testing</div>
+
+<h3>📐 1. جدول الاختبارات الكامل — المياه المعالجة</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>الاختبار</th><th>معيار القبول</th><th>طريقة الاختبار</th><th>الحد الأدنى للتكرار</th><th>المرجع</th></tr>
+<tr><td>Hydrostatic Pressure Test</td><td>1.5× الضغط التصميمي / ساعتان / صفر انخفاض</td><td>Pressure Gauge + Pump</td><td>كل Section ≤ 500m</td><td>QCS S8 / ISO 4427</td></tr>
+<tr><td>Cross Connection Test — الأهم</td><td>صفر تلوث في شبكة مياه الشرب</td><td>Tracer Dye Test أو Pressure Differential</td><td>كل نقطة توصيل محتملة</td><td>MME Standards</td></tr>
+<tr><td>BOD (Biochemical Oxygen Demand)</td><td>≤ 10 mg/L (للري)</td><td>Standard Methods 5210B</td><td>كل Section قبل التشغيل</td><td>MME</td></tr>
+<tr><td>TSS (Total Suspended Solids)</td><td>≤ 10 mg/L</td><td>Standard Methods 2540D</td><td>كل Section قبل التشغيل</td><td>MME</td></tr>
+<tr><td>E. Coli</td><td>≤ 1 CFU/100mL (للري غير المباشر)</td><td>Standard Methods 9221</td><td>كل Section</td><td>MME</td></tr>
+<tr><td>pH</td><td>6.0 – 9.0</td><td>pH Meter</td><td>كل Section</td><td>MME</td></tr>
+<tr><td>Turbidity</td><td>≤ 5 NTU</td><td>Nephelometer</td><td>كل Section</td><td>MME</td></tr>
+<tr><td>Colour Visual Check</td><td>100% بنفسجي — لا مواسير مختلطة</td><td>بصري 100%</td><td>قبل الردم + عند التسليم</td><td>MME</td></tr>
+</table></div>
+
+<h3>📐 2. Cross Connection Test — الإجراء التفصيلي</h3>
+<div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:10px;padding:12px;">
+<p><strong>الخطوات:</strong><br>
+1. فصل كامل بين شبكة المياه المعالجة وشبكة مياه الشرب<br>
+2. حقن Tracer Dye بنفسجي في شبكة المياه المعالجة<br>
+3. مراقبة نقاط مياه الشرب القريبة لمدة 24hr<br>
+4. صفر ظهور للـ Dye في شبكة مياه الشرب = Pass<br>
+5. أي ظهور للـ Dye = رفض فوري + إيقاف التشغيل + تحقيق</p>
+<p><strong>بديل:</strong> Pressure Differential — الحفاظ على ضغط مياه الشرب > ضغط المعالجة في جميع الأوقات</p>
+</div>
+
+<h3>⛔ 3. حالات إيقاف التشغيل الفوري</h3>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
+• أي Cross Connection مكتشف — إيقاف فوري + إشعار MME + Ashghal<br>
+• E. Coli > 1 CFU/100mL — عدم تشغيل + إعادة معالجة<br>
+• فشل Pressure Test — لا تشغيل قبل الإصلاح + إعادة الاختبار<br>
+• اكتشاف ماسورة غير بنفسجية في الشبكة — إيقاف + استبدال + CCTV
+</div>
+
+<h3>🔴 4. Hold Points</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-05</td><td>Pressure Test Pass (1.5×PN / 2hr / Zero drop)</td><td>QC + Consultant</td><td>Pressure Test Certificate</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-06</td><td>Cross Connection Test = صفر تلوث — إلزامي قبل أي تشغيل</td><td>QC + MME Representative</td><td>Cross Connection Test Report</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-07</td><td>Water Quality Reports معتمدة من MME</td><td>MME Lab</td><td>Water Quality Certificate</td></tr>
+</table></div>
+</div>
+
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🧪 المياه المعالجة — الاختبارات
+<div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
+📌 QCS 2024 Section 8 | MME Standards | Treated Water Testing
 </div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
+<h3>Testing Schedule — Treated Water</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Test</th><th>Acceptance Standard</th><th>Method</th><th>Min Frequency</th><th>Reference</th></tr>
+<tr><td>Hydrostatic Pressure Test</td><td>1.5× design pressure / 2hr / Zero drop</td><td>Pressure gauge + pump</td><td>Per section ≤ 500m</td><td>QCS S8</td></tr>
+<tr><td>Cross Connection Test</td><td>Zero contamination in potable water</td><td>Tracer dye or pressure differential</td><td>Every potential connection point</td><td>MME</td></tr>
+<tr><td>BOD</td><td>≤ 10 mg/L (for irrigation)</td><td>Standard Methods 5210B</td><td>Per section before commissioning</td><td>MME</td></tr>
+<tr><td>TSS</td><td>≤ 10 mg/L</td><td>Standard Methods 2540D</td><td>Per section</td><td>MME</td></tr>
+<tr><td>E. Coli</td><td>≤ 1 CFU/100mL</td><td>Standard Methods 9221</td><td>Per section</td><td>MME</td></tr>
+<tr><td>pH</td><td>6.0–9.0</td><td>pH Meter</td><td>Per section</td><td>MME</td></tr>
+<tr><td>Turbidity</td><td>≤ 5 NTU</td><td>Nephelometer</td><td>Per section</td><td>MME</td></tr>
+<tr><td>Colour Check</td><td>100% purple — no mixed pipes</td><td>Visual 100%</td><td>Before backfill + at handover</td><td>MME</td></tr>
+</table></div>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.4);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+<strong style="color:#e74c3c;">IMMEDIATE SHUTDOWN:</strong> Any detected cross-connection → stop commissioning + notify MME + Ashghal immediately.
 </div>
+<p style="margin-top:10px;"><strong>HP-05:</strong> Pressure test pass BEFORE final backfill<br>
+<strong>HP-06:</strong> Cross Connection Test = zero contamination MANDATORY before commissioning<br>
+<strong>HP-07:</strong> MME water quality certificate</p>
 </div>
 ` },
+
 
   tw_handover: { title: '✅ المياه المعالجة — التسليم', content: `
 <div class="lang-content-ar">
