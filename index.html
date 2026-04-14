@@ -5934,12 +5934,14 @@ All numerical values, specifications and test methods shown in Arabic are source
 <button onclick="switchMainCat('utilities',this)" id="main-tab-utilities" style="flex:none;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--dark4);color:var(--text2);font-family:Tajawal,sans-serif;font-size:12px;cursor:pointer;white-space:nowrap;">🔧 Utilities</button>
 <button onclick="switchMainCat('structural',this)" id="main-tab-structural" style="flex:none;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--dark4);color:var(--text2);font-family:Tajawal,sans-serif;font-size:12px;cursor:pointer;white-space:nowrap;">🏗️ Structural</button>
 <button onclick="switchMainCat('geotech_calc',this)" id="main-tab-geotech_calc" style="flex:none;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--dark4);color:var(--text2);font-family:Tajawal,sans-serif;font-size:12px;cursor:pointer;white-space:nowrap;">🔬 Geotech</button>
+<button onclick="switchMainCat('buildings_calc',this)" id="main-tab-buildings_calc" style="flex:none;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--dark4);color:var(--text2);font-family:Tajawal,sans-serif;font-size:12px;cursor:pointer;white-space:nowrap;">🏗️ إنشاءات</button>
 </div>
 
 <div id="cat-roads" style="display:block;"></div>
 <div id="cat-utilities" style="display:none;"></div>
 <div id="cat-structural" style="display:none;"></div>
 <div id="cat-geotech_calc" style="display:none;"></div>
+<div id="cat-buildings_calc" style="display:none;"></div>
 </div>
 ` },
 
@@ -11252,6 +11254,118 @@ function calcBearingCap() {
   showResult('bc-result', pass, qa, 100, 'تحمل مبدئي ≈ ' + qa + ' kPa | N60 = ' + n + ' | B = ' + b + 'm | ⚠️ هذا تقدير أولي فقط — يحتاج تحليل جيوتقني كامل');
 }
 
+// ── BUILDINGS CALCULATOR FUNCTIONS ──────────────────────────────
+
+function calcCementBags() {
+  var bagsPerM3 = parseFloat(document.getElementById('cem-grade').value);
+  var vol       = parseFloat(document.getElementById('cem-vol').value);
+  var el        = document.getElementById('cement-b-result');
+  if (!el) return;
+  if (isNaN(vol) || vol <= 0) return showToast('أدخل الحجم بـ m³');
+  // Standard mix ratios per m³ of concrete
+  var cement    = Math.ceil(bagsPerM3 * vol);                  // 50-kg bags
+  var sand      = +(vol * 0.44).toFixed(2);                    // m³ fine agg.
+  var aggregate = +(vol * 0.88).toFixed(2);                    // m³ coarse agg.
+  var water     = Math.round(vol * 190);                       // litres
+  var waste     = Math.ceil(cement * 0.05);                    // 5% waste
+  el.style.display = 'block';
+  el.className = 'calc-result pass';
+  el.innerHTML =
+    '<div class="calc-result-header"><span class="calc-result-icon">📦</span>' +
+    '<span class="calc-result-text">كميات الخلطة الخرسانية — ' + vol + ' m³</span></div>' +
+    '<div class="calc-result-row"><span class="calc-result-label">🧱 أكياس أسمنت (50 kg)</span><span class="calc-result-val">' + cement + ' كيس + ' + waste + ' احتياطي = <strong>' + (cement+waste) + ' كيس</strong></span></div>' +
+    '<div class="calc-result-row"><span class="calc-result-label">🟡 رمل (Sand)</span><span class="calc-result-val">' + sand + ' m³</span></div>' +
+    '<div class="calc-result-row"><span class="calc-result-label">🔴 ركام خشن (Aggregate)</span><span class="calc-result-val">' + aggregate + ' m³</span></div>' +
+    '<div class="calc-result-row"><span class="calc-result-label">💧 ماء (Water)</span><span class="calc-result-val">' + water + ' لتر</span></div>' +
+    '<div class="calc-result-detail">المعدلات: ' + bagsPerM3 + ' كيس/m³ | رمل 0.44 m³/m³ | ركام 0.88 m³/m³ | ماء ~190 L/m³ | نسبة هدر 5%</div>';
+}
+
+function calcStructVol() {
+  var elem = document.getElementById('vol-elem').value;
+  var L    = parseFloat(document.getElementById('vol-l').value);
+  var W    = parseFloat(document.getElementById('vol-w').value);
+  var Tinp = parseFloat(document.getElementById('vol-t').value);
+  var el   = document.getElementById('vol-b-result');
+  if (!el) return;
+  if (isNaN(L) || isNaN(W)) return showToast('أدخل الطول والعرض');
+  // Default thicknesses / heights per element type
+  var defaults = { slab:0.20, col:0.40, beam:0.60, wall:0.20, footing:0.50 };
+  var T = isNaN(Tinp) ? defaults[elem] : Tinp;
+  var vol = +(L * W * T).toFixed(3);
+  // Cement bags based on C25 structural default (7.5 bags/m³)
+  var bagsPerM3 = 7.5;
+  var cement    = Math.ceil(bagsPerM3 * vol);
+  var sand      = +(vol * 0.44).toFixed(2);
+  var agg       = +(vol * 0.88).toFixed(2);
+  var elemNames = { slab:'بلاطة', col:'عمود', beam:'كمرة', wall:'جدار', footing:'أساس' };
+  el.style.display = 'block';
+  el.className = 'calc-result pass';
+  el.innerHTML =
+    '<div class="calc-result-header"><span class="calc-result-icon">📐</span>' +
+    '<span class="calc-result-text">' + elemNames[elem] + ' — ' + L + '×' + W + '×' + T + 'm</span></div>' +
+    '<div class="calc-result-row"><span class="calc-result-label">📦 الحجم الكلي</span><span class="calc-result-val"><strong>' + vol + ' m³</strong></span></div>' +
+    '<div class="calc-result-row"><span class="calc-result-label">🧱 أكياس أسمنت C25</span><span class="calc-result-val">' + cement + ' كيس (50 kg)</span></div>' +
+    '<div class="calc-result-row"><span class="calc-result-label">🟡 رمل</span><span class="calc-result-val">' + sand + ' m³</span></div>' +
+    '<div class="calc-result-row"><span class="calc-result-label">🔴 ركام خشن</span><span class="calc-result-val">' + agg + ' m³</span></div>' +
+    '<div class="calc-result-detail">L=' + L + 'm | W=' + W + 'm | T/H=' + T + 'm | أساس C25 (7.5 كيس/m³)</div>';
+}
+
+function calcRebarQty() {
+  var kgPerM3 = parseFloat(document.getElementById('reb-elem').value);
+  var vol     = parseFloat(document.getElementById('reb-vol').value);
+  var el      = document.getElementById('rebar-b-result');
+  if (!el) return;
+  if (isNaN(vol) || vol <= 0) return showToast('أدخل حجم العنصر');
+  var totalKg  = Math.round(kgPerM3 * vol);
+  var waste    = Math.ceil(totalKg * 0.05);
+  var totalNet = totalKg + waste;
+  var tons     = (totalNet / 1000).toFixed(2);
+  // Approx lengths for common bar sizes
+  var bars12   = Math.ceil(totalKg / (0.888 * 12));   // T12 @12m ≈ bars needed
+  var bars16   = Math.ceil(totalKg / (1.578 * 12));   // T16 @12m
+  el.style.display = 'block';
+  el.className = 'calc-result pass';
+  el.innerHTML =
+    '<div class="calc-result-header"><span class="calc-result-icon">🔩</span>' +
+    '<span class="calc-result-text">حديد التسليح — ' + vol + ' m³ خرسانة</span></div>' +
+    '<div class="calc-result-row"><span class="calc-result-label">⚖️ الوزن الصافي</span><span class="calc-result-val">' + totalKg + ' kg</span></div>' +
+    '<div class="calc-result-row"><span class="calc-result-label">🔧 + هدر 5%</span><span class="calc-result-val"><strong>' + totalNet + ' kg = ' + tons + ' طن</strong></span></div>' +
+    '<div class="calc-result-row"><span class="calc-result-label">📏 تقريبي T12 (12m)</span><span class="calc-result-val">~' + bars12 + ' قضيب</span></div>' +
+    '<div class="calc-result-row"><span class="calc-result-label">📏 تقريبي T16 (12m)</span><span class="calc-result-val">~' + bars16 + ' قضيب</span></div>' +
+    '<div class="calc-result-detail">معدل التسليح: ' + kgPerM3 + ' kg/m³ | T12: 0.888 kg/m | T16: 1.578 kg/m | هدر نقل وقص 5%</div>';
+}
+
+function calcMasonryQty() {
+  var type     = document.getElementById('mas-type').value;
+  var totalArea= parseFloat(document.getElementById('mas-area').value);
+  var openArea = parseFloat(document.getElementById('mas-open').value) || 0;
+  var el       = document.getElementById('masonry-b-result');
+  if (!el) return;
+  if (isNaN(totalArea) || totalArea <= 0) return showToast('أدخل مساحة الجدران');
+  var netArea  = Math.max(0, totalArea - openArea);
+  // units per m² and mortar
+  var configs = {
+    masonry_block_200: { unitsPerM2:12.5, mortar:0.025, name:'بلوك 200mm', unit:'بلوكة', mortarBags:0.9 },
+    masonry_block_100: { unitsPerM2:12.5, mortar:0.015, name:'بلوك 100mm', unit:'بلوكة', mortarBags:0.5 },
+    brick:             { unitsPerM2:48,   mortar:0.030, name:'طوب أحمر',   unit:'طوبة',  mortarBags:1.1 },
+    aac:               { unitsPerM2:8.3,  mortar:0.010, name:'بلوك AAC',   unit:'بلوكة', mortarBags:0.3 }
+  };
+  var cfg     = configs[type];
+  var units   = Math.ceil(netArea * cfg.unitsPerM2 * 1.05);  // 5% waste
+  var mortarM3= +(netArea * cfg.mortar).toFixed(2);
+  var cementBags = Math.ceil(netArea * cfg.mortarBags);
+  el.style.display = 'block';
+  el.className = 'calc-result pass';
+  el.innerHTML =
+    '<div class="calc-result-header"><span class="calc-result-icon">🧱</span>' +
+    '<span class="calc-result-text">' + cfg.name + ' — صافي ' + netArea.toFixed(1) + ' m²</span></div>' +
+    '<div class="calc-result-row"><span class="calc-result-label">📐 المساحة الصافية</span><span class="calc-result-val">' + netArea.toFixed(1) + ' m² (إجمالي ' + totalArea + ' − فتحات ' + openArea + ')</span></div>' +
+    '<div class="calc-result-row"><span class="calc-result-label">🧱 عدد ' + cfg.unit + '</span><span class="calc-result-val"><strong>' + units + ' ' + cfg.unit + '</strong> (شامل 5% كسر)</span></div>' +
+    '<div class="calc-result-row"><span class="calc-result-label">🟤 ملاط Mortar</span><span class="calc-result-val">' + mortarM3 + ' m³</span></div>' +
+    '<div class="calc-result-row"><span class="calc-result-label">🧱 أكياس أسمنت للملاط</span><span class="calc-result-val">~' + cementBags + ' كيس (50 kg)</span></div>' +
+    '<div class="calc-result-detail">' + cfg.unitsPerM2 + ' وحدة/m² | ملاط ' + (cfg.mortar*1000).toFixed(0) + ' L/m² | ⚠️ الكميات تقديرية — راجع المهندس المشرف</div>';
+}
+
 function calcPIClass() {
   var ll = parseFloat(document.getElementById('pi-ll').value);
   var pl = parseFloat(document.getElementById('pi-pl').value);
@@ -11429,6 +11543,66 @@ function initCalcPanels() {
         _calcBtn('calcBearingCap()','احسب القدرة التحملية') + _calcResult('bc-result'));
     geoEl.querySelectorAll('.calc-section').forEach(function(s,i){ s.style.display = i===0?'block':'none'; });
   }
+
+  // ── BUILDINGS / QUANTITIES ──────────────────────────────────
+  var bldEl = document.getElementById('cat-buildings_calc');
+  if (bldEl && !bldEl.dataset.built) {
+    bldEl.dataset.built = '1';
+    bldEl.innerHTML =
+      _tabs('buildings_calc',[['cement-b','🧱 أكياس أسمنت/m³'],['vol-b','📐 كميات الهيكل'],['rebar-b','🔩 Rebar kg/m³'],['masonry-b','🧱 Masonry']]) +
+
+      // ── TAB 1: Cement bags per m³ ──
+      _section('cement-b','🧱 أكياس الأسمنت لكل m³ خرسانة',
+        _calcSelect('cem-grade','درجة الخرسانة',[
+          ['6.5','C20 — عادي (6.5 كيس/m³)'],
+          ['7.5','C25 — هيكلي (7.5 كيس/m³)'],
+          ['8.5','C30 — عالي المقاومة (8.5 كيس/m³)'],
+          ['9.5','C35 — مسبق الإجهاد (9.5 كيس/m³)'],
+          ['11','C40+ — خاص (11 كيس/m³)']]) +
+        _calcField('cem-vol','الحجم الكلي للخرسانة','e.g. 15','m³') +
+        _calcBtn('calcCementBags()','احسب الكميات') +
+        _calcResult('cement-b-result')) +
+
+      // ── TAB 2: Structural Volumes ──
+      _section('vol-b','📐 كميات الهيكل (طول × عرض × سماكة)',
+        _calcSelect('vol-elem','نوع العنصر',[
+          ['slab','بلاطة Slab — سماكة افتراضية 200mm'],
+          ['col','عمود Column — مقطع 400×400'],
+          ['beam','كمرة Beam — 300×600'],
+          ['wall','جدار Wall — 200mm'],
+          ['footing','أساس Footing — سماكة 500mm']]) +
+        _calcField('vol-l','الطول / Length','e.g. 6','m') +
+        _calcField('vol-w','العرض / Width','e.g. 4','m') +
+        _calcField('vol-t','السماكة/الارتفاع (اختياري — يُحسب تلقائياً)','e.g. 0.2','m') +
+        _calcBtn('calcStructVol()','احسب الحجم والكميات') +
+        _calcResult('vol-b-result')) +
+
+      // ── TAB 3: Rebar kg/m³ ──
+      _section('rebar-b','🔩 كمية حديد التسليح',
+        _calcSelect('reb-elem','نوع العنصر',[
+          ['80','بلاطة عادية Slab (~80 kg/m³)'],
+          ['120','كمرة Beam (~120 kg/m³)'],
+          ['150','عمود Column (~150 kg/m³)'],
+          ['100','جدار قص Shear Wall (~100 kg/m³)'],
+          ['60','أساس Footing (~60 kg/m³)']]) +
+        _calcField('reb-vol','حجم العنصر الخرساني','e.g. 12','m³') +
+        _calcBtn('calcRebarQty()','احسب وزن الحديد') +
+        _calcResult('rebar-b-result')) +
+
+      // ── TAB 4: Masonry ──
+      _section('masonry-b','🧱 كميات البلوك والطوب',
+        _calcSelect('mas-type','نوع الوحدة',[
+          ['masonry_block_200','بلوك خرساني 200mm (12.5 وحدة/m²)'],
+          ['masonry_block_100','بلوك خرساني 100mm (12.5 وحدة/m²)'],
+          ['brick','طوب أحمر (48 طوبة/m²)'],
+          ['aac','بلوك خفيف AAC 200mm (8.3 وحدة/m²)']]) +
+        _calcField('mas-area','المساحة الكلية للجدران','e.g. 80','m²') +
+        _calcField('mas-open','مساحة الفتحات (أبواب+نوافذ)','e.g. 12','m²') +
+        _calcBtn('calcMasonryQty()','احسب كميات البناء') +
+        _calcResult('masonry-b-result'));
+
+    bldEl.querySelectorAll('.calc-section').forEach(function(s,i){ s.style.display = i===0?'block':'none'; });
+  }
 }
 
 // ── NEW CALC FUNCTIONS (Phase 5) ──────────────────────────────
@@ -11546,7 +11720,7 @@ function calcCBRGeo() {
 }
 
 function switchMainCat(cat, btn) {
-  ['roads','utilities','structural','geotech_calc'].forEach(c => {
+  ['roads','utilities','structural','geotech_calc','buildings_calc'].forEach(c => {
     const el = document.getElementById('cat-' + c);
     const tab = document.getElementById('main-tab-' + c);
     if (el) el.style.display = c === cat ? 'block' : 'none';
