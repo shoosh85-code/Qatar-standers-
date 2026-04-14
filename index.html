@@ -407,6 +407,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   </div>
   <div class="group-grid">
     <div class="cat-card" onclick="openDetail('structural')" data-keywords="خرسانة concrete rebar إنشائي أساسات structural"><span class="cat-emoji">🏗️</span><div class="cat-name" data-ar="الكود الإنشائي" data-en="Structural Code">الكود الإنشائي</div><div class="cat-desc">Concrete، Rebar، أساسات، خوازيق، شدات</div><div class="cat-bottom"><span class="cat-count">4 أقسام + ITPs</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="openDetail('structures_buildings')" data-keywords="مباني أبراج سكني بناء buildings tower residential إنشاءات"><span class="cat-emoji">🏢</span><div class="cat-name" data-ar="الأبراج والمباني" data-en="Buildings & Towers">الأبراج والمباني</div><div class="cat-desc" data-ar="8 مراحل كاملة + حاسبة كميات المواد" data-en="8 Stages + Materials Calculator">8 مراحل + حاسبة الكميات</div><div class="cat-bottom"><span class="cat-count" data-ar="QCS S5 — Full Specs" data-en="QCS S5 — Full Specs">QCS S5 — Full Specs</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="openDetail('geotech')" data-keywords="تربة geotech spt borehole جسات"><span class="cat-emoji">🔬</span><div class="cat-name" data-ar="الجسات والتربة" data-en="Geotechnical">الجسات والتربة</div><div class="cat-desc" data-ar="SPT، Boreholes، مختبر، مياه جوفية، تقرير" data-en="SPT, Boreholes, Lab, Groundwater, Reports">SPT، Boreholes، مختبر، مياه جوفية، تقرير</div><div class="cat-bottom"><span class="cat-count" data-ar="6 أقسام + ITP" data-en="6 Sections + ITP">6 أقسام + ITP</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="openDetail('pile_load_testing')" data-keywords="خوازيق piles load test static pit"><span class="cat-emoji">🏗️</span><div class="cat-name">اختبار الخوازيق</div><div class="cat-desc">Static Load Test, PIT, Kentledge</div><div class="cat-bottom"><span class="cat-count">QCS S5 + BS 8004</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="openDetail('sabkha_treatment')" data-keywords="سبخة sabkha ian-006 معالجة"><span class="cat-emoji">🏜️</span><div class="cat-name">معالجة السبخة</div><div class="cat-desc">Sabkha ID, Geotextile, Stabilization</div><div class="cat-bottom"><span class="cat-count">7 بنود IAN-006</span><span class="cat-arr">←</span></div></div>
@@ -10410,7 +10411,686 @@ ${[
 </div>
 `},
 
-}; // ←── end detailData
+// ═══════════════════════════════════════════════════════════
+// STRUCTURES — BUILDINGS (8 STAGES) + MATERIALS CALCULATOR
+// ═══════════════════════════════════════════════════════════
+
+structures_buildings: { title: '🏗️ الإنشاءات — الأبراج والمباني السكنية', content: `
+<div class="lang-content-ar">
+<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;color:#3498db;">
+📌 QCS 2024 — Section 5 | BS EN 1992 | بناء الأبراج والمباني السكنية والتجارية
+</div>
+<h3>📐 اختر المرحلة</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
+<div onclick="openDetail('struct_survey')" style="background:rgba(44,62,80,0.3);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:22px;">📐</div><div style="color:#3498db;font-weight:700;font-size:12px;">الدراسة والتصميم</div>
+<div style="color:var(--text3);font-size:10px;">Survey + Design + NOC</div></div>
+<div onclick="openDetail('struct_foundation')" style="background:rgba(44,62,80,0.3);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:22px;">🏛️</div><div style="color:#3498db;font-weight:700;font-size:12px;">الأساسات</div>
+<div style="color:var(--text3);font-size:10px;">Strip + Raft + Piles + Tests</div></div>
+<div onclick="openDetail('struct_concrete')" style="background:rgba(44,62,80,0.3);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:22px;">🏗️</div><div style="color:#3498db;font-weight:700;font-size:12px;">الخرسانة المسلحة</div>
+<div style="color:var(--text3);font-size:10px;">Mix Design + صب + Curing</div></div>
+<div onclick="openDetail('struct_rebar')" style="background:rgba(44,62,80,0.3);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:22px;">🔩</div><div style="color:#3498db;font-weight:700;font-size:12px;">حديد التسليح</div>
+<div style="color:var(--text3);font-size:10px;">Grade 500B + Cover + Lap</div></div>
+<div onclick="openDetail('struct_masonry')" style="background:rgba(44,62,80,0.3);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:22px;">🧱</div><div style="color:#3498db;font-weight:700;font-size:12px;">البناء والطابوق</div>
+<div style="color:var(--text3);font-size:10px;">Block + Mortar + Tests</div></div>
+<div onclick="openDetail('struct_waterproofing')" style="background:rgba(44,62,80,0.3);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:22px;">💧</div><div style="color:#3498db;font-weight:700;font-size:12px;">العزل المائي</div>
+<div style="color:var(--text3);font-size:10px;">Basement + Roof + Tests</div></div>
+<div onclick="openDetail('struct_finishing')" style="background:rgba(44,62,80,0.3);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:22px;">🪟</div><div style="color:#3498db;font-weight:700;font-size:12px;">التشطيبات</div>
+<div style="color:var(--text3);font-size:10px;">Plaster + Tiles + Paint</div></div>
+<div onclick="openDetail('struct_handover')" style="background:rgba(44,62,80,0.3);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:22px;">✅</div><div style="color:#3498db;font-weight:700;font-size:12px;">التسليم</div>
+<div style="color:var(--text3);font-size:10px;">Inspection + As-Built + DLP</div></div>
+</div>
+<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:12px;padding:14px;cursor:pointer;text-align:center;margin-top:6px;" onclick="openDetail('materials_calculator_buildings')">
+<div style="font-size:28px;">🧮</div>
+<div style="color:#3498db;font-weight:700;font-size:15px;">حاسبة كميات المواد</div>
+<div style="color:var(--text3);font-size:12px;margin-top:4px;">خرسانة + حديد + طابوق + اسمنت + رمل</div>
+</div>
+</div>
+` },
+
+struct_survey: { title: '📐 الإنشاءات — الدراسة والتصميم', content: `
+<div class="lang-content-ar">
+<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;color:#3498db;">📌 QCS 2024 — Section 5 | MME Building Regulations | Pre-Construction</div>
+
+<h3>📐 1. متطلبات ما قبل التنفيذ</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المتطلب</th><th>الجهة</th><th>التوقيت</th></tr>
+<tr><td>رخصة البناء</td><td>معتمدة من MME / Ashghal حسب الموقع</td><td>MME / Ashghal</td><td>قبل أي تنفيذ</td></tr>
+<tr><td>المخططات الإنشائية</td><td>معتمدة من مهندس إنشائي مرخص + MME</td><td>Consultant + MME</td><td>قبل التنفيذ</td></tr>
+<tr><td>Soil Investigation Report</td><td>Boreholes + SPT + Lab Tests — حسب QCS S4</td><td>Geotech Lab</td><td>قبل التصميم</td></tr>
+<tr><td>Method Statement</td><td>يشمل: Excavation + Concrete + Rebar + Safety</td><td>Consultant</td><td>قبل الحفر</td></tr>
+<tr><td>Material Submittals</td><td>خرسانة + حديد + بلوك + مضافات — Mill Certs</td><td>QC + Consultant</td><td>قبل التوريد</td></tr>
+<tr><td>Utility Detection (GPR)</td><td>كشف المرافق المدفونة قبل الحفر</td><td>Ashghal NOC</td><td>قبل الحفر</td></tr>
+<tr><td>Traffic Management Plan</td><td>خطة معتمدة إذا المشروع على طريق</td><td>MME / MOI</td><td>قبل الحفر</td></tr>
+<tr><td>Environmental Permit</td><td>ضوضاء + غبار + ساعات العمل</td><td>MME</td><td>قبل التنفيذ</td></tr>
+</table></div>
+
+<h3>📐 2. الدراسة الجيوتقنية — الحد الأدنى المطلوب</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>نوع المبنى</th><th>عدد الجسات الدنيا</th><th>العمق الأدنى</th><th>الاختبارات المطلوبة</th></tr>
+<tr><td>فيلا / منزل (G+1)</td><td>1 Borehole + 2 Trial Pits</td><td>1.5× عمق الأساس + 5m</td><td>SPT + Atterberg + Grading + Sulphate</td></tr>
+<tr><td>عمارة (G+4)</td><td>3 Boreholes</td><td>20m أو حتى الصخر</td><td>SPT + Shear + Consolidation</td></tr>
+<tr><td>برج (>G+10)</td><td>5+ Boreholes</td><td>30m+ أو حتى Bedrock</td><td>SPT + CPT + Pressuremeter + Pile Tests</td></tr>
+<tr><td>Sabkha Zone (أي مبنى)</td><td>+50% من المطلوب</td><td>+5m إضافية</td><td>+ SO₃ + TDS + Chloride تفصيلي</td></tr>
+</table></div>
+
+<h3>📐 3. مسافات الفصل والمتطلبات المعمارية</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>
+<tr><td>Setback من حد الملكية</td><td>حسب MME Zoning Regulations — يختلف بالمنطقة</td><td>MME</td></tr>
+<tr><td>ارتفاع المبنى</td><td>يتطلب موافقة MME + Civil Aviation إذا قرب مطار</td><td>MME / QCAA</td></tr>
+<tr><td>الفصل عن الجيران</td><td>Min 3.0m بين مبانٍ مستقلة</td><td>MME Building Code</td></tr>
+<tr><td>مواقف السيارات</td><td>حسب الاستخدام — 1 موقف/وحدة سكنية minimum</td><td>MME</td></tr>
+</table></div>
+
+<h3>🔴 4. Hold Points — ما قبل التنفيذ</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-01A</td><td>رخصة البناء + موافقة MME</td><td>MME</td><td>Building Permit</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-01B</td><td>Soil Investigation Report معتمد</td><td>Geotech + Consultant</td><td>GI Report</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-01C</td><td>المخططات الإنشائية معتمدة + Material Submittals</td><td>Consultant + QC</td><td>Approved Drawings + Submittals</td></tr>
+</table></div>
+</div>
+` },
+
+struct_foundation: { title: '🏛️ الإنشاءات — الأساسات', content: `
+<div class="lang-content-ar">
+<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;color:#3498db;">📌 QCS 2024 — Section 5 Part 2 | BS EN 1997 | Foundation Works</div>
+
+<h3>📐 1. أنواع الأساسات وشروط الاستخدام</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>النوع</th><th>الاستخدام</th><th>قدرة التحمل الدنيا</th><th>شرط التربة</th><th>المرجع</th></tr>
+<tr><td>Strip Foundation</td><td>جدران حاملة — فيلات — G+2 max</td><td>≥ 75 kN/m²</td><td>تربة متجانسة غير Sabkha</td><td>QCS S5 P2 + BS 8004</td></tr>
+<tr><td>Pad Foundation (Isolated)</td><td>أعمدة معزولة — مباني منخفضة</td><td>≥ 100 kN/m²</td><td>تربة صلبة متجانسة</td><td>QCS S5 + BS EN 1997</td></tr>
+<tr><td>Raft Foundation</td><td>تربة ضعيفة — حمولات موزعة — Sabkha</td><td>≥ 50 kN/m² (distributed)</td><td>أي تربة — يُعادل الاختلاف</td><td>QCS S5 P2</td></tr>
+<tr><td>Bored Piles</td><td>أبراج — تربة ضعيفة عميقة — >G+5</td><td>حسب Pile Load Test</td><td>أي تربة</td><td>QCS S5 P5 + BS 8004</td></tr>
+<tr><td>Driven Piles</td><td>تربة رملية — مواقع ساحلية</td><td>حسب Dynamic Formula</td><td>رمل + حصى</td><td>QCS S5 + BS EN 12699</td></tr>
+</table></div>
+
+<h3>📐 2. مواصفات مواد الأساسات</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>العنصر</th><th>Grade الخرسانة</th><th>الحد الأدنى للغطاء</th><th>نوع الاسمنت</th><th>المرجع</th></tr>
+<tr><td>Blinding Concrete</td><td>C15 — 50mm سماكة</td><td>لا يُسلَّح</td><td>SRPC (Sulphate Resistant)</td><td>QCS S5 P2.3</td></tr>
+<tr><td>Strip / Pad Foundation</td><td>C30 minimum</td><td>50mm (تلامس تربة) | 40mm (مع Blinding)</td><td>SRPC Class 3</td><td>QCS S5 + BS EN 206</td></tr>
+<tr><td>Raft Foundation</td><td>C35 minimum</td><td>50mm تحت | 40mm جانبي</td><td>SRPC Class 3 + FA/GGBS</td><td>QCS S5 P2.3</td></tr>
+<tr><td>Pile Cap</td><td>C35</td><td>75mm (تلامس تربة)</td><td>SRPC</td><td>QCS S5 P5</td></tr>
+<tr><td>Bored Pile</td><td>C35 — C40 Self-Compacting</td><td>75mm</td><td>SRPC + Admixtures</td><td>QCS S5 P5.4</td></tr>
+</table></div>
+
+<h3>📐 3. جدول اختبارات الأساسات</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>الاختبار</th><th>معيار القبول</th><th>التكرار</th><th>التوقيت</th><th>المرجع</th></tr>
+<tr><td>Bearing Capacity Test (Plate Load)</td><td>≥ Safe Bearing Capacity المصمَّم</td><td>1 test لكل 500m² raft</td><td>بعد الحفر قبل الصب</td><td>BS 1377 Part 9</td></tr>
+<tr><td>Concrete Cube — Foundation</td><td>≥ fcu @ 28days | 7-day ≥ 70%fcu</td><td>6 cubes لكل 50m³</td><td>وقت الصب</td><td>BS EN 12390</td></tr>
+<tr><td>Reinforcement Inspection</td><td>Size + Spacing + Cover — per drawing</td><td>100% قبل كل صبة</td><td>قبل الصب</td><td>QCS S5 + ITP</td></tr>
+<tr><td>GWT Level Check</td><td>GWT ≥ 0.5m أسفل قاع الحفر</td><td>يومي خلال الحفر</td><td>خلال الحفر</td><td>QCS S5 P2</td></tr>
+<tr><td>Pile Integrity Test (PIT)</td><td>No major defects — Full continuity</td><td>10% من الخوازيق minimum</td><td>بعد 7 أيام من الصب</td><td>ASTM D5882</td></tr>
+<tr><td>Static Pile Load Test</td><td>≥ 2.0× Working Load</td><td>1% من الخوازيق أو 3 min</td><td>بعد 28 يوم</td><td>QCS S5 P5 + BS 8004</td></tr>
+<tr><td>Sulphate Content (تربة)</td><td>SO₃ < 0.5% → C30 | 0.5-1.5% → SRPC</td><td>كل Borehole</td><td>قبل التصميم</td><td>QCS S4 + BS 8004</td></tr>
+</table></div>
+
+<h3>🔴 4. Hold Points — الأساسات</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-02A</td><td>Bearing Capacity Confirmed + GWT Check قبل الصب</td><td>QC + Consultant</td><td>Plate Load Test + GWT Record</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-02B</td><td>Rebar 100% Inspection — Size + Cover + Laps</td><td>QC + Structural Eng.</td><td>ITR-02B Rebar</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-02C</td><td>Pile Integrity Test (100% للخوازيق الرئيسية)</td><td>QC + Consultant</td><td>PIT Report</td></tr>
+</table></div>
+
+<h3>⛔ 5. Unacceptable — مرفوض فوراً</h3>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
+• ❌ صب الأساسات مع وجود ماء في الحفر<br>
+• ❌ Blinding بدون SRPC في مناطق Sulphate<br>
+• ❌ Cover أقل من 50mm في ملامسة التربة<br>
+• ❌ Pile بدون PIT أو Load Test<br>
+• ❌ تربة Sabkha دون معالجة تحت الأساس
+</div>
+</div>
+` },
+
+struct_concrete: { title: '🏗️ الإنشاءات — الخرسانة المسلحة', content: `
+<div class="lang-content-ar">
+<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;color:#3498db;">📌 QCS 2024 — Section 5 Part 4 | BS EN 206 | BS EN 13670 | Hot Weather Concreting</div>
+
+<h3>📐 1. جدول درجات الخرسانة — العناصر الإنشائية</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>العنصر</th><th>Grade الخرسانة</th><th>Cement Type</th><th>w/c Max</th><th>Cover (mm)</th><th>المرجع</th></tr>
+<tr><td>Blinding</td><td>C15</td><td>OPC أو SRPC</td><td>0.65</td><td>لا يُسلَّح</td><td>QCS S5 P4</td></tr>
+<tr><td>Foundations / Raft</td><td>C30–C35</td><td>SRPC Class 3</td><td>0.45</td><td>50 (soil) / 40 (blinding)</td><td>QCS S5 P4</td></tr>
+<tr><td>Ground Floor Slab</td><td>C30</td><td>SRPC</td><td>0.45</td><td>40</td><td>QCS S5</td></tr>
+<tr><td>Columns</td><td>C35–C45</td><td>SRPC + FA/GGBS</td><td>0.40</td><td>35</td><td>QCS S5 + BS EN 1992</td></tr>
+<tr><td>Beams</td><td>C35–C40</td><td>SRPC</td><td>0.40</td><td>35</td><td>QCS S5</td></tr>
+<tr><td>Floor Slabs</td><td>C35</td><td>SRPC</td><td>0.40</td><td>25 (internal) / 35 (external)</td><td>QCS S5</td></tr>
+<tr><td>Shear Walls</td><td>C40</td><td>SRPC + GGBS</td><td>0.38</td><td>35</td><td>QCS S5</td></tr>
+<tr><td>Retaining Walls</td><td>C35</td><td>SRPC</td><td>0.40</td><td>50 (soil side)</td><td>QCS S5 P4</td></tr>
+<tr><td>Roof Slab</td><td>C35</td><td>SRPC</td><td>0.40</td><td>40</td><td>QCS S5</td></tr>
+</table></div>
+
+<h3>📐 2. إجراءات الطقس الحار — Qatar (Critical)</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>درجة الحرارة</th><th>الإجراء الإلزامي</th><th>المرجع</th></tr>
+<tr><td>≤ 25°C</td><td>إجراءات عادية</td><td>QCS S5 P4.10</td></tr>
+<tr><td>25–35°C</td><td>Pre-wetting القوالب + تبريد الركام + تقليل وقت النقل</td><td>QCS S5 P4.10</td></tr>
+<tr><td>35–40°C</td><td>ثلج في ماء الخلط + صب في الليل + Curing فوري</td><td>QCS S5 P4.10</td></tr>
+<tr><td>> 40°C</td><td>إيقاف الصب خلال النهار (10am–4pm) | ثلج إلزامي</td><td>QCS S5 P4.10</td></tr>
+<tr><td>الحد الأقصى لحرارة الخرسانة</td><td>≤ 32°C عند الاستلام في الموقع</td><td>QCS S5 P4.10</td></tr>
+<tr><td>أقصى وقت نقل وصب</td><td>≤ 45 min (صيف) | ≤ 90 min (شتاء)</td><td>QCS S5 P4.10</td></tr>
+</table></div>
+
+<h3>📐 3. جدول اختبارات الخرسانة</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>الاختبار</th><th>معيار القبول</th><th>التكرار</th><th>المرجع</th></tr>
+<tr><td>Slump Test</td><td>Design ± 25mm (50–175mm عادةً)</td><td>كل مركبة أو كل 50m³</td><td>BS EN 12350-2</td></tr>
+<tr><td>Temperature (Concrete)</td><td>≤ 32°C عند الاستلام</td><td>كل مركبة</td><td>QCS S5 P4.10</td></tr>
+<tr><td>Cube Test (7 Day)</td><td>≥ 70% fcu</td><td>6 cubes لكل 50m³ أو لكل صبة</td><td>BS EN 12390-3</td></tr>
+<tr><td>Cube Test (28 Day)</td><td>≥ 100% fcu | Mean ≥ fck + 4 MPa</td><td>نفس مجموعة الـ 6</td><td>BS EN 12390-3</td></tr>
+<tr><td>Water Permeability</td><td>≤ 30mm depth (BS EN 12390-8)</td><td>كل Mix Design + عند الشك</td><td>BS EN 12390-8</td></tr>
+<tr><td>Chloride Content</td><td>≤ 0.4% by weight of cement (RC)</td><td>كل Mix Design</td><td>BS 1881 Part 124</td></tr>
+<tr><td>Cover Measurement</td><td>Design cover ±5mm</td><td>بعد كل صبة — Cover Meter</td><td>QCS S5 + BS 1881</td></tr>
+<tr><td>Rebound Hammer (Schmidt)</td><td>مقارنة مع Cube results</td><td>Grid 200mm عند الشك</td><td>BS EN 12504-2</td></tr>
+</table></div>
+
+<h3>📐 4. مواصفات المعالجة — Curing</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>العنصر</th><th>طريقة Curing</th><th>المدة الدنيا</th><th>الشرط</th></tr>
+<tr><td>Slabs (عام)</td><td>Burlap + Water أو Curing Compound</td><td>7 أيام</td><td>الحفاظ على الرطوبة باستمرار</td></tr>
+<tr><td>Columns / Walls</td><td>Curing Compound بعد نزع القوالب</td><td>7 أيام</td><td>تطبيق خلال 30 min من النزع</td></tr>
+<tr><td>Foundation Slab</td><td>Polythene Sheet + Water</td><td>10 أيام</td><td>لا تعريض للشمس المباشرة</td></tr>
+<tr><td>Roof Slab (Qatar)</td><td>Pond Curing (ماء راكد) أو Burlap كثيف</td><td>10–14 أيام</td><td>درجة الحرارة > 35°C</td></tr>
+</table></div>
+
+<h3>🔴 5. Hold Points</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-03A</td><td>Formwork + Rebar Inspection قبل كل صبة</td><td>QC + Consultant</td><td>Pre-pour ITR</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-03B</td><td>Slump + Temperature ≤ 32°C عند الاستلام</td><td>QC</td><td>Delivery Note + Test Record</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-03C</td><td>Cube 7-day ≥ 70% fcu قبل نزع قوالب الجوانب</td><td>Lab + QC</td><td>Cube Test Certificate</td></tr>
+</table></div>
+
+<h3>⛔ 6. Unacceptable</h3>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
+• ❌ إضافة ماء في الموقع للخرسانة الجاهزة<br>
+• ❌ صب بدون Cube Tests<br>
+• ❌ حرارة الخرسانة > 32°C عند الاستلام<br>
+• ❌ Honeycomb > 25mm عمق بدون إصلاح معتمد<br>
+• ❌ Cover أقل من المصمَّم (Cover meter بعد الصب)<br>
+• ❌ نزع القوالب قبل الوقت المحدد
+</div>
+</div>
+` },
+
+struct_rebar: { title: '🔩 الإنشاءات — حديد التسليح', content: `
+<div class="lang-content-ar">
+<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;color:#3498db;">📌 QCS 2024 — Section 5 Part 3 | BS 4449 | BS EN 1992 | Reinforcement Steel</div>
+
+<h3>📐 1. جدول مواصفات الحديد</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المواصفة</th><th>المرجع</th></tr>
+<tr><td>Grade المعتمد في قطر</td><td>Grade B500B — Fy = 500 N/mm²</td><td>BS 4449:2005 + QCS S5</td></tr>
+<tr><td>Deformed Bars</td><td>High Yield Deformed (HYD) — ضروري</td><td>BS 4449</td></tr>
+<tr><td>Plain Bars (Mild Steel)</td><td>Grade 250 — للاستخدامات البسيطة فقط</td><td>BS 4449</td></tr>
+<tr><td>Mesh Reinforcement</td><td>Type A / B / C — BS 4483</td><td>BS 4483</td></tr>
+<tr><td>Stainless Steel Rebar</td><td>Grade 316L — المناطق الساحلية والمواقع الخاصة</td><td>BS EN 10088</td></tr>
+<tr><td>Weldability</td><td>CE (Carbon Equivalent) ≤ 0.5%</td><td>BS 4449</td></tr>
+</table></div>
+
+<h3>📐 2. جدول Lap Lengths و Anchorage</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>القطر (dia)</th><th>Lap Length (tension)</th><th>Anchorage Length</th><th>Bend Radius Min</th><th>ملاحظة</th></tr>
+<tr><td>T10</td><td>500mm (50d)</td><td>400mm (40d)</td><td>40mm (4d)</td><td>—</td></tr>
+<tr><td>T12</td><td>600mm (50d)</td><td>480mm (40d)</td><td>48mm (4d)</td><td>—</td></tr>
+<tr><td>T16</td><td>800mm (50d)</td><td>640mm (40d)</td><td>64mm (4d)</td><td>—</td></tr>
+<tr><td>T20</td><td>1000mm (50d)</td><td>800mm (40d)</td><td>80mm (4d)</td><td>—</td></tr>
+<tr><td>T25</td><td>1250mm (50d)</td><td>1000mm (40d)</td><td>100mm (4d)</td><td>—</td></tr>
+<tr><td>T32</td><td>1600mm (50d)</td><td>1280mm (40d)</td><td>128mm (4d)</td><td>—</td></tr>
+<tr><td>عند Hooks</td><td colspan="3">Hook = 4d straight + 12d extension</td><td>BS EN 1992</td></tr>
+</table></div>
+
+<h3>📐 3. Cover المطلوب حسب الموقع</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>موقع العنصر</th><th>Cover الأدنى (mm)</th><th>المرجع</th></tr>
+<tr><td>داخلي — جاف</td><td>25mm</td><td>QCS S5 + BS EN 1992</td></tr>
+<tr><td>خارجي — تعرض للجو</td><td>35mm</td><td>QCS S5</td></tr>
+<tr><td>ملامس تربة (مع Blinding)</td><td>40mm</td><td>QCS S5 P4</td></tr>
+<tr><td>ملامس تربة (بدون Blinding)</td><td>75mm</td><td>QCS S5 P4</td></tr>
+<tr><td>ملامس مياه / بحر</td><td>50mm minimum</td><td>QCS S5 + BS EN 1992</td></tr>
+<tr><td>Sabkha / Sulphate zone</td><td>50mm + SRPC cement</td><td>QCS S4 + QCS S5</td></tr>
+</table></div>
+
+<h3>📐 4. اختبارات الحديد</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>الاختبار</th><th>معيار القبول</th><th>التكرار</th><th>المرجع</th></tr>
+<tr><td>Tensile Test (Yield + UTS)</td><td>Fy ≥ 500 N/mm² | Fu/Fy ≥ 1.08</td><td>3 samples / 20 tonnes</td><td>BS EN ISO 6892</td></tr>
+<tr><td>Bend Test</td><td>لا تشقق بعد 180° Bend على 3d mandrel</td><td>نفس عينة Tensile</td><td>BS EN ISO 7438</td></tr>
+<tr><td>Re-bend Test</td><td>لا كسر بعد الفرد ثم الثني</td><td>كل شحنة</td><td>BS 4449</td></tr>
+<tr><td>Mass per metre</td><td>±4.5% من القياسي</td><td>كل قطر في كل شحنة</td><td>BS 4449</td></tr>
+<tr><td>Chemical Analysis (CE)</td><td>CE ≤ 0.50% | C ≤ 0.22%</td><td>Mill Certificate لكل Batch</td><td>BS 4449</td></tr>
+</table></div>
+
+<h3>🔴 5. Hold Points</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-04A</td><td>Mill Certificate + Tensile Test معتمد قبل التوريد</td><td>QC</td><td>Mill Cert + Lab Report</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-04B</td><td>Rebar Inspection 100% — Cover + Laps + Spacing + HP تفتيش الاستشاري</td><td>QC + Structural Eng.</td><td>Rebar ITR</td></tr>
+</table></div>
+
+<h3>⛔ 6. Unacceptable</h3>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
+• ❌ حديد صدئ بصدأ قشاري (Flaky Rust) — يُرفض<br>
+• ❌ Lap في منطقة Maximum Moment بدون موافقة مهندس<br>
+• ❌ قطع بالهاوي أو Flame Cutting<br>
+• ❌ بدون Mill Certificate أو الشهادة غير مطابقة<br>
+• ❌ Cover Spacers من الخشب أو المواد غير المعتمدة
+</div>
+</div>
+` },
+
+struct_masonry: { title: '🧱 الإنشاءات — البناء والطابوق', content: `
+<div class="lang-content-ar">
+<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;color:#3498db;">📌 QCS 2024 — Section 5 Part 6 | BS EN 771 | BS EN 998 | Masonry Works</div>
+
+<h3>📐 1. أنواع البلوك وشروط الاستخدام — قطر</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>النوع</th><th>الأبعاد القياسية (mm)</th><th>قوة الضغط الدنيا</th><th>الاستخدام</th><th>المرجع</th></tr>
+<tr><td>Hollow Concrete Block (HCB)</td><td>400×200×200</td><td>≥ 7 N/mm²</td><td>جدران داخلية وخارجية</td><td>BS EN 771-3</td></tr>
+<tr><td>Solid Concrete Block</td><td>400×200×200</td><td>≥ 12 N/mm²</td><td>جدران حاملة</td><td>BS EN 771-3</td></tr>
+<tr><td>Lightweight Block (AAC)</td><td>600×200×100/150/200</td><td>≥ 3.5 N/mm²</td><td>جدران حاجزة داخلية</td><td>BS EN 771-4</td></tr>
+<tr><td>Fired Clay Brick</td><td>215×102.5×65</td><td>≥ 20 N/mm²</td><td>تشطيب خارجي — تراث</td><td>BS EN 771-1</td></tr>
+<tr><td>Face Brick (قطر)</td><td>230×115×76</td><td>≥ 30 N/mm²</td><td>واجهات خارجية معرضة</td><td>BS EN 771-1</td></tr>
+</table></div>
+
+<h3>📐 2. مواصفات الملاط — Mortar Mixes</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>التصنيف</th><th>النسبة Cement:Sand</th><th>قوة الضغط</th><th>الاستخدام</th><th>المرجع</th></tr>
+<tr><td>M12 (قوي)</td><td>1:3</td><td>≥ 12 N/mm²</td><td>جدران حاملة — قواعد</td><td>BS EN 998-2</td></tr>
+<tr><td>M6</td><td>1:4 to 1:4.5</td><td>≥ 6 N/mm²</td><td>جدران خارجية عامة</td><td>BS EN 998-2</td></tr>
+<tr><td>M4</td><td>1:5 to 1:6</td><td>≥ 4 N/mm²</td><td>جدران حاجزة داخلية</td><td>BS EN 998-2</td></tr>
+<tr><td>مضاف Sulphate Resistant</td><td>SRPC 1:3 أو 1:4</td><td>≥ 6 N/mm²</td><td>أسفل DPC / تربة / تعرض</td><td>QCS S5 P6</td></tr>
+</table></div>
+
+<h3>📐 3. جدول الاختبارات — البناء</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>الاختبار</th><th>معيار القبول</th><th>التكرار</th><th>المرجع</th></tr>
+<tr><td>Compressive Strength (Block)</td><td>≥ Grade المحدد | Mean ≥ declared value</td><td>6 blocks لكل 5000 units</td><td>BS EN 772-1</td></tr>
+<tr><td>Water Absorption (Block)</td><td>≤ 10% (Outer) | ≤ 20% (Inner)</td><td>كل شحنة</td><td>BS EN 772-11</td></tr>
+<tr><td>Mortar Cube (28 day)</td><td>≥ Grade المحدد (M4/M6/M12)</td><td>3 cubes لكل 50m² بناء</td><td>BS EN 1015-11</td></tr>
+<tr><td>Bond Wrench Test</td><td>≥ 0.3 N/mm² (Flexural Bond)</td><td>كل طابق أو كل 250m²</td><td>BS EN 1052-5</td></tr>
+<tr><td>Plumb Check</td><td>≤ 10mm deviation per 3m height</td><td>كل ارتفاع 3m</td><td>QCS S5 P6</td></tr>
+<tr><td>Level Check (Courses)</td><td>± 5mm لكل 10 صفوف</td><td>كل 10 صفوف</td><td>QCS S5</td></tr>
+<tr><td>Joint Thickness</td><td>8–12mm (Standard)</td><td>بصري + قياس</td><td>BS EN 1996</td></tr>
+</table></div>
+
+<h3>📐 4. متطلبات التنفيذ</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>
+<tr><td>DPC (Damp Proof Course)</td><td>بدون انقطاع 150mm فوق مستوى الأرض</td><td>QCS S5 P6</td></tr>
+<tr><td>Lintel فوق الفتحات</td><td>Precast RC أو Steel — يتجاوز الفتحة 150mm كل جانب</td><td>QCS S5 + BS 5977</td></tr>
+<tr><td>Stitching / Ties</td><td>Wall Ties كل 600mm أفقي × 450mm عمودي</td><td>BS EN 845</td></tr>
+<tr><td>Chasing (تمرير خدمات)</td><td>عمق الشق ≤ ⅓ سماكة الجدار | لا شقوق في Leaves حاملة</td><td>QCS S5 P6</td></tr>
+<tr><td>Movement Joints</td><td>كل 6m للملاط بدون Admixtures</td><td>BS EN 1996</td></tr>
+<tr><td>Height per day</td><td>≤ 1.2m في يوم واحد (حماية من السقوط)</td><td>QCS S5 P6</td></tr>
+</table></div>
+
+<h3>🔴 5. Hold Points</h3>
+<p style="font-size:12px;">
+• <strong>HP-05A:</strong> Block Compressive Strength Certificate قبل التوريد<br>
+• <strong>HP-05B:</strong> Mortar Cube 28-day ≥ Grade المطلوب — يؤخذ قبل التشطيب
+</p>
+
+<h3>⛔ 6. Unacceptable</h3>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
+• ❌ بناء بدون DPC في المناطق المعرضة للرطوبة<br>
+• ❌ ملاط جاف (Dry Mix) يُعاد تمييعه بالماء بعد التصلب<br>
+• ❌ بلوك مكسور أو ذو Water Absorption > 20%<br>
+• ❌ Chasing عمودي في الجدران الحاملة بعمق > ⅓ السماكة<br>
+• ❌ بناء في الحر الشديد بدون تغطية وري
+</div>
+</div>
+` },
+
+struct_waterproofing: { title: '💧 الإنشاءات — العزل المائي', content: `
+<div class="lang-content-ar">
+<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;color:#3498db;">📌 QCS 2024 — Section 5 Part 7 | BS 8102 | Basement + Roof Waterproofing</div>
+
+<h3>📐 1. أنواع العزل حسب الموقع</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>الموقع</th><th>النوع المناسب</th><th>السماكة</th><th>المرجع</th></tr>
+<tr><td>Basement (تحت الأرض)</td><td>Torch-Applied SBS Membrane (Type III)</td><td>4mm + 4mm (طبقتان)</td><td>BS 8102 Grade 3</td></tr>
+<tr><td>Raft Foundation</td><td>SBS Sheet + Blinding Protection</td><td>4mm</td><td>QCS S5 P7</td></tr>
+<tr><td>Roof Slab (Flat)</td><td>APP/SBS Torch-On أو Liquid Membrane</td><td>3mm + 3mm</td><td>BS 6229</td></tr>
+<tr><td>Wet Areas (حمامات + مطابخ)</td><td>Cementitious 2-Component</td><td>2mm (طبقتان)</td><td>QCS S5 P7</td></tr>
+<tr><td>Retaining Wall (خارجي)</td><td>Bituminous Tanking + Drainage Board</td><td>3mm + 8mm Board</td><td>BS 8102</td></tr>
+<tr><td>Swimming Pool</td><td>Crystalline + Cementitious Coat</td><td>حسب المورد</td><td>QCS S5</td></tr>
+</table></div>
+
+<h3>📐 2. اختبارات العزل</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>الاختبار</th><th>الإجراء</th><th>معيار القبول</th><th>التكرار</th><th>المرجع</th></tr>
+<tr><td>Flood Test (Roof)</td><td>ملء الحوض بمياه 50mm لمدة 24hr</td><td>صفر تسرب مرئي + قياس بمستوى</td><td>100% قبل الزمن</td><td>NRCA + QCS S5</td></tr>
+<tr><td>Water Test (Basement)</td><td>رصد رطوبة الجدران 48hr بعد GWT</td><td>No damp patch > 10cm²</td><td>100%</td><td>BS 8102</td></tr>
+<tr><td>Adhesion Test (Pull-off)</td><td>Dolly Test — ASTM D4541</td><td>≥ 0.3 N/mm² (Membrane)</td><td>1 test/50m²</td><td>ASTM D4541</td></tr>
+<tr><td>Thickness Measurement</td><td>DFT Gauge أو Calibrated Comb</td><td>± 10% من المحدد</td><td>كل 25m²</td><td>BS 8102</td></tr>
+<tr><td>Wet Area 24hr Flood Test</td><td>ملء حوض مؤقت 25mm لمدة 24hr</td><td>صفر تسرب في الطابق الأسفل</td><td>كل غرفة رطبة</td><td>QCS S5 P7</td></tr>
+</table></div>
+
+<h3>🔴 3. Hold Points</h3>
+<p style="font-size:12px;">
+• <strong>HP-06A:</strong> Substrate Inspection قبل تطبيق العزل (جاف + نظيف + خالٍ من الفجوات)<br>
+• <strong>HP-06B:</strong> Flood Test Pass قبل إضافة Screed أو Protection Layer<br>
+• <strong>HP-06C:</strong> Adhesion Test ≥ 0.3 N/mm²
+</p>
+
+<h3>⛔ 4. Unacceptable</h3>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
+• ❌ Membrane على سطح رطب أو غير نظيف<br>
+• ❌ طبقة واحدة فقط في Basement<br>
+• ❌ بدون Flood Test للأسطح المستوية<br>
+• ❌ تداخل الوصلات Overlaps < 150mm<br>
+• ❌ عزل بدون Protection Board في المناطق المعرضة للحركة
+</div>
+</div>
+` },
+
+struct_finishing: { title: '🪟 الإنشاءات — التشطيبات', content: `
+<div class="lang-content-ar">
+<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;color:#3498db;">📌 QCS 2024 — Section 5 Part 8 | Building Finishing Works</div>
+
+<h3>📐 1. جدول أعمال التشطيب بالمواصفات</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>العمل</th><th>المادة</th><th>السماكة</th><th>معيار القبول</th><th>المرجع</th></tr>
+<tr><td>Render (بياض خارجي)</td><td>Cement:Sand 1:4 + Bonding Agent</td><td>15–20mm (2 طبقات)</td><td>Plumb ≤ 5mm / 3m | No cracks</td><td>QCS S5 P8 + BS 5262</td></tr>
+<tr><td>Internal Plaster</td><td>Gypsum أو Cement:Sand 1:4</td><td>10–15mm</td><td>Flatness ≤ 4mm / 2m rule</td><td>BS 5492</td></tr>
+<tr><td>Floor Screed</td><td>Cement:Sand 1:3.5 — semi-dry</td><td>50mm min (bonded) | 75mm (unbonded)</td><td>SR2 (≤ 3mm / 2m) | No hollow</td><td>BS 8204</td></tr>
+<tr><td>Ceramic / Porcelain Tiles</td><td>Adhesive Type S1 or S2 — BS EN 12004</td><td>Bed: 5–8mm</td><td>Lippage ≤ 1mm | Hollow ≤ 5%</td><td>BS 5385 + BS EN 13006</td></tr>
+<tr><td>Paint (External)</td><td>Elastomeric Masonry Paint or Silicone</td><td>2 coats DFT ≥ 80μm</td><td>No Peeling | No Crazing</td><td>QCS S5 P8</td></tr>
+<tr><td>Paint (Internal)</td><td>Emulsion — Low VOC</td><td>2 coats DFT ≥ 50μm</td><td>Even finish | No Runs</td><td>BS 6150</td></tr>
+<tr><td>Suspended Ceiling (T-Grid)</td><td>Metal T-Bar + Mineral Fiber Tiles</td><td>Hanger كل 1.2m × 1.2m</td><td>Level ≤ 3mm / 3m | Seismic bracing</td><td>QCS S5</td></tr>
+</table></div>
+
+<h3>📐 2. اختبارات التشطيب</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>الاختبار</th><th>معيار القبول</th><th>التكرار</th><th>المرجع</th></tr>
+<tr><td>Floor Levelness (SR)</td><td>SR2: ≤ 3mm / 2m | SR1: ≤ 2mm / 2m</td><td>كل غرفة بـ 3m Straightedge</td><td>BS 8204</td></tr>
+<tr><td>Tile Hollow Test</td><td>≤ 5% hollow tiles بالطرق بالعصا</td><td>100% بصري + طرق</td><td>BS 5385</td></tr>
+<tr><td>Paint DFT</td><td>≥ DFT المحدد في الرسومات</td><td>DFT Meter كل 25m²</td><td>BS 6150</td></tr>
+<tr><td>Plumb Check (Render)</td><td>≤ 5mm انحراف / 3m ارتفاع</td><td>كل 10m² بـ Spirit Level</td><td>QCS S5 P8</td></tr>
+<tr><td>Adhesion Test (Tiles)</td><td>≥ 0.5 N/mm² Pull-off</td><td>1 test/100m²</td><td>BS EN 1348</td></tr>
+</table></div>
+
+<h3>🔴 3. Hold Points</h3>
+<p style="font-size:12px;">
+• <strong>HP-07A:</strong> Substrate preparation approved قبل Plaster / Render<br>
+• <strong>HP-07B:</strong> Floor Screed SR Test Pass قبل التبليط<br>
+• <strong>HP-07C:</strong> Tile Hollow Test < 5% قبل التسليم
+</p>
+</div>
+` },
+
+struct_handover: { title: '✅ الإنشاءات — التسليم', content: `
+<div class="lang-content-ar">
+<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;color:#3498db;">📌 QCS 2024 — Section 5 | MME Building Regulations | Handover Requirements</div>
+
+<h3>📐 1. وثائق التسليم الإلزامية</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>الوثيقة</th><th>المحتوى</th><th>النسخ</th><th>الجهة</th></tr>
+<tr><td>As-Built Drawings</td><td>إنشائي + معماري + خدمات — بالأبعاد الفعلية</td><td>3 ورقي + رقمي</td><td>MME + Owner</td></tr>
+<tr><td>Concrete Cube Results</td><td>كل نتائج 7 + 28 يوم — جدول كامل</td><td>أصلي + نسختان</td><td>Owner + Consultant</td></tr>
+<tr><td>Rebar Test Certificates</td><td>Mill Certs + Tensile + Bend لكل Grade</td><td>أصلي</td><td>Owner</td></tr>
+<tr><td>Waterproofing Test Reports</td><td>Flood Tests + Adhesion — كل الأسطح</td><td>أصلي</td><td>Consultant</td></tr>
+<tr><td>Material Approval Registers</td><td>كل المواد المعتمدة + شهادات المصنع</td><td>ورقي + رقمي</td><td>QC + Owner</td></tr>
+<tr><td>ITP Register (Closed)</td><td>كل ITPs موقّعة — صفر NCR مفتوح</td><td>أصلي</td><td>QC + Consultant</td></tr>
+<tr><td>Occupancy Certificate</td><td>شهادة السكن / الإشغال من MME</td><td>أصلي</td><td>MME</td></tr>
+<tr><td>O&M Manuals</td><td>MEP + Lifts + Fire Systems + Structural</td><td>نسختان</td><td>Facilities Team</td></tr>
+</table></div>
+
+<h3>📐 2. قائمة التحقق قبل التسليم</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>الشرط</th><th>الجهة</th></tr>
+<tr><td>Concrete Strength</td><td>28-day ≥ 100% fcu — كل العناصر</td><td>Lab + QC</td></tr>
+<tr><td>Waterproofing</td><td>Flood Tests Pass — كل المساطح والأقبية</td><td>QC + Consultant</td></tr>
+<tr><td>Structural Inspection</td><td>فحص بصري كامل — لا Honeycomb كبير | لا تشقق هيكلي</td><td>Structural Eng.</td></tr>
+<tr><td>Fire Safety</td><td>QCDD Inspection Certificate</td><td>QCDD</td></tr>
+<tr><td>MEP Commissioning</td><td>كهرباء + سباكة + HVAC مفعّلة ومختبرة</td><td>MEP Eng.</td></tr>
+<tr><td>Finishing Snag List</td><td>صفر Snagging بنود Level 1 (Safety)</td><td>QC + Architect</td></tr>
+<tr><td>Zero Open NCRs</td><td>كل NCRs مغلقة بإجراءات تصحيحية</td><td>QC</td></tr>
+</table></div>
+
+<h3>🛡️ 3. فترة الضمان DLP</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المدة / المتطلب</th></tr>
+<tr><td>DLP (مدة الضمان)</td><td>12 شهر من TOC (قد يمتد لـ 24 شهر)</td></tr>
+<tr><td>Structural Warranty</td><td>10 سنوات — المقاول مسؤول عن العيوب الخفية</td></tr>
+<tr><td>Waterproofing Warranty</td><td>10 سنوات من المورد</td></tr>
+<tr><td>Periodic Inspection</td><td>كل 3 أشهر خلال DLP</td></tr>
+<tr><td>Crack Monitoring</td><td>أي تشقق > 0.3mm → تحقيق فوري</td></tr>
+<tr><td>Defect Response Time</td><td>Safety defects: 24hr | Others: 7 days</td></tr>
+</table></div>
+
+<h3>🔴 4. Hold Points النهائية</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-08A</td><td>Occupancy Certificate من MME</td><td>MME</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-08B</td><td>QCDD Fire Safety Certificate</td><td>QCDD</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-08C</td><td>Structural Engineer Sign-off + As-Built Approved</td><td>Structural Eng. + Consultant</td></tr>
+</table></div>
+</div>
+` },
+
+// ═══════════════════════════════════════════════════════════
+// MATERIALS QUANTITY CALCULATOR — BUILDINGS
+// ═══════════════════════════════════════════════════════════
+
+materials_calculator_buildings: { title: '🧮 حاسبة كميات المواد — الإنشاءات', content: `
+<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;color:#3498db;">
+🧮 أدخل أبعاد المشروع → احصل على كميات المواد الكاملة
+</div>
+
+<!-- PROJECT INPUTS -->
+<div style="background:var(--dark3);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;">
+<div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:12px;">📐 بيانات المشروع</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+<div>
+<label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">المساحة الكلية للطابق (m²):</label>
+<input type="number" id="mc-floor-area" placeholder="e.g. 200" min="1" oninput="calcMaterials()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark4);color:var(--text);font-size:13px;font-family:Tajawal,sans-serif;">
+</div>
+<div>
+<label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">عدد الطوابق:</label>
+<input type="number" id="mc-floors" placeholder="e.g. 3" min="1" max="80" oninput="calcMaterials()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark4);color:var(--text);font-size:13px;font-family:Tajawal,sans-serif;">
+</div>
+<div>
+<label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">ارتفاع الطابق (m):</label>
+<input type="number" id="mc-floor-h" placeholder="e.g. 3.2" min="2" max="6" step="0.1" oninput="calcMaterials()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark4);color:var(--text);font-size:13px;font-family:Tajawal,sans-serif;">
+</div>
+<div>
+<label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">نوع المبنى:</label>
+<select id="mc-btype" onchange="calcMaterials()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark4);color:var(--text);font-size:12px;font-family:Tajawal,sans-serif;">
+<option value="residential">سكني (Residential)</option>
+<option value="commercial">تجاري (Commercial)</option>
+<option value="industrial">صناعي (Industrial)</option>
+</select>
+</div>
+<div>
+<label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">Grade الخرسانة:</label>
+<select id="mc-grade" onchange="calcMaterials()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark4);color:var(--text);font-size:12px;font-family:Tajawal,sans-serif;">
+<option value="25">C25</option>
+<option value="30" selected>C30</option>
+<option value="35">C35</option>
+<option value="40">C40</option>
+</select>
+</div>
+<div>
+<label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">نظام البناء:</label>
+<select id="mc-system" onchange="calcMaterials()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark4);color:var(--text);font-size:12px;font-family:Tajawal,sans-serif;">
+<option value="frame">هيكل خرساني + بلوك</option>
+<option value="loadbearing">جدران حاملة</option>
+<option value="hybrid">هجين</option>
+</select>
+</div>
+</div>
+</div>
+
+<div id="mc-results" style="display:none;">
+<!-- Results injected by JS -->
+</div>
+
+<div id="mc-notes" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:10px;margin-top:10px;font-size:11px;color:var(--text3);">
+ℹ️ الكميات تقديرية وفق معدلات QCS 2024 وقواعد الإبهام للمشاريع القطرية. يجب التحقق مع المهندس الإنشائي.
+</div>
+
+<!-- calcMaterials function moved to main script -->
+` },
+
+};
+
+// calcMaterials — moved from detailData template
+function calcMaterials() {
+  var area = parseFloat(document.getElementById('mc-floor-area').value) || 0;
+  var floors = parseInt(document.getElementById('mc-floors').value) || 0;
+  var floorH = parseFloat(document.getElementById('mc-floor-h').value) || 3.0;
+  var grade = parseInt(document.getElementById('mc-grade').value) || 30;
+  var btype = document.getElementById('mc-btype').value;
+  var system = document.getElementById('mc-system').value;
+
+  if (!area || !floors) {
+    document.getElementById('mc-results').style.display = 'none';
+    return;
+  }
+
+  var totalArea = area * floors;
+  var perimeterEst = Math.sqrt(area) * 4;
+
+  // ── Concrete volumes ─────────────────────────────────────
+  var slabThk = (btype === 'industrial') ? 0.25 : 0.20;
+  var concreteSlabs = totalArea * slabThk;
+  var concreteColumns = totalArea * floors * 0.012; // ~1.2% of floor area per floor
+  var concreteBeams   = totalArea * 0.06;
+  var concreteFoundation = area * 0.35;
+  var concreteTotalRaw = concreteSlabs + concreteColumns + concreteBeams + concreteFoundation;
+  var concreteTotal = concreteTotalRaw * 1.05; // +5% waste
+
+  // ── Mix Design (per m³) ──────────────────────────────────
+  var cementBags, sand_m3, agg_m3, water_L;
+  if (grade <= 25) { cementBags = 7.0; sand_m3 = 0.44; agg_m3 = 0.88; }
+  else if (grade <= 30) { cementBags = 8.0; sand_m3 = 0.40; agg_m3 = 0.80; }
+  else if (grade <= 35) { cementBags = 9.5; sand_m3 = 0.36; agg_m3 = 0.72; }
+  else { cementBags = 11.0; sand_m3 = 0.32; agg_m3 = 0.64; }
+  water_L = cementBags * 50 * 0.45; // w/c = 0.45
+
+  var totalCementBags = Math.ceil(concreteTotal * cementBags);
+  var totalSand = (concreteTotal * sand_m3).toFixed(1);
+  var totalAgg  = (concreteTotal * agg_m3).toFixed(1);
+  var totalWater = Math.ceil(concreteTotal * water_L);
+
+  // ── Rebar ────────────────────────────────────────────────
+  var rebarKgPerM3Slab = 80;
+  var rebarKgPerM3Col  = 130;
+  var rebarKgPerM3Beam = 110;
+  var rebarKgFoundation = 70;
+  var rebarTotal = (
+    concreteSlabs * rebarKgPerM3Slab +
+    concreteColumns * rebarKgPerM3Col +
+    concreteBeams * rebarKgPerM3Beam +
+    concreteFoundation * rebarKgFoundation
+  ) * 1.05;
+  var rebarTons = (rebarTotal / 1000).toFixed(1);
+
+  // ── Masonry / Block ──────────────────────────────────────
+  var wallAreaPerFloor = perimeterEst * floorH * 0.7; // 70% solid
+  var innerWalls = area * 0.3 * floorH * 0.7; // 30% of floor as inner walls
+  var totalWallArea = (wallAreaPerFloor + innerWalls) * floors;
+  var blockFaceArea = 0.4 * 0.2; // 400×200 standard block face
+  var blockCount = Math.ceil(totalWallArea / blockFaceArea * 1.08); // +8% waste
+  var mortarVol = (totalWallArea * 0.03).toFixed(1); // 30mm joints avg
+
+  // ── Mortar ingredients ───────────────────────────────────
+  var mortarCementBags = Math.ceil(parseFloat(mortarVol) * 300 / 50); // 300 kg/m³ cement
+  var mortarSand = (parseFloat(mortarVol) * 1.2).toFixed(1);
+  var mortarWater = Math.ceil(parseFloat(mortarVol) * 180); // L per m³ mortar
+
+  // ── Formwork ─────────────────────────────────────────────
+  var formworkM2 = Math.ceil(totalArea * 1.3); // 1.3× floor area
+
+  // ── Results HTML ─────────────────────────────────────────
+  var gr = function(label, val, unit, note) {
+    return '<tr><td style="color:var(--text2)">' + label + '</td><td style="color:var(--text);font-weight:700;">' + val + '</td><td style="color:#3498db">' + unit + '</td><td style="color:var(--text3);font-size:10px;">' + (note||'') + '</td></tr>';
+  };
+
+  var html = '<div style="display:flex;flex-direction:column;gap:10px;">';
+
+  // Summary card
+  html += '<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:12px;">';
+  html += '<div style="font-size:12px;font-weight:700;color:#3498db;margin-bottom:8px;">📋 ملخص المشروع</div>';
+  html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:11px;">';
+  html += '<div style="text-align:center;background:var(--dark4);border-radius:6px;padding:6px;"><div style="color:var(--text3)">مساحة كلية</div><div style="color:var(--text);font-weight:700;">' + totalArea.toFixed(0) + ' m²</div></div>';
+  html += '<div style="text-align:center;background:var(--dark4);border-radius:6px;padding:6px;"><div style="color:var(--text3)">خرسانة إجمالية</div><div style="color:var(--gold);font-weight:700;">' + concreteTotal.toFixed(0) + ' m³</div></div>';
+  html += '<div style="text-align:center;background:var(--dark4);border-radius:6px;padding:6px;"><div style="color:var(--text3)">حديد إجمالي</div><div style="color:#e74c3c;font-weight:700;">' + rebarTons + ' طن</div></div>';
+  html += '</div></div>';
+
+  // Concrete section
+  html += '<div style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;overflow:hidden;">';
+  html += '<div style="background:rgba(201,168,76,0.1);padding:8px 12px;font-size:12px;font-weight:700;color:var(--gold);">🏗️ كميات الخرسانة (C' + grade + ')</div>';
+  html += '<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.7)"><th>العنصر</th><th>الكمية</th><th>الوحدة</th><th>ملاحظة</th></tr>';
+  html += gr('أسقف (Slabs)', concreteSlabs.toFixed(1), 'm³', 'سماكة ' + (slabThk*1000) + 'mm');
+  html += gr('أعمدة (Columns)', concreteColumns.toFixed(1), 'm³', '~1.2% من مساحة الطابق');
+  html += gr('جسور (Beams)', concreteBeams.toFixed(1), 'm³', '~6% من المساحة الكلية');
+  html += gr('أساسات (Foundation)', concreteFoundation.toFixed(1), 'm³', '350mm Raft avg');
+  html += gr('الإجمالي + 5% هدر', concreteTotal.toFixed(0), 'm³', 'الكمية للطلب');
+  html += '</table></div></div>';
+
+  // Mix materials
+  html += '<div style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;overflow:hidden;">';
+  html += '<div style="background:rgba(52,152,219,0.1);padding:8px 12px;font-size:12px;font-weight:700;color:#3498db;">🧪 مكونات الخلطة الخرسانية C' + grade + '</div>';
+  html += '<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.7)"><th>المادة</th><th>الكمية</th><th>الوحدة</th><th>ملاحظة</th></tr>';
+  html += gr('اسمنت (50kg/كيس)', totalCementBags, 'كيس', cementBags + ' كيس/m³ | SRPC C' + grade);
+  html += gr('رمل ناعم', totalSand, 'm³', sand_m3 + ' m³/m³ خرسانة');
+  html += gr('حجر مكسر (10-20mm)', totalAgg, 'm³', agg_m3 + ' m³/m³ خرسانة');
+  html += gr('ماء الخلط', totalWater, 'لتر', 'w/c = 0.45');
+  html += '</table></div></div>';
+
+  // Rebar
+  html += '<div style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;overflow:hidden;">';
+  html += '<div style="background:rgba(231,76,60,0.1);padding:8px 12px;font-size:12px;font-weight:700;color:#e74c3c;">🔩 حديد التسليح (Grade B500B)</div>';
+  html += '<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.7)"><th>العنصر</th><th>الكمية</th><th>الوحدة</th><th>المعدل</th></tr>';
+  html += gr('أسقف', (concreteSlabs * rebarKgPerM3Slab / 1000).toFixed(1), 'طن', rebarKgPerM3Slab + ' kg/m³');
+  html += gr('أعمدة', (concreteColumns * rebarKgPerM3Col / 1000).toFixed(1), 'طن', rebarKgPerM3Col + ' kg/m³');
+  html += gr('جسور', (concreteBeams * rebarKgPerM3Beam / 1000).toFixed(1), 'طن', rebarKgPerM3Beam + ' kg/m³');
+  html += gr('أساسات', (concreteFoundation * rebarKgFoundation / 1000).toFixed(1), 'طن', rebarKgFoundation + ' kg/m³');
+  html += gr('الإجمالي + 5% هدر', rebarTons, 'طن', 'للطلب');
+  html += '</table></div></div>';
+
+  // Masonry
+  html += '<div style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;overflow:hidden;">';
+  html += '<div style="background:rgba(46,204,113,0.08);padding:8px 12px;font-size:12px;font-weight:700;color:#2ecc71;">🧱 أعمال البناء والطابوق</div>';
+  html += '<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.7)"><th>المادة</th><th>الكمية</th><th>الوحدة</th><th>ملاحظة</th></tr>';
+  html += gr('مساحة الجدران الكلية', totalWallArea.toFixed(0), 'm²', 'خارجي + داخلي');
+  html += gr('بلوك (400×200×200)', blockCount, 'حبة', '+8% هدر');
+  html += gr('ملاط البناء', mortarVol, 'm³', '30mm joints avg');
+  html += gr('اسمنت الملاط', mortarCementBags, 'كيس', '1:4 Cement:Sand');
+  html += gr('رمل الملاط', mortarSand, 'm³', 'رمل ناعم');
+  html += gr('ماء الملاط', mortarWater, 'لتر', 'تقريبي');
+  html += '</table></div></div>';
+
+  // Formwork
+  html += '<div style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;overflow:hidden;">';
+  html += '<div style="background:rgba(155,89,182,0.08);padding:8px 12px;font-size:12px;font-weight:700;color:#9b59b6;">🪵 الشدات (Formwork)</div>';
+  html += '<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.7)"><th>العنصر</th><th>الكمية</th><th>الوحدة</th><th>ملاحظة</th></tr>';
+  html += gr('مساحة الشدات المطلوبة', formworkM2, 'm²', '1.3× مساحة الطابق');
+  html += gr('خشب / متال Form', formworkM2, 'm²', 'حسب نوع النظام المختار');
+  html += '</table></div></div>';
+
+  html += '</div>';
+
+  document.getElementById('mc-results').innerHTML = html;
+  document.getElementById('mc-results').style.display = 'block';
+}
+ // ←── end detailData
 
 let navStack = [];
 
