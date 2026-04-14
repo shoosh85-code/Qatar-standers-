@@ -3055,25 +3055,93 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   ws_survey: { title: '📐 مياه الشرب — الدراسة والتصميم', content: `
 <div class="lang-content-ar">
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 — Section 8 Part 1 | KAHRAMAA W.S.S. Standards | Pre-Construction</div>
 
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 1 | Pre-Construction</div>
-<h3>📋 متطلبات ما قبل التنفيذ</h3>
-<table class="dm-table"><tr><th>البند</th><th>المتطلب</th><th>الجهة</th></tr><tr><td>مخططات التصميم</td><td>معتمدة من KAHRAMAA / Ashghal</td><td>KAHRAMAA</td></tr><tr><td>Hydraulic Analysis</td><td>تحليل الضغط والتدفق</td><td>Consultant</td></tr><tr><td>As-Built الموجود</td><td>خدمات موجودة + NOC من كل جهة</td><td>جميع الجهات</td></tr><tr><td>Material Submittal</td><td>اعتماد المواسير والـ Fittings</td><td>KAHRAMAA</td></tr><tr><td>Method Statement</td><td>معتمد قبل البدء</td><td>Consultant</td></tr><tr><td>Traffic Management</td><td>خطة معتمدة</td><td>MME / MOI</td></tr></table>
-<h3>⚠️ NOC إلزامي قبل الحفر من:</h3>
-<p>• KAHRAMAA — الكهرباء والمياه<br>• Ooredoo / Vodafone — الاتصالات<br>• Ashghal — الطرق والصرف<br>• Qatar Rail — قرب المترو<br>• QP / Woqod — قرب خطوط الغاز</p>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-01:</strong> اعتماد المخططات والـ Method Statement قبل الحفر</p>
+<h3>📐 1. متطلبات ما قبل التنفيذ — Water Supply</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المتطلب</th><th>الجهة المعتمِدة</th><th>التوقيت</th></tr>
+<tr><td>مخططات التصميم</td><td>معتمدة من KAHRAMAA — Plan + Profile + Details</td><td>KAHRAMAA</td><td>قبل أي تنفيذ</td></tr>
+<tr><td>Hydraulic Analysis</td><td>تحليل الضغط والتدفق — Epanet أو WaterGEMS<br>Min pressure ≥ 15m (1.5 bar) في أي نقطة</td><td>Consultant + KAHRAMAA</td><td>قبل التصميم النهائي</td></tr>
+<tr><td>Material Submittal</td><td>اعتماد كل المواسير + Fittings + Valves<br>شهادات المصنع + KAHRAMAA Approved List</td><td>KAHRAMAA</td><td>قبل التوريد</td></tr>
+<tr><td>Method Statement</td><td>يشمل: Fusion procedure + Disinfection plan<br>+ Traffic Management + Emergency Shutdown plan</td><td>Consultant + KAHRAMAA</td><td>قبل الحفر</td></tr>
+<tr><td>Soil Investigation</td><td>Trial pits كل 100m — تحديد GWT + Sabkha zones</td><td>Consultant</td><td>قبل التصميم</td></tr>
+<tr><td>Traffic Management Plan</td><td>معتمدة من MME + MOI + Ashghal</td><td>MME / MOI / Ashghal</td><td>قبل الحفر</td></tr>
+<tr><td>Utility Detection (GPR)</td><td>Ground Penetrating Radar Scan — 100% قبل الحفر</td><td>Ashghal NOC</td><td>قبل الحفر</td></tr>
+<tr><td>Emergency Isolation Plan</td><td>خطة قطع الطوارئ + مواضع الـ Isolation Valves</td><td>KAHRAMAA</td><td>قبل الحفر</td></tr>
+</table></div>
 
+<h3>📐 2. NOC إلزامي قبل الحفر — جدول كامل</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>الجهة</th><th>سبب NOC</th><th>مدة الحصول المتوقعة</th><th>ملاحظة</th></tr>
+<tr><td>KAHRAMAA</td><td>شبكة مياه الشرب + الكهرباء الموجودة</td><td>5–10 أيام عمل</td><td>إلزامي — الأول</td></tr>
+<tr><td>Ashghal</td><td>الطرق + الصرف الصحي + البنية التحتية</td><td>5–7 أيام عمل</td><td>إلزامي</td></tr>
+<tr><td>Ooredoo / Vodafone</td><td>كابلات الاتصالات</td><td>3–5 أيام عمل</td><td>إلزامي</td></tr>
+<tr><td>Qatar Rail (لو قرب مترو)</td><td>حماية الأنفاق والمسافات الآمنة</td><td>10–15 يوم عمل</td><td>شرط خاص إضافي</td></tr>
+<tr><td>QP / Woqod (لو قرب غاز)</td><td>خطوط الغاز والنفط المدفونة</td><td>10–15 يوم عمل</td><td>شرط خاص إضافي</td></tr>
+<tr><td>MME / MOI</td><td>المرور وإغلاق الطرق</td><td>3–5 أيام عمل</td><td>مع Traffic Plan</td></tr>
+</table></div>
+
+<h3>📐 3. متطلبات التصميم الهيدروليكي</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>المعيار</th><th>القيمة</th><th>المرجع</th></tr>
+<tr><td>الضغط الأدنى في الشبكة</td><td>≥ 15m head (1.5 bar) — خلال ساعة الذروة</td><td>KAHRAMAA W.S.S.</td></tr>
+<tr><td>الضغط الأقصى</td><td>≤ 80m head (8.0 bar) — حماية المواسير</td><td>KAHRAMAA W.S.S.</td></tr>
+<tr><td>سرعة التدفق الدنيا</td><td>≥ 0.3 m/s — لمنع تراكم الترسبات</td><td>QCS S8 P1</td></tr>
+<tr><td>سرعة التدفق القصوى</td><td>≤ 3.0 m/s — حماية من Water Hammer</td><td>QCS S8 P1</td></tr>
+<tr><td>Water Hammer Analysis</td><td>إلزامي لخطوط > DN300 أو سرعة > 1.5 m/s</td><td>KAHRAMAA</td></tr>
+<tr><td>Minimum Pipe Diameter</td><td>DN50 للتوصيلات المنزلية | DN100 للشوارع</td><td>KAHRAMAA Std.</td></tr>
+<tr><td>عمق الدفن في الطرق</td><td>≥ 900mm من سطح الطريق</td><td>KAHRAMAA / Ashghal</td></tr>
+<tr><td>عمق الدفن خارج الطرق</td><td>≥ 600mm (حدائق + مناطق رعي)</td><td>KAHRAMAA</td></tr>
+</table></div>
+
+<h3>📐 4. مسافات الفصل الإلزامية — Water Supply</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>الشبكة المجاورة</th><th>الفصل الأفقي الأدنى</th><th>الفصل الرأسي</th><th>المرجع</th></tr>
+<tr><td>Foul Sewer</td><td>≥ 1000mm</td><td>Water Supply دائماً فوق</td><td>KAHRAMAA / QCS S8</td></tr>
+<tr><td>Treated Water</td><td>≥ 1000mm</td><td>Water Supply دائماً فوق</td><td>KAHRAMAA / MME</td></tr>
+<tr><td>Storm Water</td><td>≥ 500mm</td><td>Water Supply فوق مفضّل</td><td>QCS S8 P1</td></tr>
+<tr><td>Gas (QP / Woqod)</td><td>≥ 1000mm</td><td>أي وضع — حسب تقييم QP</td><td>QP Standards</td></tr>
+<tr><td>Electricity Cables</td><td>≥ 500mm</td><td>Water Supply فوق</td><td>KAHRAMAA Electrical</td></tr>
+<tr><td>Telecom Cables</td><td>≥ 300mm</td><td>أي وضع</td><td>Ooredoo</td></tr>
+</table></div>
+
+<h3>🔴 5. Hold Points — ما قبل التنفيذ</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-01A</td><td>كل NOCs مكتملة قبل الحفر</td><td>KAHRAMAA + Ashghal + MME</td><td>NOC Letters File</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-01B</td><td>Material Approval من KAHRAMAA قبل التوريد</td><td>KAHRAMAA</td><td>Approved Submittal</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-01C</td><td>Hydraulic Analysis معتمد + Method Statement</td><td>Consultant + KAHRAMAA</td><td>Approved MS + Hydraulic Report</td></tr>
+</table></div>
 </div>
+
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 📐 مياه الشرب — الدراسة والتصميم
-</div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 1 | KAHRAMAA Standards | Water Supply Pre-Construction</div>
+<h3>Pre-Construction Requirements</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Requirement</th><th>Authority</th></tr>
+<tr><td>Design Drawings</td><td>KAHRAMAA approved — Plan + Profile + Details</td><td>KAHRAMAA</td></tr>
+<tr><td>Hydraulic Analysis</td><td>Epanet/WaterGEMS — Min pressure ≥ 15m (1.5 bar)</td><td>KAHRAMAA</td></tr>
+<tr><td>Material Submittal</td><td>All pipes + fittings + valves — KAHRAMAA Approved List</td><td>KAHRAMAA</td></tr>
+<tr><td>Method Statement</td><td>Fusion procedure + disinfection plan + emergency shutdown</td><td>KAHRAMAA + Consultant</td></tr>
+<tr><td>GPR Survey</td><td>100% before excavation</td><td>Ashghal NOC</td></tr>
+</table></div>
+<h3>Hydraulic Design Standards</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Parameter</th><th>Value</th><th>Reference</th></tr>
+<tr><td>Min pressure</td><td>≥ 15m head (1.5 bar) at peak demand</td><td>KAHRAMAA W.S.S.</td></tr>
+<tr><td>Max pressure</td><td>≤ 80m head (8.0 bar)</td><td>KAHRAMAA W.S.S.</td></tr>
+<tr><td>Min velocity</td><td>≥ 0.3 m/s</td><td>QCS S8 P1</td></tr>
+<tr><td>Max velocity</td><td>≤ 3.0 m/s</td><td>QCS S8 P1</td></tr>
+<tr><td>Cover depth (roads)</td><td>≥ 900mm</td><td>KAHRAMAA / Ashghal</td></tr>
+</table></div>
+<h3>Mandatory Separation Distances</h3>
+<p>• Foul Sewer: ≥1000mm horizontal — Water Supply always above<br>
+• Treated Water: ≥1000mm horizontal — Water Supply always above<br>
+• Gas: ≥1000mm horizontal — per QP assessment<br>
+• Electricity: ≥500mm — Water Supply above</p>
+<p><strong>HP-01A:</strong> All NOCs complete before excavation<br>
+<strong>HP-01B:</strong> KAHRAMAA Material Approval before supply<br>
+<strong>HP-01C:</strong> Hydraulic Analysis + Method Statement approved</p>
 </div>
 ` },
 
@@ -3411,24 +3479,67 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div class="lang-content-ar">
 <div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">الردم والضغط — مياه الشرب</span></div>
+<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">الردم والدمك — مياه الشرب</span></div>
 <button onclick="document.getElementById('vid-ws-backfill').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
 </div>
 <input type="file" id="vid-ws-backfill" accept="video/*" style="display:none" data-player="vid-player-ws-backfill" data-ph="vid-ph-ws-backfill" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ws-backfill" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Compaction ≥95% MDD طبقة 300mm</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
 <video id="vid-player-ws-backfill" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 — Section 8 Part 1 | Ashghal Reinstatement | KAHRAMAA Backfill Specs</div>
 
+<h3>📐 1. جدول طبقات الردم الكامل — Water Supply</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>المنطقة</th><th>المادة</th><th>السماكة القصوى/طبقة</th><th>درجة الدمك</th><th>طريقة الاختبار</th><th>تكرار الاختبار</th><th>المرجع</th></tr>
+<tr><td>0–300mm فوق الماسورة</td><td>رمل نظيف — يدوي فقط — لا آلات</td><td>—</td><td>≥ 90% MDD</td><td>Sand Cone ASTM D1556</td><td>كل 50m</td><td>KAHRAMAA / QCS S8</td></tr>
+<tr><td>300–600mm</td><td>Selected Fill (PI ≤ 10 | ≤ 75mm) لا Sabkha</td><td>300mm / طبقة</td><td>≥ 93% MDD</td><td>Sand Cone / DCP</td><td>كل 50m</td><td>Ashghal</td></tr>
+<tr><td>600mm – 1.5m من السطح</td><td>Selected Fill أو QCS S6 Material</td><td>200mm / طبقة</td><td>≥ 95% MDD</td><td>Sand Cone</td><td>كل 500m²</td><td>Ashghal / QCS S6</td></tr>
+<tr><td>آخر 1.5m (تحت الطريق)</td><td>Subbase Class A + Base Course حسب الطريق</td><td>150mm / طبقة</td><td>≥ 98% MDD</td><td>Sand Cone</td><td>كل 250m²</td><td>Ashghal Reinst.</td></tr>
+<tr><td>Marker Tape</td><td>أصفر — "WATER" — Polythene 300mm فوق الماسورة</td><td>—</td><td>—</td><td>100% بصري</td><td>كل Pipe Run</td><td>KAHRAMAA</td></tr>
+</table></div>
 
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 1 | Backfill</div>
-<h3>📐 مواصفات الردم</h3>
-<table class="dm-table"><tr><th>المنطقة</th><th>المادة</th><th>الCompaction</th></tr><tr><td>0-300mm فوق الماسورة</td><td>رمل نظيف</td><td>يدوي ≥ 90% MDD</td></tr><tr><td>300mm – 600mm</td><td>رمل أو حجر مكسر ≤ 75mm</td><td>≥ 93% MDD</td></tr><tr><td>600mm للسطح</td><td>حسب نوع الطريق</td><td>≥ 95-98% MDD</td></tr><tr><td>Marker Tape</td><td>أصفر على عمق 300mm</td><td>—</td></tr></table>
-<h3>🔧 إعادة الطريق</h3>
-<table class="dm-table"><tr><th>البند</th><th>المتطلب</th></tr><tr><td>Subbase</td><td>بنفس مواصفة الطريق الأصلي</td></tr><tr><td>Base Course</td><td>بنفس المواصفة الأصلية</td></tr><tr><td>Asphalt</td><td>بنفس سماكة الطريق الأصلي</td></tr><tr><td>Saw Cut</td><td>قطع نظيف عند حواف الحفر</td></tr></table>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-07:</strong> اعتماد Compaction Test للردم قبل إعادة الطريق</p>
+<h3>📐 2. جدول اختبارات الدمك</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>الاختبار</th><th>معيار القبول</th><th>طريقة الاختبار</th><th>الحد الأدنى للتكرار</th><th>المرجع</th></tr>
+<tr><td>Proctor (MDD + OMC)</td><td>قاعدة مرجعية لكل مصدر مادة</td><td>BS 1377 Part 4 / ASTM D698</td><td>كل مصدر + كل تغيير مادة</td><td>QCS S6</td></tr>
+<tr><td>In-situ Density (Sand Replacement)</td><td>≥ 90–98% MDD حسب طبقة الردم</td><td>ASTM D1556 / BS 1377 Part 9</td><td>كل 50m للخندق / كل 500m² للمساحات</td><td>Ashghal</td></tr>
+<tr><td>DCP (Dynamic Cone)</td><td>CBR ≥ 30% لـ Subbase | CBR ≥ 80% لـ Base</td><td>ASTM D6951</td><td>عند الشك أو بالقرب من Structures</td><td>Ashghal</td></tr>
+<tr><td>Settlement Monitoring</td><td>لا هبوط مرئي بعد 7 أيام من الرصف</td><td>Level Survey</td><td>100% — كل القطاعات</td><td>Ashghal</td></tr>
+<tr><td>Plate Bearing Test (CBR in-situ)</td><td>≥ مواصفة الطريق الأصلي</td><td>BS 1377 Part 9</td><td>طرق رئيسية + Ashghal طلب</td><td>Ashghal</td></tr>
+</table></div>
 
+<h3>📐 3. إعادة تأهيل الطريق — Road Reinstatement</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>الطبقة</th><th>المادة</th><th>السماكة</th><th>المواصفة</th><th>المرجع</th></tr>
+<tr><td>Saw Cut</td><td>قطع Diamond Saw — خط مستقيم نظيف</td><td>—</td><td>300mm خارج حافة الخندق كل جانب</td><td>Ashghal Reinst.</td></tr>
+<tr><td>Subgrade Preparation</td><td>تسوية + دمك ≥ 95% MDD</td><td>حتى عمق الـ Subbase</td><td>—</td><td>Ashghal</td></tr>
+<tr><td>Subbase (GSB)</td><td>Granular Sub-Base Class A — QCS S6</td><td>بنفس الطريق الأصلي — min 150mm</td><td>CBR ≥ 30% | ≥ 98% MDD</td><td>Ashghal S6</td></tr>
+<tr><td>Base Course (DBM)</td><td>Dense Bitumen Macadam — QCS S7</td><td>بنفس الطريق الأصلي — min 50mm</td><td>Marshall Stability ≥ 8 kN</td><td>QCS S7</td></tr>
+<tr><td>Wearing Course</td><td>Asphaltic Concrete QCS S7</td><td>بنفس الطريق الأصلي — min 40mm</td><td>IRI ≤ 2.5 m/km</td><td>Ashghal S7</td></tr>
+<tr><td>Tack Coat</td><td>Bitumen Emulsion بين الطبقات</td><td>0.3–0.5 L/m²</td><td>—</td><td>QCS S7</td></tr>
+<tr><td>Joint Sealing</td><td>Bituminous Sealant عند الـ Saw Cut</td><td>بعرض ≥ 10mm</td><td>مانع للتسرب</td><td>Ashghal</td></tr>
+</table></div>
+
+<h3>⛔ 4. Unacceptable — مرفوض فوراً</h3>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
+• ❌ ردم بتربة Sabkha (SO₃ > 0.5%) أو تربة عضوية<br>
+• ❌ ردم بحجارة > 75mm في منطقة الماسورة<br>
+• ❌ استخدام آلات ثقيلة مباشرة فوق الماسورة (< 1.0m تغطية)<br>
+• ❌ Marker Tape غير أصفر أو بدون كتابة "WATER"<br>
+• ❌ إعادة رصف بدون Saw Cut نظيف — يُسبب تشقق الحواف<br>
+• ❌ طبقة Wearing Course بدون Tack Coat<br>
+• ❌ Compaction Test ناقص — ردم بدون نتائج مختبر
 </div>
+
+<h3>🔴 5. Hold Points — الردم والتشطيب</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-07A</td><td>Compaction Test Pass (≥93% MDD) للطبقات 300–600mm</td><td>QC + Lab</td><td>Compaction Test Report</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-07B</td><td>Subbase + Base Course Compaction ≥ 98% MDD</td><td>QC + Ashghal</td><td>Lab Results + ITR-07B</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-07C</td><td>Saw Cut نظيف + Asphalt مطابق مواصفة الطريق الأصلي</td><td>Ashghal Inspector</td><td>Reinstatement ITR</td></tr>
+</table></div>
+</div>
+
 <div class="lang-content-en" style="display:none;">
 <div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
@@ -3439,14 +3550,28 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div id="vid-ph-ws-backfill-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Compaction ≥95% MDD per 300mm layer</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
 <video id="vid-player-ws-backfill-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🏗️ مياه الشرب — الردم والتشطيب
-</div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 1 | Ashghal Reinstatement | Water Supply Backfill</div>
+<h3>Backfill Layers</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Zone</th><th>Material</th><th>Max Layer</th><th>Compaction</th><th>Test Frequency</th></tr>
+<tr><td>0–300mm above pipe</td><td>Clean sand — manual only</td><td>—</td><td>≥ 90% MDD</td><td>Every 50m</td></tr>
+<tr><td>300–600mm</td><td>Selected fill (PI ≤10 | ≤75mm) — no Sabkha</td><td>300mm</td><td>≥ 93% MDD</td><td>Every 50m</td></tr>
+<tr><td>600mm to 1.5m depth</td><td>Selected fill / QCS S6 material</td><td>200mm</td><td>≥ 95% MDD</td><td>Every 500m²</td></tr>
+<tr><td>Top 1.5m (below road)</td><td>Subbase Class A + Base Course</td><td>150mm</td><td>≥ 98% MDD</td><td>Every 250m²</td></tr>
+<tr><td>Marker Tape</td><td>Yellow — "WATER" — 300mm above pipe</td><td>—</td><td>100% visual</td><td>Every pipe run</td></tr>
+</table></div>
+<h3>Road Reinstatement</h3>
+<p>• Saw Cut: Diamond saw — straight line — 300mm outside trench edge each side<br>
+• Subbase GSB Class A: same depth as original — min 150mm — CBR ≥ 30% — ≥98% MDD<br>
+• Base DBM: same as original — min 50mm — Marshall Stability ≥ 8kN<br>
+• Wearing Course AC: same as original — min 40mm<br>
+• Tack Coat between layers: 0.3–0.5 L/m²<br>
+• Joint Seal at saw cut: bituminous sealant ≥ 10mm</p>
+<p><strong>HP-07A:</strong> Compaction ≥93% MDD — 300–600mm zone<br>
+<strong>HP-07B:</strong> Subbase + base ≥98% MDD confirmed<br>
+<strong>HP-07C:</strong> Saw cut clean + asphalt matching original road spec</p>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+<strong>REJECT:</strong> Sabkha soil (SO₃ >0.5%) | Rocks >75mm near pipe | Heavy machinery on <1.0m cover | Non-yellow marker tape | Asphalt without tack coat | Missing compaction test results
 </div>
 </div>
 ` },
@@ -3462,17 +3587,62 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div id="vid-ph-ws-handover" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">As-Built، اختبارات نهائية، تشغيل</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
 <video id="vid-player-ws-handover" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 — Section 8 Part 1 | KAHRAMAA W.S.S. | Water Supply Handover</div>
 
+<h3>📐 1. وثائق التسليم الإلزامية</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>الوثيقة</th><th>المحتوى المطلوب</th><th>النسخ</th><th>الجهة</th></tr>
+<tr><td>As-Built Drawings</td><td>Plan + Profile مع مناسيب فعلية<br>GPS Coordinates لكل Valve + Fitting + Chamber<br>نقاط التوصيل + مواضع Tie-ins</td><td>3 ورقي + 1 رقمي DWG/PDF</td><td>KAHRAMAA</td></tr>
+<tr><td>Pressure Test Certificates</td><td>كل sections — 1.5×PN / 2hr / Zero drop<br>تاريخ + اسم القائم بالاختبار + توقيع KAHRAMAA</td><td>أصلي + نسختان</td><td>KAHRAMAA</td></tr>
+<tr><td>Chlorination & Flushing Records</td><td>≥ 50ppm لمدة ≥ 24hr<br>نتائج Residual Chlorine + Flush Volume</td><td>أصلي + نسخة</td><td>KAHRAMAA Lab</td></tr>
+<tr><td>Bacteriological Water Quality</td><td>Coliform = 0 / 100mL<br>E. Coli = 0 / 100mL — KAHRAMAA Lab معتمد</td><td>أصلي</td><td>KAHRAMAA Lab</td></tr>
+<tr><td>Chemical Water Quality</td><td>pH: 6.5–8.5 | Turbidity ≤ 1 NTU<br>Chlorine Residual: 0.2–0.5 mg/L عند أبعد نقطة</td><td>أصلي</td><td>KAHRAMAA Lab</td></tr>
+<tr><td>Material Certificates</td><td>Mill Certs للمواسير + Fittings + Valves<br>KAHRAMAA Approved List Confirmation</td><td>أصلي</td><td>Manufacturer</td></tr>
+<tr><td>Valve Schedule</td><td>كل Valves: Type / Size / Location / GPS<br>Operating Turn Direction + Key Type</td><td>ورقي + رقمي</td><td>KAHRAMAA</td></tr>
+<tr><td>Fusion Welding Records</td><td>كل HDPE Butt Fusion + Electrofusion<br>Barcode / Temperature / Time لكل وصلة</td><td>رقمي + ورقي</td><td>QC</td></tr>
+<tr><td>ITP Signed Register</td><td>كل ITPs مغلقة — صفر NCR مفتوح</td><td>أصلي موقّع</td><td>QC + Consultant</td></tr>
+<tr><td>O&M Manual</td><td>Operating procedures + Valve Key Schedule<br>Emergency Isolation Plan + Contact Numbers</td><td>نسختان</td><td>KAHRAMAA</td></tr>
+<tr><td>GIS Data File</td><td>Shapefile أو DWG مع Attributes لكل Asset</td><td>رقمي</td><td>KAHRAMAA GIS</td></tr>
+</table></div>
 
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 8 Part 1 | Handover</div>
-<h3>📋 وثائق التسليم المطلوبة</h3>
-<table class="dm-table"><tr><th>الوثيقة</th><th>المحتوى</th></tr><tr><td>As-Built Drawings</td><td>مخططات منفذة بالمناسيب والمواضع الفعلية</td></tr><tr><td>Pressure Test Records</td><td>كل نتائج Hydrostatic Test</td></tr><tr><td>Water Quality Reports</td><td>نتائج KAHRAMAA المعتمدة</td></tr><tr><td>Material Certificates</td><td>شهادات كل المواسير والـ Fittings</td></tr><tr><td>Valve Schedule</td><td>جدول كل الـ Valves بالمواضع والـ Size</td></tr><tr><td>ITR Register</td><td>كل طلبات التفتيش الموقعة</td></tr><tr><td>NCR Log</td><td>كل التقارير وإجراءات الإغلاق</td></tr></table>
-<h3>🛡️ فترة الضمان DLP</h3>
-<p>• المدة: <strong>12 شهر</strong> من تاريخ التسليم<br>• Inspection كل 3 أشهر<br>• إصلاح أي تسريب خلال 48 hour</p>
-<h3>🔴 Hold Points النهائية</h3>
-<p>• <strong>HP-08:</strong> موافقة KAHRAMAA + الاستشاري على التسليم النهائي</p>
+<h3>📐 2. قائمة التحقق قبل التسليم النهائي</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>الشرط</th><th>الجهة</th></tr>
+<tr><td>Pressure Test</td><td>100% Pass — كل Sections</td><td>QC + KAHRAMAA</td></tr>
+<tr><td>Chlorination</td><td>≥ 50ppm / ≥ 24hr — كل الشبكة</td><td>KAHRAMAA Lab</td></tr>
+<tr><td>Bacteriological Test</td><td>Coliform = 0 | E.Coli = 0 / 100mL</td><td>KAHRAMAA Lab</td></tr>
+<tr><td>Chemical Quality</td><td>pH + Turbidity + Residual Cl₂ ضمن الحدود</td><td>KAHRAMAA Lab</td></tr>
+<tr><td>Valve Operation</td><td>كل الـ Valves تُفتح وتُغلق — تعمل بسلاسة</td><td>QC + KAHRAMAA</td></tr>
+<tr><td>Air Valve Function</td><td>كل ARVs تعمل — تُخرج الهواء عند التشغيل</td><td>QC</td></tr>
+<tr><td>Marker Tape</td><td>أصفر — "WATER" — موجود 100%</td><td>QC</td></tr>
+<tr><td>No Leaks (Visual)</td><td>فحص بصري شامل لكل الشبكة أثناء التشغيل</td><td>KAHRAMAA Inspector</td></tr>
+<tr><td>Compaction Pass</td><td>100% نتائج ≥ 95% MDD</td><td>Lab + QC</td></tr>
+<tr><td>Road Reinstated</td><td>Asphalt مكتمل — مستوي — مطابق الطريق الأصلي</td><td>Ashghal</td></tr>
+<tr><td>GIS Data Submitted</td><td>Shapefile مُسلَّم ومعتمد</td><td>KAHRAMAA GIS</td></tr>
+<tr><td>Zero Open NCRs</td><td>كل NCRs مغلقة بإجراءات تصحيحية موثقة</td><td>QC</td></tr>
+</table></div>
 
+<h3>🛡️ 3. فترة الضمان DLP — Defects Liability Period</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المتطلب</th></tr>
+<tr><td>مدة DLP</td><td>12 شهر من تاريخ التسليم الرسمي (TOC)</td></tr>
+<tr><td>Bacteriological Monitoring</td><td>كل 3 أشهر — نتائج لـ KAHRAMAA</td></tr>
+<tr><td>Pressure Monitoring</td><td>شهري — لوغر ضغط على نقاط حرجة</td></tr>
+<tr><td>Valve Exercise</td><td>تشغيل كل الـ Valves كل 6 أشهر + توثيق</td></tr>
+<tr><td>Leak Response</td><td>خلال 24hr من الإبلاغ — إصلاح + إشعار KAHRAMAA</td></tr>
+<tr><td>Marker Tape Check</td><td>عند أي حفر قريب — تأكيد وجود الـ Tape</td></tr>
+<tr><td>Road Settlement Check</td><td>كل 3 أشهر — إبلاغ Ashghal عند أي هبوط</td></tr>
+</table></div>
+
+<h3>🔴 4. Hold Points النهائية</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-08A</td><td>Bacteriological Water Quality = Zero Coliform — KAHRAMAA Lab</td><td>KAHRAMAA Lab</td><td>Water Quality Certificate</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-08B</td><td>As-Built + GIS Data مُسلَّمة ومعتمدة</td><td>KAHRAMAA GIS</td><td>Approved As-Built Set</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-08C</td><td>موافقة KAHRAMAA الرسمية — TOC Certificate</td><td>KAHRAMAA</td><td>Taking Over Certificate</td></tr>
+</table></div>
 </div>
+
 <div class="lang-content-en" style="display:none;">
 <div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
@@ -3483,15 +3653,30 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div id="vid-ph-ws-handover-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">As-built, final tests, commissioning</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
 <video id="vid-player-ws-handover-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | ✅ مياه الشرب — التسليم
-</div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 1 | KAHRAMAA W.S.S. | Water Supply Handover</div>
+<h3>Handover Documents Required</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Document</th><th>Content</th><th>Copies</th></tr>
+<tr><td>As-Built Drawings</td><td>Plan + profile — actual levels — GPS per valve/fitting</td><td>3 hard + 1 digital</td></tr>
+<tr><td>Pressure Test Certs</td><td>All sections — 1.5×PN / 2hr / zero drop — KAHRAMAA signed</td><td>Original + 2</td></tr>
+<tr><td>Chlorination Records</td><td>≥50ppm / ≥24hr + residual chlorine results</td><td>Original + 1</td></tr>
+<tr><td>Bacteriological Quality</td><td>Coliform = 0 | E.Coli = 0 / 100mL — KAHRAMAA Lab</td><td>Original</td></tr>
+<tr><td>Chemical Quality</td><td>pH 6.5–8.5 | Turbidity ≤1 NTU | Cl₂ 0.2–0.5 mg/L</td><td>Original</td></tr>
+<tr><td>Material Certs</td><td>Mill certs — pipes + fittings + valves — KAHRAMAA list</td><td>Original</td></tr>
+<tr><td>Valve Schedule</td><td>All valves: type/size/GPS/operating turns/key type</td><td>Hard + digital</td></tr>
+<tr><td>Fusion Welding Records</td><td>All HDPE joints — barcode / temp / time</td><td>Digital + hard</td></tr>
+<tr><td>GIS Data File</td><td>Shapefile/DWG with full asset attributes</td><td>Digital</td></tr>
+<tr><td>O&M Manual</td><td>Operating procedures + emergency isolation plan</td><td>2 copies</td></tr>
+</table></div>
+<h3>DLP — 12 Months from TOC</h3>
+<p>• Bacteriological test every 3 months → KAHRAMAA<br>
+• Monthly pressure monitoring at critical points<br>
+• Valve exercise every 6 months (all valves)<br>
+• Leak repair within 24hr of report<br>
+• Road settlement check every 3 months</p>
+<p><strong>HP-08A:</strong> Bacteriological certificate (Zero Coliform) from KAHRAMAA Lab<br>
+<strong>HP-08B:</strong> As-Built + GIS Data submitted and approved<br>
+<strong>HP-08C:</strong> KAHRAMAA TOC Certificate — formal acceptance</p>
 </div>
 ` },
 
