@@ -296,9 +296,9 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <h1>كل المواصفات<br>القطرية في<br><span>مكان واحد</span></h1>
     <p class="hero-desc">ارفع ملفات PDF وابحث بذكاء في الكود القطري والمواصفات الإنشائية — إجابات فورية دقيقة من خبرتك وتقنية الذكاء الاصطناعي</p>
     <div class="hero-stats">
-      <div class="hero-stat"><span class="hero-stat-num">5000+</span><div class="hero-stat-label">صفحة مواصفات</div></div>
-      <div class="hero-stat"><span class="hero-stat-num">135</span><div class="hero-stat-label">قسم ومرجع</div></div>
-      <div class="hero-stat"><span class="hero-stat-num">17</span><div class="hero-stat-label">سنة خبرة</div></div>
+      <div class="hero-stat"><span class="hero-stat-num">QCS</span><div class="hero-stat-label">2024 رسمي</div></div>
+      <div class="hero-stat"><span class="hero-stat-num">111+</span><div class="hero-stat-label">قسم ومرجع</div></div>
+      <div class="hero-stat"><span class="hero-stat-num">Ashghal</span><div class="hero-stat-label">معتمد رسمياً</div></div>
     </div>
   </div>
   <div class="hero-right">
@@ -555,23 +555,23 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 
 <script>
 // ===== STATE =====
-let geminiKey = localStorage.getItem('openrouterKey') || '';
+let anthropicKey = localStorage.getItem('qatarspecKey') || '';
 let uploadedFiles = [];
 
 // ===== INIT =====
 window.onload = () => {
-  if (geminiKey) updateKeyStatus(true);
+  if (anthropicKey) updateKeyStatus(true);
   // نافذة API Key تظهر فقط عند الضغط على بحث ذكي — لا تظهر تلقائياً
 };
 
 // ===== KEY MANAGEMENT =====
-function openKeyModal() { document.getElementById('keyInput').value = geminiKey; document.getElementById('keyModal').classList.add('open'); }
+function openKeyModal() { document.getElementById('keyInput').value = anthropicKey; document.getElementById('keyModal').classList.add('open'); }
 function closeKeyModal() { document.getElementById('keyModal').classList.remove('open'); }
 function saveKey() {
   const k = document.getElementById('keyInput').value.trim();
   if (!k || k.length < 20) { showToast('❌ Key غير صحيح'); return; }
-  geminiKey = k;
-  localStorage.setItem('openrouterKey', k);
+  anthropicKey = k;
+  localStorage.setItem('qatarspecKey', k);
   updateKeyStatus(true);
   closeKeyModal();
   showToast('✅ تم تفعيل AI!');
@@ -669,7 +669,7 @@ function buildQCSPrompt(query, partNum) {
 async function doSearch() {
   const query = document.getElementById('searchInput').value.trim();
   if (!query) return;
-  if (!geminiKey) { openKeyModal(); return; }
+  if (!anthropicKey) { openKeyModal(); return; }
 
   const box = document.getElementById('aiAnswerBox');
   const textEl = document.getElementById('aiAnswerText');
@@ -698,7 +698,7 @@ async function doSearch() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': geminiKey,
+        'x-api-key': anthropicKey,
         'anthropic-version': '2023-06-01',
         'anthropic-dangerous-direct-browser-access': 'true'
       },
@@ -801,7 +801,7 @@ const detailData = {
 <div style="font-size:13px;margin-bottom:4px;">تحضير الخرسانة، الصب، المعالجة في الطقس الحار</div>
 <div style="font-size:11px;color:var(--text3);">اضغط "رفع فيديو" لتحميل ملف MP4</div>
 </div>
-<video id="vid-player-structural" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+<video preload="none" id="vid-player-structural" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
 </div>
 
 
@@ -852,7 +852,7 @@ const detailData = {
 <div style="font-size:13px;margin-bottom:4px;">Concrete preparation, pouring, hot weather curing</div>
 <div style="font-size:11px;">Click "Upload Video" to load MP4 file</div>
 </div>
-<video id="vid-player-structural-en" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+<video preload="none" id="vid-player-structural-en" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
 </div>
 
 <h3>📐 Structural Works — QCS 2024 Section 5</h3>
@@ -881,7 +881,7 @@ const detailData = {
 <div style="font-size:13px;margin-bottom:4px;">حفر، أساسات، عزل مائي، خرسانة مسلحة</div>
 <div style="font-size:11px;color:var(--text3);">اضغط "رفع فيديو" لتحميل ملف MP4</div>
 </div>
-<video id="vid-player-execution" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+<video preload="none" id="vid-player-execution" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
 </div>
 
 <h3>الخطوات الأساسية</h3><table class="dm-table"><tr><th>المرحلة</th><th>الأعمال</th><th>المتطلبات</th></tr><tr><td>1 - الجسات</td><td>اختبارات التربة</td><td>تقرير جيوتكني</td></tr><tr><td>2 - الحفر</td><td>حفر وتدعيم</td><td>موافقة المهندس</td></tr><tr><td>3 - الأساسات</td><td>صب الأساسات</td><td>اختبار العينات</td></tr><tr><td>4 - الهيكل</td><td>الأعمدة والأسقف</td><td>فحص الRebar</td></tr><tr><td>5 - المرافق</td><td>الكهرباء والسباكة</td><td>رسومات معتمدة</td></tr><tr><td>6 - التشطيب</td><td>جميع التشطيبات</td><td>شهادات المواد</td></tr></table>
@@ -901,7 +901,7 @@ const detailData = {
 <div style="font-size:13px;margin-bottom:4px;">Excavation, foundations, waterproofing, reinforced concrete</div>
 <div style="font-size:11px;">Click "Upload Video" to load MP4 file</div>
 </div>
-<video id="vid-player-execution-en" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+<video preload="none" id="vid-player-execution-en" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
 </div>
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -1109,7 +1109,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
 <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input type="checkbox" id="da-itp" checked> إنشاء ITP</label>
 <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input type="checkbox" id="da-tests"> متطلبات الاختبارات</label>
-<label style="display:flex;align-items:center;gap=6px;font-size:12px;cursor:pointer;"><input type="checkbox" id="da-ncr"> نقاط عدم المطابقة</label>
+<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input type="checkbox" id="da-ncr"> نقاط عدم المطابقة</label>
 <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input type="checkbox" id="da-qty"> تحليل الكميات</label>
 </div>
 </div>
@@ -1967,7 +1967,7 @@ content: `
 </div>
 <input type="file" id="vid-sg-ar" accept="video/*" style="display:none" data-player="vid-sg-ar-p" data-ph="vid-sg-ar-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-sg-ar-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV لشرح طبقة الـ Subgrade</div>
-<video id="vid-sg-ar-p" controls style="width:100%;display:none;max-height:250px;background:#000;"></video>
+<video preload="none" id="vid-sg-ar-p" controls style="width:100%;display:none;max-height:250px;background:#000;"></video>
 </div>
 
 <h3>📐 تعريف Subgrade — QCS S6 P3 Cl. 3.1</h3>
@@ -2127,7 +2127,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 <input type="file" id="vid-sg-en" accept="video/*" style="display:none" data-player="vid-sg-en-p" data-ph="vid-sg-en-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-sg-en-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV explaining Subgrade preparation</div>
-<video id="vid-sg-en-p" controls style="width:100%;display:none;max-height:250px;background:#000;"></video>
+<video preload="none" id="vid-sg-en-p" controls style="width:100%;display:none;max-height:250px;background:#000;"></video>
 </div>
 
 <h3>Subgrade Definition — QCS S6 P3 Cl. 3.1</h3>
@@ -2280,7 +2280,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 <input type="file" id="vid-base-new" accept="video/*" style="display:none" data-player="vid-base-new-p" data-ph="vid-base-new-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-base-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-base-new-p" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-base-new-p" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 
 <h3>📐 تعريف Road Base — QCS S6 P4 Cl. 4.1</h3>
@@ -2373,7 +2373,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 <input type="file" id="vid-base" accept="video/*" style="display:none" data-player="vid-player-base" data-ph="vid-ph-base" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-base" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-base" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-base" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
 📌 QCS 2024 — Section 6 Part 4 — Tables 4:2, 4:3 (Road Base values only)
@@ -2434,7 +2434,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 <input type="file" id="vid-base-en" accept="video/*" style="display:none" data-player="vid-player-base-en" data-ph="vid-ph-base-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-base-en" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV — Video saved for entire session</div>
-<video id="vid-player-base-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-base-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 <h3>Table 4:2 — Coarse Aggregate — Road Base — QCS S6 P4 Page 6</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
@@ -2469,7 +2469,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 <input type="file" id="vid-prime-new" accept="video/*" style="display:none" data-player="vid-prime-new-p" data-ph="vid-prime-new-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-prime-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-prime-new-p" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-prime-new-p" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 
 <h3>📐 تعريف Prime Coat — QCS S6 P5 Cl. 5.3</h3>
@@ -2545,7 +2545,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 <input type="file" id="vid-binder-new" accept="video/*" style="display:none" data-player="vid-binder-new-p" data-ph="vid-binder-new-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-binder-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-binder-new-p" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-binder-new-p" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 
 <h3>📐 تعريف Binder Course — QCS S6 P5</h3>
@@ -2637,7 +2637,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 <input type="file" id="vid-wc-new" accept="video/*" style="display:none" data-player="vid-wc-new-p" data-ph="vid-wc-new-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-wc-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV</div>
-<video id="vid-wc-new-p" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-wc-new-p" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 
 <h3>📐 تعريف Wearing Course — QCS S6 P5</h3>
@@ -2740,7 +2740,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 <input type="file" id="vid-finish-new" accept="video/*" style="display:none" data-player="vid-finish-new-p" data-ph="vid-finish-new-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-finish-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV</div>
-<video id="vid-finish-new-p" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-finish-new-p" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 
 <h3>📐 تعريف مرحلة التشطيبات — QCS S6 + Ashghal</h3>
@@ -2811,7 +2811,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 <input type="file" id="vid-handover-new" accept="video/*" style="display:none" data-player="vid-handover-new-p" data-ph="vid-handover-new-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-handover-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV</div>
-<video id="vid-handover-new-p" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-handover-new-p" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 
 <h3>📐 تعريف مرحلة التسليم — Ashghal Requirements</h3>
@@ -2947,7 +2947,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 <input type="file" id="vid-water-supply-stages" accept="video/*" style="display:none" data-player="vid-player-water-supply-stages" data-ph="vid-ph-water-supply-stages" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-water-supply-stages" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-water-supply-stages" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-water-supply-stages" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
 📌 QCS 2024 Section 8 | KAHRAMAA Standards | Water Supply Network
@@ -2965,7 +2965,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 <input type="file" id="vid-water-supply-stages-en" accept="video/*" style="display:none" data-player="vid-player-water-supply-stages-en" data-ph="vid-ph-water-supply-stages-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-water-supply-stages-en" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV — persists for entire session</div>
-<video id="vid-player-water-supply-stages-en" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-water-supply-stages-en" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
 📌 QCS 2024 Section 8 | KAHRAMAA Standards | Water Supply Network
@@ -2984,7 +2984,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 <input type="file" id="vid-sewer-stages" accept="video/*" style="display:none" data-player="vid-player-sewer-stages" data-ph="vid-ph-sewer-stages" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-sewer-stages" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-sewer-stages" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-sewer-stages" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
 📌 QCS 2024 Section 8 | Ashghal Standards | Foul Sewer Network
@@ -3002,7 +3002,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 <input type="file" id="vid-sewer-stages-en" accept="video/*" style="display:none" data-player="vid-player-sewer-stages-en" data-ph="vid-ph-sewer-stages-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-sewer-stages-en" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV — persists for entire session</div>
-<video id="vid-player-sewer-stages-en" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-sewer-stages-en" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <h3>Foul Sewer Execution Phases</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
@@ -3018,7 +3018,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 <input type="file" id="vid-storm-stages" accept="video/*" style="display:none" data-player="vid-player-storm-stages" data-ph="vid-ph-storm-stages" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-storm-stages" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-storm-stages" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-storm-stages" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
 📌 QCS 2024 Section 8 | Ashghal | Storm Water Drainage Network
@@ -3036,7 +3036,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 <input type="file" id="vid-storm-stages-en" accept="video/*" style="display:none" data-player="vid-player-storm-stages-en" data-ph="vid-ph-storm-stages-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-storm-stages-en" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV — persists for entire session</div>
-<video id="vid-player-storm-stages-en" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-storm-stages-en" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <h3>Storm Water Execution Phases</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;">
@@ -3176,7 +3176,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ws-materials" accept="video/*" style="display:none" data-player="vid-player-ws-materials" data-ph="vid-ph-ws-materials" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ws-materials" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-ws-materials" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-ws-materials" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 KAHRAMAA Standards | QCS 2024 Section 8 Part 1 | Material Specifications</div>
 
@@ -3278,7 +3278,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ws-excavation" accept="video/*" style="display:none" data-player="vid-player-ws-excavation" data-ph="vid-ph-ws-excavation" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ws-excavation" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-ws-excavation" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-ws-excavation" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 1 | KAHRAMAA | Trench Excavation & Bedding</div>
 
@@ -3347,7 +3347,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ws-laying" accept="video/*" style="display:none" data-player="vid-player-ws-laying" data-ph="vid-ph-ws-laying" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ws-laying" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-ws-laying" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-ws-laying" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 KAHRAMAA Standards | QCS 2024 Section 8 Part 1 | Pipe Laying</div>
 
@@ -3425,7 +3425,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ws-testing" accept="video/*" style="display:none" data-player="vid-player-ws-testing" data-ph="vid-ph-ws-testing" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ws-testing" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-ws-testing" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-ws-testing" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
 📌 KAHRAMAA Standards | QCS 2024 Section 8 — Hydrostatic Pressure Test
@@ -3444,7 +3444,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ws-testing-en" accept="video/*" style="display:none" data-player="vid-player-ws-testing-en" data-ph="vid-ph-ws-testing-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ws-testing-en" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV — persists for entire session</div>
-<video id="vid-player-ws-testing-en" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-ws-testing-en" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <h3>Hydrostatic Pressure Test — KAHRAMAA</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Specification</th><th>Reference</th><th>Frequency</th></tr><tr><td>Test Pressure</td><td>1.5 × PN (Nominal Pressure)</td><td>KAHRAMAA / BS EN 805</td><td>Per section ≤500m</td></tr><tr><td>Test Duration</td><td>2 hours minimum</td><td>KAHRAMAA</td><td>Per section</td></tr><tr><td>Pass Criterion</td><td>Zero pressure drop in 2 hours</td><td>KAHRAMAA</td><td>Per section</td></tr><tr><td>Max Section Length</td><td>500m per test section</td><td>KAHRAMAA</td><td>—</td></tr><tr><td>Stabilization Time</td><td>30 min before formal recording</td><td>BS EN 805</td><td>Per section</td></tr></table></div><h3>Water Quality Tests</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Test</th><th>Standard</th><th>Reference</th><th>Frequency</th></tr><tr><td>Coliform Bacteria</td><td>0/100mL</td><td>WHO/KAHRAMAA</td><td>Per section</td></tr><tr><td>Turbidity</td><td>≤ 1 NTU</td><td>WHO/KAHRAMAA</td><td>Per section</td></tr><tr><td>pH</td><td>6.5–8.5</td><td>WHO/KAHRAMAA</td><td>Per section</td></tr><tr><td>Residual Chlorine</td><td>0.2–0.5 mg/L</td><td>KAHRAMAA</td><td>Per section</td></tr><tr><td>Chlorination Dose</td><td>≥ 50 mg/L</td><td>KAHRAMAA</td><td>Per section</td></tr><tr><td>Contact Time</td><td>≥ 24 hours</td><td>KAHRAMAA</td><td>Per section</td></tr></table></div><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Documentation</th></tr><tr><td>HP-01</td><td>Backfill ≥ 300mm above pipe confirmed</td><td>Pre-test Inspection Record</td></tr><tr><td>HP-02</td><td>Hydrostatic Test: Zero pressure drop / 2hr</td><td>Pressure Test Certificate</td></tr><tr><td>HP-03</td><td>Chlorination ≥ 50ppm / ≥ 24hr complete</td><td>Chlorination Log</td></tr><tr><td>HP-04</td><td>Water Quality: Coliform=0 + Turbidity≤1NTU</td><td>Lab Water Quality Certificate</td></tr></table></div>
@@ -3460,7 +3460,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ws-disinfection" accept="video/*" style="display:none" data-player="vid-player-ws-disinfection" data-ph="vid-ph-ws-disinfection" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ws-disinfection" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Chlorination ≥50ppm / ≥24hr، جودة المياه</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
-<video id="vid-player-ws-disinfection" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-ws-disinfection" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 
 
@@ -3483,7 +3483,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ws-disinfection-en" accept="video/*" style="display:none" data-player="vid-player-ws-disinfection-en" data-ph="vid-ph-ws-disinfection-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ws-disinfection-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Chlorination ≥50ppm / ≥24hr, water quality</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
-<video id="vid-player-ws-disinfection-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-ws-disinfection-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -3506,7 +3506,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ws-backfill" accept="video/*" style="display:none" data-player="vid-player-ws-backfill" data-ph="vid-ph-ws-backfill" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ws-backfill" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Compaction ≥95% MDD طبقة 300mm</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
-<video id="vid-player-ws-backfill" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-ws-backfill" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 — Section 8 Part 1 | Ashghal Reinstatement | KAHRAMAA Backfill Specs</div>
 
@@ -3570,7 +3570,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ws-backfill-en" accept="video/*" style="display:none" data-player="vid-player-ws-backfill-en" data-ph="vid-ph-ws-backfill-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ws-backfill-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Compaction ≥95% MDD per 300mm layer</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
-<video id="vid-player-ws-backfill-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-ws-backfill-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 1 | Ashghal Reinstatement | Water Supply Backfill</div>
 <h3>Backfill Layers</h3>
@@ -3607,7 +3607,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ws-handover" accept="video/*" style="display:none" data-player="vid-player-ws-handover" data-ph="vid-ph-ws-handover" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ws-handover" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">As-Built، اختبارات نهائية، تشغيل</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
-<video id="vid-player-ws-handover" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-ws-handover" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 — Section 8 Part 1 | KAHRAMAA W.S.S. | Water Supply Handover</div>
 
@@ -3673,7 +3673,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ws-handover-en" accept="video/*" style="display:none" data-player="vid-player-ws-handover-en" data-ph="vid-ph-ws-handover-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ws-handover-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">As-built, final tests, commissioning</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
-<video id="vid-player-ws-handover-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-ws-handover-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 1 | KAHRAMAA W.S.S. | Water Supply Handover</div>
 <h3>Handover Documents Required</h3>
@@ -3744,7 +3744,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ss-materials" accept="video/*" style="display:none" data-player="vid-player-ss-materials" data-ph="vid-ph-ss-materials" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ss-materials" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">uPVC، GRP، Manholes، مواصفات QCS</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
-<video id="vid-player-ss-materials" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-ss-materials" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 
 
@@ -3765,7 +3765,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ss-materials-en" accept="video/*" style="display:none" data-player="vid-player-ss-materials-en" data-ph="vid-ph-ss-materials-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ss-materials-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">uPVC, GRP pipes, manholes, QCS specs</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
-<video id="vid-player-ss-materials-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-ss-materials-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -3788,7 +3788,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ss-excavation" accept="video/*" style="display:none" data-player="vid-player-ss-excavation" data-ph="vid-ph-ss-excavation" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ss-excavation" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-ss-excavation" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-ss-excavation" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 2 | Ashghal | Sewer Trench Excavation</div>
 
@@ -3853,7 +3853,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ss-laying" accept="video/*" style="display:none" data-player="vid-player-ss-laying" data-ph="vid-ph-ss-laying" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ss-laying" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-ss-laying" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-ss-laying" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 2 | Ashghal | Pipe Laying & Jointing</div>
 
@@ -3923,7 +3923,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ss-manholes" accept="video/*" style="display:none" data-player="vid-player-ss-manholes" data-ph="vid-ph-ss-manholes" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ss-manholes" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">بناء الـ MH، Benching، تغطية الغطاء</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
-<video id="vid-player-ss-manholes" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-ss-manholes" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 <div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 — Section 8 Part 2 | BS EN 1917 | Ashghal Standard Manholes</div>
 
@@ -4005,7 +4005,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ss-manholes-en" accept="video/*" style="display:none" data-player="vid-player-ss-manholes-en" data-ph="vid-ph-ss-manholes-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ss-manholes-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Manhole building, benching, cover installation</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
-<video id="vid-player-ss-manholes-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-ss-manholes-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 <div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 2 | BS EN 1917 | Manhole Construction</div>
 <h3>Manhole Sizes</h3>
@@ -4050,7 +4050,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ss-testing" accept="video/*" style="display:none" data-player="vid-player-ss-testing" data-ph="vid-ph-ss-testing" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ss-testing" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-ss-testing" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-ss-testing" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
 📌 QCS 2024 Section 8 | BS EN 1610 | Air Test + CCTV Survey
@@ -4069,7 +4069,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ss-testing-en" accept="video/*" style="display:none" data-player="vid-player-ss-testing-en" data-ph="vid-ph-ss-testing-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ss-testing-en" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV — persists for entire session</div>
-<video id="vid-player-ss-testing-en" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-ss-testing-en" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <h3>Air Test — BS EN 1610</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Specification</th><th>Reference</th><th>Frequency</th></tr><tr><td>Test Pressure</td><td>100 mm WG (Water Gauge)</td><td>BS EN 1610</td><td>Per section ≤500m</td></tr><tr><td>Test Duration</td><td>5 minutes</td><td>BS EN 1610</td><td>Per section</td></tr><tr><td>Pass Criterion</td><td>Pressure drop ≤ 25mm WG in 5 minutes</td><td>BS EN 1610</td><td>Per section</td></tr><tr><td>Max Section Length</td><td>500m per test</td><td>Ashghal</td><td>—</td></tr></table></div><h3>CCTV Survey</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Specification</th><th>Reference</th><th>Frequency</th></tr><tr><td>Coverage</td><td>100% of all pipes</td><td>Ashghal</td><td>After backfill</td></tr><tr><td>Acceptable Grade</td><td>Grade 1 or Grade 2 only</td><td>WRc</td><td>Per pipe</td></tr><tr><td>Grade 4 or 5</td><td>Reject + mandatory redo</td><td>WRc</td><td>Per finding</td></tr><tr><td>Report</td><td>Video + Written Report + Defect Code</td><td>Ashghal</td><td>Per section</td></tr><tr><td>Timing</td><td>After backfill, before handover</td><td>Ashghal</td><td>100%</td></tr></table></div><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Documentation</th></tr><tr><td>HP-01</td><td>Air Test: ≤25mm WG drop / 5min</td><td>Air Test Certificate</td></tr><tr><td>HP-02</td><td>CCTV 100% Grade ≤ 2 complete</td><td>CCTV Report + Video</td></tr><tr><td>HP-03</td><td>Manhole Levels ±5mm</td><td>Survey Certificate</td></tr></table></div>
@@ -4085,7 +4085,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ss-backfill" accept="video/*" style="display:none" data-player="vid-player-ss-backfill" data-ph="vid-ph-ss-backfill" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ss-backfill" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-ss-backfill" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-ss-backfill" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 2 | Ashghal | Trench Backfill</div>
 
@@ -4151,7 +4151,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ss-handover" accept="video/*" style="display:none" data-player="vid-player-ss-handover" data-ph="vid-ph-ss-handover" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ss-handover" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">CCTV Final، As-Built، تشغيل</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
-<video id="vid-player-ss-handover" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-ss-handover" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 <div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 — Section 8 Part 2 | Ashghal | Foul Sewer Handover Requirements</div>
 
@@ -4209,7 +4209,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-ss-handover-en" accept="video/*" style="display:none" data-player="vid-player-ss-handover-en" data-ph="vid-ph-ss-handover-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-ss-handover-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Final CCTV, as-built, commissioning</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
-<video id="vid-player-ss-handover-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-ss-handover-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 <div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 2 | Ashghal | Foul Sewer Handover</div>
 <h3>Handover Documents</h3>
@@ -4278,7 +4278,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-sw-materials" accept="video/*" style="display:none" data-player="vid-player-sw-materials" data-ph="vid-ph-sw-materials" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-sw-materials" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-sw-materials" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-sw-materials" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 3 | Ashghal | Storm Water Materials</div>
 
@@ -4361,7 +4361,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-sw-excavation" accept="video/*" style="display:none" data-player="vid-player-sw-excavation" data-ph="vid-ph-sw-excavation" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-sw-excavation" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">حفر الخنادق وتحضير السطح</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
-<video id="vid-player-sw-excavation" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-sw-excavation" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 
 
@@ -4382,7 +4382,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-sw-excavation-en" accept="video/*" style="display:none" data-player="vid-player-sw-excavation-en" data-ph="vid-ph-sw-excavation-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-sw-excavation-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Trench excavation and surface preparation</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
-<video id="vid-player-sw-excavation-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-sw-excavation-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -4405,7 +4405,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-sw-laying" accept="video/*" style="display:none" data-player="vid-player-sw-laying" data-ph="vid-ph-sw-laying" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-sw-laying" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Box Culverts، مواسير صرف، انحدار صحيح</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
-<video id="vid-player-sw-laying" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-sw-laying" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 <div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 — Section 8 Part 3 | BS EN 1610 | Ashghal Storm Water</div>
 
@@ -4488,7 +4488,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-sw-laying-en" accept="video/*" style="display:none" data-player="vid-player-sw-laying-en" data-ph="vid-ph-sw-laying-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-sw-laying-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Box culverts, storm pipes, correct gradient</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
-<video id="vid-player-sw-laying-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-sw-laying-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 <div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 3 | Ashghal Storm Water Pipe Laying</div>
 <h3>Minimum Gradients</h3>
@@ -4522,7 +4522,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-sw-gullies" accept="video/*" style="display:none" data-player="vid-player-sw-gullies" data-ph="vid-ph-sw-gullies" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-sw-gullies" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">تركيب الـ Gully، المنسوب الصحيح</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
-<video id="vid-player-sw-gullies" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-sw-gullies" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 <div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 — Section 8 Part 3 | BS EN 124 | Ashghal Drainage Standards</div>
 
@@ -4597,7 +4597,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-sw-gullies-en" accept="video/*" style="display:none" data-player="vid-player-sw-gullies-en" data-ph="vid-ph-sw-gullies-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-sw-gullies-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">Gully installation, correct level setting</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
-<video id="vid-player-sw-gullies-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-sw-gullies-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 <div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 3 | BS EN 124 | Gullies & Manholes</div>
 <h3>Gully Types & Spacing</h3>
@@ -4628,7 +4628,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-sw-testing" accept="video/*" style="display:none" data-player="vid-player-sw-testing" data-ph="vid-ph-sw-testing" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-sw-testing" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-sw-testing" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-sw-testing" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 Part 3 | Ashghal | Storm Water Testing</div>
 
@@ -4736,7 +4736,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-sw-handover" accept="video/*" style="display:none" data-player="vid-player-sw-handover" data-ph="vid-ph-sw-handover" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-sw-handover" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">As-Built، فحص مناهل، CCTV Final</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">اضغط "رفع فيديو" لتحميل MP4 / MOV</div></div>
-<video id="vid-player-sw-handover" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-sw-handover" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 
 
@@ -4757,7 +4757,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-sw-handover-en" accept="video/*" style="display:none" data-player="vid-player-sw-handover-en" data-ph="vid-ph-sw-handover-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-sw-handover-en" style="padding:20px;text-align:center;color:var(--text3);"><div style="font-size:28px;margin-bottom:6px;">📹</div><div style="font-size:12px;">As-built, manhole check, final CCTV</div><div style="font-size:11px;margin-top:4px;opacity:0.6;">Click "Upload Video" to load MP4 / MOV</div></div>
-<video id="vid-player-sw-handover-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
+<video preload="none" id="vid-player-sw-handover-en" controls style="width:100%;display:none;max-height:260px;background:#000;"></video>
 </div>
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -4856,7 +4856,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-tw-materials" accept="video/*" style="display:none" data-player="vid-player-tw-materials" data-ph="vid-ph-tw-materials" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-tw-materials" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-tw-materials" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-tw-materials" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 | MME Standards | Treated/Reclaimed Water</div>
 
@@ -5106,7 +5106,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <input type="file" id="vid-tw-testing" accept="video/*" style="display:none" data-player="vid-player-tw-testing" data-ph="vid-ph-tw-testing" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
 <div id="vid-ph-tw-testing" style="padding:14px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<video id="vid-player-tw-testing" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
+<video preload="none" id="vid-player-tw-testing" controls style="width:100%;display:none;max-height:240px;background:#000;"></video>
 </div>
 <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 Section 8 | MME Standards | Treated Water Testing</div>
 
@@ -6710,7 +6710,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="font-size:13px;margin-bottom:4px;">حفر آبار الجسات، SPT، أخذ العينات، التقرير الجيوتقني</div>
 <div style="font-size:11px;color:var(--text3);">اضغط "رفع فيديو" لتحميل ملف MP4</div>
 </div>
-<video id="vid-player-geotech" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+<video preload="none" id="vid-player-geotech" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
 </div>
 
 
@@ -6754,7 +6754,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="font-size:13px;margin-bottom:4px;">Borehole drilling, SPT, sampling, GI report</div>
 <div style="font-size:11px;">Click "Upload Video" to load MP4 file</div>
 </div>
-<video id="vid-player-geotech-en" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
+<video preload="none" id="vid-player-geotech-en" controls style="width:100%;display:none;max-height:280px;background:#000;"></video>
 </div>
 
 <h3>🔬 Geotechnical Investigation — QCS 2024 Section 2</h3>
@@ -12275,7 +12275,7 @@ function runDocAnalysis() {
   
   fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-api-key': geminiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+    headers: { 'Content-Type': 'application/json', 'x-api-key': anthropicKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1000,
@@ -13932,7 +13932,7 @@ async function runDrawingAnalysis() {
 
     var response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': geminiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      headers: { 'Content-Type': 'application/json', 'x-api-key': anthropicKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1500,
@@ -14185,7 +14185,7 @@ async function runInspector() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': geminiKey,
+        'x-api-key': anthropicKey,
         'anthropic-version': '2023-06-01',
         'anthropic-dangerous-direct-browser-access': 'true'
       },
@@ -14389,13 +14389,14 @@ function resetInspector() {
 })();
 
 // ===== SERVICE WORKER REGISTRATION (PWA Offline) =====
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js')
-      .then(reg => console.log('✅ QatarSpec SW registered:', reg.scope))
-      .catch(err => console.log('SW registration skipped (standalone mode):', err.message));
-  });
-}
+// PWA Service Worker — disabled until sw.js is deployed
+// if ('serviceWorker' in navigator) {
+//   window.addEventListener('load', () => {
+//     navigator.serviceWorker.register('sw.js')
+//       .then(reg => console.log('QatarSpec SW registered:', reg.scope))
+//       .catch(err => console.log('SW skipped:', err.message));
+//   });
+// }
 
 </script>
 
