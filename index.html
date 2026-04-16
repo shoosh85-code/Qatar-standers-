@@ -931,14 +931,14 @@ function _loadDetailChunk(group) {
     const varName = '_QS_chunk_' + group.replace(/-/g, '_');
     window[varName] = {};
     const s = document.createElement('script');
-    s.src = 'data/detail-' + group + '.js';
+    s.src = '/data/detail-' + group + '.js';
     s.onload = () => {
       Object.assign(detailData, window[varName]);
       delete window[varName];
       _loadedChunks.add(group);
       resolve();
     };
-    s.onerror = () => reject(new Error('Failed to load ' + group));
+    s.onerror = () => { console.error('[QS] Failed to load chunk:', group, s.src); reject(new Error('Failed to load ' + group)); };
     document.head.appendChild(s);
   });
 }
@@ -1123,7 +1123,13 @@ let navStack = [];
  * يدير navStack للتنقل للخلف، ويستعيد الفيديوهات المحلية بعد rebuild
  */
 async function openDetail(key) {
-  await ensureDetail(key);
+  try {
+    await ensureDetail(key);
+  } catch(e) {
+    console.error('[QS] ensureDetail failed for key:', key, e);
+    if (typeof showToast === 'function') showToast('⚠️ تعذّر تحميل البيانات — تحقق من الاتصال');
+    return;
+  }
   const d = detailData[key];
   if (!d) { console.warn('Key not found:', key); return; }
   const modal = document.getElementById('detailModal');
