@@ -268,8 +268,8 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 </head>
 <body>
 <div class="lang-toggle">
-  <button class="lang-btn active" id="btn-ar" onclick="setLang('ar')">عربي</button>
-  <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+  <button class="lang-btn active" id="btn-ar" onclick="QS.setLang('ar')">عربي</button>
+  <button class="lang-btn" id="btn-en" onclick="QS.setLang('en')">EN</button>
 </div>
 <div id="update-banner" style="display:none;background:linear-gradient(135deg,#7a1515,#c9a84c);padding:10px 16px;text-align:center;font-size:13px;color:#fff;font-family:Tajawal,sans-serif;">
   🔔 يوجد تحديث جديد للتطبيق — <a onclick="location.reload(true)" style="color:#fff;font-weight:700;cursor:pointer;text-decoration:underline;">تحديث الآن</a>
@@ -285,7 +285,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       </div>
     </div>
     <div class="header-actions">
-      <div class="key-status" onclick="openKeyModal()">
+      <div class="key-status" onclick="QS.openKeyModal()">
         <div class="key-dot" id="keyDot"></div>
         <span id="keyStatusText">إعداد AI</span>
       </div>
@@ -322,16 +322,16 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <div class="search-wrap">
     <span class="search-mic">🎙️</span>
     <input type="text" class="search-input" id="searchInput" placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة الConcrete في الأساسات وفق الكود القطري؟" onkeydown="if(event.key==='Enter') doSearch()">
-    <button class="search-icon-btn" onclick="doSearch()">⚡ بحث ذكي</button>
+    <button class="search-icon-btn" onclick="QS.doSearch()">⚡ بحث ذكي</button>
   </div>
   <div class="quick-tags">
-    <span class="quick-tag" onclick="quickSearch('متطلبات الConcrete المسلحة')">🏛️ الConcrete المسلحة</span>
-    <span class="quick-tag" onclick="quickSearch('مواصفات الأساسات والخوازيق')">⚓ الأساسات</span>
-    <span class="quick-tag" onclick="quickSearch('اشتراطات الحريق للمباني')">🔥 متطلبات الحريق</span>
-    <span class="quick-tag" onclick="quickSearch('مواصفات الطرق والأرصفة')">🛣️ الطرق</span>
-    <span class="quick-tag" onclick="quickSearch('العزل الحراري والرطوبي')">🌡️ العزل</span>
-    <span class="quick-tag" onclick="quickSearch('اختبارات التربة')">🔬 اختبارات التربة</span>
-    <span class="quick-tag" onclick="quickSearch('مراحل تنفيذ المشاريع')">⚒️ مراحل التنفيذ</span>
+    <span class="quick-tag" onclick="QS.quickSearch('متطلبات الConcrete المسلحة')">🏛️ الConcrete المسلحة</span>
+    <span class="quick-tag" onclick="QS.quickSearch('مواصفات الأساسات والخوازيق')">⚓ الأساسات</span>
+    <span class="quick-tag" onclick="QS.quickSearch('اشتراطات الحريق للمباني')">🔥 متطلبات الحريق</span>
+    <span class="quick-tag" onclick="QS.quickSearch('مواصفات الطرق والأرصفة')">🛣️ الطرق</span>
+    <span class="quick-tag" onclick="QS.quickSearch('العزل الحراري والرطوبي')">🌡️ العزل</span>
+    <span class="quick-tag" onclick="QS.quickSearch('اختبارات التربة')">🔬 اختبارات التربة</span>
+    <span class="quick-tag" onclick="QS.quickSearch('مراحل تنفيذ المشاريع')">⚒️ مراحل التنفيذ</span>
   </div>
 </div>
 
@@ -342,7 +342,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
         <div class="ai-badge">📖 QCS 2024</div>
         <div class="ai-source" id="aiSource">الكود القطري</div>
       </div>
-      <button class="ai-copy-btn" onclick="copyAnswer()">📋 نسخ الإجابة</button>
+      <button class="ai-copy-btn" onclick="QS.copyAnswer()">📋 نسخ الإجابة</button>
     </div>
     <div class="ai-answer-text" id="aiAnswerText">
       <div class="loading-wrap"><div class="spinner"></div> جاري البحث في المواصفات...</div>
@@ -364,7 +364,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     oninput="filterCards(this.value)"
     style="width:100%;padding:12px 48px 12px 16px;background:var(--dark3);border:1px solid var(--border2);border-radius:12px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:14px;outline:none;transition:.3s;"
     onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border2)'">
-  <span id="cardFilterClear" onclick="clearCardFilter()" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:16px;color:var(--text3);display:none;">✕</span>
+  <span id="cardFilterClear" onclick="QS.clearCardFilter()" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:16px;color:var(--text3);display:none;">✕</span>
   <div id="cardFilterCount" style="display:none;margin-top:6px;font-size:11px;color:var(--text3);text-align:center;"></div>
 </div>
 
@@ -519,13 +519,13 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div class="modal-desc">أدخل Anthropic API Key للبحث الذكي في المواصفات. الـ Key يُحفظ محلياً على جهازك فقط ولا يُرسل لأي جهة غير Anthropic.</div>
     <input type="password" class="modal-input" id="keyInput" placeholder="sk-ant-..." />
     <div class="modal-actions">
-      <button class="modal-save" onclick="saveKey()">✅ حفظ وتفعيل</button>
-      <button class="modal-cancel" onclick="closeKeyModal()">إلغاء</button>
+      <button class="modal-save" onclick="QS.saveKey()">✅ حفظ وتفعيل</button>
+      <button class="modal-cancel" onclick="QS.closeKeyModal()">إلغاء</button>
     </div>
   </div>
 </div>
 
-<div class="detail-modal-bg" id="detailModal" onclick="closeDetailModal(event)">
+<div class="detail-modal-bg" id="detailModal" onclick="QS.closeDetailModal(event)">
   <div class="detail-modal">
     <div id="itp-project-bar" style="display:none;background:rgba(201,168,76,0.06);border-bottom:1px solid var(--border);padding:8px 16px;">
   <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
@@ -538,14 +538,14 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 </div>
 <div class="dm-header">
       <div style="display:flex;align-items:center;gap:10px;">
-        <div id="dmBackBtn" onclick="goBack()" style="display:none;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:var(--gold);">←</div>
+        <div id="dmBackBtn" onclick="QS.goBack()" style="display:none;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:var(--gold);">←</div>
         <div class="modal-title" id="dmTitle"></div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;">
         <div style="display:flex;gap:6px;">
-        <div onclick="exportToPDF()" title="تصدير PDF احترافي" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.3);border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;color:#e74c3c;">PDF</div>
-        <div onclick="exportToWord()" title="تصدير Word" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(52,152,219,0.12);border:1px solid rgba(52,152,219,0.3);border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;color:#3498db;">DOC</div>
-        <div onclick="printCurrentDetail()" title="طباعة" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:var(--gold);">🖨️</div>
+        <div onclick="QS.exportToPDF()" title="تصدير PDF احترافي" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.3);border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;color:#e74c3c;">PDF</div>
+        <div onclick="QS.exportToWord()" title="تصدير Word" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(52,152,219,0.12);border:1px solid rgba(52,152,219,0.3);border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;color:#3498db;">DOC</div>
+        <div onclick="QS.printCurrentDetail()" title="طباعة" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:var(--gold);">🖨️</div>
       </div>
         <div class="dm-close" onclick="document.getElementById('detailModal').classList.remove('open');document.getElementById('appFooter').style.display='';document.body.style.overflow='';navStack=[];">✕</div>
       </div>
@@ -11120,8 +11120,7 @@ function calcMaterials() {
   document.getElementById('mc-results').innerHTML = html;
   document.getElementById('mc-results').style.display = 'block';
 }
-</script>
-<script>
+
 
 
 // ─── Central timer registry — prevents setTimeout stacking ───
