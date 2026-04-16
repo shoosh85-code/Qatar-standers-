@@ -749,6 +749,11 @@ function copyAnswer() {
 }
 
 // ===== CARD FILTER (Live Search) =====
+/**
+ * يفلتر كروت الأقسام الرئيسية حسب نص البحث
+ * يبحث في: اسم القسم، وصفه، محتوى data-search attribute
+ * @param {string} q - نص البحث (مسموح فارغ → يظهر الكل)
+ */
 function filterCards(query) {
   const q = query.trim().toLowerCase();
   const cards = document.querySelectorAll('.cat-card');
@@ -11122,12 +11127,17 @@ function calcMaterials() {
   document.getElementById('mc-results').innerHTML = html;
   document.getElementById('mc-results').style.display = 'block';
 }
-</script>
-<script>
 
 
 // ─── Central timer registry — prevents setTimeout stacking ───
 const timers = {};
+/**
+ * بديل آمن لـ setTimeout — يمنع تراكم الـ timers
+ * يُلغي المؤقت القديم بنفس الـ key قبل إنشاء جديد
+ * @param {string} key - مفتاح فريد لهذا المؤقت
+ * @param {Function} fn - الدالة المراد تنفيذها
+ * @param {number} delay - التأخير بالميلي ثانية
+ */
 function safeTimeout(key, fn, delay) {
   if (timers[key]) clearTimeout(timers[key]);
   timers[key] = setTimeout(function() { timers[key] = null; fn(); }, delay);
@@ -11190,6 +11200,11 @@ function goBack() {
   if (typeof setLang === 'function') setLang(currentLang || 'ar');
 }
 
+/**
+ * يغلق مودال التفاصيل ويُنظّف الموارد
+ * ينفّذ video cleanup لجميع placeholders المفتوحة
+ * يعيد overflow للـ body ويُظهر footer
+ */
 function closeDetailModal(e) {
   if (e.target === document.getElementById('detailModal')) {
     // Cleanup any active video players to free memory
@@ -11253,7 +11268,19 @@ async function fetchAnthropicAPI(body) {
       throw new Error('انتهت مهلة الاتصال (15 ثانية) — حاول مرة أخرى');
     }
     if (!navigator.onLine) {
-      throw new Error('لا يوجد اتصال بالإنترنت');
+      // انتظر الاتصال ثم retry تلقائي (مرة واحدة فقط)
+      return new Promise((resolve, reject) => {
+        const handler = () => {
+          window.removeEventListener('online', handler);
+          fetchAnthropicAPI(body).then(resolve).catch(reject);
+        };
+        window.addEventListener('online', handler);
+        // timeout للانتظار: 30 ثانية كحد أقصى
+        setTimeout(() => {
+          window.removeEventListener('online', handler);
+          reject(new Error('لا يوجد اتصال بالإنترنت'));
+        }, 30000);
+      });
     }
     throw err;
   }
@@ -11285,6 +11312,12 @@ function printCurrentDetail() {
 
 
 // ===== GEOTECH CALCULATOR =====
+/**
+ * حاسبة SPT N-value — اختبار الضرب القياسي
+ * المعادلة: تصنيف التربة حسب N-value وفق Terzaghi & Peck
+ * @see QCS 2024 Section 4 — Site Investigation
+ * القيم: N<10 = رخوة، 10-30 = متوسطة، >30 = صلبة
+ */
 function calcSPT() {
   let val = parseFloat(document.getElementById('spt-val').value);
   let type = document.getElementById('spt-type').value;
@@ -11330,6 +11363,12 @@ function calcSulphateClass() {
   }
 }
 
+/**
+ * حاسبة CBR للطبقات الرصفية
+ * المعادلة: مقارنة CBR الفعلي بالحد الأدنى وفق QCS 2024
+ * Subgrade: ≥8% | Subbase: ≥25% | Base Course: ≥80%
+ * @see QCS 2024 Section 6 Part 3 — Road Pavement Layers
+ */
 function calcCBRRoad() {
   let val = parseFloat(document.getElementById('cbr-road-val').value);
   if (isNaN(val)) return showToast('أدخل CBR');
@@ -12497,6 +12536,12 @@ const TR = {
   }
 };
 
+/**
+ * يبدّل لغة الواجهة بين العربية والإنجليزية
+ * يحدّث: dir, lang, جميع النصوص عبر كائن TR
+ * يحفظ الاختيار في localStorage تحت مفتاح 'qsp_lang'
+ * @param {string} lang - 'ar' أو 'en'
+ */
 function setLang(lang) {
   currentLang = lang;
   localStorage.setItem('qsp_lang', lang);
@@ -12746,6 +12791,11 @@ function loadHtml2Canvas() {
 }
 
 // --- PDF Export (jsPDF + html2canvas) ---
+/**
+ * يصدّر محتوى المودال الحالي إلى PDF باستخدام jsPDF
+ * يُحمّل المكتبة ديناميكياً عند الحاجة (lazy loading)
+ * @see QCS 2024 — لا يغيّر المحتوى الهندسي
+ */
 async function exportToPDF() {
   let title = document.getElementById('dmTitle').textContent.trim();
   let today = new Date().toLocaleDateString('ar-QA');
