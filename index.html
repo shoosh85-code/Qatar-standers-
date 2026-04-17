@@ -2,6 +2,12 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════
   QatarSpec Pro — Changelog
+  v1.7 (April 2026):
+    - [SEC]  CSP: worker-src 'self' + upgrade-insecure-requests
+    - [SEC]  fetchAnthropicAPI: proxy warning + JSDoc
+    - [PERF] Virtual Scroll via IntersectionObserver (200+ cards)
+    - [QA]   publicFns integrity checker on DOMContentLoaded
+    - [PWA]  manifest.json + sw.js (Cache-First / Network-First)
   v1.6 (April 2026):
     - [FIX]  176 onclick handlers migrated to QS.openDetail() namespace
     - [FIX]  "17 سنة خبرة" removed (unverifiable claim)
@@ -16,7 +22,14 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://api.anthropic.com https://generativelanguage.googleapis.com">
+<!-- ═══ CSP v1.7 ═══════════════════════════════════════════════════════════════
+     ⚠️  script-src: 'unsafe-inline' مُبقى مؤقتاً لأن الملف يحتوي 200+ inline handler.
+         للإزالة الكاملة يجب: بناء pipeline يُضيف nonce="{{NONCE}}" لكل <script>
+         وكل onclick=""، ثم تمرير nonce في CSP عبر server header.
+         الخطوات الجاهزة هنا: worker-src + upgrade-insecure-requests.
+     TODO: migrate onclick → addEventListener ثم احذف unsafe-inline.
+══════════════════════════════════════════════════════════════════════════════ -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; worker-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://api.anthropic.com https://generativelanguage.googleapis.com; upgrade-insecure-requests">
 
 <meta name="theme-color" content="#1a0a0a">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -11243,7 +11256,39 @@ function sanitizeText(str) {
  * @returns {Promise<Response>} - استجابة fetch الخام (استدعِ .json() بعدها)
  * @throws {Error} - 'انتهت مهلة الاتصال' عند timeout، أو رسالة خطأ شبكة
  */
+/**
+ * fetchAnthropicAPI — طبقة الاتصال بـ Anthropic Claude API
+ *
+ * ⚠️  تحذير أمني — DEV ONLY:
+ *     هذه الدالة تُرسل الطلبات مباشرةً من المتصفح (Direct Browser Access).
+ *     هذا يعني أن مفتاح API مكشوف في JavaScript القابل للقراءة من الـ DevTools.
+ *
+ * 🔴  مطلوب قبل الإنتاج:
+ *     استبدل هذه الدالة بـ server-side proxy:
+ *       1. أنشئ endpoint: POST /api/ai-proxy  (Next.js / Express / Vercel Edge)
+ *       2. احفظ ANTHROPIC_API_KEY في environment variables فقط
+ *       3. غيّر fetch url إلى '/api/ai-proxy' وأزل x-api-key من الـ headers
+ *       4. احذف 'anthropic-dangerous-direct-browser-access' header
+ *
+ * @param {Object} body - جسم الطلب (model, messages, max_tokens, ...)
+ * @returns {Promise<Response>} - استجابة الـ fetch الخام
+ * @see https://docs.anthropic.com/en/api/getting-started#direct-browser-access
+ *
+ * TODO: [أولوية عالية] Migrate → server-side proxy before production deployment
+ */
+// تحذير مرة واحدة فقط لتجنب إغراق الـ console
+let _apiProxyWarnSent = false;
 async function fetchAnthropicAPI(body) {
+  if (!_apiProxyWarnSent) {
+    _apiProxyWarnSent = true;
+    console.warn(
+      '%c[QatarSpec] ⚠️  SECURITY — Direct Browser API Access',
+      'background:#7A1515;color:#E8C97A;font-weight:bold;padding:4px 8px;border-radius:4px',
+      '\n\nمفتاح Anthropic API مكشوف في المتصفح (DEV mode).' +
+      '\nقبل النشر الإنتاجي، استبدل fetchAnthropicAPI() بـ server-side proxy.' +
+      '\nراجع التعليق JSDoc في الكود أعلاه للتفاصيل.'
+    );
+  }
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 15000);
   try {
@@ -14567,6 +14612,112 @@ function dedupeCards() {
 document.addEventListener('DOMContentLoaded', dedupeCards);
 // ─── End dedupeCards ───
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// Virtual Scroll — IntersectionObserver لتحسين أداء 200+ كرت
+// ═══════════════════════════════════════════════════════════════════════════════
+(function initVirtualScroll() {
+  if (!('IntersectionObserver' in window)) return;
+  const MARGIN = '200px';
+  const cards  = [];
+
+  const observer = new IntersectionObserver(
+    function(entries) {
+      entries.forEach(function(entry) {
+        var card = entry.target;
+        if (entry.isIntersecting) {
+          card.style.contentVisibility = 'visible';
+          card.style.containIntrinsicSize = '';
+        } else {
+          var h = card.offsetHeight;
+          if (h > 0) card.style.containIntrinsicSize = h + 'px';
+          card.style.contentVisibility = 'auto';
+        }
+      });
+    },
+    { rootMargin: MARGIN, threshold: 0 }
+  );
+
+  function attachObserver() {
+    document.querySelectorAll('.cat-card').forEach(function(card) {
+      if (card.style.display === 'none') return;
+      observer.observe(card);
+      cards.push(card);
+    });
+    if (cards.length) console.log('[QatarSpec] VirtualScroll: مُراقبة', cards.length, 'كرت');
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    requestAnimationFrame(attachObserver);
+  });
+
+  var filterInput = document.getElementById('cardFilterInput');
+  if (filterInput) {
+    var filterDebounce;
+    filterInput.addEventListener('input', function() {
+      clearTimeout(filterDebounce);
+      filterDebounce = setTimeout(function() {
+        cards.forEach(function(c) { observer.unobserve(c); });
+        cards.length = 0;
+        document.querySelectorAll('.cat-card').forEach(function(card) {
+          if (card.style.display === 'none') {
+            card.style.contentVisibility = 'visible';
+            return;
+          }
+          observer.observe(card);
+          cards.push(card);
+        });
+      }, 150);
+    });
+  }
+})();
+// ─── End Virtual Scroll ───
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// publicFns Integrity Checker — يكتشف الدوال المُعلَنة في QS لكنها غير موجودة
+// ═══════════════════════════════════════════════════════════════════════════════
+(function checkPublicFns() {
+  var publicFnsCheck = [
+    'openDetail','closeDetailModal','goBack',
+    'showToast','doSearch','quickSearch','filterCards','clearCardFilter',
+    'openKeyModal','closeKeyModal','saveKey',
+    'handleFiles','handleDocUpload','handleDaUpload',
+    'loadLocalVideo','inspectorLoadImage','resetInspector',
+    'runInspector','inspectorToNCR','shareInspectorReport',
+    'runDocAnalysis','runDrawingAnalysis','selectDaType','copyDaResult',
+    'setLang','switchCalc','switchCalcMode','switchForm','switchMainCat',
+    'showExecStep','prefillNCR','addQuickNCR','clearQuickNCRs','exportQuickNCRs',
+    'autoFillRFI','autoFillNCR','exportRFIExcel','exportNCRExcel','exportDPRExcel',
+    'exportToPDF','exportToWord','printCurrentDetail','copyAnswer','copyITPtoClipboard',
+    'calcMaterials','calcTestSchedule','calcTestScheduleEn',
+    'calcFreq','calcESAL','calcPipeSize','validateMixDesign',
+    'calcSPT','calcConcrete','calcRebar','calcCover','calcLapLength',
+    'calcGP','calcBlockwork','calcRoadLayers',
+  ];
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var missing  = [];
+    var existing = [];
+    publicFnsCheck.forEach(function(name) {
+      if (typeof window[name] === 'function') existing.push(name);
+      else missing.push(name);
+    });
+
+    if (missing.length === 0) {
+      console.log(
+        '%c[QatarSpec] \u2705 publicFns Integrity: \u062c\u0645\u064a\u0639 \u0627\u0644\u062f\u0648\u0627\u0644 \u0645\u0648\u062c\u0648\u062f\u0629 (' + existing.length + '/' + publicFnsCheck.length + ')',
+        'color:#4CAF50;font-weight:bold'
+      );
+    } else {
+      console.group('%c[QatarSpec] \u26a0\ufe0f publicFns Integrity: ' + missing.length + ' \u062f\u0627\u0644\u0629 \u0645\u0641\u0642\u0648\u062f\u0629', 'color:#ff9800;font-weight:bold');
+      missing.forEach(function(name) {
+        console.warn('  \u2717 window.' + name + '() \u2014 \u063a\u064a\u0631 \u0645\u0639\u0631\u0651\u0641\u0629 \u0643\u0640 window function');
+      });
+      console.groupEnd();
+    }
+  });
+})();
+// ─── End publicFns Checker ───
+
 // All public functions are accessible via window.QS
 // (onclick attributes continue to work directly for compatibility)
 // ═══════════════════════════════════════════════════════
@@ -14606,7 +14757,7 @@ window.QS = (function() {
 <div id="appFooter" style="background:linear-gradient(135deg,#111,#0A0A0A);border-top:1px solid rgba(201,168,76,0.2);padding:16px 20px;text-align:center;margin-top:24px;position:relative;z-index:1;">
   <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:8px;">
     <span style="color:var(--gold);font-family:'Cairo',sans-serif;font-weight:700;font-size:13px;">QatarSpec Pro</span>
-    <span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:2px 10px;font-size:10px;color:var(--gold);letter-spacing:1px;">v1.6</span>
+    <span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:2px 10px;font-size:10px;color:var(--gold);letter-spacing:1px;">v1.7</span>
     <span style="color:rgba(255,255,255,0.3);font-size:10px;">|</span>
     <span style="color:var(--text3);font-size:11px;">آخر تحديث للمواصفات: <strong style="color:var(--text2);">أبريل 2026 — QCS 2024</strong></span>
   </div>
