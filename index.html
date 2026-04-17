@@ -2,6 +2,10 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════
   QatarSpec Pro — Changelog
+  v1.7.1 (April 2026) — BUG FIXES:
+    - [FIX]  console.group polyfill — TypeError in WebView/iOS WKWebView
+    - [FIX]  VirtualScroll: DOMContentLoaded race condition resolved
+    - [PWA]  sw.js Service Worker registration now active (was commented out)
   v1.7 (April 2026):
     - [SEC]  CSP: worker-src 'self' + upgrade-insecure-requests
     - [SEC]  fetchAnthropicAPI: proxy warning + JSDoc
@@ -14574,14 +14578,13 @@ function resetInspector() {
 })();
 
 // ===== SERVICE WORKER REGISTRATION (PWA Offline) =====
-// PWA Service Worker — disabled until sw.js is deployed
-// if ('serviceWorker' in navigator) {
-//   window.addEventListener('load', () => {
-//     navigator.serviceWorker.register('sw.js')
-//       .then(reg => console.log('QatarSpec SW registered:', reg.scope))
-//       .catch(err => console.log('SW skipped:', err.message));
-//   });
-// }
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('sw.js')
+      .then(function(reg) { console.log('[QatarSpec] SW registered:', reg.scope); })
+      .catch(function(err) { console.log('[QatarSpec] SW skipped (file missing?):', err.message); });
+  });
+}
 
 
 // ═══════════════════════════════════════════════════════
@@ -14646,9 +14649,12 @@ document.addEventListener('DOMContentLoaded', dedupeCards);
     if (cards.length) console.log('[QatarSpec] VirtualScroll: مُراقبة', cards.length, 'كرت');
   }
 
-  document.addEventListener('DOMContentLoaded', function() {
+  // إذا كان DOMContentLoaded قد انتهى بالفعل (script في نهاية الملف) نُشغّل مباشرة
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { requestAnimationFrame(attachObserver); });
+  } else {
     requestAnimationFrame(attachObserver);
-  });
+  }
 
   var filterInput = document.getElementById('cardFilterInput');
   if (filterInput) {
@@ -14675,6 +14681,14 @@ document.addEventListener('DOMContentLoaded', dedupeCards);
 // ═══════════════════════════════════════════════════════════════════════════════
 // publicFns Integrity Checker — يكتشف الدوال المُعلَنة في QS لكنها غير موجودة
 // ═══════════════════════════════════════════════════════════════════════════════
+// ── console.group polyfill ── بعض البيئات (WebView / iOS WKWebView / Node)
+//    لا تدعم console.group — نُعرّفها بأمان إذا لم تكن موجودة
+(function _patchConsoleGroup() {
+  if (typeof console.group   !== 'function') console.group   = console.log;
+  if (typeof console.groupEnd !== 'function') console.groupEnd = function() {};
+  if (typeof console.groupCollapsed !== 'function') console.groupCollapsed = console.log;
+})();
+
 (function checkPublicFns() {
   var publicFnsCheck = [
     'openDetail','closeDetailModal','goBack',
