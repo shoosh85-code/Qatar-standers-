@@ -1,213 +1,203 @@
 /**
- * QatarSpec Pro — Service Worker v1.6
- * ────────────────────────────────────
+ * QatarSpec Pro — Service Worker v1.7
+ * ════════════════════════════════════
  * Strategy:
- *   • Cache-First  → Google Fonts, cdnjs, static HTML/CSS/JS/images
- *   • Network-First → Anthropic API, Google AI API (never cache)
- *   • StaleWhileRevalidate → همع شبكة + تحديث خلفي للكروت الثابتة
- *
- * Cache Names:
- *   qs-static-v1   : الملفات الثابتة (HTML, fonts, lib)
- *   qs-runtime-v1  : طلبات runtime قابلة للتخزين
+ *   • Cache-First  → Google Fonts, CDN assets (Tailwind, libraries), images
+ *   • Network-First → Anthropic API, Gemini API (never cache AI responses)
+ *   • Stale-While-Revalidate → HTML page itself
  */
 
-const CACHE_STATIC   = 'qs-static-v1';
-const CACHE_RUNTIME  = 'qs-runtime-v1';
-const CACHE_VERSION  = '1.6.0';
+const CACHE_NAME    = 'qatarspec-v1.7';
+const STATIC_CACHE  = 'qatarspec-static-v1.7';
+const DYNAMIC_CACHE = 'qatarspec-dynamic-v1.7';
 
-/** الملفات المُخزَّنة مسبقاً عند التثبيت */
-const PRECACHE_URLS = [
+// ── Assets to pre-cache on install ──────────────────────────────────────────
+const PRECACHE_ASSETS = [
+  './',
   './index_v7.html',
-  './manifest.json',
-  'https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;600;700;900&display=swap',
-  'https://fonts.gstatic.com/s/tajawal/v9/Iura6YBj_oCad4k1l_6gLrZjiLlJ-G0.woff2',
-  'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
+  // Google Fonts (will be fetched on first load, then cached)
+  'https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;600;700;900&display=swap'
 ];
 
-/** نطاقات API — لا تُخزَّن أبداً (Network-First فقط) */
-const API_ORIGINS = [
-  'https://api.anthropic.com',
-  'https://generativelanguage.googleapis.com',
+// ── Domains that should NEVER be cached (API endpoints) ─────────────────────
+const NEVER_CACHE_HOSTS = [
+  'api.anthropic.com',
+  'generativelanguage.googleapis.com'
 ];
 
-/** نطاقات الـ fonts والمكتبات الثابتة — Cache-First */
-const CACHEABLE_ORIGINS = [
-  'https://fonts.googleapis.com',
-  'https://fonts.gstatic.com',
-  'https://cdnjs.cloudflare.com',
+// ── Hosts that use Cache-First (static CDN assets) ──────────────────────────
+const CACHE_FIRST_HOSTS = [
+  'fonts.googleapis.com',
+  'fonts.gstatic.com',
+  'cdnjs.cloudflare.com',
+  'unpkg.com',
+  'cdn.jsdelivr.net'
 ];
 
-// ─── INSTALL ──────────────────────────────────────────────────────────────────
-self.addEventListener('install', (event) => {
-  console.log('[SW] Installing QatarSpec SW', CACHE_VERSION);
+// ────────────────────────────────────────────────────────────────────────────
+// INSTALL — pre-cache critical assets
+// ────────────────────────────────────────────────────────────────────────────
+self.addEventListener('install', function(event) {
+  console.log('[QatarSpec SW] Installing v1.7...');
   event.waitUntil(
-    caches.open(CACHE_STATIC).then((cache) => {
-      return cache.addAll(PRECACHE_URLS).catch((err) => {
-        // لا نوقف التثبيت إذا فشل تخزين بعض الملفات (مثلاً offline)
-        console.warn('[SW] Precache partial failure (expected offline):', err.message);
+    caches.open(STATIC_CACHE).then(function(cache) {
+      return cache.addAll(PRECACHE_ASSETS).catch(function(err) {
+        // Don't fail install if some assets are unavailable offline
+        console.warn('[QatarSpec SW] Pre-cache partial failure (expected offline):', err.message);
       });
-    }).then(() => self.skipWaiting())
+    }).then(function() {
+      console.log('[QatarSpec SW] Install complete. Skipping waiting.');
+      return self.skipWaiting();
+    })
   );
 });
 
-// ─── ACTIVATE ─────────────────────────────────────────────────────────────────
-self.addEventListener('activate', (event) => {
-  console.log('[SW] Activating QatarSpec SW', CACHE_VERSION);
+// ────────────────────────────────────────────────────────────────────────────
+// ACTIVATE — clean up old caches
+// ────────────────────────────────────────────────────────────────────────────
+self.addEventListener('activate', function(event) {
+  console.log('[QatarSpec SW] Activating...');
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      const validCaches = [CACHE_STATIC, CACHE_RUNTIME];
+    caches.keys().then(function(keys) {
       return Promise.all(
-        cacheNames
-          .filter((name) => !validCaches.includes(name))
-          .map((name) => {
-            console.log('[SW] Deleting old cache:', name);
-            return caches.delete(name);
-          })
+        keys.filter(function(key) {
+          return key !== CACHE_NAME && key !== STATIC_CACHE && key !== DYNAMIC_CACHE;
+        }).map(function(key) {
+          console.log('[QatarSpec SW] Removing old cache:', key);
+          return caches.delete(key);
+        })
       );
-    }).then(() => self.clients.claim())
+    }).then(function() {
+      console.log('[QatarSpec SW] Activated. Claiming clients.');
+      return self.clients.claim();
+    })
   );
 });
 
-// ─── FETCH ────────────────────────────────────────────────────────────────────
-self.addEventListener('fetch', (event) => {
-  const { request } = event;
-  const url = new URL(request.url);
+// ────────────────────────────────────────────────────────────────────────────
+// FETCH — Route requests by strategy
+// ────────────────────────────────────────────────────────────────────────────
+self.addEventListener('fetch', function(event) {
+  var url;
+  try { url = new URL(event.request.url); } catch(e) { return; }
 
-  // ① API calls — Network-First, no cache, no fallback (يجب اتصال حي)
-  if (API_ORIGINS.some((origin) => request.url.startsWith(origin))) {
-    event.respondWith(networkOnly(request));
+  // 1. Network-Only: Anthropic API / Gemini API — never intercept AI calls
+  if (NEVER_CACHE_HOSTS.some(function(h) { return url.hostname === h; })) {
+    // Let pass through — do not call event.respondWith()
     return;
   }
 
-  // ② Fonts & static CDN libs — Cache-First
-  if (CACHEABLE_ORIGINS.some((origin) => request.url.startsWith(origin))) {
-    event.respondWith(cacheFirst(request, CACHE_STATIC));
+  // 2. Cache-First: Fonts & CDN static assets
+  if (CACHE_FIRST_HOSTS.some(function(h) { return url.hostname === h; })) {
+    event.respondWith(cacheFirst(event.request));
     return;
   }
 
-  // ③ Same-origin navigation (HTML pages) — Network-First مع fallback
-  if (request.mode === 'navigate') {
-    event.respondWith(networkFirstWithFallback(request));
+  // 3. Cache-First for same-origin static assets (images, CSS, JS files)
+  if (url.origin === self.location.origin &&
+      (event.request.destination === 'image' ||
+       event.request.destination === 'style'  ||
+       event.request.destination === 'script' ||
+       event.request.destination === 'font')) {
+    event.respondWith(cacheFirst(event.request));
     return;
   }
 
-  // ④ Same-origin static assets (JS, CSS, images داخل الملف الواحد) — Cache-First
-  if (url.origin === self.location.origin) {
-    event.respondWith(cacheFirst(request, CACHE_RUNTIME));
+  // 4. Stale-While-Revalidate for HTML pages (same origin)
+  if (url.origin === self.location.origin &&
+      (event.request.mode === 'navigate' ||
+       event.request.destination === 'document')) {
+    event.respondWith(staleWhileRevalidate(event.request));
     return;
   }
 
-  // ⑤ غير ذلك — Network مباشر
-  // (لا نتدخل)
+  // 5. Default: Network with dynamic cache fallback
+  event.respondWith(networkWithDynamicCache(event.request));
 });
 
-// ─── STRATEGIES ───────────────────────────────────────────────────────────────
+// ────────────────────────────────────────────────────────────────────────────
+// STRATEGY HELPERS
+// ────────────────────────────────────────────────────────────────────────────
 
 /**
- * Cache-First:
- * يبحث في الـ cache أولاً، وإذا لم يجد يجلب من الشبكة ويخزّن.
+ * Cache-First: Return cached version if available, else fetch and cache.
+ * Ideal for fonts and CDN assets that rarely change.
  */
-async function cacheFirst(request, cacheName) {
-  const cache = await caches.open(cacheName);
-  const cached = await cache.match(request);
-  if (cached) return cached;
-
-  try {
-    const response = await fetch(request);
-    if (response.ok) {
-      cache.put(request, response.clone()); // لا نوقف الرد
-    }
-    return response;
-  } catch (err) {
-    console.warn('[SW] Cache-First network failure:', request.url, err.message);
-    return offlineFallback();
-  }
-}
-
-/**
- * Network-First مع fallback على الـ cache:
- * يحاول الشبكة أولاً، وعند الفشل يرجع للـ cache، وعند عدم وجوده يُعيد صفحة offline.
- */
-async function networkFirstWithFallback(request) {
-  const cache = await caches.open(CACHE_STATIC);
-  try {
-    const response = await fetch(request);
-    if (response.ok) {
-      cache.put(request, response.clone());
-    }
-    return response;
-  } catch (err) {
-    const cached = await cache.match(request);
-    if (cached) {
-      console.log('[SW] Serving from cache (offline):', request.url);
-      return cached;
-    }
-    return offlineFallback();
-  }
-}
-
-/**
- * Network-Only:
- * للـ API calls — لا نخزّن أبداً.
- */
-async function networkOnly(request) {
-  try {
-    return await fetch(request);
-  } catch (err) {
-    // أعد خطأ 503 بدلاً من إسقاط الطلب
-    return new Response(
-      JSON.stringify({ error: 'offline', message: 'لا يوجد اتصال بالإنترنت — API غير متاح' }),
-      {
-        status: 503,
-        headers: { 'Content-Type': 'application/json' }
+function cacheFirst(request) {
+  return caches.match(request).then(function(cached) {
+    if (cached) return cached;
+    return fetch(request).then(function(response) {
+      if (!response || response.status !== 200 || response.type === 'opaque') {
+        return response;
       }
-    );
-  }
+      var clone = response.clone();
+      caches.open(STATIC_CACHE).then(function(cache) {
+        cache.put(request, clone);
+      });
+      return response;
+    }).catch(function() {
+      // Offline and not cached — return nothing (browser handles error)
+      return new Response('', { status: 503, statusText: 'Offline' });
+    });
+  });
 }
 
 /**
- * Offline Fallback HTML بسيط
+ * Stale-While-Revalidate: Return cached version immediately,
+ * then update cache in background.
+ * Ideal for HTML pages — fast load + fresh content.
  */
-function offlineFallback() {
-  return new Response(
-    `<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>غير متصل — QatarSpec Pro</title>
-  <style>
-    body{font-family:'Tajawal',sans-serif;background:#0A0A0A;color:#EDE8DC;
-         display:flex;align-items:center;justify-content:center;min-height:100vh;
-         flex-direction:column;gap:16px;text-align:center;padding:24px}
-    h1{color:#C9A84C;font-size:28px}
-    p{color:#B0A898;font-size:15px;line-height:1.7}
-    button{background:#7A1515;color:#E8C97A;border:1px solid rgba(201,168,76,.3);
-           padding:12px 28px;border-radius:10px;font-size:15px;cursor:pointer;margin-top:8px}
-  </style>
-</head>
-<body>
-  <div style="font-size:56px">📡</div>
-  <h1>لا يوجد اتصال بالإنترنت</h1>
-  <p>QatarSpec Pro يعمل offline للمحتوى المحفوظ مسبقاً.<br>
-     تأكد من اتصالك بالإنترنت لتحميل الصفحة الكاملة.</p>
-  <button onclick="location.reload()">🔄 إعادة المحاولة</button>
-</body>
-</html>`,
-    {
-      status: 200,
-      headers: { 'Content-Type': 'text/html; charset=utf-8' }
+function staleWhileRevalidate(request) {
+  var fetchPromise = fetch(request).then(function(response) {
+    if (response && response.status === 200) {
+      var clone = response.clone();
+      caches.open(DYNAMIC_CACHE).then(function(cache) {
+        cache.put(request, clone);
+      });
     }
-  );
+    return response;
+  });
+  return caches.match(request).then(function(cached) {
+    return cached || fetchPromise;
+  });
 }
 
-// ─── BACKGROUND SYNC (اختياري للمستقبل) ──────────────────────────────────────
-self.addEventListener('message', (event) => {
+/**
+ * Network-First with dynamic cache fallback.
+ * Ideal for data that changes but should be available offline.
+ */
+function networkWithDynamicCache(request) {
+  return fetch(request).then(function(response) {
+    if (response && response.status === 200) {
+      var clone = response.clone();
+      caches.open(DYNAMIC_CACHE).then(function(cache) {
+        cache.put(request, clone);
+      });
+    }
+    return response;
+  }).catch(function() {
+    return caches.match(request).then(function(cached) {
+      if (cached) return cached;
+      return new Response(
+        JSON.stringify({ error: 'offline', message: 'لا يوجد اتصال بالإنترنت' }),
+        { status: 503, headers: { 'Content-Type': 'application/json' } }
+      );
+    });
+  });
+}
+
+// ────────────────────────────────────────────────────────────────────────────
+// MESSAGE — allow pages to control SW (e.g. force update)
+// ────────────────────────────────────────────────────────────────────────────
+self.addEventListener('message', function(event) {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
-  if (event.data && event.data.type === 'GET_VERSION') {
-    event.ports[0].postMessage({ version: CACHE_VERSION });
+  if (event.data && event.data.type === 'CLEAR_CACHE') {
+    caches.keys().then(function(keys) {
+      return Promise.all(keys.map(function(key) { return caches.delete(key); }));
+    }).then(function() {
+      event.ports[0].postMessage({ status: 'cache_cleared' });
+    });
   }
 });
