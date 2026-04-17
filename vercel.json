@@ -1,36 +1,56 @@
 {
   "version": 2,
+
   "functions": {
-    "api/health.js": { "memory": 128, "maxDuration": 5 },
-    "api/search.js": { "memory": 256, "maxDuration": 30 }
+    "api/health.js":          { "memory": 128, "maxDuration": 5 },
+    "api/search.js":          { "memory": 256, "maxDuration": 30 },
+    "api/ai-proxy.js":        { "runtime": "edge" }
   },
+
+  "rewrites": [
+    { "source": "/api/health",    "destination": "/api/health.js" },
+    { "source": "/api/search",    "destination": "/api/search.js" },
+    { "source": "/api/ai-proxy",  "destination": "/api/ai-proxy.js" }
+  ],
+
   "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Frame-Options",           "value": "DENY" },
+        { "key": "X-Content-Type-Options",     "value": "nosniff" },
+        { "key": "Referrer-Policy",            "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy",         "value": "camera=(), microphone=(), geolocation=()" },
+        { "key": "Strict-Transport-Security",  "value": "max-age=63072000; includeSubDomains; preload" },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' /api/ai-proxy /api/search /api/health; upgrade-insecure-requests"
+        }
+      ]
+    },
     {
       "source": "/data/(.*)",
       "headers": [
-        { "key": "Content-Type", "value": "application/json; charset=utf-8" },
-        { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=3600" },
-        { "key": "Access-Control-Allow-Origin", "value": "*" }
+        { "key": "Content-Type",               "value": "application/json; charset=utf-8" },
+        { "key": "Cache-Control",              "value": "public, max-age=86400, stale-while-revalidate=3600" },
+        { "key": "Access-Control-Allow-Origin","value": "*" }
       ]
     },
     {
       "source": "/sw.js",
       "headers": [
-        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
+        { "key": "Cache-Control",          "value": "no-cache, no-store, must-revalidate" },
         { "key": "Service-Worker-Allowed", "value": "/" }
       ]
     },
     {
       "source": "/api/(.*)",
       "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Origin",  "value": "*" },
         { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
-        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, X-Pro-Token" }
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, X-Pro-Token" },
+        { "key": "Cache-Control",                "value": "no-store" }
       ]
     }
-  ],
-  "rewrites": [
-    { "source": "/api/health", "destination": "/api/health.js" },
-    { "source": "/api/search", "destination": "/api/search.js" }
   ]
 }
