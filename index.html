@@ -12144,27 +12144,48 @@ function createVideoPlayer(containerId, src) {
 }
 
 function _applyVideoToDOM(inputId, playerId, phId, url, name, size) {
-  const player = document.getElementById(playerId);
+  const container = document.getElementById(playerId);
   const ph = document.getElementById(phId);
-  
-  if (player) {
-    player.src = url;
-    player.style.display = 'block';
-    player.load();
+
+  if (!container) return;
+
+  // إذا كان الحاوي div.qs-vid-ph — نبني فيديو داخله
+  if (container.tagName !== 'VIDEO') {
+    // أزل أي فيديو سابق ونظّف
+    if (typeof container._vidCleanup === 'function') container._vidCleanup();
+    container.innerHTML = '';
+    const maxH = container.dataset.maxh || '280px';
+    const video = document.createElement('video');
+    video.controls = true;
+    video.style.cssText = 'width:100%;max-height:' + maxH + ';background:#000;display:block;border-radius:8px;';
+    video.src = url;
+    container.appendChild(video);
+    container.style.display = 'block';
+    video.load();
+    container._vidCleanup = function() {
+      video.pause();
+      video.src = '';
+      video.remove();
+      container._vidCleanup = null;
+      container.style.display = 'none';
+    };
+  } else {
+    // fallback: حاوي <video> مباشر (نمط قديم)
+    container.src = url;
+    container.style.display = 'block';
+    container.load();
   }
-  if (ph) {
-    ph.style.display = 'none';
-  }
-  
-  // Add or update badge
+
+  if (ph) ph.style.display = 'none';
+
+  // Badge إظهار اسم الملف
   const badgeId = 'vbadge-' + playerId;
-  const existing = document.getElementById(badgeId);
-  if (!existing && player) {
+  if (!document.getElementById(badgeId)) {
     const badge = document.createElement('div');
     badge.id = badgeId;
-    badge.style.cssText = 'font-size:10px;color:#2ecc71;padding:3px 12px;background:rgba(46,204,113,0.1);border-top:1px solid rgba(46,204,113,0.2);';
+    badge.style.cssText = 'font-size:10px;color:#2ecc71;padding:3px 12px;background:rgba(46,204,113,0.1);border-top:1px solid rgba(46,204,113,0.2);border-radius:0 0 8px 8px;';
     badge.textContent = '✅ ' + name + ' (' + (size/1024/1024).toFixed(1) + ' MB)';
-    if (player.parentNode) player.parentNode.appendChild(badge);
+    container.parentNode && container.parentNode.appendChild(badge);
   }
 }
 
