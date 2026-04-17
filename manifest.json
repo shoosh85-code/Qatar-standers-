@@ -1,42 +1,21 @@
 {
-  "name": "دليل المواصفات القطرية | QatarSpec Pro",
+  "name": "QatarSpec Pro — دليل المواصفات القطرية",
   "short_name": "QatarSpec",
-  "description": "دليل المواصفات الهندسية القطرية — Qatar Engineering Standards Reference",
-  "start_url": "./index_v7.html",
+  "description": "مرجع QCS 2024 الرسمي — بحث ذكي، ITPs، حاسبات هندسية",
+  "start_url": "/",
   "display": "standalone",
   "orientation": "any",
-  "lang": "ar",
-  "dir": "rtl",
   "theme_color": "#7A1515",
   "background_color": "#0A0A0A",
-  "categories": ["productivity", "utilities"],
+  "lang": "ar",
+  "dir": "rtl",
+  "scope": "/",
+  "categories": ["productivity", "utilities", "education"],
   "icons": [
-    {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='32' fill='%237A1515'/%3E%3Ctext x='96' y='130' font-size='96' text-anchor='middle' fill='%23C9A84C'%3E%F0%9F%8F%97%3C/text%3E%3C/svg%3E",
-      "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='80' fill='%237A1515'/%3E%3Ctext x='256' y='350' font-size='256' text-anchor='middle' fill='%23C9A84C'%3E%F0%9F%8F%97%3C/text%3E%3C/svg%3E",
-      "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
+    { "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='20' fill='%237A1515'/><text x='96' y='130' text-anchor='middle' font-size='100'>🏗️</text></svg>", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any maskable" }
   ],
-  "screenshots": [],
   "shortcuts": [
-    {
-      "name": "بحث المواصفات",
-      "short_name": "بحث",
-      "url": "./index_v7.html#search",
-      "description": "البحث في مواصفات QCS/ASHTO/BS"
-    },
-    {
-      "name": "الحسابات الهندسية",
-      "short_name": "حاسبات",
-      "url": "./index_v7.html#calc",
-      "description": "حسابات الخرسانة والأسفلت والطرق"
-    }
+    { "name": "بحث ذكي", "url": "/?q=search", "description": "البحث في QCS 2024" },
+    { "name": "الحاسبة الهندسية", "url": "/?tool=calculator", "description": "حاسبات الخرسانة والطرق" }
   ]
 }
