@@ -12098,19 +12098,27 @@ document.addEventListener('DOMContentLoaded', function() {
 // ─── End IndexedDB system ───
 
 function loadLocalVideo(input, playerId, placeholderId) {
-  let file = input.files[0];
+  var file = input.files[0];
   if (!file) return;
-  
-  // Store File object by input ID (survives DOM rebuild)
-  let inputId = input.id || input.getAttribute('id');
-  let url = URL.createObjectURL(file);
-  _videoFiles.set(inputId, { file: file, url: url, name: file.name, size: file.size });
-  
-  // Persist to IndexedDB (survives page refresh)
-  _saveVideoToIDB(inputId, file);
-  
-  // Show immediately
-  _applyVideoToDOM(inputId, playerId, placeholderId, url, file.name, file.size);
+
+  var inputId = input.id || input.getAttribute('id');
+
+  // نستخدم FileReader لأن blob: URLs قد تُحجب بسبب CSP أو Incognito
+  // data URL يعمل في كل البيئات بدون استثناء
+  var ph = document.getElementById(placeholderId);
+  if (ph) ph.innerHTML = '<div style="padding:12px;text-align:center;color:var(--gold);font-size:12px;">⏳ جاري تحميل الفيديو...</div>';
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var url = e.target.result;
+    _videoFiles.set(inputId, { file: file, url: url, name: file.name, size: file.size });
+    _saveVideoToIDB(inputId, file);
+    _applyVideoToDOM(inputId, playerId, placeholderId, url, file.name, file.size);
+  };
+  reader.onerror = function() {
+    if (ph) ph.innerHTML = '<div style="padding:12px;text-align:center;color:#e74c3c;font-size:12px;">❌ فشل تحميل الفيديو — جرب ملفاً أصغر</div>';
+  };
+  reader.readAsDataURL(file);
 }
 
 
@@ -12144,48 +12152,43 @@ function createVideoPlayer(containerId, src) {
 }
 
 function _applyVideoToDOM(inputId, playerId, phId, url, name, size) {
-  const container = document.getElementById(playerId);
-  const ph = document.getElementById(phId);
+  var container = document.getElementById(playerId);
+  var ph = document.getElementById(phId);
 
   if (!container) return;
 
-  // إذا كان الحاوي div.qs-vid-ph — نبني فيديو داخله
-  if (container.tagName !== 'VIDEO') {
-    // أزل أي فيديو سابق ونظّف
-    if (typeof container._vidCleanup === 'function') container._vidCleanup();
-    container.innerHTML = '';
-    const maxH = container.dataset.maxh || '280px';
-    const video = document.createElement('video');
-    video.controls = true;
-    video.style.cssText = 'width:100%;max-height:' + maxH + ';background:#000;display:block;border-radius:8px;';
-    video.src = url;
-    container.appendChild(video);
-    container.style.display = 'block';
-    video.load();
-    container._vidCleanup = function() {
-      video.pause();
-      video.src = '';
-      video.remove();
-      container._vidCleanup = null;
-      container.style.display = 'none';
-    };
-  } else {
-    // fallback: حاوي <video> مباشر (نمط قديم)
-    container.src = url;
-    container.style.display = 'block';
-    container.load();
-  }
+  // أزل أي فيديو قديم
+  if (typeof container._vidCleanup === 'function') container._vidCleanup();
+  container.innerHTML = '';
+
+  var maxH = container.dataset ? (container.dataset.maxh || '280px') : '280px';
+  var video = document.createElement('video');
+  video.controls = true;
+  video.setAttribute('playsinline', '');
+  video.style.cssText = 'width:100%;max-height:' + maxH + ';background:#000;display:block;border-radius:8px;';
+  video.src = url;
+  container.appendChild(video);
+  container.style.display = 'block';
+  video.load();
+
+  container._vidCleanup = function() {
+    video.pause();
+    video.src = '';
+    video.remove();
+    container._vidCleanup = null;
+    container.style.display = 'none';
+  };
 
   if (ph) ph.style.display = 'none';
 
-  // Badge إظهار اسم الملف
-  const badgeId = 'vbadge-' + playerId;
-  if (!document.getElementById(badgeId)) {
-    const badge = document.createElement('div');
+  // Badge اسم الملف
+  var badgeId = 'vbadge-' + playerId;
+  if (!document.getElementById(badgeId) && container.parentNode) {
+    var badge = document.createElement('div');
     badge.id = badgeId;
     badge.style.cssText = 'font-size:10px;color:#2ecc71;padding:3px 12px;background:rgba(46,204,113,0.1);border-top:1px solid rgba(46,204,113,0.2);border-radius:0 0 8px 8px;';
-    badge.textContent = '✅ ' + name + ' (' + (size/1024/1024).toFixed(1) + ' MB)';
-    container.parentNode && container.parentNode.appendChild(badge);
+    badge.textContent = '\u2705 ' + name + ' (' + (size/1024/1024).toFixed(1) + ' MB)';
+    container.parentNode.appendChild(badge);
   }
 }
 
@@ -12199,34 +12202,25 @@ function _applyVideoToDOM(inputId, playerId, phId, url, name, size) {
  */
 function _restoreVideosAfterDOMRebuild() {
   if (_videoFiles.size === 0) return;
-  
-  // Find all video file inputs in the current DOM
-  const inputs = document.querySelectorAll('input[type="file"][accept*="video"]');
+
+  var inputs = document.querySelectorAll('input[type="file"][accept*="video"]');
   inputs.forEach(function(input) {
-    const inputId = input.id;
+    var inputId = input.id;
     if (!inputId) return;
-    
-    const stored = _videoFiles.get(inputId);
+
+    var stored = _videoFiles.get(inputId);
     if (!stored) return;
-    
-    // Get player/placeholder from data attributes
-    let playerId = input.getAttribute('data-player');
-    let phId = input.getAttribute('data-ph');
-    
+
+    var playerId = input.getAttribute('data-player');
+    var phId = input.getAttribute('data-ph');
     if (!playerId) {
-      // Fallback: derive from input ID
       playerId = inputId.replace('vid-', 'vid-player-');
       phId = inputId.replace('vid-', 'vid-ph-');
     }
-    
-    // Re-attach the stored file to the rebuilt DOM element
-    // Create a new ObjectURL (old one may be revoked)
-    const newUrl = URL.createObjectURL(stored.file);
-    stored.url = newUrl;
-    
-    _applyVideoToDOM(inputId, playerId, phId, newUrl, stored.name, stored.size);
-    
-    // Re-wire the input's onchange in case it lost its handler
+
+    // إعادة استخدام الـ URL المحفوظ (data URL لا تنتهي صلاحيته)
+    _applyVideoToDOM(inputId, playerId, phId, stored.url, stored.name, stored.size);
+
     input.onchange = function() {
       loadLocalVideo(this, playerId, phId);
     };
