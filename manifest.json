@@ -1,97 +1,42 @@
 {
-  "name": "QatarSpec Pro — دليل المواصفات القطرية",
+  "name": "دليل المواصفات القطرية | QatarSpec Pro",
   "short_name": "QatarSpec",
-  "description": "مرجع المواصفات القطرية الهندسية QCS 2024 — Ashghal · KAHRAMAA · MMUP · QCDD",
+  "description": "دليل المواصفات الهندسية القطرية — Qatar Engineering Standards Reference",
   "start_url": "./index_v7.html",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#0A0A0A",
-  "theme_color": "#7A1515",
   "lang": "ar",
   "dir": "rtl",
-  "categories": ["productivity", "utilities", "education"],
+  "theme_color": "#7A1515",
+  "background_color": "#0A0A0A",
+  "categories": ["productivity", "utilities"],
   "icons": [
     {
-      "src": "icons/icon-72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/icon-96.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/icon-128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/icon-144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icons/icon-152.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/icon-192.png",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='32' fill='%237A1515'/%3E%3Ctext x='96' y='130' font-size='96' text-anchor='middle' fill='%23C9A84C'%3E%F0%9F%8F%97%3C/text%3E%3C/svg%3E",
       "sizes": "192x192",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/icon-512.png",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='80' fill='%237A1515'/%3E%3Ctext x='256' y='350' font-size='256' text-anchor='middle' fill='%23C9A84C'%3E%F0%9F%8F%97%3C/text%3E%3C/svg%3E",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     }
   ],
-  "screenshots": [
-    {
-      "src": "screenshots/desktop.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "QatarSpec Pro — Desktop View"
-    },
-    {
-      "src": "screenshots/mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "QatarSpec Pro — Mobile View"
-    }
-  ],
+  "screenshots": [],
   "shortcuts": [
     {
-      "name": "البحث الذكي",
+      "name": "بحث المواصفات",
       "short_name": "بحث",
-      "description": "ابحث في المواصفات القطرية",
       "url": "./index_v7.html#search",
-      "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+      "description": "البحث في مواصفات QCS/ASHTO/BS"
     },
     {
-      "name": "الحاسبات الهندسية",
+      "name": "الحسابات الهندسية",
       "short_name": "حاسبات",
-      "description": "حاسبة المواصفات والاختبارات",
-      "url": "./index_v7.html#calculator",
-      "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+      "url": "./index_v7.html#calc",
+      "description": "حسابات الخرسانة والأسفلت والطرق"
     }
-  ],
-  "related_applications": [],
-  "prefer_related_applications": false
+  ]
 }
