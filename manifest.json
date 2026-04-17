@@ -1,21 +1,97 @@
 {
   "name": "QatarSpec Pro — دليل المواصفات القطرية",
   "short_name": "QatarSpec",
-  "description": "مرجع المواصفات القطرية QCS 2024 للمهندسين — Qatar Construction Specifications Reference",
-  "start_url": "/",
+  "description": "مرجع المواصفات القطرية الهندسية QCS 2024 — Ashghal · KAHRAMAA · MMUP · QCDD",
+  "start_url": "./index_v7.html",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#0A0A0A",
-  "theme_color": "#1a0a0a",
-  "orientation": "portrait-primary",
+  "theme_color": "#7A1515",
   "lang": "ar",
   "dir": "rtl",
+  "categories": ["productivity", "utilities", "education"],
   "icons": [
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='32' fill='%237A1515'/%3E%3Ctext x='96' y='120' font-size='100' text-anchor='middle' fill='%23C9A84C'%3E🏗%3C/text%3E%3C/svg%3E",
+      "src": "icons/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ],
-  "categories": ["utilities", "business", "education"]
+  "screenshots": [
+    {
+      "src": "screenshots/desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "QatarSpec Pro — Desktop View"
+    },
+    {
+      "src": "screenshots/mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "QatarSpec Pro — Mobile View"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "البحث الذكي",
+      "short_name": "بحث",
+      "description": "ابحث في المواصفات القطرية",
+      "url": "./index_v7.html#search",
+      "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "الحاسبات الهندسية",
+      "short_name": "حاسبات",
+      "description": "حاسبة المواصفات والاختبارات",
+      "url": "./index_v7.html#calculator",
+      "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
 }
