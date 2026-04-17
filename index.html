@@ -2,10 +2,14 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════
   QatarSpec Pro — Changelog
-  v1.7.1 (April 2026) — BUG FIXES:
-    - [FIX]  console.group polyfill — TypeError in WebView/iOS WKWebView
-    - [FIX]  VirtualScroll: DOMContentLoaded race condition resolved
-    - [PWA]  sw.js Service Worker registration now active (was commented out)
+  v1.7.2 (April 2026) — BUG FIXES:
+    - [FIX]  dedupeCards(): expanded dupeKeys to 10 keys (superpave_mix, marshall_mix,
+             doc_analyzer, ashghal_forms, itp_concrete now included)
+    - [FIX]  getRelevantParts(): returns up to 3 parts (was 2); all parts passed
+             to buildQCSPrompt prompt and displayed in sourceEl / refEl
+    - [PWA]  manifest.json: inlined as Blob URL — no external file needed
+    - [PWA]  sw.js: inlined as Blob URL — no external file needed, Cache-First
+             strategy with API passthrough exclusion
   v1.7 (April 2026):
     - [SEC]  CSP: worker-src 'self' + upgrade-insecure-requests
     - [SEC]  fetchAnthropicAPI: proxy warning + JSDoc
@@ -40,7 +44,32 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="QatarSpec">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="manifest" href="manifest.json">
+<script>
+// ── Inline manifest.json as Blob URL (no external file needed) ──────────────
+(function() {
+  const manifest = {
+    name: 'QatarSpec Pro',
+    short_name: 'QatarSpec',
+    description: 'دليل المواصفات القطرية | Qatar Engineering Standards',
+    start_url: '.',
+    display: 'standalone',
+    background_color: '#0A0A0A',
+    theme_color: '#7A1515',
+    icons: [
+      { src: 'data:image/svg+xml,%3Csvg xmlns%3D\'http%3A//www.w3.org/2000/svg\' viewBox%3D\'0 0 192 192\'%3E%3Crect width%3D\'192\' height%3D\'192\' rx%3D\'32\' fill%3D\'%237A1515\'/%3E%3Ctext y%3D\'130\' x%3D\'96\' text-anchor%3D\'middle\' font-size%3D\'110\' fill%3D\'%23C9A84C\'%3E%D9%82%3C/text%3E%3C/svg%3E', sizes: '192x192', type: 'image/svg+xml' },
+      { src: 'data:image/svg+xml,%3Csvg xmlns%3D\'http%3A//www.w3.org/2000/svg\' viewBox%3D\'0 0 512 512\'%3E%3Crect width%3D\'512\' height%3D\'512\' rx%3D\'80\' fill%3D\'%237A1515\'/%3E%3Ctext y%3D\'360\' x%3D\'256\' text-anchor%3D\'middle\' font-size%3D\'300\' fill%3D\'%23C9A84C\'%3E%D9%82%3C/text%3E%3C/svg%3E', sizes: '512x512', type: 'image/svg+xml' }
+    ]
+  };
+  try {
+    const blob = new Blob([JSON.stringify(manifest)], {type: 'application/manifest+json'});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('link');
+    link.rel = 'manifest'; link.href = url;
+    document.head.appendChild(link);
+  } catch(e) { console.warn('[QatarSpec] manifest blob failed:', e); }
+})();
+</script>
+<link rel="manifest-fallback-removed">
 <title>دليل المواصفات القطرية | Qatar Engineering Standards</title>
 <!-- Google Fonts with local fallback for offline support -->
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -672,7 +701,7 @@ const QCS_MAP = [
 function getRelevantParts(query) {
   const q = query.toLowerCase();
   for (const entry of QCS_MAP) {
-    if (entry.keywords.some(k => q.includes(k.toLowerCase()))) return entry.parts.slice(0,2);
+    if (entry.keywords.some(k => q.includes(k.toLowerCase()))) return entry.parts.slice(0,3);
   }
   return [1];
 }
@@ -736,13 +765,14 @@ async function doSearch() {
   try {
     const parts = getRelevantParts(query);
     const partNum = parts[0];
-    sourceEl.textContent = `QCS 2024 — Part ${partNum}`;
+    const partsLabel = parts.join(', ');
+    sourceEl.textContent = `QCS 2024 — Part ${partsLabel}`;
     setLoadingSteps(steps, 1);
 
     const response = await fetchAnthropicAPI({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 800,
-        messages: [{ role: 'user', content: buildQCSPrompt(query, partNum) }]
+        messages: [{ role: 'user', content: buildQCSPrompt(query, partsLabel) }]
     });
 
     setLoadingSteps(steps, 2);
@@ -757,8 +787,8 @@ async function doSearch() {
     const answer = (data.content && data.content[0] && data.content[0].text) || 'لم أجد إجابة.';
 
     textEl.innerHTML = sanitizeText(answer).replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    refEl.textContent = `📖 المرجع: QCS 2024 — Part ${partNum} | راجع المواصفة الأصلية للتأكد`;
-    sourceEl.textContent = `QCS 2024 — Part ${partNum}`;
+    refEl.textContent = `📖 المرجع: QCS 2024 — Part ${partsLabel} | راجع المواصفة الأصلية للتأكد`;
+    sourceEl.textContent = `QCS 2024 — Part ${partsLabel}`;
 
   } catch (err) {
     const msg = err.message || 'خطأ غير معروف';
@@ -14577,12 +14607,42 @@ function resetInspector() {
   };
 })();
 
-// ===== SERVICE WORKER REGISTRATION (PWA Offline) =====
+// ===== SERVICE WORKER REGISTRATION (PWA Offline) — Inline Blob =====
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('sw.js')
-      .then(function(reg) { console.log('[QatarSpec] SW registered:', reg.scope); })
-      .catch(function(err) { console.log('[QatarSpec] SW skipped (file missing?):', err.message); });
+    try {
+      const swCode = `
+const CACHE = 'qatarspec-v1';
+const OFFLINE_URLS = ['/'];
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(OFFLINE_URLS)).catch(()=>{}));
+  self.skipWaiting();
+});
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));
+  self.clients.claim();
+});
+self.addEventListener('fetch', e => {
+  if (e.request.method !== 'GET') return;
+  if (e.request.url.includes('api.anthropic.com') || e.request.url.includes('googleapis.com')) return;
+  e.respondWith(
+    fetch(e.request).then(r => {
+      if (r && r.status === 200 && r.type === 'basic') {
+        const clone = r.clone();
+        caches.open(CACHE).then(c => c.put(e.request, clone));
+      }
+      return r;
+    }).catch(() => caches.match(e.request))
+  );
+});`;
+      const blob = new Blob([swCode], {type: 'application/javascript'});
+      const swUrl = URL.createObjectURL(blob);
+      navigator.serviceWorker.register(swUrl)
+        .then(function(reg) { console.log('[QatarSpec] SW (blob) registered:', reg.scope); })
+        .catch(function(err) { console.log('[QatarSpec] SW blob registration failed:', err.message); });
+    } catch(e) {
+      console.log('[QatarSpec] SW skipped:', e.message);
+    }
   });
 }
 
@@ -14600,7 +14660,10 @@ function dedupeCards() {
     if (!match) return;
     const key = match[1];
     // Only deduplicate known-duplicate keys
-    const dupeKeys = ['roads_materials','prime_tack_summary','bitumen_tests','gabbro_specs','subbase'];
+    const dupeKeys = [
+      'roads_materials','prime_tack_summary','bitumen_tests','gabbro_specs','subbase',
+      'superpave_mix','marshall_mix','doc_analyzer','ashghal_forms','itp_concrete'
+    ];
     if (!dupeKeys.includes(key)) return;
     if (seen.has(key)) {
       card.style.display = 'none';
