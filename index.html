@@ -2,6 +2,11 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════
   QatarSpec Pro — Changelog
+  v1.7.4 (April 2026) — VIDEO LOADING FIX (Root Cause):
+    - [FIX]  loadLocalVideo(): FileReader.readAsDataURL → URL.createObjectURL
+             السبب: readAsDataURL تُحوّل الفيديو base64 (+33% حجم) وتفشل > 16MB
+             الحل: createObjectURL pointer مباشر — فوري، آمن، يدعم Seeking
+             التأثير: صفر على المحتوى المعلوماتي — تغيير في السطور 12099-12121 فقط
   v1.7.3 (April 2026) — BUG FIXES:
     - [FIX]  publicFns Integrity: 3 missing functions added —
              calcGP() — Grading & PI checker (QCS S6 P3/P4/P5)
@@ -12102,23 +12107,24 @@ function loadLocalVideo(input, playerId, placeholderId) {
   if (!file) return;
 
   var inputId = input.id || input.getAttribute('id');
-
-  // نستخدم FileReader لأن blob: URLs قد تُحجب بسبب CSP أو Incognito
-  // data URL يعمل في كل البيئات بدون استثناء
   var ph = document.getElementById(placeholderId);
   if (ph) ph.innerHTML = '<div style="padding:12px;text-align:center;color:var(--gold);font-size:12px;">⏳ جاري تحميل الفيديو...</div>';
 
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    var url = e.target.result;
-    _videoFiles.set(inputId, { file: file, url: url, name: file.name, size: file.size });
-    _saveVideoToIDB(inputId, file);
-    _applyVideoToDOM(inputId, playerId, placeholderId, url, file.name, file.size);
-  };
-  reader.onerror = function() {
-    if (ph) ph.innerHTML = '<div style="padding:12px;text-align:center;color:#e74c3c;font-size:12px;">❌ فشل تحميل الفيديو — جرب ملفاً أصغر</div>';
-  };
-  reader.readAsDataURL(file);
+  // ─── FIX v1.7.4: استبدال FileReader.readAsDataURL بـ URL.createObjectURL ───
+  // السبب: readAsDataURL تُحوّل الفيديو إلى base64 (+33% حجم) وتحمّله كاملاً في RAM
+  //        وتمنع الـ Seeking — يفشل مع ملفات > 16MB على Safari وبعض المتصفحات
+  // URL.createObjectURL: يُعطي pointer مباشر للملف بدون ترميز — فوري وآمن
+  // ملاحظة: blob: URLs مسموحة في media-src (لا تتعارض مع CSP الحالي)
+  //         وتعمل في Incognito بدون مشكلة لأنها local file reference
+  var existing = _videoFiles.get(inputId);
+  if (existing && existing.url && existing.url.startsWith('blob:')) {
+    URL.revokeObjectURL(existing.url); // تنظيف الـ URL القديم من الذاكرة
+  }
+
+  var url = URL.createObjectURL(file);
+  _videoFiles.set(inputId, { file: file, url: url, name: file.name, size: file.size });
+  _saveVideoToIDB(inputId, file);
+  _applyVideoToDOM(inputId, playerId, placeholderId, url, file.name, file.size);
 }
 
 
@@ -14892,7 +14898,7 @@ window.QS = (function() {
 <div id="appFooter" style="background:linear-gradient(135deg,#111,#0A0A0A);border-top:1px solid rgba(201,168,76,0.2);padding:16px 20px;text-align:center;margin-top:24px;position:relative;z-index:1;">
   <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:8px;">
     <span style="color:var(--gold);font-family:'Cairo',sans-serif;font-weight:700;font-size:13px;">QatarSpec Pro</span>
-    <span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:2px 10px;font-size:10px;color:var(--gold);letter-spacing:1px;">v1.7</span>
+    <span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:2px 10px;font-size:10px;color:var(--gold);letter-spacing:1px;">v1.7.4</span>
     <span style="color:rgba(255,255,255,0.3);font-size:10px;">|</span>
     <span style="color:var(--text3);font-size:11px;">آخر تحديث للمواصفات: <strong style="color:var(--text2);">أبريل 2026 — QCS 2024</strong></span>
   </div>
