@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════
   QatarSpec Pro — Changelog
@@ -794,42 +795,101 @@ function buildQCSPrompt(query, partNum) {
  * Fallback: رسالة خطأ واضحة مع أسباب محتملة
  * @see fetchAnthropicAPI - دالة الـ API المركزية مع timeout
  */
+/**
+ * doSearch() — RAG Architecture v2
+ * 1. يجيب chunks حقيقية من QCS 2024 عبر /api/search (Supabase pgvector)
+ * 2. يبعثها context لـ Claude — إجابة مبنية على النص الأصلي وليس افتراضات
+ * 3. Fallback تلقائي لـ getRelevantParts() إذا فشل /api/search
+ */
 async function doSearch() {
   const query = document.getElementById('searchInput').value.trim();
   if (!query) return;
   const isProxyMode = !window.location.hostname.includes('localhost');
   if (!isProxyMode && !anthropicKey) { openKeyModal(); return; }
 
-  const box = document.getElementById('aiAnswerBox');
-  const textEl = document.getElementById('aiAnswerText');
-  const refEl = document.getElementById('aiRefText');
-  const sourceEl = document.getElementById('aiSource');
+  const box     = document.getElementById('aiAnswerBox');
+  const textEl  = document.getElementById('aiAnswerText');
+  const refEl   = document.getElementById('aiRefText');
+  const sourceEl= document.getElementById('aiSource');
 
   box.classList.add('show');
   box.scrollIntoView({ behavior:'smooth', block:'nearest' });
 
   const steps = [
-    'تحديد القسم المناسب من QCS 2024',
-    'معالجة الإجابة',
-    'تجهيز النتيجة'
+    'البحث في قاعدة بيانات QCS 2024',
+    'تحليل النصوص المسترجعة',
+    'تجهيز الإجابة النهائية'
   ];
 
   setLoadingSteps(steps, 0);
   sourceEl.textContent = 'QCS 2024 — جاري البحث...';
 
   try {
-    const parts = getRelevantParts(query);
-    const partNum = parts[0];
-    const partsLabel = parts.join(', ');
-    sourceEl.textContent = `QCS 2024 — Part ${partsLabel}`;
+    // ── Step 1: Vector search in Supabase via /api/search ──────────────
+    let chunks = [];
+    let usedSupabase = false;
+
+    try {
+      const ctrl = new AbortController();
+      const tid  = setTimeout(() => ctrl.abort(), 8000);
+      const res  = await fetch(`/api/search?q=${encodeURIComponent(query)}&max_results=4`, {
+        signal: ctrl.signal
+      });
+      clearTimeout(tid);
+      if (res.ok) {
+        const raw = await res.json();
+        // Handles: array directly OR { results: [...] } OR { data: [...] }
+        chunks = Array.isArray(raw) ? raw
+               : Array.isArray(raw.results) ? raw.results
+               : Array.isArray(raw.data)    ? raw.data
+               : [];
+        usedSupabase = chunks.length > 0;
+      }
+    } catch (_) { /* silently fallback */ }
+
     setLoadingSteps(steps, 1);
 
-    const response = await fetchAnthropicAPI({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 800,
-        messages: [{ role: 'user', content: buildQCSPrompt(query, partsLabel) }]
-    });
+    // ── Step 2: Build prompt ────────────────────────────────────────────
+    let userContent, systemMsg, refLabel;
 
+    if (usedSupabase) {
+      // RAG: real QCS chunks as context
+      const contextBlock = chunks.map((c, i) => {
+        const text   = c.content || c.chunk_text || c.text || '';
+        const source = c.section || c.source || c.title || c.metadata?.section || `مقطع ${i+1}`;
+        return `[${i+1}] ${source}:\n${text.slice(0, 1200)}`; // cap each chunk
+      }).join('\n\n---\n\n');
+
+      systemMsg  = 'أنت مهندس خبير في كود البناء القطري QCS 2024. أجب على السؤال استناداً حصراً للنصوص المسترجعة التالية. اذكر رقم المرجع [1] أو [2]... عند الاستشهاد بأي معلومة. إذا لم تجد الإجابة في النصوص، قل ذلك صراحةً.';
+      userContent= `نصوص QCS 2024 المسترجعة:\n\n${contextBlock}\n\n---\nالسؤال: ${query}`;
+
+      const sourceNames = chunks.map((c, i) => {
+        const s = c.section || c.source || c.title || c.metadata?.section || `مقطع ${i+1}`;
+        const sim = c.similarity ? ` ${Math.round(c.similarity * 100)}%` : '';
+        return `[${i+1}] ${s}${sim}`;
+      });
+      refLabel = sourceNames;
+      sourceEl.textContent = `QCS 2024 — Supabase (${chunks.length} نتائج)`;
+
+    } else {
+      // Fallback: keyword-based part detection
+      const parts     = getRelevantParts(query);
+      const partsLabel= parts.join(', ');
+      userContent = buildQCSPrompt(query, partsLabel);
+      systemMsg   = null;
+      refLabel    = [`Part ${partsLabel}`];
+      sourceEl.textContent = `QCS 2024 — Part ${partsLabel}`;
+    }
+
+    // ── Step 3: Call Claude via proxy ───────────────────────────────────
+    const apiBody = {
+      model:      'claude-haiku-4-5-20251001',
+      max_tokens: 800,
+      messages:   [{ role: 'user', content: userContent }]
+    };
+    if (systemMsg) apiBody.system = systemMsg;
+
+    const response = await fetchAnthropicAPI(apiBody);
     setLoadingSteps(steps, 2);
 
     if (!response.ok) {
@@ -838,12 +898,22 @@ async function doSearch() {
     }
 
     setLoadingSteps(steps, 3);
-    const data = await response.json();
+    const data   = await response.json();
     const answer = (data.content && data.content[0] && data.content[0].text) || 'لم أجد إجابة.';
 
-    textEl.innerHTML = sanitizeText(answer).replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    refEl.textContent = `📖 المرجع: QCS 2024 — Part ${partsLabel} | راجع المواصفة الأصلية للتأكد`;
-    sourceEl.textContent = `QCS 2024 — Part ${partsLabel}`;
+    textEl.innerHTML = sanitizeText(answer)
+      .replace(/\n/g, '<br>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+    // ── Display sources ─────────────────────────────────────────────────
+    if (usedSupabase) {
+      const tags = refLabel.map(s =>
+        `<span style="display:inline-block;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.35);border-radius:6px;padding:2px 8px;margin:2px 3px;font-size:11px;color:var(--gold2);font-family:'Tajawal',sans-serif;">${sanitizeText(s)}</span>`
+      ).join('');
+      refEl.innerHTML = `📖 المصادر من QCS 2024: ${tags}`;
+    } else {
+      refEl.textContent = `📖 المرجع: QCS 2024 — ${refLabel[0]} | راجع المواصفة الأصلية للتأكد`;
+    }
 
   } catch (err) {
     const msg = err.message || 'خطأ غير معروف';
