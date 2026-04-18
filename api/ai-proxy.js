@@ -40,21 +40,20 @@ module.exports = async function handler(req, res) {
   if (!CF_TOKEN || !CF_ACCOUNT_ID)
     return res.status(500).json({ error: 'CF_TOKEN or CF_ACCOUNT_ID missing' });
 
-  // Build messages for Cloudflare AI
-  const messages = [];
+  // ── Enhanced system prompt (always override for QCS quality) ─────────────
+  const SYSTEM = `You are a senior QCS 2024 engineer assistant. 
+Given retrieved QCS text chunks, answer the user's question directly and technically.
 
-  // System prompt — enhanced for QCS technical answers
-  const systemPrompt = body.system ||
-    `You are a senior engineer specialized in Qatar Construction Specifications QCS 2024.
-Your job: answer the user's question using ONLY the retrieved QCS text provided.
-Rules:
-- Extract specific values, tables, grades, dimensions from the text
-- Cite reference numbers [1] [2] when using a source
-- Answer in the same language as the question (Arabic question → Arabic answer)
-- Be concise and technical — give actual numbers, not generic statements
-- If the answer is not in the provided text, say so clearly`;
+STRICT RULES:
+1. Synthesize the chunks into ONE clear answer — do NOT just list the chunks
+2. Extract any specific numbers, grades, dimensions, or table values mentioned
+3. If chunks reference a table (e.g. "Table 6.1"), mention the table name and what it covers
+4. Cite sources as [1], [2] only when quoting specific text
+5. If the exact numeric values are not in the chunks, say: "QCS 2024 Table X covers this — refer to the original specification for exact values"
+6. Answer in Arabic if the question is in Arabic, English if in English
+7. Be concise — maximum 150 words`;
 
-  messages.push({ role: 'system', content: systemPrompt });
+  const messages = [{ role: 'system', content: SYSTEM }];
 
   for (const m of body.messages) {
     const content = typeof m.content === 'string' ? m.content
@@ -62,11 +61,7 @@ Rules:
     if (content.trim()) messages.push({ role: m.role, content });
   }
 
-  const MODELS = [
-    '@cf/meta/llama-3.1-8b-instruct',
-    '@cf/meta/llama-3.2-3b-instruct',
-  ];
-
+  const MODELS = ['@cf/meta/llama-3.1-8b-instruct', '@cf/meta/llama-3.2-3b-instruct'];
   let lastError = '';
 
   for (const model of MODELS) {
@@ -75,7 +70,7 @@ Rules:
       const r = await fetch(url, {
         method : 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${CF_TOKEN}` },
-        body   : JSON.stringify({ messages, max_tokens: body.max_tokens || 800 }),
+        body   : JSON.stringify({ messages, max_tokens: body.max_tokens || 600 }),
       });
 
       const data = await r.json();
@@ -84,13 +79,9 @@ Rules:
         const text = data?.result?.response?.trim() || '';
         if (text) {
           return res.status(200).json({
-            id         : `cf-${Date.now()}`,
-            type       : 'message',
-            role       : 'assistant',
-            model,
-            content    : [{ type: 'text', text }],
-            stop_reason: 'end_turn',
-            usage      : { input_tokens: 0, output_tokens: 0 },
+            id: `cf-${Date.now()}`, type: 'message', role: 'assistant', model,
+            content: [{ type: 'text', text }],
+            stop_reason: 'end_turn', usage: { input_tokens: 0, output_tokens: 0 },
           });
         }
         lastError = `${model}: empty response`;
