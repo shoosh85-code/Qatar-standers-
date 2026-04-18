@@ -1,4 +1,3 @@
-// Cloudflare Workers AI — مجاني، المفاتيح موجودة بالفعل في Vercel
 const rateLimitMap = new Map();
 
 function checkRateLimit(ip) {
@@ -38,18 +37,24 @@ module.exports = async function handler(req, res) {
 
   const CF_TOKEN      = process.env.CF_TOKEN;
   const CF_ACCOUNT_ID = process.env.CF_ACCOUNT_ID;
+  if (!CF_TOKEN || !CF_ACCOUNT_ID)
+    return res.status(500).json({ error: 'CF_TOKEN or CF_ACCOUNT_ID missing' });
 
-  if (!CF_TOKEN || !CF_ACCOUNT_ID) {
-    console.error('[ai-proxy] CF_TOKEN or CF_ACCOUNT_ID missing');
-    return res.status(500).json({ error: 'CF_TOKEN or CF_ACCOUNT_ID missing in Vercel env vars' });
-  }
-
-  // ── Convert Anthropic → Cloudflare AI format ──────────────────────────────
+  // Build messages for Cloudflare AI
   const messages = [];
 
-  if (body.system) {
-    messages.push({ role: 'system', content: body.system });
-  }
+  // System prompt — enhanced for QCS technical answers
+  const systemPrompt = body.system ||
+    `You are a senior engineer specialized in Qatar Construction Specifications QCS 2024.
+Your job: answer the user's question using ONLY the retrieved QCS text provided.
+Rules:
+- Extract specific values, tables, grades, dimensions from the text
+- Cite reference numbers [1] [2] when using a source
+- Answer in the same language as the question (Arabic question → Arabic answer)
+- Be concise and technical — give actual numbers, not generic statements
+- If the answer is not in the provided text, say so clearly`;
+
+  messages.push({ role: 'system', content: systemPrompt });
 
   for (const m of body.messages) {
     const content = typeof m.content === 'string' ? m.content
@@ -57,11 +62,9 @@ module.exports = async function handler(req, res) {
     if (content.trim()) messages.push({ role: m.role, content });
   }
 
-  // ── Try Cloudflare models in order ───────────────────────────────────────
   const MODELS = [
     '@cf/meta/llama-3.1-8b-instruct',
     '@cf/meta/llama-3.2-3b-instruct',
-    '@cf/mistral/mistral-7b-instruct-v0.1',
   ];
 
   let lastError = '';
@@ -71,14 +74,8 @@ module.exports = async function handler(req, res) {
       const url = `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/ai/run/${model}`;
       const r = await fetch(url, {
         method : 'POST',
-        headers: {
-          'Content-Type' : 'application/json',
-          'Authorization': `Bearer ${CF_TOKEN}`,
-        },
-        body: JSON.stringify({
-          messages,
-          max_tokens: body.max_tokens || 800,
-        }),
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${CF_TOKEN}` },
+        body   : JSON.stringify({ messages, max_tokens: body.max_tokens || 800 }),
       });
 
       const data = await r.json();
@@ -86,7 +83,6 @@ module.exports = async function handler(req, res) {
       if (r.ok && data?.success) {
         const text = data?.result?.response?.trim() || '';
         if (text) {
-          console.log(`[ai-proxy] ✅ Success with ${model}`);
           return res.status(200).json({
             id         : `cf-${Date.now()}`,
             type       : 'message',
@@ -98,16 +94,13 @@ module.exports = async function handler(req, res) {
           });
         }
         lastError = `${model}: empty response`;
-
       } else {
         const errMsg = data?.errors?.[0]?.message || JSON.stringify(data).slice(0, 200);
         lastError = `${model}: HTTP ${r.status} — ${errMsg}`;
-        console.error('[ai-proxy]', lastError);
-        if (r.status === 401 || r.status === 403) break; // مفتاح خاطئ
+        if (r.status === 401 || r.status === 403) break;
       }
     } catch (err) {
       lastError = `${model}: ${err.message}`;
-      console.error('[ai-proxy] fetch error:', lastError);
     }
   }
 
