@@ -1,131 +1,99 @@
-export const config = { runtime: 'edge' };
+// ── nodejs runtime (أكثر استقراراً من edge لقراءة process.env) ──────────────
+export const config = { runtime: 'nodejs', maxDuration: 30 };
 
-// ── Rate limiting (in-memory, resets on cold start) ───────────────────────────
 const rateLimitMap = new Map();
-const RATE_LIMIT   = 15;          // max requests
-const WINDOW_MS    = 60_000;      // per 60 seconds
-
 function checkRateLimit(ip) {
   const now   = Date.now();
   const entry = rateLimitMap.get(ip) || { count: 0, start: now };
-  if (now - entry.start > WINDOW_MS) { entry.count = 0; entry.start = now; }
+  if (now - entry.start > 60_000) { entry.count = 0; entry.start = now; }
   entry.count++;
   rateLimitMap.set(ip, entry);
-  if (rateLimitMap.size > 5000) {
-    for (const [k, v] of rateLimitMap)
-      if (now - v.start > WINDOW_MS * 2) rateLimitMap.delete(k);
-  }
-  return entry.count <= RATE_LIMIT;
+  return entry.count <= 15;
 }
 
-// ── CORS helper ───────────────────────────────────────────────────────────────
-function corsHeaders(origin) {
+function setCORS(res, origin) {
   const allowed = process.env.ALLOWED_ORIGIN || '';
-  const ok      = !allowed || origin === allowed || origin?.endsWith('.vercel.app');
-  return {
-    'Access-Control-Allow-Origin' : ok ? (origin || '*') : allowed,
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-  };
+  const ok = !allowed || !origin || origin === allowed || origin.endsWith('.vercel.app');
+  res.setHeader('Access-Control-Allow-Origin',  ok ? (origin || '*') : allowed);
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 }
 
-function json(body, status = 200, origin = '') {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+async function callGemini(key, geminiBody, modelName) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${key}`;
+  return fetch(url, {
+    method : 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body   : JSON.stringify(geminiBody),
   });
 }
 
-// ── Main handler ──────────────────────────────────────────────────────────────
-export default async function handler(req) {
-  const origin = req.headers.get('origin') || '';
+export default async function handler(req, res) {
+  const origin = req.headers['origin'] || '';
+  setCORS(res, origin);
 
-  // Preflight
-  if (req.method === 'OPTIONS')
-    return new Response(null, { status: 204, headers: corsHeaders(origin) });
+  if (req.method === 'OPTIONS') return res.status(204).end();
+  if (req.method !== 'POST')   return res.status(405).json({ error: 'Method not allowed' });
 
-  if (req.method !== 'POST')
-    return json({ error: 'Method not allowed' }, 405, origin);
-
-  // Rate limit
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+  const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
   if (!checkRateLimit(ip))
-    return json({ error: 'تجاوزت حد الطلبات — انتظر دقيقة ثم أعد المحاولة' }, 429, origin);
+    return res.status(429).json({ error: 'تجاوزت حد الطلبات — انتظر دقيقة' });
 
-  // Parse body (Anthropic format)
-  let body;
-  try { body = await req.json(); }
-  catch { return json({ error: 'Invalid JSON body' }, 400, origin); }
+  let body = req.body;
+  if (!body || typeof body === 'string') {
+    try { body = JSON.parse(body || '{}'); } catch { body = {}; }
+  }
 
   const GEMINI_KEY = process.env.GEMINI_KEY;
-  if (!GEMINI_KEY)
-    return json({ error: 'Server configuration error: missing GEMINI_KEY' }, 500, origin);
+  if (!GEMINI_KEY) {
+    console.error('[ai-proxy] GEMINI_KEY missing');
+    return res.status(500).json({ error: 'Server config error: GEMINI_KEY missing' });
+  }
 
-  // ── Convert Anthropic → Gemini format ────────────────────────────────────
-  const contents = [];
-
-  // System message → system_instruction
   const systemText = body.system || null;
-
-  // Messages array
+  const contents   = [];
   for (const m of (body.messages || [])) {
     const role = m.role === 'assistant' ? 'model' : 'user';
     const text = typeof m.content === 'string' ? m.content
-                 : Array.isArray(m.content) ? m.content.map(p => p.text || '').join('') : '';
-    contents.push({ role, parts: [{ text }] });
+               : Array.isArray(m.content) ? m.content.map(p => p.text || '').join('') : '';
+    if (text) contents.push({ role, parts: [{ text }] });
   }
+  if (!contents.length)
+    return res.status(400).json({ error: 'No messages provided' });
 
   const geminiBody = {
     contents,
-    generationConfig: {
-      maxOutputTokens: body.max_tokens || 800,
-      temperature    : 0.3,
-    },
+    generationConfig: { maxOutputTokens: body.max_tokens || 800, temperature: 0.3 },
   };
-  if (systemText) {
-    geminiBody.system_instruction = { parts: [{ text: systemText }] };
+  if (systemText) geminiBody.system_instruction = { parts: [{ text: systemText }] };
+
+  const MODELS = ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-flash-8b'];
+  let lastError;
+
+  for (const model of MODELS) {
+    try {
+      const geminiRes = await callGemini(GEMINI_KEY, geminiBody, model);
+      if (geminiRes.ok) {
+        const data = await geminiRes.json();
+        const text = data?.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('') || '';
+        if (text) {
+          return res.status(200).json({
+            id: `gemini-${Date.now()}`, type: 'message', role: 'assistant', model,
+            content: [{ type: 'text', text }],
+            stop_reason: 'end_turn', usage: { input_tokens: 0, output_tokens: 0 },
+          });
+        }
+        lastError = `${model}: empty (${data?.candidates?.[0]?.finishReason})`;
+      } else {
+        const errText = await geminiRes.text().catch(() => '');
+        lastError = `${model}: HTTP ${geminiRes.status} — ${errText.slice(0, 300)}`;
+        console.error('[ai-proxy]', lastError);
+        if (geminiRes.status === 400) break;
+      }
+    } catch (err) {
+      lastError = `${model}: ${err.message}`;
+    }
   }
 
-  // ── Call Gemini ───────────────────────────────────────────────────────────
-  const model   = 'gemini-2.0-flash';
-  const geminiURL = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`;
-
-  let geminiRes;
-  try {
-    geminiRes = await fetch(geminiURL, {
-      method : 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body   : JSON.stringify(geminiBody),
-    });
-  } catch (err) {
-    return json({ error: `Network error calling Gemini: ${err.message}` }, 502, origin);
-  }
-
-  if (!geminiRes.ok) {
-    const errText = await geminiRes.text().catch(() => '');
-    return json({ error: `Gemini API error ${geminiRes.status}: ${errText}` }, geminiRes.status, origin);
-  }
-
-  const geminiData = await geminiRes.json();
-
-  // ── Convert Gemini → Anthropic format ────────────────────────────────────
-  const text = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text
-            || geminiData?.candidates?.[0]?.content?.parts?.map(p => p.text).join('')
-            || '';
-
-  if (!text) {
-    const reason = geminiData?.candidates?.[0]?.finishReason || 'unknown';
-    return json({ error: `Gemini returned empty response. Reason: ${reason}` }, 502, origin);
-  }
-
-  // Return in Anthropic-compatible format (what index.html expects)
-  return json({
-    id      : `gemini-${Date.now()}`,
-    type    : 'message',
-    role    : 'assistant',
-    model   : model,
-    content : [{ type: 'text', text }],
-    stop_reason : 'end_turn',
-    usage   : { input_tokens: 0, output_tokens: 0 },
-  }, 200, origin);
+  return res.status(502).json({ error: lastError || 'All Gemini models failed' });
 }
