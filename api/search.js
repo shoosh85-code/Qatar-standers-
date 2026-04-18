@@ -18,41 +18,34 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Missing env vars' });
 
   try {
-    const params = new URLSearchParams({
-      select: 'id,content,source_file,section_num,section_name,page_num',
-      limit: String(limit),
-    });
-    params.append('fts', `plfts.${query.trim()}`);
-
-    const url = `${SUPABASE_URL}/rest/v1/qcs_chunks?${params.toString()}`;
-
-    const response = await fetch(url, {
+    const rpc = await fetch(`${SUPABASE_URL}/rest/v1/rpc/search_qcs`, {
+      method: 'POST',
       headers: {
         'apikey': SUPABASE_KEY,
         'Authorization': `Bearer ${SUPABASE_KEY}`,
-        'Prefer': 'return=representation',
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        query_text: query.trim(),
+        max_results: limit,
+      }),
     });
 
-    const text = await response.text();
+    const text = await rpc.text();
+    if (!rpc.ok) return res.status(500).json({ error: text });
 
-    if (!response.ok) {
-      return res.status(500).json({ error: text });
-    }
-
-    const rows = JSON.parse(text);
-
+    const results = JSON.parse(text);
     return res.status(200).json({
-      results: rows.map(r => ({
+      results: results.map(r => ({
         id: r.id,
         content: r.content,
         source: r.source_file,
         section: r.section_num ? `${r.section_num} — ${r.section_name || ''}` : null,
         page: r.page_num,
+        score: r.rank,
       })),
-      count: rows.length,
+      count: results.length,
     });
-
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
