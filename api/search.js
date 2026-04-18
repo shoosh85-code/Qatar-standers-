@@ -11,8 +11,8 @@ export default async function handler(req, res) {
   if (!query || query.trim().length < 2)
     return res.status(400).json({ error: 'Query too short' });
 
-  const SUPABASE_URL = process.env.SUPABASE_URL;
-  const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY;
+  const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!SUPABASE_URL || !SUPABASE_KEY)
     return res.status(500).json({ error: 'Missing Supabase env vars' });
