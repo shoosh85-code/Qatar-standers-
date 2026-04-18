@@ -18,13 +18,19 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Missing env vars' });
 
   try {
-    const url = `${SUPABASE_URL}/rest/v1/qcs_chunks?select=id,content,source_file,section_num,section_name,page_num&fts=fts.plainto_tsquery.english.${encodeURIComponent(query.trim())}&limit=${limit}`;
+    const params = new URLSearchParams({
+      select: 'id,content,source_file,section_num,section_name,page_num',
+      limit: String(limit),
+    });
+    params.append('fts', `plfts.${query.trim()}`);
+
+    const url = `${SUPABASE_URL}/rest/v1/qcs_chunks?${params.toString()}`;
 
     const response = await fetch(url, {
       headers: {
         'apikey': SUPABASE_KEY,
         'Authorization': `Bearer ${SUPABASE_KEY}`,
-        'Content-Type': 'application/json',
+        'Prefer': 'return=representation',
       },
     });
 
