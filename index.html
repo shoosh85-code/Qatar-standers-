@@ -832,7 +832,10 @@ async function doSearch() {
     try {
       const ctrl = new AbortController();
       const tid  = setTimeout(() => ctrl.abort(), 8000);
-      const res  = await fetch(`/api/search?q=${encodeURIComponent(query)}&max_results=4`, {
+      const res  = await fetch('/api/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query, limit: 4 }),
         signal: ctrl.signal
       });
       clearTimeout(tid);
