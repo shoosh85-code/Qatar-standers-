@@ -1,4 +1,4 @@
-// CommonJS — لا يحتاج تحويل، يعمل مباشرة على Vercel nodejs
+// Cloudflare Workers AI — مجاني، المفاتيح موجودة بالفعل في Vercel
 const rateLimitMap = new Map();
 
 function checkRateLimit(ip) {
@@ -18,15 +18,6 @@ function setCORS(res, origin) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 }
 
-async function callGemini(key, geminiBody, model) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
-  return fetch(url, {
-    method : 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body   : JSON.stringify(geminiBody),
-  });
-}
-
 module.exports = async function handler(req, res) {
   const origin = req.headers['origin'] || '';
   setCORS(res, origin);
@@ -34,62 +25,70 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST')   return res.status(405).json({ error: 'Method not allowed' });
 
-  // Rate limit
   const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
   if (!checkRateLimit(ip))
     return res.status(429).json({ error: 'تجاوزت حد الطلبات — انتظر دقيقة' });
 
-  // Parse body — Vercel nodejs يوفرها جاهزة لكن نتحقق
   let body = req.body;
   if (typeof body === 'string') {
     try { body = JSON.parse(body); } catch { return res.status(400).json({ error: 'Invalid JSON' }); }
   }
-  if (!body || typeof body !== 'object') {
-    return res.status(400).json({ error: 'Empty body' });
+  if (!body || !Array.isArray(body.messages))
+    return res.status(400).json({ error: 'messages array required' });
+
+  const CF_TOKEN      = process.env.CF_TOKEN;
+  const CF_ACCOUNT_ID = process.env.CF_ACCOUNT_ID;
+
+  if (!CF_TOKEN || !CF_ACCOUNT_ID) {
+    console.error('[ai-proxy] CF_TOKEN or CF_ACCOUNT_ID missing');
+    return res.status(500).json({ error: 'CF_TOKEN or CF_ACCOUNT_ID missing in Vercel env vars' });
   }
 
-  const GEMINI_KEY = process.env.GEMINI_KEY;
-  if (!GEMINI_KEY) {
-    console.error('[ai-proxy] GEMINI_KEY is not set in environment variables');
-    return res.status(500).json({ error: 'GEMINI_KEY missing — add it in Vercel Environment Variables' });
-  }
+  // ── Convert Anthropic → Cloudflare AI format ──────────────────────────────
+  const messages = [];
 
-  // Build Gemini contents
-  const contents = [];
-  for (const m of (body.messages || [])) {
-    const role = m.role === 'assistant' ? 'model' : 'user';
-    const text = typeof m.content === 'string' ? m.content
-               : Array.isArray(m.content) ? m.content.map(p => p.text || '').join('') : '';
-    if (text.trim()) contents.push({ role, parts: [{ text }] });
-  }
-  if (!contents.length)
-    return res.status(400).json({ error: 'No messages provided' });
-
-  const geminiBody = {
-    contents,
-    generationConfig: { maxOutputTokens: body.max_tokens || 800, temperature: 0.3 },
-  };
   if (body.system) {
-    geminiBody.system_instruction = { parts: [{ text: body.system }] };
+    messages.push({ role: 'system', content: body.system });
   }
 
-  // Try 3 models in order
-  const MODELS = ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-flash-8b'];
+  for (const m of body.messages) {
+    const content = typeof m.content === 'string' ? m.content
+      : Array.isArray(m.content) ? m.content.map(p => p.text || '').join('') : '';
+    if (content.trim()) messages.push({ role: m.role, content });
+  }
+
+  // ── Try Cloudflare models in order ───────────────────────────────────────
+  const MODELS = [
+    '@cf/meta/llama-3.1-8b-instruct',
+    '@cf/meta/llama-3.2-3b-instruct',
+    '@cf/mistral/mistral-7b-instruct-v0.1',
+  ];
+
   let lastError = '';
 
   for (const model of MODELS) {
     try {
-      const r = await callGemini(GEMINI_KEY, geminiBody, model);
+      const url = `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/ai/run/${model}`;
+      const r = await fetch(url, {
+        method : 'POST',
+        headers: {
+          'Content-Type' : 'application/json',
+          'Authorization': `Bearer ${CF_TOKEN}`,
+        },
+        body: JSON.stringify({
+          messages,
+          max_tokens: body.max_tokens || 800,
+        }),
+      });
 
-      if (r.ok) {
-        const data = await r.json();
-        const text = (data?.candidates?.[0]?.content?.parts || [])
-          .map(p => p.text || '').join('').trim();
+      const data = await r.json();
 
+      if (r.ok && data?.success) {
+        const text = data?.result?.response?.trim() || '';
         if (text) {
-          console.log(`[ai-proxy] Success with ${model}`);
+          console.log(`[ai-proxy] ✅ Success with ${model}`);
           return res.status(200).json({
-            id         : `gemini-${Date.now()}`,
+            id         : `cf-${Date.now()}`,
             type       : 'message',
             role       : 'assistant',
             model,
@@ -98,16 +97,13 @@ module.exports = async function handler(req, res) {
             usage      : { input_tokens: 0, output_tokens: 0 },
           });
         }
-
-        const reason = data?.candidates?.[0]?.finishReason || 'unknown';
-        lastError = `${model}: empty response, finishReason=${reason}`;
-        console.error('[ai-proxy]', lastError);
+        lastError = `${model}: empty response`;
 
       } else {
-        const errText = await r.text().catch(() => '');
-        lastError = `${model}: HTTP ${r.status} — ${errText.slice(0, 400)}`;
+        const errMsg = data?.errors?.[0]?.message || JSON.stringify(data).slice(0, 200);
+        lastError = `${model}: HTTP ${r.status} — ${errMsg}`;
         console.error('[ai-proxy]', lastError);
-        if (r.status === 400 || r.status === 401) break; // لا فائدة من تجربة نموذج آخر
+        if (r.status === 401 || r.status === 403) break; // مفتاح خاطئ
       }
     } catch (err) {
       lastError = `${model}: ${err.message}`;
