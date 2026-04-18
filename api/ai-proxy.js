@@ -1,7 +1,6 @@
-// ── nodejs runtime (أكثر استقراراً من edge لقراءة process.env) ──────────────
-export const config = { runtime: 'nodejs', maxDuration: 30 };
-
+// CommonJS — لا يحتاج تحويل، يعمل مباشرة على Vercel nodejs
 const rateLimitMap = new Map();
+
 function checkRateLimit(ip) {
   const now   = Date.now();
   const entry = rateLimitMap.get(ip) || { count: 0, start: now };
@@ -19,8 +18,8 @@ function setCORS(res, origin) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 }
 
-async function callGemini(key, geminiBody, modelName) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${key}`;
+async function callGemini(key, geminiBody, model) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
   return fetch(url, {
     method : 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -28,35 +27,40 @@ async function callGemini(key, geminiBody, modelName) {
   });
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   const origin = req.headers['origin'] || '';
   setCORS(res, origin);
 
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST')   return res.status(405).json({ error: 'Method not allowed' });
 
+  // Rate limit
   const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
   if (!checkRateLimit(ip))
     return res.status(429).json({ error: 'تجاوزت حد الطلبات — انتظر دقيقة' });
 
+  // Parse body — Vercel nodejs يوفرها جاهزة لكن نتحقق
   let body = req.body;
-  if (!body || typeof body === 'string') {
-    try { body = JSON.parse(body || '{}'); } catch { body = {}; }
+  if (typeof body === 'string') {
+    try { body = JSON.parse(body); } catch { return res.status(400).json({ error: 'Invalid JSON' }); }
+  }
+  if (!body || typeof body !== 'object') {
+    return res.status(400).json({ error: 'Empty body' });
   }
 
   const GEMINI_KEY = process.env.GEMINI_KEY;
   if (!GEMINI_KEY) {
-    console.error('[ai-proxy] GEMINI_KEY missing');
-    return res.status(500).json({ error: 'Server config error: GEMINI_KEY missing' });
+    console.error('[ai-proxy] GEMINI_KEY is not set in environment variables');
+    return res.status(500).json({ error: 'GEMINI_KEY missing — add it in Vercel Environment Variables' });
   }
 
-  const systemText = body.system || null;
-  const contents   = [];
+  // Build Gemini contents
+  const contents = [];
   for (const m of (body.messages || [])) {
     const role = m.role === 'assistant' ? 'model' : 'user';
     const text = typeof m.content === 'string' ? m.content
                : Array.isArray(m.content) ? m.content.map(p => p.text || '').join('') : '';
-    if (text) contents.push({ role, parts: [{ text }] });
+    if (text.trim()) contents.push({ role, parts: [{ text }] });
   }
   if (!contents.length)
     return res.status(400).json({ error: 'No messages provided' });
@@ -65,35 +69,51 @@ export default async function handler(req, res) {
     contents,
     generationConfig: { maxOutputTokens: body.max_tokens || 800, temperature: 0.3 },
   };
-  if (systemText) geminiBody.system_instruction = { parts: [{ text: systemText }] };
+  if (body.system) {
+    geminiBody.system_instruction = { parts: [{ text: body.system }] };
+  }
 
+  // Try 3 models in order
   const MODELS = ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-flash-8b'];
-  let lastError;
+  let lastError = '';
 
   for (const model of MODELS) {
     try {
-      const geminiRes = await callGemini(GEMINI_KEY, geminiBody, model);
-      if (geminiRes.ok) {
-        const data = await geminiRes.json();
-        const text = data?.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('') || '';
+      const r = await callGemini(GEMINI_KEY, geminiBody, model);
+
+      if (r.ok) {
+        const data = await r.json();
+        const text = (data?.candidates?.[0]?.content?.parts || [])
+          .map(p => p.text || '').join('').trim();
+
         if (text) {
+          console.log(`[ai-proxy] Success with ${model}`);
           return res.status(200).json({
-            id: `gemini-${Date.now()}`, type: 'message', role: 'assistant', model,
-            content: [{ type: 'text', text }],
-            stop_reason: 'end_turn', usage: { input_tokens: 0, output_tokens: 0 },
+            id         : `gemini-${Date.now()}`,
+            type       : 'message',
+            role       : 'assistant',
+            model,
+            content    : [{ type: 'text', text }],
+            stop_reason: 'end_turn',
+            usage      : { input_tokens: 0, output_tokens: 0 },
           });
         }
-        lastError = `${model}: empty (${data?.candidates?.[0]?.finishReason})`;
-      } else {
-        const errText = await geminiRes.text().catch(() => '');
-        lastError = `${model}: HTTP ${geminiRes.status} — ${errText.slice(0, 300)}`;
+
+        const reason = data?.candidates?.[0]?.finishReason || 'unknown';
+        lastError = `${model}: empty response, finishReason=${reason}`;
         console.error('[ai-proxy]', lastError);
-        if (geminiRes.status === 400) break;
+
+      } else {
+        const errText = await r.text().catch(() => '');
+        lastError = `${model}: HTTP ${r.status} — ${errText.slice(0, 400)}`;
+        console.error('[ai-proxy]', lastError);
+        if (r.status === 400 || r.status === 401) break; // لا فائدة من تجربة نموذج آخر
       }
     } catch (err) {
       lastError = `${model}: ${err.message}`;
+      console.error('[ai-proxy] fetch error:', lastError);
     }
   }
 
-  return res.status(502).json({ error: lastError || 'All Gemini models failed' });
-}
+  return res.status(502).json({ error: lastError });
+};
