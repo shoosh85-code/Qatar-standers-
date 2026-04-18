@@ -1,43 +1,45 @@
-// ملف اختبار مؤقت — احذفه بعد التأكد من عمل الـ API
+// اختبار Cloudflare Workers AI
 module.exports = async function handler(req, res) {
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
 
-  const GEMINI_KEY = process.env.GEMINI_KEY;
+  const CF_TOKEN      = process.env.CF_TOKEN;
+  const CF_ACCOUNT_ID = process.env.CF_ACCOUNT_ID;
 
-  if (!GEMINI_KEY) {
-    return res.send(`<h2 style="color:red">❌ GEMINI_KEY غير موجود في Vercel Environment Variables</h2>`);
+  if (!CF_TOKEN || !CF_ACCOUNT_ID) {
+    return res.send(`<h2 style="color:red">❌ CF_TOKEN أو CF_ACCOUNT_ID غير موجود</h2>`);
   }
 
-  const keyPreview = GEMINI_KEY.slice(0, 6) + '...' + GEMINI_KEY.slice(-4);
+  const tokenPreview   = CF_TOKEN.slice(0, 6) + '...' + CF_TOKEN.slice(-4);
+  const accountPreview = CF_ACCOUNT_ID.slice(0, 8) + '...';
+  let html = `
+    <h2>✅ CF_TOKEN: <code>${tokenPreview}</code></h2>
+    <h2>✅ CF_ACCOUNT_ID: <code>${accountPreview}</code></h2><hr>`;
 
-  const models = ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-flash-8b'];
-  let html = `<h2>🔑 GEMINI_KEY موجود: <code>${keyPreview}</code></h2><hr>`;
+  const models = [
+    '@cf/meta/llama-3.1-8b-instruct',
+    '@cf/meta/llama-3.2-3b-instruct',
+  ];
 
   for (const model of models) {
     try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`;
+      const url = `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/ai/run/${model}`;
       const r = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ role: 'user', parts: [{ text: 'say: WORKING' }] }],
-          generationConfig: { maxOutputTokens: 20 }
-        })
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${CF_TOKEN}` },
+        body: JSON.stringify({ messages: [{ role: 'user', content: 'Reply one word: WORKING' }], max_tokens: 10 }),
       });
-
       const data = await r.json();
-
-      if (r.ok) {
-        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '(empty)';
+      if (r.ok && data?.success) {
+        const text = data?.result?.response || '(empty)';
         html += `<p>✅ <b>${model}</b>: ${text}</p>`;
       } else {
-        const errMsg = data?.error?.message || JSON.stringify(data).slice(0, 200);
-        html += `<p>❌ <b>${model}</b> HTTP ${r.status}: ${errMsg}</p>`;
+        const err = data?.errors?.[0]?.message || JSON.stringify(data).slice(0, 200);
+        html += `<p>❌ <b>${model}</b> HTTP ${r.status}: ${err}</p>`;
       }
     } catch (err) {
-      html += `<p>❌ <b>${model}</b> Network error: ${err.message}</p>`;
+      html += `<p>❌ <b>${model}</b>: ${err.message}</p>`;
     }
   }
 
-  res.send(`<!DOCTYPE html><html><body style="font-family:sans-serif;padding:30px;direction:rtl">${html}<hr><p style="color:gray;font-size:12px">احذف هذا الملف بعد الانتهاء من الاختبار</p></body></html>`);
+  res.send(`<!DOCTYPE html><html><body style="font-family:sans-serif;padding:30px;direction:rtl">${html}</body></html>`);
 };
