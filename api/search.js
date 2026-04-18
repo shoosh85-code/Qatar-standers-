@@ -1,23 +1,22 @@
 export const config = { runtime: 'nodejs' };
 
-// ── Arabic → English engineering term map ────────────────────────────────────
 const AR_EN = {
-  'خرسانة':'concrete','اسمنت':'cement','حديد':'steel','تسليح':'reinforcement',
-  'تغطية':'cover','أساس':'foundation','جدار':'wall','سقف':'slab','عمود':'column',
-  'كمر':'beam','حفر':'excavation','ردم':'backfill','تربة':'soil','صرف':'drainage',
-  'صرف صحي':'sewage','مياه':'water','كهرباء':'electrical','مجاري':'sewer',
+  'خرسانة':'concrete','اسمنت':'cement','حديد':'steel rebar','تسليح':'reinforcement',
+  'تغطية':'cover','غطاء':'cover','أساس':'foundation','جدار':'wall','سقف':'slab',
+  'عمود':'column','كمر':'beam','حفر':'excavation','ردم':'backfill','تربة':'soil',
+  'صرف صحي':'sewage drainage','مياه':'water','كهرباء':'electrical','مجاري':'sewer',
   'طريق':'road','رصيف':'pavement','اسفلت':'asphalt','بلاط':'tiles',
-  'ضغط':'pressure','مقاومة':'strength','ميلان':'slope','منسوب':'level',
-  'مواصفات':'specifications','اشتراطات':'requirements','حد':'limit','أدنى':'minimum',
-  'أقصى':'maximum','سماكة':'thickness','عرض':'width','ارتفاع':'height',
-  'عمق':'depth','طول':'length','قطر':'diameter','مساحة':'area',
-  'موقع':'site','مشروع':'project','مقاول':'contractor','استشاري':'consultant',
-  'فحص':'inspection','اختبار':'test','جودة':'quality','ضبط':'control',
-  'ماء':'water','صلابة':'hardness','نفاذية':'permeability','تمدد':'expansion',
-  'انكماش':'shrinkage','تشقق':'cracking','تسرب':'leakage','عزل':'insulation',
-  'حريق':'fire','أمان':'safety','حماية':'protection','ردة':'reaction',
-  'قيس':'measurement','نسبة':'ratio','معامل':'coefficient',
-  'كهرماء':'kahramaa','دفاع مدني':'civil defense','بلدية':'municipality',
+  'ضغط':'pressure','مقاومة':'compressive strength','ميلان':'slope','منسوب':'level',
+  'سماكة':'thickness','عرض':'width','ارتفاع':'height','عمق':'depth',
+  'طول':'length','قطر':'diameter','مساحة':'area','نسبة':'ratio',
+  'فحص':'inspection','اختبار':'testing','جودة':'quality','ضبط جودة':'quality control',
+  'نفاذية':'permeability','تمدد':'expansion','انكماش':'shrinkage','تشقق':'cracking',
+  'تسرب':'leakage','عزل':'waterproofing insulation','حريق':'fire','أمان':'safety',
+  'حماية':'protection','درجة':'grade','فئة':'class','تعرض':'exposure',
+  'كهرماء':'kahramaa water','دفاع مدني':'civil defense fire','بلدية':'municipality',
+  'cctv':'CCTV camera surveillance','كاميرا':'camera CCTV',
+  'حد أدنى':'minimum','حد أقصى':'maximum','متطلبات':'requirements',
+  'مواصفات':'specifications','اشتراطات':'requirements specifications',
 };
 
 function translateQuery(q) {
@@ -28,6 +27,17 @@ function translateQuery(q) {
 }
 
 function hasArabic(str) { return /[\u0600-\u06FF]/.test(str); }
+
+// Deduplicate by content fingerprint (first 120 chars)
+function deduplicate(results) {
+  const seen = new Set();
+  return results.filter(r => {
+    const key = (r.content || '').trim().slice(0, 120);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -48,13 +58,10 @@ export default async function handler(req, res) {
   const q        = query.trim();
   const isArabic = hasArabic(q);
   const qEn      = isArabic ? translateQuery(q) : q;
+  const combined = isArabic ? `${qEn} ${q}`.trim() : q;
 
-  // Build combined query: translated + original arabic keywords
-  const combinedQuery = isArabic ? `${qEn} ${q}`.trim() : q;
-
-  // ── Try Supabase RPC (up to 3 strategies) ─────────────────────────────────
   async function callRPC(queryText, maxResults) {
-    const rpc = await fetch(`${SUPABASE_URL}/rest/v1/rpc/search_qcs`, {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/rpc/search_qcs`, {
       method : 'POST',
       headers: {
         'apikey'       : SUPABASE_KEY,
@@ -63,53 +70,40 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({ query_text: queryText, max_results: maxResults }),
     });
-    if (!rpc.ok) {
-      const msg = await rpc.text().catch(() => `HTTP ${rpc.status}`);
-      throw new Error(`Supabase ${rpc.status}: ${msg}`);
-    }
-    return rpc.json();
+    if (!r.ok) throw new Error(`Supabase ${r.status}: ${await r.text()}`);
+    return r.json();
   }
 
-  let results = [];
-  let strategyUsed = '';
-
+  let raw = [];
   try {
-    // Strategy 1: combined (translated + arabic)
-    const r1 = await callRPC(combinedQuery, limit);
-    if (Array.isArray(r1) && r1.length > 0) {
-      results = r1; strategyUsed = 'combined';
-    } else {
-      // Strategy 2: English-only
-      const r2 = await callRPC(qEn, limit);
-      if (Array.isArray(r2) && r2.length > 0) {
-        results = r2; strategyUsed = 'english';
-      } else {
-        // Strategy 3: original query as-is
-        const r3 = await callRPC(q, limit);
-        results = Array.isArray(r3) ? r3 : [];
-        strategyUsed = 'original';
-      }
+    // Strategy 1: combined query (translated + arabic)
+    raw = await callRPC(combined, limit * 3); // fetch more then deduplicate
+    if (!Array.isArray(raw) || raw.length === 0) {
+      // Strategy 2: English only
+      raw = await callRPC(qEn, limit * 3);
+    }
+    if (!Array.isArray(raw) || raw.length === 0) {
+      // Strategy 3: original as-is
+      raw = await callRPC(q, limit * 3);
     }
   } catch (err) {
     return res.status(500).json({ error: err.message, results: [] });
   }
 
-  // ── Normalize fields (handles different Supabase RPC return shapes) ────────
-  const normalized = results.map(r => ({
+  // Normalize fields
+  const normalized = (raw || []).map(r => ({
     id        : r.id,
     content   : r.content   || r.chunk_text || r.text        || '',
     source    : r.source_file || r.source   || r.file_name   || '',
     section   : r.section_num
-                ? `${r.section_num}${r.section_name ? ' — ' + r.section_name : ''}`
-                : (r.section || r.title || null),
+                  ? `${r.section_num}${r.section_name ? ' — ' + r.section_name : ''}`
+                  : (r.section || r.title || null),
     page      : r.page_num  || r.page       || null,
     similarity: r.similarity || r.score     || r.rank        || null,
   }));
 
-  return res.status(200).json({
-    results : normalized,
-    count   : normalized.length,
-    strategy: strategyUsed,
-    query_used: combinedQuery,
-  });
+  // Deduplicate + limit
+  const results = deduplicate(normalized).slice(0, limit);
+
+  return res.status(200).json({ results, count: results.length });
 }
