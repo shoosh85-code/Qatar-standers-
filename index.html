@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════
   QatarSpec Pro — Changelog
@@ -329,8 +330,127 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 /* qs-vid-ph: video placeholder — hidden until file loaded via loadLocalVideo() */
 .qs-vid-ph { display:none; }
 </style>
+
+<!-- ═══ QSP AUTH SYSTEM ═══ -->
+<style>
+#qsp-login-overlay {
+  position: fixed; inset: 0; z-index: 99999;
+  background: #0d0505;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Tajawal', 'Cairo', sans-serif;
+}
+#qsp-login-overlay.hidden { display: none !important; }
+.qsp-login-card {
+  background: linear-gradient(160deg, #1a0a0a 0%, #120606 100%);
+  border: 1px solid rgba(201,168,76,0.35);
+  border-radius: 20px;
+  padding: 48px 40px 40px;
+  width: 100%; max-width: 420px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 0 40px rgba(122,21,21,0.15);
+  text-align: center;
+}
+.qsp-login-logo {
+  font-size: 40px; margin-bottom: 6px;
+}
+.qsp-login-title {
+  font-size: 22px; font-weight: 800;
+  color: #c9a84c; letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.qsp-login-sub {
+  font-size: 12px; color: rgba(255,255,255,0.4);
+  margin-bottom: 32px;
+}
+.qsp-login-field {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: #fff;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+  outline: none;
+  transition: border-color 0.25s;
+  direction: ltr;
+  text-align: left;
+}
+.qsp-login-field:focus { border-color: #c9a84c; }
+.qsp-login-field::placeholder { color: rgba(255,255,255,0.25); }
+.qsp-login-btn {
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(135deg, #7a1515, #9e1c1c);
+  border: 1px solid rgba(201,168,76,0.4);
+  border-radius: 10px;
+  color: #c9a84c;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: all 0.25s;
+  letter-spacing: 0.5px;
+}
+.qsp-login-btn:hover {
+  background: linear-gradient(135deg, #9e1c1c, #b52020);
+  box-shadow: 0 6px 20px rgba(122,21,21,0.5);
+  transform: translateY(-1px);
+}
+.qsp-login-err {
+  color: #ff6b6b; font-size: 12px;
+  margin-top: 10px; min-height: 16px;
+  display: none;
+}
+.qsp-login-err.show { display: block; }
+.qsp-login-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.18);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 11px;
+  color: rgba(201,168,76,0.7);
+  margin-bottom: 28px;
+}
+#qsp-logout-btn {
+  display: none;
+  align-items: center; gap: 6px;
+  background: rgba(122,21,21,0.25);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 8px;
+  padding: 6px 12px;
+  color: rgba(201,168,76,0.85);
+  font-family: 'Tajawal', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-right: 8px;
+}
+#qsp-logout-btn:hover {
+  background: rgba(158,28,28,0.4);
+  border-color: rgba(201,168,76,0.5);
+}
+</style>
 </head>
 <body>
+
+<!-- ═══ QSP LOGIN OVERLAY ═══ -->
+<div id="qsp-login-overlay">
+  <div class="qsp-login-card">
+    <div class="qsp-login-logo">🏗️</div>
+    <div class="qsp-login-title">QatarSpec Pro</div>
+    <div class="qsp-login-sub">دليل المواصفات الهندسية القطرية</div>
+    <div class="qsp-login-badge">🔒 الدخول مقيد بالمرخصين</div>
+    <input class="qsp-login-field" id="qsp-email" type="email" placeholder="البريد الإلكتروني" autocomplete="username" />
+    <input class="qsp-login-field" id="qsp-pass" type="password" placeholder="كلمة المرور" autocomplete="current-password" onkeydown="if(event.key==='Enter')qspDoLogin()" />
+    <button class="qsp-login-btn" onclick="qspDoLogin()">🔑 دخول</button>
+    <div class="qsp-login-err" id="qsp-login-err">❌ بيانات الدخول غير صحيحة</div>
+  </div>
+</div>
 <div class="lang-toggle">
   <button class="lang-btn active" id="btn-ar" onclick="QS.setLang('ar')">عربي</button>
   <button class="lang-btn" id="btn-en" onclick="QS.setLang('en')">EN</button>
@@ -349,6 +469,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       </div>
     </div>
     <div class="header-actions">
+      <button id="qsp-logout-btn" onclick="qspLogout()" title="تسجيل الخروج">🚪 خروج</button>
       <div class="key-status" onclick="QS.openKeyModal()">
         <div class="key-dot" id="keyDot"></div>
         <span id="keyStatusText">إعداد AI</span>
@@ -686,6 +807,75 @@ function checkDisclaimer() {
   }
 }
 window.addEventListener('DOMContentLoaded', function() { checkDisclaimer(); });
+
+// ═══════════════════════════════════════════════
+// QSP AUTH SYSTEM — client-side session guard
+// ═══════════════════════════════════════════════
+(function() {
+  var CREDS = { email: 'admin@qatarspec.com', pass: 'Tariq@2026' };
+  var TOKEN_KEY = 'qsp_auth_token';
+  var DISCLAIMER_KEY = 'qsp_disclaimer_v2';
+
+  function isAuth() {
+    return !!sessionStorage.getItem(TOKEN_KEY);
+  }
+
+  function showApp() {
+    var overlay = document.getElementById('qsp-login-overlay');
+    if (overlay) overlay.classList.add('hidden');
+    var btn = document.getElementById('qsp-logout-btn');
+    if (btn) btn.style.display = 'inline-flex';
+    // Disclaimer: show if never accepted (once ever via localStorage)
+    if (!localStorage.getItem(DISCLAIMER_KEY)) {
+      var dm = document.getElementById('disclaimerModal');
+      if (dm) dm.classList.add('open');
+    }
+  }
+
+  function showLogin() {
+    var overlay = document.getElementById('qsp-login-overlay');
+    if (overlay) overlay.classList.remove('hidden');
+    var btn = document.getElementById('qsp-logout-btn');
+    if (btn) btn.style.display = 'none';
+  }
+
+  window.qspDoLogin = function() {
+    var email = (document.getElementById('qsp-email').value || '').trim().toLowerCase();
+    var pass  = (document.getElementById('qsp-pass').value || '').trim();
+    var err   = document.getElementById('qsp-login-err');
+    if (email === CREDS.email && pass === CREDS.pass) {
+      var token = btoa(email + ':' + Date.now());
+      sessionStorage.setItem(TOKEN_KEY, token);
+      err.classList.remove('show');
+      showApp();
+    } else {
+      err.classList.add('show');
+      document.getElementById('qsp-pass').value = '';
+      document.getElementById('qsp-pass').focus();
+    }
+  };
+
+  window.qspLogout = function() {
+    sessionStorage.removeItem(TOKEN_KEY);
+    document.getElementById('qsp-email').value = '';
+    document.getElementById('qsp-pass').value = '';
+    document.getElementById('qsp-login-err').classList.remove('show');
+    showLogin();
+  };
+
+  // Guard on load
+  document.addEventListener('DOMContentLoaded', function() {
+    if (isAuth()) {
+      showApp();
+    } else {
+      showLogin();
+    }
+    // override checkDisclaimer to respect auth
+    window._origCheckDisclaimer = window.checkDisclaimer;
+    window.checkDisclaimer = function() { /* noop — handled by auth */ };
+  });
+})();
+
 
 function saveKey() {
   const k = document.getElementById('keyInput').value.trim();
