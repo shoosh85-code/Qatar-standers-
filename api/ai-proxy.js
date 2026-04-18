@@ -1,173 +1,131 @@
 export const config = { runtime: 'edge' };
 
-// ── Rate Limiting (In-Memory) ─────────────────────────────────────────────────
+// ── Rate limiting (in-memory, resets on cold start) ───────────────────────────
 const rateLimitMap = new Map();
-const RATE_LIMIT   = 10;
-const WINDOW_MS    = 60_000;
+const RATE_LIMIT   = 15;          // max requests
+const WINDOW_MS    = 60_000;      // per 60 seconds
 
-function isRateLimited(ip) {
+function checkRateLimit(ip) {
   const now   = Date.now();
   const entry = rateLimitMap.get(ip) || { count: 0, start: now };
-  if (now - entry.start > WINDOW_MS) {
-    rateLimitMap.set(ip, { count: 1, start: now });
-    return false;
-  }
-  if (entry.count >= RATE_LIMIT) return true;
+  if (now - entry.start > WINDOW_MS) { entry.count = 0; entry.start = now; }
   entry.count++;
   rateLimitMap.set(ip, entry);
-  return false;
-}
-
-function cleanMap() {
-  const now = Date.now();
-  for (const [k, v] of rateLimitMap) {
-    if (now - v.start > WINDOW_MS * 2) rateLimitMap.delete(k);
+  if (rateLimitMap.size > 5000) {
+    for (const [k, v] of rateLimitMap)
+      if (now - v.start > WINDOW_MS * 2) rateLimitMap.delete(k);
   }
+  return entry.count <= RATE_LIMIT;
 }
 
-// ── Model mapping: Anthropic → Gemini ────────────────────────────────────────
-function getGeminiModel(anthropicModel) {
-  if (anthropicModel && anthropicModel.includes('sonnet')) {
-    return 'gemini-2.0-flash';
-  }
-  return 'gemini-2.0-flash';
-}
-
-// ── Convert Anthropic messages → Gemini contents ─────────────────────────────
-function toGeminiContents(messages) {
-  return messages.map(m => ({
-    role:  m.role === 'assistant' ? 'model' : 'user',
-    parts: [{
-      text: typeof m.content === 'string'
-        ? m.content
-        : (m.content?.[0]?.text || '')
-    }]
-  }));
-}
-
-// ── Main Handler ─────────────────────────────────────────────────────────────
-export default async function handler(req) {
-
-  // 1. CORS
-  const origin = req.headers.get('origin') || '';
-  const allowedOrigins = [
-    process.env.ALLOWED_ORIGIN || '',
-    'http://localhost:3000',
-    'http://127.0.0.1:5500'
-  ];
-  const isAllowed = allowedOrigins.some(o => o && origin.startsWith(o));
-
-  const corsHeaders = {
-    'Access-Control-Allow-Origin':  isAllowed ? origin : '',
-    'Access-Control-Allow-Methods': 'POST',
+// ── CORS helper ───────────────────────────────────────────────────────────────
+function corsHeaders(origin) {
+  const allowed = process.env.ALLOWED_ORIGIN || '';
+  const ok      = !allowed || origin === allowed || origin?.endsWith('.vercel.app');
+  return {
+    'Access-Control-Allow-Origin' : ok ? (origin || '*') : allowed,
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
   };
+}
 
-  // 2. Preflight
-  if (req.method === 'OPTIONS') {
-    return new Response(null, {
-      headers: { ...corsHeaders, 'Access-Control-Max-Age': '86400' }
-    });
-  }
+function json(body, status = 200, origin = '') {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+  });
+}
 
-  // 3. POST only
-  if (req.method !== 'POST') {
-    return new Response('Method Not Allowed', { status: 405 });
-  }
+// ── Main handler ──────────────────────────────────────────────────────────────
+export default async function handler(req) {
+  const origin = req.headers.get('origin') || '';
 
-  // 4. Rate Limiting
-  cleanMap();
+  // Preflight
+  if (req.method === 'OPTIONS')
+    return new Response(null, { status: 204, headers: corsHeaders(origin) });
+
+  if (req.method !== 'POST')
+    return json({ error: 'Method not allowed' }, 405, origin);
+
+  // Rate limit
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
-  if (isRateLimited(ip)) {
-    return new Response(
-      JSON.stringify({ error: { message: 'تجاوزت الحد المسموح — حاول بعد دقيقة' } }),
-      { status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': '60' } }
-    );
-  }
+  if (!checkRateLimit(ip))
+    return json({ error: 'تجاوزت حد الطلبات — انتظر دقيقة ثم أعد المحاولة' }, 429, origin);
 
-  // 5. Parse body (صيغة Anthropic الواردة من index.html)
+  // Parse body (Anthropic format)
   let body;
-  try {
-    body = await req.json();
-  } catch {
-    return new Response('Invalid JSON', { status: 400 });
-  }
+  try { body = await req.json(); }
+  catch { return json({ error: 'Invalid JSON body' }, 400, origin); }
 
-  // 6. Gemini API Key
-  const geminiKey = process.env.GEMINI_KEY;
-  if (!geminiKey) {
-    return new Response(
-      JSON.stringify({ error: { message: 'Server configuration error: GEMINI_KEY missing' } }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
-    );
-  }
+  const GEMINI_KEY = process.env.GEMINI_KEY;
+  if (!GEMINI_KEY)
+    return json({ error: 'Server configuration error: missing GEMINI_KEY' }, 500, origin);
 
-  // 7. بناء طلب Gemini من صيغة Anthropic
-  const model    = getGeminiModel(body.model);
-  const messages = Array.isArray(body.messages) ? body.messages : [];
-  const maxTok   = Math.min(body.max_tokens || 800, 2000);
+  // ── Convert Anthropic → Gemini format ────────────────────────────────────
+  const contents = [];
+
+  // System message → system_instruction
+  const systemText = body.system || null;
+
+  // Messages array
+  for (const m of (body.messages || [])) {
+    const role = m.role === 'assistant' ? 'model' : 'user';
+    const text = typeof m.content === 'string' ? m.content
+                 : Array.isArray(m.content) ? m.content.map(p => p.text || '').join('') : '';
+    contents.push({ role, parts: [{ text }] });
+  }
 
   const geminiBody = {
-    contents:         toGeminiContents(messages),
+    contents,
     generationConfig: {
-      maxOutputTokens: maxTok,
-      temperature:     0.3,
+      maxOutputTokens: body.max_tokens || 800,
+      temperature    : 0.3,
     },
   };
-
-  // system prompt → systemInstruction
-  if (body.system) {
-    geminiBody.systemInstruction = {
-      parts: [{ text: body.system }]
-    };
+  if (systemText) {
+    geminiBody.system_instruction = { parts: [{ text: systemText }] };
   }
 
-  // 8. استدعاء Gemini API
-  const geminiUrl =
-    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
+  // ── Call Gemini ───────────────────────────────────────────────────────────
+  const model   = 'gemini-2.0-flash';
+  const geminiURL = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`;
 
+  let geminiRes;
   try {
-    const geminiRes  = await fetch(geminiUrl, {
-      method:  'POST',
+    geminiRes = await fetch(geminiURL, {
+      method : 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify(geminiBody),
+      body   : JSON.stringify(geminiBody),
     });
-
-    const geminiData = await geminiRes.json();
-
-    if (!geminiRes.ok) {
-      const errMsg = geminiData?.error?.message || 'Gemini API error';
-      return new Response(
-        JSON.stringify({ error: { message: errMsg } }),
-        { status: geminiRes.status, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
-      );
-    }
-
-    // 9. تحويل رد Gemini → صيغة Anthropic التي يتوقعها index.html
-    const text = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-
-    const anthropicShape = {
-      id:      'gemini-proxy',
-      type:    'message',
-      role:    'assistant',
-      model:   body.model || model,
-      content: [{ type: 'text', text }],
-      usage:   { input_tokens: 0, output_tokens: 0 },
-    };
-
-    return new Response(JSON.stringify(anthropicShape), {
-      status:  200,
-      headers: {
-        'Content-Type':  'application/json',
-        'Cache-Control': 'no-store',
-        ...corsHeaders,
-      },
-    });
-
   } catch (err) {
-    return new Response(
-      JSON.stringify({ error: { message: 'Proxy error: ' + err.message } }),
-      { status: 502, headers: { 'Content-Type': 'application/json' } }
-    );
+    return json({ error: `Network error calling Gemini: ${err.message}` }, 502, origin);
   }
+
+  if (!geminiRes.ok) {
+    const errText = await geminiRes.text().catch(() => '');
+    return json({ error: `Gemini API error ${geminiRes.status}: ${errText}` }, geminiRes.status, origin);
+  }
+
+  const geminiData = await geminiRes.json();
+
+  // ── Convert Gemini → Anthropic format ────────────────────────────────────
+  const text = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text
+            || geminiData?.candidates?.[0]?.content?.parts?.map(p => p.text).join('')
+            || '';
+
+  if (!text) {
+    const reason = geminiData?.candidates?.[0]?.finishReason || 'unknown';
+    return json({ error: `Gemini returned empty response. Reason: ${reason}` }, 502, origin);
+  }
+
+  // Return in Anthropic-compatible format (what index.html expects)
+  return json({
+    id      : `gemini-${Date.now()}`,
+    type    : 'message',
+    role    : 'assistant',
+    model   : model,
+    content : [{ type: 'text', text }],
+    stop_reason : 'end_turn',
+    usage   : { input_tokens: 0, output_tokens: 0 },
+  }, 200, origin);
 }
