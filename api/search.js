@@ -13,46 +13,36 @@ export default async function handler(req, res) {
 
   const SUPABASE_URL = process.env.SUPABASE_URL;
   const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY;
-  const OPENAI_KEY  = process.env.OPENAI_API_KEY;
 
   if (!SUPABASE_URL || !SUPABASE_KEY)
     return res.status(500).json({ error: 'Missing Supabase env vars' });
 
   try {
-    let results = [];
+    const rpc = await fetch(`${SUPABASE_URL}/rest/v1/rpc/match_qcs_chunks`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ search_query: query.trim(), match_count: limit }),
+    });
 
-    if (OPENAI_KEY) {
-      const embRes = await fetch('https://api.openai.com/v1/embeddings', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${OPENAI_KEY}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: 'text-embedding-3-small', input: query.trim() }),
-      });
-      if (embRes.ok) {
-        const emb = await embRes.json();
-        const rpc = await fetch(`${SUPABASE_URL}/rest/v1/rpc/match_qcs_chunks`, {
-          method: 'POST',
-          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query_embedding: emb.data[0].embedding, match_threshold: 0.3, match_count: limit }),
-        });
-        if (rpc.ok) results = await rpc.json();
-      }
+    if (!rpc.ok) {
+      const err = await rpc.text();
+      return res.status(500).json({ error: err });
     }
 
-    if (!results.length) {
-      const ft = await fetch(
-        `${SUPABASE_URL}/rest/v1/qcs_chunks?select=id,content,metadata&limit=${limit}`,
-        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
-      );
-      if (ft.ok) results = (await ft.json()).map(r => ({ ...r, similarity: null }));
-    }
+    const results = await rpc.json();
 
     return res.status(200).json({
       results: results.map(r => ({
         id: r.id,
         content: r.content,
-        source: r.metadata?.source || r.metadata?.file_name || 'QCS 2024',
-        page: r.metadata?.page || null,
-        similarity: r.similarity ? Math.round(r.similarity * 100) : null,
+        source: r.source_file,
+        section: r.section_num ? `${r.section_num} — ${r.section_name || ''}` : null,
+        page: r.page_num,
+        score: r.rank ? Math.round(r.rank * 1000) / 1000 : null,
       })),
       count: results.length,
     });
