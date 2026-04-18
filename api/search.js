@@ -1,183 +1,115 @@
 export const config = { runtime: 'nodejs' };
 
-// ── Arabic → English term mapping ─────────────────────────────────────────────
-// يُترجم المصطلحات العربية الشائعة إلى مكافئاتها الإنجليزية في QCS
-const AR_EN_MAP = [
-  // طرق
-  [/خرسان[ةه]/g,          'concrete'],
-  [/إسفلت|اسفلت|أسفلت/g,  'asphalt'],
-  [/تسليح|حديد/g,          'rebar reinforcement'],
-  [/سابجريد|سابجرايد/g,    'subgrade'],
-  [/سابيس|سابيز/g,         'subbase'],
-  [/طبق[ةه] أساس/g,        'base course'],
-  [/بريم كوت|بريم/g,       'prime coat'],
-  [/تاك كوت|تاك/g,         'tack coat'],
-  [/بيندر/g,               'binder course'],
-  [/ويرنج/g,               'wearing course'],
-  [/طريق|طرق|رصف/g,        'road pavement'],
-  [/جرادينج|تدرج/g,        'grading gradation'],
-  [/ضغط|كومباكشن/g,        'compaction'],
-  [/بروكتور/g,             'proctor'],
-  [/سي بي آر|cbr/gi,       'CBR'],
-  // خرسانة
-  [/خلط[ةه]/g,             'mix design'],
-  [/سلامب|هبوط/g,          'slump'],
-  [/مكعب|مكاعيب/g,         'cube test'],
-  [/معالج[ةه]|كيورنج/g,    'curing'],
-  [/صب|سكب/g,              'pouring casting'],
-  [/غطاء|كفر/g,            'cover concrete'],
-  [/لاب لنث|وصل[ةه]/g,     'lap length splice'],
-  [/شدات|قالب/g,           'formwork'],
-  // أساسات
-  [/أساسات|أساس/g,         'foundation'],
-  [/خوازيق|خازوق/g,        'piles pile'],
-  [/لبش[ةه]|رافت/g,        'raft'],
-  [/تحمل التربة/g,         'bearing capacity'],
-  // جيوتكنيك
-  [/تربة/g,                'soil'],
-  [/جسات|بورهول/g,         'borehole investigation SPT'],
-  [/مياه جوفي[ةه]/g,       'groundwater'],
-  [/كبريتات/g,             'sulphate'],
-  [/سبخ[ةه]/g,             'sabkha'],
-  // مياه وصرف
-  [/مياه الشرب/g,          'water supply potable'],
-  [/صرف صحي/g,             'foul sewer sewage'],
-  [/صرف سطحي/g,            'storm water drainage'],
-  [/مياه معالج[ةه]/g,      'treated reclaimed water'],
-  [/غرف[ةه] تفتيش|منهول/g, 'manhole inspection'],
-  [/اختبار ضغط/g,          'pressure test hydrostatic'],
-  [/تعقيم|كلور/g,          'chlorination disinfection'],
-  // حريق وكهرباء
-  [/حريق|إطفاء/g,          'fire sprinkler'],
-  [/إنذار|انذار/g,         'alarm detection'],
-  [/هيدرانت/g,             'hydrant'],
-  [/مرافق|شبكات/g,         'utilities services'],
-  // عام
-  [/اختبار|فحص/g,          'test inspection'],
-  [/معيار|مواصف[ةه]/g,     'standard specification requirement'],
-  [/جودة/g,                'quality control'],
-  [/سماك[ةه]/g,            'thickness depth'],
-  [/قطر/g,                 'diameter'],
-  [/ميل|انحدار/g,          'slope gradient'],
-];
+// ── Arabic → English engineering term map ────────────────────────────────────
+const AR_EN = {
+  'خرسانة':'concrete','اسمنت':'cement','حديد':'steel','تسليح':'reinforcement',
+  'تغطية':'cover','أساس':'foundation','جدار':'wall','سقف':'slab','عمود':'column',
+  'كمر':'beam','حفر':'excavation','ردم':'backfill','تربة':'soil','صرف':'drainage',
+  'صرف صحي':'sewage','مياه':'water','كهرباء':'electrical','مجاري':'sewer',
+  'طريق':'road','رصيف':'pavement','اسفلت':'asphalt','بلاط':'tiles',
+  'ضغط':'pressure','مقاومة':'strength','ميلان':'slope','منسوب':'level',
+  'مواصفات':'specifications','اشتراطات':'requirements','حد':'limit','أدنى':'minimum',
+  'أقصى':'maximum','سماكة':'thickness','عرض':'width','ارتفاع':'height',
+  'عمق':'depth','طول':'length','قطر':'diameter','مساحة':'area',
+  'موقع':'site','مشروع':'project','مقاول':'contractor','استشاري':'consultant',
+  'فحص':'inspection','اختبار':'test','جودة':'quality','ضبط':'control',
+  'ماء':'water','صلابة':'hardness','نفاذية':'permeability','تمدد':'expansion',
+  'انكماش':'shrinkage','تشقق':'cracking','تسرب':'leakage','عزل':'insulation',
+  'حريق':'fire','أمان':'safety','حماية':'protection','ردة':'reaction',
+  'قيس':'measurement','نسبة':'ratio','معامل':'coefficient',
+  'كهرماء':'kahramaa','دفاع مدني':'civil defense','بلدية':'municipality',
+};
 
-function translateQuery(query) {
-  let translated = query;
-  for (const [pattern, replacement] of AR_EN_MAP) {
-    translated = translated.replace(pattern, replacement);
-  }
-  // إذا ما تغيّر شيء (النص عربي بالكامل ومش موجود في الماب) — استخدم النص الأصلي
-  return translated.trim();
+function translateQuery(q) {
+  let out = q;
+  for (const [ar, en] of Object.entries(AR_EN))
+    out = out.replace(new RegExp(ar, 'g'), en);
+  return out;
 }
 
-// ── Handler ────────────────────────────────────────────────────────────────────
+function hasArabic(str) { return /[\u0600-\u06FF]/.test(str); }
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
   if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST')
-    return res.status(405).json({ error: 'Method not allowed' });
+  if (req.method !== 'POST')   return res.status(405).json({ error: 'Method not allowed' });
 
-  const { query, limit = 8 } = req.body || {};
+  const { query, limit = 6 } = req.body || {};
   if (!query || query.trim().length < 2)
     return res.status(400).json({ error: 'Query too short' });
 
   const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!SUPABASE_URL || !SUPABASE_KEY)
-    return res.status(500).json({ error: 'Missing env vars: NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY' });
+    return res.status(500).json({ error: 'Missing Supabase env vars' });
 
-  const originalQuery   = query.trim();
-  const translatedQuery = translateQuery(originalQuery);
+  const q        = query.trim();
+  const isArabic = hasArabic(q);
+  const qEn      = isArabic ? translateQuery(q) : q;
 
-  // إذا الترجمة أنتجت نصاً مختلفاً — ابحث بالاثنين
-  const isArabic        = /[\u0600-\u06FF]/.test(originalQuery);
-  const searchTerms     = (isArabic && translatedQuery !== originalQuery)
-    ? `${translatedQuery} ${originalQuery}`   // إنجليزي + عربي
-    : originalQuery;
+  // Build combined query: translated + original arabic keywords
+  const combinedQuery = isArabic ? `${qEn} ${q}`.trim() : q;
+
+  // ── Try Supabase RPC (up to 3 strategies) ─────────────────────────────────
+  async function callRPC(queryText, maxResults) {
+    const rpc = await fetch(`${SUPABASE_URL}/rest/v1/rpc/search_qcs`, {
+      method : 'POST',
+      headers: {
+        'apikey'       : SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type' : 'application/json',
+      },
+      body: JSON.stringify({ query_text: queryText, max_results: maxResults }),
+    });
+    if (!rpc.ok) {
+      const msg = await rpc.text().catch(() => `HTTP ${rpc.status}`);
+      throw new Error(`Supabase ${rpc.status}: ${msg}`);
+    }
+    return rpc.json();
+  }
+
+  let results = [];
+  let strategyUsed = '';
 
   try {
-    const rpc = await fetch(`${SUPABASE_URL}/rest/v1/rpc/search_qcs`, {
-      method: 'POST',
-      headers: {
-        'apikey':        SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
-        'Content-Type':  'application/json',
-      },
-      body: JSON.stringify({
-        query_text:  searchTerms,
-        max_results: Number(limit),
-      }),
-    });
-
-    const text = await rpc.text();
-
-    // إذا فشل الطلب بالنص المترجم — حاول بالنص الأصلي فقط
-    if (!rpc.ok) {
-      // محاولة ثانية بالنص الأصلي
-      const rpc2 = await fetch(`${SUPABASE_URL}/rest/v1/rpc/search_qcs`, {
-        method: 'POST',
-        headers: {
-          'apikey':        SUPABASE_KEY,
-          'Authorization': `Bearer ${SUPABASE_KEY}`,
-          'Content-Type':  'application/json',
-        },
-        body: JSON.stringify({
-          query_text:  originalQuery,
-          max_results: Number(limit),
-        }),
-      });
-      const text2 = await rpc2.text();
-      if (!rpc2.ok) return res.status(500).json({ error: text2 });
-      const results2 = JSON.parse(text2);
-      return res.status(200).json(formatResults(results2));
-    }
-
-    const results = JSON.parse(text);
-
-    // إذا النتائج صفر والاستعلام عربي — حاول بالنص الأصلي فقط
-    if (results.length === 0 && isArabic && translatedQuery !== originalQuery) {
-      const rpc3 = await fetch(`${SUPABASE_URL}/rest/v1/rpc/search_qcs`, {
-        method: 'POST',
-        headers: {
-          'apikey':        SUPABASE_KEY,
-          'Authorization': `Bearer ${SUPABASE_KEY}`,
-          'Content-Type':  'application/json',
-        },
-        body: JSON.stringify({
-          query_text:  translatedQuery,
-          max_results: Number(limit),
-        }),
-      });
-      if (rpc3.ok) {
-        const text3  = await rpc3.text();
-        const res3   = JSON.parse(text3);
-        if (res3.length > 0) return res.status(200).json(formatResults(res3));
+    // Strategy 1: combined (translated + arabic)
+    const r1 = await callRPC(combinedQuery, limit);
+    if (Array.isArray(r1) && r1.length > 0) {
+      results = r1; strategyUsed = 'combined';
+    } else {
+      // Strategy 2: English-only
+      const r2 = await callRPC(qEn, limit);
+      if (Array.isArray(r2) && r2.length > 0) {
+        results = r2; strategyUsed = 'english';
+      } else {
+        // Strategy 3: original query as-is
+        const r3 = await callRPC(q, limit);
+        results = Array.isArray(r3) ? r3 : [];
+        strategyUsed = 'original';
       }
     }
-
-    return res.status(200).json(formatResults(results));
-
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message, results: [] });
   }
-}
 
-// ── Format helper ─────────────────────────────────────────────────────────────
-function formatResults(results) {
-  return {
-    results: results.map(r => ({
-      id:      r.id,
-      content: r.content,
-      source:  r.source_file,
-      section: r.section_num
-        ? `${r.section_num}${r.section_name ? ' — ' + r.section_name : ''}`
-        : null,
-      page:    r.page_num,
-      score:   r.rank,
-    })),
-    count: results.length,
-  };
+  // ── Normalize fields (handles different Supabase RPC return shapes) ────────
+  const normalized = results.map(r => ({
+    id        : r.id,
+    content   : r.content   || r.chunk_text || r.text        || '',
+    source    : r.source_file || r.source   || r.file_name   || '',
+    section   : r.section_num
+                ? `${r.section_num}${r.section_name ? ' — ' + r.section_name : ''}`
+                : (r.section || r.title || null),
+    page      : r.page_num  || r.page       || null,
+    similarity: r.similarity || r.score     || r.rank        || null,
+  }));
+
+  return res.status(200).json({
+    results : normalized,
+    count   : normalized.length,
+    strategy: strategyUsed,
+    query_used: combinedQuery,
+  });
 }
