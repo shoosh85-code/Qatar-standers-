@@ -1184,6 +1184,10 @@ function clearCardFilter() {
 
 // ===== DETAIL MODALS =====
 const detailData = {}; // filled by lazy chunks
+// Drain any entries queued before detailData was ready
+window._qspQueue = window._qspQueue || [];
+window._qspQueue.forEach(function(obj){ Object.assign(detailData, obj); });
+window._qspQueue = [];
 // ═══════════════════════════════════════════════════════
 // QSP LAZY DATA LOADER — chunks loaded on demand
 // detailData is now a Proxy that triggers chunk loading
@@ -1206,39 +1210,43 @@ window.QSP.KEY_TO_CHUNK = {"roads_mat_card": "roads", "gabbro_specs": "roads", "
 
 window.QSP.loadChunk = function(chunkName) {
   if (window.QSP._loaded[chunkName]) return Promise.resolve();
+  if (window.QSP._failed && window.QSP._failed[chunkName]) return Promise.reject(new Error('Previously failed'));
   if (window.QSP._pending[chunkName]) return window.QSP._pending[chunkName];
   const p = new Promise(function(resolve, reject) {
     const s = document.createElement('script');
-    s.src = window.QSP.CHUNK_FILES[chunkName] + '?v=1.7.6';
+    s.src = window.QSP.CHUNK_FILES[chunkName] + '?v=1.7.7';
     s.onload = function() {
       window.QSP._loaded[chunkName] = true;
-      // Merge into detailData
-      if (window.QSP.chunks) {
-        Object.assign(detailData, window.QSP.chunks);
-        window.QSP.chunks = {};
+      // Flush any queued merges (safety net)
+      if (window._qspQueue && window._qspQueue.length) {
+        window._qspQueue.forEach(function(obj) { Object.assign(detailData, obj); });
+        window._qspQueue = [];
       }
       resolve();
     };
     s.onerror = function() {
-      reject(new Error('Failed to load: ' + s.src));
+      window.QSP._loaded[chunkName] = false;
+      window.QSP._failed = window.QSP._failed || {};
+      window.QSP._failed[chunkName] = true;
+      delete window.QSP._pending[chunkName];
+      reject(new Error('404: ' + s.src));
     };
     document.head.appendChild(s);
   });
-  window.QSP._pending[chunkName] = p.catch(function(err) {
-    // Reset so retry is possible
-    delete window.QSP._pending[chunkName];
-    delete window.QSP._loaded[chunkName];
-    console.error('[QSP] Chunk load failed:', err.message);
-    return Promise.reject(err);
-  });
-  return window.QSP._pending[chunkName];
+  window.QSP._pending[chunkName] = p;
+  return p;
 };
 
-// Preload all chunks progressively
-window.QSP.loadChunk('structural');
-setTimeout(function(){ window.QSP.loadChunk('tools'); }, 300);
-setTimeout(function(){ window.QSP.loadChunk('roads'); }, 600);
-setTimeout(function(){ window.QSP.loadChunk('utilities'); }, 900);
+// Preload all chunks progressively — silent failures (files may not exist in preview)
+function _qspPreload(name, delay) {
+  setTimeout(function(){
+    window.QSP.loadChunk(name).catch(function(){});
+  }, delay);
+}
+_qspPreload('structural', 0);
+_qspPreload('tools',      300);
+_qspPreload('roads',      600);
+_qspPreload('utilities',  900);
 
 // ── calcMaterials ──
 /**
@@ -1409,7 +1417,7 @@ function openDetail(key) {
   // Lazy load chunk if key not yet in detailData
   if (!detailData[key] && window.QSP && window.QSP.KEY_TO_CHUNK) {
     const chunk = window.QSP.KEY_TO_CHUNK[key];
-    if (chunk && !window.QSP._loaded[chunk]) {
+    if (chunk) {
       // Show loading state
       const modal = document.getElementById('detailModal');
       document.getElementById('dmTitle').textContent = '⏳ تحميل...';
