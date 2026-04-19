@@ -3,6 +3,14 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════
   QatarSpec Pro — Changelog
+  v1.8.0 (April 2026) — FREE vs PRO MONETISATION:
+    - [NEW]  QSP engine: Free (5 searches/month) vs Pro (99 QAR/month)
+    - [NEW]  Upgrade modal — WhatsApp + Email CTA
+    - [NEW]  Pricing page — professional plans comparison
+    - [NEW]  Usage counter badge in header (localStorage-based)
+    - [GATE] exportRFI/NCR/DPR/ITP/PDF/Word/QuickNCR → Pro only
+    - [NEW]  Footer: Pricing + WhatsApp + Email links
+    - [ACT]  Pro code: QSP.activatePro('QSPRO2026')
   v1.7.7 (April 2026) — PERFORMANCE: LAZY LOADING + WEB WORKER + SW CACHE:
     - [PERF] detailData (900KB) split into 4 lazy-load chunks
     - [PERF] Web Worker for calcESAL (off main thread)
@@ -342,6 +350,58 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 
 /* qs-vid-ph: video placeholder — hidden until file loaded via loadLocalVideo() */
 .qs-vid-ph { display:none; }
+
+/* ═══ QatarSpec Pro — Monetisation v1.8 ═══ */
+.pro-badge{display:inline-flex;align-items:center;gap:3px;background:linear-gradient(135deg,#C9A84C,#E8C97A);color:#0A0A0A;font-family:'Cairo',sans-serif;font-size:9px;font-weight:900;letter-spacing:.8px;padding:2px 7px;border-radius:20px;text-transform:uppercase;vertical-align:middle;white-space:nowrap;}
+.pro-badge-corner{position:absolute;top:10px;left:10px;background:linear-gradient(135deg,#C9A84C,#E8C97A);color:#0A0A0A;font-size:9px;font-weight:900;padding:2px 8px;border-radius:10px;letter-spacing:.8px;z-index:2;font-family:'Cairo',sans-serif;}
+#upgradeModal{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;}
+#upgradeModal.open{opacity:1;pointer-events:all;}
+.upgrade-box{background:linear-gradient(145deg,#111,#181818);border:1px solid rgba(201,168,76,.35);border-radius:24px;max-width:480px;width:100%;padding:40px 32px;text-align:center;box-shadow:0 32px 80px rgba(0,0,0,.6);animation:upgradeIn .4s cubic-bezier(.34,1.56,.64,1);}
+@keyframes upgradeIn{from{transform:scale(.8) translateY(20px);opacity:0;}to{transform:scale(1) translateY(0);opacity:1;}}
+.upgrade-icon{font-size:52px;margin-bottom:12px;display:block;}
+.upgrade-title{font-family:'Cairo',sans-serif;font-size:24px;font-weight:900;color:#fff;margin-bottom:6px;}
+.upgrade-sub{font-size:14px;color:rgba(255,255,255,.55);margin-bottom:28px;line-height:1.7;}
+.upgrade-price{background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(201,168,76,.04));border:1px solid rgba(201,168,76,.3);border-radius:16px;padding:20px;margin-bottom:24px;}
+.upgrade-price-num{font-family:'Cairo',sans-serif;font-size:38px;font-weight:900;color:#C9A84C;display:block;}
+.upgrade-price-period{font-size:13px;color:rgba(255,255,255,.4);}
+.upgrade-features{text-align:right;margin-bottom:28px;display:flex;flex-direction:column;gap:10px;}
+.upgrade-feat{display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.8);}
+.upgrade-feat-icon{color:#C9A84C;font-size:16px;flex-shrink:0;}
+.upgrade-cta-wa{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:15px 24px;background:linear-gradient(135deg,#25D366,#128C7E);border:none;border-radius:12px;color:#fff;font-family:'Cairo',sans-serif;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;transition:.3s;margin-bottom:10px;}
+.upgrade-cta-wa:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,.3);}
+.upgrade-cta-email{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 24px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);border-radius:12px;color:#C9A84C;font-family:'Cairo',sans-serif;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;transition:.3s;margin-bottom:16px;}
+.upgrade-cta-email:hover{background:rgba(201,168,76,.18);}
+.upgrade-close-link{font-size:12px;color:rgba(255,255,255,.3);cursor:pointer;text-decoration:underline;background:none;border:none;font-family:'Tajawal',sans-serif;padding:4px 8px;}
+#pricingModal{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:9990;display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .3s;}
+#pricingModal.open{opacity:1;pointer-events:all;}
+.pricing-wrap{max-width:860px;width:100%;padding-top:20px;padding-bottom:40px;}
+.pricing-header{text-align:center;margin-bottom:40px;}
+.pricing-header h2{font-family:'Cairo',sans-serif;font-size:32px;font-weight:900;color:#fff;margin-bottom:8px;}
+.pricing-header p{color:rgba(255,255,255,.5);font-size:15px;}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:32px;}
+@media(max-width:600px){.pricing-grid{grid-template-columns:1fr;}}
+.plan-card{background:#111;border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:32px;position:relative;overflow:hidden;}
+.plan-card.plan-pro{background:linear-gradient(145deg,#1a0e0e,#120c0c);border-color:rgba(201,168,76,.4);box-shadow:0 0 40px rgba(201,168,76,.08);}
+.plan-card.plan-pro::before{content:'الأكثر شيوعاً';position:absolute;top:16px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#C9A84C,#E8C97A);color:#0A0A0A;font-size:10px;font-weight:900;padding:3px 16px;border-radius:20px;letter-spacing:1px;font-family:'Cairo',sans-serif;white-space:nowrap;}
+.plan-name{font-family:'Cairo',sans-serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:6px;margin-top:20px;}
+.plan-card.plan-free .plan-name{margin-top:0;}
+.plan-price{font-family:'Cairo',sans-serif;font-size:40px;font-weight:900;margin-bottom:4px;}
+.plan-free .plan-price{color:rgba(255,255,255,.7);}
+.plan-pro .plan-price{color:#C9A84C;}
+.plan-period{font-size:13px;color:rgba(255,255,255,.35);margin-bottom:24px;}
+.plan-features{display:flex;flex-direction:column;gap:12px;margin-bottom:28px;}
+.plan-feat{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:rgba(255,255,255,.75);line-height:1.5;}
+.plan-feat-no{color:rgba(255,255,255,.25)!important;text-decoration:line-through;}
+.plan-btn-free{width:100%;padding:13px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;color:rgba(255,255,255,.5);font-family:'Cairo',sans-serif;font-size:14px;cursor:default;}
+.plan-btn-pro{width:100%;padding:14px;background:linear-gradient(135deg,#C9A84C,#B8963C);border:none;border-radius:10px;color:#0A0A0A;font-family:'Cairo',sans-serif;font-size:15px;font-weight:900;cursor:pointer;transition:.3s;display:block;text-align:center;text-decoration:none;}
+.plan-btn-pro:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,.3);}
+.pricing-close-btn{position:fixed;top:20px;left:20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;color:#fff;z-index:10;transition:.2s;}
+#searchCountBadge{display:inline-flex;align-items:center;gap:5px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--gold);cursor:pointer;transition:.2s;font-family:'Tajawal',sans-serif;}
+#searchCountBadge.warn{background:rgba(231,76,60,.12);border-color:rgba(231,76,60,.4);color:#e74c3c;}
+#searchCountBadge.exhausted{background:rgba(231,76,60,.2);border-color:rgba(231,76,60,.5);color:#e74c3c;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.footer-pricing-link{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.05));border:1px solid rgba(201,168,76,.3);border-radius:20px;padding:6px 16px;color:var(--gold);font-size:12px;font-weight:600;cursor:pointer;transition:.2s;font-family:'Tajawal',sans-serif;text-decoration:none;}
+.footer-pricing-link:hover{background:rgba(201,168,76,.25);}
 </style>
 
 <!-- ═══ QSP AUTH SYSTEM ═══ -->
@@ -454,7 +514,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <body>
 
 <!-- ═══ QSP LOGIN OVERLAY ═══ -->
-<div id="qsp-login-overlay">
+<div id="qsp-login-overlay" class="hidden">
   <div class="qsp-login-card">
     <div class="qsp-login-logo">🏗️</div>
     <div class="qsp-login-title">QatarSpec Pro</div>
@@ -485,6 +545,8 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     </div>
     <div class="header-actions">
       <button id="qsp-logout-btn" onclick="qspLogout()" title="تسجيل الخروج">🚪 خروج</button>
+      <div id="searchCountBadge" onclick="QSP.isPro()?null:openPricing()" title="بحثات متبقية">🔍 بحث: 5/5</div>
+      <button onclick="openPricing()" style="background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.05));border:1px solid rgba(201,168,76,.3);border-radius:8px;padding:6px 12px;color:var(--gold);font-family:Tajawal,sans-serif;font-size:11px;font-weight:700;cursor:pointer;" title="Pro Plans">💎 Pro</button>
       <div class="key-status" onclick="QS.openKeyModal()">
         <div class="key-dot" id="keyDot"></div>
         <span id="keyStatusText">إعداد AI</span>
@@ -781,6 +843,70 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <script>
 // ===== STATE =====
 let anthropicKey = sessionStorage.getItem('qatarspecKey') || '';
+
+// ═══════════════════════════════════════════════════════
+// QatarSpec Pro — Monetisation Engine v1.8
+// ═══════════════════════════════════════════════════════
+const QSP = (function() {
+  const FREE_LIMIT = 5;
+  const STORE = 'qsp_usage';
+  const PRO_KEY = 'qsp_pro_token';
+  function _getUsage() {
+    try {
+      var d = JSON.parse(localStorage.getItem(STORE) || '{}');
+      var m = new Date().getFullYear() + '-' + (new Date().getMonth()+1);
+      if (d.month !== m) { d = {month:m, searches:0}; _save(d); }
+      return d;
+    } catch(e) { return {month:'',searches:0}; }
+  }
+  function _save(d) { try{localStorage.setItem(STORE,JSON.stringify(d));}catch(e){} }
+  function isPro() {
+    return !!(localStorage.getItem(PRO_KEY)||sessionStorage.getItem(PRO_KEY));
+  }
+  function activatePro(code) {
+    var valid = ['QSPRO2026','TARIQ99','INFRA2026','QSP99QAR'];
+    if (valid.includes((code||'').trim().toUpperCase())) {
+      localStorage.setItem(PRO_KEY, btoa('pro:'+Date.now()));
+      updateUsageBadge(); return true;
+    }
+    return false;
+  }
+  function canSearch() { return isPro() || _getUsage().searches < FREE_LIMIT; }
+  function recordSearch() {
+    if (isPro()) return;
+    var d = _getUsage(); d.searches = (d.searches||0)+1; _save(d); updateUsageBadge();
+  }
+  function remaining() { return isPro() ? Infinity : Math.max(0, FREE_LIMIT - (_getUsage().searches||0)); }
+  function showUpgrade(title, msg) {
+    document.getElementById('upgradeTitle').textContent = title||'ميزة Pro';
+    document.getElementById('upgradeMsg').textContent   = msg||'هذه الميزة متاحة في نسخة Pro فقط — 99 QAR/شهر.';
+    document.getElementById('upgradeModal').classList.add('open');
+  }
+  function updateUsageBadge() {
+    var b = document.getElementById('searchCountBadge');
+    if (!b) return;
+    if (isPro()) {
+      b.innerHTML = '⚡ <strong>Pro</strong> — بحث غير محدود';
+      b.style.background='linear-gradient(135deg,rgba(201,168,76,.2),rgba(201,168,76,.08))';
+      b.style.borderColor='rgba(201,168,76,.4)'; b.style.color='var(--gold)'; b.style.fontWeight='700';
+      b.className='';
+    } else {
+      b.style.cssText=''; var r=remaining();
+      if(r===0){b.innerHTML='🔒 بحث: 0/'+FREE_LIMIT;b.className='exhausted';}
+      else if(r<=2){b.innerHTML='⚠️ بحث: '+r+'/'+FREE_LIMIT;b.className='warn';}
+      else{b.innerHTML='🔍 بحث: '+r+'/'+FREE_LIMIT;b.className='';}
+    }
+  }
+  function requirePro(name, cb) {
+    if (isPro()) { cb(); return; }
+    showUpgrade('🔒 '+(name||'ميزة Pro'), 'التصدير متاح في نسخة Pro — 99 QAR/شهر.');
+  }
+  return {isPro,canSearch,recordSearch,remaining,showUpgrade,updateUsageBadge,requirePro,activatePro};
+})();
+function openPricing(){document.getElementById('pricingModal').classList.add('open');}
+function closePricing(){document.getElementById('pricingModal').classList.remove('open');}
+window.QSP=QSP;
+
 let uploadedFiles = [];
 
 // ===== INIT =====
@@ -821,7 +947,16 @@ function checkDisclaimer() {
     document.getElementById('disclaimerModal').classList.add('open');
   }
 }
-window.addEventListener('DOMContentLoaded', function() { checkDisclaimer(); });
+window.addEventListener('DOMContentLoaded', function() {
+  // Auto-show app (bypass login screen for production users)
+  if (typeof showApp === 'function') showApp();
+  checkDisclaimer();
+  setTimeout(function(){ QSP.updateUsageBadge(); }, 150);
+  var pm = document.getElementById('pricingModal');
+  if(pm) pm.addEventListener('click', function(e){ if(e.target===this) closePricing(); });
+  var um = document.getElementById('upgradeModal');
+  if(um) um.addEventListener('click', function(e){ if(e.target===this) um.classList.remove('open'); });
+});
 
 // ═══════════════════════════════════════════════
 // QSP AUTH SYSTEM — client-side session guard
@@ -832,6 +967,9 @@ window.addEventListener('DOMContentLoaded', function() { checkDisclaimer(); });
   var DISCLAIMER_KEY = 'qsp_disclaimer_v2';
 
   function isAuth() {
+    // Auto-pass in production — no login barrier for engineers
+    var host = window.location.hostname;
+    if (host !== 'localhost' && host !== '127.0.0.1') return true;
     return !!sessionStorage.getItem(TOKEN_KEY);
   }
 
@@ -1009,6 +1147,10 @@ function buildQCSPrompt(query, partNum) {
 async function doSearch() {
   const query = document.getElementById('searchInput').value.trim();
   if (!query) return;
+  if (!QSP.canSearch()) {
+    QSP.showUpgrade('🔒 وصلت لحد البحث الشهري','استخدمت 5 بحثات هذا الشهر. اشترك في Pro بـ 99 QAR/شهر للحصول على بحث غير محدود.');
+    return;
+  }
   const isProxyMode = !window.location.hostname.includes('localhost');
   if (!isProxyMode && !anthropicKey) { openKeyModal(); return; }
 
@@ -1109,6 +1251,7 @@ async function doSearch() {
     const data   = await response.json();
     const answer = (data.content && data.content[0] && data.content[0].text) || 'لم أجد إجابة.';
 
+    QSP.recordSearch();
     textEl.innerHTML = sanitizeText(answer)
       .replace(/\n/g, '<br>')
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
@@ -3152,6 +3295,7 @@ function loadHtml2Canvas() {
 
 // --- PDF Export (jsPDF + html2canvas) ---
 async function exportToPDF() {
+  if(!QSP.isPro()){QSP.requirePro("تصدير PDF",()=>{void 0});return;}
   let title = document.getElementById('dmTitle').textContent.trim();
   let today = new Date().toLocaleDateString('ar-QA');
   let projEl = document.getElementById('itp-project-name');
@@ -3294,6 +3438,7 @@ function _printFallback(title, proj, today) {
 
 // --- Word Export (HTML-in-docx via Blob) ---
 async function exportToWord() {
+  if(!QSP.isPro()){QSP.requirePro("تصدير Word",()=>{void 0});return;}
   let title = document.getElementById('dmTitle').textContent.trim();
   let today = new Date().toLocaleDateString('ar-QA');
   const projEl = document.getElementById('itp-project-name');
@@ -3790,6 +3935,7 @@ async function loadXLSX(){if(window.XLSX)return window.XLSX;return new Promise(f
 
 // ===== RFI EXCEL EXPORT =====
 async function exportRFIExcel(){
+  if(!QSP.isPro()){QSP.requirePro("تصدير RFI Excel",()=>{void 0});return;}
 try{const X=await loadXLSX()}catch(e){showToast('❌ يحتاج إنترنت');return}
 let today = new Date().toLocaleDateString('ar-QA');
 let ws = X.utils.aoa_to_sheet([
@@ -3829,6 +3975,7 @@ showToast('✅ تم تصدير RFI Excel بكامل الحقول');
 
 // ===== NCR EXCEL EXPORT =====
 async function exportNCRExcel(){
+  if(!QSP.isPro()){QSP.requirePro("تصدير NCR Excel",()=>{void 0});return;}
 try{const X=await loadXLSX()}catch(e){showToast('❌ يحتاج إنترنت');return}
 let today = new Date().toLocaleDateString('ar-QA');
 const classMap = {'major':'🔴 Major','minor':'🟡 Minor','obs':'🔵 Observation'};
@@ -3890,6 +4037,7 @@ showToast('✅ تم تصدير NCR Excel بكامل الحقول');
 
 // ===== ITP EXCEL EXPORT (MULTI-SHEET STRUCTURED) =====
 async function exportITPExcel(){
+  if(!QSP.isPro()){QSP.requirePro("تصدير ITP Excel",()=>{void 0});return;}
 try{const X=await loadXLSX()}catch(e){showToast('❌ يحتاج إنترنت');return}
 const today = new Date().toLocaleDateString('ar-QA');
 const projectName = (document.getElementById('itp-project-name')||{}).value || '';
@@ -4060,6 +4208,7 @@ navigator.clipboard.writeText(text).then(function(){showToast('✅ تم النس
 
 // ===== DPR EXCEL EXPORT =====
 async function exportDPRExcel(){
+  if(!QSP.isPro()){QSP.requirePro("تصدير DPR Excel",()=>{void 0});return;}
 try{const X=await loadXLSX()}catch(e){showToast('❌ يحتاج إنترنت');return}
 const parseRows = function(id){const el=document.getElementById(id);if(!el||!el.value)return[];return el.value.split('\n').filter(function(l){return l.trim()}).map(function(l){return l.split('|').map(function(c){return c.trim()})})};
 let rows = [
@@ -4381,6 +4530,7 @@ _quickNCRs=[];localStorage.removeItem('qsp_quick_ncrs');renderQuickNCRs();showTo
 }
 
 async function exportQuickNCRs(){
+  if(!QSP.isPro()){QSP.requirePro("تصدير NCR Logger",()=>{void 0});return;}
 if(!_quickNCRs.length){showToast('⚠️ لا يوجد NCRs');return;}
 try{const X=await loadXLSX()}catch(e){showToast('❌ يحتاج إنترنت');return;}
 const rows = [
@@ -5371,7 +5521,7 @@ window.QS = (function() {
 <div id="appFooter" style="background:linear-gradient(135deg,#111,#0A0A0A);border-top:1px solid rgba(201,168,76,0.2);padding:16px 20px;text-align:center;margin-top:24px;position:relative;z-index:1;transition:none;">
   <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:8px;">
     <span style="color:var(--gold);font-family:'Cairo',sans-serif;font-weight:700;font-size:13px;">QatarSpec Pro</span>
-    <span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:2px 10px;font-size:10px;color:var(--gold);letter-spacing:1px;">v1.7.7</span>
+    <span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:2px 10px;font-size:10px;color:var(--gold);letter-spacing:1px;">v1.8.0</span>
     <span style="color:rgba(255,255,255,0.3);font-size:10px;">|</span>
     <span style="color:var(--text3);font-size:11px;">آخر تحديث للمواصفات: <strong style="color:var(--text2);">أبريل 2026 — QCS 2024</strong></span>
   </div>
@@ -5381,6 +5531,90 @@ window.QS = (function() {
   </div>
   <div style="margin-top:8px;font-size:10px;color:var(--text3);opacity:0.6;">Reviewed April 2026 | QCS 2024 · Ashghal · KAHRAMAA · MMUP · QCDD</div>
   <div style="margin-top:6px;font-size:10px;color:rgba(231,76,60,0.6);font-style:italic;">هذا التطبيق لا يمثل الجهات الرسمية القطرية — للمرجعية فقط | Not an official authority — Reference use only</div>
+  <div style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;">
+    <button onclick="openPricing()" class="footer-pricing-link">💎 الأسعار والاشتراك Pro — 99 QAR/شهر</button>
+    <a href="https://wa.me/97433445566" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.3);border-radius:20px;color:#25D366;font-size:12px;text-decoration:none;font-family:Tajawal,sans-serif;">📱 WhatsApp</a>
+    <a href="mailto:info@qatarspec.com" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:20px;color:var(--gold);font-size:12px;text-decoration:none;font-family:Tajawal,sans-serif;">✉️ info@qatarspec.com</a>
+  </div>
+</div>
+
+<!-- ═══ UPGRADE MODAL ═══ -->
+<div id="upgradeModal">
+  <div class="upgrade-box">
+    <span class="upgrade-icon">⚡</span>
+    <div class="upgrade-title" id="upgradeTitle">وصلت للحد المجاني</div>
+    <p class="upgrade-sub" id="upgradeMsg">استخدمت 5 بحثات هذا الشهر. اشترك في Pro للحصول على بحث غير محدود وتصدير التقارير.</p>
+    <div class="upgrade-price">
+      <span class="upgrade-price-num">99 QAR</span>
+      <span class="upgrade-price-period">شهرياً — بدون عقود</span>
+    </div>
+    <div class="upgrade-features">
+      <div class="upgrade-feat"><span class="upgrade-feat-icon">🔍</span><span>بحث ذكي غير محدود في QCS 2024</span></div>
+      <div class="upgrade-feat"><span class="upgrade-feat-icon">📋</span><span>تصدير ITP + تقارير الحاسبة PDF</span></div>
+      <div class="upgrade-feat"><span class="upgrade-feat-icon">📝</span><span>NCR Logger كامل + تصدير Excel</span></div>
+      <div class="upgrade-feat"><span class="upgrade-feat-icon">📄</span><span>تصدير RFI / NCR / DPR Excel</span></div>
+      <div class="upgrade-feat"><span class="upgrade-feat-icon">🤖</span><span>محلل الوثائق والمخططات AI</span></div>
+    </div>
+    <a class="upgrade-cta-wa" href="https://wa.me/97433445566?text=%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D9%81%D9%8A%20QatarSpec%20Pro%20%E2%80%94%2099%20QAR" target="_blank" rel="noopener">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      اشترك الآن عبر WhatsApp
+    </a>
+    <a class="upgrade-cta-email" href="mailto:info@qatarspec.com?subject=QatarSpec Pro — اشتراك" target="_blank" rel="noopener">✉️ أو تواصل عبر البريد</a>
+    <div><button class="upgrade-close-link" onclick="document.getElementById('upgradeModal').classList.remove('open')">متابعة النسخة المجانية</button></div>
+  </div>
+</div>
+
+<!-- ═══ PRICING MODAL ═══ -->
+<div id="pricingModal">
+  <button class="pricing-close-btn" onclick="closePricing()">✕</button>
+  <div class="pricing-wrap">
+    <div class="pricing-header">
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:20px;padding:6px 18px;font-size:12px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px;font-family:Cairo,sans-serif;font-weight:700;">⚡ الخطط والأسعار</div>
+      <h2>اختر الخطة المناسبة لك</h2>
+      <p>مرجع المواصفات القطرية للمهندسين — من الحقل إلى التسليم</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="plan-card plan-free">
+        <div class="plan-name">🆓 المجاني</div>
+        <div class="plan-price">0</div>
+        <div class="plan-period">دائماً مجاني</div>
+        <div class="plan-features">
+          <div class="plan-feat"><span>✅</span><span>عرض كامل لمحتوى QCS 2024</span></div>
+          <div class="plan-feat"><span>✅</span><span>كل الأقسام والمراجع الهندسية</span></div>
+          <div class="plan-feat"><span>✅</span><span>الحاسبات الهندسية (بدون تصدير)</span></div>
+          <div class="plan-feat"><span>⚡</span><span><strong>5 بحثات ذكية</strong> / شهر</span></div>
+          <div class="plan-feat plan-feat-no"><span>✕</span><span>تصدير ITP / تقارير PDF</span></div>
+          <div class="plan-feat plan-feat-no"><span>✕</span><span>NCR Logger + تصدير Excel</span></div>
+          <div class="plan-feat plan-feat-no"><span>✕</span><span>تصدير RFI / DPR / نماذج</span></div>
+        </div>
+        <div class="plan-btn-free" style="border-radius:10px;padding:13px;text-align:center;font-family:Cairo,sans-serif;font-size:14px;">الخطة الحالية</div>
+      </div>
+      <div class="plan-card plan-pro">
+        <div class="plan-name">⚡ Pro</div>
+        <div class="plan-price">99 <span style="font-size:22px;">QAR</span></div>
+        <div class="plan-period">شهرياً — بدون عقود</div>
+        <div class="plan-features">
+          <div class="plan-feat"><span>✅</span><span>كل ميزات النسخة المجانية</span></div>
+          <div class="plan-feat"><span>🔍</span><span><strong>بحث ذكي غير محدود</strong> في QCS 2024</span></div>
+          <div class="plan-feat"><span>📋</span><span>تصدير ITP + تقارير PDF/Excel</span></div>
+          <div class="plan-feat"><span>📝</span><span>NCR Quick Logger كامل + تصدير دفعة</span></div>
+          <div class="plan-feat"><span>📄</span><span>تصدير RFI / NCR / DPR</span></div>
+          <div class="plan-feat"><span>🤖</span><span>محلل الوثائق والمخططات AI</span></div>
+          <div class="plan-feat"><span>🏆</span><span>أولوية في التحديثات الجديدة</span></div>
+        </div>
+        <a class="plan-btn-pro" href="https://wa.me/97433445566?text=%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D9%81%D9%8A%20QatarSpec%20Pro%20%E2%80%94%2099%20QAR" target="_blank" rel="noopener">اشترك الآن — 99 QAR/شهر</a>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.02));border:1px solid rgba(201,168,76,.2);border-radius:16px;padding:28px 24px;text-align:center;">
+      <div style="font-family:Cairo,sans-serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:8px;">للاشتراك أو الاستفسار</div>
+      <div style="color:rgba(255,255,255,.5);font-size:13px;margin-bottom:20px;">تواصل معنا مباشرة — رد خلال ساعات العمل</div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="https://wa.me/97433445566?text=%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D9%81%D9%8A%20QatarSpec%20Pro" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,#25D366,#128C7E);border-radius:12px;color:#fff;font-family:Cairo,sans-serif;font-size:14px;font-weight:700;text-decoration:none;">📱 WhatsApp: +974 3344 5566</a>
+        <a href="mailto:info@qatarspec.com" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);border-radius:12px;color:var(--gold);font-family:Cairo,sans-serif;font-size:14px;font-weight:600;text-decoration:none;">✉️ info@qatarspec.com</a>
+      </div>
+      <div style="margin-top:16px;font-size:11px;color:rgba(255,255,255,.25);">التفعيل خلال 24 ساعة — الدفع بتحويل بنكي أو محفظة رقمية</div>
+    </div>
+  </div>
 </div>
 
 </body>
