@@ -1,8 +1,14 @@
-// QatarSpec Pro — roads data chunk
-// Lazy-loaded on first section access
-window.QSP = window.QSP || {};
-window.QSP.chunks = window.QSP.chunks || {};
-Object.assign(window.QSP.chunks, {
+// QatarSpec Pro — roads data chunk v1.7.7
+window._qspMerge = window._qspMerge || function(obj) {
+  if (typeof detailData !== 'undefined') {
+    Object.assign(detailData, obj);
+  } else {
+    // detailData not ready yet - queue it
+    window._qspQueue = window._qspQueue || [];
+    window._qspQueue.push(obj);
+  }
+};
+_qspMerge({
 roads_mat_card: { title: '🧱 Materials — Bitumen + Aggregates + Geotextile', content: `
 <div class="lang-content-ar">
 
