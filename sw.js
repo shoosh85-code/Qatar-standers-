@@ -1,94 +1,109 @@
-const CACHE_NAME = 'qatarspec-v1.7.3';
-const STATIC_CACHE = 'qatarspec-static-v1';
+// QatarSpec Pro — Service Worker v1.7.6
+// Cache Strategy: Cache-First HTML/CSS, Network-First API, SWR for JSON/JS chunks
+const CACHE_VERSION = 'qsp-v1.7.6';
+const STATIC_CACHE  = `${CACHE_VERSION}-static`;
+const CHUNK_CACHE   = `${CACHE_VERSION}-chunks`;
+const API_CACHE     = `${CACHE_VERSION}-api`;
 
-// الأصول التي تُخزَّن فوراً عند التثبيت
+// Static assets: Cache-First (HTML, CSS, SW itself)
 const PRECACHE_URLS = [
   '/',
   '/index.html',
-  '/manifest.json',
-  'https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;600;700;900&display=swap'
+  '/calc-worker.js',
 ];
 
-// install — precache الأصول الأساسية
-self.addEventListener('install', event => {
-  event.waitUntil(
+// Chunk files: Stale-While-Revalidate
+const CHUNK_PATTERN = /\/data\/.+-data\.js$/;
+
+// API calls: Network-First with 3s timeout fallback
+const API_PATTERN = /api\.anthropic\.com|\/api\//;
+
+// Install — precache static shell
+self.addEventListener('install', e => {
+  e.waitUntil(
     caches.open(STATIC_CACHE)
-      .then(cache => cache.addAll(PRECACHE_URLS).catch(() => {}))
+      .then(c => c.addAll(PRECACHE_URLS))
       .then(() => self.skipWaiting())
   );
 });
 
-// activate — حذف الـ caches القديمة
-self.addEventListener('activate', event => {
-  event.waitUntil(
+// Activate — delete old caches
+self.addEventListener('activate', e => {
+  e.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
-        keys.filter(k => k !== CACHE_NAME && k !== STATIC_CACHE)
-            .map(k => caches.delete(k))
+        keys
+          .filter(k => k.startsWith('qsp-') && !k.startsWith(CACHE_VERSION))
+          .map(k => caches.delete(k))
       )
     ).then(() => self.clients.claim())
   );
 });
 
-// fetch strategy
-self.addEventListener('fetch', event => {
-  const { request } = event;
-  const url = new URL(request.url);
+// Fetch — route by strategy
+self.addEventListener('fetch', e => {
+  const url = e.request.url;
 
-  // لا تتدخل في طلبات الـ API
-  if (url.pathname.startsWith('/api/')) return;
+  // Skip non-GET and cross-origin except API
+  if (e.request.method !== 'GET') return;
 
-  // لا تتدخل في WebSocket أو non-GET
-  if (request.method !== 'GET') return;
-
-  // Chrome extension requests
-  if (!url.protocol.startsWith('http')) return;
-
-  // HTML pages — Network-First (للحصول على آخر تحديث)
-  if (request.headers.get('accept')?.includes('text/html')) {
-    event.respondWith(
-      fetch(request)
-        .then(res => {
-          const clone = res.clone();
-          caches.open(CACHE_NAME).then(c => c.put(request, clone));
-          return res;
-        })
-        .catch(() => caches.match(request).then(cached =>
-          cached || caches.match('/index.html')
-        ))
-    );
+  // API calls: Network-First with timeout
+  if (API_PATTERN.test(url)) {
+    e.respondWith(networkFirstWithTimeout(e.request, 8000, API_CACHE));
     return;
   }
 
-  // Google Fonts — Cache-First
-  if (url.hostname.includes('fonts.g')) {
-    event.respondWith(
-      caches.match(request).then(cached =>
-        cached || fetch(request).then(res => {
-          const clone = res.clone();
-          caches.open(STATIC_CACHE).then(c => c.put(request, clone));
-          return res;
-        })
-      )
-    );
+  // Chunk JS files: Stale-While-Revalidate
+  if (CHUNK_PATTERN.test(url)) {
+    e.respondWith(staleWhileRevalidate(e.request, CHUNK_CACHE));
     return;
   }
 
-  // أصول ثابتة — Stale-While-Revalidate
-  event.respondWith(
-    caches.open(CACHE_NAME).then(cache =>
-      cache.match(request).then(cached => {
-        const fetchPromise = fetch(request).then(res => {
-          if (res && res.status === 200) cache.put(request, res.clone());
-          return res;
-        }).catch(() => null);
-        return cached || fetchPromise;
-      })
-    )
-  );
+  // HTML + static: Cache-First
+  e.respondWith(cacheFirst(e.request, STATIC_CACHE));
 });
 
-// رسالة من الصفحة لتحديث الـ cache
-self.addEventListener('message', event => {
-  if (event.data?.type === 'SKIP_WAITING') self.skipWaiting();
-});
+// ─── Strategies ───
+
+async function cacheFirst(request, cacheName) {
+  const cache = await caches.open(cacheName);
+  const cached = await cache.match(request);
+  if (cached) return cached;
+  try {
+    const response = await fetch(request);
+    if (response.ok) cache.put(request, response.clone());
+    return response;
+  } catch {
+    return new Response('Offline', { status: 503 });
+  }
+}
+
+async function staleWhileRevalidate(request, cacheName) {
+  const cache = await caches.open(cacheName);
+  const cached = await cache.match(request);
+  // Always fetch in background to update cache
+  const fetchPromise = fetch(request).then(response => {
+    if (response.ok) cache.put(request, response.clone());
+    return response;
+  }).catch(() => null);
+  return cached || await fetchPromise || new Response('Not found', { status: 404 });
+}
+
+async function networkFirstWithTimeout(request, timeoutMs, cacheName) {
+  const cache = await caches.open(cacheName);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(request, { signal: controller.signal });
+    clearTimeout(timeout);
+    if (response.ok) cache.put(request, response.clone());
+    return response;
+  } catch {
+    clearTimeout(timeout);
+    const cached = await cache.match(request);
+    return cached || new Response(
+      JSON.stringify({ error: 'Offline — cached response not available' }),
+      { status: 503, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+}
