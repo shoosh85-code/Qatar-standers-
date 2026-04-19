@@ -1184,6 +1184,10 @@ function clearCardFilter() {
 
 // ===== DETAIL MODALS =====
 const detailData = {}; // filled by lazy chunks
+window.detailData = detailData;          // expose for external chunk files
+window._qspMerge = function(obj) {       // called by chunk files to register data
+  Object.assign(detailData, obj);
+};
 // Drain any entries queued before detailData was ready
 window._qspQueue = window._qspQueue || [];
 window._qspQueue.forEach(function(obj){ Object.assign(detailData, obj); });
@@ -1210,14 +1214,15 @@ window.QSP.KEY_TO_CHUNK = {"roads_mat_card": "roads", "gabbro_specs": "roads", "
 
 window.QSP.loadChunk = function(chunkName) {
   if (window.QSP._loaded[chunkName]) return Promise.resolve();
-  if (window.QSP._failed && window.QSP._failed[chunkName]) return Promise.reject(new Error('Previously failed'));
+  // NOTE: No permanent _failed flag — always retry on user interaction
   if (window.QSP._pending[chunkName]) return window.QSP._pending[chunkName];
   const p = new Promise(function(resolve, reject) {
     const s = document.createElement('script');
     s.src = window.QSP.CHUNK_FILES[chunkName] + '?v=1.7.7';
     s.onload = function() {
       window.QSP._loaded[chunkName] = true;
-      // Flush any queued merges (safety net)
+      delete window.QSP._pending[chunkName];
+      // Flush _qspQueue (used by chunk files as safety net)
       if (window._qspQueue && window._qspQueue.length) {
         window._qspQueue.forEach(function(obj) { Object.assign(detailData, obj); });
         window._qspQueue = [];
@@ -1225,9 +1230,7 @@ window.QSP.loadChunk = function(chunkName) {
       resolve();
     };
     s.onerror = function() {
-      window.QSP._loaded[chunkName] = false;
-      window.QSP._failed = window.QSP._failed || {};
-      window.QSP._failed[chunkName] = true;
+      // Delete pending so next click retries — no permanent failure
       delete window.QSP._pending[chunkName];
       reject(new Error('404: ' + s.src));
     };
@@ -4998,7 +5001,7 @@ function resetInspector() {
 (function() {
   const _baseOpenDetail = openDetail;
   
-  openDetail = function(key) {
+  window.openDetail = openDetail = function(key) {
     _baseOpenDetail(key);
     
     // === BREADCRUMB ===
@@ -5353,7 +5356,10 @@ window.QS = (function() {
   // Functions must be defined before this block runs (they are, since this is at end of script)
   publicFns.forEach(function(name) {
     if (typeof window[name] === 'function') {
-      api[name] = window[name].bind(window);
+      api[name] = function() {
+        // Always resolve at call-time to pick up any overrides
+        return window[name].apply(window, arguments);
+      };
     }
   });
   return api;
