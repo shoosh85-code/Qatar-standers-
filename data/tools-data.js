@@ -1,8 +1,14 @@
-// QatarSpec Pro — tools data chunk
-// Lazy-loaded on first section access
-window.QSP = window.QSP || {};
-window.QSP.chunks = window.QSP.chunks || {};
-Object.assign(window.QSP.chunks, {
+// QatarSpec Pro — tools data chunk v1.7.7
+window._qspMerge = window._qspMerge || function(obj) {
+  if (typeof detailData !== 'undefined') {
+    Object.assign(detailData, obj);
+  } else {
+    // detailData not ready yet - queue it
+    window._qspQueue = window._qspQueue || [];
+    window._qspQueue.push(obj);
+  }
+};
+_qspMerge({
 doc_analyzer: { title: '📁 Document Analyzer — Upload Specs, Drawings & BOQ', content: `
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 Upload your project documents → AI analyzes and assists with QC, compliance and quantities
