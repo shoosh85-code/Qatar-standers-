@@ -1,109 +1,121 @@
-export const config = { runtime: 'nodejs' };
+// api/search.js
+const ALLOWED_ORIGIN = 'https://qatar-standers.vercel.app';
+const BODY_LIMIT = 50 * 1024;
 
-const AR_EN = {
-  'خرسانة':'concrete','اسمنت':'cement','حديد':'steel rebar','تسليح':'reinforcement',
-  'تغطية':'cover','غطاء':'cover','أساس':'foundation','جدار':'wall','سقف':'slab',
-  'عمود':'column','كمر':'beam','حفر':'excavation','ردم':'backfill','تربة':'soil',
-  'صرف صحي':'sewage drainage','مياه':'water','كهرباء':'electrical','مجاري':'sewer',
-  'طريق':'road','رصيف':'pavement','اسفلت':'asphalt','بلاط':'tiles',
-  'ضغط':'pressure','مقاومة':'compressive strength','ميلان':'slope','منسوب':'level',
-  'سماكة':'thickness','عرض':'width','ارتفاع':'height','عمق':'depth',
-  'طول':'length','قطر':'diameter','مساحة':'area','نسبة':'ratio',
-  'فحص':'inspection','اختبار':'testing','جودة':'quality','ضبط جودة':'quality control',
-  'نفاذية':'permeability','تمدد':'expansion','انكماش':'shrinkage','تشقق':'cracking',
-  'تسرب':'leakage','عزل':'waterproofing insulation','حريق':'fire','أمان':'safety',
-  'حماية':'protection','درجة':'grade','فئة':'class','تعرض':'exposure',
-  'كهرماء':'kahramaa water','دفاع مدني':'civil defense fire','بلدية':'municipality',
-  'cctv':'CCTV camera surveillance','كاميرا':'camera CCTV',
-  'حد أدنى':'minimum','حد أقصى':'maximum','متطلبات':'requirements',
-  'مواصفات':'specifications','اشتراطات':'requirements specifications',
-};
-
-function translateQuery(q) {
-  let out = q;
-  for (const [ar, en] of Object.entries(AR_EN))
-    out = out.replace(new RegExp(ar, 'g'), en);
-  return out;
-}
-
-function hasArabic(str) { return /[\u0600-\u06FF]/.test(str); }
-
-// Deduplicate by content fingerprint (first 120 chars)
-function deduplicate(results) {
-  const seen = new Set();
-  return results.filter(r => {
-    const key = (r.content || '').trim().slice(0, 120);
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+function setCORS(req, res) {
+  const origin = req.headers.origin;
+  if (origin === ALLOWED_ORIGIN) {
+    res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
+    res.setHeader('Vary', 'Origin');
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 }
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST')   return res.status(405).json({ error: 'Method not allowed' });
+  setCORS(req, res);
 
-  const { query, limit = 6 } = req.body || {};
-  if (!query || query.trim().length < 2)
-    return res.status(400).json({ error: 'Query too short' });
+  if (req.method === 'OPTIONS') return res.status(204).end();
 
-  const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!SUPABASE_URL || !SUPABASE_KEY)
-    return res.status(500).json({ error: 'Missing Supabase env vars' });
+  if (req.method !== 'POST')
+    return res.status(405).json({ error: 'Method not allowed' });
 
-  const q        = query.trim();
-  const isArabic = hasArabic(q);
-  const qEn      = isArabic ? translateQuery(q) : q;
-  const combined = isArabic ? `${qEn} ${q}`.trim() : q;
+  const cl = parseInt(req.headers['content-length'] || '0', 10);
+  if (cl > BODY_LIMIT)
+    return res.status(413).json({ error: 'الطلب كبير جداً', code: 'PAYLOAD_TOO_LARGE' });
 
-  async function callRPC(queryText, maxResults) {
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/rpc/search_qcs`, {
-      method : 'POST',
-      headers: {
-        'apikey'       : SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
-        'Content-Type' : 'application/json',
-      },
-      body: JSON.stringify({ query_text: queryText, max_results: maxResults }),
+  const { query, section, category } = req.body || {};
+
+  if (!query || typeof query !== 'string' || query.trim().length < 2)
+    return res.status(400).json({ error: 'الرجاء إدخال كلمة البحث', code: 'INVALID_INPUT' });
+
+  const q = query.trim().toLowerCase();
+
+  // ── Static QCS 2024 index ──────────────────────────────────────────────────
+  const QCS_DATA = [
+    {
+      section: 'Section 05', part: 'Part 04', clause: '4.3.1',
+      topic: 'concrete cover reinforcement',
+      ar: 'الغطاء الخرساني للحديد',
+      answer: 'الغطاء الخرساني: الأساسات الملامسة للتربة = 75mm، فوق Blinding = 50mm، الأعمدة والجدران = 35mm (بيئة معتدلة). (QCS 2024 — Section 05, Part 04, Clause 4.3.1)'
+    },
+    {
+      section: 'Section 06', part: 'Part 02', clause: '2.4',
+      topic: 'subbase compaction ratio proctor',
+      ar: 'نسبة دمك السبيس subbase',
+      answer: 'نسبة الدمك للـ Subbase: لا تقل عن 100% من Modified Proctor (AASHTO T-180). اختبار كل 500m² أو حسب تعليمات المهندس المشرف. (QCS 2024 — Section 06, Part 02, Clause 2.4)'
+    },
+    {
+      section: 'Section 06', part: 'Part 02', clause: '2.3',
+      topic: 'CBR subbase minimum value',
+      ar: 'CBR للسبيس',
+      answer: 'CBR minimum للـ Subbase: ≥ 25% عند 98% Modified Proctor. يُختبر وفق BS 1377 أو AASHTO T193. (QCS 2024 — Section 06, Clause 2.3)'
+    },
+    {
+      section: 'Section 08', part: 'Part 03', clause: '3.2',
+      topic: 'pressure test pipe water hydrostatic',
+      ar: 'اختبار ضغط المواسير',
+      answer: 'ضغط الاختبار = 1.5 × PN لمدة ساعتين. الهبوط المسموح: ≤ 0.5 bar. يُطبَّق على كل شبكة قبل الردم. (QCS 2024 — Section 08, Clause 3.2)'
+    },
+    {
+      section: 'Section 05', part: 'Part 05', clause: '5.1',
+      topic: 'hot weather concreting temperature cement ice',
+      ar: 'صب الخرسانة في الحر',
+      answer: 'درجة حرارة الخرسانة عند الصب: ≤ 32°C. استخدم الثلج أو الماء البارد. توقف الصب إذا تجاوزت درجة الهواء 40°C. (QCS 2024 — Section 05, Part 05, Clause 5.1)'
+    },
+    {
+      section: 'Section 05', part: 'Part 03', clause: '3.1',
+      topic: 'rebar lap splice length overlap',
+      ar: 'طول وصل حديد التسليح',
+      answer: 'طول الوصل الأدنى: 40× قطر الحديد للمناطق العادية، 50× للمناطق الزلزالية. لا يُسمح بأكثر من 50% من القضبان موصولة في مقطع واحد. (QCS 2024 — Section 05, Clause 3.1)'
+    },
+    {
+      section: 'Section 06', part: 'Part 03', clause: '3.4',
+      topic: 'asphalt laying temperature paving roller',
+      ar: 'درجة حرارة فرد الإسفلت',
+      answer: 'درجة فرد الإسفلت: 130–160°C. درجة الدمك لا تقل عن 110°C. عدد مرات الدمك: 6-8 مرات على الأقل بـ Roller. (QCS 2024 — Section 06, Part 03, Clause 3.4)'
+    },
+    {
+      section: 'Section 06', part: 'Part 01', clause: '1.3',
+      topic: 'subgrade compaction fill embankment',
+      ar: 'دمك الساب جريد subgrade',
+      answer: 'نسبة الدمك للـ Subgrade: ≥ 95% من Modified Proctor في الطبقة العليا (300mm). ≥ 90% للطبقات الأعمق. (QCS 2024 — Section 06, Part 01, Clause 1.3)'
+    },
+    {
+      section: 'Section 05', part: 'Part 02', clause: '2.1',
+      topic: 'concrete grade strength mix design',
+      ar: 'درجات الخرسانة',
+      answer: 'الحد الأدنى لقوة الخرسانة: الأساسات = C30، الأعمدة = C35، الجسور = C40. نسبة الماء للسمنت w/c: ≤ 0.45 لبيئة البحر. (QCS 2024 — Section 05, Part 02, Clause 2.1)'
+    },
+    {
+      section: 'Section 05', part: 'Part 06', clause: '6.2',
+      topic: 'pile load test static kentledge',
+      ar: 'اختبار الخوازيق load test',
+      answer: 'اختبار الحمل الساكن للخوازيق: 1.5× حمل التصميم. مدة الاختبار: 24 ساعة على الأقل. يُطبَّق على 1% من إجمالي الخوازيق أو خازوق واحد بالحد الأدنى. (QCS 2024 — Section 05, Clause 6.2)'
+    },
+  ];
+
+  // ── Search logic ────────────────────────────────────────────────────────────
+  const results = QCS_DATA.filter(item => {
+    const searchIn = `${item.topic} ${item.ar} ${item.answer} ${item.section} ${item.clause}`.toLowerCase();
+    const words = q.split(/\s+/).filter(w => w.length > 1);
+    return words.some(word => searchIn.includes(word));
+  });
+
+  if (results.length > 0) {
+    return res.status(200).json({
+      results: results.slice(0, 3),
+      total: results.length,
+      query: query.trim(),
+      source: 'QCS 2024 — Static Index',
     });
-    if (!r.ok) throw new Error(`Supabase ${r.status}: ${await r.text()}`);
-    return r.json();
   }
 
-  let raw = [];
-  try {
-    // Strategy 1: combined query (translated + arabic)
-    raw = await callRPC(combined, limit * 3); // fetch more then deduplicate
-    if (!Array.isArray(raw) || raw.length === 0) {
-      // Strategy 2: English only
-      raw = await callRPC(qEn, limit * 3);
-    }
-    if (!Array.isArray(raw) || raw.length === 0) {
-      // Strategy 3: original as-is
-      raw = await callRPC(q, limit * 3);
-    }
-  } catch (err) {
-    return res.status(500).json({ error: err.message, results: [] });
-  }
-
-  // Normalize fields
-  const normalized = (raw || []).map(r => ({
-    id        : r.id,
-    content   : r.content   || r.chunk_text || r.text        || '',
-    source    : r.source_file || r.source   || r.file_name   || '',
-    section   : r.section_num
-                  ? `${r.section_num}${r.section_name ? ' — ' + r.section_name : ''}`
-                  : (r.section || r.title || null),
-    page      : r.page_num  || r.page       || null,
-    similarity: r.similarity || r.score     || r.rank        || null,
-  }));
-
-  // Deduplicate + limit
-  const results = deduplicate(normalized).slice(0, limit);
-
-  return res.status(200).json({ results, count: results.length });
+  return res.status(200).json({
+    results: [],
+    total: 0,
+    query: query.trim(),
+    source: 'QCS 2024 — Static Index',
+    message: `لم يُعثر على نتيجة لـ "${query.trim()}" في الفهرس السريع. جرّب كلمات مفتاحية مختلفة.`,
+  });
 }
