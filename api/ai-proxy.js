@@ -1,4 +1,6 @@
 // api/ai-proxy.js
+import { rateLimit } from '../middleware/rateLimit.js';
+
 const ALLOWED_ORIGIN = 'https://qatar-standers.vercel.app';
 const MODEL = 'claude-sonnet-4-6';
 const MAX_TOKENS = 1024;
@@ -32,6 +34,8 @@ export default async function handler(req, res) {
 
   if (req.method !== 'POST')
     return send(res, 405, { error: 'الطريقة غير مسموح بها', code: 'METHOD_NOT_ALLOWED' });
+
+  if (!rateLimit(req, res)) return;
 
   const cl = parseInt(req.headers['content-length'] || '0', 10);
   if (cl > BODY_LIMIT)
