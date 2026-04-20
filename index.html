@@ -2,6 +2,7 @@
 
 
 
+
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════
   QatarSpec Pro — Changelog
@@ -4237,18 +4238,29 @@ showToast('✅ تم تصدير التقرير اليومي');
 }
 
 // ===== ESAL CALCULATOR =====
-// ─── Web Worker setup for heavy calcs ───
+// ─── Blob Worker — avoids 401 Unauthorized on /calc-worker.js ───
 window.QSP = window.QSP || {};
 (function() {
   if (typeof Worker === 'undefined') return;
   try {
-    window.QSP._worker = new Worker('/calc-worker.js');
+    var workerCode = 'self.onmessage = function(e) {\n' +
+      '  var id = e.data.id, fn = e.data.fn, args = e.data.args;\n' +
+      '  if (fn === \'calcESAL\') {\n' +
+      '    var aadt = parseFloat(args.aadt), tr = parseFloat(args.truckPct)/100;\n' +
+      '    var g = parseFloat(args.growth)/100, l = parseFloat(args.life||20);\n' +
+      '    var gf = g > 0 ? ((Math.pow(1+g,l)-1)/g) : l;\n' +
+      '    var esal = aadt * tr * 365 * gf * 0.5 / 1000000;\n' +
+      '    var d = esal<0.3?\'T1\':esal<1?\'T2\':esal<3?\'T3\':esal<10?\'T4\':esal<30?\'T5\':\'T6\';\n' +
+      '    self.postMessage({ id:id, ok:true, data:{ totalESAL:esal.toFixed(2), designation:d, growthFactor:gf.toFixed(1) } });\n' +
+      '  }\n' +
+      '};';
+    var blob = new Blob([workerCode], { type: 'application/javascript' });
+    window.QSP._worker = new Worker(URL.createObjectURL(blob));
     window.QSP._worker_cbs = {};
     window.QSP._worker_seq = 0;
     window.QSP._worker.onmessage = function(e) {
-      const { id, ok, data, error } = e.data;
-      const cb = window.QSP._worker_cbs[id];
-      if (cb) { delete window.QSP._worker_cbs[id]; cb(ok ? null : new Error(error), data); }
+      var d = e.data, cb = window.QSP._worker_cbs[d.id];
+      if (cb) { delete window.QSP._worker_cbs[d.id]; cb(d.ok ? null : new Error(d.error), d.data); }
     };
     window.QSP._worker.onerror = function() { window.QSP._worker = null; };
   } catch(e) { window.QSP._worker = null; }
