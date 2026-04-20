@@ -1,5 +1,11 @@
 {
   "version": 2,
+  "regions": ["fra1"],
+  "functions": {
+    "api/ai-proxy.js": { "maxDuration": 30, "regions": ["fra1","cdg1"] },
+    "api/search.js":   { "maxDuration": 10, "regions": ["fra1","cdg1"] },
+    "api/health.js":   { "maxDuration": 5,  "regions": ["fra1","cdg1","iad1"] }
+  },
   "headers": [
     {
       "source": "/(.*)",
@@ -8,18 +14,11 @@
           "key": "Content-Security-Policy",
           "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.anthropic.com; frame-src https://www.youtube.com; media-src 'self' blob:; worker-src 'self' blob:; img-src 'self' data: blob:; object-src 'none'; upgrade-insecure-requests;"
         },
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        }
+        { "key": "X-Content-Type-Options",    "value": "nosniff" },
+        { "key": "X-Frame-Options",           "value": "DENY" },
+        { "key": "Referrer-Policy",           "value": "strict-origin-when-cross-origin" },
+        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
+        { "key": "Permissions-Policy",        "value": "camera=(), microphone=(), geolocation=()" }
       ]
     }
   ],
