@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════
   QatarSpec Pro — Changelog
@@ -82,7 +83,7 @@
   script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   font-src 'self' https://fonts.gstatic.com;
-  connect-src 'self' https://api.anthropic.com;
+  connect-src 'self' https://api.anthropic.com https://jwhgeolbkqdtedrmkszn.supabase.co;
   frame-src https://www.youtube.com;
   media-src 'self' blob:;
   worker-src 'self' blob:;
@@ -510,6 +511,8 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 </style>
 <link rel="preload" as="script" href="/data/structural-data.js?v=1.7.6">
 <link rel="preload" as="script" href="/calc-worker.js">
+<meta name="supabase-url" content="https://jwhgeolbkqdtedrmkszn.supabase.co">
+<meta name="supabase-anon-key" content="sb_publishable__Ixr90T5aM5mlCuSHbKQEQ_euf8N1hu">
 </head>
 <body>
 
@@ -3430,7 +3433,8 @@ function _printFallback(title, proj, today) {
     '<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Cairo,Tajawal,Arial,sans-serif;direction:rtl;background:#fff;color:#1a1a1a;font-size:13px;line-height:1.6}.hdr{background:#7a1515;color:#c9a84c;padding:14px 20px;display:flex;justify-content:space-between}.wrap{padding:16px 20px}table{width:100%;border-collapse:collapse;font-size:11px}th{background:#7a1515;color:#fff;padding:7px 8px;border:1px solid #6a1010}td{padding:6px 8px;border:1px solid #ddd}tr:nth-child(even)td{background:#fafafa}.ftr{padding:10px 20px;border-top:1px solid #ddd;display:flex;justify-content:space-between;font-size:10px;color:#888}@media print{body{-webkit-print-color-adjust:exact}}</style>' +
     '</head><body><div class="hdr"><div style="font-size:18px;font-weight:700">QatarSpec Pro</div><div style="font-size:10px;color:#fff;text-align:left">' + today + (proj ? '<br>' + proj : '') + '</div></div>' +
     '<div class="wrap"><h2 style="color:#7a1515;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #c9a84c;font-size:16px">' + title + '</h2>' + contentHTML + '</div>' +
-    '<div class="ftr"><span>QatarSpec Pro — QCS 2024</span><span>qatar-standers.vercel.app</span></div></body></html>');
+    '<div class="ftr"><span>QatarSpec Pro — QCS 2024</span><span>qatar-standers.vercel.app</span></div><script src="js/auth.js"></script>
+</body></html>');
   w.document.close(); w.focus();
   safeTimeout('printDialog', function() { w.print(); }, 1800);
   showToast('✅ جاري الطباعة');
