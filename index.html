@@ -504,7 +504,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       <div class="group-header-title" style="color:#C9A84C">مركز التصميم والحاسبات</div>
       <div class="group-header-sub" style="color:#C9A84C">Design & Calculation Hub</div>
     </div>
-    <div class="group-header-count" style="background:#C9A84C33;color:#C9A84C">4 أقسام</div>
+    <div class="group-header-count" style="background:#C9A84C33;color:#C9A84C">7 أقسام</div>
   </div>
   <div class="group-grid">
     <div class="cat-card" onclick="QS.openDetail('calculator')" data-keywords="حاسبة calculator pass fail اختبار"><span class="cat-emoji">🧮</span><div class="cat-name">حاسبة المواصفات</div><div class="cat-desc">أدخل أي اختبار → Pass أو Fail فوراً</div><div class="cat-bottom"><span class="cat-count">38+ اختبار</span><span class="cat-arr">←</span></div></div>
@@ -512,6 +512,9 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div class="cat-card" onclick="QS.openDetail('mix_design_validator')" data-keywords="خلطة mix design validator sulphate"><span class="cat-emoji">🧪</span><div class="cat-name">Mix Design Validator</div><div class="cat-desc">تحقق من خلطة الخرسانة vs QCS Durability</div><div class="cat-bottom"><span class="cat-count">Sulphate + w/c</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="QS.openDetail('pipe_sizing_calc')" data-keywords="مواسير pipe sizing حاسبة manning"><span class="cat-emoji">🔧</span><div class="cat-name">حاسبة أقطار المواسير</div><div class="cat-desc">Q → DN + Velocity Check + Material</div><div class="cat-bottom"><span class="cat-count">Manning + Hazen</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="QS.openDetail('materials_calculator_buildings')" data-keywords="كميات مواد بناء خرسانة حديد طابوق اسمنت مبنى"><span class="cat-emoji">🏗️</span><div class="cat-name" data-ar="حاسبة كميات المباني" data-en="Building Materials Calc">حاسبة كميات المباني</div><div class="cat-desc" data-ar="خرسانة + حديد + بلوك + اسمنت + رمل" data-en="Concrete + Rebar + Block + Cement">خرسانة + حديد + بلوك + اسمنت</div><div class="cat-bottom"><span class="cat-count">QCS S5</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="QS.openDetail('rebar_cover_calc')" data-keywords="حديد تسليح rebar cover lap length غطاء وصلة"><span class="cat-emoji">🔩</span><div class="cat-name">حاسبة الحديد والتسليح</div><div class="cat-desc">fy/fu Pass-Fail + Cover + Lap Length</div><div class="cat-bottom"><span class="cat-count">QCS S5 + BS 8666</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="QS.openDetail('road_layers_calc')" data-keywords="طبقات طريق حجم كمية اسفلت subgrade subbase binder wearing"><span class="cat-emoji">🛣️</span><div class="cat-name">حاسبة طبقات الطريق</div><div class="cat-desc">أبعاد الطريق → حجم وأطنان كل طبقة</div><div class="cat-bottom"><span class="cat-count">QCS S6 + S8</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="QS.openDetail('soil_grading_calc')" data-keywords="تربة تصنيف spt grading pi ll p200 بلوك blockwork"><span class="cat-emoji">🔬</span><div class="cat-name">حاسبة التربة والبلوك</div><div class="cat-desc">SPT + تصنيف التربة + كميات البلوك</div><div class="cat-bottom"><span class="cat-count">QCS S5 + S6</span><span class="cat-arr">←</span></div></div>
   </div>
 </div>
 
@@ -9176,6 +9179,374 @@ content: `
 
 
 
+// ===== PHASE 3: CALCULATOR 1 — Rebar, Cover, Lap Length =====
+rebar_cover_calc: {
+title: '🔩 حاسبة الحديد والتسليح — Rebar, Cover & Lap',
+content: `
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
+📌 QCS 2024 S5 P4 + BS 8666 | فحص مواصفات التسليح فوراً
+</div>
+
+<!-- TAB SWITCHER -->
+<div style="display:flex;gap:0;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid rgba(201,168,76,0.3);">
+  <button id="reb-tab-steel" onclick="
+    document.getElementById('reb-panel-steel').style.display='block';
+    document.getElementById('reb-panel-cover').style.display='none';
+    document.getElementById('reb-panel-lap').style.display='none';
+    this.style.background='rgba(201,168,76,0.2)'; this.style.color='var(--gold)';
+    document.getElementById('reb-tab-cover').style.background='var(--dark4)'; document.getElementById('reb-tab-cover').style.color='var(--text2)';
+    document.getElementById('reb-tab-lap').style.background='var(--dark4)'; document.getElementById('reb-tab-lap').style.color='var(--text2)';"
+    style="flex:1;padding:10px;border:none;background:rgba(201,168,76,0.2);color:var(--gold);font-weight:700;font-size:12px;cursor:pointer;font-family:Tajawal,sans-serif;">
+    🔩 فحص الحديد<br><span style="font-size:10px;font-weight:400">fy / fu</span>
+  </button>
+  <button id="reb-tab-cover" onclick="
+    document.getElementById('reb-panel-steel').style.display='none';
+    document.getElementById('reb-panel-cover').style.display='block';
+    document.getElementById('reb-panel-lap').style.display='none';
+    this.style.background='rgba(201,168,76,0.2)'; this.style.color='var(--gold)';
+    document.getElementById('reb-tab-steel').style.background='var(--dark4)'; document.getElementById('reb-tab-steel').style.color='var(--text2)';
+    document.getElementById('reb-tab-lap').style.background='var(--dark4)'; document.getElementById('reb-tab-lap').style.color='var(--text2)';"
+    style="flex:1;padding:10px;border:none;background:var(--dark4);color:var(--text2);font-size:12px;cursor:pointer;font-family:Tajawal,sans-serif;">
+    📏 فحص الغطاء<br><span style="font-size:10px">Cover Check</span>
+  </button>
+  <button id="reb-tab-lap" onclick="
+    document.getElementById('reb-panel-steel').style.display='none';
+    document.getElementById('reb-panel-cover').style.display='none';
+    document.getElementById('reb-panel-lap').style.display='block';
+    this.style.background='rgba(201,168,76,0.2)'; this.style.color='var(--gold)';
+    document.getElementById('reb-tab-steel').style.background='var(--dark4)'; document.getElementById('reb-tab-steel').style.color='var(--text2)';
+    document.getElementById('reb-tab-cover').style.background='var(--dark4)'; document.getElementById('reb-tab-cover').style.color='var(--text2)';"
+    style="flex:1;padding:10px;border:none;background:var(--dark4);color:var(--text2);font-size:12px;cursor:pointer;font-family:Tajawal,sans-serif;">
+    🔗 طول الوصلة<br><span style="font-size:10px">Lap Length</span>
+  </button>
+</div>
+
+<!-- PANEL 1: Rebar Steel Check -->
+<div id="reb-panel-steel">
+  <p style="font-size:11px;color:var(--text3);margin-bottom:10px;">فحص مواصفات الحديد حسب QCS S5 + BS 4449 — ادخل نتائج اختبار الشد</p>
+  <div style="background:var(--dark4);border-radius:10px;padding:12px;margin-bottom:10px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div>
+        <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">fy — Yield Strength (MPa):</label>
+        <input type="number" id="reb-fy" placeholder="e.g. 530" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:13px;">
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">fu — Ultimate Strength (MPa):</label>
+        <input type="number" id="reb-fu" placeholder="e.g. 640" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:13px;">
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">Elongation % (اختياري):</label>
+        <input type="number" id="reb-elong" placeholder="e.g. 16" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:13px;">
+      </div>
+      <div style="display:flex;align-items:flex-end;">
+        <button onclick="calcRebar()" style="width:100%;padding:9px;background:linear-gradient(135deg,var(--maroon),var(--maroon2));border:1px solid rgba(201,168,76,0.3);border-radius:8px;color:var(--gold2);font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">⚡ فحص الآن</button>
+      </div>
+    </div>
+  </div>
+  <div class="calc-result" id="reb-result"></div>
+  <div style="background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:10px;margin-top:10px;">
+    <div style="font-size:11px;font-weight:700;color:var(--gold);margin-bottom:6px;">📋 المعايير (QCS S5 + BS 4449 B500B)</div>
+    <table class="dm-table"><thead><tr><th>الخاصية</th><th>الحد الأدنى</th></tr></thead><tbody>
+      <tr><td>fy — Yield Strength</td><td>≥ 500 MPa</td></tr>
+      <tr><td>fu — Ultimate Strength</td><td>≥ 600 MPa</td></tr>
+      <tr><td>fu/fy Ratio</td><td>≥ 1.15</td></tr>
+      <tr><td>Elongation</td><td>≥ 14%</td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- PANEL 2: Cover Check -->
+<div id="reb-panel-cover" style="display:none;">
+  <p style="font-size:11px;color:var(--text3);margin-bottom:10px;">فحص غطاء الخرسانة الفعلي مقابل المطلوب حسب QCS S5 P4</p>
+  <div style="background:var(--dark4);border-radius:10px;padding:12px;margin-bottom:10px;">
+    <div style="margin-bottom:10px;">
+      <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">نوع العنصر / Exposure Class:</label>
+      <select id="cover-type" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:12px;">
+        <option value="75">الأساسات المباشرة بالتربة (75mm)</option>
+        <option value="50">أعمدة / جدران خارجية — XS2 (50mm)</option>
+        <option value="40">أعمدة / جدران داخلية وخارجية (40mm)</option>
+        <option value="35">جسور / Beams خارجية (35mm)</option>
+        <option value="30">بلاطات Slabs خارجية (30mm)</option>
+        <option value="20">عناصر داخلية محمية (20mm)</option>
+        <option value="15">Blinding / عزل (15mm)</option>
+      </select>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div>
+        <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">الغطاء الفعلي المقاس (mm):</label>
+        <input type="number" id="cover-val" placeholder="e.g. 45" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:13px;">
+      </div>
+      <div style="display:flex;align-items:flex-end;">
+        <button onclick="calcCover()" style="width:100%;padding:9px;background:linear-gradient(135deg,var(--maroon),var(--maroon2));border:1px solid rgba(201,168,76,0.3);border-radius:8px;color:var(--gold2);font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">⚡ فحص الغطاء</button>
+      </div>
+    </div>
+  </div>
+  <div class="calc-result" id="cover-result"></div>
+  <div style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:8px;margin-top:8px;font-size:11px;color:var(--text3);">
+    ℹ️ في قطر: Cover الأساسات يُزاد بـ 10mm إضافية للبيئة العدوانية (كبريتات + رطوبة)
+  </div>
+</div>
+
+<!-- PANEL 3: Lap Length -->
+<div id="reb-panel-lap" style="display:none;">
+  <p style="font-size:11px;color:var(--text3);margin-bottom:10px;">حساب طول الوصلة المطلوب وفحص الطول الفعلي — QCS S5 + BS 8666</p>
+  <div style="background:var(--dark4);border-radius:10px;padding:12px;margin-bottom:10px;">
+    <div style="margin-bottom:10px;">
+      <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">نوع الوصلة / موقع الحديد:</label>
+      <select id="lap-type" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:12px;">
+        <option value="40">حديد ضغط — Compression Zone (40d)</option>
+        <option value="50">حديد شد منطقة طبيعية — Tension (50d)</option>
+        <option value="60">حديد شد منطقة حرجة (60d)</option>
+        <option value="65">بيئة عدوانية — Aggressive (65d)</option>
+      </select>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+      <div>
+        <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">قطر الحديد d (mm):</label>
+        <input type="number" id="lap-dia" placeholder="e.g. 16" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:13px;">
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">الطول الفعلي (mm):</label>
+        <input type="number" id="lap-actual" placeholder="e.g. 800" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:13px;">
+      </div>
+      <div style="display:flex;align-items:flex-end;">
+        <button onclick="calcLapLength()" style="width:100%;padding:9px;background:linear-gradient(135deg,var(--maroon),var(--maroon2));border:1px solid rgba(201,168,76,0.3);border-radius:8px;color:var(--gold2);font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">⚡ احسب</button>
+      </div>
+    </div>
+  </div>
+  <div class="calc-result" id="lap-result"></div>
+  <div style="background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:10px;margin-top:10px;">
+    <div style="font-size:11px;font-weight:700;color:var(--gold);margin-bottom:6px;">📋 جدول الوصلات الشائعة (BS 8666 + QCS S5)</div>
+    <table class="dm-table"><thead><tr><th>القطر</th><th>40d</th><th>50d</th><th>60d</th></tr></thead><tbody>
+      <tr><td>T10</td><td>400mm</td><td>500mm</td><td>600mm</td></tr>
+      <tr><td>T12</td><td>480mm</td><td>600mm</td><td>720mm</td></tr>
+      <tr><td>T16</td><td>640mm</td><td>800mm</td><td>960mm</td></tr>
+      <tr><td>T20</td><td>800mm</td><td>1000mm</td><td>1200mm</td></tr>
+      <tr><td>T25</td><td>1000mm</td><td>1250mm</td><td>1500mm</td></tr>
+      <tr><td>T32</td><td>1280mm</td><td>1600mm</td><td>1920mm</td></tr>
+    </tbody></table>
+  </div>
+</div>
+`},
+
+// ===== PHASE 3: CALCULATOR 2 — Road Layers =====
+road_layers_calc: {
+title: '🛣️ حاسبة طبقات الطريق — كميات وأحجام',
+content: `
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
+📌 QCS 2024 S6 + S8 | أبعاد الطريق → حجم (m³) وكتلة (طن) لكل طبقة
+</div>
+<p style="font-size:11px;color:var(--text3);margin-bottom:10px;">أدخل أبعاد الطريق وسماكات الطبقات (mm) → الحاسبة تحسب الكميات الكاملة</p>
+
+<!-- DIMENSIONS -->
+<div style="background:var(--dark4);border-radius:10px;padding:12px;margin-bottom:10px;">
+  <div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:8px;">📐 أبعاد الطريق</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+    <div>
+      <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">الطول L (m):</label>
+      <input type="number" id="rl-length" placeholder="e.g. 500" oninput="calcRoadLayers()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:13px;">
+    </div>
+    <div>
+      <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">العرض W (m):</label>
+      <input type="number" id="rl-width" placeholder="e.g. 7.3" oninput="calcRoadLayers()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:13px;">
+    </div>
+  </div>
+</div>
+
+<!-- LAYER THICKNESSES -->
+<div style="background:var(--dark4);border-radius:10px;padding:12px;margin-bottom:10px;">
+  <div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:8px;">📏 سماكات الطبقات (mm) — اترك فارغاً إذا لا توجد</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+    <div>
+      <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">Subgrade (mm):</label>
+      <input type="number" id="rl-subgrade" placeholder="e.g. 200" oninput="calcRoadLayers()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:12px;">
+    </div>
+    <div>
+      <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">Sub-base (mm):</label>
+      <input type="number" id="rl-subbase" placeholder="e.g. 250" oninput="calcRoadLayers()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:12px;">
+    </div>
+    <div>
+      <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">Base Course (mm):</label>
+      <input type="number" id="rl-base" placeholder="e.g. 150" oninput="calcRoadLayers()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:12px;">
+    </div>
+    <div>
+      <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">Binder Course (mm):</label>
+      <input type="number" id="rl-binder" placeholder="e.g. 60" oninput="calcRoadLayers()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:12px;">
+    </div>
+    <div>
+      <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">Wearing Course (mm):</label>
+      <input type="number" id="rl-wearing" placeholder="e.g. 40" oninput="calcRoadLayers()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:12px;">
+    </div>
+    <div style="display:flex;align-items:flex-end;">
+      <button onclick="calcRoadLayers()" style="width:100%;padding:9px;background:linear-gradient(135deg,var(--maroon),var(--maroon2));border:1px solid rgba(201,168,76,0.3);border-radius:8px;color:var(--gold2);font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">⚡ احسب الكميات</button>
+    </div>
+  </div>
+</div>
+
+<div class="calc-result" id="rl-result"></div>
+
+<div style="background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:10px;margin-top:10px;">
+  <div style="font-size:11px;font-weight:700;color:var(--gold);margin-bottom:6px;">📋 السماكات القياسية — Ashghal RDM 2023</div>
+  <table class="dm-table"><thead><tr><th>نوع الطريق</th><th>Wearing</th><th>Binder</th><th>Base</th><th>Sub-base</th></tr></thead><tbody>
+    <tr><td>محلي (Local)</td><td>40mm</td><td>—</td><td>100mm</td><td>200mm</td></tr>
+    <tr><td>جامع (Collector)</td><td>40mm</td><td>60mm</td><td>150mm</td><td>250mm</td></tr>
+    <tr><td>شرياني (Arterial)</td><td>45mm</td><td>70mm</td><td>175mm</td><td>300mm</td></tr>
+    <tr><td>سريع (Expressway)</td><td>50mm</td><td>80mm</td><td>200mm</td><td>350mm</td></tr>
+  </tbody></table>
+</div>
+`},
+
+// ===== PHASE 3: CALCULATOR 3 — Soil Grading + SPT + Blockwork =====
+soil_grading_calc: {
+title: '🔬 حاسبة التربة والبلوك — SPT + Grading + Blockwork',
+content: `
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
+📌 QCS 2024 S5 + S6 | 3 حاسبات في مكان واحد
+</div>
+
+<!-- TAB SWITCHER -->
+<div style="display:flex;gap:0;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid rgba(201,168,76,0.3);">
+  <button id="soil-tab-spt" onclick="
+    ['soil-panel-spt','soil-panel-gp','soil-panel-bw'].forEach(function(id){document.getElementById(id).style.display='none';});
+    document.getElementById('soil-panel-spt').style.display='block';
+    ['soil-tab-spt','soil-tab-gp','soil-tab-bw'].forEach(function(id){document.getElementById(id).style.background='var(--dark4)';document.getElementById(id).style.color='var(--text2)';});
+    this.style.background='rgba(201,168,76,0.2)'; this.style.color='var(--gold)';"
+    style="flex:1;padding:9px;border:none;background:rgba(201,168,76,0.2);color:var(--gold);font-weight:700;font-size:11px;cursor:pointer;font-family:Tajawal,sans-serif;">
+    🔬 SPT<br><span style="font-size:10px;font-weight:400">N-Value</span>
+  </button>
+  <button id="soil-tab-gp" onclick="
+    ['soil-panel-spt','soil-panel-gp','soil-panel-bw'].forEach(function(id){document.getElementById(id).style.display='none';});
+    document.getElementById('soil-panel-gp').style.display='block';
+    ['soil-tab-spt','soil-tab-gp','soil-tab-bw'].forEach(function(id){document.getElementById(id).style.background='var(--dark4)';document.getElementById(id).style.color='var(--text2)';});
+    this.style.background='rgba(201,168,76,0.2)'; this.style.color='var(--gold)';"
+    style="flex:1;padding:9px;border:none;background:var(--dark4);color:var(--text2);font-size:11px;cursor:pointer;font-family:Tajawal,sans-serif;">
+    📊 تصنيف التربة<br><span style="font-size:10px">PI / LL / Grading</span>
+  </button>
+  <button id="soil-tab-bw" onclick="
+    ['soil-panel-spt','soil-panel-gp','soil-panel-bw'].forEach(function(id){document.getElementById(id).style.display='none';});
+    document.getElementById('soil-panel-bw').style.display='block';
+    ['soil-tab-spt','soil-tab-gp','soil-tab-bw'].forEach(function(id){document.getElementById(id).style.background='var(--dark4)';document.getElementById(id).style.color='var(--text2)';});
+    this.style.background='rgba(201,168,76,0.2)'; this.style.color='var(--gold)';"
+    style="flex:1;padding:9px;border:none;background:var(--dark4);color:var(--text2);font-size:11px;cursor:pointer;font-family:Tajawal,sans-serif;">
+    🧱 كميات البلوك<br><span style="font-size:10px">Blockwork</span>
+  </button>
+</div>
+
+<!-- PANEL 1: SPT -->
+<div id="soil-panel-spt">
+  <p style="font-size:11px;color:var(--text3);margin-bottom:10px;">أدخل N-Value من اختبار SPT → الحاسبة تحدد تصنيف التربة وصلاحيتها</p>
+  <div style="background:var(--dark4);border-radius:10px;padding:12px;margin-bottom:10px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div>
+        <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">نوع التربة / Soil Type:</label>
+        <select id="spt-type" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:12px;">
+          <option value="sand">رملية / Sandy</option>
+          <option value="clay">طينية / Clay</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">N-Value (عدد الضربات):</label>
+        <input type="number" id="spt-val" placeholder="e.g. 25" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:13px;">
+      </div>
+    </div>
+    <button onclick="calcSPT()" style="width:100%;margin-top:8px;padding:9px;background:linear-gradient(135deg,var(--maroon),var(--maroon2));border:1px solid rgba(201,168,76,0.3);border-radius:8px;color:var(--gold2);font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">⚡ تصنيف التربة</button>
+  </div>
+  <div class="calc-result" id="spt-result"></div>
+  <div style="background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:10px;margin-top:10px;">
+    <div style="font-size:11px;font-weight:700;color:var(--gold);margin-bottom:6px;">📋 تصنيف SPT (BS EN ISO 22476)</div>
+    <table class="dm-table"><thead><tr><th>N-Value</th><th>رمل</th><th>طين</th></tr></thead><tbody>
+      <tr><td>&lt; 4</td><td>Loose جداً ⛔</td><td>Soft جداً ⛔</td></tr>
+      <tr><td>4–10</td><td>Loose ⚠️</td><td>Soft ⚠️</td></tr>
+      <tr><td>10–30</td><td>Medium Dense ✅</td><td>Stiff ✅</td></tr>
+      <tr><td>30–50</td><td>Dense ✅</td><td>Very Stiff ✅</td></tr>
+      <tr><td>&gt; 50</td><td>Very Dense ✅✅</td><td>Hard ✅✅</td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- PANEL 2: Grading / PI Check -->
+<div id="soil-panel-gp" style="display:none;">
+  <p style="font-size:11px;color:var(--text3);margin-bottom:10px;">فحص مؤشر اللدونة والتدرج مقابل حدود QCS 2024 لطبقات الطريق</p>
+  <div style="background:var(--dark4);border-radius:10px;padding:12px;margin-bottom:10px;">
+    <div style="margin-bottom:10px;">
+      <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">الطبقة / Layer:</label>
+      <select id="gp-layer" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:12px;">
+        <option value="subgrade">Subgrade</option>
+        <option value="subbase">Sub-base (GSB)</option>
+        <option value="base">Road Base Course</option>
+      </select>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+      <div>
+        <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">PI (Plasticity Index):</label>
+        <input type="number" id="gp-pi" placeholder="e.g. 8" step="0.1" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:12px;">
+      </div>
+      <div>
+        <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">LL (Liquid Limit %):</label>
+        <input type="number" id="gp-ll" placeholder="e.g. 22" step="0.1" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:12px;">
+      </div>
+      <div>
+        <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">% Passing #200:</label>
+        <input type="number" id="gp-p200" placeholder="e.g. 10" step="0.1" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:12px;">
+      </div>
+      <div>
+        <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">% Passing #4 (اختياري):</label>
+        <input type="number" id="gp-p4" placeholder="e.g. 55" step="0.1" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:12px;">
+      </div>
+      <div>
+        <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">% Passing #075 (اختياري):</label>
+        <input type="number" id="gp-p075" placeholder="e.g. 8" step="0.1" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:12px;">
+      </div>
+      <div style="display:flex;align-items:flex-end;">
+        <button onclick="calcGP()" style="width:100%;padding:8px;background:linear-gradient(135deg,var(--maroon),var(--maroon2));border:1px solid rgba(201,168,76,0.3);border-radius:8px;color:var(--gold2);font-family:Tajawal,sans-serif;font-size:12px;font-weight:700;cursor:pointer;">⚡ فحص</button>
+      </div>
+    </div>
+  </div>
+  <div class="calc-result" id="gp-result"></div>
+  <div style="background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:10px;margin-top:10px;">
+    <div style="font-size:11px;font-weight:700;color:var(--gold);margin-bottom:6px;">📋 الحدود القصوى (QCS 2024 S6)</div>
+    <table class="dm-table"><thead><tr><th>الطبقة</th><th>PI Max</th><th>LL Max</th><th>%200 Max</th></tr></thead><tbody>
+      <tr><td>Subgrade</td><td>10</td><td>35%</td><td>35%</td></tr>
+      <tr><td>Sub-base</td><td>6</td><td>25%</td><td>12%</td></tr>
+      <tr><td>Road Base</td><td>4</td><td>20%</td><td>8%</td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- PANEL 3: Blockwork -->
+<div id="soil-panel-bw" style="display:none;">
+  <p style="font-size:11px;color:var(--text3);margin-bottom:10px;">احسب كميات البلوك والمونة والرمل لأي مساحة جدار — QCS S5 Masonry</p>
+  <div style="background:var(--dark4);border-radius:10px;padding:12px;margin-bottom:10px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div>
+        <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">مساحة الجدار الإجمالية (m²):</label>
+        <input type="number" id="bw-area" placeholder="e.g. 50" oninput="calcBlockwork()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:13px;">
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">سماكة البلوك:</label>
+        <select id="bw-type" onchange="calcBlockwork()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:12px;">
+          <option value="100">100mm (Partition)</option>
+          <option value="150">150mm (Internal)</option>
+          <option value="200" selected>200mm (External)</option>
+          <option value="250">250mm (Load Bearing)</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">مساحة الفتحات (أبواب + نوافذ) m²:</label>
+        <input type="number" id="bw-openings" placeholder="e.g. 5" oninput="calcBlockwork()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text);font-family:Tajawal,sans-serif;font-size:13px;">
+      </div>
+      <div style="display:flex;align-items:flex-end;">
+        <button onclick="calcBlockwork()" style="width:100%;padding:9px;background:linear-gradient(135deg,var(--maroon),var(--maroon2));border:1px solid rgba(201,168,76,0.3);border-radius:8px;color:var(--gold2);font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">⚡ احسب الكميات</button>
+      </div>
+    </div>
+  </div>
+  <div class="calc-result" id="bw-result"></div>
+  <div style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:8px;margin-top:8px;font-size:11px;color:var(--text3);">
+    ℹ️ يُضاف 5% هدر للكسر والقص | المونة: نسبة 1:4 (أسمنت:رمل) | البلوك: 390×190×سماكة mm
+  </div>
+</div>
+`},
+
 // ===== QCS 2014 vs 2024 CHANGES =====
 qcs_changes_2014_2024: {
 title: '📊 أهم التغييرات — QCS 2014 vs QCS 2024',
@@ -15197,7 +15568,7 @@ window.QS = (function() {
 <div id="appFooter" style="background:linear-gradient(135deg,#111,#0A0A0A);border-top:1px solid rgba(201,168,76,0.2);padding:16px 20px;text-align:center;margin-top:24px;position:relative;z-index:1;">
   <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:8px;">
     <span style="color:var(--gold);font-family:'Cairo',sans-serif;font-weight:700;font-size:13px;">QatarSpec Pro</span>
-    <span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:2px 10px;font-size:10px;color:var(--gold);letter-spacing:1px;">v1.9.0</span>
+    <span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:2px 10px;font-size:10px;color:var(--gold);letter-spacing:1px;">v2.0.0</span>
     <span style="color:rgba(255,255,255,0.3);font-size:10px;">|</span>
     <span style="color:var(--text3);font-size:11px;">آخر تحديث للمواصفات: <strong style="color:var(--text2);">أبريل 2026 — QCS 2024</strong></span>
   </div>
