@@ -1,11 +1,6 @@
 {
   "version": 2,
   "regions": ["fra1"],
-  "functions": {
-    "api/ai-proxy.js": { "maxDuration": 30, "regions": ["fra1","cdg1"] },
-    "api/search.js":   { "maxDuration": 10, "regions": ["fra1","cdg1"] },
-    "api/health.js":   { "maxDuration": 5,  "regions": ["fra1","cdg1","iad1"] }
-  },
   "headers": [
     {
       "source": "/(.*)",
