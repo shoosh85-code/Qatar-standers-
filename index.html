@@ -1,4 +1,9 @@
 
+{
+  "success": true,
+  "status": 200,
+  "statusText": "OK",
+  "text": "
 
 
 
@@ -99,7 +104,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="QatarSpec">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="manifest" href="/manifest.json">
+<link rel="manifest" href="https://qatar-standers.vercel.app/manifest.json">
 <title>دليل المواصفات القطرية | Qatar Engineering Standards</title>
 <!-- Google Fonts with local fallback for offline support -->
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -511,7 +516,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   border-color: rgba(201,168,76,0.5);
 }
 </style>
-<link rel="preload" as="script" href="/data/structural-data.js?v=1.7.6">
+<link rel="preload" as="script" href="https://qatar-standers.vercel.app/data/structural-data.js?v=1.7.6">
 <meta name="supabase-url" content="https://jwhgeolbkqdtedrmkszn.supabase.co">
 <meta name="supabase-anon-key" content="sb_publishable__Ixr90T5aM5mlCuSHbKQEQ_euf8N1hu">
 </head>
@@ -1183,7 +1188,7 @@ async function doSearch() {
     try {
       const ctrl = new AbortController();
       const tid  = setTimeout(() => ctrl.abort(), 8000);
-      const res  = await fetch('/api/search', {
+      const res  = await fetch('https://qatar-standers.vercel.app/api/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query, limit: 4 }),
@@ -1350,10 +1355,10 @@ window.QSP._pending = {};
 
 // Chunk → file mapping
 window.QSP.CHUNK_FILES = {
-  roads:      '/data/roads-data.js',
-  utilities:  '/data/utilities-data.js',
-  structural: '/data/structural-data.js',
-  tools:      '/data/tools-data.js'
+  roads:      'https://qatar-standers.vercel.app/data/roads-data.js',
+  utilities:  'https://qatar-standers.vercel.app/data/utilities-data.js',
+  structural: 'https://qatar-standers.vercel.app/data/structural-data.js',
+  tools:      'https://qatar-standers.vercel.app/data/tools-data.js'
 };
 
 // Key → chunk mapping (generated)
@@ -1709,7 +1714,7 @@ async function fetchAnthropicAPI(body) {
   const timeoutId = setTimeout(() => controller.abort(), 20000);
 
   try {
-    const response = await fetch('/api/ai-proxy', {
+    const response = await fetch('https://qatar-standers.vercel.app/api/ai-proxy', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
@@ -3190,7 +3195,7 @@ window.addEventListener('DOMContentLoaded', function(){ setLang(currentLang); })
 const APP_VERSION = '1.7.5';
 async function checkForUpdates() {
   try {
-    const res = await fetch('/version.json?t=' + Date.now());
+    const res = await fetch('https://qatar-standers.vercel.app/version.json?t=' + Date.now());
     if (res.ok) {
       const data = await res.json();
       if (data.version && data.version !== APP_VERSION) {
@@ -5225,7 +5230,7 @@ function resetInspector() {
 // ===== SERVICE WORKER REGISTRATION (PWA v1.7.7) =====
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    fetch('/sw.js', { method: 'HEAD' })
+    fetch('https://qatar-standers.vercel.app/sw.js', { method: 'HEAD' })
       .then(function(r) {
         if (!r.ok) return;
         return navigator.serviceWorker.register('/sw.js', { scope: '/' })
@@ -5635,3 +5640,27 @@ window.QS = (function() {
 
 </body>
 </html>
+",
+  "headers": {
+    "access-control-allow-origin": "*",
+    "age": "0",
+    "cache-control": "public, max-age=0, must-revalidate",
+    "content-disposition": "inline; filename="index.html"",
+    "content-encoding": "br",
+    "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.anthropic.com https://*.supabase.co https://*.supabase.io wss://*.supabase.co; frame-src https://www.youtube.com; media-src 'self' blob:; worker-src 'self' blob:; img-src 'self' data: blob:; object-src 'none'; upgrade-insecure-requests;",
+    "content-type": "text/html; charset=utf-8",
+    "date": "Mon, 20 Apr 2026 15:49:54 GMT",
+    "etag": "W/"eb64a98f31fc9ea0b62e030e4e6c945f"",
+    "last-modified": "Mon, 20 Apr 2026 15:49:54 GMT",
+    "permissions-policy": "camera=(), microphone=(), geolocation=()",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "server": "Vercel",
+    "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "DENY",
+    "x-robots-tag": "noindex",
+    "x-vercel-cache": "HIT",
+    "x-vercel-id": "iad1:iad1::7txjb-1776700194806-527306229656"
+  }
+}
