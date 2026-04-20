@@ -1,6 +1,23 @@
+
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════
   QatarSpec Pro — Changelog
+  v1.8.0 (April 2026) — TECHNICAL ACCURACY FIXES (Phase 1):
+    - [FIX]  calcCrossfall(): tolerance corrected to ±0.3% (QCS 2024 S6)
+             الخطأ: كان يقبل 2-3% كنطاق واسع
+             الصح: الهدف 2.5% ± تفاوت 0.3% | NCR عند انحراف > 0.5%
+             مواضع مُصلَّحة: calcCrossfall() + جدول S6 + Inspector checklist + Motor Grader spec
+    - [FIX]  Concrete 7-day Rule: حذف "acceptance" من 7-day
+             الخطأ: كان يعرض "7-day acceptance ≥70% fcu" كمعيار قبول
+             الصح: 7-day للمراقبة فقط — القبول الرسمي (QCS S5) = 28-day فقط
+             مواضع مُصلَّحة: جداول ITP + Hold Points + Test Schedule (4 مواضع)
+    - [FIX]  Asphalt Laying Temperature: تصحيح من 130°C إلى القيم الصحيحة
+             الخطأ: placeholder ≥130°C موحَّد لكل أنواع الخلطات
+             الصح: DBM ≥140°C | Wearing Course ≥145°C (QCS 2024 S8)
+             مواضع مُصلَّحة: calcMarshall() + calcTemperature() + NCR placeholders + Risk table + ITP items (7 مواضع)
+    - [FIX]  AI Search Disclaimer: تقوية التحذير
+             إضافة نص واضح: "AI-Generated — لا تستند إلى QCS PDF مباشرةً"
+             لا تستخدم كمرجع وحيد في NCR/ITP/Design
   v1.7.4 (April 2026) — VIDEO LOADING FIX (Root Cause):
     - [FIX]  loadLocalVideo(): FileReader.readAsDataURL → URL.createObjectURL
              السبب: readAsDataURL تُحوّل الفيديو base64 (+33% حجم) وتفشل > 16MB
@@ -141,7 +158,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 .ai-answer-text strong { color:var(--gold2); }
 .ai-ref-bar { margin-top:18px; padding-top:16px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
 .ai-ref-text { font-size:12px; color:var(--text3); }
-.ai-disclaimer { font-size:11px; color:var(--text3); font-style:italic; }
+.ai-disclaimer { font-size:11px; color:var(--text3); font-style:italic; line-height:1.5; max-width:100%; }
 .loading-wrap { display:flex; align-items:center; gap:10px; color:var(--text2); font-size:14px; }
 .spinner { width:18px; height:18px; border:2px solid rgba(201,168,76,0.2); border-top:2px solid var(--gold); border-radius:50%; animation:spin .8s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
@@ -385,7 +402,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     </div>
     <div class="ai-ref-bar">
       <div class="ai-ref-text" id="aiRefText">📖 المرجع: الكود القطري QCS 2024</div>
-      <div class="ai-disclaimer">⚠️ راجع المواصفة الأصلية للتأكد</div>
+      <div class="ai-disclaimer">⚠️ <strong>تنبيه مهم:</strong> هذه الإجابة مولَّدة بالذكاء الاصطناعي (AI-Generated) — لا تستند إلى نصوص QCS PDF مباشرةً. القرارات الهندسية الرسمية تتطلب مراجعة الوثيقة الأصلية QCS 2024. لا تستخدم هذه النتائج كمرجع وحيد في التصميم أو NCR أو ITP.</div>
     </div>
   </div>
 </div>
@@ -6287,8 +6304,8 @@ All numerical values, specifications and test methods shown in Arabic are source
 <table class="dm-table">
 <tr><th>Item</th><th>Requirement</th></tr>
 <tr><td>Frequency</td><td>6 cubes per 50m³</td></tr>
-<tr><td>7-day acceptance</td><td>≥ 70% fcu</td></tr>
-<tr><td>28-day acceptance</td><td>≥ 100% fcu</td></tr>
+<tr><td>7-day <strong style="color:#e67e22">(مراقبة فقط — ليس معيار قبول)</strong></td><td>≥ 70% fcu — للكشف المبكر فقط</td></tr>
+<tr><td>28-day <strong>(معيار القبول الرسمي — QCS S5)</strong></td><td>≥ 100% fcu</td></tr>
 <tr><td>Temperature at placement</td><td>≤ 32°C — check every load</td></tr>
 </table></div>
 ` },
@@ -7628,8 +7645,8 @@ All numerical values, specifications and test methods shown in Arabic are source
 <tr><td>Slump Test</td><td>حسب نوع الصب</td><td>كل حمولة</td><td>عند الوصول</td></tr>
 <tr><td>Temperature Check</td><td>≤ 32°C</td><td>كل حمولة</td><td>عند الوصول</td></tr>
 <tr><td>Cube Sampling</td><td>6 مكعبات / 50m³</td><td>كل 50m³</td><td>أثناء الصب</td></tr>
-<tr><td>Cube Result 7 day</td><td>≥ 70% fcu</td><td>كل عينة</td><td>بعد 7 أيام</td></tr>
-<tr><td>Cube Result 28 day</td><td>≥ 100% fcu</td><td>كل عينة</td><td>بعد 28 يوم</td></tr>
+<tr><td>Cube Result 7 day</td><td>≥ 70% fcu <strong style="color:#e67e22">(مراقبة — ليس قبول)</strong></td><td>كل عينة</td><td>بعد 7 أيام</td></tr>
+<tr><td>Cube Result 28 day</td><td>≥ 100% fcu <strong>(القبول الرسمي QCS S5)</strong></td><td>كل عينة</td><td>بعد 28 يوم</td></tr>
 <tr><td>Rebar Tensile</td><td>fy≥500 | fu≥600</td><td>3 عينات/25t</td><td>عند الاستلام</td></tr>
 <tr><td>Cover Meter</td><td>± 5mm من المطلوب</td><td>عشوائي بعد الصب</td><td>بعد الصب</td></tr>
 <tr><td>Thermal Monitor (Raft)</td><td>≤70°C | ΔT≤20°C</td><td>كل 4 ساعات</td><td>أثناء الصب</td></tr>
@@ -7657,8 +7674,8 @@ All numerical values, specifications and test methods shown in Arabic are source
 <tr><td>HP-03</td><td>Rebar + Cover</td><td>As drawings ±5mm</td></tr>
 <tr><td>HP-04</td><td>Formwork</td><td>Structural check</td></tr>
 <tr><td>HP-05</td><td>Pour Card</td><td>Consultant signed</td></tr>
-<tr><td>HP-06</td><td>7-day Cube</td><td>≥ 70% fcu</td></tr>
-<tr><td>HP-07</td><td>28-day Cube</td><td>≥ 100% fcu</td></tr>
+<tr><td>HP-06</td><td>7-day Cube</td><td>≥ 70% fcu <em style="color:#e67e22">(مراقبة فقط)</em></td></tr>
+<tr><td>HP-07</td><td>28-day Cube</td><td>≥ 100% fcu <em>(معيار القبول الرسمي QCS S5)</em></td></tr>
 <tr><td>HP-08</td><td>Formwork Strike</td><td>After cube 7-day approval</td></tr>
 </table>
 </div>
@@ -9014,7 +9031,7 @@ content: `
 </tbody></table>
 <h3>الانحدار والميل — Grade & Crossfall</h3>
 <table class="dm-table"><thead><tr><th>البند</th><th>القيمة</th><th>ملاحظات</th></tr></thead><tbody>
-<tr><td>Crossfall</td><td><strong>2.5% ± 0.5%</strong></td><td>في المستقيم</td></tr>
+<tr><td>Crossfall</td><td><strong>2.5% ± 0.3%</strong></td><td>في المستقيم</td></tr>
 <tr><td>Max Superelevation</td><td><strong>8%</strong></td><td>في المنحنيات</td></tr>
 <tr><td>Max Grade — عام</td><td><strong>8%</strong></td><td>طرق محلية وتجميعية</td></tr>
 <tr><td>Max Grade — رئيسي</td><td><strong>6%</strong></td><td>طرق شريانية وسريعة</td></tr>
@@ -9266,12 +9283,12 @@ content: `
 <div style="margin-bottom:10px"><label style="font-size:10px;color:var(--text3)">وصف عدم المطابقة <span style="color:#e74c3c">*</span></label><textarea id="ncr-desc" style="width:100%;min-height:70px;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="Core Density = 94.8% TMD — أقل من الحد الأدنى 97% TMD&#10;الموقع: الحارة اليمنى CH 2+350 to 2+400&#10;عدد الكورات المرفوضة: 3 من 5"></textarea></div>
 <div style="background:rgba(243,156,18,.06);border:1px solid rgba(243,156,18,.2);border-radius:10px;padding:12px;margin-bottom:10px">
   <div style="font-size:11px;color:#f39c12;font-weight:700;margin-bottom:6px">🔍 Root Cause Analysis — تحليل السبب الجذري</div>
-  <textarea id="ncr-root" style="width:100%;min-height:55px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="1. Roller passes insufficient (4 بدلاً من 8)&#10;2. درجة حرارة الفرش < 130°C&#10;3. مدة التسليم > 90 دقيقة"></textarea>
+  <textarea id="ncr-root" style="width:100%;min-height:55px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="1. Roller passes insufficient (4 بدلاً من 8)&#10;2. درجة حرارة الفرش منخفضة: DBM < 140°C / WC < 145°C (QCS 2024 S8)&#10;3. مدة التسليم > 90 دقيقة"></textarea>
 </div>
 <div style="background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.2);border-radius:10px;padding:12px;margin-bottom:10px">
   <div style="font-size:11px;color:#2ecc71;font-weight:700;margin-bottom:6px">🔧 CAPA — Corrective & Preventive Actions</div>
   <div style="margin-bottom:8px"><label style="font-size:10px;color:var(--text3)">الإجراء التصحيحي المقترح <span style="color:#e74c3c">*</span></label><textarea id="ncr-corrective" style="width:100%;min-height:50px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="Mill and re-lay 50m مقطع مرفوض&#10;إعادة اختبار Core ≥97% TMD&#10;إعادة فتح RFI بعد التصحيح"></textarea></div>
-  <div><label style="font-size:10px;color:var(--text3)">الإجراء الوقائي</label><textarea id="ncr-preventive" style="width:100%;min-height:45px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="قياس درجة الحرارة عند كل شاحنة — رفض <130°C&#10;الحد الأدنى 8 مرورات للرولر"></textarea></div>
+  <div><label style="font-size:10px;color:var(--text3)">الإجراء الوقائي</label><textarea id="ncr-preventive" style="width:100%;min-height:45px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="قياس درجة الحرارة عند كل شاحنة — رفض DBM <140°C / WC <145°C (QCS 2024 S8)&#10;الحد الأدنى 8 مرورات للرولر"></textarea></div>
 </div>
 <div style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px">
   <div style="font-size:11px;color:var(--text2);font-weight:700;margin-bottom:8px">✅ التحقق من الإغلاق — Closure Verification</div>
@@ -9522,7 +9539,7 @@ content: `
 <tr><td>17</td><td><strong>Chlorination < 50 ppm</strong></td><td>تخفيف زائد</td><td>إعادة التعقيم + 50 ppm</td><td>KAHRAMAA</td></tr>
 <tr><td>18</td><td><strong>Formwork bulging</strong></td><td>Props ضعيفة أو spacing كبير</td><td>إعادة + تقوية</td><td>S5 P4</td></tr>
 <tr><td>19</td><td><strong>Geotextile overlap < 300mm</strong></td><td>عدم رقابة أثناء الفرش</td><td>إعادة + overlap ≥300mm</td><td>IAN-006</td></tr>
-<tr><td>20</td><td><strong>Delivery temp < 130°C</strong></td><td>مسافة نقل طويلة</td><td>رفض الحمل + Plant أقرب</td><td>S6 P5 S4.4</td></tr>
+<tr><td>20</td><td><strong>Delivery temp — DBM &lt;140°C / WC &lt;145°C</strong></td><td>مسافة نقل طويلة</td><td>رفض الحمل + Plant أقرب</td><td>QCS 2024 S8 + S6 P5</td></tr>
 </tbody></table>
 `},
 
@@ -9867,8 +9884,8 @@ content: `
 <tr><td>Slump Test</td><td>BS EN 12350-2</td><td>±25mm من Target</td><td>كل شاحنة</td><td style="color:#e74c3c">HP</td></tr>
 <tr><td>Concrete Temperature</td><td>QCS S5</td><td>≤32°C</td><td>كل شاحنة</td><td style="color:#e74c3c">HP</td></tr>
 <tr><td>Cube Sampling</td><td>BS EN 12390-2</td><td>—</td><td>6 cubes/50m³</td><td style="color:#f39c12">W</td></tr>
-<tr><td>7-day Cube</td><td>BS EN 12390-3</td><td>≥70% fcu</td><td>3 cubes</td><td style="color:#e74c3c">HP</td></tr>
-<tr><td>28-day Cube</td><td>BS EN 12390-3</td><td>≥100% fcu (avg 3)</td><td>3 cubes</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>7-day Cube</td><td>BS EN 12390-3</td><td>≥70% fcu <span style="color:#e67e22;font-size:10px">(مراقبة فقط — QCS S5)</span></td><td>3 cubes</td><td style="color:#e74c3c">HP</td></tr>
+<tr><td>28-day Cube</td><td>BS EN 12390-3</td><td>≥100% fcu (avg 3) <span style="font-size:10px">(معيار القبول الرسمي)</span></td><td>3 cubes</td><td style="color:#e74c3c">HP</td></tr>
 <tr><td>Air Content</td><td>BS EN 12350-7</td><td>Per mix design</td><td>1/day</td><td style="color:#f39c12">W</td></tr>
 </tbody></table>
 <div style="background:rgba(231,76,60,.06);border:1px solid rgba(231,76,60,.15);border-radius:8px;padding:10px;margin-top:10px;font-size:11px;color:#e74c3c">
@@ -9997,7 +10014,7 @@ content: `
 <h3 style="color:var(--gold2)">④ أخطاء شائعة</h3>
 <table class="dm-table"><thead><tr><th>الخطأ</th><th>التجنب</th><th>التصحيح</th></tr></thead><tbody>
 <tr><td style="color:#e74c3c">Core Density <97%</td><td>Min 8 roller passes | Temp >120°C</td><td>Mill + re-lay</td></tr>
-<tr><td style="color:#e74c3c">Delivery temp <130°C</td><td>Plant distance ≤30km | covered trucks</td><td>رفض الحمل</td></tr>
+<tr><td style="color:#e74c3c">Delivery temp — DBM &lt;140°C / WC &lt;145°C</td><td>Plant distance ≤30km | covered trucks</td><td>رفض الحمل</td></tr>
 <tr><td style="color:#f39c12">Roller marks visible</td><td>Finish rolling @ >60°C static</td><td>Re-heat + re-roll</td></tr>
 <tr><td style="color:#f39c12">Segregation</td><td>Remixer in hopper | no dumping direct</td><td>Remove + re-lay</td></tr>
 <tr><td style="color:#f39c12">Joint cracking</td><td>Hot iron + overlap ≥50mm | infrared heater</td><td>Seal + monitor</td></tr>
@@ -10239,7 +10256,7 @@ title: '🚜 معدات أعمال الطرق — Roads Equipment',
 content: `
 <div class="qcs-ref-badge">QCS 2024 S6 + Ashghal Equipment Standards</div>
 <table class="dm-table"><thead><tr><th>المعدة</th><th>الوصف</th><th>الإعدادات / المواصفات</th><th>فحوصات QC</th></tr></thead><tbody>
-<tr><td><strong>Motor Grader</strong><br>مُشَط الأرض</td><td>تسوية Subgrade/Subbase قبل الدمك</td><td>Blade width 3.7-4.3m<br>GPS/Laser control مُفضَّل</td><td>مستوى ±10mm كل 25m<br>Crossfall 2.5%±0.5%</td></tr>
+<tr><td><strong>Motor Grader</strong><br>مُشَط الأرض</td><td>تسوية Subgrade/Subbase قبل الدمك</td><td>Blade width 3.7-4.3m<br>GPS/Laser control مُفضَّل</td><td>مستوى ±10mm كل 25m<br>Crossfall 2.5%±0.3% (QCS 2024 S6)</td></tr>
 <tr><td><strong>Vibratory Roller</strong><br>حمّالة هزازة</td><td>دمك الطبقات الحبيبية + إسفلت</td><td>وزن 10-12 طن<br>تردد 25-40 Hz<br>سعة 0.5-1.0mm</td><td>≥95% MDD (Subgrade)<br>≥98% MDD (Base)<br>4-8 تمريرات</td></tr>
 <tr><td><strong>Pneumatic Roller (PTR)</strong><br>حمّالة إطارات</td><td>Intermediate rolling للإسفلت</td><td>وزن 20-25 طن<br>9 إطارات<br>ضغط 6-8 bar</td><td>4 تمريرات<br>سرعة 4-6 km/h<br>بعد DD roller</td></tr>
 <tr><td><strong>Asphalt Paver (Finisher)</strong><br>ماكينة فرد الإسفلت</td><td>فرد الإسفلت بسُمك وعرض محددين</td><td>Sonic Averaging Beam<br>Screed temp ≥100°C<br>سرعة 3-5 m/min</td><td>سُمك: design ±6mm<br>Level: ±6mm<br>Crossfall بـ 3m straightedge</td></tr>
@@ -11594,7 +11611,7 @@ function calcAsphaltFull() {
   let el = document.getElementById('asp-result');
   if (!el) return;
   const minStab = type === 'wc' ? 9 : 8;
-  const minTemp = type === 'wc' ? 130 : 130;
+  const minTemp = type === 'wc' ? 145 : 140;
   let issues = [], pass = true;
   if (!isNaN(stab)  && stab  < minStab) { issues.push('Stability ' + stab + 'kN < ' + minStab + 'kN'); pass = false; }
   if (!isNaN(flow)  && (flow < 2 || flow > 4)) { issues.push('Flow ' + flow + 'mm خارج 2-4mm'); pass = false; }
@@ -11862,7 +11879,7 @@ function calcTemperature() {
   const val = parseFloat(document.getElementById('temp-val').value);
   const stage = document.getElementById('temp-stage').value;
   if (!val) return showToast('❌ أدخل درجة الحرارة');
-  const limits = {delivery:[140,999],laying:[130,999],initial:[130,145],intermediate:[100,125],final:[80,100]};
+  const limits = {delivery:[140,999],laying:[140,999],initial:[130,145],intermediate:[100,125],final:[80,100]};
   const [min,max] = limits[stage];
   const pass = val >= min && val <= max;
   showResult('temp-result', pass, val, null, `درجة الحرارة: ${val}°C | المطلوب: ${min}${max<999?'-'+max:'+'} °C`);
@@ -11877,8 +11894,17 @@ function calcStraightedge() {
 function calcCrossfall() {
   const val = parseFloat(document.getElementById('crf-val').value);
   if (isNaN(val)) return showToast('❌ أدخل النتيجة');
-  const pass = val >= 2 && val <= 3;
-  showResult('crf-result', pass, val, null, `Crossfall الفعلي: ${val}% | المطلوب: 2-3%`);
+  const target = 2.5;
+  const tolerance = 0.3;
+  const ncrLimit = 0.5;
+  const deviation = Math.abs(val - target);
+  const pass = deviation <= tolerance;
+  const ncrFlag = deviation > ncrLimit;
+  const statusMsg = ncrFlag
+    ? `⚠️ تجاوز حد NCR (±${ncrLimit}%) — إجراء تصحيحي فوري مطلوب`
+    : pass ? `✅ مطابق` : `⚠️ تجاوز التفاوت المسموح ±${tolerance}% — مراقبة وإعادة قياس`;
+  showResult('crf-result', pass, val, null,
+    `Crossfall: ${val}% | الهدف: ${target}% ± ${tolerance}% (QCS 2024 S6) | الانحراف: ${deviation.toFixed(2)}% | ${statusMsg}`);
 }
 
 function calcSkid() {
@@ -14182,7 +14208,7 @@ function generateDaFallback(type) {
         '✅ Binder Course: 60-160mm حسب Traffic Designation — QCS S6 P3 Table 3:1',
         '✅ Base Course: 150-250mm — CBR ≥80% — QCS S6 P3',
         '✅ Subbase: 150-350mm — CBR ≥25% — QCS S6 P3',
-        '✅ Crossfall: 2.5% ± 0.5% — قياس 3m Straightedge',
+        '✅ Crossfall: 2.5% ± 0.3% (QCS 2024 S6) — NCR عند انحراف > ±0.5% — قياس 3m Straightedge',
         '🔴 HP: Level Survey ±10mm before next layer — Ashghal ITP'
       ]
     },
@@ -14419,7 +14445,7 @@ function generateLocalAnalysis(workType, phase, specific) {
       equipment: 'Nuclear Gauge + DCP + Survey'
     },
     roads_asphalt: {
-      items: ['Delivery temp ≥130°C (Conv) / ≥145°C (PMB)','Tack Coat 0.15-0.35 L/m² broken','Layer thickness ±6mm','Core Density ≥97% TMD','IRI ≤2.5 (Conv) / ≤0.9 (PMB)','Marshall ≥8.0 kN (Conv) / ≥10.0 kN (PMB)'],
+      items: ['Delivery temp — DBM ≥140°C / WC ≥145°C (QCS 2024 S8)','Tack Coat 0.15-0.35 L/m² broken','Layer thickness ±6mm','Core Density ≥97% TMD','IRI ≤2.5 (Conv) / ≤0.9 (PMB)','Marshall ≥8.0 kN (Conv) / ≥10.0 kN (PMB)'],
       qcs: 'QCS 2024 S6 P5',
       equipment: 'Thermometer + 3m Straightedge + NDG'
     },
@@ -14897,7 +14923,7 @@ window.QS = (function() {
 <div id="appFooter" style="background:linear-gradient(135deg,#111,#0A0A0A);border-top:1px solid rgba(201,168,76,0.2);padding:16px 20px;text-align:center;margin-top:24px;position:relative;z-index:1;">
   <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:8px;">
     <span style="color:var(--gold);font-family:'Cairo',sans-serif;font-weight:700;font-size:13px;">QatarSpec Pro</span>
-    <span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:2px 10px;font-size:10px;color:var(--gold);letter-spacing:1px;">v1.7.4</span>
+    <span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:2px 10px;font-size:10px;color:var(--gold);letter-spacing:1px;">v1.8.0</span>
     <span style="color:rgba(255,255,255,0.3);font-size:10px;">|</span>
     <span style="color:var(--text3);font-size:11px;">آخر تحديث للمواصفات: <strong style="color:var(--text2);">أبريل 2026 — QCS 2024</strong></span>
   </div>
