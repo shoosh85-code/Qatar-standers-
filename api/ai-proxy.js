@@ -1,200 +1,128 @@
-// api/ai-proxy.js — QatarSpec Pro
-// Anthropic API proxy with Supabase-based rate limiting
-// Sections referenced: QCS-01, QCS-05, QCS-06, QCS-08, QCS-09, QCS-15
+// QatarSpec Pro — /api/ai-proxy.js
+// Server-side Anthropic proxy — API key never exposed to browser
+// Rate: Pro = unlimited | Free = 5 req/day (enforced client-side + JWT check)
+export const config = { runtime: 'edge' };
 
-const { createClient } = require('@supabase/supabase-js');
+const ALLOWED_ORIGINS = [
+  'https://qatar-standers.vercel.app',
+  'https://qatarspec.vercel.app',
+  'https://qatar-standers-shoosh85-3851s-projects.vercel.app',
+];
 
-// ── CORS helpers ────────────────────────────────────────────────────────────
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  'Content-Type': 'application/json; charset=utf-8',
-};
+export default async function handler(request) {
+  const origin = request.headers.get('origin') || '';
+  const corsOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': corsOrigin,
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Content-Type': 'application/json',
+  };
 
-function respond(res, status, body) {
-  return res.status(status).set(CORS_HEADERS).json(body);
-}
-
-// ── Supabase rate-limit helpers ─────────────────────────────────────────────
-function getMonth() {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-}
-
-function getClientIP(req) {
-  const forwarded = req.headers['x-forwarded-for'];
-  if (forwarded) return forwarded.split(',')[0].trim();
-  return req.connection?.remoteAddress || req.socket?.remoteAddress || '0.0.0.0';
-}
-
-async function checkAndIncrementRate(supabase, ip, isPro) {
-  const month = getMonth();
-  const limit = isPro ? 200 : 5; // Free = 5/month, Pro = 200/month
-
-  // Upsert: insert row if not exists, else increment count
-  const { data, error } = await supabase.rpc('upsert_rate_limit', {
-    p_ip: ip,
-    p_month: month,
-  });
-
-  if (error) {
-    // Fallback: allow request if Supabase is unavailable (don't block users)
-    console.error('Rate limit DB error:', error.message);
-    return { allowed: true, count: 0, limit };
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: corsHeaders });
   }
 
-  const count = data ?? 1;
-  return { allowed: count <= limit, count, limit };
-}
-
-// ── Main system prompt ───────────────────────────────────────────────────────
-const SYSTEM_PROMPT = `أنت مساعد متخصص في مواصفات البناء والإنشاء في قطر (QCS - Qatar Construction Specification).
-
-قواعد مهمة جداً:
-1. دائماً اذكر رقم القسم (Section) والبند الدقيق من QCS في إجابتك
-2. أجب باللغة العربية دائماً
-3. إذا لم تعرف الإجابة، قل ذلك بوضوح ولا تخترع معلومات
-4. ركّز على الأرقام والمعايير الدقيقة المذكورة في المواصفات
-
-الأقسام الرئيسية التي تعرفها:
-- QCS Section 01: متطلبات عامة وإدارة المشروع
-- QCS Section 05: الخرسانة والأعمال الإنشائية
-- QCS Section 06: الطرق والأسفلت
-- QCS Section 08: المرافق والخدمات تحت الأرض
-- QCS Section 09: الصرف الصحي وأنظمة الصرف
-- QCS Section 15: الأعمال الميكانيكية
-
-أمثلة على ردود صحيحة:
-- "وفقاً لـ QCS Section 05, البند 5.3.2، الغطاء الخرساني للأساسات لا يقل عن 75 مم"
-- "وفقاً لـ QCS Section 06, البند 6.4.1، نسبة الدمك للـ Subbase لا تقل عن 98% من الكثافة الجافة القصوى"`;
-
-// ── Handler ──────────────────────────────────────────────────────────────────
-module.exports = async function handler(req, res) {
-  // Handle CORS preflight
-  if (req.method === 'OPTIONS') {
-    return res.status(204).set(CORS_HEADERS).end();
-  }
-
-  if (req.method !== 'POST') {
-    return respond(res, 405, {
-      error: 'الطريقة غير مسموح بها',
-      code: 'METHOD_NOT_ALLOWED',
+  if (request.method !== 'POST') {
+    return new Response(JSON.stringify({ error: { message: 'Method not allowed' } }), {
+      status: 405, headers: corsHeaders,
     });
   }
 
-  // ── Environment checks ───────────────────────────────────────────────────
-  const anthropicKey = process.env.ANTHROPIC_API_KEY;
-  if (!anthropicKey) {
-    return respond(res, 503, {
-      error: 'خدمة الذكاء الاصطناعي غير متاحة حالياً',
-      code: 'AI_UNAVAILABLE',
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    return new Response(JSON.stringify({ error: { message: 'Server configuration error' } }), {
+      status: 500, headers: corsHeaders,
     });
   }
 
-  const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  const supabase = supabaseUrl && supabaseKey
-    ? createClient(supabaseUrl, supabaseKey)
-    : null;
-
-  // ── Parse request ────────────────────────────────────────────────────────
-  let body;
-  try {
-    body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-  } catch {
-    return respond(res, 400, { error: 'طلب غير صالح', code: 'INVALID_JSON' });
-  }
-
-  const { question, userToken } = body || {};
-  if (!question || typeof question !== 'string' || question.trim().length < 3) {
-    return respond(res, 400, {
-      error: 'يرجى إدخال سؤال صحيح',
-      code: 'INVALID_QUESTION',
-    });
-  }
-
-  // ── Check user tier (Pro vs Free) ────────────────────────────────────────
+  // ── Pro JWT Verification ──
   let isPro = false;
-  if (userToken && supabase) {
-    const { data: user } = await supabase
-      .from('users')
-      .select('is_pro, is_active')
-      .eq('token', userToken)
-      .single();
-    isPro = user?.is_pro === true && user?.is_active === true;
+  const authHeader = request.headers.get('Authorization') || '';
+  const proToken = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : '';
+  const jwtSecret = process.env.JWT_SECRET;
+
+  if (proToken && jwtSecret) {
+    try {
+      const payload = await verifyJWT(proToken, jwtSecret);
+      isPro = payload.pro === true && payload.exp > Math.floor(Date.now() / 1000);
+    } catch (_) { /* invalid token — treat as free */ }
   }
 
-  // ── Rate limiting ────────────────────────────────────────────────────────
-  const ip = getClientIP(req);
-  if (supabase) {
-    const { allowed, count, limit } = await checkAndIncrementRate(supabase, ip, isPro);
-    if (!allowed) {
-      return respond(res, 429, {
-        error: `لقد تجاوزت الحد الشهري (${limit} سؤال). يرجى الترقية للحساب المميز`,
-        code: 'RATE_LIMIT_EXCEEDED',
-        count,
-        limit,
-        isPro,
-      });
-    }
-  }
-
-  // ── Call Anthropic API ───────────────────────────────────────────────────
   try {
-    const anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
+    const body = await request.json();
+
+    // Sanitize: limit tokens for free users
+    const maxTokens = isPro ? (body.max_tokens || 1500) : Math.min(body.max_tokens || 800, 800);
+
+    const QCS_SYSTEM_PROMPT = `أنت خبير متخصص في QCS 2024 (Qatar Construction Specifications) ومواصفات البناء والبنية التحتية القطرية.
+قواعد الإجابة:
+- استشهد بالبند والجدول الدقيق فقط إذا كنت متأكداً 100%.
+- إذا لم تكن متأكداً من رقم بند أو جدول بعينه: اذكر ذلك صراحةً وقل "يُرجى مراجعة QCS مباشرة للتأكد".
+- لا تخترع أرقام بنود أو جداول.
+في نهاية كل إجابة أضف سطراً: [مستوى الثقة: موثوق | للمراجعة | استشر المرجع الأصلي]`;
+
+    const anthropicBody = {
+      model: body.model || 'claude-haiku-4-5-20251001',
+      max_tokens: maxTokens,
+      messages: body.messages,
+    };
+    if (body.system) {
+      anthropicBody.system = body.system;
+    } else {
+      anthropicBody.system = QCS_SYSTEM_PROMPT;
+    }
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': anthropicKey,
+        'x-api-key': apiKey,
         'anthropic-version': '2023-06-01',
       },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1024,
-        system: SYSTEM_PROMPT,
-        messages: [
-          {
-            role: 'user',
-            content: question.trim(),
-          },
-        ],
-      }),
+      body: JSON.stringify(anthropicBody),
     });
 
-    if (!anthropicRes.ok) {
-      const errText = await anthropicRes.text();
-      console.error('Anthropic API error:', anthropicRes.status, errText);
-      return respond(res, 502, {
-        error: 'خطأ في الاتصال بخدمة الذكاء الاصطناعي',
-        code: 'AI_API_ERROR',
-      });
-    }
-
-    const data = await anthropicRes.json();
-    const answer = data.content?.[0]?.text || '';
-
-    if (!answer) {
-      return respond(res, 502, {
-        error: 'لم يتم الحصول على إجابة من الذكاء الاصطناعي',
-        code: 'EMPTY_RESPONSE',
-      });
-    }
-
-    return respond(res, 200, {
-      success: true,
-      answer,
-      model: data.model,
-      tokens: {
-        input: data.usage?.input_tokens,
-        output: data.usage?.output_tokens,
-      },
+    const data = await response.json();
+    return new Response(JSON.stringify(data), {
+      status: response.status,
+      headers: corsHeaders,
     });
+
   } catch (err) {
-    console.error('Handler error:', err.message);
-    return respond(res, 500, {
-      error: 'خطأ داخلي في الخادم',
-      code: 'INTERNAL_ERROR',
+    return new Response(JSON.stringify({ error: { message: err.message || 'Internal server error' } }), {
+      status: 500, headers: corsHeaders,
     });
   }
-};
+}
+
+// ── Web Crypto JWT verify (no external deps) ──
+async function verifyJWT(token, secret) {
+  const parts = token.split('.');
+  if (parts.length !== 3) throw new Error('Invalid JWT format');
+
+  const [header, payload, sig] = parts;
+  const toVerify = `${header}.${payload}`;
+
+  const key = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['verify']
+  );
+
+  // Base64url → Base64 → Uint8Array
+  const sigPadded = sig.replace(/-/g, '+').replace(/_/g, '/').padEnd(
+    sig.length + (4 - (sig.length % 4)) % 4, '='
+  );
+  const sigBytes = Uint8Array.from(atob(sigPadded), c => c.charCodeAt(0));
+
+  const valid = await crypto.subtle.verify('HMAC', key, sigBytes, new TextEncoder().encode(toVerify));
+  if (!valid) throw new Error('Invalid signature');
+
+  const payloadPadded = payload.replace(/-/g, '+').replace(/_/g, '/').padEnd(
+    payload.length + (4 - (payload.length % 4)) % 4, '='
+  );
+  return JSON.parse(atob(payloadPadded));
+}

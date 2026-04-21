@@ -638,6 +638,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <!-- data_content.js loaded by loader.js -->
 </head>
 <body>
+<a href="#main-content" style="position:absolute;top:-100px;left:0;background:var(--maroon);color:var(--gold2);padding:8px 16px;z-index:9999;font-family:Tajawal,sans-serif;font-size:13px;text-decoration:none;border-radius:0 0 8px 0;" onfocus="this.style.top='0'" onblur="this.style.top='-100px'">تخطى إلى المحتوى الرئيسي</a>
 <div class="lang-toggle">
   <button class="lang-btn active" id="btn-ar" onclick="QS.setLang('ar')">عربي</button>
   <button class="lang-btn" id="btn-en" onclick="QS.setLang('en')">EN</button>
@@ -737,8 +738,8 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <div class="search-label">🔍 البحث الذكي في QCS 2024</div>
   <div class="search-wrap">
     <span class="search-mic">🎙️</span>
-    <input type="text" class="search-input" id="searchInput" placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة الConcrete في الأساسات وفق الكود القطري؟" onkeydown="if(event.key==='Enter') doSearch()">
-    <button class="search-icon-btn" onclick="QS.doSearch()">⚡ بحث ذكي</button>
+    <input type="text" class="search-input" id="searchInput" aria-label="البحث الذكي في QCS 2024" role="searchbox" placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة الConcrete في الأساسات وفق الكود القطري؟" onkeydown="if(event.key==='Enter') doSearch()">
+    <button class="search-icon-btn" onclick="QS.doSearch()" aria-label="تشغيل البحث الذكي">⚡ بحث ذكي</button>
   </div>
   <div class="quick-tags">
     <span class="quick-tag" onclick="QS.quickSearch('متطلبات الConcrete المسلحة')">🏛️ الConcrete المسلحة</span>
@@ -778,7 +779,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   </div>
 </div>
 
-<div class="content-section">
+<div class="content-section" id="main-content" role="main">
 <div class="section-head"><div class="section-title" data-ar="الأقسام الرئيسية" data-en="Main Sections">الأقسام <span>الرئيسية</span></div></div>
 
 <!-- ===== CARD FILTER SEARCH BAR ===== -->
@@ -1828,6 +1829,15 @@ function safeTimeout(key, fn, delay) {
 
 let navStack = [];
 
+// ── Global Error Handler — catches silent failures ──
+window.onerror = function(msg, src, line, col, err) {
+  console.error('[QatarSpec Error]', msg, src + ':' + line + ':' + col, err || '');
+  return false;
+};
+window.addEventListener('unhandledrejection', function(e) {
+  console.error('[QatarSpec Promise Error]', e.reason);
+});
+
 /**
  * يفتح الـ modal لعرض محتوى مفتاح معيّن من detailData
  * @param {string} key - مفتاح القسم (مثال: 'structural', 'roads', 'ws_laying')
@@ -1925,9 +1935,13 @@ async function fetchAnthropicAPI(body) {
   const timeoutId = setTimeout(() => controller.abort(), 20000);
 
   try {
+    // Attach Pro JWT if available
+    const _headers = { 'Content-Type': 'application/json' };
+    const _proTok = _getProToken();
+    if (_proTok) _headers['Authorization'] = 'Bearer ' + _proTok;
     const response = await fetch('/api/ai-proxy', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: _headers,
       body: JSON.stringify(body),
       signal: controller.signal
     });
@@ -3869,8 +3883,12 @@ function resetInspector() {
     "});",
     "self.addEventListener('fetch',function(e){",
     "  var url=e.request.url;",
-    "  if(url.includes('anthropic.com')||url.includes('fonts.googleapis')||url.includes('fonts.gstatic')){",
+    "  if(url.includes('anthropic.com')||url.includes('/api/')||url.includes('fonts.googleapis')||url.includes('fonts.gstatic')){",
     "    return e.respondWith(fetch(e.request));",
+    "  }",
+    "  var isNav=e.request.mode==='navigate'||url.endsWith('/')||url.endsWith('.html');",
+    "  if(isNav){",
+    "    return e.respondWith(fetch(e.request).then(function(r){if(r&&r.status===200){var rc=r.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc);});}return r;}).catch(function(){return caches.match(e.request)||new Response('Offline',{status:503});}));",
     "  }",
     "  e.respondWith(",
     "    caches.match(e.request).then(function(cached){",
@@ -3880,7 +3898,7 @@ function resetInspector() {
     "        var rc=r.clone();",
     "        caches.open(CACHE).then(function(c){c.put(e.request,rc);});",
     "        return r;",
-    "      }).catch(function(){return cached||new Response('Offline',{status:503});});",
+    "      }).catch(function(){return new Response('Offline',{status:503});});",
     "    })",
     "  );",
     "});"
@@ -4125,19 +4143,48 @@ window.calcRoadLayers = function calcRoadLayers() {
 
 // ── Constants ──
 var FREE_DAILY_LIMIT = 5;
-var PRO_CODES = ['QATAR2026PRO', 'QATARSPEC-PRO', 'QS-ENGINEER-2026', 'PRO-BETA-QCS'];
+// PRO_CODES removed from client — server-side JWT verification only
 
-// ── Pro State ──
+// ── Pro State — JWT-based (sessionStorage + localStorage) ──
+function _getProToken() {
+  return sessionStorage.getItem('qs_pro_token') || localStorage.getItem('qs_pro_token') || null;
+}
+function _parseJWTPayload(token) {
+  try {
+    var parts = token.split('.');
+    if (parts.length !== 3) return null;
+    var b64 = parts[1].replace(/-/g,'+').replace(/_/g,'/');
+    while (b64.length % 4) b64 += '=';
+    return JSON.parse(atob(b64));
+  } catch(e) { return null; }
+}
 function isProUser() {
-  return localStorage.getItem('qs_pro_active') === 'true';
+  var token = _getProToken();
+  if (!token) return false;
+  var payload = _parseJWTPayload(token);
+  if (!payload || !payload.pro) return false;
+  if (payload.exp && (Date.now() / 1000) > payload.exp) {
+    sessionStorage.removeItem('qs_pro_token');
+    localStorage.removeItem('qs_pro_token');
+    return false;
+  }
+  return true;
 }
 function getProExpiry() {
-  return localStorage.getItem('qs_pro_expiry') || null;
+  var token = _getProToken();
+  if (!token) return null;
+  var payload = _parseJWTPayload(token);
+  return payload && payload.exp ? new Date(payload.exp * 1000).toISOString() : null;
+}
+function setProToken(token) {
+  sessionStorage.setItem('qs_pro_token', token);
+  localStorage.setItem('qs_pro_token', token);
 }
 function setProActive(val, expiry) {
-  localStorage.setItem('qs_pro_active', val ? 'true' : 'false');
-  if (expiry) localStorage.setItem('qs_pro_expiry', expiry);
-  else localStorage.removeItem('qs_pro_expiry');
+  if (!val) {
+    sessionStorage.removeItem('qs_pro_token');
+    localStorage.removeItem('qs_pro_token');
+  }
 }
 
 // ── Daily Search Counter ──
@@ -4228,34 +4275,42 @@ function showPaymentContact() {
   if (pc) { pc.style.display = 'block'; pc.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
 }
 
-// ── Promo Code Activation ──
-function activatePro(code) {
+// ── Promo Code Activation — Server-side JWT ──
+async function activatePro(code) {
   var clean = (code || '').trim().toUpperCase();
   var msg = document.getElementById('promoMsg');
+  var btn = document.querySelector('.promo-btn');
   if (!clean) {
     if (msg) { msg.style.display='block'; msg.style.color='#e74c3c'; msg.textContent='❌ أدخل الكود أولاً'; }
     return;
   }
-  if (PRO_CODES.indexOf(clean) !== -1 || clean === 'QATAR2026PRO') {
-    // Activate for 1 year
-    var expiry = new Date();
-    expiry.setFullYear(expiry.getFullYear() + 1);
-    setProActive(true, expiry.toISOString());
-    renderProStatus();
-    if (msg) { msg.style.display='block'; msg.style.color='#2ecc71'; msg.textContent='🎉 تم تفعيل Pro بنجاح! صالح لسنة كاملة.'; }
-    setTimeout(function() {
-      closeProModal();
-      showToast('🎉 مرحباً بك في QatarSpec Pro!');
-    }, 1500);
-  } else {
-    if (msg) { msg.style.display='block'; msg.style.color='#e74c3c'; msg.textContent='❌ الكود غير صحيح — تحقق من الكود وأعد المحاولة'; }
-    document.getElementById('promoCodeInput').style.borderColor = '#e74c3c';
-    setTimeout(function() {
-      if (document.getElementById('promoCodeInput'))
-        document.getElementById('promoCodeInput').style.borderColor = '';
-    }, 2000);
+  if (msg) { msg.style.display='block'; msg.style.color='var(--gold)'; msg.textContent='⏳ جاري التحقق من الكود...'; }
+  if (btn) btn.disabled = true;
+  try {
+    var res = await fetch('/api/verify-pro', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: clean })
+    });
+    var data = await res.json();
+    if (btn) btn.disabled = false;
+    if (res.ok && data.token) {
+      setProToken(data.token);
+      renderProStatus();
+      if (msg) { msg.style.display='block'; msg.style.color='#2ecc71'; msg.textContent='🎉 ' + (data.message || 'تم تفعيل Pro بنجاح!'); }
+      setTimeout(function() { closeProModal(); showToast('🎉 مرحباً بك في QatarSpec Pro!'); }, 1500);
+    } else {
+      if (msg) { msg.style.display='block'; msg.style.color='#e74c3c'; msg.textContent='❌ ' + (data.error || 'الكود غير صحيح'); }
+      var inp = document.getElementById('promoCodeInput');
+      if (inp) { inp.style.borderColor='#e74c3c'; setTimeout(function(){ inp.style.borderColor=''; }, 2000); }
+    }
+  } catch(e) {
+    if (btn) btn.disabled = false;
+    if (msg) { msg.style.display='block'; msg.style.color='#e74c3c'; msg.textContent='❌ خطأ في الاتصال — تحقق من الإنترنت'; }
   }
 }
+// Legacy sync stub (keeps old inline onclick calls working)
+function _activateProLegacy(code) { activatePro(code); }
 
 // ── Upgrade Overlay ──
 var _pendingUpgradeAction = null;
