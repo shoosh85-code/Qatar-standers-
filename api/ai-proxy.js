@@ -1,50 +1,238 @@
-export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+// ═══════════════════════════════════════════════════════════════
+//  QatarSpec Pro — ai-proxy.js  (Fixed v3.0 — April 2026)
+//  Author fix: Claude Sonnet 4.6
+//  Chain: Anthropic → OpenRouter (llama-3.3-70b free) → Gemini
+//  Response format: always Anthropic-compatible {content:[{text}]}
+// ═══════════════════════════════════════════════════════════════
+
+const TIMEOUT_MS = 25000; // 25s — Vercel Pro allows 60s
+
+// ── Working free models on OpenRouter (April 2026) ──────────────
+const OR_FREE_MODELS = [
+  'meta-llama/llama-3.3-70b-instruct:free',
+  'google/gemma-3-27b-it:free',
+  'deepseek/deepseek-chat-v3-0324:free',
+];
+
+// ── Map Claude model → equivalent capability tier ───────────────
+function getOrModel(claudeModel = '') {
+  if (claudeModel.includes('opus'))   return OR_FREE_MODELS[0];
+  if (claudeModel.includes('haiku'))  return OR_FREE_MODELS[2];   // fast
+  return OR_FREE_MODELS[0];                                        // sonnet → llama 70b
+}
+
+// ── Anthropic response shape ─────────────────────────────────────
+function makeAnthropicResp(text) {
+  return {
+    id: 'proxy-' + Date.now(),
+    type: 'message',
+    role: 'assistant',
+    content: [{ type: 'text', text }],
+    model: 'proxy',
+    stop_reason: 'end_turn',
+    usage: { input_tokens: 0, output_tokens: 0 }
+  };
+}
+
+// ── Fetch with timeout ───────────────────────────────────────────
+async function fetchWithTimeout(url, options, ms = TIMEOUT_MS) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), ms);
+  try {
+    const res = await fetch(url, { ...options, signal: ctrl.signal });
+    return res;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+// ── Provider 1: Anthropic ────────────────────────────────────────
+async function tryAnthropic(body, anthropicKey) {
+  if (!anthropicKey) throw new Error('no ANTHROPIC_API_KEY');
+
+  const res = await fetchWithTimeout('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type':      'application/json',
+      'x-api-key':         anthropicKey,
+      'anthropic-version': '2023-06-01',
+    },
+    body: JSON.stringify({
+      model:      body.model      || 'claude-haiku-4-5-20251001',
+      max_tokens: body.max_tokens || 1024,
+      messages:   body.messages,
+      ...(body.system ? { system: body.system } : {}),
+    }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(`Anthropic ${res.status}: ${data?.error?.message || JSON.stringify(data)}`);
+  }
+  return data; // already Anthropic format
+}
+
+// ── Provider 2: OpenRouter ───────────────────────────────────────
+async function tryOpenRouter(body, orKey) {
+  if (!orKey) throw new Error('no OPENROUTER_API_KEY');
+
+  const model = getOrModel(body.model);
+
+  const res = await fetchWithTimeout('https://openrouter.ai/api/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type':  'application/json',
+      'Authorization': `Bearer ${orKey}`,
+      'HTTP-Referer':  'https://qatar-standers.vercel.app',
+      'X-Title':       'QatarSpec Pro',
+    },
+    body: JSON.stringify({
+      model,
+      max_tokens: body.max_tokens || 1024,
+      messages: body.messages.map(m => ({
+        role: m.role,
+        content: Array.isArray(m.content)
+          ? m.content.map(c => c.text || '').join('\n')
+          : m.content,
+      })),
+    }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok || data.error) {
+    const msg = data?.error?.message || JSON.stringify(data);
+    throw new Error(`OpenRouter ${res.status} [${model}]: ${msg}`);
+  }
+
+  const text = data?.choices?.[0]?.message?.content || '';
+  if (!text) throw new Error('OpenRouter returned empty content');
+
+  return makeAnthropicResp(text);
+}
+
+// ── Provider 3: Gemini ───────────────────────────────────────────
+async function tryGemini(body, geminiKey) {
+  if (!geminiKey) throw new Error('no GEMINI_API_KEY');
+
+  // Flatten messages to a single prompt
+  const prompt = body.messages
+    .map(m => {
+      const content = Array.isArray(m.content)
+        ? m.content.map(c => c.text || '').join('\n')
+        : m.content;
+      return `${m.role === 'user' ? 'User' : 'Assistant'}: ${content}`;
+    })
+    .join('\n\n');
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`;
+
+  const res = await fetchWithTimeout(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: { maxOutputTokens: body.max_tokens || 1024 },
+    }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok || data.error) {
+    const msg = data?.error?.message || JSON.stringify(data);
+    throw new Error(`Gemini ${res.status}: ${msg}`);
+  }
+
+  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  if (!text) throw new Error('Gemini returned empty content');
+
+  return makeAnthropicResp(text);
+}
+
+// ════════════════════════════════════════════════════════════════
+//  Main Handler
+// ════════════════════════════════════════════════════════════════
+module.exports = async function handler(req, res) {
+  // ── CORS ──
+  res.setHeader('Access-Control-Allow-Origin',  '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Api-Key');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
-
-  const { messages, prompt, query, system, max_tokens } = req.body || {};
-
-  const chatMessages = messages || [{ role: 'user', content: prompt || query || '' }];
-  const systemMsg = system || 'أنت مساعد ذكي متخصص في معايير قطر. أجب باللغة العربية.';
-  const key = process.env.OPENROUTER_API_KEY;
-
-  if (!key) {
-    return res.status(500).json({ success: false, error: 'OPENROUTER_API_KEY غير موجود' });
-  }
+  if (req.method !== 'POST')   return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + key,
-        'HTTP-Referer': 'https://qatar-standers.vercel.app',
-        'X-Title': 'Qatar Standards',
-      },
-      body: JSON.stringify({
-        model: 'mistralai/mistral-7b-instruct:free',
-        messages: [{ role: 'system', content: systemMsg }, ...chatMessages],
-        max_tokens: max_tokens || 1024,
-      }),
-    });
+    const body = req.body || {};
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.error('[ai-proxy] OpenRouter error:', JSON.stringify(data));
-      return res.status(502).json({ success: false, error: data?.error?.message || 'OpenRouter فشل' });
+    if (!body.messages || !Array.isArray(body.messages) || body.messages.length === 0) {
+      return res.status(400).json({ error: 'messages array is required' });
     }
 
-    const text = data.choices?.[0]?.message?.content || '';
-    console.log('[ai-proxy] ✅ نجح provider=openrouter');
-    return res.status(200).json({ success: true, result: text, text, provider: 'openrouter' });
+    // ── Keys from env ──
+    const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY  || '';
+    const OR_KEY        = process.env.OPENROUTER_API_KEY || '';
+    const GEMINI_KEY    = process.env.GEMINI_API_KEY     || process.env.GOOGLE_API_KEY || '';
+
+    // ── User-supplied key fallback (from X-Api-Key header) ──
+    const userKey = req.headers['x-api-key'] || '';
+    const effectiveAnthropicKey = ANTHROPIC_KEY || (userKey.startsWith('sk-ant-') ? userKey : '');
+    const effectiveOrKey        = OR_KEY        || (userKey.startsWith('sk-or-')  ? userKey : '');
+
+    const errors = [];
+
+    // ── 1. Try Anthropic ──
+    if (effectiveAnthropicKey) {
+      try {
+        const result = await tryAnthropic(body, effectiveAnthropicKey);
+        return res.status(200).json(result);
+      } catch (e) {
+        console.error('[ai-proxy] Anthropic failed:', e.message);
+        errors.push('Anthropic: ' + e.message);
+        // Only continue if it's not an auth error
+        if (e.message.includes('401') || e.message.includes('invalid') || e.message.includes('Invalid')) {
+          return res.status(401).json({ error: 'Invalid Anthropic API key', detail: e.message });
+        }
+      }
+    } else {
+      errors.push('Anthropic: no key configured');
+    }
+
+    // ── 2. Try OpenRouter ──
+    if (effectiveOrKey) {
+      try {
+        const result = await tryOpenRouter(body, effectiveOrKey);
+        return res.status(200).json(result);
+      } catch (e) {
+        console.error('[ai-proxy] OpenRouter failed:', e.message);
+        errors.push('OpenRouter: ' + e.message);
+      }
+    } else {
+      errors.push('OpenRouter: no key configured');
+    }
+
+    // ── 3. Try Gemini ──
+    if (GEMINI_KEY) {
+      try {
+        const result = await tryGemini(body, GEMINI_KEY);
+        return res.status(200).json(result);
+      } catch (e) {
+        console.error('[ai-proxy] Gemini failed:', e.message);
+        errors.push('Gemini: ' + e.message);
+      }
+    } else {
+      errors.push('Gemini: no key configured');
+    }
+
+    // ── All failed ──
+    console.error('[ai-proxy] All providers failed:', errors);
+    return res.status(502).json({
+      error: 'جميع مزودي الذكاء الاصطناعي فشلوا',
+      detail: errors.join(' | '),
+    });
 
   } catch (err) {
-    console.error('[ai-proxy] exception:', err.message);
-    return res.status(500).json({ success: false, error: err.message });
+    console.error('[ai-proxy] Fatal error:', err.message);
+    return res.status(500).json({ error: err.message });
   }
-}
+};
