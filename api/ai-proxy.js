@@ -87,13 +87,14 @@ export default async function handler(request) {
           }
         );
         const data = await res.json();
+        console.log('Gemini', model, res.status, JSON.stringify(data).slice(0, 200));
         if (res.ok && data?.candidates?.[0]?.content?.parts?.[0]?.text) {
           geminiText = data.candidates[0].content.parts[0].text;
           break;
         }
-        geminiError = data?.error?.message || `HTTP ${res.status}`;
+        geminiError = (data?.error?.message || `HTTP ${res.status}`) + ' [' + model + ']';
       } catch(e) {
-        geminiError = e.message;
+        geminiError = e.message + ' [' + model + ']';
       }
     }
 
