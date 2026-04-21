@@ -2,7 +2,25 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════
   QatarSpec Pro — Changelog
-  v1.9.0 (April 2026) — MISSING CONTENT PHASE 2:
+  v2.1.0 (April 2026) — MONETIZATION SYSTEM (Phase 4):
+    - [NEW]  Pro / Free Tier System — localStorage-based
+             Free: 5 بحث ذكي يومي + كل المحتوى الثابت
+             Pro:  بحث غير محدود + PDF/Word تصدير + AI Features
+    - [NEW]  Pro Modal — خطط الاشتراك الشهرية والسنوية
+             99 QAR/شهر | 799 QAR/سنة (وفر 33%)
+             WhatsApp + Email + Promo Code تفعيل
+    - [NEW]  Promo Code System — QATAR2026PRO + 3 أكواد إضافية
+    - [NEW]  Search Counter Bar — 5 نقاط تتبع + تحذير عند النفاد
+    - [NEW]  Pro Badge في الهيدر — يتحول لـ "Pro مُفعَّل ✓" بعد الاشتراك
+    - [GATE] exportToPDF() — Pro فقط
+    - [GATE] exportToWord() — Pro فقط
+    - [GATE] runDocAnalysis() — Pro فقط
+    - [GATE] runDrawingAnalysis() — Pro فقط
+    - [GATE] runInspector() — Pro فقط
+    - [NEW]  PRO lock badge على كروت: doc_analyzer / drawing_analyzer / photo_analyzer
+    - [NEW]  Upgrade Overlay — contextual gate بأيقونة ووصف مخصص لكل ميزة
+    - [NEW]  Pro Expiry Check — تحقق تلقائي من صلاحية الاشتراك
+  v2.0.0 (April 2026) — CALCULATORS PHASE 3:
     - [NEW]  Survey & Setting Out Tolerances (survey_setting_out)
              10 tolerance values: Centerline, Level, Piles, Grid, Earthworks layers
              Reference: QCS S1 + S5 + S6 + BS 5606 + FIDIC Cl.4.7
@@ -331,6 +349,177 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 
 /* qs-vid-ph: video placeholder — hidden until file loaded via loadLocalVideo() */
 .qs-vid-ph { display:none; }
+
+/* ═══════════════════════════════════════════════
+   MONETIZATION SYSTEM — v2.1.0
+   ═══════════════════════════════════════════════ */
+
+/* Pro Badge in Header */
+.pro-badge {
+  display:inline-flex; align-items:center; gap:5px;
+  background:linear-gradient(135deg,#C9A84C,#E8C97A);
+  border-radius:8px; padding:5px 10px;
+  font-size:11px; font-weight:800; color:#0A0A0A;
+  cursor:pointer; transition:.2s; letter-spacing:.5px;
+  box-shadow:0 0 14px rgba(201,168,76,0.35);
+}
+.pro-badge:hover { box-shadow:0 0 22px rgba(201,168,76,0.55); transform:translateY(-1px); }
+.free-badge {
+  display:inline-flex; align-items:center; gap:5px;
+  background:var(--dark3); border:1px solid var(--border);
+  border-radius:8px; padding:5px 10px;
+  font-size:11px; color:var(--text3); cursor:pointer; transition:.2s;
+}
+.free-badge:hover { border-color:var(--gold); color:var(--gold); }
+
+/* Search Counter Bar */
+.search-counter-bar {
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(201,168,76,0.06); border:1px solid rgba(201,168,76,0.15);
+  border-radius:10px; padding:8px 14px; margin-top:10px;
+  font-size:12px; color:var(--text2);
+}
+.search-counter-bar.limit-warn {
+  background:rgba(231,76,60,0.06); border-color:rgba(231,76,60,0.25); color:#e74c3c;
+}
+.search-counter-track {
+  display:flex; gap:4px; align-items:center;
+}
+.search-dot {
+  width:8px; height:8px; border-radius:50%;
+  background:rgba(201,168,76,0.2); transition:.3s;
+}
+.search-dot.used { background:var(--gold); }
+.search-dot.warn { background:#e74c3c; }
+
+/* Pro Modal — Full Overlay */
+.pro-modal-bg {
+  position:fixed; inset:0; background:rgba(0,0,0,0.85);
+  backdrop-filter:blur(16px); z-index:500;
+  display:none; align-items:center; justify-content:center; padding:20px;
+  overflow-y:auto;
+}
+.pro-modal-bg.open { display:flex; }
+.pro-modal-box {
+  background:var(--dark2); border:1px solid rgba(201,168,76,0.3);
+  border-radius:24px; padding:36px 32px; max-width:600px; width:100%;
+  animation:modalPop .35s ease; position:relative;
+}
+.pro-modal-close {
+  position:absolute; top:16px; left:16px;
+  width:32px; height:32px; border-radius:8px;
+  background:var(--dark4); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; color:var(--text3); font-size:16px;
+}
+.pro-modal-close:hover { color:var(--text); }
+.pro-modal-title {
+  font-family:'Cairo',sans-serif; font-size:26px; font-weight:900;
+  text-align:center; margin-bottom:6px;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.pro-modal-sub { text-align:center; color:var(--text3); font-size:13px; margin-bottom:28px; }
+
+/* Plans Grid */
+.plans-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px; }
+@media(max-width:500px){ .plans-grid { grid-template-columns:1fr; } }
+.plan-card {
+  background:var(--dark3); border:1px solid var(--border);
+  border-radius:16px; padding:20px; position:relative; transition:.25s;
+}
+.plan-card.featured {
+  background:linear-gradient(135deg,rgba(122,21,21,0.2),rgba(201,168,76,0.08));
+  border:2px solid rgba(201,168,76,0.5);
+  box-shadow:0 0 30px rgba(201,168,76,0.12);
+}
+.plan-badge-top {
+  position:absolute; top:-10px; right:50%; transform:translateX(50%);
+  background:linear-gradient(135deg,var(--maroon),var(--gold));
+  border-radius:20px; padding:3px 14px; font-size:10px; font-weight:800;
+  color:#fff; letter-spacing:1px; white-space:nowrap;
+}
+.plan-name { font-family:'Cairo',sans-serif; font-size:16px; font-weight:800; margin-bottom:4px; }
+.plan-price { font-family:'Cairo',sans-serif; font-size:28px; font-weight:900; color:var(--gold); line-height:1; }
+.plan-price span { font-size:13px; color:var(--text3); font-family:'Tajawal'; font-weight:400; }
+.plan-period { font-size:11px; color:var(--text3); margin-bottom:14px; }
+.plan-features { list-style:none; }
+.plan-features li { font-size:12px; color:var(--text2); padding:3px 0; display:flex; gap:6px; align-items:flex-start; }
+.plan-features li::before { content:'✓'; color:var(--gold); font-weight:700; flex-shrink:0; }
+.plan-features li.no::before { content:'✗'; color:var(--text3); }
+.plan-features li.no { color:var(--text3); }
+.plan-btn {
+  width:100%; margin-top:16px; padding:12px;
+  border-radius:10px; border:none; font-family:'Tajawal',sans-serif;
+  font-size:14px; font-weight:700; cursor:pointer; transition:.3s;
+}
+.plan-btn.primary {
+  background:linear-gradient(135deg,var(--maroon),var(--maroon2));
+  border:1px solid rgba(201,168,76,0.4); color:var(--gold2);
+}
+.plan-btn.primary:hover { box-shadow:0 0 24px rgba(122,21,21,0.5); }
+.plan-btn.secondary {
+  background:var(--dark4); border:1px solid var(--border); color:var(--text2);
+}
+.plan-btn.secondary:hover { border-color:var(--border2); color:var(--text); }
+
+/* Promo Code Section */
+.promo-section {
+  background:var(--dark3); border:1px solid var(--border);
+  border-radius:12px; padding:16px; margin-bottom:20px;
+}
+.promo-input-wrap { display:flex; gap:8px; margin-top:8px; }
+.promo-input {
+  flex:1; background:var(--dark4); border:1px solid var(--border);
+  border-radius:8px; padding:10px 14px; font-family:'Tajawal',sans-serif;
+  font-size:13px; color:var(--text); outline:none; direction:ltr;
+  letter-spacing:2px;
+}
+.promo-input:focus { border-color:var(--gold); }
+.promo-btn {
+  background:linear-gradient(135deg,var(--maroon),var(--maroon2));
+  border:1px solid rgba(201,168,76,0.3); border-radius:8px;
+  padding:10px 18px; color:var(--gold2); font-family:'Tajawal',sans-serif;
+  font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap;
+}
+
+/* Upgrade Prompt (inline modal) */
+.upgrade-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.8);
+  backdrop-filter:blur(12px); z-index:400;
+  display:none; align-items:center; justify-content:center; padding:20px;
+}
+.upgrade-overlay.open { display:flex; }
+.upgrade-box {
+  background:var(--dark3); border:1px solid rgba(201,168,76,0.35);
+  border-radius:20px; padding:32px; max-width:400px; width:100%;
+  text-align:center; animation:modalPop .3s ease;
+}
+.upgrade-icon { font-size:48px; margin-bottom:12px; }
+.upgrade-title { font-family:'Cairo',sans-serif; font-size:20px; font-weight:800; color:var(--gold); margin-bottom:8px; }
+.upgrade-desc { font-size:13px; color:var(--text2); line-height:1.7; margin-bottom:20px; }
+.upgrade-actions { display:flex; gap:10px; flex-direction:column; }
+.upgrade-cta {
+  background:linear-gradient(135deg,var(--maroon),var(--maroon2));
+  border:1px solid rgba(201,168,76,0.4); border-radius:10px;
+  padding:13px; color:var(--gold2); font-family:'Tajawal',sans-serif;
+  font-size:14px; font-weight:700; cursor:pointer; transition:.3s;
+}
+.upgrade-cta:hover { box-shadow:0 0 24px rgba(122,21,21,0.5); }
+.upgrade-dismiss {
+  background:transparent; border:1px solid var(--border);
+  border-radius:10px; padding:10px; color:var(--text3);
+  font-family:'Tajawal',sans-serif; font-size:13px; cursor:pointer;
+}
+
+/* Pro-only lock badge on cards */
+.pro-lock {
+  position:absolute; top:8px; left:8px;
+  background:linear-gradient(135deg,var(--maroon),var(--gold));
+  border-radius:6px; padding:2px 8px; font-size:9px;
+  font-weight:800; color:#fff; letter-spacing:.5px; z-index:2;
+}
 </style>
 </head>
 <body>
@@ -352,6 +541,9 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       </div>
     </div>
     <div class="header-actions">
+      <div id="proStatusBadge" class="free-badge" onclick="openProModal()">
+        ⭐ ارقَ لـ Pro
+      </div>
       <div class="key-status" onclick="QS.openKeyModal()">
         <div class="key-dot" id="keyDot"></div>
         <span id="keyStatusText">إعداد AI</span>
@@ -399,6 +591,14 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="quick-tag" onclick="QS.quickSearch('العزل الحراري والرطوبي')">🌡️ العزل</span>
     <span class="quick-tag" onclick="QS.quickSearch('اختبارات التربة')">🔬 اختبارات التربة</span>
     <span class="quick-tag" onclick="QS.quickSearch('مراحل تنفيذ المشاريع')">⚒️ مراحل التنفيذ</span>
+  </div>
+  <!-- Search Counter Bar — Free Plan -->
+  <div id="searchCounterBar" class="search-counter-bar" style="display:none;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span id="searchCounterText">0 / 5 بحث ذكي مستخدم اليوم</span>
+      <div class="search-counter-track" id="searchCounterDots"></div>
+    </div>
+    <span onclick="openProModal()" style="color:var(--gold);font-size:11px;font-weight:700;cursor:pointer;">🚀 ارقَ لـ Pro — بحث غير محدود</span>
   </div>
 </div>
 
@@ -551,7 +751,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div class="cat-card" onclick="QS.openDetail('ashghal_forms')" data-keywords="نماذج forms rfi ncr itp excel أشغال" style="background:linear-gradient(135deg,rgba(122,21,21,.15),rgba(201,168,76,.05));border-color:rgba(201,168,76,.3)">
 <span class="cat-emoji">📝</span><div class="cat-name">نماذج Ashghal</div><div class="cat-desc">RFI، NCR، Daily Report — تصدير Excel</div><div class="cat-bottom"><span class="cat-count" style="color:var(--gold)">3 نماذج</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="QS.openDetail('doc_analyzer')" data-keywords="محلل مستندات document analyzer ai ذكي" style="background:linear-gradient(135deg,rgba(52,152,219,0.15),rgba(52,152,219,0.05));border-color:rgba(52,152,219,0.4);">
-      <span class="cat-emoji">📁</span>
+      <div class="pro-lock">PRO</div>      <span class="cat-emoji">📁</span>
       <div class="cat-name" data-ar="محلل الوثائق" data-en="Document Analyzer">محلل الوثائق</div>
       <div class="cat-desc" data-ar="ارفع المواصفات والرسومات وجداول الكميات" data-en="Upload Specs, Drawings & BOQ for AI Analysis">ارفع المواصفات والرسومات وجداول الكميات</div>
       <div class="cat-bottom">
@@ -559,13 +759,13 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
         <span class="cat-arr">←</span>
       </div>
     </div>
-    <div class="cat-card" onclick="QS.openDetail('photo_analyzer')" data-keywords="مفتش ذكي photo inspector ai صورة"><span class="cat-emoji">🤖</span><div class="cat-name">المفتش الذكي</div><div class="cat-desc">فحص ومطابقة الأعمال مع QCS والمخططات</div><div class="cat-bottom"><span class="cat-count">AI Inspector</span><span class="cat-arr">←</span></div></div>
+    <div class="cat-card" onclick="QS.openDetail('photo_analyzer')" data-keywords="مفتش ذكي photo inspector ai صورة"><div class="pro-lock">PRO</div><span class="cat-emoji">🤖</span><div class="cat-name">المفتش الذكي</div><div class="cat-desc">فحص ومطابقة الأعمال مع QCS والمخططات</div><div class="cat-bottom"><span class="cat-count">AI Inspector</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="QS.openDetail('qcs_changes_2014_2024')" data-keywords="تغييرات changes 2014 2024 qcs مقارنة"><span class="cat-emoji">📊</span><div class="cat-name">QCS 2014 vs 2024</div><div class="cat-desc">أهم 10 تغييرات بين الإصدارين</div><div class="cat-bottom"><span class="cat-count">مقارنة كاملة</span><span class="cat-arr">←</span></div></div>
   
 <div class="cat-card" onclick="QS.openDetail('top20_ncr')" data-keywords="ncr شائعة common أخطاء mistakes ميداني"><span class="cat-emoji">🔴</span><div class="cat-name">أكثر 20 NCR شيوعاً</div><div class="cat-desc">أخطاء ميدانية + حلول + QCS clause</div><div class="cat-bottom"><span class="cat-count">خبرة ميدانية</span><span class="cat-arr">←</span></div></div>
 <div class="cat-card" onclick="QS.openDetail('prequalification_checklist')" data-keywords="checklist تفقيص مرحلة phase قبل"><span class="cat-emoji">✅</span><div class="cat-name">Checklist قبل كل مرحلة</div><div class="cat-desc">تفقيص تفاعلي — طرق + مرافق + خرسانة</div><div class="cat-bottom"><span class="cat-count">Interactive</span><span class="cat-arr">←</span></div></div>
 <div class="cat-card" onclick="QS.openDetail('ncr_quick_logger')" data-keywords="ncr logger سجل تصدير quick" style="background:linear-gradient(135deg,rgba(231,76,60,.1),rgba(231,76,60,.03));border-color:rgba(231,76,60,.3)"><span class="cat-emoji">🔴</span><div class="cat-name">NCR Quick Logger</div><div class="cat-desc">سجّل NCR بـ 5 حقول + تصدير دفعة</div><div class="cat-bottom"><span class="cat-count" style="color:#e74c3c">localStorage</span><span class="cat-arr">←</span></div></div>
-<div class="cat-card" onclick="QS.openDetail('drawing_analyzer')" data-keywords="مخططات drawing analyzer ai shop structural road" style="background:linear-gradient(135deg,rgba(46,204,113,.1),rgba(46,204,113,.02));border-color:rgba(46,204,113,.35)"><span class="cat-emoji">📐</span><div class="cat-name">محلل المخططات الذكي</div><div class="cat-desc">Structural · Road · ITP · Shop Drawing — فحص QCS 2024</div><div class="cat-bottom"><span class="cat-count" style="color:#2ecc71">AI Drawing</span><span class="cat-arr">←</span></div></div>
+<div class="cat-card" onclick="QS.openDetail('drawing_analyzer')" data-keywords="مخططات drawing analyzer ai shop structural road" style="background:linear-gradient(135deg,rgba(46,204,113,.1),rgba(46,204,113,.02));border-color:rgba(46,204,113,.35)"><div class="pro-lock">PRO</div><span class="cat-emoji">📐</span><div class="cat-name">محلل المخططات الذكي</div><div class="cat-desc">Structural · Road · ITP · Shop Drawing — فحص QCS 2024</div><div class="cat-bottom"><span class="cat-count" style="color:#2ecc71">AI Drawing</span><span class="cat-arr">←</span></div></div>
 </div>
 </div>
 </div>
@@ -640,6 +840,15 @@ let uploadedFiles = [];
 
 // ===== INIT =====
 window.onload = () => {
+  // ── Monetization Init ──
+  renderProStatus();
+  // Check pro expiry
+  const expiry = getProExpiry();
+  if (expiry && new Date(expiry) < new Date()) {
+    setProActive(false, null);
+    renderProStatus();
+  }
+
   // في وضع Proxy: المفتاح دائماً مُفعَّل
   const isProxyMode = !window.location.hostname.includes('localhost') &&
                       !window.location.hostname.includes('127.0.0.1');
@@ -777,6 +986,18 @@ function buildQCSPrompt(query, partNum) {
 async function doSearch() {
   const query = document.getElementById('searchInput').value.trim();
   if (!query) return;
+
+  // ── MONETIZATION: Daily Search Limit ──
+  if (!isProUser() && !canSearch()) {
+    showUpgradePrompt(
+      'search',
+      '🔍',
+      'استنفدت بحوثاتك اليومية',
+      'الخطة المجانية تشمل ' + FREE_DAILY_LIMIT + ' بحث ذكي يومياً. اشترك في Pro للحصول على بحث غير محدود.'
+    );
+    return;
+  }
+
   const isProxyMode = !window.location.hostname.includes('localhost');
   if (!isProxyMode && !anthropicKey) { openKeyModal(); return; }
 
@@ -809,6 +1030,9 @@ async function doSearch() {
         max_tokens: 800,
         messages: [{ role: 'user', content: buildQCSPrompt(query, partsLabel) }]
     });
+
+    // ── Track search usage ──
+    if (!isProUser()) { incrementSearch(); updateSearchCounterBar(); }
 
     setLoadingSteps(steps, 2);
 
@@ -13137,6 +13361,11 @@ function handleDocUpload(input, type) {
 }
 
 function runDocAnalysis() {
+  // ── MONETIZATION: Pro Feature ──
+  if (!isProUser()) {
+    showUpgradePrompt('doc_analyzer','🤖','محلل المستندات الذكي — Pro فقط','تحليل المواصفات والعقود وملفات PDF باستخدام الذكاء الاصطناعي متاح للمشتركين في Pro فقط.');
+    return;
+  }
   const resultEl = document.getElementById('doc-ai-result') || document.getElementById('doc-ai-result-en');
   if (!resultEl) return;
   
@@ -13538,6 +13767,11 @@ function loadHtml2Canvas() {
 
 // --- PDF Export (jsPDF + html2canvas) ---
 async function exportToPDF() {
+  // ── MONETIZATION: Pro Feature ──
+  if (!isProUser()) {
+    showUpgradePrompt('pdf','📄','تصدير PDF — ميزة Pro','تصدير التقارير والـ ITP إلى PDF احترافي متاح للمشتركين في Pro فقط.');
+    return;
+  }
   let title = document.getElementById('dmTitle').textContent.trim();
   let today = new Date().toLocaleDateString('ar-QA');
   let projEl = document.getElementById('itp-project-name');
@@ -13680,6 +13914,11 @@ function _printFallback(title, proj, today) {
 
 // --- Word Export (HTML-in-docx via Blob) ---
 async function exportToWord() {
+  // ── MONETIZATION: Pro Feature ──
+  if (!isProUser()) {
+    showUpgradePrompt('word','📝','تصدير Word — ميزة Pro','تصدير المواصفات والنماذج إلى ملف Word متاح للمشتركين في Pro فقط.');
+    return;
+  }
   let title = document.getElementById('dmTitle').textContent.trim();
   let today = new Date().toLocaleDateString('ar-QA');
   const projEl = document.getElementById('itp-project-name');
@@ -14766,6 +15005,11 @@ function copyDaResult() {
 
 // دالة تحليل المخطط الرئيسية
 async function runDrawingAnalysis() {
+  // ── MONETIZATION: Pro Feature ──
+  if (!isProUser()) {
+    showUpgradePrompt('drawing_analyzer','📐','محلل المخططات الذكي — Pro فقط','فحص المخططات الإنشائية والطرق ومطابقتها مع QCS 2024 متاح للمشتركين في Pro فقط.');
+    return;
+  }
   if (!_daImageData) { showToast('❌ ارفع مخططاً أولاً'); return; }
 
   const notes = (document.getElementById('da-notes') || {}).value || '';
@@ -15013,6 +15257,11 @@ function inspectorLoadImage(input) {
 }
 
 async function runInspector() {
+  // ── MONETIZATION: Pro Feature ──
+  if (!isProUser()) {
+    showUpgradePrompt('inspector','🔍','المفتش الذكي بالصور — Pro فقط','فحص الأعمال الميدانية بالصور ومطابقتها مع QCS 2024 متاح للمشتركين في Pro فقط.');
+    return;
+  }
   let workType = document.getElementById('insp-work-type').value;
   const phase = document.getElementById('insp-phase').value;
   let specific = document.getElementById('insp-specific').value;
@@ -15476,6 +15725,172 @@ window.calcRoadLayers = function calcRoadLayers() {
 // ─── End Missing Calculators ───
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════════════════════
+// MONETIZATION SYSTEM — v2.1.0
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// ── Constants ──
+var FREE_DAILY_LIMIT = 5;
+var PRO_CODES = ['QATAR2026PRO', 'QATARSPEC-PRO', 'QS-ENGINEER-2026', 'PRO-BETA-QCS'];
+
+// ── Pro State ──
+function isProUser() {
+  return localStorage.getItem('qs_pro_active') === 'true';
+}
+function getProExpiry() {
+  return localStorage.getItem('qs_pro_expiry') || null;
+}
+function setProActive(val, expiry) {
+  localStorage.setItem('qs_pro_active', val ? 'true' : 'false');
+  if (expiry) localStorage.setItem('qs_pro_expiry', expiry);
+  else localStorage.removeItem('qs_pro_expiry');
+}
+
+// ── Daily Search Counter ──
+function getTodayKey() {
+  var d = new Date(); return 'qs_searches_' + d.getFullYear() + '_' + d.getMonth() + '_' + d.getDate();
+}
+function getSearchCount() {
+  return parseInt(localStorage.getItem(getTodayKey()) || '0');
+}
+function incrementSearch() {
+  var k = getTodayKey();
+  var c = getSearchCount() + 1;
+  localStorage.setItem(k, c);
+  return c;
+}
+function canSearch() {
+  if (isProUser()) return true;
+  return getSearchCount() < FREE_DAILY_LIMIT;
+}
+
+// ── Pro Badge Renderer ──
+function renderProStatus() {
+  var badge = document.getElementById('proStatusBadge');
+  var bar = document.getElementById('searchCounterBar');
+  if (!badge) return;
+
+  if (isProUser()) {
+    badge.className = 'pro-badge';
+    badge.innerHTML = '⭐ Pro مُفعَّل ✓';
+    if (bar) bar.style.display = 'none';
+  } else {
+    badge.className = 'free-badge';
+    badge.innerHTML = '⭐ ارقَ لـ Pro';
+    if (bar) {
+      bar.style.display = 'flex';
+      updateSearchCounterBar();
+    }
+  }
+}
+
+function updateSearchCounterBar() {
+  var bar = document.getElementById('searchCounterBar');
+  var txt = document.getElementById('searchCounterText');
+  var dots = document.getElementById('searchCounterDots');
+  if (!bar || !txt || !dots) return;
+
+  var used = getSearchCount();
+  var remaining = Math.max(0, FREE_DAILY_LIMIT - used);
+
+  txt.textContent = used + ' / ' + FREE_DAILY_LIMIT + ' بحث ذكي مستخدم اليوم';
+
+  // Build dots
+  var html = '';
+  for (var i = 0; i < FREE_DAILY_LIMIT; i++) {
+    var cls = i < used ? (used >= FREE_DAILY_LIMIT ? 'search-dot warn' : 'search-dot used') : 'search-dot';
+    html += '<div class="' + cls + '"></div>';
+  }
+  dots.innerHTML = html;
+
+  if (remaining <= 1) {
+    bar.className = 'search-counter-bar limit-warn';
+  } else {
+    bar.className = 'search-counter-bar';
+  }
+}
+
+// ── Pro Modal ──
+function openProModal() {
+  document.getElementById('proModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  // Reset payment contact
+  var pc = document.getElementById('paymentContact');
+  if (pc) pc.style.display = 'none';
+  var msg = document.getElementById('promoMsg');
+  if (msg) { msg.style.display = 'none'; }
+  // If already pro, show status
+  if (isProUser()) {
+    showToast('✅ أنت بالفعل مشترك في النسخة Pro!');
+  }
+}
+function closeProModal() {
+  document.getElementById('proModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function showPaymentContact() {
+  var pc = document.getElementById('paymentContact');
+  if (pc) { pc.style.display = 'block'; pc.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
+}
+
+// ── Promo Code Activation ──
+function activatePro(code) {
+  var clean = (code || '').trim().toUpperCase();
+  var msg = document.getElementById('promoMsg');
+  if (!clean) {
+    if (msg) { msg.style.display='block'; msg.style.color='#e74c3c'; msg.textContent='❌ أدخل الكود أولاً'; }
+    return;
+  }
+  if (PRO_CODES.indexOf(clean) !== -1 || clean === 'QATAR2026PRO') {
+    // Activate for 1 year
+    var expiry = new Date();
+    expiry.setFullYear(expiry.getFullYear() + 1);
+    setProActive(true, expiry.toISOString());
+    renderProStatus();
+    if (msg) { msg.style.display='block'; msg.style.color='#2ecc71'; msg.textContent='🎉 تم تفعيل Pro بنجاح! صالح لسنة كاملة.'; }
+    setTimeout(function() {
+      closeProModal();
+      showToast('🎉 مرحباً بك في QatarSpec Pro!');
+    }, 1500);
+  } else {
+    if (msg) { msg.style.display='block'; msg.style.color='#e74c3c'; msg.textContent='❌ الكود غير صحيح — تحقق من الكود وأعد المحاولة'; }
+    document.getElementById('promoCodeInput').style.borderColor = '#e74c3c';
+    setTimeout(function() {
+      if (document.getElementById('promoCodeInput'))
+        document.getElementById('promoCodeInput').style.borderColor = '';
+    }, 2000);
+  }
+}
+
+// ── Upgrade Overlay ──
+var _pendingUpgradeAction = null;
+function showUpgradePrompt(feature, icon, title, desc, action) {
+  document.getElementById('upgradeIcon').textContent = icon || '🔒';
+  document.getElementById('upgradeTitle').textContent = title || 'ميزة Pro حصرية';
+  document.getElementById('upgradeDesc').textContent = desc || 'هذه الميزة متاحة للمشتركين في النسخة Pro فقط. اشترك الآن واستمتع بجميع الميزات.';
+  _pendingUpgradeAction = action || null;
+  document.getElementById('upgradeOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeUpgradeOverlay() {
+  document.getElementById('upgradeOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  _pendingUpgradeAction = null;
+}
+
+// ── Feature Gate Wrappers ──
+function requirePro(feature, icon, title, desc, proceed) {
+  if (isProUser()) {
+    if (proceed) proceed();
+    return true;
+  }
+  showUpgradePrompt(feature, icon, title, desc, proceed);
+  return false;
+}
+
+// ─── End Monetization System ───
+
 // publicFns Integrity Checker — يكتشف الدوال المُعلَنة في QS لكنها غير موجودة
 // ═══════════════════════════════════════════════════════════════════════════════
 // ── console.group polyfill ── بعض البيئات (WebView / iOS WKWebView / Node)
@@ -15568,7 +15983,7 @@ window.QS = (function() {
 <div id="appFooter" style="background:linear-gradient(135deg,#111,#0A0A0A);border-top:1px solid rgba(201,168,76,0.2);padding:16px 20px;text-align:center;margin-top:24px;position:relative;z-index:1;">
   <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:8px;">
     <span style="color:var(--gold);font-family:'Cairo',sans-serif;font-weight:700;font-size:13px;">QatarSpec Pro</span>
-    <span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:2px 10px;font-size:10px;color:var(--gold);letter-spacing:1px;">v2.0.0</span>
+    <span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:2px 10px;font-size:10px;color:var(--gold);letter-spacing:1px;">v2.1.0</span>
     <span style="color:rgba(255,255,255,0.3);font-size:10px;">|</span>
     <span style="color:var(--text3);font-size:11px;">آخر تحديث للمواصفات: <strong style="color:var(--text2);">أبريل 2026 — QCS 2024</strong></span>
   </div>
@@ -15577,6 +15992,118 @@ window.QS = (function() {
     <span style="font-size:10px;color:var(--text3);">للاستخدام المهني فقط — Not for Design Purposes</span>
   </div>
   <div style="margin-top:8px;font-size:10px;color:var(--text3);opacity:0.6;">Reviewed April 2026 | QCS 2024 · Ashghal · KAHRAMAA · MMUP · QCDD</div>
+</div>
+<!-- ═══════════════════════════════════════════════
+     PRO MODAL — خطط الاشتراك
+     ═══════════════════════════════════════════════ -->
+<div class="pro-modal-bg" id="proModal">
+  <div class="pro-modal-box">
+    <div class="pro-modal-close" onclick="closeProModal()">✕</div>
+
+    <div class="pro-modal-title">🏆 QatarSpec Pro</div>
+    <div class="pro-modal-sub">الأداة الاحترافية الأولى للمواصفات القطرية — اختر الخطة المناسبة</div>
+
+    <div class="plans-grid">
+      <!-- FREE PLAN -->
+      <div class="plan-card">
+        <div class="plan-name" style="color:var(--text2)">🆓 المجاني</div>
+        <div class="plan-price">0 <span>QAR</span></div>
+        <div class="plan-period">للأبد — بدون بطاقة</div>
+        <ul class="plan-features">
+          <li>5 بحث ذكي يومياً</li>
+          <li>كل المحتوى الثابت (100+ قسم)</li>
+          <li>الحاسبات الأساسية</li>
+          <li class="no">تصدير PDF / Word</li>
+          <li class="no">محلل المستندات الذكي</li>
+          <li class="no">محلل المخططات</li>
+          <li class="no">المفتش الذكي بالصور</li>
+          <li class="no">بحث غير محدود</li>
+        </ul>
+        <button class="plan-btn secondary" onclick="closeProModal()">الخطة الحالية</button>
+      </div>
+
+      <!-- PRO PLAN -->
+      <div class="plan-card featured">
+        <div class="plan-badge-top">🔥 الأكثر شيوعاً</div>
+        <div class="plan-name" style="color:var(--gold)">⭐ Pro</div>
+        <div style="display:flex;gap:12px;align-items:flex-end;margin-bottom:2px;">
+          <div>
+            <div class="plan-price">99 <span>QAR</span></div>
+            <div class="plan-period">شهرياً</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:15px;font-weight:800;color:var(--gold2);">799 QAR</div>
+            <div style="font-size:10px;color:#2ecc71;font-weight:700;">سنوياً — وفر 33%</div>
+          </div>
+        </div>
+        <ul class="plan-features">
+          <li>بحث ذكي غير محدود</li>
+          <li>كل المحتوى الثابت (100+ قسم)</li>
+          <li>جميع الحاسبات</li>
+          <li>تصدير PDF + Word احترافي</li>
+          <li>محلل المستندات بالذكاء الاصطناعي</li>
+          <li>محلل المخططات (Structural/Road)</li>
+          <li>المفتش الذكي بالصور</li>
+          <li>دعم فني أولوية</li>
+        </ul>
+        <button class="plan-btn primary" onclick="showPaymentContact()">🚀 اشترك الآن</button>
+      </div>
+    </div>
+
+    <!-- PROMO CODE -->
+    <div class="promo-section">
+      <div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:4px;">🎁 لديك كود خصم أو ترقية؟</div>
+      <div style="font-size:11px;color:var(--text3);">أدخل الكود لتفعيل النسخة Pro فوراً</div>
+      <div class="promo-input-wrap">
+        <input type="text" id="promoCodeInput" class="promo-input" placeholder="QATAR-PRO-XXXX" maxlength="20"
+          onkeydown="if(event.key==='Enter') activatePro(this.value)">
+        <button class="promo-btn" onclick="activatePro(document.getElementById('promoCodeInput').value)">✅ تفعيل</button>
+      </div>
+      <div id="promoMsg" style="margin-top:6px;font-size:12px;display:none;"></div>
+    </div>
+
+    <!-- CONTACT FOR PAYMENT -->
+    <div id="paymentContact" style="display:none;background:linear-gradient(135deg,rgba(46,204,113,0.1),rgba(46,204,113,0.03));border:1px solid rgba(46,204,113,0.3);border-radius:12px;padding:16px;margin-bottom:16px;">
+      <div style="font-size:13px;font-weight:700;color:#2ecc71;margin-bottom:10px;">📱 للاشتراك — تواصل معنا مباشرةً</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <a href="https://wa.me/97455555555?text=أريد الاشتراك في QatarSpec Pro" target="_blank"
+          style="display:flex;align-items:center;gap:10px;background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.3);border-radius:10px;padding:12px;text-decoration:none;color:var(--text);font-size:13px;">
+          <span style="font-size:20px;">💬</span>
+          <div><div style="font-weight:700;color:#25d366;">WhatsApp</div><div style="font-size:11px;color:var(--text3);">رد خلال ساعة — دفع آمن</div></div>
+        </a>
+        <a href="mailto:pro@qatarspec.com?subject=QatarSpec Pro Subscription"
+          style="display:flex;align-items:center;gap:10px;background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;text-decoration:none;color:var(--text);font-size:13px;">
+          <span style="font-size:20px;">📧</span>
+          <div><div style="font-weight:700;color:#3498db;">البريد الإلكتروني</div><div style="font-size:11px;color:var(--text3);">pro@qatarspec.com</div></div>
+        </a>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--text3);text-align:center;">
+        💳 نقبل: بطاقات ائتمان · تحويل بنكي · Ooredoo Pay · QNB
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div style="text-align:center;font-size:11px;color:var(--text3);">
+      ✅ ضمان استرداد 7 أيام &nbsp;|&nbsp; 🔒 دفع آمن &nbsp;|&nbsp; 🇶🇦 مصمم لمهندسي قطر
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     UPGRADE OVERLAY — contextual gate
+     ═══════════════════════════════════════════════ -->
+<div class="upgrade-overlay" id="upgradeOverlay">
+  <div class="upgrade-box">
+    <div class="upgrade-icon" id="upgradeIcon">🔒</div>
+    <div class="upgrade-title" id="upgradeTitle">ميزة Pro</div>
+    <div class="upgrade-desc" id="upgradeDesc">هذه الميزة متاحة للمشتركين في النسخة Pro فقط.</div>
+    <div class="upgrade-actions">
+      <button class="upgrade-cta" onclick="closeUpgradeOverlay(); openProModal();">
+        🚀 ارقَ إلى Pro الآن
+      </button>
+      <button class="upgrade-dismiss" onclick="closeUpgradeOverlay()">ليس الآن</button>
+    </div>
+  </div>
 </div>
 
 </body>
