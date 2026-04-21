@@ -172,7 +172,7 @@ export default async function handler(req, res) {
     // ── Keys from env ──
     const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY  || '';
     const OR_KEY        = process.env.OPENROUTER_API_KEY || '';
-    const GEMINI_KEY    = process.env.GEMINI_API_KEY     || process.env.GOOGLE_API_KEY || '';
+    const GEMINI_KEY    = process.env.GEMINI_API_KEY || process.env.GEMINI_KEY || process.env.GOOGLE_API_KEY || '';
 
     // ── User-supplied key fallback (from X-Api-Key header) ──
     const userKey = req.headers['x-api-key'] || '';
