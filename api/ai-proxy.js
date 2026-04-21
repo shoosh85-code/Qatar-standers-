@@ -61,15 +61,21 @@ export default async function handler(request) {
   // ── Option 2: Gemini (free server key) ──
   const geminiKey = process.env.GEMINI_KEY;
   if (geminiKey) {
-    const userMsg = messages.map(m => {
-      const c = m.content;
-      return Array.isArray(c) ? c.map(x => x.text || '').join('') : (c || '');
-    }).join('\n');
+    // Build Gemini contents (exclude system messages)
+    const geminiContents = messages
+      .filter(m => m.role !== 'system')
+      .map(m => ({
+        role: m.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: Array.isArray(m.content) ? m.content.map(c => c.text||'').join('') : (m.content||'') }]
+      }));
 
-    const fullPrompt = systemPrompt + '\n\nالسؤال: ' + userMsg;
+    const geminiBody = {
+      contents: geminiContents,
+      systemInstruction: { parts: [{ text: systemPrompt }] },
+      generationConfig: { maxOutputTokens: maxTokens, temperature: 0.3 },
+    };
 
-    // Try gemini-1.5-flash first, fallback to gemini-pro
-    const models = ['gemini-1.5-flash', 'gemini-1.5-flash-latest', 'gemini-pro'];
+    const models = ['gemini-1.5-flash', 'gemini-pro'];
     let geminiText = null;
     let geminiError = null;
 
@@ -77,22 +83,15 @@ export default async function handler(request) {
       try {
         const res = await fetch(
           `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: fullPrompt }] }],
-              generationConfig: { maxOutputTokens: maxTokens, temperature: 0.3 },
-            }),
-          }
+          { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(geminiBody) }
         );
         const data = await res.json();
-        console.log('Gemini', model, res.status, JSON.stringify(data).slice(0, 200));
+        console.log('Gemini', model, res.status, JSON.stringify(data).slice(0,150));
         if (res.ok && data?.candidates?.[0]?.content?.parts?.[0]?.text) {
           geminiText = data.candidates[0].content.parts[0].text;
           break;
         }
-        geminiError = (data?.error?.message || `HTTP ${res.status}`) + ' [' + model + ']';
+        geminiError = (data?.error?.message || JSON.stringify(data).slice(0,100)) + ' [' + model + ']';
       } catch(e) {
         geminiError = e.message + ' [' + model + ']';
       }
