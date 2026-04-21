@@ -1,5 +1,5 @@
 // QatarSpec Pro — /api/ai-proxy.js
-// Priority: 1) ANTHROPIC_API_KEY (server) → 2) Cloudflare Workers AI (free) → 3) User key (X-Api-Key header)
+// Priority: 1) ANTHROPIC_API_KEY → 2) GEMINI_KEY (free) → 3) User X-Api-Key header
 export const config = { runtime: 'edge' };
 
 const ALLOWED_ORIGINS = [
@@ -15,12 +15,12 @@ const cors = (origin) => ({
   'Content-Type': 'application/json',
 });
 
-const QCS_SYSTEM = `أنت خبير متخصص في QCS 2024 (Qatar Construction Specifications).
+const QCS_SYSTEM = `أنت خبير متخصص في QCS 2024 (Qatar Construction Specifications) ومواصفات البناء والبنية التحتية القطرية.
 قواعد الإجابة:
 - استشهد بالبند والجدول الدقيق فقط إذا كنت متأكداً 100%.
 - إذا لم تكن متأكداً: قل "يُرجى مراجعة QCS مباشرة للتأكد".
 - لا تخترع أرقام بنود أو جداول.
-في نهاية كل إجابة: [مستوى الثقة: موثوق | للمراجعة | استشر المرجع الأصلي]`;
+في نهاية كل إجابة أضف: [مستوى الثقة: موثوق | للمراجعة | استشر المرجع الأصلي]`;
 
 export default async function handler(request) {
   const origin = request.headers.get('origin') || '';
@@ -43,10 +43,10 @@ export default async function handler(request) {
   if (!body) return new Response(JSON.stringify({ error: { message: 'Invalid JSON' } }), { status: 400, headers });
 
   const maxTokens = isPro ? (body.max_tokens || 1500) : Math.min(body.max_tokens || 800, 800);
-  const messages = body.messages || [];
+  const messages  = body.messages || [];
   const systemPrompt = body.system || QCS_SYSTEM;
 
-  // ── Option 1: Anthropic API (server key) ──
+  // ── Option 1: Anthropic (server key) ──
   const anthropicKey = process.env.ANTHROPIC_API_KEY;
   if (anthropicKey) {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
@@ -58,29 +58,42 @@ export default async function handler(request) {
     return new Response(JSON.stringify(data), { status: res.status, headers });
   }
 
-  // ── Option 2: Cloudflare Workers AI (free) ──
-  const cfToken = process.env.CF_TOKEN;
-  const cfAccount = process.env.CF_ACCOUNT_ID;
-  if (cfToken && cfAccount) {
-    const prompt = `${systemPrompt}\n\n${messages.map(m => `${m.role === 'user' ? 'المستخدم' : 'المساعد'}: ${Array.isArray(m.content) ? m.content.map(c=>c.text||'').join('') : m.content}`).join('\n')}`;
-    const res = await fetch(`https://api.cloudflare.com/client/v4/accounts/${cfAccount}/ai/run/@cf/meta/llama-3.1-8b-instruct`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${cfToken}` },
-      body: JSON.stringify({ messages: [{ role: 'system', content: systemPrompt }, ...messages.filter(m=>typeof m.content==='string')], max_tokens: maxTokens }),
-    });
+  // ── Option 2: Gemini (free server key) ──
+  const geminiKey = process.env.GEMINI_KEY;
+  if (geminiKey) {
+    // Build Gemini prompt from messages
+    const userMsg = messages.map(m => {
+      const content = Array.isArray(m.content) ? m.content.map(c => c.text || '').join('') : (m.content || '');
+      return content;
+    }).join('\n');
+
+    const fullPrompt = `${systemPrompt}\n\nالسؤال: ${userMsg}`;
+
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: fullPrompt }] }],
+          generationConfig: { maxOutputTokens: maxTokens, temperature: 0.3 },
+        }),
+      }
+    );
     const data = await res.json();
-    if (res.ok && data?.success) {
-      // Convert CF response to Anthropic format
-      const text = data?.result?.response || '';
+    if (res.ok && data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+      const text = data.candidates[0].content.parts[0].text;
+      // Return in Anthropic-compatible format so client code works unchanged
       return new Response(JSON.stringify({
         content: [{ type: 'text', text }],
-        model: 'llama-3.1-8b (Cloudflare)',
+        model: 'gemini-2.0-flash',
         stop_reason: 'end_turn',
       }), { headers });
     }
+    // Gemini error — fall through to user key
   }
 
-  // ── Option 3: User key from header ──
+  // ── Option 3: User key from header (Anthropic) ──
   const userKey = request.headers.get('X-Api-Key') || '';
   if (userKey && userKey.length > 20) {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
@@ -94,7 +107,7 @@ export default async function handler(request) {
 
   // ── No key available ──
   return new Response(JSON.stringify({
-    error: { message: 'لا يوجد مفتاح API — أضف مفتاحك عبر زر "إعداد AI" أعلى الصفحة' }
+    error: { message: 'لا يوجد مفتاح API — تواصل مع مدير التطبيق' }
   }), { status: 401, headers });
 }
 
@@ -104,7 +117,7 @@ async function verifyJWT(token, secret) {
   const pad = x => x.replace(/-/g,'+').replace(/_/g,'/').padEnd(x.length+(4-x.length%4)%4,'=');
   const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), {name:'HMAC',hash:'SHA-256'}, false, ['verify']);
   const sig = Uint8Array.from(atob(pad(s)), c => c.charCodeAt(0));
-  const ok = await crypto.subtle.verify('HMAC', key, sig, new TextEncoder().encode(`${h}.${p}`));
+  const ok  = await crypto.subtle.verify('HMAC', key, sig, new TextEncoder().encode(`${h}.${p}`));
   if (!ok) throw new Error('bad sig');
   return JSON.parse(atob(pad(p)));
 }
