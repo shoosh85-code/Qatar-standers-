@@ -4569,21 +4569,6 @@ window.QS = window.QS || {};
   </div>
 </div>
 
-<script src="data_calcs.js"></script>
-<script>
-// data_content.js — lazy load after everything is ready (only needed on card open)
-(function(){
-  function loadContent(){
-    var s=document.createElement('script');
-    s.src='data_content.js';s.async=true;
-    document.head.appendChild(s);
-  }
-  if('requestIdleCallback' in window){
-    requestIdleCallback(loadContent,{timeout:2000});
-  } else {
-    setTimeout(loadContent,800);
-  }
-})();
-</script>
+<script src="loader.js"></script>
 </body>
 </html>
