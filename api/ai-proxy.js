@@ -2,66 +2,49 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Api-Key');
+
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
+  const { messages, prompt, query, system, max_tokens } = req.body || {};
+
+  const chatMessages = messages || [{ role: 'user', content: prompt || query || '' }];
+  const systemMsg = system || 'أنت مساعد ذكي متخصص في معايير قطر. أجب باللغة العربية.';
+  const key = process.env.OPENROUTER_API_KEY;
+
+  if (!key) {
+    return res.status(500).json({ success: false, error: 'OPENROUTER_API_KEY غير موجود' });
+  }
+
   try {
-    const { messages, prompt, query, model, max_tokens, system } = req.body || {};
-    let chatMessages = [];
-    if (messages && Array.isArray(messages)) {
-      chatMessages = messages;
-    } else if (prompt || query) {
-      chatMessages = [{ role: 'user', content: prompt || query }];
-    } else {
-      return res.status(400).json({ error: 'يجب توفير messages أو prompt' });
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + key,
+        'HTTP-Referer': 'https://qatar-standers.vercel.app',
+        'X-Title': 'Qatar Standards',
+      },
+      body: JSON.stringify({
+        model: 'mistralai/mistral-7b-instruct:free',
+        messages: [{ role: 'system', content: systemMsg }, ...chatMessages],
+        max_tokens: max_tokens || 1024,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error('[ai-proxy] OpenRouter error:', JSON.stringify(data));
+      return res.status(502).json({ success: false, error: data?.error?.message || 'OpenRouter فشل' });
     }
 
-    const systemMessage = system || 'أنت مساعد ذكي متخصص في معايير قطر والجودة والمواصفات القياسية. أجب باللغة العربية.';
+    const text = data.choices?.[0]?.message?.content || '';
+    console.log('[ai-proxy] ✅ نجح provider=openrouter');
+    return res.status(200).json({ success: true, result: text, text, provider: 'openrouter' });
 
-    // ✅ OpenRouter أولاً
-    const OPENROUTER_KEY = process.env.OPENROUTER_API_KEY;
-    if (OPENROUTER_KEY) {
-      try {
-        const orRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${OPENROUTER_KEY}`,
-            'HTTP-Referer': 'https://qatar-standers.vercel.app',
-            'X-Title': 'Qatar Standards',
-          },
-          body: JSON.stringify({
-            model: 'meta-llama/llama-3.1-8b-instruct:free',
-            messages: [{ role: 'system', content: systemMessage }, ...chatMessages],
-            max_tokens: max_tokens || 1024,
-          }),
-        });
-        if (orRes.ok) {
-          const data = await orRes.json();
-          const text = data.choices?.[0]?.message?.content || '';
-          console.log('[ai-proxy] ✅ OpenRouter نجح');
-          return res.status(200).json({ success: true, result: text, text, provider: 'openrouter' });
-        }
-        const errText = await orRes.text();
-        console.error('[ai-proxy] OpenRouter فشل:', errText);
-      } catch (e) {
-        console.error('[ai-proxy] OpenRouter خطأ:', e.message);
-      }
-    }
-
-    // ⚠️ Gemini احتياطي
-    const GEMINI_KEY = process.env.GEMINI_KEY || process.env.GEMINI_API_KEY;
-    if (GEMINI_KEY) {
-      try {
-        const geminiRes = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              system_instruction: { parts: [{ text: systemMessage }] },
-              contents: chatMessages.map(m => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] })),
-              generationConfig: { maxOutputTokens: max_tokens || 1024 },
-            }),
-          }
-        );
+  } catch (err) {
+    console.error('[ai-proxy] exception:', err.message);
+    return res.status(500).json({ success: false, error: err.message });
+  }
+}
