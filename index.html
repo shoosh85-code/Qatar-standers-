@@ -1935,10 +1935,13 @@ async function fetchAnthropicAPI(body) {
   const timeoutId = setTimeout(() => controller.abort(), 20000);
 
   try {
-    // Attach Pro JWT if available
+    // Build headers — Pro JWT + user API key (fallback when no server key)
     const _headers = { 'Content-Type': 'application/json' };
     const _proTok = _getProToken();
     if (_proTok) _headers['Authorization'] = 'Bearer ' + _proTok;
+    // Send user's stored key if available (used when server has no ANTHROPIC_API_KEY)
+    const _userKey = localStorage.getItem('qatarspecKey') || '';
+    if (_userKey) _headers['X-Api-Key'] = _userKey;
     const response = await fetch('/api/ai-proxy', {
       method: 'POST',
       headers: _headers,
