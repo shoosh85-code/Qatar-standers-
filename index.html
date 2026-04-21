@@ -1146,7 +1146,9 @@ async function doSearch() {
   if (!query) return;
 
   // ── MONETIZATION: Daily Search Limit ──
-  if (!isProUser() && !canSearch()) {
+  // Owner bypass: add ?qs_admin=1 to URL to skip limit (URL param only, not stored)
+  const _isOwner = new URLSearchParams(window.location.search).get('qs_admin') === '1';
+  if (!_isOwner && !isProUser() && !canSearch()) {
     showUpgradePrompt(
       'search',
       '🔍',
