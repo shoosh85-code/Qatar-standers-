@@ -61,36 +61,53 @@ export default async function handler(request) {
   // ── Option 2: Gemini (free server key) ──
   const geminiKey = process.env.GEMINI_KEY;
   if (geminiKey) {
-    // Build Gemini prompt from messages
     const userMsg = messages.map(m => {
-      const content = Array.isArray(m.content) ? m.content.map(c => c.text || '').join('') : (m.content || '');
-      return content;
+      const c = m.content;
+      return Array.isArray(c) ? c.map(x => x.text || '').join('') : (c || '');
     }).join('\n');
 
-    const fullPrompt = `${systemPrompt}\n\nالسؤال: ${userMsg}`;
+    const fullPrompt = systemPrompt + '\n\nالسؤال: ' + userMsg;
 
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: fullPrompt }] }],
-          generationConfig: { maxOutputTokens: maxTokens, temperature: 0.3 },
-        }),
+    // Try gemini-1.5-flash first, fallback to gemini-pro
+    const models = ['gemini-1.5-flash', 'gemini-1.5-flash-latest', 'gemini-pro'];
+    let geminiText = null;
+    let geminiError = null;
+
+    for (const model of models) {
+      try {
+        const res = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: fullPrompt }] }],
+              generationConfig: { maxOutputTokens: maxTokens, temperature: 0.3 },
+            }),
+          }
+        );
+        const data = await res.json();
+        if (res.ok && data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+          geminiText = data.candidates[0].content.parts[0].text;
+          break;
+        }
+        geminiError = data?.error?.message || `HTTP ${res.status}`;
+      } catch(e) {
+        geminiError = e.message;
       }
-    );
-    const data = await res.json();
-    if (res.ok && data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-      const text = data.candidates[0].content.parts[0].text;
-      // Return in Anthropic-compatible format so client code works unchanged
+    }
+
+    if (geminiText) {
       return new Response(JSON.stringify({
-        content: [{ type: 'text', text }],
-        model: 'gemini-2.0-flash',
+        content: [{ type: 'text', text: geminiText }],
+        model: 'gemini-1.5-flash',
         stop_reason: 'end_turn',
       }), { headers });
     }
-    // Gemini error — fall through to user key
+    // Gemini failed — return the actual error, don't hide it
+    return new Response(JSON.stringify({
+      error: { message: 'خطأ في Gemini API: ' + (geminiError || 'unknown') }
+    }), { status: 502, headers });
   }
 
   // ── Option 3: User key from header (Anthropic) ──
