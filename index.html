@@ -368,6 +368,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 @media(max-width:900px) { .hero { grid-template-columns:1fr; gap:32px; } .spec-row { grid-template-columns:90px 1fr; } .spec-tag,.spec-arr { display:none; } }
 @media(max-width:600px) { header { padding:0 16px; } .hero,.search-section,.content-section,.ai-answer-box { padding-left:16px; padding-right:16px; } .hero-stats { gap:16px; } }
 ::-webkit-scrollbar { width:6px; }
+/* Mobile: hide features promo section */
+@media(max-width:768px) {
+  #featuresSection { display:none !important; }
+}
 ::-webkit-scrollbar-track { background:var(--dark2); }
 ::-webkit-scrollbar-thumb { background:rgba(201,168,76,0.2); border-radius:3px; }
 @media print {
@@ -1118,18 +1122,7 @@ function setLoadingSteps(steps, activeIndex) {
 function quickSearch(q) { document.getElementById('searchInput').value = q; doSearch(); }
 
 function buildQCSPrompt(query, partNum) {
-  return `أنت خبير متخصص في QCS 2024 (Qatar Construction Specifications) ومواصفات البناء والبنية التحتية القطرية.
-أجب على السؤال التالي بدقة مهنية عالية، مع ذكر القسم والبند الدقيق من QCS 2024 أو المعيار القطري المعمول به:
-
-السؤال: ${query}
-
-يُرجى تقديم إجابة منظمة تشمل:
-1. الإجابة المباشرة مع الرقم/القيمة الدقيقة إن وُجدت
-2. المرجع الدقيق: القسم، البند، الجدول من QCS 2024 (Part ${partNum})
-3. أي اشتراطات أو استثناءات مهمة
-4. ملاحظة إن كانت المواصفة تختلف حسب نوع المشروع أو الموقع
-
-أجب باللغة العربية مع الاصطلاحات الهندسية الإنجليزية المقبولة.`;
+  return 'أنت خبير QCS 2024. السؤال: ' + query + '\n\nأجب مباشرة مع: ١) القيمة الدقيقة ٢) المرجع من QCS 2024 Part ' + partNum + ' ٣) أي استثناءات. أجب بالعربية بإيجاز.';
 }
 
 /**
@@ -4419,7 +4412,7 @@ window.QS = window.QS || {};
 <!-- ═══════════════════════════════════════════════
      FEATURES SECTION — Why QatarSpec Pro
      ═══════════════════════════════════════════════ -->
-<div id="featuresSection" style="max-width:1300px;margin:0 auto;padding:40px 28px 20px;">
+<div id="featuresSection" style="max-width:1300px;margin:0 auto;padding:40px 28px 20px;display:none">
   <div style="text-align:center;margin-bottom:32px;">
     <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:20px;padding:5px 14px;font-size:11px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;">
       لماذا QatarSpec Pro؟
