@@ -143,7 +143,7 @@ async function tryGemini(body, geminiKey) {
         body: JSON.stringify({
           contents,
           systemInstruction: { parts: [{ text: systemText }] },
-          generationConfig: { maxOutputTokens: body.max_tokens || 1024, temperature: 0.3 },
+          generationConfig: { maxOutputTokens: body.max_tokens || 2048, temperature: 0.3 },
         }),
       });
 
