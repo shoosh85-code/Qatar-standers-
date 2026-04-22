@@ -5,7 +5,7 @@
 //  Response format: always Anthropic-compatible {content:[{text}]}
 // ═══════════════════════════════════════════════════════════════
 
-const TIMEOUT_MS = 20000; // 20s
+const TIMEOUT_MS = 9000; // 9s — Vercel free plan Edge limit
 
 // ── Working free models on OpenRouter (April 2026) ──────────────
 const OR_FREE_MODELS = [
@@ -119,9 +119,9 @@ async function tryGemini(body, geminiKey) {
   // Try models in order — gemini-2.0-flash is the current free default
   // Models confirmed working (April 2026)
   const MODELS = [
-    'gemini-2.5-flash',     // best free model — confirmed working
-    'gemini-2.0-flash',
-    'gemini-2.0-flash-lite',
+    'gemini-2.0-flash',       // fastest — less timeout risk
+    'gemini-2.0-flash-lite',  // fallback fast
+    'gemini-2.5-flash',       // slowest — last resort
   ];
 
   const systemText = body.system || 'أنت خبير في QCS 2024 والمواصفات القطرية. أجب بدقة مع ذكر المرجع.';
@@ -143,7 +143,7 @@ async function tryGemini(body, geminiKey) {
         body: JSON.stringify({
           contents,
           systemInstruction: { parts: [{ text: systemText }] },
-          generationConfig: { maxOutputTokens: Math.min(body.max_tokens || 1024, 1024), temperature: 0.3 },
+          generationConfig: { maxOutputTokens: 600, temperature: 0.3 },
         }),
       });
 
