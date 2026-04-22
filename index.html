@@ -1197,10 +1197,10 @@ async function doSearch() {
       throw new Error(err.error?.message || err.error || `خطأ ${response.status}`);
     }
 
-    setLoadingSteps(steps, 3);
     const data = await response.json();
     const answer = (data.content && data.content[0] && data.content[0].text) || 'لم أجد إجابة.';
 
+    // Clear loading steps before showing answer
     textEl.innerHTML = sanitizeText(answer).replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     refEl.textContent = `📖 المرجع: QCS 2024 — Part ${partsLabel} | راجع المواصفة الأصلية للتأكد`;
     sourceEl.textContent = `QCS 2024 — Part ${partsLabel}`;
