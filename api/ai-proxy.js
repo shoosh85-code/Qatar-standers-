@@ -114,40 +114,53 @@ async function tryOpenRouter(body, orKey) {
 
 // ── Provider 3: Gemini ───────────────────────────────────────────
 async function tryGemini(body, geminiKey) {
-  if (!geminiKey) throw new Error('no GEMINI_API_KEY');
+  if (!geminiKey) throw new Error('no GEMINI_KEY');
 
-  // Flatten messages to a single prompt
-  const prompt = body.messages
-    .map(m => {
-      const content = Array.isArray(m.content)
-        ? m.content.map(c => c.text || '').join('\n')
-        : m.content;
-      return `${m.role === 'user' ? 'User' : 'Assistant'}: ${content}`;
-    })
-    .join('\n\n');
+  // Try models in order — gemini-2.0-flash is the current free default
+  const MODELS = [
+    'gemini-2.0-flash',
+    'gemini-2.0-flash-lite',
+    'gemini-1.5-flash-8b',
+  ];
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`;
+  const systemText = body.system || 'أنت خبير في QCS 2024 والمواصفات القطرية. أجب بدقة مع ذكر المرجع.';
 
-  const res = await fetchWithTimeout(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { maxOutputTokens: body.max_tokens || 1024 },
-    }),
-  });
+  const contents = body.messages
+    .filter(m => m.role !== 'system')
+    .map(m => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: Array.isArray(m.content) ? m.content.map(c => c.text||'').join('') : (m.content||'') }]
+    }));
 
-  const data = await res.json();
+  let lastError = '';
+  for (const model of MODELS) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
+      const res = await fetchWithTimeout(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents,
+          systemInstruction: { parts: [{ text: systemText }] },
+          generationConfig: { maxOutputTokens: body.max_tokens || 1024, temperature: 0.3 },
+        }),
+      });
 
-  if (!res.ok || data.error) {
-    const msg = data?.error?.message || JSON.stringify(data);
-    throw new Error(`Gemini ${res.status}: ${msg}`);
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        lastError = `Gemini ${model} ${res.status}: ${data?.error?.message || ''}`;
+        continue;
+      }
+
+      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      if (!text) { lastError = `Gemini ${model}: empty response`; continue; }
+
+      return makeAnthropicResp(text);
+    } catch(e) {
+      lastError = `Gemini ${model}: ${e.message}`;
+    }
   }
-
-  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-  if (!text) throw new Error('Gemini returned empty content');
-
-  return makeAnthropicResp(text);
+  throw new Error(lastError || 'Gemini: all models failed');
 }
 
 // ════════════════════════════════════════════════════════════════
