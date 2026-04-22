@@ -5,7 +5,7 @@
 //  Response format: always Anthropic-compatible {content:[{text}]}
 // ═══════════════════════════════════════════════════════════════
 
-const TIMEOUT_MS = 9000; // 9s — Vercel free plan Edge limit
+const TIMEOUT_MS = 25000; // 25s
 
 // ── Working free models on OpenRouter (April 2026) ──────────────
 const OR_FREE_MODELS = [
@@ -143,7 +143,7 @@ async function tryGemini(body, geminiKey) {
         body: JSON.stringify({
           contents,
           systemInstruction: { parts: [{ text: systemText }] },
-          generationConfig: { maxOutputTokens: 600, temperature: 0.3 },
+          generationConfig: { maxOutputTokens: 1500, temperature: 0.3 },
         }),
       });
 
