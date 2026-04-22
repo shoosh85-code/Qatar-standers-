@@ -117,10 +117,12 @@ async function tryGemini(body, geminiKey) {
   if (!geminiKey) throw new Error('no GEMINI_KEY');
 
   // Try models in order — gemini-2.0-flash is the current free default
+  // Models ordered by free quota availability
   const MODELS = [
-    'gemini-2.0-flash',
-    'gemini-2.0-flash-lite',
-    'gemini-1.5-flash-8b',
+    'gemini-1.5-flash-8b',      // highest free quota: 1000 req/day
+    'gemini-1.5-flash',          // 500 req/day free
+    'gemini-2.0-flash-lite',     // lower quota
+    'gemini-2.0-flash',          // lowest free quota
   ];
 
   const systemText = body.system || 'أنت خبير في QCS 2024 والمواصفات القطرية. أجب بدقة مع ذكر المرجع.';
