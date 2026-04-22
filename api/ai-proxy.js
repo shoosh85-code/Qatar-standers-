@@ -5,7 +5,7 @@
 //  Response format: always Anthropic-compatible {content:[{text}]}
 // ═══════════════════════════════════════════════════════════════
 
-const TIMEOUT_MS = 25000; // 25s — Vercel Pro allows 60s
+const TIMEOUT_MS = 20000; // 20s
 
 // ── Working free models on OpenRouter (April 2026) ──────────────
 const OR_FREE_MODELS = [
@@ -143,13 +143,14 @@ async function tryGemini(body, geminiKey) {
         body: JSON.stringify({
           contents,
           systemInstruction: { parts: [{ text: systemText }] },
-          generationConfig: { maxOutputTokens: body.max_tokens || 2048, temperature: 0.3 },
+          generationConfig: { maxOutputTokens: Math.min(body.max_tokens || 1024, 1024), temperature: 0.3 },
         }),
       });
 
       const data = await res.json();
+      console.log('[Gemini]', model, res.status, JSON.stringify(data).slice(0,200));
       if (!res.ok || data.error) {
-        lastError = `Gemini ${model} ${res.status}: ${data?.error?.message || ''}`;
+        lastError = `Gemini ${model} ${res.status}: ${data?.error?.message || JSON.stringify(data).slice(0,100)}`;
         continue;
       }
 
