@@ -9,27 +9,48 @@ export default async function handler(req, res) {
   const anthropicKey = process.env.ANTHROPIC_API_KEY || '';
   const jwtSecret    = process.env.JWT_SECRET || '';
 
-  // Quick Gemini live test
-  let geminiOk = false, geminiMsg = 'not tested';
+  // List available Gemini models + test the first working one
+  let geminiOk = false, geminiMsg = 'not tested', availableModels = [];
   if (geminiKey) {
     try {
-      const r = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key=${geminiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: 'Say WORKING in one word' }] }],
-            generationConfig: { maxOutputTokens: 5 }
-          }),
-          signal: AbortSignal.timeout(8000)
-        }
+      // First: get list of available models
+      const listR = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models?key=${geminiKey}`,
+        { signal: AbortSignal.timeout(8000) }
       );
-      const d = await r.json();
-      const txt = d?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-      geminiOk  = r.ok && !!txt;
-      geminiMsg = geminiOk ? txt.trim().slice(0,20) : (d?.error?.message || `HTTP ${r.status}`);
-    } catch(e) { geminiMsg = e.message; }
+      const listD = await listR.json();
+      if (listR.ok && listD.models) {
+        availableModels = listD.models
+          .filter(m => m.supportedGenerationMethods?.includes('generateContent'))
+          .map(m => m.name.replace('models/', ''))
+          .filter(n => n.includes('gemini'));
+      }
+    } catch(e) {}
+
+    // Try each available model
+    const toTry = availableModels.length > 0 ? availableModels.slice(0,5) :
+      ['gemini-1.5-flash', 'gemini-pro', 'gemini-1.0-pro'];
+
+    for (const model of toTry) {
+      try {
+        const r = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: 'Say WORKING' }] }],
+              generationConfig: { maxOutputTokens: 5 }
+            }),
+            signal: AbortSignal.timeout(8000)
+          }
+        );
+        const d = await r.json();
+        const txt = d?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        if (r.ok && txt) { geminiOk = true; geminiMsg = model + ': ' + txt.trim(); break; }
+        geminiMsg = model + ' → ' + (d?.error?.message || 'HTTP '+r.status);
+      } catch(e) { geminiMsg = model + ' error: ' + e.message; }
+    }
   }
 
   const html = `<!DOCTYPE html>
@@ -66,6 +87,10 @@ a{color:#C9A84C}
 <div class="card ${geminiOk ? 'ok':'fail'}">
   <span class="label">🤖 Gemini AI اختبار</span>
   <span class="val">${geminiOk ? `✅ يعمل: ${geminiMsg}` : `❌ فشل: ${geminiMsg}`}</span>
+</div>
+<div class="card ok">
+  <span class="label">📋 موديلات متاحة</span>
+  <span class="val" style="font-size:11px">${availableModels.slice(0,8).join(', ') || 'لم يتم جلبها'}</span>
 </div>
 
 <div class="card ok">
