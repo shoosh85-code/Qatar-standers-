@@ -937,7 +937,7 @@ const TS_DATA = {
     name: 'Asphalt Binder Course',
     unit: 'ton',
     tests: [
-      { test: 'Delivery Temperature (≥130°C)', freq_qty: 1, freq_unit: 'Every load', standard: 'QCS S6 P5', type: 'W' },
+      { test: 'Delivery Temperature (≥140°C)', freq_qty: 1, freq_unit: 'Every load', standard: 'QCS 2024 S8 P5', type: 'W' },
       { test: 'Bitumen Extraction (JMF ±0.3%)', freq_qty: 200, freq_unit: 'tonne', standard: 'ASTM D2172', type: 'W' },
       { test: 'Gradation Analysis', freq_qty: 200, freq_unit: 'tonne', standard: 'ASTM C136', type: 'W' },
       { test: 'Marshall Stability (≥8kN) + Flow', freq_qty: 200, freq_unit: 'tonne', standard: 'ASTM D1559', type: 'HP' },

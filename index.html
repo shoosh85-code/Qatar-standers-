@@ -200,7 +200,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Google Fonts with local fallback for offline support -->
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 /* Offline-safe font fallback */
 @font-face {
@@ -758,7 +758,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   </div>
 </div>
 
-<div class="ai-answer-box" id="aiAnswerBox">
+<div class="ai-answer-box" id="aiAnswerBox" aria-live="polite" aria-label="نتيجة البحث الذكي">
   <div class="ai-card">
     <div class="ai-card-header">
       <div class="ai-badge-wrap">
@@ -1033,7 +1033,7 @@ function openKeyModal() {
 function closeKeyModal() { document.getElementById('keyModal').classList.remove('open'); }
 function saveKey() {
   const k = document.getElementById('keyInput').value.trim();
-  if (!k || k.length < 20) { showToast('❌ Key غير صحيح'); return; }
+  if (!k || k.length < 20) { showToast('❌ المفتاح غير صحيح'); return; }
   anthropicKey = k;
   localStorage.setItem('qatarspecKey', k);
   updateKeyStatus(true);
@@ -2203,7 +2203,7 @@ function _printFallback(title, proj, today) {
   let contentEl = document.getElementById('dmContent');
   const contentHTML = contentEl ? contentEl.innerHTML : '';
   let w = window.open('', '_blank', 'width=900,height=700');
-  if (!w) { showToast('فعّل النوافذ المنبثقة'); return; }
+  if (!w) { showToast('❌ فعّل النوافذ المنبثقة في المتصفح'); return; }
   w.document.write('<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8">' +
     '<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">' +
     '<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Cairo,Tajawal,Arial,sans-serif;direction:rtl;background:#fff;color:#1a1a1a;font-size:13px;line-height:1.6}.hdr{background:#7a1515;color:#c9a84c;padding:14px 20px;display:flex;justify-content:space-between}.wrap{padding:16px 20px}table{width:100%;border-collapse:collapse;font-size:11px}th{background:#7a1515;color:#fff;padding:7px 8px;border:1px solid #6a1010}td{padding:6px 8px;border:1px solid #ddd}tr:nth-child(even)td{background:#fafafa}.ftr{padding:10px 20px;border-top:1px solid #ddd;display:flex;justify-content:space-between;font-size:10px;color:#888}@media print{body{-webkit-print-color-adjust:exact}}</style>' +
@@ -3119,7 +3119,7 @@ _quickNCRs=[];localStorage.removeItem('qsp_quick_ncrs');renderQuickNCRs();showTo
 }
 
 async function exportQuickNCRs(){
-if(!_quickNCRs.length){showToast('⚠️ لا يوجد NCRs');return;}
+if(!_quickNCRs.length){showToast('⚠️ لا يوجد NCRs مُسجَّلة بعد');return;}
 try{const X=await loadXLSX()}catch(e){showToast('❌ يحتاج إنترنت');return;}
 const rows = [
 ['\uFEFFQatarSpec Pro — NCR Quick Log','','','','',''],
@@ -3944,6 +3944,37 @@ function dedupeCards() {
   if (hidden > 0) console.log('[QatarSpec] dedupeCards: hid ' + hidden + ' duplicate cards');
 }
 document.addEventListener('DOMContentLoaded', dedupeCards);
+
+// ── Accessibility: Add ARIA to cat-cards ──
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.cat-card').forEach(function(card) {
+    var name = (card.querySelector('.cat-name') || {}).textContent || '';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', name + ' — اضغط للفتح');
+    card.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.click();
+      }
+    });
+  });
+});
+
+// ── Debounce for card filter (already fast, but good practice) ──
+var _cardFilterDebounce;
+document.addEventListener('DOMContentLoaded', function() {
+  var inp = document.getElementById('cardFilterInput');
+  if (inp) {
+    inp.removeAttribute('oninput');
+    inp.addEventListener('input', function() {
+      clearTimeout(_cardFilterDebounce);
+      _cardFilterDebounce = setTimeout(function() {
+        filterCards(inp.value);
+      }, 200);
+    });
+  }
+});
 // ─── End dedupeCards ───
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -4528,7 +4559,7 @@ window.QS = window.QS || {};
     <div id="paymentContact" style="display:none;background:linear-gradient(135deg,rgba(46,204,113,0.1),rgba(46,204,113,0.03));border:1px solid rgba(46,204,113,0.3);border-radius:12px;padding:16px;margin-bottom:16px;">
       <div style="font-size:13px;font-weight:700;color:#2ecc71;margin-bottom:10px;">📱 للاشتراك — تواصل معنا مباشرةً</div>
       <div style="display:flex;flex-direction:column;gap:8px;">
-        <a href="https://wa.me/97455555555?text=أريد الاشتراك في QatarSpec Pro" target="_blank"
+        <a href="https://wa.me/974XXXXXXXX?text=أريد الاشتراك في QatarSpec Pro" target="_blank"
           style="display:flex;align-items:center;gap:10px;background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.3);border-radius:10px;padding:12px;text-decoration:none;color:var(--text);font-size:13px;">
           <span style="font-size:20px;">💬</span>
           <div><div style="font-weight:700;color:#25d366;">WhatsApp</div><div style="font-size:11px;color:var(--text3);">رد خلال ساعة — دفع آمن</div></div>
