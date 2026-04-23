@@ -1204,7 +1204,7 @@ async function doSearch() {
 
     const response = await fetchAnthropicAPI({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 1500,
+        max_tokens: 2000,
         messages: [
           { role: 'user', content: systemPrompt + '\n\nالسؤال: ' + query }
         ]
@@ -3386,7 +3386,7 @@ async function runDrawingAnalysis() {
 
     let response = await fetchAnthropicAPI({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 1500,
+        max_tokens: 2000,
         system: 'أنت مهندس مدني خبير في المواصفات القطرية QCS 2024. قدم تقارير دقيقة ومهنية بالعربية. لا تخمن — إذا لم تستطع قراءة تفصيل اذكر ذلك صراحة.',
         messages: messages
     });
