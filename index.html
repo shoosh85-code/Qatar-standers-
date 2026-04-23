@@ -4137,7 +4137,7 @@ function resetInspector() {
   // ── 2. Inline Service Worker via Blob ──
   if (!('serviceWorker' in navigator) || location.protocol !== 'https:') return;
 
-  var CACHE = 'qatarspec-v2-5-1';
+  var CACHE = 'qatarspec-v2-6-1-' + Date.now().toString(36).slice(-4);
   var ASSETS = ['/'];
 
   var swCode = [
