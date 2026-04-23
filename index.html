@@ -1249,6 +1249,11 @@ async function doSearch() {
       updateKeyStatus(false);
     } else if (msg.includes('429')) {
       textEl.innerHTML = '⏳ <strong>تجاوزت حد الطلبات</strong><br>انتظر دقيقة واحدة ثم أعد المحاولة.';
+    } else if (msg.includes('abort') || msg.includes('timeout') || msg.includes('502') || msg.includes('503')) {
+      // Auto-retry once on cold start / timeout
+      textEl.innerHTML = '🔄 <strong>يعاد المحاولة...</strong>';
+      setTimeout(function() { doSearch(); }, 1500);
+      return;
     } else {
       textEl.innerHTML = `❌ <strong>خطأ:</strong> ${sanitizeText(msg)}`;
     }
@@ -1960,7 +1965,7 @@ function sanitizeText(str) {
  */
 async function fetchAnthropicAPI(body) {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 20000);
+  const timeoutId = setTimeout(() => controller.abort(), 35000);
 
   try {
     const response = await fetch('/api/ai-proxy', {

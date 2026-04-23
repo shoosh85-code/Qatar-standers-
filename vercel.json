@@ -56,5 +56,13 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/ai-proxy.js": {
+      "maxDuration": 60
+    },
+    "api/qcs-search.js": {
+      "maxDuration": 30
+    }
+  }
 }
