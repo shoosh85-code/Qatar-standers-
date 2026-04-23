@@ -649,7 +649,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   🔔 يوجد تحديث جديد للتطبيق — <a onclick="location.reload(true)" style="color:#fff;font-weight:700;cursor:pointer;text-decoration:underline;">تحديث الآن</a>
 </div>
 
-<header>
+<header role="banner" aria-label="رأس تطبيق QatarSpec Pro">
   <div class="header-inner">
     <div class="logo">
       <div class="logo-mark">🏗️</div>
@@ -670,6 +670,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   </div>
 </header>
 
+<main role="main" aria-label="تطبيق QatarSpec Pro">
 <div class="hero">
   <div class="hero-left">
     <div class="hero-eyebrow">🇶🇦 الأداة الاحترافية رقم 1 لمهندسي قطر</div>
@@ -740,7 +741,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <div class="search-label">🔍 البحث الذكي في QCS 2024</div>
   <div class="search-wrap">
     <span class="search-mic">🎙️</span>
-    <input type="text" class="search-input" id="searchInput" placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة الConcrete في الأساسات وفق الكود القطري؟" onkeydown="if(event.key==='Enter') doSearch()">
+    <input type="text" class="search-input" id="searchInput" aria-label="البحث في QCS 2024" aria-describedby="search-hint" placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة الConcrete في الأساسات وفق الكود القطري؟" onkeydown="if(event.key==='Enter') doSearch()" oninput="debouncedSearch()">
     <button class="search-icon-btn" onclick="QS.doSearch()">⚡ بحث ذكي</button>
   </div>
   <div class="quick-tags">
@@ -1121,6 +1122,22 @@ function setLoadingSteps(steps, activeIndex) {
 
 function quickSearch(q) { document.getElementById('searchInput').value = q; doSearch(); }
 
+
+// ══════════════════════════════════════════════════════════════
+// DEBOUNCE — v2.5.4
+// ══════════════════════════════════════════════════════════════
+function debounce(fn, delay) {
+  let timer = null;
+  return function(...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
+const debouncedSearch = debounce(function() {
+  const q = document.getElementById('searchInput') && document.getElementById('searchInput').value.trim();
+  if (q && q.length > 2) doSearch();
+}, 400);
+
 function buildQCSPrompt(query, partNum) {
   return `أنت خبير هندسي في QCS 2024. لا تكتب مقدمة ولا تقدم نفسك — ابدأ الإجابة مباشرة من النقطة الأولى.
 
@@ -1151,9 +1168,58 @@ function buildQCSPrompt(query, partNum) {
  * Fallback: رسالة خطأ واضحة مع أسباب محتملة
  * @see fetchAnthropicAPI - دالة الـ API المركزية مع timeout
  */
+
+// ══════════════════════════════════════════════════════════════
+// SMART CACHE — sessionStorage for search results — v2.5.4
+// ══════════════════════════════════════════════════════════════
+const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
+
+function getCacheKey(query) {
+  // Simple hash for query string
+  let hash = 0;
+  for (let i = 0; i < query.length; i++) {
+    hash = ((hash << 5) - hash) + query.charCodeAt(i);
+    hash |= 0;
+  }
+  return 'qcs_cache_' + Math.abs(hash);
+}
+
+function getCachedResult(query) {
+  try {
+    const key = getCacheKey(query);
+    const item = sessionStorage.getItem(key);
+    if (!item) return null;
+    const { result, timestamp } = JSON.parse(item);
+    if (Date.now() - timestamp > CACHE_TTL_MS) {
+      sessionStorage.removeItem(key);
+      return null;
+    }
+    return result;
+  } catch (e) { return null; }
+}
+
+function setCachedResult(query, result) {
+  try {
+    const key = getCacheKey(query);
+    sessionStorage.setItem(key, JSON.stringify({ result, timestamp: Date.now() }));
+  } catch (e) { /* ignore quota errors */ }
+}
+
 async function doSearch() {
   const query = document.getElementById('searchInput').value.trim();
   if (!query) return;
+
+  // ── SMART CACHE CHECK ──
+  const cached = getCachedResult(query);
+  if (cached) {
+    const aiBox = document.getElementById('aiAnswerBox');
+    if (aiBox) {
+      aiBox.innerHTML = cached + '<div style="font-size:11px;color:var(--gold2);margin-top:8px;opacity:0.7;">📦 من البحوثات السابقة (Cache)</div>';
+      aiBox.style.display = 'block';
+      aiBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    return;
+  }
 
   // ── MONETIZATION: Daily Search Limit ──
   if (!isProUser() && !canSearch()) {
@@ -2228,7 +2294,8 @@ function _printFallback(title, proj, today) {
     '<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Cairo,Tajawal,Arial,sans-serif;direction:rtl;background:#fff;color:#1a1a1a;font-size:13px;line-height:1.6}.hdr{background:#7a1515;color:#c9a84c;padding:14px 20px;display:flex;justify-content:space-between}.wrap{padding:16px 20px}table{width:100%;border-collapse:collapse;font-size:11px}th{background:#7a1515;color:#fff;padding:7px 8px;border:1px solid #6a1010}td{padding:6px 8px;border:1px solid #ddd}tr:nth-child(even)td{background:#fafafa}.ftr{padding:10px 20px;border-top:1px solid #ddd;display:flex;justify-content:space-between;font-size:10px;color:#888}@media print{body{-webkit-print-color-adjust:exact}}</style>' +
     '<script src="data_content.js"><\/script>\n</head><body><div class="hdr"><div style="font-size:18px;font-weight:700">QatarSpec Pro</div><div style="font-size:10px;color:#fff;text-align:left">' + today + (proj ? '<br>' + proj : '') + '</div></div>' +
     '<div class="wrap"><h2 style="color:#7a1515;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #c9a84c;font-size:16px">' + title + '</h2>' + contentHTML + '</div>' +
-    '<div class="ftr"><span>QatarSpec Pro — QCS 2024</span><span>qatar-standers.vercel.app</span></div></body></html>');
+    '<div class="ftr"><span>QatarSpec Pro — QCS 2024</span><span>qatar-standers.vercel.app</span></div></main>
+</body></html>');
   w.document.close(); w.focus();
   safeTimeout('printDialog', function() { w.print(); }, 1800);
   showToast('✅ جاري الطباعة');
