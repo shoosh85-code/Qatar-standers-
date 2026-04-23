@@ -1077,11 +1077,6 @@ function calcTestScheduleCore(matId, qtyId, unitId, resultId, isEn) {
       api[name] = window[name].bind(window);
     }
   });
-  // Merge with any existing QS properties
-  var realQS = Object.assign({}, api);
-  window.QS = realQS;
-  // Flush any queued calls from before data_calcs.js loaded
-  if (typeof window._flushQSQueue === 'function') {
-    window._flushQSQueue(realQS);
-  }
+  // Merge with any existing QS properties (set by stub or previous partial init)
+  window.QS = Object.assign(window.QS || {}, api);
 })();

@@ -110,17 +110,10 @@
 <head>
 <meta charset="UTF-8">
 <script>
-// Force unregister old Service Workers that cache stale HTML
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(function(regs) {
-    regs.forEach(function(r) { r.unregister(); });
-  });
-  // Clear all caches
-  if ('caches' in window) {
-    caches.keys().then(function(keys) {
-      keys.forEach(function(k) { caches.delete(k); });
-    });
-  }
+// Kill old Service Workers
+if('serviceWorker'in navigator){
+  navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(sw){sw.unregister();});});
+  if('caches'in window)caches.keys().then(function(k){k.forEach(function(c){caches.delete(c);});});
 }
 </script>
 <!-- CSP مُطبَّق عبر Server Headers في vercel.json — لا حاجة لـ meta tag هنا -->
@@ -308,49 +301,6 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 .ai-ref-text { font-size:12px; color:var(--text3); }
 .ai-disclaimer { font-size:11px; color:var(--text3); font-style:italic; line-height:1.5; max-width:100%; }
 .loading-wrap { display:flex; align-items:center; gap:10px; color:var(--text2); font-size:14px; }
-
-/* ── SKELETON LOADING — v2.6.0 ── */
-.skeleton { 
-  background: linear-gradient(90deg, var(--surface2) 25%, var(--surface3) 50%, var(--surface2) 75%);
-  background-size: 200% 100%;
-  animation: skeleton-shimmer 1.5s infinite;
-  border-radius: 6px;
-}
-@keyframes skeleton-shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-.skeleton-line { height: 14px; margin: 8px 0; width: 100%; }
-.skeleton-line.short { width: 60%; }
-.skeleton-line.medium { width: 80%; }
-
-/* ── SEARCH HINT — v2.6.0 ── */
-#search-hint { 
-  font-size:11px; color:var(--text3); 
-  margin-top:4px; text-align:left; 
-  padding: 0 4px;
-}
-
-/* ── NETWORK BAR spacing ── */
-body.offline { padding-top: 32px; }
-
-
-/* ── PRINT STYLESHEET — v2.6.0 ── */
-@media print {
-  header, .hero, .trust-bar, .features-section, 
-  .search-wrap, .tabs, .cta-banner, #pwaInstallBtn,
-  .ai-action-btns, #networkBar { display: none !important; }
-  .ai-answer-box { 
-    display: block !important; 
-    border: 1px solid #ccc;
-    padding: 16px;
-    font-size: 12pt;
-    color: #000 !important;
-    background: #fff !important;
-  }
-  body { background: #fff !important; color: #000 !important; }
-}
-
 .spinner { width:18px; height:18px; border:2px solid rgba(201,168,76,0.2); border-top:2px solid var(--gold); border-radius:50%; animation:spin .8s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
 .content-section { max-width:1300px; margin:0 auto; padding:0 28px 20px; }
@@ -706,7 +656,7 @@ body.offline { padding-top: 32px; }
   🔔 يوجد تحديث جديد للتطبيق — <a onclick="location.reload(true)" style="color:#fff;font-weight:700;cursor:pointer;text-decoration:underline;">تحديث الآن</a>
 </div>
 
-<header role="banner" aria-label="رأس تطبيق QatarSpec Pro">
+<header>
   <div class="header-inner">
     <div class="logo">
       <div class="logo-mark">🏗️</div>
@@ -727,7 +677,6 @@ body.offline { padding-top: 32px; }
   </div>
 </header>
 
-<main role="main" aria-label="تطبيق QatarSpec Pro">
 <div class="hero">
   <div class="hero-left">
     <div class="hero-eyebrow">🇶🇦 الأداة الاحترافية رقم 1 لمهندسي قطر</div>
@@ -798,8 +747,7 @@ body.offline { padding-top: 32px; }
   <div class="search-label">🔍 البحث الذكي في QCS 2024</div>
   <div class="search-wrap">
     <span class="search-mic">🎙️</span>
-    <input type="text" class="search-input" id="searchInput" aria-label="البحث في QCS 2024" aria-describedby="search-hint" title="اضغط Ctrl+K للوصول السريع" placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة الConcrete في الأساسات وفق الكود القطري؟" onkeydown="if(event.key==='Enter') doSearch()" oninput="debouncedSearch()">
-    <div id="search-hint" aria-live="polite">💡 اضغط Ctrl+K للوصول السريع للبحث</div>
+    <input type="text" class="search-input" id="searchInput" placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة الConcrete في الأساسات وفق الكود القطري؟" onkeydown="if(event.key==='Enter') doSearch()">
     <button class="search-icon-btn" onclick="QS.doSearch()">⚡ بحث ذكي</button>
   </div>
   <div class="quick-tags">
@@ -1180,100 +1128,8 @@ function setLoadingSteps(steps, activeIndex) {
 
 function quickSearch(q) { document.getElementById('searchInput').value = q; doSearch(); }
 
-
-
-// ══════════════════════════════════════════════════════════════
-// GLOBAL ERROR HANDLER — v2.6.0
-// ══════════════════════════════════════════════════════════════
-window.onerror = function(msg, src, line, col, err) {
-  console.error('[QatarSpec Error]', msg, src, line, col);
-  if (err && !msg.includes('ResizeObserver') && !msg.includes('Script error')) {
-    showToast('⚠️ حدث خطأ — يرجى إعادة المحاولة');
-  }
-  return true;
-};
-
-// ── Debounced Search ──
-var _debouncedSearchTimer;
-function debouncedSearch() {
-  clearTimeout(_debouncedSearchTimer);
-  _debouncedSearchTimer = setTimeout(function() {
-    var q = document.getElementById('searchInput').value.trim();
-    if (q.length > 3) doSearch();
-  }, 400);
-}
-
-window.addEventListener('unhandledrejection', function(event) {
-  console.error('[QatarSpec Promise Error]', event.reason);
-  event.preventDefault();
-});
-
-// ══════════════════════════════════════════════════════════════
-// OFFLINE / ONLINE INDICATOR — v2.6.0
-// ══════════════════════════════════════════════════════════════
-function updateNetworkStatus() {
-  const isOnline = navigator.onLine;
-  let bar = document.getElementById('networkBar');
-  if (!bar) {
-    bar = document.createElement('div');
-    bar.id = 'networkBar';
-    bar.style.cssText = `
-      position:fixed;top:0;left:0;right:0;z-index:9999;
-      background:#c0392b;color:#fff;text-align:center;
-      font-size:13px;padding:6px;font-weight:600;
-      transform:translateY(${isOnline ? '-100%' : '0'});
-      transition:transform 0.3s ease;
-    `;
-    bar.textContent = '📡 لا يوجد اتصال بالإنترنت — بعض الميزات غير متاحة';
-    document.body.prepend(bar);
-  }
-  bar.style.transform = isOnline ? 'translateY(-100%)' : 'translateY(0)';
-  if (isOnline && bar.textContent.includes('لا يوجد')) {
-    showToast('✅ عاد الاتصال بالإنترنت');
-  }
-}
-
-window.addEventListener('online', updateNetworkStatus);
-window.addEventListener('offline', updateNetworkStatus);
-document.addEventListener('DOMContentLoaded', updateNetworkStatus);
-
-// ══════════════════════════════════════════════════════════════
-// DEBOUNCE — v2.5.4
-// ══════════════════════════════════════════════════════════════
-function debounce(fn, delay) {
-  let timer = null;
-  return function(...args) {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn.apply(this, args), delay);
-  };
-}
-const debouncedSearch = debounce(function() {
-  const q = document.getElementById('searchInput') && document.getElementById('searchInput').value.trim();
-  if (q && q.length > 2) doSearch();
-}, 400);
-
 function buildQCSPrompt(query, partNum) {
-  // System prompt is passed separately in API call — this is user message only
-  return `السؤال: ${query}
-
-المرجع المتوقع: QCS 2024 — Part ${partNum}
-
-أجب بهذا التنسيق الإلزامي:
-
-**١) المتطلب الدقيق:**
-[القيمة والأرقام المحددة من المواصفة]
-
-**٢) المرجع:**
-[QCS 2024 — Part ${partNum} — Section رقم — Clause رقم — Table رقم إن وُجد]
-
-**٣) طريقة الاختبار:**
-[الأداة المستخدمة، التكرار، الإجراء خطوة بخطوة]
-
-**٤) معيار القبول/الرفض:**
-[Pass: الشرط | Fail: الشرط المخالف]
-
-**٥) استثناءات وملاحظات:**
-[حالات خاصة، استثناءات، تحذيرات مهمة]`;
+  return 'أنت خبير QCS 2024. السؤال: ' + query + '\n\nأجب مباشرة مع: ١) القيمة الدقيقة ٢) المرجع من QCS 2024 Part ' + partNum + ' ٣) أي استثناءات. أجب بالعربية بإيجاز.';
 }
 
 /**
@@ -1283,120 +1139,9 @@ function buildQCSPrompt(query, partNum) {
  * Fallback: رسالة خطأ واضحة مع أسباب محتملة
  * @see fetchAnthropicAPI - دالة الـ API المركزية مع timeout
  */
-
-
-// ══════════════════════════════════════════════════════════════
-// INPUT SANITIZATION — v2.6.0
-// ══════════════════════════════════════════════════════════════
-function sanitizeInput(str) {
-  if (typeof str !== 'string') return '';
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;')
-    .slice(0, 500); // max 500 chars
-}
-
-
-
-// ══════════════════════════════════════════════════════════════
-// FOCUS MANAGEMENT — v2.6.0
-// ══════════════════════════════════════════════════════════════
-let _lastFocusedEl = null;
-
-function openModalWithFocus(modalEl) {
-  _lastFocusedEl = document.activeElement;
-  modalEl.style.display = 'flex';
-  const firstFocusable = modalEl.querySelector('button, input, [tabindex]:not([tabindex="-1"])');
-  if (firstFocusable) firstFocusable.focus();
-}
-
-function closeModalWithFocus(modalEl) {
-  modalEl.style.display = 'none';
-  if (_lastFocusedEl) _lastFocusedEl.focus();
-}
-
-// ══════════════════════════════════════════════════════════════
-// KEYBOARD SHORTCUTS — v2.6.0
-// Ctrl+K / Cmd+K → Focus search
-// Escape → Close modal
-// ══════════════════════════════════════════════════════════════
-document.addEventListener('keydown', function(e) {
-  // Ctrl+K or Cmd+K → focus search
-  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-    e.preventDefault();
-    const inp = document.getElementById('searchInput');
-    if (inp) {
-      inp.focus();
-      inp.select();
-      inp.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  }
-  // Escape → close any open modal
-  if (e.key === 'Escape') {
-    const modals = document.querySelectorAll('.modal[style*="flex"], .modal[style*="block"]');
-    modals.forEach(m => { m.style.display = 'none'; });
-    const aiBox = document.getElementById('aiAnswerBox');
-    if (aiBox && aiBox.style.display !== 'none') {
-      // Don't close AI box on escape — user may be reading
-    }
-  }
-});
-
-// ══════════════════════════════════════════════════════════════
-// SMART CACHE — sessionStorage for search results — v2.5.4
-// ══════════════════════════════════════════════════════════════
-const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
-
-function getCacheKey(query) {
-  // Simple hash for query string
-  let hash = 0;
-  for (let i = 0; i < query.length; i++) {
-    hash = ((hash << 5) - hash) + query.charCodeAt(i);
-    hash |= 0;
-  }
-  return 'qcs_cache_' + Math.abs(hash);
-}
-
-function getCachedResult(query) {
-  try {
-    const key = getCacheKey(query);
-    const item = sessionStorage.getItem(key);
-    if (!item) return null;
-    const { result, timestamp } = JSON.parse(item);
-    if (Date.now() - timestamp > CACHE_TTL_MS) {
-      sessionStorage.removeItem(key);
-      return null;
-    }
-    return result;
-  } catch (e) { return null; }
-}
-
-function setCachedResult(query, result) {
-  try {
-    const key = getCacheKey(query);
-    sessionStorage.setItem(key, JSON.stringify({ result, timestamp: Date.now() }));
-  } catch (e) { /* ignore quota errors */ }
-}
-
 async function doSearch() {
-  const rawQuery = document.getElementById('searchInput').value.trim();
-  if (!rawQuery) return;
-  const query = sanitizeInput(rawQuery);
-
-  // ── SMART CACHE CHECK ──
-  const cached = getCachedResult(query);
-  if (cached) {
-    const aiBox = document.getElementById('aiAnswerBox');
-    if (aiBox) {
-      aiBox.innerHTML = cached + '<div style="font-size:11px;color:var(--gold2);margin-top:8px;opacity:0.7;">📦 من البحوثات السابقة (Cache)</div>';
-      aiBox.style.display = 'block';
-      aiBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-    return;
-  }
+  const query = document.getElementById('searchInput').value.trim();
+  if (!query) return;
 
   // ── MONETIZATION: Daily Search Limit ──
   if (!isProUser() && !canSearch()) {
@@ -1426,20 +1171,6 @@ async function doSearch() {
     'تجهيز النتيجة'
   ];
 
-
-  // Show skeleton loading
-  const aiBox2 = document.getElementById('aiAnswerBox');
-  if (aiBox2) {
-    aiBox2.style.display = 'block';
-    aiBox2.innerHTML = `
-      <div class="skeleton skeleton-line"></div>
-      <div class="skeleton skeleton-line medium"></div>
-      <div class="skeleton skeleton-line short"></div>
-      <div class="skeleton skeleton-line"></div>
-      <div class="skeleton skeleton-line medium"></div>
-    `;
-  }
-
   setLoadingSteps(steps, 0);
   sourceEl.textContent = 'QCS 2024 — جاري البحث...';
 
@@ -1448,28 +1179,11 @@ async function doSearch() {
     const partNum = parts[0];
     const partsLabel = parts.join(', ');
     sourceEl.textContent = `QCS 2024 — Part ${partsLabel}`;
-
-    // Update page title with query for accessibility
-    document.title = `${query} — QatarSpec Pro`;
-    setTimeout(() => { document.title = 'QatarSpec Pro — مواصفات قطر الهندسية'; }, 10000);
     setLoadingSteps(steps, 1);
 
     const response = await fetchAnthropicAPI({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 1500,
-        system: `أنت QatarSpec AI، مساعد هندسي متخصص حصراً في المواصفات القطرية:
-- QCS 2024 (Qatar Construction Specifications) جميع الأقسام
-- Ashghal Road Design Manual 2023
-- KAHRAMAA Standards 2024
-- MMUP Building Regulations 2024
-- BS/ASTM المعتمدة في قطر
-
-قواعد صارمة:
-1. أجب فقط على الأسئلة الهندسية المتعلقة بالمواصفات القطرية
-2. اذكر دائماً: القسم + البند + الجدول من المرجع الدقيق
-3. إذا لم تكن متأكداً من رقم، صرّح بذلك بوضوح ولا تخمّن
-4. لا تكتب مقدمة ولا تقدم نفسك — ابدأ الإجابة مباشرة من النقطة الأولى
-5. الإجابة باللغة العربية مع المصطلحات الإنجليزية الفنية حيث ضرورية`,
         messages: [{ role: 'user', content: buildQCSPrompt(query, partsLabel) }]
     });
 
@@ -1497,13 +1211,6 @@ async function doSearch() {
     textEl.innerHTML = rendered;
     refEl.textContent = `📖 المرجع: QCS 2024 — Part ${partsLabel} | راجع المواصفة الأصلية للتأكد`;
     sourceEl.textContent = `QCS 2024 — Part ${partsLabel}`;
-
-    // Update page title with query for accessibility
-    document.title = `${query} — QatarSpec Pro`;
-    setTimeout(() => { document.title = 'QatarSpec Pro — مواصفات قطر الهندسية'; }, 10000);
-
-    // ── SMART CACHE: Save result ──
-    setCachedResult(query, textEl.innerHTML);
 
   } catch (err) {
     const msg = err.message || 'خطأ غير معروف';
@@ -2507,10 +2214,9 @@ function _printFallback(title, proj, today) {
   w.document.write('<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8">' +
     '<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">' +
     '<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Cairo,Tajawal,Arial,sans-serif;direction:rtl;background:#fff;color:#1a1a1a;font-size:13px;line-height:1.6}.hdr{background:#7a1515;color:#c9a84c;padding:14px 20px;display:flex;justify-content:space-between}.wrap{padding:16px 20px}table{width:100%;border-collapse:collapse;font-size:11px}th{background:#7a1515;color:#fff;padding:7px 8px;border:1px solid #6a1010}td{padding:6px 8px;border:1px solid #ddd}tr:nth-child(even)td{background:#fafafa}.ftr{padding:10px 20px;border-top:1px solid #ddd;display:flex;justify-content:space-between;font-size:10px;color:#888}@media print{body{-webkit-print-color-adjust:exact}}</style>' +
-    '<!-- data_content loaded lazily --><\/script>\n</head><body><div class="hdr"><div style="font-size:18px;font-weight:700">QatarSpec Pro</div><div style="font-size:10px;color:#fff;text-align:left">' + today + (proj ? '<br>' + proj : '') + '</div></div>' +
+    '<script src="data_content.js"><\/script>\n</head><body><div class="hdr"><div style="font-size:18px;font-weight:700">QatarSpec Pro</div><div style="font-size:10px;color:#fff;text-align:left">' + today + (proj ? '<br>' + proj : '') + '</div></div>' +
     '<div class="wrap"><h2 style="color:#7a1515;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #c9a84c;font-size:16px">' + title + '</h2>' + contentHTML + '</div>' +
-    '<div class="ftr"><span>QatarSpec Pro — QCS 2024</span><span>qatar-standers.vercel.app</span></div></main>
-</body></html>');
+    '<div class="ftr"><span>QatarSpec Pro — QCS 2024</span><span>qatar-standers.vercel.app</span></div></body></html>');
   w.document.close(); w.focus();
   safeTimeout('printDialog', function() { w.print(); }, 1800);
   showToast('✅ جاري الطباعة');
@@ -2561,7 +2267,7 @@ async function exportToWord() {
     '.header-band { background: #7a1515; color: #c9a84c; padding: 12pt 16pt; margin-bottom: 12pt; display: block; }' +
     '.footer-band { border-top: 1pt solid #cccccc; margin-top: 16pt; padding-top: 6pt; font-size: 9pt; color: #888; }' +
     'strong { color: #7a1515; }' +
-    '</style><!-- data_content loaded lazily --><\/script>\n</head><body><div class="Section1">' +
+    '</style><script src="data_content.js"><\/script>\n</head><body><div class="Section1">' +
     '<div class="header-band">' +
     '<span style="font-size:18pt;font-weight:bold;">QatarSpec Pro</span>' +
     '<span style="float:left;font-size:10pt;color:white;">التاريخ: ' + today + (proj ? ' | المشروع: ' + proj : '') + '</span>' +
@@ -4151,7 +3857,7 @@ function resetInspector() {
   // ── 2. Inline Service Worker via Blob ──
   if (!('serviceWorker' in navigator) || location.protocol !== 'https:') return;
 
-  var CACHE = 'qatarspec-v2-6-1-' + Date.now().toString(36).slice(-4);
+  var CACHE = 'qatarspec-v2-6-5';
   var ASSETS = ['/'];
 
   var swCode = [
@@ -4456,8 +4162,7 @@ window.calcRoadLayers = function calcRoadLayers() {
 
 // ── Constants ──
 var FREE_DAILY_LIMIT = 5;
-// PRO_CODES moved to server — see /api/validate-code.js
-var PRO_CODES = []; // ← empty: validation now server-side only
+var PRO_CODES = ['QATAR2026PRO', 'QATARSPEC-PRO', 'QS-ENGINEER-2026', 'PRO-BETA-QCS'];
 
 // ── Pro State ──
 function isProUser() {
@@ -4561,38 +4266,31 @@ function showPaymentContact() {
 }
 
 // ── Promo Code Activation ──
-async function activatePro(code) {
+function activatePro(code) {
   var clean = (code || '').trim().toUpperCase();
   var msg = document.getElementById('promoMsg');
-  var btn = document.querySelector('.promo-btn');
   if (!clean) {
     if (msg) { msg.style.display='block'; msg.style.color='#e74c3c'; msg.textContent='❌ أدخل الكود أولاً'; }
     return;
   }
-  // Show loading
-  if (msg) { msg.style.display='block'; msg.style.color='var(--gold)'; msg.textContent='⏳ جاري التحقق...'; }
-  if (btn) { btn.style.opacity='0.5'; btn.disabled=true; }
-  try {
-    const res = await fetch('/api/validate-code', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code: clean })
-    });
-    const data = await res.json();
-    if (data.valid) {
-      setProActive(true, data.expiry);
-      renderProStatus();
-      if (msg) { msg.style.display='block'; msg.style.color='#2ecc71'; msg.textContent='🎉 ' + data.message; }
-      setTimeout(function() { closeProModal(); showToast('🎉 مرحباً بك في QatarSpec Pro!'); }, 1500);
-    } else {
-      if (msg) { msg.style.display='block'; msg.style.color='#e74c3c'; msg.textContent='❌ ' + (data.error || 'الكود غير صحيح'); }
-      const inp = document.getElementById('promoCodeInput');
-      if (inp) { inp.style.borderColor='#e74c3c'; setTimeout(function(){ inp.style.borderColor=''; }, 2000); }
-    }
-  } catch(err) {
-    if (msg) { msg.style.display='block'; msg.style.color='#e74c3c'; msg.textContent='❌ خطأ في الاتصال — حاول مرة أخرى'; }
-  } finally {
-    if (btn) { btn.style.opacity='1'; btn.disabled=false; }
+  if (PRO_CODES.indexOf(clean) !== -1 || clean === 'QATAR2026PRO') {
+    // Activate for 1 year
+    var expiry = new Date();
+    expiry.setFullYear(expiry.getFullYear() + 1);
+    setProActive(true, expiry.toISOString());
+    renderProStatus();
+    if (msg) { msg.style.display='block'; msg.style.color='#2ecc71'; msg.textContent='🎉 تم تفعيل Pro بنجاح! صالح لسنة كاملة.'; }
+    setTimeout(function() {
+      closeProModal();
+      showToast('🎉 مرحباً بك في QatarSpec Pro!');
+    }, 1500);
+  } else {
+    if (msg) { msg.style.display='block'; msg.style.color='#e74c3c'; msg.textContent='❌ الكود غير صحيح — تحقق من الكود وأعد المحاولة'; }
+    document.getElementById('promoCodeInput').style.borderColor = '#e74c3c';
+    setTimeout(function() {
+      if (document.getElementById('promoCodeInput'))
+        document.getElementById('promoCodeInput').style.borderColor = '';
+    }, 2000);
   }
 }
 
@@ -4715,49 +4413,6 @@ window._QS_PUBLIC_FNS = [
 // Temporary stub so any code that references QS before data_calcs.js loads
 // doesn't throw. Will be replaced by the real QS at end of data_calcs.js.
 window.QS = window.QS || {};
-
-// QS Proxy — queues calls until data_calcs.js builds the real QS
-(function() {
-  var _queue = [];
-  var _ready = false;
-  var _realQS = null;
-
-  // Intercept any property access on QS stub
-  var handler = {
-    get: function(target, prop) {
-      if (_ready && _realQS && typeof _realQS[prop] === 'function') {
-        return _realQS[prop];
-      }
-      // Return a function that queues the call
-      return function() {
-        var args = arguments;
-        if (_ready && _realQS && typeof _realQS[prop] === 'function') {
-          return _realQS[prop].apply(null, args);
-        }
-        _queue.push({ fn: prop, args: args });
-      };
-    }
-  };
-
-  try {
-    if (typeof Proxy !== 'undefined') {
-      window.QS = new Proxy({}, handler);
-    }
-  } catch(e) {}
-
-  // When data_calcs.js loads, it builds the real QS
-  // We hook into DOMContentLoaded to flush the queue
-  window._flushQSQueue = function(realQS) {
-    _ready = true;
-    _realQS = realQS;
-    _queue.forEach(function(item) {
-      if (typeof realQS[item.fn] === 'function') {
-        realQS[item.fn].apply(null, item.args);
-      }
-    });
-    _queue = [];
-  };
-})();
 
 </script>
 
