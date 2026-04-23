@@ -1173,12 +1173,21 @@ function quickSearch(q) { document.getElementById('searchInput').value = q; doSe
 // ══════════════════════════════════════════════════════════════
 window.onerror = function(msg, src, line, col, err) {
   console.error('[QatarSpec Error]', msg, src, line, col);
-  // Only show toast for critical errors, not minor ones
   if (err && !msg.includes('ResizeObserver') && !msg.includes('Script error')) {
-    showToast('⚠️ حدث خطأ غير متوقع — يرجى إعادة المحاولة');
+    showToast('⚠️ حدث خطأ — يرجى إعادة المحاولة');
   }
-  return true; // prevent default browser error handling
+  return true;
 };
+
+// ── Debounced Search ──
+var _debouncedSearchTimer;
+function debouncedSearch() {
+  clearTimeout(_debouncedSearchTimer);
+  _debouncedSearchTimer = setTimeout(function() {
+    var q = document.getElementById('searchInput').value.trim();
+    if (q.length > 3) doSearch();
+  }, 400);
+}
 
 window.addEventListener('unhandledrejection', function(event) {
   console.error('[QatarSpec Promise Error]', event.reason);
