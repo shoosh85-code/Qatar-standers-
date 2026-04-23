@@ -1,253 +1,298 @@
-// ═══════════════════════════════════════════════════════════════
-//  QatarSpec Pro — ai-proxy.js  (Fixed v3.0 — April 2026)
-//  Author fix: Claude Sonnet 4.6
-//  Chain: Anthropic → OpenRouter (llama-3.3-70b free) → Gemini
-//  Response format: always Anthropic-compatible {content:[{text}]}
-// ═══════════════════════════════════════════════════════════════
+// /api/ai-proxy.js — QatarSpec Pro v2.5.2
+// Gemini 2.5 Flash + IP Rate Limiting + Full Responses
 
-const TIMEOUT_MS = 25000; // 25s
+export const config = { runtime: 'edge' };
 
-// ── Working free models on OpenRouter (April 2026) ──────────────
-const OR_FREE_MODELS = [
-  'meta-llama/llama-3.3-70b-instruct:free',
-  'google/gemma-3-27b-it:free',
-  'deepseek/deepseek-chat-v3-0324:free',
-];
+const CORS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Api-Key',
+};
 
-// ── Map Claude model → equivalent capability tier ───────────────
-function getOrModel(claudeModel = '') {
-  if (claudeModel.includes('opus'))   return OR_FREE_MODELS[0];
-  if (claudeModel.includes('haiku'))  return OR_FREE_MODELS[2];   // fast
-  return OR_FREE_MODELS[0];                                        // sonnet → llama 70b
+// ══════════════════════════════════════════════════════════════
+// RATE LIMITING — Simple in-memory counter (Edge KV)
+// Uses Vercel KV if available, fallback to in-memory map
+// ══════════════════════════════════════════════════════════════
+const ipCounters = new Map();  // fallback: in-memory (per-instance)
+const FREE_LIMIT = 5;
+const PRO_LIMIT  = 500;
+
+function getTodayStr() {
+  return new Date().toISOString().slice(0, 10); // "2026-04-23"
 }
 
-// ── Anthropic response shape ─────────────────────────────────────
-function makeAnthropicResp(text) {
+function getRateKey(ip) {
+  return `rl:${getTodayStr()}:${ip}`;
+}
+
+// Check and increment rate limit
+// Returns { allowed: bool, count: number, limit: number }
+async function checkRateLimit(ip, isProUser) {
+  const limit = isProUser ? PRO_LIMIT : FREE_LIMIT;
+  const key = getRateKey(ip);
+
+  // Try Vercel KV
+  if (typeof process !== 'undefined' && process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
+    try {
+      const kvBase = process.env.KV_REST_API_URL;
+      const kvToken = process.env.KV_REST_API_TOKEN;
+
+      // GET current count
+      const getRes = await fetch(`${kvBase}/get/${encodeURIComponent(key)}`, {
+        headers: { Authorization: `Bearer ${kvToken}` },
+      });
+      const getData = await getRes.json();
+      const current = parseInt(getData.result || '0');
+
+      if (current >= limit) {
+        return { allowed: false, count: current, limit };
+      }
+
+      // INCR and set TTL 24h
+      await fetch(`${kvBase}/incr/${encodeURIComponent(key)}`, {
+        headers: { Authorization: `Bearer ${kvToken}` },
+      });
+      await fetch(`${kvBase}/expire/${encodeURIComponent(key)}/86400`, {
+        headers: { Authorization: `Bearer ${kvToken}` },
+      });
+      return { allowed: true, count: current + 1, limit };
+    } catch (err) {
+      console.error('[rate-limit] KV error:', err.message);
+      // Fall through to in-memory
+    }
+  }
+
+  // Fallback: in-memory (resets on cold start — acceptable for edge)
+  const current = ipCounters.get(key) || 0;
+  if (current >= limit) {
+    return { allowed: false, count: current, limit };
+  }
+  ipCounters.set(key, current + 1);
+  // Cleanup old keys periodically
+  if (ipCounters.size > 5000) {
+    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+    for (const k of ipCounters.keys()) {
+      if (k.includes(yesterday)) ipCounters.delete(k);
+    }
+  }
+  return { allowed: true, count: current + 1, limit };
+}
+
+// ══════════════════════════════════════════════════════════════
+// GEMINI API CALL
+// ══════════════════════════════════════════════════════════════
+async function callGemini(messages, maxTokens = 2000) {
+  const apiKey = process.env.GEMINI_KEY;
+  if (!apiKey) throw new Error('GEMINI_KEY not configured');
+
+  // Use gemini-2.0-flash as primary (fast + stable)
+  const model = 'gemini-2.0-flash';
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+  // Convert messages format to Gemini format
+  const contents = messages.map(m => ({
+    role: m.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: m.content }],
+  }));
+
+  const body = {
+    contents,
+    generationConfig: {
+      maxOutputTokens: maxTokens,
+      temperature: 0.2,
+      topP: 0.85,
+    },
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' },
+    ],
+  };
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 28000); // 28s timeout
+
+  let res;
+  try {
+    res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
+
+  if (!res.ok) {
+    const errText = await res.text();
+    // Try gemini-2.5-flash if 2.0 fails
+    if (res.status === 429 || res.status === 503) {
+      throw new Error(`Gemini ${model} quota: ${res.status}`);
+    }
+    throw new Error(`Gemini error ${res.status}: ${errText.slice(0, 200)}`);
+  }
+
+  const data = await res.json();
+  const candidate = data.candidates?.[0];
+
+  if (!candidate) {
+    throw new Error('No candidates in Gemini response');
+  }
+
+  if (candidate.finishReason === 'SAFETY') {
+    throw new Error('Gemini blocked by safety filters');
+  }
+
+  const text = candidate.content?.parts?.[0]?.text || '';
+  if (!text) {
+    throw new Error(`Empty response (finishReason: ${candidate.finishReason})`);
+  }
+
   return {
-    id: 'proxy-' + Date.now(),
-    type: 'message',
-    role: 'assistant',
     content: [{ type: 'text', text }],
-    model: 'proxy',
-    stop_reason: 'end_turn',
-    usage: { input_tokens: 0, output_tokens: 0 }
+    model,
+    usage: {
+      input_tokens: data.usageMetadata?.promptTokenCount || 0,
+      output_tokens: data.usageMetadata?.candidatesTokenCount || 0,
+    },
   };
 }
 
-// ── Fetch with timeout ───────────────────────────────────────────
-async function fetchWithTimeout(url, options, ms = TIMEOUT_MS) {
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), ms);
-  try {
-    const res = await fetch(url, { ...options, signal: ctrl.signal });
-    return res;
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
-// ── Provider 1: Anthropic ────────────────────────────────────────
-async function tryAnthropic(body, anthropicKey) {
-  if (!anthropicKey) throw new Error('no ANTHROPIC_API_KEY');
-
-  const res = await fetchWithTimeout('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type':      'application/json',
-      'x-api-key':         anthropicKey,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model:      body.model      || 'claude-haiku-4-5-20251001',
-      max_tokens: body.max_tokens || 1024,
-      messages:   body.messages,
-      ...(body.system ? { system: body.system } : {}),
-    }),
-  });
-
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw new Error(`Anthropic ${res.status}: ${data?.error?.message || JSON.stringify(data)}`);
-  }
-  return data; // already Anthropic format
-}
-
-// ── Provider 2: OpenRouter ───────────────────────────────────────
-async function tryOpenRouter(body, orKey) {
-  if (!orKey) throw new Error('no OPENROUTER_API_KEY');
-
-  const model = getOrModel(body.model);
-
-  const res = await fetchWithTimeout('https://openrouter.ai/api/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type':  'application/json',
-      'Authorization': `Bearer ${orKey}`,
-      'HTTP-Referer':  'https://qatar-standers.vercel.app',
-      'X-Title':       'QatarSpec Pro',
-    },
-    body: JSON.stringify({
-      model,
-      max_tokens: body.max_tokens || 1024,
-      messages: body.messages.map(m => ({
-        role: m.role,
-        content: Array.isArray(m.content)
-          ? m.content.map(c => c.text || '').join('\n')
-          : m.content,
-      })),
-    }),
-  });
-
-  const data = await res.json();
-
-  if (!res.ok || data.error) {
-    const msg = data?.error?.message || JSON.stringify(data);
-    throw new Error(`OpenRouter ${res.status} [${model}]: ${msg}`);
+// ══════════════════════════════════════════════════════════════
+// MAIN HANDLER
+// ══════════════════════════════════════════════════════════════
+export default async function handler(req) {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: CORS });
   }
 
-  const text = data?.choices?.[0]?.message?.content || '';
-  if (!text) throw new Error('OpenRouter returned empty content');
-
-  return makeAnthropicResp(text);
-}
-
-// ── Provider 3: Gemini ───────────────────────────────────────────
-async function tryGemini(body, geminiKey) {
-  if (!geminiKey) throw new Error('no GEMINI_KEY');
-
-  // Try models in order — gemini-2.0-flash is the current free default
-  // Models confirmed working (April 2026)
-  const MODELS = [
-    'gemini-2.0-flash',       // fastest — less timeout risk
-    'gemini-2.0-flash-lite',  // fallback fast
-    'gemini-2.5-flash',       // slowest — last resort
-  ];
-
-  const systemText = body.system || 'أنت خبير في QCS 2024 والمواصفات القطرية. أجب بدقة مع ذكر المرجع.';
-
-  const contents = body.messages
-    .filter(m => m.role !== 'system')
-    .map(m => ({
-      role: m.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: Array.isArray(m.content) ? m.content.map(c => c.text||'').join('') : (m.content||'') }]
-    }));
-
-  let lastError = '';
-  for (const model of MODELS) {
-    try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
-      const res = await fetchWithTimeout(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents,
-          systemInstruction: { parts: [{ text: systemText }] },
-          generationConfig: { maxOutputTokens: 1500, temperature: 0.3 },
-        }),
-      });
-
-      const data = await res.json();
-      console.log('[Gemini]', model, res.status, JSON.stringify(data).slice(0,200));
-      if (!res.ok || data.error) {
-        lastError = `Gemini ${model} ${res.status}: ${data?.error?.message || JSON.stringify(data).slice(0,100)}`;
-        continue;
-      }
-
-      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-      if (!text) { lastError = `Gemini ${model}: empty response`; continue; }
-
-      return makeAnthropicResp(text);
-    } catch(e) {
-      lastError = `Gemini ${model}: ${e.message}`;
-    }
-  }
-  throw new Error(lastError || 'Gemini: all models failed');
-}
-
-// ════════════════════════════════════════════════════════════════
-//  Main Handler
-// ════════════════════════════════════════════════════════════════
-export default async function handler(req, res) {
-  // ── CORS ──
-  res.setHeader('Access-Control-Allow-Origin',  '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Api-Key');
-
-  if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST')   return res.status(405).json({ error: 'Method not allowed' });
-
-  try {
-    const body = req.body || {};
-
-    if (!body.messages || !Array.isArray(body.messages) || body.messages.length === 0) {
-      return res.status(400).json({ error: 'messages array is required' });
-    }
-
-    // ── Keys from env ──
-    const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY  || '';
-    const OR_KEY        = process.env.OPENROUTER_API_KEY || '';
-    const GEMINI_KEY    = process.env.GEMINI_API_KEY || process.env.GEMINI_KEY || process.env.GOOGLE_API_KEY || '';
-
-    // ── User-supplied key fallback (from X-Api-Key header) ──
-    const userKey = req.headers['x-api-key'] || '';
-    const effectiveAnthropicKey = ANTHROPIC_KEY || (userKey.startsWith('sk-ant-') ? userKey : '');
-    const effectiveOrKey        = OR_KEY        || (userKey.startsWith('sk-or-')  ? userKey : '');
-
-    const errors = [];
-
-    // ── 1. Try Anthropic ──
-    if (effectiveAnthropicKey) {
-      try {
-        const result = await tryAnthropic(body, effectiveAnthropicKey);
-        return res.status(200).json(result);
-      } catch (e) {
-        console.error('[ai-proxy] Anthropic failed:', e.message);
-        errors.push('Anthropic: ' + e.message);
-        // Only continue if it's not an auth error
-        if (e.message.includes('401') || e.message.includes('invalid') || e.message.includes('Invalid')) {
-          return res.status(401).json({ error: 'Invalid Anthropic API key', detail: e.message });
-        }
-      }
-    } else {
-      errors.push('Anthropic: no key configured');
-    }
-
-    // ── 2. Try OpenRouter ──
-    if (effectiveOrKey) {
-      try {
-        const result = await tryOpenRouter(body, effectiveOrKey);
-        return res.status(200).json(result);
-      } catch (e) {
-        console.error('[ai-proxy] OpenRouter failed:', e.message);
-        errors.push('OpenRouter: ' + e.message);
-      }
-    } else {
-      errors.push('OpenRouter: no key configured');
-    }
-
-    // ── 3. Try Gemini ──
-    if (GEMINI_KEY) {
-      try {
-        const result = await tryGemini(body, GEMINI_KEY);
-        return res.status(200).json(result);
-      } catch (e) {
-        console.error('[ai-proxy] Gemini failed:', e.message);
-        errors.push('Gemini: ' + e.message);
-      }
-    } else {
-      errors.push('Gemini: no key configured');
-    }
-
-    // ── All failed ──
-    console.error('[ai-proxy] All providers failed:', errors);
-    return res.status(502).json({
-      error: 'جميع مزودي الذكاء الاصطناعي فشلوا',
-      detail: errors.join(' | '),
+  if (req.method !== 'POST') {
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+      status: 405,
+      headers: { ...CORS, 'Content-Type': 'application/json' },
     });
-
-  } catch (err) {
-    console.error('[ai-proxy] Fatal error:', err.message);
-    return res.status(500).json({ error: err.message });
   }
-};
+
+  // ── Get client IP ──
+  const ip =
+    req.headers.get('x-real-ip') ||
+    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    req.headers.get('cf-connecting-ip') ||
+    'unknown';
+
+  // ── Parse body ──
+  let body;
+  try {
+    body = await req.json();
+  } catch {
+    return new Response(JSON.stringify({ error: 'Invalid JSON' }), {
+      status: 400,
+      headers: { ...CORS, 'Content-Type': 'application/json' },
+    });
+  }
+
+  // ── Detect Pro user from token (basic check) ──
+  const authHeader = req.headers.get('Authorization') || '';
+  const isProUser = authHeader.startsWith('Bearer pro-') || body.pro === true;
+
+  // ── Rate Limit ──
+  const rl = await checkRateLimit(ip, isProUser);
+  if (!rl.allowed) {
+    return new Response(
+      JSON.stringify({
+        error: `تجاوزت الحد اليومي (${rl.limit} بحث). اشترك في Pro للبحث غير المحدود.`,
+        code: 'RATE_LIMIT',
+        count: rl.count,
+        limit: rl.limit,
+      }),
+      {
+        status: 429,
+        headers: {
+          ...CORS,
+          'Content-Type': 'application/json',
+          'Retry-After': '86400',
+          'X-RateLimit-Limit': String(rl.limit),
+          'X-RateLimit-Remaining': '0',
+        },
+      }
+    );
+  }
+
+  // ── Call AI ──
+  const { messages, max_tokens, system } = body;
+
+  if (!messages || !Array.isArray(messages) || messages.length === 0) {
+    return new Response(JSON.stringify({ error: 'messages array required' }), {
+      status: 400,
+      headers: { ...CORS, 'Content-Type': 'application/json' },
+    });
+  }
+
+  // Inject system prompt into first message if provided
+  const finalMessages = system
+    ? [{ role: 'user', content: `[SYSTEM: ${system}]\n\n${messages[0]?.content || ''}` }, ...messages.slice(1)]
+    : messages;
+
+  const tokenLimit = Math.min(max_tokens || 2000, 4000); // max 4000 output tokens
+
+  try {
+    const result = await callGemini(finalMessages, tokenLimit);
+
+    return new Response(JSON.stringify(result), {
+      status: 200,
+      headers: {
+        ...CORS,
+        'Content-Type': 'application/json',
+        'X-RateLimit-Limit': String(rl.limit),
+        'X-RateLimit-Remaining': String(rl.limit - rl.count),
+      },
+    });
+  } catch (err) {
+    console.error('[ai-proxy] Gemini error:', err.message);
+
+    // Try gemini-2.5-flash as fallback
+    if (err.message.includes('quota') || err.message.includes('2.0')) {
+      try {
+        const apiKey = process.env.GEMINI_KEY;
+        const fallbackUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+        const fallbackBody = {
+          contents: finalMessages.map(m => ({
+            role: m.role === 'assistant' ? 'model' : 'user',
+            parts: [{ text: m.content }],
+          })),
+          generationConfig: { maxOutputTokens: tokenLimit, temperature: 0.2 },
+        };
+        const fb = await fetch(fallbackUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(fallbackBody),
+        });
+        if (fb.ok) {
+          const fbData = await fb.json();
+          const text = fbData.candidates?.[0]?.content?.parts?.[0]?.text || '';
+          if (text) {
+            return new Response(
+              JSON.stringify({ content: [{ type: 'text', text }], model: 'gemini-2.5-flash' }),
+              { status: 200, headers: { ...CORS, 'Content-Type': 'application/json' } }
+            );
+          }
+        }
+      } catch (fbErr) {
+        console.error('[ai-proxy] Fallback also failed:', fbErr.message);
+      }
+    }
+
+    const status = err.message.includes('abort') || err.message.includes('timeout') ? 504 : 502;
+    return new Response(
+      JSON.stringify({
+        error: err.message.includes('abort')
+          ? 'انتهت مهلة الاتصال — حاول مرة أخرى'
+          : `خطأ في خدمة AI: ${err.message.slice(0, 100)}`,
+        code: 'AI_ERROR',
+      }),
+      { status, headers: { ...CORS, 'Content-Type': 'application/json' } }
+    );
+  }
+}
