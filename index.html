@@ -4716,6 +4716,49 @@ window._QS_PUBLIC_FNS = [
 // doesn't throw. Will be replaced by the real QS at end of data_calcs.js.
 window.QS = window.QS || {};
 
+// QS Proxy — queues calls until data_calcs.js builds the real QS
+(function() {
+  var _queue = [];
+  var _ready = false;
+  var _realQS = null;
+
+  // Intercept any property access on QS stub
+  var handler = {
+    get: function(target, prop) {
+      if (_ready && _realQS && typeof _realQS[prop] === 'function') {
+        return _realQS[prop];
+      }
+      // Return a function that queues the call
+      return function() {
+        var args = arguments;
+        if (_ready && _realQS && typeof _realQS[prop] === 'function') {
+          return _realQS[prop].apply(null, args);
+        }
+        _queue.push({ fn: prop, args: args });
+      };
+    }
+  };
+
+  try {
+    if (typeof Proxy !== 'undefined') {
+      window.QS = new Proxy({}, handler);
+    }
+  } catch(e) {}
+
+  // When data_calcs.js loads, it builds the real QS
+  // We hook into DOMContentLoaded to flush the queue
+  window._flushQSQueue = function(realQS) {
+    _ready = true;
+    _realQS = realQS;
+    _queue.forEach(function(item) {
+      if (typeof realQS[item.fn] === 'function') {
+        realQS[item.fn].apply(null, item.args);
+      }
+    });
+    _queue = [];
+  };
+})();
+
 </script>
 
 <!-- ═══ APP FOOTER ═══ -->
