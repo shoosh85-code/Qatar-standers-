@@ -98,7 +98,7 @@ async function callGemini(messages, maxTokens = 2000) {
   const body = {
     contents,
     generationConfig: {
-      maxOutputTokens: maxTokens,
+      maxOutputTokens: maxTokens || 2000,
       temperature: 0.2,
       topP: 0.85,
     },
@@ -235,7 +235,7 @@ export default async function handler(req) {
     ? [{ role: 'user', content: `[SYSTEM: ${system}]\n\n${messages[0]?.content || ''}` }, ...messages.slice(1)]
     : messages;
 
-  const tokenLimit = Math.min(max_tokens || 2000, 4000); // max 4000 output tokens
+  const tokenLimit = Math.min(max_tokens || 2500, 3000); // max 3000 tokens
 
   // Retry once on 429
   async function callWithRetry(msgs, tokens, retries = 1) {
