@@ -1139,26 +1139,27 @@ const debouncedSearch = debounce(function() {
 }, 400);
 
 function buildQCSPrompt(query, partNum) {
-  return `أنت خبير هندسي في QCS 2024. لا تكتب مقدمة ولا تقدم نفسك — ابدأ الإجابة مباشرة من النقطة الأولى.
+  // System prompt is passed separately in API call — this is user message only
+  return `السؤال: ${query}
 
-السؤال: ${query}
+المرجع المتوقع: QCS 2024 — Part ${partNum}
 
-أجب مباشرة بالعربية بهذا التنسيق:
+أجب بهذا التنسيق الإلزامي:
 
 **١) المتطلب الدقيق:**
-[القيمة والأرقام المحددة]
+[القيمة والأرقام المحددة من المواصفة]
 
 **٢) المرجع:**
-[QCS 2024 — Part ${partNum} — Clause رقم ...]
+[QCS 2024 — Part ${partNum} — Section رقم — Clause رقم — Table رقم إن وُجد]
 
 **٣) طريقة الاختبار:**
-[الأداة، التكرار، الإجراء]
+[الأداة المستخدمة، التكرار، الإجراء خطوة بخطوة]
 
 **٤) معيار القبول/الرفض:**
-[Pass إذا ... / Fail إذا ...]
+[Pass: الشرط | Fail: الشرط المخالف]
 
 **٥) استثناءات وملاحظات:**
-[أي حالات خاصة]`;
+[حالات خاصة، استثناءات، تحذيرات مهمة]`;
 }
 
 /**
@@ -1262,6 +1263,19 @@ async function doSearch() {
     const response = await fetchAnthropicAPI({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 1500,
+        system: `أنت QatarSpec AI، مساعد هندسي متخصص حصراً في المواصفات القطرية:
+- QCS 2024 (Qatar Construction Specifications) جميع الأقسام
+- Ashghal Road Design Manual 2023
+- KAHRAMAA Standards 2024
+- MMUP Building Regulations 2024
+- BS/ASTM المعتمدة في قطر
+
+قواعد صارمة:
+1. أجب فقط على الأسئلة الهندسية المتعلقة بالمواصفات القطرية
+2. اذكر دائماً: القسم + البند + الجدول من المرجع الدقيق
+3. إذا لم تكن متأكداً من رقم، صرّح بذلك بوضوح ولا تخمّن
+4. لا تكتب مقدمة ولا تقدم نفسك — ابدأ الإجابة مباشرة من النقطة الأولى
+5. الإجابة باللغة العربية مع المصطلحات الإنجليزية الفنية حيث ضرورية`,
         messages: [{ role: 'user', content: buildQCSPrompt(query, partsLabel) }]
     });
 
@@ -1289,6 +1303,9 @@ async function doSearch() {
     textEl.innerHTML = rendered;
     refEl.textContent = `📖 المرجع: QCS 2024 — Part ${partsLabel} | راجع المواصفة الأصلية للتأكد`;
     sourceEl.textContent = `QCS 2024 — Part ${partsLabel}`;
+
+    // ── SMART CACHE: Save result ──
+    setCachedResult(query, textEl.innerHTML);
 
   } catch (err) {
     const msg = err.message || 'خطأ غير معروف';
