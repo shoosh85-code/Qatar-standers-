@@ -294,6 +294,49 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 .ai-ref-text { font-size:12px; color:var(--text3); }
 .ai-disclaimer { font-size:11px; color:var(--text3); font-style:italic; line-height:1.5; max-width:100%; }
 .loading-wrap { display:flex; align-items:center; gap:10px; color:var(--text2); font-size:14px; }
+
+/* ── SKELETON LOADING — v2.6.0 ── */
+.skeleton { 
+  background: linear-gradient(90deg, var(--surface2) 25%, var(--surface3) 50%, var(--surface2) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.skeleton-line { height: 14px; margin: 8px 0; width: 100%; }
+.skeleton-line.short { width: 60%; }
+.skeleton-line.medium { width: 80%; }
+
+/* ── SEARCH HINT — v2.6.0 ── */
+#search-hint { 
+  font-size:11px; color:var(--text3); 
+  margin-top:4px; text-align:left; 
+  padding: 0 4px;
+}
+
+/* ── NETWORK BAR spacing ── */
+body.offline { padding-top: 32px; }
+
+
+/* ── PRINT STYLESHEET — v2.6.0 ── */
+@media print {
+  header, .hero, .trust-bar, .features-section, 
+  .search-wrap, .tabs, .cta-banner, #pwaInstallBtn,
+  .ai-action-btns, #networkBar { display: none !important; }
+  .ai-answer-box { 
+    display: block !important; 
+    border: 1px solid #ccc;
+    padding: 16px;
+    font-size: 12pt;
+    color: #000 !important;
+    background: #fff !important;
+  }
+  body { background: #fff !important; color: #000 !important; }
+}
+
 .spinner { width:18px; height:18px; border:2px solid rgba(201,168,76,0.2); border-top:2px solid var(--gold); border-radius:50%; animation:spin .8s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
 .content-section { max-width:1300px; margin:0 auto; padding:0 28px 20px; }
@@ -741,7 +784,8 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <div class="search-label">🔍 البحث الذكي في QCS 2024</div>
   <div class="search-wrap">
     <span class="search-mic">🎙️</span>
-    <input type="text" class="search-input" id="searchInput" aria-label="البحث في QCS 2024" aria-describedby="search-hint" placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة الConcrete في الأساسات وفق الكود القطري؟" onkeydown="if(event.key==='Enter') doSearch()" oninput="debouncedSearch()">
+    <input type="text" class="search-input" id="searchInput" aria-label="البحث في QCS 2024" aria-describedby="search-hint" title="اضغط Ctrl+K للوصول السريع" placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة الConcrete في الأساسات وفق الكود القطري؟" onkeydown="if(event.key==='Enter') doSearch()" oninput="debouncedSearch()">
+    <div id="search-hint" aria-live="polite">💡 اضغط Ctrl+K للوصول السريع للبحث</div>
     <button class="search-icon-btn" onclick="QS.doSearch()">⚡ بحث ذكي</button>
   </div>
   <div class="quick-tags">
@@ -1123,6 +1167,53 @@ function setLoadingSteps(steps, activeIndex) {
 function quickSearch(q) { document.getElementById('searchInput').value = q; doSearch(); }
 
 
+
+// ══════════════════════════════════════════════════════════════
+// GLOBAL ERROR HANDLER — v2.6.0
+// ══════════════════════════════════════════════════════════════
+window.onerror = function(msg, src, line, col, err) {
+  console.error('[QatarSpec Error]', msg, src, line, col);
+  // Only show toast for critical errors, not minor ones
+  if (err && !msg.includes('ResizeObserver') && !msg.includes('Script error')) {
+    showToast('⚠️ حدث خطأ غير متوقع — يرجى إعادة المحاولة');
+  }
+  return true; // prevent default browser error handling
+};
+
+window.addEventListener('unhandledrejection', function(event) {
+  console.error('[QatarSpec Promise Error]', event.reason);
+  event.preventDefault();
+});
+
+// ══════════════════════════════════════════════════════════════
+// OFFLINE / ONLINE INDICATOR — v2.6.0
+// ══════════════════════════════════════════════════════════════
+function updateNetworkStatus() {
+  const isOnline = navigator.onLine;
+  let bar = document.getElementById('networkBar');
+  if (!bar) {
+    bar = document.createElement('div');
+    bar.id = 'networkBar';
+    bar.style.cssText = `
+      position:fixed;top:0;left:0;right:0;z-index:9999;
+      background:#c0392b;color:#fff;text-align:center;
+      font-size:13px;padding:6px;font-weight:600;
+      transform:translateY(${isOnline ? '-100%' : '0'});
+      transition:transform 0.3s ease;
+    `;
+    bar.textContent = '📡 لا يوجد اتصال بالإنترنت — بعض الميزات غير متاحة';
+    document.body.prepend(bar);
+  }
+  bar.style.transform = isOnline ? 'translateY(-100%)' : 'translateY(0)';
+  if (isOnline && bar.textContent.includes('لا يوجد')) {
+    showToast('✅ عاد الاتصال بالإنترنت');
+  }
+}
+
+window.addEventListener('online', updateNetworkStatus);
+window.addEventListener('offline', updateNetworkStatus);
+document.addEventListener('DOMContentLoaded', updateNetworkStatus);
+
 // ══════════════════════════════════════════════════════════════
 // DEBOUNCE — v2.5.4
 // ══════════════════════════════════════════════════════════════
@@ -1170,6 +1261,67 @@ function buildQCSPrompt(query, partNum) {
  * @see fetchAnthropicAPI - دالة الـ API المركزية مع timeout
  */
 
+
+// ══════════════════════════════════════════════════════════════
+// INPUT SANITIZATION — v2.6.0
+// ══════════════════════════════════════════════════════════════
+function sanitizeInput(str) {
+  if (typeof str !== 'string') return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .slice(0, 500); // max 500 chars
+}
+
+
+
+// ══════════════════════════════════════════════════════════════
+// FOCUS MANAGEMENT — v2.6.0
+// ══════════════════════════════════════════════════════════════
+let _lastFocusedEl = null;
+
+function openModalWithFocus(modalEl) {
+  _lastFocusedEl = document.activeElement;
+  modalEl.style.display = 'flex';
+  const firstFocusable = modalEl.querySelector('button, input, [tabindex]:not([tabindex="-1"])');
+  if (firstFocusable) firstFocusable.focus();
+}
+
+function closeModalWithFocus(modalEl) {
+  modalEl.style.display = 'none';
+  if (_lastFocusedEl) _lastFocusedEl.focus();
+}
+
+// ══════════════════════════════════════════════════════════════
+// KEYBOARD SHORTCUTS — v2.6.0
+// Ctrl+K / Cmd+K → Focus search
+// Escape → Close modal
+// ══════════════════════════════════════════════════════════════
+document.addEventListener('keydown', function(e) {
+  // Ctrl+K or Cmd+K → focus search
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    const inp = document.getElementById('searchInput');
+    if (inp) {
+      inp.focus();
+      inp.select();
+      inp.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+  // Escape → close any open modal
+  if (e.key === 'Escape') {
+    const modals = document.querySelectorAll('.modal[style*="flex"], .modal[style*="block"]');
+    modals.forEach(m => { m.style.display = 'none'; });
+    const aiBox = document.getElementById('aiAnswerBox');
+    if (aiBox && aiBox.style.display !== 'none') {
+      // Don't close AI box on escape — user may be reading
+    }
+  }
+});
+
 // ══════════════════════════════════════════════════════════════
 // SMART CACHE — sessionStorage for search results — v2.5.4
 // ══════════════════════════════════════════════════════════════
@@ -1207,8 +1359,9 @@ function setCachedResult(query, result) {
 }
 
 async function doSearch() {
-  const query = document.getElementById('searchInput').value.trim();
-  if (!query) return;
+  const rawQuery = document.getElementById('searchInput').value.trim();
+  if (!rawQuery) return;
+  const query = sanitizeInput(rawQuery);
 
   // ── SMART CACHE CHECK ──
   const cached = getCachedResult(query);
@@ -1250,6 +1403,20 @@ async function doSearch() {
     'تجهيز النتيجة'
   ];
 
+
+  // Show skeleton loading
+  const aiBox2 = document.getElementById('aiAnswerBox');
+  if (aiBox2) {
+    aiBox2.style.display = 'block';
+    aiBox2.innerHTML = `
+      <div class="skeleton skeleton-line"></div>
+      <div class="skeleton skeleton-line medium"></div>
+      <div class="skeleton skeleton-line short"></div>
+      <div class="skeleton skeleton-line"></div>
+      <div class="skeleton skeleton-line medium"></div>
+    `;
+  }
+
   setLoadingSteps(steps, 0);
   sourceEl.textContent = 'QCS 2024 — جاري البحث...';
 
@@ -1258,6 +1425,10 @@ async function doSearch() {
     const partNum = parts[0];
     const partsLabel = parts.join(', ');
     sourceEl.textContent = `QCS 2024 — Part ${partsLabel}`;
+
+    // Update page title with query for accessibility
+    document.title = `${query} — QatarSpec Pro`;
+    setTimeout(() => { document.title = 'QatarSpec Pro — مواصفات قطر الهندسية'; }, 10000);
     setLoadingSteps(steps, 1);
 
     const response = await fetchAnthropicAPI({
@@ -1303,6 +1474,10 @@ async function doSearch() {
     textEl.innerHTML = rendered;
     refEl.textContent = `📖 المرجع: QCS 2024 — Part ${partsLabel} | راجع المواصفة الأصلية للتأكد`;
     sourceEl.textContent = `QCS 2024 — Part ${partsLabel}`;
+
+    // Update page title with query for accessibility
+    document.title = `${query} — QatarSpec Pro`;
+    setTimeout(() => { document.title = 'QatarSpec Pro — مواصفات قطر الهندسية'; }, 10000);
 
     // ── SMART CACHE: Save result ──
     setCachedResult(query, textEl.innerHTML);

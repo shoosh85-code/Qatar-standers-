@@ -237,8 +237,21 @@ export default async function handler(req) {
 
   const tokenLimit = Math.min(max_tokens || 2000, 4000); // max 4000 output tokens
 
+  // Retry once on 429
+  async function callWithRetry(msgs, tokens, retries = 1) {
+    try {
+      return await callGemini(msgs, tokens);
+    } catch (err) {
+      if (retries > 0 && (err.message?.includes('429') || err.message?.includes('quota'))) {
+        await new Promise(r => setTimeout(r, 3000)); // wait 3s
+        return callWithRetry(msgs, tokens, retries - 1);
+      }
+      throw err;
+    }
+  }
+
   try {
-    const result = await callGemini(finalMessages, tokenLimit);
+    const result = await callWithRetry(finalMessages, tokenLimit);
 
     return new Response(JSON.stringify(result), {
       status: 200,

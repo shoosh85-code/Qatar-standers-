@@ -4,9 +4,19 @@ const STATIC_CACHE  = `${CACHE_VERSION}-static`;
 const CHUNK_CACHE   = `${CACHE_VERSION}-chunks`;
 const API_CACHE     = `${CACHE_VERSION}-api`;
 
-const PRECACHE_URLS = ['/', '/index.html', '/calc-worker.js'];
+const PRECACHE_URLS = [
+  '/',
+  '/index.html',
+  '/calc-worker.js',
+  '/data_calcs.js',
+  '/loader.js',
+  '/manifest.json'
+];
+// Large files cached separately on first use
+const LARGE_FILES = ['/data_content.js'];
 
 const CHUNK_PATTERN = /\/data\/.+-data\.js(\?.*)?$/;
+const LARGE_PATTERN = /\/(data_content|data_calcs)\.js(\?.*)?$/;
 const API_PATTERN   = /api\.anthropic\.com|\/api\//;
 
 self.addEventListener('install', e => {
@@ -75,3 +85,14 @@ async function networkFirstWithTimeout(request, timeoutMs, cacheName) {
     );
   }
 }
+
+// Offline fallback
+self.addEventListener('fetch', e => {
+  if (e.request.mode === 'navigate') {
+    e.respondWith(
+      fetch(e.request).catch(() =>
+        caches.match('/index.html')
+      )
+    );
+  }
+});

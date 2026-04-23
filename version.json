@@ -1,5 +1,5 @@
 {
-  "version": "1.2",
-  "date": "2026-04-12",
-  "notes": "QCS 2024 full content + AI search + PWA offline"
+  "version": "2.6.0",
+  "date": "2026-04-23",
+  "notes": "UX++: Error handler + Offline indicator + Skeleton + Keyboard shortcuts + Focus mgmt + Print CSS + Resource hints + Input sanitization"
 }
