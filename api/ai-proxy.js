@@ -14,7 +14,7 @@ const CORS = {
 // Uses Vercel KV if available, fallback to in-memory map
 // ══════════════════════════════════════════════════════════════
 const ipCounters = new Map();  // fallback: in-memory (per-instance)
-const FREE_LIMIT = 5;
+const FREE_LIMIT = 50;  // Raised — client-side handles the 10/day limit
 const PRO_LIMIT  = 500;
 
 function getTodayStr() {
@@ -197,8 +197,11 @@ export default async function handler(req) {
   const authHeader = req.headers.get('Authorization') || '';
   const isProUser = authHeader.startsWith('Bearer pro-') || body.pro === true;
 
+  // ── Admin bypass via header ──
+  const isAdmin = req.headers.get('X-Admin') === '1';
+
   // ── Rate Limit ──
-  const rl = await checkRateLimit(ip, isProUser);
+  const rl = isAdmin ? { allowed: true, count: 0, limit: 999 } : await checkRateLimit(ip, isProUser);
   if (!rl.allowed) {
     return new Response(
       JSON.stringify({
