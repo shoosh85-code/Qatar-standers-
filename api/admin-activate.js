@@ -2,7 +2,13 @@
 // Manual user activation endpoint (WhatsApp payment flow)
 // Protected by ADMIN_SECRET env variable
 
-import { createClient } from '@supabase/supabase-js';
+// Uses native fetch instead of @supabase/supabase-js to avoid build issues
+async function supabaseFetch(url, key, path, options = {}) {
+  return fetch(url + path, {
+    ...options,
+    headers: { 'apikey': key, 'Authorization': \`Bearer \${key}\`, 'Content-Type': 'application/json', ...(options.headers||{}) }
+  });
+}
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -43,7 +49,7 @@ export default async function handler(req, res) {
     });
   }
 
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  
 
   // ── GET: list pending / all users ────────────────────────────────────────
   if (req.method === 'GET') {

@@ -2,7 +2,13 @@
 // Shared Supabase-based rate limiting module
 // Replaces the old in-memory Map which resets on every cold start
 
-import { createClient } from '@supabase/supabase-js';
+// Uses native fetch instead of @supabase/supabase-js to avoid build issues
+async function supabaseFetch(url, key, path, options = {}) {
+  return fetch(url + path, {
+    ...options,
+    headers: { 'apikey': key, 'Authorization': \`Bearer \${key}\`, 'Content-Type': 'application/json', ...(options.headers||{}) }
+  });
+}
 
 // ── Constants ────────────────────────────────────────────────────────────────
 const PLANS = {
@@ -22,7 +28,7 @@ function getSupabase() {
 
   if (!url || !key) return null;
 
-  _supabase = createClient(url, key, {
+  _supabase = /* createClient(url, key, {
     auth: { persistSession: false },
   });
 

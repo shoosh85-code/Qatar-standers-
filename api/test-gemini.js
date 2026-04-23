@@ -1,5 +1,5 @@
 // اختبار Cloudflare Workers AI
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
 
   const CF_TOKEN      = process.env.CF_TOKEN;
