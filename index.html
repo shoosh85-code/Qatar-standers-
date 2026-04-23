@@ -1150,7 +1150,9 @@ async function doSearch() {
   if (!query) return;
 
   // ── MONETIZATION: Daily Search Limit ──
-  if (!isProUser() && !canSearch()) {
+  // Owner bypass via URL param
+  const _isOwner = new URLSearchParams(window.location.search).get('qs_admin') === '1';
+  if (!_isOwner && !isProUser() && !canSearch()) {
     showUpgradePrompt(
       'search',
       '🔍',
@@ -4198,7 +4200,7 @@ window.calcRoadLayers = function calcRoadLayers() {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // ── Constants ──
-var FREE_DAILY_LIMIT = 5;
+var FREE_DAILY_LIMIT = 10;
 var PRO_CODES = ['QATAR2026PRO', 'QATARSPEC-PRO', 'QS-ENGINEER-2026', 'PRO-BETA-QCS'];
 
 // ── Pro State ──
