@@ -1166,7 +1166,7 @@ async function doSearch() {
   box.scrollIntoView({ behavior:'smooth', block:'nearest' });
 
   const steps = [
-    'تحديد القسم المناسب من QCS 2024',
+    '🔍 البحث في QCS 2024 الرسمي (18,000+ صفحة)',
     'معالجة الإجابة',
     'تجهيز النتيجة'
   ];
@@ -1181,10 +1181,33 @@ async function doSearch() {
     sourceEl.textContent = `QCS 2024 — Part ${partsLabel}`;
     setLoadingSteps(steps, 1);
 
+    // ── Fetch real QCS 2024 chunks from Supabase ──
+    let qcsContext = '';
+    try {
+      const qcsRes = await fetch('/api/qcs-search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: query, limit: 4 })
+      });
+      if (qcsRes.ok) {
+        const qcsData = await qcsRes.json();
+        if (qcsData.results && qcsData.results.length > 0) {
+          qcsContext = '\n\n=== نصوص من QCS 2024 الرسمي ===\n' +
+            qcsData.results.map(function(r, i) {
+              return '[' + (i+1) + '] ' + (r.source||'QCS 2024') + ' | ' + (r.section||'') + ' | صفحة ' + (r.page||'') + ':\n' + (r.content||'').slice(0, 500);
+            }).join('\n\n');
+        }
+      }
+    } catch(qcsErr) { console.log('QCS search:', qcsErr.message); }
+
+    const systemPrompt = buildQCSPrompt(query, partsLabel) + qcsContext;
+
     const response = await fetchAnthropicAPI({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 1500,
-        messages: [{ role: 'user', content: buildQCSPrompt(query, partsLabel) }]
+        messages: [
+          { role: 'user', content: systemPrompt + '\n\nالسؤال: ' + query }
+        ]
     });
 
     // ── Track search usage ──
@@ -3859,7 +3882,7 @@ function resetInspector() {
   // ── 2. Inline Service Worker via Blob ──
   if (!('serviceWorker' in navigator) || location.protocol !== 'https:') return;
 
-  var CACHE = 'qatarspec-v2-7-0';
+  var CACHE = 'qatarspec-v2-8-0';
   var ASSETS = ['/'];
 
   var swCode = [
