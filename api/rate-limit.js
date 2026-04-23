@@ -2,7 +2,7 @@
 // Shared Supabase-based rate limiting module
 // Replaces the old in-memory Map which resets on every cold start
 
-const { createClient } = require('@supabase/supabase-js');
+import { createClient } from '@supabase/supabase-js';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 const PLANS = {
@@ -130,7 +130,7 @@ async function resetLimit(ip, month = getCurrentMonth()) {
   return !error;
 }
 
-module.exports = {
+export default {
   checkRateLimit,
   getUsage,
   resetLimit,

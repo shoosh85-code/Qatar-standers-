@@ -2,7 +2,7 @@
 // Manual user activation endpoint (WhatsApp payment flow)
 // Protected by ADMIN_SECRET env variable
 
-const { createClient } = require('@supabase/supabase-js');
+import { createClient } from '@supabase/supabase-js';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -15,7 +15,7 @@ function respond(res, status, body) {
   return res.status(status).set(CORS_HEADERS).json(body);
 }
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     return res.status(204).set(CORS_HEADERS).end();
   }
