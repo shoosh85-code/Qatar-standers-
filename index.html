@@ -1129,7 +1129,9 @@ function setLoadingSteps(steps, activeIndex) {
 function quickSearch(q) { document.getElementById('searchInput').value = q; doSearch(); }
 
 function buildQCSPrompt(query, partNum) {
-  return 'أنت خبير QCS 2024. السؤال: ' + query + '\n\nأجب مباشرة مع: ١) القيمة الدقيقة ٢) المرجع من QCS 2024 Part ' + partNum + ' ٣) أي استثناءات. أجب بالعربية بإيجاز.';
+  return 'أنت خبير هندسي متخصص في QCS 2024. أجب بشكل كامل ومفصّل على السؤال مستعيناً بالنصوص المرجعية المُرفقة من QCS 2024.' +
+    '\nاذكر: ١) القيمة أو الاشتراط الدقيق ٢) رقم الجزء والبند الدقيق من QCS 2024 ٣) الاستثناءات المهمة.' +
+    '\nأجب بالعربية مع المصطلحات الإنجليزية عند الحاجة. لا تختصر الإجابة.';
 }
 
 /**
@@ -1205,8 +1207,9 @@ async function doSearch() {
     const response = await fetchAnthropicAPI({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 2000,
+        system: systemPrompt,
         messages: [
-          { role: 'user', content: systemPrompt + '\n\nالسؤال: ' + query }
+          { role: 'user', content: query }
         ]
     });
 
