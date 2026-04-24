@@ -8,6 +8,10 @@ export default async function handler(req, res) {
   const geminiKey    = process.env.GEMINI_KEY || '';
   const anthropicKey = process.env.ANTHROPIC_API_KEY || '';
   const jwtSecret    = process.env.JWT_SECRET || '';
+  const adminSecret  = process.env.ADMIN_SECRET || '';
+  const appUrl       = process.env.APP_URL || '';
+  const supabaseUrl  = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+  const supabaseSvc  = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
   // List available Gemini models + test the first working one
   let geminiOk = false, geminiMsg = 'not tested', availableModels = [];
@@ -82,6 +86,22 @@ a{color:#C9A84C}
 <div class="card ${jwtSecret ? 'ok':'warn'}">
   <span class="label">🔑 JWT_SECRET</span>
   <span class="val">${jwtSecret ? '✅ موجود' : '⚠️ غير موجود'}</span>
+</div>
+<div class="card ${adminSecret ? 'ok':'warn'}">
+  <span class="label">🔑 ADMIN_SECRET</span>
+  <span class="val">${adminSecret ? '✅ موجود' : '⚠️ غير موجود'}</span>
+</div>
+<div class="card ${appUrl ? 'ok':'warn'}">
+  <span class="label">🌍 APP_URL</span>
+  <span class="val">${appUrl || '⚠️ غير موجود'}</span>
+</div>
+<div class="card ${supabaseUrl ? 'ok':'warn'}">
+  <span class="label">🗄️ SUPABASE_URL</span>
+  <span class="val">${supabaseUrl ? '✅ موجود' : '⚠️ غير موجود'}</span>
+</div>
+<div class="card ${supabaseSvc ? 'ok':'warn'}">
+  <span class="label">🔑 SUPABASE_SERVICE_KEY</span>
+  <span class="val">${supabaseSvc ? '✅ موجود' : '⚠️ غير موجود'}</span>
 </div>
 
 <div class="card ${geminiOk ? 'ok':'fail'}">
