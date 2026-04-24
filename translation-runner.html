@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head><meta charset="UTF-8"><title>QatarSpec — EN Translation Runner</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:monospace;background:#0a0a0a;color:#eee;padding:20px;font-size:13px}
+h1{color:#C9A84C;margin-bottom:16px;font-family:Arial}
+.card{background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:14px;margin-bottom:10px}
+button{background:#C9A84C;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:700;color:#111;font-size:13px;margin:4px}
+button:disabled{opacity:0.4;cursor:not-allowed}
+button.secondary{background:#333;color:#eee}
+progress{width:100%;height:16px;margin:8px 0;border-radius:4px}
+#log{height:300px;overflow-y:auto;background:#111;border:1px solid #333;border-radius:6px;padding:10px;margin-top:10px;font-size:11px}
+.ok{color:#2ecc71}.err{color:#e74c3c}.info{color:#3498db}.warn{color:#f39c12}
+textarea{width:100%;height:80px;background:#111;border:1px solid #444;color:#eee;padding:8px;border-radius:4px;font-size:11px;margin-top:6px;resize:vertical}
+</style>
+</head>
+<body>
+<h1>🌐 QatarSpec — Arabic→English Translation Runner</h1>
+
+<div class="card">
+  <strong>Status:</strong> <span id="statusText">Ready</span><br><br>
+  <progress id="prog" value="0" max="100"></progress>
+  <div id="statsText" style="color:#B0A898;font-size:12px;margin-top:4px;">0 / 0 sections</div>
+</div>
+
+<div class="card">
+  <button onclick="startTranslation()" id="startBtn">🚀 Start Full Translation</button>
+  <button onclick="downloadResult()" id="dlBtn" class="secondary" disabled>📥 Download data_content.js</button>
+  <button onclick="stopTranslation()" class="secondary">⏹ Stop</button>
+</div>
+
+<div class="card">
+  <strong>Log:</strong>
+  <div id="log"></div>
+</div>
+
+<script>
+let running = false;
+let resultContent = '';
+let translatedCount = 0;
+let totalSections = 0;
+
+function log(msg, cls='') {
+  const d = document.getElementById('log');
+  const t = new Date().toLocaleTimeString();
+  d.innerHTML += `<div class="${cls}">[${t}] ${msg}</div>`;
+  d.scrollTop = d.scrollHeight;
+}
+
+function updateProgress(done, total) {
+  const pct = Math.round(done/Math.max(total,1)*100);
+  document.getElementById('prog').value = pct;
+  document.getElementById('statsText').textContent = `${done} / ${total} sections (${pct}%)`;
+}
+
+async function fetchDataContent() {
+  const r = await fetch('/data_content.js?v=' + Date.now());
+  return await r.text();
+}
+
+function extractSections(jsContent) {
+  // Extract each section key and its full content
+  const sections = [];
+  const regex = /\n  (\w+):\s*\{\s*title:\s*`([^`]*)`[,\s]*content:\s*`([\s\S]*?)`\s*\}/g;
+  let m;
+  while ((m = regex.exec(jsContent)) !== null) {
+    sections.push({
+      key: m[1],
+      title: m[2],
+      content: m[3]
+    });
+  }
+  return sections;
+}
+
+function extractARBlock(content) {
+  const arStart = content.indexOf('class="lang-content-ar"');
+  if (arStart < 0) return '';
+  const arEnd = content.indexOf('class="lang-content-en"', arStart);
+  if (arEnd < 0) return content.slice(arStart);
+  return content.slice(arStart, arEnd);
+}
+
+function extractENBlock(content) {
+  const enStart = content.indexOf('class="lang-content-en"');
+  if (enStart < 0) return null;
+  return content.slice(enStart);
+}
+
+async function translateSection(key, title, arContent) {
+  const prompt = `You are a Qatar QCS 2024 engineering expert. 
+Translate this Arabic HTML engineering section to English.
+Rules:
+1. Keep EXACT same HTML structure, tables, cards, styling
+2. Keep all onclick="QS.openDetail(...)" exactly as-is
+3. Keep all CSS classes and inline styles exactly as-is  
+4. Keep all QCS references, numbers, and technical values
+5. Translate only the Arabic text to English
+6. Return ONLY the HTML content (no outer div.lang-content-en wrapper)
+7. Match the same level of detail and completeness
+
+Arabic content to translate:
+${arContent.replace(/<[^>]+>/g, (tag) => tag).slice(0, 3000)}`;
+
+  const r = await fetch('/api/enhance-en', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ section_key: key, ar_content: arContent })
+  });
+  
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  const data = await r.json();
+  return data.enhanced || '';
+}
+
+function rebuildContent(originalContent, sections, translations) {
+  let result = 'window.QS_CONTENT = {\n';
+  
+  for (const s of sections) {
+    const newEN = translations[s.key];
+    let newContent = s.content;
+    
+    if (newEN) {
+      // Replace EN block
+      const enDivMarker = 'class="lang-content-en" style="display:none;">';
+      const enIdx = newContent.indexOf(enDivMarker);
+      
+      if (enIdx >= 0) {
+        const afterMarker = enIdx + enDivMarker.length;
+        // Find closing </div>
+        let closeIdx = newContent.indexOf('\n</div>', afterMarker);
+        if (closeIdx < 0) closeIdx = newContent.indexOf('</div>', afterMarker);
+        
+        if (closeIdx >= 0) {
+          newContent = newContent.slice(0, afterMarker) + '\n' + newEN.trim() + '\n' + newContent.slice(closeIdx);
+        }
+      } else {
+        // No EN block - add one after AR block
+        const arEndIdx = newContent.indexOf('</div>');
+        if (arEndIdx >= 0) {
+          const enBlock = `\n<div class="lang-content-en" style="display:none;">\n${newEN.trim()}\n</div>`;
+          newContent = newContent.slice(0, arEndIdx + 6) + enBlock + newContent.slice(arEndIdx + 6);
+        }
+      }
+    }
+    
+    result += `  ${s.key}: { title: \`${s.title}\`, content: \`${newContent}\` },\n`;
+  }
+  
+  result += '};\n';
+  return result;
+}
+
+async function startTranslation() {
+  running = true;
+  document.getElementById('startBtn').disabled = true;
+  document.getElementById('statusText').textContent = 'Loading data_content.js...';
+  log('Loading current data_content.js...', 'info');
+  
+  try {
+    const originalContent = await fetchDataContent();
+    log(`Loaded ${(originalContent.length/1024).toFixed(0)}KB`, 'ok');
+    
+    const sections = extractSections(originalContent);
+    totalSections = sections.length;
+    log(`Found ${sections.length} sections`, 'info');
+    
+    const translations = {};
+    let done = 0;
+    
+    for (const section of sections) {
+      if (!running) break;
+      
+      const arBlock = extractARBlock(section.content);
+      
+      if (!arBlock || arBlock.length < 100) {
+        log(`${section.key}: No AR content — skipping`, 'warn');
+        done++;
+        updateProgress(done, totalSections);
+        continue;
+      }
+      
+      document.getElementById('statusText').textContent = `Translating: ${section.key}...`;
+      log(`${section.key}: Translating (AR=${arBlock.length} chars)...`);
+      
+      try {
+        const enText = await translateSection(section.key, section.title, arBlock);
+        if (enText && enText.length > 100) {
+          translations[section.key] = enText;
+          log(`${section.key}: ✅ Done (${enText.length} chars)`, 'ok');
+        } else {
+          log(`${section.key}: ⚠️ Short result — keeping original`, 'warn');
+        }
+      } catch(e) {
+        log(`${section.key}: ❌ ${e.message}`, 'err');
+      }
+      
+      done++;
+      translatedCount = done;
+      updateProgress(done, totalSections);
+      
+      // Rate limit: wait 1.5s between requests
+      await new Promise(r => setTimeout(r, 1500));
+    }
+    
+    // Rebuild the file
+    log('Rebuilding data_content.js...', 'info');
+    resultContent = rebuildContent(originalContent, sections, translations);
+    
+    log(`✅ Complete! ${Object.keys(translations).length}/${totalSections} sections translated`, 'ok');
+    document.getElementById('dlBtn').disabled = false;
+    document.getElementById('statusText').textContent = '✅ Done — Download ready!';
+    
+  } catch(e) {
+    log(`Fatal error: ${e.message}`, 'err');
+  }
+  
+  running = false;
+  document.getElementById('startBtn').disabled = false;
+}
+
+function stopTranslation() {
+  running = false;
+  log('⏹ Stopped by user', 'warn');
+}
+
+function downloadResult() {
+  if (!resultContent) return;
+  const blob = new Blob([resultContent], {type: 'text/javascript'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'data_content.js';
+  a.click();
+  log('📥 Download started — send the file to Claude to deploy', 'ok');
+}
+</script>
+</body>
+</html>
