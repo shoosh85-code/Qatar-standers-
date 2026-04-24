@@ -5,15 +5,17 @@
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
-  // Parse body manually in case it's not auto-parsed
-  let bodyData = req.body || {};
-  if (typeof bodyData === 'string') {
-    try { bodyData = JSON.parse(bodyData); } catch(e) { bodyData = {}; }
-  }
+  // Auth via URL query param: ?key=YOUR_ADMIN_SECRET
+  const urlKey = new URL(req.url, 'https://x').searchParams.get('key');
+  const bodyData = req.body || {};
+  const batch_size = parseInt(bodyData.batch_size || 50);
+  const offset = parseInt(bodyData.offset || 0);
   
-  const { admin_secret, batch_size = 50, offset = 0 } = bodyData;
-  if (admin_secret !== process.env.ADMIN_SECRET) {
-    return res.status(401).json({ error: 'Unauthorized' });
+  // Accept either URL key or env var match
+  const ADMIN = process.env.ADMIN_SECRET || '';
+  if (!urlKey || (ADMIN && urlKey !== ADMIN)) {
+    // Allow if ADMIN_SECRET not set (setup mode)
+    if (ADMIN) return res.status(401).json({ error: 'Unauthorized — pass ?key=ADMIN_SECRET in URL' });
   }
 
   const SUPA_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
