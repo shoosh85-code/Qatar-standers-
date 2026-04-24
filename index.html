@@ -1150,9 +1150,7 @@ async function doSearch() {
   if (!query) return;
 
   // ── MONETIZATION: Daily Search Limit ──
-  // Owner bypass via URL param
-  const _isOwner = new URLSearchParams(window.location.search).get('qs_admin') === '1';
-  if (!_isOwner && !isProUser() && !canSearch()) {
+  if (!isProUser() && !canSearch()) {
     showUpgradePrompt(
       'search',
       '🔍',
@@ -1970,12 +1968,10 @@ async function fetchAnthropicAPI(body) {
   const timeoutId = setTimeout(() => controller.abort(), 35000);
 
   try {
-    const _isAdminMode = new URLSearchParams(window.location.search).get('qs_admin') === '1';
     const response = await fetch('/api/ai-proxy', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        ...(_isAdminMode ? { 'X-Admin': '1' } : {})
       },
       body: JSON.stringify(body),
       signal: controller.signal
@@ -3900,7 +3896,7 @@ function resetInspector() {
   // ── 2. Inline Service Worker via Blob ──
   if (!('serviceWorker' in navigator) || location.protocol !== 'https:') return;
 
-  var CACHE = 'qatarspec-v2-8-0';
+  var CACHE = 'qatarspec-v3-0-0';
   var ASSETS = ['/'];
 
   var swCode = [
@@ -4305,6 +4301,60 @@ function updateSearchCounterBar() {
 }
 
 // ── Pro Modal ──
+// ── Tap Payments ──
+async function startTapPayment(plan) {
+  const email = (document.getElementById('tapEmail') || {}).value || '';
+  const msg = document.getElementById('tapMsg');
+  
+  if (!email || !email.includes('@')) {
+    if (msg) { msg.style.color = '#e74c3c'; msg.textContent = '⚠️ أدخل بريدًا إلكترونيًا صحيحًا'; }
+    return;
+  }
+
+  if (msg) { msg.style.color = 'var(--text3)'; msg.textContent = '⏳ جاري التحضير...'; }
+
+  try {
+    const r = await fetch('/api/tap-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, plan })
+    });
+    const data = await r.json();
+
+    if (data.checkout_url) {
+      window.location.href = data.checkout_url;
+    } else {
+      if (msg) { msg.style.color = '#e74c3c'; msg.textContent = '❌ ' + (data.error || 'خطأ في الدفع'); }
+    }
+  } catch(e) {
+    if (msg) { msg.style.color = '#e74c3c'; msg.textContent = '❌ خطأ في الاتصال'; }
+  }
+}
+
+// Handle payment success redirect (token in URL hash)
+(function() {
+  const hash = window.location.hash;
+  if (hash.includes('pro_token=')) {
+    const params = new URLSearchParams(hash.slice(1));
+    const token = params.get('pro_token');
+    const expiry = params.get('expiry');
+    if (token && expiry) {
+      localStorage.setItem('qs_pro_active', 'true');
+      localStorage.setItem('qs_pro_expiry', new Date(parseInt(expiry)).toISOString());
+      localStorage.setItem('qs_pro_token', token);
+      history.replaceState(null, '', window.location.pathname);
+      showToast('🎉 مرحباً بك في Pro! تم تفعيل اشتراكك.');
+      setTimeout(function() { updateProStatus(); }, 500);
+    }
+  }
+  // Check payment failed
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('payment') === 'failed') {
+    showToast('❌ فشلت عملية الدفع — يرجى المحاولة مجدداً');
+    history.replaceState(null, '', window.location.pathname);
+  }
+})();
+
 function openProModal() {
   document.getElementById('proModal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -4583,13 +4633,23 @@ window.QS = window.QS || {};
 
     <!-- CONTACT FOR PAYMENT -->
     <div id="paymentContact" style="display:none;background:linear-gradient(135deg,rgba(46,204,113,0.1),rgba(46,204,113,0.03));border:1px solid rgba(46,204,113,0.3);border-radius:12px;padding:16px;margin-bottom:16px;">
-      <div style="font-size:13px;font-weight:700;color:#2ecc71;margin-bottom:10px;">📱 للاشتراك — تواصل معنا مباشرةً</div>
-      <div style="display:flex;flex-direction:column;gap:8px;">
-        <a href="https://wa.me/974XXXXXXXX?text=أريد الاشتراك في QatarSpec Pro" target="_blank"
-          style="display:flex;align-items:center;gap:10px;background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.3);border-radius:10px;padding:12px;text-decoration:none;color:var(--text);font-size:13px;">
-          <span style="font-size:20px;">💬</span>
-          <div><div style="font-weight:700;color:#25d366;">WhatsApp</div><div style="font-size:11px;color:var(--text3);">رد خلال ساعة — دفع آمن</div></div>
-        </a>
+      <div style="font-size:13px;font-weight:700;color:#C9A84C;margin-bottom:12px;">💳 اشتراك فوري — دفع آمن</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:14px;">
+          <input id="tapEmail" type="email" placeholder="أدخل بريدك الإلكتروني" dir="ltr"
+            style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;margin-bottom:10px;box-sizing:border-box;outline:none;" />
+          <div style="display:flex;gap:8px;">
+            <button onclick="startTapPayment('monthly')"
+              style="flex:1;background:linear-gradient(135deg,#C9A84C,#a07830);border:none;border-radius:8px;padding:11px;color:#fff;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;">
+              💳 199 ر.ق / شهر
+            </button>
+            <button onclick="startTapPayment('yearly')"
+              style="flex:1;background:linear-gradient(135deg,#2ecc71,#1a9952);border:none;border-radius:8px;padding:11px;color:#fff;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;">
+              🏆 1990 ر.ق / سنة
+            </button>
+          </div>
+          <div id="tapMsg" style="font-size:11px;color:var(--text3);margin-top:8px;text-align:center;min-height:16px;"></div>
+        </div>
         <a href="mailto:pro@qatarspec.com?subject=QatarSpec Pro Subscription"
           style="display:flex;align-items:center;gap:10px;background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;text-decoration:none;color:var(--text);font-size:13px;">
           <span style="font-size:20px;">📧</span>

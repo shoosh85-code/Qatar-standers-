@@ -197,10 +197,18 @@ export default async function handler(req) {
   const authHeader = req.headers.get('Authorization') || '';
   const isProUser = authHeader.startsWith('Bearer pro-') || body.pro === true;
 
-  // ── Admin bypass via header ──
-  const isAdmin = req.headers.get('X-Admin') === '1';
+  // ── Rate Limit — Admin token from sessionStorage (not URL param) ──
+  const adminToken = req.headers.get('X-Admin-Token') || '';
+  // Validate: token must be base64 starting with "admin:" (set by /api/admin-session)
+  let isAdmin = false;
+  if (adminToken) {
+    try {
+      const decoded = atob(adminToken);
+      const ts = parseInt(decoded.split(':')[1] || '0');
+      isAdmin = decoded.startsWith('admin:') && (Date.now() - ts) < 86400000;
+    } catch(e) { isAdmin = false; }
+  }
 
-  // ── Rate Limit ──
   const rl = isAdmin ? { allowed: true, count: 0, limit: 999 } : await checkRateLimit(ip, isProUser);
   if (!rl.allowed) {
     return new Response(
