@@ -1093,9 +1093,34 @@ content: `
 </div>
 
 <div class="lang-content-en" style="display:none;">
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
-📌 QCS 2024 — Section 6 | Road Works | Ashghal Standards
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 6 & 8 | Road Works — QC Inspection Plan
+</div>
+<h3>🛣️ Select Road Works Phase</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
+<div onclick="QS.openDetail('subgrade')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:14px;cursor:pointer;text-align:center;">
+<div style="font-size:24px">🏔️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subgrade</div>
+<div style="color:var(--text3);font-size:11px;">CBR≥8% | 95% MDD</div></div>
+<div onclick="QS.openDetail('subbase')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:14px;cursor:pointer;text-align:center;">
+<div style="font-size:24px">🪨</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subbase (Type B)</div>
+<div style="color:var(--text3);font-size:11px;">CBR≥30% | 100% BS Heavy</div></div>
+<div onclick="QS.openDetail('binder')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:14px;cursor:pointer;text-align:center;">
+<div style="font-size:24px">🛢️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Binder Course</div>
+<div style="color:var(--text3);font-size:11px;">AC20 | ≥140°C | 97% TMD</div></div>
+<div onclick="QS.openDetail('wearing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:14px;cursor:pointer;text-align:center;">
+<div style="font-size:24px">🛣️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Wearing Course</div>
+<div style="color:var(--text3);font-size:11px;">AC14 | ≥145°C | IRI≤2.5</div></div>
+</div>
+<table class="dm-table">
+<tr><th>Phase</th><th>Key Test</th><th>Acceptance</th><th>Freq</th></tr>
+<tr><td>Subgrade</td><td>Density (Sand Cone)</td><td>≥95% MDD</td><td>1/500m²</td></tr>
+<tr><td>Subgrade</td><td>CBR Soaked 4d</td><td>≥8%</td><td>1/500m³</td></tr>
+<tr><td>Subbase</td><td>Density</td><td>≥100% BS Heavy</td><td>1/500m²</td></tr>
+<tr><td>Subbase</td><td>CBR</td><td>≥30%</td><td>1/source change</td></tr>
+<tr><td>Binder/Wearing</td><td>Core Density</td><td>≥97% TMD</td><td>1/250m²</td></tr>
+<tr><td>Wearing</td><td>IRI Smoothness</td><td>≤2.5 m/km</td><td>100%</td></tr>
+<tr><td>Wearing</td><td>Marshall Stability</td><td>≥8.0 kN</td><td>Per mix design</td></tr>
+</table>
 </div>
 
 <h3>🗺️ Execution Phases — Mandatory Sequence</h3>
@@ -1335,10 +1360,30 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 
 <div class="lang-content-en" style="display:none;">
-
-<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;"><span>🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Subgrade Preparation Video</span></div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 6 | Subgrade Formation
+</div>
+<h3>🏔️ Subgrade — QCS 2024 Requirements</h3>
+<table class="dm-table">
+<tr><th>Parameter</th><th>Requirement</th><th>Standard</th><th>Frequency</th></tr>
+<tr><td>Compaction (MDD)</td><td>≥95% BS Heavy</td><td>QCS S6 P5</td><td>1 test/500m²/layer</td></tr>
+<tr><td>CBR (4-day soaked)</td><td>≥8% (Urban) / ≥5% (Rural)</td><td>QCS S6 P3</td><td>1 test/500m³</td></tr>
+<tr><td>Level Tolerance</td><td>±20mm from design</td><td>QCS S6 P5</td><td>Every 25m</td></tr>
+<tr><td>Plasticity Index</td><td>≤12 (cohesive) / NP (granular)</td><td>QCS S6 P3</td><td>Per source change</td></tr>
+<tr><td>Sulphate (SO3)</td><td>≤0.3%</td><td>BS 1377</td><td>Per source change</td></tr>
+<tr><td>Moisture Content</td><td>OMC ±2%</td><td>ASTM D698</td><td>Daily</td></tr>
+<tr><td>Layer Thickness</td><td>≤200mm per layer</td><td>QCS S6 P5</td><td>Continuous</td></tr>
+</table>
+<h4 style="margin-top:14px;color:var(--gold);">🔴 Hold Points</h4>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;font-size:12px;">
+<strong>HP1:</strong> Engineer approval of subgrade formation before subbase<br>
+<strong>HP2:</strong> Proof rolling — any rutting >12mm = re-compact<br>
+<strong>HP3:</strong> All density + CBR results accepted before proceeding
+</div>
+<div style="background:rgba(243,156,18,0.1);border:1px solid rgba(243,156,18,0.3);border-radius:8px;padding:10px;margin-top:8px;font-size:12px;">
+⚠️ Subgrade in Qatar: Watch for sabkha, gypseous soils, and high groundwater. Verify sulphate content before any placement.
+</div>
+</div>
 <button onclick="document.getElementById('vid-sg-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
 </div>
 <input type="file" id="vid-sg-en" accept="video/*" style="display:none" data-player="vid-sg-en-p" data-ph="vid-sg-en-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">

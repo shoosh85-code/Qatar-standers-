@@ -5,10 +5,6 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).end();
 
-  const GEMINI_KEY = process.env.GEMINI_KEY;
-  if (!GEMINI_KEY) return res.status(503).json({ error: 'No key' });
-
-  // Read body
   const body = await new Promise((resolve) => {
     let data = '';
     req.on('data', c => data += c);
@@ -17,14 +13,41 @@ export default async function handler(req, res) {
 
   const { section_key = 'unknown', ar_content = '' } = body;
   if (!ar_content || ar_content.length < 30) {
-    return res.status(400).json({ error: 'No content', len: ar_content.length });
+    return res.status(400).json({ error: 'No content' });
   }
 
-  // Strip HTML tags for cleaner translation prompt
   const stripHtml = s => s.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-  const arText = stripHtml(ar_content).slice(0, 2000);
+  const arText = stripHtml(ar_content).slice(0, 1500);
 
-  const prompt = `Translate this Arabic Qatar engineering text to English. Keep all technical terms, QCS references, and numerical values exact. Return only the English translation as clean HTML paragraphs and tables (no Arabic). Section: ${section_key}\n\nArabic text:\n${arText}`;
+  const prompt = `Translate this Arabic Qatar QCS 2024 engineering text to English. Keep all technical terms, numbers, QCS references exact. Return clean HTML (tables and paragraphs). Section: ${section_key}\n\n${arText}`;
+
+  // Try Anthropic first (higher quota), fallback to Gemini
+  const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
+  const GEMINI_KEY = process.env.GEMINI_KEY;
+
+  if (ANTHROPIC_KEY) {
+    try {
+      const r = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': ANTHROPIC_KEY,
+          'anthropic-version': '2023-06-01'
+        },
+        body: JSON.stringify({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 1500,
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+      const d = await r.json();
+      if (r.ok && d.content?.[0]?.text) {
+        return res.status(200).json({ enhanced: d.content[0].text, key: section_key, via: 'anthropic' });
+      }
+    } catch(e) { console.log('Anthropic failed:', e.message); }
+  }
+
+  if (!GEMINI_KEY) return res.status(503).json({ error: 'No API keys configured' });
 
   try {
     const r = await fetch(
@@ -38,19 +61,11 @@ export default async function handler(req, res) {
         })
       }
     );
-
     const d = await r.json();
-    if (!r.ok) {
-      console.error('[enhance-en]', r.status, JSON.stringify(d).slice(0,200));
-      return res.status(502).json({ error: d?.error?.message || 'Gemini error', status: r.status });
-    }
-
+    if (!r.ok) return res.status(502).json({ error: d?.error?.message, status: r.status });
     const text = d?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    console.log(`[enhance-en] ${section_key}: ${text.length} chars`);
-    return res.status(200).json({ enhanced: text, key: section_key });
-
+    return res.status(200).json({ enhanced: text, key: section_key, via: 'gemini' });
   } catch(e) {
-    console.error('[enhance-en] catch:', e.message);
     return res.status(500).json({ error: e.message });
   }
 }
