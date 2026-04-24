@@ -1081,3 +1081,392 @@ function calcTestScheduleCore(matId, qtyId, unitId, resultId, isEn) {
   // Merge with any existing QS properties (set by stub or previous partial init)
   window.QS = Object.assign(window.QS || {}, api);
 })();
+
+// ════════════════════════════════════════════════
+// CALCULATOR v2.0 — Unified Pass/Fail Engine
+// ════════════════════════════════════════════════
+
+function switchCalcTab(tab, btn) {
+  ['passfail','batch','history','freq'].forEach(t => {
+    const el = document.getElementById('calc-tab-'+t);
+    const b = document.getElementById('ctab-'+t);
+    if (el) el.style.display = t === tab ? '' : 'none';
+    if (b) {
+      b.style.background = t === tab ? 'rgba(201,168,76,0.25)' : 'var(--dark4)';
+      b.style.color = t === tab ? 'var(--gold)' : 'var(--text2)';
+      b.style.fontWeight = t === tab ? '700' : '400';
+    }
+  });
+  if (tab === 'history') renderCalcHistory();
+  if (tab === 'freq') { calcFreq(); calcTestScheduleEn && calcTestScheduleEn(); }
+}
+
+function filterCalcCat(cat) {
+  document.querySelectorAll('.calc-cat-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.querySelector('[data-cat="'+cat+'"]');
+  if (btn) btn.classList.add('active');
+  document.querySelectorAll('.calc-card').forEach(card => {
+    card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+  });
+}
+
+function showCalcResult(id, pass, msg, warn) {
+  const el = document.getElementById('res-' + id);
+  if (!el) return;
+  el.className = 'calc-result ' + (warn ? 'warning' : pass ? 'pass' : 'fail');
+  el.innerHTML = (pass ? '✅ PASS' : warn ? '⚠️ WARNING' : '❌ FAIL') + ' — ' + msg;
+  // Save to history
+  saveCalcHistory(id, pass, msg);
+}
+
+function saveCalcHistory(testId, pass, msg) {
+  try {
+    const h = JSON.parse(localStorage.getItem('qs_calc_history') || '[]');
+    h.unshift({ id: testId, pass, msg, ts: Date.now() });
+    localStorage.setItem('qs_calc_history', JSON.stringify(h.slice(0, 100)));
+  } catch(e) {}
+}
+
+function renderCalcHistory() {
+  const el = document.getElementById('calc-history-list');
+  if (!el) return;
+  try {
+    const h = JSON.parse(localStorage.getItem('qs_calc_history') || '[]');
+    if (!h.length) { el.innerHTML = '<div style="text-align:center;color:var(--text3);padding:20px;font-size:13px;">لا يوجد سجل بعد</div>'; return; }
+    el.innerHTML = h.slice(0,50).map(item => {
+      const d = new Date(item.ts);
+      const time = d.toLocaleTimeString('ar-QA') + ' ' + d.toLocaleDateString('ar-QA');
+      return `<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--dark3);border-radius:8px;margin-bottom:6px;border:1px solid ${item.pass?'rgba(46,204,113,0.2)':'rgba(231,76,60,0.2)'};">
+        <span style="font-size:14px;">${item.pass?'✅':'❌'}</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:11px;font-weight:700;color:${item.pass?'#2ecc71':'#e74c3c'}">${item.id}</div>
+          <div style="font-size:10px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.msg}</div>
+        </div>
+        <div style="font-size:9px;color:var(--text3);white-space:nowrap;">${time}</div>
+      </div>`;
+    }).join('');
+  } catch(e) { el.innerHTML = '<div style="color:var(--text3);">خطأ في تحميل السجل</div>'; }
+}
+
+function clearCalcHistory() {
+  localStorage.removeItem('qs_calc_history');
+  renderCalcHistory();
+  showToast('🗑️ تم مسح سجل الاختبارات');
+}
+
+function runCalcTest(testId) {
+  switch(testId) {
+    case 'compaction': {
+      const field = parseFloat(document.getElementById('comp-field').value);
+      const mdd = parseFloat(document.getElementById('comp-mdd').value);
+      const req = parseFloat(document.getElementById('comp-layer').value);
+      if (!field || !mdd) { showToast('❌ أدخل الكثافة الميدانية و MDD'); return; }
+      const pct = (field / mdd * 100);
+      const pass = pct >= req;
+      const warn = pct >= req * 0.98 && !pass;
+      showCalcResult(testId, pass, `${pct.toFixed(1)}% ${pass?'✅':'❌'} (المطلوب ≥${req}%) | Field: ${field} | MDD: ${mdd}`, warn);
+      break;
+    }
+    case 'cbr': {
+      const val = parseFloat(document.getElementById('cbr-val').value);
+      const req = parseFloat(document.getElementById('cbr-type').value);
+      if (!val) { showToast('❌ أدخل نتيجة CBR'); return; }
+      const pass = val >= req;
+      showCalcResult(testId, pass, `CBR = ${val}% ${pass?'✅':'❌'} (المطلوب ≥${req}%) | QCS 2024 S6`);
+      break;
+    }
+    case 'marshall': {
+      const stab = parseFloat(document.getElementById('mar-stab').value);
+      const flow = parseFloat(document.getElementById('mar-flow').value);
+      const va = parseFloat(document.getElementById('mar-va').value);
+      if (!stab || !flow || !va) { showToast('❌ أدخل جميع قيم Marshall'); return; }
+      const stabPass = stab >= 8.0;
+      const flowPass = flow >= 2 && flow <= 4;
+      const vaPass = va >= 3 && va <= 5;
+      const pass = stabPass && flowPass && vaPass;
+      showCalcResult(testId, pass, 
+        `Stability: ${stab}kN ${stabPass?'✅':'❌'} (≥8.0) | Flow: ${flow}mm ${flowPass?'✅':'❌'} (2-4) | Va: ${va}% ${vaPass?'✅':'❌'} (3-5%) | QCS S8`);
+      break;
+    }
+    case 'core_density': {
+      const bulk = parseFloat(document.getElementById('core-bulk').value);
+      const tmd = parseFloat(document.getElementById('core-tmd').value);
+      const req = parseFloat(document.getElementById('core-layer').value);
+      if (!bulk || !tmd) { showToast('❌ أدخل Bulk Density و TMD'); return; }
+      const pct = bulk / tmd * 100;
+      const pass = pct >= req;
+      showCalcResult(testId, pass, `${pct.toFixed(1)}% TMD ${pass?'✅':'❌'} (≥${req}%) | QCS S8 P6`);
+      break;
+    }
+    case 'iri': {
+      const val = parseFloat(document.getElementById('iri-val').value);
+      const req = parseFloat(document.getElementById('iri-type').value);
+      if (!val) { showToast('❌ أدخل قيمة IRI'); return; }
+      const pass = val <= req;
+      showCalcResult(testId, pass, `IRI = ${val} m/km ${pass?'✅':'❌'} (≤${req} m/km) | QCS S8 P7`);
+      break;
+    }
+    case 'asphalt_temp': {
+      const val = parseFloat(document.getElementById('temp-val').value);
+      const req = parseFloat(document.getElementById('temp-type').value);
+      if (!val) { showToast('❌ أدخل درجة الحرارة'); return; }
+      const pass = val >= req;
+      const warn = val >= req - 5 && !pass;
+      showCalcResult(testId, pass, `${val}°C ${pass?'✅':'❌'} (≥${req}°C) | QCS 2024 S8 P5`, warn);
+      break;
+    }
+    case 'crossfall': {
+      const val = parseFloat(document.getElementById('cf-val').value);
+      const type = document.getElementById('cf-type').value;
+      if (!val) { showToast('❌ أدخل نسبة الميل'); return; }
+      let pass, msg;
+      if (type === '2.5') {
+        const target = 2.5, tol = 0.5;
+        pass = Math.abs(val - target) <= tol;
+        const warn2 = Math.abs(val - target) <= 0.8 && !pass;
+        msg = `${val}% ${pass?'✅':'❌'} (الهدف 2.5% ±0.5%) | QCS S6`;
+        showCalcResult(testId, pass, msg, warn2);
+      } else {
+        pass = val <= 3.0;
+        msg = `${val}% ${pass?'✅':'❌'} (≤3.0%) | QCS S6`;
+        showCalcResult(testId, pass, msg);
+      }
+      break;
+    }
+    case 'straightedge': {
+      const val = parseFloat(document.getElementById('str-val').value);
+      const req = parseFloat(document.getElementById('str-layer').value);
+      if (val === undefined || isNaN(val)) { showToast('❌ أدخل الفجوة'); return; }
+      const pass = val <= req;
+      showCalcResult(testId, pass, `${val}mm ${pass?'✅':'❌'} (≤${req}mm تحت مسطرة 3m) | QCS S8`);
+      break;
+    }
+    case 'pressure_test': {
+      const pn = parseFloat(document.getElementById('pres-pn').value);
+      const test = parseFloat(document.getElementById('pres-test').value);
+      const drop = parseFloat(document.getElementById('pres-drop').value);
+      if (!pn || !test) { showToast('❌ أدخل PN وضغط الاختبار'); return; }
+      const reqTest = pn * 1.5;
+      const testPass = test >= reqTest;
+      const dropPass = isNaN(drop) || drop <= 0;
+      const pass = testPass && dropPass;
+      showCalcResult(testId, pass, 
+        `ضغط: ${test} bar ${testPass?'✅':'❌'} (≥${reqTest.toFixed(1)}) | انخفاض: ${drop||0} bar ${dropPass?'✅':'❌'} | QCS 2024`);
+      break;
+    }
+    case 'air_test': {
+      const init = parseFloat(document.getElementById('air-init').value);
+      const fin = parseFloat(document.getElementById('air-final').value);
+      const time = parseFloat(document.getElementById('air-time').value);
+      if (!init || !fin || !time) { showToast('❌ أدخل جميع قيم الاختبار'); return; }
+      const drop = init - fin;
+      const pass = init >= 100 && drop <= 25 && time >= 5;
+      showCalcResult(testId, pass, 
+        `Init: ${init}mmHg | Final: ${fin}mmHg | Drop: ${drop.toFixed(0)}mmHg ${drop<=25?'✅':'❌'} (≤25mm) | Ashghal`);
+      break;
+    }
+    case 'chlorination': {
+      const conc = parseFloat(document.getElementById('chl-conc').value);
+      const time = parseFloat(document.getElementById('chl-time').value);
+      const resid = parseFloat(document.getElementById('chl-resid').value);
+      if (!conc || !time) { showToast('❌ أدخل التركيز والمدة'); return; }
+      const concPass = conc >= 50;
+      const timePass = time >= 24;
+      const residPass = isNaN(resid) || resid >= 0.2;
+      const pass = concPass && timePass && residPass;
+      showCalcResult(testId, pass,
+        `Cl: ${conc}ppm ${concPass?'✅':'❌'} (≥50) | مدة: ${time}h ${timePass?'✅':'❌'} (≥24h) | Residual: ${resid||'?'}ppm ${residPass?'✅':'❌'} | QCS`);
+      break;
+    }
+    case 'pipe_sep': {
+      const h = parseFloat(document.getElementById('sep-horiz').value);
+      const v = parseFloat(document.getElementById('sep-vert').value);
+      if (!h) { showToast('❌ أدخل الفصل الأفقي'); return; }
+      const hPass = h >= 1.0;
+      const vPass = isNaN(v) || v >= 0.3;
+      const pass = hPass && vPass;
+      showCalcResult(testId, pass,
+        `أفقي: ${h}m ${hPass?'✅':'❌'} (≥1.0m) | رأسي: ${v||'?'}m ${vPass?'✅':'❌'} (≥0.3m) | QCS/Ashghal`);
+      break;
+    }
+    case 'sewer_grad': {
+      const dn = parseFloat(document.getElementById('sg-dn').value);
+      const grad = parseFloat(document.getElementById('sg-grad').value);
+      if (!dn || !grad) { showToast('❌ أدخل القطر والانحدار'); return; }
+      // Min gradient: 1/DN*15 approximately
+      const minGrad = Math.max(150, dn * 15);
+      const pass = grad <= minGrad; // 1:X — smaller X = steeper = better
+      const vel = (Math.pow(dn/1000, 2/3) * Math.sqrt(1/grad)) * 60; // approximate
+      showCalcResult(testId, pass,
+        `1:${grad} ${pass?'✅':'❌'} (1:${minGrad} للـ DN${dn}) | سرعة تقريبية: ${vel.toFixed(2)} m/s | Ashghal`);
+      break;
+    }
+    case 'cube_strength': {
+      const f = parseFloat(document.getElementById('cube-f').value);
+      const fcu = parseFloat(document.getElementById('cube-fcu').value);
+      const d7 = parseFloat(document.getElementById('cube-7d').value);
+      if (!f || !fcu) { showToast('❌ أدخل المقاومة المقاسة وfcu'); return; }
+      const pass = f >= fcu;
+      let msg = `${f} MPa ${pass?'✅':'❌'} (≥${fcu} MPa) | QCS 2024 S5`;
+      if (!isNaN(d7)) {
+        const d7pct = d7/fcu*100;
+        msg += ` | 7-day: ${d7}MPa = ${d7pct.toFixed(0)}% (مراقبة فقط)`;
+      }
+      showCalcResult(testId, pass, msg);
+      break;
+    }
+    case 'slump': {
+      const val = parseFloat(document.getElementById('slump-val').value);
+      const range = document.getElementById('slump-type').value.split(',');
+      const min = parseFloat(range[0]), max = parseFloat(range[1]);
+      if (isNaN(val)) { showToast('❌ أدخل قيمة Slump'); return; }
+      const pass = val >= min && val <= max;
+      showCalcResult(testId, pass, `Slump = ${val}mm ${pass?'✅':'❌'} (${min}-${max}mm) | QCS 2024 S5`);
+      break;
+    }
+    case 'cover_depth': {
+      const measured = parseFloat(document.getElementById('cov-measured').value);
+      const req = parseFloat(document.getElementById('cov-element').value);
+      if (isNaN(measured)) { showToast('❌ أدخل Cover المقاس'); return; }
+      const pass = measured >= req;
+      const warn = measured >= req * 0.9 && !pass;
+      showCalcResult(testId, pass, `${measured}mm ${pass?'✅':'❌'} (≥${req}mm) | QCS 2024 S5`, warn);
+      break;
+    }
+    case 'wc_ratio': {
+      const val = parseFloat(document.getElementById('wc-val').value);
+      const req = parseFloat(document.getElementById('wc-expo').value);
+      if (isNaN(val)) { showToast('❌ أدخل W/C Ratio'); return; }
+      const pass = val <= req;
+      showCalcResult(testId, pass, `W/C = ${val} ${pass?'✅':'❌'} (≤${req}) | QCS S5 Durability`);
+      break;
+    }
+    case 'rebar_cover': {
+      const nom = parseFloat(document.getElementById('rc-nom').value);
+      const bar = parseFloat(document.getElementById('rc-bar').value);
+      const agg = parseFloat(document.getElementById('rc-agg').value);
+      if (!nom || !bar) { showToast('❌ أدخل Cover و Bar Diameter'); return; }
+      const minCover = Math.max(bar, agg ? agg * 1.25 : bar, 25);
+      const pass = nom >= minCover;
+      showCalcResult(testId, pass, `Nom Cover: ${nom}mm ${pass?'✅':'❌'} (≥${minCover}mm) | Bar: ⌀${bar} | BS 8666 + QCS S5`);
+      break;
+    }
+    case 'spt_bearing': {
+      const n = parseFloat(document.getElementById('spt-n').value);
+      const b = parseFloat(document.getElementById('spt-b').value);
+      if (!n) { showToast('❌ أدخل N-value'); return; }
+      const qa = n * (b||1) * 12; // Meyerhof approximate kPa
+      const consistency = n < 4 ? 'Very Loose/Soft' : n < 10 ? 'Loose' : n < 30 ? 'Medium Dense' : n < 50 ? 'Dense' : 'Very Dense';
+      showCalcResult(testId, true, `N=${n} → ${consistency} | qa ≈ ${qa}kPa (تقديري — راجع تقرير التربة) | ⚠️ Meyerhof approx`);
+      break;
+    }
+    case 'atterberg': {
+      const ll = parseFloat(document.getElementById('att-ll').value);
+      const pl = parseFloat(document.getElementById('att-pl').value);
+      const use = document.getElementById('att-use').value;
+      if (!ll || !pl) { showToast('❌ أدخل LL و PL'); return; }
+      const pi = ll - pl;
+      const limits = {subgrade: 12, subbase: 6, fill: 20};
+      const req = limits[use] || 12;
+      const pass = pi <= req;
+      showCalcResult(testId, pass, `PI = ${pi.toFixed(1)}% ${pass?'✅':'❌'} (≤${req}%) | LL=${ll}% | PL=${pl}% | QCS S6`);
+      break;
+    }
+    case 'sulphate': {
+      const so3 = parseFloat(document.getElementById('sul-so3').value);
+      const cl = parseFloat(document.getElementById('sul-cl').value);
+      const use = document.getElementById('sul-use').value;
+      if (isNaN(so3)) { showToast('❌ أدخل نسبة SO3'); return; }
+      const req = use === 'subgrade' || use === 'backfill' ? 0.3 : 0.5;
+      const so3Pass = so3 <= req;
+      const clPass = isNaN(cl) || cl <= 0.1;
+      const pass = so3Pass && clPass;
+      showCalcResult(testId, pass, `SO3: ${so3}% ${so3Pass?'✅':'❌'} (≤${req}%)${!isNaN(cl) ? ` | Cl: ${cl}% ${clPass?'✅':'❌'} (≤0.1%)` : ''} | BS 1377`);
+      break;
+    }
+    case 'sewer_grad': {
+      break; // handled above
+    }
+  }
+}
+
+// Batch Testing
+function runBatchTest() {
+  const input = document.getElementById('batch-input').value.trim();
+  if (!input) { showToast('❌ أدخل البيانات أولاً'); return; }
+  
+  const lines = input.split('\n').filter(l => l.trim());
+  let passCount = 0, failCount = 0;
+  const results = [];
+  
+  lines.forEach((line, i) => {
+    const parts = line.split(',').map(p => p.trim());
+    if (parts.length >= 2) {
+      const field = parseFloat(parts[0]);
+      const mdd = parseFloat(parts[1]);
+      const layer = parts[2] || 'subgrade';
+      const req = layer.includes('asphalt') ? 97 : layer.includes('subbase') || layer.includes('base') ? 100 : 95;
+      const pct = field / mdd * 100;
+      const pass = pct >= req;
+      if (pass) passCount++; else failCount++;
+      results.push({ i: i+1, field, mdd, pct: pct.toFixed(1), req, pass, layer });
+    }
+  });
+  
+  const passRate = (passCount / results.length * 100).toFixed(0);
+  
+  document.getElementById('batch-results').innerHTML = `
+    <div style="display:flex;gap:10px;margin-bottom:10px;">
+      <div style="flex:1;background:rgba(46,204,113,0.15);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:20px;font-weight:800;color:#2ecc71;">${passCount}</div>
+        <div style="font-size:10px;color:var(--text3);">PASS</div>
+      </div>
+      <div style="flex:1;background:rgba(231,76,60,0.15);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:20px;font-weight:800;color:#e74c3c;">${failCount}</div>
+        <div style="font-size:10px;color:var(--text3);">FAIL</div>
+      </div>
+      <div style="flex:1;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:20px;font-weight:800;color:var(--gold);">${passRate}%</div>
+        <div style="font-size:10px;color:var(--text3);">نسبة النجاح</div>
+      </div>
+    </div>
+    <table class="dm-table">
+      <tr><th>#</th><th>Field</th><th>MDD</th><th>%</th><th>Req</th><th>نتيجة</th></tr>
+      ${results.map(r => `<tr style="background:${r.pass?'rgba(46,204,113,0.05)':'rgba(231,76,60,0.05)'};">
+        <td>${r.i}</td><td>${r.field}</td><td>${r.mdd}</td><td>${r.pct}%</td><td>≥${r.req}%</td>
+        <td style="color:${r.pass?'#2ecc71':'#e74c3c'};font-weight:700;">${r.pass?'✅ PASS':'❌ FAIL'}</td>
+      </tr>`).join('')}
+    </table>`;
+  
+  // Save batch to history
+  saveCalcHistory('batch_compaction', failCount === 0, `${passCount}P/${failCount}F — ${passRate}% pass rate`);
+}
+
+function exportBatchNCR() {
+  const results = document.getElementById('batch-results').innerText;
+  if (!results) { showToast('❌ شغّل الاختبار أولاً'); return; }
+  
+  const ncr = `NCR — فشل اختبار الدمك
+التاريخ: ${new Date().toLocaleDateString('ar-QA')}
+المشروع: _______________
+الموقع: _______________
+
+وصف عدم المطابقة:
+فشل اختبار الدمك الميداني في تحقيق النسبة المطلوبة وفق QCS 2024 Section 6.
+
+المرجع: QCS 2024 S6 P5 — Compaction Requirements
+
+الإجراء التصحيحي المطلوب:
+1. إعادة الدمك للمنطقة المرفوضة
+2. إجراء اختبار كثافة إضافي بعد إعادة الدمك
+3. الحصول على موافقة المهندس قبل الاستمرار
+
+توقيع QC Engineer: _______________`;
+
+  const blob = new Blob([ncr], {type: 'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'NCR_Compaction_' + new Date().toISOString().slice(0,10) + '.txt';
+  a.click();
+  showToast('✅ تم تصدير NCR');
+}
