@@ -212,8 +212,8 @@ function calcCBRRoad() {
   showResult('cbr-road-result', pass, val, 8, 'CBR = ' + val + '% | ' + layer + ' | ' + desc);
 }
 
-function // ⚠️ صيغة Meyerhof-SPT تقريبية جداً — للتصميم النهائي راجع تقرير التربة الرسمي + BS EN 1997
-calcBearingCap() {
+// ⚠️ صيغة Meyerhof-SPT تقريبية جداً — للتصميم النهائي راجع تقرير التربة الرسمي + BS EN 1997
+function calcBearingCap() {
   let n = parseFloat(document.getElementById('bc-n').value);
   const b = parseFloat(document.getElementById('bc-b').value);
   if (!n || !b) return showToast('أدخل كل البيانات');
