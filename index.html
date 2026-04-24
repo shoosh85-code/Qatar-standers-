@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- ENV VARS NEEDED: GEMINI_KEY, JWT_SECRET, ADMIN_SECRET, APP_URL, TAP_SECRET_KEY, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY -->
 <!-- ═══════════════════════════════════════════════════════════════
   QatarSpec Pro — Changelog
   v2.4.5 (April 2026) — SEO + PWA + LANDING (Phase 5):
@@ -1130,19 +1129,7 @@ function setLoadingSteps(steps, activeIndex) {
 function quickSearch(q) { document.getElementById('searchInput').value = q; doSearch(); }
 
 function buildQCSPrompt(query, partNum) {
-  return 'أنت مرجع هندسي رسمي لـ QCS 2024 (Qatar Construction Specification). ' +
-    'قواعدك الثابتة:\n' +
-    '١. ابدأ مباشرة بالإجابة — لا مقدمات ولا عبارات ترحيب\n' +
-    '٢. اذكر دائماً: رقم الـ Part + رقم الـ Section + رقم الـ Clause + رقم الجدول إن وجد\n' +
-    '٣. إذا وُجدت نصوص مرفقة من QCS 2024 فاعتمد عليها أولاً\n' +
-    '٤. إذا لم تكن متأكداً من قيمة رقمية صرّح بذلك صراحةً\n' +
-    '٥. لا تُجب على أسئلة خارج نطاق الهندسة والمواصفات\n' +
-    '\nالتنسيق المطلوب:\n' +
-    '**القيمة/الاشتراط:** [الرقم أو المتطلب مباشرة]\n' +
-    '**المرجع:** QCS 2024 | Part X | Section X.X | Clause X.X.X\n' +
-    '**التفاصيل:** [شرح وافٍ وكامل]\n' +
-    '**الاستثناءات والملاحظات:** [إن وجدت]\n' +
-    '\nأجب بالعربية مع المصطلحات الهندسية الإنجليزية عند الضرورة.';
+  return 'أنت خبير QCS 2024. السؤال: ' + query + '\n\nأجب مباشرة مع: ١) القيمة الدقيقة ٢) المرجع من QCS 2024 Part ' + partNum + ' ٣) أي استثناءات. أجب بالعربية بإيجاز.';
 }
 
 /**
@@ -1194,7 +1181,7 @@ async function doSearch() {
     sourceEl.textContent = `QCS 2024 — Part ${partsLabel}`;
     setLoadingSteps(steps, 1);
 
-    // ── Fetch real QCS 2024 chunks from Supabase ──
+    // ── Real QCS 2024 data from Supabase ──
     let qcsContext = '';
     try {
       const qcsRes = await fetch('/api/qcs-search', {
@@ -1208,21 +1195,17 @@ async function doSearch() {
           window._lastSearchMethod = qcsData.method || 'fts';
           qcsContext = '\n\n=== نصوص من QCS 2024 الرسمي ===\n' +
             qcsData.results.map(function(r, i) {
-              return '[' + (i+1) + '] ' + (r.source||'QCS 2024') + ' | ' + (r.section||'') + ' | صفحة ' + (r.page||'') + ':\n' + (r.content||'').slice(0, 500);
+              return '[' + (i+1) + '] ' + (r.source||'QCS 2024') + ' | ' + (r.section||'') + ' | صفحة ' + (r.page||'') + ':\n' + (r.content||'').slice(0, 300);
             }).join('\n\n');
         }
       }
-    } catch(qcsErr) { console.log('QCS search:', qcsErr.message); }
-
-    const systemPrompt = buildQCSPrompt(query, partsLabel) + qcsContext;
+    } catch(e) { console.log('QCS search:', e.message); }
 
     const response = await fetchAnthropicAPI({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 2000,
-        system: systemPrompt,
-        messages: [
-          { role: 'user', content: query }
-        ]
+        max_tokens: 1500,
+        system: 'أنت مرجع هندسي لـ QCS 2024. ابدأ مباشرة بالإجابة — لا مقدمات. اذكر: القيمة الدقيقة | رقم Part+Section+Clause | التفاصيل | الاستثناءات.' + qcsContext,
+        messages: [{ role: 'user', content: query }]
     });
 
     // ── Track search usage ──
@@ -1247,10 +1230,7 @@ async function doSearch() {
       .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold2)">$1</strong>')
       .replace(/^#{1,3}\s(.+)/gm, '<strong style="color:var(--gold2);font-size:15px">$1</strong>');
     textEl.innerHTML = rendered;
-    // Show reference with search quality indicator
-    var searchBadge = (window._lastSearchMethod === 'vector') ? 
-      ' | 🎯 بحث دلالي' : ' | 🔍 بحث نصي';
-    refEl.textContent = `📖 QCS 2024 — Part ${partsLabel}${searchBadge} | راجع المصدر الأصلي للتأكد`;
+    refEl.textContent = `📖 المرجع: QCS 2024 — Part ${partsLabel} | راجع المواصفة الأصلية للتأكد`;
     sourceEl.textContent = `QCS 2024 — Part ${partsLabel}`;
 
   } catch (err) {
@@ -1260,11 +1240,6 @@ async function doSearch() {
       updateKeyStatus(false);
     } else if (msg.includes('429')) {
       textEl.innerHTML = '⏳ <strong>تجاوزت حد الطلبات</strong><br>انتظر دقيقة واحدة ثم أعد المحاولة.';
-    } else if (msg.includes('abort') || msg.includes('timeout') || msg.includes('502') || msg.includes('503')) {
-      // Auto-retry once on cold start / timeout
-      textEl.innerHTML = '🔄 <strong>يعاد المحاولة...</strong>';
-      setTimeout(function() { doSearch(); }, 1500);
-      return;
     } else {
       textEl.innerHTML = `❌ <strong>خطأ:</strong> ${sanitizeText(msg)}`;
     }
@@ -1385,35 +1360,6 @@ function _deleteVideoFromIDB(inputId) {
 }
 
 // Load saved videos on startup
-
-// ── First Visit Onboarding ──
-document.addEventListener('DOMContentLoaded', function() {
-  if (localStorage.getItem('qs_visited')) return;
-  localStorage.setItem('qs_visited', '1');
-  setTimeout(function() {
-    var tip = document.createElement('div');
-    tip.id = 'onboardTip';
-    tip.innerHTML = [
-      '<div style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);',
-      'background:linear-gradient(135deg,#1a1a1a,#111);border:1px solid rgba(201,168,76,0.4);',
-      'border-radius:14px;padding:16px 20px;z-index:500;max-width:320px;width:90%;',
-      'box-shadow:0 8px 32px rgba(0,0,0,0.6);text-align:center;direction:rtl">',
-      '<div style="font-size:22px;margin-bottom:6px">👋</div>',
-      '<div style="color:#C9A84C;font-weight:700;margin-bottom:6px;font-size:14px">مرحباً في QatarSpec Pro</div>',
-      '<div style="color:#B0A898;font-size:12px;line-height:1.6">',
-      'ابحث في <b style="color:#fff">QCS 2024</b> مباشرةً — اكتب سؤالك الهندسي في الأسفل',
-      '<br>أو اضغط على أي بطاقة للوصول للمحتوى التقني',
-      '</div>',
-      '<button onclick="document.getElementById('onboardTip').remove()" ',
-      'style="margin-top:12px;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);',
-      'border-radius:8px;padding:7px 20px;color:#C9A84C;cursor:pointer;font-size:12px;font-family:inherit">',
-      'فهمت ✓</button></div>'
-    ].join('');
-    document.body.appendChild(tip);
-    setTimeout(function() { if(tip.parentNode) tip.remove(); }, 8000);
-  }, 1500);
-});
-
 document.addEventListener('DOMContentLoaded', function() {
   _loadAllVideosFromIDB();
 });
@@ -1915,8 +1861,6 @@ let navStack = [];
  * يدير navStack للتنقل للخلف، ويستعيد الفيديوهات المحلية بعد rebuild
  */
 function openDetail(key) {
-  // Load data_content.js on first card open if not already loaded
-  if (typeof window._loadContent === 'function') window._loadContent();
   const d = detailData[key];
   if (!d) { console.warn('Key not found:', key); return; }
   const modal = document.getElementById('detailModal');
@@ -2005,14 +1949,12 @@ function sanitizeText(str) {
  */
 async function fetchAnthropicAPI(body) {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 35000);
+  const timeoutId = setTimeout(() => controller.abort(), 20000);
 
   try {
     const response = await fetch('/api/ai-proxy', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
       signal: controller.signal
     });
@@ -2290,8 +2232,7 @@ function _printFallback(title, proj, today) {
   const contentHTML = contentEl ? contentEl.innerHTML : '';
   let w = window.open('', '_blank', 'width=900,height=700');
   if (!w) { showToast('❌ فعّل النوافذ المنبثقة في المتصفح'); return; }
-  w.document.write('<!DOCTYPE html>
-<!-- ENV VARS NEEDED: GEMINI_KEY, JWT_SECRET, ADMIN_SECRET, APP_URL, TAP_SECRET_KEY, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY --><html dir="rtl" lang="ar"><head><meta charset="UTF-8">' +
+  w.document.write('<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8">' +
     '<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">' +
     '<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Cairo,Tajawal,Arial,sans-serif;direction:rtl;background:#fff;color:#1a1a1a;font-size:13px;line-height:1.6}.hdr{background:#7a1515;color:#c9a84c;padding:14px 20px;display:flex;justify-content:space-between}.wrap{padding:16px 20px}table{width:100%;border-collapse:collapse;font-size:11px}th{background:#7a1515;color:#fff;padding:7px 8px;border:1px solid #6a1010}td{padding:6px 8px;border:1px solid #ddd}tr:nth-child(even)td{background:#fafafa}.ftr{padding:10px 20px;border-top:1px solid #ddd;display:flex;justify-content:space-between;font-size:10px;color:#888}@media print{body{-webkit-print-color-adjust:exact}}</style>' +
     '<script src="data_content.js"><\/script>\n</head><body><div class="hdr"><div style="font-size:18px;font-weight:700">QatarSpec Pro</div><div style="font-size:10px;color:#fff;text-align:left">' + today + (proj ? '<br>' + proj : '') + '</div></div>' +
@@ -2328,8 +2269,7 @@ async function exportToWord() {
     .replace(/background:[^;";]+;?/g, '')
     .replace(/rgba\([^)]+\)/g, '#333');
 
-  const wordHTML = '<!DOCTYPE html>
-<!-- ENV VARS NEEDED: GEMINI_KEY, JWT_SECRET, ADMIN_SECRET, APP_URL, TAP_SECRET_KEY, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY -->' +
+  const wordHTML = '<!DOCTYPE html>' +
     '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">' +
     '<head><meta charset="UTF-8">' +
     '<xml><w:WordDocument><w:View>Print</w:View><w:Zoom>90</w:Zoom>' +
@@ -3442,7 +3382,7 @@ async function runDrawingAnalysis() {
 
     let response = await fetchAnthropicAPI({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 2000,
+        max_tokens: 1500,
         system: 'أنت مهندس مدني خبير في المواصفات القطرية QCS 2024. قدم تقارير دقيقة ومهنية بالعربية. لا تخمن — إذا لم تستطع قراءة تفصيل اذكر ذلك صراحة.',
         messages: messages
     });
@@ -3938,7 +3878,7 @@ function resetInspector() {
   // ── 2. Inline Service Worker via Blob ──
   if (!('serviceWorker' in navigator) || location.protocol !== 'https:') return;
 
-  var CACHE = 'qatarspec-v3-2-1';
+  var CACHE = 'qatarspec-v4-0-0';
   var ASSETS = ['/'];
 
   var swCode = [
@@ -4242,32 +4182,12 @@ window.calcRoadLayers = function calcRoadLayers() {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // ── Constants ──
-var FREE_DAILY_LIMIT = 10;
+var FREE_DAILY_LIMIT = 5;
 var PRO_CODES = ['QATAR2026PRO', 'QATARSPEC-PRO', 'QS-ENGINEER-2026', 'PRO-BETA-QCS'];
 
 // ── Pro State ──
 function isProUser() {
-  // Check both flag AND expiry — prevents simple localStorage hack
-  if (localStorage.getItem('qs_pro_active') !== 'true') return false;
-  var expiry = localStorage.getItem('qs_pro_expiry');
-  if (!expiry) return false;
-  // Validate expiry is a real future date
-  try {
-    var exp = new Date(expiry);
-    if (isNaN(exp.getTime())) return false; // invalid date = tampered
-    if (exp <= new Date()) {
-      // Expired — clean up
-      localStorage.removeItem('qs_pro_active');
-      localStorage.removeItem('qs_pro_expiry');
-      return false;
-    }
-    // Extra: verify expiry is not more than 366 days from now (impossible legit value)
-    var maxFuture = new Date();
-    maxFuture.setFullYear(maxFuture.getFullYear() + 1);
-    maxFuture.setDate(maxFuture.getDate() + 1);
-    if (exp > maxFuture) return false; // tampered far-future date
-    return true;
-  } catch(e) { return false; }
+  return localStorage.getItem('qs_pro_active') === 'true';
 }
 function getProExpiry() {
   return localStorage.getItem('qs_pro_expiry') || null;
@@ -4304,13 +4224,7 @@ function renderProStatus() {
 
   if (isProUser()) {
     badge.className = 'pro-badge';
-    var expiry = getProExpiry();
-    var expiryStr = '';
-    if (expiry) {
-      var d = new Date(expiry);
-      expiryStr = ' | ينتهي ' + d.toLocaleDateString('ar-QA', {month:'short', day:'numeric'});
-    }
-    badge.innerHTML = '⭐ Pro مُفعَّل' + expiryStr;
+    badge.innerHTML = '⭐ Pro مُفعَّل ✓';
     if (bar) bar.style.display = 'none';
   } else {
     badge.className = 'free-badge';
@@ -4349,60 +4263,6 @@ function updateSearchCounterBar() {
 }
 
 // ── Pro Modal ──
-// ── Tap Payments ──
-async function startTapPayment(plan) {
-  const email = (document.getElementById('tapEmail') || {}).value || '';
-  const msg = document.getElementById('tapMsg');
-  
-  if (!email || !email.includes('@')) {
-    if (msg) { msg.style.color = '#e74c3c'; msg.textContent = '⚠️ أدخل بريدًا إلكترونيًا صحيحًا'; }
-    return;
-  }
-
-  if (msg) { msg.style.color = 'var(--text3)'; msg.textContent = '⏳ جاري التحضير...'; }
-
-  try {
-    const r = await fetch('/api/tap-checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, plan })
-    });
-    const data = await r.json();
-
-    if (data.checkout_url) {
-      window.location.href = data.checkout_url;
-    } else {
-      if (msg) { msg.style.color = '#e74c3c'; msg.textContent = '❌ ' + (data.error || 'خطأ في الدفع'); }
-    }
-  } catch(e) {
-    if (msg) { msg.style.color = '#e74c3c'; msg.textContent = '❌ خطأ في الاتصال'; }
-  }
-}
-
-// Handle payment success redirect (token in URL hash)
-(function() {
-  const hash = window.location.hash;
-  if (hash.includes('pro_token=')) {
-    const params = new URLSearchParams(hash.slice(1));
-    const token = params.get('pro_token');
-    const expiry = params.get('expiry');
-    if (token && expiry) {
-      localStorage.setItem('qs_pro_active', 'true');
-      localStorage.setItem('qs_pro_expiry', new Date(parseInt(expiry)).toISOString());
-      localStorage.setItem('qs_pro_token', token);
-      history.replaceState(null, '', window.location.pathname);
-      showToast('🎉 مرحباً بك في Pro! تم تفعيل اشتراكك.');
-      setTimeout(function() { updateProStatus(); }, 500);
-    }
-  }
-  // Check payment failed
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('payment') === 'failed') {
-    showToast('❌ فشلت عملية الدفع — يرجى المحاولة مجدداً');
-    history.replaceState(null, '', window.location.pathname);
-  }
-})();
-
 function openProModal() {
   document.getElementById('proModal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -4554,25 +4414,6 @@ function installPWA() {
 // ── QS namespace ──
 // All public functions registered here — namespace is BUILT in data_calcs.js
 // after ALL functions (including those in data_calcs.js) are defined.
-// ── STABILITY GUARD ──
-window.onerror = function(msg, src, line, col, err) {
-  var ignore = ['ResizeObserver', 'Script error', 'Non-Error'];
-  if (err && !ignore.some(function(i){ return (msg||'').includes(i); })) {
-    if(typeof showToast==='function') showToast('⚠️ حدث خطأ — يرجى إعادة المحاولة');
-  }
-  return true;
-};
-// QS auto-rebuild if not ready after 4s (guards against race conditions)
-setTimeout(function() {
-  if (!window.QS || typeof window.QS.openDetail !== 'function') {
-    var fns = window._QS_PUBLIC_FNS || [];
-    var api = {};
-    fns.forEach(function(n){ if(typeof window[n]==='function') api[n]=window[n].bind(window); });
-    window.QS = Object.assign(window.QS||{}, api);
-    console.warn('[QS] Rebuilt by guard:', Object.keys(api).length, 'fns');
-  }
-}, 4000);
-
 window._QS_PUBLIC_FNS = [
   'openDetail','closeDetailModal','goBack',
   'showToast','doSearch','quickSearch','filterCards','clearCardFilter',
@@ -4681,24 +4522,13 @@ window.QS = window.QS || {};
 
     <!-- CONTACT FOR PAYMENT -->
     <div id="paymentContact" style="display:none;background:linear-gradient(135deg,rgba(46,204,113,0.1),rgba(46,204,113,0.03));border:1px solid rgba(46,204,113,0.3);border-radius:12px;padding:16px;margin-bottom:16px;">
-      <div style="font-size:13px;font-weight:700;color:#C9A84C;margin-bottom:12px;">💳 اشتراك فوري — دفع آمن</div>
-      <div style="display:flex;flex-direction:column;gap:10px;">
-        <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:14px;">
-          <input id="tapEmail" type="email" placeholder="أدخل بريدك الإلكتروني" dir="ltr"
-            style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;margin-bottom:10px;box-sizing:border-box;outline:none;" />
-          <div style="display:flex;gap:8px;">
-            <button onclick="startTapPayment('monthly')"
-              style="flex:1;background:linear-gradient(135deg,#C9A84C,#a07830);border:none;border-radius:8px;padding:11px;color:#fff;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;">
-              💳 199 ر.ق / شهر
-            </button>
-            <button onclick="startTapPayment('yearly')"
-              style="flex:1;background:linear-gradient(135deg,#2ecc71,#1a9952);border:none;border-radius:8px;padding:11px;color:#fff;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;">
-              🏆 1990 ر.ق / سنة
-            </button>
-          </div>
-          <div id="tapMsg" style="font-size:11px;color:var(--text3);margin-top:8px;text-align:center;min-height:16px;"></div>
-          <div style="font-size:10px;color:var(--text3);margin-top:6px;text-align:center">🔒 دفع آمن عبر Tap Payments | بطاقة ائتمانية / مدى</div>
-        </div>
+      <div style="font-size:13px;font-weight:700;color:#2ecc71;margin-bottom:10px;">📱 للاشتراك — تواصل معنا مباشرةً</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <a href="https://wa.me/974XXXXXXXX?text=أريد الاشتراك في QatarSpec Pro" target="_blank"
+          style="display:flex;align-items:center;gap:10px;background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.3);border-radius:10px;padding:12px;text-decoration:none;color:var(--text);font-size:13px;">
+          <span style="font-size:20px;">💬</span>
+          <div><div style="font-weight:700;color:#25d366;">WhatsApp</div><div style="font-size:11px;color:var(--text3);">رد خلال ساعة — دفع آمن</div></div>
+        </a>
         <a href="mailto:pro@qatarspec.com?subject=QatarSpec Pro Subscription"
           style="display:flex;align-items:center;gap:10px;background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;text-decoration:none;color:var(--text);font-size:13px;">
           <span style="font-size:20px;">📧</span>
@@ -4734,23 +4564,21 @@ window.QS = window.QS || {};
   </div>
 </div>
 
-<script src="data_calcs.js?v=310"></script>
+<script src="data_calcs.js?v=265"></script>
 <script>
-// data_content.js — lazy load on first card open (not on page load)
-window._contentLoaded = false;
-window._loadContent = function() {
-  if (window._contentLoaded) return;
-  window._contentLoaded = true;
-  var s = document.createElement('script');
-  s.src = 'data_content.js?v=265';
-  s.async = true;
-  document.head.appendChild(s);
-};
-// Preload hint — browser downloads in background but doesn't execute
-var prelink = document.createElement('link');
-prelink.rel = 'prefetch';
-prelink.href = 'data_content.js?v=265';
-document.head.appendChild(prelink);
+// data_content.js — lazy load after everything is ready (only needed on card open)
+(function(){
+  function loadContent(){
+    var s=document.createElement('script');
+    s.src='data_content.js';s.async=true;
+    document.head.appendChild(s);
+  }
+  if('requestIdleCallback' in window){
+    requestIdleCallback(loadContent,{timeout:2000});
+  } else {
+    setTimeout(loadContent,800);
+  }
+})();
 </script>
 </body>
 </html>
