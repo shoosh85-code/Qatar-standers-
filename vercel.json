@@ -63,6 +63,15 @@
     },
     "api/qcs-search.js": {
       "maxDuration": 30
+    },
+    "api/tap-checkout.js": {
+      "maxDuration": 30
+    },
+    "api/tap-callback.js": {
+      "maxDuration": 30
+    },
+    "api/admin-session.js": {
+      "maxDuration": 10
     }
   }
 }

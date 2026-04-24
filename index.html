@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- ENV VARS NEEDED: GEMINI_KEY, JWT_SECRET, ADMIN_SECRET, APP_URL, TAP_SECRET_KEY, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY -->
 <!-- ═══════════════════════════════════════════════════════════════
   QatarSpec Pro — Changelog
   v2.4.5 (April 2026) — SEO + PWA + LANDING (Phase 5):
@@ -1374,6 +1375,35 @@ function _deleteVideoFromIDB(inputId) {
 }
 
 // Load saved videos on startup
+
+// ── First Visit Onboarding ──
+document.addEventListener('DOMContentLoaded', function() {
+  if (localStorage.getItem('qs_visited')) return;
+  localStorage.setItem('qs_visited', '1');
+  setTimeout(function() {
+    var tip = document.createElement('div');
+    tip.id = 'onboardTip';
+    tip.innerHTML = [
+      '<div style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);',
+      'background:linear-gradient(135deg,#1a1a1a,#111);border:1px solid rgba(201,168,76,0.4);',
+      'border-radius:14px;padding:16px 20px;z-index:500;max-width:320px;width:90%;',
+      'box-shadow:0 8px 32px rgba(0,0,0,0.6);text-align:center;direction:rtl">',
+      '<div style="font-size:22px;margin-bottom:6px">👋</div>',
+      '<div style="color:#C9A84C;font-weight:700;margin-bottom:6px;font-size:14px">مرحباً في QatarSpec Pro</div>',
+      '<div style="color:#B0A898;font-size:12px;line-height:1.6">',
+      'ابحث في <b style="color:#fff">QCS 2024</b> مباشرةً — اكتب سؤالك الهندسي في الأسفل',
+      '<br>أو اضغط على أي بطاقة للوصول للمحتوى التقني',
+      '</div>',
+      '<button onclick="document.getElementById('onboardTip').remove()" ',
+      'style="margin-top:12px;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);',
+      'border-radius:8px;padding:7px 20px;color:#C9A84C;cursor:pointer;font-size:12px;font-family:inherit">',
+      'فهمت ✓</button></div>'
+    ].join('');
+    document.body.appendChild(tip);
+    setTimeout(function() { if(tip.parentNode) tip.remove(); }, 8000);
+  }, 1500);
+});
+
 document.addEventListener('DOMContentLoaded', function() {
   _loadAllVideosFromIDB();
 });
@@ -2250,7 +2280,8 @@ function _printFallback(title, proj, today) {
   const contentHTML = contentEl ? contentEl.innerHTML : '';
   let w = window.open('', '_blank', 'width=900,height=700');
   if (!w) { showToast('❌ فعّل النوافذ المنبثقة في المتصفح'); return; }
-  w.document.write('<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8">' +
+  w.document.write('<!DOCTYPE html>
+<!-- ENV VARS NEEDED: GEMINI_KEY, JWT_SECRET, ADMIN_SECRET, APP_URL, TAP_SECRET_KEY, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY --><html dir="rtl" lang="ar"><head><meta charset="UTF-8">' +
     '<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">' +
     '<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Cairo,Tajawal,Arial,sans-serif;direction:rtl;background:#fff;color:#1a1a1a;font-size:13px;line-height:1.6}.hdr{background:#7a1515;color:#c9a84c;padding:14px 20px;display:flex;justify-content:space-between}.wrap{padding:16px 20px}table{width:100%;border-collapse:collapse;font-size:11px}th{background:#7a1515;color:#fff;padding:7px 8px;border:1px solid #6a1010}td{padding:6px 8px;border:1px solid #ddd}tr:nth-child(even)td{background:#fafafa}.ftr{padding:10px 20px;border-top:1px solid #ddd;display:flex;justify-content:space-between;font-size:10px;color:#888}@media print{body{-webkit-print-color-adjust:exact}}</style>' +
     '<script src="data_content.js"><\/script>\n</head><body><div class="hdr"><div style="font-size:18px;font-weight:700">QatarSpec Pro</div><div style="font-size:10px;color:#fff;text-align:left">' + today + (proj ? '<br>' + proj : '') + '</div></div>' +
@@ -2287,7 +2318,8 @@ async function exportToWord() {
     .replace(/background:[^;";]+;?/g, '')
     .replace(/rgba\([^)]+\)/g, '#333');
 
-  const wordHTML = '<!DOCTYPE html>' +
+  const wordHTML = '<!DOCTYPE html>
+<!-- ENV VARS NEEDED: GEMINI_KEY, JWT_SECRET, ADMIN_SECRET, APP_URL, TAP_SECRET_KEY, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY -->' +
     '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">' +
     '<head><meta charset="UTF-8">' +
     '<xml><w:WordDocument><w:View>Print</w:View><w:Zoom>90</w:Zoom>' +
@@ -3896,7 +3928,7 @@ function resetInspector() {
   // ── 2. Inline Service Worker via Blob ──
   if (!('serviceWorker' in navigator) || location.protocol !== 'https:') return;
 
-  var CACHE = 'qatarspec-v3-0-0';
+  var CACHE = 'qatarspec-v3-1-0';
   var ASSETS = ['/'];
 
   var swCode = [
@@ -4262,7 +4294,13 @@ function renderProStatus() {
 
   if (isProUser()) {
     badge.className = 'pro-badge';
-    badge.innerHTML = '⭐ Pro مُفعَّل ✓';
+    var expiry = getProExpiry();
+    var expiryStr = '';
+    if (expiry) {
+      var d = new Date(expiry);
+      expiryStr = ' | ينتهي ' + d.toLocaleDateString('ar-QA', {month:'short', day:'numeric'});
+    }
+    badge.innerHTML = '⭐ Pro مُفعَّل' + expiryStr;
     if (bar) bar.style.display = 'none';
   } else {
     badge.className = 'free-badge';
@@ -4649,6 +4687,7 @@ window.QS = window.QS || {};
             </button>
           </div>
           <div id="tapMsg" style="font-size:11px;color:var(--text3);margin-top:8px;text-align:center;min-height:16px;"></div>
+          <div style="font-size:10px;color:var(--text3);margin-top:6px;text-align:center">🔒 دفع آمن عبر Tap Payments | بطاقة ائتمانية / مدى</div>
         </div>
         <a href="mailto:pro@qatarspec.com?subject=QatarSpec Pro Subscription"
           style="display:flex;align-items:center;gap:10px;background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;text-decoration:none;color:var(--text);font-size:13px;">
