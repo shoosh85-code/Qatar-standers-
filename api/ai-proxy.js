@@ -14,7 +14,7 @@ const CORS = {
 // Uses Vercel KV if available, fallback to in-memory map
 // ══════════════════════════════════════════════════════════════
 const ipCounters = new Map();  // fallback: in-memory (per-instance)
-const FREE_LIMIT = 50;  // Raised — client-side handles the 10/day limit
+const FREE_LIMIT = 200;  // Raised — client-side handles the 10/day limit
 const PRO_LIMIT  = 500;
 
 function getTodayStr() {
