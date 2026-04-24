@@ -5,7 +5,13 @@
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
-  const { admin_secret, batch_size = 50, offset = 0 } = req.body || {};
+  // Parse body manually in case it's not auto-parsed
+  let bodyData = req.body || {};
+  if (typeof bodyData === 'string') {
+    try { bodyData = JSON.parse(bodyData); } catch(e) { bodyData = {}; }
+  }
+  
+  const { admin_secret, batch_size = 50, offset = 0 } = bodyData;
   if (admin_secret !== process.env.ADMIN_SECRET) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
