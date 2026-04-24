@@ -3,6 +3,11 @@
 // Run multiple times with increasing offset to process all chunks
 
 export default async function handler(req, res) {
+  // Embeddings generation complete — endpoint disabled for security
+  return res.status(410).json({ 
+    message: 'Embedding generation complete. This endpoint is now disabled.',
+    hint: 'Re-enable by removing this check when needed.'
+  });
   if (req.method !== 'POST') return res.status(405).end();
 
   // One-time setup endpoint — no auth needed

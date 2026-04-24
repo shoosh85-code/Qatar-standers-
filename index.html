@@ -1181,6 +1181,23 @@ async function doSearch() {
     sourceEl.textContent = `QCS 2024 — Part ${partsLabel}`;
     setLoadingSteps(steps, 1);
 
+    // ── Cache check first ──
+    const _cacheKey = 'qs_cache_' + query.trim().toLowerCase().slice(0,50);
+    const _cached = sessionStorage.getItem(_cacheKey);
+    if (_cached) {
+      try {
+        const _c = JSON.parse(_cached);
+        if (_c.ts && Date.now() - _c.ts < 1800000) { // 30 min
+          const textEl2 = document.getElementById('aiAnswerText');
+          const refEl2 = document.getElementById('aiRef');
+          if (textEl2) textEl2.innerHTML = _c.html;
+          if (refEl2) refEl2.textContent = _c.ref;
+          aiAnswerBox.style.display = 'block';
+          return;
+        }
+      } catch(e) {}
+    }
+
     // ── Real QCS 2024 data from Supabase ──
     let qcsContext = '';
     try {
@@ -1219,7 +1236,7 @@ async function doSearch() {
     }
 
     const data = await response.json();
-    const answer = (data.content && data.content[0] && data.content[0].text) || 'لم أجد إجابة.';
+    const answer = (data.content && data.content[0] && data.content[0].text) || 'لم أجد نتائج دقيقة — جرّب صياغة السؤال بطريقة مختلفة أو استخدم المصطلح الإنجليزي.';
 
     // Clear loading steps before showing answer
     // Render AI answer: convert markdown to HTML safely
@@ -1230,6 +1247,12 @@ async function doSearch() {
       .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold2)">$1</strong>')
       .replace(/^#{1,3}\s(.+)/gm, '<strong style="color:var(--gold2);font-size:15px">$1</strong>');
     textEl.innerHTML = rendered;
+    // Cache this result for 30 minutes
+    try {
+      sessionStorage.setItem(_cacheKey, JSON.stringify({
+        html: rendered, ref: '', ts: Date.now()
+      }));
+    } catch(e) {}
     refEl.textContent = `📖 المرجع: QCS 2024 — Part ${partsLabel} | راجع المواصفة الأصلية للتأكد`;
     sourceEl.textContent = `QCS 2024 — Part ${partsLabel}`;
 
@@ -1647,7 +1670,7 @@ const TR = {
     f1:'المواصفات', f2:'الأقسام', f3:'الأدوات',
     fcopy:'© 2025 دليل المواصفات القطرية — QatarSpec Pro',
     aiCopy:'📋 نسخ الإجابة',
-    searching:'جاري البحث في المواصفات...',
+    searching:'🔍 جاري البحث في 18,000+ صفحة من QCS 2024...',
   },
   en: {
     dir: 'ltr', lang: 'en', align: 'left',
@@ -3878,7 +3901,7 @@ function resetInspector() {
   // ── 2. Inline Service Worker via Blob ──
   if (!('serviceWorker' in navigator) || location.protocol !== 'https:') return;
 
-  var CACHE = 'qatarspec-v4-0-0';
+  var CACHE = 'qatarspec-v4-1-0';
   var ASSETS = ['/'];
 
   var swCode = [
@@ -4187,7 +4210,23 @@ var PRO_CODES = ['QATAR2026PRO', 'QATARSPEC-PRO', 'QS-ENGINEER-2026', 'PRO-BETA-
 
 // ── Pro State ──
 function isProUser() {
-  return localStorage.getItem('qs_pro_active') === 'true';
+  if (localStorage.getItem('qs_pro_active') !== 'true') return false;
+  var expiry = localStorage.getItem('qs_pro_expiry');
+  if (!expiry) return false;
+  try {
+    var exp = new Date(expiry);
+    if (isNaN(exp.getTime()) || exp <= new Date()) {
+      localStorage.removeItem('qs_pro_active');
+      localStorage.removeItem('qs_pro_expiry');
+      return false;
+    }
+    // Prevent far-future tampered dates (max 366 days)
+    var maxDate = new Date();
+    maxDate.setFullYear(maxDate.getFullYear() + 1);
+    maxDate.setDate(maxDate.getDate() + 1);
+    if (exp > maxDate) { localStorage.removeItem('qs_pro_active'); return false; }
+    return true;
+  } catch(e) { return false; }
 }
 function getProExpiry() {
   return localStorage.getItem('qs_pro_expiry') || null;
