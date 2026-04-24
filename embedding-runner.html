@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head><meta charset="UTF-8"><title>QCS Embedding Generator</title>
+<style>
+body{font-family:Arial,sans-serif;background:#111;color:#eee;padding:20px;direction:rtl}
+h1{color:#C9A84C}
+button{background:#C9A84C;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-size:14px;color:#111;font-weight:700;margin:5px}
+button:disabled{opacity:0.5;cursor:not-allowed}
+#log{background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:15px;margin-top:15px;height:400px;overflow-y:auto;font-size:13px;font-family:monospace}
+.ok{color:#2ecc71}.err{color:#e74c3c}.info{color:#3498db}
+progress{width:100%;height:20px;margin:10px 0}
+</style>
+</head>
+<body>
+<h1>🔧 QCS Embedding Generator</h1>
+<p>يولّد embeddings للـ 18,465 chunk من QCS 2024 ويحفظها في Supabase</p>
+
+<div>
+  <label>ADMIN_SECRET: <input id="secret" type="password" value="QS-Admin-Qatar-2026" style="background:#222;border:1px solid #444;color:#fff;padding:6px;border-radius:4px;width:250px"></label>
+</div>
+<br>
+<button onclick="startAll()">🚀 ابدأ التوليد الكامل</button>
+<button onclick="runOneBatch()">▶️ batch واحد فقط</button>
+<button onclick="stopAll()" id="stopBtn" disabled>⏹ إيقاف</button>
+
+<progress id="prog" value="0" max="100"></progress>
+<div id="stats" style="color:#B0A898;font-size:13px">انتظر...</div>
+<div id="log"></div>
+
+<script>
+let running = false;
+let currentOffset = 0;
+const BATCH = 50;
+
+function log(msg, cls='') {
+  const d = document.getElementById('log');
+  const time = new Date().toLocaleTimeString('ar');
+  d.innerHTML += `<div class="${cls}">[${time}] ${msg}</div>`;
+  d.scrollTop = d.scrollHeight;
+}
+
+async function runBatch(offset) {
+  const secret = document.getElementById('secret').value;
+  const res = await fetch('/api/generate-embeddings', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ admin_secret: secret, batch_size: BATCH, offset })
+  });
+  return await res.json();
+}
+
+async function runOneBatch() {
+  log('تشغيل batch واحد...', 'info');
+  try {
+    const r = await runBatch(currentOffset);
+    log(`✅ processed: ${r.processed} | failed: ${r.failed} | remaining: ${r.remaining}`, 'ok');
+    currentOffset += BATCH;
+    updateStats(r);
+  } catch(e) { log('❌ ' + e.message, 'err'); }
+}
+
+async function startAll() {
+  running = true;
+  document.getElementById('stopBtn').disabled = false;
+  log('🚀 بدأ التوليد الكامل...', 'info');
+  
+  let totalProcessed = 0;
+  let offset = 0;
+  
+  while (running) {
+    try {
+      const r = await runBatch(offset);
+      
+      if (r.error) { log('❌ خطأ: ' + r.error, 'err'); break; }
+      if (r.processed === 0 && r.failed === 0) {
+        log('🎉 اكتمل! جميع الـ chunks لها embeddings.', 'ok');
+        break;
+      }
+      
+      totalProcessed += r.processed;
+      log(`Batch offset=${offset}: ✅${r.processed} ❌${r.failed} | متبقي: ${r.remaining}`, r.failed > 0 ? 'err' : 'ok');
+      updateStats(r, totalProcessed);
+      
+      offset += BATCH;
+      
+      if (r.remaining === 0) {
+        log('🎉 اكتمل! جميع الـ chunks لها embeddings.', 'ok');
+        break;
+      }
+      
+      // Wait 1s between batches
+      await new Promise(r => setTimeout(r, 1000));
+      
+    } catch(e) {
+      log('❌ ' + e.message, 'err');
+      await new Promise(r => setTimeout(r, 3000));
+    }
+  }
+  
+  running = false;
+  document.getElementById('stopBtn').disabled = true;
+}
+
+function stopAll() {
+  running = false;
+  log('⏹ تم الإيقاف', 'info');
+  document.getElementById('stopBtn').disabled = true;
+}
+
+function updateStats(r, total = 0) {
+  const total_chunks = 18465;
+  const remaining = r.remaining || 0;
+  const done = total_chunks - remaining;
+  const pct = Math.round(done / total_chunks * 100);
+  document.getElementById('prog').value = pct;
+  document.getElementById('stats').textContent = `${done.toLocaleString()} / ${total_chunks.toLocaleString()} (${pct}%) — متبقي: ${remaining.toLocaleString()}`;
+}
+</script>
+</body>
+</html>
