@@ -62,7 +62,8 @@ async function fetchDataContent() {
 function extractSections(jsContent) {
   // Extract each section key and its full content
   const sections = [];
-  const regex = /\n  (\w+):\s*\{\s*title:\s*`([^`]*)`[,\s]*content:\s*`([\s\S]*?)`\s*\}/g;
+  // Matches: key: { title: 'text', content: `...` }
+  const regex = /\n  (\w+):\s*\{\s*title:\s*['`]([^'`]*)['`][,\s]*content:\s*`([\s\S]*?)`\s*\}/g;
   let m;
   while ((m = regex.exec(jsContent)) !== null) {
     sections.push({
