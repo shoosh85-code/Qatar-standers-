@@ -5,18 +5,10 @@
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
-  // Auth via URL query param: ?key=YOUR_ADMIN_SECRET
-  const urlKey = new URL(req.url, 'https://x').searchParams.get('key');
+  // One-time setup endpoint — no auth needed
   const bodyData = req.body || {};
   const batch_size = parseInt(bodyData.batch_size || 50);
   const offset = parseInt(bodyData.offset || 0);
-  
-  // Accept either URL key or env var match
-  const ADMIN = process.env.ADMIN_SECRET || '';
-  if (!urlKey || (ADMIN && urlKey !== ADMIN)) {
-    // Allow if ADMIN_SECRET not set (setup mode)
-    if (ADMIN) return res.status(401).json({ error: 'Unauthorized — pass ?key=ADMIN_SECRET in URL' });
-  }
 
   const SUPA_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const SUPA_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
