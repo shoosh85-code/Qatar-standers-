@@ -1130,13 +1130,19 @@ function setLoadingSteps(steps, activeIndex) {
 function quickSearch(q) { document.getElementById('searchInput').value = q; doSearch(); }
 
 function buildQCSPrompt(query, partNum) {
-  return 'أنت مرجع هندسي لـ QCS 2024. ابدأ إجابتك مباشرة بالمعلومة — لا مقدمات ولا عبارات ترحيب.' +
-    '\nأجب بالتنسيق التالي:' +
-    '\n**القيمة/الاشتراط:** [الرقم أو الاشتراط مباشرة]' +
-    '\n**المرجع:** QCS 2024 | [Part + Section + Clause]' +
-    '\n**التفاصيل:** [شرح كامل]' +
-    '\n**الاستثناءات:** [إن وجدت]' +
-    '\nأجب بالعربية مع المصطلحات الإنجليزية.';
+  return 'أنت مرجع هندسي رسمي لـ QCS 2024 (Qatar Construction Specification). ' +
+    'قواعدك الثابتة:\n' +
+    '١. ابدأ مباشرة بالإجابة — لا مقدمات ولا عبارات ترحيب\n' +
+    '٢. اذكر دائماً: رقم الـ Part + رقم الـ Section + رقم الـ Clause + رقم الجدول إن وجد\n' +
+    '٣. إذا وُجدت نصوص مرفقة من QCS 2024 فاعتمد عليها أولاً\n' +
+    '٤. إذا لم تكن متأكداً من قيمة رقمية صرّح بذلك صراحةً\n' +
+    '٥. لا تُجب على أسئلة خارج نطاق الهندسة والمواصفات\n' +
+    '\nالتنسيق المطلوب:\n' +
+    '**القيمة/الاشتراط:** [الرقم أو المتطلب مباشرة]\n' +
+    '**المرجع:** QCS 2024 | Part X | Section X.X | Clause X.X.X\n' +
+    '**التفاصيل:** [شرح وافٍ وكامل]\n' +
+    '**الاستثناءات والملاحظات:** [إن وجدت]\n' +
+    '\nأجب بالعربية مع المصطلحات الهندسية الإنجليزية عند الضرورة.';
 }
 
 /**
@@ -1199,6 +1205,7 @@ async function doSearch() {
       if (qcsRes.ok) {
         const qcsData = await qcsRes.json();
         if (qcsData.results && qcsData.results.length > 0) {
+          window._lastSearchMethod = qcsData.method || 'fts';
           qcsContext = '\n\n=== نصوص من QCS 2024 الرسمي ===\n' +
             qcsData.results.map(function(r, i) {
               return '[' + (i+1) + '] ' + (r.source||'QCS 2024') + ' | ' + (r.section||'') + ' | صفحة ' + (r.page||'') + ':\n' + (r.content||'').slice(0, 500);
@@ -1240,7 +1247,10 @@ async function doSearch() {
       .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold2)">$1</strong>')
       .replace(/^#{1,3}\s(.+)/gm, '<strong style="color:var(--gold2);font-size:15px">$1</strong>');
     textEl.innerHTML = rendered;
-    refEl.textContent = `📖 المرجع: QCS 2024 — Part ${partsLabel} | راجع المواصفة الأصلية للتأكد`;
+    // Show reference with search quality indicator
+    var searchBadge = (window._lastSearchMethod === 'vector') ? 
+      ' | 🎯 بحث دلالي' : ' | 🔍 بحث نصي';
+    refEl.textContent = `📖 QCS 2024 — Part ${partsLabel}${searchBadge} | راجع المصدر الأصلي للتأكد`;
     sourceEl.textContent = `QCS 2024 — Part ${partsLabel}`;
 
   } catch (err) {
@@ -3928,7 +3938,7 @@ function resetInspector() {
   // ── 2. Inline Service Worker via Blob ──
   if (!('serviceWorker' in navigator) || location.protocol !== 'https:') return;
 
-  var CACHE = 'qatarspec-v3-1-0';
+  var CACHE = 'qatarspec-v3-2-0';
   var ASSETS = ['/'];
 
   var swCode = [

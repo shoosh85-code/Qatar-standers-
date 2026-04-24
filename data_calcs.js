@@ -212,7 +212,8 @@ function calcCBRRoad() {
   showResult('cbr-road-result', pass, val, 8, 'CBR = ' + val + '% | ' + layer + ' | ' + desc);
 }
 
-function calcBearingCap() {
+function // ⚠️ صيغة Meyerhof-SPT تقريبية جداً — للتصميم النهائي راجع تقرير التربة الرسمي + BS EN 1997
+calcBearingCap() {
   let n = parseFloat(document.getElementById('bc-n').value);
   const b = parseFloat(document.getElementById('bc-b').value);
   if (!n || !b) return showToast('أدخل كل البيانات');
@@ -352,7 +353,7 @@ function initCalcPanels() {
         _calcField('cube-res','نتيجة Cube','e.g. 32','N/mm²') +
         _calcBtn('calcCubeStrength()','تحقق من المقاومة') + _calcResult('cube-result')) +
       _section('slump-s','💧 Slump Test',
-        _calcSelect('slump-method','طريقة الصب',[['direct','صب مباشر (75-100mm)'],['pump','بمضخة (100-150mm)'],['special','Special Element (150-180mm)']]) +
+        _calcSelect('slump-method','طريقة الصب',[['direct','صب مباشر (75-100mm)'],['pump','بمضخة (100-150mm)'],['special','Special Element (150-180mm) | QCS 2024 S5 Table 5.2.3']]) +
         _calcField('slump-val','قيمة Slump المقاسة','e.g. 120','mm') +
         _calcBtn('calcSlump()','تحقق من Slump') + _calcResult('slump-result')) +
       _section('cover-s','📏 Rebar Cover — غطاء الحديد',
