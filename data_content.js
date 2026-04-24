@@ -1576,8 +1576,26 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 Reference | 🪨 Road Base — QCS S6 P4</div>
-<p style="color:var(--text2);font-size:13px;">Switch to Arabic for full detailed content, tables and ITP checklists. All numerical values and test methods apply universally.</p>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 6 | Subbase (Granular Type B)
+</div>
+<h3>🪨 Subbase — Key Requirements</h3>
+<table class="dm-table">
+<tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Material</td><td>Crushed Aggregate Type B</td><td>QCS S6 P3</td></tr>
+<tr><td>Max Particle Size</td><td>37.5 mm</td><td>QCS S6 P3</td></tr>
+<tr><td>CBR (4 days soaked)</td><td>≥ 30% (urban) / ≥ 25% (rural)</td><td>QCS S6 P3</td></tr>
+<tr><td>Plasticity Index</td><td>≤ 6</td><td>QCS S6 P3</td></tr>
+<tr><td>Sand Equivalent</td><td>≥ 30</td><td>QCS S6 P3</td></tr>
+<tr><td>Compaction (MDD)</td><td>≥ 100% BS Heavy (98% min)</td><td>QCS S6 P5</td></tr>
+<tr><td>Layer Thickness</td><td>150–250 mm per layer</td><td>QCS S6 P5</td></tr>
+<tr><td>Surface Tolerance</td><td>±15mm from design level</td><td>QCS S6 P5</td></tr>
+<tr><td>Frequency</td><td>1 density test per 500m² per layer</td><td>QCS S6 P5</td></tr>
+</table>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+⚠️ Subbase must be approved before laying Roadbase. Hold Point required.
+</div>
+
 </div>
 ` },
   base: { title: '🧱 Base Course — طبقة الأساس', content: `
@@ -1747,8 +1765,26 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 Reference | 🛢️ Prime Coat — QCS S6 P5</div>
-<p style="color:var(--text2);font-size:13px;">Switch to Arabic for full detailed content, tables and ITP checklists. All numerical values and test methods apply universally.</p>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 8 | Prime Coat & Tack Coat
+</div>
+<h3>🛢️ Prime Coat (Primer) — Requirements</h3>
+<table class="dm-table">
+<tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Material</td><td>MC-30 or CSS-1 Emulsion</td><td>QCS S8 P3</td></tr>
+<tr><td>Application Rate</td><td>0.5–1.5 L/m² (based on surface)</td><td>QCS S8 P3</td></tr>
+<tr><td>Curing Time</td><td>Min 24hr before asphalt laying</td><td>QCS S8 P3</td></tr>
+<tr><td>Surface Temp</td><td>≥ 10°C (surface dry)</td><td>QCS S8 P3</td></tr>
+<tr><td>Coverage Check</td><td>Full coverage, no bare patches</td><td>QCS S8 P3</td></tr>
+</table>
+<h3 style="margin-top:14px;">🛢️ Tack Coat — Requirements</h3>
+<table class="dm-table">
+<tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Material</td><td>CSS-1h or K1-70 Emulsion</td><td>QCS S8 P3</td></tr>
+<tr><td>Application Rate</td><td>0.2–0.4 L/m² (on existing asphalt)</td><td>QCS S8 P3</td></tr>
+<tr><td>Timing</td><td>Apply immediately before paving</td><td>QCS S8 P3</td></tr>
+</table>
+
 </div>
 ` },
   binder: { title: '⚫ Binder Course', content: `
@@ -1839,8 +1875,25 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 Reference | 🛣️ Binder Course — QCS S6 P5</div>
-<p style="color:var(--text2);font-size:13px;">Switch to Arabic for full detailed content, tables and ITP checklists. All numerical values and test methods apply universally.</p>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 8 | Binder Course (AC20 Dense Graded)
+</div>
+<h3>🛣️ Binder Course — Key Requirements</h3>
+<table class="dm-table">
+<tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Material</td><td>AC20 Dense Graded Bituminous Mix</td><td>QCS S8 P4</td></tr>
+<tr><td>Delivery Temp</td><td>≥ 140°C (min at plant)</td><td>QCS S8 P5</td></tr>
+<tr><td>Laying Temp</td><td>≥ 125°C min at paver</td><td>QCS S8 P5</td></tr>
+<tr><td>Core Density</td><td>≥ 97% TMD</td><td>QCS S8 P6</td></tr>
+<tr><td>Marshall Stability</td><td>≥ 8.0 kN</td><td>QCS S8 P4</td></tr>
+<tr><td>Air Voids</td><td>3–7%</td><td>QCS S8 P4</td></tr>
+<tr><td>Thickness Tolerance</td><td>±5mm from design</td><td>QCS S8 P6</td></tr>
+<tr><td>Tack Coat Required</td><td>Before laying (0.2–0.4 L/m²)</td><td>QCS S8 P3</td></tr>
+</table>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+🔴 HP: Binder course cores must be approved before wearing course laying.
+</div>
+
 </div>
 ` },
   wearing: { title: '🛣️ Wearing Course', content: `
@@ -1942,8 +1995,29 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 | Wearing Course — QCS S6 P5</div>
-<p style="color:var(--text2);font-size:13px;">Switch to Arabic for full detailed content and tables.</p>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 8 | Wearing Course (Asphalt Concrete AC14 / SMA)
+</div>
+<h3>🛣️ Wearing Course — Key Requirements</h3>
+<table class="dm-table">
+<tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Material</td><td>AC14 Dense Graded / SMA</td><td>QCS S8 P4</td></tr>
+<tr><td>Delivery Temp</td><td>≥ 145°C (PMB: ≥ 155°C)</td><td>QCS S8 P5</td></tr>
+<tr><td>Laying Temp</td><td>≥ 135°C min at paver</td><td>QCS S8 P5</td></tr>
+<tr><td>Compaction Temp</td><td>≥ 125°C (finish before 80°C)</td><td>QCS S8 P5</td></tr>
+<tr><td>Core Density</td><td>≥ 97% TMD (98% target)</td><td>QCS S8 P6</td></tr>
+<tr><td>Marshall Stability</td><td>≥ 8.0 kN (conv) / 10.0 kN (PMB)</td><td>QCS S8 P4</td></tr>
+<tr><td>Air Voids</td><td>3–5% (SMA: 3–4%)</td><td>QCS S8 P4</td></tr>
+<tr><td>IRI Smoothness</td><td>≤ 2.5 m/km (conv) / ≤ 0.9 m/km (PMB)</td><td>QCS S8 P7</td></tr>
+<tr><td>Thickness Tolerance</td><td>±5mm from design</td><td>QCS S8 P6</td></tr>
+</table>
+<h4 style="margin-top:14px;">🔴 Hold Points</h4>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;font-size:12px;">
+HP1: Mix Design Approval (before production)<br>
+HP2: Trial Section Approval (before full-scale paving)<br>
+HP3: Core Density Results (within 48hr of laying)
+</div>
+
 </div>
 ` },
   finishing: { title: '🚧 التشطيبات النهائية', content: `
@@ -2013,8 +2087,23 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 | التشطيبات — Kerbs, Markings, Signs</div>
-<p style="color:var(--text2);font-size:13px;">Switch to Arabic for full detailed content and tables.</p>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 8 | Road Finishing & Reinstatement
+</div>
+<h3>🏁 Road Finishing — Key Requirements</h3>
+<table class="dm-table">
+<tr><th>Item</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Road Markings</td><td>Thermoplastic ≥ 3mm | Retroreflectivity ≥ 100 mcd/m²/lux</td><td>QCS S6 P8</td></tr>
+<tr><td>Kerb Setting</td><td>Level ±3mm | Alignment ±5mm per 3m</td><td>QCS S6 P7</td></tr>
+<tr><td>Drainage Gullies</td><td>Level within ±5mm of carriageway</td><td>QCS S6 P7</td></tr>
+<tr><td>Manhole Covers</td><td>Level ±5mm | D400 load rating</td><td>QCS S8 P9</td></tr>
+<tr><td>IRI Final</td><td>≤ 2.5 m/km conventional / ≤ 0.9 PMB</td><td>QCS S8 P7</td></tr>
+<tr><td>Cleanliness</td><td>All debris removed before handover</td><td>QCS S6</td></tr>
+</table>
+<div style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+✅ Final inspection checklist must be completed and signed by QC Engineer before opening to traffic.
+</div>
+
 </div>
 ` },
   handover: { title: '✅ التسليم النهائي', content: `
@@ -2082,8 +2171,25 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 | التسليم — Final Handover</div>
-<p style="color:var(--text2);font-size:13px;">Switch to Arabic for full detailed content and tables.</p>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Project Handover Requirements
+</div>
+<h3>📋 Handover Documentation Checklist</h3>
+<table class="dm-table">
+<tr><th>Document</th><th>Required</th><th>Responsibility</th></tr>
+<tr><td>As-Built Drawings</td><td>All disciplines</td><td>Contractor</td></tr>
+<tr><td>Test Certificates</td><td>All materials & tests</td><td>QC Team</td></tr>
+<tr><td>ITP Closeout</td><td>All ITPs signed</td><td>QC + Engineer</td></tr>
+<tr><td>NCR Closeout</td><td>All NCRs closed</td><td>Contractor</td></tr>
+<tr><td>O&M Manuals</td><td>All installed equipment</td><td>Contractor</td></tr>
+<tr><td>Warranties</td><td>Materials & workmanship</td><td>Contractor</td></tr>
+<tr><td>CCTV Reports</td><td>All drainage lines</td><td>QC Team</td></tr>
+<tr><td>Pressure Test Reports</td><td>All pressure pipelines</td><td>QC Team</td></tr>
+</table>
+<div style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+ℹ️ Defects Liability Period (DLP): 12 months from Practical Completion Certificate (PCC) unless specified otherwise in contract.
+</div>
+
 </div>
 ` },
   road_itps: { title: '📋 Road ITPs', content: `
@@ -2142,16 +2248,37 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🔧 Utilities Networks — QCS 2024 Section 8</h3>
-<table class="dm-table">
-<tr><th>Network</th><th>Key Test</th><th>Standard</th></tr>
-<tr><td>Water Supply</td><td>Pressure 1.5×PN / 2hr</td><td>KAHRAMAA</td></tr>
-<tr><td>Foul Sewer</td><td>Air Test 100mm / 5min</td><td>Ashghal</td></tr>
-<tr><td>Storm Water</td><td>Hydraulic / CCTV 100%</td><td>Ashghal</td></tr>
-<tr><td>Treated Water</td><td>Pressure + Cross-connection check</td><td>MME</td></tr>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 8 | Utilities Networks
+</div>
+<h3>🔧 Select Network</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
+<div onclick="QS.openDetail('water_supply_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:14px;cursor:pointer;text-align:center;">
+<div style="font-size:28px">💧</div><div style="color:var(--gold);font-weight:700;font-size:14px;">Water Supply</div>
+<div style="color:var(--text3);font-size:11px;margin-top:4px;">Pressure 1.5× | Chlorination 50ppm</div></div>
+<div onclick="QS.openDetail('sewer_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:14px;cursor:pointer;text-align:center;">
+<div style="font-size:28px">🔩</div><div style="color:var(--gold);font-weight:700;font-size:14px;">Foul Sewer</div>
+<div style="color:var(--text3);font-size:11px;margin-top:4px;">Air Test 100mm | CCTV 100%</div></div>
+<div onclick="QS.openDetail('storm_drainage_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:14px;cursor:pointer;text-align:center;">
+<div style="font-size:28px">🌧️</div><div style="color:var(--gold);font-weight:700;font-size:14px;">Storm Drainage</div>
+<div style="color:var(--text3);font-size:11px;margin-top:4px;">Hydraulic Test | CCTV Survey</div></div>
+<div onclick="QS.openDetail('treated_water_stages')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:14px;cursor:pointer;text-align:center;">
+<div style="font-size:28px">♻️</div><div style="color:var(--gold);font-weight:700;font-size:14px;">Treated Water</div>
+<div style="color:var(--text3);font-size:11px;margin-top:4px;">Pressure + Cross-connection</div></div>
+</div>
+<table class="dm-table" style="margin-top:16px;">
+<tr><th>Network</th><th>Key Test</th><th>Standard</th><th>Acceptance</th></tr>
+<tr><td>💧 Water Supply</td><td>Pressure 1.5×PN / 2hr</td><td>KAHRAMAA</td><td>Zero drop</td></tr>
+<tr><td>🔩 Foul Sewer</td><td>Air Test 100mm Hg / 5min</td><td>Ashghal</td><td>Drop ≤ 25mm</td></tr>
+<tr><td>🌧️ Storm Water</td><td>Hydraulic / CCTV 100%</td><td>Ashghal</td><td>Grade ≤ B2</td></tr>
+<tr><td>♻️ Treated Water</td><td>Pressure + Cross-connection</td><td>MME</td><td>Zero leakage</td></tr>
 </table>
-<p><strong>Mandatory Separation:</strong> Water supply ≥ 1.0m horizontal from foul sewer. Water always ABOVE sewer.</p>
-<p><strong>Marker Tape Colours:</strong> Yellow = Water | Green = Sewer | Blue = Storm | Purple = Treated</p>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+⚠️ <strong>Mandatory Separation:</strong> Water ≥ 1.0m horizontal from foul sewer. Water ALWAYS above sewer (min 300mm vertical).
+</div>
+<div style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin-top:8px;font-size:12px;">
+🎨 <strong>Marker Tape Colours:</strong> 🟡 Yellow = Water | 🟢 Green = Foul Sewer | 🔵 Blue = Storm | 🟣 Purple = Treated
+</div>
 </div>
 ` },
   water_supply_stages: { title: '💧 شبكة مياه الشرب', content: `
@@ -4586,14 +4713,26 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>ITP — Treated Water Network</h3>
-<table class="dm-table"><tr><th>Activity</th><th>Test</th><th>Frequency</th><th>Standard</th><th>HP/W</th></tr>
-<tr><td>Pipe Material (Purple)</td><td>MAR HDPE/GRP</td><td>Each delivery</td><td>KAHRAMAA</td><td>HP</td></tr>
-<tr><td>Marker Tape</td><td>Purple tape 300mm above pipe</td><td>100%</td><td>KAHRAMAA</td><td>W</td></tr>
-<tr><td>Pipe Separation</td><td>≥ 1.0m from drinking water</td><td>100%</td><td>KAHRAMAA</td><td>W</td></tr>
-<tr><td>Hydrostatic Test</td><td>1.5 × PN / 2hr / zero drop</td><td>Per section</td><td>KAHRAMAA</td><td>HP</td></tr>
-<tr><td>Chlorination</td><td>≥ 50ppm / ≥ 24hr</td><td>Per section</td><td>KAHRAMAA</td><td>HP</td></tr>
-<tr><td>Water Quality</td><td>Coliform=0 | Turbidity ≤ 1 NTU</td><td>Per section</td><td>KAHRAMAA</td><td>HP</td></tr></table>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 | Treated/Recycled Water Network — ITP
+</div>
+<h3>♻️ Treated Water — ITP Key Items</h3>
+<table class="dm-table">
+<tr><th>Activity</th><th>Test</th><th>Acceptance</th><th>Type</th></tr>
+<tr><td>Pipe Material</td><td>Certificate check + DI test</td><td>BS/EN + MME approved</td><td>W</td></tr>
+<tr><td>Trench Excavation</td><td>Level + width survey</td><td>±50mm</td><td>H</td></tr>
+<tr><td>Bedding</td><td>Material + compaction</td><td>Type B / 95% MDD</td><td>H</td></tr>
+<tr><td>Pipe Laying</td><td>Level + alignment + joint</td><td>±10mm, 1:500 gradient</td><td>H</td></tr>
+<tr><td>Pressure Test</td><td>1.5×PN / 2hr</td><td>Zero leakage</td><td>H</td></tr>
+<tr><td>Flushing</td><td>Flow velocity ≥ 1.5 m/s</td><td>Clean discharge</td><td>W</td></tr>
+<tr><td>Bacteriological</td><td>Coliform count</td><td>Zero coliforms</td><td>W</td></tr>
+<tr><td>Backfill</td><td>Compaction density</td><td>≥ 95% MDD</td><td>W</td></tr>
+</table>
+<div style="font-size:11px;color:var(--text3);margin-top:8px;">H = Hold Point | W = Witness Point | MME = Ministry of Municipality</div>
+<div style="background:rgba(255,165,0,0.1);border:1px solid rgba(255,165,0,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+⚠️ Purple marker tape mandatory above treated water pipes. Must maintain ≥1.5m separation from potable water.
+</div>
+
 </div>
 ` },
 
