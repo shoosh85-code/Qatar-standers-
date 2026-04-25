@@ -619,22 +619,21 @@ content: `
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🪨 What is Gabbro?</h3>
-<p>Gabbro is a crystalline igneous rock quarried primarily from the UAE (Fujairah area). It is the primary aggregate used in Qatar for all road layers and concrete due to its high hardness and abrasion resistance.</p>
-<h3>Gabbro Specifications by Application</h3>
+<h3>🪨 Gabbro Aggregate — QCS 2024 Specifications</h3>
 <table class="dm-table">
-<tr><th>Property</th><th>Subbase</th><th>Base Course</th><th>Asphalt WC</th><th>Asphalt BC</th><th>Test</th></tr>
-<tr><td>LA Abrasion</td><td>≤ 40%</td><td>≤ 30%</td><td>≤ 25%</td><td>≤ 30%</td><td>ASTM C131</td></tr>
-<tr><td>Flakiness Index</td><td>≤ 40%</td><td>≤ 30%</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812 P105</td></tr>
-<tr><td>Fractured Faces (1+)</td><td>≥ 25%</td><td>≥ 75%</td><td>≥ 95%</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
-<tr><td>PSV</td><td>—</td><td>—</td><td>≥ 55</td><td>—</td><td>BS 812 P114</td></tr>
-<tr><td>Water Absorption</td><td>≤ 3%</td><td>≤ 2%</td><td>≤ 2%</td><td>≤ 2%</td><td>ASTM C127</td></tr>
-<tr><td>Soundness MgSO4</td><td>≤ 18%</td><td>≤ 12%</td><td>≤ 12%</td><td>≤ 12%</td><td>ASTM C88</td></tr>
-<tr><td>Specific Gravity SSD</td><td>≥ 2.4</td><td>≥ 2.5</td><td>≥ 2.5</td><td>≥ 2.5</td><td>ASTM C127</td></tr>
-<tr><td>Sulphate SO3</td><td>≤ 0.5%</td><td>≤ 0.5%</td><td>≤ 0.4%</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
+<tr><th>Test</th><th>Acceptance</th><th>Standard</th></tr>
+<tr><td>LA Abrasion</td><td>≤30% (wearing course) / ≤35% (base)</td><td>ASTM C131</td></tr>
+<tr><td>Flakiness Index</td><td>≤25% (coarse) / ≤35% (combined)</td><td>BS 812</td></tr>
+<tr><td>Elongation Index</td><td>≤25%</td><td>BS 812</td></tr>
+<tr><td>Sand Equivalent</td><td>≥50% (fine agg)</td><td>ASTM D2419</td></tr>
+<tr><td>Water Absorption</td><td>≤2.0%</td><td>BS 812</td></tr>
+<tr><td>Sodium Sulphate Soundness</td><td>≤12% loss</td><td>ASTM C88</td></tr>
+<tr><td>Polished Stone Value (PSV)</td><td>≥55 (wearing course)</td><td>BS 812-114</td></tr>
+<tr><td>Aggregate Crushing Value</td><td>≤30%</td><td>BS 812</td></tr>
 </table>
-<h3>Conformity Certificate Requirements</h3>
-<p>Every Gabbro delivery must include: QGOS Conformity Certificate (valid ≤12 months) + Lab analysis (LA + Flakiness + Fractured Faces + Absorption + Sulphate) + Approved MAR before use.</p>
+<div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+ℹ️ Gabbro is the primary road aggregate in Qatar. Imported from Oman. All material requires pre-approval and source testing.
+</div>
 </div>
 ` },
 
@@ -5401,10 +5400,21 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
-<span style="font-size:16px;">🎥</span>
-<span style="color:var(--gold);font-weight:700;font-size:13px;">Concrete Works — Pouring & Curing</span>
+<h3>🏗️ Concrete Works — Inspection & Test Plan</h3>
+<table class="dm-table">
+<tr><th>Activity</th><th>Test</th><th>Acceptance</th><th>Type</th></tr>
+<tr><td>Material (Cement)</td><td>Certificate + fineness</td><td>BS EN 197-1 Type I/II</td><td>W</td></tr>
+<tr><td>Mix Design</td><td>Trial mixes + cube testing</td><td>fcu + workability met</td><td>H</td></tr>
+<tr><td>Formwork</td><td>Dimensional check + seal</td><td>±5mm alignment</td><td>H</td></tr>
+<tr><td>Rebar</td><td>Size + spacing + cover</td><td>Cover ±10mm</td><td>H</td></tr>
+<tr><td>Pre-Pour Inspection</td><td>All elements verified</td><td>Sign-off by Engineer</td><td>H</td></tr>
+<tr><td>Slump Test</td><td>Each delivery / each pour</td><td>Per spec range</td><td>W</td></tr>
+<tr><td>Cube Sampling</td><td>1 set per 50m³ / min 1/day</td><td>3 cubes — 7 & 28 day</td><td>W</td></tr>
+<tr><td>28-day Strength</td><td>Lab result</td><td>≥fcu design</td><td>H</td></tr>
+<tr><td>Curing</td><td>Visual + moisture check</td><td>Min 7 days wet</td><td>W</td></tr>
+<tr><td>Stripping</td><td>Cube results + age</td><td>Engineer approval</td><td>H</td></tr>
+</table>
+<div style="font-size:11px;color:var(--text3);margin-top:6px;">H = Hold Point | W = Witness Point | QCS 2024 Section 5</div>
 </div>
 <div style="position:relative;width:100%;padding-bottom:56.25%;height:0;">
 <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" 
@@ -5447,14 +5457,18 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>ITP — Reinforcement Steel</h3>
-<table class="dm-table"><tr><th>Activity</th><th>Test</th><th>Frequency</th><th>Standard</th><th>HP/W</th></tr>
-<tr><td>Mill Certificate</td><td>Tensile + Yield + Elongation</td><td>Each heat</td><td>BS 4449</td><td>HP</td></tr>
-<tr><td>Third Party Test</td><td>fy ≥ 500MPa | fu ≥ 600MPa | fu/fy ≥ 1.15</td><td>Per 25t</td><td>BS 4449</td><td>HP</td></tr>
-<tr><td>Bend Test</td><td>180° cold bend — no cracking</td><td>Per 25t</td><td>BS 4449</td><td>W</td></tr>
-<tr><td>Lap Lengths</td><td>Per IFC drawing (min 40d)</td><td>100%</td><td>IFC</td><td>W</td></tr>
-<tr><td>Cover Check</td><td>Correct spacers type and spacing</td><td>100%</td><td>QCS S5</td><td>W</td></tr>
-<tr><td>Pre-pour Inspection</td><td>Alignment + stability + cleanliness</td><td>Before pour</td><td>IFC</td><td>HP</td></tr></table>
+<h3>🔧 Reinforcement — Inspection & Test Plan</h3>
+<table class="dm-table">
+<tr><th>Activity</th><th>Test/Check</th><th>Acceptance</th><th>Type</th></tr>
+<tr><td>Mill Certificate</td><td>Strength + elongation</td><td>B500B fy≥500 MPa</td><td>W</td></tr>
+<tr><td>Bar Diameter</td><td>Caliper measurement</td><td>±3% of nominal</td><td>W</td></tr>
+<tr><td>Bending Shapes</td><td>Check vs approved BBS</td><td>Matches BS 8666</td><td>W</td></tr>
+<tr><td>Cover Spacers</td><td>Type + positioning</td><td>Correct cover per element</td><td>W</td></tr>
+<tr><td>Fixing/Tying</td><td>All intersections tied</td><td>Stable, no movement</td><td>H</td></tr>
+<tr><td>Lap Lengths</td><td>Measure actual laps</td><td>≥40×dia (tension)</td><td>W</td></tr>
+<tr><td>Bar Spacing</td><td>Measure between bars</td><td>Per approved drawing</td><td>W</td></tr>
+<tr><td>Cleanliness</td><td>Visual</td><td>No mud/oil/loose scale</td><td>W</td></tr>
+</table>
 </div>
 ` },
 
@@ -5471,13 +5485,18 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>ITP — Foundation Works</h3>
-<table class="dm-table"><tr><th>Activity</th><th>Test</th><th>Frequency</th><th>Standard</th><th>HP/W</th></tr>
-<tr><td>Founding Level</td><td>Geotechnical approval of bearing stratum</td><td>100%</td><td>GI Report</td><td>HP</td></tr>
-<tr><td>Blinding Concrete</td><td>C15 min 75mm thick</td><td>100%</td><td>QCS S5</td><td>W</td></tr>
-<tr><td>Waterproofing</td><td>Type/thickness per spec</td><td>100%</td><td>QCS S5</td><td>W</td></tr>
-<tr><td>Concrete Grade</td><td>C30 min for foundations</td><td>Every 50m³</td><td>QCS S5</td><td>HP</td></tr>
-<tr><td>Backfill Compaction</td><td>≥ 95% MDD per 300mm lift</td><td>Per 500m²</td><td>ASTM D698</td><td>W</td></tr></table>
+<h3>🏔️ Foundations — Inspection & Test Plan</h3>
+<table class="dm-table">
+<tr><th>Activity</th><th>Check</th><th>Acceptance</th><th>Type</th></tr>
+<tr><td>Founding Level</td><td>Survey level vs design</td><td>≥design depth / competent soil</td><td>H</td></tr>
+<tr><td>Ground Conditions</td><td>Visual + geotech confirmation</td><td>Matches design assumptions</td><td>H</td></tr>
+<tr><td>Blinding Concrete</td><td>Thickness + level</td><td>Min 75mm C10</td><td>W</td></tr>
+<tr><td>Waterproofing</td><td>Application + joints</td><td>Continuous, no gaps</td><td>W</td></tr>
+<tr><td>Rebar Installation</td><td>Size + spacing + cover</td><td>75mm cover (foundations)</td><td>H</td></tr>
+<tr><td>Pre-Pour Inspection</td><td>All elements signed off</td><td>Engineer approval</td><td>H</td></tr>
+<tr><td>Concrete Pour</td><td>Slump + cube sampling</td><td>Per mix design</td><td>W</td></tr>
+<tr><td>28-day Cubes</td><td>Lab result</td><td>≥fcu specified</td><td>H</td></tr>
+</table>
 </div>
 ` },
 
@@ -5500,8 +5519,19 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 📋 ITP — الخوازيق | Bored Piles
+<h3>🔩 Piled Foundations — Inspection & Test Plan</h3>
+<table class="dm-table">
+<tr><th>Activity</th><th>Test</th><th>Acceptance</th><th>Type</th></tr>
+<tr><td>Pile Position</td><td>Survey before boring</td><td>±75mm from drawing</td><td>W</td></tr>
+<tr><td>Pile Diameter</td><td>Caliper during boring</td><td>As specified</td><td>W</td></tr>
+<tr><td>Founding Level</td><td>Engineer confirmation</td><td>Competent stratum</td><td>H</td></tr>
+<tr><td>Cage Assembly</td><td>Dimensions + cover blocks</td><td>50mm cover sides / 75mm top</td><td>W</td></tr>
+<tr><td>Cage Installation</td><td>Level + position</td><td>±100mm length tolerance</td><td>H</td></tr>
+<tr><td>Concrete (Tremie)</td><td>Slump + cube samples</td><td>Slump 150-200mm</td><td>W</td></tr>
+<tr><td>Cut-off Level</td><td>Survey</td><td>Min 600mm above design</td><td>W</td></tr>
+<tr><td>Sonic Integrity Test</td><td>100% of piles</td><td>Class A (clean)</td><td>H</td></tr>
+<tr><td>Static Load Test</td><td>1% piles (min 2)</td><td>1.5×design load</td><td>H</td></tr>
+</table>
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
@@ -6041,18 +6071,23 @@ All numerical values, specifications and test methods shown in Arabic are source
 <h3>🔴 Hold Points</h3>
 <p>• <strong>HP-05:</strong> اعتماد Rebar + Formwork + Cover قبل الصب<br>• <strong>HP-06:</strong> Pour Card موقع من الاستشاري قبل الصب</p>
 </div>
-<div class="lang-content-en" style="display:none;"><h3>Placing Requirements — QCS S5 P4</h3>
+<div class="lang-content-en" style="display:none;">
+<h3>🏗️ Concrete Placing & Compaction — QCS 2024</h3>
 <table class="dm-table">
-<tr><th>Item</th><th>Requirement</th></tr>
-<tr><td>Max Transport Time</td><td>≤ 90 minutes from mixing</td></tr>
-<tr><td>Max Layer Height</td><td>≤ 500mm per layer</td></tr>
-<tr><td>Max Concrete Temp at Placement</td><td>≤ 32°C</td></tr>
-<tr><td>Hot Weather (above 35°C)</td><td>Cool aggregates + Ice water</td></tr>
-<tr><td>Vibrator Spacing</td><td>Every 450mm horizontally</td></tr>
-<tr><td>Vibration Duration</td><td>5-15 seconds per insertion</td></tr>
+<tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Max Drop Height</td><td>≤1.5m free fall (prevent segregation)</td><td>QCS S5</td></tr>
+<tr><td>Layer Thickness</td><td>≤450mm (vibrated) / ≤150mm (hand)</td><td>QCS S5</td></tr>
+<tr><td>Vibrator Spacing</td><td>≤500mm between insertions</td><td>QCS S5</td></tr>
+<tr><td>Vibrator Duration</td><td>Until air bubbles stop (5–15 sec)</td><td>QCS S5</td></tr>
+<tr><td>Max Concrete Temp</td><td>≤35°C at point of placing</td><td>QCS S5 Hot Weather</td></tr>
+<tr><td>Max Ambient Temp</td><td>≤40°C — use ice, chilled water</td><td>QCS S5</td></tr>
+<tr><td>Time Limit (placing)</td><td>≤90 min from batching (or initial set)</td><td>QCS S5</td></tr>
+<tr><td>Tremie Pipe (underwater)</td><td>Always submerged in fresh concrete</td><td>QCS S5</td></tr>
 </table>
-<h3>Hot Weather Concreting — Qatar</h3>
-<p>• Cool aggregate with water spray + shade<br>• Add ice to mixing water — target ≤ 32°C at placement<br>• Night pouring preferred for large pours in summer<br>• Apply retarder admixture above 35°C ambient<br>• Cover immediately after placing to prevent evaporation</p></div>
+<div style="background:rgba(243,156,18,0.1);border:1px solid rgba(243,156,18,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+⚠️ Qatar Hot Weather: Night pouring recommended June–September. Ice substitution up to 50% of mix water permitted.
+</div>
+</div>
 ` },
 
   concrete_curing: { title: '💧 الConcrete — المعالجة (Curing)', content: `<div class="lang-content-ar">
@@ -6115,21 +6150,20 @@ All numerical values, specifications and test methods shown in Arabic are source
 <h3>🔴 Hold Points</h3>
 <p>• <strong>HP-09:</strong> نتائج 7 أيام ترسل للاستشاري فوراً<br>• <strong>HP-10:</strong> فشل 28 يوم = وقف العمل + تحقيق</p>
 </div>
-<div class="lang-content-en" style="display:none;"><h3>Slump Test</h3>
+<div class="lang-content-en" style="display:none;">
+<h3>🔬 Concrete Testing — QCS 2024</h3>
 <table class="dm-table">
-<tr><th>Pour Type</th><th>Target Slump</th></tr>
-<tr><td>Normal pour</td><td>75-100mm</td></tr>
-<tr><td>Pump pour</td><td>100-150mm</td></tr>
-<tr><td>Bored Piles</td><td>160-220mm</td></tr>
+<tr><th>Test</th><th>Frequency</th><th>Acceptance</th><th>Reference</th></tr>
+<tr><td>Slump</td><td>Each delivery (min 1/truck)</td><td>Per design range</td><td>BS EN 12350-2</td></tr>
+<tr><td>Cube Sampling</td><td>1 set (3 cubes) per 50m³</td><td>—</td><td>BS EN 12390-3</td></tr>
+<tr><td>7-day Cube</td><td>Each set</td><td>≥70% of fcu (monitoring)</td><td>QCS S5</td></tr>
+<tr><td>28-day Cube</td><td>Each set</td><td>≥fcu specified</td><td>QCS S5</td></tr>
+<tr><td>Temperature (fresh)</td><td>Each delivery in hot weather</td><td>≤35°C</td><td>QCS S5</td></tr>
+<tr><td>Air Content</td><td>Per design if air-entrained</td><td>3–6%</td><td>BS EN 12350-7</td></tr>
+<tr><td>Schmidt Hammer (in-situ)</td><td>When 28d cubes fail</td><td>Correlation chart</td><td>BS EN 12504-2</td></tr>
+<tr><td>Core Test</td><td>When cubes marginal</td><td>≥0.85×fcu</td><td>BS EN 12504-1</td></tr>
 </table>
-<h3>Cube Sampling</h3>
-<table class="dm-table">
-<tr><th>Item</th><th>Requirement</th></tr>
-<tr><td>Frequency</td><td>6 cubes per 50m³</td></tr>
-<tr><td>7-day <strong style="color:#e67e22">(مراقبة فقط — ليس معيار قبول)</strong></td><td>≥ 70% fcu — للكشف المبكر فقط</td></tr>
-<tr><td>28-day <strong>(معيار القبول الرسمي — QCS S5)</strong></td><td>≥ 100% fcu</td></tr>
-<tr><td>Temperature at placement</td><td>≤ 32°C — check every load</td></tr>
-</table></div>
+</div>
 ` },
 
   concrete_joints: { title: '✂️ الConcrete — الفواصل', content: `<div class="lang-content-ar">
@@ -6642,11 +6676,28 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,70,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;">
-<span style="font-size:16px;">🎥</span>
-<span style="color:var(--gold);font-weight:700;font-size:13px;">Geotechnical Investigation & Boreholes</span>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 | Geotechnical Investigation — Qatar Specific Requirements
+</div>
+<h3>🔬 Select Investigation Phase</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
+<div onclick="QS.openDetail('geo_planning')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:20px">📐</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Planning</div></div>
+<div onclick="QS.openDetail('geo_borehole')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:20px">🔩</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Boreholes</div></div>
+<div onclick="QS.openDetail('geo_spt')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:20px">🔨</div><div style="color:var(--gold);font-weight:700;font-size:12px;">SPT Testing</div></div>
+<div onclick="QS.openDetail('geo_lab')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:20px">🔬</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Lab Analysis</div></div>
+</div>
+<table class="dm-table">
+<tr><th>Item</th><th>Qatar Requirement</th></tr>
+<tr><td>Min Borehole Depth</td><td>5m below foundation / 1.5×pile length</td></tr>
+<tr><td>Borehole Spacing</td><td>25–50m grid (general) / per structure</td></tr>
+<tr><td>SPT Frequency</td><td>Every 1.5m or change of strata</td></tr>
+<tr><td>Sulphate (SO3)</td><td>Test all layers — critical in Qatar</td></tr>
+<tr><td>Groundwater</td><td>Monitor 24h minimum</td></tr>
+</table>
 </div>
 <button onclick="document.getElementById('vid-geotech-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
 </div>
@@ -6921,14 +6972,18 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point &nbsp;|&nbsp; <strong style="color:#f1c40f;">W</strong> = Witness Point &nbsp;|&nbsp; <strong style="color:#2ecc71;">R</strong> = Review &nbsp;|&nbsp; <strong style="color:#3498db;">GEO</strong> = Geotechnical Engineer</div>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>ITP — Geotechnical Investigation</h3>
-<table class="dm-table"><tr><th>Activity</th><th>Test</th><th>Frequency</th><th>Standard</th><th>HP/W</th></tr>
-<tr><td>Borehole Location Survey</td><td>Survey to IFC locations</td><td>100%</td><td>GI Scope</td><td>HP</td></tr>
-<tr><td>SPT Test</td><td>N-value every 1.5m</td><td>Per borehole</td><td>ASTM D1586</td><td>W</td></tr>
-<tr><td>Disturbed Samples</td><td>Atterberg + Grading + Chemistry</td><td>Every 1.5m</td><td>BS 1377</td><td>W</td></tr>
-<tr><td>Groundwater Level</td><td>Standpipe reading</td><td>Per borehole</td><td>GI Scope</td><td>W</td></tr>
-<tr><td>Sulphate Class</td><td>SO3% + TDS + pH</td><td>Per stratum</td><td>BS 1377</td><td>HP</td></tr>
-<tr><td>GI Report</td><td>Factual + interpretive report</td><td>Once</td><td>BS 5930</td><td>HP</td></tr></table>
+<h3>🔬 Geotechnical Investigation — ITP</h3>
+<table class="dm-table">
+<tr><th>Activity</th><th>Test</th><th>Acceptance</th><th>Type</th></tr>
+<tr><td>Borehole Location</td><td>Survey position</td><td>±1.0m of planned</td><td>W</td></tr>
+<tr><td>SPT Test</td><td>N-value per 1.5m</td><td>Logged correctly per BS 1377</td><td>W</td></tr>
+<tr><td>Undisturbed Sample</td><td>100mm Shelby tube</td><td>Min 1 per 3m in cohesive soils</td><td>W</td></tr>
+<tr><td>Groundwater Level</td><td>Standpipe observation</td><td>24hr monitoring</td><td>W</td></tr>
+<tr><td>Sulphate (SO3)</td><td>Lab analysis per layer</td><td>Per BS 1377</td><td>W</td></tr>
+<tr><td>Chloride Content</td><td>Lab per layer</td><td>Report value</td><td>W</td></tr>
+<tr><td>CBR (field)</td><td>DCP test at subgrade</td><td>≥8% for road design</td><td>H</td></tr>
+<tr><td>Final Report</td><td>Engineer review</td><td>Signed by approved geologist</td><td>H</td></tr>
+</table>
 </div>
 ` },
 
@@ -7190,18 +7245,19 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>📊 Roads Quality Control Plan (QCP)</h3>
+<h3>🛣️ Roads — Quality Control Plan Summary</h3>
 <table class="dm-table">
-<tr><th>HP</th><th>Stage</th><th>Condition</th></tr>
-<tr><td>HP-01</td><td>Before Subgrade fill</td><td>Material Approval + CBR</td></tr>
-<tr><td>HP-02</td><td>Accept Subgrade</td><td>Density ≥95% + CBR ≥8%/8%</td></tr>
-<tr><td>HP-03</td><td>Accept Subbase</td><td>Density ≥98% + CBR ≥70%</td></tr>
-<tr><td>HP-04</td><td>Accept Base Course</td><td>Density ≥98% + CBR ≥80%</td></tr>
-<tr><td>HP-05</td><td>Accept Prime Coat</td><td>Rate + Coverage + Curing 24hr</td></tr>
-<tr><td>HP-06</td><td>Before asphalt production</td><td>JMF + Trial Section approved</td></tr>
-<tr><td>HP-07</td><td>Accept Binder Course</td><td>Core Density ≥97% TMD</td></tr>
-<tr><td>HP-08</td><td>Accept Wearing Course</td><td>Core + PSV + IRI + Level</td></tr>
-<tr><td>HP-09</td><td>Final Handover</td><td>As-Built + All Tests + Markings</td></tr>
+<tr><th>Phase</th><th>Test</th><th>Frequency</th><th>Acceptance</th></tr>
+<tr><td>Subgrade</td><td>Density (Sand Cone)</td><td>1/500m²</td><td>≥95% MDD</td></tr>
+<tr><td>Subgrade</td><td>CBR soaked</td><td>1/500m³</td><td>≥8%</td></tr>
+<tr><td>Subbase</td><td>Density</td><td>1/500m²</td><td>≥100% BS Heavy</td></tr>
+<tr><td>Subbase</td><td>Gradation</td><td>Per source change</td><td>QCS S6 Table</td></tr>
+<tr><td>Binder Course</td><td>Delivery temp</td><td>Each truck</td><td>≥140°C</td></tr>
+<tr><td>Binder Course</td><td>Core density</td><td>1/250m²</td><td>≥97% TMD</td></tr>
+<tr><td>Wearing Course</td><td>Delivery temp</td><td>Each truck</td><td>≥145°C</td></tr>
+<tr><td>Wearing Course</td><td>Core density</td><td>1/250m²</td><td>≥97% TMD</td></tr>
+<tr><td>Wearing Course</td><td>IRI</td><td>100% lanes</td><td>≤2.5 m/km</td></tr>
+<tr><td>Final Surface</td><td>Straightedge 3m</td><td>Random</td><td>≤6mm gap</td></tr>
 </table>
 </div>
 ` },
@@ -7328,17 +7384,17 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>📊 Utilities Quality Control Plan (QCP)</h3>
+<h3>🔧 Utilities — Quality Control Plan Summary</h3>
 <table class="dm-table">
-<tr><th>HP</th><th>Network</th><th>Stage</th><th>Condition</th></tr>
-<tr><td>HP-01</td><td>All</td><td>Material Approval</td><td>Before supply</td></tr>
-<tr><td>HP-02</td><td>All</td><td>Bedding + Depth</td><td>Before pipe laying</td></tr>
-<tr><td>HP-03</td><td>Water</td><td>Pressure Test</td><td>1.5×PN / 2hr / zero drop</td></tr>
-<tr><td>HP-04</td><td>Water</td><td>Chlorination</td><td>≥50ppm / ≥24hr</td></tr>
-<tr><td>HP-05</td><td>Water</td><td>Water Quality</td><td>Coliform=0 / Turbidity≤1</td></tr>
-<tr><td>HP-06</td><td>Sewer</td><td>Gradient</td><td>Laser Level ±3mm</td></tr>
-<tr><td>HP-07</td><td>Sewer</td><td>Air Test</td><td>100mm WG / 5min / ≤25mm drop</td></tr>
-<tr><td>HP-08</td><td>Sewer</td><td>CCTV</td><td>100% / Grade ≤ 2</td></tr>
+<tr><th>Network</th><th>Key Test</th><th>Acceptance</th><th>Standard</th></tr>
+<tr><td>Water Supply</td><td>Pressure 1.5×PN / 2hr</td><td>Zero drop</td><td>KAHRAMAA</td></tr>
+<tr><td>Water Supply</td><td>Chlorination ≥50ppm / 24hr</td><td>Residual ≥0.2ppm</td><td>KAHRAMAA</td></tr>
+<tr><td>Water Supply</td><td>Bacteriological</td><td>Zero coliforms</td><td>WHO</td></tr>
+<tr><td>Foul Sewer</td><td>Air test 100mm Hg / 5min</td><td>Drop ≤25mmHg</td><td>Ashghal</td></tr>
+<tr><td>Foul Sewer</td><td>CCTV survey</td><td>100% / Grade ≤B2</td><td>Ashghal</td></tr>
+<tr><td>Storm Drainage</td><td>Hydraulic test</td><td>Zero leakage</td><td>Ashghal</td></tr>
+<tr><td>Treated Water</td><td>Pressure + cross-connection</td><td>Zero cross-connection</td><td>MME</td></tr>
+<tr><td>All Networks</td><td>Compaction backfill</td><td>≥95% MDD</td><td>Ashghal</td></tr>
 </table>
 </div>
 ` },
@@ -7960,33 +8016,21 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>Marshall Mix Design — Definition</h3>
-<p>The most common asphalt mix design method in Qatar. Uses 75-blow (major roads) or 50-blow (secondary) compaction, then measures Stability and Flow at 60°C.</p>
-<h3>Layer Class Definitions</h3>
+<h3>🛣️ Marshall Mix Design — QCS 2024 Requirements</h3>
 <table class="dm-table">
-<tr><th>Layer</th><th>Definition</th><th>NMAS</th></tr>
-<tr><td>Base Course Class A</td><td>Heavy-duty base for high-load roads, directly above subbase</td><td>25mm or 37.5mm</td></tr>
-<tr><td>Base Course Class B</td><td>Standard base for normal/secondary roads</td><td>19mm or 25mm</td></tr>
-<tr><td>Wearing Course</td><td>Top layer in contact with traffic. PSV ≥ 55 mandatory. Provides waterproofing + skid resistance.</td><td>9.5mm or 12.5mm</td></tr>
+<tr><th>Parameter</th><th>Wearing AC14</th><th>Binder AC20</th><th>Ref</th></tr>
+<tr><td>Marshall Stability</td><td>≥8.0 kN</td><td>≥8.0 kN</td><td>QCS S8 P4</td></tr>
+<tr><td>Marshall Flow</td><td>2–4 mm</td><td>2–4 mm</td><td>QCS S8 P4</td></tr>
+<tr><td>Air Voids (Va)</td><td>3–5%</td><td>3–7%</td><td>QCS S8 P4</td></tr>
+<tr><td>VMA</td><td>≥14%</td><td>≥13%</td><td>QCS S8 P4</td></tr>
+<tr><td>VFB</td><td>65–75%</td><td>60–75%</td><td>QCS S8 P4</td></tr>
+<tr><td>Bitumen Content</td><td>4.5–6.5%</td><td>4.0–6.0%</td><td>QCS S8 P4</td></tr>
+<tr><td>Core Density (field)</td><td>≥97% TMD</td><td>≥97% TMD</td><td>QCS S8 P6</td></tr>
+<tr><td>Indirect Tensile Strength</td><td>≥0.7 MPa (60°C)</td><td>≥0.7 MPa</td><td>QCS S8</td></tr>
 </table>
-<h3>Table 5:6 — Marshall Design Criteria — Page 15</h3>
-<table class="dm-table">
-<tr><th>Property</th><th>WC</th><th>BC-A</th><th>BC-B</th></tr>
-<tr><td>Blows / Face</td><td>75</td><td>75</td><td>75</td></tr>
-<tr><td>Stability (kN)</td><td>≥ 9.0</td><td>≥ 9.0</td><td>≥ 8.0</td></tr>
-<tr><td>Flow (mm)</td><td>2-4</td><td>2-4</td><td>2-4</td></tr>
-<tr><td>Air Voids Va (%)</td><td>3-5</td><td>3-5</td><td>3-5</td></tr>
-<tr><td>VMA (%)</td><td>≥ 15</td><td>≥ 14</td><td>≥ 14</td></tr>
-<tr><td>VFA (%)</td><td>65-80</td><td>65-75</td><td>65-75</td></tr>
-<tr><td>TSR (%)</td><td>≥ 80</td><td>≥ 80</td><td>≥ 75</td></tr>
-</table>
-<h3>Table 5:8 — Compacted Layer Thickness — Page 15</h3>
-<table class="dm-table">
-<tr><th>Layer</th><th>Compacted Thickness</th></tr>
-<tr><td>Wearing Course</td><td>40-55mm</td></tr>
-<tr><td>Base Course B</td><td>60-80mm</td></tr>
-<tr><td>Base Course A</td><td>80-100mm</td></tr>
-</table>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+🔴 HP: Mix design must be submitted and approved before production trial. Trial section required before full-scale paving.
+</div>
 </div>
 ` },
 
@@ -8650,15 +8694,18 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   itp_subgrade: { title: '📋 ITP — Subgrade', content: `<div class="lang-content-ar"><div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2024 — Part 6, Section 2</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>Standard Proctor</td><td>ASTM D698</td><td>تحديد MDD و OMC</td><td>كل تغيير مادة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.2</td><td>CBR Soaked 4 days</td><td>ASTM D1883</td><td>≥ 8%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.3</td><td>Atterberg Limits</td><td>ASTM D4318</td><td>LL ≤ 35% | PI ≤ 10%</td><td>كل تغيير مادة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 95% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr><tr><td>3.2</td><td>Level Survey</td><td>Design Drawing</td><td>± 10mm</td><td>كل 25m</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Survey Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness Point | <strong style="color:#2ecc71;">R</strong> = Review</div></div>
 <div class="lang-content-en" style="display:none;">
-<h3>ITP — Subgrade Preparation</h3>
-<table class="dm-table"><tr><th>Activity</th><th>Test</th><th>Frequency</th><th>Standard</th><th>HP/W</th></tr>
-<tr><td>Unsuitable Material</td><td>CBR &lt; 8% — remove</td><td>Per area</td><td>QCS S6 P3</td><td>HP</td></tr>
-<tr><td>Proctor Compaction</td><td>MDD + OMC per material</td><td>Per change</td><td>ASTM D698</td><td>HP</td></tr>
-<tr><td>Atterberg Limits</td><td>LL ≤ 35% | PI ≤ 10%</td><td>Per 500m³</td><td>ASTM D4318</td><td>W</td></tr>
-<tr><td>Sulphate + Chloride</td><td>SO3 ≤ 0.5% | Cl ≤ 0.6%</td><td>Per 500m³</td><td>BS 1377</td><td>W</td></tr>
-<tr><td>Field Density</td><td>≥ 95% MDD (Sand Cone)</td><td>Per 500m²</td><td>ASTM D1556</td><td>W</td></tr>
-<tr><td>CBR (Soaked 4 days)</td><td>≥ 8% Normal / ≥ 8% Sabkha</td><td>Per 2000m²</td><td>ASTM D1883</td><td>HP</td></tr>
-<tr><td>Level Survey</td><td>± 10mm from design</td><td>Per 25m</td><td>Total Station</td><td>HP</td></tr></table>
+<h3>🏔️ Subgrade — Inspection & Test Plan</h3>
+<table class="dm-table">
+<tr><th>Activity</th><th>Test</th><th>Acceptance</th><th>Type</th></tr>
+<tr><td>Stripped Level</td><td>Survey to formation</td><td>±20mm of design</td><td>W</td></tr>
+<tr><td>Proctor MDD/OMC</td><td>Lab — per source change</td><td>BS Heavy Compaction</td><td>W</td></tr>
+<tr><td>Moisture Content (field)</td><td>Daily</td><td>OMC ±2%</td><td>W</td></tr>
+<tr><td>Compaction (field density)</td><td>1 test per 500m²</td><td>≥95% MDD</td><td>H</td></tr>
+<tr><td>CBR (soaked 4d)</td><td>Per 500m³</td><td>≥8% (urban roads)</td><td>H</td></tr>
+<tr><td>PI + Sulphate</td><td>Per source change</td><td>PI≤12 / SO3≤0.3%</td><td>W</td></tr>
+<tr><td>Proof Rolling</td><td>10t roller — visual</td><td>No rutting >12mm</td><td>H</td></tr>
+<tr><td>Formation Approval</td><td>All tests passed</td><td>Engineer sign-off</td><td>H</td></tr>
+</table>
 </div>
 ` },
   itp_subbase: { title: '📋 ITP — Subbase', content: `<div class="lang-content-ar"><div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2024 — Part 6 Part 3</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>CBR Soaked</td><td>ASTM D1883</td><td>≥ 30%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.2</td><td>Plasticity Index</td><td>ASTM D4318</td><td>≤ 6%</td><td>كل 500m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 98% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div></div>
@@ -8701,14 +8748,20 @@ All numerical values, specifications and test methods shown in Arabic are source
 ` },
   itp_wearing: { title: '📋 ITP — Binder & Wearing Course', content: `<div class="lang-content-ar"><div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2024 — Part 6 Part 5</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>Plant Calibration</td><td>S.6 P.5</td><td>معايرة المحطة قبل الإنتاج</td><td>كل موسم</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Calibration Certificate</td></tr><tr><td>3.1</td><td>Delivery Temperature</td><td>S.6 P.5</td><td>≥ 140°C</td><td>كل حمولة</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Temperature Log</td></tr><tr><td>4.1</td><td>Core Sample Density</td><td>BS EN 12697-6</td><td>≥ 98% TMD</td><td>كل 1000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Core Report</td></tr><tr><td>4.2</td><td>Straightedge 3m</td><td>S.6 P.5</td><td>≤ 5mm</td><td>كل 100m</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Inspection Record</td></tr><tr><td>4.3</td><td>Skid Resistance</td><td>S.6 P.5</td><td>≥ 55 PSV</td><td>كل 500m</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div></div>
 <div class="lang-content-en" style="display:none;">
-<h3>ITP — Wearing Course</h3>
-<table class="dm-table"><tr><th>Activity</th><th>Test</th><th>Frequency</th><th>Standard</th><th>HP/W</th></tr>
-<tr><td>JMF Approval</td><td>Marshall / Superpave</td><td>Per mix</td><td>QCS S6 P5</td><td>HP</td></tr>
-<tr><td>Delivery Temperature</td><td>≥ 135°C Non-PMB / ≥ 145°C PMB</td><td>Every load</td><td>QCS S6 P5</td><td>W</td></tr>
-<tr><td>Marshall Stability</td><td>≥ 9 kN | Flow 2-4mm | Va 3-5%</td><td>Per 200t</td><td>ASTM D1559</td><td>HP</td></tr>
-<tr><td>Core Density</td><td>≥97% TMD</td><td>Per 1000m²</td><td>ASTM D6927</td><td>HP</td></tr>
-<tr><td>Straightedge 3m</td><td>≤ 3mm (PMB) / ≤ 5mm (Non-PMB)</td><td>Per 100m</td><td>QCS S6 P5</td><td>W</td></tr>
-<tr><td>IRI</td><td>≤ 0.9 m/km PMB / ≤ 1.5 Non-PMB</td><td>Per 400m</td><td>PWA IAN 013</td><td>HP</td></tr></table>
+<h3>🛣️ Wearing Course — Inspection & Test Plan</h3>
+<table class="dm-table">
+<tr><th>Activity</th><th>Test</th><th>Acceptance</th><th>Type</th></tr>
+<tr><td>Mix Design</td><td>Marshall + lab approval</td><td>All criteria met</td><td>H</td></tr>
+<tr><td>Trial Section</td><td>Full QC testing</td><td>Engineer approval</td><td>H</td></tr>
+<tr><td>Tack Coat</td><td>Rate check + visual</td><td>0.2-0.4 L/m² CSS-1h</td><td>W</td></tr>
+<tr><td>Delivery Temp</td><td>Each delivery — probe</td><td>≥145°C (≥155°C PMB)</td><td>W</td></tr>
+<tr><td>Lay Temp</td><td>At paver — probe</td><td>≥135°C</td><td>W</td></tr>
+<tr><td>Compaction Temp</td><td>Before final roller pass</td><td>≥125°C / stop at 80°C</td><td>W</td></tr>
+<tr><td>Core Density</td><td>1 per 250m²</td><td>≥97% TMD</td><td>H</td></tr>
+<tr><td>IRI Smoothness</td><td>100% of lanes</td><td>≤2.5 m/km (≤0.9 PMB)</td><td>H</td></tr>
+<tr><td>Thickness</td><td>Core measurement</td><td>Design ±5mm</td><td>W</td></tr>
+</table>
+<div style="font-size:11px;color:var(--text3);margin-top:6px;">H = Hold Point | W = Witness Point | QCS 2024 Section 8</div>
 </div>
 ` },
   itp_asphalt: { title: '📋 ITP — Asphalt Testing', content: `<div class="lang-content-ar"><div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2024 — Part 6 Part 5</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th></tr><tr><td>2.1</td><td>Bitumen Pen 60-70</td><td>Table 5.4</td><td>Penetration 60-70 | SP ≥46°C | Ductility ≥100cm</td><td>كل 75 طن</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr><tr><td>2.2</td><td>Marshall Test</td><td>Table 5.8</td><td>Stability ≥9.5kN | Flow 2-4mm | Va 3-8%</td><td>يومياً + كل 300 طن</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr><tr><td>2.3</td><td>Extraction & Gradation</td><td>Table 5.7</td><td>حسب JMF ± tolerance</td><td>كل 200 طن</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div></div>
