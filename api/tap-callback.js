@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     }
 
     // Issue Pro JWT (reuse verify-pro logic)
-    const JWT_SECRET = process.env.JWT_SECRET || 'qs-qatar-2026-jwt';
+    const JWT_SECRET = process.env.JWT_SECRET;
     const expiry = new Date();
     expiry.setDate(expiry.getDate() + (plan === 'yearly' ? 365 : 30));
     

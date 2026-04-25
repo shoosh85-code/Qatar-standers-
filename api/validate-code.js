@@ -42,7 +42,7 @@ export default async function handler(req) {
   }
 
   // ✅ Codes stored ONLY on server — never exposed to client
-  const VALID_CODES = (process.env.PRO_CODES || '')
+  const VALID_CODES = (process.env.PROMO_CODES || '')
     .split(',')
     .map(c => c.trim().toUpperCase())
     .filter(Boolean);
