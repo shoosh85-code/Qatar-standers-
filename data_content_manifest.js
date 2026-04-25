@@ -98,4 +98,13 @@ window.QS_CONTENT_MAP = {
   "geo_report": "data_content_geotech.js",
   "itp_geotech": "data_content_geotech.js",
   "calculator": "data_content_tools.js"
+,
+  "ashghal_forms": "data_content_extra.js",
+  "ncr_quick_logger": "data_content_extra.js",
+  "doc_analyzer": "data_content_extra.js",
+  "drawing_analyzer": "data_content_extra.js",
+  "photo_analyzer": "data_content_extra.js",
+  "qcs_changes_2014_2024": "data_content_extra.js",
+  "top20_ncr": "data_content_extra.js",
+  "prequalification_checklist": "data_content_extra.js"
 };

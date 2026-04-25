@@ -1315,12 +1315,37 @@ function clearCardFilter() {
 
 // ===== DETAIL MODALS =====
 // Safe lazy reference — يقرأ QS_CONTENT عند كل وصول
+// Key aliases: card key → content key (when names differ)
+const _CONTENT_ALIASES = {
+  'asphalt_quick_ref':'ms_asphalt','exec_asphalt_paving':'execution',
+  'road_design_criteria':'roads_design','ashghal_rdm':'roads_design',
+  'mmup_road_design':'roads_design','road_layers_calc':'ms_asphalt',
+  'roads_equipment':'roads','ashghal_std_details':'roads',
+  'exec_water_pipe':'ws_laying','exec_pressure_test':'itp_water_supply',
+  'cctv_itp':'ss_testing','shoring_itp':'ss_excavation',
+  'pipe_quick_ref':'pipe_bedding','pipe_sizing_calc':'pipe_bedding',
+  'marker_tape_colors':'ms_utilities','kahramaa_standards':'ms_utilities',
+  'mep_standards':'ms_utilities','utilities_equipment':'utilities',
+  'exec_concrete_pour':'concrete_placing','exec_bridge_rebar':'rebar_full',
+  'exec_foundation_excavation':'foundations_full',
+  'concrete_quick_ref':'concrete_overview','hot_weather_detailed':'concrete_curing',
+  'pile_load_testing':'piles_full','rebar_cover_calc':'rebar_cover',
+  'structures_buildings':'structural','mmup_building_permits':'structural',
+  'structural_equipment':'structural','materials_calculator_buildings':'materials',
+  'mix_design_validator':'concrete_mix','esal_calculator_full':'calculator',
+  'sabkha_classification':'geotech','sabkha_treatment':'geo_report',
+  'survey_setting_out':'geo_planning','geotech_equipment':'geotech',
+  'soil_grading_calc':'geo_spt'
+};
+
 const detailData = new Proxy({}, {
   get: function(_, key) {
-    return (window.QS_CONTENT || {})[key];
+    var realKey = _CONTENT_ALIASES[key] || key;
+    return (window.QS_CONTENT || {})[realKey];
   },
   has: function(_, key) {
-    return key in (window.QS_CONTENT || {});
+    var realKey = _CONTENT_ALIASES[key] || key;
+    return realKey in (window.QS_CONTENT || {});
   }
 });
 
@@ -4630,10 +4655,12 @@ window.QS = window.QS || {};
   }
 
   window._loadContentChunk = function(key, cb) {
+    // Resolve alias first
+    var realKey = (window._CONTENT_ALIASES && window._CONTENT_ALIASES[key]) || key;
     var map = window.QS_CONTENT_MAP || {};
-    var chunk = map[key];
-    if(!chunk){ // fallback: load all roads chunk
-      chunk = 'data_content_roads.js';
+    var chunk = map[realKey] || map[key];
+    if(!chunk){
+      chunk = 'data_content_extra.js'; // new content + fallback
     }
     if(_loaded[chunk]){ if(cb) cb(); return; }
     if(_loading[chunk]){ if(cb) _loading[chunk].push(cb); return; }
