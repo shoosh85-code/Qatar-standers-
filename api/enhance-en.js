@@ -53,55 +53,17 @@ export default async function handler(req, res) {
   const query = searchTerms[section_key] || section_key.replace(/_/g, ' ') + ' QCS Qatar specifications';
 
   try {
-    // Step 2: Get embedding for search query
-    const embedRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent?key=${GEMINI_KEY}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'models/text-embedding-004',
-          content: { parts: [{ text: query }] }
-        }),
+    // Step 2: Search Supabase via FTS (keyword search — no embedding needed)
+    let qcsChunks = [];
+    const keyword = query.split(' ').slice(0, 2).join(' ');
+    const ftsRes = await fetch(
+      `${SUPA_URL}/rest/v1/qcs_chunks?content=ilike.*${encodeURIComponent(keyword)}*&select=content,source_file,section_name,page_num&limit=6&order=char_count.desc`,
+      { 
+        headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}` },
         signal: AbortSignal.timeout(8000)
       }
     );
-
-    if (!embedRes.ok) throw new Error('Embedding failed: ' + embedRes.status);
-    const embedData = await embedRes.json();
-    const embedding = embedData?.embedding?.values;
-    if (!embedding?.length) throw new Error('No embedding returned');
-
-    // Step 3: Search Supabase for relevant QCS chunks
-    let qcsChunks = [];
-    const searchRes = await fetch(`${SUPA_URL}/rest/v1/rpc/search_qcs`, {
-      method: 'POST',
-      headers: {
-        'apikey': SUPA_KEY,
-        'Authorization': `Bearer ${SUPA_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        query_embedding: embedding,
-        match_count: 6,
-        similarity_threshold: 0.3
-      }),
-      signal: AbortSignal.timeout(10000)
-    });
-
-    if (searchRes.ok) {
-      qcsChunks = await searchRes.json();
-    }
-
-    // Fallback to FTS if vector search returns nothing
-    if (!qcsChunks.length) {
-      const words = query.split(' ').slice(0, 3).join(' & ');
-      const ftsRes = await fetch(
-        `${SUPA_URL}/rest/v1/qcs_chunks?content=ilike.*${encodeURIComponent(query.split(' ')[0])}*&select=content,source_file,section_name,page_num&limit=5`,
-        { headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}` } }
-      );
-      if (ftsRes.ok) qcsChunks = await ftsRes.json();
-    }
+    if (ftsRes.ok) qcsChunks = await ftsRes.json();
 
     // Step 4: Build context from real QCS PDF text
     const qcsContext = qcsChunks.length > 0
