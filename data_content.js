@@ -1613,18 +1613,36 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🪨 Subbase (Type B) — QCS 2024</h3>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 6 | Subbase Course (Granular Type B)
+</div>
+<h3>🪨 Subbase — Complete QCS 2024 Requirements</h3>
+<p style="font-size:12px;color:var(--text2);margin-bottom:12px;">The subbase is the granular layer between subgrade and roadbase. It distributes loads, provides drainage, and prevents frost heave. In Qatar, gabbro aggregate from Oman is the primary material.</p>
 <table class="dm-table">
-<tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
-<tr><td>Material</td><td>Crushed aggregate Type B (gabbro preferred)</td><td>QCS S6 P3</td></tr>
-<tr><td>Max Particle Size</td><td>37.5mm</td><td>QCS S6 T3.1</td></tr>
-<tr><td>CBR (4d soaked)</td><td>≥30% urban / ≥25% rural</td><td>QCS S6 P3</td></tr>
-<tr><td>Plasticity Index</td><td>≤6</td><td>QCS S6</td></tr>
-<tr><td>Compaction MDD</td><td>≥100% BS Heavy</td><td>QCS S6 P5</td></tr>
-<tr><td>Layer Thickness</td><td>150–250mm per layer</td><td>QCS S6 P5</td></tr>
-<tr><td>Level Tolerance</td><td>±15mm</td><td>QCS S6 P5</td></tr>
-<tr><td>Test Frequency</td><td>1 density/500m² per layer</td><td>QCS S6 P5</td></tr>
+<tr><th>Material Property</th><th>Requirement</th><th>Test Standard</th><th>Reference</th></tr>
+<tr><td>Material Type</td><td>Crushed aggregate — Type B (Gabbro preferred)</td><td>Visual + Source</td><td>QCS S6 P3 T3.1</td></tr>
+<tr><td>Maximum Particle Size</td><td>37.5 mm</td><td>BS 812</td><td>QCS S6 T3.1</td></tr>
+<tr><td>CBR (4-day soaked)</td><td>≥30% (urban) / ≥25% (rural)</td><td>ASTM D1883</td><td>QCS S6 P3</td></tr>
+<tr><td>Plasticity Index</td><td>≤6</td><td>ASTM D4318</td><td>QCS S6 P3</td></tr>
+<tr><td>Sand Equivalent</td><td>≥30</td><td>ASTM D2419</td><td>QCS S6 P3</td></tr>
+<tr><td>LA Abrasion</td><td>≤40%</td><td>ASTM C131</td><td>QCS S6 P3</td></tr>
+<tr><td>Flakiness Index</td><td>≤35%</td><td>BS 812</td><td>QCS S6 P3</td></tr>
+<tr><td>Sulphate (SO3)</td><td>≤0.5%</td><td>BS 1377</td><td>QCS S6 P3</td></tr>
+<tr><td>Chloride Content</td><td>≤0.1%</td><td>BS 1377</td><td>QCS S6 P3</td></tr>
 </table>
+<h4 style="margin-top:14px;color:var(--gold);">Compaction & Laying Requirements</h4>
+<table class="dm-table">
+<tr><th>Property</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Compaction (MDD)</td><td>≥100% BS Heavy (ASTM D1557)</td><td>QCS S6 P5</td></tr>
+<tr><td>Layer Thickness</td><td>150–250 mm per compacted layer</td><td>QCS S6 P5</td></tr>
+<tr><td>Level Tolerance</td><td>±15 mm from design level</td><td>QCS S6 P5</td></tr>
+<tr><td>Width Tolerance</td><td>±25 mm from design width</td><td>QCS S6 P5</td></tr>
+<tr><td>Test Frequency (Density)</td><td>1 test per 500m² per layer</td><td>QCS S6 P5</td></tr>
+<tr><td>CBR Frequency</td><td>1 test per source change or 5000m³</td><td>QCS S6 P5</td></tr>
+<tr><td>Moisture at Compaction</td><td>OMC ±2%</td><td>QCS S6 P5</td></tr>
+</table>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+🔴 HP: Engineer sign-off on subbase compaction + level survey before placing roadbase. All density + CBR results must pass.
 </div>
 </div>
 ` },
@@ -1795,17 +1813,34 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🛢️ Prime Coat & Tack Coat — QCS 2024</h3>
-<table class="dm-table">
-<tr><th>Parameter</th><th>Prime Coat</th><th>Tack Coat</th></tr>
-<tr><td>Material</td><td>MC-30 or CSS-1 emulsion</td><td>CSS-1h or K1-70</td></tr>
-<tr><td>Application Rate</td><td>0.5–1.5 L/m²</td><td>0.2–0.4 L/m²</td></tr>
-<tr><td>Curing Time</td><td>Min 24hr before asphalt</td><td>Break before paving</td></tr>
-<tr><td>Surface Condition</td><td>Dry, clean, graded granular</td><td>Existing asphalt</td></tr>
-<tr><td>Reference</td><td>QCS S8 P3</td><td>QCS S8 P3</td></tr>
-</table>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 8 P3 | Prime Coat & Tack Coat
 </div>
-
+<h3>🛢️ Prime Coat & Tack Coat — Complete Requirements</h3>
+<p style="font-size:12px;color:var(--text2);margin-bottom:12px;">Prime coat is applied to the finished granular roadbase before laying asphalt. Tack coat is applied between existing and new asphalt layers to ensure bonding.</p>
+<h4 style="color:var(--gold);margin-bottom:8px;">Prime Coat (Primer)</h4>
+<table class="dm-table">
+<tr><th>Property</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Material</td><td>Medium curing cutback: MC-30 or MC-70<br>Or slow set emulsion: CSS-1</td><td>QCS S8 P3 T3.1</td></tr>
+<tr><td>Application Rate</td><td>0.5–1.5 L/m² (based on surface absorption)</td><td>QCS S8 P3</td></tr>
+<tr><td>Surface Condition</td><td>Dry, clean, finished to design level</td><td>QCS S8 P3</td></tr>
+<tr><td>Surface Temperature</td><td>≥10°C</td><td>QCS S8 P3</td></tr>
+<tr><td>Curing Period</td><td>Min 24 hours before asphalt laying</td><td>QCS S8 P3</td></tr>
+<tr><td>Acceptance Check</td><td>Fully absorbed — no shiny/wet patches</td><td>QCS S8 P3</td></tr>
+<tr><td>Coverage</td><td>Full, uniform — no bare patches</td><td>QCS S8 P3</td></tr>
+</table>
+<h4 style="color:var(--gold);margin-top:14px;margin-bottom:8px;">Tack Coat</h4>
+<table class="dm-table">
+<tr><th>Property</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Material</td><td>Rapid break emulsion: CSS-1h or K1-70</td><td>QCS S8 P3 T3.2</td></tr>
+<tr><td>Application Rate</td><td>0.2–0.4 L/m² on existing asphalt<br>0.3–0.6 L/m² on concrete surface</td><td>QCS S8 P3</td></tr>
+<tr><td>Timing</td><td>Apply immediately before paving — must be broken/tacky</td><td>QCS S8 P3</td></tr>
+<tr><td>Surface Condition</td><td>Clean, dry, sound — sweep before application</td><td>QCS S8 P3</td></tr>
+<tr><td>Sprayer Calibration</td><td>Rate check before each day's work</td><td>QCS S8 P3</td></tr>
+</table>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+⚠️ Rejection criteria: Ponding, uncured areas, traffic contamination, or rate outside specification. Engineer must approve prime coat before paving commences.
+</div>
 </div>
 ` },
   wearing: { title: '🛣️ Wearing Course', content: `
@@ -1907,19 +1942,40 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🛣️ Wearing Course (AC14) — QCS 2024</h3>
-<table class="dm-table">
-<tr><th>Parameter</th><th>Conventional</th><th>PMB</th><th>Ref</th></tr>
-<tr><td>Delivery Temp</td><td>≥145°C</td><td>≥155°C</td><td>QCS S8 P5</td></tr>
-<tr><td>Lay Temp</td><td>≥135°C</td><td>≥145°C</td><td>QCS S8 P5</td></tr>
-<tr><td>Core Density</td><td>≥97% TMD</td><td>≥98% TMD</td><td>QCS S8 P6</td></tr>
-<tr><td>Marshall Stability</td><td>≥8.0 kN</td><td>≥10.0 kN</td><td>QCS S8 P4</td></tr>
-<tr><td>Air Voids</td><td>3–5%</td><td>3–4%</td><td>QCS S8 P4</td></tr>
-<tr><td>IRI Smoothness</td><td>≤2.5 m/km</td><td>≤0.9 m/km</td><td>QCS S8 P7</td></tr>
-<tr><td>Thickness Tolerance</td><td>±5mm</td><td>±5mm</td><td>QCS S8</td></tr>
-</table>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 8 | Wearing Course (AC14 Dense Graded / SMA / PMB)
 </div>
-
+<h3>🛣️ Wearing Course — Complete QCS 2024 Requirements</h3>
+<p style="font-size:12px;color:var(--text2);margin-bottom:12px;">The wearing course is the top asphalt layer in direct contact with traffic. It must provide skid resistance, waterproofing, and smoothness. All QC checks must be completed before opening to traffic.</p>
+<table class="dm-table">
+<tr><th>Parameter</th><th>Conventional AC14</th><th>PMB</th><th>Reference</th></tr>
+<tr><td>Material Type</td><td>AC14 Dense Graded</td><td>AC14 + PG76-10</td><td>QCS S8 P4</td></tr>
+<tr><td>Delivery Temperature</td><td>≥145°C at plant gate</td><td>≥155°C</td><td>QCS S8 P5 T5.1</td></tr>
+<tr><td>Lay Temperature at Paver</td><td>≥135°C</td><td>≥145°C</td><td>QCS S8 P5</td></tr>
+<tr><td>Compaction — Final Temp</td><td>≥125°C / stop at 80°C</td><td>≥130°C / stop at 85°C</td><td>QCS S8 P5</td></tr>
+<tr><td>Core Density (TMD)</td><td>≥97% TMD</td><td>≥98% TMD</td><td>QCS S8 P6 T6.1</td></tr>
+<tr><td>Marshall Stability</td><td>≥8.0 kN</td><td>≥10.0 kN</td><td>QCS S8 P4</td></tr>
+<tr><td>Air Voids (Va)</td><td>3–5%</td><td>3–4%</td><td>QCS S8 P4</td></tr>
+<tr><td>IRI Smoothness</td><td>≤2.5 m/km</td><td>≤0.9 m/km</td><td>QCS S8 P7</td></tr>
+<tr><td>Layer Thickness Tolerance</td><td>Design ±5mm</td><td>Design ±5mm</td><td>QCS S8 P6</td></tr>
+<tr><td>Straightedge (3m)</td><td>≤6mm gap</td><td>≤4mm gap</td><td>QCS S8 P7</td></tr>
+<tr><td>Crossfall</td><td>2.5% ±0.5%</td><td>2.5% ±0.3%</td><td>QCS S6 P5</td></tr>
+<tr><td>Tack Coat (before laying)</td><td>CSS-1h 0.2–0.4 L/m²</td><td>CSS-1h 0.3–0.5 L/m²</td><td>QCS S8 P3</td></tr>
+<tr><td>Core Frequency</td><td>1 core per 250m²</td><td>1 core per 200m²</td><td>QCS S8 P6</td></tr>
+</table>
+<h4 style="margin-top:14px;color:var(--gold);">🔴 Hold Points & Witness Points</h4>
+<table class="dm-table">
+<tr><th>Point</th><th>Activity</th><th>Type</th></tr>
+<tr><td>HP1</td><td>Mix design approval before production</td><td>H</td></tr>
+<tr><td>HP2</td><td>Trial section + core results approved</td><td>H</td></tr>
+<tr><td>HP3</td><td>Binder course cores passed before wearing</td><td>H</td></tr>
+<tr><td>HP4</td><td>IRI survey accepted before opening to traffic</td><td>H</td></tr>
+<tr><td>WP1</td><td>Tack coat application + break confirmation</td><td>W</td></tr>
+<tr><td>WP2</td><td>Delivery temperature — each truck</td><td>W</td></tr>
+</table>
+<div style="background:rgba(243,156,18,0.1);border:1px solid rgba(243,156,18,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+⚠️ Qatar Hot Weather: Night paving mandatory when ambient temperature >40°C. Sun shading of hot boxes required. Rejected if truck delivery temp below 130°C.
+</div>
 </div>
 ` },
   handover: { title: '✅ التسليم النهائي', content: `
@@ -1987,21 +2043,36 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>📋 Project Handover Checklist — QCS 2024</h3>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 | Project Completion & Handover Requirements
+</div>
+<h3>📋 Project Handover — Complete Checklist</h3>
+<p style="font-size:12px;color:var(--text2);margin-bottom:12px;">Handover is the formal transfer of the completed works to the Employer. All contractual requirements must be met before issuing the Practical Completion Certificate (PCC).</p>
+<h4 style="color:var(--gold);margin-bottom:8px;">Technical Documents Required</h4>
 <table class="dm-table">
-<tr><th>Document</th><th>By Whom</th></tr>
-<tr><td>As-Built Drawings (all disciplines)</td><td>Contractor</td></tr>
-<tr><td>All Test Certificates</td><td>QC Team</td></tr>
-<tr><td>Signed ITPs</td><td>QC + Engineer</td></tr>
-<tr><td>All NCRs Closed</td><td>Contractor</td></tr>
-<tr><td>CCTV Reports (drainage)</td><td>QC Team</td></tr>
-<tr><td>Pressure Test Reports</td><td>QC Team</td></tr>
-<tr><td>O&M Manuals</td><td>Contractor</td></tr>
-<tr><td>Warranties</td><td>Contractor</td></tr>
-<tr><td>Snag List Closure</td><td>Contractor</td></tr>
+<tr><th>Document</th><th>Contents</th><th>By Whom</th></tr>
+<tr><td>As-Built Drawings</td><td>All disciplines — roads, utilities, structures</td><td>Contractor</td></tr>
+<tr><td>Materials Test Certificates</td><td>Every material used on project</td><td>QC Engineer</td></tr>
+<tr><td>ITP Closeout Sheets</td><td>All ITPs signed by Engineer + QC</td><td>QC + Engineer</td></tr>
+<tr><td>NCR Register</td><td>All NCRs raised and closed</td><td>QC Manager</td></tr>
+<tr><td>Pressure Test Reports</td><td>All water + sewer + treated water mains</td><td>QC Team</td></tr>
+<tr><td>CCTV Survey Reports</td><td>All gravity drainage lines</td><td>QC Team</td></tr>
+<tr><td>Compaction Test Reports</td><td>All earthworks + utilities backfill</td><td>QC Team</td></tr>
+<tr><td>Concrete Cube Results</td><td>All structural concrete pours</td><td>QC Team</td></tr>
+<tr><td>Asphalt Core Reports</td><td>Density + IRI results</td><td>QC Team</td></tr>
+<tr><td>CCTV Sewer Reports</td><td>Grade + defect report</td><td>Ashghal Inspector</td></tr>
 </table>
-<div style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
-ℹ️ DLP: 12 months from PCC. Employer inspects at month 10 and issues defects list.
+<h4 style="color:var(--gold);margin-top:14px;margin-bottom:8px;">Operational Handover</h4>
+<table class="dm-table">
+<tr><th>Item</th><th>Requirement</th></tr>
+<tr><td>O&M Manuals</td><td>All installed equipment + systems</td></tr>
+<tr><td>Warranties</td><td>Materials (10yr) + workmanship (2yr) typical</td></tr>
+<tr><td>Spare Parts</td><td>As specified in contract</td></tr>
+<tr><td>Training</td><td>Employer's staff on O&M</td></tr>
+<tr><td>Final Snag Inspection</td><td>Joint walkover — all items closed</td></tr>
+</table>
+<div style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+ℹ️ <strong>Defects Liability Period (DLP):</strong> 12 months from PCC (unless contract states otherwise). At month 10, Employer issues final defects list. Contractor must rectify all within DLP. Performance Bond released at DLP expiry.
 </div>
 </div>
 ` },
@@ -3893,16 +3964,24 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 
 <div class="lang-content-en" style="display:none;">
-<h3>♻️ Treated Water — Materials</h3>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 | Treated/Recycled Water — Materials Specification
+</div>
+<h3>♻️ Treated Water Network — Materials QCS 2024</h3>
+<p style="font-size:12px;color:var(--text2);margin-bottom:12px;">Treated water (recycled/reclaimed water) networks must be constructed with purple-coloured materials to prevent cross-connection with potable water. All materials require MME prior approval.</p>
 <table class="dm-table">
-<tr><th>Material</th><th>Specification</th><th>Standard</th></tr>
-<tr><td>Pipe</td><td>GRP or HDPE PE100 — Purple</td><td>BS EN 14364</td></tr>
-<tr><td>Fittings</td><td>MME approved — matching material</td><td>MME</td></tr>
-<tr><td>Marker Tape</td><td>Purple "TREATED WATER"</td><td>MME</td></tr>
-<tr><td>Joints</td><td>Electrofusion or laminate</td><td>BS EN 12201</td></tr>
+<tr><th>Material</th><th>Specification</th><th>Standard</th><th>Authority</th></tr>
+<tr><td>Main Pipe</td><td>GRP (Glass Reinforced Plastic) — Purple<br>or HDPE PE100 — Purple colour</td><td>BS EN 14364 / BS EN 12201</td><td>MME Approved</td></tr>
+<tr><td>Service Connections</td><td>MDPE Purple SDR11 PE100</td><td>BS EN 12201</td><td>MME Approved</td></tr>
+<tr><td>Fittings</td><td>Same material as pipe — Purple only</td><td>Matching pipe standard</td><td>MME Approved</td></tr>
+<tr><td>Valves</td><td>Gate/Butterfly — PN16 — Purple painted</td><td>BS EN 1074</td><td>MME Approved</td></tr>
+<tr><td>Gaskets / Joints</td><td>EPDM rubber ring or electrofusion (HDPE)</td><td>BS EN 681</td><td>—</td></tr>
+<tr><td>Marker Tape</td><td>PURPLE — "TREATED WATER" / 300mm above crown</td><td>MME Specification</td><td>MME Mandatory</td></tr>
+<tr><td>Identification Stakes</td><td>Purple GRP posts at every 10m (road)</td><td>MME Specification</td><td>MME Mandatory</td></tr>
+<tr><td>Bedding</td><td>Granular Type B — 100mm under pipe</td><td>MME Spec</td><td>—</td></tr>
 </table>
-<div style="background:rgba(155,89,182,0.15);border:1px solid rgba(155,89,182,0.4);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
-🟣 Purple colour mandatory. Cross-connection with potable water is prohibited.
+<div style="background:rgba(155,89,182,0.15);border:1px solid rgba(155,89,182,0.5);border-radius:8px;padding:12px;margin-top:12px;font-size:12px;">
+🟣 <strong>CRITICAL:</strong> Purple colour is mandatory for ALL treated water pipes, fittings, valves, and tapes. Cross-connection with potable water is a criminal offence under Qatar Environmental Law. All MAR (Material Approval Requests) must be submitted to MME before delivery.
 </div>
 </div>
 ` },
@@ -4662,16 +4741,31 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🏗️ Concrete — Key ITP Summary</h3>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 5 | Concrete Works — Inspection & Test Plan
+</div>
+<h3>🏗️ Concrete ITP — Full Hold & Witness Points</h3>
 <table class="dm-table">
-<tr><th>Activity</th><th>Test</th><th>Acceptance</th><th>Type</th></tr>
-<tr><td>Mix Design</td><td>Trial + 28d cubes</td><td>fcu met</td><td>H</td></tr>
-<tr><td>Pre-Pour</td><td>Rebar + formwork</td><td>Engineer sign-off</td><td>H</td></tr>
-<tr><td>Slump</td><td>Each delivery</td><td>Per design range</td><td>W</td></tr>
-<tr><td>Cube Sampling</td><td>1 set/50m³</td><td>3 cubes/set</td><td>W</td></tr>
-<tr><td>28-day Result</td><td>Lab test</td><td>≥fcu</td><td>H</td></tr>
-<tr><td>Curing</td><td>Visual</td><td>Min 7 days moist</td><td>W</td></tr>
+<tr><th>Activity</th><th>Test/Inspection</th><th>Acceptance Criteria</th><th>Type</th><th>Ref</th></tr>
+<tr><td>Cement</td><td>Mill certificate + fineness</td><td>BS EN 197-1 CEM I/II/III</td><td>W</td><td>QCS S5</td></tr>
+<tr><td>Aggregate (Coarse)</td><td>LA Abrasion + Gradation + SO3 + Cl</td><td>LA≤30% / SO3≤0.5%</td><td>W</td><td>QCS S5</td></tr>
+<tr><td>Aggregate (Fine)</td><td>Sand equivalent + Gradation</td><td>SE≥60% / QCS S5 Table</td><td>W</td><td>QCS S5</td></tr>
+<tr><td>Admixtures</td><td>Technical data sheet + compatibility</td><td>KAHRAMAA/QCS approved</td><td>W</td><td>QCS S5</td></tr>
+<tr><td>Mix Design (Trial)</td><td>Trial mixes — 3 batches</td><td>fcu + workability achieved</td><td>H</td><td>QCS S5</td></tr>
+<tr><td>Batching Plant</td><td>Calibration certificates</td><td>Valid certification</td><td>W</td><td>QCS S5</td></tr>
+<tr><td>Formwork Inspection</td><td>Alignment + level + seal + support</td><td>±5mm alignment</td><td>H</td><td>QCS S5</td></tr>
+<tr><td>Rebar Inspection</td><td>Size + spacing + cover + laps</td><td>Per drawing ±10mm cover</td><td>H</td><td>QCS S5</td></tr>
+<tr><td>Pre-Pour Checklist</td><td>All items verified</td><td>Engineer + QC written sign-off</td><td>H</td><td>QCS S5</td></tr>
+<tr><td>Slump Test</td><td>Each delivery truck</td><td>Design range ±25mm</td><td>W</td><td>QCS S5</td></tr>
+<tr><td>Fresh Concrete Temp</td><td>Each delivery (hot weather)</td><td>≤35°C</td><td>W</td><td>QCS S5</td></tr>
+<tr><td>Cube Sampling</td><td>1 set (3 cubes) per 50m³ min 1/day</td><td>—</td><td>W</td><td>QCS S5</td></tr>
+<tr><td>7-day Cube</td><td>Lab crush test</td><td>≥70% of fcu (monitoring)</td><td>W</td><td>QCS S5</td></tr>
+<tr><td>28-day Cube</td><td>Lab crush test</td><td>≥fcu as designed</td><td>H</td><td>QCS S5</td></tr>
+<tr><td>Curing Method</td><td>Visual inspection</td><td>Minimum 7 days moist</td><td>W</td><td>QCS S5</td></tr>
+<tr><td>Formwork Striking</td><td>Cube results + age verification</td><td>Engineer written approval</td><td>H</td><td>QCS S5</td></tr>
+<tr><td>Surface Finish</td><td>Visual + dimension check</td><td>No honeycombing / ±5mm</td><td>W</td><td>QCS S5</td></tr>
 </table>
+<div style="font-size:11px;color:var(--text3);margin-top:8px;">H = Hold Point (no work proceeds without approval) | W = Witness Point (engineer notified) | QCS 2024 Section 5</div>
 </div>
 ` },
 
@@ -6503,15 +6597,27 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🏛️ Structural Works — Materials</h3>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 5, 14 | Structural Works — Materials Specifications
+</div>
+<h3>🏛️ Structural Materials — Full QCS 2024 Requirements</h3>
 <table class="dm-table">
-<tr><th>Material</th><th>Specification</th><th>Standard</th></tr>
-<tr><td>Concrete (Min)</td><td>C25 residential / C30 commercial</td><td>QCS S5</td></tr>
-<tr><td>Cement</td><td>OPC (CEM I) / SRPC if SO3 soil</td><td>BS EN 197-1</td></tr>
-<tr><td>Rebar Grade</td><td>B500B — fy=500 MPa</td><td>BS 4449 / QCS S5</td></tr>
-<tr><td>Structural Steel</td><td>S275 / S355 as designed</td><td>BS EN 10025</td></tr>
-<tr><td>Admixtures</td><td>QCS / KAHRAMAA approved only</td><td>BS EN 934</td></tr>
+<tr><th>Material</th><th>Specification</th><th>Standard</th><th>Min Grade</th></tr>
+<tr><td>Concrete — Residential</td><td>Normal weight, OPC or GGBS</td><td>QCS S5 / BS 8500</td><td>C25 (fcu=25 MPa)</td></tr>
+<tr><td>Concrete — Commercial</td><td>OPC or blended cement</td><td>QCS S5</td><td>C30 (fcu=30 MPa)</td></tr>
+<tr><td>Concrete — Exposed Marine</td><td>GGBS or SRPC + silica fume</td><td>QCS S5 Durability</td><td>C35 + W/C≤0.40</td></tr>
+<tr><td>Cement Type</td><td>OPC (CEM I) / GGBS blend / SRPC (sulphate)</td><td>BS EN 197-1</td><td>Class 42.5N</td></tr>
+<tr><td>Reinforcement</td><td>Ribbed high yield bar</td><td>BS 4449 / QCS S5</td><td>B500B: fy=500 MPa</td></tr>
+<tr><td>Structural Steel</td><td>Hot rolled sections + plates</td><td>BS EN 10025</td><td>S275 or S355</td></tr>
+<tr><td>Welding Consumables</td><td>Matching yield to parent steel</td><td>BS EN ISO 2560</td><td>—</td></tr>
+<tr><td>Bolts</td><td>High-strength structural bolts</td><td>BS EN 14399</td><td>Grade 8.8 / 10.9</td></tr>
+<tr><td>Waterproofing</td><td>Tanking (below ground) / Sheet (foundation)</td><td>BS 8102</td><td>Type A or C</td></tr>
+<tr><td>Admixtures</td><td>Plasticizer + retarder (hot weather)</td><td>BS EN 934-2</td><td>KAHRAMAA approved</td></tr>
+<tr><td>Formwork</td><td>Plywood / steel / plastic — reusable</td><td>QCS S5</td><td>±5mm alignment</td></tr>
 </table>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+⚠️ Qatar Specific: High sulphate soils require SRPC or GGBS cement. All structural materials require prior approval (MAR) before delivery. No substitutions without Engineer written consent.
+</div>
 </div>
 ` },
 
@@ -6574,16 +6680,30 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🏛️ Structural Works — Quality Control Plan</h3>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 | Structural Works — Quality Control Plan
+</div>
+<h3>🏛️ Structural QCP — Full Testing Requirements</h3>
 <table class="dm-table">
-<tr><th>Activity</th><th>Test</th><th>Frequency</th><th>Type</th></tr>
-<tr><td>Concrete Mix Design</td><td>Trial mixes + cubes</td><td>Before first pour</td><td>H</td></tr>
-<tr><td>Rebar Delivery</td><td>Mill cert + bend test</td><td>Each delivery</td><td>W</td></tr>
-<tr><td>Pre-Pour Inspection</td><td>Rebar + formwork</td><td>Every pour</td><td>H</td></tr>
-<tr><td>Slump Test</td><td>Fresh concrete</td><td>Every truck</td><td>W</td></tr>
-<tr><td>28-day Cubes</td><td>Lab strength</td><td>1 set/50m³</td><td>H</td></tr>
-<tr><td>Cover Measurement</td><td>Covermeter</td><td>Each element</td><td>W</td></tr>
+<tr><th>Activity</th><th>Test/Check</th><th>Frequency</th><th>Acceptance</th><th>Type</th></tr>
+<tr><td>Concrete Mix Design</td><td>Trial mixes + 3 × 28d cube sets</td><td>Each new mix / source change</td><td>fcu + workability</td><td>H</td></tr>
+<tr><td>Cement Delivery</td><td>Mill certificate</td><td>Each delivery batch</td><td>BS EN 197-1</td><td>W</td></tr>
+<tr><td>Aggregate Delivery</td><td>Gradation + SO3 + Cl</td><td>Per 500m³ / source change</td><td>QCS S5 Tables</td><td>W</td></tr>
+<tr><td>Rebar Delivery</td><td>Mill cert + bend test</td><td>Each 10t delivery</td><td>B500B fy≥500</td><td>W</td></tr>
+<tr><td>Formwork Inspection</td><td>Level + alignment + seal</td><td>Before every pour</td><td>±5mm</td><td>H</td></tr>
+<tr><td>Rebar Inspection</td><td>Size + spacing + cover + ties</td><td>Before every pour</td><td>Per drawing</td><td>H</td></tr>
+<tr><td>Pre-Pour Sign-off</td><td>Full checklist</td><td>Every pour</td><td>Engineer + QC signature</td><td>H</td></tr>
+<tr><td>Slump Test</td><td>Fresh concrete</td><td>Every truck</td><td>Design ±25mm</td><td>W</td></tr>
+<tr><td>Concrete Temperature</td><td>Probe in truck</td><td>Every truck (hot weather)</td><td>≤35°C</td><td>W</td></tr>
+<tr><td>Cube Sampling</td><td>1 set/50m³ (min 1/day)</td><td>Continuous</td><td>3 cubes/set</td><td>W</td></tr>
+<tr><td>7-day Cube</td><td>Lab crush</td><td>Each set</td><td>≥70% fcu</td><td>W</td></tr>
+<tr><td>28-day Cube</td><td>Lab crush</td><td>Each set</td><td>≥fcu specified</td><td>H</td></tr>
+<tr><td>Cover Measurement</td><td>Covermeter survey</td><td>Each element</td><td>Nominal ±10mm</td><td>W</td></tr>
+<tr><td>Dimensional Survey</td><td>Tape + level</td><td>Each element</td><td>±10mm plan / ±5mm level</td><td>W</td></tr>
+<tr><td>Structural Steel (if any)</td><td>Torque test on bolts</td><td>10% random</td><td>Spec torque value</td><td>W</td></tr>
+<tr><td>Weld NDT (if required)</td><td>UT or RT</td><td>Per weld procedure</td><td>BS EN ISO 5817 Level B</td><td>H</td></tr>
 </table>
+<div style="font-size:11px;color:var(--text3);margin-top:8px;">H = Hold Point | W = Witness Point | QCS 2024 Section 5</div>
 </div>
 ` },
 
@@ -7044,18 +7164,46 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🛣️ Marshall Mix Design — QCS 2024</h3>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 8 | Marshall Mix Design & Volumetric Properties
+</div>
+<h3>🛣️ Marshall Mix Design — Full Requirements</h3>
+<p style="font-size:12px;color:var(--text2);margin-bottom:12px;">The Marshall method is the primary mix design procedure for asphalt concrete in Qatar. All mixes must be submitted to the Engineer for approval before production.</p>
 <table class="dm-table">
-<tr><th>Parameter</th><th>Wearing AC14</th><th>Binder AC20</th></tr>
-<tr><td>Stability</td><td>≥8.0 kN</td><td>≥8.0 kN</td></tr>
-<tr><td>Flow</td><td>2–4 mm</td><td>2–4 mm</td></tr>
-<tr><td>Air Voids Va</td><td>3–5%</td><td>3–7%</td></tr>
-<tr><td>VMA</td><td>≥14%</td><td>≥13%</td></tr>
-<tr><td>VFB</td><td>65–75%</td><td>60–75%</td></tr>
-<tr><td>Core Density</td><td>≥97% TMD</td><td>≥97% TMD</td></tr>
+<tr><th>Property</th><th>Wearing Course AC14</th><th>Binder Course AC20</th><th>Reference</th></tr>
+<tr><td>Marshall Stability</td><td>≥8.0 kN (≥10.0 kN PMB)</td><td>≥8.0 kN</td><td>QCS S8 P4 T4.2</td></tr>
+<tr><td>Marshall Flow</td><td>2–4 mm</td><td>2–4 mm</td><td>QCS S8 P4 T4.2</td></tr>
+<tr><td>Air Voids (Va)</td><td>3–5% (3–4% SMA)</td><td>3–7%</td><td>QCS S8 P4 T4.2</td></tr>
+<tr><td>VMA (Voids in Mineral Agg)</td><td>≥14%</td><td>≥13%</td><td>QCS S8 P4</td></tr>
+<tr><td>VFB (Voids Filled Bitumen)</td><td>65–75%</td><td>60–75%</td><td>QCS S8 P4</td></tr>
+<tr><td>Bitumen Content</td><td>4.5–6.5%</td><td>4.0–6.0%</td><td>QCS S8 P4</td></tr>
+<tr><td>Filler/Bitumen Ratio</td><td>0.6–1.2</td><td>0.6–1.3</td><td>QCS S8 P4</td></tr>
+<tr><td>Indirect Tensile Strength</td><td>≥0.7 MPa (60°C)</td><td>≥0.7 MPa</td><td>QCS S8</td></tr>
+<tr><td>Stiffness Modulus</td><td>Reported (20°C)</td><td>Reported</td><td>QCS S8</td></tr>
 </table>
-<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
-🔴 HP: Mix design approval required before production. Trial section compulsory before full-scale paving.
+<h4 style="margin-top:14px;color:var(--gold);">PMB (Polymer Modified Bitumen) — Additional Requirements</h4>
+<table class="dm-table">
+<tr><th>Property</th><th>PMB Requirement</th></tr>
+<tr><td>Bitumen Grade</td><td>PG 76-10 or approved equivalent</td></tr>
+<tr><td>Marshall Stability</td><td>≥10.0 kN</td></tr>
+<tr><td>Air Voids</td><td>3–4%</td></tr>
+<tr><td>Delivery Temp</td><td>≥155°C</td></tr>
+<tr><td>IRI Target</td><td>≤0.9 m/km after laying</td></tr>
+<tr><td>Dynamic Creep</td><td>≤3.0% at 60°C</td></tr>
+</table>
+<h4 style="margin-top:14px;color:var(--gold);">Field Tolerance from Approved Mix Design</h4>
+<table class="dm-table">
+<tr><th>Property</th><th>Tolerance</th></tr>
+<tr><td>Bitumen Content</td><td>±0.3% by weight of mix</td></tr>
+<tr><td>Gradation (passing 4.75mm)</td><td>±5%</td></tr>
+<tr><td>Gradation (passing 75μm)</td><td>±2%</td></tr>
+<tr><td>Mix Temperature at Plant</td><td>Design temp ±10°C</td></tr>
+</table>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+🔴 Hold Points:<br>
+<strong>HP1:</strong> Mix design submission + Engineer approval before production<br>
+<strong>HP2:</strong> Trial section laying + core results approval before full paving<br>
+<strong>HP3:</strong> Core density results within 48hr of laying
 </div>
 </div>
 ` },
@@ -7113,20 +7261,32 @@ All numerical values, specifications and test methods shown in Arabic are source
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 8 | Asphalt Volumetric Properties & Field Tolerances
+</div>
 <h3>🛣️ Air Voids & Field Tolerances — QCS 2024</h3>
+<p style="font-size:12px;color:var(--text2);margin-bottom:12px;">Air void content is the most critical volumetric property of asphalt. Too high = water ingress + early deterioration. Too low = bleeding + rutting in Qatar heat.</p>
 <table class="dm-table">
-<tr><th>Mix</th><th>Design Va%</th><th>Field (cores)</th></tr>
-<tr><td>AC14 Wearing</td><td>3–5%</td><td>2–7%</td></tr>
-<tr><td>AC20 Binder</td><td>3–7%</td><td>2–9%</td></tr>
-<tr><td>SMA</td><td>3–4%</td><td>2–5%</td></tr>
-<tr><td>PMB Wearing</td><td>3–4%</td><td>2–5%</td></tr>
+<tr><th>Mix Type</th><th>Design Va%</th><th>Field Cores Va%</th><th>Reference</th></tr>
+<tr><td>AC14 Wearing Course</td><td>3–5%</td><td>2–7% acceptable</td><td>QCS S8 P4 T4.2</td></tr>
+<tr><td>AC20 Binder Course</td><td>3–7%</td><td>2–9% acceptable</td><td>QCS S8 P4 T4.2</td></tr>
+<tr><td>SMA (Stone Mastic Asphalt)</td><td>3–4%</td><td>2–5% acceptable</td><td>QCS S8 P4</td></tr>
+<tr><td>PMB Wearing Course</td><td>3–4%</td><td>2–5% acceptable</td><td>QCS S8 P4</td></tr>
+<tr><td>OGFC (Open Graded)</td><td>15–20%</td><td>12–22% acceptable</td><td>QCS S8 P4</td></tr>
 </table>
-<table class="dm-table" style="margin-top:10px;">
-<tr><th>Property</th><th>Tolerance from Design</th></tr>
-<tr><td>Bitumen Content</td><td>±0.3%</td></tr>
-<tr><td>Gradation (4.75mm)</td><td>±5%</td></tr>
-<tr><td>Layer Thickness</td><td>±5mm</td></tr>
+<h4 style="margin-top:14px;color:var(--gold);">Field Tolerances from Approved Mix Design</h4>
+<table class="dm-table">
+<tr><th>Property</th><th>Tolerance</th><th>Action if Exceeded</th></tr>
+<tr><td>Bitumen Content</td><td>±0.3% by weight of mix</td><td>Reject batch / investigate plant</td></tr>
+<tr><td>Gradation passing 4.75mm</td><td>±5%</td><td>Reject batch / recheck aggregate</td></tr>
+<tr><td>Gradation passing 75μm</td><td>±2%</td><td>Reject batch / check filler dosing</td></tr>
+<tr><td>Core Density</td><td>≥97% TMD (field)</td><td>Remove and replace if <96%</td></tr>
+<tr><td>Layer Thickness</td><td>Design ±5mm</td><td>Overlay or mill if deficient</td></tr>
+<tr><td>Mix Temperature (plant)</td><td>Design temp ±10°C</td><td>Reject if >10°C deviation</td></tr>
 </table>
+<div style="background:rgba(243,156,18,0.1);border:1px solid rgba(243,156,18,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+⚠️ Qatar Climate Note: Low air voids (Va <2%) in wearing course leads to thermal expansion and surface cracking. High air voids (Va >7%) leads to water infiltration. Both are reject conditions requiring investigation.
+</div>
 </div>
 ` },
 
@@ -7574,17 +7734,34 @@ All numerical values, specifications and test methods shown in Arabic are source
 • <strong>HP-07:</strong> Joint Sealing بعد اكتمال المعالجة</p>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🛣️ Concrete Pavement — QCS 2024</h3>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 8 P9 | Concrete Pavement (Rigid Pavement)
+</div>
+<h3>🛣️ Concrete Pavement — Complete QCS 2024 Requirements</h3>
+<p style="font-size:12px;color:var(--text2);margin-bottom:12px;">Rigid concrete pavements are used for high-load areas (container ports, airports, industrial roads). In Qatar, they are specified where flexible asphalt cannot withstand point loads or extreme temperatures.</p>
 <table class="dm-table">
-<tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
-<tr><td>Concrete Grade</td><td>Min C40 / flexural ≥4.5 MPa</td><td>QCS S8 P9</td></tr>
-<tr><td>W/C Ratio</td><td>≤0.40</td><td>QCS S8</td></tr>
-<tr><td>Slab Thickness</td><td>Design ±5mm</td><td>QCS S8</td></tr>
-<tr><td>Joint Spacing</td><td>≤5m transverse / ≤7.5m longitudinal</td><td>QCS S8</td></tr>
-<tr><td>Texture</td><td>3–5mm brush groove depth</td><td>QCS S8</td></tr>
-<tr><td>Skid Resistance</td><td>≥55 SRT value</td><td>QCS S8</td></tr>
-<tr><td>Level (3m SE)</td><td>±3mm</td><td>QCS S8</td></tr>
+<tr><th>Property</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Concrete Grade</td><td>Min C40 (fcu = 40 MPa at 28 days)</td><td>QCS S8 P9</td></tr>
+<tr><td>Flexural Strength</td><td>≥4.5 MPa (beam bending test)</td><td>QCS S8 P9</td></tr>
+<tr><td>W/C Ratio</td><td>≤0.40 (durability requirement)</td><td>QCS S8 P9</td></tr>
+<tr><td>Min Cement Content</td><td>350 kg/m³</td><td>QCS S8 P9</td></tr>
+<tr><td>Slab Thickness</td><td>Design ±5mm (measured by coring)</td><td>QCS S8 P9</td></tr>
+<tr><td>Surface Texture (brushed)</td><td>3–5 mm groove depth / transverse</td><td>QCS S8 P9</td></tr>
+<tr><td>Joint Type — Transverse</td><td>Contraction joints — sawn within 24hr</td><td>QCS S8 P9</td></tr>
+<tr><td>Joint Spacing — Transverse</td><td>≤5.0m (unreinforced) / ≤7.5m (reinforced)</td><td>QCS S8 P9</td></tr>
+<tr><td>Joint Spacing — Longitudinal</td><td>≤4.0m (carriageway lane width)</td><td>QCS S8 P9</td></tr>
+<tr><td>Joint Sealant</td><td>Hot-applied bituminous / polyurethane</td><td>BS 2499 / QCS S8</td></tr>
+<tr><td>Curing</td><td>Polythene membrane + curing compound Min 7 days</td><td>QCS S8 P9</td></tr>
+<tr><td>Skid Resistance (SRT)</td><td>≥55 SRT value (pendulum test)</td><td>QCS S8 P9</td></tr>
+<tr><td>Level Tolerance</td><td>±3mm under 3m straightedge</td><td>QCS S8 P9</td></tr>
+<tr><td>Crossfall</td><td>2.5% ±0.3%</td><td>QCS S8 P9</td></tr>
 </table>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+🔴 HP: Pre-pour inspection required. Flexural strength beams cured alongside slab. Opening to traffic only after 28-day strength confirmed.
+</div>
+<div style="background:rgba(243,156,18,0.1);border:1px solid rgba(243,156,18,0.3);border-radius:8px;padding:10px;margin-top:8px;font-size:12px;">
+⚠️ Qatar Hot Weather: Concrete pavement must be poured at night when ambient temperature <35°C. Use chilled water + ice to control mix temperature.
+</div>
 </div>
 ` },
 
