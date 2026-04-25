@@ -1812,114 +1812,18 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — Section 8 | Prime Coat & Tack Coat
-</div>
-<h3>🛢️ Prime Coat (Primer) — Requirements</h3>
+<h3>🛢️ Prime Coat & Tack Coat — QCS 2024</h3>
 <table class="dm-table">
-<tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
-<tr><td>Material</td><td>MC-30 or CSS-1 Emulsion</td><td>QCS S8 P3</td></tr>
-<tr><td>Application Rate</td><td>0.5–1.5 L/m² (based on surface)</td><td>QCS S8 P3</td></tr>
-<tr><td>Curing Time</td><td>Min 24hr before asphalt laying</td><td>QCS S8 P3</td></tr>
-<tr><td>Surface Temp</td><td>≥ 10°C (surface dry)</td><td>QCS S8 P3</td></tr>
-<tr><td>Coverage Check</td><td>Full coverage, no bare patches</td><td>QCS S8 P3</td></tr>
+<tr><th>Parameter</th><th>Prime Coat</th><th>Tack Coat</th></tr>
+<tr><td>Material</td><td>MC-30 or CSS-1 Emulsion</td><td>CSS-1h or K1-70</td></tr>
+<tr><td>Application Rate</td><td>0.5–1.5 L/m²</td><td>0.2–0.4 L/m²</td></tr>
+<tr><td>Curing Time</td><td>Min 24hr before asphalt</td><td>Apply before paving</td></tr>
+<tr><td>Surface Condition</td><td>Dry, clean, graded</td><td>Existing asphalt</td></tr>
+<tr><td>Reference</td><td>QCS S8 P3</td><td>QCS S8 P3</td></tr>
 </table>
-<h3 style="margin-top:14px;">🛢️ Tack Coat — Requirements</h3>
-<table class="dm-table">
-<tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
-<tr><td>Material</td><td>CSS-1h or K1-70 Emulsion</td><td>QCS S8 P3</td></tr>
-<tr><td>Application Rate</td><td>0.2–0.4 L/m² (on existing asphalt)</td><td>QCS S8 P3</td></tr>
-<tr><td>Timing</td><td>Apply immediately before paving</td><td>QCS S8 P3</td></tr>
-</table>
-
+<div style="background:rgba(243,156,18,0.1);border:1px solid rgba(243,156,18,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+⚠️ Prime coat fully absorbed before paving = no shiny surface. Rejected if puddles or uncured areas visible. Engineer to approve before paving.
 </div>
-` },
-  binder: { title: '⚫ Binder Course', content: `
-
-<div class="lang-content-ar">
-<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Binder Course — طبقة الرابطة الإسفلتية</span>
-<button onclick="document.getElementById('vid-binder-new').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
-</div>
-<input type="file" id="vid-binder-new" accept="video/*" style="display:none" data-player="vid-binder-new-p" data-ph="vid-binder-new-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-binder-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<div id="vid-binder-new-p" class="qs-vid-ph" data-maxh="260px"></div>
-</div>
-
-<h3>📐 تعريف Binder Course — QCS S6 P5</h3>
-<p>Binder Course (طبقة الرابطة) هي أول طبقة إسفلتية تُفرش فوق الـ Prime Coat/Tack Coat. وظيفتها توزيع الأحمال المرورية وتوفير سطح مستوٍ لطبقة الـ Wearing Course. تُستخدم خلطة إسفلت ساخنة (HMA) بتدرج Type BC-A أو BC-B حسب تصنيف الطريق. السماكة المعتادة 60mm–80mm مدموكة. البيتومين 60/70 Pen Grade.</p>
-
-<h3>⚠️ المواد غير المقبولة</h3>
-<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;">
-<strong>يُرفض الإسفلت في الحالات:</strong><br>
-• درجة حرارة الخلطة عند الوصول &lt; 135°C (Non-PMB) أو &lt; 145°C (PMB)<br>
-• Marshall Stability &lt; 8 kN<br>
-• Marshall Flow &lt; 2mm أو &gt; 4mm<br>
-• Air Voids &lt; 3% أو &gt; 5% (في العينات المختبرية)<br>
-• VMA أقل من الحد الأدنى حسب Nominal Max Size<br>
-• نسبة البيتومين خارج التصميم المعتمد ± 0.3%<br>
-• ركام LA Abrasion &gt; 30% أو Soundness &gt; 12%<br>
-• Segregation ظاهر أو Temperature below spec
-</div>
-
-<h3>📐 جدول التدرج — Binder Course BC-A — QCS S6 P5 Table 5:6</h3>
-<div style="overflow-x:auto;">
-<table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.9);"><th>Sieve Size</th><th>% Passing BC-A<br>(Nominal 25mm)</th><th>% Passing BC-B<br>(Nominal 19mm)</th></tr>
-<tr><td>37.5 mm</td><td>100</td><td>—</td></tr>
-<tr><td>25.0 mm</td><td>90 – 100</td><td>100</td></tr>
-<tr><td>19.0 mm</td><td>72 – 90</td><td>90 – 100</td></tr>
-<tr><td>12.5 mm</td><td>56 – 80</td><td>56 – 80</td></tr>
-<tr><td>9.5 mm</td><td>46 – 70</td><td>46 – 70</td></tr>
-<tr><td>4.75 mm</td><td>29 – 55</td><td>29 – 55</td></tr>
-<tr><td>2.36 mm</td><td>18 – 38</td><td>18 – 38</td></tr>
-<tr><td>0.3 mm</td><td>5 – 18</td><td>5 – 18</td></tr>
-<tr><td>0.075 mm</td><td style="color:#e74c3c;font-weight:700;">2 – 8</td><td style="color:#e74c3c;font-weight:700;">2 – 8</td></tr>
-</table></div>
-
-<h3>📐 Marshall Properties — QCS S6 P5 Table 5:7</h3>
-<div style="overflow-x:auto;">
-<table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Parameter</th><th>Binder Course</th><th>Test Method</th><th>Frequency</th></tr>
-<tr><td><strong>Marshall Stability</strong></td><td style="color:#2ecc71;font-weight:700;font-size:14px;">≥ 8 kN</td><td>ASTM D6927</td><td>1 per 500 tonnes</td></tr>
-<tr><td><strong>Marshall Flow</strong></td><td style="color:#2ecc71;font-weight:700;">2 – 4 mm</td><td>ASTM D6927</td><td>1 per 500 tonnes</td></tr>
-<tr><td><strong>Air Voids (Va)</strong></td><td style="color:#2ecc71;font-weight:700;">3 – 5%</td><td>ASTM D3203</td><td>1 per 500 tonnes</td></tr>
-<tr><td><strong>VMA</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 13% (BC-A 25mm)<br>≥ 14% (BC-B 19mm)</td><td>Calculation</td><td>Per mix design</td></tr>
-<tr><td><strong>VFB</strong></td><td style="color:#2ecc71;font-weight:700;">65 – 75%</td><td>Calculation</td><td>Per mix design</td></tr>
-<tr><td><strong>Bitumen Content</strong></td><td>Design ± 0.3%<br><span style="font-size:10px;">typically 4.0 – 5.5%</span></td><td>ASTM D6307</td><td>1 per 500 tonnes</td></tr>
-<tr><td><strong>Retained Stability</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 75%</td><td>AASHTO T283</td><td>Per mix design</td></tr>
-</table></div>
-
-<h3>📐 الدمك الميداني والقبول</h3>
-<div style="overflow-x:auto;">
-<table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.9);"><th>Parameter</th><th>Specification</th><th>Test</th><th>Frequency</th></tr>
-<tr style="background:rgba(46,204,113,0.1);"><td><strong>Field Compaction</strong></td><td style="color:#2ecc71;font-weight:700;font-size:14px;">≥ 97% TMD<br><span style="font-size:10px;font-weight:400;">Theoretical Maximum Density (Rice)</span></td><td>Core Density<br>ASTM D2726</td><td>1 core per <strong>500m lane</strong></td></tr>
-<tr><td><strong>Thickness</strong></td><td>Design ± 5mm<br><span style="font-size:10px;">typically 60–80mm</span></td><td>Core measurement</td><td>1 per 500m lane</td></tr>
-<tr><td><strong>Delivery Temperature</strong></td><td style="font-weight:700;">≥ 135°C (Non-PMB)<br>≥ 145°C (PMB)</td><td>IR Thermometer</td><td>Every truck</td></tr>
-<tr><td><strong>Compaction Temperature</strong></td><td style="font-weight:700;">≥ 120°C start rolling<br>≥ 80°C finish rolling</td><td>IR Thermometer</td><td>Continuous</td></tr>
-<tr><td><strong>Surface Level</strong></td><td>± <strong>6mm</strong></td><td>Total Station</td><td>Every 25m</td></tr>
-<tr><td><strong>Surface Regularity</strong></td><td>≤ <strong>6mm</strong> under 3m straightedge</td><td>Straightedge</td><td>Random per 100m</td></tr>
-</table></div>
-
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin:12px 0;font-size:12px;">
-<strong>🔵 ملاحظات جوهرية:</strong><br>
-• <strong>Tack Coat</strong> (SS-1h) إلزامي قبل الفرش — معدل 0.20–0.50 L/m²<br>
-• Rolling Pattern: <strong>Breakdown → Intermediate → Finish</strong> — 3 مراحل دمك<br>
-• يُمنع إيقاف الـ Roller على الإسفلت الساخن — يسبب indentation<br>
-• Longitudinal Joints يجب أن تكون staggered بين BC و WC<br>
-• أي حمولة تصل بدرجة &lt; 135°C تُرفض فوراً
-</div>
-
-<h3>🔴 Hold Points</h3>
-<table class="dm-table">
-<tr><th>HP</th><th>الشرط</th><th>التوثيق</th></tr>
-<tr><td>HP-01</td><td>Mix Design معتمد (Marshall / Superpave)</td><td>Lab Mix Design Report</td></tr>
-<tr><td>HP-02</td><td>Trial Section ≥ 200m معتمد</td><td>Trial Report + Cores + Temp Log</td></tr>
-<tr><td>HP-03</td><td>Prime/Tack Coat مكتمل ومعتمد</td><td>Prime/Tack Approval</td></tr>
-<tr><td>HP-04</td><td>Cores ≥ 97% TMD + Thickness OK</td><td>Core Test Reports</td></tr>
-</table>
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -2042,96 +1946,21 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — Section 8 | Wearing Course (Asphalt Concrete AC14 / SMA)
-</div>
-<h3>🛣️ Wearing Course — Key Requirements</h3>
+<h3>🛣️ Wearing Course (AC14) — QCS 2024</h3>
 <table class="dm-table">
-<tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
-<tr><td>Material</td><td>AC14 Dense Graded / SMA</td><td>QCS S8 P4</td></tr>
-<tr><td>Delivery Temp</td><td>≥ 145°C (PMB: ≥ 155°C)</td><td>QCS S8 P5</td></tr>
-<tr><td>Laying Temp</td><td>≥ 135°C min at paver</td><td>QCS S8 P5</td></tr>
-<tr><td>Compaction Temp</td><td>≥ 125°C (finish before 80°C)</td><td>QCS S8 P5</td></tr>
-<tr><td>Core Density</td><td>≥ 97% TMD (98% target)</td><td>QCS S8 P6</td></tr>
-<tr><td>Marshall Stability</td><td>≥ 8.0 kN (conv) / 10.0 kN (PMB)</td><td>QCS S8 P4</td></tr>
-<tr><td>Air Voids</td><td>3–5% (SMA: 3–4%)</td><td>QCS S8 P4</td></tr>
-<tr><td>IRI Smoothness</td><td>≤ 2.5 m/km (conv) / ≤ 0.9 m/km (PMB)</td><td>QCS S8 P7</td></tr>
-<tr><td>Thickness Tolerance</td><td>±5mm from design</td><td>QCS S8 P6</td></tr>
+<tr><th>Parameter</th><th>Conventional</th><th>PMB</th><th>Ref</th></tr>
+<tr><td>Mix Type</td><td>AC14 Dense</td><td>AC14 PMB</td><td>QCS S8 P4</td></tr>
+<tr><td>Delivery Temp</td><td>≥145°C</td><td>≥155°C</td><td>QCS S8 P5</td></tr>
+<tr><td>Lay Temp</td><td>≥135°C</td><td>≥145°C</td><td>QCS S8 P5</td></tr>
+<tr><td>Core Density</td><td>≥97% TMD</td><td>≥98% TMD</td><td>QCS S8 P6</td></tr>
+<tr><td>Marshall Stability</td><td>≥8.0 kN</td><td>≥10.0 kN</td><td>QCS S8 P4</td></tr>
+<tr><td>Air Voids</td><td>3–5%</td><td>3–4%</td><td>QCS S8 P4</td></tr>
+<tr><td>IRI Smoothness</td><td>≤2.5 m/km</td><td>≤0.9 m/km</td><td>QCS S8 P7</td></tr>
+<tr><td>Thickness Tolerance</td><td>±5mm</td><td>±5mm</td><td>QCS S8 P6</td></tr>
 </table>
-<h4 style="margin-top:14px;">🔴 Hold Points</h4>
-<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;font-size:12px;">
-HP1: Mix Design Approval (before production)<br>
-HP2: Trial Section Approval (before full-scale paving)<br>
-HP3: Core Density Results (within 48hr of laying)
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+🔴 HP1: Trial section approval required. HP2: Core density results within 48hr. HP3: IRI survey before opening to traffic.
 </div>
-
-</div>
-` },
-  finishing: { title: '🚧 التشطيبات النهائية', content: `
-
-<div class="lang-content-ar">
-<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 التشطيبات — Kerbs + Markings + Signs</span>
-<button onclick="document.getElementById('vid-finish-new').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
-</div>
-<input type="file" id="vid-finish-new" accept="video/*" style="display:none" data-player="vid-finish-new-p" data-ph="vid-finish-new-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-finish-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV</div>
-<div id="vid-finish-new-p" class="qs-vid-ph" data-maxh="260px"></div>
-</div>
-
-<h3>📐 تعريف مرحلة التشطيبات — QCS S6 + Ashghal</h3>
-<p>مرحلة التشطيبات تشمل جميع الأعمال التكميلية بعد فرش طبقة الـ Wearing Course: الكيربات (Kerbs & Channels)، العلامات الأرضية (Road Markings)، اللوحات المرورية (Traffic Signs)، حواجز السلامة (Guard Rails)، والتنسيق النهائي. كل عنصر له مواصفات QCS 2024 ومعايير Ashghal/MMUP محددة.</p>
-
-<h3>📐 الكيربات — Kerbs & Channels — QCS S6 P7</h3>
-<div style="overflow-x:auto;">
-<table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.9);"><th>Parameter</th><th>Specification</th><th>Test/Reference</th></tr>
-<tr><td><strong>Concrete Grade</strong></td><td style="color:#2ecc71;font-weight:700;">C40 (precast) / C30 (in-situ)</td><td>QCS S5</td></tr>
-<tr><td><strong>Compressive Strength 28d</strong></td><td>≥ 40 MPa (precast)</td><td>BS EN 1340</td></tr>
-<tr><td><strong>Water Absorption</strong></td><td>≤ 6%</td><td>BS EN 1340</td></tr>
-<tr><td><strong>Transverse Strength</strong></td><td>≥ 3.5 MPa (Class S)</td><td>BS EN 1340</td></tr>
-<tr><td><strong>Dimensional Tolerance</strong></td><td>Length ± 3mm, Width ± 3mm, Height ± 5mm</td><td>BS EN 1340</td></tr>
-<tr><td><strong>Bedding</strong></td><td>C15 concrete bed ≥ 100mm + haunching</td><td>Ashghal Std Detail</td></tr>
-<tr><td><strong>Alignment</strong></td><td>± 5mm from design line</td><td>String Line / Survey</td></tr>
-<tr><td><strong>Joint Width</strong></td><td>3 – 5mm filled with mortar</td><td>Physical</td></tr>
-</table></div>
-
-<h3>📐 العلامات الأرضية — Road Markings — QCS S6 P8</h3>
-<div style="overflow-x:auto;">
-<table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.9);"><th>Parameter</th><th>Specification</th><th>Reference</th></tr>
-<tr><td><strong>Material Type</strong></td><td>Thermoplastic (roads) / Cold Plastic (special)</td><td>BS EN 1871</td></tr>
-<tr><td><strong>Thickness</strong></td><td>≥ 2.5mm (flat) / ≥ 6mm (profiled)</td><td>BS EN 1436</td></tr>
-<tr><td><strong>Retroreflectivity (new)</strong></td><td>≥ 150 mcd/m²/lux (white)<br>≥ 100 mcd/m²/lux (yellow)</td><td>ASTM E1710</td></tr>
-<tr><td><strong>Skid Resistance (SRT)</strong></td><td>≥ 45</td><td>BS EN 1436</td></tr>
-<tr><td><strong>Glass Beads</strong></td><td>300–400 g/m² drop-on</td><td>BS EN 1423</td></tr>
-<tr><td><strong>Colour</strong></td><td>White (lanes) / Yellow (median) / Red (bus)</td><td>MMUP Traffic Manual</td></tr>
-<tr><td><strong>Width — Centre Line</strong></td><td>100mm or 150mm</td><td>MMUP</td></tr>
-<tr><td><strong>Width — Edge Line</strong></td><td>150mm</td><td>MMUP</td></tr>
-</table></div>
-
-<h3>📐 اللوحات المرورية — Traffic Signs — MMUP</h3>
-<div style="overflow-x:auto;">
-<table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.9);"><th>Parameter</th><th>Specification</th><th>Reference</th></tr>
-<tr><td><strong>Sheeting</strong></td><td>High Intensity Prismatic (HIP) — Type III min</td><td>ASTM D4956</td></tr>
-<tr><td><strong>Post Material</strong></td><td>Galvanized Steel / Aluminium</td><td>Ashghal</td></tr>
-<tr><td><strong>Height (urban)</strong></td><td>Bottom edge ≥ 2.1m from ground</td><td>MMUP</td></tr>
-<tr><td><strong>Height (rural)</strong></td><td>Bottom edge ≥ 1.5m from ground</td><td>MMUP</td></tr>
-<tr><td><strong>Offset from edge</strong></td><td>≥ 0.6m from road edge</td><td>MMUP</td></tr>
-<tr><td><strong>Foundation</strong></td><td>C25 concrete ≥ 500×500×600mm</td><td>Ashghal Std</td></tr>
-<tr><td><strong>Bilingual</strong></td><td>Arabic + English mandatory</td><td>MMUP Traffic Manual</td></tr>
-</table></div>
-
-<h3>🔴 Hold Points</h3>
-<table class="dm-table">
-<tr><th>HP</th><th>الشرط</th><th>التوثيق</th></tr>
-<tr><td>HP-01</td><td>Wearing Course مقبول + IRI OK</td><td>WC Approval + IRI Report</td></tr>
-<tr><td>HP-02</td><td>اعتماد عينات Kerb + Marking material</td><td>Material Certificates</td></tr>
-<tr><td>HP-03</td><td>فحص Retroreflectivity بعد التطبيق</td><td>Retroreflectivity Report</td></tr>
-<tr><td>HP-04</td><td>Alignment survey للكيربات والعلامات</td><td>As-Built Survey</td></tr>
-</table>
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -2218,30 +2047,23 @@ HP3: Core Density Results (within 48hr of laying)
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — Project Handover Requirements
-</div>
-<h3>📋 Handover Documentation Checklist</h3>
+<h3>📋 Project Handover — QCS 2024</h3>
 <table class="dm-table">
-<tr><th>Document</th><th>Required</th><th>Responsibility</th></tr>
+<tr><th>Document</th><th>Required By</th><th>Responsibility</th></tr>
 <tr><td>As-Built Drawings</td><td>All disciplines</td><td>Contractor</td></tr>
-<tr><td>Test Certificates</td><td>All materials & tests</td><td>QC Team</td></tr>
-<tr><td>ITP Closeout</td><td>All ITPs signed</td><td>QC + Engineer</td></tr>
-<tr><td>NCR Closeout</td><td>All NCRs closed</td><td>Contractor</td></tr>
-<tr><td>O&M Manuals</td><td>All installed equipment</td><td>Contractor</td></tr>
-<tr><td>Warranties</td><td>Materials & workmanship</td><td>Contractor</td></tr>
+<tr><td>Test Certificates</td><td>All materials + tests</td><td>QC Team</td></tr>
+<tr><td>ITP Closeout</td><td>All ITPs signed off</td><td>QC + Engineer</td></tr>
+<tr><td>NCR Closeout</td><td>All NCRs resolved</td><td>Contractor</td></tr>
 <tr><td>CCTV Reports</td><td>All drainage lines</td><td>QC Team</td></tr>
 <tr><td>Pressure Test Reports</td><td>All pressure pipelines</td><td>QC Team</td></tr>
+<tr><td>O&M Manuals</td><td>All installed equipment</td><td>Contractor</td></tr>
+<tr><td>Warranties</td><td>Materials + workmanship</td><td>Contractor</td></tr>
+<tr><td>Snag List Closure</td><td>All defects rectified</td><td>Contractor</td></tr>
 </table>
-<div style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
-ℹ️ Defects Liability Period (DLP): 12 months from Practical Completion Certificate (PCC) unless specified otherwise in contract.
+<div style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+ℹ️ DLP (Defects Liability Period): 12 months from PCC. Employer must inspect at month 10 and issue defects list.
 </div>
-
-</div>
-` },
-  road_itps: { title: '📋 Road ITPs', content: `
-<div class="lang-content-ar">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;"><div onclick="QS.openDetail('itp_subgrade')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🏔️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Subgrade</div></div><div onclick="QS.openDetail('itp_subbase')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🪨</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Subbase</div></div><div onclick="QS.openDetail('itp_base')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧱</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Base Course</div></div><div onclick="QS.openDetail('itp_primecoat')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🛢️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Prime & Tack</div></div><div onclick="QS.openDetail('itp_wearing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">⚫</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Binder & Wearing</div></div><div onclick="QS.openDetail('itp_asphalt')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔬</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP Asphalt Testing</div></div></div>
+</div></div></div>
 </div>
 <div class="lang-content-en" style="display:none;">
 <h3>📋 Road ITPs — Inspection & Test Plans</h3>
