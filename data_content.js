@@ -254,17 +254,24 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🔥 Fire & Safety — QCDD Requirements</h3>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Fire Safety | QCDD Requirements | Qatar Civil Defence Department
+</div>
+<h3>🔥 Fire Safety — Key QCS 2024 Requirements</h3>
 <table class="dm-table">
-<tr><th>System</th><th>Standard</th><th>Requirement</th></tr>
-<tr><td>Sprinkler</td><td>NFPA 13</td><td>All commercial buildings > 15m</td></tr>
-<tr><td>Fire Alarm</td><td>QCDD Std</td><td>100% coverage + backup power 3hr</td></tr>
-<tr><td>Emergency Exits</td><td>QCDD</td><td>Max 45m travel distance, 900mm door</td></tr>
-<tr><td>Fire Extinguishers</td><td>QCDD</td><td>Per 200m² or every 30m</td></tr>
-<tr><td>Hose Reel</td><td>QCDD</td><td>Every 30m, 30m length</td></tr>
-<tr><td>Hydrant</td><td>QCDD</td><td>Every 60m on road</td></tr>
-<tr><td>QCDD Approval</td><td>Mandatory</td><td>Drawings + During + Pre-handover</td></tr>
+<tr><th>Element</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Fire Rating — External Walls</td><td>Min 1-hour FR (residential) / 2-hour (commercial)</td><td>QCS 2024 S18</td></tr>
+<tr><td>Escape Routes Width</td><td>Min 1.0m (≤50 persons) / 1.4m (>50 persons)</td><td>QCS S18</td></tr>
+<tr><td>Travel Distance</td><td>≤18m to nearest exit (non-sprinklered)</td><td>QCS S18</td></tr>
+<tr><td>Emergency Lighting</td><td>Min 1 lux at floor level / 3h duration</td><td>QCDD</td></tr>
+<tr><td>Fire Alarm</td><td>L1 system in all occupied buildings</td><td>QCDD</td></tr>
+<tr><td>Sprinklers</td><td>Required >4 floors or >14m height</td><td>QCDD</td></tr>
+<tr><td>Fire Hose Reel</td><td>Max 30m reach / 25mm hose</td><td>QCS S18</td></tr>
+<tr><td>Fire Hydrant</td><td>Max 60m from building / 100mm dia</td><td>QCDD</td></tr>
 </table>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+⚠️ All fire safety designs must be approved by QCDD before construction. Completion certificate requires QCDD sign-off.
+</div>
 </div>
 ` },
 
@@ -2453,7 +2460,26 @@ HP3: Core Density Results (within 48hr of laying)
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | ♻️ شبكة المياه المعالجة
+📌 QCS 2024 | Treated/Recycled Water Network — Construction Phases
+</div>
+<h3>♻️ Treated Water — Select Phase</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
+<div onclick="QS.openDetail('tw_survey')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:20px">📐</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Survey</div></div>
+<div onclick="QS.openDetail('tw_materials')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:20px">🔩</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Materials</div></div>
+<div onclick="QS.openDetail('tw_laying')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:20px">⛏️</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Laying</div></div>
+<div onclick="QS.openDetail('tw_testing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:20px">✅</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Testing</div></div>
+</div>
+<table class="dm-table">
+<tr><th>Test</th><th>Acceptance</th><th>Standard</th></tr>
+<tr><td>Pressure Test</td><td>1.5×PN / 2hr zero drop</td><td>QCS 2024</td></tr>
+<tr><td>Bacteriological</td><td>Zero E. coli / coliforms</td><td>WHO / MME</td></tr>
+<tr><td>Purple tape above pipe</td><td>Mandatory — 300mm above crown</td><td>MME</td></tr>
+<tr><td>Cross-connection check</td><td>Zero — prohibited by law</td><td>MME</td></tr>
+</table>
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
@@ -2707,8 +2733,22 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
-📌 QCS 2024 Section 8 Part 1 | KAHRAMAA | Trench Excavation & Bedding
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 | Water Supply — Excavation Phase
+</div>
+<h3>💧 Water Main Excavation — Requirements</h3>
+<table class="dm-table">
+<tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Trench Width</td><td>Pipe OD + 300mm each side</td><td>KAHRAMAA</td></tr>
+<tr><td>Depth (Cover)</td><td>Min 900mm to top of pipe</td><td>KAHRAMAA</td></tr>
+<tr><td>Formation Level</td><td>±10mm of design invert</td><td>KAHRAMAA</td></tr>
+<tr><td>Dewatering</td><td>Trench dry before laying — continuous pump</td><td>KAHRAMAA</td></tr>
+<tr><td>Separation from Sewer</td><td>Min 1.0m horizontal / water always above sewer</td><td>QCS 2024</td></tr>
+<tr><td>Rock Excavation</td><td>100mm cushion below pipe (sand)</td><td>KAHRAMAA</td></tr>
+</table>
+<div style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+ℹ️ KAHRAMAA permit and approved drawings required before any excavation on water mains.
+</div>
 </div>
 <h3>Trench Geometry Requirements</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
@@ -3216,8 +3256,23 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
-📌 QCS 2024 Section 8 Part 2 | Ashghal | Sewer Trench Excavation
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 | Foul Sewer — Excavation Phase
+</div>
+<h3>🔩 Sewer Trench Excavation — Requirements</h3>
+<table class="dm-table">
+<tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Trench Width</td><td>Pipe OD + 300mm each side (min)</td><td>Ashghal Spec</td></tr>
+<tr><td>Side Slopes</td><td>1:1 (unsupported) or shored</td><td>Ashghal</td></tr>
+<tr><td>Excavation Level</td><td>Formation to ±10mm of design</td><td>Ashghal</td></tr>
+<tr><td>Over-excavation</td><td>Fill with C10 lean concrete / approved granular</td><td>Ashghal</td></tr>
+<tr><td>Dewatering</td><td>Keep trench dry during laying</td><td>Ashghal</td></tr>
+<tr><td>Shoring</td><td>Required >1.2m depth in granular soil</td><td>Health & Safety</td></tr>
+<tr><td>Separation from Water</td><td>Min 1.0m horizontal / Water always above sewer</td><td>QCS 2024</td></tr>
+</table>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+⚠️ All excavations in Qatar road network require valid Kahramaa/Ashghal permit. No excavation before utility mark-out (Red Line Survey).
+</div>
 </div>
 <h3>Trench Geometry — Foul Sewer</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
@@ -3283,8 +3338,23 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
-📌 QCS 2024 Section 8 Part 2 | Ashghal | Pipe Laying
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 | Foul Sewer — Pipe Laying Phase
+</div>
+<h3>🔩 Sewer Pipe Laying — QCS 2024</h3>
+<table class="dm-table">
+<tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Bedding (Zone 1)</td><td>Granular Type S, 100mm under pipe</td><td>Ashghal</td></tr>
+<tr><td>Gradient (DN150)</td><td>Min 1:150 (self-cleansing 0.75 m/s)</td><td>Ashghal</td></tr>
+<tr><td>Gradient (DN225)</td><td>Min 1:225</td><td>Ashghal</td></tr>
+<tr><td>Level Tolerance</td><td>±10mm invert level</td><td>Ashghal</td></tr>
+<tr><td>Joint Gap</td><td>≤5mm for UPVC push-fit</td><td>BS EN 1401</td></tr>
+<tr><td>Max Unsupported Length</td><td>3×pipe length before backfill</td><td>Ashghal</td></tr>
+<tr><td>Marker Tape</td><td>Green — "FOUL SEWER" / 300mm above crown</td><td>Ashghal</td></tr>
+</table>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+🔴 HP: Engineer must approve invert levels and gradient before backfilling.
+</div>
 </div>
 <h3>Pipe Laying Requirements — Foul Sewer</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
@@ -3513,8 +3583,20 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
-📌 QCS 2024 Section 8 Part 2 | Ashghal | Trench Backfill
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 | Foul Sewer — Backfill Phase
+</div>
+<h3>🔩 Sewer Trench Backfill — Requirements</h3>
+<table class="dm-table">
+<tr><th>Zone</th><th>Material</th><th>Compaction</th></tr>
+<tr><td>Zone 1 (Pipe surround)</td><td>Granular Type S — hand compact only</td><td>No mechanical compaction</td></tr>
+<tr><td>Zone 2 (300mm above pipe)</td><td>Selected fill — SO3 ≤0.5%</td><td>Light plate compactor</td></tr>
+<tr><td>Zone 3 (Upper fill)</td><td>Approved excavated material</td><td>≥95% MDD / 300mm layers</td></tr>
+<tr><td>Under carriageway</td><td>Granular Type B</td><td>100% BS Heavy</td></tr>
+</table>
+<div style="background:rgba(243,156,18,0.1);border:1px solid rgba(243,156,18,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+⚠️ Density test required: 1 per 50m trench length per layer. Reject and re-compact if <95% MDD.
+</div>
 </div>
 <h3>Backfill Layers — Foul Sewer</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
@@ -3720,8 +3802,23 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
-📌 QCS 2024 Section 8 Part 3 | Ashghal | Storm Water Materials
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 | Storm Water Drainage — Materials
+</div>
+<h3>🌧️ Storm Drainage Materials — QCS 2024</h3>
+<table class="dm-table">
+<tr><th>Material</th><th>Specification</th><th>Standard</th></tr>
+<tr><td>Pipe (Main)</td><td>RC Pipe Class 120 / HDPE SDR 17</td><td>BS 5911 / EN 13476</td></tr>
+<tr><td>Pipe (Catchment)</td><td>UPVC SN8 Class 400</td><td>BS EN 1401</td></tr>
+<tr><td>Manholes</td><td>RC Grade C40 / Precast preferred</td><td>BS 5911-3</td></tr>
+<tr><td>Gully Covers</td><td>ductile iron D400 (carriageway)</td><td>BS EN 124</td></tr>
+<tr><td>Bedding (Zone 1)</td><td>Granular Type B (under pipe)</td><td>Ashghal</td></tr>
+<tr><td>Marker Tape</td><td>Blue — "STORM WATER DRAIN"</td><td>Ashghal</td></tr>
+<tr><td>Joint Sealing</td><td>EPDM rubber ring / push-fit</td><td>BS EN 681</td></tr>
+</table>
+<div style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+ℹ️ All materials require Ashghal material approval prior to delivery. Submit MAR with mill certificates.
+</div>
 </div>
 <h3>Pipe Types — Storm Water</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
@@ -4693,14 +4790,23 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>ITP — Storm Water Network</h3>
-<table class="dm-table"><tr><th>Activity</th><th>Test</th><th>Frequency</th><th>Standard</th><th>HP/W</th></tr>
-<tr><td>Pipe Material</td><td>Material Approval</td><td>Each delivery</td><td>BS EN 295</td><td>HP</td></tr>
-<tr><td>Bedding Compaction</td><td>≥ 90% MDD (Sand Cone)</td><td>Per 50m</td><td>ASTM D1556</td><td>W</td></tr>
-<tr><td>Pipe Gradient</td><td>Laser level vs IFC</td><td>Every joint</td><td>IFC</td><td>W</td></tr>
-<tr><td>Hydraulic Test / CCTV</td><td>Grade ≤ 2</td><td>100%</td><td>WRc</td><td>HP</td></tr>
-<tr><td>Backfill Compaction</td><td>≥ 95% MDD</td><td>Per 500m²</td><td>ASTM D698</td><td>W</td></tr>
-<tr><td>Level Survey</td><td>Gully/Manhole ±5mm</td><td>100%</td><td>Survey</td><td>W</td></tr></table>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 | Storm Water Drainage — ITP
+</div>
+<h3>🌧️ Storm Drainage — Inspection & Test Plan</h3>
+<table class="dm-table">
+<tr><th>Activity</th><th>Test/Inspection</th><th>Acceptance</th><th>Type</th></tr>
+<tr><td>Pipe Material</td><td>Certificate + dimensions check</td><td>QCS approved material</td><td>W</td></tr>
+<tr><td>Excavation</td><td>Level + width + side slope</td><td>±50mm level / 1:1 stable</td><td>W</td></tr>
+<tr><td>Bedding</td><td>Class B granular / compaction</td><td>95% MDD under pipe</td><td>H</td></tr>
+<tr><td>Pipe Laying</td><td>Level + alignment + joints</td><td>1:150 min gradient</td><td>H</td></tr>
+<tr><td>Manhole Construction</td><td>Dimensions + cover level</td><td>±5mm cover level</td><td>H</td></tr>
+<tr><td>Hydraulic Test</td><td>Fill + hold 1 hour</td><td>Zero leakage</td><td>H</td></tr>
+<tr><td>CCTV Survey</td><td>100% of pipelines</td><td>Grade ≤B2</td><td>H</td></tr>
+<tr><td>Backfill Compaction</td><td>Density test</td><td>≥95% MDD</td><td>W</td></tr>
+<tr><td>Gully Level</td><td>Survey relative to carriageway</td><td>Within ±5mm</td><td>W</td></tr>
+</table>
+<div style="font-size:11px;color:var(--text3);margin-top:6px;">H = Hold Point | W = Witness Point | Ashghal Standards Apply</div>
 </div>
 ` },
 
@@ -4759,7 +4865,23 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 | Treated/Recycled Water Network — ITP
+📌 QCS 2024 | Treated/Recycled Water — ITP
+</div>
+<h3>♻️ Treated Water Network — Inspection & Test Plan</h3>
+<table class="dm-table">
+<tr><th>Activity</th><th>Test</th><th>Acceptance</th><th>Type</th></tr>
+<tr><td>Pipe Material</td><td>Mill certificate + DI test</td><td>MME approved / BS EN 545</td><td>W</td></tr>
+<tr><td>Excavation</td><td>Level + width + clearance</td><td>±50mm / min 150mm from pipe</td><td>W</td></tr>
+<tr><td>Bedding</td><td>Granular Type B + compaction</td><td>95% MDD</td><td>H</td></tr>
+<tr><td>Pipe Laying</td><td>Level + joint gap + alignment</td><td>±10mm level, 1:500 gradient</td><td>H</td></tr>
+<tr><td>Pressure Test</td><td>1.5×PN for 2 hours</td><td>Zero leakage + zero drop</td><td>H</td></tr>
+<tr><td>Flushing</td><td>Velocity ≥1.5 m/s</td><td>Clear discharge</td><td>W</td></tr>
+<tr><td>Bacteriological Test</td><td>E. coli + Total Coliform</td><td>Zero coliforms</td><td>W</td></tr>
+<tr><td>Backfill</td><td>Density test each layer</td><td>≥95% MDD</td><td>W</td></tr>
+</table>
+<div style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+🟣 Purple marker tape mandatory. Maintain ≥1.5m separation from potable water. Cross-connection strictly prohibited.
+</div>
 </div>
 <h3>♻️ Treated Water — ITP Key Items</h3>
 <table class="dm-table">
@@ -4800,7 +4922,31 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🏗️ الكود الإنشائي — QCS 2024
+📌 QCS 2024 — Structural Works | Section 5 (Concrete) + Section 14 (Structural Steel)
+</div>
+<h3>🏛️ Structural Works — Key Requirements</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
+<div onclick="QS.openDetail('concrete_full')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:22px">🏗️</div><div style="color:var(--gold);font-weight:700;">Concrete Works</div>
+<div style="color:var(--text3);font-size:11px;">Mix Design | Placing | Curing | Testing</div></div>
+<div onclick="QS.openDetail('rebar_full')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:22px">🔧</div><div style="color:var(--gold);font-weight:700;">Reinforcement</div>
+<div style="color:var(--text3);font-size:11px;">Cover | Lap | Fixing | Testing</div></div>
+<div onclick="QS.openDetail('foundations_full')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:22px">🏔️</div><div style="color:var(--gold);font-weight:700;">Foundations</div>
+<div style="color:var(--text3);font-size:11px;">Strip | Raft | Piles</div></div>
+<div onclick="QS.openDetail('itp_concrete')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:22px">📋</div><div style="color:var(--gold);font-weight:700;">ITP Concrete</div>
+<div style="color:var(--text3);font-size:11px;">Hold & Witness Points</div></div>
+</div>
+<table class="dm-table">
+<tr><th>Item</th><th>Key Requirement</th><th>QCS Ref</th></tr>
+<tr><td>Concrete Grade</td><td>Min C25 residential / C30 commercial</td><td>QCS S5 T1</td></tr>
+<tr><td>Cube Strength 28d</td><td>≥fcu specified</td><td>QCS S5</td></tr>
+<tr><td>Cover to Rebar</td><td>75mm (foundations) / 40-50mm (exposed)</td><td>QCS S5</td></tr>
+<tr><td>W/C Ratio</td><td>≤0.45 (severe) / ≤0.50 (moderate)</td><td>QCS S5</td></tr>
+<tr><td>Curing Period</td><td>Min 7 days moist / 3 days steam</td><td>QCS S5</td></tr>
+</table>
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
@@ -4880,7 +5026,28 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🧱 الConcrete — Concrete Works
+📌 QCS 2024 — Section 5 | Concrete Works
+</div>
+<h3>🏗️ Concrete — QCS 2024 Key Requirements</h3>
+<table class="dm-table">
+<tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Cube Strength (28-day)</td><td>≥fcu design strength</td><td>QCS S5 P4</td></tr>
+<tr><td>Slump (RC Columns)</td><td>25–75 mm</td><td>QCS S5 P3</td></tr>
+<tr><td>Slump (Pumped)</td><td>75–150 mm</td><td>QCS S5 P3</td></tr>
+<tr><td>W/C Ratio (Severe)</td><td>≤0.45</td><td>QCS S5 Durability</td></tr>
+<tr><td>Min Cement Content</td><td>300 kg/m³ (exposed)</td><td>QCS S5</td></tr>
+<tr><td>Max Aggregate Size</td><td>20mm (general) / 10mm (thin sections)</td><td>QCS S5</td></tr>
+<tr><td>Curing Period</td><td>Min 7 days (OPC) / 10 days (GGBS/PFA)</td><td>QCS S5</td></tr>
+<tr><td>Max Pour Temperature</td><td>≤35°C concrete temperature</td><td>QCS S5 Hot Weather</td></tr>
+<tr><td>Min Cover (Foundation)</td><td>75 mm</td><td>QCS S5 / BS 8110</td></tr>
+<tr><td>Sampling Frequency</td><td>1 set per 50m³ (min 1/day)</td><td>QCS S5</td></tr>
+</table>
+<h4 style="margin-top:14px;color:var(--gold);">🔴 Hold Points — Concrete</h4>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;font-size:12px;">
+HP1: Mix Design approval before first pour<br>
+HP2: Formwork + rebar inspection before pour<br>
+HP3: 28-day cube results — Engineer approval before loading
+</div>
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
@@ -4939,7 +5106,24 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🔩 Rebar التسليح — Reinforcement
+📌 QCS 2024 — Section 5 | Reinforcement Steel
+</div>
+<h3>🔧 Reinforcement — QCS 2024 Requirements</h3>
+<table class="dm-table">
+<tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Steel Grade</td><td>B500B (Fy=500 MPa, Fu=600 MPa)</td><td>QCS S5 / BS 4449</td></tr>
+<tr><td>Min Cover (Foundation)</td><td>75 mm</td><td>QCS S5</td></tr>
+<tr><td>Min Cover (Exposed beam)</td><td>50 mm</td><td>QCS S5</td></tr>
+<tr><td>Min Cover (Internal slab)</td><td>25 mm</td><td>QCS S5</td></tr>
+<tr><td>Lap Length</td><td>40×bar diameter (tension zones)</td><td>QCS S5 / BS 8110</td></tr>
+<tr><td>Bar Spacing (max)</td><td>3×slab depth or 400mm (whichever less)</td><td>QCS S5</td></tr>
+<tr><td>Bend Radius (≤16mm)</td><td>Min 2.5×dia</td><td>BS 8666</td></tr>
+<tr><td>Tie Wire</td><td>1.6mm mild steel — all intersections</td><td>QCS S5</td></tr>
+<tr><td>Cleanliness</td><td>Free from mud, oil, loose scale</td><td>QCS S5</td></tr>
+</table>
+<div style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+ℹ️ Mill certificates required for each delivery. Check bar markings match approved grade. Spacers must maintain cover tolerance ±10mm.
+</div>
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
@@ -5007,7 +5191,22 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | ⚓ الأساسات — Foundations
+📌 QCS 2024 — Foundations | Section 5 + Geotechnical Report
+</div>
+<h3>🏔️ Foundations — QCS 2024 Requirements</h3>
+<table class="dm-table">
+<tr><th>Type</th><th>Key Requirement</th><th>Reference</th></tr>
+<tr><td>Strip Foundation</td><td>Min width 600mm / Min depth 1.0m below finished level</td><td>QCS S5</td></tr>
+<tr><td>Raft Foundation</td><td>Min thickness 300mm / Designed for differential settlement</td><td>QCS S5</td></tr>
+<tr><td>Pile Caps</td><td>Min 75mm cover / Pile embedment ≥75mm into cap</td><td>QCS S5</td></tr>
+<tr><td>Founding Level</td><td>As per geotech report / Below weak/expansive soil</td><td>Geotech</td></tr>
+<tr><td>Lean Concrete</td><td>Min 75mm C10 blinding layer</td><td>QCS S5</td></tr>
+<tr><td>Anti-Sulphate</td><td>SRPC or GGBS if SO3>0.3% in soil</td><td>QCS S5</td></tr>
+<tr><td>Waterproofing</td><td>Required if GWL within 1.5m of foundation</td><td>QCS S5</td></tr>
+</table>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+⚠️ Qatar: High sulphate soils common. Always verify SO3 + Cl content before specifying concrete. Sabkha areas require special treatment.
+</div>
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
@@ -5066,7 +5265,23 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🔧 الخوازيق — Bored Piles
+📌 QCS 2024 — Piled Foundations | Section 5 + BS EN 1536
+</div>
+<h3>🔩 Piles — QCS 2024 Requirements</h3>
+<table class="dm-table">
+<tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Bored Pile Concrete</td><td>Min C30 / Slump 150-200mm (self-compacting)</td><td>QCS S5</td></tr>
+<tr><td>Pile Verticality</td><td>Max 1:75 deviation</td><td>BS EN 1536</td></tr>
+<tr><td>Position Tolerance</td><td>±75mm plan position</td><td>BS EN 1536</td></tr>
+<tr><td>Cover to Cage</td><td>Min 75mm (top) / 50mm (sides)</td><td>QCS S5</td></tr>
+<tr><td>Cage Length Tolerance</td><td>±100mm</td><td>BS EN 1536</td></tr>
+<tr><td>Load Test</td><td>1% of piles or min 2 per project</td><td>QCS + Geotech</td></tr>
+<tr><td>Integrity Test</td><td>Sonic logging 100% (bored piles)</td><td>BS EN 1536</td></tr>
+<tr><td>Cutoff Level</td><td>Min 600mm above design cutoff</td><td>QCS S5</td></tr>
+</table>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+🔴 HP: Pile load test results must be approved by Engineer before proceeding with pile cap construction.
+</div>
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
