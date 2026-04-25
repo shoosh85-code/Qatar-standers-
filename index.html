@@ -1316,7 +1316,7 @@ function clearCardFilter() {
 // ===== DETAIL MODALS =====
 // Safe lazy reference — يقرأ QS_CONTENT عند كل وصول
 // Key aliases: card key → content key (when names differ)
-const _CONTENT_ALIASES = {
+window._CONTENT_ALIASES = {
   'asphalt_quick_ref':'ms_asphalt','exec_asphalt_paving':'execution',
   'road_design_criteria':'roads_design','ashghal_rdm':'roads_design',
   'mmup_road_design':'roads_design','road_layers_calc':'ms_asphalt',
@@ -1340,11 +1340,11 @@ const _CONTENT_ALIASES = {
 
 const detailData = new Proxy({}, {
   get: function(_, key) {
-    var realKey = _CONTENT_ALIASES[key] || key;
+    var realKey = (window._CONTENT_ALIASES && window._CONTENT_ALIASES[key]) || key;
     return (window.QS_CONTENT || {})[realKey];
   },
   has: function(_, key) {
-    var realKey = _CONTENT_ALIASES[key] || key;
+    var realKey = (window._CONTENT_ALIASES && window._CONTENT_ALIASES[key]) || key;
     return realKey in (window.QS_CONTENT || {});
   }
 });
@@ -1908,7 +1908,8 @@ let navStack = [];
  */
 function openDetail(key) {
   // Load content chunk on demand if not yet loaded
-  if (typeof window._loadContentChunk === 'function' && !(window.QS_CONTENT && window.QS_CONTENT[key])) {
+  var _realKey = (window._CONTENT_ALIASES && window._CONTENT_ALIASES[key]) || key;
+  if (typeof window._loadContentChunk === 'function' && !(window.QS_CONTENT && window.QS_CONTENT[_realKey])) {
     window._loadContentChunk(key, function(){ openDetail(key); });
     return;
   }

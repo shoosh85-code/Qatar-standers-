@@ -24,7 +24,7 @@ for (const chunk of CHUNKS) {
 }
 
 const html = fs.readFileSync('index.html', 'utf-8');
-const aliasMatch = html.match(/const _CONTENT_ALIASES = \{(.*?)\};/s);
+const aliasMatch = html.match(/window._CONTENT_ALIASES = {(.*?)\};/s);
 const ALIASES = {};
 if (aliasMatch)
   for (const [,k,v] of aliasMatch[1].matchAll(/'(\w+)':'(\w+)'/g)) ALIASES[k]=v;
