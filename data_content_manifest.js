@@ -106,5 +106,16 @@ window.QS_CONTENT_MAP = {
   "photo_analyzer": "data_content.js",
   "qcs_changes_2014_2024": "data_content_extra.js",
   "top20_ncr": "data_content_extra.js",
-  "prequalification_checklist": "data_content_extra.js"
+  "prequalification_checklist": "data_content_extra.js",
+  "roads_equipment": "data_content_extra.js",
+  "utilities_equipment": "data_content_extra.js",
+  "structural_equipment": "data_content_extra.js",
+  "geotech_equipment": "data_content_extra.js",
+  "ashghal_rdm": "data_content_extra.js",
+  "mmup_road_design": "data_content_extra.js",
+  "kahramaa_standards": "data_content_extra.js",
+  "mep_standards": "data_content_extra.js",
+  "structures_buildings": "data_content_extra.js",
+  "mmup_building_permits": "data_content_extra.js",
+  "marker_tape_colors": "data_content_extra.js"
 };
