@@ -1627,26 +1627,22 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — Section 6 | Subbase (Granular Type B)
-</div>
-<h3>🪨 Subbase — Key Requirements</h3>
+<h3>🪨 Subbase (Type B) — QCS 2024 Requirements</h3>
 <table class="dm-table">
 <tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
-<tr><td>Material</td><td>Crushed Aggregate Type B</td><td>QCS S6 P3</td></tr>
-<tr><td>Max Particle Size</td><td>37.5 mm</td><td>QCS S6 P3</td></tr>
-<tr><td>CBR (4 days soaked)</td><td>≥ 30% (urban) / ≥ 25% (rural)</td><td>QCS S6 P3</td></tr>
-<tr><td>Plasticity Index</td><td>≤ 6</td><td>QCS S6 P3</td></tr>
-<tr><td>Sand Equivalent</td><td>≥ 30</td><td>QCS S6 P3</td></tr>
-<tr><td>Compaction (MDD)</td><td>≥ 100% BS Heavy (98% min)</td><td>QCS S6 P5</td></tr>
-<tr><td>Layer Thickness</td><td>150–250 mm per layer</td><td>QCS S6 P5</td></tr>
-<tr><td>Surface Tolerance</td><td>±15mm from design level</td><td>QCS S6 P5</td></tr>
-<tr><td>Frequency</td><td>1 density test per 500m² per layer</td><td>QCS S6 P5</td></tr>
+<tr><td>Material</td><td>Crushed aggregate Type B — gabbro or approved</td><td>QCS S6 P3</td></tr>
+<tr><td>Max Particle Size</td><td>37.5 mm</td><td>QCS S6 T3.1</td></tr>
+<tr><td>CBR (4-day soaked)</td><td>≥30% (urban) / ≥25% (rural)</td><td>QCS S6 P3</td></tr>
+<tr><td>Plasticity Index</td><td>≤6</td><td>QCS S6</td></tr>
+<tr><td>Sand Equivalent</td><td>≥30</td><td>QCS S6</td></tr>
+<tr><td>Compaction MDD</td><td>≥100% BS Heavy</td><td>QCS S6 P5</td></tr>
+<tr><td>Layer Thickness</td><td>150–250mm per layer</td><td>QCS S6 P5</td></tr>
+<tr><td>Level Tolerance</td><td>±15mm</td><td>QCS S6 P5</td></tr>
+<tr><td>Test Frequency</td><td>1 density test/500m² per layer</td><td>QCS S6 P5</td></tr>
 </table>
-<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
-⚠️ Subbase must be approved before laying Roadbase. Hold Point required.
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+🔴 HP: Engineer approval required before placing roadbase. All density + CBR tests must pass.
 </div>
-
 </div>
 ` },
   base: { title: '🧱 Base Course — طبقة الأساس', content: `
@@ -7471,16 +7467,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🧱 Structural Materials — QCS 2024 Section 5</h3>
+<h3>🏛️ Structural Works — Materials Requirements</h3>
 <table class="dm-table">
-<tr><th>Material</th><th>Key Specification</th><th>Test</th></tr>
-<tr><td>Cement (SRPC)</td><td>BS 4027 | C3A ≤ 3.5%</td><td>Every delivery</td></tr>
-<tr><td>GGBS</td><td>BS EN 15167 | Up to 50%</td><td>Every delivery</td></tr>
-<tr><td>Aggregate SO3</td><td>≤ 0.4%</td><td>Per 500m³</td></tr>
-<tr><td>Aggregate Chloride</td><td>≤ 0.04%</td><td>Per 500m³</td></tr>
-<tr><td>Mixing Water Chloride</td><td>≤ 500 mg/L</td><td>Initial + changes</td></tr>
-<tr><td>Rebar Grade</td><td>500B | fy ≥ 500 N/mm²</td><td>Per 25t</td></tr>
-<tr><td>w/c Ratio</td><td>≤ 0.45 aggressive / ≤ 0.40 marine</td><td>Design</td></tr>
+<tr><th>Material</th><th>Specification</th><th>Standard</th></tr>
+<tr><td>Concrete (Min Grade)</td><td>C25 (residential) / C30 (commercial)</td><td>QCS S5</td></tr>
+<tr><td>Cement Type</td><td>OPC (CEM I) / SRPC if SO3 soil</td><td>BS EN 197-1</td></tr>
+<tr><td>Rebar Grade</td><td>B500B — fy=500 MPa</td><td>BS 4449 / QCS S5</td></tr>
+<tr><td>Structural Steel</td><td>S275 / S355 (as designed)</td><td>BS EN 10025</td></tr>
+<tr><td>Formwork</td><td>Adequate strength / ±5mm alignment</td><td>QCS S5</td></tr>
+<tr><td>Waterproofing</td><td>System C (basement) / Type A (tanking)</td><td>BS 8102</td></tr>
+<tr><td>Admixtures</td><td>KAHRAMAA/QCS approved only</td><td>BS EN 934</td></tr>
 </table>
 </div>
 ` },
@@ -7544,17 +7540,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>📊 Structural Quality Control Plan (QCP)</h3>
+<h3>🏛️ Structural Works — QCP Summary</h3>
 <table class="dm-table">
-<tr><th>HP</th><th>Stage</th><th>Condition</th></tr>
-<tr><td>HP-01</td><td>Mix Design</td><td>JMF + Trial Mix 7+28 day</td></tr>
-<tr><td>HP-02</td><td>Founding Level</td><td>Geotechnical Approval</td></tr>
-<tr><td>HP-03</td><td>Rebar + Cover</td><td>As drawings ±5mm</td></tr>
-<tr><td>HP-04</td><td>Formwork</td><td>Structural check</td></tr>
-<tr><td>HP-05</td><td>Pour Card</td><td>Consultant signed</td></tr>
-<tr><td>HP-06</td><td>7-day Cube</td><td>≥ 70% fcu <em style="color:#e67e22">(مراقبة فقط)</em></td></tr>
-<tr><td>HP-07</td><td>28-day Cube</td><td>≥ 100% fcu <em>(معيار القبول الرسمي QCS S5)</em></td></tr>
-<tr><td>HP-08</td><td>Formwork Strike</td><td>After cube 7-day approval</td></tr>
+<tr><th>Activity</th><th>Test</th><th>Frequency</th><th>Acceptance</th></tr>
+<tr><td>Concrete Mix Design</td><td>Trial mixes + cubes</td><td>Before first pour</td><td>fcu + workability</td></tr>
+<tr><td>Rebar</td><td>Mill cert + dimensions</td><td>Each delivery</td><td>B500B grade</td></tr>
+<tr><td>Pre-pour inspection</td><td>Rebar + formwork check</td><td>Every pour</td><td>Engineer H/P</td></tr>
+<tr><td>Slump test</td><td>Each delivery</td><td>Every truck</td><td>Per design</td></tr>
+<tr><td>Cube sampling</td><td>28-day strength</td><td>1/50m³</td><td>≥fcu</td></tr>
+<tr><td>Cover check</td><td>Measured after fixing</td><td>Each element</td><td>Per element type</td></tr>
+<tr><td>Torque test (bolts)</td><td>Structural steel</td><td>10% random</td><td>Spec torque</td></tr>
 </table>
 </div>
 ` },
@@ -8016,21 +8011,26 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🛣️ Marshall Mix Design — QCS 2024 Requirements</h3>
+<h3>🛣️ Marshall Mix Design — Full Requirements</h3>
 <table class="dm-table">
 <tr><th>Parameter</th><th>Wearing AC14</th><th>Binder AC20</th><th>Ref</th></tr>
 <tr><td>Marshall Stability</td><td>≥8.0 kN</td><td>≥8.0 kN</td><td>QCS S8 P4</td></tr>
 <tr><td>Marshall Flow</td><td>2–4 mm</td><td>2–4 mm</td><td>QCS S8 P4</td></tr>
 <tr><td>Air Voids (Va)</td><td>3–5%</td><td>3–7%</td><td>QCS S8 P4</td></tr>
-<tr><td>VMA</td><td>≥14%</td><td>≥13%</td><td>QCS S8 P4</td></tr>
-<tr><td>VFB</td><td>65–75%</td><td>60–75%</td><td>QCS S8 P4</td></tr>
-<tr><td>Bitumen Content</td><td>4.5–6.5%</td><td>4.0–6.0%</td><td>QCS S8 P4</td></tr>
-<tr><td>Core Density (field)</td><td>≥97% TMD</td><td>≥97% TMD</td><td>QCS S8 P6</td></tr>
-<tr><td>Indirect Tensile Strength</td><td>≥0.7 MPa (60°C)</td><td>≥0.7 MPa</td><td>QCS S8</td></tr>
+<tr><td>VMA</td><td>≥14%</td><td>≥13%</td><td>QCS S8</td></tr>
+<tr><td>VFB</td><td>65–75%</td><td>60–75%</td><td>QCS S8</td></tr>
+<tr><td>Bitumen Content</td><td>4.5–6.5%</td><td>4.0–6.0%</td><td>QCS S8</td></tr>
+<tr><td>Field Core Density</td><td>≥97% TMD</td><td>≥97% TMD</td><td>QCS S8 P6</td></tr>
+<tr><td>ITS at 60°C</td><td>≥0.7 MPa</td><td>≥0.7 MPa</td><td>QCS S8</td></tr>
 </table>
-<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
-🔴 HP: Mix design must be submitted and approved before production trial. Trial section required before full-scale paving.
-</div>
+<h4 style="margin-top:12px;color:var(--gold);">PMB Mix (Polymer Modified Bitumen)</h4>
+<table class="dm-table">
+<tr><th>Parameter</th><th>PMB Wearing</th></tr>
+<tr><td>Marshall Stability</td><td>≥10.0 kN</td></tr>
+<tr><td>Air Voids</td><td>3–4%</td></tr>
+<tr><td>IRI Target</td><td>≤0.9 m/km</td></tr>
+<tr><td>Delivery Temp</td><td>≥155°C</td></tr>
+</table>
 </div>
 ` },
 
@@ -8087,29 +8087,20 @@ All numerical values, specifications and test methods shown in Arabic are source
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>Table 5:9 — Air Voids in Place — Page 16</h3>
+<h3>🛣️ Air Voids & Mix Tolerances — QCS 2024</h3>
 <table class="dm-table">
-<tr><th>Stage</th><th>WC</th><th>BC-A</th><th>BC-B</th></tr>
-<tr><td>JMF Design Va</td><td>4.0%</td><td>4.0%</td><td>4.0%</td></tr>
-<tr><td>Acceptable Field Va</td><td>3-5%</td><td>3-5%</td><td>3-5%</td></tr>
-<tr><td>Target TMD%</td><td>≥ 97%</td><td>≥ 97%</td><td>≥ 97%</td></tr>
+<tr><th>Mix Type</th><th>Design Va%</th><th>Field Va% (cores)</th><th>Ref</th></tr>
+<tr><td>AC14 Wearing</td><td>3–5%</td><td>2–7%</td><td>QCS S8</td></tr>
+<tr><td>AC20 Binder</td><td>3–7%</td><td>2–9%</td><td>QCS S8</td></tr>
+<tr><td>SMA (Stone Mastic)</td><td>3–4%</td><td>2–5%</td><td>QCS S8</td></tr>
+<tr><td>PMB Wearing</td><td>3–4%</td><td>2–5%</td><td>QCS S8</td></tr>
 </table>
-<h3>Table 5:10 — Mix Tolerances vs JMF — Page 17</h3>
-<table class="dm-table">
-<tr><th>Item</th><th>Tolerance</th></tr>
-<tr><td>Bitumen Content</td><td>± 0.3%</td></tr>
-<tr><td>% Passing 0.075mm</td><td>± 2.0%</td></tr>
-<tr><td>% Passing 2.36-4.75mm</td><td>± 5.0%</td></tr>
-<tr><td>% Passing 9.5-12.5mm</td><td>± 6.0%</td></tr>
-<tr><td>% Passing 19-25mm</td><td>± 7.0%</td></tr>
-<tr><td>Mixing Temperature</td><td>± 10°C from JMF</td></tr>
-</table>
-<h3>Table 5:11 — Field Density — Pages 18-19</h3>
-<table class="dm-table">
-<tr><th>Method</th><th>Requirement</th><th>Frequency</th></tr>
-<tr><td>Core TMD%</td><td>≥97% TMD each core</td><td>Per 1000m²</td></tr>
-<tr><td>Mean 5-core TMD%</td><td>≥97% TMD</td><td>Per Lot</td></tr>
-<tr><td>Any single core min</td><td>≥ 93% TMD</td><td>Reject if &lt;93%</td></tr>
+<table class="dm-table" style="margin-top:12px;">
+<tr><th>Property</th><th>Tolerance</th></tr>
+<tr><td>Bitumen Content</td><td>Design ±0.3%</td></tr>
+<tr><td>Gradation (passing 4.75mm)</td><td>±5%</td></tr>
+<tr><td>Gradation (passing 75μm)</td><td>±2%</td></tr>
+<tr><td>Layer Thickness</td><td>±5mm</td></tr>
 </table>
 </div>
 ` },
@@ -8455,24 +8446,18 @@ All numerical values, specifications and test methods shown in Arabic are source
 <p style="font-size:11px;color:var(--text3);">ملاحظة: هذه أمثلة نموذجية — التصميم الفعلي يعتمد على تحليل ESAL الكامل + CBR الموقع + عمر التصميم.</p>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>Key Definitions</h3>
+<h3>🛣️ Traffic Loading — Axle Load & ESAL</h3>
 <table class="dm-table">
-<tr><th>Term</th><th>Definition</th></tr>
-<tr><td>Standard Axle Load</td><td>80 kN (8.2 tonnes) — global design benchmark</td></tr>
-<tr><td>Axle Load Factor (ALF)</td><td>Damage ratio vs standard axle. 160kN axle = ALF 16</td></tr>
-<tr><td>ESAL</td><td>Total of all axles converted to standard axles over design life</td></tr>
-<tr><td>Traffic Designation</td><td>Road classification by ESAL for pavement thickness selection</td></tr>
+<tr><th>Vehicle Type</th><th>Max Legal Axle Load</th><th>ESAL Factor</th></tr>
+<tr><td>Car / Light van</td><td>3.5t front / 6.5t rear</td><td>0.0005</td></tr>
+<tr><td>2-axle truck</td><td>6t / 10t</td><td>0.5–2.0</td></tr>
+<tr><td>3-axle truck</td><td>6t / 10t / 10t</td><td>1.0–3.0</td></tr>
+<tr><td>Semi-trailer (5-axle)</td><td>≤40t GVW</td><td>3.0–6.0</td></tr>
+<tr><td>Standard Axle</td><td>8.2t = 80kN single axle</td><td>1.0 (reference)</td></tr>
 </table>
-<h3>Table 1 — Traffic Designation</h3>
-<table class="dm-table">
-<tr><th>Designation</th><th>ESAL (× 10⁶)</th><th>Road Type</th></tr>
-<tr><td>T1 — Light</td><td>&lt; 0.5</td><td>Local residential</td></tr>
-<tr><td>T2 — Medium Light</td><td>0.5-1.5</td><td>Local roads</td></tr>
-<tr><td>T3 — Medium</td><td>1.5-5.0</td><td>Collector roads</td></tr>
-<tr><td>T4 — Medium Heavy</td><td>5.0-15</td><td>Arterial roads</td></tr>
-<tr><td>T5 — Heavy</td><td>15-50</td><td>Major expressways</td></tr>
-<tr><td>T6 — Very Heavy</td><td>&gt; 50</td><td>Expressways + Industrial</td></tr>
-</table>
+<div style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+ℹ️ Qatar uses AASHTO pavement design. Design ESAL typically 1M–30M for urban Ashghal roads. Traffic survey required for all new roads.
+</div>
 </div>
 ` },
 
@@ -8576,30 +8561,18 @@ All numerical values, specifications and test methods shown in Arabic are source
 • <strong>HP-07:</strong> Joint Sealing بعد اكتمال المعالجة</p>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>1. Concrete Pavement Types</h3>
+<h3>🛣️ Concrete Pavement — QCS 2024</h3>
 <table class="dm-table">
-<tr><th>Type</th><th>Description</th><th>Qatar Use</th></tr>
-<tr><td>JPCP</td><td>Jointed Plain Concrete — no reinforcement + transverse joints</td><td>Airports, ports, industrial</td></tr>
-<tr><td>CRCP</td><td>Continuously Reinforced — no transverse joints</td><td>Heavy expressways</td></tr>
-<tr><td>RCC</td><td>Roller Compacted Concrete — very dry mix</td><td>Parking, warehouses</td></tr>
-</table>
-<h3>2. Concrete Specifications</h3>
-<table class="dm-table">
-<tr><th>Item</th><th>Specification</th></tr>
-<tr><td>Concrete Grade</td><td>≥ C35 (fcu ≥ 35 N/mm²)</td></tr>
-<tr><td>Flexural Strength MR</td><td>≥ 4.5 MPa @ 28 days</td></tr>
-<tr><td>w/c Ratio</td><td>≤ 0.40</td></tr>
-<tr><td>Cement Content</td><td>≥ 380 kg/m³</td></tr>
-<tr><td>Slump (Slipform)</td><td>20-60mm</td></tr>
-</table>
-<h3>8. Acceptance Tests</h3>
-<table class="dm-table">
-<tr><th>Test</th><th>Standard</th><th>Frequency</th></tr>
-<tr><td>Flexural Strength</td><td>≥ 4.5 MPa @ 28d</td><td>Per 50m³</td></tr>
-<tr><td>Slab Thickness (Core)</td><td>Design ± 10mm</td><td>Per 1000m²</td></tr>
-<tr><td>3m Straightedge</td><td>≤ 3mm</td><td>Per 25m</td></tr>
-<tr><td>IRI</td><td>≤ 2.0 m/km</td><td>Per section</td></tr>
-<tr><td>Texture Depth</td><td>≥ 0.7mm</td><td>Per 1000m²</td></tr>
+<tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Concrete Grade</td><td>Min C40 / flexural strength ≥4.5 MPa</td><td>QCS S8 P9</td></tr>
+<tr><td>W/C Ratio</td><td>≤0.40</td><td>QCS S8</td></tr>
+<tr><td>Slab Thickness</td><td>Design ±5mm</td><td>QCS S8</td></tr>
+<tr><td>Texture (brushed)</td><td>3–5mm groove depth</td><td>QCS S8</td></tr>
+<tr><td>Joint Spacing</td><td>≤5m transverse / ≤7.5m longitudinal</td><td>QCS S8</td></tr>
+<tr><td>Joint Sealant</td><td>Hot applied — BS 2499</td><td>QCS S8</td></tr>
+<tr><td>Curing</td><td>Curing compound + min 7 days</td><td>QCS S8</td></tr>
+<tr><td>Skid Resistance</td><td>≥55 SRT value</td><td>QCS S8</td></tr>
+<tr><td>Level Tolerance</td><td>±3mm under 3m straightedge</td><td>QCS S8</td></tr>
 </table>
 </div>
 ` },
