@@ -22,7 +22,7 @@
 
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — Section 5 | Structural Works
+📌 QCS 2024 — QCS S5 P1 (General) | S5 P3 (Rebar) | S5 P4 (Concrete) | S5 P7 (Piles) | BS 8110 | BS 8004 | Structural Works
 </div>
 <h3>🏗️ اختر القسم</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">

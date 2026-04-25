@@ -229,7 +229,7 @@
 <div class="lang-content-ar">
 
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
-📌 QCS 2024 Section 6 Part 5 — Mix Design + Production + Pavement Design
+📌 QCS 2024 S6 P5 (Mix Design) | S6 P2 (Pavement Design) | S6 P3 (Materials) | Ashghal RDM 2023 | AASHTO 2018
 </div>
 
 <h3>🔬 Marshall Mix Design — Tables 5:6, 5:7, 5:8</h3>
