@@ -966,4 +966,248 @@ c["sabkha_classification"] = {
 </table></div>`
 };
 
+
+c["road_design_criteria"] = {
+  title: '📐 معايير تصميم الطرق — QCS S6 + Ashghal RDM',
+  content: `
+<div class="lang-content-ar">
+
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
+📌 QCS 2024 Section 6 Part 2 — Road Design | Ashghal RDM 2023 | AASHTO 2018
+</div>
+
+<h3>🚗 سرعات التصميم وعروض الحارات</h3>
+<table class="dm-table">
+<tr><th>تصنيف الطريق</th><th>سرعة التصميم</th><th>عرض الحارة</th><th>عرض الكتف</th></tr>
+<tr><td><strong>Expressway</strong></td><td>120 km/h</td><td>3.65m</td><td>3.0m (Hard)</td></tr>
+<tr><td><strong>Arterial (A)</strong></td><td>80-100 km/h</td><td>3.65m</td><td>2.5m</td></tr>
+<tr><td><strong>Arterial (B)</strong></td><td>60-80 km/h</td><td>3.5m</td><td>2.0m</td></tr>
+<tr><td><strong>Collector</strong></td><td>50-60 km/h</td><td>3.25m</td><td>1.5m</td></tr>
+<tr><td><strong>Local</strong></td><td>40-50 km/h</td><td>3.0-3.25m</td><td>1.0m</td></tr>
+<tr><td><strong>Service Road</strong></td><td>30-40 km/h</td><td>3.0m</td><td>—</td></tr>
+</table>
+
+<h3>📏 مسافات الرؤية — Sight Distances</h3>
+<table class="dm-table">
+<tr><th>السرعة</th><th>Stopping SSD</th><th>Passing PSD</th><th>Decision DSD</th></tr>
+<tr><td>40 km/h</td><td>40m</td><td>140m</td><td>75m</td></tr>
+<tr><td>60 km/h</td><td>75m</td><td>240m</td><td>125m</td></tr>
+<tr><td>80 km/h</td><td>120m</td><td>360m</td><td>185m</td></tr>
+<tr><td>100 km/h</td><td>175m</td><td>500m</td><td>265m</td></tr>
+<tr><td>120 km/h</td><td>245m</td><td>670m</td><td>355m</td></tr>
+</table>
+
+<h3>📐 المنحنيات الأفقية — Horizontal Alignment</h3>
+<table class="dm-table">
+<tr><th>السرعة</th><th>Rmin (e=6%)</th><th>Rmin (e=4%)</th><th>Max Superelevation</th></tr>
+<tr><td>40 km/h</td><td>47m</td><td>60m</td><td>6%</td></tr>
+<tr><td>60 km/h</td><td>120m</td><td>150m</td><td>6%</td></tr>
+<tr><td>80 km/h</td><td>230m</td><td>290m</td><td>6%</td></tr>
+<tr><td>100 km/h</td><td>390m</td><td>490m</td><td>6%</td></tr>
+<tr><td>120 km/h</td><td>600m</td><td>790m</td><td>6%</td></tr>
+</table>
+
+<h3>⛰️ الانحدار الطولي — Vertical Alignment</h3>
+<table class="dm-table">
+<tr><th>تصنيف الطريق</th><th>Max Grade</th><th>Min Grade</th><th>Max K (Crest)</th><th>Max K (Sag)</th></tr>
+<tr><td>Expressway</td><td>3%</td><td>0.5%</td><td>170</td><td>100</td></tr>
+<tr><td>Arterial</td><td>5%</td><td>0.5%</td><td>84</td><td>61</td></tr>
+<tr><td>Collector</td><td>7%</td><td>0.5%</td><td>43</td><td>37</td></tr>
+<tr><td>Local</td><td>8%</td><td>0.5%</td><td>22</td><td>20</td></tr>
+</table>
+
+<h3>🛣️ المقاطع العرضية — Cross-Section Elements</h3>
+<table class="dm-table">
+<tr><th>العنصر</th><th>المتطلب</th><th>QCS/RDM</th></tr>
+<tr><td><strong>Crossfall (Normal)</strong></td><td>2.5% ± 0.3%</td><td>QCS S6 P2 + RDM</td></tr>
+<tr><td><strong>Crossfall (Shoulder)</strong></td><td>4-6%</td><td>Ashghal RDM</td></tr>
+<tr><td><strong>Median Width</strong></td><td>min 2.0m (Collector) → 10m+ (Expressway)</td><td>RDM Table 3-3</td></tr>
+<tr><td><strong>Footpath</strong></td><td>min 2.0m في المناطق السكنية</td><td>MMUP + RDM</td></tr>
+<tr><td><strong>Cycle Track</strong></td><td>2.5m أحادي / 4.0m مزدوج</td><td>Qatar Cycling Strategy</td></tr>
+<tr><td><strong>Clear Zone</strong></td><td>2.5m-9m حسب السرعة</td><td>RDM Safety</td></tr>
+</table>
+
+<h3>🚦 تقاطعات — Intersections</h3>
+<table class="dm-table">
+<tr><th>النوع</th><th>السرعة المناسبة</th><th>المتطلب</th></tr>
+<tr><td>Roundabout</td><td>≤ 60 km/h</td><td>Entry width 4-5m، Inscribed Circle ≥ 30m</td></tr>
+<tr><td>Signal Controlled</td><td>40-80 km/h</td><td>Cycle time 60-120s، Phase min 7s</td></tr>
+<tr><td>Grade Separated</td><td>≥ 80 km/h</td><td>Clearance min 5.1m للطرق الحضرية</td></tr>
+</table>
+
+<div class="dm-note">📌 QCS 2024 S6 P2 — جميع التصاميم تحتاج موافقة Ashghal قبل التنفيذ | RDM 2023 هو المرجع الأساسي في قطر</div>
+</div>
+
+<div class="lang-content-en" style="display:none">
+<h3>Road Design Criteria — QCS S6 + Ashghal RDM 2023</h3>
+<table class="dm-table">
+<tr><th>Road Class</th><th>Design Speed</th><th>Lane Width</th><th>Shoulder</th></tr>
+<tr><td>Expressway</td><td>120 km/h</td><td>3.65m</td><td>3.0m Hard</td></tr>
+<tr><td>Arterial A</td><td>80-100 km/h</td><td>3.65m</td><td>2.5m</td></tr>
+<tr><td>Collector</td><td>50-60 km/h</td><td>3.25m</td><td>1.5m</td></tr>
+<tr><td>Local</td><td>40-50 km/h</td><td>3.0m</td><td>1.0m</td></tr>
+</table>
+<table class="dm-table">
+<tr><th>Speed</th><th>SSD</th><th>Rmin (e=6%)</th><th>Max Grade</th></tr>
+<tr><td>60 km/h</td><td>75m</td><td>120m</td><td>5%</td></tr>
+<tr><td>80 km/h</td><td>120m</td><td>230m</td><td>5%</td></tr>
+<tr><td>100 km/h</td><td>175m</td><td>390m</td><td>3-5%</td></tr>
+<tr><td>120 km/h</td><td>245m</td><td>600m</td><td>3%</td></tr>
+</table>
+</div>`
+};
+
+c["sabkha_treatment"] = {
+  title: '🏜️ معالجة السبخة — QCS S5 + IAN-006',
+  content: `
+<div class="lang-content-ar">
+
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
+📌 QCS 2024 Section 5 Part 2 | IAN-006 Qatar | Ashghal Sabkha Guidelines
+</div>
+
+<h3>🔴 إجراءات المعالجة حسب الصنف</h3>
+<table class="dm-table">
+<tr><th>الصنف</th><th>SO₃%</th><th>إجراء المعالجة</th><th>خرسانة الأساس</th></tr>
+<tr><td><strong>Class 1</strong></td><td>&lt; 0.5%</td><td>دمك عادي + SRPC</td><td>C30 SRPC</td></tr>
+<tr><td><strong>Class 2</strong></td><td>0.5-2.0%</td><td>Geotextile + SRPC + Bituminous DPC</td><td>C35 SRPC + عزل</td></tr>
+<tr><td><strong>Class 3</strong></td><td>2.0-5.0%</td><td>استبدال كامل 1.5m أو Piling + عزل مزدوج</td><td>C40 SRPC + HDPE liner</td></tr>
+<tr><td><strong>Class 4</strong></td><td>&gt; 5.0%</td><td>تقرير متخصص + موافقة Ashghal مكتوبة</td><td>يحدده المهندس الاستشاري</td></tr>
+</table>
+
+<h3>⚒️ خطوات الاستبدال — Sabkha Removal Procedure</h3>
+<table class="dm-table">
+<tr><th>#</th><th>الخطوة</th><th>المتطلب</th><th>QCS/IAN</th></tr>
+<tr><td>1</td><td>حفر وإزالة السبخة</td><td>حتى تربة سليمة أو 1.5m min</td><td>IAN-006</td></tr>
+<tr><td>2</td><td>Proof Rolling</td><td>10-12 طن على قاع الحفر</td><td>QCS S6 P5</td></tr>
+<tr><td>3</td><td>CBR Test</td><td>CBR ≥ 15% قبل ردم</td><td>QCS S6 P5</td></tr>
+<tr><td>4</td><td>Geotextile</td><td>Class 3-4: Woven GT 150kN/m</td><td>IAN-006</td></tr>
+<tr><td>5</td><td>ردم بطبقات</td><td>Imported Fill، طبقات 200mm max، دمك 95% MDD</td><td>QCS S6 P5</td></tr>
+<tr><td>6</td><td>Sulfate Barrier</td><td>Class 2+: Bituminous DPC فوق Blinding</td><td>QCS S5 P2</td></tr>
+<tr><td>7</td><td>Blinding Concrete</td><td>75mm C15 فوق الردم</td><td>QCS S5 P4</td></tr>
+<tr><td>8</td><td>فحص نهائي</td><td>Plate Load Test + SO₃ على عينات الردم</td><td>QCS S5 P2</td></tr>
+</table>
+
+<h3>🧱 متطلبات الخرسانة في مناطق السبخة</h3>
+<table class="dm-table">
+<tr><th>المتطلب</th><th>Class 1-2</th><th>Class 3-4</th><th>QCS</th></tr>
+<tr><td><strong>نوع الإسمنت</strong></td><td>SRPC (BS 4027)</td><td>SRPC + Microsilica 10%</td><td>S5 P2</td></tr>
+<tr><td><strong>w/c Ratio</strong></td><td>≤ 0.40</td><td>≤ 0.35</td><td>S5 P4</td></tr>
+<tr><td><strong>درجة الخرسانة</strong></td><td>C30 min</td><td>C40 min</td><td>S5 P4</td></tr>
+<tr><td><strong>Cover الخارجي</strong></td><td>50mm</td><td>60mm</td><td>S5 P3</td></tr>
+<tr><td><strong>Chloride Max</strong></td><td>Cl ≤ 0.10%</td><td>Cl ≤ 0.06%</td><td>S5 P2</td></tr>
+<tr><td><strong>Sulfate Test Freq</strong></td><td>كل 500m²</td><td>كل 250m²</td><td>IAN-006</td></tr>
+</table>
+
+<h3>⚠️ علامات التعرف على السبخة في الموقع</h3>
+<table class="dm-table">
+<tr><th>العلامة</th><th>الدلالة</th></tr>
+<tr><td>🟤 تربة بيضاء أو رمادية مع تبلور ملحي</td><td>Class 2+ محتملة</td></tr>
+<tr><td>💧 رطوبة على السطح في الشمس</td><td>مياه جوفية ضحلة</td></tr>
+<tr><td>🌊 انتفاخ الأرض عند الحفر</td><td>Class 3-4 محتملة</td></tr>
+<tr><td>🧂 رائحة كبريتية من التربة</td><td>Sulfate مرتفع — اختبر فوراً</td></tr>
+<tr><td>🦶 غوص الأقدام في التربة</td><td>Class 3 — أوقف الحفر واستشر</td></tr>
+</table>
+
+<div class="dm-note">⚠️ QCS S5 P2 — يجب رفع NCR فوري إذا اكتُشفت سبخة Class 3+ في أثناء التنفيذ وعدم المتابعة قبل الحصول على تعليمات هندسية معتمدة</div>
+</div>
+
+<div class="lang-content-en" style="display:none">
+<h3>Sabkha Treatment — QCS S5 + IAN-006</h3>
+<table class="dm-table">
+<tr><th>Class</th><th>SO₃%</th><th>Treatment</th><th>Concrete</th></tr>
+<tr><td>Class 1</td><td>&lt;0.5%</td><td>Normal compaction + SRPC</td><td>C30 SRPC</td></tr>
+<tr><td>Class 2</td><td>0.5-2.0%</td><td>Geotextile + SRPC + Bituminous DPC</td><td>C35 SRPC + barrier</td></tr>
+<tr><td>Class 3</td><td>2.0-5.0%</td><td>Full removal 1.5m or Piling + double barrier</td><td>C40 SRPC + HDPE</td></tr>
+<tr><td>Class 4</td><td>&gt;5.0%</td><td>Specialist report + Ashghal written approval</td><td>By specialist</td></tr>
+</table>
+<table class="dm-table">
+<tr><th>Requirement</th><th>Class 1-2</th><th>Class 3-4</th><th>QCS</th></tr>
+<tr><td>Cement Type</td><td>SRPC (BS 4027)</td><td>SRPC + 10% Microsilica</td><td>S5 P2</td></tr>
+<tr><td>w/c Ratio</td><td>≤ 0.40</td><td>≤ 0.35</td><td>S5 P4</td></tr>
+<tr><td>Cover</td><td>50mm</td><td>60mm</td><td>S5 P3</td></tr>
+</table>
+</div>`
+};
+
+c["survey_setting_out"] = {
+  title: '📐 Survey & Setting Out — QCS + Ashghal',
+  content: `
+<div class="lang-content-ar">
+
+<div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
+📌 QCS 2024 Section 1 Part 5 — Setting Out | Ashghal Survey Standards | BS 5606
+</div>
+
+<h3>📍 نقاط الإسناد — Control Points</h3>
+<table class="dm-table">
+<tr><th>النوع</th><th>المتطلب</th><th>المرجع</th></tr>
+<tr><td><strong>Datum Benchmark</strong></td><td>QNHD (Qatar National Height Datum) — المرجع الرسمي في قطر</td><td>Ashghal Survey</td></tr>
+<tr><td><strong>Grid System</strong></td><td>Qatar National Grid (QND95) — Transverse Mercator</td><td>Ashghal Survey</td></tr>
+<tr><td><strong>Bench Marks</strong></td><td>كل 500m max على امتداد الطريق، ثابتة في Concrete</td><td>QCS S1 P5</td></tr>
+<tr><td><strong>Control Traverses</strong></td><td>Closed Traverse، Misclosure ≤ 1:10,000</td><td>BS 5606</td></tr>
+</table>
+
+<h3>📏 تفاوتات الضبط — Setting Out Tolerances</h3>
+<table class="dm-table">
+<tr><th>العمل</th><th>التفاوت الأفقي</th><th>التفاوت الرأسي</th><th>QCS</th></tr>
+<tr><td><strong>Subgrade</strong></td><td>±25mm من المحور</td><td>-10 / +20mm</td><td>S6 P5</td></tr>
+<tr><td><strong>Subbase</strong></td><td>±15mm</td><td>±10mm</td><td>S6 P4</td></tr>
+<tr><td><strong>Base Course</strong></td><td>±10mm</td><td>±8mm</td><td>S6 P4</td></tr>
+<tr><td><strong>Asphalt Surface</strong></td><td>±6mm</td><td>±6mm</td><td>S8 P6</td></tr>
+<tr><td><strong>Kerb Line</strong></td><td>±10mm</td><td>±5mm</td><td>Ashghal RDM</td></tr>
+<tr><td><strong>Manholes / Gullies</strong></td><td>±15mm plan</td><td>±5mm level</td><td>QCS S8 P15</td></tr>
+<tr><td><strong>Pipe Invert Level</strong></td><td>—</td><td>±10mm</td><td>QCS S8 P12</td></tr>
+<tr><td><strong>Piles (Position)</strong></td><td>±75mm from design</td><td>±25mm cut-off level</td><td>QCS S5 P7</td></tr>
+<tr><td><strong>Column Base Plate</strong></td><td>±5mm</td><td>±3mm</td><td>QCS S5 P3</td></tr>
+</table>
+
+<h3>🔭 المعدات المطلوبة</h3>
+<table class="dm-table">
+<tr><th>المعدة</th><th>الدقة المطلوبة</th><th>الاستخدام</th></tr>
+<tr><td><strong>Total Station</strong></td><td>1" Angular / 1mm+1ppm Distance</td><td>ضبط المحاور والمناسيب</td></tr>
+<tr><td><strong>GPS RTK</strong></td><td>±10mm Horizontal / ±20mm Vertical</td><td>المسح السريع والتحقق</td></tr>
+<tr><td><strong>Digital Level</strong></td><td>±0.3mm/km</td><td>الـ Leveling الدقيق</td></tr>
+<tr><td><strong>Laser Screed</strong></td><td>±3mm</td><td>تسوية الإسفلت والخرسانة</td></tr>
+</table>
+
+<h3>✅ إجراءات الضبط الميداني</h3>
+<table class="dm-table">
+<tr><th>#</th><th>الإجراء</th><th>المتطلب</th></tr>
+<tr><td>1</td><td>تحقق من نقاط الإسناد</td><td>قبل أي عمل — التحقق المستقل من BM</td></tr>
+<tr><td>2</td><td>Traverse Check</td><td>Misclosure ≤ 1:10,000 وإلا أعد</td></tr>
+<tr><td>3</td><td>ضبط المحور</td><td>Pegs كل 25m مستقيم / 10m منحنى</td></tr>
+<tr><td>4</td><td>As-Built Survey</td><td>بعد كل طبقة قبل الموافقة</td></tr>
+<tr><td>5</td><td>تسليم للمشرف</td><td>Survey Report موقّع قبل HP</td></tr>
+<tr><td>6</td><td>Final As-Built</td><td>كامل قبل Handover — دقة ±6mm</td></tr>
+</table>
+
+<h3>📋 Checklist قبل الصب / الفرد</h3>
+<table class="dm-table">
+<tr><th>البند</th><th>تم؟</th></tr>
+<tr><td>✅ تحقق من المستويات (Levels Check)</td><td>□</td></tr>
+<tr><td>✅ تحقق من المحاور (Alignment Check)</td><td>□</td></tr>
+<tr><td>✅ As-Built موقّع من المساح</td><td>□</td></tr>
+<tr><td>✅ موافقة المشرف على نتائج المسح</td><td>□</td></tr>
+<tr><td>✅ تحقق من التفاوتات ضمن الحدود</td><td>□</td></tr>
+</table>
+
+<div class="dm-note">📌 QCS S1 P5 — لا يُسمح بالمتابعة لأي مرحلة قبل الحصول على موافقة المشرف على نتائج الـ Setting Out Survey</div>
+</div>
+
+<div class="lang-content-en" style="display:none">
+<h3>Survey & Setting Out — QCS S1 + Ashghal Standards</h3>
+<table class="dm-table">
+<tr><th>Work</th><th>Horizontal Tol.</th><th>Vertical Tol.</th><th>QCS</th></tr>
+<tr><td>Subgrade</td><td>±25mm</td><td>-10/+20mm</td><td>S6 P5</td></tr>
+<tr><td>Subbase</td><td>±15mm</td><td>±10mm</td><td>S6 P4</td></tr>
+<tr><td>Base Course</td><td>±10mm</td><td>±8mm</td><td>S6 P4</td></tr>
+<tr><td>Asphalt Surface</td><td>±6mm</td><td>±6mm</td><td>S8 P6</td></tr>
+<tr><td>Pipe Invert</td><td>—</td><td>±10mm</td><td>S8 P12</td></tr>
+<tr><td>Piles</td><td>±75mm</td><td>±25mm</td><td>S5 P7</td></tr>
+</table>
+<div class="dm-note">📌 QCS S1 P5 — No work shall proceed without Supervisor approval of Setting Out Survey</div>
+</div>`
+};
+
 })();

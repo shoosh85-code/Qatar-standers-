@@ -121,5 +121,8 @@ window.QS_CONTENT_MAP = {
   "ashghal_std_details": "data_content_extra.js",
   "shoring_itp": "data_content_extra.js",
   "cctv_itp": "data_content_extra.js",
-  "sabkha_classification": "data_content_extra.js"
+  "sabkha_classification": "data_content_extra.js",
+  "road_design_criteria": "data_content_extra.js",
+  "sabkha_treatment": "data_content_extra.js",
+  "survey_setting_out": "data_content_extra.js"
 };
