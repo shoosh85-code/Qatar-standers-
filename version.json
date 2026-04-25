@@ -1,5 +1,5 @@
 {
-  "version": "2.6.0",
-  "date": "2026-04-23",
-  "notes": "UX++: Error handler + Offline indicator + Skeleton + Keyboard shortcuts + Focus mgmt + Print CSS + Resource hints + Input sanitization"
+  "version": "2.9.0",
+  "date": "2026-04-25",
+  "notes": "Security + Performance + Content wiring \u2014 all 50 cards verified"
 }
