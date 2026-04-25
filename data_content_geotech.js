@@ -1,0 +1,529 @@
+// QatarSpec Pro — Content: geotech
+(function(){
+  var c=window.QS_CONTENT=window.QS_CONTENT||{};
+  c["geotech"] = { title: '🔬 الجسات والتربة', content: `
+<div class="lang-content-ar">
+<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;">
+<span style="font-size:16px;">🎥</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">أعمال الجسات والفحوصات الجيوتقنية</span>
+</div>
+<button onclick="document.getElementById('vid-geotech').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-geotech" accept="video/*" style="display:none" data-player="vid-player-geotech" data-ph="vid-placeholder-geotech" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
+<div id="vid-placeholder-geotech" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">حفر آبار الجسات، SPT، أخذ العينات، التقرير الجيوتقني</div>
+<div style="font-size:11px;color:var(--text3);">اضغط "رفع فيديو" لتحميل ملف MP4</div>
+</div>
+<div id="vid-player-geotech" class="qs-vid-ph" data-maxh="280px"></div>
+</div>
+
+
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 2 | Geotechnical Investigation</div>
+<h3>📋 نظرة عامة</h3>
+<p>الجسات في قطر ضرورة قبل أي مشروع. التربة القطرية متنوعة — Sabkha، رمل، صخر جيري، ومياه جوفية عالية الكبريتات. تقرير الجسات يحدد نوع الأساس ومتطلبات الConcrete.</p>
+<h3>📌 اختر القسم</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
+<div onclick="QS.openDetail('geo_planning')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">📐</div><div style="color:var(--gold);font-weight:700;font-size:13px;">التخطيط</div><div style="color:var(--text3);font-size:11px;">Scope & Grid</div></div>
+<div onclick="QS.openDetail('geo_borehole')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🕳️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Boreholes</div><div style="color:var(--text3);font-size:11px;">الحفر والتسجيل</div></div>
+<div onclick="QS.openDetail('geo_spt')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔨</div><div style="color:var(--gold);font-weight:700;font-size:13px;">SPT Test</div><div style="color:var(--text3);font-size:11px;">Standard Penetration</div></div>
+<div onclick="QS.openDetail('geo_lab')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧪</div><div style="color:var(--gold);font-weight:700;font-size:13px;">اختبارات المختبر</div><div style="color:var(--text3);font-size:11px;">Lab Tests</div></div>
+<div onclick="QS.openDetail('geo_water')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">💧</div><div style="color:var(--gold);font-weight:700;font-size:13px;">المياه الجوفية</div><div style="color:var(--text3);font-size:11px;">Groundwater</div></div>
+<div onclick="QS.openDetail('geo_report')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">📋</div><div style="color:var(--gold);font-weight:700;font-size:13px;">التقرير النهائي</div><div style="color:var(--text3);font-size:11px;">GI Report</div></div>
+</div>
+<div style="margin-top:12px;"><div onclick="QS.openDetail('itp_geotech')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;"><div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">ITP الجسات الكامل</div></div></div>
+<h3>📐 متطلبات قطر العامة</h3>
+<table class="dm-table"><tr><th>البند</th><th>المعيار</th><th>المرجع</th></tr>
+<tr><td>عدد Boreholes</td><td>BH كل 25m للمباني / كل 50m للطرق</td><td>QCS S2</td></tr>
+<tr><td>عمق BH — مباني</td><td>عمق الأساس + 1.5 × عرض الأساس أو 10m</td><td>QCS S2</td></tr>
+<tr><td>عمق BH — طرق</td><td>3-5m من مستوى الأساس</td><td>QCS S2</td></tr>
+<tr><td>SPT كل</td><td>1.5m أو عند تغيير الطبقة</td><td>BS EN ISO 22476-3</td></tr>
+<tr><td>عينات Undisturbed</td><td>كل 2m في الطبقات الطينية</td><td>QCS S2</td></tr>
+<tr><td>اختبارات كيميائية</td><td>Sulphate + Chloride + pH</td><td>QCS S2</td></tr>
+<tr><td>مياه جوفية</td><td>قياس المستوى في كل BH</td><td>QCS S2</td></tr>
+</table>
+
+</div>
+<div class="lang-content-en" style="display:none;">
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 | Geotechnical Investigation — Qatar Specific Requirements
+</div>
+<h3>🔬 Select Investigation Phase</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
+<div onclick="QS.openDetail('geo_planning')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:20px">📐</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Planning</div></div>
+<div onclick="QS.openDetail('geo_borehole')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:20px">🔩</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Boreholes</div></div>
+<div onclick="QS.openDetail('geo_spt')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:20px">🔨</div><div style="color:var(--gold);font-weight:700;font-size:12px;">SPT Testing</div></div>
+<div onclick="QS.openDetail('geo_lab')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
+<div style="font-size:20px">🔬</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Lab Analysis</div></div>
+</div>
+<table class="dm-table">
+<tr><th>Item</th><th>Qatar Requirement</th></tr>
+<tr><td>Min Borehole Depth</td><td>5m below foundation / 1.5×pile length</td></tr>
+<tr><td>Borehole Spacing</td><td>25–50m grid (general) / per structure</td></tr>
+<tr><td>SPT Frequency</td><td>Every 1.5m or change of strata</td></tr>
+<tr><td>Sulphate (SO3)</td><td>Test all layers — critical in Qatar</td></tr>
+<tr><td>Groundwater</td><td>Monitor 24h minimum</td></tr>
+</table>
+</div>
+<button onclick="document.getElementById('vid-geotech-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+</div>
+<input type="file" id="vid-geotech-en" accept="video/*" style="display:none" data-player="vid-player-geotech-en" data-ph="vid-placeholder-geotech-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
+<div id="vid-placeholder-geotech-en" style="padding:24px;text-align:center;color:var(--text3);">
+<div style="font-size:32px;margin-bottom:8px;">📹</div>
+<div style="font-size:13px;margin-bottom:4px;">Borehole drilling, SPT, sampling, GI report</div>
+<div style="font-size:11px;">Click "Upload Video" to load MP4 file</div>
+</div>
+<div id="vid-player-geotech-en" class="qs-vid-ph" data-maxh="280px"></div>
+</div>
+
+<h3>🔬 Geotechnical Investigation — QCS 2024 Section 2</h3>
+<table class="dm-table">
+<tr><th>Item</th><th>Requirement</th></tr>
+<tr><td>Borehole Spacing</td><td>15-25m buildings / 50-100m roads</td></tr>
+<tr><td>SPT Frequency</td><td>Every 1.5m or at stratum change</td></tr>
+<tr><td>Sulphate SO3</td><td>Critical in Qatar — Class 1-5</td></tr>
+<tr><td>Chloride</td><td>Coastal areas may reach seawater levels</td></tr>
+<tr><td>GWT Measurement</td><td>At encounter + 24hr after completion</td></tr>
+<tr><td>GI Report</td><td>Must include cement type recommendation</td></tr>
+</table>
+</div>
+` };
+  c["geo_planning"] = { title: '📐 الجسات — التخطيط والنطاق', content: `
+<div class="lang-content-ar">
+
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 2 | Planning</div>
+<h3>📐 شبكة Boreholes</h3>
+<table class="dm-table"><tr><th>نوع المشروع</th><th>المسافة بين BH</th><th>الحد الأدنى</th></tr>
+<tr><td>مبنى سكني صغير</td><td>15-25m</td><td>3 BH</td></tr>
+<tr><td>مبنى تجاري / برج</td><td>15-20m</td><td>4 BH في الزوايا + 1 وسط</td></tr>
+<tr><td>طريق</td><td>كل 50-100m</td><td>BH كل 50m للطرق الرئيسية</td></tr>
+<tr><td>خطوط مرافق</td><td>كل 100m</td><td>BH + Trial Pit</td></tr>
+<tr><td>جسر / منشأة بحرية</td><td>حسب العدد وأحواض الدعم</td><td>BH عند كل Pier</td></tr>
+</table>
+<h3>📐 الأعماق المطلوبة</h3>
+<table class="dm-table"><tr><th>النوع</th><th>العمق</th></tr>
+<tr><td>Pad / Strip Foundation</td><td>عمق الأساس + 5B أو 10m</td></tr>
+<tr><td>Raft Foundation</td><td>عمق الأساس + 2B أو 15m</td></tr>
+<tr><td>Bored Piles</td><td>طول الخازوق + 5D أو 3m</td></tr>
+<tr><td>طرق ومرافق</td><td>3-5m من مستوى الطريق</td></tr>
+</table>
+<h3>🔧 متطلبات الموقع</h3>
+<p>• NOC من كل الجهات قبل الحفر<br>• تحديد مواضع الخدمات المدفونة<br>• مراقب جيوتقني أثناء الحفر<br>• توثيق كل شيء بالصور</p>
+<h3>🔴 Hold Points</h3>
+<p>• <strong>HP-01:</strong> اعتماد خطة الجسات من المهندس الجيوتقني قبل البدء</p>
+
+</div>
+<div class="lang-content-en" style="display:none;">
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 Reference | 📐 الجسات — التخطيط والنطاق
+</div>
+<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
+<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
+All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
+</div>
+</div>
+` };
+  c["geo_borehole"] = { title: '🕳️ الجسات — Boreholes', content: `
+<div class="lang-content-ar">
+
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 2 | Borehole Drilling</div>
+<h3>📐 طرق الحفر</h3>
+<table class="dm-table"><tr><th>الطريقة</th><th>الاستخدام</th><th>المميزات</th></tr>
+<tr><td>Rotary Drilling</td><td>الصخر والمواد الصلبة</td><td>عينات جيدة + أعماق كبيرة</td></tr>
+<tr><td>Cable Percussion</td><td>التربة والرمل</td><td>SPT ممتاز</td></tr>
+<tr><td>Auger Drilling</td><td>الطبقات الطينية الرخوة</td><td>سريع وغير مكلف</td></tr>
+<tr><td>Trial Pits</td><td>أعماق ≤ 3m</td><td>فحص بصري ممتاز</td></tr>
+</table>
+<h3>📐 تسجيل Borehole Log</h3>
+<p>• وصف كل طبقة (نوع + لون + كثافة + رطوبة)<br>• مستوى المياه الجوفية عند ظهورها<br>• عمق كل SPT والنتيجة<br>• نوع وعمق كل عينة<br>• أي ظروف غير اعتيادية (Sabkha، Cavities، Gas)</p>
+<h3>⚠️ تنبيهات خاصة بقطر</h3>
+<p>• <strong>Sabkha:</strong> طبقة بيضاء/رمادية مالحة — سجّل عمقها وسماكتها<br>• <strong>Cavernous Limestone:</strong> فراغات في الصخر الجيري — خطر على الأساسات<br>• <strong>Fill Material:</strong> ردميات قديمة شائعة في المناطق الساحلية<br>• <strong>Gas:</strong> في بعض المناطق — احتياطات السلامة إلزامية</p>
+<h3>🔴 Hold Points</h3>
+<p>• <strong>HP-02:</strong> مراقب جيوتقني في الموقع طوال فترة الحفر</p>
+
+</div>
+<div class="lang-content-en" style="display:none;">
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 Reference | 🕳️ الجسات — Boreholes
+</div>
+<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
+<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
+All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
+</div>
+</div>
+` };
+  c["geo_spt"] = { title: '🔨 الجسات — SPT Test', content: `
+<div class="lang-content-ar">
+
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 BS EN ISO 22476-3 | Standard Penetration Test</div>
+<h3>📐 إجراء SPT</h3>
+<table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
+<tr><td>وزن المطرقة</td><td>63.5 kg</td></tr>
+<tr><td>ارتفاع السقوط</td><td>760mm</td></tr>
+<tr><td>الإدخال الأولي</td><td>150mm (Seating Drive — غير محسوب)</td></tr>
+<tr><td>الاختبار الفعلي</td><td>300mm = مجموع ضربات N</td></tr>
+<tr><td>الرفض</td><td>&gt; 50 ضربة لـ 300mm أو 100 ضربة لـ 150mm</td></tr>
+<tr><td>التكرار</td><td>كل 1.5m أو عند تغيير الطبقة</td></tr>
+</table>
+<h3>📊 تفسير نتائج SPT (N-Value)</h3>
+<table class="dm-table"><tr><th>N-Value</th><th>الرمل</th><th>الطين</th></tr>
+<tr><td>0-4</td><td>رخو جداً (Very Loose)</td><td>طري جداً (Very Soft)</td></tr>
+<tr><td>4-10</td><td>رخو (Loose)</td><td>طري (Soft)</td></tr>
+<tr><td>10-30</td><td>متوسط (Medium Dense)</td><td>متوسط (Medium Stiff)</td></tr>
+<tr><td>30-50</td><td>كثيف (Dense)</td><td>صلب (Stiff)</td></tr>
+<tr><td>&gt; 50</td><td>كثيف جداً (Very Dense)</td><td>صلب جداً (Very Stiff)</td></tr>
+</table>
+<h3>⚙️ تصحيحات N-Value</h3>
+<p>• <strong>N60:</strong> تصحيح لكفاءة الطاقة (عادة × 0.6-1.0)<br>• <strong>N1,60:</strong> تصحيح لضغط التربة (Overburden)<br>• <strong>في قطر:</strong> Gravel Content يعطي N مرتفع مضلل — انتبه</p>
+<h3>🔴 Hold Points</h3>
+<p>• <strong>HP-03:</strong> معايرة المطرقة والمعدات قبل البدء</p>
+
+</div>
+<div class="lang-content-en" style="display:none;">
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 Reference | 🔨 الجسات — SPT Test
+</div>
+<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
+<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
+All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
+</div>
+</div>
+` };
+  c["geo_lab"] = { title: '🧪 الجسات — اختبارات المختبر', content: `
+<div class="lang-content-ar">
+
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 2 | Laboratory Testing</div>
+<h3>📐 الاختبارات الإلزامية في قطر</h3>
+<table class="dm-table"><tr><th>الاختبار</th><th>المعيار</th><th>التكرار</th><th>الأهمية</th></tr>
+<tr><td>Sulphate Content (SO3)</td><td>%</td><td>كل BH + طبقة</td><td>⭐⭐⭐ قطر عالية الكبريتات</td></tr>
+<tr><td>Chloride Content</td><td>%</td><td>كل BH + طبقة</td><td>⭐⭐⭐ مناطق ساحلية</td></tr>
+<tr><td>pH</td><td>4-11</td><td>كل BH</td><td>⭐⭐ تأثير على الConcrete</td></tr>
+<tr><td>Atterberg Limits (LL + PL)</td><td>%</td><td>كل طبقة طينية</td><td>⭐⭐⭐ تحديد طبيعة التربة</td></tr>
+<tr><td>Grading Analysis</td><td>%</td><td>كل طبقة</td><td>⭐⭐⭐ تصنيف التربة</td></tr>
+<tr><td>Natural Moisture Content</td><td>%</td><td>كل عينة</td><td>⭐⭐ حالة التربة</td></tr>
+<tr><td>Specific Gravity</td><td>Gs</td><td>كل نوع تربة</td><td>⭐⭐ حسابات الضغط</td></tr>
+<tr><td>CBR (Soaked)</td><td>%</td><td>كل طبقة للطرق</td><td>⭐⭐⭐ تصميم الطريق</td></tr>
+<tr><td>Proctor Compaction</td><td>MDD + OMC</td><td>كل تغيير مادة</td><td>⭐⭐⭐ متطلبات الCompaction</td></tr>
+<tr><td>Consolidation</td><td>Cc + Cv</td><td>الطين الرخو</td><td>⭐⭐ حساب الهبوط</td></tr>
+<tr><td>Shear Strength (UU)</td><td>c + φ</td><td>عند الحاجة</td><td>⭐⭐ تصميم الأساسات</td></tr>
+</table>
+<h3>⚠️ قطر — الكبريتات الأهم</h3>
+<table class="dm-table"><tr><th>نتيجة SO3</th><th>التصنيف</th><th>المطلوب</th></tr>
+<tr><td>&lt; 0.2%</td><td>Class 1 — منخفض</td><td>OPC عادي</td></tr>
+<tr><td>0.2-0.5%</td><td>Class 2</td><td>SRPC أو OPC+GGBS</td></tr>
+<tr><td>0.5-1.0%</td><td>Class 3</td><td>SRPC إلزامي</td></tr>
+<tr><td>1.0-2.0%</td><td>Class 4</td><td>SRPC + Protective Coating</td></tr>
+<tr><td>&gt; 2.0%</td><td>Class 5 — خطر</td><td>دراسة خاصة</td></tr>
+</table>
+
+</div>
+<div class="lang-content-en" style="display:none;">
+<h3>🔬 Geotechnical Laboratory Tests — QCS 2024</h3>
+<table class="dm-table">
+<tr><th>Test</th><th>Standard</th><th>Purpose</th></tr>
+<tr><td>Atterberg Limits (LL + PL)</td><td>ASTM D4318</td><td>Classify cohesive soils</td></tr>
+<tr><td>Particle Size Distribution</td><td>ASTM D422</td><td>Soil classification</td></tr>
+<tr><td>Proctor Compaction</td><td>ASTM D698 (Standard) / D1557 (Modified)</td><td>MDD + OMC</td></tr>
+<tr><td>CBR (soaked 4 days)</td><td>ASTM D1883</td><td>Subgrade strength</td></tr>
+<tr><td>Unconfined Compression</td><td>ASTM D2166</td><td>Cohesive soil strength</td></tr>
+<tr><td>Sulphate (SO3)</td><td>BS 1377 Part 3</td><td>Concrete attack risk</td></tr>
+<tr><td>Chloride Content</td><td>BS 1377 Part 3</td><td>Rebar corrosion risk</td></tr>
+<tr><td>Consolidation</td><td>ASTM D2435</td><td>Settlement prediction</td></tr>
+<tr><td>Organic Content</td><td>BS 1377</td><td>Unsuitable fill check</td></tr>
+</table>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+⚠️ Qatar Specific: SO3 and Cl tests mandatory in ALL geotechnical investigations. Sabkha, gypseous soils, and high GWL are common.
+</div>
+</div>
+<div class="lang-content-en" style="display:none;">
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 Reference | 💧 الجسات — المياه الجوفية
+</div>
+<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
+<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
+All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
+</div>
+</div>
+` };
+  c["geo_report"] = { title: '📋 الجسات — التقرير النهائي (GI Report)', content: `
+<div class="lang-content-ar">
+
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 2 | GI Report</div>
+<h3>📋 محتوى التقرير الإلزامي</h3>
+<table class="dm-table"><tr><th>القسم</th><th>المحتوى</th></tr>
+<tr><td>1. مقدمة</td><td>الموقع + الغرض + نطاق الدراسة</td></tr>
+<tr><td>2. الجيولوجيا الإقليمية</td><td>التكوينات الجيولوجية في المنطقة</td></tr>
+<tr><td>3. نتائج الحفر</td><td>Borehole Logs + صور + توصيف الطبقات</td></tr>
+<tr><td>4. نتائج الاختبارات الميدانية</td><td>SPT + Permeability + أي اختبارات أخرى</td></tr>
+<tr><td>5. نتائج المختبر</td><td>كل الاختبارات الكيميائية والفيزيائية</td></tr>
+<tr><td>6. المياه الجوفية</td><td>المستويات + جودة المياه + التوصيات</td></tr>
+<tr><td>7. التوصيات</td><td>نوع الأساس + أعماق التأسيس + تصنيف الكبريتات</td></tr>
+<tr><td>8. المقاطع الجيولوجية</td><td>Cross Sections تربط كل BH</td></tr>
+</table>
+<h3>⭐ التوصيات الإلزامية في قطر</h3>
+<p>• <strong>Sulphate Classification:</strong> Class 1-5 للتربة والمياه الجوفية<br>• <strong>نوع الأسمنت:</strong> OPC أم SRPC أم SRPC+GGBS<br>• <strong>Cover الConcrete:</strong> حسب Exposure Class<br>• <strong>Waterproofing:</strong> نوع ومواصفات الحماية المطلوبة<br>• <strong>Dewatering:</strong> الطريقة والعمق المتوقع<br>• <strong>Sabkha:</strong> التوصية بالمعالجة أو الاستبدال</p>
+<h3>🔴 Hold Points</h3>
+<p>• <strong>HP-06:</strong> اعتماد GI Report من Geotechnical Engineer قبل التصميم</p>
+
+</div>
+<div class="lang-content-en" style="display:none;">
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 Reference | 📋 الجسات — التقرير النهائي (GI Report)
+</div>
+<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
+<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
+All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
+</div>
+</div>
+` };
+  c["itp_geotech"] = { title: '📋 ITP — الجسات | Geotechnical Investigation', content: `<div class="lang-content-ar">
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 QCS 2024 — Section 2 | BS EN ISO 22476</div>
+<h3>1.0 — التخطيط والتحضير</h3>
+<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المعيار</th><th>التكرار</th><th>GEO</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+<tr><td>1.1</td><td>Investigation Plan</td><td>اعتماد الخطة</td><td>مرة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Approved Plan</td></tr>
+<tr><td>1.2</td><td>Equipment Calibration</td><td>SPT Hammer + Rod</td><td>قبل البدء</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Calibration Cert</td></tr>
+<tr><td>1.3</td><td>NOC Services</td><td>كل الجهات</td><td>قبل البدء</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>NOC Documents</td></tr>
+</table>
+<h3>2.0 — الحفر والسجلات</h3>
+<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المعيار</th><th>التكرار</th><th>GEO</th><th>QC</th><th>SC</th><th>السجل</th></tr>
+<tr><td>2.1</td><td>Borehole Log</td><td>توصيف كل طبقة</td><td>كل BH</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>BH Log</td></tr>
+<tr><td>2.2</td><td>SPT Test</td><td>كل 1.5m — N-Value</td><td>كل 1.5m</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>SPT Record</td></tr>
+<tr><td>2.3</td><td>Sample Collection</td><td>Undisturbed كل 2m</td><td>كل 2m</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Sample Log</td></tr>
+<tr><td>2.4</td><td>Water Level Record</td><td>فور الظهور + 24hr</td><td>كل BH</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>WL Record</td></tr>
+</table>
+<h3>3.0 — اختبارات المختبر</h3>
+<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المعيار</th><th>التكرار</th><th>LAB</th><th>GEO</th><th>SC</th><th>السجل</th></tr>
+<tr><td>3.1</td><td>Sulphate Content</td><td>%</td><td>كل BH + طبقة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Lab Report</td></tr>
+<tr><td>3.2</td><td>Chloride Content</td><td>%</td><td>كل BH + طبقة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Lab Report</td></tr>
+<tr><td>3.3</td><td>Atterberg Limits</td><td>LL + PI</td><td>كل طبقة طينية</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Lab Report</td></tr>
+<tr><td>3.4</td><td>Grading Analysis</td><td>USCS Classification</td><td>كل طبقة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Lab Report</td></tr>
+<tr><td>3.5</td><td>CBR (للطرق)</td><td>Soaked 4 days</td><td>كل طبقة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Lab Report</td></tr>
+<tr><td>3.6</td><td>Water Quality</td><td>SO4 + Cl + pH</td><td>كل BH</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Lab Report</td></tr>
+</table>
+<h3>4.0 — التقرير النهائي</h3>
+<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المعيار</th><th>التكرار</th><th>GEO</th><th>SC</th><th>السجل</th></tr>
+<tr><td>4.1</td><td>GI Report</td><td>محتوى كامل حسب QCS S2</td><td>مرة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>GI Report</td></tr>
+<tr><td>4.2</td><td>Sulphate Classification</td><td>Class 1-5</td><td>مرة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>GI Report</td></tr>
+<tr><td>4.3</td><td>Foundation Recommendations</td><td>نوع + عمق + تحمّل</td><td>مرة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>GI Report</td></tr>
+</table>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point &nbsp;|&nbsp; <strong style="color:#f1c40f;">W</strong> = Witness Point &nbsp;|&nbsp; <strong style="color:#2ecc71;">R</strong> = Review &nbsp;|&nbsp; <strong style="color:#3498db;">GEO</strong> = Geotechnical Engineer</div>
+</div>
+<div class="lang-content-en" style="display:none;">
+<h3>🔬 Geotechnical Investigation — Full ITP</h3>
+<table class="dm-table">
+<tr><th>Activity</th><th>Test</th><th>Acceptance</th><th>Type</th></tr>
+<tr><td>Borehole Position</td><td>Survey vs planned location</td><td>±1.0m</td><td>W</td></tr>
+<tr><td>Borehole Diameter</td><td>Check casing</td><td>Min 100mm (SPT) / 150mm (sampling)</td><td>W</td></tr>
+<tr><td>SPT Test</td><td>N-value per 1.5m</td><td>Logged per BS 1377 Part 9</td><td>W</td></tr>
+<tr><td>Undisturbed Sample</td><td>Shelby tube 100mm</td><td>Min 1 per 3m cohesive</td><td>W</td></tr>
+<tr><td>GWL Observation</td><td>Standpipe 24hr min</td><td>Recorded after stabilization</td><td>W</td></tr>
+<tr><td>Bulk Sample</td><td>Min 50kg per layer change</td><td>For lab testing</td><td>W</td></tr>
+<tr><td>SO3 Lab Test</td><td>All layers</td><td>Per BS 1377 Part 3</td><td>W</td></tr>
+<tr><td>Cl Lab Test</td><td>All layers</td><td>Per BS 1377 Part 3</td><td>W</td></tr>
+<tr><td>CBR Field Test</td><td>DCP at subgrade level</td><td>≥8% for road design</td><td>H</td></tr>
+<tr><td>Final Report</td><td>PE/geologist review</td><td>Signed + stamped engineer</td><td>H</td></tr>
+</table>
+</div>
+
+<div class="lang-content-ar">
+
+<h3>📐 جدول 5:1 — Fine Aggregate للـ Marshall Mix — QCS S6 P5 Page 9</h3>
+<p style="font-size:11px;color:var(--text3);">Fine Aggregate = المواد المارة من منخل 2.36mm (Marshall) أو 4.75mm (Superpave)</p>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>المواصفة (Marshall)</th><th>الاختبار</th></tr>
+<tr><td>Sand Equivalent</td><td>≥ 35%</td><td>ASTM D2419</td></tr>
+<tr><td>Fine Aggregate Angularity (FAA)</td><td>≥ 45% Uncompacted Voids</td><td>ASTM C1252</td></tr>
+<tr><td>Clay Content (SE alt.)</td><td>≤ 1%</td><td>ASTM D4318</td></tr>
+<tr><td>Plasticity Index</td><td>Non-Plastic (NP)</td><td>ASTM D4318</td></tr>
+<tr><td>Soundness (MgSO4)</td><td>≤ 12%</td><td>ASTM C88</td></tr>
+<tr><td>Specific Gravity (Bulk SSD)</td><td>≥ 2.50 Mg/m³</td><td>ASTM C128</td></tr>
+<tr><td>Water Absorption</td><td>≤ 2%</td><td>ASTM C128</td></tr>
+<tr><td>Organic Impurities</td><td>Colour ≤ No. 3</td><td>ASTM C40</td></tr>
+<tr><td>Sulphate (SO3)</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
+<tr><td>Chloride</td><td>≤ 0.04%</td><td>BS 1377</td></tr>
+</table>
+
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:8px 0;font-size:12px;">
+<strong>Superpave فرق:</strong> Fine Aggregate يُعرَّف كـ مادة مارة من 4.75mm (بدل 2.36mm في Marshall). FAA ≥ 45% يبقى نفسه.
+</div>
+
+<h3>📐 جدول 5:2 — Coarse Aggregate للإسفلت — QCS S6 P5 Page 10</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>Wearing Course</th><th>Binder Course</th><th>الاختبار</th></tr>
+<tr><td>LA Abrasion Loss</td><td>≤ 25%</td><td>≤ 30%</td><td>ASTM C131</td></tr>
+<tr><td>Flakiness Index</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812 P105</td></tr>
+<tr><td>Elongation Index</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812 P105</td></tr>
+<tr><td>Polished Stone Value (PSV)</td><td>≥ 55</td><td>لا يُشترط</td><td>BS 812 P114</td></tr>
+<tr><td>Fractured Faces (1 face+)</td><td>≥ 95%</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
+<tr><td>Fractured Faces (2 faces+)</td><td>≥ 90%</td><td>≥ 85%</td><td>ASTM D5821</td></tr>
+<tr><td>Soundness (MgSO4)</td><td>≤ 12%</td><td>≤ 12%</td><td>ASTM C88</td></tr>
+<tr><td>Water Absorption</td><td>≤ 2%</td><td>≤ 2%</td><td>ASTM C127</td></tr>
+<tr><td>Specific Gravity (Bulk SSD)</td><td>≥ 2.50</td><td>≥ 2.50</td><td>ASTM C127</td></tr>
+<tr><td>Sulphate (SO3)</td><td>≤ 0.4%</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
+<tr><td>Chloride</td><td>≤ 0.04%</td><td>≤ 0.04%</td><td>BS 1377</td></tr>
+<tr><td>Alkali Silica Reactivity</td><td>Non-reactive</td><td>Non-reactive</td><td>ASTM C1260</td></tr>
+</table>
+
+<h3>📐 جدول 5:3 — Mineral Filler — QCS S6 P5 Page 10</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>المواصفة</th><th>الاختبار</th></tr>
+<tr><td>المصدر</td><td>Stone Dust أو Portland Cement أو Hydrated Lime</td><td>—</td></tr>
+<tr><td>% Passing 0.600 mm</td><td>100%</td><td>ASTM C136</td></tr>
+<tr><td>% Passing 0.300 mm</td><td>95 - 100%</td><td>ASTM C136</td></tr>
+<tr><td>% Passing 0.075 mm</td><td>70 - 100%</td><td>ASTM C136</td></tr>
+<tr><td>Plasticity Index</td><td>Non-Plastic (NP)</td><td>ASTM D4318</td></tr>
+<tr><td>Voids in Dry Compacted Filler</td><td>28 - 45%</td><td>EN 1097-4</td></tr>
+<tr><td>Sulphate SO3</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
+<tr><td>Water Sensitivity (TSR)</td><td>≥ 75% (مع Filler فقط)</td><td>AASHTO T283</td></tr>
+</table>
+
+<h3>📐 جدول 5:4 — Asphalt Binder 60/70 — QCS S6 P5 Page 11</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>المواصفة</th><th>الاختبار</th></tr>
+<tr><td>Penetration @ 25°C</td><td>60 - 70 × 0.1mm</td><td>ASTM D5 / BS EN 1426</td></tr>
+<tr><td>Softening Point R&B</td><td>49 - 56°C</td><td>ASTM D36 / BS EN 1427</td></tr>
+<tr><td>Ductility @ 25°C</td><td>≥ 100 cm</td><td>ASTM D113</td></tr>
+<tr><td>Flash Point (COC)</td><td>≥ 232°C</td><td>ASTM D92</td></tr>
+<tr><td>Solubility in TCE</td><td>≥ 99%</td><td>ASTM D2042</td></tr>
+<tr><td>Specific Gravity @ 25°C</td><td>1.01 - 1.05</td><td>ASTM D70</td></tr>
+<tr><td>Wax Content</td><td>≤ 2.2%</td><td>IP 336</td></tr>
+<tr><td>Loss on Heating (RTFOT)</td><td>≤ 0.8%</td><td>ASTM D1754</td></tr>
+<tr><td>Penetration Ratio after RTFOT</td><td>≥ 50%</td><td>ASTM D5</td></tr>
+<tr><td>Ductility after RTFOT @ 25°C</td><td>≥ 50 cm</td><td>ASTM D113</td></tr>
+<tr><td>Softening Point after RTFOT</td><td>Increase ≤ 8°C</td><td>ASTM D36</td></tr>
+</table>
+
+<h3>📐 جدول 5:5 — PMB Polymer Modified Bitumen — QCS S6 P5 Page 11</h3>
+<p style="font-size:11px;color:var(--text3);">PG = Performance Grade | PG76-10 = يتحمل +76°C صيفاً و -10°C شتاءً</p>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>المواصفة (PG76-10)</th><th>الاختبار</th></tr>
+<tr><td>Penetration @ 25°C</td><td>40 - 80 × 0.1mm</td><td>ASTM D5</td></tr>
+<tr><td>Softening Point R&B</td><td>≥ 65°C</td><td>ASTM D36</td></tr>
+<tr><td>Flash Point</td><td>≥ 235°C</td><td>ASTM D92</td></tr>
+<tr><td>Elastic Recovery @ 25°C</td><td>≥ 70%</td><td>ASTM D6084</td></tr>
+<tr><td>Force Ductility @ 4°C</td><td>≥ 2 N (at 5cm/min)</td><td>EN 13589</td></tr>
+<tr><td>Toughness & Tenacity</td><td>T ≥ 15 J / t ≥ 5 J</td><td>ASTM D5801</td></tr>
+<tr><td>G*/sinδ (DSR Unaged) @ 76°C</td><td>≥ 2.2 kPa</td><td>AASHTO T315</td></tr>
+<tr><td>G*/sinδ (DSR after RTFOT) @ 76°C</td><td>≥ 4.4 kPa</td><td>AASHTO T315</td></tr>
+<tr><td>Phase Angle δ (DSR) @ 76°C</td><td>≤ 75°</td><td>AASHTO T315</td></tr>
+<tr><td>Creep Stiffness S (BBR) @ -10°C</td><td>≤ 300 MPa</td><td>AASHTO T313</td></tr>
+<tr><td>m-value (BBR) @ -10°C</td><td>≥ 0.300</td><td>AASHTO T313</td></tr>
+<tr><td>Storage Stability (ΔSoftening Pt)</td><td>≤ 5°C (after 48hr @ 163°C)</td><td>EN 13399</td></tr>
+<tr><td>Solubility</td><td>≥ 99%</td><td>ASTM D2042</td></tr>
+<tr><td>Polymer Type</td><td>SBS أو SBR (معتمد من المهندس)</td><td>FTIR</td></tr>
+</table>
+
+<h3>📐 Prime Coat — QCS S6 P5 Page 13</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المواصفة</th><th>المرجع</th></tr>
+<tr><td>نوع المادة</td><td>Cutback Bitumen MC-30 أو MC-70</td><td>ASTM D2028</td></tr>
+<tr><td>معدل الرش</td><td>0.8 - 1.2 L/m²</td><td>QCS S6 P5 P13</td></tr>
+<tr><td>درجة الحرارة عند الرش</td><td>50 - 80°C (حسب grade)</td><td>QCS S6 P5</td></tr>
+<tr><td>وقت المعالجة قبل Asphalt</td><td>24 hour كحد أدنى (حسب النفاذ)</td><td>QCS S6 P5</td></tr>
+<tr><td>عمق النفاذ</td><td>10 - 15mm في الطبقة</td><td>QCS S6 P5</td></tr>
+<tr><td>السطح</td><td>جاف + نظيف + مكنوس بـ Power Broom</td><td>MS</td></tr>
+<tr><td>الطقس</td><td>لا يُطبَّق عند مطر أو غبار أو &lt; 10°C</td><td>QCS S6 P5</td></tr>
+</table>
+
+<h3>📐 Tack Coat — QCS S6 P5 Page 13</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>Binder Course</th><th>Wearing Course</th><th>المرجع</th></tr>
+<tr><td>نوع المادة</td><td>Emulsified Bitumen SS-1 أو CSS-1</td><td>Emulsified Bitumen SS-1 أو CSS-1</td><td>ASTM D977</td></tr>
+<tr><td>معدل الرش (Residual)</td><td>0.3 - 0.5 L/m²</td><td>0.2 - 0.4 L/m²</td><td>QCS S6 P5 P13</td></tr>
+<tr><td>درجة الحرارة</td><td>50 - 70°C</td><td>50 - 70°C</td><td>QCS S6 P5</td></tr>
+<tr><td>وقت المعالجة</td><td>حتى يتحول من بني للأسود</td><td>حتى يتحول من بني للأسود</td><td>Visual</td></tr>
+<tr><td>السطح</td><td>جاف + نظيف</td><td>جاف + نظيف</td><td>MS</td></tr>
+<tr><td>تجنب الإفراط</td><td colspan="2">Tack زائد = Slippage بين الطبقات</td><td>QCS S6 P5</td></tr>
+</table>
+
+</div>
+
+<div class="lang-content-en" style="display:none;">
+<h3>Table 5:1 — Fine Aggregate for Asphalt Mix (Marshall) — QCS S6 P5 Page 9</h3>
+<p style="font-size:11px;color:var(--text3);">Fine Aggregate = passing 2.36mm sieve (Marshall) or 4.75mm sieve (Superpave)</p>
+<table class="dm-table">
+<tr><th>Property</th><th>Specification</th><th>Test</th></tr>
+<tr><td>Sand Equivalent</td><td>≥ 35%</td><td>ASTM D2419</td></tr>
+<tr><td>Fine Aggregate Angularity</td><td>≥ 45% Uncompacted Voids</td><td>ASTM C1252</td></tr>
+<tr><td>Plasticity Index</td><td>Non-Plastic (NP)</td><td>ASTM D4318</td></tr>
+<tr><td>Soundness MgSO4</td><td>≤ 12%</td><td>ASTM C88</td></tr>
+<tr><td>Water Absorption</td><td>≤ 2%</td><td>ASTM C128</td></tr>
+<tr><td>Sulphate SO3</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
+<tr><td>Chloride</td><td>≤ 0.04%</td><td>BS 1377</td></tr>
+</table>
+
+<h3>Table 5:2 — Coarse Aggregate for Asphalt — QCS S6 P5 Page 10</h3>
+<table class="dm-table">
+<tr><th>Property</th><th>Wearing</th><th>Binder</th><th>Test</th></tr>
+<tr><td>LA Abrasion</td><td>≤ 25%</td><td>≤ 30%</td><td>ASTM C131</td></tr>
+<tr><td>Flakiness Index</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812</td></tr>
+<tr><td>PSV</td><td>≥ 55</td><td>N/A</td><td>BS 812 P114</td></tr>
+<tr><td>Fractured Faces (1+)</td><td>≥ 95%</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
+<tr><td>Fractured Faces (2+)</td><td>≥ 90%</td><td>≥ 85%</td><td>ASTM D5821</td></tr>
+<tr><td>Water Absorption</td><td>≤ 2%</td><td>≤ 2%</td><td>ASTM C127</td></tr>
+<tr><td>Sulphate SO3</td><td>≤ 0.4%</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
+</table>
+
+<h3>Table 5:3 — Mineral Filler — QCS S6 P5 Page 10</h3>
+<table class="dm-table">
+<tr><th>Property</th><th>Specification</th><th>Test</th></tr>
+<tr><td>Source</td><td>Stone Dust / Portland Cement / Hydrated Lime</td><td>—</td></tr>
+<tr><td>% Passing 0.600mm</td><td>100%</td><td>ASTM C136</td></tr>
+<tr><td>% Passing 0.075mm</td><td>70-100%</td><td>ASTM C136</td></tr>
+<tr><td>Plasticity Index</td><td>Non-Plastic</td><td>ASTM D4318</td></tr>
+<tr><td>Voids in Dry Compacted Filler</td><td>28-45%</td><td>EN 1097-4</td></tr>
+</table>
+
+<h3>Table 5:4 — Bitumen 60/70 — QCS S6 P5 Page 11</h3>
+<table class="dm-table">
+<tr><th>Property</th><th>Specification</th><th>Test</th></tr>
+<tr><td>Penetration @ 25°C</td><td>60-70 × 0.1mm</td><td>ASTM D5</td></tr>
+<tr><td>Softening Point R&B</td><td>49-56°C</td><td>ASTM D36</td></tr>
+<tr><td>Ductility @ 25°C</td><td>≥ 100 cm</td><td>ASTM D113</td></tr>
+<tr><td>Flash Point</td><td>≥ 232°C</td><td>ASTM D92</td></tr>
+<tr><td>Wax Content</td><td>≤ 2.2%</td><td>IP 336</td></tr>
+<tr><td>Loss on Heating RTFOT</td><td>≤ 0.8%</td><td>ASTM D1754</td></tr>
+<tr><td>Penetration Ratio after RTFOT</td><td>≥ 50%</td><td>ASTM D5</td></tr>
+</table>
+
+<h3>Table 5:5 — PMB (PG76-10) — QCS S6 P5 Page 11</h3>
+<table class="dm-table">
+<tr><th>Property</th><th>Specification</th><th>Test</th></tr>
+<tr><td>Penetration @ 25°C</td><td>40-80 × 0.1mm</td><td>ASTM D5</td></tr>
+<tr><td>Softening Point</td><td>≥ 65°C</td><td>ASTM D36</td></tr>
+<tr><td>Elastic Recovery @ 25°C</td><td>≥ 70%</td><td>ASTM D6084</td></tr>
+<tr><td>G*/sinδ (Unaged) @ 76°C</td><td>≥ 2.2 kPa</td><td>AASHTO T315</td></tr>
+<tr><td>G*/sinδ (after RTFOT) @ 76°C</td><td>≥ 4.4 kPa</td><td>AASHTO T315</td></tr>
+<tr><td>Creep Stiffness @ -10°C</td><td>≤ 300 MPa</td><td>AASHTO T313</td></tr>
+<tr><td>Storage Stability ΔSP</td><td>≤ 5°C</td><td>EN 13399</td></tr>
+</table>
+
+<h3>Prime Coat — QCS S6 P5 Page 13</h3>
+<table class="dm-table">
+<tr><th>Item</th><th>Specification</th></tr>
+<tr><td>Material</td><td>Cutback Bitumen MC-30 or MC-70</td></tr>
+<tr><td>Application Rate</td><td>0.8 - 1.2 L/m²</td></tr>
+<tr><td>Temperature at Spray</td><td>50 - 80°C</td></tr>
+<tr><td>Curing Time</td><td>Minimum 24 hours before asphalt</td></tr>
+</table>
+
+<h3>Tack Coat — QCS S6 P5 Page 13</h3>
+<table class="dm-table">
+<tr><th>Item</th><th>On Binder</th><th>On Wearing</th></tr>
+<tr><td>Material</td><td>SS-1 or CSS-1 Emulsion</td><td>SS-1 or CSS-1 Emulsion</td></tr>
+<tr><td>Rate (Residual)</td><td>0.3 - 0.5 L/m²</td><td>0.2 - 0.4 L/m²</td></tr>
+<tr><td>Temperature</td><td>50 - 70°C</td><td>50 - 70°C</td></tr>
+</table>
+</div>
+` };
+})();

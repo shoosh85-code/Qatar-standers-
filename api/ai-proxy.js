@@ -13,6 +13,28 @@ const CORS = {
 // RATE LIMITING — Simple in-memory counter (Edge KV)
 // Uses Vercel KV if available, fallback to in-memory map
 // ══════════════════════════════════════════════════════════════
+// ── JWT verify (shared secret with verify-pro.js) ──
+async function verifyProToken(token) {
+  if (!token) return false;
+  const secret = process.env.JWT_SECRET;
+  if (!secret) return false;
+  try {
+    const parts = token.split('.');
+    if (parts.length !== 3) return false;
+    const msg = `${parts[0]}.${parts[1]}`;
+    const key = await crypto.subtle.importKey(
+      'raw', new TextEncoder().encode(secret),
+      { name: 'HMAC', hash: 'SHA-256' }, false, ['verify']
+    );
+    const decodeB64 = s => Uint8Array.from(atob(s.replace(/-/g,'+').replace(/_/g,'/')), c => c.charCodeAt(0));
+    const ok = await crypto.subtle.verify('HMAC', key, decodeB64(parts[2]), new TextEncoder().encode(msg));
+    if (!ok) return false;
+    const payload = JSON.parse(atob(parts[1].replace(/-/g,'+').replace(/_/g,'/')));
+    return payload.pro === true && payload.exp > Math.floor(Date.now() / 1000);
+  } catch { return false; }
+}
+
+
 const ipCounters = new Map();  // fallback: in-memory (per-instance)
 const FREE_LIMIT = 200;  // Raised — client-side handles the 10/day limit
 const PRO_LIMIT  = 500;
@@ -195,7 +217,7 @@ export default async function handler(req) {
 
   // ── Detect Pro user from token (basic check) ──
   const authHeader = req.headers.get('Authorization') || '';
-  const isProUser = authHeader.startsWith('Bearer pro-') || body.pro === true;
+  const isProUser = authHeader.startsWith('Bearer ') && authHeader !== 'Bearer ' ? await verifyProToken(authHeader.slice(7)) : false;
 
   // ── Rate Limit — Admin token from sessionStorage (not URL param) ──
   const adminToken = req.headers.get('X-Admin-Token') || '';

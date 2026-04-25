@@ -1,4 +1,25 @@
 // QatarSpec Pro — QCS 2024 Search (Vector + FTS fallback)
+
+// JWT verification (same as ai-proxy)
+async function verifyProToken(token) {
+  if (!token) return false;
+  const secret = process.env.JWT_SECRET;
+  if (!secret) return false;
+  try {
+    const parts = token.split('.');
+    if (parts.length !== 3) return false;
+    const msg = `${parts[0]}.${parts[1]}`;
+    const key = await crypto.subtle.importKey(
+      'raw', new TextEncoder().encode(secret),
+      { name: 'HMAC', hash: 'SHA-256' }, false, ['verify']
+    );
+    const decodeB64 = s => Uint8Array.from(atob(s.replace(/-/g,'+').replace(/_/g,'/')), c=>c.charCodeAt(0));
+    const ok = await crypto.subtle.verify('HMAC', key, decodeB64(parts[2]), new TextEncoder().encode(msg));
+    if (!ok) return false;
+    const p = JSON.parse(atob(parts[1].replace(/-/g,'+').replace(/_/g,'/')));
+    return p.pro === true && p.exp > Math.floor(Date.now()/1000);
+  } catch { return false; }
+}
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');

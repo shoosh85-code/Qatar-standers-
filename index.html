@@ -1009,6 +1009,24 @@ let uploadedFiles = [];
 window.onload = () => {
   // ── Monetization Init ──
   renderProStatus();
+  // Silently revalidate JWT on load (catches expired tokens)
+  (function revalidateProToken(){
+    var token = localStorage.getItem('qs_pro_token');
+    if(!token) return;
+    // Quick expiry check without server call
+    try {
+      var p = token.split('.');
+      if(p.length!==3) { localStorage.removeItem('qs_pro_token'); renderProStatus(); return; }
+      var pad = p[1].replace(/-/g,'+').replace(/_/g,'/');
+      while(pad.length%4) pad+='=';
+      var pl = JSON.parse(atob(pad));
+      if(pl.exp < Math.floor(Date.now()/1000)) {
+        localStorage.removeItem('qs_pro_token');
+        renderProStatus();
+        showToast('⚠️ انتهت صلاحية Pro — أعد تفعيل الكود');
+      }
+    } catch(e) { localStorage.removeItem('qs_pro_token'); renderProStatus(); }
+  })();
   // Check pro expiry
   const expiry = getProExpiry();
   if (expiry && new Date(expiry) < new Date()) {
@@ -1155,7 +1173,7 @@ async function doSearch() {
   }
 
   const isProxyMode = !window.location.hostname.includes('localhost');
-  if (!isProxyMode && !anthropicKey) { openKeyModal(); return; }
+  if (!isProxyMode && !anthropicKey) { openKeyModal(); return; } // key only needed in localhost dev
 
   const box = document.getElementById('aiAnswerBox');
   const textEl = document.getElementById('aiAnswerText');
@@ -1186,7 +1204,10 @@ async function doSearch() {
     try {
       const qcsRes = await fetch('/api/qcs-search', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+        'Content-Type': 'application/json',
+        ...(getProToken() ? { 'Authorization': 'Bearer ' + getProToken() } : {})
+      },
         body: JSON.stringify({ query: query, limit: 4 })
       });
       if (qcsRes.ok) {
@@ -1861,6 +1882,11 @@ let navStack = [];
  * يدير navStack للتنقل للخلف، ويستعيد الفيديوهات المحلية بعد rebuild
  */
 function openDetail(key) {
+  // Load content chunk on demand if not yet loaded
+  if (typeof window._loadContentChunk === 'function' && !(window.QS_CONTENT && window.QS_CONTENT[key])) {
+    window._loadContentChunk(key, function(){ openDetail(key); });
+    return;
+  }
   const d = detailData[key];
   if (!d) { console.warn('Key not found:', key); return; }
   const modal = document.getElementById('detailModal');
@@ -4183,19 +4209,37 @@ window.calcRoadLayers = function calcRoadLayers() {
 
 // ── Constants ──
 var FREE_DAILY_LIMIT = 5;
-var PRO_CODES = ['QATAR2026PRO', 'QATARSPEC-PRO', 'QS-ENGINEER-2026', 'PRO-BETA-QCS'];
+var PRO_CODES = []; // codes verified server-side only
 
 // ── Pro State ──
 function isProUser() {
-  return localStorage.getItem('qs_pro_active') === 'true';
+  var token = localStorage.getItem('qs_pro_token');
+  if (!token) return false;
+  try {
+    var parts = token.split('.');
+    if (parts.length !== 3) return false;
+    var pad = parts[1].replace(/-/g,'+').replace(/_/g,'/');
+    while(pad.length%4) pad+='=';
+    var payload = JSON.parse(atob(pad));
+    return payload.pro === true && payload.exp > Math.floor(Date.now()/1000);
+  } catch(e) { return false; }
+}
+function getProToken() {
+  return localStorage.getItem('qs_pro_token') || null;
 }
 function getProExpiry() {
   return localStorage.getItem('qs_pro_expiry') || null;
 }
 function setProActive(val, expiry) {
-  localStorage.setItem('qs_pro_active', val ? 'true' : 'false');
-  if (expiry) localStorage.setItem('qs_pro_expiry', expiry);
-  else localStorage.removeItem('qs_pro_expiry');
+  // Legacy — kept for compatibility. Real auth uses setProToken()
+  if (!val) {
+    localStorage.removeItem('qs_pro_token');
+    localStorage.removeItem('qs_pro_active');
+  }
+}
+function setProToken(token) {
+  localStorage.setItem('qs_pro_token', token);
+  localStorage.removeItem('qs_pro_active'); // clear old flag
 }
 
 // ── Daily Search Counter ──
@@ -4286,32 +4330,38 @@ function showPaymentContact() {
   if (pc) { pc.style.display = 'block'; pc.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
 }
 
-// ── Promo Code Activation ──
-function activatePro(code) {
+// ── Promo Code Activation ── server-side JWT
+async function activatePro(code) {
   var clean = (code || '').trim().toUpperCase();
   var msg = document.getElementById('promoMsg');
+  var btn = document.querySelector('.promo-btn');
   if (!clean) {
     if (msg) { msg.style.display='block'; msg.style.color='#e74c3c'; msg.textContent='❌ أدخل الكود أولاً'; }
     return;
   }
-  if (PRO_CODES.indexOf(clean) !== -1 || clean === 'QATAR2026PRO') {
-    // Activate for 1 year
-    var expiry = new Date();
-    expiry.setFullYear(expiry.getFullYear() + 1);
-    setProActive(true, expiry.toISOString());
-    renderProStatus();
-    if (msg) { msg.style.display='block'; msg.style.color='#2ecc71'; msg.textContent='🎉 تم تفعيل Pro بنجاح! صالح لسنة كاملة.'; }
-    setTimeout(function() {
-      closeProModal();
-      showToast('🎉 مرحباً بك في QatarSpec Pro!');
-    }, 1500);
-  } else {
-    if (msg) { msg.style.display='block'; msg.style.color='#e74c3c'; msg.textContent='❌ الكود غير صحيح — تحقق من الكود وأعد المحاولة'; }
-    document.getElementById('promoCodeInput').style.borderColor = '#e74c3c';
-    setTimeout(function() {
-      if (document.getElementById('promoCodeInput'))
-        document.getElementById('promoCodeInput').style.borderColor = '';
-    }, 2000);
+  if (btn) btn.disabled = true;
+  if (msg) { msg.style.display='block'; msg.style.color='var(--gold)'; msg.textContent='⏳ جارٍ التحقق...'; }
+  try {
+    var res = await fetch('/api/verify-pro', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: clean })
+    });
+    var data = await res.json();
+    if (res.ok && data.token) {
+      setProToken(data.token);
+      renderProStatus();
+      if (msg) { msg.style.display='block'; msg.style.color='#2ecc71'; msg.textContent = data.message || '🎉 تم تفعيل Pro!'; }
+      setTimeout(function() { closeProModal(); showToast('🎉 مرحباً بك في QatarSpec Pro!'); }, 1500);
+    } else {
+      if (msg) { msg.style.display='block'; msg.style.color='#e74c3c'; msg.textContent = data.error || '❌ الكود غير صحيح'; }
+      var inp = document.getElementById('promoCodeInput');
+      if (inp) { inp.style.borderColor='#e74c3c'; setTimeout(function(){inp.style.borderColor='';},2000); }
+    }
+  } catch(e) {
+    if (msg) { msg.style.display='block'; msg.style.color='#e74c3c'; msg.textContent='❌ خطأ في الاتصال — أعد المحاولة'; }
+  } finally {
+    if (btn) btn.disabled = false;
   }
 }
 
@@ -4566,17 +4616,47 @@ window.QS = window.QS || {};
 
 <script src="data_calcs.js?v=430"></script>
 <script>
-// data_content.js — lazy load after everything is ready (only needed on card open)
+// QS_CONTENT — manifest + on-demand chunk loader
 (function(){
-  function loadContent(){
+  var _loaded = {};
+  var _loading = {};
+
+  function loadManifest(){
+    if(window.QS_CONTENT_MAP) return;
     var s=document.createElement('script');
-    s.src='data_content.js';s.async=true;
+    s.src='data_content_manifest.js?v=1';
+    s.async=true;
     document.head.appendChild(s);
   }
-  if('requestIdleCallback' in window){
-    requestIdleCallback(loadContent,{timeout:2000});
-  } else {
-    setTimeout(loadContent,800);
+
+  window._loadContentChunk = function(key, cb) {
+    var map = window.QS_CONTENT_MAP || {};
+    var chunk = map[key];
+    if(!chunk){ // fallback: load all roads chunk
+      chunk = 'data_content_roads.js';
+    }
+    if(_loaded[chunk]){ if(cb) cb(); return; }
+    if(_loading[chunk]){ if(cb) _loading[chunk].push(cb); return; }
+    _loading[chunk] = cb ? [cb] : [];
+    var s=document.createElement('script');
+    s.src=chunk+'?v=1';
+    s.onload=function(){
+      _loaded[chunk]=true;
+      (_loading[chunk]||[]).forEach(function(f){ try{f();}catch(e){} });
+      delete _loading[chunk];
+    };
+    s.onerror=function(){
+      console.warn('[QS] chunk load failed:',chunk);
+      delete _loading[chunk];
+    };
+    document.head.appendChild(s);
+  };
+
+  // Load manifest immediately (small file)
+  if('requestIdleCallback'in window){
+    requestIdleCallback(loadManifest,{timeout:800});
+  }else{
+    setTimeout(loadManifest,400);
   }
 })();
 </script>
