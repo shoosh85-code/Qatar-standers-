@@ -99,11 +99,11 @@ window.QS_CONTENT_MAP = {
   "itp_geotech": "data_content_geotech.js",
   "calculator": "data_content_tools.js"
 ,
-  "ashghal_forms": "data_content_extra.js",
-  "ncr_quick_logger": "data_content_extra.js",
-  "doc_analyzer": "data_content_extra.js",
-  "drawing_analyzer": "data_content_extra.js",
-  "photo_analyzer": "data_content_extra.js",
+  "ashghal_forms": "data_content.js",
+  "ncr_quick_logger": "data_content.js",
+  "doc_analyzer": "data_content.js",
+  "drawing_analyzer": "data_content.js",
+  "photo_analyzer": "data_content.js",
   "qcs_changes_2014_2024": "data_content_extra.js",
   "top20_ncr": "data_content_extra.js",
   "prequalification_checklist": "data_content_extra.js"

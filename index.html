@@ -4661,7 +4661,7 @@ window.QS = window.QS || {};
     var map = window.QS_CONTENT_MAP || {};
     var chunk = map[realKey] || map[key];
     if(!chunk){
-      chunk = 'data_content_extra.js'; // new content + fallback
+      chunk = 'data_content.js'; // original full content fallback
     }
     if(_loaded[chunk]){ if(cb) cb(); return; }
     if(_loading[chunk]){ if(cb) _loading[chunk].push(cb); return; }
