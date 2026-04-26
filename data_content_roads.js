@@ -119,6 +119,26 @@
 </div>
 </div>
 
+
+<h3 style="margin-top:16px">📊 ملخص متطلبات QCS 2024 — Section 6</h3>
+<table class="dm-table">
+<tr><th>الطبقة</th><th>المتطلب الرئيسي</th><th>اختبار</th><th>QCS</th></tr>
+<tr><td><strong>Subgrade</strong></td><td>CBR ≥ 8% | Comp ≥ 95% MDD | OMC ±2%</td><td>Nuclear/Sand Cone</td><td>S6 P5</td></tr>
+<tr><td><strong>Subbase</strong></td><td>CBR ≥ 30% | Comp ≥ 98% MDD | PI ≤ 6</td><td>CBR + Proctor</td><td>S6 P4</td></tr>
+<tr><td><strong>Base Course</strong></td><td>CBR ≥ 80% | Comp ≥ 100% MDD | LAA ≤ 30%</td><td>CBR + ACV</td><td>S6 P4</td></tr>
+<tr><td><strong>Prime Coat</strong></td><td>MC-30: 0.8-1.2 L/m² | Curing ≥ 24h</td><td>Visual Check</td><td>S8 P5</td></tr>
+<tr><td><strong>Binder Course</strong></td><td>Va: 3-5% | Comp ≥ 92% TMD | 140-160°C</td><td>Core + Nuclear</td><td>S8 P6</td></tr>
+<tr><td><strong>Wearing Course</strong></td><td>Va: 3-5% | Comp ≥ 92% TMD | IRI ≤ 2.5</td><td>Core + Profilometer</td><td>S8 P6</td></tr>
+</table>
+<table class="dm-table">
+<tr><th>المعيار</th><th>الحد</th><th>QCS 2024</th></tr>
+<tr><td>Crossfall (طبيعي)</td><td>2.5% ± 0.3%</td><td>S6 P2 + RDM 2023</td></tr>
+<tr><td>Surface Regularity (3m)</td><td>≤ 3mm Under Straight Edge</td><td>QCS S8 P6</td></tr>
+<tr><td>Ride Quality IRI</td><td>≤ 2.5 m/km للطرق الرئيسية</td><td>QCS S8 P6</td></tr>
+<tr><td>Skid Resistance (SFC)</td><td>≥ 0.45 (Wearing Course)</td><td>QCS S8 P6</td></tr>
+<tr><td>Camber (ميل عرضي)</td><td>2% للطرق المفردة</td><td>QCS S6 P2</td></tr>
+</table>
+</div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 — Section 6 & 8 | Road Works — QC Inspection Plan
@@ -2590,6 +2610,17 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 
 <h3>الخطوات الأساسية</h3><table class="dm-table"><tr><th>المرحلة</th><th>الأعمال</th><th>المتطلبات</th></tr><tr><td>1 - الجسات</td><td>اختبارات التربة</td><td>تقرير جيوتكني</td></tr><tr><td>2 - الحفر</td><td>حفر وتدعيم</td><td>موافقة المهندس</td></tr><tr><td>3 - الأساسات</td><td>صب الأساسات</td><td>اختبار العينات</td></tr><tr><td>4 - الهيكل</td><td>الأعمدة والأسقف</td><td>فحص الRebar</td></tr><tr><td>5 - المرافق</td><td>الكهرباء والسباكة</td><td>رسومات معتمدة</td></tr><tr><td>6 - التشطيب</td><td>جميع التشطيبات</td><td>شهادات المواد</td></tr></table>
+
+<h3 style="margin-top:12px">📊 معايير الجودة — QCS S8 P6</h3>
+<table class="dm-table">
+<tr><th>المعيار</th><th>الحد المقبول</th><th>QCS 2024</th></tr>
+<tr><td>درجة حرارة الفرد</td><td>≥ 140°C (Wearing) / 135°C (Binder)</td><td>S8 P6</td></tr>
+<tr><td>Air Voids من الـ Core</td><td>3-5% (± 0.5% من Marshall)</td><td>S8 P6</td></tr>
+<tr><td>درجة الدمك</td><td>≥ 92% TMD</td><td>S8 P6</td></tr>
+<tr><td>سماكة الطبقة</td><td>Design ± 5mm (قياس Core)</td><td>S8 P6</td></tr>
+<tr><td>استواء السطح (3m SE)</td><td>≤ 3mm</td><td>S8 P6</td></tr>
+<tr><td>Crossfall</td><td>2.5% ± 0.3%</td><td>QCS S6 P2</td></tr>
+</table>
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">

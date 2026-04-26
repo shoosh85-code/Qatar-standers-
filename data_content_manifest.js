@@ -131,5 +131,6 @@ window.QS_CONTENT_MAP = {
   "hot_weather_detailed": "data_content_extra.js",
   "rebar_cover_calc": "data_content_extra.js",
   "materials_calculator_buildings": "data_content_extra.js",
-  "soil_grading_calc": "data_content_extra.js"
+  "soil_grading_calc": "data_content_extra.js",
+  "exec_asphalt_paving": "data_content_roads.js"
 };

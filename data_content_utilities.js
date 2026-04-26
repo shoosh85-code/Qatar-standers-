@@ -41,6 +41,24 @@
 </table>
 
 </div>
+
+<h3 style="margin-top:16px">📊 ملخص متطلبات QCS 2024 — المرافق</h3>
+<table class="dm-table">
+<tr><th>الخدمة</th><th>Cover min</th><th>Bedding</th><th>Test</th><th>QCS</th></tr>
+<tr><td><strong>مياه الشرب</strong></td><td>750mm (طريق رئيسي)</td><td>150mm Clean Sand</td><td>1.5×PN / 2h</td><td>S8 P12</td></tr>
+<tr><td><strong>Foul Sewer</strong></td><td>600mm min</td><td>Granular 150mm</td><td>Air/Water Test</td><td>S8 P14</td></tr>
+<tr><td><strong>Storm Drain</strong></td><td>600mm min</td><td>حسب القطر</td><td>Water Test</td><td>S8 P15</td></tr>
+<tr><td><strong>مياه معالجة</strong></td><td>750mm (طريق)</td><td>150mm Sand</td><td>1.5×PN / 2h</td><td>S8 P13</td></tr>
+<tr><td><strong>كهرباء KAHRAMAA</strong></td><td>600mm (رصيف) / 750mm (طريق)</td><td>100mm Sand</td><td>Insulation Test</td><td>ER-001</td></tr>
+</table>
+<table class="dm-table">
+<tr><th>المتطلب</th><th>القيمة</th><th>QCS/KAHRAMAA</th></tr>
+<tr><td>Backfill Compaction</td><td>≥ 95% MDD (حول ماسورة) / 98% (Trench)</td><td>QCS S8 P12</td></tr>
+<tr><td>Pipe Bedding (Haunching)</td><td>حتى 0.3D فوق قمة الماسورة</td><td>QCS S8 P12</td></tr>
+<tr><td>Marker Tape Depth</td><td>150-200mm فوق الخدمة</td><td>KAHRAMAA</td></tr>
+<tr><td>Separation بين الخدمات</td><td>300mm أفقي / 150mm رأسي</td><td>KAHRAMAA</td></tr>
+</table>
+</div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 — Section 8 | Utilities Networks

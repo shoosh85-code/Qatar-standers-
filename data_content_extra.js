@@ -347,7 +347,16 @@ c["geotech_equipment"] = {
 <tr><td>Sulfate Test Kit</td><td>SO₃ في التربة (سبخة)</td><td>BS 1377 Part 3</td></tr>
 <tr><td>pH Meter</td><td>حموضة التربة</td><td>BS 1377 Part 3</td></tr>
 </table>
-<div class="dm-note">📌 IAN-006 Qatar — جميع نتائج SPT يجب تصحيحها بـ Energy Ratio قبل الاستخدام في التصميم. السجلات الأصلية للحفر إلزامية في GI Report</div>
+<h3>📋 متطلبات تقرير الجيوتقنية — QCS S7</h3>
+<table class="dm-table">
+<tr><th>البند</th><th>المتطلب</th><th>QCS S7</th></tr>
+<tr><td>min عدد آبار الاستكشاف</td><td>3 BH للمباني الصغيرة / 4+ للأبراج</td><td>QCS S7 + BS 5930</td></tr>
+<tr><td>عمق الاستكشاف</td><td>1.5× عرض الأساس أو Rock + 3m</td><td>QCS S7</td></tr>
+<tr><td>SPT Frequency</td><td>كل 1.0-1.5m أو عند تغيير الطبقة</td><td>ASTM D1586</td></tr>
+<tr><td>صنف السبخة</td><td>إلزامي في كل GI Report في قطر</td><td>QCS S5 P2 + IAN-006</td></tr>
+<tr><td>توصيات نوع الأساس</td><td>مع ULS + SLS settlement calculations</td><td>BS EN 1997</td></tr>
+</table>
+<div class="dm-note">📌 QCS S7 + IAN-006 — 📌 IAN-006 Qatar — جميع نتائج SPT يجب تصحيحها بـ Energy Ratio قبل الاستخدام في التصميم. السجلات الأصلية للحفر إلزامية في GI Report</div>
 </div>
 <div class="lang-content-en" style="display:none">
 <h3>Geotechnical Equipment — QCS S7 + ASTM</h3>
@@ -404,7 +413,15 @@ c["ashghal_rdm"] = {
 <tr><td>Arterial</td><td>50mm SMA</td><td>80mm AC-20</td><td>250mm Crushed</td><td>300mm GSB</td></tr>
 <tr><td>Expressway</td><td>60mm SMA-16</td><td>80mm AC-25</td><td>300mm Crushed</td><td>350mm GSB</td></tr>
 </table>
-<div class="dm-note">📌 RDM 2023 هو المرجع الأول في قطر لتصميم الطرق — يُقدَّم على AASHTO في حالة التعارض</div>
+<h3>⛽ متطلبات المواد — RDM 2023</h3>
+<table class="dm-table">
+<tr><th>المادة</th><th>المواصفة</th><th>QCS/RDM</th></tr>
+<tr><td>Gabbro (Aggregate)</td><td>LAA ≤ 25% | AIV ≤ 20% | PSV ≥ 50</td><td>QCS S8 P5 + RDM</td></tr>
+<tr><td>Bitumen 60/70</td><td>Pen 60-70 / Ductility ≥ 100cm</td><td>QCS S8 P5</td></tr>
+<tr><td>PMB (Modified)</td><td>للطرق الرئيسية والسريعة</td><td>QCS S8 P5 + RDM</td></tr>
+<tr><td>Subbase GSB</td><td>PI ≤ 6 / CBR ≥ 30%</td><td>QCS S6 P4 + RDM</td></tr>
+</table>
+<div class="dm-note">📌 QCS S6 P2 + S8 P5 + RDM 2023 — 📌 RDM 2023 هو المرجع الأول في قطر لتصميم الطرق — يُقدَّم على AASHTO في حالة التعارض</div>
 
 <h3>🚦 متطلبات Intersection — RDM 2023</h3>
 <table class="dm-table">
@@ -530,7 +547,15 @@ c["kahramaa_standards"] = {
 <tr><td>5</td><td>فحص KAHRAMAA + تفعيل</td><td>3-5 أيام</td></tr>
 </table>
 
-<div class="dm-note">📌 جميع المقاولين الذين يعملون على شبكات KAHRAMAA يجب أن يكونوا مسجلين ومعتمدين — المقاول غير المعتمد يتعرض لغرامات</div>
+<h3>📋 متطلبات الاتصال والتنسيق</h3>
+<table class="dm-table">
+<tr><th>الحالة</th><th>الإجراء</th><th>المرجع</th></tr>
+<tr><td>قبل أي حفر قرب الخدمات</td><td>NOC من KAHRAMAA + تحديد مواقع الكابلات</td><td>KAHRAMAA ER-003</td></tr>
+<tr><td>توصيل جديد للمياه</td><td>طلب عبر Hukoomi + رسوم + Fitting معتمد</td><td>KAHRAMAA WR-005</td></tr>
+<tr><td>توصيل كهرباء جديد</td><td>Single Point of Entry إلزامي للمباني الجديدة</td><td>KAHRAMAA ER-004</td></tr>
+<tr><td>Meter Reading</td><td>Smart Meter إلزامي من 2020</td><td>KAHRAMAA Policy</td></tr>
+</table>
+<div class="dm-note">📌 QCS S8 P12 + 📌 جميع المقاولين الذين يعملون على شبكات KAHRAMAA يجب أن يكونوا مسجلين ومعتمدين — المقاول غير المعتمد يتعرض لغرامات</div>
 </div>
 
 <div class="lang-content-en" style="display:none">
