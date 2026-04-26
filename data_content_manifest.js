@@ -127,5 +127,6 @@ window.QS_CONTENT_MAP = {
   "survey_setting_out": "data_content_extra.js",
   "exec_pressure_test": "data_content_extra.js",
   "esal_calculator_full": "data_content_extra.js",
-  "mix_design_validator": "data_content_extra.js"
+  "mix_design_validator": "data_content_extra.js",
+  "hot_weather_detailed": "data_content_extra.js"
 };

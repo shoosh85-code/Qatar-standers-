@@ -7,26 +7,48 @@ c["qcs_changes_2014_2024"] = {
   title: '📊 QCS 2014 vs QCS 2024 — أهم التغييرات',
   content: `
 <div class="lang-content-ar">
-<h3>أبرز التغييرات بين QCS 2014 و QCS 2024</h3>
-<table class="dm-table"><tr><th>القسم</th><th>QCS 2014</th><th>QCS 2024</th><th>التأثير</th></tr>
-<tr><td><strong>S5 — الخرسانة</strong></td><td>w/c ≤ 0.45 للبيئة العدوانية</td><td>w/c ≤ 0.40 (أكثر صرامة)</td><td>🔴 تغيير في Mix Design</td></tr>
-<tr><td><strong>S5 — السبخة</strong></td><td>بدون تصنيف موحد</td><td>4 أصناف + إجراءات معالجة محددة (IAN-006)</td><td>🔴 إلزامي التحقق</td></tr>
-<tr><td><strong>S6 — الطرق</strong></td><td>Crossfall 2-3%</td><td>2.5% ± 0.3% تفاوت</td><td>🟡 تحديث مواصفات الفحص</td></tr>
-<tr><td><strong>S8 — الإسفلت</strong></td><td>Air Voids 3-5%</td><td>3-5% مع Tolerance ±0.5%</td><td>🟡 دقة أكبر في الاختبار</td></tr>
-<tr><td><strong>S8 — المواسير</strong></td><td>Cover min 600mm</td><td>Cover min 750mm للطرق الرئيسية</td><td>🔴 تغيير في التصميم</td></tr>
-<tr><td><strong>S1 — السلامة</strong></td><td>متطلبات عامة</td><td>HSE Plan إلزامي + Emergency Response</td><td>🟡 وثائق إضافية</td></tr>
-<tr><td><strong>Test Freq</strong></td><td>1 اختبار / 500m</td><td>1 اختبار / 250m للطرق الرئيسية</td><td>🔴 ضعف تكلفة الاختبار</td></tr>
-<tr><td><strong>Chloride</strong></td><td>Cl ≤ 0.15%</td><td>Cl ≤ 0.10% (أكثر صرامة)</td><td>🔴 مراجعة مصادر الرمل</td></tr>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 — مراجعة شاملة للكود القطري بعد 10 سنوات | يجب مراجعة كل التصاميم القديمة
+</div>
+<h3>🔴 تغييرات حرجة — تأثير مباشر على التصميم</h3>
+<table class="dm-table">
+<tr><th>القسم</th><th>QCS 2014</th><th>QCS 2024</th><th>التأثير</th></tr>
+<tr><td><strong>S5 — w/c Ratio</strong></td><td>≤ 0.45 (بيئة عدوانية)</td><td>≤ 0.40 (أكثر صرامة)</td><td>🔴 يغير Mix Design</td></tr>
+<tr><td><strong>S5 — Cover (خارجي)</strong></td><td>40mm</td><td>50mm (عادي) / 60mm (سبخة)</td><td>🔴 يزيد الكميات</td></tr>
+<tr><td><strong>S5 — السبخة</strong></td><td>لا يوجد تصنيف موحد</td><td>4 أصناف + IAN-006 إلزامي</td><td>🔴 يلزم GI جديد</td></tr>
+<tr><td><strong>S6 — Crossfall</strong></td><td>2-3%</td><td>2.5% ± 0.3% (ضيق التفاوت)</td><td>🟡 فحص أدق</td></tr>
+<tr><td><strong>S8 — Cover المواسير</strong></td><td>600mm للطرق</td><td>750mm للطرق الرئيسية</td><td>🔴 حفر أعمق</td></tr>
+<tr><td><strong>S8 — CCTV</strong></td><td>غير إلزامي دائماً</td><td>100% للمجاري الرئيسية</td><td>🔴 تكلفة إضافية</td></tr>
+<tr><td><strong>S5 — Chloride</strong></td><td>Cl ≤ 0.15%</td><td>Cl ≤ 0.10%</td><td>🔴 مراجعة مصادر الرمل</td></tr>
 </table>
-<div class="dm-note">⚠️ هذا ملخص — دائماً ارجع للنص الرسمي QCS 2024 للمتطلبات الكاملة</div>
+<h3>🟡 تغييرات مهمة — تأثير على التنفيذ</h3>
+<table class="dm-table">
+<tr><th>القسم</th><th>QCS 2014</th><th>QCS 2024</th></tr>
+<tr><td><strong>S6 — تردد الاختبار</strong></td><td>1 اختبار / 500m</td><td>1 اختبار / 250m (طرق رئيسية)</td></tr>
+<tr><td><strong>S1 — HSE Plan</strong></td><td>متطلبات عامة</td><td>HSE Plan إلزامي + Emergency Response</td></tr>
+<tr><td><strong>S8 — Thrust Blocks</strong></td><td>تصميم عام</td><td>حسابات محددة لكل قطر وضغط</td></tr>
+<tr><td><strong>S5 — Hot Weather</strong></td><td>Max 35°C</td><td>35°C + Hot Weather Plan مطلوب</td></tr>
+<tr><td><strong>S8 — Air Test</strong></td><td>اختياري</td><td>إلزامي للمجاري ≤ 300mm</td></tr>
+</table>
+<h3>✅ ما لم يتغير</h3>
+<table class="dm-table">
+<tr><th>البند</th><th>القيمة الثابتة</th></tr>
+<tr><td>Air Voids (إسفلت)</td><td>3-5% (نفس القيمة)</td></tr>
+<tr><td>Marshall Stability min</td><td>8 kN للـ Wearing (نفس)</td></tr>
+<tr><td>درجة حرارة الصب max</td><td>35°C (نفس)</td></tr>
+<tr><td>Cube Test Frequency</td><td>1 set / 50m³ (نفس)</td></tr>
+</table>
+<div class="dm-note">⚠️ أي مشروع صُمِّم بموجب QCS 2014 ويُنفَّذ الآن يحتاج مراجعة هندسية للتوافق مع QCS 2024 قبل البدء</div>
 </div>
 <div class="lang-content-en" style="display:none">
 <h3>QCS 2014 vs QCS 2024 — Key Changes</h3>
-<table class="dm-table"><tr><th>Section</th><th>QCS 2014</th><th>QCS 2024</th><th>Impact</th></tr>
-<tr><td>S5 Concrete</td><td>w/c ≤ 0.45 aggressive env.</td><td>w/c ≤ 0.40 (stricter)</td><td>🔴 Mix Design revision</td></tr>
-<tr><td>S5 Sabkha</td><td>No unified classification</td><td>4 classes + IAN-006 treatment</td><td>🔴 Mandatory check</td></tr>
-<tr><td>S6 Roads</td><td>Crossfall 2-3%</td><td>2.5% ± 0.3% tolerance</td><td>🟡 Updated testing spec</td></tr>
-<tr><td>S8 Pipes</td><td>Cover min 600mm</td><td>Cover min 750mm main roads</td><td>🔴 Design change</td></tr>
+<table class="dm-table">
+<tr><th>Section</th><th>QCS 2014</th><th>QCS 2024</th><th>Impact</th></tr>
+<tr><td>S5 w/c (aggressive)</td><td>≤ 0.45</td><td>≤ 0.40</td><td>🔴 Mix Design change</td></tr>
+<tr><td>S5 Cover (external)</td><td>40mm</td><td>50mm / 60mm sabkha</td><td>🔴 More material</td></tr>
+<tr><td>S5 Sabkha</td><td>No classification</td><td>4 classes + IAN-006</td><td>🔴 New GI required</td></tr>
+<tr><td>S8 Pipe cover (road)</td><td>600mm</td><td>750mm arterial</td><td>🔴 Deeper trenches</td></tr>
+<tr><td>S8 CCTV</td><td>Not always required</td><td>100% main sewers</td><td>🔴 Extra cost</td></tr>
 </table>
 </div>`
 };
@@ -67,42 +89,61 @@ c["top20_ncr"] = {
 };
 
 c["prequalification_checklist"] = {
-  title: '✅ Checklist قبل كل مرحلة',
+  title: '✅ Checklist قبل كل مرحلة — QCS 2024',
   content: `
 <div class="lang-content-ar">
-<h3>Checklist الجاهزية قبل بدء كل مرحلة</h3>
-<h4>🛣️ قبل فرد الإسفلت</h4>
-<table class="dm-table"><tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>
-<tr><td>✅ اعتماد Mix Design</td><td>Marshall + Superpave معتمدان</td><td>QCS S8 P5</td></tr>
-<tr><td>✅ فحص Tack Coat</td><td>0.3-0.5 L/m² معتمد</td><td>QCS S8 P5</td></tr>
-<tr><td>✅ درجة حرارة الخليط</td><td>150-165°C عند الإنزال</td><td>QCS S8 P6</td></tr>
-<tr><td>✅ ITP موقّع</td><td>Hold Point المشرف موجود</td><td>Ashghal ITP</td></tr>
-<tr><td>✅ معايرة المعدات</td><td>Paver + Roller calibrated</td><td>QCS S8</td></tr>
+<div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 + Ashghal ITP Requirements — Checklist إلزامي قبل كل Hold Point
+</div>
+<h3>🛣️ قبل فرد الإسفلت</h3>
+<table class="dm-table">
+<tr><th>البند</th><th>المتطلب</th><th>QCS</th><th>✓</th></tr>
+<tr><td>Mix Design معتمد</td><td>Marshall + JMF موقّع من Consultant</td><td>S8 P5</td><td>□</td></tr>
+<tr><td>Tack Coat مطبّق</td><td>0.3-0.5 L/m² + جاف (≥ 4h)</td><td>S8 P5</td><td>□</td></tr>
+<tr><td>درجة حرارة الخليط</td><td>150-165°C عند الإنزال من الشاحنة</td><td>S8 P6</td><td>□</td></tr>
+<tr><td>ITP موقّع</td><td>Hold Point المشرف حاضر</td><td>Ashghal ITP</td><td>□</td></tr>
+<tr><td>معايرة Paver</td><td>Screed + Slope Controller سليم</td><td>S8 P6</td><td>□</td></tr>
+<tr><td>Rolling Pattern محدد</td><td>خطة Compaction معتمدة</td><td>S8 P6</td><td>□</td></tr>
 </table>
-<h4>💧 قبل مد المواسير</h4>
-<table class="dm-table"><tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>
-<tr><td>✅ اعتماد المواسير</td><td>Material Submittal موافق عليه</td><td>QCS S8 P12</td></tr>
-<tr><td>✅ فحص القاع (Bedding)</td><td>رمل نظيف، سماكة 150mm min</td><td>QCS S8 P12</td></tr>
-<tr><td>✅ Setting Out</td><td>مستوى + خط + ميل محدد</td><td>QCS S1</td></tr>
-<tr><td>✅ Dewatering</td><td>منسوب المياه أسفل القاع</td><td>QCS S5</td></tr>
+<h3>💧 قبل مد المواسير</h3>
+<table class="dm-table">
+<tr><th>البند</th><th>المتطلب</th><th>QCS</th><th>✓</th></tr>
+<tr><td>اعتماد المواسير</td><td>Material Submittal موافق عليه</td><td>S8 P12</td><td>□</td></tr>
+<tr><td>فحص قاع الترنشة</td><td>رمل نظيف 150mm Bedding</td><td>S8 P12</td><td>□</td></tr>
+<tr><td>Setting Out</td><td>Level + Grade + Alignment محدد</td><td>QCS S1 P5</td><td>□</td></tr>
+<tr><td>Dewatering</td><td>GWT أسفل 600mm من القاع</td><td>S5 P4</td><td>□</td></tr>
+<tr><td>Thrust Blocks</td><td>حجم صحيح + جافة 24h قبل الاختبار</td><td>S8 P12</td><td>□</td></tr>
 </table>
-<h4>🏗️ قبل صب الخرسانة</h4>
-<table class="dm-table"><tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>
-<tr><td>✅ فحص الحديد</td><td>Cover، Lap، Spacing صحيحة</td><td>QCS S5 P3</td></tr>
-<tr><td>✅ الشدات</td><td>قوية، مستوية، مدهونة</td><td>QCS S5 P4</td></tr>
-<tr><td>✅ Mix Design</td><td>معتمد + Cube samples جاهزة</td><td>QCS S5 P4</td></tr>
-<tr><td>✅ Hold Point</td><td>موافقة المهندس قبل الصب</td><td>Ashghal ITP</td></tr>
-<tr><td>✅ Curing plan</td><td>مياه أو compound جاهز</td><td>QCS S5 P4</td></tr>
+<h3>🏗️ قبل صب الخرسانة</h3>
+<table class="dm-table">
+<tr><th>البند</th><th>المتطلب</th><th>QCS</th><th>✓</th></tr>
+<tr><td>فحص الحديد</td><td>Cover + Spacing + Lap + Stirrups</td><td>S5 P3</td><td>□</td></tr>
+<tr><td>الشدات</td><td>قوية + مستوية + مدهونة</td><td>S5 P4</td><td>□</td></tr>
+<tr><td>Mix Design</td><td>معتمد + Truck Delivery Note</td><td>S5 P4</td><td>□</td></tr>
+<tr><td>Cube Moulds</td><td>6 مكعبات / صبة جاهزة</td><td>S5 P4</td><td>□</td></tr>
+<tr><td>Hold Point</td><td>موافقة المشرف قبل الصب</td><td>Ashghal ITP</td><td>□</td></tr>
+<tr><td>Curing Plan</td><td>مياه أو Compound جاهز فوراً</td><td>S5 P4</td><td>□</td></tr>
+<tr><td>Hot Weather Plan</td><td>ثلج / توقيت / Anti-evaporation</td><td>S5 P4</td><td>□</td></tr>
 </table>
+<h3>🔬 قبل اختبار الدمك Subgrade/Subbase</h3>
+<table class="dm-table">
+<tr><th>البند</th><th>المتطلب</th><th>QCS</th><th>✓</th></tr>
+<tr><td>سماكة الطبقة</td><td>≤ 200mm (uncompacted)</td><td>S6 P5</td><td>□</td></tr>
+<tr><td>المحتوى المائي</td><td>OMC ± 2%</td><td>S6 P5</td><td>□</td></tr>
+<tr><td>عدد التمريرات</td><td>حسب Trial Compaction</td><td>S6 P5</td><td>□</td></tr>
+<tr><td>معايرة المعدات</td><td>Roller + Nuclear Gauge محايَر</td><td>S6 P5</td><td>□</td></tr>
+</table>
+<div class="dm-note">📌 QCS 2024 — كل Hold Point يحتاج توقيع مهندس الموقع + المشرف قبل المتابعة. التوثيق إلزامي ولا يُقبل فوراً</div>
 </div>
 <div class="lang-content-en" style="display:none">
-<h3>Pre-Activity Checklist</h3>
-<h4>Before Asphalt Paving</h4>
-<table class="dm-table"><tr><th>Item</th><th>Requirement</th><th>Ref</th></tr>
-<tr><td>✅ Mix Design approved</td><td>Marshall + Superpave approved</td><td>QCS S8 P5</td></tr>
-<tr><td>✅ Tack Coat applied</td><td>0.3-0.5 L/m²</td><td>QCS S8 P5</td></tr>
-<tr><td>✅ Mix temp at delivery</td><td>150-165°C</td><td>QCS S8 P6</td></tr>
-<tr><td>✅ ITP signed</td><td>Supervisor Hold Point present</td><td>Ashghal ITP</td></tr>
+<h3>Pre-Activity Checklist — QCS 2024</h3>
+<table class="dm-table">
+<tr><th>Item</th><th>Requirement</th><th>QCS</th></tr>
+<tr><td>Mix Design approved</td><td>Marshall + JMF signed</td><td>S8 P5</td></tr>
+<tr><td>Pour temperature</td><td>150-165°C at delivery</td><td>S8 P6</td></tr>
+<tr><td>Rebar check</td><td>Cover + Spacing + Laps</td><td>S5 P3</td></tr>
+<tr><td>Hold Point</td><td>Supervisor present and signed</td><td>Ashghal ITP</td></tr>
+<tr><td>Curing plan</td><td>Water or compound ready</td><td>S5 P4</td></tr>
 </table>
 </div>`
 };
@@ -210,58 +251,108 @@ c["geotech_equipment"] = {
 };
 
 c["ashghal_rdm"] = {
-  title: "🛣️ Ashghal RDM 2023 — Road Design Manual",
-  content: `<div class="lang-content-ar">
-<h3>Ashghal Road Design Manual 2023 — المتطلبات الرئيسية</h3>
-<table class="dm-table"><tr><th>المعيار</th><th>القيمة</th><th>الفئة</th></tr>
-<tr><td><strong>Design Speed</strong></td><td>40 / 60 / 80 / 100 / 120 km/h</td><td>حسب تصنيف الطريق</td></tr>
-<tr><td><strong>Lane Width</strong></td><td>3.0m (محلي) / 3.65m (رئيسي)</td><td>RDM Table 3-1</td></tr>
-<tr><td><strong>Shoulder Width</strong></td><td>1.0m-3.5m حسب السرعة</td><td>RDM Table 3-2</td></tr>
-<tr><td><strong>Stopping Sight Distance</strong></td><td>40m (40km/h) → 245m (120km/h)</td><td>RDM Table 4-1</td></tr>
-<tr><td><strong>Max Grade</strong></td><td>8% محلي / 5% رئيسي / 3% سريع</td><td>RDM Table 5-1</td></tr>
-<tr><td><strong>Min Radius</strong></td><td>e=6%: 47m (40km/h) → 790m (120km/h)</td><td>RDM Table 6-1</td></tr>
-<tr><td><strong>Superelevation Max</strong></td><td>e = 6% (طرق حضرية)</td><td>RDM Section 6</td></tr>
-<tr><td><strong>Crossfall</strong></td><td>2.5% ± 0.3%</td><td>QCS S6 P2 + RDM</td></tr>
+  title: '🛣️ Ashghal RDM 2023 — Road Design Manual',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 Ashghal Road Design Manual 2023 | QCS 2024 S6 P2 | AASHTO 2018 | Qatar Context
+</div>
+<h3>🚗 سرعات التصميم وعروض الحارات</h3>
+<table class="dm-table">
+<tr><th>تصنيف الطريق</th><th>سرعة التصميم</th><th>عرض الحارة</th><th>الكتف</th></tr>
+<tr><td><strong>Expressway</strong></td><td>120 km/h</td><td>3.65m</td><td>3.0m (Hard)</td></tr>
+<tr><td><strong>Arterial A</strong></td><td>100 km/h</td><td>3.65m</td><td>2.5m</td></tr>
+<tr><td><strong>Arterial B</strong></td><td>80 km/h</td><td>3.50m</td><td>2.0m</td></tr>
+<tr><td><strong>Collector</strong></td><td>60 km/h</td><td>3.25m</td><td>1.5m</td></tr>
+<tr><td><strong>Local</strong></td><td>50 km/h</td><td>3.00m</td><td>1.0m</td></tr>
 </table>
-<h4>Pavement Design — Ashghal Standard Sections</h4>
-<table class="dm-table"><tr><th>نوع الطريق</th><th>Wearing</th><th>Binder</th><th>Base</th><th>Subbase</th></tr>
-<tr><td>Local Road</td><td>40mm AC-10</td><td>60mm AC-20</td><td>150mm Crushed</td><td>200mm GSB</td></tr>
-<tr><td>Collector Road</td><td>50mm AC-10</td><td>70mm AC-20</td><td>200mm Crushed</td><td>250mm GSB</td></tr>
-<tr><td>Arterial Road</td><td>50mm SMA</td><td>80mm AC-20</td><td>250mm Crushed</td><td>300mm GSB</td></tr>
+<h3>📏 Stopping Sight Distance</h3>
+<table class="dm-table">
+<tr><th>السرعة</th><th>SSD</th><th>PSD</th><th>DSD</th></tr>
+<tr><td>40 km/h</td><td>40m</td><td>140m</td><td>75m</td></tr>
+<tr><td>60 km/h</td><td>75m</td><td>240m</td><td>125m</td></tr>
+<tr><td>80 km/h</td><td>120m</td><td>360m</td><td>185m</td></tr>
+<tr><td>100 km/h</td><td>175m</td><td>500m</td><td>265m</td></tr>
+<tr><td>120 km/h</td><td>245m</td><td>670m</td><td>355m</td></tr>
 </table>
+<h3>🔄 Horizontal Alignment — Min Radius</h3>
+<table class="dm-table">
+<tr><th>السرعة</th><th>Rmin (e=6%)</th><th>Max Grade</th></tr>
+<tr><td>40 km/h</td><td>47m</td><td>8%</td></tr>
+<tr><td>60 km/h</td><td>120m</td><td>7%</td></tr>
+<tr><td>80 km/h</td><td>230m</td><td>5%</td></tr>
+<tr><td>100 km/h</td><td>390m</td><td>5%</td></tr>
+<tr><td>120 km/h</td><td>600m</td><td>3%</td></tr>
+</table>
+<h3>🏗️ Ashghal Standard Pavement Sections</h3>
+<table class="dm-table">
+<tr><th>نوع الطريق</th><th>Wearing</th><th>Binder</th><th>Base</th><th>Subbase</th></tr>
+<tr><td>Local</td><td>40mm AC-10</td><td>60mm AC-20</td><td>150mm Crushed</td><td>200mm GSB</td></tr>
+<tr><td>Collector</td><td>50mm AC-10</td><td>70mm AC-20</td><td>200mm Crushed</td><td>250mm GSB</td></tr>
+<tr><td>Arterial</td><td>50mm SMA</td><td>80mm AC-20</td><td>250mm Crushed</td><td>300mm GSB</td></tr>
+<tr><td>Expressway</td><td>60mm SMA-16</td><td>80mm AC-25</td><td>300mm Crushed</td><td>350mm GSB</td></tr>
+</table>
+<div class="dm-note">📌 RDM 2023 هو المرجع الأول في قطر لتصميم الطرق — يُقدَّم على AASHTO في حالة التعارض</div>
 </div>
 <div class="lang-content-en" style="display:none">
-<h3>Ashghal Road Design Manual 2023 — Key Requirements</h3>
-<table class="dm-table"><tr><th>Parameter</th><th>Value</th><th>Reference</th></tr>
-<tr><td>Design Speed</td><td>40/60/80/100/120 km/h</td><td>RDM Table 3-1</td></tr>
-<tr><td>Lane Width</td><td>3.0m (local) / 3.65m (arterial)</td><td>RDM Table 3-1</td></tr>
-<tr><td>Max Grade</td><td>8% local / 5% arterial / 3% expressway</td><td>RDM Table 5-1</td></tr>
-</table></div>`
+<h3>Ashghal RDM 2023 — Key Values</h3>
+<table class="dm-table">
+<tr><th>Road Class</th><th>Speed</th><th>Lane Width</th><th>SSD</th></tr>
+<tr><td>Expressway</td><td>120 km/h</td><td>3.65m</td><td>245m</td></tr>
+<tr><td>Arterial A</td><td>100 km/h</td><td>3.65m</td><td>175m</td></tr>
+<tr><td>Collector</td><td>60 km/h</td><td>3.25m</td><td>75m</td></tr>
+<tr><td>Local</td><td>50 km/h</td><td>3.00m</td><td>—</td></tr>
+</table>
+</div>`
 };
 
 c["mmup_road_design"] = {
-  title: "🏛️ MMUP — متطلبات تصميم الطرق",
-  content: `<div class="lang-content-ar">
-<h3>وزارة البلدية — متطلبات الطرق والتخطيط العمراني</h3>
-<table class="dm-table"><tr><th>المتطلب</th><th>التفصيل</th><th>المرجع</th></tr>
-<tr><td><strong>تصنيف الطرق</strong></td><td>سريع / رئيسي / ثانوي / محلي / خدمة</td><td>QCS S6 P2 + MMUP Urban Roads</td></tr>
-<tr><td><strong>حرم الطريق (ROW)</strong></td><td>15m محلي / 30m ثانوي / 60m رئيسي / 100m+ سريع</td><td>MMUP ROW Standards</td></tr>
-<tr><td><strong>Setback</strong></td><td>يحدده MMUP حسب نوع المنطقة</td><td>Building Regulations 2024</td></tr>
-<tr><td><strong>رصيف المشاة</strong></td><td>min 2.0m في المناطق السكنية</td><td>MMUP Pedestrian Design</td></tr>
-<tr><td><strong>مواقف السيارات</strong></td><td>1.5 موقف/وحدة سكنية min</td><td>MMUP Parking Standards</td></tr>
-<tr><td><strong>شبكة الدراجات</strong></td><td>2.5m عرض في المناطق المخصصة</td><td>Qatar Cycling Strategy</td></tr>
-<tr><td><strong>Street Lighting</strong></td><td>15-30 lux متوسط على الطريق</td><td>MMUP Lighting Standards</td></tr>
-<tr><td><strong>تصريف الأمطار</strong></td><td>100 سنة عودة للطرق الرئيسية</td><td>MMUP Drainage Design</td></tr>
+  title: '🏛️ MMUP — متطلبات تصميم الطرق الكاملة',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 S6 P2 + MMUP Urban Roads Classification | Ashghal RDM 2023 | Qatar National Planning Council
+</div>
+<h3>🛣️ تصنيف الطرق — MMUP</h3>
+<table class="dm-table">
+<tr><th>التصنيف</th><th>حرم الطريق (ROW)</th><th>السرعة</th><th>الحارات</th><th>خدمة مشاة</th></tr>
+<tr><td><strong>Expressway</strong></td><td>100-120m</td><td>100-120 km/h</td><td>3-4 / اتجاه</td><td>لا (Grade Separated)</td></tr>
+<tr><td><strong>Arterial A</strong></td><td>60-80m</td><td>80-100 km/h</td><td>3 / اتجاه</td><td>جسور مشاة</td></tr>
+<tr><td><strong>Arterial B</strong></td><td>40-60m</td><td>60-80 km/h</td><td>2-3 / اتجاه</td><td>ممرات + إشارات</td></tr>
+<tr><td><strong>Collector</strong></td><td>25-40m</td><td>50-60 km/h</td><td>1-2 / اتجاه</td><td>رصيف 2.5m</td></tr>
+<tr><td><strong>Local</strong></td><td>15-25m</td><td>40-50 km/h</td><td>1 / اتجاه</td><td>رصيف 2.0m</td></tr>
+<tr><td><strong>Service</strong></td><td>10-15m</td><td>30-40 km/h</td><td>1 مشترك</td><td>رصيف 1.5m</td></tr>
 </table>
-<div class="dm-note">⚠️ كل تصميم طريق يحتاج موافقة MMUP وAshghal معاً قبل التنفيذ</div>
+<h3>📐 اشتراطات المقطع العرضي</h3>
+<table class="dm-table">
+<tr><th>العنصر</th><th>المتطلب</th><th>MMUP/QCS</th></tr>
+<tr><td><strong>عرض الحارة</strong></td><td>3.0m محلي / 3.25m ثانوي / 3.5-3.65m رئيسي</td><td>QCS S6 P2 + RDM</td></tr>
+<tr><td><strong>Crossfall</strong></td><td>2.5% ± 0.3% (QCS 2024)</td><td>QCS S6 P2</td></tr>
+<tr><td><strong>Kerb Type</strong></td><td>Normal 300×150mm / Mountable 150×300mm</td><td>Ashghal SD-KR</td></tr>
+<tr><td><strong>Footpath</strong></td><td>min 2.0m مع Tactile Paving عند التقاطعات</td><td>MMUP + Disability Law</td></tr>
+<tr><td><strong>Cycle Track</strong></td><td>2.5m أحادي / 4.0m مزدوج (أخضر)</td><td>Qatar Cycling Strategy</td></tr>
+<tr><td><strong>Street Lighting</strong></td><td>15 lux محلي / 20 lux ثانوي / 30 lux رئيسي</td><td>MMUP Lighting Std</td></tr>
+<tr><td><strong>Green Median</strong></td><td>min 4.0m مع ري تلقائي</td><td>MMUP Landscaping</td></tr>
+</table>
+<h3>🚦 متطلبات التقاطعات</h3>
+<table class="dm-table">
+<tr><th>النوع</th><th>السرعة</th><th>متطلبات MMUP</th></tr>
+<tr><td>Roundabout</td><td>≤ 60 km/h</td><td>ICD ≥ 30m، Entry 4-5m، Splitter Island</td></tr>
+<tr><td>Signal (Grade)</td><td>40-80 km/h</td><td>Phase min 7s، Pedestrian Phase إلزامي</td></tr>
+<tr><td>Grade Separated</td><td>≥ 80 km/h</td><td>Clearance ≥ 5.1m، Acceleration Lane ≥ 200m</td></tr>
+</table>
+<div class="dm-note">📌 كل تصميم طريق يحتاج: NOC Ashghal + موافقة MMUP + دراسة حركة مرور TIA قبل البدء</div>
 </div>
 <div class="lang-content-en" style="display:none">
-<h3>MMUP Road Design Requirements</h3>
-<table class="dm-table"><tr><th>Requirement</th><th>Detail</th><th>Reference</th></tr>
-<tr><td>Road Classification</td><td>Expressway/Arterial/Collector/Local/Service</td><td>MMUP Urban Roads</td></tr>
-<tr><td>Right of Way</td><td>15m local / 30m collector / 60m arterial / 100m+ expressway</td><td>MMUP ROW Standards</td></tr>
-<tr><td>Footpath Width</td><td>min 2.0m in residential areas</td><td>MMUP Pedestrian Design</td></tr>
-</table></div>`
+<h3>MMUP Road Design — Complete Requirements</h3>
+<table class="dm-table">
+<tr><th>Classification</th><th>ROW</th><th>Speed</th><th>Lanes</th></tr>
+<tr><td>Expressway</td><td>100-120m</td><td>100-120 km/h</td><td>3-4 each</td></tr>
+<tr><td>Arterial A</td><td>60-80m</td><td>80-100 km/h</td><td>3 each</td></tr>
+<tr><td>Collector</td><td>25-40m</td><td>50-60 km/h</td><td>1-2 each</td></tr>
+<tr><td>Local</td><td>15-25m</td><td>40-50 km/h</td><td>1 each</td></tr>
+</table>
+</div>`
 };
 
 c["kahramaa_standards"] = {
@@ -337,29 +428,62 @@ c["kahramaa_standards"] = {
 };
 
 c["mep_standards"] = {
-  title: "🔌 معايير MEP — ميكانيكا وكهرباء وصحية",
-  content: `<div class="lang-content-ar">
-<h3>MEP Standards في قطر — المراجع الرسمية</h3>
-<table class="dm-table"><tr><th>التخصص</th><th>المرجع الرئيسي</th><th>المتطلبات الأساسية</th></tr>
-<tr><td><strong>Plumbing</strong></td><td>QCS S9 + KAHRAMAA</td><td>ضغط min 1 bar عند الصنبور</td></tr>
-<tr><td><strong>HVAC</strong></td><td>ASHRAE 90.1 + QCBS</td><td>COP ≥ 3.0 للمكيفات</td></tr>
-<tr><td><strong>Electrical LV</strong></td><td>IEC 60364 + KAHRAMAA ER</td><td>400V/50Hz، TN-S system</td></tr>
-<tr><td><strong>Fire Alarm</strong></td><td>NFPA 72 + Qatar Civil Defence</td><td>Class B wiring min</td></tr>
-<tr><td><strong>Fire Suppression</strong></td><td>NFPA 13 + QCD</td><td>Hazard classification مطلوب</td></tr>
-<tr><td><strong>Drainage</strong></td><td>BS EN 12056 + QCS</td><td>Gradient min 1:40 للصرف الأفقي</td></tr>
-<tr><td><strong>Earthing</strong></td><td>BS 7430 + KAHRAMAA</td><td>Resistance ≤ 1 Ω</td></tr>
-<tr><td><strong>Lifts/Elevators</strong></td><td>BS EN 81 + MMUP</td><td>Load test إلزامي قبل التشغيل</td></tr>
+  title: '🔌 معايير MEP الكاملة — قطر',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 S9 | KAHRAMAA ER/WR | ASHRAE 90.1 | NFPA 13/72 | IEC 60364 | BS EN 12056
+</div>
+<h3>💧 Plumbing — QCS S9 + KAHRAMAA</h3>
+<table class="dm-table">
+<tr><th>المتطلب</th><th>القيمة</th><th>المرجع</th></tr>
+<tr><td>ضغط عند الصنبور</td><td>min 1.0 bar (سكني) / 1.5 bar (تجاري)</td><td>KAHRAMAA WR + QCS S9</td></tr>
+<tr><td>سرعة المياه الساخنة</td><td>0.5-2.0 m/s</td><td>CIBSE G</td></tr>
+<tr><td>Legionella Prevention</td><td>Hot water ≥ 60°C / Cold ≤ 20°C</td><td>BS 8558</td></tr>
+<tr><td>Backflow Prevention</td><td>Double Check Valve إلزامي</td><td>KAHRAMAA</td></tr>
+<tr><td>Drain Gradient</td><td>min 1:40 (أفقي) / 1:80 (طويل)</td><td>BS EN 12056</td></tr>
 </table>
-<div class="dm-note">📌 كل تصميم MEP يحتاج موافقة KAHRAMAA + MMUP + الدفاع المدني قبل التنفيذ</div>
+<h3>❄️ HVAC — ASHRAE 90.1 + Qatar</h3>
+<table class="dm-table">
+<tr><th>المتطلب</th><th>القيمة</th><th>المرجع</th></tr>
+<tr><td>COP min (Split AC)</td><td>≥ 3.0 (Qatar Climate Zone)</td><td>ASHRAE 90.1 + QCBS</td></tr>
+<tr><td>EER min (Package)</td><td>≥ 10.2 BTU/W</td><td>ASHRAE 90.1</td></tr>
+<tr><td>Fresh Air (Office)</td><td>10 L/s/person</td><td>ASHRAE 62.1</td></tr>
+<tr><td>Duct Leakage</td><td>≤ 5% of supply air</td><td>SMACNA</td></tr>
+<tr><td>U-Value (Wall)</td><td>≤ 0.57 W/m²K</td><td>QCBS</td></tr>
+<tr><td>Refrigerant</td><td>R-32 أو R-410A (لا R-22)</td><td>Qatar EPA</td></tr>
+</table>
+<h3>⚡ LV Electrical — IEC 60364 + KAHRAMAA</h3>
+<table class="dm-table">
+<tr><th>المتطلب</th><th>القيمة</th><th>المرجع</th></tr>
+<tr><td>جهد التغذية</td><td>400V/230V Three-Phase 50Hz</td><td>KAHRAMAA ER-001</td></tr>
+<tr><td>نظام التأريض</td><td>TN-S (Protective Earth منفصل)</td><td>IEC 60364-1</td></tr>
+<tr><td>Max Voltage Drop</td><td>3% for final circuits / 5% total</td><td>IEC 60364-5</td></tr>
+<tr><td>RCD Protection</td><td>30mA للحمامات والمطابخ</td><td>IEC 60364-7</td></tr>
+<tr><td>Earthing Resistance</td><td>≤ 1Ω</td><td>BS 7430 + KAHRAMAA</td></tr>
+</table>
+<h3>🔥 Fire Protection — NFPA + QCDD</h3>
+<table class="dm-table">
+<tr><th>النظام</th><th>المتطلب</th><th>المرجع</th></tr>
+<tr><td>Sprinklers</td><td>Ordinary Hazard: K=80 / 225 m² max</td><td>NFPA 13 + QCDD</td></tr>
+<tr><td>Fire Alarm</td><td>Class B Wiring / Addressable System</td><td>NFPA 72</td></tr>
+<tr><td>Smoke Detection</td><td>كل غرفة + ممرات + منتشفات</td><td>NFPA 72 + QCDD</td></tr>
+<tr><td>Emergency Lighting</td><td>min 1 lux على مسارات الإخلاء</td><td>BS EN 1838</td></tr>
+<tr><td>Fire Pump</td><td>Diesel Backup إلزامي للمباني > 3 طوابق</td><td>NFPA 20 + QCDD</td></tr>
+</table>
+<div class="dm-note">📌 كل تصاميم MEP تحتاج موافقة: KAHRAMAA + MMUP + الدفاع المدني QCDD + Ashghal — الترتيب التسلسلي إلزامي</div>
 </div>
 <div class="lang-content-en" style="display:none">
-<h3>MEP Standards in Qatar</h3>
-<table class="dm-table"><tr><th>Discipline</th><th>Reference</th><th>Key Requirement</th></tr>
-<tr><td>Plumbing</td><td>QCS S9 + KAHRAMAA</td><td>min 1 bar at fixture</td></tr>
-<tr><td>HVAC</td><td>ASHRAE 90.1 + QCBS</td><td>COP ≥ 3.0</td></tr>
-<tr><td>Electrical LV</td><td>IEC 60364 + KAHRAMAA ER</td><td>400V/50Hz, TN-S</td></tr>
-<tr><td>Fire Alarm</td><td>NFPA 72 + Qatar Civil Defence</td><td>Class B wiring</td></tr>
-</table></div>`
+<h3>MEP Standards — Qatar</h3>
+<table class="dm-table">
+<tr><th>Discipline</th><th>Key Standard</th><th>Main Requirement</th></tr>
+<tr><td>Plumbing</td><td>QCS S9 + KAHRAMAA</td><td>Min 1 bar at fixtures</td></tr>
+<tr><td>HVAC</td><td>ASHRAE 90.1 + QCBS</td><td>COP ≥ 3.0, U ≤ 0.57 W/m²K</td></tr>
+<tr><td>LV Electrical</td><td>IEC 60364 + KAHRAMAA</td><td>400V TN-S, ≤1Ω earthing</td></tr>
+<tr><td>Fire Alarm</td><td>NFPA 72 + QCDD</td><td>Class B, Addressable</td></tr>
+<tr><td>Sprinklers</td><td>NFPA 13 + QCDD</td><td>OH: K=80, 225m² max</td></tr>
+</table>
+</div>`
 };
 
 c["structures_buildings"] = {
@@ -522,30 +646,59 @@ c["mmup_building_permits"] = {
 };
 
 c["marker_tape_colors"] = {
-  title: "🎨 ألوان شرائط التحذير — Qatar Standards",
-  content: `<div class="lang-content-ar">
-<h3>Warning Tape & Marker Colors — قطر</h3>
-<table class="dm-table"><tr><th>اللون</th><th>الخدمة</th><th>الجهة</th><th>المرجع</th></tr>
-<tr><td style="background:#ff0000;color:white;font-weight:700">🔴 أحمر</td><td>كهرباء — High Voltage</td><td>KAHRAMAA</td><td>KAHRAMAA ER-001</td></tr>
-<tr><td style="background:#ff8c00;color:white;font-weight:700">🟠 برتقالي</td><td>كهرباء — Low Voltage / Telecom</td><td>KAHRAMAA / Ooredoo</td><td>KAHRAMAA ER-002</td></tr>
-<tr><td style="background:#0000ff;color:white;font-weight:700">🔵 أزرق</td><td>مياه شرب</td><td>KAHRAMAA</td><td>KAHRAMAA WR-001</td></tr>
-<tr><td style="background:#00aa00;color:white;font-weight:700">🟢 أخضر</td><td>مياه معالجة (Treated)</td><td>Ashghal</td><td>QCS S8 P13</td></tr>
-<tr><td style="background:#8B4513;color:white;font-weight:700">🟤 بني</td><td>مياه الصرف الصحي</td><td>Ashghal</td><td>QCS S8 P14</td></tr>
-<tr><td style="background:#808080;color:white;font-weight:700">⬜ رمادي</td><td>صرف أمطار</td><td>Ashghal</td><td>QCS S8 P15</td></tr>
-<tr><td style="background:#ffff00;color:#333;font-weight:700">🟡 أصفر</td><td>غاز طبيعي</td><td>Qatar Gas / Woqod</td><td>IGE/TD/3</td></tr>
-<tr><td style="background:#800080;color:white;font-weight:700">🟣 بنفسجي</td><td>اتصالات / Fiber</td><td>Ooredoo / Vodafone</td><td>TRA Standards</td></tr>
+  title: '🎨 ألوان الخدمات تحت الأرض — Qatar',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 KAHRAMAA Standards | QCS 2024 S8 | Ashghal Utility Corridors | Qatar Utility Marking Code
+</div>
+<h3>🌈 جدول ألوان الخدمات</h3>
+<table class="dm-table">
+<tr><th>اللون</th><th>الخدمة</th><th>الجهة</th><th>المرجع</th></tr>
+<tr><td><strong style="color:#cc0000">🔴 أحمر غامق</strong></td><td>كهرباء — ضغط عالٍ HV</td><td>KAHRAMAA</td><td>ER-002</td></tr>
+<tr><td><strong style="color:#ff6600">🟠 برتقالي</strong></td><td>كهرباء — ضغط منخفض LV</td><td>KAHRAMAA</td><td>ER-001</td></tr>
+<tr><td><strong style="color:#ffff00;background:#333">🟡 أصفر</strong></td><td>غاز طبيعي / بترول</td><td>Qatar Gas / Woqod</td><td>IGE/TD/3</td></tr>
+<tr><td><strong style="color:#0066cc">🔵 أزرق</strong></td><td>مياه الشرب (Potable)</td><td>KAHRAMAA</td><td>WR-003</td></tr>
+<tr><td><strong style="color:#00aa00">🟢 أخضر</strong></td><td>مياه معالجة (Treated)</td><td>Ashghal</td><td>QCS S8 P13</td></tr>
+<tr><td><strong style="color:#8B4513">🟤 بني</strong></td><td>مياه الصرف الصحي</td><td>Ashghal</td><td>QCS S8 P14</td></tr>
+<tr><td><strong style="color:#808080">⬜ رمادي</strong></td><td>صرف أمطار (Storm)</td><td>Ashghal</td><td>QCS S8 P15</td></tr>
+<tr><td><strong style="color:#800080">🟣 بنفسجي</strong></td><td>اتصالات / Fiber / Telecom</td><td>Ooredoo / Vodafone</td><td>TRA Standards</td></tr>
+<tr><td><strong>⬛ أسود</strong></td><td>تصريف تكييف / Drain</td><td>Various</td><td>KAHRAMAA</td></tr>
 </table>
-<div class="dm-note">📌 يجب وضع Marker Tape على عمق 150mm فوق الخدمة وعلى كل 25m على الأقل</div>
+<h3>📏 متطلبات التركيب — QCS S8</h3>
+<table class="dm-table">
+<tr><th>المتطلب</th><th>القيمة</th><th>QCS/KAHRAMAA</th></tr>
+<tr><td><strong>عمق الشريط</strong></td><td>150-200mm فوق الخدمة</td><td>KAHRAMAA</td></tr>
+<tr><td><strong>عرض الشريط</strong></td><td>min 100mm</td><td>KAHRAMAA</td></tr>
+<tr><td><strong>التباعد الأفقي</strong></td><td>كل 10m + عند التقاطعات + عند الانعطافات</td><td>QCS S8</td></tr>
+<tr><td><strong>نوع الشريط</strong></td><td>PE (Polyethylene) — مقاوم للتآكل</td><td>KAHRAMAA</td></tr>
+<tr><td><strong>طباعة الشريط</strong></td><td>اسم الخدمة + تحذير بالعربي والإنجليزي</td><td>KAHRAMAA</td></tr>
+</table>
+<h3>📍 لوحات الخدمات — Marker Posts</h3>
+<table class="dm-table">
+<tr><th>البند</th><th>المتطلب</th></tr>
+<tr><td>الارتفاع</td><td>600mm فوق سطح الأرض</td></tr>
+<tr><td>المادة</td><td>GRP (Fiberglass) — مقاوم للتآكل والحرارة</td></tr>
+<tr><td>المعلومات</td><td>نوع الخدمة + المالك + رقم اتصال الطوارئ</td></tr>
+<tr><td>التباعد</td><td>كل 25m على الخدمات الرئيسية</td></tr>
+<tr><td>التقاطعات</td><td>على كل جانب من تقاطع الطريق</td></tr>
+</table>
+<div class="dm-note">⚠️ قطر: قبل أي حفر → اتصل بـ Qatar Call Center 16030 (Ashghal) لتحديد مواقع الخدمات. الحفر بدون NOC يُعرّضك لغرامات مالية كبيرة وخطر إلحاق الضرر بالخدمات</div>
 </div>
 <div class="lang-content-en" style="display:none">
 <h3>Underground Service Marker Colors — Qatar</h3>
-<table class="dm-table"><tr><th>Color</th><th>Service</th><th>Authority</th><th>Reference</th></tr>
-<tr><td>🔴 Red</td><td>High Voltage Electricity</td><td>KAHRAMAA</td><td>KAHRAMAA ER-001</td></tr>
-<tr><td>🔵 Blue</td><td>Potable Water</td><td>KAHRAMAA</td><td>KAHRAMAA WR-001</td></tr>
+<table class="dm-table">
+<tr><th>Color</th><th>Service</th><th>Authority</th><th>Reference</th></tr>
+<tr><td>🔴 Dark Red</td><td>HV Electricity</td><td>KAHRAMAA</td><td>ER-002</td></tr>
+<tr><td>🟠 Orange</td><td>LV Electricity</td><td>KAHRAMAA</td><td>ER-001</td></tr>
+<tr><td>🟡 Yellow</td><td>Gas</td><td>Qatar Gas</td><td>IGE/TD/3</td></tr>
+<tr><td>🔵 Blue</td><td>Potable Water</td><td>KAHRAMAA</td><td>WR-003</td></tr>
 <tr><td>🟢 Green</td><td>Treated Water</td><td>Ashghal</td><td>QCS S8 P13</td></tr>
 <tr><td>🟤 Brown</td><td>Foul Sewer</td><td>Ashghal</td><td>QCS S8 P14</td></tr>
-<tr><td>🟡 Yellow</td><td>Natural Gas</td><td>Qatar Gas</td><td>IGE/TD/3</td></tr>
-</table></div>`
+<tr><td>⬜ Grey</td><td>Storm Drain</td><td>Ashghal</td><td>QCS S8 P15</td></tr>
+<tr><td>🟣 Purple</td><td>Telecom/Fiber</td><td>TRA</td><td>TRA Std</td></tr>
+</table>
+</div>`
 };
 
 c["ashghal_forms"] = {
@@ -1217,114 +1370,206 @@ c["doc_analyzer"] = {
 };
 
 c["ashghal_std_details"] = {
-  title: '📐 Ashghal Standard Construction Details',
+  title: '📐 Ashghal Standard Details — 2023',
   content: `
 <div class="lang-content-ar">
-<h3>تفاصيل إنشاء قياسية — Ashghal</h3>
-<table class="dm-table"><tr><th>التفصيل</th><th>المتطلب</th><th>المرجع</th></tr>
-<tr><td><strong>Manhole — Road</strong></td><td>D400 frame & cover، بيتوني C40، تشطيب flush مع الرصف</td><td>Ashghal SD-MH-01</td></tr>
-<tr><td><strong>Thrust Block</strong></td><td>C20 خرسانة، حجم حسب القطر والضغط، لا يلامس الوصلة</td><td>QCS S8 P12</td></tr>
-<tr><td><strong>Trench — Water</strong></td><td>عرض: OD + 400mm، رمل نظيف من -150mm إلى +300mm</td><td>Ashghal SD-TR-01</td></tr>
-<tr><td><strong>Trench — Sewer</strong></td><td>Granular Bed 150mm، Haunch + Cover 300mm، Compacted</td><td>QCS S8 P14</td></tr>
-<tr><td><strong>Kerb — Type A</strong></td><td>300×150×1000mm، C35، 100mm M15 Blinding</td><td>Ashghal SD-KR-01</td></tr>
-<tr><td><strong>Kerb — Type B</strong></td><td>150×300×1000mm Flush، C35، للتقاطعات</td><td>Ashghal SD-KR-02</td></tr>
-<tr><td><strong>Road Gully</strong></td><td>بيتوني C35، شبكة حديد زهر D400، ريول 300mm</td><td>Ashghal SD-GU-01</td></tr>
-<tr><td><strong>Cable Duct</strong></td><td>HDPE 100mm، رمل نظيف 100mm فوق وتحت، شريط تحذير</td><td>KAHRAMAA ER-001</td></tr>
-<tr><td><strong>Road Marking</strong></td><td>Thermoplastic، سماكة 3mm، Retroreflective</td><td>QCS S6 P2</td></tr>
-<tr><td><strong>Tactile Paving</strong></td><td>800mm عرض، ألوان MMUP، قبل التقاطعات بـ 1.5m</td><td>MMUP Accessibility</td></tr>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 Ashghal Standard Drawings 2023 | QCS 2024 S8 + S6 | KAHRAMAA Standards
+</div>
+<h3>🕳️ Manholes — تفاصيل قياسية</h3>
+<table class="dm-table">
+<tr><th>التفصيل</th><th>المتطلب</th><th>Ashghal SD</th></tr>
+<tr><td><strong>Frame & Cover — Road</strong></td><td>D400 Cast Iron / Ductile Iron — Locking</td><td>SD-MH-01</td></tr>
+<tr><td><strong>Frame & Cover — Footpath</strong></td><td>B125 أو C250</td><td>SD-MH-02</td></tr>
+<tr><td><strong>جسم Manhole</strong></td><td>Precast C40 أو In-situ C35</td><td>SD-MH-01</td></tr>
+<tr><td><strong>Benching</strong></td><td>1:10 slope + Smooth Mortar Finish</td><td>SD-MH-01</td></tr>
+<tr><td><strong>Step Irons</strong></td><td>PP-coated Cast Iron كل 300mm</td><td>SD-MH-01</td></tr>
+<tr><td><strong>Surface to invert</strong></td><td>Flush مع الرصف ± 5mm</td><td>QCS S8 P15</td></tr>
 </table>
-<div class="dm-note">📌 جميع التفاصيل القياسية متاحة على: portal.ashghal.gov.qa — Standard Drawings</div>
+<h3>🔩 Thrust Blocks — بلوكات الدعم</h3>
+<table class="dm-table">
+<tr><th>القطر</th><th>الضغط</th><th>حجم Block (m³)</th><th>QCS</th></tr>
+<tr><td>100mm</td><td>PN10</td><td>0.1</td><td>S8 P12</td></tr>
+<tr><td>200mm</td><td>PN10</td><td>0.5</td><td>S8 P12</td></tr>
+<tr><td>300mm</td><td>PN10</td><td>1.2</td><td>S8 P12</td></tr>
+<tr><td>400mm</td><td>PN10</td><td>2.5</td><td>S8 P12</td></tr>
+<tr><td colspan="4" style="color:var(--text2);font-size:11px">* C20 concrete | لا يلامس الوصلة | مدعوم بالتربة</td></tr>
+</table>
+<h3>🟦 Kerbs — أنواع الأرصفة</h3>
+<table class="dm-table">
+<tr><th>النوع</th><th>الأبعاد</th><th>الاستخدام</th><th>Ashghal SD</th></tr>
+<tr><td><strong>Kerb Type A</strong></td><td>300H × 150W × 1000L mm</td><td>شوارع رئيسية</td><td>SD-KR-01</td></tr>
+<tr><td><strong>Kerb Type B</strong></td><td>150H × 300W × 1000L mm</td><td>تقاطعات (Flush)</td><td>SD-KR-02</td></tr>
+<tr><td><strong>Kerb Type C</strong></td><td>200H × 250W × 1000L mm</td><td>شوارع ثانوية</td><td>SD-KR-03</td></tr>
+<tr><td colspan="4" style="color:var(--text2);font-size:11px">* C35 min | 100mm M15 Blinding | Expansion Joint كل 5m</td></tr>
+</table>
+<h3>🚿 Road Gullies والتصريف</h3>
+<table class="dm-table">
+<tr><th>التفصيل</th><th>المتطلب</th><th>Ashghal SD</th></tr>
+<tr><td>Gully Type</td><td>Kerb Inlet + Grate D400</td><td>SD-GU-01</td></tr>
+<tr><td>Precast Box</td><td>C35 / 450×300mm داخلياً</td><td>SD-GU-01</td></tr>
+<tr><td>Connection Pipe</td><td>150mm uPVC إلى Storm Chamber</td><td>SD-GU-01</td></tr>
+<tr><td>التباعد</td><td>كل 25-50m (حسب التصريف)</td><td>QCS S8 P15</td></tr>
+</table>
+<div class="dm-note">📌 جميع الـ Standard Drawings متاحة على Ashghal Portal — أي تعديل يحتاج موافقة Ashghal مسبقة</div>
 </div>
 <div class="lang-content-en" style="display:none">
 <h3>Ashghal Standard Construction Details</h3>
-<table class="dm-table"><tr><th>Detail</th><th>Requirement</th><th>Reference</th></tr>
-<tr><td>Manhole — Road</td><td>D400 frame, C40 concrete, flush with pavement</td><td>Ashghal SD-MH-01</td></tr>
-<tr><td>Thrust Block</td><td>C20 concrete, size per diameter/pressure, no joint contact</td><td>QCS S8 P12</td></tr>
-<tr><td>Trench — Water</td><td>Width: OD+400mm, clean sand from -150mm to +300mm</td><td>Ashghal SD-TR-01</td></tr>
-<tr><td>Kerb Type A</td><td>300×150×1000mm, C35, 100mm M15 blinding</td><td>Ashghal SD-KR-01</td></tr>
-</table></div>`
+<table class="dm-table">
+<tr><th>Detail</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Manhole Cover (Road)</td><td>D400 Locking Cast Iron</td><td>SD-MH-01</td></tr>
+<tr><td>Manhole Body</td><td>Precast C40 or In-situ C35</td><td>SD-MH-01</td></tr>
+<tr><td>Thrust Block</td><td>C20, no joint contact</td><td>QCS S8 P12</td></tr>
+<tr><td>Kerb Type A</td><td>300H×150W×1000L, C35</td><td>SD-KR-01</td></tr>
+</table>
+</div>`
 };
 
 c["shoring_itp"] = {
-  title: '⛏️ ITP — التدعيم والحفريات العميقة',
+  title: '⛏️ ITP — التدعيم والحفريات العميقة QCS',
   content: `
 <div class="lang-content-ar">
-<h3>Shoring & Deep Excavation ITP — QCS 2024</h3>
-<table class="dm-table"><tr><th>المرحلة</th><th>الفحص/الاختبار</th><th>المتطلب</th><th>H/W/R</th><th>QCS</th></tr>
-<tr><td><strong>قبل الحفر</strong></td><td>مسح الخدمات تحت الأرض</td><td>NOC من KAHRAMAA + Ashghal</td><td>H</td><td>QCS S1</td></tr>
-<tr><td><strong>نظام التدعيم</strong></td><td>فحص Sheet Piles / Soldier Piles</td><td>حسب التصميم الهندسي المعتمد</td><td>H</td><td>QCS S5 P7</td></tr>
-<tr><td><strong>Dewatering</strong></td><td>قياس منسوب المياه الجوفية</td><td>600mm أسفل قاع الحفر قبل الصب</td><td>H</td><td>QCS S5 P4</td></tr>
-<tr><td><strong>أثناء الحفر</strong></td><td>قياس الانتفاخ الجانبي</td><td>≤ 25mm أو حسب التصميم</td><td>W</td><td>BS 8004</td></tr>
-<tr><td><strong>فحص القاع</strong></td><td>Proof Rolling / Plate Load</td><td>CBR ≥ 10% أو حسب التصميم</td><td>H</td><td>QCS S6 P5</td></tr>
-<tr><td><strong>Anchor Testing</strong></td><td>Proof Load Test</td><td>1.25× Working Load</td><td>H</td><td>BS 8081</td></tr>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 S5 P7 + S1 (Safety) | BS 8004 | BS EN 1997 | CIRIA C580
+</div>
+<h3>📋 ITP — Shoring & Deep Excavation</h3>
+<table class="dm-table">
+<tr><th>المرحلة</th><th>الفحص / الاختبار</th><th>المتطلب</th><th>H/W/R</th><th>QCS</th></tr>
+<tr><td><strong>قبل الحفر</strong></td><td>NOC من جميع الجهات</td><td>KAHRAMAA + Ashghal + QTerminals</td><td>H</td><td>QCS S1</td></tr>
+<tr><td><strong>Survey</strong></td><td>Setting Out الحفر</td><td>Tolerance ±25mm</td><td>H</td><td>QCS S1 P5</td></tr>
+<tr><td><strong>Sheet Piles</strong></td><td>فحص الوضع والامتداد</td><td>حسب التصميم المعتمد</td><td>H</td><td>S5 P7 + BS 8004</td></tr>
+<tr><td><strong>Dewatering</strong></td><td>قياس GWT قبل الحفر</td><td>600mm أسفل قاع الحفر</td><td>H</td><td>QCS S5 P4</td></tr>
+<tr><td><strong>أثناء الحفر</strong></td><td>قياس انتفاخ الجانب</td><td>≤ 25mm أو حسب التصميم</td><td>W</td><td>BS EN 1997</td></tr>
+<tr><td><strong>فحص القاع</strong></td><td>Proof Rolling 10T</td><td>لا هبوط مرئي</td><td>H</td><td>QCS S6 P5</td></tr>
+<tr><td><strong>Plate Load</strong></td><td>تحمل الأساس</td><td>CBR ≥ 10% أو قيمة التصميم</td><td>H</td><td>QCS S6 P5</td></tr>
+<tr><td><strong>Anchor Test</strong></td><td>Proof Load Test</td><td>1.25 × Working Load</td><td>H</td><td>BS 8081</td></tr>
+<tr><td><strong>Blinding</strong></td><td>سماكة وجودة</td><td>75mm C15 على قاع نظيف</td><td>W</td><td>QCS S5 P4</td></tr>
 </table>
-<div class="dm-note">⚠️ QCS S1 — أي حفر أعمق من 1.2m يتطلب Shoring وخطة سلامة معتمدة من Safety Officer</div>
+<h3>⚠️ متطلبات السلامة — QCS S1</h3>
+<table class="dm-table">
+<tr><th>المتطلب</th><th>التفصيل</th></tr>
+<tr><td>Excavation Permit</td><td>Work Permit لكل حفر > 1.2m</td></tr>
+<tr><td>Rescue Plan</td><td>خطة إنقاذ مكتوبة قبل الحفر</td></tr>
+<tr><td>Shoring Min Depth</td><td>إلزامي > 1.2m (قد يختلف حسب التربة)</td></tr>
+<tr><td>Daily Inspection</td><td>Site Engineer يفحص يومياً</td></tr>
+<tr><td>Monitoring</td><td>قراءات يومية للـ inclinometers</td></tr>
+<tr><td>Emergency Stop</td><td>إيقاف فوري عند أي حركة غير متوقعة</td></tr>
+</table>
+<div class="dm-note">⚠️ QCS S1 — حوادث الانهيار من أكثر حوادث الوفاة في مواقع البناء — لا تدخل الحفر بدون Permit وShoring معتمد</div>
 </div>
 <div class="lang-content-en" style="display:none">
-<h3>Shoring & Deep Excavation ITP — QCS 2024</h3>
-<table class="dm-table"><tr><th>Stage</th><th>Inspection/Test</th><th>Requirement</th><th>H/W/R</th><th>Ref</th></tr>
-<tr><td>Pre-excavation</td><td>Underground services survey</td><td>NOC from KAHRAMAA + Ashghal</td><td>H</td><td>QCS S1</td></tr>
-<tr><td>Shoring system</td><td>Sheet/Soldier pile inspection</td><td>Per approved design</td><td>H</td><td>QCS S5 P7</td></tr>
-<tr><td>Dewatering</td><td>GWT monitoring</td><td>600mm below excavation level</td><td>H</td><td>QCS S5 P4</td></tr>
-<tr><td>Bottom inspection</td><td>Proof rolling/plate load</td><td>CBR ≥ 10% or per design</td><td>H</td><td>QCS S6 P5</td></tr>
-</table></div>`
+<h3>Shoring & Deep Excavation ITP — QCS S5 P7</h3>
+<table class="dm-table">
+<tr><th>Stage</th><th>Check</th><th>Requirement</th><th>H/W/R</th><th>QCS</th></tr>
+<tr><td>Pre-excavation</td><td>Utility NOC</td><td>KAHRAMAA + Ashghal</td><td>H</td><td>S1</td></tr>
+<tr><td>Dewatering</td><td>GWT monitoring</td><td>600mm below formation</td><td>H</td><td>S5 P4</td></tr>
+<tr><td>Lateral movement</td><td>Inclinometer</td><td>≤ 25mm</td><td>W</td><td>BS EN 1997</td></tr>
+<tr><td>Anchor</td><td>Proof load test</td><td>1.25× working load</td><td>H</td><td>BS 8081</td></tr>
+</table>
+</div>`
 };
 
 c["cctv_itp"] = {
-  title: '📹 ITP — فحص CCTV للمجاري',
+  title: '📹 ITP — فحص CCTV للمجاري QCS',
   content: `
 <div class="lang-content-ar">
-<h3>CCTV Inspection ITP — QCS + BS EN 13508</h3>
-<table class="dm-table"><tr><th>البند</th><th>المتطلب</th><th>H/W/R</th><th>QCS/BS</th></tr>
-<tr><td><strong>قبل CCTV</strong></td><td>تنظيف المجرى بـ High Pressure Jetting</td><td>R</td><td>QCS S8 P14</td></tr>
-<tr><td><strong>معدات CCTV</strong></td><td>كاميرا ملونة، Pan+Tilt، ≥ 360° rotation</td><td>R</td><td>BS EN 13508</td></tr>
-<tr><td><strong>Grade System</th><td>A (بدون عيوب) → E (انهيار) — WRc Manual</td><td>W</td><td>WRc Code</td></tr>
-<tr><td><strong>Grade A</strong></td><td>قبول مباشر</td><td>—</td><td>Ashghal Spec</td></tr>
-<tr><td><strong>Grade B</strong></td><td>مراقبة + إعادة فحص بعد 12 شهر</td><td>—</td><td>Ashghal Spec</td></tr>
-<tr><td><strong>Grade C/D/E</strong></td><td>رفض + إصلاح فوري قبل التسليم</td><td>H</td><td>Ashghal Spec</td></tr>
-<tr><td><strong>التقرير النهائي</strong></td><td>فيديو + PDF + WinCan Report</td><td>H</td><td>BS EN 13508</td></tr>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 S8 P14 + BS EN 13508 | WRc Sewer Inspection Manual | Ashghal CCTV Spec
+</div>
+<h3>📋 CCTV Inspection ITP</h3>
+<table class="dm-table">
+<tr><th>البند</th><th>المتطلب</th><th>H/W/R</th><th>QCS/BS</th></tr>
+<tr><td><strong>قبل CCTV</strong></td><td>تنظيف بـ High Pressure Jetting ≥ 120 bar</td><td>R</td><td>QCS S8 P14</td></tr>
+<tr><td><strong>معدات CCTV</strong></td><td>كاميرا Pan+Tilt ملونة، ≥ 360° rotation</td><td>R</td><td>BS EN 13508</td></tr>
+<tr><td><strong>تغطية الفحص</strong></td><td>100% من المجاري الرئيسية قبل التسليم</td><td>H</td><td>Ashghal Spec</td></tr>
+<tr><td><strong>Grade A</strong></td><td>بدون عيوب — قبول مباشر</td><td>—</td><td>WRc Manual</td></tr>
+<tr><td><strong>Grade B</strong></td><td>عيوب بسيطة — مراقبة + إعادة فحص 12 شهر</td><td>W</td><td>WRc Manual</td></tr>
+<tr><td><strong>Grade C</strong></td><td>إصلاح مطلوب قبل التسليم</td><td>H</td><td>WRc Manual</td></tr>
+<tr><td><strong>Grade D/E</strong></td><td>انهيار — إصلاح فوري + إعادة CCTV</td><td>H</td><td>WRc Manual</td></tr>
 <tr><td><strong>Infiltration</strong></td><td>≤ 0.08 L/s/km/mm diameter</td><td>H</td><td>QCS S8 P14</td></tr>
+<tr><td><strong>التقرير النهائي</strong></td><td>فيديو MP4 + PDF + WinCan report</td><td>H</td><td>BS EN 13508</td></tr>
 </table>
-<div class="dm-note">📌 100% من المجاري الرئيسية تحتاج CCTV قبل التسليم النهائي لـ Ashghal</div>
+<h3>🔍 أنواع العيوب — WRc Defect Codes</h3>
+<table class="dm-table">
+<tr><th>الكود</th><th>وصف العيب</th><th>Grade</th><th>الإجراء</th></tr>
+<tr><td>B</td><td>Broken — كسر في المجرى</td><td>D-E</td><td>إصلاح فوري</td></tr>
+<tr><td>C</td><td>Crack — شقوق</td><td>B-D</td><td>حسب الشدة</td></tr>
+<tr><td>D</td><td>Deformation — تشوه مقطع</td><td>C-D</td><td>إصلاح قبل تسليم</td></tr>
+<tr><td>I</td><td>Infiltration — تسرب مياه جوفية</td><td>B-D</td><td>حسب المعدل</td></tr>
+<tr><td>J</td><td>Joint — وصلة سيئة</td><td>B-C</td><td>إصلاح موضعي</td></tr>
+<tr><td>O</td><td>Obstacle — عائق</td><td>C</td><td>إزالة + إعادة فحص</td></tr>
+</table>
+<div class="dm-note">📌 Ashghal — جميع فيديوهات CCTV تُرفع على Ashghal Portal مع الـ Report قبل إغلاق ITP</div>
 </div>
 <div class="lang-content-en" style="display:none">
-<h3>CCTV Inspection ITP — QCS + BS EN 13508</h3>
-<table class="dm-table"><tr><th>Item</th><th>Requirement</th><th>H/W/R</th><th>Reference</th></tr>
-<tr><td>Pre-CCTV</td><td>High pressure jetting</td><td>R</td><td>QCS S8 P14</td></tr>
-<tr><td>Grade A</td><td>Accept directly</td><td>—</td><td>Ashghal Spec</td></tr>
-<tr><td>Grade B</td><td>Monitor, re-inspect after 12 months</td><td>—</td><td>Ashghal Spec</td></tr>
-<tr><td>Grade C/D/E</td><td>Reject, repair before handover</td><td>H</td><td>Ashghal Spec</td></tr>
-</table></div>`
+<h3>CCTV ITP — QCS S8 P14 + BS EN 13508</h3>
+<table class="dm-table">
+<tr><th>Item</th><th>Requirement</th><th>H/W/R</th><th>Reference</th></tr>
+<tr><td>Pre-cleaning</td><td>High pressure jet ≥120 bar</td><td>R</td><td>QCS S8 P14</td></tr>
+<tr><td>Coverage</td><td>100% of gravity sewers</td><td>H</td><td>Ashghal</td></tr>
+<tr><td>Grade A</td><td>No defects — accept</td><td>—</td><td>WRc</td></tr>
+<tr><td>Grade B</td><td>Monitor, re-inspect 12mo</td><td>W</td><td>WRc</td></tr>
+<tr><td>Grade C-E</td><td>Repair before handover</td><td>H</td><td>WRc</td></tr>
+<tr><td>Infiltration</td><td>≤ 0.08 L/s/km/mm</td><td>H</td><td>QCS S8 P14</td></tr>
+</table>
+</div>`
 };
 
 c["sabkha_classification"] = {
-  title: '🏜️ تصنيف السبخة — IAN-006 Qatar',
+  title: '🏜️ تصنيف السبخة — IAN-006 Qatar 2024',
   content: `
 <div class="lang-content-ar">
-<h3>تصنيف السبخة — IAN-006 (Interim Advice Note) + QCS 2024</h3>
-<table class="dm-table"><tr><th>الصنف</th><th>الوصف</th><th>Sulfate (SO₃%)</th><th>الإجراء</th></tr>
-<tr><td><strong>Class 1 — خفيفة</strong></td><td>صلبة، جافة، لا تشبع مرئي</td><td>< 0.5%</td><td>تصميم عادي + SRPC</td></tr>
-<tr><td><strong>Class 2 — متوسطة</strong></td><td>ناعمة، رطبة، سطح أملح</td><td>0.5 - 2.0%</td><td>Geotextile + SRPC + بطانة بيتومينية</td></tr>
-<tr><td><strong>Class 3 — شديدة</strong></td><td>طرية، ملوحة عالية، مياه ظاهرة</td><td>2.0 - 5.0%</td><td>استبدال كامل أو Piling + عزل مزدوج</td></tr>
-<tr><td><strong>Class 4 — حرجة</strong></td><td>مستنقع ملحي، مياه جوفية ضحلة</td><td>> 5.0%</td><td>تقرير متخصص + موافقة Ashghal</td></tr>
+<div style="background:rgba(241,196,15,0.08);border:1px solid rgba(241,196,15,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 S5 P2 | IAN-006 Qatar (Interim Advice Note) | Ashghal Sabkha Guidelines
+</div>
+<h3>🔬 تصنيف السبخة — IAN-006</h3>
+<table class="dm-table">
+<tr><th>الصنف</th><th>SO₃%</th><th>الوصف البصري</th><th>المياه الجوفية</th></tr>
+<tr><td><strong>Class 1 — خفيفة</strong></td><td>&lt; 0.5%</td><td>صلبة / جافة / بدون ملوحة ظاهرة</td><td>عميقة > 3m</td></tr>
+<tr><td><strong>Class 2 — متوسطة</strong></td><td>0.5-2.0%</td><td>ناعمة / رطبة / تبلور ملحي على السطح</td><td>1.5-3m</td></tr>
+<tr><td><strong>Class 3 — شديدة</strong></td><td>2.0-5.0%</td><td>طرية جداً / ملوحة عالية / مياه ظاهرة</td><td>&lt; 1.5m</td></tr>
+<tr><td><strong>Class 4 — حرجة</strong></td><td>&gt; 5.0%</td><td>مستنقع ملحي / سائلة تقريباً</td><td>سطحية</td></tr>
 </table>
-<h4>اختبارات التصنيف المطلوبة:</h4>
-<table class="dm-table"><tr><th>الاختبار</th><th>المعيار</th><th>التردد</th></tr>
-<tr><td>Sulfate Content (SO₃)</td><td>BS 1377 Part 3</td><td>كل 500m² أو كل طبقة</td></tr>
-<tr><td>Chloride Content</td><td>BS 1377 Part 3</td><td>مع كل عينة SO₃</td></tr>
-<tr><td>CBR</td><td>BS 1377 Part 4</td><td>كل 500m²</td></tr>
-<tr><td>Visual Classification</td><td>IAN-006</td><td>مستمر أثناء الحفر</td></tr>
+<h3>🧪 اختبارات التصنيف — QCS S5 P2</h3>
+<table class="dm-table">
+<tr><th>الاختبار</th><th>المعيار</th><th>التردد</th><th>المرجع</th></tr>
+<tr><td><strong>Sulfate Content (SO₃)</strong></td><td>BS 1377 Part 3</td><td>كل 250m² (Class 3-4) / 500m² (Class 1-2)</td><td>QCS S5 P2</td></tr>
+<tr><td><strong>Chloride Content (Cl⁻)</strong></td><td>BS 1377 Part 3</td><td>مع كل عينة SO₃</td><td>QCS S5 P2</td></tr>
+<tr><td><strong>CBR</strong></td><td>BS 1377 Part 4</td><td>كل 500m² أو كل طبقة</td><td>QCS S6 P5</td></tr>
+<tr><td><strong>Moisture Content</strong></td><td>BS 1377 Part 2</td><td>مستمر أثناء الردم</td><td>QCS S6 P5</td></tr>
+<tr><td><strong>pH</strong></td><td>BS 1377 Part 3</td><td>مع SO₃ إذا SO₃ > 1%</td><td>IAN-006</td></tr>
 </table>
-<div class="dm-note">📌 QCS 2024 S5 P2 — يجب إرفاق تقرير تصنيف السبخة مع كل تصميم أساسات في قطر</div>
+<h3>⚗️ متطلبات الخرسانة حسب الصنف</h3>
+<table class="dm-table">
+<tr><th>المتطلب</th><th>Class 1</th><th>Class 2</th><th>Class 3-4</th><th>QCS</th></tr>
+<tr><td>الإسمنت</td><td>OPC / SRPC</td><td>SRPC إلزامي</td><td>SRPC + Microsilica</td><td>S5 P2</td></tr>
+<tr><td>w/c Ratio</td><td>≤ 0.50</td><td>≤ 0.45</td><td>≤ 0.38</td><td>S5 P4</td></tr>
+<tr><td>درجة الخرسانة</td><td>C30 min</td><td>C35 min</td><td>C40 min</td><td>S5 P4</td></tr>
+<tr><td>Cover</td><td>40mm</td><td>50mm</td><td>60mm</td><td>S5 P3</td></tr>
+<tr><td>Waterproofing</td><td>اختياري</td><td>Bituminous DPC</td><td>HDPE 1.5mm + DPC</td><td>IAN-006</td></tr>
+<tr><td>Geotextile</td><td>—</td><td>موصى</td><td>إلزامي 150kN/m</td><td>IAN-006</td></tr>
+</table>
+<h3>👁️ علامات التعرف الميدانية</h3>
+<table class="dm-table">
+<tr><th>الملاحظة</th><th>التفسير المحتمل</th></tr>
+<tr><td>🟤 تبلور أبيض على السطح</td><td>Class 2+ — اختبر فوراً</td></tr>
+<tr><td>💧 رطوبة في الصباح الباكر</td><td>مياه جوفية ضحلة</td></tr>
+<tr><td>🌊 انتفاخ جانبي في الحفر</td><td>Class 3 — استشر المهندس</td></tr>
+<tr><td>🧂 رائحة كبريتية</td><td>Sulfate مرتفع — أوقف وافحص</td></tr>
+<tr><td>🦶 غوص > 100mm تحت الأقدام</td><td>Class 3-4 — لا تتابع</td></tr>
+</table>
+<div class="dm-note">📌 IAN-006 — يجب تسجيل كل تصنيف سبخة في GI Report المحلق بتصريح البناء MMUP. تغيير التصنيف في الموقع يحتاج موافقة Geotechnical Engineer</div>
 </div>
 <div class="lang-content-en" style="display:none">
 <h3>Sabkha Classification — IAN-006 Qatar</h3>
-<table class="dm-table"><tr><th>Class</th><th>Description</th><th>Sulfate SO₃%</th><th>Action</th></tr>
-<tr><td>Class 1 — Mild</td><td>Firm, dry, no visible saturation</td><td>< 0.5%</td><td>Normal design + SRPC</td></tr>
-<tr><td>Class 2 — Moderate</td><td>Soft, moist, saline surface</td><td>0.5 - 2.0%</td><td>Geotextile + SRPC + Bituminous liner</td></tr>
-<tr><td>Class 3 — Severe</td><td>Soft, high salinity, visible water</td><td>2.0 - 5.0%</td><td>Full removal or Piling + double barrier</td></tr>
-<tr><td>Class 4 — Critical</td><td>Salt marsh, shallow GWT</td><td>> 5.0%</td><td>Specialist report + Ashghal approval</td></tr>
-</table></div>`
+<table class="dm-table">
+<tr><th>Class</th><th>SO₃%</th><th>Description</th><th>GWT</th></tr>
+<tr><td>Class 1 Mild</td><td>&lt;0.5%</td><td>Firm, dry, no salinity</td><td>&gt;3m</td></tr>
+<tr><td>Class 2 Moderate</td><td>0.5-2.0%</td><td>Soft, moist, salt crystals</td><td>1.5-3m</td></tr>
+<tr><td>Class 3 Severe</td><td>2.0-5.0%</td><td>Very soft, high salt, visible water</td><td>&lt;1.5m</td></tr>
+<tr><td>Class 4 Critical</td><td>&gt;5.0%</td><td>Salt marsh, near liquid</td><td>Surface</td></tr>
+</table>
+</div>`
 };
 
 c["road_design_criteria"] = {
@@ -1633,6 +1878,62 @@ c["exec_pressure_test"] = {
 <tr><td>3</td><td>Test pressure</td><td>1.5× operating pressure or PN+5 bar</td><td>S8 P12</td></tr>
 <tr><td>4</td><td>Test duration</td><td>Minimum 2 hours</td><td>S8 P12</td></tr>
 <tr><td>5</td><td>Allowable drop</td><td>≤ 0.2 bar/hour (Class A)</td><td>BS EN 805</td></tr>
+</table>
+</div>`
+};
+
+
+c["hot_weather_detailed"] = {
+  title: '🌞 Hot Weather Concreting — QCS S5 P4',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 S5 P4 | ACI 305R | BS 8500 | درجات الحرارة في قطر تتجاوز 45°C
+</div>
+<h3>🌡️ حدود درجات الحرارة — QCS S5 P4</h3>
+<table class="dm-table">
+<tr><th>المتطلب</th><th>الحد</th><th>QCS</th></tr>
+<tr><td><strong>Max درجة حرارة الخليط</strong></td><td>35°C عند الصب</td><td>S5 P4</td></tr>
+<tr><td><strong>Max درجة حرارة الركام</strong></td><td>لا يتجاوز 60°C</td><td>S5 P4</td></tr>
+<tr><td><strong>Max درجة حرارة المياه</strong></td><td>استخدام ثلج للتبريد</td><td>S5 P4 + ACI 305</td></tr>
+<tr><td><strong>Max وقت النقل</strong></td><td>45 دقيقة صيفاً (بدلاً من 90)</td><td>Qatar Practice</td></tr>
+<tr><td><strong>Slump Loss</strong></td><td>≤ 50mm من المصنع للموقع</td><td>QCS S5 P4</td></tr>
+</table>
+<h3>❄️ إجراءات التبريد — Hot Weather Measures</h3>
+<table class="dm-table">
+<tr><th>الإجراء</th><th>التفصيل</th><th>التأثير</th><th>QCS</th></tr>
+<tr><td><strong>تبريد مياه الخلط</strong></td><td>استبدال 25% بثلج مجروش</td><td>خفض 5-8°C</td><td>S5 P4</td></tr>
+<tr><td><strong>تبريد الركام</strong></td><td>تغطية + رش مياه قبل الخلط</td><td>خفض 3-5°C</td><td>S5 P4</td></tr>
+<tr><td><strong>تبريد الخلاط</strong></td><td>رش مياه على Mixer Drum</td><td>خفض 2-3°C</td><td>ACI 305R</td></tr>
+<tr><td><strong>توقيت الصب</strong></td><td>بعد 4 عصراً أو قبل 7 صباحاً</td><td>تجنب ذروة الحرارة</td><td>Ashghal Practice</td></tr>
+<tr><td><strong>Retarder</strong></td><td>Type B أو D — يحتاج اعتماد</td><td>تمديد Workability</td><td>BS 5075</td></tr>
+<tr><td><strong>تبريد القوالب</strong></td><td>رش قبل الصب</td><td>منع امتصاص الرطوبة</td><td>ACI 305R</td></tr>
+</table>
+<h3>💧 Curing في الجو الحار — QCS S5 P4</h3>
+<table class="dm-table">
+<tr><th>الطريقة</th><th>المدة</th><th>المتطلب</th><th>QCS</th></tr>
+<tr><td><strong>Wet Curing (مياه)</strong></td><td>7 أيام min (10 أيام صيفاً موصى)</td><td>رطوبة مستمرة — لا يجف</td><td>S5 P4</td></tr>
+<tr><td><strong>Curing Compound</strong></td><td>فوري بعد الصب</td><td>Wax-based — يغطي 100%</td><td>BS 8110</td></tr>
+<tr><td><strong>Shade + Hessian</strong></td><td>طوال فترة Curing</td><td>تجنب التعرض للشمس المباشر</td><td>ACI 305R</td></tr>
+<tr><td><strong>Plastic Sheet</strong></td><td>أثناء وبعد الصب</td><td>Vapor barrier — للأرضيات</td><td>ACI 308</td></tr>
+</table>
+<h3>⚠️ علامات الخرسانة المتضررة بالحرارة</h3>
+<table class="dm-table">
+<tr><th>العلامة</th><th>السبب</th><th>الإجراء</th></tr>
+<tr><td>تشقق مبكر (< 24h)</td><td>Plastic Shrinkage — جفاف سريع</td><td>رش ماء فوري + إصلاح</td></tr>
+<tr><td>Slump منخفض جداً</td><td>خسارة workability بالحرارة</td><td>رفض الخلطة — لا تضف ماء</td></tr>
+<tr><td>قوة منخفضة (7 day)</td><td>صب في حرارة مرتفعة</td><td>زيادة عدد مكعبات الاختبار</td></tr>
+</table>
+<div class="dm-note">📌 QCS S5 P4 — قطر: كل صب خرسانة صيفاً يحتاج Hot Weather Concreting Plan معتمداً من Consultant قبل الصب</div>
+</div>
+<div class="lang-content-en" style="display:none">
+<h3>Hot Weather Concreting — QCS S5 P4</h3>
+<table class="dm-table">
+<tr><th>Measure</th><th>Method</th><th>Effect</th><th>QCS</th></tr>
+<tr><td>Water chilling</td><td>Replace 25% with crushed ice</td><td>Reduce 5-8°C</td><td>S5 P4</td></tr>
+<tr><td>Aggregate cooling</td><td>Cover + pre-wet</td><td>Reduce 3-5°C</td><td>S5 P4</td></tr>
+<tr><td>Pour timing</td><td>After 4pm or before 7am</td><td>Avoid peak heat</td><td>Practice</td></tr>
+<tr><td>Wet curing</td><td>7 days min (10 recommended)</td><td>Continuous moisture</td><td>S5 P4</td></tr>
 </table>
 </div>`
 };
