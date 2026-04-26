@@ -97,8 +97,7 @@ window.QS_CONTENT_MAP = {
   "geo_lab": "data_content_geotech.js",
   "geo_report": "data_content_geotech.js",
   "itp_geotech": "data_content_geotech.js",
-  "calculator": "data_content_tools.js"
-,
+  "calculator": "data_content_tools.js",
   "ashghal_forms": "data_content_extra.js",
   "ncr_quick_logger": "data_content_extra.js",
   "doc_analyzer": "data_content_extra.js",
@@ -132,5 +131,7 @@ window.QS_CONTENT_MAP = {
   "rebar_cover_calc": "data_content_extra.js",
   "materials_calculator_buildings": "data_content_extra.js",
   "soil_grading_calc": "data_content_extra.js",
+  "pipe_sizing_calc": "data_content_extra.js",
+  "road_layers_calc": "data_content_extra.js",
   "exec_asphalt_paving": "data_content_roads.js"
 };
