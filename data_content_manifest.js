@@ -124,5 +124,8 @@ window.QS_CONTENT_MAP = {
   "sabkha_classification": "data_content_extra.js",
   "road_design_criteria": "data_content_extra.js",
   "sabkha_treatment": "data_content_extra.js",
-  "survey_setting_out": "data_content_extra.js"
+  "survey_setting_out": "data_content_extra.js",
+  "exec_pressure_test": "data_content_extra.js",
+  "esal_calculator_full": "data_content_extra.js",
+  "mix_design_validator": "data_content_extra.js"
 };

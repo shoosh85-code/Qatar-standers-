@@ -3,10 +3,6 @@
   var c = window.QS_CONTENT = window.QS_CONTENT || {};
 
 
-
-
-
-
 c["qcs_changes_2014_2024"] = {
   title: '📊 QCS 2014 vs QCS 2024 — أهم التغييرات',
   content: `
@@ -110,7 +106,6 @@ c["prequalification_checklist"] = {
 </table>
 </div>`
 };
-
 
 c["roads_equipment"] = {
   title: "🚜 معدات الطرق — QCS 2024",
@@ -270,32 +265,75 @@ c["mmup_road_design"] = {
 };
 
 c["kahramaa_standards"] = {
-  title: "⚡ KAHRAMAA — معايير الكهرباء والمياه",
-  content: `<div class="lang-content-ar">
-<h3>KAHRAMAA — Qatar General Electricity & Water Corporation Standards</h3>
-<h4>💧 معايير المياه — Water Standards</h4>
-<table class="dm-table"><tr><th>المعيار</th><th>المتطلب</th><th>المرجع</th></tr>
-<tr><td><strong>ضغط الشبكة</strong></td><td>2.5 - 8.0 bar (35-116 psi)</td><td>QCS S8 + KAHRAMAA WR-001</td></tr>
-<tr><td><strong>سرعة التدفق</strong></td><td>0.6 - 2.0 m/s في المواسير الرئيسية</td><td>KAHRAMAA WR-002</td></tr>
-<tr><td><strong>Chlorine Residual</strong></td><td>0.2 - 0.5 mg/L عند نقطة الاستهلاك</td><td>KAHRAMAA WQ-001</td></tr>
-<tr><td><strong>Turbidity</strong></td><td>≤ 1 NTU</td><td>KAHRAMAA WQ-001</td></tr>
-<tr><td><strong>مادة الأنابيب</strong></td><td>HDPE PE100 أو Ductile Iron</td><td>KAHRAMAA WR-003</td></tr>
-<tr><td><strong>Fire Flow</strong></td><td>min 25 L/s لـ 2 ساعة</td><td>KAHRAMAA Fire Protection</td></tr>
-</table>
-<h4>⚡ معايير الكهرباء — Electrical Standards</h4>
-<table class="dm-table"><tr><th>المعيار</th><th>المتطلب</th><th>المرجع</th></tr>
-<tr><td><strong>عمق الكابل</strong></td><td>min 600mm للجهد المنخفض</td><td>KAHRAMAA ER-001</td></tr>
-<tr><td><strong>الفصل بين الخدمات</strong></td><td>300mm بين مياه وكهرباء</td><td>KAHRAMAA Separation</td></tr>
-<tr><td><strong>Cable Markers</strong></td><td>كل 10m وعند التقاطعات</td><td>KAHRAMAA ER-002</td></tr>
-</table>
+  title: '⚡ KAHRAMAA — دليل معايير الكهرباء والمياه',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(241,196,15,0.08);border:1px solid rgba(241,196,15,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 S8 P12/P13 + KAHRAMAA WR-001/002 + ER-001/002 | QCS S1 — متطلبات التنسيق بين الخدمات
 </div>
+
+<h3>💧 معايير شبكة المياه</h3>
+<table class="dm-table">
+<tr><th>المعيار</th><th>القيمة</th><th>KAHRAMAA Ref</th></tr>
+<tr><td><strong>ضغط الشبكة (Min)</strong></td><td>2.5 bar (36 psi)</td><td>WR-001</td></tr>
+<tr><td><strong>ضغط الشبكة (Max)</strong></td><td>8.0 bar (116 psi)</td><td>WR-001</td></tr>
+<tr><td><strong>سرعة التدفق (Min)</strong></td><td>0.6 m/s</td><td>WR-002</td></tr>
+<tr><td><strong>سرعة التدفق (Max)</strong></td><td>2.0 m/s (رئيسي) / 1.5 m/s (توزيع)</td><td>WR-002</td></tr>
+<tr><td><strong>Residual Chlorine</strong></td><td>0.2 - 0.5 mg/L</td><td>WQ-001</td></tr>
+<tr><td><strong>Turbidity</strong></td><td>≤ 1 NTU</td><td>WQ-001</td></tr>
+<tr><td><strong>pH</strong></td><td>6.5 - 8.5</td><td>WQ-001</td></tr>
+<tr><td><strong>TDS</strong></td><td>≤ 500 mg/L</td><td>WQ-001</td></tr>
+<tr><td><strong>Fire Flow (Residential)</strong></td><td>min 25 L/s لمدة 2 ساعة</td><td>KAHRAMAA Fire</td></tr>
+<tr><td><strong>Fire Flow (Commercial)</strong></td><td>min 45 L/s لمدة 4 ساعات</td><td>KAHRAMAA Fire</td></tr>
+</table>
+
+<h3>🔵 مواد المواسير المعتمدة</h3>
+<table class="dm-table">
+<tr><th>المادة</th><th>الأقطار</th><th>الضغط</th><th>KAHRAMAA</th></tr>
+<tr><td><strong>Ductile Iron (DI)</strong></td><td>80mm - 1200mm</td><td>PN16 / PN25</td><td>WR-003 — مياه رئيسية</td></tr>
+<tr><td><strong>HDPE PE100</strong></td><td>20mm - 630mm</td><td>PN10 / PN16</td><td>WR-003 — توزيع</td></tr>
+<tr><td><strong>GRP / FRP</strong></td><td>300mm - 2000mm</td><td>PN10</td><td>WR-003 — كبيرة</td></tr>
+<tr><td><strong>uPVC Class D</strong></td><td>90mm - 315mm</td><td>PN12.5</td><td>WR-003 — داخلي</td></tr>
+</table>
+
+<h3>⚡ معايير شبكة الكهرباء</h3>
+<table class="dm-table">
+<tr><th>المعيار</th><th>القيمة</th><th>KAHRAMAA Ref</th></tr>
+<tr><td><strong>جهد المنخفض (LV)</strong></td><td>400V / 230V (3 phase / single)</td><td>ER-001</td></tr>
+<tr><td><strong>التردد</strong></td><td>50 Hz</td><td>ER-001</td></tr>
+<tr><td><strong>نظام التأريض</strong></td><td>TN-S / TN-C-S</td><td>ER-001</td></tr>
+<tr><td><strong>عمق الكابل LV</strong></td><td>min 600mm (under footpath) / 750mm (under road)</td><td>ER-001</td></tr>
+<tr><td><strong>عمق الكابل HV</strong></td><td>min 900mm</td><td>ER-002</td></tr>
+<tr><td><strong>الفصل — مياه/كهرباء</strong></td><td>min 300mm أفقي / 150mm رأسي</td><td>KAHRAMAA Separation</td></tr>
+<tr><td><strong>العدادات</strong></td><td>Smart Meter — إلزامي لجميع الوصلات الجديدة</td><td>KAHRAMAA 2020+</td></tr>
+</table>
+
+<h3>🔌 متطلبات التوصيل الجديد</h3>
+<table class="dm-table">
+<tr><th>الخطوة</th><th>الإجراء</th><th>المدة</th></tr>
+<tr><td>1</td><td>تقديم طلب توصيل عبر Hukoomi</td><td>يوم واحد</td></tr>
+<tr><td>2</td><td>مراجعة KAHRAMAA للمخططات</td><td>5-15 يوم عمل</td></tr>
+<tr><td>3</td><td>موافقة مبدئية + رسوم</td><td>3-7 أيام</td></tr>
+<tr><td>4</td><td>تنفيذ التوصيل من قبل مقاول معتمد</td><td>حسب الحجم</td></tr>
+<tr><td>5</td><td>فحص KAHRAMAA + تفعيل</td><td>3-5 أيام</td></tr>
+</table>
+
+<div class="dm-note">📌 جميع المقاولين الذين يعملون على شبكات KAHRAMAA يجب أن يكونوا مسجلين ومعتمدين — المقاول غير المعتمد يتعرض لغرامات</div>
+</div>
+
 <div class="lang-content-en" style="display:none">
-<h3>KAHRAMAA Standards — Water & Electricity</h3>
-<table class="dm-table"><tr><th>Standard</th><th>Requirement</th><th>Reference</th></tr>
-<tr><td>Network Pressure</td><td>2.5 - 8.0 bar</td><td>KAHRAMAA WR-001</td></tr>
-<tr><td>Chlorine Residual</td><td>0.2 - 0.5 mg/L</td><td>KAHRAMAA WQ-001</td></tr>
-<tr><td>Fire Flow</td><td>min 25 L/s for 2 hours</td><td>KAHRAMAA Fire Protection</td></tr>
-</table></div>`
+<h3>KAHRAMAA Water & Electricity Standards</h3>
+<table class="dm-table">
+<tr><th>Standard</th><th>Value</th><th>KAHRAMAA Ref</th></tr>
+<tr><td>Min Network Pressure</td><td>2.5 bar</td><td>WR-001</td></tr>
+<tr><td>Max Network Pressure</td><td>8.0 bar</td><td>WR-001</td></tr>
+<tr><td>Residual Chlorine</td><td>0.2 - 0.5 mg/L</td><td>WQ-001</td></tr>
+<tr><td>Fire Flow (Residential)</td><td>min 25 L/s for 2 hours</td><td>KAHRAMAA Fire</td></tr>
+<tr><td>LV Cable depth (road)</td><td>min 750mm</td><td>ER-001</td></tr>
+<tr><td>HV Cable depth</td><td>min 900mm</td><td>ER-002</td></tr>
+<tr><td>Service separation</td><td>min 300mm horizontal</td><td>KAHRAMAA</td></tr>
+</table>
+</div>`
 };
 
 c["mep_standards"] = {
@@ -325,55 +363,162 @@ c["mep_standards"] = {
 };
 
 c["structures_buildings"] = {
-  title: "🏢 المباني — QCS + MMUP Building Regulations",
-  content: `<div class="lang-content-ar">
-<h3>تصميم وإنشاء المباني — القطر</h3>
-<table class="dm-table"><tr><th>المتطلب</th><th>التفصيل</th><th>المرجع</th></tr>
-<tr><td><strong>Loading</strong></td><td>Dead + Live + Wind + Seismic (Zone 1)</td><td>QCS S5 + BS EN 1990</td></tr>
-<tr><td><strong>Concrete Grade</strong></td><td>min C30 للأعضاء الإنشائية</td><td>QCS S5 P4</td></tr>
-<tr><td><strong>Cover — Internal</strong></td><td>25mm للجدران والأسقف الداخلية</td><td>QCS S5 P3</td></tr>
-<tr><td><strong>Cover — External</strong></td><td>40mm (mild) / 50mm (severe) للبيئة القطرية</td><td>QCS S5 P3</td></tr>
-<tr><td><strong>w/c Ratio</strong></td><td>≤ 0.40 للبيئة العدوانية</td><td>QCS S5 P4 (2024)</td></tr>
-<tr><td><strong>Sulfate Resistance</strong></td><td>SRPC أو Blended Cement إلزامي في التربة الجبسية</td><td>QCS S5 P2</td></tr>
-<tr><td><strong>Sabkha Treatment</strong></td><td>تصنيف + معالجة حسب IAN-006</td><td>QCS S5 + Ashghal</td></tr>
-<tr><td><strong>Fire Resistance</strong></td><td>60-240 دقيقة حسب الاستخدام</td><td>QCS S5 + MMUP</td></tr>
-</table>
-<div class="dm-note">📌 كل مبنى يحتاج NOC من: MMUP + KAHRAMAA + Civil Defence + Ashghal (للطرق)</div>
+  title: '🏢 المباني والأبراج — QCS 2024 + MMUP',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 S5 + MMUP Building Regulations 2024 + BS EN 1990-1997 + Qatar National Construction Standards
 </div>
+
+<h3>📋 تصنيف المباني — Building Classification</h3>
+<table class="dm-table">
+<tr><th>الفئة</th><th>الارتفاع</th><th>Fire Resistance</th><th>المرجع</th></tr>
+<tr><td><strong>Low Rise</strong></td><td>≤ 4 طوابق / ≤ 15m</td><td>60 دقيقة</td><td>MMUP + QCDD</td></tr>
+<tr><td><strong>Medium Rise</strong></td><td>5-15 طابق / 15-45m</td><td>90 دقيقة</td><td>MMUP + QCDD</td></tr>
+<tr><td><strong>High Rise</strong></td><td>16-30 طابق / 45-90m</td><td>120 دقيقة</td><td>MMUP + QCDD</td></tr>
+<tr><td><strong>Super High Rise</strong></td><td>31+ طابق / 90m+</td><td>180-240 دقيقة</td><td>MMUP + QCDD + Special Study</td></tr>
+</table>
+
+<h3>🏗️ متطلبات الخرسانة للمباني</h3>
+<table class="dm-table">
+<tr><th>العنصر</th><th>الدرجة</th><th>w/c</th><th>Cover</th><th>QCS</th></tr>
+<tr><td><strong>Raft / Foundations</strong></td><td>C35 min (C40 سبخة)</td><td>≤ 0.40</td><td>75mm bottom / 50mm sides</td><td>S5 P4+P7</td></tr>
+<tr><td><strong>Columns</strong></td><td>C35-C50</td><td>≤ 0.40</td><td>40mm (external) / 25mm (internal)</td><td>S5 P3+P4</td></tr>
+<tr><td><strong>Beams</strong></td><td>C30-C40</td><td>≤ 0.45</td><td>25mm (internal) / 40mm (external)</td><td>S5 P3</td></tr>
+<tr><td><strong>Slabs</strong></td><td>C30-C35</td><td>≤ 0.45</td><td>20mm (internal) / 35mm (external)</td><td>S5 P3</td></tr>
+<tr><td><strong>Shear Walls</strong></td><td>C35-C45</td><td>≤ 0.42</td><td>25mm (internal) / 40mm (external)</td><td>S5 P3</td></tr>
+<tr><td><strong>Basement Walls</strong></td><td>C40 SRPC</td><td>≤ 0.40</td><td>50mm + Waterproofing</td><td>S5 P4</td></tr>
+</table>
+
+<h3>⚡ أحمال التصميم — Design Loads (Qatar)</h3>
+<table class="dm-table">
+<tr><th>نوع الحمل</th><th>القيمة</th><th>الاستخدام</th><th>المرجع</th></tr>
+<tr><td><strong>Dead Load — Slab</strong></td><td>25 kN/m³ (RC)</td><td>جميع الأسقف</td><td>BS EN 1991</td></tr>
+<tr><td><strong>Imposed — Residential</strong></td><td>2.0 kN/m²</td><td>مسكن</td><td>BS EN 1991-1-1</td></tr>
+<tr><td><strong>Imposed — Office</strong></td><td>3.0 kN/m²</td><td>مكاتب</td><td>BS EN 1991-1-1</td></tr>
+<tr><td><strong>Imposed — Roof (Access)</strong></td><td>1.5 kN/m²</td><td>سطح يُستخدم</td><td>BS EN 1991-1-1</td></tr>
+<tr><td><strong>Imposed — Parking</strong></td><td>2.5 kN/m²</td><td>مواقف</td><td>BS EN 1991-1-1</td></tr>
+<tr><td><strong>Wind Load</strong></td><td>1.0 kN/m² (basic, Qatar)</td><td>جميع المباني</td><td>BS EN 1991-1-4</td></tr>
+<tr><td><strong>Seismic Zone</strong></td><td>Zone 1 (PGA 0.05g)</td><td>قطر — خطر منخفض</td><td>IBC + ASCE 7</td></tr>
+</table>
+
+<h3>🧱 متطلبات الجدران الخارجية</h3>
+<table class="dm-table">
+<tr><th>المتطلب</th><th>القيمة</th><th>المرجع</th></tr>
+<tr><td><strong>U-Value (قطر)</strong></td><td>≤ 0.57 W/m²K (QCBS)</td><td>Qatar Construction Specification</td></tr>
+<tr><td><strong>الواجهات الزجاجية</strong></td><td>U ≤ 2.0 W/m²K / SHGC ≤ 0.25</td><td>ASHRAE 90.1 + QCBS</td></tr>
+<tr><td><strong>Waterproofing — Basement</strong></td><td>System Grade 3 (BS 8102)</td><td>QCS S5</td></tr>
+<tr><td><strong>Min سماكة الجدران</strong></td><td>200mm RC / 250mm CMU</td><td>MMUP</td></tr>
+</table>
+
+<h3>📋 مراحل الإنشاء والفحص</h3>
+<table class="dm-table">
+<tr><th>المرحلة</th><th>Hold Point</th><th>المفتش</th><th>المرجع</th></tr>
+<tr><td>حفر الأساسات</td><td>✅ فحص قاع الحفر + تربة</td><td>Consultant + MMUP</td><td>QCS S5 P7</td></tr>
+<tr><td>صب الـ Blinding</td><td>✅ موافقة قاع</td><td>Consultant</td><td>QCS S5 P4</td></tr>
+<tr><td>حديد الأساسات</td><td>✅ Cover + Spacing + Laps</td><td>Consultant</td><td>QCS S5 P3</td></tr>
+<tr><td>صب الأساسات</td><td>✅ قبل الصب</td><td>Consultant</td><td>QCS S5 P4</td></tr>
+<tr><td>حديد الأعمدة</td><td>✅ حجم + ربط + أطوال</td><td>Consultant</td><td>QCS S5 P3</td></tr>
+<tr><td>الشدات</td><td>✅ مستوية + قوية</td><td>Consultant</td><td>QCS S5 P4</td></tr>
+<tr><td>كل صبة</td><td>✅ Cubes + Slump + Temp</td><td>Lab + Consultant</td><td>QCS S5 P4</td></tr>
+<tr><td>Curing</td><td>R مراجعة</td><td>Consultant</td><td>QCS S5 P4</td></tr>
+</table>
+
+<div class="dm-note">📌 MMUP 2024 — كل مبنى فوق 4 طوابق يحتاج Structural Design Report معتمد من Structural Engineer مسجل في MMUP قبل منح تصريح البناء</div>
+</div>
+
 <div class="lang-content-en" style="display:none">
-<h3>Building Construction — Qatar Requirements</h3>
-<table class="dm-table"><tr><th>Requirement</th><th>Detail</th><th>Reference</th></tr>
-<tr><td>Concrete Grade</td><td>min C30 for structural members</td><td>QCS S5 P4</td></tr>
-<tr><td>Cover External</td><td>40mm mild / 50mm severe</td><td>QCS S5 P3</td></tr>
-<tr><td>w/c Ratio</td><td>≤ 0.40 aggressive environment</td><td>QCS S5 P4 (2024)</td></tr>
-<tr><td>Sabkha</td><td>Classification + treatment per IAN-006</td><td>QCS S5 + Ashghal</td></tr>
-</table></div>`
+<h3>Buildings & High-Rise — QCS 2024 + MMUP</h3>
+<table class="dm-table">
+<tr><th>Category</th><th>Height</th><th>Fire Resistance</th><th>Reference</th></tr>
+<tr><td>Low Rise</td><td>≤4 floors / ≤15m</td><td>60 min</td><td>MMUP + QCDD</td></tr>
+<tr><td>Medium Rise</td><td>5-15 floors / 15-45m</td><td>90 min</td><td>MMUP + QCDD</td></tr>
+<tr><td>High Rise</td><td>16-30 floors / 45-90m</td><td>120 min</td><td>MMUP + QCDD</td></tr>
+<tr><td>Super High Rise</td><td>31+ floors / 90m+</td><td>180-240 min</td><td>MMUP + Special Study</td></tr>
+</table>
+<table class="dm-table">
+<tr><th>Element</th><th>Grade</th><th>Cover External</th><th>QCS</th></tr>
+<tr><td>Raft / Foundations</td><td>C35 (C40 sabkha)</td><td>75mm bottom</td><td>S5 P4+P7</td></tr>
+<tr><td>Columns</td><td>C35-C50</td><td>40mm</td><td>S5 P3+P4</td></tr>
+<tr><td>Beams</td><td>C30-C40</td><td>40mm</td><td>S5 P3</td></tr>
+<tr><td>Shear Walls</td><td>C35-C45</td><td>40mm</td><td>S5 P3</td></tr>
+</table>
+</div>`
 };
 
 c["mmup_building_permits"] = {
-  title: "📋 MMUP — تصاريح البناء والمتطلبات",
-  content: `<div class="lang-content-ar">
-<h3>إجراءات تصاريح البناء — MMUP قطر</h3>
-<table class="dm-table"><tr><th>المرحلة</th><th>الإجراء</th><th>الجهة</th><th>المدة التقريبية</th></tr>
-<tr><td><strong>1 — ما قبل التصميم</strong></td><td>الحصول على شروط التخطيط (Planning Conditions)</td><td>QCS S5 + MMUP</td><td>2-4 أسابيع</td></tr>
-<tr><td><strong>2 — تصريح تصميمي</strong></td><td>مراجعة المخططات المعمارية والإنشائية</td><td>MMUP + Ashghal</td><td>4-8 أسابيع</td></tr>
-<tr><td><strong>3 — تصريح الدفاع المدني</strong></td><td>مراجعة مخططات الحريق والإخلاء</td><td>Civil Defence</td><td>2-6 أسابيع</td></tr>
-<tr><td><strong>4 — تصريح KAHRAMAA</strong></td><td>توصيلات الكهرباء والمياه</td><td>KAHRAMAA</td><td>3-6 أسابيع</td></tr>
-<tr><td><strong>5 — تصريح البناء</strong></td><td>الموافقة النهائية للبدء بالتنفيذ</td><td>MMUP</td><td>1-2 أسبوع</td></tr>
-<tr><td><strong>6 — شهادة الإشغال</strong></td><td>فحص نهائي + Completion Certificate</td><td>MMUP + Civil Defence</td><td>2-4 أسابيع</td></tr>
-</table>
-<h4>الوثائق المطلوبة:</h4>
-<p>NOC Ashghal | مخططات معتمدة | تقرير التربة | حسابات إنشائية | HAAD/PHC للمستشفيات | Zoning Certificate</p>
+  title: '📋 MMUP — تصاريح البناء الكاملة',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 S5 P4/P7 + MMUP Building Regulations 2024 + QCDD Fire Code | QCS S1 — General Requirements
 </div>
+
+<h3>📋 مراحل الحصول على تصريح البناء</h3>
+<table class="dm-table">
+<tr><th>#</th><th>المرحلة</th><th>الوثائق المطلوبة</th><th>الجهة</th><th>المدة</th></tr>
+<tr><td>1</td><td><strong>شروط التخطيط</strong></td><td>صك الأرض + خريطة موقع</td><td>MMUP</td><td>2-4 أسابيع</td></tr>
+<tr><td>2</td><td><strong>NOC Ashghal</strong></td><td>مخططات مبدئية + survey</td><td>Ashghal</td><td>2-6 أسابيع</td></tr>
+<tr><td>3</td><td><strong>موافقة مبدئية MMUP</strong></td><td>Architectural drawings + report</td><td>MMUP</td><td>4-8 أسابيع</td></tr>
+<tr><td>4</td><td><strong>تصريح الدفاع المدني</strong></td><td>Fire strategy + sprinkler drawings</td><td>QCDD</td><td>2-6 أسابيع</td></tr>
+<tr><td>5</td><td><strong>موافقة KAHRAMAA</strong></td><td>MEP drawings + load calculation</td><td>KAHRAMAA</td><td>3-8 أسابيع</td></tr>
+<tr><td>6</td><td><strong>تصريح البناء</strong></td><td>كل الموافقات + ضمانات</td><td>MMUP</td><td>1-2 أسبوع</td></tr>
+<tr><td>7</td><td><strong>شهادة الإشغال</strong></td><td>As-built + Completion Certificate</td><td>MMUP + QCDD</td><td>2-4 أسابيع</td></tr>
+</table>
+
+<h3>📐 اشتراطات التخطيط — Planning Requirements</h3>
+<table class="dm-table">
+<tr><th>المعيار</th><th>سكني</th><th>تجاري</th><th>صناعي</th></tr>
+<tr><td><strong>الارتداد الأمامي</strong></td><td>4-6m</td><td>0-4m</td><td>10m</td></tr>
+<tr><td><strong>الارتداد الجانبي</strong></td><td>1.5-3m</td><td>0m</td><td>5m</td></tr>
+<tr><td><strong>الارتداد الخلفي</strong></td><td>2-4m</td><td>2m</td><td>5m</td></tr>
+<tr><td><strong>نسبة البناء (GFA)</strong></td><td>Max 60%</td><td>Max 100%+</td><td>Max 50%</td></tr>
+<tr><td><strong>Max ارتفاع (أساسي)</strong></td><td>حسب Zone</td><td>حسب Zone</td><td>15m</td></tr>
+</table>
+
+<h3>🅿️ متطلبات مواقف السيارات</h3>
+<table class="dm-table">
+<tr><th>الاستخدام</th><th>عدد المواقف</th><th>المرجع</th></tr>
+<tr><td>سكن عائلي</td><td>2 مواقف / وحدة</td><td>MMUP Parking</td></tr>
+<tr><td>شقق (studio/1bed)</td><td>1 موقف / وحدة</td><td>MMUP Parking</td></tr>
+<tr><td>شقق (2bed+)</td><td>1.5 موقف / وحدة</td><td>MMUP Parking</td></tr>
+<tr><td>مكاتب</td><td>1 موقف / 35m² GFA</td><td>MMUP Parking</td></tr>
+<tr><td>تجاري (Retail)</td><td>1 موقف / 25m² GFA</td><td>MMUP Parking</td></tr>
+<tr><td>فندق</td><td>1 موقف / غرفة</td><td>MMUP Parking</td></tr>
+<tr><td>مستشفى</td><td>1 موقف / 3 أسرة</td><td>MMUP Parking</td></tr>
+</table>
+
+<h3>📄 الوثائق المطلوبة — الحزمة الكاملة</h3>
+<table class="dm-table">
+<tr><th>الوثيقة</th><th>الجهة</th><th>إلزامي؟</th></tr>
+<tr><td>صك الأرض</td><td>Ministry of Justice</td><td>✅</td></tr>
+<tr><td>مخططات معمارية (4 نسخ)</td><td>Consultant مرخص</td><td>✅</td></tr>
+<tr><td>مخططات إنشائية + حسابات</td><td>Structural Engineer MMUP</td><td>✅</td></tr>
+<tr><td>تقرير التربة (GI)</td><td>Accredited Lab</td><td>✅ (> 2 طوابق)</td></tr>
+<tr><td>مخططات MEP</td><td>MEP Consultant</td><td>✅</td></tr>
+<tr><td>دراسة الحريق</td><td>Fire Consultant</td><td>✅ (> 2 طوابق)</td></tr>
+<tr><td>شهادة ASHRAE Energy</td><td>Energy Consultant</td><td>✅ (تجاري)</td></tr>
+<tr><td>NOC Ashghal</td><td>Ashghal</td><td>✅</td></tr>
+<tr><td>NOC KAHRAMAA</td><td>KAHRAMAA</td><td>✅</td></tr>
+<tr><td>NOC Civil Defence (QCDD)</td><td>QCDD</td><td>✅ (> 2 طوابق)</td></tr>
+</table>
+
+<div class="dm-note">📌 MMUP 2024 — كل التصاريح تُقدَّم الآن عبر بوابة Baladiya الإلكترونية — التقديم الورقي غير مقبول</div>
+</div>
+
 <div class="lang-content-en" style="display:none">
-<h3>MMUP Building Permits Process — Qatar</h3>
-<table class="dm-table"><tr><th>Stage</th><th>Action</th><th>Authority</th><th>Duration</th></tr>
-<tr><td>1 — Pre-design</td><td>Planning conditions</td><td>MMUP</td><td>2-4 weeks</td></tr>
-<tr><td>2 — Design approval</td><td>Architectural + structural review</td><td>MMUP + Ashghal</td><td>4-8 weeks</td></tr>
-<tr><td>3 — Fire approval</td><td>Fire + evacuation plans</td><td>Civil Defence</td><td>2-6 weeks</td></tr>
-<tr><td>4 — KAHRAMAA</td><td>Utilities connections</td><td>KAHRAMAA</td><td>3-6 weeks</td></tr>
-<tr><td>5 — Building permit</td><td>Final approval to build</td><td>MMUP</td><td>1-2 weeks</td></tr>
-</table></div>`
+<h3>MMUP Building Permits — Complete Process</h3>
+<table class="dm-table">
+<tr><th>#</th><th>Stage</th><th>Authority</th><th>Duration</th></tr>
+<tr><td>1</td><td>Planning conditions</td><td>MMUP</td><td>2-4 weeks</td></tr>
+<tr><td>2</td><td>Ashghal NOC</td><td>Ashghal</td><td>2-6 weeks</td></tr>
+<tr><td>3</td><td>MMUP preliminary approval</td><td>MMUP</td><td>4-8 weeks</td></tr>
+<tr><td>4</td><td>Civil Defence approval</td><td>QCDD</td><td>2-6 weeks</td></tr>
+<tr><td>5</td><td>KAHRAMAA approval</td><td>KAHRAMAA</td><td>3-8 weeks</td></tr>
+<tr><td>6</td><td>Building permit issued</td><td>MMUP</td><td>1-2 weeks</td></tr>
+<tr><td>7</td><td>Occupancy certificate</td><td>MMUP + QCDD</td><td>2-4 weeks</td></tr>
+</table>
+</div>`
 };
 
 c["marker_tape_colors"] = {
@@ -403,10 +548,9 @@ c["marker_tape_colors"] = {
 </table></div>`
 };
 
-
 c["ashghal_forms"] = {
-title: '📝 نماذج Ashghal الرسمية — RFI / NCR / DPR / Method Statement',
-content: `
+  title: '📝 نماذج Ashghal الرسمية — RFI / NCR / DPR / Method Statement',
+  content: `
 <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;">
 <button onclick="switchForm('rfi')" id="ftab-rfi" style="flex:1;min-width:80px;padding:9px 6px;border:1px solid rgba(201,168,76,.4);border-radius:10px;background:rgba(201,168,76,.15);color:var(--gold2);font-family:Cairo,Tajawal;font-size:12px;font-weight:700;cursor:pointer">📋 RFI</button>
 <button onclick="switchForm('ncr')" id="ftab-ncr" style="flex:1;min-width:80px;padding:9px 6px;border:1px solid var(--border);border-radius:10px;background:var(--dark4);color:var(--text2);font-family:Tajawal;font-size:12px;cursor:pointer">⚠️ NCR</button>
@@ -637,11 +781,12 @@ content: `
   <button onclick="printCurrentDetail()" style="background:linear-gradient(135deg,#9b59b6,#8e44ad);border:none;border-radius:8px;padding:8px 16px;color:#fff;font-family:Tajawal;font-weight:700;cursor:pointer;font-size:12px">🖨️ طباعة Method Statement</button>
 </div>
 </div>
-`};
+`
+};
 
 c["drawing_analyzer"] = {
-title: '📐 محلل المخططات الذكي — Drawing Analyzer',
-content: `
+  title: '📐 محلل المخططات الذكي — Drawing Analyzer',
+  content: `
 <div class="qcs-ref-badge">QCS 2024 — تحليل ذكي متخصص في المخططات الإنشائية</div>
 
 <!-- نوع المخطط -->
@@ -705,11 +850,12 @@ content: `
 <div style="color:var(--text3);font-size:11px;margin-top:4px">فحص مقارنة QCS 2024</div>
 </div>
 <div id="da-result" style="margin-top:4px"></div>
-`};
+`
+};
 
 c["photo_analyzer"] = {
-title: '🤖 المفتش الذكي — AI Site Inspector',
-content: `
+  title: '🤖 المفتش الذكي — AI Site Inspector',
+  content: `
 <div style="text-align:center;margin-bottom:16px">
 <div style="font-size:40px;margin-bottom:6px">🤖</div>
 <div style="font-size:18px;font-weight:800;color:var(--gold2);font-family:Cairo">المفتش الذكي — AI Site Inspector</div>
@@ -805,11 +951,12 @@ content: `
 <button onclick="resetInspector()" style="background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px 14px;color:var(--text3);font-family:Tajawal;cursor:pointer;font-size:11px">🔄 فحص جديد</button>
 </div>
 </div>
-`};
+`
+};
 
 c["ncr_quick_logger"] = {
-title: '🔴 NCR Quick Logger — سجل سريع',
-content: `
+  title: '🔴 NCR Quick Logger — سجل سريع',
+  content: `
 <div class="qcs-ref-badge">سجل NCR ميداني سريع — يُحفظ في المتصفح</div>
 <p style="font-size:12px;color:var(--text2);margin-bottom:12px">سجّل أي NCR بـ 5 حقول — يُحفظ تلقائياً ويمكن تصديره دفعة واحدة</p>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
@@ -827,32 +974,247 @@ content: `
 <button onclick="exportQuickNCRs()" style="background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);border-radius:8px;padding:8px 16px;color:#2ecc71;font-family:Tajawal;cursor:pointer;font-size:12px">📥 تصدير الكل Excel</button>
 <button onclick="clearQuickNCRs()" style="background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.3);border-radius:8px;padding:8px 16px;color:#e74c3c;font-family:Tajawal;cursor:pointer;font-size:12px">🗑️ مسح</button>
 </div>
-`};
+`
+};
+
+c["esal_calculator_full"] = {
+  title: '🧮 حاسبة ESAL — Equivalent Standard Axle Load',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 AASHTO 1993 | QCS 2024 S6 P2 | Ashghal RDM 2023 — Pavement Design
+</div>
+
+<h3>📐 حاسبة ESAL</h3>
+<div style="display:grid;gap:8px;margin-bottom:12px">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:4px">AADT (عدد مركبات/يوم)</div>
+      <input id="esal-aadt" type="number" value="5000" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px"/>
+    </div>
+    <div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:4px">% المركبات الثقيلة</div>
+      <input id="esal-trucks" type="number" value="15" min="0" max="100" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px"/>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:4px">عمر التصميم (سنة)</div>
+      <input id="esal-life" type="number" value="20" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px"/>
+    </div>
+    <div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:4px">معدل نمو المرور %</div>
+      <input id="esal-growth" type="number" value="3" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px"/>
+    </div>
+  </div>
+  <div>
+    <div style="font-size:11px;color:var(--text2);margin-bottom:4px">نوع الطريق</div>
+    <select id="esal-type" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px">
+      <option value="0.3">محلي / Local (LEF=0.3)</option>
+      <option value="0.5" selected>ثانوي / Collector (LEF=0.5)</option>
+      <option value="0.8">رئيسي / Arterial (LEF=0.8)</option>
+      <option value="1.2">سريع / Expressway (LEF=1.2)</option>
+    </select>
+  </div>
+</div>
+
+<button onclick="calcESAL()" style="width:100%;padding:10px;background:rgba(52,152,219,0.2);border:1px solid rgba(52,152,219,0.4);color:#3498db;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700">🧮 احسب ESAL</button>
+
+<div id="esal-result" style="margin-top:12px;display:none;background:rgba(52,152,219,0.05);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:12px"></div>
+
+<script>
+window.calcESAL = function(){
+  var aadt=parseFloat(document.getElementById('esal-aadt').value)||0;
+  var trucks=parseFloat(document.getElementById('esal-trucks').value)||0;
+  var life=parseFloat(document.getElementById('esal-life').value)||20;
+  var growth=parseFloat(document.getElementById('esal-growth').value)||0;
+  var lef=parseFloat(document.getElementById('esal-type').value)||0.5;
+  
+  var directional = 0.5; // 50% each direction
+  var lanes = 0.8; // lane distribution factor
+  
+  // Growth factor
+  var gf = growth > 0 ? ((Math.pow(1+growth/100, life) - 1) / (growth/100)) : life;
+  
+  // Daily heavy vehicles
+  var daily_heavy = aadt * (trucks/100) * directional * lanes;
+  
+  // ESAL calculation
+  var esal = daily_heavy * lef * gf * 365;
+  
+  // Pavement type recommendation
+  var type, sn, sn_desc;
+  if(esal < 5e5){type='طريق محلي خفيف';sn='SN = 2.5-3.0';}
+  else if(esal < 2e6){type='طريق جمع متوسط';sn='SN = 3.0-3.5';}
+  else if(esal < 10e6){type='طريق رئيسي';sn='SN = 3.5-4.5';}
+  else if(esal < 50e6){type='طريق شرياني ثقيل';sn='SN = 4.5-5.5';}
+  else{type='طريق سريع / ثقيل جداً';sn='SN = 5.5+';}
+  
+  var fmt = function(n){
+    if(n>=1e6) return (n/1e6).toFixed(2)+' مليون';
+    if(n>=1e3) return (n/1e3).toFixed(1)+' ألف';
+    return n.toFixed(0);
+  };
+  
+  document.getElementById('esal-result').style.display='block';
+  document.getElementById('esal-result').innerHTML=
+    '<div style="font-size:18px;font-weight:700;color:var(--gold);text-align:center;margin-bottom:12px">'
+    +'ESAL = '+fmt(esal)+'</div>'
+    +'<table class="dm-table"><tr><th>المعامل</th><th>القيمة</th></tr>'
+    +'<tr><td>عدد مركبات ثقيلة/يوم (اتجاه)</td><td>'+daily_heavy.toFixed(0)+'</td></tr>'
+    +'<tr><td>معامل النمو</td><td>'+gf.toFixed(2)+'</td></tr>'
+    +'<tr><td>ESAL الإجمالي ('+life+' سنة)</td><td><strong>'+fmt(esal)+'</strong></td></tr>'
+    +'<tr><td>تصنيف الطريق المناسب</td><td><strong>'+type+'</strong></td></tr>'
+    +'<tr><td>Structural Number المطلوب</td><td><strong>'+sn+'</strong></td></tr>'
+    +'</table>'
+    +'<div class="dm-note" style="margin-top:8px">📌 AASHTO 1993 | QCS S6 P2 | Ashghal RDM 2023</div>';
+};
+</script>
+
+<h3 style="margin-top:16px">📊 ESAL Factors — قطر</h3>
+<table class="dm-table">
+<tr><th>نوع المركبة</th><th>Load Equivalency Factor (LEF)</th><th>المرجع</th></tr>
+<tr><td>سيارة خاصة</td><td>0.0002</td><td>AASHTO 1993</td></tr>
+<tr><td>Van / Pickup</td><td>0.01</td><td>AASHTO 1993</td></tr>
+<tr><td>Bus / Midibus</td><td>0.5-1.5</td><td>AASHTO 1993</td></tr>
+<tr><td>2-Axle Truck (5T)</td><td>0.5</td><td>AASHTO 1993</td></tr>
+<tr><td>3-Axle Truck (10T)</td><td>1.0-1.5</td><td>AASHTO 1993</td></tr>
+<tr><td>Semi-Trailer (40T)</td><td>4.0-6.0</td><td>AASHTO 1993</td></tr>
+</table>
+</div>`
+};
+
+c["mix_design_validator"] = {
+  title: '🧪 Mix Design Validator — QCS 2024',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 S8 P5 | ASTM D3515 | BS 594 | Marshall Method + Superpave
+</div>
+
+<h3>✅ فاحص Mix Design الإسفلت</h3>
+<div style="display:grid;gap:8px;margin-bottom:12px">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div><div style="font-size:11px;color:var(--text2);margin-bottom:4px">Air Voids Va (%)</div>
+    <input id="mv-va" type="number" step="0.1" value="4.0" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px"/></div>
+    <div><div style="font-size:11px;color:var(--text2);margin-bottom:4px">VMA (%)</div>
+    <input id="mv-vma" type="number" step="0.1" value="14.0" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px"/></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div><div style="font-size:11px;color:var(--text2);margin-bottom:4px">Marshall Stability (kN)</div>
+    <input id="mv-stab" type="number" step="0.1" value="8.5" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px"/></div>
+    <div><div style="font-size:11px;color:var(--text2);margin-bottom:4px">Flow (mm)</div>
+    <input id="mv-flow" type="number" step="0.1" value="3.0" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px"/></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div><div style="font-size:11px;color:var(--text2);margin-bottom:4px">Bitumen Content (%)</div>
+    <input id="mv-bc" type="number" step="0.1" value="5.2" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px"/></div>
+    <div><div style="font-size:11px;color:var(--text2);margin-bottom:4px">طبقة الإسفلت</div>
+    <select id="mv-layer" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px">
+      <option value="wearing">Wearing Course</option>
+      <option value="binder">Binder Course</option>
+      <option value="base">Base Course</option>
+    </select></div>
+  </div>
+</div>
+
+<button onclick="validateMix()" style="width:100%;padding:10px;background:rgba(46,204,113,0.15);border:1px solid rgba(46,204,113,0.3);color:#2ecc71;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700">✅ تحقق من Mix Design</button>
+
+<div id="mv-result" style="margin-top:12px;display:none"></div>
+
+<script>
+window.validateMix = function(){
+  var va=parseFloat(document.getElementById('mv-va').value);
+  var vma=parseFloat(document.getElementById('mv-vma').value);
+  var stab=parseFloat(document.getElementById('mv-stab').value);
+  var flow=parseFloat(document.getElementById('mv-flow').value);
+  var bc=parseFloat(document.getElementById('mv-bc').value);
+  var layer=document.getElementById('mv-layer').value;
+  
+  // QCS 2024 S8 P5 limits
+  var limits = {
+    wearing:{va:[3,5],vma:[14,99],stab:[8,99],flow:[2,4],bc:[4.5,6.5]},
+    binder:{va:[3,5],vma:[13,99],stab:[7,99],flow:[2,4],bc:[4.0,6.0]},
+    base:{va:[3,5],vma:[12,99],stab:[5,99],flow:[2,5],bc:[3.5,5.5]}
+  };
+  var lim=limits[layer];
+  var layerNames={wearing:'Wearing Course',binder:'Binder Course',base:'Base Course'};
+  
+  var checks=[
+    {name:'Air Voids Va',val:va,min:lim.va[0],max:lim.va[1],unit:'%'},
+    {name:'VMA',val:vma,min:lim.vma[0],max:lim.vma[1],unit:'%'},
+    {name:'Marshall Stability',val:stab,min:lim.stab[0],max:lim.stab[1],unit:'kN'},
+    {name:'Flow',val:flow,min:lim.flow[0],max:lim.flow[1],unit:'mm'},
+    {name:'Bitumen Content',val:bc,min:lim.bc[0],max:lim.bc[1],unit:'%'}
+  ];
+  
+  var allPass=checks.every(function(c){return c.val>=c.min&&c.val<=c.max;});
+  var rows=checks.map(function(c){
+    var pass=c.val>=c.min&&c.val<=c.max;
+    return '<tr><td>'+c.name+'</td><td>'+c.val+c.unit+'</td><td>'+c.min+'-'+c.max+c.unit+'</td>'
+      +'<td style="color:'+(pass?'#2ecc71':'#e74c3c');
+    return rows+'font-weight:700">'+(pass?'✅ Pass':'❌ Fail')+'</td></tr>';
+  });
+  
+  // Fix the map
+  var rows2=checks.map(function(c){
+    var pass=c.val>=c.min&&c.val<=c.max;
+    return '<tr><td>'+c.name+'</td><td>'+c.val+' '+c.unit+'</td><td>'+c.min+' - '+c.max+' '+c.unit+'</td>'
+      +'<td style="color:'+(pass?'#2ecc71':'#e74c3c')+';font-weight:700">'+(pass?'✅ Pass':'❌ Fail')+'</td></tr>';
+  });
+  
+  document.getElementById('mv-result').style.display='block';
+  document.getElementById('mv-result').innerHTML=
+    '<div style="text-align:center;padding:10px;border-radius:8px;margin-bottom:10px;background:'
+    +(allPass?'rgba(46,204,113,0.1)':'rgba(231,76,60,0.1)')+';border:1px solid '
+    +(allPass?'rgba(46,204,113,0.3)':'rgba(231,76,60,0.3)')+'">'
+    +'<div style="font-size:20px;font-weight:700;color:'+(allPass?'#2ecc71':'#e74c3c')+'">'
+    +(allPass?'✅ PASS — مطابق QCS':'❌ FAIL — لا يطابق QCS')+'</div>'
+    +'<div style="font-size:11px;color:var(--text2)">'+layerNames[layer]+' | QCS 2024 S8 P5</div></div>'
+    +'<table class="dm-table"><tr><th>المعيار</th><th>القيمة</th><th>الحد QCS</th><th>النتيجة</th></tr>'
+    +rows2.join('')+'</table>';
+};
+</script>
+
+<h3 style="margin-top:16px">📊 حدود QCS 2024 — S8 P5</h3>
+<table class="dm-table">
+<tr><th>المعيار</th><th>Wearing</th><th>Binder</th><th>Base</th></tr>
+<tr><td>Air Voids Va</td><td>3-5%</td><td>3-5%</td><td>3-5%</td></tr>
+<tr><td>VMA min</td><td>14%</td><td>13%</td><td>12%</td></tr>
+<tr><td>Stability min</td><td>8 kN</td><td>7 kN</td><td>5 kN</td></tr>
+<tr><td>Flow</td><td>2-4 mm</td><td>2-4 mm</td><td>2-5 mm</td></tr>
+<tr><td>Bitumen Content</td><td>4.5-6.5%</td><td>4.0-6.0%</td><td>3.5-5.5%</td></tr>
+</table>
+</div>`
+};
 
 c["doc_analyzer"] = {
   title: '📁 محلل الوثائق الذكي — Pro',
   content: `
-<div class="qcs-ref-badge">QCS 2024 — تحليل ذكي للمستندات الهندسية</div>
+<div class="lang-content-ar">
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 — تحليل ذكي للمستندات الهندسية بالذكاء الاصطناعي
+</div>
 <div style="text-align:center;padding:20px 0">
-  <div style="font-size:48px;margin-bottom:8px">📁</div>
-  <div style="font-size:15px;font-weight:700;color:var(--gold)">محلل الوثائق الذكي</div>
-  <div style="font-size:12px;color:var(--text2);margin-top:4px">ارفع PDF وسيحلله الذكاء الاصطناعي فوراً</div>
+<div style="font-size:48px">📁</div>
+<div style="font-size:15px;font-weight:700;color:var(--gold);margin-top:8px">محلل الوثائق الذكي</div>
+<div style="font-size:12px;color:var(--text2);margin-top:4px">ارفع PDF وسيحلله الذكاء الاصطناعي فوراً</div>
 </div>
 <div style="display:grid;gap:8px;margin:12px 0">
-  <div onclick="QS.openDetail('drawing_analyzer')" style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;cursor:pointer;display:flex;align-items:center;gap:10px">
-    <div style="font-size:24px">📐</div>
-    <div><div style="font-weight:700;font-size:13px;color:#3498db">محلل المخططات</div><div style="font-size:11px;color:var(--text2)">تحقق من تفاصيل المخططات مقابل QCS</div></div>
-  </div>
-  <div onclick="QS.openDetail('photo_analyzer')" style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:12px;cursor:pointer;display:flex;align-items:center;gap:10px">
-    <div style="font-size:24px">🤖</div>
-    <div><div style="font-weight:700;font-size:13px;color:#2ecc71">المفتش الذكي</div><div style="font-size:11px;color:var(--text2)">صوّر من الموقع واحصل على تقرير فوري</div></div>
-  </div>
+<div onclick="QS.openDetail('drawing_analyzer')" style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;cursor:pointer;display:flex;align-items:center;gap:10px">
+<div style="font-size:24px">📐</div>
+<div><div style="font-weight:700;font-size:13px;color:#3498db">محلل المخططات</div><div style="font-size:11px;color:var(--text2)">تحقق من المخططات مقابل QCS 2024</div></div>
 </div>
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:10px;margin-top:8px;font-size:11px;color:var(--text2)">
-  📌 الاستخدام: ارفع ملف PDF (QCS، Ashghal، BOQ، ITP) من زر الرفع أعلى الصفحة
+<div onclick="QS.openDetail('photo_analyzer')" style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:12px;cursor:pointer;display:flex;align-items:center;gap:10px">
+<div style="font-size:24px">🤖</div>
+<div><div style="font-weight:700;font-size:13px;color:#2ecc71">المفتش الذكي</div><div style="font-size:11px;color:var(--text2)">صوّر من الموقع واحصل على تقرير QCS فوري</div></div>
+</div>
+</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:10px;font-size:11px;color:var(--text2)">
+📌 الاستخدام: ارفع ملف PDF (QCS، Ashghal، BOQ، ITP) من زر الرفع في الصفحة الرئيسية
+</div>
 </div>`
 };
-
 
 c["ashghal_std_details"] = {
   title: '📐 Ashghal Standard Construction Details',
@@ -882,7 +1244,6 @@ c["ashghal_std_details"] = {
 <tr><td>Kerb Type A</td><td>300×150×1000mm, C35, 100mm M15 blinding</td><td>Ashghal SD-KR-01</td></tr>
 </table></div>`
 };
-
 
 c["shoring_itp"] = {
   title: '⛏️ ITP — التدعيم والحفريات العميقة',
@@ -965,7 +1326,6 @@ c["sabkha_classification"] = {
 <tr><td>Class 4 — Critical</td><td>Salt marsh, shallow GWT</td><td>> 5.0%</td><td>Specialist report + Ashghal approval</td></tr>
 </table></div>`
 };
-
 
 c["road_design_criteria"] = {
   title: '📐 معايير تصميم الطرق — QCS S6 + Ashghal RDM',
@@ -1207,6 +1567,73 @@ c["survey_setting_out"] = {
 <tr><td>Piles</td><td>±75mm</td><td>±25mm</td><td>S5 P7</td></tr>
 </table>
 <div class="dm-note">📌 QCS S1 P5 — No work shall proceed without Supervisor approval of Setting Out Survey</div>
+</div>`
+};
+
+c["exec_pressure_test"] = {
+  title: '💪 آلية اختبار الضغط — QCS 2024',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 S8 P12 (Water) | S8 P14 (Sewer) | KAHRAMAA WR-001 | BS EN 805 | AWWA C600
+</div>
+
+<h3>💧 اختبار ضغط — مواسير المياه</h3>
+<table class="dm-table">
+<tr><th>الخطوة</th><th>الإجراء</th><th>المتطلب</th><th>QCS</th></tr>
+<tr><td>1</td><td>ملء المواسير</td><td>ببطء من أدنى نقطة — تهوية الهواء الكاملة</td><td>S8 P12</td></tr>
+<tr><td>2</td><td>نقع أولي</td><td>24 ساعة قبل الاختبار</td><td>S8 P12</td></tr>
+<tr><td>3</td><td>ضغط الاختبار</td><td>1.5 × الضغط التشغيلي max أو PN + 5 bar</td><td>S8 P12</td></tr>
+<tr><td>4</td><td>مدة الاختبار</td><td>2 ساعة على الأقل</td><td>S8 P12</td></tr>
+<tr><td>5</td><td>معدل السقوط المسموح</td><td>≤ 0.2 bar/hour (Class A) — باستخدام Matest/BS 750</td><td>BS EN 805</td></tr>
+<tr><td>6</td><td>الإصلاح</td><td>أي تسرب → إصلاح → إعادة الاختبار</td><td>S8 P12</td></tr>
+<tr><td>7</td><td>التوثيق</td><td>نموذج Pressure Test موقّع من المهندس والمشرف</td><td>Ashghal</td></tr>
+</table>
+
+<h3>🚽 اختبار ضغط — مواسير الصرف والصرف الصحي</h3>
+<table class="dm-table">
+<tr><th>النوع</th><th>طريقة الاختبار</th><th>المتطلب</th><th>QCS</th></tr>
+<tr><td><strong>Foul Sewer (Gravity)</strong></td><td>Water Test (Low Pressure)</td><td>1.2m head فوق أعلى نقطة، 30 دقيقة</td><td>S8 P14</td></tr>
+<tr><td><strong>Foul Sewer (Gravity)</strong></td><td>Air Test</td><td>100mm water pressure، 5 دقيقة، ≤ 12mm loss</td><td>S8 P14 + BS EN 1610</td></tr>
+<tr><td><strong>Storm Drain (Gravity)</strong></td><td>Water Test</td><td>1.5m head، 30 دقيقة</td><td>S8 P15</td></tr>
+<tr><td><strong>Pressure Sewer</strong></td><td>Hydraulic Pressure Test</td><td>1.5× PN، 2 ساعة</td><td>S8 P14</td></tr>
+</table>
+
+<h3>📏 معدل التسرب المسموح — Allowable Leakage</h3>
+<table class="dm-table">
+<tr><th>نوع المواسير</th><th>الحد المسموح</th><th>المعيار</th></tr>
+<tr><td>DI / Steel</td><td>≤ 0.1 L/mm diam/km/day</td><td>AWWA C600</td></tr>
+<tr><td>HDPE / uPVC</td><td>Zero tolerance (لا تسرب)</td><td>BS EN 805</td></tr>
+<tr><td>GRP</td><td>≤ 0.05 L/mm/m/day</td><td>BS EN 1226</td></tr>
+<tr><td>Concrete</td><td>≤ 0.1 L/m² (per 24h)</td><td>BS 5337</td></tr>
+<tr><td>Sewer (Water test)</td><td>≤ 0.08 L/mm diam/km</td><td>QCS S8 P14</td></tr>
+</table>
+
+<h3>✅ Checklist قبل اختبار الضغط</h3>
+<table class="dm-table">
+<tr><th>البند</th><th>✓</th></tr>
+<tr><td>جميع التوصيلات مكتملة ومحكمة</td><td>□</td></tr>
+<tr><td>Thrust blocks مصبوبة وجافة (min 24h)</td><td>□</td></tr>
+<tr><td>جهاز قياس الضغط معايَر (Calibrated)</td><td>□</td></tr>
+<tr><td>نقاط التهوية مفتوحة أثناء الملء</td><td>□</td></tr>
+<tr><td>نقاط نهاية المقطع مغلقة ومدعومة</td><td>□</td></tr>
+<tr><td>حضور مشرف Ashghal أو Consultant</td><td>□</td></tr>
+<tr><td>نموذج Pressure Test Certificate جاهز</td><td>□</td></tr>
+</table>
+
+<div class="dm-note">⚠️ QCS S8 P12 — يُحظر ردم الترنشة قبل اجتياز اختبار الضغط وتوقيع المشرف على النتيجة</div>
+</div>
+
+<div class="lang-content-en" style="display:none">
+<h3>Pressure Testing Procedure — QCS 2024</h3>
+<table class="dm-table">
+<tr><th>Step</th><th>Action</th><th>Requirement</th><th>QCS</th></tr>
+<tr><td>1</td><td>Fill pipes</td><td>Slowly from lowest point, vent all air</td><td>S8 P12</td></tr>
+<tr><td>2</td><td>Pre-soak</td><td>24 hours before test</td><td>S8 P12</td></tr>
+<tr><td>3</td><td>Test pressure</td><td>1.5× operating pressure or PN+5 bar</td><td>S8 P12</td></tr>
+<tr><td>4</td><td>Test duration</td><td>Minimum 2 hours</td><td>S8 P12</td></tr>
+<tr><td>5</td><td>Allowable drop</td><td>≤ 0.2 bar/hour (Class A)</td><td>BS EN 805</td></tr>
+</table>
 </div>`
 };
 

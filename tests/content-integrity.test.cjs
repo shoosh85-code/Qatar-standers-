@@ -19,7 +19,7 @@ const CHUNKS = ['data_content_roads.js','data_content_utilities.js',
 const QS_CONTENT = {};
 for (const chunk of CHUNKS) {
   const raw = fs.readFileSync(chunk, 'utf-8');
-  for (const m of raw.matchAll(/c\["(\w+)"\]\s*=\s*\{[^{]*content:\s*`(.*?)`/gs))
+  for (const m of raw.matchAll(/c\["(\w+)"\]\s*=\s*\{[\s\S]*?content:\s*`(.*?)`/gs))
     QS_CONTENT[m[1]] = m[2];
 }
 

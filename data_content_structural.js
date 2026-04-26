@@ -1,86 +1,106 @@
 // QatarSpec Pro — Content: structural
 (function(){
   var c=window.QS_CONTENT=window.QS_CONTENT||{};
-  c["structural"] = { title: '🏛️ الكود الإنشائي القطري', content: `
+  
+  c["structural"] = {
+    title: '🏛️ الكود الإنشائي القطري — QCS 2024',
+    content: `
 <div class="lang-content-ar">
-<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;">
-<span style="font-size:16px;">🎥</span>
-<span style="color:var(--gold);font-weight:700;font-size:13px;">أعمال الخرسانة المسلحة — الصب والمعالجة</span>
-</div>
-<button onclick="document.getElementById('vid-structural').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
-</div>
-<input type="file" id="vid-structural" accept="video/*" style="display:none" data-player="vid-player-structural" data-ph="vid-placeholder-structural" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-placeholder-structural" style="padding:24px;text-align:center;color:var(--text3);">
-<div style="font-size:32px;margin-bottom:8px;">📹</div>
-<div style="font-size:13px;margin-bottom:4px;">تحضير الخرسانة، الصب، المعالجة في الطقس الحار</div>
-<div style="font-size:11px;color:var(--text3);">اضغط "رفع فيديو" لتحميل ملف MP4</div>
-</div>
-<div id="vid-player-structural" class="qs-vid-ph" data-maxh="280px"></div>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 Section 5 — Concrete & Reinforcement | BS 8110 | BS EN 1992 | BS 8004
 </div>
 
+<h3>🏗️ درجات الخرسانة — Concrete Grades</h3>
+<table class="dm-table">
+<tr><th>الاستخدام</th><th>الدرجة</th><th>fcu (MPa)</th><th>w/c max</th><th>QCS</th></tr>
+<tr><td>Blinding / Non-structural</td><td>C15</td><td>15</td><td>—</td><td>S5 P4</td></tr>
+<tr><td>أساسات عادية (Class 1)</td><td>C30</td><td>30</td><td>0.50</td><td>S5 P4</td></tr>
+<tr><td>أعمدة وجدران خارجية</td><td>C35</td><td>35</td><td>0.45</td><td>S5 P4</td></tr>
+<tr><td>بيئة عدوانية / سبخة</td><td>C40</td><td>40</td><td>0.40</td><td>S5 P4 (2024)</td></tr>
+<tr><td>جسور / ما قبل الإجهاد</td><td>C45+</td><td>45+</td><td>0.38</td><td>S5 P4</td></tr>
+</table>
 
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — QCS S5 P1 (General) | S5 P3 (Rebar) | S5 P4 (Concrete) | S5 P7 (Piles) | BS 8110 | BS 8004 | Structural Works
-</div>
-<h3>🏗️ اختر القسم</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
-<div onclick="QS.openDetail('concrete_overview')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:14px;cursor:pointer;text-align:center;">
-<div style="font-size:28px">🏗️</div><div style="color:var(--gold);font-weight:700;font-size:14px;" data-ar="الConcrete" data-en="Concrete">الConcrete</div>
-<div style="color:var(--text3);font-size:11px;margin-top:4px;">Mix Design + صب + Curing</div></div>
-<div onclick="QS.openDetail('rebar_overview')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:14px;cursor:pointer;text-align:center;">
-<div style="font-size:28px">🔩</div><div style="color:var(--gold);font-weight:700;font-size:14px;">Rebar التسليح</div>
-<div style="color:var(--text3);font-size:11px;margin-top:4px;">Grade 500B + Cover + Lap</div></div>
-<div onclick="QS.openDetail('foundations_overview')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:14px;cursor:pointer;text-align:center;">
-<div style="font-size:28px">🏛️</div><div style="color:var(--gold);font-weight:700;font-size:14px;" data-ar="الأساسات" data-en="Foundations">الأساسات</div>
-<div style="color:var(--text3);font-size:11px;margin-top:4px;">Strip + Raft + Piles</div></div>
-<div onclick="QS.openDetail('formwork_overview')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:14px;cursor:pointer;text-align:center;">
-<div style="font-size:28px">🪵</div><div style="color:var(--gold);font-weight:700;font-size:14px;" data-ar="الشدات" data-en="Formwork">الشدات</div>
-<div style="color:var(--text3);font-size:11px;margin-top:4px;">Formwork + Striking Times</div></div>
-</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-<div onclick="QS.openDetail('structural_materials')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:20px">🧱</div><div style="color:var(--gold);font-weight:700;font-size:13px;">مواد الإنشاء</div></div>
-<div onclick="QS.openDetail('structural_qcp')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:20px">📊</div><div style="color:var(--gold);font-weight:700;font-size:13px;">خطة الجودة QCP</div></div>
-<div onclick="QS.openDetail('ms_concrete')" style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:20px">📝</div><div style="color:#3498db;font-weight:700;font-size:13px;">Method Statement</div><div style="color:var(--text3);font-size:11px;">Concrete Works</div></div>
-<div onclick="QS.openDetail('itp_concrete')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:20px">📋</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP الConcrete</div></div>
-<div onclick="QS.openDetail('itp_rebar')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:20px">📋</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP الRebar</div></div>
+<h3>🔩 التسليح — Reinforcement Requirements</h3>
+<table class="dm-table">
+<tr><th>المتطلب</th><th>القيمة</th><th>QCS</th></tr>
+<tr><td><strong>نوع الحديد</strong></td><td>Grade 460B (B460B) — High Yield Deformed</td><td>S5 P3</td></tr>
+<tr><td><strong>Cover — داخلي</strong></td><td>25mm min</td><td>S5 P3</td></tr>
+<tr><td><strong>Cover — خارجي عادي</strong></td><td>40mm min</td><td>S5 P3</td></tr>
+<tr><td><strong>Cover — بيئة عدوانية</strong></td><td>50mm min</td><td>S5 P3 (Qatar)</td></tr>
+<tr><td><strong>Cover — سبخة</strong></td><td>60mm + SRPC</td><td>S5 P3 + IAN-006</td></tr>
+<tr><td><strong>Lap Length — Tension</strong></td><td>40φ min (φ = bar diameter)</td><td>S5 P3</td></tr>
+<tr><td><strong>Lap Length — Compression</strong></td><td>32φ min</td><td>S5 P3</td></tr>
+<tr><td><strong>Min Steel — Beams</strong></td><td>0.13% × b × h</td><td>S5 P3</td></tr>
+<tr><td><strong>Min Steel — Slabs</strong></td><td>0.13% × b × h (each dir)</td><td>S5 P3</td></tr>
+</table>
+
+<h3>🌡️ متطلبات الصب — Concreting Requirements</h3>
+<table class="dm-table">
+<tr><th>المتطلب</th><th>الحد</th><th>QCS</th></tr>
+<tr><td><strong>Slump — General</strong></td><td>75-150mm (حسب الاستخدام)</td><td>S5 P4</td></tr>
+<tr><td><strong>Max درجة حرارة الصب</strong></td><td>35°C (Qatar: صعب في الصيف)</td><td>S5 P4</td></tr>
+<tr><td><strong>Min درجة حرارة</strong></td><td>10°C</td><td>S5 P4</td></tr>
+<tr><td><strong>Max وقت النقل</strong></td><td>90 دقيقة من الخلط</td><td>S5 P4</td></tr>
+<tr><td><strong>Compaction — Vibrator</strong></td><td>كل 300-450mm، 5-15 ثانية</td><td>S5 P4</td></tr>
+<tr><td><strong>Curing — Min</strong></td><td>7 أيام مياه / 3 أيام compound</td><td>S5 P4</td></tr>
+<tr><td><strong>Cube Samples</strong></td><td>1 set / 50m³ أو لكل صبة</td><td>S5 P4</td></tr>
+</table>
+
+<h3>🌞 Hot Weather Concreting — قطر</h3>
+<table class="dm-table">
+<tr><th>الإجراء</th><th>المتطلب</th><th>QCS</th></tr>
+<tr><td>تبريد الماء</td><td>Ice water — temp الخليط ≤ 35°C</td><td>S5 P4</td></tr>
+<tr><td>ساعات الصب</td><td>بعد 4 عصراً أو قبل 8 صباحاً صيفاً</td><td>Ashghal Practice</td></tr>
+<tr><td>تبريد الركام</td><td>Cover aggregates من الشمس</td><td>S5 P4</td></tr>
+<tr><td>Retarder</td><td>قد يُستخدم — يحتاج اعتماد</td><td>S5 P4</td></tr>
+<tr><td>Anti-evaporation</td><td>رش فوري بعد الصب</td><td>S5 P4</td></tr>
+</table>
+
+<h3>🧱 الأساسات — Foundation Design</h3>
+<table class="dm-table">
+<tr><th>النوع</th><th>الاستخدام</th><th>Safe Bearing</th><th>QCS</th></tr>
+<tr><td><strong>Strip Foundation</strong></td><td>جدران / حوائط</td><td>50-150 kPa (تربة عادية)</td><td>S5 P7 + BS 8004</td></tr>
+<tr><td><strong>Pad Foundation</strong></td><td>أعمدة منفردة</td><td>100-300 kPa</td><td>S5 P7</td></tr>
+<tr><td><strong>Raft Foundation</strong></td><td>أحمال عالية / تربة ضعيفة</td><td>< 75 kPa</td><td>S5 P7</td></tr>
+<tr><td><strong>Bored Piles</strong></td><td>أحمال كبيرة / سبخة</td><td>حسب GI Report</td><td>S5 P7</td></tr>
+</table>
+
+<h3>🔬 اختبارات الاستلام</h3>
+<table class="dm-table">
+<tr><th>الاختبار</th><th>المتطلب</th><th>التردد</th><th>QCS</th></tr>
+<tr><td>Cube Strength (7 day)</td><td>≥ 70% fcu</td><td>كل 50m³</td><td>S5 P4</td></tr>
+<tr><td>Cube Strength (28 day)</td><td>≥ 100% fcu</td><td>كل 50m³</td><td>S5 P4</td></tr>
+<tr><td>Slump Test</td><td>±25mm من المستهدف</td><td>كل شاحنة</td><td>S5 P4</td></tr>
+<tr><td>Rebar Pull-out</td><td>حسب design</td><td>عند الشك</td><td>S5 P3</td></tr>
+<tr><td>Pile Load Test</td><td>1.5× Working Load</td><td>1% من الخوازيق</td><td>S5 P7</td></tr>
+</table>
+
+<div class="dm-note">📌 QCS 2024 S5 — بيئة قطر عدوانية جداً (رطوبة + كلوريد + كبريتات + حرارة) — دائماً استخدم SRPC في الأعمال الخارجية والأساسات</div>
 </div>
 
-</div>
-<div class="lang-content-en" style="display:none;">
-<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,70,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;">
-<span style="font-size:16px;">🎥</span>
-<span style="color:var(--gold);font-weight:700;font-size:13px;">Reinforced Concrete — Pouring & Curing</span>
-</div>
-<button onclick="document.getElementById('vid-structural-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
-</div>
-<input type="file" id="vid-structural-en" accept="video/*" style="display:none" data-player="vid-player-structural-en" data-ph="vid-placeholder-structural-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-placeholder-structural-en" style="padding:24px;text-align:center;color:var(--text3);">
-<div style="font-size:32px;margin-bottom:8px;">📹</div>
-<div style="font-size:13px;margin-bottom:4px;">Concrete preparation, pouring, hot weather curing</div>
-<div style="font-size:11px;">Click "Upload Video" to load MP4 file</div>
-</div>
-<div id="vid-player-structural-en" class="qs-vid-ph" data-maxh="280px"></div>
-</div>
-
-<h3>📐 Structural Works — QCS 2024 Section 5</h3>
-<p>Select a structural section to view full specifications, ITPs, and quality control requirements.</p>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0;">
-<div onclick="QS.openDetail('concrete_overview')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:10px;cursor:pointer;text-align:center;"><div>🏗️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Concrete Works</div></div>
-<div onclick="QS.openDetail('rebar_overview')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:10px;cursor:pointer;text-align:center;"><div>🔩</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Reinforcement</div></div>
-<div onclick="QS.openDetail('foundations_overview')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:10px;cursor:pointer;text-align:center;"><div>🏛️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Foundations</div></div>
-<div onclick="QS.openDetail('formwork_overview')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:10px;cursor:pointer;text-align:center;"><div>🪵</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Formwork</div></div>
-</div>
-</div>
-` };
+<div class="lang-content-en" style="display:none">
+<h3>Qatar Structural Code — QCS S5</h3>
+<table class="dm-table">
+<tr><th>Application</th><th>Grade</th><th>fcu MPa</th><th>w/c max</th><th>QCS</th></tr>
+<tr><td>Blinding</td><td>C15</td><td>15</td><td>—</td><td>S5 P4</td></tr>
+<tr><td>Normal foundations</td><td>C30</td><td>30</td><td>0.50</td><td>S5 P4</td></tr>
+<tr><td>External columns/walls</td><td>C35</td><td>35</td><td>0.45</td><td>S5 P4</td></tr>
+<tr><td>Aggressive/Sabkha</td><td>C40</td><td>40</td><td>0.40</td><td>S5 P4 (2024)</td></tr>
+</table>
+<table class="dm-table">
+<tr><th>Requirement</th><th>Value</th><th>QCS</th></tr>
+<tr><td>Rebar type</td><td>B460B High Yield Deformed</td><td>S5 P3</td></tr>
+<tr><td>Cover — internal</td><td>25mm min</td><td>S5 P3</td></tr>
+<tr><td>Cover — external</td><td>40mm min</td><td>S5 P3</td></tr>
+<tr><td>Cover — aggressive</td><td>50mm min</td><td>S5 P3</td></tr>
+<tr><td>Lap — tension</td><td>40φ min</td><td>S5 P3</td></tr>
+<tr><td>Max pour temp</td><td>35°C</td><td>S5 P4</td></tr>
+<tr><td>Max transit time</td><td>90 min</td><td>S5 P4</td></tr>
+<tr><td>Min curing</td><td>7 days water / 3 days compound</td><td>S5 P4</td></tr>
+</table>
+</div>`
+  };
+  
   c["structural_materials"] = { title: '🧱 مواد الإنشاء — المواصفات والاختبارات', content: `
 <div class="lang-content-ar">
 
