@@ -144,8 +144,36 @@ All numerical values, specifications and test methods shown in Arabic are source
 <p>• وصف كل طبقة (نوع + لون + كثافة + رطوبة)<br>• مستوى المياه الجوفية عند ظهورها<br>• عمق كل SPT والنتيجة<br>• نوع وعمق كل عينة<br>• أي ظروف غير اعتيادية (Sabkha، Cavities، Gas)</p>
 <h3>⚠️ تنبيهات خاصة بقطر</h3>
 <p>• <strong>Sabkha:</strong> طبقة بيضاء/رمادية مالحة — سجّل عمقها وسماكتها<br>• <strong>Cavernous Limestone:</strong> فراغات في الصخر الجيري — خطر على الأساسات<br>• <strong>Fill Material:</strong> ردميات قديمة شائعة في المناطق الساحلية<br>• <strong>Gas:</strong> في بعض المناطق — احتياطات السلامة إلزامية</p>
+<h3>📐 الحد الأدنى لمتطلبات الحفر — Minimum BH Requirements</h3>
+<table class="dm-table">
+<thead><tr><th>نوع المشروع</th><th>الحد الأدنى للجسات</th><th>الحد الأدنى للعمق</th><th>QCS / Ashghal</th></tr></thead>
+<tbody>
+<tr><td>مباني ≤ 3 طوابق</td><td>بجسة عند كل ركيزة / 500m²</td><td>6m أو 1.5× عرض الأساس</td><td>QCS 2024 S2</td></tr>
+<tr><td>مباني 4-10 طوابق</td><td>بجسة / 250m²</td><td>15m أو حتى الصخر</td><td>QCS 2024 S2</td></tr>
+<tr><td>مباني > 10 طوابق / برج</td><td>بجسة / 200m² + BH عميقة</td><td>30m+ أو حسب المستشار</td><td>QCS 2024 S2</td></tr>
+<tr><td>خوازيق (Piles)</td><td>BH لكل موقع خازوق رئيسي</td><td>عمق الخازوق + 3× قطره</td><td>S5 P7</td></tr>
+<tr><td>أعمال طرق / بنية تحتية</td><td>بجسة كل 50-100m على المحور</td><td>3m تحت مستوى الحفر</td><td>Ashghal IAN</td></tr>
+<tr><td>مناطق Sabkha مشتبه بها</td><td>بجسة كل 25-50m</td><td>اختراق طبقة Sabkha كاملاً</td><td>IAN-006</td></tr>
+</tbody>
+</table>
+
+<h3>📏 مواصفات BH Log الإلزامية — Required Log Data</h3>
+<table class="dm-table">
+<thead><tr><th>البند</th><th>المتطلب</th><th>الملاحظة</th></tr></thead>
+<tbody>
+<tr><td>توصيف كل طبقة</td><td>النوع + اللون + الكثافة + الرطوبة</td><td>وصف موحد حسب BS 5930</td></tr>
+<tr><td>مستوى المياه الجوفية</td><td>عمق الظهور + المستوى بعد 24h</td><td>تحديد Artesian إن وجد</td></tr>
+<tr><td>نتائج SPT</td><td>كل 1.5m أو عند تغيير الطبقة</td><td>N-Value + ضربات 3×150mm</td></tr>
+<tr><td>عمق أخذ العينات</td><td>نوع العينة (D/U) + حالتها</td><td>Disturbed / Undisturbed</td></tr>
+<tr><td>ظروف الحفر</td><td>خسارة مياه الحفر، تدفق، انهيار</td><td>مؤشرات Cavities أو Karst</td></tr>
+<tr><td>ملاحظات Sabkha</td><td>عمق + سماكة + درجة التمعدن</td><td>تصوير فوتوغرافي إلزامي</td></tr>
+</tbody>
+</table>
+
 <h3>🔴 Hold Points</h3>
-<p>• <strong>HP-02:</strong> مراقب جيوتقني في الموقع طوال فترة الحفر</p>
+<p>• <strong>HP-02:</strong> مراقب جيوتقني في الموقع طوال فترة الحفر<br>
+• <strong>HP-BH01:</strong> فحص وتوثيق مستوى التأسيس المقترح قبل إنهاء التقرير<br>
+• <strong>HP-BH02:</strong> اعتماد عدد وأعماق الجسات من الاستشاري قبل بدء الحفر</p>
 
 </div>
 <div class="lang-content-en" style="display:none;">
@@ -184,6 +212,42 @@ All numerical values, specifications and test methods shown in Arabic are source
 <p>• <strong>N60:</strong> تصحيح لكفاءة الطاقة (عادة × 0.6-1.0)<br>• <strong>N1,60:</strong> تصحيح لضغط التربة (Overburden)<br>• <strong>في قطر:</strong> Gravel Content يعطي N مرتفع مضلل — انتبه</p>
 <h3>🔴 Hold Points</h3>
 <p>• <strong>HP-03:</strong> معايرة المطرقة والمعدات قبل البدء</p>
+
+<h3>📊 جدول تفسير قيم N-SPT المفصّل — Qatar Context</h3>
+<table class="dm-table">
+<thead><tr><th>N-Value</th><th>الرمل / Gravel</th><th>الطين</th><th>φ° (Rمl)</th><th>qu (kPa)</th><th>توصية الأساسات</th></tr></thead>
+<tbody>
+<tr><td><strong>0-4</strong></td><td>Very Loose — رخو جداً</td><td>Very Soft — طري جداً</td><td>< 28°</td><td>< 25</td><td>غير مناسب للتأسيس المباشر</td></tr>
+<tr><td><strong>4-10</strong></td><td>Loose — رخو</td><td>Soft — طري</td><td>28-30°</td><td>25-50</td><td>Raft أو Piles في الغالب</td></tr>
+<tr><td><strong>10-20</strong></td><td>Medium Dense — متوسط</td><td>Medium Stiff — متوسط</td><td>30-35°</td><td>50-100</td><td>Pad / Strip بتحقق إضافي</td></tr>
+<tr><td><strong>20-30</strong></td><td>Medium Dense (Upper) — متوسط عالي</td><td>Stiff — صلب</td><td>35-38°</td><td>100-200</td><td>Pad / Strip — جيد</td></tr>
+<tr><td><strong>30-50</strong></td><td>Dense — كثيف</td><td>Very Stiff — صلب جداً</td><td>38-42°</td><td>200-400</td><td>ممتاز لأغلب أنواع الأساسات</td></tr>
+<tr><td><strong>> 50</strong></td><td>Very Dense / Rock — كثيف جداً/صخر</td><td>Hard — صلب صخري</td><td>> 42°</td><td>> 400</td><td>ممتاز — Piles end bearing</td></tr>
+</tbody>
+</table>
+
+<h3>⚠️ تنبيهات قطر — N-SPT في البيئة القطرية</h3>
+<table class="dm-table">
+<thead><tr><th>الحالة</th><th>المشكلة</th><th>الحل</th></tr></thead>
+<tbody>
+<tr><td>Cemented Sand / Calcarenite</td><td>N مرتفع مضلل بسبب Cementation وليس الكثافة</td><td>Core Sampling + قيم qu من مختبر</td></tr>
+<tr><td>Gravel Content عالي</td><td>N مرتفع كاذب بسبب الحصى</td><td>DCPT + Plate Load Test للتحقق</td></tr>
+<tr><td>Sabkha (تربة مملحة)</td><td>N منخفض مضلل — تتحسن بالجفاف</td><td>تحليل كيميائي + UCS test</td></tr>
+<tr><td>Cavernous Limestone</td><td>N فجائي 0 عند الفراغ</td><td>Rotary Coring + اختبارات جيوفيزيائية</td></tr>
+<tr><td>High GWL</td><td>تقليل N في الرمل الناعم تحت الماء</td><td>تصحيح N60 + تصحيح Overburden</td></tr>
+</tbody>
+</table>
+
+<h3>🔧 تصحيحات N-Value — Corrections</h3>
+<table class="dm-table">
+<thead><tr><th>التصحيح</th><th>الرمز</th><th>المعادلة / القيمة</th><th>الاستخدام</th></tr></thead>
+<tbody>
+<tr><td>Energy Correction</td><td>N₆₀</td><td>N × (ER/60)</td><td>معايرة كفاءة الطاقة (60% معيار)</td></tr>
+<tr><td>Overburden Correction</td><td>(N₁)₆₀</td><td>N₆₀ × Cn — حيث Cn = (100/σ'v)^0.5</td><td>تطبيع عند σ'v = 100 kPa</td></tr>
+<tr><td>Rod Length (< 3m)</td><td>Cr</td><td>0.75 (رود < 3m)</td><td>الجسات الضحلة</td></tr>
+<tr><td>Sampler (liner absent)</td><td>Cs</td><td>1.1-1.3</td><td>عند غياب liner داخل Sampler</td></tr>
+</tbody>
+</table>
 
 </div>
 <div class="lang-content-en" style="display:none;">
