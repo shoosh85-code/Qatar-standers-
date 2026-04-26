@@ -991,6 +991,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
         <div onclick="QS.exportToWord()" title="تصدير Word" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(52,152,219,0.12);border:1px solid rgba(52,152,219,0.3);border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;color:#3498db;">DOC</div>
         <div onclick="QS.printCurrentDetail()" title="طباعة" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:var(--gold);">🖨️</div>
       </div>
+        <div onclick="QS.shareDetail()" title="مشاركة / نسخ الرابط" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(46,204,113,0.12);border:1px solid rgba(46,204,113,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:#2ecc71;">🔗</div>
         <div class="dm-close" onclick="document.getElementById('detailModal').classList.remove('open');document.getElementById('appFooter').style.display='';document.body.style.overflow='';navStack=[];">✕</div>
       </div>
     </div>
@@ -1913,7 +1914,7 @@ function openDetail(key) {
   document.getElementById('dmContent').innerHTML = d.content;
   const backBtn = document.getElementById('dmBackBtn');
   if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
-  modal.classList.add('open');
+  modal.classList.add('open'); var mc=document.getElementById('dmContent'); if(mc) mc.scrollTop=0;
   // Re-inject stored videos after DOM rebuild
   safeTimeout('restoreVideo', _restoreVideosAfterDOMRebuild, 50);
   // Re-apply current language
@@ -1948,6 +1949,19 @@ function goBack() {
   if (typeof setLang === 'function') setLang(currentLang || 'ar');
 }
 
+function shareDetail() {
+  var modal = document.getElementById('detailModal');
+  var key = modal.dataset.currentKey || '';
+  var title = document.getElementById('dmTitle') ? document.getElementById('dmTitle').textContent : 'QatarSpec Pro';
+  var url = window.location.origin + window.location.pathname + (key ? '#' + key : '');
+  if (navigator.share) {
+    navigator.share({ title: title, url: url }).catch(function(){});
+  } else {
+    navigator.clipboard.writeText(url)
+      .then(function(){ showToast('✅ تم نسخ الرابط'); })
+      .catch(function(){ showToast('❌ تعذّر النسخ'); });
+  }
+}
 function closeDetailModal(e) {
   if (e.target === document.getElementById('detailModal')) {
     // Release any active video players from memory
@@ -4432,7 +4446,7 @@ function installPWA() {
 
 (function checkPublicFns() {
   var publicFnsCheck = [
-    'openDetail','closeDetailModal','goBack',
+    'openDetail','closeDetailModal','goBack','shareDetail',
     'showToast','doSearch','quickSearch','filterCards','clearCardFilter',
     'openKeyModal','closeKeyModal','saveKey',
     'handleFiles','handleDocUpload','handleDaUpload',
