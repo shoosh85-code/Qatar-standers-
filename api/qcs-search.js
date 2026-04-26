@@ -100,7 +100,7 @@ export default async function handler(req, res) {
         .replace(/[\u064B-\u065F]/g, '')
         .split(/\s+/)
         .filter(w => w.length > 2)
-        .slice(0, 4);
+        .slice(0, 6);  // Phase 8: increased from 4 to 6 for richer FTS
 
       if (words.length === 0) {
         return res.status(200).json({ results: [], query, method: 'none' });

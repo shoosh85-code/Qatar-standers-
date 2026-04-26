@@ -1216,7 +1216,7 @@ async function doSearch() {
         'Content-Type': 'application/json',
         ...(getProToken() ? { 'Authorization': 'Bearer ' + getProToken() } : {})
       },
-        body: JSON.stringify({ query: query, limit: 4 })
+        body: JSON.stringify({ query: query, limit: 6 })
       });
       if (qcsRes.ok) {
         const qcsData = await qcsRes.json();
@@ -1224,7 +1224,7 @@ async function doSearch() {
           window._lastSearchMethod = qcsData.method || 'fts';
           qcsContext = '\n\n=== نصوص من QCS 2024 الرسمي ===\n' +
             qcsData.results.map(function(r, i) {
-              return '[' + (i+1) + '] ' + (r.source||'QCS 2024') + ' | ' + (r.section||'') + ' | صفحة ' + (r.page||'') + ':\n' + (r.content||'').slice(0, 300);
+              return '[' + (i+1) + '] ' + (r.source||'QCS 2024') + ' | ' + (r.section||'') + ' | صفحة ' + (r.page||'') + ':\n' + (r.content||'').slice(0, 450);
             }).join('\n\n');
         }
       }
@@ -1232,8 +1232,27 @@ async function doSearch() {
 
     const response = await fetchAnthropicAPI({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 1500,
-        system: 'أنت مرجع هندسي لـ QCS 2024. ابدأ مباشرة بالإجابة — لا مقدمات. اذكر: القيمة الدقيقة | رقم Part+Section+Clause | التفاصيل | الاستثناءات.' + qcsContext,
+        max_tokens: 2000,
+        system: `أنت مرجع هندسي رسمي لـ Qatar Construction Specifications (QCS 2024) — المواصفات القطرية للإنشاءات الإصدار الرابع.
+
+هيكل QCS 2024:
+• Part 1 (Section 1): متطلبات عامة وإدارة المشروع
+• Part 2: إدارة الموقع والسلامة والصحة المهنية
+• Part 3: أعمال التربة والحفر والردم والخوازيق
+• Part 4: الخرسانة والأعمال الإنشائية الخرسانية
+• Part 5: الهياكل الفولاذية والمعدنية
+• Part 6: الطرق والرصف والأسفلت وكود الطريق
+• Part 7: أعمال الصرف الصحي والصرف السطحي
+• Part 8: أعمال المياه والشبكات
+• Part 9: الكهرباء والإضاءة والاتصالات
+• Part 10-12: الميكانيكا والتكييف والحريق والسلامة
+
+قواعد الإجابة:
+1. ابدأ مباشرة بالإجابة — لا مقدمات ولا تحيات
+2. اذكر دائماً: القيمة الدقيقة | Part رقم | Section | Clause | الجدول إن وُجد
+3. أضف الاستثناءات والشروط الخاصة إن وُجدت
+4. إذا كانت المعلومات غير متوفرة في السياق، وضّح ذلك بدلاً من التخمين
+5. الأولوية للنصوص الواردة في سياق Supabase أدناه` + qcsContext,
         messages: [{ role: 'user', content: query }]
     });
 
@@ -1259,7 +1278,11 @@ async function doSearch() {
       .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold2)">$1</strong>')
       .replace(/^#{1,3}\s(.+)/gm, '<strong style="color:var(--gold2);font-size:15px">$1</strong>');
     textEl.innerHTML = rendered;
-    refEl.textContent = `📖 المرجع: QCS 2024 — Part ${partsLabel} | راجع المواصفة الأصلية للتأكد`;
+    // Show search method badge
+    const methodBadge = window._lastSearchMethod === 'vector'
+      ? ' | 🧠 بحث ذكي (Vector)'
+      : window._lastSearchMethod === 'fts' ? ' | 🔤 بحث نصي (FTS)' : '';
+    refEl.textContent = `📖 المرجع: QCS 2024 — Part ${partsLabel}${methodBadge} | راجع المواصفة الأصلية للتأكد`;
     sourceEl.textContent = `QCS 2024 — Part ${partsLabel}`;
 
   } catch (err) {

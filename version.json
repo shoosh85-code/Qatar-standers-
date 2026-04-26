@@ -1,5 +1,5 @@
 {
-  "version": "2.9.0",
-  "date": "2026-04-25",
-  "notes": "Security + Performance + Content wiring \u2014 all 50 cards verified"
+  "version": "2.10.0",
+  "date": "2026-04-26",
+  "notes": "Phase 8 — Search & Supabase improvements: enhanced system prompt, vector/FTS badge, 6 chunks, 450-char context, FREE_LIMIT=50"
 }

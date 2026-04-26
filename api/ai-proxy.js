@@ -36,7 +36,7 @@ async function verifyProToken(token) {
 
 
 const ipCounters = new Map();  // fallback: in-memory (per-instance)
-const FREE_LIMIT = 200;  // Raised — client-side handles the 10/day limit
+const FREE_LIMIT = 50;  // Phase 8: server-side IP limit (client enforces 5/day)
 const PRO_LIMIT  = 500;
 
 function getTodayStr() {
