@@ -1725,9 +1725,14 @@ window.validateMix = function(){
   var lim=limits[layer];
   var layerNames={wearing:'Wearing Course',binder:'Binder Course',base:'Base Course'};
   
+  // VFB Calculation — QCS S8 P5 Addition — Phase 5
+  var vfb = (vma > 0) ? ((vma - va) / vma * 100) : 0;
+  var vfbMin = 65, vfbMax = 75; // QCS S8 P5: all layers 65-75%
+
   var checks=[
     {name:'Air Voids Va',val:va,min:lim.va[0],max:lim.va[1],unit:'%'},
     {name:'VMA',val:vma,min:lim.vma[0],max:lim.vma[1],unit:'%'},
+    {name:'VFB — Voids Filled Bitumen',val:parseFloat(vfb.toFixed(1)),min:vfbMin,max:vfbMax,unit:'%'},
     {name:'Marshall Stability',val:stab,min:lim.stab[0],max:lim.stab[1],unit:'kN'},
     {name:'Flow',val:flow,min:lim.flow[0],max:lim.flow[1],unit:'mm'},
     {name:'Bitumen Content',val:bc,min:lim.bc[0],max:lim.bc[1],unit:'%'}
@@ -1766,6 +1771,7 @@ window.validateMix = function(){
 <tr><th>المعيار</th><th>Wearing</th><th>Binder</th><th>Base</th></tr>
 <tr><td>Air Voids Va</td><td>3-5%</td><td>3-5%</td><td>3-5%</td></tr>
 <tr><td>VMA min</td><td>14%</td><td>13%</td><td>12%</td></tr>
+<tr><td><strong>VFB</strong></td><td>65–75%</td><td>65–75%</td><td>65–75%</td></tr>
 <tr><td>Stability min</td><td>8 kN</td><td>7 kN</td><td>5 kN</td></tr>
 <tr><td>Flow</td><td>2-4 mm</td><td>2-4 mm</td><td>2-5 mm</td></tr>
 <tr><td>Bitumen Content</td><td>4.5-6.5%</td><td>4.0-6.0%</td><td>3.5-5.5%</td></tr>
@@ -2680,5 +2686,303 @@ window.calcCBR=function(){
 </table>
 </div>`
 };
+
+
+// ═══════════════════════════════════════════════════════════════
+// Phase 5 — Enhanced Interactive Calculators
+// ═══════════════════════════════════════════════════════════════
+
+c["pipe_sizing_calc"] = {
+  title: '🔧 حاسبة تحديد قطر الماسورة — Pipe Sizing Calculator',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;">
+  <strong>📐 QCS Section 8 — P12 | Manning + Hazen-Williams</strong><br>
+  حساب سرعة التدفق وفقدان الضغط لشبكات المياه والصرف
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+  <div>
+    <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px">قطر الماسورة DN (mm)</label>
+    <select id="ps-diameter" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px">
+      <option value="100">DN 100</option>
+      <option value="150">DN 150</option>
+      <option value="200">DN 200</option>
+      <option value="250">DN 250</option>
+      <option value="300" selected>DN 300</option>
+      <option value="400">DN 400</option>
+      <option value="500">DN 500</option>
+      <option value="600">DN 600</option>
+      <option value="800">DN 800</option>
+      <option value="1000">DN 1000</option>
+    </select>
+  </div>
+  <div>
+    <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px">نوع الماسورة / المادة</label>
+    <select id="ps-material" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px">
+      <option value="150,DI,مياه شرب">DI — Ductile Iron (مياه شرب)</option>
+      <option value="150,HDPE,مياه / صرف">HDPE — High Density PE</option>
+      <option value="150,PVC,مياه / صرف خفيف">PVC-U / PVC-O</option>
+      <option value="100,RCP,صرف سطحي">RCP — Reinforced Concrete</option>
+      <option value="120,Steel,ضغط عالٍ">Steel — Welded</option>
+      <option value="150,GRP,شبكات كبيرة">GRP — Glass Reinforced Plastic</option>
+    </select>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+  <div>
+    <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px">معدل التدفق Q (L/s)</label>
+    <input id="ps-flow" type="number" step="0.1" value="25" min="0.1" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px"/>
+  </div>
+  <div>
+    <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px">طول الخط L (m)</label>
+    <input id="ps-length" type="number" step="1" value="200" min="1" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px"/>
+  </div>
+  <div>
+    <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px">انحدار الخط S (m/m)</label>
+    <input id="ps-slope" type="number" step="0.0001" value="0.003" min="0.0001" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px"/>
+  </div>
+</div>
+
+<button onclick="calcPipeSizing()" style="width:100%;padding:12px;background:rgba(52,152,219,0.15);border:1px solid rgba(52,152,219,0.4);color:#3498db;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700;margin-bottom:12px">
+  🔧 احسب — Calculate
+</button>
+
+<div id="ps-result" style="display:none"></div>
+
+<h3 style="margin-top:16px;font-size:13px">📋 حدود السرعة QCS S8 P12</h3>
+<table class="dm-table">
+<tr><th>الشبكة</th><th>الحد الأدنى</th><th>الحد الأقصى</th><th>المرجع</th></tr>
+<tr><td>مياه شرب (Pressure)</td><td>0.6 m/s</td><td>2.5 m/s</td><td>QCS S8 P12</td></tr>
+<tr><td>Foul Sewer (Gravity)</td><td>0.75 m/s</td><td>3.0 m/s</td><td>QCS S8 P12</td></tr>
+<tr><td>Surface Water</td><td>0.6 m/s</td><td>3.0 m/s</td><td>QCS S8 P12</td></tr>
+<tr><td>Irrigation</td><td>0.5 m/s</td><td>2.0 m/s</td><td>QCS S8 P12</td></tr>
+</table>
+
+<h3 style="margin-top:12px;font-size:13px">🏷️ مواد الماسورة المعتمدة — KAHRAMAA / Ashghal</h3>
+<table class="dm-table">
+<tr><th>المادة</th><th>الشبكة</th><th>PN المعتمد</th><th>C (H-W)</th></tr>
+<tr><td>DI K9</td><td>مياه شرب</td><td>PN25</td><td>130</td></tr>
+<tr><td>HDPE PE100</td><td>مياه / فضلات</td><td>PN10-PN16</td><td>150</td></tr>
+<tr><td>PVC-U / PVC-O</td><td>مياه / خدمات</td><td>PN10-PN12</td><td>150</td></tr>
+<tr><td>RCP</td><td>صرف سطحي</td><td>—</td><td>100</td></tr>
+<tr><td>GRP</td><td>شبكات كبيرة</td><td>PN10-PN16</td><td>150</td></tr>
+</table>
+</div>
+
+<script>
+window.calcPipeSizing = function(){
+  var D = parseFloat(document.getElementById('ps-diameter').value)/1000; // m
+  var matVal = document.getElementById('ps-material').value.split(',');
+  var C = parseFloat(matVal[0]);
+  var matName = matVal[1];
+  var matUse = matVal[2];
+  var Q_ls = parseFloat(document.getElementById('ps-flow').value);
+  var L = parseFloat(document.getElementById('ps-length').value);
+  var S = parseFloat(document.getElementById('ps-slope').value);
+
+  if(isNaN(Q_ls)||isNaN(L)||isNaN(S)||Q_ls<=0||L<=0||S<=0){
+    alert('تحقق من المدخلات'); return;
+  }
+
+  var Q = Q_ls/1000; // m³/s
+  var A = Math.PI*D*D/4; // m²
+  var R = D/4; // hydraulic radius full pipe
+
+  // Flow velocity
+  var V_actual = Q/A;
+
+  // Manning capacity at given slope (n depends on material)
+  var nManning = {DI:0.012, HDPE:0.009, 'PVC-U / PVC-O':0.009, RCP:0.013, Steel:0.011, GRP:0.009}[matName] || 0.011;
+  var V_manning = (1/nManning)*Math.pow(R,2/3)*Math.pow(S,0.5);
+  var Q_cap_manning = V_manning * A * 1000; // L/s
+
+  // Hazen-Williams head loss
+  var hf_hw = 10.67*L*Math.pow(Q,1.852)/(Math.pow(C,1.852)*Math.pow(D,4.87));
+  var pressure_loss_bar = hf_hw*9.81/100; // bar (approx)
+
+  // Manning head loss approach: S = (V*n/R^(2/3))²
+  var S_required = Math.pow(V_actual*nManning/Math.pow(R,2/3),2);
+
+  // Velocity status
+  var vMin=0.6, vMax=3.0;
+  if(matName==='DI')vMax=2.5;
+  var vStatus, vColor;
+  if(V_actual<vMin){vStatus='⚠️ بطيء جداً — ترسيب محتمل';vColor='#f39c12';}
+  else if(V_actual>vMax){vStatus='❌ سريع جداً — خطر تآكل';vColor='#e74c3c';}
+  else{vStatus='✅ ضمن الحدود';vColor='#2ecc71';}
+
+  // Capacity status
+  var capStatus = Q_ls<=Q_cap_manning ? '✅ كافية' : '❌ غير كافية — زد القطر';
+  var capColor = Q_ls<=Q_cap_manning ? '#2ecc71' : '#e74c3c';
+
+  document.getElementById('ps-result').style.display='block';
+  document.getElementById('ps-result').innerHTML=
+    '<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:12px;margin-bottom:10px">'
+    +'<div style="font-weight:700;font-size:14px;margin-bottom:8px">📊 نتائج الحساب | DN'+Math.round(D*1000)+' — '+matName+'</div>'
+    +'<table class="dm-table">'
+    +'<tr><th>المعيار</th><th>القيمة</th><th>الحالة</th></tr>'
+    +'<tr><td>سرعة التدفق الفعلية</td><td><strong>'+V_actual.toFixed(3)+' m/s</strong></td><td style="color:'+vColor+';font-weight:700">'+vStatus+'</td></tr>'
+    +'<tr><td>طاقة Manning (S='+S.toFixed(4)+')</td><td><strong>'+Q_cap_manning.toFixed(1)+' L/s</strong></td><td style="color:'+capColor+';font-weight:700">'+capStatus+'</td></tr>'
+    +'<tr><td>فقدان الضغط H-W</td><td><strong>'+hf_hw.toFixed(3)+' m</strong></td><td>'+pressure_loss_bar.toFixed(3)+' bar</td></tr>'
+    +'<tr><td>فقدان ضغط / 100m</td><td><strong>'+(hf_hw/L*100).toFixed(3)+' m/100m</strong></td><td>Hazen-Williams C='+C+'</td></tr>'
+    +'<tr><td>مساحة المقطع</td><td>'+( A*10000).toFixed(2)+' cm²</td><td>R = '+(R*1000).toFixed(1)+' mm</td></tr>'
+    +'<tr><td>الانحدار المطلوب</td><td>'+S_required.toFixed(5)+' m/m</td><td>'+(S_required<=S?'✅ الانحدار كافٍ':'⚠️ زد الانحدار')+'</td></tr>'
+    +'</table>'
+    +'<div style="margin-top:8px;padding:6px 10px;background:rgba(52,152,219,0.1);border-radius:6px;font-size:11px">'
+    +'💡 <strong>المادة المقترحة لـ '+matUse+':</strong> '+matName+' | <strong>C='+C+'</strong> | n='+nManning+' | QCS S8 P12'
+    +'</div></div>';
+};
+</script>
+`
+};
+
+c["road_layers_calc"] = {
+  title: '🛣️ حاسبة سماكة طبقات الطريق — Pavement Layer Design',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;">
+  <strong>📐 QCS Section 6 — P5 + Ashghal RDM 2023 | AASHTO 1993</strong><br>
+  حساب سماكة طبقات الرصف المرن بناءً على ESAL وCBR وفئة الحركة
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+  <div>
+    <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px">فئة الحركة — Traffic Class</label>
+    <select id="rl-traffic" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px">
+      <option value="A">Class A — محلي / Local (ESAL < 0.5M)</option>
+      <option value="B">Class B — خفيف / Light (0.5–1.5M)</option>
+      <option value="C" selected>Class C — متوسط / Medium (1.5–5M)</option>
+      <option value="D">Class D — ثقيل / Heavy (5–15M)</option>
+      <option value="E">Class E — ثقيل جداً / Very Heavy (>15M)</option>
+    </select>
+  </div>
+  <div>
+    <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px">CBR التصميمي للتربة (%)</label>
+    <select id="rl-cbr" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px">
+      <option value="3">CBR 3% — ضعيف جداً</option>
+      <option value="5">CBR 5% — ضعيف</option>
+      <option value="7" selected>CBR 7% — متوسط</option>
+      <option value="10">CBR 10% — جيد</option>
+      <option value="15">CBR 15% — جيد جداً</option>
+      <option value="20">CBR 20% — ممتاز</option>
+    </select>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+  <div>
+    <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px">ESAL التصميمي (×10⁶)</label>
+    <input id="rl-esal" type="number" step="0.1" value="3" min="0.1" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px"/>
+  </div>
+  <div>
+    <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px">عرض الطريق (m)</label>
+    <input id="rl-width" type="number" step="0.5" value="7.5" min="3" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px"/>
+  </div>
+  <div>
+    <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px">طول الطريق (m)</label>
+    <input id="rl-length" type="number" step="10" value="1000" min="10" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px"/>
+  </div>
+</div>
+
+<button onclick="calcRoadLayers()" style="width:100%;padding:12px;background:rgba(46,204,113,0.15);border:1px solid rgba(46,204,113,0.4);color:#2ecc71;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700;margin-bottom:12px">
+  🛣️ احسب طبقات الطريق — Calculate Layers
+</button>
+
+<div id="rl-result" style="display:none"></div>
+
+<h3 style="margin-top:16px;font-size:13px">📋 جدول فئات الحركة — Ashghal RDM 2023</h3>
+<table class="dm-table">
+<tr><th>الفئة</th><th>ESAL</th><th>نوع الطريق</th><th>المرجع</th></tr>
+<tr><td>Class A</td><td>< 0.5M</td><td>محلي / Industrial (خفيف)</td><td>QCS S6 P5</td></tr>
+<tr><td>Class B</td><td>0.5–1.5M</td><td>Collector / Secondary</td><td>QCS S6 P5</td></tr>
+<tr><td>Class C</td><td>1.5–5M</td><td>Arterial / Primary</td><td>Ashghal RDM</td></tr>
+<tr><td>Class D</td><td>5–15M</td><td>Expressway / Highway</td><td>Ashghal RDM</td></tr>
+<tr><td>Class E</td><td>> 15M</td><td>Motorway / Heavy Freight</td><td>Ashghal RDM</td></tr>
+</table>
+</div>
+
+<script>
+window.calcRoadLayers = function(){
+  var traffic = document.getElementById('rl-traffic').value;
+  var cbr = parseInt(document.getElementById('rl-cbr').value);
+  var esal = parseFloat(document.getElementById('rl-esal').value);
+  var width = parseFloat(document.getElementById('rl-width').value);
+  var length = parseFloat(document.getElementById('rl-length').value);
+
+  if(isNaN(esal)||isNaN(width)||isNaN(length)||esal<=0){
+    alert('تحقق من المدخلات'); return;
+  }
+
+  // Base layer thicknesses (mm) by traffic class — Ashghal RDM / QCS S6
+  var baseLayers = {
+    A:{wearing:40,binder:0,   base:150,subbase:200,subgrade:300},
+    B:{wearing:40,binder:40,  base:175,subbase:225,subgrade:300},
+    C:{wearing:45,binder:55,  base:200,subbase:250,subgrade:300},
+    D:{wearing:50,binder:60,  base:225,subbase:275,subgrade:300},
+    E:{wearing:55,binder:70,  base:250,subbase:300,subgrade:300}
+  };
+
+  // CBR correction factor for subbase/base
+  var cbrFactor = {3:1.30, 5:1.10, 7:1.00, 10:0.90, 15:0.80, 20:0.70};
+  var cf = cbrFactor[cbr] || 1.0;
+
+  var L = baseLayers[traffic];
+  var wear  = L.wearing;
+  var bind  = L.binder;
+  var base  = Math.round(L.base * cf / 25) * 25;     // round to 25mm
+  var subb  = Math.round(L.subbase * cf / 25) * 25;
+  var subg  = L.subgrade;
+  var totalPave = wear + bind + base + subb;
+
+  // QCS minimum requirements
+  var qcsWear = traffic==='A'?40:traffic==='B'?40:45;
+  var qcsBind = traffic==='A'?0:traffic==='B'?40:55;
+  var wearOK  = wear >= qcsWear;
+  var bindOK  = bind >= qcsBind;
+
+  // Volume and quantities
+  var area = width * length; // m²
+  var volWear  = area * wear/1000;  // m³
+  var volBind  = area * bind/1000;
+  var volBase  = area * base/1000;
+  var volSubb  = area * subb/1000;
+  var volSubg  = area * subg/1000;
+
+  // Density (tonnes/m³)
+  var dAsphalt = 2.35; var dAggregate = 2.10; var dSoil = 1.80;
+  var tonWear  = (volWear * dAsphalt).toFixed(0);
+  var tonBind  = (volBind * dAsphalt).toFixed(0);
+  var tonBase  = (volBase * dAggregate).toFixed(0);
+  var tonSubb  = (volSubb * dAggregate).toFixed(0);
+  var tonSubg  = (volSubg * dSoil).toFixed(0);
+
+  var trafficNames = {A:'Class A — محلي',B:'Class B — خفيف',C:'Class C — متوسط',D:'Class D — ثقيل',E:'Class E — ثقيل جداً'};
+
+  document.getElementById('rl-result').style.display='block';
+  document.getElementById('rl-result').innerHTML=
+    '<div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:10px;padding:12px;margin-bottom:10px">'
+    +'<div style="font-weight:700;font-size:14px;margin-bottom:8px">📊 نتائج التصميم | '+trafficNames[traffic]+' | CBR='+cbr+'%</div>'
+    +'<table class="dm-table">'
+    +'<tr><th>الطبقة</th><th>السماكة</th><th>المادة</th><th>الحجم (m³)</th><th>الوزن (طن)</th><th>QCS</th></tr>'
+    +(wear>0?'<tr><td><strong>🔴 Wearing Course</strong></td><td style="color:#e74c3c;font-weight:700">'+wear+' mm</td><td>AC Wearing — Asphalt</td><td>'+volWear.toFixed(0)+'</td><td>'+tonWear+'</td><td>QCS S8 P5</td></tr>':'')
+    +(bind>0?'<tr><td><strong>🟠 Binder Course</strong></td><td style="color:#e67e22;font-weight:700">'+bind+' mm</td><td>AC Binder — Asphalt</td><td>'+volBind.toFixed(0)+'</td><td>'+tonBind+'</td><td>QCS S8 P5</td></tr>':'')
+    +'<tr><td><strong>🟡 Base Course</strong></td><td style="color:#f1c40f;font-weight:700">'+base+' mm</td><td>Crushed Aggregate — CBR≥80%</td><td>'+volBase.toFixed(0)+'</td><td>'+tonBase+'</td><td>QCS S6 P5</td></tr>'
+    +'<tr><td><strong>🟢 Subbase</strong></td><td style="color:#2ecc71;font-weight:700">'+subb+' mm</td><td>Granular — CBR≥'+(cbr<=5?25:40)+'%</td><td>'+volSubb.toFixed(0)+'</td><td>'+tonSubb+'</td><td>QCS S6 P5</td></tr>'
+    +'<tr><td><strong>🔵 Subgrade</strong></td><td style="color:#3498db;font-weight:700">'+subg+' mm</td><td>Natural / Improved — CBR'+cbr+'%</td><td>'+volSubg.toFixed(0)+'</td><td>'+tonSubg+'</td><td>QCS S6 P5</td></tr>'
+    +'<tr style="background:rgba(255,255,255,0.05)"><td><strong>TOTAL PAVEMENT</strong></td><td style="font-weight:700;font-size:14px">'+(totalPave)+'mm</td><td colspan="4">السماكة الكلية للرصف</td></tr>'
+    +'</table>'
+    +'<div style="margin-top:8px;padding:8px 10px;background:rgba(46,204,113,0.1);border-radius:6px;font-size:11px">'
+    +'📐 <strong>مساحة إجمالية:</strong> '+area.toFixed(0)+' m² | '
+    +'معامل تصحيح CBR: ×'+cf.toFixed(2)+' | '
+    +'<strong>ESAL:</strong> '+esal+'×10⁶ | '
+    +'<strong>المرجع:</strong> QCS S6 P5 + Ashghal RDM 2023'
+    +'</div></div>';
+};
+</script>
+`
+};
+
 
 })();
