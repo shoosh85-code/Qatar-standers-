@@ -206,6 +206,13 @@ if('serviceWorker'in navigator){
 <!-- ═══════════ Performance ═══════════ -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- DNS prefetch for external APIs -->
+<link rel="dns-prefetch" href="https://generativelanguage.googleapis.com">
+<link rel="dns-prefetch" href="https://api.anthropic.com">
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+<!-- Preload critical data files -->
+<link rel="preload" href="data_content_manifest.js?v=7" as="script">
+<link rel="preload" href="data_calcs.js?v=430" as="script">
 <!-- Google Fonts with local fallback for offline support -->
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
@@ -4015,36 +4022,27 @@ function resetInspector() {
   // ── 2. Inline Service Worker via Blob ──
   if (!('serviceWorker' in navigator) || location.protocol !== 'https:') return;
 
-  var CACHE = 'qatarspec-v4-4-0';
+  var CACHE = 'qatarspec-v4-7-0';
   var ASSETS = ['/'];
 
   var swCode = [
     "var CACHE='" + CACHE + "';",
-    "var ASSETS=" + JSON.stringify(ASSETS) + ";",
-    "self.addEventListener('install',function(e){",
-    "  e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(ASSETS);}));",
-    "  self.skipWaiting();",
-    "});",
+    "self.addEventListener('install',function(e){ self.skipWaiting(); });",
     "self.addEventListener('activate',function(e){",
     "  e.waitUntil(caches.keys().then(function(keys){",
     "    return Promise.all(keys.filter(function(k){return k!==CACHE;}).map(function(k){return caches.delete(k);}));",
-    "  }));",
-    "  self.clients.claim();",
+    "  }).then(function(){return self.clients.claim();}));",
     "});",
+    "self.addEventListener('message',function(e){ if(e.data&&e.data.type==='SKIP_WAITING') self.skipWaiting(); });",
     "self.addEventListener('fetch',function(e){",
     "  var url=e.request.url;",
-    "  if(url.includes('anthropic.com')||url.includes('fonts.googleapis')||url.includes('fonts.gstatic')){",
-    "    return e.respondWith(fetch(e.request));",
-    "  }",
+    "  if(e.request.method!=='GET'||url.includes('/api/')||url.includes('anthropic')||url.includes('googleapis')||url.includes('supabase')){ return; }",
     "  e.respondWith(",
-    "    caches.match(e.request).then(function(cached){",
-    "      if(cached) return cached;",
-    "      return fetch(e.request).then(function(r){",
-    "        if(!r||r.status!==200||r.type!=='basic') return r;",
-    "        var rc=r.clone();",
-    "        caches.open(CACHE).then(function(c){c.put(e.request,rc);});",
-    "        return r;",
-    "      }).catch(function(){return cached||new Response('Offline',{status:503});});",
+    "    fetch(e.request).then(function(r){",
+    "      if(r.ok){ var rc=r.clone(); caches.open(CACHE).then(function(c){c.put(e.request,rc);}); }",
+    "      return r;",
+    "    }).catch(function(){",
+    "      return caches.match(e.request).then(function(cached){ return cached||caches.match('/'); });",
     "    })",
     "  );",
     "});"
@@ -4735,7 +4733,7 @@ window.QS = window.QS || {};
   function loadManifest(){
     if(window.QS_CONTENT_MAP) return;
     var s=document.createElement('script');
-    s.src='data_content_manifest.js?v=1';
+    s.src='data_content_manifest.js?v=7';
     s.async=true;
     document.head.appendChild(s);
   }
@@ -4752,7 +4750,7 @@ window.QS = window.QS || {};
     if(_loading[chunk]){ if(cb) _loading[chunk].push(cb); return; }
     _loading[chunk] = cb ? [cb] : [];
     var s=document.createElement('script');
-    s.src=chunk+'?v=1';
+    s.src=chunk+'?v=7';
     s.onload=function(){
       _loaded[chunk]=true;
       (_loading[chunk]||[]).forEach(function(f){ try{f();}catch(e){} });
