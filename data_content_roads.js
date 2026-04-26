@@ -320,6 +320,59 @@
 <div style="color:var(--text3);font-size:10px;">JPCP + CRCP + Joints</div></div>
 </div>
 
+
+<h3 style="color:var(--gold);margin:16px 0 8px;">📐 تصميم الرصيف — Flexible Pavement Design (AASHTO + Ashghal)</h3>
+<div style="overflow-x:auto;">
+<table>
+<tr><th>فئة الطريق</th><th>ESAL (مليون)</th><th>Wearing (mm)</th><th>Binder (mm)</th><th>Base (mm)</th><th>Subbase (mm)</th><th>إجمالي (mm)</th></tr>
+<tr><td>Residential (R1)</td><td>&lt; 0.3</td><td>40</td><td>—</td><td>150</td><td>200</td><td>390</td></tr>
+<tr><td>Local (L2)</td><td>0.3 – 1</td><td>40</td><td>50</td><td>200</td><td>200</td><td>490</td></tr>
+<tr><td>Collector (C3)</td><td>1 – 3</td><td>50</td><td>60</td><td>200</td><td>250</td><td>560</td></tr>
+<tr><td>Arterial (A4)</td><td>3 – 10</td><td>50</td><td>70</td><td>250</td><td>300</td><td>670</td></tr>
+<tr><td>Primary Arterial (PA)</td><td>10 – 30</td><td>60</td><td>80</td><td>300</td><td>350</td><td>790</td></tr>
+<tr><td>Expressway (E)</td><td>&gt; 30</td><td>60</td><td>90</td><td>350</td><td>400</td><td>900</td></tr>
+</table>
+</div>
+<p style="font-size:11px;color:var(--text3);margin-top:4px;">* المصدر: Ashghal Road Design Manual + QCS 2024 Section 6 | CBR Subgrade ≥ 5%</p>
+
+<h3 style="color:var(--gold);margin:16px 0 8px;">📊 معاملات الطبقات (Layer Coefficients) — AASHTO 1993</h3>
+<div style="overflow-x:auto;">
+<table>
+<tr><th>المادة</th><th>معامل الطبقة (a)</th><th>المعيار</th><th>ملاحظات</th></tr>
+<tr><td>Dense Graded Asphalt (Wearing)</td><td>0.44</td><td>E = 450,000 psi</td><td>AC 60/70 + QCS 2024</td></tr>
+<tr><td>Dense Graded Asphalt (Binder)</td><td>0.40</td><td>E = 400,000 psi</td><td>Leveling course</td></tr>
+<tr><td>Open Graded Asphalt (Drainage)</td><td>0.35</td><td>—</td><td>للمناطق عالية الأمطار</td></tr>
+<tr><td>Crushed Aggregate Base (CAB)</td><td>0.14</td><td>CBR ≥ 80%</td><td>QCS 2024 Sec 6.2.3</td></tr>
+<tr><td>Crushed Aggregate Subbase</td><td>0.11</td><td>CBR ≥ 25%</td><td>QCS 2024 Sec 6.2.2</td></tr>
+<tr><td>Stabilized Subbase (Cement)</td><td>0.20</td><td>UCS ≥ 1.5 MPa</td><td>بديل في التربة الضعيفة</td></tr>
+</table>
+</div>
+
+<h3 style="color:var(--gold);margin:16px 0 8px;">📉 معايير تصميم الرؤية — Ashghal Design Standards</h3>
+<div style="overflow-x:auto;">
+<table>
+<tr><th>نوع الطريق</th><th>السرعة التصميمية (km/h)</th><th>Stopping Sight Distance (m)</th><th>الحد الأدنى للانحناء الأفقي R (m)</th><th>أقصى ميل (Max Grade %)</th></tr>
+<tr><td>Expressway</td><td>120</td><td>285</td><td>710</td><td>3%</td></tr>
+<tr><td>Primary Arterial</td><td>100</td><td>185</td><td>450</td><td>4%</td></tr>
+<tr><td>Arterial</td><td>80</td><td>110</td><td>230</td><td>5%</td></tr>
+<tr><td>Collector</td><td>60</td><td>65</td><td>130</td><td>6%</td></tr>
+<tr><td>Local</td><td>50</td><td>45</td><td>80</td><td>8%</td></tr>
+<tr><td>Residential</td><td>40</td><td>30</td><td>40</td><td>10%</td></tr>
+</table>
+</div>
+
+<h3 style="color:var(--gold);margin:16px 0 8px;">🔢 قيم CBR مقابل طريقة التعامل مع التربة</h3>
+<div style="overflow-x:auto;">
+<table>
+<tr><th>CBR (%)</th><th>تصنيف التربة</th><th>الإجراء المطلوب</th><th>سماكة إضافية من الـ Subbase</th></tr>
+<tr><td>≥ 10</td><td>ممتازة</td><td>رص عادي</td><td>—</td></tr>
+<tr><td>5 – 10</td><td>جيدة</td><td>رص + فحص MDD</td><td>—</td></tr>
+<tr><td>3 – 5</td><td>ضعيفة</td><td>استبدال أو تثبيت</td><td>+ 150mm</td></tr>
+<tr><td>2 – 3</td><td>ضعيفة جداً</td><td>استبدال ≥ 500mm</td><td>+ 300mm</td></tr>
+<tr><td>&lt; 2</td><td>سيئة (Sabkha)</td><td>إزالة كاملة + Geotextile</td><td>تصميم خاص</td></tr>
+</table>
+</div>
+</div>
 </div>
 ` };
   c["roads_mat_card"] = { title: '🧱 Materials — Bitumen + Aggregates + Geotextile', content: `
@@ -2153,6 +2206,34 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>Field Density</td><td>≥ 98% MDD</td><td>Per 500m²</td><td>ASTM D1556</td><td>W</td></tr>
 <tr><td>CBR (Soaked 4 days)</td><td>≥ 80%</td><td>Per 2000m²</td><td>ASTM D1883</td><td>HP</td></tr>
 <tr><td>Level Survey</td><td>± 8mm from design</td><td>Per 25m</td><td>Total Station</td><td>HP</td></tr></table>
+
+<h3 style="color:var(--gold);margin:16px 0 8px;">📋 ITP كامل — Crushed Aggregate Base (QCS 2024 Sec 6.2.3)</h3>
+<div style="overflow-x:auto;">
+<table>
+<tr><th>النشاط</th><th>المعيار</th><th>التردد</th><th>طريقة الفحص</th><th>نوع النقطة</th></tr>
+<tr><td>موافقة مصدر المواد (Quarry Approval)</td><td>QCS 2024 Table 6.5</td><td>قبل البدء</td><td>مراجعة شهادات المختبر</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
+<tr><td>PSD (Particle Size Distribution)</td><td>Grading A, B, or C</td><td>كل 500 طن</td><td>ASTM C136</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
+<tr><td>Los Angeles Abrasion</td><td>≤ 35%</td><td>كل 2000 طن</td><td>ASTM C131</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
+<tr><td>Flakiness Index</td><td>≤ 35%</td><td>كل 1000 طن</td><td>BS 812</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
+<tr><td>Plasticity Index (PI)</td><td>≤ 6</td><td>كل 500 طن</td><td>ASTM D4318</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
+<tr><td>CBR (Soaked, 4 days)</td><td>≥ 80%</td><td>كل 2000م²</td><td>ASTM D1883</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
+<tr><td>Optimum Moisture Content (OMC)</td><td>Per Proctor</td><td>كل 500 طن</td><td>ASTM D698/D1557</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
+<tr><td>سماكة الطبقة (قبل الدمك)</td><td>Design + 20% للضغط</td><td>كل 50م</td><td>قياس مباشر</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
+<tr><td>Field Density (Nuclear/Sand Cone)</td><td>≥ 98% MDD</td><td>كل 500م²</td><td>ASTM D1556 / D2922</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
+<tr><td>Moisture Content (Field)</td><td>OMC ± 2%</td><td>كل 500م²</td><td>ASTM D3017</td><td style="color:#3498db;font-weight:700;">R</td></tr>
+<tr><td>مستوى السطح (Level Survey)</td><td>± 8mm من التصميم</td><td>كل 25م</td><td>Total Station</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
+<tr><td>استقامة الحافة (Edge Tolerance)</td><td>± 25mm</td><td>كل 100م</td><td>قياس مباشر</td><td style="color:#3498db;font-weight:700;">R</td></tr>
+<tr><td>Plate Bearing Test (LBR/CBR)</td><td>≥ 80% (Soaked)</td><td>كل 5000م²</td><td>ASTM D1196</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
+</table>
+</div>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin:10px 0;">
+<strong style="color:#3498db;">📌 ملاحظات تنفيذية — QCS 2024:</strong><br>
+• الحد الأقصى لسماكة الطبقة الواحدة: <strong>200mm</strong> بعد الدمك<br>
+• الرش بالماء يكون على مراحل خلال عملية الدمك<br>
+• لا يُسمح بالفرش إذا كانت درجة حرارة الجو أقل من <strong>5°C</strong><br>
+• يجب رش طبقة Prime Coat قبل وضع الـ Asphalt مباشرة
+</div>
+</div>
 </div>
 ` };
   c["itp_primecoat"] = { title: '📋 ITP — Prime Coat & Tack Coat', content: `<div class="lang-content-ar"><div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2024 — Part 6 Part 5 Cl.5.4</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>Prime Coat Material</td><td>S.6 P.5 Cl.5.4</td><td>شهادة المصنع + مطابقة المواصفة</td><td>كل دفعة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Certificate</td></tr><tr><td>3.1</td><td>Prime Coat Application Rate</td><td>S.6 P.5</td><td>0.8 - 1.2 L/m²</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Application Record</td></tr><tr><td>3.2</td><td>Tack Coat Rate</td><td>S.6 P.5</td><td>Binder: 0.3-0.5 | Wearing: 0.2-0.4 L/m²</td><td>كل Section</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Application Record</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div></div>
@@ -2647,6 +2728,49 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
 <strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
 All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
+
+<h3 style="color:var(--gold);margin:16px 0 8px;">📋 جدول ITP — خطوات التنفيذ ونقاط الفحص</h3>
+<div style="overflow-x:auto;">
+<table>
+<tr><th>#</th><th>المرحلة / النشاط</th><th>المعيار / المرجع</th><th>التردد</th><th>المسؤول</th><th>نوع الفحص</th></tr>
+<tr><td>1</td><td>مراجعة وموافقة على خلطة الإسفلت (JMF)</td><td>QCS 2024 Sec 6.3.2</td><td>قبل البدء</td><td>QC Manager</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
+<tr><td>2</td><td>فحص وإعداد الطبقة السفلية (Subbase/Base)</td><td>QCS 2024 Sec 6.2</td><td>قبل كل طبقة</td><td>Site Engineer</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
+<tr><td>3</td><td>تسخين الخلاطة + مراقبة درجة الحرارة</td><td>QCS 2024 Sec 6.3.4</td><td>يومي</td><td>QC Inspector</td><td style="color:#3498db;font-weight:700;">R</td></tr>
+<tr><td>4</td><td>نقل ووصول الخلطة للموقع (Delivery Ticket)</td><td>QCS 2024 Sec 6.3.5</td><td>لكل شاحنة</td><td>QC Inspector</td><td style="color:#3498db;font-weight:700;">R</td></tr>
+<tr><td>5</td><td>فحص درجة حرارة الفرش (Lay Temperature)</td><td>155°C–175°C</td><td>كل 30 دقيقة</td><td>QC Inspector</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
+<tr><td>6</td><td>سماكة الطبقة قبل الدمك (Loose Thickness)</td><td>Design ± 5mm</td><td>كل 50م</td><td>Site Engineer</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
+<tr><td>7</td><td>عملية الدمك — عدد المرات + ترتيب الرولة</td><td>QCS 2024 Sec 6.3.6</td><td>مستمر</td><td>QC Inspector</td><td style="color:#3498db;font-weight:700;">R</td></tr>
+<tr><td>8</td><td>فحص كثافة الدمك (Core Density)</td><td>≥ 97% Marshall</td><td>كل 500م²</td><td>Lab Technician</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
+<tr><td>9</td><td>فحص مستوى السطح (Surface Regularity)</td><td>≤ 3mm/3m (4m straight edge)</td><td>كل 100م</td><td>Site Engineer</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
+<tr><td>10</td><td>فحص عرض وارتفاع الطبقة (Survey)</td><td>± 10mm</td><td>كل 25م</td><td>Site Surveyor</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
+<tr><td>11</td><td>معالجة الوصلات الطولية والعرضية</td><td>QCS 2024 Sec 6.3.7</td><td>مستمر</td><td>QC Inspector</td><td style="color:#3498db;font-weight:700;">R</td></tr>
+<tr><td>12</td><td>فحص Core — سماكة + كثافة نهائية</td><td>Design ± 5mm</td><td>كل 500م²</td><td>Lab Technician</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
+<tr><td>13</td><td>فحص المنسوب النهائي وانحراف الكتف</td><td>± 10mm Crossfall ± 0.3%</td><td>كل 25م</td><td>Site Surveyor</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
+<tr><td>14</td><td>Ride Quality — IRI Measurement</td><td>IRI ≤ 2.5 m/km (Ashghal)</td><td>بعد الانتهاء</td><td>QC Manager</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
+<tr><td>15</td><td>Skid Resistance (SCRIM)</td><td>SFC ≥ 0.45</td><td>بعد الانتهاء</td><td>QC Manager</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
+</table>
+</div>
+<div style="background:rgba(201,168,76,0.08);border-radius:8px;padding:10px;margin:10px 0;">
+<strong style="color:var(--gold);">🔑 رموز نقاط الفحص:</strong><br>
+<span style="color:#e74c3c;font-weight:700;">HP = Hold Point</span> — العمل يتوقف حتى موافقة المشرف<br>
+<span style="color:#f39c12;font-weight:700;">W = Witness Point</span> — يُخطر المشرف 24 ساعة مسبقاً<br>
+<span style="color:#3498db;font-weight:700;">R = Review</span> — مراجعة السجلات والوثائق فقط
+</div>
+
+<h3 style="color:var(--gold);margin:16px 0 8px;">🌡️ متطلبات درجات الحرارة — QCS 2024 Table 6.11</h3>
+<div style="overflow-x:auto;">
+<table>
+<tr><th>المرحلة</th><th>نوع الخلطة</th><th>الحد الأدنى (°C)</th><th>الحد الأقصى (°C)</th><th>الإجراء عند الخروج</th></tr>
+<tr><td>المخرج من الخلاطة</td><td>AC 60/70</td><td>150</td><td>175</td><td>رفض الشاحنة</td></tr>
+<tr><td>المخرج من الخلاطة</td><td>PMB (Modified)</td><td>160</td><td>185</td><td>رفض الشاحنة</td></tr>
+<tr><td>عند وصول الموقع</td><td>AC 60/70</td><td>145</td><td>—</td><td>رفض إذا أقل</td></tr>
+<tr><td>عند الفرش (Lay)</td><td>AC 60/70</td><td>135</td><td>—</td><td>رفض إذا أقل</td></tr>
+<tr><td>بداية الدمك</td><td>AC 60/70</td><td>120</td><td>—</td><td>إيقاف الدمك</td></tr>
+<tr><td>نهاية الدمك</td><td>AC 60/70</td><td>80</td><td>—</td><td>لا دمك بعد هذا</td></tr>
+<tr><td>درجة حرارة الجو (الحد الأدنى)</td><td>جميع الخلطات</td><td>10</td><td>—</td><td>إيقاف الأعمال</td></tr>
+</table>
+</div>
+</div>
 </div>
 </div>
 ` };

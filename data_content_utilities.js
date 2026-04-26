@@ -277,6 +277,38 @@
 </div>
 <h3>Hydrostatic Pressure Test — KAHRAMAA</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Specification</th><th>Reference</th><th>Frequency</th></tr><tr><td>Test Pressure</td><td>1.5 × PN (Nominal Pressure)</td><td>KAHRAMAA / BS EN 805</td><td>Per section ≤500m</td></tr><tr><td>Test Duration</td><td>2 hours minimum</td><td>KAHRAMAA</td><td>Per section</td></tr><tr><td>Pass Criterion</td><td>Zero pressure drop in 2 hours</td><td>KAHRAMAA</td><td>Per section</td></tr><tr><td>Max Section Length</td><td>500m per test section</td><td>KAHRAMAA</td><td>—</td></tr><tr><td>Stabilization Time</td><td>30 min before formal recording</td><td>BS EN 805</td><td>Per section</td></tr></table></div><h3>Water Quality Tests</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Test</th><th>Standard</th><th>Reference</th><th>Frequency</th></tr><tr><td>Coliform Bacteria</td><td>0/100mL</td><td>WHO/KAHRAMAA</td><td>Per section</td></tr><tr><td>Turbidity</td><td>≤ 1 NTU</td><td>WHO/KAHRAMAA</td><td>Per section</td></tr><tr><td>pH</td><td>6.5–8.5</td><td>WHO/KAHRAMAA</td><td>Per section</td></tr><tr><td>Residual Chlorine</td><td>0.2–0.5 mg/L</td><td>KAHRAMAA</td><td>Per section</td></tr><tr><td>Chlorination Dose</td><td>≥ 50 mg/L</td><td>KAHRAMAA</td><td>Per section</td></tr><tr><td>Contact Time</td><td>≥ 24 hours</td><td>KAHRAMAA</td><td>Per section</td></tr></table></div><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Documentation</th></tr><tr><td>HP-01</td><td>Backfill ≥ 300mm above pipe confirmed</td><td>Pre-test Inspection Record</td></tr><tr><td>HP-02</td><td>Hydrostatic Test: Zero pressure drop / 2hr</td><td>Pressure Test Certificate</td></tr><tr><td>HP-03</td><td>Chlorination ≥ 50ppm / ≥ 24hr complete</td><td>Chlorination Log</td></tr><tr><td>HP-04</td><td>Water Quality: Coliform=0 + Turbidity≤1NTU</td><td>Lab Water Quality Certificate</td></tr></table></div>
+
+<h3 style="color:var(--gold);margin:16px 0 8px;">🔄 مقارنة مواد الأنابيب — DI vs HDPE vs GRP (QCS 2024 + QGEWC)</h3>
+<div style="overflow-x:auto;">
+<table>
+<tr><th>الخاصية</th><th>Ductile Iron (DI)</th><th>HDPE (PE100)</th><th>GRP (Fiberglass)</th></tr>
+<tr><td>الضغط الاسمي (bar)</td><td>16 – 64</td><td>6 – 25 (PN6–PN25)</td><td>6 – 32 (PN6–PN32)</td></tr>
+<tr><td>القطر المتاح (mm)</td><td>80 – 2000</td><td>20 – 1600</td><td>300 – 3600</td></tr>
+<tr><td>الحماية من التآكل</td><td>تحتاج طلاء خارجي + داخلي</td><td>مقاومة تلقائية ممتازة</td><td>مقاومة ممتازة للأحماض</td></tr>
+<tr><td>العمر الافتراضي (سنة)</td><td>100+</td><td>50+</td><td>50+</td></tr>
+<tr><td>الوزن النسبي</td><td>ثقيل جداً</td><td>خفيف جداً</td><td>خفيف–متوسط</td></tr>
+<tr><td>طريقة الوصل</td><td>Push-fit / Flanged / Mechanical</td><td>Butt Fusion / Electrofusion</td><td>GRP Coupling / Flanged</td></tr>
+<tr><td>الاستخدام الرئيسي في قطر</td><td>شبكات المياه الرئيسية &gt;300mm</td><td>اتصالات المنازل + الري</td><td>خطوط الضخ الكبيرة &gt;600mm</td></tr>
+<tr><td>معامل Hazen-Williams C</td><td>140 (مبطن Cement)</td><td>150</td><td>150</td></tr>
+<tr><td>درجة حرارة التشغيل (°C)</td><td>-20 إلى +70</td><td>-40 إلى +60</td><td>-30 إلى +65</td></tr>
+<tr><td>متطلبات QCS 2024</td><td>ISO 2531 / BS EN 545</td><td>ISO 4427 / BS EN 12201</td><td>AWWA C950 / ISO 10467</td></tr>
+<tr><td>اعتماد QGEWC</td><td>✅ مطلوب للتوزيع الرئيسي</td><td>✅ مطلوب للتوصيل المنزلي</td><td>✅ للخطوط الكبيرة</td></tr>
+<tr><td>اختبار الضغط الميداني</td><td>1.5× الضغط الاسمي</td><td>1.5× الضغط الاسمي</td><td>1.5× الضغط الاسمي</td></tr>
+</table>
+</div>
+
+<h3 style="color:var(--gold);margin:16px 0 8px;">📌 معايير اختيار المادة حسب الاستخدام — QGEWC Guidelines</h3>
+<div style="overflow-x:auto;">
+<table>
+<tr><th>نوع الشبكة</th><th>القطر</th><th>المادة المفضلة</th><th>البديل</th></tr>
+<tr><td>خط توزيع رئيسي (Transmission Main)</td><td>&gt; 600mm</td><td>GRP / DI</td><td>Steel (Lined)</td></tr>
+<tr><td>شبكة توزيع (Distribution Main)</td><td>100–600mm</td><td>DI (Class K9)</td><td>HDPE PN16</td></tr>
+<tr><td>توصيلات المنازل (Service Connection)</td><td>20–100mm</td><td>HDPE PE100</td><td>DI</td></tr>
+<tr><td>شبكة الري (Irrigation)</td><td>أي قطر</td><td>HDPE PE80/PE100</td><td>uPVC</td></tr>
+<tr><td>خطوط المياه المعالجة (TSE)</td><td>&gt; 300mm</td><td>GRP</td><td>HDPE</td></tr>
+</table>
+</div>
+</div>
 </div>
 ` };
   c["ws_excavation"] = { title: '⛏️ مياه الشرب — الحفر والبيدنج', content: `
@@ -784,6 +816,37 @@ All numerical values, specifications and test methods shown in Arabic are source
 <tr><td>Air Test</td><td>100mm WG / 5min / drop ≤ 25mm</td><td>Per section</td><td>BS EN 1610</td><td>HP</td></tr>
 <tr><td>CCTV Survey</td><td>100% — Grade ≤ 2</td><td>100%</td><td>WRc</td><td>HP</td></tr>
 <tr><td>Manhole Level</td><td>Cover ± 5mm from road</td><td>100%</td><td>Survey</td><td>W</td></tr></table>
+
+<h3 style="color:var(--gold);margin:16px 0 8px;">📋 ITP كامل — شبكة مياه الشرب (QCS 2024 + QGEWC)</h3>
+<div style="overflow-x:auto;">
+<table>
+<tr><th>#</th><th>النشاط / الفحص</th><th>المعيار</th><th>التردد</th><th>طريقة الفحص</th><th>النقطة</th></tr>
+<tr><td>1</td><td>موافقة مصدر الأنابيب (Material Approval)</td><td>ISO 2531 / ISO 4427 / ISO 10467</td><td>قبل التوريد</td><td>شهادات المصنع + Third Party</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
+<tr><td>2</td><td>فحص الأنابيب عند التسليم (Delivery Inspection)</td><td>QCS 2024 Sec 9.2</td><td>كل دفعة</td><td>فحص بصري + قياس</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
+<tr><td>3</td><td>قياس ومحاذاة الحفر (Trench Dimensions)</td><td>Width = OD + 600mm min</td><td>كل 50م</td><td>قياس مباشر</td><td style="color:#3498db;font-weight:700;">R</td></tr>
+<tr><td>4</td><td>فرش طبقة الرمل (Bedding Layer)</td><td>100mm Sand (Clean) ASTM C33</td><td>كل 100م</td><td>قياس + فحص مواد</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
+<tr><td>5</td><td>فحص استواء قاع الحفر (Trench Bottom Level)</td><td>± 10mm من التصميم</td><td>كل 25م</td><td>Total Station</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
+<tr><td>6</td><td>موافقة قبل وضع الأنابيب (Pre-Pipe Laying)</td><td>Trench inspected + approved</td><td>قبل كل مرحلة</td><td>مراجعة الموقع</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
+<tr><td>7</td><td>تركيب الأنابيب (Pipe Laying)</td><td>QCS 2024 Sec 9.3 + Manufacturer</td><td>مستمر</td><td>فحص بصري + محاذاة</td><td style="color:#3498db;font-weight:700;">R</td></tr>
+<tr><td>8</td><td>فحص الوصلات (Joint Inspection)</td><td>لا تسرب + Deflection ≤ 3°</td><td>100% وصلة</td><td>فحص بصري + قياس</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
+<tr><td>9</td><td>ردم جانبي أولي (Initial Backfill)</td><td>Sand 150mm فوق قمة الأنبوب</td><td>كل 100م</td><td>قياس مباشر</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
+<tr><td>10</td><td>اختبار الضغط الهيدروستاتيكي (Hydrostatic Pressure Test)</td><td>1.5× PN للمدة 2 ساعة</td><td>كل 500م</td><td>Pressure Gauge + Chart Recorder</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
+<tr><td>11</td><td>الردم النهائي + الدمك (Final Backfill)</td><td>≥ 95% MDD per 300mm layer</td><td>كل 500م²</td><td>Nuclear Density Gauge</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
+<tr><td>12</td><td>المسح المساحي النهائي (As-Built Survey)</td><td>± 50mm Plan, ± 25mm Level</td><td>100%</td><td>Total Station / GPS</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
+<tr><td>13</td><td>التعقيم (Chlorination)</td><td>≥ 50 ppm / ≥ 24 ساعة</td><td>كل قطاع</td><td>Chlorine Test Kit</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
+<tr><td>14</td><td>جودة المياه النهائية (Water Quality Test)</td><td>Coliform = 0 / Turbidity ≤ 1 NTU</td><td>كل قطاع</td><td>شهادة مختبر معتمد</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
+<tr><td>15</td><td>فحص التوصيل الكهروكيميائي (CP System)</td><td>-850 mV vs CSE (إن وجد)</td><td>بعد الإنجاز</td><td>Pipe Potential Survey</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
+</table>
+</div>
+<div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:10px;margin:8px 0;">
+<strong style="color:#2ecc71;">✅ وثائق التسليم المطلوبة (Handover Documents):</strong><br>
+• شهادات ضغط لكل قطاع (Hydrostatic Test Certificates)<br>
+• تقارير التعقيم + نتائج جودة المياه من مختبر معتمد QGEWC<br>
+• رسومات As-Built معتمدة (CAD + PDF)<br>
+• شهادات مواد المصنع (Mill Certificates) + Third Party Test Reports<br>
+• سجل فحص الوصلات (Joint Inspection Register)
+</div>
+</div>
 </div>
 ` };
   c["itp_treated"] = { title: '📋 ITP — شبكة المياه المعالجة | Treated Water', content: `<div class="lang-content-ar">
@@ -1383,6 +1446,47 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 <h3>Air Test — BS EN 1610</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Specification</th><th>Reference</th><th>Frequency</th></tr><tr><td>Test Pressure</td><td>100 mm WG (Water Gauge)</td><td>BS EN 1610</td><td>Per section ≤500m</td></tr><tr><td>Test Duration</td><td>5 minutes</td><td>BS EN 1610</td><td>Per section</td></tr><tr><td>Pass Criterion</td><td>Pressure drop ≤ 25mm WG in 5 minutes</td><td>BS EN 1610</td><td>Per section</td></tr><tr><td>Max Section Length</td><td>500m per test</td><td>Ashghal</td><td>—</td></tr></table></div><h3>CCTV Survey</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Specification</th><th>Reference</th><th>Frequency</th></tr><tr><td>Coverage</td><td>100% of all pipes</td><td>Ashghal</td><td>After backfill</td></tr><tr><td>Acceptable Grade</td><td>Grade 1 or Grade 2 only</td><td>WRc</td><td>Per pipe</td></tr><tr><td>Grade 4 or 5</td><td>Reject + mandatory redo</td><td>WRc</td><td>Per finding</td></tr><tr><td>Report</td><td>Video + Written Report + Defect Code</td><td>Ashghal</td><td>Per section</td></tr><tr><td>Timing</td><td>After backfill, before handover</td><td>Ashghal</td><td>100%</td></tr></table></div><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Documentation</th></tr><tr><td>HP-01</td><td>Air Test: ≤25mm WG drop / 5min</td><td>Air Test Certificate</td></tr><tr><td>HP-02</td><td>CCTV 100% Grade ≤ 2 complete</td><td>CCTV Report + Video</td></tr><tr><td>HP-03</td><td>Manhole Levels ±5mm</td><td>Survey Certificate</td></tr></table></div>
+
+<h3 style="color:var(--gold);margin:16px 0 8px;">📷 جدول درجات العيوب — CCTV Survey (WRc Manual / QCS 2024)</h3>
+<div style="overflow-x:auto;">
+<table>
+<tr><th>Grade</th><th>وصف العيب</th><th>كود WRc</th><th>الإجراء المطلوب</th><th>الأولوية</th></tr>
+<tr><td style="color:#2ecc71;font-weight:700;">0</td><td>لا يوجد عيب — ممتاز</td><td>—</td><td>لا شيء</td><td>—</td></tr>
+<tr><td style="color:#3498db;font-weight:700;">1</td><td>عيوب طفيفة — خدوش سطحية</td><td>BAC / BCC</td><td>مراقبة فقط</td><td>منخفضة</td></tr>
+<tr><td style="color:#f39c12;font-weight:700;">2</td><td>عيوب متوسطة — شقوق بدون تشوه</td><td>BAD / BCE</td><td>إدراج في قائمة الصيانة</td><td>متوسطة</td></tr>
+<tr><td style="color:#e67e22;font-weight:700;">3</td><td>عيوب خطيرة — تشوه أو تسرب</td><td>BAE / BCS</td><td>إصلاح خلال 6 أشهر</td><td>عالية</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">4</td><td>فشل هيكلي — انهيار جزئي</td><td>BAF / BCX</td><td>إصلاح فوري</td><td>عاجل</td></tr>
+<tr><td style="color:#8e44ad;font-weight:700;">5</td><td>انهيار كامل</td><td>BAX</td><td>استبدال فوري</td><td>طارئ</td></tr>
+</table>
+</div>
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:8px 0;">
+<strong style="color:#e74c3c;">⚠️ شرط القبول (QCS 2024 + Ashghal):</strong><br>
+• Grade ≤ 2 للقبول النهائي — أي Grade 3+ يستلزم إعادة العمل<br>
+• يجب تصوير <strong>100%</strong> من طول الشبكة بعد الإنشاء<br>
+• تسليم تقرير CCTV + DVD/USB مع الطرود النهائية للمشروع
+</div>
+
+<h3 style="color:var(--gold);margin:16px 0 8px;">💨 متطلبات اختبار الهواء — Air Test (QCS 2024 Sec 9.4.3)</h3>
+<div style="overflow-x:auto;">
+<table>
+<tr><th>قطر الأنبوب (mm)</th><th>ضغط البداية (mbar)</th><th>ضغط الاختبار (mbar)</th><th>الحد المسموح بالسقوط</th><th>مدة الاختبار (دقيقة)</th></tr>
+<tr><td>100 – 150</td><td>100</td><td>75</td><td>≤ 25 mbar</td><td>5</td></tr>
+<tr><td>200 – 250</td><td>100</td><td>75</td><td>≤ 25 mbar</td><td>5</td></tr>
+<tr><td>300 – 375</td><td>100</td><td>75</td><td>≤ 25 mbar</td><td>7.5</td></tr>
+<tr><td>400 – 450</td><td>100</td><td>75</td><td>≤ 25 mbar</td><td>10</td></tr>
+<tr><td>500 – 600</td><td>100</td><td>75</td><td>≤ 25 mbar</td><td>12.5</td></tr>
+<tr><td>&gt; 600 (Water Test)</td><td>—</td><td>1.0 bar ماء</td><td>≤ 0.1 bar / 30 min</td><td>30</td></tr>
+</table>
+</div>
+<div style="background:rgba(201,168,76,0.08);border-radius:8px;padding:10px;margin:8px 0;">
+<strong style="color:var(--gold);">📋 خطوات اختبار الهواء:</strong><br>
+1. تسكير فتحتي الأنبوب بالبالون أو الكمبشة<br>
+2. ضخ هواء حتى 100 mbar والانتظار دقيقتين للاستقرار<br>
+3. خفض الضغط إلى 75 mbar وبدء توقيت الاختبار<br>
+4. قراءة الضغط بعد المدة المحددة — القبول: ≥ 50 mbar (أي لم يسقط أكثر من 25 mbar)<br>
+5. إذا فشل: فحص الوصلات بالرغوة + CCTV لتحديد موقع التسرب
+</div>
+</div>
 </div>
 ` };
   c["sewer_stages"] = { title: '🚽 شبكة Foul Sewer', content: `
