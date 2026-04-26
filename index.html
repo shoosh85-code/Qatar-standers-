@@ -2927,6 +2927,7 @@ const parseRows = function(id){const el=document.getElementById(id);if(!el||!el.
 let rows = [
 ['\uFEFFQatarSpec Pro — Daily Construction Report','','','',''],
 ['المشروع:',gv('dpr-proj'),'التاريخ:',gv('dpr-date'),'الطقس:'+gv('dpr-weather','')],
+['المقاول:',gv('dpr-contractor','—'),'الموقع:',gv('dpr-loc','—'),'مراقب الموقع:'+gv('dpr-sc','')],
 ['','','','',''],
 ['=== العمالة ===','','','',''],
 ['الوصف','العدد','الساعات','الإجمالي','']
@@ -2943,6 +2944,90 @@ ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:4}}];
 const wb=X.utils.book_new();X.utils.book_append_sheet(wb,ws,'Daily Report');
 X.writeFile(wb,'DPR-'+gv('dpr-date',Date.now())+'.xlsx');
 showToast('✅ تم تصدير التقرير اليومي');
+}
+
+// ===== COPY TEXT FUNCTIONS =====
+function copyRFIText(){
+  var lines=[
+    '📋 Request for Inspection — RFI',
+    '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+    'رقم RFI: '+gv('rfi-num')+'  |  المشروع: '+gv('rfi-proj'),
+    'المقاول: '+gv('rfi-contractor')+'  |  العقد: '+gv('rfi-contract'),
+    'Submitted By: '+gv('rfi-from')+'  →  To: '+gv('rfi-to'),
+    'تاريخ الإرسال: '+gv('rfi-date')+'  |  Required By: '+gv('rfi-reqby'),
+    '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+    '📍 الموقع: '+gv('rfi-loc')+'  |  Chainage: '+gv('rfi-ch'),
+    'Grid QNG: '+gv('rfi-grid')+'  |  Layer: '+gv('rfi-layer'),
+    'QCS Clause: '+gv('rfi-clause')+'  |  Drawing: '+gv('rfi-dwg'),
+    '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+    'النشاط: '+gv('rfi-activity')+'  |  نوع النقطة: '+gv('rfi-point'),
+    'الموضوع: '+gv('rfi-subject'),
+    'نتائج الاختبارات: '+gv('rfi-results'),
+    'المرفقات: '+gv('rfi-attach'),
+    '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+    'رد SC: '+gv('rfi-response')+'  |  Status: '+gv('rfi-status'),
+    '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+    'QatarSpec Pro | qatar-standers.vercel.app'
+  ];
+  var txt=lines.join('\n');
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){showToast('✅ تم نسخ RFI — الصقه في واتساب أو بريد إلكتروني');});
+  } else {
+    var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showToast('✅ تم النسخ');
+  }
+}
+
+function copyNCRText(){
+  var lines=[
+    '⚠️ Non-Conformance Report — NCR',
+    '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+    'رقم NCR: '+gv('ncr-num')+'  |  المشروع: '+gv('ncr-proj'),
+    'المقاول: '+gv('ncr-contractor')+'  |  العقد: '+gv('ncr-contract'),
+    'تاريخ الاكتشاف: '+gv('ncr-date')+'  |  تاريخ الإغلاق: '+gv('ncr-target'),
+    'التصنيف: '+gv('ncr-class')+'  |  المصدر: '+gv('ncr-source'),
+    '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+    'الموقع: '+gv('ncr-loc')+'  |  QCS Clause: '+gv('ncr-clause'),
+    'Drawing: '+gv('ncr-dwg'),
+    '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+    'وصف عدم المطابقة:\n'+gv('ncr-desc'),
+    'السبب الجذري:\n'+gv('ncr-root'),
+    'الإجراء التصحيحي:\n'+gv('ncr-corrective'),
+    'الإجراء الوقائي:\n'+gv('ncr-preventive'),
+    '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+    'نتيجة إعادة الاختبار: '+gv('ncr-retest'),
+    'حالة الإغلاق: '+gv('ncr-status'),
+    '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+    'QatarSpec Pro | qatar-standers.vercel.app'
+  ];
+  var txt=lines.join('\n');
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){showToast('✅ تم نسخ NCR — الصقه في واتساب أو بريد إلكتروني');});
+  } else {
+    var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showToast('✅ تم النسخ');
+  }
+}
+
+function copyDPRText(){
+  var lines=[
+    '📊 Daily Progress Report — DPR',
+    '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+    'المشروع: '+gv('dpr-proj')+'  |  التاريخ: '+gv('dpr-date'),
+    'المقاول: '+gv('dpr-contractor','—')+'  |  الموقع: '+gv('dpr-loc','—'),
+    'مراقب الموقع: '+gv('dpr-sc','—')+'  |  الطقس: '+gv('dpr-weather',''),
+    '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+    '👷 العمالة:\n'+gv('dpr-manpower'),
+    '━━━━━━━━━━━\n🚜 المعدات:\n'+gv('dpr-equipment'),
+    '━━━━━━━━━━━\n📈 الإنجاز:\n'+gv('dpr-progress'),
+    '━━━━━━━━━━━\n⚠️ مشاكل:\n'+gv('dpr-issues'),
+    '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+    'QatarSpec Pro | qatar-standers.vercel.app'
+  ];
+  var txt=lines.join('\n');
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){showToast('✅ تم نسخ DPR — الصقه في واتساب أو بريد إلكتروني');});
+  } else {
+    var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showToast('✅ تم النسخ');
+  }
 }
 
 // ===== ESAL CALCULATOR =====

@@ -133,5 +133,6 @@ window.QS_CONTENT_MAP = {
   "soil_grading_calc": "data_content_extra.js",
   "pipe_sizing_calc": "data_content_extra.js",
   "road_layers_calc": "data_content_extra.js",
-  "exec_asphalt_paving": "data_content_roads.js"
+  "exec_asphalt_paving": "data_content_roads.js",
+  "daily_report": "data_content_extra.js"
 };

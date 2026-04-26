@@ -913,6 +913,7 @@ c["ashghal_forms"] = {
 </div>
 <div style="display:flex;gap:8px;flex-wrap:wrap">
   <button onclick="exportRFIExcel()" style="background:linear-gradient(135deg,#2ecc71,#27ae60);border:none;border-radius:8px;padding:8px 16px;color:#fff;font-family:Tajawal;font-weight:700;cursor:pointer;font-size:12px">📥 تصدير Excel</button>
+  <button onclick="copyRFIText()" style="background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);border-radius:8px;padding:8px 16px;color:var(--gold);font-family:Tajawal;cursor:pointer;font-size:12px">📋 نسخ نص</button>
   <button onclick="printCurrentDetail()" style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px 16px;color:var(--text2);font-family:Tajawal;cursor:pointer;font-size:12px">🖨️ طباعة</button>
 </div>
 </div>
@@ -971,6 +972,7 @@ c["ashghal_forms"] = {
 </div>
 <div style="display:flex;gap:8px;flex-wrap:wrap">
   <button onclick="exportNCRExcel()" style="background:linear-gradient(135deg,#e74c3c,#c0392b);border:none;border-radius:8px;padding:8px 16px;color:#fff;font-family:Tajawal;font-weight:700;cursor:pointer;font-size:12px">📥 تصدير NCR Excel</button>
+  <button onclick="copyNCRText()" style="background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.3);border-radius:8px;padding:8px 16px;color:#e74c3c;font-family:Tajawal;cursor:pointer;font-size:12px">📋 نسخ نص</button>
   <button onclick="printCurrentDetail()" style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px 16px;color:var(--text2);font-family:Tajawal;cursor:pointer;font-size:12px">🖨️ طباعة</button>
 </div>
 </div>
@@ -982,6 +984,9 @@ c["ashghal_forms"] = {
   <div><label style="font-size:10px;color:var(--text3)">المشروع</label><input id="dpr-proj" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="Project Name"></div>
   <div><label style="font-size:10px;color:var(--text3)">التاريخ</label><input id="dpr-date" type="date" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px"></div>
   <div><label style="font-size:10px;color:var(--text3)">الطقس</label><select id="dpr-weather" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px"><option>☀️ صافي</option><option>🌤️ غائم جزئياً</option><option>☁️ غائم</option><option>🌧️ ممطر</option><option>🌪️ عاصفة رملية</option></select></div>
+  <div><label style="font-size:10px;color:var(--text3)">المقاول <span style="color:#e74c3c">*</span></label><input id="dpr-contractor" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="Contractor Name / اسم المقاول"></div>
+  <div><label style="font-size:10px;color:var(--text3)">الموقع / Location <span style="color:#e74c3c">*</span></label><input id="dpr-loc" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="Zone 3, Road A, CH 0+300"></div>
+  <div><label style="font-size:10px;color:var(--text3)">مراقب الموقع / SC</label><input id="dpr-sc" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="Site Consultant Name"></div>
 </div>
 <div style="margin-bottom:10px"><label style="font-size:10px;color:var(--text3)">👷 العمالة (وصف | عدد | ساعات — سطر لكل فئة)</label><textarea id="dpr-manpower" style="width:100%;min-height:70px;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="عمال فرش إسفلت | 12 | 8&#10;مشغلي معدات | 4 | 10&#10;مساحين | 2 | 8"></textarea></div>
 <div style="margin-bottom:10px"><label style="font-size:10px;color:var(--text3)">🚜 المعدات (المعدة | العدد | ساعات)</label><textarea id="dpr-equipment" style="width:100%;min-height:70px;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="Roller 12T | 2 | 8&#10;Paver VOGELE | 1 | 6&#10;Backhoe CAT 420 | 1 | 10"></textarea></div>
@@ -989,6 +994,7 @@ c["ashghal_forms"] = {
 <div style="margin-bottom:12px"><label style="font-size:10px;color:var(--text3)">⚠️ مشاكل وملاحظات</label><textarea id="dpr-issues" style="width:100%;min-height:50px;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="Roller breakdown 2hrs | Rain delay 1hr | Material shortage"></textarea></div>
 <div style="display:flex;gap:8px;flex-wrap:wrap">
   <button onclick="exportDPRExcel()" style="background:linear-gradient(135deg,#3498db,#2980b9);border:none;border-radius:8px;padding:8px 16px;color:#fff;font-family:Tajawal;font-weight:700;cursor:pointer;font-size:12px">📥 تصدير DPR Excel</button>
+  <button onclick="copyDPRText()" style="background:rgba(52,152,219,.1);border:1px solid rgba(52,152,219,.3);border-radius:8px;padding:8px 16px;color:#3498db;font-family:Tajawal;cursor:pointer;font-size:12px">📋 نسخ نص</button>
   <button onclick="printCurrentDetail()" style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px 16px;color:var(--text2);font-family:Tajawal;cursor:pointer;font-size:12px">🖨️ طباعة</button>
 </div>
 </div>
@@ -2979,6 +2985,143 @@ window.calcRoadLayers = function(){
     +'<strong>ESAL:</strong> '+esal+'×10⁶ | '
     +'<strong>المرجع:</strong> QCS S6 P5 + Ashghal RDM 2023'
     +'</div></div>';
+};
+</script>
+`
+};
+
+// ═══════════════════════════════════════════════════════════════
+// Phase 6 — Daily Report (Standalone Section)
+// ═══════════════════════════════════════════════════════════════
+c["daily_report"] = {
+  title: '📅 التقرير اليومي — Daily Site Report',
+  content: `
+<div class="qcs-ref-badge">QCS 2024 | Ashghal Construction Management — Daily Reporting</div>
+<p style="font-size:12px;color:var(--text2);margin-bottom:14px">سجّل التقرير اليومي الكامل للموقع: عمالة، معدات، أعمال، مناخ، مشاكل — ثم صدّره نصاً أو Excel</p>
+
+<!-- Header Fields -->
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">
+  <div><label style="font-size:10px;color:var(--text3)">المشروع <span style="color:#e74c3c">*</span></label><input id="dr-proj" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="Project Name"></div>
+  <div><label style="font-size:10px;color:var(--text3)">التاريخ <span style="color:#e74c3c">*</span></label><input id="dr-date" type="date" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px"></div>
+  <div><label style="font-size:10px;color:var(--text3)">رقم التقرير</label><input id="dr-num" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="DR-2024-001"></div>
+  <div><label style="font-size:10px;color:var(--text3)">المقاول <span style="color:#e74c3c">*</span></label><input id="dr-contractor" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="Contractor Name"></div>
+  <div><label style="font-size:10px;color:var(--text3)">الموقع / Location <span style="color:#e74c3c">*</span></label><input id="dr-loc" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="Zone 3, Road A, CH 0+300"></div>
+  <div><label style="font-size:10px;color:var(--text3)">الطقس</label><select id="dr-weather" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px"><option>☀️ صافي — Clear</option><option>🌤️ غائم جزئياً</option><option>☁️ غائم كلياً</option><option>🌧️ ممطر</option><option>🌪️ عاصفة رملية</option><option>🌡️ حر شديد >45°C</option></select></div>
+</div>
+
+<!-- Temperature & Wind -->
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:10px">
+  <div><label style="font-size:10px;color:var(--text3)">درجة الحرارة °C</label><input id="dr-temp" type="number" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="42"></div>
+  <div><label style="font-size:10px;color:var(--text3)">الرطوبة %</label><input id="dr-humidity" type="number" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="35"></div>
+  <div><label style="font-size:10px;color:var(--text3)">الرياح km/h</label><input id="dr-wind" type="number" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="15"></div>
+  <div><label style="font-size:10px;color:var(--text3)">مراقب الموقع</label><input id="dr-sc" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="SC Engineer Name"></div>
+</div>
+
+<!-- Manpower -->
+<div style="margin-bottom:10px">
+  <label style="font-size:10px;color:var(--text3)">👷 العمالة — Manpower (وصف | عدد | ساعات — سطر لكل فئة)</label>
+  <textarea id="dr-manpower" style="width:100%;min-height:70px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="عمال فرش إسفلت | 12 | 8&#10;مشغلي معدات | 4 | 10&#10;مساحين | 2 | 8&#10;مشرف QC | 1 | 10"></textarea>
+</div>
+
+<!-- Equipment -->
+<div style="margin-bottom:10px">
+  <label style="font-size:10px;color:var(--text3)">🚜 المعدات — Equipment (المعدة | العدد | ساعات التشغيل)</label>
+  <textarea id="dr-equipment" style="width:100%;min-height:70px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="Roller 12T | 2 | 8&#10;Paver VOGELE | 1 | 6&#10;Backhoe CAT 420 | 1 | 10&#10;Tipper Truck | 6 | 8"></textarea>
+</div>
+
+<!-- Works Done -->
+<div style="margin-bottom:10px">
+  <label style="font-size:10px;color:var(--text3)">📈 الأعمال المُنجزة — Works Completed (النشاط | الكمية | الوحدة | %)</label>
+  <textarea id="dr-works" style="width:100%;min-height:70px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="WC Laying | 1200 | m² | 85%&#10;Subbase Compaction | 800 | m² | 60%&#10;Pipe Laying 400mm | 45 | m | 40%"></textarea>
+</div>
+
+<!-- Materials Delivered -->
+<div style="margin-bottom:10px">
+  <label style="font-size:10px;color:var(--text3)">📦 المواد المُسلَّمة — Materials Delivered (المادة | الكمية | الوحدة)</label>
+  <textarea id="dr-materials" style="width:100%;min-height:50px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="Asphalt WC | 45 | Ton&#10;Aggregate 20mm | 80 | Ton&#10;HDPE Pipe 400mm | 12 | m"></textarea>
+</div>
+
+<!-- Issues & Remarks -->
+<div style="margin-bottom:12px">
+  <label style="font-size:10px;color:var(--text3)">⚠️ مشاكل وملاحظات — Issues & Remarks</label>
+  <textarea id="dr-issues" style="width:100%;min-height:60px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px;resize:vertical" placeholder="Roller breakdown 2hrs — sent for repair&#10;Rain delay 1hr at 14:00&#10;Material shortage: asphalt — ordered for tomorrow"></textarea>
+</div>
+
+<!-- RFIs / NCRs raised today -->
+<div style="margin-bottom:12px">
+  <label style="font-size:10px;color:var(--text3)">📋 RFIs / NCRs اليوم</label>
+  <input id="dr-rfis" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="RFI-2024-012 فُتح | NCR-2024-005 أُغلق">
+</div>
+
+<!-- Export Buttons -->
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+  <button onclick="exportDailyReportExcel()" style="background:linear-gradient(135deg,#27ae60,#2ecc71);border:none;border-radius:8px;padding:10px 18px;color:#fff;font-family:Tajawal;font-weight:700;cursor:pointer;font-size:13px">📥 تصدير Excel</button>
+  <button onclick="copyDailyReportText()" style="background:rgba(46,204,113,.1);border:1px solid rgba(46,204,113,.3);border-radius:8px;padding:10px 18px;color:#2ecc71;font-family:Tajawal;font-weight:700;cursor:pointer;font-size:13px">📋 نسخ نص</button>
+  <button onclick="clearDailyReport()" style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text2);font-family:Tajawal;cursor:pointer;font-size:12px">🔄 تفريغ</button>
+  <button onclick="printCurrentDetail()" style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text2);font-family:Tajawal;cursor:pointer;font-size:12px">🖨️ طباعة</button>
+</div>
+
+<script>
+window.exportDailyReportExcel = async function(){
+  try{var X=await loadXLSX()}catch(e){showToast('❌ يحتاج إنترنت');return;}
+  var gv2=function(id,fb){var el=document.getElementById(id);return el&&el.value?el.value:(fb||'');};
+  var parseRows=function(id){var el=document.getElementById(id);if(!el||!el.value)return[];return el.value.split('\\n').filter(function(l){return l.trim();}).map(function(l){return l.split('|').map(function(c){return c.trim();});});};
+  var rows=[
+    ['\\uFEFFQatarSpec Pro — Daily Site Report','','','',''],
+    ['المشروع:',gv2('dr-proj'),'التاريخ:',gv2('dr-date'),'رقم التقرير:'+gv2('dr-num','')],
+    ['المقاول:',gv2('dr-contractor'),'الموقع:',gv2('dr-loc'),''],
+    ['الطقس:',gv2('dr-weather'),'الحرارة:',gv2('dr-temp')+'°C','الرطوبة:'+gv2('dr-humidity')+'%'],
+    ['مراقب الموقع:',gv2('dr-sc'),'','',''],
+    ['','','','',''],
+    ['=== العمالة ===','','','',''],
+    ['الوصف','العدد','الساعات','الإجمالي','']
+  ];
+  var totalWorkers=0;
+  parseRows('dr-manpower').forEach(function(r){var cnt=parseInt(r[1])||0;var hrs=parseInt(r[2])||8;totalWorkers+=cnt;rows.push([r[0]||'',cnt,hrs,cnt*hrs,'']);});
+  rows.push(['الإجمالي','','',totalWorkers,'']);
+  rows.push(['','','','',''],['=== المعدات ===','','','',''],['المعدة','العدد','ساعات','','']);
+  parseRows('dr-equipment').forEach(function(r){rows.push([r[0]||'',r[1]||'',r[2]||'','','']);});
+  rows.push(['','','','',''],['=== الأعمال المُنجزة ===','','','',''],['النشاط','الكمية','الوحدة','النسبة','']);
+  parseRows('dr-works').forEach(function(r){rows.push([r[0]||'',r[1]||'',r[2]||'',r[3]||'','']);});
+  rows.push(['','','','',''],['=== المواد ===','','','',''],['المادة','الكمية','الوحدة','','']);
+  parseRows('dr-materials').forEach(function(r){rows.push([r[0]||'',r[1]||'',r[2]||'','','']);});
+  rows.push(['','','','',''],['ملاحظات:',gv2('dr-issues'),'','',''],['RFIs/NCRs:',gv2('dr-rfis'),'','','']);
+  var ws=X.utils.aoa_to_sheet(rows);
+  ws['!cols']=[{wch:28},{wch:16},{wch:14},{wch:14},{wch:24}];
+  ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:4}}];
+  var wb=X.utils.book_new();X.utils.book_append_sheet(wb,ws,'Daily Report');
+  X.writeFile(wb,'DailyReport-'+gv2('dr-date',Date.now())+'.xlsx');
+  showToast('✅ تم تصدير التقرير اليومي');
+};
+
+window.copyDailyReportText = function(){
+  var gv2=function(id,fb){var el=document.getElementById(id);return el&&el.value?el.value:(fb||'');};
+  var txt='📅 التقرير اليومي — Daily Site Report\\n';
+  txt+='━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\n';
+  txt+='المشروع: '+gv2('dr-proj')+' | التاريخ: '+gv2('dr-date')+' | رقم: '+gv2('dr-num')+'\\n';
+  txt+='المقاول: '+gv2('dr-contractor')+'\\n';
+  txt+='الموقع: '+gv2('dr-loc')+'\\n';
+  txt+='الطقس: '+gv2('dr-weather')+' | الحرارة: '+gv2('dr-temp')+'°C | الرطوبة: '+gv2('dr-humidity')+'%\\n';
+  txt+='مراقب الموقع: '+gv2('dr-sc')+'\\n';
+  txt+='━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\n';
+  txt+='👷 العمالة:\\n'+gv2('dr-manpower')+'\\n';
+  txt+='━━━━━━━━━━━\\n🚜 المعدات:\\n'+gv2('dr-equipment')+'\\n';
+  txt+='━━━━━━━━━━━\\n📈 الأعمال المُنجزة:\\n'+gv2('dr-works')+'\\n';
+  txt+='━━━━━━━━━━━\\n📦 المواد:\\n'+gv2('dr-materials')+'\\n';
+  txt+='━━━━━━━━━━━\\n⚠️ ملاحظات:\\n'+gv2('dr-issues')+'\\n';
+  if(gv2('dr-rfis')) txt+='📋 RFIs/NCRs: '+gv2('dr-rfis')+'\\n';
+  txt+='━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\nQatarSpec Pro | qatar-standers.vercel.app';
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){showToast('✅ تم نسخ التقرير — الصقه في واتساب أو بريد');});
+  } else {
+    var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+    showToast('✅ تم النسخ');
+  }
+};
+
+window.clearDailyReport = function(){
+  ['dr-proj','dr-date','dr-num','dr-contractor','dr-loc','dr-temp','dr-humidity','dr-wind','dr-sc','dr-manpower','dr-equipment','dr-works','dr-materials','dr-issues','dr-rfis'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  showToast('🔄 تم تفريغ النموذج');
 };
 </script>
 `
