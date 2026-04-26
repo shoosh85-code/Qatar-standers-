@@ -1086,171 +1086,457 @@ c["ashghal_forms"] = {
 c["drawing_analyzer"] = {
   title: '📐 محلل المخططات الذكي — Drawing Analyzer',
   content: `
-<div class="qcs-ref-badge">QCS 2024 — تحليل ذكي متخصص في المخططات الإنشائية</div>
-
-<!-- نوع المخطط -->
-<div style="margin-bottom:14px">
-<div style="font-size:12px;color:var(--text3);margin-bottom:8px;font-weight:700;letter-spacing:1px">① اختر نوع المخطط</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-<div class="da-type-btn active-type" onclick="selectDaType('structural',this)" style="background:rgba(201,168,76,.1);border:2px solid rgba(201,168,76,.4);border-radius:10px;padding:12px;cursor:pointer;text-align:center;transition:.2s">
-<div style="font-size:22px">🏗️</div>
-<div style="color:var(--gold);font-weight:700;font-size:12px;margin-top:4px">مخطط إنشائي</div>
-<div style="color:var(--text3);font-size:10px">Cover · Rebar · Lap Zones</div>
-</div>
-<div class="da-type-btn" onclick="selectDaType('road',this)" style="background:rgba(52,152,219,.06);border:2px dashed rgba(52,152,219,.3);border-radius:10px;padding:12px;cursor:pointer;text-align:center;transition:.2s">
-<div style="font-size:22px">🛣️</div>
-<div style="color:#3498db;font-weight:700;font-size:12px;margin-top:4px">مقطع طريق</div>
-<div style="color:var(--text3);font-size:10px">Layer · Slope · Width</div>
-</div>
-<div class="da-type-btn" onclick="selectDaType('itp',this)" style="background:rgba(46,204,113,.06);border:2px dashed rgba(46,204,113,.3);border-radius:10px;padding:12px;cursor:pointer;text-align:center;transition:.2s">
-<div style="font-size:22px">📋</div>
-<div style="color:#2ecc71;font-weight:700;font-size:12px;margin-top:4px">نموذج ITP</div>
-<div style="color:var(--text3);font-size:10px">Hold Points · Witness Points</div>
-</div>
-<div class="da-type-btn" onclick="selectDaType('shop',this)" style="background:rgba(155,89,182,.06);border:2px dashed rgba(155,89,182,.3);border-radius:10px;padding:12px;cursor:pointer;text-align:center;transition:.2s">
-<div style="font-size:22px">🔧</div>
-<div style="color:#9b59b6;font-weight:700;font-size:12px;margin-top:4px">Shop Drawing</div>
-<div style="color:var(--text3);font-size:10px">QCS Requirements Check</div>
-</div>
-</div>
+<div class="lang-content-ar">
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 | Ashghal RDM | KAHRAMAA | MMUP — تحليل ذكي للوثائق الهندسية
 </div>
 
-<!-- رفع المخطط -->
-<div style="margin-bottom:14px">
-<div style="font-size:12px;color:var(--text3);margin-bottom:8px;font-weight:700;letter-spacing:1px">② ارفع المخطط</div>
-<div onclick="document.getElementById('da-img-input').click()" id="da-upload-zone" style="background:rgba(201,168,76,.04);border:2px dashed rgba(201,168,76,.3);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:.3s">
-<div style="font-size:36px;margin-bottom:8px">📐</div>
-<div style="color:var(--gold);font-weight:700;font-size:13px">اسحب المخطط هنا أو اضغط للرفع</div>
-<div style="color:var(--text3);font-size:11px;margin-top:4px">PNG · JPG · PDF (صورة أو screenshot) — حتى 10MB</div>
-<input type="file" id="da-img-input" accept="image/*,.pdf" style="display:none" onchange="handleDaUpload(this)">
+<div id="da-main">
+<!-- Upload Area -->
+<div id="da-upload-area" style="border:2px dashed rgba(52,152,219,0.4);border-radius:12px;padding:24px;text-align:center;cursor:pointer;margin-bottom:12px;transition:all 0.2s" onclick="document.getElementById('da-file').click()" ondragover="event.preventDefault();this.style.borderColor='#3498db'" ondragleave="this.style.borderColor='rgba(52,152,219,0.4)'" ondrop="daHandleDrop(event)">
+  <div id="da-preview" style="display:none;margin-bottom:10px"><img id="da-img" style="max-height:200px;max-width:100%;border-radius:8px;object-fit:contain"/></div>
+  <div id="da-placeholder">
+    <div style="font-size:40px;margin-bottom:8px">📐</div>
+    <div style="font-weight:700;font-size:14px;color:#3498db">اسحب المخططات أو الوثائق هنا</div>
+    <div style="font-size:11px;color:var(--text2);margin-top:4px">مخططات / مواصفات / جداول كميات / تقارير</div>
+    <div style="font-size:10px;color:var(--text3);margin-top:4px">JPG / PNG / PDF (صورة) — حتى 10MB</div>
+  </div>
 </div>
-<div id="da-preview-wrap" style="display:none;margin-top:10px;text-align:center">
-<img id="da-preview-img" style="max-width:100%;max-height:220px;border-radius:10px;border:1px solid var(--border2)">
-<div style="font-size:11px;color:var(--text3);margin-top:4px" id="da-file-name"></div>
-</div>
+<input id="da-file" type="file" accept="image/*,.pdf" style="display:none" onchange="daLoadFile(this)"/>
+
+<!-- Analysis type -->
+<div style="margin-bottom:10px">
+  <div style="font-size:11px;color:var(--text2);margin-bottom:4px">نوع التحليل المطلوب</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+    <button onclick="daSetType(this,'تحليل شامل ومطابقة مع المواصفات')" class="da-type-btn" style="padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:11px;cursor:pointer">🔍 تحليل شامل</button>
+    <button onclick="daSetType(this,'اكتشاف الأخطاء والتعارضات')" class="da-type-btn" style="padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:11px;cursor:pointer">⚠️ اكتشاف أخطاء</button>
+    <button onclick="daSetType(this,'طريقة التنفيذ والخطوات')" class="da-type-btn" style="padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:11px;cursor:pointer">🏗️ خطوات التنفيذ</button>
+    <button onclick="daSetType(this,'مقارنة مع QCS 2024 والمواصفات القطرية')" class="da-type-btn" style="padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:11px;cursor:pointer">📋 مطابقة QCS</button>
+  </div>
 </div>
 
-<!-- ملاحظات إضافية -->
-<div style="margin-bottom:14px">
-<div style="font-size:12px;color:var(--text3);margin-bottom:6px;font-weight:700;letter-spacing:1px">③ ملاحظات إضافية (اختياري)</div>
-<textarea id="da-notes" placeholder="مثال: هذا مخطط قاعدة معزولة Grade C40, Cover 75mm, رقم المبنى B-03..." style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:10px;padding:10px;font-family:Tajawal,sans-serif;font-size:13px;color:var(--text);resize:vertical;min-height:64px;outline:none"></textarea>
+<!-- Specific question -->
+<div style="margin-bottom:10px">
+  <div style="font-size:11px;color:var(--text2);margin-bottom:4px">سؤال أو ملاحظة محددة (اختياري)</div>
+  <textarea id="da-question" rows="2" placeholder="مثال: هل المواسير المحددة مناسبة لضغط التشغيل؟" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:12px;resize:vertical"></textarea>
 </div>
 
-<!-- زر التحليل -->
-<button onclick="runDrawingAnalysis()" id="da-analyze-btn" style="width:100%;background:linear-gradient(135deg,var(--maroon),var(--maroon2));border:1px solid rgba(201,168,76,.4);border-radius:12px;padding:14px;color:var(--gold2);font-family:Cairo,sans-serif;font-weight:800;font-size:15px;cursor:pointer;margin-bottom:14px;letter-spacing:.5px">
-🔍 تحليل المخطط — Analyze Drawing
+<button id="da-btn" onclick="daAnalyze()" disabled style="width:100%;padding:12px;background:rgba(52,152,219,0.15);border:1px solid rgba(52,152,219,0.3);color:#3498db;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700;opacity:0.5">
+  🧠 حلل المخططات بالذكاء الاصطناعي
 </button>
-
-<!-- منطقة التحميل والنتيجة -->
-<div id="da-loading" style="display:none;text-align:center;padding:20px">
-<div style="font-size:32px;margin-bottom:10px">⚡</div>
-<div class="spinner" style="width:24px;height:24px;border:3px solid rgba(201,168,76,.2);border-top:3px solid var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px"></div>
-<div style="color:var(--gold);font-size:13px">جاري تحليل المخطط بالذكاء الاصطناعي...</div>
-<div style="color:var(--text3);font-size:11px;margin-top:4px">فحص مقارنة QCS 2024</div>
 </div>
-<div id="da-result" style="margin-top:4px"></div>
-`
+
+<!-- Results -->
+<div id="da-loading" style="display:none;text-align:center;padding:20px">
+  <div style="font-size:32px;animation:spin 1s linear infinite;display:inline-block">🧠</div>
+  <div style="margin-top:8px;color:var(--text2);font-size:13px">جارٍ تحليل الوثيقة...</div>
+  <div style="font-size:11px;color:var(--text3);margin-top:4px">قد يستغرق 15-30 ثانية</div>
+</div>
+<div id="da-result" style="display:none;margin-top:12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:13px;line-height:1.7"></div>
+<div id="da-actions" style="display:none;margin-top:8px;gap:8px;flex-wrap:wrap">
+  <button onclick="daCopy()" style="padding:7px 14px;background:var(--surface3);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:11px;color:var(--text2)">📋 نسخ التحليل</button>
+  <button onclick="daReset()" style="padding:7px 14px;background:var(--surface3);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:11px;color:var(--text2)">📐 وثيقة جديدة</button>
+  <button onclick="daPrint()" style="padding:7px 14px;background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:6px;cursor:pointer;font-size:11px;color:#3498db">🖨️ طباعة</button>
+</div>
+
+<style>
+.da-type-btn.active{background:rgba(52,152,219,0.2)!important;border-color:#3498db!important;color:#3498db!important}
+#da-result h2{color:var(--gold);font-size:14px;margin:12px 0 6px;border-bottom:1px solid var(--border);padding-bottom:4px}
+#da-result strong{color:var(--text)}
+#da-result ul{margin:6px 0;padding-right:16px}
+#da-result li{margin:3px 0}
+</style>
+
+<script>
+(function(){
+  var _daFile = null;
+  var _daType = '';
+  var _daLastResult = '';
+
+  window.daSetType = function(btn, type) {
+    document.querySelectorAll('.da-type-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    _daType = type;
+  };
+
+  window.daHandleDrop = function(e) {
+    e.preventDefault();
+    document.getElementById('da-upload-area').style.borderColor = 'rgba(52,152,219,0.4)';
+    var file = e.dataTransfer.files[0];
+    if (file) daProcessFile(file);
+  };
+
+  window.daLoadFile = function(input) {
+    if (input.files[0]) daProcessFile(input.files[0]);
+  };
+
+  function daProcessFile(file) {
+    if (file.size > 10 * 1024 * 1024) {
+      alert('حجم الملف كبير — الحد الأقصى 10MB');
+      return;
+    }
+    // For PDF: convert to image representation via canvas isn't possible
+    // So we treat PDF as image/jpeg if it has image content, or handle via text
+    var mimeType = file.type || 'image/jpeg';
+
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      _daFile = { data: e.target.result.split(',')[1], type: mimeType, name: file.name };
+
+      // Show preview for images
+      if (mimeType.startsWith('image/')) {
+        document.getElementById('da-img').src = e.target.result;
+        document.getElementById('da-preview').style.display = 'block';
+      } else {
+        // PDF - show filename
+        document.getElementById('da-preview').style.display = 'block';
+        document.getElementById('da-img').style.display = 'none';
+        document.getElementById('da-preview').innerHTML = '<div style="padding:12px;background:rgba(52,152,219,0.1);border-radius:8px;color:#3498db;font-weight:700">📄 ' + file.name + '</div>';
+      }
+
+      document.getElementById('da-placeholder').style.display = 'none';
+      document.getElementById('da-btn').disabled = false;
+      document.getElementById('da-btn').style.opacity = '1';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  window.daAnalyze = async function() {
+    if (!_daFile) { alert('الرجاء اختيار ملف أولاً'); return; }
+    var btn = document.getElementById('da-btn');
+    var question = document.getElementById('da-question').value.trim();
+
+    var userMsg = 'حلل هذه الوثيقة الهندسية بشكل شامل وفق المواصفات القطرية QCS 2024.';
+    if (_daType) userMsg += ' التحليل المطلوب: ' + _daType + '.';
+    if (question) userMsg += ' سؤال محدد: ' + question;
+
+    btn.disabled = true;
+    document.getElementById('da-loading').style.display = 'block';
+    document.getElementById('da-result').style.display = 'none';
+    document.getElementById('da-actions').style.display = 'none';
+
+    try {
+      var token = localStorage.getItem('qs_pro_token') || '';
+
+      // For PDF - use application/pdf, Gemini supports it
+      var mimeType = _daFile.type;
+      if (mimeType === 'application/pdf') {
+        // Gemini vision supports PDF directly
+        mimeType = 'application/pdf';
+      }
+
+      var res = await fetch('/api/vision-proxy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': 'Bearer ' + token } : {})
+        },
+        body: JSON.stringify({
+          mode: 'analyzer',
+          image: _daFile.data,
+          mimeType: mimeType,
+          userMessage: userMsg
+        })
+      });
+
+      var data = await res.json();
+      document.getElementById('da-loading').style.display = 'none';
+
+      if (!res.ok || data.error) {
+        document.getElementById('da-result').style.display = 'block';
+        document.getElementById('da-result').innerHTML = '<div style="color:#e74c3c">❌ ' + (data.error || 'خطأ في الاتصال') + '</div>';
+      } else {
+        _daLastResult = data.result;
+        var html = daMarkdownToHTML(data.result);
+        document.getElementById('da-result').style.display = 'block';
+        document.getElementById('da-result').innerHTML = html;
+        document.getElementById('da-actions').style.display = 'flex';
+      }
+    } catch(err) {
+      document.getElementById('da-loading').style.display = 'none';
+      document.getElementById('da-result').style.display = 'block';
+      document.getElementById('da-result').innerHTML = '<div style="color:#e74c3c">❌ خطأ: ' + err.message + '</div>';
+    } finally {
+      btn.disabled = false;
+    }
+  };
+
+  function daMarkdownToHTML(md) {
+    return md
+      .replace(/## (.+)/g, '<h2>$1</h2>')
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/^- (.+)/gm, '<li>$1</li>')
+      .replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>')
+      .replace(/✅/g, '<span style="color:#2ecc71">✅</span>')
+      .replace(/❌/g, '<span style="color:#e74c3c">❌</span>')
+      .replace(/⚠️/g, '<span style="color:#f39c12">⚠️</span>')
+      .replace(/\n\n/g, '</p><p>')
+      .replace(/\n/g, '<br>');
+  }
+
+  window.daCopy = function() {
+    navigator.clipboard.writeText(_daLastResult).then(function(){
+      if(window.showToast) showToast('✅ تم نسخ التحليل');
+    });
+  };
+
+  window.daReset = function() {
+    _daFile = null;
+    _daLastResult = '';
+    document.getElementById('da-preview').style.display = 'none';
+    document.getElementById('da-img').style.display = 'block';
+    document.getElementById('da-img').src = '';
+    document.getElementById('da-placeholder').style.display = 'block';
+    document.getElementById('da-result').style.display = 'none';
+    document.getElementById('da-actions').style.display = 'none';
+    document.getElementById('da-btn').disabled = true;
+    document.getElementById('da-btn').style.opacity = '0.5';
+    document.getElementById('da-file').value = '';
+    document.getElementById('da-question').value = '';
+  };
+
+  window.daPrint = function() {
+    var w = window.open('', '_blank');
+    w.document.write('<html><head><title>تحليل وثيقة QatarSpec</title><style>body{font-family:Arial,sans-serif;direction:rtl;padding:20px;max-width:800px;margin:0 auto}h2{color:#1a5276;border-bottom:2px solid #c9a84c;padding-bottom:4px}</style></head><body>');
+    w.document.write('<h1 style="color:#7a1515">🇶🇦 QatarSpec Pro — تحليل وثيقة هندسية</h1>');
+    w.document.write('<div style="color:#666;margin-bottom:20px">التاريخ: ' + new Date().toLocaleDateString('ar-QA') + ' | المرجع: QCS 2024</div>');
+    w.document.write(document.getElementById('da-result').innerHTML);
+    w.document.write('</body></html>');
+    w.document.close();
+    setTimeout(function(){w.print();},800);
+  };
+})();
+</script>
+</div>
+<div class="lang-content-en" style="display:none">
+<h3>AI Drawing & Document Analyzer</h3>
+<p>Upload engineering drawings, specifications, BOQ, or reports for comprehensive AI analysis against QCS 2024, Ashghal, KAHRAMAA, and MMUP standards.</p>
+<table class="dm-table">
+<tr><th>Document Type</th><th>Analysis Provided</th></tr>
+<tr><td>Structural Drawings</td><td>Cover check, rebar layout, load paths, errors</td></tr>
+<tr><td>Road Cross-Sections</td><td>Layer thicknesses, gradients, QCS S6 compliance</td></tr>
+<tr><td>Utility Drawings</td><td>Pipe sizes, covers, materials, QCS S8 compliance</td></tr>
+<tr><td>BOQ / Quantities</td><td>Item review, unit rates, completeness check</td></tr>
+<tr><td>Method Statement</td><td>Hold Points, sequence, safety, QCS alignment</td></tr>
+</table>
+</div>`
 };
 
 c["photo_analyzer"] = {
   title: '🤖 المفتش الذكي — AI Site Inspector',
   content: `
-<div style="text-align:center;margin-bottom:16px">
-<div style="font-size:40px;margin-bottom:6px">🤖</div>
-<div style="font-size:18px;font-weight:800;color:var(--gold2);font-family:Cairo">المفتش الذكي — AI Site Inspector</div>
-<div style="font-size:12px;color:var(--text3)">التقط صورة من الموقع → اختر نوع الفحص → تقرير فوري مع مراجع QCS 2024</div>
+<div class="lang-content-ar">
+<div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 | Ashghal | KAHRAMAA | MMUP — فحص ميداني بالذكاء الاصطناعي
 </div>
 
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
-<div onclick="document.getElementById('inspector-camera').click()" style="background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.03));border:2px dashed rgba(201,168,76,.3);border-radius:14px;padding:24px;text-align:center;cursor:pointer">
-<div style="font-size:32px;margin-bottom:8px">📷</div>
-<div style="font-size:13px;font-weight:700;color:var(--gold2)">التقاط من الكاميرا</div>
-<div style="font-size:10px;color:var(--text3)">مباشرة من كاميرا الهاتف</div>
-<input type="file" accept="image/*" capture="environment" id="inspector-camera" style="display:none" onchange="inspectorLoadImage(this)">
+<div id="pi-main">
+<!-- Upload Area -->
+<div id="pi-upload-area" style="border:2px dashed rgba(46,204,113,0.4);border-radius:12px;padding:24px;text-align:center;cursor:pointer;margin-bottom:12px;transition:all 0.2s" onclick="document.getElementById('pi-file').click()" ondragover="event.preventDefault();this.style.borderColor='#2ecc71'" ondragleave="this.style.borderColor='rgba(46,204,113,0.4)'" ondrop="piHandleDrop(event)">
+  <div id="pi-preview" style="display:none;margin-bottom:10px"><img id="pi-img" style="max-height:200px;max-width:100%;border-radius:8px;object-fit:contain" /></div>
+  <div id="pi-placeholder">
+    <div style="font-size:40px;margin-bottom:8px">📷</div>
+    <div style="font-weight:700;font-size:14px;color:#2ecc71">اسحب صورة الموقع هنا</div>
+    <div style="font-size:11px;color:var(--text2);margin-top:4px">أو اضغط للتصوير / اختيار صورة</div>
+    <div style="font-size:10px;color:var(--text3);margin-top:4px">JPG/PNG/HEIC — حتى 10MB</div>
+  </div>
 </div>
-<div onclick="document.getElementById('inspector-upload').click()" style="background:linear-gradient(135deg,rgba(52,152,219,.08),rgba(52,152,219,.02));border:2px dashed rgba(52,152,219,.25);border-radius:14px;padding:24px;text-align:center;cursor:pointer">
-<div style="font-size:32px;margin-bottom:8px">📁</div>
-<div style="font-size:13px;font-weight:700;color:#3498db">رفع من الجهاز</div>
-<div style="font-size:10px;color:var(--text3)">صورة أو PDF</div>
-<input type="file" accept="image/*,application/pdf" id="inspector-upload" style="display:none" onchange="inspectorLoadImage(this)">
-</div>
+<input id="pi-file" type="file" accept="image/*" capture="environment" style="display:none" onchange="piLoadImage(this)"/>
+
+<!-- Custom instruction -->
+<div style="margin-bottom:10px">
+  <div style="font-size:11px;color:var(--text2);margin-bottom:4px">تعليمات إضافية للمفتش (اختياري)</div>
+  <input id="pi-instruction" placeholder="مثال: ركز على التسليح والغطاء الخرساني" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:12px"/>
 </div>
 
-<div id="inspector-preview" style="display:none;margin-bottom:14px;border-radius:12px;overflow:hidden;border:1px solid var(--border)">
-<img id="inspector-img" style="width:100%;max-height:300px;object-fit:contain;background:var(--dark3)">
+<!-- Focus area selector -->
+<div style="margin-bottom:10px">
+  <div style="font-size:11px;color:var(--text2);margin-bottom:4px">مجال الفحص</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+    <button onclick="piSetFocus(this,'طرق وإسفلت')" class="pi-focus-btn" style="padding:6px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:11px;cursor:pointer">🛣️ طرق</button>
+    <button onclick="piSetFocus(this,'خرسانة وتسليح')" class="pi-focus-btn" style="padding:6px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:11px;cursor:pointer">🏗️ إنشائي</button>
+    <button onclick="piSetFocus(this,'مرافق ومواسير')" class="pi-focus-btn" style="padding:6px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:11px;cursor:pointer">💧 مرافق</button>
+    <button onclick="piSetFocus(this,'حفر وتدعيم')" class="pi-focus-btn" style="padding:6px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:11px;cursor:pointer">⛏️ حفر</button>
+    <button onclick="piSetFocus(this,'تشطيبات ومباني')" class="pi-focus-btn" style="padding:6px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:11px;cursor:pointer">🏢 مباني</button>
+    <button onclick="piSetFocus(this,'سلامة وحواجز')" class="pi-focus-btn" style="padding:6px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:11px;cursor:pointer">🦺 سلامة</button>
+  </div>
 </div>
 
-<div id="inspector-form" style="display:none">
-<div style="background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);border-radius:12px;padding:14px;margin-bottom:14px">
-<div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:10px">📋 قائمة الفحص — حدد قبل التحليل</div>
-
-<div style="margin-bottom:10px"><label style="font-size:10px;color:var(--text3)">① نوع العمل <span style="color:#e74c3c">*</span></label>
-<select id="insp-work-type" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px">
-<option value="">— اختر —</option>
-<optgroup label="🛣️ الطرق">
-<option value="roads_subgrade">Subgrade — طبقة التأسيس</option>
-<option value="roads_subbase">Subbase — الطبقة السفلية</option>
-<option value="roads_base">Base Course — طبقة الأساس</option>
-<option value="roads_prime">Prime Coat — طبقة الربط</option>
-<option value="roads_asphalt">Asphalt (Binder/Wearing) — الإسفلت</option>
-</optgroup>
-<optgroup label="🏗️ الإنشاء">
-<option value="struct_rebar">تسليح — Rebar Installation</option>
-<option value="struct_formwork">شدة — Formwork</option>
-<option value="struct_concrete">صب خرسانة — Concrete Pour</option>
-<option value="struct_curing">معالجة — Curing</option>
-</optgroup>
-<optgroup label="💧 المرافق">
-<option value="util_excavation">حفريات — Excavation</option>
-<option value="util_pipe">وضع مواسير — Pipe Laying</option>
-<option value="util_backfill">ردم — Backfill</option>
-<option value="util_manhole">غرف تفتيش — Manholes</option>
-</optgroup>
-<optgroup label="🔬 جيوتقنية">
-<option value="geo_borehole">جسات — Boreholes</option>
-<option value="geo_sabkha">سبخة — Sabkha</option>
-</optgroup>
-</select></div>
-
-<div style="margin-bottom:10px"><label style="font-size:10px;color:var(--text3)">② مرحلة العمل <span style="color:#e74c3c">*</span></label>
-<select id="insp-phase" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px">
-<option value="before">قبل التنفيذ — Pre-execution</option>
-<option value="during" selected>أثناء التنفيذ — During execution</option>
-<option value="after">بعد التنفيذ — Post-execution</option>
-<option value="defect">عيب مكتشف — Defect found</option>
-</select></div>
-
-<div style="margin-bottom:10px"><label style="font-size:10px;color:var(--text3)">③ ما الذي تريد فحصه تحديداً؟</label>
-<input id="insp-specific" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="مثال: فحص cover التسليح قبل الصب / تشققات في السطح / gradient الماسورة"></div>
-
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
-<div><label style="font-size:10px;color:var(--text3)">الموقع</label><input id="insp-location" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="CH 2+350, Zone C"></div>
-<div><label style="font-size:10px;color:var(--text3)">المشروع</label><input id="insp-project" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-family:Tajawal;font-size:12px" placeholder="PWA-2024-XXX"></div>
-</div>
+<button id="pi-btn" onclick="piInspect()" disabled style="width:100%;padding:12px;background:rgba(46,204,113,0.15);border:1px solid rgba(46,204,113,0.3);color:#2ecc71;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700;opacity:0.5">
+  🤖 ابدأ الفحص الذكي
+</button>
 </div>
 
-<button onclick="runInspector()" id="insp-analyze-btn" style="width:100%;background:linear-gradient(135deg,var(--maroon),var(--maroon2));border:1px solid rgba(201,168,76,.4);border-radius:10px;padding:12px;color:var(--gold2);font-family:Cairo;font-weight:800;font-size:14px;cursor:pointer;margin-bottom:14px">🔍 ابدأ التحليل — Analyze</button>
+<!-- Results -->
+<div id="pi-loading" style="display:none;text-align:center;padding:20px">
+  <div style="font-size:32px;animation:spin 1s linear infinite;display:inline-block">⚙️</div>
+  <div style="margin-top:8px;color:var(--text2);font-size:13px">جارٍ تحليل الصورة وفق QCS 2024...</div>
+  <div style="font-size:11px;color:var(--text3);margin-top:4px">قد يستغرق 10-20 ثانية</div>
+</div>
+<div id="pi-result" style="display:none;margin-top:12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:13px;line-height:1.7"></div>
+<div id="pi-actions" style="display:none;margin-top:8px;display:none;gap:8px;flex-wrap:wrap">
+  <button onclick="piCopy()" style="padding:7px 14px;background:var(--surface3);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:11px;color:var(--text2)">📋 نسخ التقرير</button>
+  <button onclick="piReset()" style="padding:7px 14px;background:var(--surface3);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:11px;color:var(--text2)">📷 صورة جديدة</button>
+  <button onclick="piPrint()" style="padding:7px 14px;background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:6px;cursor:pointer;font-size:11px;color:#3498db">🖨️ طباعة</button>
+</div>
 
-<div id="inspector-loading" style="display:none;text-align:center;padding:20px;color:var(--gold)">
-<div style="font-size:24px;animation:spin 1s linear infinite">⚙️</div>
-<div style="margin-top:8px;font-size:13px">جاري التحليل بالذكاء الاصطناعي...</div>
-</div>
-</div>
+<style>
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.pi-focus-btn.active{background:rgba(46,204,113,0.2)!important;border-color:#2ecc71!important;color:#2ecc71!important}
+#pi-result h2{color:var(--gold);font-size:14px;margin:12px 0 6px;border-bottom:1px solid var(--border);padding-bottom:4px}
+#pi-result strong{color:var(--text)}
+#pi-result ul{margin:6px 0;padding-right:16px}
+#pi-result li{margin:3px 0}
+</style>
 
-<div id="inspector-result" style="display:none">
-<div style="background:var(--dark4);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px">
-<div style="font-size:14px;font-weight:700;color:var(--gold2);margin-bottom:10px;font-family:Cairo">📊 تقرير المفتش الذكي</div>
-<div id="inspector-report" style="font-size:12px;color:var(--text2);line-height:1.9"></div>
-</div>
+<script>
+(function(){
+  var _piImage = null;
+  var _piFocus = '';
+  var _piLastResult = '';
 
-<div style="display:flex;gap:8px;flex-wrap:wrap">
-<button onclick="printCurrentDetail()" style="background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);border-radius:8px;padding:8px 14px;color:#2ecc71;font-family:Tajawal;cursor:pointer;font-size:11px;font-weight:700">📄 حفظ التقرير PDF</button>
-<button onclick="shareInspectorReport()" style="background:rgba(52,152,219,.12);border:1px solid rgba(52,152,219,.3);border-radius:8px;padding:8px 14px;color:#3498db;font-family:Tajawal;cursor:pointer;font-size:11px;font-weight:700">📤 شارك WhatsApp</button>
-<button onclick="inspectorToNCR()" style="background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);border-radius:8px;padding:8px 14px;color:#e74c3c;font-family:Tajawal;cursor:pointer;font-size:11px;font-weight:700">⚠️ أضف لـ NCR</button>
-<button onclick="resetInspector()" style="background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px 14px;color:var(--text3);font-family:Tajawal;cursor:pointer;font-size:11px">🔄 فحص جديد</button>
+  window.piSetFocus = function(btn, focus) {
+    document.querySelectorAll('.pi-focus-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    _piFocus = focus;
+  };
+
+  window.piHandleDrop = function(e) {
+    e.preventDefault();
+    document.getElementById('pi-upload-area').style.borderColor = 'rgba(46,204,113,0.4)';
+    var file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) piProcessFile(file);
+  };
+
+  window.piLoadImage = function(input) {
+    if (input.files[0]) piProcessFile(input.files[0]);
+  };
+
+  function piProcessFile(file) {
+    if (file.size > 10 * 1024 * 1024) {
+      alert('حجم الصورة كبير — الحد الأقصى 10MB');
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      _piImage = { data: e.target.result.split(',')[1], type: file.type };
+      document.getElementById('pi-img').src = e.target.result;
+      document.getElementById('pi-preview').style.display = 'block';
+      document.getElementById('pi-placeholder').style.display = 'none';
+      document.getElementById('pi-btn').disabled = false;
+      document.getElementById('pi-btn').style.opacity = '1';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  window.piInspect = async function() {
+    if (!_piImage) { alert('الرجاء اختيار صورة أولاً'); return; }
+    var btn = document.getElementById('pi-btn');
+    var instruction = document.getElementById('pi-instruction').value.trim();
+    var userMsg = 'افحص هذه الصورة من موقع البناء وأعطني تقرير تفتيش شاملاً وفق QCS 2024.';
+    if (_piFocus) userMsg += ' ركز على: ' + _piFocus + '.';
+    if (instruction) userMsg += ' ملاحظة إضافية: ' + instruction;
+
+    btn.disabled = true;
+    document.getElementById('pi-loading').style.display = 'block';
+    document.getElementById('pi-result').style.display = 'none';
+    document.getElementById('pi-actions').style.display = 'none';
+
+    try {
+      var token = localStorage.getItem('qs_pro_token') || '';
+      var res = await fetch('/api/vision-proxy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': 'Bearer ' + token } : {})
+        },
+        body: JSON.stringify({
+          mode: 'inspector',
+          image: _piImage.data,
+          mimeType: _piImage.type,
+          userMessage: userMsg
+        })
+      });
+
+      var data = await res.json();
+      document.getElementById('pi-loading').style.display = 'none';
+
+      if (!res.ok || data.error) {
+        document.getElementById('pi-result').style.display = 'block';
+        document.getElementById('pi-result').innerHTML = '<div style="color:#e74c3c">❌ ' + (data.error || 'خطأ في الاتصال') + '</div>';
+      } else {
+        _piLastResult = data.result;
+        var html = piMarkdownToHTML(data.result);
+        document.getElementById('pi-result').style.display = 'block';
+        document.getElementById('pi-result').innerHTML = html;
+        document.getElementById('pi-actions').style.display = 'flex';
+      }
+    } catch(err) {
+      document.getElementById('pi-loading').style.display = 'none';
+      document.getElementById('pi-result').style.display = 'block';
+      document.getElementById('pi-result').innerHTML = '<div style="color:#e74c3c">❌ خطأ في الاتصال: ' + err.message + '</div>';
+    } finally {
+      btn.disabled = false;
+    }
+  };
+
+  function piMarkdownToHTML(md) {
+    return md
+      .replace(/## (.+)/g, '<h2>$1</h2>')
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/^- (.+)/gm, '<li>$1</li>')
+      .replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>')
+      .replace(/✅/g, '<span style="color:#2ecc71">✅</span>')
+      .replace(/❌/g, '<span style="color:#e74c3c">❌</span>')
+      .replace(/⚠️/g, '<span style="color:#f39c12">⚠️</span>')
+      .replace(/\n\n/g, '</p><p>')
+      .replace(/\n/g, '<br>');
+  }
+
+  window.piCopy = function() {
+    navigator.clipboard.writeText(_piLastResult).then(function(){
+      if(window.showToast) showToast('✅ تم نسخ التقرير');
+    });
+  };
+
+  window.piReset = function() {
+    _piImage = null;
+    _piLastResult = '';
+    document.getElementById('pi-preview').style.display = 'none';
+    document.getElementById('pi-placeholder').style.display = 'block';
+    document.getElementById('pi-result').style.display = 'none';
+    document.getElementById('pi-actions').style.display = 'none';
+    document.getElementById('pi-btn').disabled = true;
+    document.getElementById('pi-btn').style.opacity = '0.5';
+    document.getElementById('pi-file').value = '';
+    document.getElementById('pi-instruction').value = '';
+  };
+
+  window.piPrint = function() {
+    var w = window.open('', '_blank');
+    w.document.write('<html><head><title>تقرير فحص QatarSpec</title><style>body{font-family:Arial,sans-serif;direction:rtl;padding:20px;max-width:800px;margin:0 auto}h2{color:#1a5276;border-bottom:2px solid #c9a84c;padding-bottom:4px}li{margin:4px 0}.pass{color:green}.fail{color:red}</style></head><body>');
+    w.document.write('<h1 style="color:#7a1515">🇶🇦 QatarSpec Pro — تقرير الفحص الميداني</h1>');
+    w.document.write('<div style="color:#666;margin-bottom:20px">التاريخ: ' + new Date().toLocaleDateString('ar-QA') + ' | المرجع: QCS 2024</div>');
+    w.document.write(document.getElementById('pi-result').innerHTML);
+    w.document.write('</body></html>');
+    w.document.close();
+    setTimeout(function(){w.print();}, 800);
+  };
+})();
+</script>
 </div>
-</div>
-`
+<div class="lang-content-en" style="display:none">
+<h3>AI Field Inspector — QCS 2024 Compliance</h3>
+<p>Upload or capture a site photo to get an instant QCS 2024 compliance inspection report. The AI inspector will identify the work type, check against relevant QCS sections, and provide PASS/FAIL/ATTENTION verdict with specific recommendations.</p>
+<table class="dm-table">
+<tr><th>Inspection Area</th><th>QCS Sections Checked</th></tr>
+<tr><td>Roads & Asphalt</td><td>QCS S6 P5 + S8 P6 (compaction, temperature, AIV)</td></tr>
+<tr><td>Concrete & Rebar</td><td>QCS S5 P3/P4 (cover, spacing, curing)</td></tr>
+<tr><td>Utilities & Pipes</td><td>QCS S8 P12/P14 (bedding, joints, backfill)</td></tr>
+<tr><td>Excavation & Shoring</td><td>QCS S1 + BS EN 1997 (safety, GWT)</td></tr>
+<tr><td>Buildings & Finishes</td><td>QCS S5 + MMUP regulations</td></tr>
+</table>
+</div>`
 };
 
 c["ncr_quick_logger"] = {

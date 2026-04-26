@@ -29,13 +29,19 @@
     {
       "source": "/embedding-runner.html",
       "headers": [
-        { "key": "Content-Type", "value": "text/html; charset=utf-8" }
+        {
+          "key": "Content-Type",
+          "value": "text/html; charset=utf-8"
+        }
       ]
     },
     {
       "source": "/translation-runner.html",
       "headers": [
-        { "key": "Content-Type", "value": "text/html; charset=utf-8" }
+        {
+          "key": "Content-Type",
+          "value": "text/html; charset=utf-8"
+        }
       ]
     },
     {
@@ -171,6 +177,9 @@
     },
     "api/admin-session.js": {
       "maxDuration": 10
+    },
+    "api/vision-proxy.js": {
+      "maxDuration": 60
     }
   }
 }
