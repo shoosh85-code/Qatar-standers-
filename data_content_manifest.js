@@ -128,5 +128,8 @@ window.QS_CONTENT_MAP = {
   "exec_pressure_test": "data_content_extra.js",
   "esal_calculator_full": "data_content_extra.js",
   "mix_design_validator": "data_content_extra.js",
-  "hot_weather_detailed": "data_content_extra.js"
+  "hot_weather_detailed": "data_content_extra.js",
+  "rebar_cover_calc": "data_content_extra.js",
+  "materials_calculator_buildings": "data_content_extra.js",
+  "soil_grading_calc": "data_content_extra.js"
 };

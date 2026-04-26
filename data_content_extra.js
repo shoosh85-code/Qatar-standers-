@@ -149,105 +149,217 @@ c["prequalification_checklist"] = {
 };
 
 c["roads_equipment"] = {
-  title: "🚜 معدات الطرق — QCS 2024",
-  content: `<div class="lang-content-ar">
-<h3>المعدات الإلزامية لأعمال الطرق — QCS S6</h3>
-<table class="dm-table"><tr><th>المعدة</th><th>الاستخدام</th><th>المتطلب</th><th>QCS</th></tr>
-<tr><td><strong>Motor Grader</strong></td><td>تسوية Subgrade/Subbase</td><td>شفرة لیزر أو GPS</td><td>S6 P5</td></tr>
-<tr><td><strong>Vibratory Roller</strong></td><td>دمك الطبقات الترابية</td><td>10-12 طن، تردد 25-35 Hz</td><td>S6 P5</td></tr>
-<tr><td><strong>Paver (Asphalt)</strong></td><td>فرد الإسفلت</td><td>إلكتروني التحكم، Screed يُحكم</td><td>S8 P6</td></tr>
-<tr><td><strong>Pneumatic Roller</strong></td><td>دمك نهائي إسفلت</td><td>7-12 عجل، ضغط 100-120 psi</td><td>S8 P6</td></tr>
-<tr><td><strong>Steel Drum Roller</strong></td><td>دمك أولي إسفلت</td><td>8-12 طن، مبلل باستمرار</td><td>S8 P6</td></tr>
-<tr><td><strong>Asphalt Plant</strong></td><td>إنتاج الخلطة الإسفلتية</td><td>معتمد، تحكم حراري دقيق</td><td>S8 P5</td></tr>
-<tr><td><strong>Water Tanker</strong></td><td>ترطيب الطبقات والكمباكشن</td><td>نوزل موحّد، ضبط المعدل</td><td>S6 P5</td></tr>
-<tr><td><strong>Survey Equipment</strong></td><td>تحديد المناسيب والمحاور</td><td>Total Station + GPS RTK</td><td>QCS S1</td></tr>
+  title: '🚜 معدات الطرق — QCS 2024 + Ashghal',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 S6 P5 + S8 P6 | Ashghal Equipment Requirements | Method Statement Compliance
+</div>
+<h3>🚧 معدات أعمال التربة والدمك</h3>
+<table class="dm-table">
+<tr><th>المعدة</th><th>المواصفة</th><th>الاستخدام</th><th>QCS</th></tr>
+<tr><td><strong>Motor Grader</strong></td><td>Blade ≥ 3.7m / GPS أو Laser</td><td>تسوية Subgrade/Subbase</td><td>S6 P5</td></tr>
+<tr><td><strong>Vibratory Roller</strong></td><td>10-12 طن / 25-35 Hz / 0.5-1.0mm Amplitude</td><td>دمك طبقات ترابية</td><td>S6 P5</td></tr>
+<tr><td><strong>Water Tanker</strong></td><td>Nozzle Bar موحّد / 5-10m³</td><td>رش الماء للـ OMC</td><td>S6 P5</td></tr>
+<tr><td><strong>Dozer</strong></td><td>D6 أو أكبر</td><td>فرد وتشكيل التربة</td><td>S6 P5</td></tr>
+<tr><td><strong>Excavator</strong></td><td>Bucket دقيق / Track-mounted</td><td>حفر وتشكيل</td><td>S6 P5</td></tr>
+<tr><td><strong>Compaction Plate</strong></td><td>للمناطق الضيقة والحواف</td><td>حول المنشآت</td><td>S6 P5</td></tr>
 </table>
-<div class="dm-note">📌 يجب تقديم قائمة المعدات مع الـ Method Statement قبل البدء بأي مرحلة</div>
+<h3>🛣️ معدات الإسفلت</h3>
+<table class="dm-table">
+<tr><th>المعدة</th><th>المواصفة</th><th>الاستخدام</th><th>QCS</th></tr>
+<tr><td><strong>Asphalt Paver</strong></td><td>Extendable Screed / Electronic Control / Sonic Ski</td><td>فرد طبقات الإسفلت</td><td>S8 P6</td></tr>
+<tr><td><strong>Steel Drum Roller</strong></td><td>8-12 طن / Water Spray مستمر</td><td>دمك أولي (Breakdown)</td><td>S8 P6</td></tr>
+<tr><td><strong>Pneumatic Roller</strong></td><td>7-12 عجلة / 80-120 psi / Heated</td><td>دمك وسيط (Intermediate)</td><td>S8 P6</td></tr>
+<tr><td><strong>Double Drum Roller</strong></td><td>8-10 طن / Oscillation Mode</td><td>دمك نهائي (Finish)</td><td>S8 P6</td></tr>
+<tr><td><strong>Asphalt Plant</strong></td><td>تحكم رقمي / سعة ≥ 160 TPH</td><td>إنتاج الخلطة</td><td>S8 P5</td></tr>
+<tr><td><strong>Thermometer (IR)</strong></td><td>دقة ±1°C</td><td>قياس حرارة فرد</td><td>S8 P6</td></tr>
+</table>
+<h3>🔬 معدات الاختبار الإلزامية</h3>
+<table class="dm-table">
+<tr><th>الجهاز</th><th>الاختبار</th><th>التردد</th><th>QCS</th></tr>
+<tr><td><strong>Nuclear Density Gauge</strong></td><td>كثافة + رطوبة الطبقات</td><td>كل 250-500m</td><td>S6 P5</td></tr>
+<tr><td><strong>Sand Cone Apparatus</strong></td><td>كثافة ميدانية</td><td>عند الشك</td><td>S6 P5</td></tr>
+<tr><td><strong>Core Cutter</strong></td><td>سماكة الإسفلت وكثافته</td><td>1 / 500m²</td><td>S8 P6</td></tr>
+<tr><td><strong>Straight Edge 3m</strong></td><td>استواء السطح ≤ 3mm</td><td>مستمر</td><td>S8 P6</td></tr>
+<tr><td><strong>Total Station</strong></td><td>مناسيب ومحاور</td><td>قبل وبعد كل طبقة</td><td>S1 P5</td></tr>
+</table>
+<div class="dm-note">📌 QCS S1 — يجب تقديم قائمة المعدات مع Method Statement قبل 14 يوم من البدء — Ashghal تحتفظ بحق رفض أي معدة غير مناسبة</div>
 </div>
 <div class="lang-content-en" style="display:none">
-<h3>Road Works Equipment — QCS S6</h3>
-<table class="dm-table"><tr><th>Equipment</th><th>Use</th><th>Requirement</th><th>QCS</th></tr>
-<tr><td>Motor Grader</td><td>Subgrade/Subbase leveling</td><td>Laser or GPS blade</td><td>S6 P5</td></tr>
-<tr><td>Vibratory Roller</td><td>Layer compaction</td><td>10-12T, 25-35 Hz</td><td>S6 P5</td></tr>
-<tr><td>Asphalt Paver</td><td>Asphalt laying</td><td>Electronic screed control</td><td>S8 P6</td></tr>
-<tr><td>Pneumatic Roller</td><td>Final asphalt compaction</td><td>7-12 wheels, 100-120 psi</td><td>S8 P6</td></tr>
-</table></div>`
+<h3>Roads Equipment — QCS S6 P5 + S8 P6</h3>
+<table class="dm-table">
+<tr><th>Equipment</th><th>Specification</th><th>Use</th><th>QCS</th></tr>
+<tr><td>Motor Grader</td><td>Blade ≥3.7m, GPS/Laser</td><td>Subgrade/Subbase leveling</td><td>S6 P5</td></tr>
+<tr><td>Vibratory Roller</td><td>10-12T, 25-35Hz</td><td>Layer compaction</td><td>S6 P5</td></tr>
+<tr><td>Asphalt Paver</td><td>Extendable screed, Sonic Ski</td><td>Asphalt laying</td><td>S8 P6</td></tr>
+<tr><td>Pneumatic Roller</td><td>7-12 tires, 80-120 psi</td><td>Intermediate rolling</td><td>S8 P6</td></tr>
+<tr><td>Nuclear Gauge</td><td>Calibrated</td><td>Density + moisture</td><td>S6 P5</td></tr>
+</table>
+</div>`
 };
 
 c["utilities_equipment"] = {
-  title: "⚙️ معدات المرافق — QCS 2024",
-  content: `<div class="lang-content-ar">
-<h3>المعدات الإلزامية لأعمال المرافق — QCS S8</h3>
-<table class="dm-table"><tr><th>المعدة</th><th>الاستخدام</th><th>المتطلب</th><th>QCS</th></tr>
-<tr><td><strong>Excavator</strong></td><td>حفر الترنشات</td><td>بucket دقيق، حد أمان 300mm من المواسير</td><td>S8 P12</td></tr>
-<tr><td><strong>Pipe Laying Machine</strong></td><td>إنزال المواسير الكبيرة</td><td>>600mm قطر</td><td>S8 P12</td></tr>
-<tr><td><strong>Dewatering Pump</strong></td><td>تخفيض منسوب المياه</td><td>قبل الحفر بـ 24 ساعة</td><td>S8 P12</td></tr>
-<tr><td><strong>Compactor (Plate)</strong></td><td>دمك الردم حول المواسير</td><td>طبقات 150mm max</td><td>S8 P12</td></tr>
-<tr><td><strong>Pressure Test Pump</strong></td><td>اختبار ضغط المواسير</td><td>1.5× الضغط التصميمي</td><td>S8 P12</td></tr>
-<tr><td><strong>CCTV Camera</strong></td><td>فحص المجاري بعد التنفيذ</td><td>WRc Grade A مطلوب</td><td>S8 + BS EN 13508</td></tr>
-<tr><td><strong>Fusion Machine</strong></td><td>لحام مواسير HDPE</td><td>معايرة حرارية دقيقة</td><td>KAHRAMAA</td></tr>
-<tr><td><strong>Chlorination Unit</strong></td><td>تعقيم خطوط المياه</td><td>50 mg/L Cl لـ 24 ساعة</td><td>QCS S8 P12</td></tr>
+  title: '⚙️ معدات المرافق — QCS 2024 + KAHRAMAA',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 S8 P12/P14 | KAHRAMAA WR/ER Standards | BS EN 805 | WRc
+</div>
+<h3>🔧 معدات الحفر والتركيب</h3>
+<table class="dm-table">
+<tr><th>المعدة</th><th>المواصفة</th><th>الاستخدام</th><th>QCS</th></tr>
+<tr><td><strong>Excavator (Track)</strong></td><td>Bucket دقيق 300mm / ≥ 0.3m³</td><td>حفر الترنشات</td><td>S8 P12</td></tr>
+<tr><td><strong>Trench Box / Shoring</strong></td><td>حسب عمق الحفر (> 1.2m إلزامي)</td><td>حماية جدران الحفر</td><td>S1 + BS 6031</td></tr>
+<tr><td><strong>Dewatering Pump</strong></td><td>Self-priming / Flow ≥ 20 L/s</td><td>خفض منسوب المياه</td><td>S8 P12</td></tr>
+<tr><td><strong>Pipe Laying Crane</strong></td><td>للمواسير > 300mm قطر</td><td>إنزال المواسير الكبيرة</td><td>S8 P12</td></tr>
+<tr><td><strong>HDPE Fusion Machine</strong></td><td>Butt Fusion / Electrofusion</td><td>لحام مواسير HDPE</td><td>KAHRAMAA WR</td></tr>
+<tr><td><strong>DI Pipe Jointing Tools</strong></td><td>Lubricant معتمد</td><td>توصيل مواسير Ductile Iron</td><td>S8 P12</td></tr>
 </table>
-<div class="dm-note">📌 جميع المعدات تحتاج شهادات معايرة سارية قبل البدء</div>
+<h3>🔬 معدات الاختبار والفحص</h3>
+<table class="dm-table">
+<tr><th>الجهاز</th><th>المواصفة</th><th>الاستخدام</th><th>QCS</th></tr>
+<tr><td><strong>Pressure Test Pump</strong></td><td>ضغط حتى 25 bar / Calibrated Gauge</td><td>اختبار ضغط المواسير</td><td>S8 P12</td></tr>
+<tr><td><strong>Air Test Equipment</strong></td><td>للمجاري الجاذبية ≤ 300mm</td><td>تسرب المجاري</td><td>S8 P14</td></tr>
+<tr><td><strong>CCTV Camera (Crawler)</strong></td><td>Pan+Tilt 360° / Color / HD</td><td>فحص المجاري بعد التنفيذ</td><td>BS EN 13508</td></tr>
+<tr><td><strong>High Pressure Jetter</strong></td><td>≥ 120 bar / Flow ≥ 80 L/min</td><td>تنظيف قبل CCTV</td><td>WRc Manual</td></tr>
+<tr><td><strong>Chlorination Unit</strong></td><td>دقة قياس Cl ± 0.01 mg/L</td><td>تعقيم خطوط المياه</td><td>S8 P12</td></tr>
+<tr><td><strong>Magnetic Detector</strong></td><td>Pipe Locator + Data Logger</td><td>تحديد مواقع الخدمات</td><td>KAHRAMAA</td></tr>
+</table>
+<h3>🏗️ معدات الردم والتشطيب</h3>
+<table class="dm-table">
+<tr><th>المعدة</th><th>المواصفة</th><th>المتطلب</th><th>QCS</th></tr>
+<tr><td><strong>Plate Compactor</strong></td><td>≥ 75 kg / Vibrating</td><td>دمك الردم حول المواسير</td><td>S8 P12</td></tr>
+<tr><td><strong>Walk-Behind Roller</strong></td><td>للترنشات الضيقة</td><td>طبقات 150mm max</td><td>S8 P12</td></tr>
+<tr><td><strong>Concrete Mixer / Pump</strong></td><td>للـ Haunching والـ Encasement</td><td>حسب التصميم</td><td>S8 P12</td></tr>
+<tr><td><strong>Nuclear Gauge</strong></td><td>Calibrated ≤ 12 شهر</td><td>كثافة الردم ≥ 95% MDD</td><td>S8 P12</td></tr>
+</table>
+<div class="dm-note">📌 جميع المعدات تحتاج شهادات معايرة سارية — KAHRAMAA تفحص شهادات Fusion Machine قبل البدء</div>
 </div>
 <div class="lang-content-en" style="display:none">
-<h3>Utilities Equipment — QCS S8</h3>
-<table class="dm-table"><tr><th>Equipment</th><th>Use</th><th>Requirement</th><th>QCS</th></tr>
-<tr><td>Excavator</td><td>Trench excavation</td><td>300mm clearance from pipes</td><td>S8 P12</td></tr>
-<tr><td>Pressure Test Pump</td><td>Pipe pressure test</td><td>1.5× design pressure</td><td>S8 P12</td></tr>
-<tr><td>CCTV Camera</td><td>Post-construction sewer survey</td><td>WRc Grade A required</td><td>S8 + BS EN 13508</td></tr>
-<tr><td>Chlorination Unit</td><td>Water main disinfection</td><td>50 mg/L Cl for 24h</td><td>QCS S8 P12</td></tr>
-</table></div>`
+<h3>Utilities Equipment — QCS S8 + KAHRAMAA</h3>
+<table class="dm-table">
+<tr><th>Equipment</th><th>Specification</th><th>Use</th><th>QCS</th></tr>
+<tr><td>Track Excavator</td><td>Precise bucket 300mm</td><td>Trench excavation</td><td>S8 P12</td></tr>
+<tr><td>Pressure Test Pump</td><td>Up to 25 bar, calibrated</td><td>Hydraulic testing</td><td>S8 P12</td></tr>
+<tr><td>CCTV Crawler</td><td>Pan+Tilt 360°, HD color</td><td>Post-construction survey</td><td>BS EN 13508</td></tr>
+<tr><td>Chlorination Unit</td><td>±0.01 mg/L accuracy</td><td>Water main disinfection</td><td>S8 P12</td></tr>
+<tr><td>Nuclear Gauge</td><td>Calibrated, ≤12 months</td><td>Backfill compaction check</td><td>S8 P12</td></tr>
+</table>
+</div>`
 };
 
 c["structural_equipment"] = {
-  title: "🏗️ معدات الأعمال الإنشائية — QCS 2024",
-  content: `<div class="lang-content-ar">
-<h3>المعدات الإلزامية للأعمال الإنشائية — QCS S5</h3>
-<table class="dm-table"><tr><th>المعدة</th><th>الاستخدام</th><th>المتطلب</th><th>QCS</th></tr>
-<tr><td><strong>Concrete Mixer Truck</strong></td><td>نقل الخرسانة الجاهزة</td><td>Max 90 دقيقة من الخلط للصب</td><td>S5 P4</td></tr>
-<tr><td><strong>Concrete Pump</strong></td><td>ضخ الخرسانة لأماكن صعبة</td><td>ضغط كافٍ، شفرة نظيفة</td><td>S5 P4</td></tr>
-<tr><td><strong>Vibrator (Internal)</strong></td><td>دمك الخرسانة</td><td>50-75mm قطر، كل 300-450mm</td><td>S5 P4</td></tr>
-<tr><td><strong>Piling Rig</strong></td><td>تنفيذ الخوازيق</td><td>معتمد، سجل drilling مستمر</td><td>S5 P7</td></tr>
-<tr><td><strong>Tower Crane</strong></td><td>رفع الحديد والشدات</td><td>شهادة سلامة سنوية</td><td>QCS S1</td></tr>
-<tr><td><strong>Bar Bending Machine</strong></td><td>تشكيل حديد التسليح</td><td>Tolerance ±5mm</td><td>S5 P3</td></tr>
-<tr><td><strong>Formwork System</strong></td><td>قوالب الخرسانة</td><td>ضغط جانبي ≤ 60 kN/m²</td><td>S5 P4</td></tr>
-<tr><td><strong>Curing Equipment</strong></td><td>معالجة الخرسانة</td><td>7 أيام min، رطوبة مستمرة</td><td>S5 P4</td></tr>
+  title: '🏗️ معدات الأعمال الإنشائية — QCS S5',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 S5 P3/P4/P7 | BS 8110 | CIRIA C660 | NHBC Standards
+</div>
+<h3>🏗️ معدات الخرسانة</h3>
+<table class="dm-table">
+<tr><th>المعدة</th><th>المواصفة</th><th>المتطلب</th><th>QCS</th></tr>
+<tr><td><strong>Concrete Mixer Truck</strong></td><td>7-10 m³ / Drum Speed 14-18 RPM</td><td>Max 90 دقيقة من الخلط (45 صيفاً)</td><td>S5 P4</td></tr>
+<tr><td><strong>Concrete Pump</strong></td><td>Pressure ≥ 80 bar / Boom أو Line Pump</td><td>وصول للأماكن الصعبة</td><td>S5 P4</td></tr>
+<tr><td><strong>Internal Vibrator</strong></td><td>قطر 50-75mm / تردد ≥ 9000 VPM</td><td>دمك كل 300-450mm</td><td>S5 P4</td></tr>
+<tr><td><strong>External Vibrator</strong></td><td>للقوالب الرفيعة والأعمدة</td><td>مثبت على القالب</td><td>S5 P4</td></tr>
+<tr><td><strong>Truck-mounted Boom</strong></td><td>Reach ≥ 30m</td><td>الطوابق العالية</td><td>S5 P4</td></tr>
 </table>
-<div class="dm-note">📌 QCS S5 P4 — جميع معدات الخرسانة تحتاج موافقة مسبقة قبل الصب</div>
+<h3>🔩 معدات حديد التسليح</h3>
+<table class="dm-table">
+<tr><th>المعدة</th><th>المواصفة</th><th>المتطلب</th><th>QCS</th></tr>
+<tr><td><strong>Bar Bending Machine</strong></td><td>Capacity حتى 40mm dia / CNC</td><td>Tolerance ±5mm</td><td>S5 P3</td></tr>
+<tr><td><strong>Bar Cutting Machine</strong></td><td>Hydraulic / حتى 40mm</td><td>قطع نظيف بدون تشوه</td><td>S5 P3</td></tr>
+<tr><td><strong>Rebar Coupler Tools</strong></td><td>للوصلات الميكانيكية</td><td>عند Lap Length غير كافٍ</td><td>S5 P3</td></tr>
+<tr><td><strong>Tying Wire + Gun</strong></td><td>0.9-1.6mm GI Wire</td><td>ربط التسليح</td><td>S5 P3</td></tr>
+</table>
+<h3>🦺 معدات القوالب والرفع</h3>
+<table class="dm-table">
+<tr><th>المعدة</th><th>المواصفة</th><th>المتطلب</th><th>QCS</th></tr>
+<tr><td><strong>Tower Crane</strong></td><td>Radius + SWL حسب المشروع</td><td>شهادة سنوية سارية</td><td>S1 Safety</td></tr>
+<tr><td><strong>Mobile Crane</strong></td><td>Load Chart معتمد</td><td>لا يتجاوز 80% SWL</td><td>S1 Safety</td></tr>
+<tr><td><strong>Formwork System</strong></td><td>Max Lateral Pressure ≤ 60 kN/m²</td><td>محسوب هندسياً</td><td>S5 P4</td></tr>
+<tr><td><strong>Falsework</strong></td><td>Propping حسب BS 5975</td><td>صدفة + مستوى + قوي</td><td>S5 P4 + BS 5975</td></tr>
+<tr><td><strong>Piling Rig</strong></td><td>Rotary / CFA حسب نوع الخازوق</td><td>سجل حفر مستمر</td><td>S5 P7</td></tr>
+</table>
+<h3>🧪 معدات اختبار الخرسانة</h3>
+<table class="dm-table">
+<tr><th>الجهاز</th><th>الاستخدام</th><th>التردد</th><th>QCS</th></tr>
+<tr><td>Slump Cone</td><td>Workability في الموقع</td><td>كل شاحنة</td><td>S5 P4</td></tr>
+<tr><td>Cube Moulds (150mm)</td><td>قوة الضغط</td><td>6 مكعبات / 50m³</td><td>S5 P4</td></tr>
+<tr><td>Concrete Thermometer</td><td>درجة حرارة الصب</td><td>كل شاحنة صيفاً</td><td>S5 P4</td></tr>
+<tr><td>Schmidt Hammer</td><td>تقدير أولي للقوة</td><td>عند الشك</td><td>S5 P4</td></tr>
+</table>
+<div class="dm-note">📌 QCS S5 P4 — كل معدات الرفع تحتاج Third Party Inspection سارية + Operator مؤهل + Lift Plan لكل رفعة > 75% SWL</div>
 </div>
 <div class="lang-content-en" style="display:none">
-<h3>Structural Works Equipment — QCS S5</h3>
-<table class="dm-table"><tr><th>Equipment</th><th>Use</th><th>Requirement</th><th>QCS</th></tr>
-<tr><td>Concrete Mixer Truck</td><td>Ready-mix delivery</td><td>Max 90 min mix to pour</td><td>S5 P4</td></tr>
-<tr><td>Internal Vibrator</td><td>Concrete compaction</td><td>50-75mm dia, every 300-450mm</td><td>S5 P4</td></tr>
-<tr><td>Piling Rig</td><td>Pile installation</td><td>Approved, continuous log</td><td>S5 P7</td></tr>
-<tr><td>Formwork</td><td>Concrete molds</td><td>Lateral pressure ≤60 kN/m²</td><td>S5 P4</td></tr>
-</table></div>`
+<h3>Structural Equipment — QCS S5</h3>
+<table class="dm-table">
+<tr><th>Equipment</th><th>Spec</th><th>Requirement</th><th>QCS</th></tr>
+<tr><td>Mixer Truck</td><td>7-10m³, 14-18 RPM</td><td>Max 90 min from batching</td><td>S5 P4</td></tr>
+<tr><td>Internal Vibrator</td><td>50-75mm, ≥9000 VPM</td><td>Every 300-450mm</td><td>S5 P4</td></tr>
+<tr><td>Bar Bending</td><td>CNC, up to 40mm</td><td>Tolerance ±5mm</td><td>S5 P3</td></tr>
+<tr><td>Formwork</td><td>Max 60 kN/m² lateral</td><td>Engineer designed</td><td>S5 P4</td></tr>
+<tr><td>Piling Rig</td><td>Rotary/CFA</td><td>Continuous drilling log</td><td>S5 P7</td></tr>
+</table>
+</div>`
 };
 
 c["geotech_equipment"] = {
-  title: "🔩 معدات الجيوتقنية — QCS 2024",
-  content: `<div class="lang-content-ar">
-<h3>معدات التحقيق الجيوتقني — QCS S7</h3>
-<table class="dm-table"><tr><th>المعدة</th><th>الاستخدام</th><th>المعيار</th><th>QCS</th></tr>
-<tr><td><strong>Rotary Drill Rig</strong></td><td>حفر آبار الاستكشاف</td><td>Core recovery ≥ 85%</td><td>QCS S7 + BS EN ISO 22475</td></tr>
-<tr><td><strong>SPT Equipment</strong></td><td>اختبار الاختراق القياسي</td><td>140 lb hammer, 30" drop</td><td>ASTM D1586</td></tr>
-<tr><td><strong>Shelby Tube Sampler</strong></td><td>عينات غير مقلقلة (cohesive)</td><td>قطر 76mm min</td><td>ASTM D1587</td></tr>
-<tr><td><strong>Vane Shear Device</strong></td><td>قص الطين (in-situ)</td><td>للتربة الطرية</td><td>ASTM D2573</td></tr>
-<tr><td><strong>Pressuremeter</strong></td><td>معامل المرونة في الموقع</td><td>للصخر الطري والطين</td><td>ASTM D4719</td></tr>
-<tr><td><strong>Plate Load Test</strong></td><td>قدرة تحمل التربة</td><td>300mm plate min</td><td>ASTM D1194</td></tr>
-<tr><td><strong>Permeability Test</strong></td><td>نفاذية التربة</td><td>مهم للسبخة</td><td>BS 5930</td></tr>
+  title: '🔩 معدات الجيوتقنية — QCS + ASTM',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 S7 | BS EN ISO 22475 | ASTM D1586/D1587 | BS 5930 | IAN-006
+</div>
+<h3>🔧 معدات الحفر والاستكشاف</h3>
+<table class="dm-table">
+<tr><th>المعدة</th><th>المواصفة</th><th>الاستخدام</th><th>المرجع</th></tr>
+<tr><td><strong>Rotary Drill Rig</strong></td><td>Core recovery ≥ 85% / TCR + SCR</td><td>حفر آبار الاستكشاف في الصخر</td><td>BS EN ISO 22475</td></tr>
+<tr><td><strong>Percussion Rig</strong></td><td>للتربة الطرية</td><td>حفر في التربة + SPT</td><td>ASTM D1586</td></tr>
+<tr><td><strong>Hollow Stem Auger</strong></td><td>للتربة المتماسكة</td><td>حفر سريع + أخذ عينات</td><td>ASTM D1452</td></tr>
+<tr><td><strong>Trial Pit Machine</strong></td><td>Excavator + Propping</td><td>حفر اختباري حتى 5m</td><td>BS 5930</td></tr>
 </table>
-<div class="dm-note">📌 تقارير الجيوتقنية في قطر يجب أن تحتوي على تصنيف السبخة وفق IAN-006</div>
+<h3>🧪 معدات الاختبار الموقعي</h3>
+<table class="dm-table">
+<tr><th>الجهاز</th><th>المواصفة</th><th>الاستخدام</th><th>ASTM/BS</th></tr>
+<tr><td><strong>SPT Equipment</strong></td><td>140 lb (63.5 kg) Hammer / 30" (760mm) Drop / Automatic Trip</td><td>اختبار الاختراق القياسي</td><td>ASTM D1586</td></tr>
+<tr><td><strong>Shelby Tube</strong></td><td>قطر 76mm min / Thin Wall</td><td>عينات غير مقلقلة (Cohesive)</td><td>ASTM D1587</td></tr>
+<tr><td><strong>Vane Shear (VST)</strong></td><td>4 نماذج حجم حسب المقاومة</td><td>قص الطين في الموقع (Cu)</td><td>ASTM D2573</td></tr>
+<tr><td><strong>Cone Penetrometer (CPT)</strong></td><td>10-20 cm² / Electronic</td><td>مقاومة الطرف والاحتكاك</td><td>ASTM D3441</td></tr>
+<tr><td><strong>Pressuremeter</strong></td><td>Menard أو Self-boring</td><td>معامل المرونة في الموقع</td><td>ASTM D4719</td></tr>
+<tr><td><strong>Plate Load Test</strong></td><td>300mm min Plate / Calibrated Jack</td><td>قدرة تحمل التربة السطحية</td><td>ASTM D1194</td></tr>
+</table>
+<h3>📐 معدات المراقبة والقياس</h3>
+<table class="dm-table">
+<tr><th>الجهاز</th><th>الاستخدام</th><th>التردد</th></tr>
+<tr><td><strong>Standpipe Piezometer</strong></td><td>قياس منسوب المياه الجوفية</td><td>أسبوعياً أثناء الحفر</td></tr>
+<tr><td><strong>Inclinometer</strong></td><td>حركة التربة الجانبية</td><td>يومياً عند الحفر العميق</td></tr>
+<tr><td><strong>Settlement Plates</strong></td><td>هبوط التربة تحت الردم</td><td>أسبوعياً</td></tr>
+<tr><td><strong>Vibration Monitor</strong></td><td>اهتزاز من Piling / Blasting</td><td>مستمر أثناء التنفيذ</td></tr>
+</table>
+<h3>🧫 معدات المختبر الميداني</h3>
+<table class="dm-table">
+<tr><th>الجهاز</th><th>الاختبار</th><th>المرجع</th></tr>
+<tr><td>Proctor Test Apparatus</td><td>MDD + OMC</td><td>BS 1377 Part 4</td></tr>
+<tr><td>CBR Mould + Press</td><td>قدرة التحمل النسبية</td><td>BS 1377 Part 4</td></tr>
+<tr><td>Hydrometer + Sieves</td><td>تدريج التربة</td><td>BS 1377 Part 2</td></tr>
+<tr><td>Sulfate Test Kit</td><td>SO₃ في التربة (سبخة)</td><td>BS 1377 Part 3</td></tr>
+<tr><td>pH Meter</td><td>حموضة التربة</td><td>BS 1377 Part 3</td></tr>
+</table>
+<div class="dm-note">📌 IAN-006 Qatar — جميع نتائج SPT يجب تصحيحها بـ Energy Ratio قبل الاستخدام في التصميم. السجلات الأصلية للحفر إلزامية في GI Report</div>
 </div>
 <div class="lang-content-en" style="display:none">
-<h3>Geotechnical Equipment — QCS S7</h3>
-<table class="dm-table"><tr><th>Equipment</th><th>Use</th><th>Standard</th><th>QCS</th></tr>
-<tr><td>Rotary Drill Rig</td><td>Borehole drilling</td><td>Core recovery ≥85%</td><td>QCS S7 + BS EN ISO 22475</td></tr>
-<tr><td>SPT Equipment</td><td>Standard penetration test</td><td>140 lb hammer, 30" drop</td><td>ASTM D1586</td></tr>
-<tr><td>Plate Load Test</td><td>Bearing capacity</td><td>300mm plate min</td><td>ASTM D1194</td></tr>
-</table></div>`
+<h3>Geotechnical Equipment — QCS S7 + ASTM</h3>
+<table class="dm-table">
+<tr><th>Equipment</th><th>Standard</th><th>Use</th></tr>
+<tr><td>Rotary Drill Rig</td><td>BS EN ISO 22475</td><td>Rock coring ≥85% recovery</td></tr>
+<tr><td>SPT Equipment</td><td>ASTM D1586</td><td>140 lb/30" drop, auto-trip</td></tr>
+<tr><td>Shelby Tube</td><td>ASTM D1587</td><td>Undisturbed cohesive samples</td></tr>
+<tr><td>CPT</td><td>ASTM D3441</td><td>Tip resistance + friction</td></tr>
+<tr><td>Plate Load Test</td><td>ASTM D1194</td><td>Bearing capacity</td></tr>
+</table>
+</div>`
 };
 
 c["ashghal_rdm"] = {
@@ -293,6 +405,15 @@ c["ashghal_rdm"] = {
 <tr><td>Expressway</td><td>60mm SMA-16</td><td>80mm AC-25</td><td>300mm Crushed</td><td>350mm GSB</td></tr>
 </table>
 <div class="dm-note">📌 RDM 2023 هو المرجع الأول في قطر لتصميم الطرق — يُقدَّم على AASHTO في حالة التعارض</div>
+
+<h3>🚦 متطلبات Intersection — RDM 2023</h3>
+<table class="dm-table">
+<tr><th>نوع التقاطع</th><th>السرعة</th><th>Inscribed Circle</th><th>Entry Width</th></tr>
+<tr><td>Mini Roundabout</td><td>≤ 30 km/h</td><td>15-25m</td><td>3.5-4m</td></tr>
+<tr><td>Single Lane RAB</td><td>≤ 50 km/h</td><td>28-40m</td><td>4-5m</td></tr>
+<tr><td>Double Lane RAB</td><td>≤ 60 km/h</td><td>45-60m</td><td>7-8m</td></tr>
+<tr><td>Signal Controlled</td><td>40-80 km/h</td><td>—</td><td>Lane + RT Bay</td></tr>
+</table>
 </div>
 <div class="lang-content-en" style="display:none">
 <h3>Ashghal RDM 2023 — Key Values</h3>
@@ -1342,30 +1463,75 @@ window.validateMix = function(){
 };
 
 c["doc_analyzer"] = {
-  title: '📁 محلل الوثائق الذكي — Pro',
+  title: '📁 محلل الوثائق الذكي — QCS Pro',
   content: `
 <div class="lang-content-ar">
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
-📌 QCS 2024 — تحليل ذكي للمستندات الهندسية بالذكاء الاصطناعي
+📌 QCS 2024 | Ashghal | KAHRAMAA | MMUP — تحليل ذكي بالذكاء الاصطناعي
 </div>
-<div style="text-align:center;padding:20px 0">
-<div style="font-size:48px">📁</div>
-<div style="font-size:15px;font-weight:700;color:var(--gold);margin-top:8px">محلل الوثائق الذكي</div>
-<div style="font-size:12px;color:var(--text2);margin-top:4px">ارفع PDF وسيحلله الذكاء الاصطناعي فوراً</div>
+<div style="text-align:center;padding:16px 0">
+<div style="font-size:40px">📁</div>
+<div style="font-size:15px;font-weight:700;color:var(--gold);margin:8px 0">محلل الوثائق الذكي</div>
+<div style="font-size:12px;color:var(--text2)">ارفع أي وثيقة هندسية وسيحللها الذكاء الاصطناعي</div>
 </div>
 <div style="display:grid;gap:8px;margin:12px 0">
 <div onclick="QS.openDetail('drawing_analyzer')" style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;cursor:pointer;display:flex;align-items:center;gap:10px">
 <div style="font-size:24px">📐</div>
-<div><div style="font-weight:700;font-size:13px;color:#3498db">محلل المخططات</div><div style="font-size:11px;color:var(--text2)">تحقق من المخططات مقابل QCS 2024</div></div>
+<div><div style="font-weight:700;font-size:13px;color:#3498db">محلل المخططات الهندسية</div><div style="font-size:11px;color:var(--text2)">تحقق من المخططات مقابل QCS 2024 + RDM</div></div>
 </div>
 <div onclick="QS.openDetail('photo_analyzer')" style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:12px;cursor:pointer;display:flex;align-items:center;gap:10px">
 <div style="font-size:24px">🤖</div>
-<div><div style="font-weight:700;font-size:13px;color:#2ecc71">المفتش الذكي</div><div style="font-size:11px;color:var(--text2)">صوّر من الموقع واحصل على تقرير QCS فوري</div></div>
+<div><div style="font-weight:700;font-size:13px;color:#2ecc71">المفتش الذكي الميداني</div><div style="font-size:11px;color:var(--text2)">صور من الموقع واحصل على تقرير QCS فوري</div></div>
+</div>
+<div onclick="QS.openDetail('ncr_quick_logger')" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:12px;cursor:pointer;display:flex;align-items:center;gap:10px">
+<div style="font-size:24px">🔴</div>
+<div><div style="font-weight:700;font-size:13px;color:#e74c3c">NCR Quick Logger</div><div style="font-size:11px;color:var(--text2)">سجّل عدم مطابقة فوراً مع QCS Reference</div></div>
 </div>
 </div>
+<h3>📋 أنواع الوثائق المدعومة</h3>
+<table class="dm-table">
+<tr><th>نوع الوثيقة</th><th>المخرجات</th><th>QCS Ref</th></tr>
+<tr><td>QCS 2024 / مواصفات مشروع</td><td>ملخص + متطلبات رئيسية + Hold Points</td><td>كل الأقسام</td></tr>
+<tr><td>ITP / Checklist</td><td>مراحل H/W/R + تسلسل الاختبارات</td><td>S5/S6/S8</td></tr>
+<tr><td>جداول الكميات BOQ</td><td>تلخيص بنود + كميات + أسعار</td><td>—</td></tr>
+<tr><td>تقارير الجسات GI</td><td>تفسير SPT + تصنيف سبخة + توصيات</td><td>QCS S7 + IAN-006</td></tr>
+<tr><td>نتائج اختبارات المختبر</td><td>مقارنة بالحدود + Pass/Fail</td><td>حسب الاختبار</td></tr>
+<tr><td>Method Statement</td><td>تحقق من اكتمال المحتوى + Hold Points</td><td>Ashghal Req.</td></tr>
+</table>
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:10px;font-size:11px;color:var(--text2)">
-📌 الاستخدام: ارفع ملف PDF (QCS، Ashghal، BOQ، ITP) من زر الرفع في الصفحة الرئيسية
+📌 الاستخدام: ارفع PDF من زر الرفع أعلى الصفحة — حجم max 50MB<br>
+⭐ ميزة Pro: غير محدودة | Free: 5 مستندات/يوم
 </div>
+
+<h3>📋 هيكل NCR الرسمي — Ashghal Format</h3>
+<table class="dm-table">
+<tr><th>القسم</th><th>المحتوى المطلوب</th></tr>
+<tr><td><strong>1. التعريف</strong></td><td>رقم NCR + التاريخ + المشروع + الموقع + QCS Reference</td></tr>
+<tr><td><strong>2. الوصف</strong></td><td>وصف دقيق لعدم المطابقة + النتيجة الفعلية vs المطلوب</td></tr>
+<tr><td><strong>3. السبب الجذري</strong></td><td>Root Cause Analysis (5 Whys أو Fishbone)</td></tr>
+<tr><td><strong>4. الإجراء الفوري</strong></td><td>Containment Action — لمنع الانتشار</td></tr>
+<tr><td><strong>5. الإجراء التصحيحي</strong></td><td>Corrective Action + مسؤول التنفيذ + موعد الإغلاق</td></tr>
+<tr><td><strong>6. الإغلاق</strong></td><td>تحقق من التنفيذ + توقيع Consultant + توقيع Contractor</td></tr>
+</table>
+
+<h3>📊 توزيع NCR حسب الخطورة — Ashghal</h3>
+<table class="dm-table">
+<tr><th>الدرجة</th><th>التعريف</th><th>وقت الاستجابة</th><th>الإغلاق</th></tr>
+<tr><td><strong style="color:#8e44ad">Critical</strong></td><td>خطر فوري على السلامة أو البيئة</td><td>فوري - 4 ساعات</td><td>Consultant + Ashghal</td></tr>
+<tr><td><strong style="color:#e74c3c">Major</strong></td><td>لا يطابق QCS + يؤثر على الجودة</td><td>24 ساعة</td><td>Consultant</td></tr>
+<tr><td><strong style="color:#f39c12">Minor</strong></td><td>انحراف بسيط / يمكن تصحيحه</td><td>72 ساعة</td><td>Site Engineer</td></tr>
+</table>
+<div class="dm-note">📌 QCS S1 + ISO 9001 — كل NCR يجب إغلاقه قبل اعتماد الـ ITP للمرحلة التالية</div>
+</div>
+<div class="lang-content-en" style="display:none">
+<h3>Smart Document Analyzer</h3>
+<table class="dm-table">
+<tr><th>Document Type</th><th>AI Output</th></tr>
+<tr><td>QCS 2024 / Project Spec</td><td>Summary + Key requirements + Hold Points</td></tr>
+<tr><td>ITP / Checklist</td><td>H/W/R stages + Test sequence</td></tr>
+<tr><td>GI Report</td><td>SPT interpretation + Sabkha classification</td></tr>
+<tr><td>Lab Test Results</td><td>Pass/Fail vs QCS limits</td></tr>
+</table>
 </div>`
 };
 
@@ -1456,6 +1622,16 @@ c["shoring_itp"] = {
 <tr><td>Emergency Stop</td><td>إيقاف فوري عند أي حركة غير متوقعة</td></tr>
 </table>
 <div class="dm-note">⚠️ QCS S1 — حوادث الانهيار من أكثر حوادث الوفاة في مواقع البناء — لا تدخل الحفر بدون Permit وShoring معتمد</div>
+
+<h3>📐 أنواع التدعيم — Shoring Systems</h3>
+<table class="dm-table">
+<tr><th>النوع</th><th>الاستخدام</th><th>Max Depth</th><th>المرجع</th></tr>
+<tr><td><strong>Trench Box (Drag Box)</strong></td><td>ترنشات المرافق المستقيمة</td><td>5m</td><td>QCS S1 + CIRIA</td></tr>
+<tr><td><strong>Sheet Piling (Steel)</strong></td><td>الحفر العميقة والمياه الجوفية</td><td>15m+</td><td>BS EN 12063</td></tr>
+<tr><td><strong>Soldier Piles + Lagging</strong></td><td>تربة متماسكة / بدون مياه</td><td>8m</td><td>CIRIA C580</td></tr>
+<tr><td><strong>Bored Pile Wall</strong></td><td>قرب المباني / احمال عالية</td><td>20m+</td><td>BS EN 1997</td></tr>
+<tr><td><strong>Soil Nailing</strong></td><td>ميول / حفر صخرية</td><td>10m</td><td>BS 8006</td></tr>
+</table>
 </div>
 <div class="lang-content-en" style="display:none">
 <h3>Shoring & Deep Excavation ITP — QCS S5 P7</h3>
@@ -1500,6 +1676,16 @@ c["cctv_itp"] = {
 <tr><td>O</td><td>Obstacle — عائق</td><td>C</td><td>إزالة + إعادة فحص</td></tr>
 </table>
 <div class="dm-note">📌 Ashghal — جميع فيديوهات CCTV تُرفع على Ashghal Portal مع الـ Report قبل إغلاق ITP</div>
+
+<h3>📊 معدل التسرب المقبول — Infiltration Limits</h3>
+<table class="dm-table">
+<tr><th>قطر الماسورة</th><th>Max Infiltration</th><th>المعيار</th></tr>
+<tr><td>150mm</td><td>≤ 0.012 L/s</td><td>QCS S8 P14</td></tr>
+<tr><td>225mm</td><td>≤ 0.018 L/s</td><td>QCS S8 P14</td></tr>
+<tr><td>300mm</td><td>≤ 0.024 L/s</td><td>QCS S8 P14</td></tr>
+<tr><td>450mm</td><td>≤ 0.036 L/s</td><td>QCS S8 P14</td></tr>
+<tr><td>قاعدة عامة</td><td>≤ 0.08 L/s/km/mm</td><td>QCS S8 P14</td></tr>
+</table>
 </div>
 <div class="lang-content-en" style="display:none">
 <h3>CCTV ITP — QCS S8 P14 + BS EN 13508</h3>
@@ -1934,6 +2120,252 @@ c["hot_weather_detailed"] = {
 <tr><td>Aggregate cooling</td><td>Cover + pre-wet</td><td>Reduce 3-5°C</td><td>S5 P4</td></tr>
 <tr><td>Pour timing</td><td>After 4pm or before 7am</td><td>Avoid peak heat</td><td>Practice</td></tr>
 <tr><td>Wet curing</td><td>7 days min (10 recommended)</td><td>Continuous moisture</td><td>S5 P4</td></tr>
+</table>
+</div>`
+};
+
+
+c["materials_calculator_buildings"] = {
+  title: '🧱 حاسبة مواد البناء — QCS 2024',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 S5 | BS 8500 | مواصفات مواد البناء في قطر
+</div>
+<h3>🧮 حاسبة الخرسانة والتسليح</h3>
+<div style="display:grid;gap:8px;margin-bottom:12px">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div><div style="font-size:11px;color:var(--text2);margin-bottom:4px">الطول (م)</div>
+<input id="mb-l" type="number" value="10" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px"/></div>
+<div><div style="font-size:11px;color:var(--text2);margin-bottom:4px">العرض (م)</div>
+<input id="mb-w" type="number" value="8" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px"/></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div><div style="font-size:11px;color:var(--text2);margin-bottom:4px">السماكة (م)</div>
+<input id="mb-t" type="number" value="0.2" step="0.05" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px"/></div>
+<div><div style="font-size:11px;color:var(--text2);margin-bottom:4px">العنصر</div>
+<select id="mb-type" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px">
+<option value="slab">Slab</option>
+<option value="beam">Beam</option>
+<option value="column">Column</option>
+<option value="wall">Wall</option>
+<option value="raft">Raft Foundation</option>
+</select></div>
+</div>
+</div>
+<button onclick="calcMaterials()" style="width:100%;padding:10px;background:rgba(52,152,219,0.15);border:1px solid rgba(52,152,219,0.3);color:#3498db;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;margin-bottom:12px">🧮 احسب الكميات</button>
+<div id="mb-res" style="display:none"></div>
+<script>
+window.calcMaterials=function(){
+  var l=parseFloat(document.getElementById('mb-l').value)||0;
+  var w=parseFloat(document.getElementById('mb-w').value)||0;
+  var t=parseFloat(document.getElementById('mb-t').value)||0;
+  var type=document.getElementById('mb-type').value;
+  var vol=l*w*t;
+  // Steel ratios (kg/m³) by element type - QCS S5 typical
+  var steel={slab:80,beam:150,column:200,wall:120,raft:100};
+  var waste={concrete:0.05,steel:0.05};
+  var conc=vol*(1+waste.concrete);
+  var steel_kg=vol*steel[type]*(1+waste.steel);
+  var typeAr={slab:'بلاطة',beam:'كمرة',column:'عمود',wall:'جدار',raft:'حصيرة'};
+  document.getElementById('mb-res').style.display='block';
+  document.getElementById('mb-res').innerHTML=
+    '<table class="dm-table">'
+    +'<tr><th>البيان</th><th>الكمية</th><th>ملاحظة</th></tr>'
+    +'<tr><td>الحجم الصافي</td><td>'+vol.toFixed(2)+' m³</td><td>'+typeAr[type]+'</td></tr>'
+    +'<tr><td>خرسانة جاهزة (+ 5% هدر)</td><td><strong>'+conc.toFixed(2)+' m³</strong></td><td>QCS S5 P4</td></tr>'
+    +'<tr><td>حديد تسليح (+ 5% قص)</td><td><strong>'+steel_kg.toFixed(0)+' kg</strong></td><td>'+steel[type]+' kg/m³</td></tr>'
+    +'<tr><td>قوالب خشبية تقريبياً</td><td>'+(2*(l*t+w*t)).toFixed(1)+' m²</td><td>جانبي فقط</td></tr>'
+    +'</table>'
+    +'<div class="dm-note">📌 نسب الحديد تقديرية — الكمية الفعلية من مخططات التسليح المعتمدة</div>';
+};
+</script>
+<h3>📊 مواد البناء — مواصفات قطر</h3>
+<table class="dm-table">
+<tr><th>المادة</th><th>المواصفة</th><th>QCS/المرجع</th></tr>
+<tr><td><strong>إسمنت OPC</strong></td><td>BS EN 197-1 / Class 52.5N</td><td>QCS S5 P2</td></tr>
+<tr><td><strong>إسمنت SRPC</strong></td><td>BS 4027 — للأعمال الخارجية والسبخة</td><td>QCS S5 P2</td></tr>
+<tr><td><strong>حديد تسليح</strong></td><td>B460B / BS 4449 / بشرائط ضامنة</td><td>QCS S5 P3</td></tr>
+<tr><td><strong>ركام خشن</strong></td><td>Gabbro / max 20mm / نظيف</td><td>QCS S5 P2</td></tr>
+<tr><td><strong>رمل</strong></td><td>Zone 2-3 / FM 2.0-3.0 / Cl < 0.10%</td><td>QCS S5 P2</td></tr>
+<tr><td><strong>طوب (CMU)</strong></td><td>140 × 190 × 390mm / f'c ≥ 7 MPa</td><td>QCS S5 + MMUP</td></tr>
+<tr><td><strong>بلاط أرضيات</strong></td><td>Porcelain min 600 N/mm² / R9 حمام</td><td>MMUP Spec</td></tr>
+</table>
+</div>
+<div class="lang-content-en" style="display:none">
+<h3>Building Materials — Qatar QCS 2024</h3>
+<table class="dm-table">
+<tr><th>Material</th><th>Spec</th><th>Reference</th></tr>
+<tr><td>OPC Cement</td><td>BS EN 197-1 Class 52.5N</td><td>QCS S5 P2</td></tr>
+<tr><td>SRPC Cement</td><td>BS 4027 — aggressive/sabkha</td><td>QCS S5 P2</td></tr>
+<tr><td>Rebar</td><td>B460B / BS 4449</td><td>QCS S5 P3</td></tr>
+<tr><td>Coarse Aggregate</td><td>Gabbro / max 20mm</td><td>QCS S5 P2</td></tr>
+<tr><td>Sand</td><td>Zone 2-3 / Cl &lt;0.10%</td><td>QCS S5 P2</td></tr>
+</table>
+</div>`
+};
+
+
+c["rebar_cover_calc"] = {
+  title: '📏 حاسبة Cover الحديد — QCS S5 P3',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 S5 P3 | BS EN 1992-1-1 (EC2) | BS 8110 | ACI 318
+</div>
+<h3>🛡️ الحد الأدنى للـ Cover — QCS S5 P3</h3>
+<table class="dm-table">
+<tr><th>العنصر</th><th>بيئة داخلية</th><th>بيئة خارجية</th><th>سبخة / بحرية</th></tr>
+<tr><td><strong>Slabs (أسقف)</strong></td><td>20mm</td><td>35mm</td><td>50mm</td></tr>
+<tr><td><strong>Beams (كمرات)</strong></td><td>25mm</td><td>40mm</td><td>50mm</td></tr>
+<tr><td><strong>Columns (أعمدة)</strong></td><td>25mm</td><td>40mm</td><td>50mm</td></tr>
+<tr><td><strong>Walls (جدران)</strong></td><td>25mm</td><td>40mm</td><td>50mm</td></tr>
+<tr><td><strong>Foundations</strong></td><td>—</td><td>50mm</td><td>60mm + SRPC</td></tr>
+<tr><td><strong>Piles</strong></td><td>—</td><td>75mm</td><td>75mm + SRPC</td></tr>
+</table>
+<h3>🧮 حاسبة Lap Length</h3>
+<div style="display:grid;gap:8px;margin-bottom:12px">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div><div style="font-size:11px;color:var(--text2);margin-bottom:4px">قطر الحديد φ (mm)</div>
+<input id="rc-dia" type="number" value="16" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px"/></div>
+<div><div style="font-size:11px;color:var(--text2);margin-bottom:4px">نوع الوصلة</div>
+<select id="rc-type" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px">
+<option value="tension">Tension Lap</option>
+<option value="compression">Compression Lap</option>
+</select></div>
+</div>
+</div>
+<button onclick="calcLap()" style="width:100%;padding:10px;background:rgba(52,152,219,0.15);border:1px solid rgba(52,152,219,0.3);color:#3498db;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;margin-bottom:12px">📐 احسب Lap Length</button>
+<div id="rc-res" style="display:none"></div>
+<script>
+window.calcLap=function(){
+  var dia=parseFloat(document.getElementById('rc-dia').value)||16;
+  var type=document.getElementById('rc-type').value;
+  var factor=type==='tension'?40:32;
+  var lap=dia*factor;
+  var min=Math.max(lap,300);
+  document.getElementById('rc-res').style.display='block';
+  document.getElementById('rc-res').innerHTML=
+    '<table class="dm-table">'
+    +'<tr><th>البيان</th><th>القيمة</th><th>QCS</th></tr>'
+    +'<tr><td>قطر الحديد</td><td>φ'+dia+'mm (T'+dia+')</td><td>B460B</td></tr>'
+    +'<tr><td>معامل الوصلة</td><td>'+factor+'φ ('+type+')</td><td>QCS S5 P3</td></tr>'
+    +'<tr><td><strong>Lap Length المطلوب</strong></td><td><strong>'+min+'mm ('+factor+'×'+dia+'='+lap+', min 300)</strong></td><td>QCS S5 P3</td></tr>'
+    +'</table>'
+    +'<div class="dm-note">📌 QCS S5 P3 — Lap Length يزداد 30% في المناطق التي تتجاوز 50% من الحديد ملاقية</div>';
+};
+</script>
+<h3>📋 متطلبات Cover الإضافية — قطر</h3>
+<table class="dm-table">
+<tr><th>الحالة</th><th>Cover إضافي</th><th>QCS</th></tr>
+<tr><td>Fire Rating 60 دقيقة</td><td>Axis distance 25mm</td><td>BS EN 1992-1-2</td></tr>
+<tr><td>Fire Rating 120 دقيقة</td><td>Axis distance 35mm</td><td>BS EN 1992-1-2</td></tr>
+<tr><td>خرسانة مصبوبة في تربة</td><td>min 75mm (بدون قالب)</td><td>QCS S5 P3</td></tr>
+<tr><td>عمود دائري</td><td>Cover للـ Stirrups + Bar</td><td>QCS S5 P3</td></tr>
+</table>
+<h3>🔩 Min Spacing بين قضبان الحديد</h3>
+<table class="dm-table">
+<tr><th>الوضع</th><th>الحد الأدنى</th><th>QCS</th></tr>
+<tr><td>Horizontal</td><td>max(φbar, 20mm, Aggregate+5mm)</td><td>QCS S5 P3</td></tr>
+<tr><td>Vertical</td><td>max(φbar, 25mm)</td><td>QCS S5 P3</td></tr>
+<tr><td>Min Stirrups</td><td>6mm أو 0.25φmain</td><td>QCS S5 P3</td></tr>
+</table>
+</div>
+<div class="lang-content-en" style="display:none">
+<h3>Rebar Cover Calculator — QCS S5 P3</h3>
+<table class="dm-table">
+<tr><th>Element</th><th>Internal</th><th>External</th><th>Sabkha</th></tr>
+<tr><td>Slabs</td><td>20mm</td><td>35mm</td><td>50mm</td></tr>
+<tr><td>Beams/Columns</td><td>25mm</td><td>40mm</td><td>50mm</td></tr>
+<tr><td>Foundations</td><td>—</td><td>50mm</td><td>60mm+SRPC</td></tr>
+<tr><td>Piles</td><td>—</td><td>75mm</td><td>75mm+SRPC</td></tr>
+</table>
+</div>`
+};
+
+
+c["soil_grading_calc"] = {
+  title: '🔨 حاسبة تدريج التربة — QCS S6 P5',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 S6 P5 + S7 | BS 1377 Part 2 | ASTM D422 | USCS Classification
+</div>
+<h3>🔬 تصنيف التربة — USCS + قطر</h3>
+<table class="dm-table">
+<tr><th>رمز USCS</th><th>النوع (عربي)</th><th>الوصف</th><th>CBR (تقريبي)</th></tr>
+<tr><td><strong>GW</strong></td><td>حصى متدرجة</td><td>Well-graded Gravel</td><td>40-80%</td></tr>
+<tr><td><strong>GP</strong></td><td>حصى رديئة التدريج</td><td>Poorly-graded Gravel</td><td>25-60%</td></tr>
+<tr><td><strong>SW</strong></td><td>رمل متدرج</td><td>Well-graded Sand</td><td>20-40%</td></tr>
+<tr><td><strong>SP</strong></td><td>رمل رديء التدريج</td><td>Poorly-graded Sand</td><td>10-25%</td></tr>
+<tr><td><strong>SM</strong></td><td>رمل طيني</td><td>Silty Sand</td><td>10-20%</td></tr>
+<tr><td><strong>SC</strong></td><td>رمل طيني عابر</td><td>Clayey Sand</td><td>5-15%</td></tr>
+<tr><td><strong>ML</strong></td><td>طمي ذو مرونة منخفضة</td><td>Silt, Low Plasticity</td><td>3-10%</td></tr>
+<tr><td><strong>CL</strong></td><td>طين ذو مرونة منخفضة</td><td>Clay, Low Plasticity</td><td>2-8%</td></tr>
+<tr><td><strong>CH</strong></td><td>طين ذو مرونة عالية</td><td>Fat Clay</td><td>1-5%</td></tr>
+</table>
+<h3>📊 حاسبة CBR المطلوب — QCS S6</h3>
+<div style="display:grid;gap:8px;margin-bottom:12px">
+<div><div style="font-size:11px;color:var(--text2);margin-bottom:4px">طبقة التربة</div>
+<select id="sg-layer" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px">
+<option value="subgrade">Subgrade (تربة طبيعية)</option>
+<option value="subbase">Subbase (طبقة أساسية سفلية)</option>
+<option value="base">Base Course (طبقة أساسية)</option>
+</select></div>
+<div><div style="font-size:11px;color:var(--text2);margin-bottom:4px">نوع الطريق</div>
+<select id="sg-road" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-size:13px">
+<option value="local">محلي</option>
+<option value="collector">ثانوي</option>
+<option value="arterial">رئيسي</option>
+</select></div>
+</div>
+<button onclick="calcCBR()" style="width:100%;padding:10px;background:rgba(155,89,182,0.15);border:1px solid rgba(155,89,182,0.3);color:#9b59b6;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;margin-bottom:12px">📊 اعرض المتطلبات</button>
+<div id="sg-res" style="display:none"></div>
+<script>
+window.calcCBR=function(){
+  var layer=document.getElementById('sg-layer').value;
+  var road=document.getElementById('sg-road').value;
+  var reqs={
+    subgrade:{local:'CBR ≥ 5%',collector:'CBR ≥ 7%',arterial:'CBR ≥ 10%'},
+    subbase:{local:'CBR ≥ 25%',collector:'CBR ≥ 30%',arterial:'CBR ≥ 40%'},
+    base:{local:'CBR ≥ 80%',collector:'CBR ≥ 80%',arterial:'CBR ≥ 80%'}
+  };
+  var compact={
+    subgrade:{local:'95% MDD',collector:'95% MDD',arterial:'98% MDD'},
+    subbase:{local:'98% MDD',collector:'98% MDD',arterial:'100% MDD'},
+    base:{local:'98% MDD',collector:'100% MDD',arterial:'100% MDD'}
+  };
+  var layerAr={subgrade:'Subgrade',subbase:'Subbase',base:'Base Course'};
+  var roadAr={local:'محلي',collector:'ثانوي',arterial:'رئيسي'};
+  document.getElementById('sg-res').style.display='block';
+  document.getElementById('sg-res').innerHTML=
+    '<table class="dm-table">'
+    +'<tr><th>المتطلب</th><th>القيمة</th><th>QCS</th></tr>'
+    +'<tr><td>الطبقة</td><td>'+layerAr[layer]+' | طريق '+roadAr[road]+'</td><td>S6 P5</td></tr>'
+    +'<tr><td><strong>CBR المطلوب</strong></td><td><strong>'+reqs[layer][road]+'</strong></td><td>QCS S6 P5</td></tr>'
+    +'<tr><td><strong>درجة الدمك</strong></td><td><strong>'+compact[layer][road]+'</strong></td><td>QCS S6 P5</td></tr>'
+    +'<tr><td>المحتوى المائي</td><td>OMC ± 2%</td><td>QCS S6 P5</td></tr>'
+    +'<tr><td>سماكة الطبقة max</td><td>200mm (قبل الدمك)</td><td>QCS S6 P5</td></tr>'
+    +'</table>';
+};
+</script>
+<h3>🧪 اختبارات التربة — QCS S6 + BS 1377</h3>
+<table class="dm-table">
+<tr><th>الاختبار</th><th>المرجع</th><th>التردد (QCS)</th><th>الهدف</th></tr>
+<tr><td><strong>CBR</strong></td><td>BS 1377 Part 4</td><td>كل 500m² / طبقة</td><td>قدرة التحمل</td></tr>
+<tr><td><strong>Proctor (MDD/OMC)</strong></td><td>BS 1377 Part 4</td><td>كل مصدر + كل تغيير</td><td>مرجع الدمك</td></tr>
+<tr><td><strong>Nuclear Density</strong></td><td>ASTM D6938</td><td>كل 250-500m</td><td>تحقق الدمك</td></tr>
+<tr><td><strong>Particle Size</strong></td><td>BS 1377 Part 2</td><td>كل 1000m³</td><td>تدريج التربة</td></tr>
+<tr><td><strong>Atterberg Limits</strong></td><td>BS 1377 Part 2</td><td>كل تغيير في المصدر</td><td>خاصية التربة</td></tr>
+</table>
+</div>
+<div class="lang-content-en" style="display:none">
+<h3>Soil Grading & CBR Calculator — QCS S6 P5</h3>
+<table class="dm-table">
+<tr><th>Layer</th><th>Local Road</th><th>Arterial Road</th><th>QCS</th></tr>
+<tr><td>Subgrade</td><td>CBR ≥5%, 95% MDD</td><td>CBR ≥10%, 98% MDD</td><td>S6 P5</td></tr>
+<tr><td>Subbase</td><td>CBR ≥25%, 98% MDD</td><td>CBR ≥40%, 100% MDD</td><td>S6 P5</td></tr>
+<tr><td>Base</td><td>CBR ≥80%, 98% MDD</td><td>CBR ≥80%, 100% MDD</td><td>S6 P5</td></tr>
 </table>
 </div>`
 };
