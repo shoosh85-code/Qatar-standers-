@@ -141,5 +141,9 @@ window.QS_CONTENT_MAP = {
   "traffic_axle": "data_content_roads.js",
   "road_itps": "data_content_roads.js",
   "finishing": "data_content_roads.js",
-  "bitumen_60_70": "data_content_roads.js"
+  "bitumen_60_70": "data_content_roads.js",
+  "concrete_phases": "data_content_structural.js",
+  "hot_weather_concreting": "data_content_structural.js",
+  "rebar_itp": "data_content_structural.js",
+  "foundation_itp": "data_content_structural.js"
 };

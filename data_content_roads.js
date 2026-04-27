@@ -737,176 +737,27 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — Section 6 | Subgrade Formation
+📌 QCS 2024 — Section 6 Part 3 | Subgrade Formation
 </div>
-<h3>🏔️ Subgrade — QCS 2024 Requirements</h3>
+<h3>Subgrade — Key Requirements Summary (QCS S6 P3)</h3>
 <table class="dm-table">
-<tr><th>Parameter</th><th>Requirement</th><th>Standard</th><th>Frequency</th></tr>
-<tr><td>Compaction (MDD)</td><td>≥95% BS Heavy</td><td>QCS S6 P5</td><td>1 test/500m²/layer</td></tr>
-<tr><td>CBR (4-day soaked)</td><td>≥8% (Urban) / ≥5% (Rural)</td><td>QCS S6 P3</td><td>1 test/500m³</td></tr>
+<tr><th>Parameter</th><th>Requirement</th><th>Standard</th><th>Test Frequency</th></tr>
+<tr><td>Compaction (MDD)</td><td>≥ 95% BS Heavy</td><td>QCS S6 P5</td><td>1/500m²/layer</td></tr>
+<tr><td>CBR (4-day soaked)</td><td>≥ 8% urban / ≥ 5% rural</td><td>QCS S6 P3</td><td>1/500m³</td></tr>
 <tr><td>Level Tolerance</td><td>±20mm from design</td><td>QCS S6 P5</td><td>Every 25m</td></tr>
-<tr><td>Plasticity Index</td><td>≤12 (cohesive) / NP (granular)</td><td>QCS S6 P3</td><td>Per source change</td></tr>
-<tr><td>Sulphate (SO3)</td><td>≤0.3%</td><td>BS 1377</td><td>Per source change</td></tr>
-<tr><td>Moisture Content</td><td>OMC ±2%</td><td>ASTM D698</td><td>Daily</td></tr>
-<tr><td>Layer Thickness</td><td>≤200mm per layer</td><td>QCS S6 P5</td><td>Continuous</td></tr>
+<tr><td>Plasticity Index</td><td>≤ 12 cohesive / NP granular</td><td>QCS S6 P3</td><td>Per source</td></tr>
+<tr><td>Sulphate (SO3)</td><td>≤ 0.3%</td><td>BS 1377</td><td>Per source</td></tr>
+<tr><td>Moisture Content</td><td>OMC ± 2%</td><td>ASTM D698</td><td>Daily</td></tr>
+<tr><td>Layer Thickness</td><td>≤ 200mm per layer</td><td>QCS S6 P5</td><td>Continuous</td></tr>
 </table>
-<h4 style="margin-top:14px;color:var(--gold);">🔴 Hold Points</h4>
-<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;font-size:12px;">
-<strong>HP1:</strong> Engineer approval of subgrade formation before subbase<br>
-<strong>HP2:</strong> Proof rolling — any rutting >12mm = re-compact<br>
-<strong>HP3:</strong> All density + CBR results accepted before proceeding
-</div>
-<div style="background:rgba(243,156,18,0.1);border:1px solid rgba(243,156,18,0.3);border-radius:8px;padding:10px;margin-top:8px;font-size:12px;">
-⚠️ Subgrade in Qatar: Watch for sabkha, gypseous soils, and high groundwater. Verify sulphate content before any placement.
-</div>
-</div>
-<button onclick="document.getElementById('vid-sg-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
-</div>
-<input type="file" id="vid-sg-en" accept="video/*" style="display:none" data-player="vid-sg-en-p" data-ph="vid-sg-en-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-sg-en-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV explaining Subgrade preparation</div>
-<div id="vid-sg-en-p" class="qs-vid-ph" data-maxh="250px"></div>
-</div>
-
-<h3>Subgrade Definition — QCS S6 P3 Cl. 3.1</h3>
-<p>The subgrade is the natural or improved soil layer forming the direct foundation of the pavement. Its quality dictates the pavement design thickness and overall project cost.</p>
-
-<h3>Unacceptable Materials — QCS S6 P3 Cl. 3.3</h3>
-<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;">
-The following SHALL NOT be used in the Subgrade layer:<br>
-• Peat or Organic Soils — Organic Content &gt; 2%<br>
-• Expansive Clays — PI &gt; 10% or LS &gt; 3%<br>
-• Frozen Materials<br>
-• Deleterious or contaminated materials<br>
-• SO₃ &gt; 0.5% without Engineer approval + treatment<br>
-• Chloride &gt; 0.6% without Engineer approval<br>
-• Soil with CBR &lt; 8% (general) or &lt; 8% (Sabkha) without approved treatment<br>
-• Material with any particle exceeding 75mm
-</div>
-
-<h3>Table 3:1 — Fill Subgrade Material Specification — QCS 2024 / Section 6 / Part 3 / Page 8</h3>
-<p style="font-size:11px;color:var(--text3);">Source: QCS 2024 — Section 6 Part 3 Table 3:1 — Page 8 — values as per Qatar Construction Specifications</p>
-<div style="overflow-x:auto;">
-<table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.9);">
-<th style="min-width:180px;">Parameter</th>
-<th style="min-width:220px;">Specification Limit</th>
-<th style="min-width:180px;">Test Method</th>
-<th style="min-width:200px;">Minimum Test Frequency</th>
-</tr>
-<tr>
-<td><strong>Particle Size Distribution</strong></td>
-<td>
-Max size: <strong>75mm</strong><br>
-Passing 75.0mm: <strong>100%</strong><br>
-Passing 37.5mm: <strong>80 – 100%</strong><br>
-Passing 19.0mm: <strong>60 – 90%</strong><br>
-Passing 9.5mm: <strong>45 – 75%</strong><br>
-Passing 4.75mm: <strong>30 – 60%</strong><br>
-Passing 0.425mm: <strong>15 – 35%</strong><br>
-Passing 0.075mm: <strong>5 – 20%</strong>
-</td>
-<td>ASTM C136<br>BS 1377-2</td>
-<td>1 test per <strong>2,000 m³</strong><br>or when source changes</td>
-</tr>
-<tr>
-<td><strong>Liquid Limit (LL)</strong></td>
-<td style="color:#2ecc71;font-weight:700;">≤ 35%</td>
-<td>ASTM D4318 / BS 1377-2</td>
-<td>1 test per <strong>2,000 m³</strong><br>or when source changes</td>
-</tr>
-<tr>
-<td><strong>Plasticity Index (PI)</strong></td>
-<td style="color:#2ecc71;font-weight:700;">≤ 10%</td>
-<td>ASTM D4318 / BS 1377-2</td>
-<td>1 test per <strong>2,000 m³</strong><br>or when source changes</td>
-</tr>
-<tr>
-<td><strong>Linear Shrinkage (LS)</strong></td>
-<td style="color:#2ecc71;font-weight:700;">≤ 3%</td>
-<td>BS 1377-2</td>
-<td>1 test per <strong>2,000 m³</strong><br>or when source changes</td>
-</tr>
-<tr>
-<td><strong>Organic Content</strong></td>
-<td style="color:#2ecc71;font-weight:700;">≤ 2%<br><span style="font-size:10px;font-weight:400;">by dry weight — LOI Method</span></td>
-<td>BS 1377-3 / ASTM D2974</td>
-<td>1 test per <strong>2,000 m³</strong><br>or when source changes</td>
-</tr>
-<tr>
-<td><strong>Water Soluble Sulphate (SO₃)</strong></td>
-<td style="color:#2ecc71;font-weight:700;">≤ 0.5%<br><span style="font-size:10px;font-weight:400;">by weight of dry soil</span></td>
-<td>BS 1377-3 / AASHTO T290</td>
-<td>1 test per <strong>2,000 m³</strong><br>or when source changes</td>
-</tr>
-<tr>
-<td><strong>Total Chloride Content</strong></td>
-<td style="color:#2ecc71;font-weight:700;">≤ 0.6%<br><span style="font-size:10px;font-weight:400;">by weight of dry soil</span></td>
-<td>BS 1377-3</td>
-<td>1 test per <strong>2,000 m³</strong><br>or when source changes</td>
-</tr>
-<tr style="background:rgba(201,168,76,0.06);">
-<td><strong>Maximum Dry Density (MDD)</strong></td>
-<td>Determined by Standard Proctor<br><span style="font-size:10px;">Reference for field compaction acceptance</span></td>
-<td>ASTM D698 / BS 1377-4</td>
-<td>1 test per <strong>soil type change</strong><br>min 1 per 2,000 m³</td>
-</tr>
-<tr style="background:rgba(201,168,76,0.06);">
-<td><strong>Moisture Content (w%)</strong></td>
-<td style="color:#2ecc71;font-weight:700;">OMC ± 2%</td>
-<td>ASTM D2216 / BS 1377-2</td>
-<td>Daily during compaction<br>min 1 per <strong>500 m²</strong></td>
-</tr>
-<tr style="background:rgba(46,204,113,0.08);">
-<td><strong>Field Density (Compaction)</strong></td>
-<td style="color:#2ecc71;font-weight:700;">≥ 95% MDD (Std. Proctor)<br><span style="font-size:10px;font-weight:400;">each compacted layer ≤ 200mm</span></td>
-<td>ASTM D1556 (Sand Cone)<br>ASTM D6938 (Nuclear)</td>
-<td>1 test per <strong>500 m²</strong><br>per compacted layer</td>
-</tr>
-<tr style="background:rgba(46,204,113,0.12);">
-<td><strong>CBR (Soaked 4 days) — General Fill</strong></td>
-<td style="color:#2ecc71;font-weight:700;">≥ 15%<br><span style="font-size:10px;font-weight:400;">at 95% MDD — Std. Proctor</span></td>
-<td>ASTM D1883 / BS 1377-4</td>
-<td>1 test per <strong>2,000 m²</strong><br>or when source changes</td>
-</tr>
-<tr style="background:rgba(231,76,60,0.06);">
-<td><strong>CBR (Soaked 4 days) — Sabkha</strong></td>
-<td style="color:#f39c12;font-weight:700;">≥ 8%<br><span style="font-size:10px;font-weight:400;">subject to Engineer approval, at 95% MDD</span></td>
-<td>ASTM D1883 / BS 1377-4</td>
-<td>1 test per <strong>2,000 m²</strong><br>or when source changes</td>
-</tr>
-<tr>
-<td><strong>Layer Thickness</strong></td>
-<td>≤ <strong>200mm</strong> compacted (General)<br>≤ <strong>150mm</strong> compacted (Sabkha)</td>
-<td>Physical Measurement</td>
-<td>Every compacted layer — <strong>100%</strong></td>
-</tr>
-<tr style="background:rgba(201,168,76,0.06);">
-<td><strong>Surface Level Tolerance</strong></td>
-<td style="font-weight:700;">± 10mm from design level</td>
-<td>Total Station / Level</td>
-<td>Every <strong>25m</strong> chainage × full width</td>
-</tr>
-<tr>
-<td><strong>Crossfall</strong></td>
-<td style="font-weight:700;">2.5% ± 0.5%</td>
-<td>Template / Level Board</td>
-<td>Every <strong>25m</strong> chainage</td>
-</tr>
-</table>
-</div>
-
-<h3>Hold Points — Mandatory</h3>
+<h3>Hold Points — Mandatory (QCS S6 + Ashghal ITP)</h3>
 <table class="dm-table">
-<tr><th>HP</th><th>Condition</th><th>Documentation Required</th></tr>
-<tr><td>HP-01</td><td>GI Report + soil classification approved before any excavation</td><td>GI Report + Engineer Approval</td></tr>
-<tr><td>HP-02</td><td>Unsuitable material removed and replacement confirmed</td><td>Disposal Records + Lab Tests</td></tr>
-<tr><td>HP-03</td><td>Proctor MDD + OMC approved before compaction starts</td><td>Lab Compaction Report — per material change</td></tr>
-<tr><td>HP-04</td><td>Field Density ≥ 95% MDD + CBR ≥ 8%/8% complete and approved</td><td>Sand Cone Reports + CBR Reports</td></tr>
-<tr><td>HP-05</td><td>Level Survey ± 10mm approved by Consultant</td><td>As-Built Survey Report</td></tr>
+<tr><th>HP</th><th>Condition</th><th>Documentation</th></tr>
+<tr><td>HP1</td><td>Engineer approval of subgrade formation before subbase placement</td><td>Survey + density test results</td></tr>
+<tr><td>HP2</td><td>Proof rolling complete — rutting > 12mm requires re-compaction</td><td>Proof roll record</td></tr>
+<tr><td>HP3</td><td>All density + CBR results approved</td><td>Lab reports</td></tr>
 </table>
-
-</div>
-` };
+</div>` };
   c["subbase"] = { title: '🪨 Subbase — الطبقة الأساسية السفلية', content: `
 
 <div class="lang-content-ar">
@@ -1035,6 +886,16 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 📌 QCS 2024 — Section 6 Part 4 | Road Base Course
 </div>
 <div class="lang-content-ar">
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Road Base Course — التنفيذ والاختبارات</span>
+<button onclick="document.getElementById('vid-base').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
+</div>
+<input type="file" id="vid-base" accept="video/*" style="display:none" data-player="vid-player-base" data-ph="vid-ph-base" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
+<div id="vid-ph-base" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
+<div id="vid-player-base" class="qs-vid-ph" data-maxh="260px"></div>
+</div>
+
 <h3>📐 تعريف Base Course — QCS S6 P4</h3>
 <p><strong>Base Course (طبقة الأساس)</strong> هي الطبقة الإنشائية الرئيسية في تركيب الرصيف المرن، تقع مباشرةً فوق Subbase وتحت Binder/Wearing Courses. تتكوّن من ركام متدرج مكسور (Crushed Aggregate) ذو قيم CBR وLAA عالية، وتتحمّل الجزء الأكبر من الأحمال الديناميكية قبل توزيعها على Subbase والـ Subgrade.</p>
 <table class="dm-table">
@@ -1048,15 +909,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>السماكة الدنيا</td><td>100mm بعد الدمك (لكل طبقة)</td><td>S6 P4</td></tr>
 </table>
 <div class="lang-content-ar">
-<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Road Base Course — التنفيذ والاختبارات</span>
-<button onclick="document.getElementById('vid-base').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
-</div>
-<input type="file" id="vid-base" accept="video/*" style="display:none" data-player="vid-player-base" data-ph="vid-ph-base" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-base" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
-<div id="vid-player-base" class="qs-vid-ph" data-maxh="260px"></div>
-</div>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
 📌 QCS 2024 — Section 6 Part 4 — Tables 4:2, 4:3 (Road Base values only)
 </div>

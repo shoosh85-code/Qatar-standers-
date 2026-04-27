@@ -6,97 +6,93 @@
     title: '🏛️ الكود الإنشائي القطري — QCS 2024',
     content: `
 <div class="lang-content-ar">
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
-📌 QCS 2024 Section 5 — Concrete & Reinforcement | BS 8110 | BS EN 1992 | BS 8004
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 5 | الأعمال الإنشائية | Ashghal Standards | MMUP Building Regulations
+</div>
+<h3>🏗️ مراحل التنفيذ — الترتيب الإلزامي</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0">
+<div onclick="QS.openDetail('foundations_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center">
+<div style="font-size:18px">1️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px">الأساسات</div>
+<div style="color:var(--text3);font-size:10px">GI ← تحقق ← GWT ← خوازيق/رافت</div></div>
+<div onclick="QS.openDetail('concrete_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center">
+<div style="font-size:18px">2️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px">الخرسانة</div>
+<div style="color:var(--text3);font-size:10px">Mix Design ← صب ← Curing</div></div>
+<div onclick="QS.openDetail('rebar_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center">
+<div style="font-size:18px">3️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px">حديد التسليح</div>
+<div style="color:var(--text3);font-size:10px">Cover ← Spacing ← Lap Length</div></div>
+<div onclick="QS.openDetail('formwork_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center">
+<div style="font-size:18px">4️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px">الشدة والقوالب</div>
+<div style="color:var(--text3);font-size:10px">Formwork ← Pressure ← Stripping</div></div>
+<div onclick="QS.openDetail('concrete_phases')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center">
+<div style="font-size:18px">5️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px">مراحل الصب</div>
+<div style="color:var(--text3);font-size:10px">Sequence ← Hold Points ← Testing</div></div>
+<div onclick="QS.openDetail('hot_weather_concreting')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center">
+<div style="font-size:18px">6️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px">الطقس الحار</div>
+<div style="color:var(--text3);font-size:10px">Max 35°C ← Ice ← Curing</div></div>
 </div>
 
-<h3>🏗️ درجات الخرسانة — Concrete Grades</h3>
-<table class="dm-table">
-<tr><th>الاستخدام</th><th>الدرجة</th><th>fcu (MPa)</th><th>w/c max</th><th>QCS</th></tr>
-<tr><td>Blinding / Non-structural</td><td>C15</td><td>15</td><td>—</td><td>S5 P4</td></tr>
-<tr><td>أساسات عادية (Class 1)</td><td>C30</td><td>30</td><td>0.50</td><td>S5 P4</td></tr>
-<tr><td>أعمدة وجدران خارجية</td><td>C35</td><td>35</td><td>0.45</td><td>S5 P4</td></tr>
-<tr><td>بيئة عدوانية / سبخة</td><td>C40</td><td>40</td><td>0.40</td><td>S5 P4 (2024)</td></tr>
-<tr><td>جسور / ما قبل الإجهاد</td><td>C45+</td><td>45+</td><td>0.38</td><td>S5 P4</td></tr>
-</table>
-
-<h3>🔩 التسليح — Reinforcement Requirements</h3>
-<table class="dm-table">
-<tr><th>المتطلب</th><th>القيمة</th><th>QCS</th></tr>
-<tr><td><strong>نوع الحديد</strong></td><td>Grade 460B (B460B) — High Yield Deformed</td><td>S5 P3</td></tr>
-<tr><td><strong>Cover — داخلي</strong></td><td>25mm min</td><td>S5 P3</td></tr>
-<tr><td><strong>Cover — خارجي عادي</strong></td><td>40mm min</td><td>S5 P3</td></tr>
-<tr><td><strong>Cover — بيئة عدوانية</strong></td><td>50mm min</td><td>S5 P3 (Qatar)</td></tr>
-<tr><td><strong>Cover — سبخة</strong></td><td>60mm + SRPC</td><td>S5 P3 + IAN-006</td></tr>
-<tr><td><strong>Lap Length — Tension</strong></td><td>40φ min (φ = bar diameter)</td><td>S5 P3</td></tr>
-<tr><td><strong>Lap Length — Compression</strong></td><td>32φ min</td><td>S5 P3</td></tr>
-<tr><td><strong>Min Steel — Beams</strong></td><td>0.13% × b × h</td><td>S5 P3</td></tr>
-<tr><td><strong>Min Steel — Slabs</strong></td><td>0.13% × b × h (each dir)</td><td>S5 P3</td></tr>
-</table>
-
-<h3>🌡️ متطلبات الصب — Concreting Requirements</h3>
-<table class="dm-table">
-<tr><th>المتطلب</th><th>الحد</th><th>QCS</th></tr>
-<tr><td><strong>Slump — General</strong></td><td>75-150mm (حسب الاستخدام)</td><td>S5 P4</td></tr>
-<tr><td><strong>Max درجة حرارة الصب</strong></td><td>35°C (Qatar: صعب في الصيف)</td><td>S5 P4</td></tr>
-<tr><td><strong>Min درجة حرارة</strong></td><td>10°C</td><td>S5 P4</td></tr>
-<tr><td><strong>Max وقت النقل</strong></td><td>90 دقيقة من الخلط</td><td>S5 P4</td></tr>
-<tr><td><strong>Compaction — Vibrator</strong></td><td>كل 300-450mm، 5-15 ثانية</td><td>S5 P4</td></tr>
-<tr><td><strong>Curing — Min</strong></td><td>7 أيام مياه / 3 أيام compound</td><td>S5 P4</td></tr>
-<tr><td><strong>Cube Samples</strong></td><td>1 set / 50m³ أو لكل صبة</td><td>S5 P4</td></tr>
-</table>
-
-<h3>🌞 Hot Weather Concreting — قطر</h3>
-<table class="dm-table">
-<tr><th>الإجراء</th><th>المتطلب</th><th>QCS</th></tr>
-<tr><td>تبريد الماء</td><td>Ice water — temp الخليط ≤ 35°C</td><td>S5 P4</td></tr>
-<tr><td>ساعات الصب</td><td>بعد 4 عصراً أو قبل 8 صباحاً صيفاً</td><td>Ashghal Practice</td></tr>
-<tr><td>تبريد الركام</td><td>Cover aggregates من الشمس</td><td>S5 P4</td></tr>
-<tr><td>Retarder</td><td>قد يُستخدم — يحتاج اعتماد</td><td>S5 P4</td></tr>
-<tr><td>Anti-evaporation</td><td>رش فوري بعد الصب</td><td>S5 P4</td></tr>
-</table>
-
-<h3>🧱 الأساسات — Foundation Design</h3>
-<table class="dm-table">
-<tr><th>النوع</th><th>الاستخدام</th><th>Safe Bearing</th><th>QCS</th></tr>
-<tr><td><strong>Strip Foundation</strong></td><td>جدران / حوائط</td><td>50-150 kPa (تربة عادية)</td><td>S5 P7 + BS 8004</td></tr>
-<tr><td><strong>Pad Foundation</strong></td><td>أعمدة منفردة</td><td>100-300 kPa</td><td>S5 P7</td></tr>
-<tr><td><strong>Raft Foundation</strong></td><td>أحمال عالية / تربة ضعيفة</td><td>< 75 kPa</td><td>S5 P7</td></tr>
-<tr><td><strong>Bored Piles</strong></td><td>أحمال كبيرة / سبخة</td><td>حسب GI Report</td><td>S5 P7</td></tr>
-</table>
-
-<h3>🔬 اختبارات الاستلام</h3>
-<table class="dm-table">
-<tr><th>الاختبار</th><th>المتطلب</th><th>التردد</th><th>QCS</th></tr>
-<tr><td>Cube Strength (7 day)</td><td>≥ 70% fcu</td><td>كل 50m³</td><td>S5 P4</td></tr>
-<tr><td>Cube Strength (28 day)</td><td>≥ 100% fcu</td><td>كل 50m³</td><td>S5 P4</td></tr>
-<tr><td>Slump Test</td><td>±25mm من المستهدف</td><td>كل شاحنة</td><td>S5 P4</td></tr>
-<tr><td>Rebar Pull-out</td><td>حسب design</td><td>عند الشك</td><td>S5 P3</td></tr>
-<tr><td>Pile Load Test</td><td>1.5× Working Load</td><td>1% من الخوازيق</td><td>S5 P7</td></tr>
-</table>
-
-<div class="dm-note">📌 QCS 2024 S5 — بيئة قطر عدوانية جداً (رطوبة + كلوريد + كبريتات + حرارة) — دائماً استخدم SRPC في الأعمال الخارجية والأساسات</div>
+<h3>📋 المواد والمواصفات</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0">
+<div onclick="QS.openDetail('structural_materials')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center">
+<div style="color:#3498db;font-weight:700;font-size:11px">مواد الإنشاء</div></div>
+<div onclick="QS.openDetail('rebar_materials')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center">
+<div style="color:#3498db;font-weight:700;font-size:11px">مواد حديد التسليح</div></div>
+<div onclick="QS.openDetail('concrete_materials')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center">
+<div style="color:#3498db;font-weight:700;font-size:11px">مواد الخرسانة</div></div>
 </div>
 
+<h3>📋 الاختبارات وضبط الجودة</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0">
+<div onclick="QS.openDetail('itp_concrete')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center">
+<div style="color:#e74c3c;font-weight:700;font-size:11px">ITP — الخرسانة</div></div>
+<div onclick="QS.openDetail('itp_foundations')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center">
+<div style="color:#e74c3c;font-weight:700;font-size:11px">ITP — الأساسات</div></div>
+<div onclick="QS.openDetail('rebar_itp')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center">
+<div style="color:#e74c3c;font-weight:700;font-size:11px">ITP — الحديد</div></div>
+</div>
+
+<h3>📊 ملخص متطلبات QCS 2024 — Section 5</h3>
+<table class="dm-table">
+<tr><th>الطبقة / العنصر</th><th>المتطلب الرئيسي</th><th>اختبار</th><th>QCS</th></tr>
+<tr><td><strong>Blinding Concrete</strong></td><td>C15 | 75mm min | نظيف وجاف</td><td>Visual</td><td>S5 P4</td></tr>
+<tr><td><strong>Raft / Foundation</strong></td><td>C35 min | w/c ≤ 0.40 | SRPC سبخة</td><td>Cube 7+28 day</td><td>S5 P4/P7</td></tr>
+<tr><td><strong>Columns / Walls</strong></td><td>C35-C50 | Cover 40mm external</td><td>Cube + Slump</td><td>S5 P3/P4</td></tr>
+<tr><td><strong>Beams / Slabs</strong></td><td>C30-C40 | Cover 25mm internal / 40mm external</td><td>Cube + Slump</td><td>S5 P3/P4</td></tr>
+<tr><td><strong>Rebar B460B</strong></td><td>Lap 40φ tension | Cover per exposure | Spacers</td><td>Pull-out test</td><td>S5 P3</td></tr>
+<tr><td><strong>Formwork</strong></td><td>Max lateral pressure 60 kN/m² | Plumb ±3mm</td><td>Survey</td><td>S5 P4</td></tr>
+<tr><td><strong>Curing</strong></td><td>7 days min water | 3 days compound | No direct sun</td><td>Visual daily</td><td>S5 P4</td></tr>
+</table>
+
+<h3>🔴 Hold Points الرئيسية — QCS S5 + Ashghal ITP</h3>
+<table class="dm-table">
+<tr><th>HP</th><th>المرحلة</th><th>الشرط</th><th>التوثيق</th></tr>
+<tr><td>HP1</td><td>الأساسات</td><td>فحص قاع الحفر + GI تحقق + Dewatering</td><td>Survey + GI report</td></tr>
+<tr><td>HP2</td><td>حديد الأساسات</td><td>Cover ✓ Spacing ✓ Laps ✓ Spacers ✓</td><td>Rebar inspection sheet</td></tr>
+<tr><td>HP3</td><td>صب الأساسات</td><td>Blinding جاهز + Mix Design معتمد</td><td>Concrete delivery note</td></tr>
+<tr><td>HP4</td><td>حديد الأعمدة</td><td>Cover ✓ Stirrups ✓ Laps ✓</td><td>Rebar inspection</td></tr>
+<tr><td>HP5</td><td>قبل كل صبة</td><td>Mix Design ✓ Slump ✓ Temp ✓ Formwork ✓</td><td>Pre-pour checklist</td></tr>
+<tr><td>HP6</td><td>Post-pour</td><td>Cubes collected ✓ Curing started ✓</td><td>Cube test report</td></tr>
+<tr><td>HP7</td><td>Formwork stripping</td><td>Min strength achieved (70% fcu)</td><td>Cube results</td></tr>
+</table>
+</div>
 <div class="lang-content-en" style="display:none">
-<h3>Qatar Structural Code — QCS S5</h3>
+<h3>Buildings & Towers — Execution Phases (QCS S5)</h3>
+<p>Select a phase for detailed content:</p>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:12px 0">
+<div onclick="QS.openDetail('foundations_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:var(--gold);font-size:11px;font-weight:700">Foundations</div></div>
+<div onclick="QS.openDetail('concrete_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:var(--gold);font-size:11px;font-weight:700">Concrete</div></div>
+<div onclick="QS.openDetail('rebar_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:var(--gold);font-size:11px;font-weight:700">Rebar</div></div>
+<div onclick="QS.openDetail('formwork_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:var(--gold);font-size:11px;font-weight:700">Formwork</div></div>
+<div onclick="QS.openDetail('itp_concrete')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:#e74c3c;font-size:11px;font-weight:700">ITP Concrete</div></div>
+<div onclick="QS.openDetail('itp_foundations')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:#e74c3c;font-size:11px;font-weight:700">ITP Foundations</div></div>
+</div>
 <table class="dm-table">
-<tr><th>Application</th><th>Grade</th><th>fcu MPa</th><th>w/c max</th><th>QCS</th></tr>
-<tr><td>Blinding</td><td>C15</td><td>15</td><td>—</td><td>S5 P4</td></tr>
-<tr><td>Normal foundations</td><td>C30</td><td>30</td><td>0.50</td><td>S5 P4</td></tr>
-<tr><td>External columns/walls</td><td>C35</td><td>35</td><td>0.45</td><td>S5 P4</td></tr>
-<tr><td>Aggressive/Sabkha</td><td>C40</td><td>40</td><td>0.40</td><td>S5 P4 (2024)</td></tr>
-</table>
-<table class="dm-table">
-<tr><th>Requirement</th><th>Value</th><th>QCS</th></tr>
-<tr><td>Rebar type</td><td>B460B High Yield Deformed</td><td>S5 P3</td></tr>
-<tr><td>Cover — internal</td><td>25mm min</td><td>S5 P3</td></tr>
-<tr><td>Cover — external</td><td>40mm min</td><td>S5 P3</td></tr>
-<tr><td>Cover — aggressive</td><td>50mm min</td><td>S5 P3</td></tr>
-<tr><td>Lap — tension</td><td>40φ min</td><td>S5 P3</td></tr>
-<tr><td>Max pour temp</td><td>35°C</td><td>S5 P4</td></tr>
-<tr><td>Max transit time</td><td>90 min</td><td>S5 P4</td></tr>
-<tr><td>Min curing</td><td>7 days water / 3 days compound</td><td>S5 P4</td></tr>
+<tr><th>Element</th><th>Key Requirement</th><th>QCS</th></tr>
+<tr><td>Raft Foundation</td><td>C35 min | w/c ≤ 0.40 | SRPC for sabkha</td><td>S5 P4/P7</td></tr>
+<tr><td>Columns</td><td>C35-C50 | Cover 40mm external | Stirrups @ 200mm max</td><td>S5 P3/P4</td></tr>
+<tr><td>Slabs/Beams</td><td>C30-C40 | Cover 25mm int / 40mm ext</td><td>S5 P3/P4</td></tr>
+<tr><td>Rebar B460B</td><td>Lap 40-bar-dia tension | Spacers mandatory</td><td>S5 P3</td></tr>
+<tr><td>Curing</td><td>7 days min water / 3 days compound</td><td>S5 P4</td></tr>
 </table>
 </div>`
   };
