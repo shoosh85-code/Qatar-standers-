@@ -1279,16 +1279,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <tr><td>Waterproofing</td><td>Required if GWL within 1.5m</td></tr>
 </table>
 </div>
-<div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🏗️ Strip / Pad Foundations
-</div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
-</div>
+
 ` };
   c["foundations_full"] = { title: '⚓ الأساسات — Foundations', content: `
 <div class="lang-content-ar">
@@ -1448,16 +1439,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 🔴 HP: Load test results must be approved before pile cap construction. Integrity test failures require investigation + remedial works.
 </div>
 </div>
-<div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🧪 اختبارات الأساسات
-</div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
-</div>
+
 ` };
   c["piles_full"] = { title: '🔧 الخوازيق — Bored Piles', content: `
 <div class="lang-content-ar">
@@ -1588,21 +1570,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 
 </div>
-<div class="lang-content-en" style="display:none;">
-<h3>🔩 Piled Foundations — Inspection & Test Plan</h3>
-<table class="dm-table">
-<tr><th>Activity</th><th>Test</th><th>Acceptance</th><th>Type</th></tr>
-<tr><td>Pile Position</td><td>Survey before boring</td><td>±75mm from drawing</td><td>W</td></tr>
-<tr><td>Pile Diameter</td><td>Caliper during boring</td><td>As specified</td><td>W</td></tr>
-<tr><td>Founding Level</td><td>Engineer confirmation</td><td>Competent stratum</td><td>H</td></tr>
-<tr><td>Cage Assembly</td><td>Dimensions + cover blocks</td><td>50mm cover sides / 75mm top</td><td>W</td></tr>
-<tr><td>Cage Installation</td><td>Level + position</td><td>±100mm length tolerance</td><td>H</td></tr>
-<tr><td>Concrete (Tremie)</td><td>Slump + cube samples</td><td>Slump 150-200mm</td><td>W</td></tr>
-<tr><td>Cut-off Level</td><td>Survey</td><td>Min 600mm above design</td><td>W</td></tr>
-<tr><td>Sonic Integrity Test</td><td>100% of piles</td><td>Class A (clean)</td><td>H</td></tr>
-<tr><td>Static Load Test</td><td>1% piles (min 2)</td><td>1.5×design load</td><td>H</td></tr>
-</table>
-</div>
+
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
 <strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
@@ -1759,126 +1727,9 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 </div>
 
-<div class="lang-content-ar">
-<h3>📁 رفع وتحليل وثائق المشروع</h3>
-<p style="font-size:12px;color:var(--text3);">ارفع مواصفاتك ورسوماتك وجداول كمياتك — التطبيق يحللها ويساعدك في متطلبات الجودة والمطابقة</p>
 
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0;">
-<div onclick="document.getElementById('doc-upload-specs').click()" style="background:rgba(201,168,76,0.06);border:2px dashed rgba(201,168,76,0.4);border-radius:12px;padding:16px;cursor:pointer;text-align:center;">
-<div style="font-size:28px;margin-bottom:6px;">📋</div>
-<div style="color:var(--gold);font-weight:700;font-size:13px;">المواصفات الخاصة</div>
-<div style="color:var(--text3);font-size:11px;margin-top:4px;">Project Specifications PDF</div>
-<input type="file" id="doc-upload-specs" style="display:none" accept=".pdf,.docx" multiple onchange="handleDocUpload(this,'specs')">
-</div>
-<div onclick="document.getElementById('doc-upload-dwg').click()" style="background:rgba(52,152,219,0.06);border:2px dashed rgba(52,152,219,0.4);border-radius:12px;padding:16px;cursor:pointer;text-align:center;">
-<div style="font-size:28px;margin-bottom:6px;">📐</div>
-<div style="color:#3498db;font-weight:700;font-size:13px;">الرسومات</div>
-<div style="color:var(--text3);font-size:11px;margin-top:4px;">IFC / Shop Drawings PDF</div>
-<input type="file" id="doc-upload-dwg" style="display:none" accept=".pdf" multiple onchange="handleDocUpload(this,'drawings')">
-</div>
-<div onclick="document.getElementById('doc-upload-boq').click()" style="background:rgba(46,204,113,0.06);border:2px dashed rgba(46,204,113,0.4);border-radius:12px;padding:16px;cursor:pointer;text-align:center;">
-<div style="font-size:28px;margin-bottom:6px;">📊</div>
-<div style="color:#2ecc71;font-weight:700;font-size:13px;">جدول الكميات</div>
-<div style="color:var(--text3);font-size:11px;margin-top:4px;">BOQ / Bill of Quantities</div>
-<input type="file" id="doc-upload-boq" style="display:none" accept=".pdf,.xlsx,.xls,.csv" onchange="handleDocUpload(this,'boq')">
-</div>
-<div onclick="document.getElementById('doc-upload-gi').click()" style="background:rgba(155,89,182,0.06);border:2px dashed rgba(155,89,182,0.4);border-radius:12px;padding:16px;cursor:pointer;text-align:center;">
-<div style="font-size:28px;margin-bottom:6px;">🔬</div>
-<div style="color:#9b59b6;font-weight:700;font-size:13px;">تقرير الجسات</div>
-<div style="color:var(--text3);font-size:11px;margin-top:4px;">Geotechnical Investigation Report</div>
-<input type="file" id="doc-upload-gi" style="display:none" accept=".pdf" onchange="handleDocUpload(this,'gi')">
-</div>
-</div>
 
-<div id="doc-files-list" style="margin:10px 0;"></div>
 
-<div id="doc-analysis-panel" style="display:none;background:var(--dark4);border-radius:12px;padding:14px;margin-top:10px;">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-<div style="color:var(--gold);font-weight:700;font-size:14px;">🤖 تحليل الوثائق</div>
-<button onclick="runDocAnalysis()" style="background:linear-gradient(135deg,#7a1515,#c9a84c);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-family:Tajawal,sans-serif;cursor:pointer;font-size:12px;">⚡ تحليل الآن</button>
-</div>
-<div style="margin-bottom:10px;">
-<label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">نوع المشروع:</label>
-<select id="doc-project-type" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text1);font-family:Tajawal,sans-serif;">
-<option value="roads">أعمال الطرق والبنية التحتية</option>
-<option value="building">مباني وإنشاءات</option>
-<option value="utilities">شبكات المرافق</option>
-<option value="mixed">مشروع متكامل (طرق + مرافق + إنشاء)</option>
-</select>
-</div>
-<div style="margin-bottom:10px;">
-<label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">ما الذي تريد تحليله؟</label>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input type="checkbox" id="da-itp" checked> إنشاء ITP</label>
-<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input type="checkbox" id="da-tests"> متطلبات الاختبارات</label>
-<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input type="checkbox" id="da-ncr"> نقاط عدم المطابقة</label>
-<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input type="checkbox" id="da-qty"> تحليل الكميات</label>
-</div>
-</div>
-</div>
-
-<div id="doc-ai-result" style="margin-top:10px;"></div>
-</div>
-
-<div class="lang-content-en" style="display:none;">
-<h3>📁 Project Document Upload & Analysis</h3>
-<p style="font-size:12px;color:var(--text3);">Upload your specifications, drawings and BOQ — the app analyzes them and assists with QC, compliance and quantity checks</p>
-
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0;">
-<div onclick="document.getElementById('doc-upload-specs-en').click()" style="background:rgba(201,168,76,0.06);border:2px dashed rgba(201,168,76,0.4);border-radius:12px;padding:16px;cursor:pointer;text-align:center;">
-<div style="font-size:28px;margin-bottom:6px;">📋</div>
-<div style="color:var(--gold);font-weight:700;font-size:13px;">Project Specifications</div>
-<div style="color:var(--text3);font-size:11px;margin-top:4px;">PDF / DOCX</div>
-<input type="file" id="doc-upload-specs-en" style="display:none" accept=".pdf,.docx" multiple onchange="handleDocUpload(this,'specs')">
-</div>
-<div onclick="document.getElementById('doc-upload-dwg-en').click()" style="background:rgba(52,152,219,0.06);border:2px dashed rgba(52,152,219,0.4);border-radius:12px;padding:16px;cursor:pointer;text-align:center;">
-<div style="font-size:28px;margin-bottom:6px;">📐</div>
-<div style="color:#3498db;font-weight:700;font-size:13px;">Drawings (IFC/Shop)</div>
-<div style="color:var(--text3);font-size:11px;margin-top:4px;">PDF</div>
-<input type="file" id="doc-upload-dwg-en" style="display:none" accept=".pdf" multiple onchange="handleDocUpload(this,'drawings')">
-</div>
-<div onclick="document.getElementById('doc-upload-boq-en').click()" style="background:rgba(46,204,113,0.06);border:2px dashed rgba(46,204,113,0.4);border-radius:12px;padding:16px;cursor:pointer;text-align:center;">
-<div style="font-size:28px;margin-bottom:6px;">📊</div>
-<div style="color:#2ecc71;font-weight:700;font-size:13px;">Bill of Quantities (BOQ)</div>
-<div style="color:var(--text3);font-size:11px;margin-top:4px;">PDF / Excel / CSV</div>
-<input type="file" id="doc-upload-boq-en" style="display:none" accept=".pdf,.xlsx,.xls,.csv" onchange="handleDocUpload(this,'boq')">
-</div>
-<div onclick="document.getElementById('doc-upload-gi-en').click()" style="background:rgba(155,89,182,0.06);border:2px dashed rgba(155,89,182,0.4);border-radius:12px;padding:16px;cursor:pointer;text-align:center;">
-<div style="font-size:28px;margin-bottom:6px;">🔬</div>
-<div style="color:#9b59b6;font-weight:700;font-size:13px;">GI Report</div>
-<div style="color:var(--text3);font-size:11px;margin-top:4px;">Geotechnical Report PDF</div>
-<input type="file" id="doc-upload-gi-en" style="display:none" accept=".pdf" onchange="handleDocUpload(this,'gi')">
-</div>
-</div>
-
-<div id="doc-files-list-en" style="margin:10px 0;"></div>
-
-<div style="background:var(--dark4);border-radius:12px;padding:14px;margin-top:10px;">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-<div style="color:var(--gold);font-weight:700;font-size:14px;">🤖 AI Document Analysis</div>
-<button onclick="runDocAnalysis()" style="background:linear-gradient(135deg,#7a1515,#c9a84c);color:#fff;border:none;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:12px;">⚡ Analyze Now</button>
-</div>
-<div style="margin-bottom:10px;">
-<label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">Project Type:</label>
-<select id="doc-project-type-en" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text1);font-family:Tajawal,sans-serif;">
-<option value="roads">Road & Infrastructure Works</option>
-<option value="building">Buildings & Structures</option>
-<option value="utilities">Utility Networks</option>
-<option value="mixed">Mixed Project (Roads + Utilities + Structures)</option>
-</select>
-</div>
-<div style="margin-bottom:10px;">
-<label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">What to Analyze?</label>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input type="checkbox" id="da-itp-en" checked> Generate ITP</label>
-<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input type="checkbox" id="da-tests-en"> Test Requirements</label>
-<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input type="checkbox" id="da-ncr-en"> NCR Risk Points</label>
-<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input type="checkbox" id="da-qty-en"> Quantity Analysis</label>
-</div>
-</div>
-</div>
-<div id="doc-ai-result-en" style="margin-top:10px;"></div>
-</div>
 ` };
   c["materials"] = { title: '🧱 مواد البناء والمنتجات', content: `
 <div class="lang-content-ar">
