@@ -399,7 +399,7 @@
 </div>
 
 <h3>🧪 اختبارات البيتومين الكاملة</h3>
-<div onclick="QS.openDetail('bitumen_tests')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:12px;cursor:pointer;text-align:center;">
+<div onclick="QS.openDetail('bitumen_60_70')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:12px;cursor:pointer;text-align:center;">
 <div style="font-size:22px;">🧪</div>
 <div style="color:#e74c3c;font-weight:700;font-size:13px;">PAV + DSR + BBR + DTT + RV + PMB Tests</div>
 <div style="color:var(--text3);font-size:11px;">RTFOT · PAV · Dynamic Shear · Creep Stiffness · Direct Tension · Rotational Viscosity</div>
@@ -447,7 +447,7 @@
 <div style="font-size:18px;">🪣</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">Tack Coat</div>
 <div style="color:var(--text3);font-size:10px;">SS-1h | 0.20-0.50 L/m²</div></div>
 </div>
-<div onclick="QS.openDetail('bitumen_tests')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:12px;cursor:pointer;text-align:center;margin-bottom:10px;">
+<div onclick="QS.openDetail('bitumen_60_70')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:12px;cursor:pointer;text-align:center;margin-bottom:10px;">
 <div style="font-size:22px;">🧪</div>
 <div style="color:#e74c3c;font-weight:700;font-size:13px;">PAV + DSR + BBR + DTT + RV + PMB Tests</div>
 <div style="color:var(--text3);font-size:11px;">Full bitumen testing programme per QCS 2024</div>
@@ -912,7 +912,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <div class="lang-content-ar">
 <div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 طبقة Road Base — التنفيذ والاختبارات</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">📐 طبقة Subbase Course — التعريف والتنفيذ</span>
 <button onclick="document.getElementById('vid-base-new').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
 </div>
 <input type="file" id="vid-base-new" accept="video/*" style="display:none" data-player="vid-base-new-p" data-ph="vid-base-new-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
@@ -1515,6 +1515,14 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>Base Course A</td><td>80-100mm</td><td>-10mm / +15mm</td></tr>
 </table>
 </div>
+<h3>📐 Pavement Elevation Tolerances — QCS S6 P5</h3>
+<table class="dm-table">
+<tr><th>المستوى / Level</th><th>التفاوت المسموح / Tolerance</th><th>QCS</th></tr>
+<tr><td>Top of Wearing Course (منسوب السطح النهائي)</td><td>±6mm from design level</td><td>S6 P5 Page 19</td></tr>
+<tr><td>Crossfall (الميل العرضي)</td><td>2.5% ± 0.3%</td><td>S6 P2 + RDM</td></tr>
+<tr><td>Longitudinal Profile</td><td>±6mm under 3m straight edge</td><td>S6 P5</td></tr>
+<tr><td>Edge of Carriageway</td><td>±25mm from design line</td><td>S6 P5</td></tr>
+</table>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 — Section 8 | Asphalt Volumetric Properties & Field Tolerances
@@ -1590,24 +1598,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>Base Course A (BC-A)</td><td>80 - 100mm</td><td>80mm</td><td>100mm</td></tr>
 <tr><td>ملاحظة: إذا تجاوزت السماكة 100mm</td><td colspan="3">يُقسَّم لطبقتين — كل طبقة ≤ 100mm</td></tr>
 </table>
-<h3>4.0 Hot Weather Concreting — خاص بقطر</h3>
-<table class="dm-table"><tr><th>البند</th><th>الاشتراط</th><th>QCS Ref.</th></tr>
-<tr><td>درجة الحرارة القصوى</td><td>Concrete temp ≤32°C عند الصب — Ambient >40°C = توقف الصب</td><td>QCS 2024 P5 S4.1</td></tr>
-<tr><td>التبريد</td><td>Ice في مياه الخلط + Chilled aggregates + White tankers</td><td>QCS 2024 P5 S4.2</td></tr>
-<tr><td>زمن التسليم</td><td>≤60 دقيقة (صيف) بدل 90 — Retarder مسموح بموافقة</td><td>QCS 2024 P5 S4.3</td></tr>
-<tr><td>Curing مضاعف</td><td>Curing compound فوري + Hessian مبلل + 14 يوم كحد أدنى</td><td>QCS 2024 P5 S4.5</td></tr>
-<tr><td>صب ليلي</td><td>يُفضَّل من الساعة 6 مساءً — 6 صباحاً في الصيف</td><td>QCS 2024 P5 S4.1</td></tr>
-</table>
-<h3>5.0 Sulphate Attack — البيئة العدوانية في قطر</h3>
-<table class="dm-table"><tr><th>SO₃ في التربة</th><th>الإسمنت المطلوب</th><th>W/C ratio</th><th>Min. Cement</th></tr>
-<tr><td>< 0.2%</td><td>OPC عادي</td><td>≤ 0.55</td><td>300 kg/m³</td></tr>
-<tr><td>0.2 – 0.5%</td><td>SRPC أو OPC + GGBS (≥50%)</td><td>≤ 0.50</td><td>320 kg/m³</td></tr>
-<tr><td>0.5 – 1.0%</td><td>SRPC إلزامي</td><td>≤ 0.45</td><td>350 kg/m³</td></tr>
-<tr><td>> 1.0%</td><td>SRPC + Protective Coating + دراسة خاصة</td><td>≤ 0.40</td><td>380 kg/m³</td></tr>
-</table>
-
-</div>
-<div class="lang-content-en" style="display:none;">
+lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 — Section 8 | Marshall Mix Design & Volumetric Properties
 </div>
@@ -3053,5 +3044,189 @@ c["finishing"] = { title: '🏁 تشطيب الرصيف — Finishing', content:
 <tr><td>Skid Resistance</td><td>SFC ≥ 0.45</td><td>SCRIM</td></tr>
 </table>
 </div>` };
+
+
+c["concrete_pavement"] = {
+  title: '🏗️ Concrete Road Pavement — QCS Section 6 Part 6 Full Summary',
+  content: `
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 6 Part 6 | Concrete Road Pavement | Full Summary
+</div>
+<div class="lang-content-ar">
+<h3>📐 1. أنواع رصف الConcrete</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>النوع</th><th>الوصف</th><th>الاستخدام في قطر</th></tr>
+<tr><td><strong>JPCP</strong> (Jointed Plain Concrete)</td><td>ألواح خرسانية بدون Rebar تسليح + Transverse Joints</td><td>المطارات + الموانئ + الصناعي</td></tr>
+<tr><td><strong>JRCP</strong> (Jointed Reinforced)</td><td>ألواح خرسانية بRebar تسليح خفيف</td><td>نادر الاستخدام</td></tr>
+<tr><td><strong>CRCP</strong> (Continuously Reinforced)</td><td>Rebar تسليح مستمر — بدون Transverse Joints</td><td>الطرق السريعة الثقيلة</td></tr>
+<tr><td><strong>Roller Compacted Concrete (RCC)</strong></td><td>Concrete مدموكة بـ Roller — جافة جداً</td><td>مواقف + مستودعات صناعية</td></tr>
+</table>
+
+<h3>📐 2. مواصفات الConcrete — QCS S6 P6</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المواصفة</th><th>المرجع</th></tr>
+<tr><td>درجة الConcrete (fcu)</td><td>≥ C35 / fcu ≥ 35 N/mm²</td><td>QCS S6 P6</td></tr>
+<tr><td>Flexural Strength (MR)</td><td>≥ 4.5 MPa @ 28 يوم</td><td>QCS S6 P6</td></tr>
+<tr><td>w/c Ratio (أقصى)</td><td>≤ 0.40</td><td>QCS S6 P6</td></tr>
+<tr><td>Cement Content (أدنى)</td><td>≥ 380 kg/m³</td><td>QCS S6 P6</td></tr>
+<tr><td>نوع الأسمنت في قطر</td><td>SRPC أو OPC+GGBS (بيئة عدوانية)</td><td>QCS S6 P6</td></tr>
+<tr><td>Air Content</td><td>4.5 ± 1.5% (مناخ قطر)</td><td>QCS S6 P6</td></tr>
+<tr><td>Max Aggregate Size</td><td>≤ ⅓ سماكة اللوح أو 37.5mm</td><td>QCS S6 P6</td></tr>
+<tr><td>Slump (Slipform Paving)</td><td>20 - 60mm</td><td>QCS S6 P6</td></tr>
+</table>
+
+<h3>📐 3. أبعاد الألواح والمفاصل</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المواصفة</th></tr>
+<tr><td>سماكة اللوح (Slab Thickness)</td><td>200 - 300mm حسب Traffic Designation</td></tr>
+<tr><td>عرض اللوح (Slab Width)</td><td>= عرض مسار المرور (3.65m عادةً)</td></tr>
+<tr><td>طول لوح JPCP (Transverse Joint Spacing)</td><td>4.5 - 6.0m</td></tr>
+<tr><td>Transverse Joint Width</td><td>6 - 10mm</td></tr>
+<tr><td>Transverse Joint Depth</td><td>⅓ سماكة اللوح (قطع بعد 24-72hr)</td></tr>
+<tr><td>Longitudinal Joint</td><td>في منتصف اللوح إذا عرض &gt; 4.5m</td></tr>
+<tr><td>Expansion Joint</td><td>عند Fixed Objects (Bridges + Buildings)</td></tr>
+</table>
+
+<h3>📐 4. Dowel Bars & Tie Bars</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>Dowel Bars (Transverse)</th><th>Tie Bars (Longitudinal)</th></tr>
+<tr><td>الوظيفة</td><td>نقل الأحمال بين الألواح — يسمح بالحركة</td><td>ربط الألواح الجانبية — لا يسمح بالفتح</td></tr>
+<tr><td>القطر</td><td>32mm أو 38mm</td><td>16mm أو 20mm</td></tr>
+<tr><td>الطول</td><td>450mm</td><td>800mm</td></tr>
+<tr><td>التباعد</td><td>كل 300mm في وسط اللوح</td><td>كل 750-1000mm</td></tr>
+<tr><td>التشحيم</td><td>نصف الطول مشحّم (يسمح بالحركة)</td><td>لا تشحيم</td></tr>
+<tr><td>المادة</td><td>Steel Grade 250 أو Epoxy Coated</td><td>Steel Grade 460</td></tr>
+</table>
+
+<h3>📐 5. طرق الصب والفرش</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الطريقة</th><th>الوصف</th><th>المزايا</th></tr>
+<tr><td>Slipform Paving</td><td>Paver متخصص يصب ويشكّل ويCompaction في حركة واحدة</td><td>سريع + جودة عالية + أقل عمالة</td></tr>
+<tr><td>Fixed Form Paving</td><td>قوالب جانبية ثابتة + صب يدوي/بمضخة</td><td>للأشكال المعقدة + Ramps</td></tr>
+</table>
+
+<h3>📐 6. المعالجة (Curing) — QCS S6 P6</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
+<tr><td>Curing Compound</td><td>رش فوري بعد الانتهاء من التشطيب Surface — Resin-Based Compound</td></tr>
+<tr><td>Curing Duration</td><td>≥ 7 أيام OPC / ≥ 10 أيام SRPC</td></tr>
+<tr><td>Hot Weather Protection</td><td>Polythene Sheet + Wet Hessian فوق الـ Compound في درجات &gt; 35°C</td></tr>
+<tr><td>Solar Radiation Protection</td><td>White Pigmented Compound لعكس الحرارة</td></tr>
+<tr><td>درجة الحرارة أثناء الصب</td><td>Concrete ≤ 32°C في الموقع</td></tr>
+</table>
+
+<h3>📐 7. Joint Sealant</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
+<tr><td>نوع المادة</td><td>Hot-Applied Rubberized Bitumen أو Polyurethane</td></tr>
+<tr><td>وقت التطبيق</td><td>بعد 24-72hr من القطع + بعد جفاف الجوانت</td></tr>
+<tr><td>عمق Backer Rod</td><td>يُوضع قبل الـ Sealant بعمق = عرض الجوينت</td></tr>
+<tr><td>مستوى الـ Sealant</td><td>5-10mm أقل من سطح اللوح</td></tr>
+<tr><td>مقاومة الحرارة</td><td>يتحمل ≥ 70°C (ضروري في قطر)</td></tr>
+</table>
+
+<h3>📐 8. اختبارات القبول</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الاختبار</th><th>المعيار</th><th>التكرار</th></tr>
+<tr><td>Flexural Strength (Beam Test)</td><td>≥ 4.5 MPa @ 28 يوم</td><td>كل 50m³</td></tr>
+<tr><td>Cube Compressive Strength</td><td>≥ 35 N/mm² @ 28 يوم</td><td>كل 50m³</td></tr>
+<tr><td>Slab Thickness (Core)</td><td>Design ± 10mm</td><td>كل 1000m²</td></tr>
+<tr><td>Surface Evenness (3m Straightedge)</td><td>≤ 3mm تحت الـ 3m Straight Edge</td><td>كل 25m</td></tr>
+<tr><td>Level Survey</td><td>± 10mm من التصميم</td><td>كل 25m طول</td></tr>
+<tr><td>Texture Depth (Sand Patch)</td><td>≥ 0.7mm (Skid Resistance)</td><td>كل 1000m²</td></tr>
+<tr><td>IRI</td><td>≤ 2.0 m/km</td><td>كل Section</td></tr>
+<tr><td>Dowel Bar Alignment</td><td>± 6mm من المحور</td><td>100% Visual + Sampling</td></tr>
+</table>
+
+<h3>🔴 Hold Points</h3>
+<p>• <strong>HP-01:</strong> Mix Design Approval + JMF قبل الإنتاج<br>
+• <strong>HP-02:</strong> Subbase + Grade inspection قبل الصب<br>
+• <strong>HP-03:</strong> Dowel Bars + Tie Bars inspection قبل الصب<br>
+• <strong>HP-04:</strong> Pour Card + Slipform Calibration قبل الصب<br>
+• <strong>HP-05:</strong> Flexural Strength 7 يوم → للاستشاري<br>
+• <strong>HP-06:</strong> Joint Cutting within 24-72hr من الصب<br>
+• <strong>HP-07:</strong> Joint Sealing بعد اكتمال المعالجة</p>
+</div>
+<div class="lang-content-en" style="display:none;">
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 8 P9 | Concrete Pavement (Rigid Pavement)
+</div>
+<h3>🛣️ Concrete Pavement — Complete QCS 2024 Requirements</h3>
+<p style="font-size:12px;color:var(--text2);margin-bottom:12px;">Rigid concrete pavements are used for high-load areas (container ports, airports, industrial roads). In Qatar, they are specified where flexible asphalt cannot withstand point loads or extreme temperatures.</p>
+<table class="dm-table">
+<tr><th>Property</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Concrete Grade</td><td>Min C40 (fcu = 40 MPa at 28 days)</td><td>QCS S8 P9</td></tr>
+<tr><td>Flexural Strength</td><td>≥4.5 MPa (beam bending test)</td><td>QCS S8 P9</td></tr>
+<tr><td>W/C Ratio</td><td>≤0.40 (durability requirement)</td><td>QCS S8 P9</td></tr>
+<tr><td>Min Cement Content</td><td>350 kg/m³</td><td>QCS S8 P9</td></tr>
+<tr><td>Slab Thickness</td><td>Design ±5mm (measured by coring)</td><td>QCS S8 P9</td></tr>
+<tr><td>Surface Texture (brushed)</td><td>3–5 mm groove depth / transverse</td><td>QCS S8 P9</td></tr>
+<tr><td>Joint Type — Transverse</td><td>Contraction joints — sawn within 24hr</td><td>QCS S8 P9</td></tr>
+<tr><td>Joint Spacing — Transverse</td><td>≤5.0m (unreinforced) / ≤7.5m (reinforced)</td><td>QCS S8 P9</td></tr>
+<tr><td>Joint Spacing — Longitudinal</td><td>≤4.0m (carriageway lane width)</td><td>QCS S8 P9</td></tr>
+<tr><td>Joint Sealant</td><td>Hot-applied bituminous / polyurethane</td><td>BS 2499 / QCS S8</td></tr>
+<tr><td>Curing</td><td>Polythene membrane + curing compound Min 7 days</td><td>QCS S8 P9</td></tr>
+<tr><td>Skid Resistance (SRT)</td><td>≥55 SRT value (pendulum test)</td><td>QCS S8 P9</td></tr>
+<tr><td>Level Tolerance</td><td>±3mm under 3m straightedge</td><td>QCS S8 P9</td></tr>
+<tr><td>Crossfall</td><td>2.5% ±0.3%</td><td>QCS S8 P9</td></tr>
+</table>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
+🔴 HP: Pre-pour inspection required. Flexural strength beams cured alongside slab. Opening to traffic only after 28-day strength confirmed.
+</div>
+<div style="background:rgba(243,156,18,0.1);border:1px solid rgba(243,156,18,0.3);border-radius:8px;padding:10px;margin-top:8px;font-size:12px;">
+⚠️ Qatar Hot Weather: Concrete pavement must be poured at night when ambient temperature <35°C. Use chilled water + ice to control mix temperature.
+</div>
+</div>
+`
+};
+
+
+c["bitumen_60_70"] = {
+  title: '🛢️ Bitumen 60/70 & PMB — QCS S6 P5',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 6 Part 5 | Bitumen 60/70 | PMB | ASTM D5/D36/D113
+</div>
+<h3>📐 تعريف البيتومين — Bitumen Definition</h3>
+<p><strong>البيتومين 60/70</strong> هو مادة رابطة لزجة داكنة اللون تستخدم في خلطات الإسفلت. الرقمان يمثلان درجة اختراق الإبرة Penetration Grade: 60 إلى 70 (0.1 mm) عند 25°C. يُستخدم كمادة رابطة Binder في جميع طبقات الإسفلت في قطر.</p>
+<h3>📊 مواصفات Bitumen 60/70 — QCS S6 P5</h3>
+<table class="dm-table">
+<tr><th>الخاصية / Property</th><th>الحد / Limit</th><th>المعيار / Standard</th></tr>
+<tr><td>Penetration @ 25°C, 100g, 5s</td><td>60 – 70 (0.1 mm)</td><td>ASTM D5</td></tr>
+<tr><td>Softening Point (Ring & Ball)</td><td>49 – 56°C</td><td>ASTM D36</td></tr>
+<tr><td>Ductility @ 25°C</td><td>≥ 100 cm</td><td>ASTM D113</td></tr>
+<tr><td>Flash Point (Cleveland)</td><td>≥ 232°C</td><td>ASTM D92</td></tr>
+<tr><td>Solubility in TCE</td><td>≥ 99%</td><td>ASTM D2042</td></tr>
+<tr><td>Loss on Heating (163°C, 5h)</td><td>≤ 0.2%</td><td>ASTM D1754</td></tr>
+<tr><td>Penetration after heating</td><td>≥ 54% of original</td><td>ASTM D5</td></tr>
+<tr><td>Specific Gravity @ 25°C</td><td>1.01 – 1.06</td><td>ASTM D70</td></tr>
+</table>
+<h3>📐 Polymer Modified Bitumen (PMB) — QCS S6 P5</h3>
+<p><strong>PMB (Polymer Modified Bitumen)</strong> هو البيتومين المعدَّل بإضافة بوليمرات (عادةً SBS — Styrene-Butadiene-Styrene) لتحسين خصائصه في درجات الحرارة العالية والمنخفضة. يُستخدم في الطبقة السطحية Wearing Course للطرق الرئيسية والسريعة في قطر.</p>
+<table class="dm-table">
+<tr><th>الخاصية</th><th>Bitumen 60/70</th><th>PMB (SBS)</th><th>QCS</th></tr>
+<tr><td>Softening Point</td><td>49-56°C</td><td>≥ 65°C</td><td>S6 P5</td></tr>
+<tr><td>Penetration @ 25°C</td><td>60-70 (0.1mm)</td><td>45-65 (0.1mm)</td><td>S6 P5</td></tr>
+<tr><td>Elastic Recovery @ 25°C</td><td>N/A</td><td>≥ 70%</td><td>S6 P5</td></tr>
+<tr><td>الاستخدام في قطر</td><td>جميع الطرق</td><td>Arterial + Expressway</td><td>RDM 2023</td></tr>
+</table>
+<p style="margin-top:8px">
+<strong>للاختبارات التفصيلية:</strong>
+<span onclick="QS.openDetail('bitumen_tests')" style="color:var(--gold);cursor:pointer;text-decoration:underline">اضغط هنا لفتح جدول اختبارات البيتومين الكامل ←</span>
+</p>
+</div>
+<div class="lang-content-en" style="display:none">
+<h3>Bitumen 60/70 & PMB — QCS S6 P5</h3>
+<table class="dm-table">
+<tr><th>Property</th><th>Limit</th><th>Standard</th></tr>
+<tr><td>Penetration @ 25°C</td><td>60 – 70 (0.1 mm)</td><td>ASTM D5</td></tr>
+<tr><td>Softening Point</td><td>49 – 56°C</td><td>ASTM D36</td></tr>
+<tr><td>Ductility @ 25°C</td><td>≥ 100 cm</td><td>ASTM D113</td></tr>
+<tr><td>Flash Point</td><td>≥ 232°C</td><td>ASTM D92</td></tr>
+</table>
+<p>PMB (Polymer Modified): Softening Point ≥ 65°C, Elastic Recovery ≥ 70% — used on arterial/expressway roads.</p>
+</div>`
+};
 
 })();

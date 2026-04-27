@@ -6710,7 +6710,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 
   ms_asphalt: { title: '📋 Method Statement — Asphalt Works', content: `
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 Based on Parsons Approved MS | EXW-P008-0003-CS-CCC-MT-00040 Rev.CE | QCS 2024 Part 6
+📌 Based on the Engineering Contractor Approved MS | EXW-P008-0003-CS-CCC-MT-00040 Rev.CE | QCS 2024 Part 6
 </div>
 <div class="lang-content-ar">
 <h3>📋 نطاق العمل</h3>
