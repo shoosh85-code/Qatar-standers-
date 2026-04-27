@@ -110,10 +110,17 @@
 <head>
 <meta charset="UTF-8">
 <script>
-// Kill old Service Workers
-if('serviceWorker'in navigator){
-  navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(sw){sw.unregister();});});
-  if('caches'in window)caches.keys().then(function(k){k.forEach(function(c){caches.delete(c);});});
+// SW v4 active — old SWs with different scope/origin will be cleaned by activate event
+// Only unregister blob: SW registrations (old workaround — not needed with /sw.js)
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(function(regs) {
+    regs.forEach(function(reg) {
+      // Remove old blob: registrations only
+      if (reg.scope && reg.active && reg.active.scriptURL && reg.active.scriptURL.startsWith('blob:')) {
+        reg.unregister();
+      }
+    });
+  });
 }
 </script>
 <!-- CSP مُطبَّق عبر Server Headers في vercel.json — لا حاجة لـ meta tag هنا -->
@@ -651,6 +658,63 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   border-radius:6px; padding:2px 8px; font-size:9px;
   font-weight:800; color:#fff; letter-spacing:.5px; z-index:2;
 }
+/* ── Skeleton Loading ── */
+.skeleton-card {
+  background: var(--dark3);
+  border-radius: 16px;
+  border: 1px solid var(--border2);
+  padding: 20px;
+  animation: skeleton-pulse 1.6s ease-in-out infinite;
+  pointer-events: none;
+}
+.skeleton-line {
+  height: 12px; border-radius: 6px;
+  background: linear-gradient(90deg, var(--dark4) 25%, var(--border2) 50%, var(--dark4) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.6s infinite;
+  margin-bottom: 8px;
+}
+.skeleton-emoji { width: 36px; height: 36px; border-radius: 50%; margin-bottom: 12px; }
+.skeleton-line.w-60 { width: 60%; }
+.skeleton-line.w-80 { width: 80%; }
+.skeleton-line.w-40 { width: 40%; }
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.7; }
+}
+
+/* ── Toast enhanced ── */
+.toast-success { border-color: rgba(46,204,113,0.4) !important; }
+.toast-error   { border-color: rgba(231,76,60,0.4) !important; }
+.toast-warn    { border-color: rgba(243,156,18,0.4) !important; }
+.toast-info    { border-color: rgba(52,152,219,0.4) !important; }
+
+/* ── Keyboard shortcut hint ── */
+.kbd-hint {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--dark4); border: 1px solid var(--border2);
+  border-radius: 6px; padding: 2px 7px; font-size: 10px;
+  color: var(--text3); font-family: monospace; letter-spacing: .5px;
+}
+
+/* ── Back to top button ── */
+#backToTop {
+  position: fixed; bottom: 80px; left: 20px; z-index: 500;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--dark4); border: 1px solid var(--border2);
+  color: var(--text2); font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: translateY(20px);
+  transition: opacity .3s, transform .3s;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+#backToTop.visible { opacity: 1; transform: translateY(0); }
+#backToTop:hover { border-color: var(--gold); color: var(--gold); }
+
 </style>
 <!-- data_content.js loaded by loader.js -->
 </head>
@@ -757,6 +821,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <input type="text" class="search-input" id="searchInput" placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة الConcrete في الأساسات وفق الكود القطري؟" onkeydown="if(event.key==='Enter') doSearch()">
     <button class="search-icon-btn" onclick="QS.doSearch()">⚡ بحث ذكي</button>
   </div>
+  <div style="text-align:left;margin-top:5px;direction:ltr;"><span class="kbd-hint">/</span> أو <span class="kbd-hint">Ctrl+K</span> للبحث السريع &nbsp;·&nbsp; <span class="kbd-hint">F</span> لتصفية الكروت &nbsp;·&nbsp; <span class="kbd-hint">Esc</span> لإغلاق
   <div class="quick-tags">
     <span class="quick-tag" onclick="QS.quickSearch('متطلبات الConcrete المسلحة')">🏛️ الConcrete المسلحة</span>
     <span class="quick-tag" onclick="QS.quickSearch('مواصفات الأساسات والخوازيق')">⚓ الأساسات</span>
@@ -1007,6 +1072,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 </div>
 
 <div class="toast" id="toast">✅ تم!</div>
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="العودة للأعلى">↑</button>
 
 <script>
 // ===== STATE =====
@@ -2004,12 +2070,74 @@ function closeDetailModal(e) {
   }
 }
 
-function showToast(msg) {
+function showToast(msg, type) {
   const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
+  t.textContent = msg;
+  if (!type) {
+    if (msg.startsWith('✅') || msg.startsWith('🎉')) type = 'success';
+    else if (msg.startsWith('❌') || msg.startsWith('⛔')) type = 'error';
+    else if (msg.startsWith('⚠️') || msg.startsWith('⏳')) type = 'warn';
+    else if (msg.startsWith('ℹ️') || msg.startsWith('🔍')) type = 'info';
+  }
+  t.classList.remove('toast-success','toast-error','toast-warn','toast-info','show');
+  if (type) t.classList.add('toast-' + type);
+  t.classList.add('show');
   if (t._toastTimer) clearTimeout(t._toastTimer);
-  t._toastTimer = setTimeout(() => { t.classList.remove('show'); t._toastTimer = null; }, 3000);
+  const dur = type === 'error' ? 4500 : type === 'warn' ? 4000 : 3000;
+  t._toastTimer = setTimeout(() => {
+    t.classList.remove('show','toast-success','toast-error','toast-warn','toast-info');
+    t._toastTimer = null;
+  }, dur);
 }
+
+// ── Skeleton Loading ──
+function showSkeletons(container, count) {
+  if (!container) return;
+  container.innerHTML = Array.from({length: count || 4}, () =>
+    '<div class="skeleton-card"><div class="skeleton-line skeleton-emoji"></div>' +
+    '<div class="skeleton-line w-80"></div><div class="skeleton-line w-60"></div>' +
+    '<div class="skeleton-line w-40"></div></div>'
+  ).join('');
+}
+function hideSkeletons(container) {
+  if (!container) return;
+  container.querySelectorAll('.skeleton-card').forEach(el => el.remove());
+}
+
+// ── Keyboard Shortcuts ──
+(function initKbd() {
+  document.addEventListener('keydown', function(e) {
+    const tag = e.target.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return;
+    if (e.key === 'Escape') {
+      const dm = document.getElementById('detailModal');
+      if (dm && dm.classList.contains('open')) {
+        dm.classList.remove('open');
+        document.getElementById('appFooter').style.display = '';
+        document.body.style.overflow = '';
+        if (typeof navStack !== 'undefined') navStack = [];
+        return;
+      }
+      const km = document.getElementById('keyModal');
+      if (km && km.classList.contains('open')) { km.classList.remove('open'); return; }
+    }
+    if (e.key === '/' || (e.ctrlKey && e.key === 'k') || (e.metaKey && e.key === 'k')) {
+      e.preventDefault();
+      const si = document.getElementById('searchInput');
+      if (si) { si.focus(); si.select(); }
+      return;
+    }
+    if ((e.key === 'f' || e.key === 'F') && !e.ctrlKey && !e.metaKey) {
+      const cf = document.getElementById('cardFilter');
+      if (cf) { e.preventDefault(); cf.focus(); }
+    }
+  });
+  // Back to top on scroll
+  const btn = document.getElementById('backToTop');
+  if (btn) window.addEventListener('scroll', () => {
+    btn.classList.toggle('visible', window.scrollY > 500);
+  }, { passive: true });
+})();
 
 // ─── Security: sanitize text before injecting into innerHTML ───
 /**
@@ -4045,56 +4173,48 @@ function resetInspector() {
   // ── 2. Inline Service Worker via Blob ──
   if (!('serviceWorker' in navigator) || location.protocol !== 'https:') return;
 
-  var CACHE = 'qatarspec-v4-7-0';
-  var ASSETS = ['/'];
-
-  var swCode = [
-    "var CACHE='" + CACHE + "';",
-    "self.addEventListener('install',function(e){ self.skipWaiting(); });",
-    "self.addEventListener('activate',function(e){",
-    "  e.waitUntil(caches.keys().then(function(keys){",
-    "    return Promise.all(keys.filter(function(k){return k!==CACHE;}).map(function(k){return caches.delete(k);}));",
-    "  }).then(function(){return self.clients.claim();}));",
-    "});",
-    "self.addEventListener('message',function(e){ if(e.data&&e.data.type==='SKIP_WAITING') self.skipWaiting(); });",
-    "self.addEventListener('fetch',function(e){",
-    "  var url=e.request.url;",
-    "  if(e.request.method!=='GET'||url.includes('/api/')||url.includes('anthropic')||url.includes('googleapis')||url.includes('supabase')){ return; }",
-    "  e.respondWith(",
-    "    fetch(e.request).then(function(r){",
-    "      if(r.ok){ var rc=r.clone(); caches.open(CACHE).then(function(c){c.put(e.request,rc);}); }",
-    "      return r;",
-    "    }).catch(function(){",
-    "      return caches.match(e.request).then(function(cached){ return cached||caches.match('/'); });",
-    "    })",
-    "  );",
-    "});"
-  ].join('\n');
-
+  // Register sw.js v4 — smart caching (CacheFirst/NetworkFirst/StaleWhileRevalidate)
   window.addEventListener('load', function() {
-    try {
-      var swBlob = new Blob([swCode], { type: 'application/javascript' });
-      var swURL = URL.createObjectURL(swBlob);
-      navigator.serviceWorker.register(swURL, { scope: '/' })
-        .then(function(reg) {
-          console.log('[QatarSpec] SW registered via Blob ✅ scope:', reg.scope);
-          // Show install prompt handling
-          window.addEventListener('beforeinstallprompt', function(ev) {
-            ev.preventDefault();
-            window._pwaInstallPrompt = ev;
-            var btn = document.getElementById('pwaInstallBtn');
-            if (btn) btn.style.display = 'flex';
+    navigator.serviceWorker.register('/sw.js', { scope: '/' })
+      .then(function(reg) {
+        console.log('[QatarSpec] SW v4 registered ✅');
+
+        // Detect new SW waiting — show update banner
+        function checkWaiting(r) {
+          if (r.waiting) {
+            document.getElementById('update-banner').style.display = 'block';
+            document.querySelector('#update-banner a').onclick = function() {
+              r.waiting.postMessage({ type: 'SKIP_WAITING' });
+              location.reload();
+            };
+          }
+        }
+        checkWaiting(reg);
+        reg.addEventListener('updatefound', function() {
+          var nw = reg.installing;
+          nw.addEventListener('statechange', function() {
+            if (nw.state === 'installed') checkWaiting(reg);
           });
-        })
-        .catch(function(err) {
-          // Fallback: try external sw.js
-          fetch('sw.js', { method: 'HEAD' })
-            .then(function(r) { if (r.ok) navigator.serviceWorker.register('sw.js'); })
-            .catch(function() { console.log('[PWA] SW skipped — single-file mode'); });
         });
-    } catch(e) {
-      console.warn('[PWA] SW blob init failed:', e);
-    }
+
+        // PWA install prompt
+        window.addEventListener('beforeinstallprompt', function(ev) {
+          ev.preventDefault();
+          window._pwaInstallPrompt = ev;
+          var btn = document.getElementById('pwaInstallBtn');
+          if (btn) btn.style.display = 'flex';
+        });
+      })
+      .catch(function(err) {
+        console.warn('[PWA] SW registration failed:', err.message);
+      });
+
+    // Reload on SW controller change (new version activated)
+    navigator.serviceWorker.addEventListener('controllerchange', function() {
+      if (window._swReloading) return;
+      window._swReloading = true;
+      location.reload();
+    });
   });
 })();
 

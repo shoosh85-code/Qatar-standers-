@@ -1,5 +1,5 @@
 {
-  "version": "2.10.0",
-  "date": "2026-04-26",
-  "notes": "Phase 8 — Search & Supabase improvements: enhanced system prompt, vector/FTS badge, 6 chunks, 450-char context, FREE_LIMIT=50"
+  "version": "3.0.0",
+  "date": "2026-04-28",
+  "notes": "Session 2+3: PWA SW v4 (smart caching), skeleton loader, keyboard shortcuts, enhanced toast, back-to-top, HSTS, CSP hardened"
 }
