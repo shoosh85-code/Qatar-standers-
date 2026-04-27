@@ -920,7 +920,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <div id="vid-base-new-p" class="qs-vid-ph" data-maxh="260px"></div>
 </div>
 
-<h3>📐 تعريف Road Base — QCS S6 P4 Cl. 4.1</h3>
+<h3>📐 تعريف Subbase Course — QCS S6 P4 Cl. 4.1</h3>
 <p>Road Base هي الطبقة الإنشائية الرئيسية في الرصيف، تقع مباشرة تحت طبقات الإسفلت وفوق الـ Subbase. وظيفتها تحمّل الأحمال المرورية وتوزيعها. تُنفَّذ من الجابرو المكسّر عالي الجودة بمتطلبات أكثر صرامة من الـ Subbase. الفرق الجوهري: LA Abrasion ≤ 30% (بدل 40%) و Fines ≤ 12% (بدل 15%). السماكة التصميمية 200mm–300mm.</p>
 
 <h3>⚠️ المواد غير المقبولة — QCS S6 P4</h3>
@@ -936,7 +936,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 • حجم أكبر من 37.5mm
 </div>
 
-<h3>📐 جدول 4:1 — التدرج الحبيبي Road Base — QCS S6 P4</h3>
+<h3>📐 جدول 4:1 — التدرج الحبيبي Subbase Course — QCS S6 P4</h3>
 <div style="overflow-x:auto;">
 <table class="dm-table" style="font-size:11px;">
 <tr style="background:rgba(122,21,21,0.9);"><th>Sieve Size</th><th>% Passing — Road Base</th><th>Test Method</th><th>Frequency</th></tr>
@@ -949,7 +949,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>0.075 mm</td><td style="color:#e74c3c;font-weight:700;">5 – 12</td></tr>
 </table></div>
 
-<h3>📐 جدول 4:2 — خصائص الركام Road Base — QCS S6 P4</h3>
+<h3>📐 جدول 4:2 — خصائص ركام Subbase Course — QCS S6 P4</h3>
 <div style="overflow-x:auto;">
 <table class="dm-table" style="font-size:11px;">
 <tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Parameter</th><th>Limit</th><th>Test Method</th><th>Frequency</th></tr>
@@ -1031,6 +1031,22 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 ` };
   c["base"] = { title: '🧱 Base Course — طبقة الأساس', content: `
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 6 Part 4 | Road Base Course
+</div>
+<div class="lang-content-ar">
+<h3>📐 تعريف Base Course — QCS S6 P4</h3>
+<p><strong>Base Course (طبقة الأساس)</strong> هي الطبقة الإنشائية الرئيسية في تركيب الرصيف المرن، تقع مباشرةً فوق Subbase وتحت Binder/Wearing Courses. تتكوّن من ركام متدرج مكسور (Crushed Aggregate) ذو قيم CBR وLAA عالية، وتتحمّل الجزء الأكبر من الأحمال الديناميكية قبل توزيعها على Subbase والـ Subgrade.</p>
+<table class="dm-table">
+<tr><th>الخاصية</th><th>المتطلب</th><th>QCS</th></tr>
+<tr><td>الوظيفة</td><td>توزيع الأحمال + نقلها للـ Subbase</td><td>S6 P4</td></tr>
+<tr><td>المادة</td><td>Crushed Gabbro أو ركام مكسور معتمد</td><td>S6 P4</td></tr>
+<tr><td>CBR min</td><td>≥ 80%</td><td>S6 P4</td></tr>
+<tr><td>PI max</td><td>≤ 6</td><td>S6 P4</td></tr>
+<tr><td>LAA max</td><td>≤ 30%</td><td>S6 P4</td></tr>
+<tr><td>درجة الدمك</td><td>≥ 100% MDD (Modified Proctor)</td><td>S6 P5</td></tr>
+<tr><td>السماكة الدنيا</td><td>100mm بعد الدمك (لكل طبقة)</td><td>S6 P4</td></tr>
+</table>
 <div class="lang-content-ar">
 <div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
@@ -1367,6 +1383,17 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 📌 QCS 2024 — Section 6 Part 5 | Prime Coat & Tack Coat | Pages 30-31
 </div>
 <div class="lang-content-ar">
+<h3>📐 تعريفات — Definitions</h3>
+<table class="dm-table">
+<tr><th>المصطلح</th><th>التعريف</th><th>QCS</th></tr>
+<tr><td><strong>Prime Coat</strong></td><td>طبقة رقيقة من البيتومين السائل (MC-30 أو مستحلب) تُطبَّق على Base Course غير الإسفلتي قبل رصف Binder Course. تهدف إلى: تثبيت السطح، ملء الفراغات، تحقيق التصاق بين الطبقات</td><td>S6 P5 P.30</td></tr>
+<tr><td><strong>Tack Coat</strong></td><td>طبقة رقيقة من المستحلب البيتوميني (CSS-1 أو K1-60) تُطبَّق بين طبقتين إسفلتيتين (بين Binder وWearing أو على الأسطح القديمة). تضمن التصاق الطبقات ومنع الانزلاق بينها</td><td>S6 P5 P.31</td></tr>
+</table>
+
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 6 Part 5 | Prime Coat & Tack Coat | Pages 30-31
+</div>
+<div class="lang-content-ar">
 <h3>📐 Prime Coat — ملخص Page 30</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
@@ -1419,6 +1446,24 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 ` };
   c["air_voids_tolerances"] = { title: '📐 Air Voids, Tolerances & Field Density — Tables 5:9, 5:10, 5:11', content: `
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 6 Part 5 | Air Voids | Pages 16-19
+</div>
+<div class="lang-content-ar">
+<h3>📐 تعريف Air Voids — QCS S6 P5</h3>
+<p><strong>Air Voids (Va)</strong> هي نسبة الفراغات الهوائية الموجودة في الخليط الإسفلتي المدموك مقارنةً بالحجم الكلي للخليط. تُعبَّر عنها بنسبة مئوية وتؤثر مباشرةً على:</p>
+<ul style="margin:8px 0;padding-right:16px">
+<li><strong>إذا كانت Va عالية جداً (فوق 5%)</strong>: الخليط هش، يسمح بدخول الهواء والماء → تشقق مبكر</li>
+<li><strong>إذا كانت Va منخفضة جداً (أقل من 3%)</strong>: الخليط لين جداً، يتشوّه تحت الحرارة والأحمال → rutting</li>
+<li><strong>النطاق المقبول</strong>: 3.0% - 5.0% وفق QCS 2024 S6 P5</li>
+</ul>
+<table class="dm-table">
+<tr><th>الحالة</th><th>Va%</th><th>التأثير</th><th>الإجراء</th></tr>
+<tr><td>مثالي</td><td>3-5%</td><td>أداء ممتاز</td><td>PASS</td></tr>
+<tr><td>عالٍ</td><td>> 5%</td><td>هشاشة + تشقق</td><td>FAIL → إعادة دمك أو رفض</td></tr>
+<tr><td>منخفض</td><td>< 3%</td><td>Rutting تحت الحرارة</td><td>FAIL → مراجعة Mix Design</td></tr>
+</table>
+
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 — Section 6 Part 5 | Pages 16-19
 </div>
@@ -1545,15 +1590,6 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>Base Course A (BC-A)</td><td>80 - 100mm</td><td>80mm</td><td>100mm</td></tr>
 <tr><td>ملاحظة: إذا تجاوزت السماكة 100mm</td><td colspan="3">يُقسَّم لطبقتين — كل طبقة ≤ 100mm</td></tr>
 </table>
-<h3>3.0 تسلسل العمل — Concrete Work Sequence</h3>
-<div style="margin-bottom:16px">
-<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">1</div><div><strong style="color:var(--gold2)">Pre-Pour Inspection</strong><br>فحص Formwork: alignment + levels + cleanliness — فحص Rebar: cover + spacing + lap length — Embedded items in place<br><small style="color:var(--text3)">Hold Point: SC يعتمد قبل الصب — لا صب بدون RFI معتمد</small></div></div>
-<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">2</div><div><strong style="color:var(--gold2)">Concrete Delivery & Checks</strong><br>Delivery ticket: Grade + Slump + W/C ratio + Admixtures — Temperature ≤32°C عند الوصول — زمن التسليم ≤90 دقيقة من الخلط<br><small style="color:var(--text3)">Witness Point: كل شاحنة — أي شاحنة >32°C أو >90 دقيقة تُرفض فوراً</small></div></div>
-<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">3</div><div><strong style="color:var(--gold2)">Slump Test + Cube Sampling</strong><br>Slump: 75-100mm (عادي) أو 100-150mm (ضخ) — 6 مكعبات كل 50m³ (3 لـ 7 يوم + 3 لـ 28 يوم)<br><small style="color:var(--text3)">Hold Point: Slump خارج النطاق = رفض الشاحنة</small></div></div>
-<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">4</div><div><strong style="color:var(--gold2)">Placing & Vibration</strong><br>ارتفاع الصب ≤1.5m (free fall) — Vibrator: Poker 50-75mm كل 450mm أفقياً — مدة الهز 10-15 ثانية — لا over-vibration<br><small style="color:var(--text3)">QCS 2024: Layer thickness ≤500mm لكل طبقة صب</small></div></div>
-<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">5</div><div><strong style="color:var(--gold2)">Finishing & Curing</strong><br>بدء Curing خلال 2-4 ساعات من الصب — Curing Compound أو Hessian + Water — المدة: 7 أيام minimum (14 يوم Sulphate Resisting)<br><small style="color:var(--text3)">⚠️ قطر: حرارة >40°C = Ice في الخلطة + Curing مضاعف + صب ليلي</small></div></div>
-<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">6</div><div><strong style="color:var(--gold2)">Cube Results & Stripping</strong><br>7 يوم ≥70% fcu — 28 يوم ≥100% fcu — Stripping بعد 24hr للأعمدة / 14 يوم للبلاطات<br><small style="color:var(--text3)">Hold Point: نتيجة <70% @7d = إيقاف + تحقيق — نتيجة <fcu @28d = NCR + Core Test</small></div></div>
-</div>
 <h3>4.0 Hot Weather Concreting — خاص بقطر</h3>
 <table class="dm-table"><tr><th>البند</th><th>الاشتراط</th><th>QCS Ref.</th></tr>
 <tr><td>درجة الحرارة القصوى</td><td>Concrete temp ≤32°C عند الصب — Ambient >40°C = توقف الصب</td><td>QCS 2024 P5 S4.1</td></tr>
@@ -1950,6 +1986,19 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 📌 QCS 2024 — Section 6 Part 5 | Joints & Rolling | Pages 28-29
 </div>
 <div class="lang-content-ar">
+<h3>📐 تعريف الجوانت — Joints Definitions</h3>
+<p>الجوانت في الرصف الإسفلتي هي الواجهات بين القطع المتجاورة من الإسفلت. إدارتها الصحيحة أساسية لضمان استمرارية الرصف ومنع دخول المياه والتشقق.</p>
+<table class="dm-table">
+<tr><th>النوع</th><th>التعريف</th><th>الاتجاه</th></tr>
+<tr><td><strong>Transverse Joint<br/>(جانت عرضي)</strong></td><td>الجانت الذي يمتد عمودياً على محور الطريق — يتشكّل عند بداية ونهاية كل يوم عمل أو عند توقف الـ Paver</td><td>⊥ عمودي على اتجاه السير</td></tr>
+<tr><td><strong>Longitudinal Joint<br/>(جانت طولي)</strong></td><td>الجانت الذي يمتد موازياً لمحور الطريق — يتشكّل بين حارتين مجاورتين أو Pass متجاورتين للـ Paver</td><td>// موازي لاتجاه السير</td></tr>
+<tr><td><strong>Pavement Elevation<br/>(منسوب الرصف)</strong></td><td>الفرق الرأسي بين سطح الطريق والعناصر المجاورة (Manholes/Kerbs). QCS S6 P5: ±6mm من التصميم. Manholes: flush ±5mm مع سطح الإسفلت</td><td>رأسي</td></tr>
+</table>
+
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 6 Part 5 | Joints & Rolling | Pages 28-29
+</div>
+<div class="lang-content-ar">
 <h3>📐 Transverse Joints (الجوانت العرضية) — Page 28</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
@@ -2041,7 +2090,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 ` };
   c["ms_asphalt"] = { title: '📋 Method Statement — Asphalt Works', content: `
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 Based on Parsons Approved MS | EXW-P008-0003-CS-CCC-MT-00040 Rev.CE | QCS 2024 Part 6
+📌 QCS 2024 — Section 6 Part 5 | Method Statement — Asphalt Works
 </div>
 <div class="lang-content-ar">
 <h3>📋 نطاق العمل</h3>
@@ -2774,4 +2823,235 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 </div>
 ` };
+c["binder"] = { title: '🟫 Binder Course — طبقة الرابط', content: `
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 6 Part 5 | Binder Course | Pages 20-25
+</div>
+<div class="lang-content-ar">
+<h3>📐 تعريف Binder Course — QCS S6 P5</h3>
+<p><strong>Binder Course (طبقة الرابط)</strong> هي الطبقة الإسفلتية الوسطى بين Base Course والـ Wearing Course. تعمل كعنصر رابط هيكلي ينقل الأحمال من الطبقة السطحية إلى طبقات القاعدة. تُصنَّع من خلطة إسفلتية أكثر خشونة من Wearing Course باستخدام ركام أكبر حجماً (AC-20 أو AC-25).</p>
+
+<h3>📊 المواصفات — QCS S6 P5</h3>
+<table class="dm-table">
+<tr><th>الخاصية</th><th>المتطلب</th><th>QCS S6 P5</th></tr>
+<tr><td>نوع الخليط</td><td>AC-20 أو AC-25 (Dense Graded)</td><td>P5 Table 5:1</td></tr>
+<tr><td>Air Voids (Va)</td><td>3.0 - 5.0%</td><td>P5 Table 5:6</td></tr>
+<tr><td>VMA min</td><td>13%</td><td>P5 Table 5:6</td></tr>
+<tr><td>Marshall Stability min</td><td>7 kN</td><td>P5 Table 5:6</td></tr>
+<tr><td>Flow</td><td>2 - 4 mm</td><td>P5 Table 5:6</td></tr>
+<tr><td>Bitumen Content</td><td>4.0 - 6.0%</td><td>P5 Table 5:6</td></tr>
+<tr><td>درجة حرارة الإنتاج</td><td>145 - 160°C</td><td>P5</td></tr>
+<tr><td>درجة حرارة الفرد min</td><td>135°C</td><td>P5</td></tr>
+<tr><td>درجة الدمك</td><td>≥ 92% TMD</td><td>P5</td></tr>
+<tr><td>السماكة النموذجية</td><td>60 - 80mm (حسب تصنيف الطريق)</td><td>RDM 2023</td></tr>
+</table>
+
+<h3>🔄 Tack Coat قبل Binder — QCS S6 P5</h3>
+<table class="dm-table">
+<tr><th>البيان</th><th>المتطلب</th></tr>
+<tr><td>نوع المادة</td><td>Bitumen Emulsion (CSS-1 أو K1-60)</td></tr>
+<tr><td>معدل التطبيق</td><td>0.3 - 0.5 L/m²</td></tr>
+<tr><td>وقت الجفاف</td><td>≥ 4 ساعات قبل الفرد</td></tr>
+<tr><td>حالة السطح</td><td>جاف + نظيف + بدون غبار</td></tr>
+</table>
+
+<h3>🔴 Hold Points</h3>
+<table class="dm-table">
+<tr><th>المرحلة</th><th>المتطلب</th><th>H/W/R</th></tr>
+<tr><td>قبل فرد Binder</td><td>اعتماد Tack Coat + درجة حرارة الخليط</td><td>H</td></tr>
+<tr><td>أثناء الفرد</td><td>قياس درجة الحرارة بـ IR Thermometer</td><td>W</td></tr>
+<tr><td>بعد الدمك</td><td>Core Test: Va + Thickness + Density</td><td>H</td></tr>
+</table>
+
+<h3>📏 جدول سماكات Binder حسب تصنيف الطريق — Ashghal RDM</h3>
+<table class="dm-table">
+<tr><th>تصنيف الطريق</th><th>سماكة Binder</th><th>نوع الخليط</th></tr>
+<tr><td>Local Road</td><td>60mm</td><td>AC-20</td></tr>
+<tr><td>Collector Road</td><td>70mm</td><td>AC-20</td></tr>
+<tr><td>Arterial Road</td><td>80mm</td><td>AC-20 / AC-25</td></tr>
+<tr><td>Expressway</td><td>80mm</td><td>AC-25 (PMB)</td></tr>
+</table>
+</div>
+
+<div class="lang-content-en" style="display:none">
+<h3>Binder Course Definition — QCS S6 P5</h3>
+<p><strong>Binder Course</strong> is the intermediate asphalt layer between the Base Course and the Wearing Course. It acts as the structural bonding element, transferring loads from the surface layer to the base layers. It is manufactured using a coarser asphalt mix (AC-20 or AC-25) compared to the Wearing Course.</p>
+<table class="dm-table">
+<tr><th>Property</th><th>Requirement</th><th>QCS S6 P5</th></tr>
+<tr><td>Mix Type</td><td>AC-20 or AC-25 (Dense Graded)</td><td>P5 Table 5:1</td></tr>
+<tr><td>Air Voids (Va)</td><td>3.0 - 5.0%</td><td>P5 Table 5:6</td></tr>
+<tr><td>VMA min</td><td>13%</td><td>P5 Table 5:6</td></tr>
+<tr><td>Marshall Stability min</td><td>7 kN</td><td>P5 Table 5:6</td></tr>
+<tr><td>Bitumen Content</td><td>4.0 - 6.0%</td><td>P5 Table 5:6</td></tr>
+<tr><td>Production Temperature</td><td>145 - 160°C</td><td>P5</td></tr>
+<tr><td>Min Laying Temperature</td><td>135°C</td><td>P5</td></tr>
+<tr><td>Compaction Degree</td><td>≥ 92% TMD</td><td>P5</td></tr>
+</table>
+</div>` };
+
+c["geotextile_specs"] = { title: '🧶 Geotextile — المواد الجيوتقنية', content: `
+<div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 6 | Geotextile Specifications | AASHTO M288
+</div>
+<div class="lang-content-ar">
+<h3>🧶 تعريف Geotextile — QCS S6</h3>
+<p><strong>Geotextile</strong> هو نسيج جيوتقني مصنوع من بوليمرات اصطناعية (Polypropylene أو Polyester) يُستخدم في أعمال الطرق لأداء وظائف هندسية متعددة: الفصل (Separation)، التصفية (Filtration)، التسليح (Reinforcement)، والحماية.</p>
+
+<h3>📊 أنواع Geotextile المستخدمة في الطرق</h3>
+<table class="dm-table">
+<tr><th>النوع</th><th>الاستخدام</th><th>المواصفة</th></tr>
+<tr><td><strong>Woven Geotextile</strong></td><td>تسليح قاعدة الطريق، معالجة السبخة Class 2-3</td><td>AASHTO M288 Class 1</td></tr>
+<tr><td><strong>Non-Woven Geotextile</strong></td><td>فصل Subgrade من Subbase، تصفية المياه</td><td>AASHTO M288 Class 2</td></tr>
+<tr><td><strong>Paving Fabric</strong></td><td>تأخير تشقق الإسفلت، عزل الرطوبة</td><td>ASTM D7239</td></tr>
+</table>
+
+<h3>📐 خصائص Geotextile — Ashghal + QCS</h3>
+<table class="dm-table">
+<tr><th>الخاصية</th><th>Class 1 (معالجة سبخة)</th><th>Class 2 (فصل)</th><th>المعيار</th></tr>
+<tr><td>Grab Tensile Strength</td><td>≥ 1,400 N</td><td>≥ 900 N</td><td>ASTM D4632</td></tr>
+<tr><td>CBR Puncture Resistance</td><td>≥ 2,700 N</td><td>≥ 1,500 N</td><td>ASTM D6241</td></tr>
+<tr><td>Apparent Opening Size</td><td>≤ 0.43 mm</td><td>≤ 0.43 mm</td><td>ASTM D4751</td></tr>
+<tr><td>Permittivity</td><td>≥ 0.5 s⁻¹</td><td>≥ 0.5 s⁻¹</td><td>ASTM D4491</td></tr>
+<tr><td>UV Resistance</td><td>≥ 70% retention</td><td>≥ 70%</td><td>ASTM D4355</td></tr>
+</table>
+
+<h3>🔴 Hold Points — تركيب Geotextile</h3>
+<table class="dm-table">
+<tr><th>المرحلة</th><th>المتطلب</th><th>H/W/R</th></tr>
+<tr><td>قبل التركيب</td><td>اعتماد Material Submittal + Overlap ≥ 300mm</td><td>H</td></tr>
+<tr><td>أثناء التركيب</td><td>لا تجاعيد + لا ثقوب + Anchor في الحواف</td><td>W</td></tr>
+<tr><td>بعد التركيب</td><td>Backfill مباشرة قبل التعرض للشمس > 24h</td><td>W</td></tr>
+</table>
+</div>
+<div class="lang-content-en" style="display:none">
+<h3>Geotextile Specifications — QCS S6</h3>
+<table class="dm-table">
+<tr><th>Type</th><th>Use</th><th>Standard</th></tr>
+<tr><td>Woven</td><td>Subgrade reinforcement, Sabkha Class 2-3</td><td>AASHTO M288 Class 1</td></tr>
+<tr><td>Non-Woven</td><td>Separation Subgrade/Subbase, filtration</td><td>AASHTO M288 Class 2</td></tr>
+<tr><td>Paving Fabric</td><td>Crack retardation, moisture barrier</td><td>ASTM D7239</td></tr>
+</table>
+</div>` };
+
+c["roads_materials"] = { title: '🧪 مواد الطرق — Roads Materials', content: `
+<div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 6 Part 4 & 5 | Materials Specifications
+</div>
+<div class="lang-content-ar">
+<h3>📋 تصنيف مواد الطرق — QCS S6</h3>
+<p>جميع المواد المستخدمة في إنشاء الطرق يجب اعتمادها عبر <strong>Material Submittal</strong> قبل الاستخدام وفق نظام Ashghal QMS.</p>
+<table class="dm-table">
+<tr><th>المادة</th><th>الطبقة</th><th>المواصفة الرئيسية</th><th>QCS</th></tr>
+<tr><td>Crushed Gabbro</td><td>Subgrade/Subbase/Base</td><td>LAA ≤ 25%, PI ≤ 6, CBR حسب الطبقة</td><td>S6 P3/P4</td></tr>
+<tr><td>Bitumen 60/70</td><td>Non-PMB Asphalt</td><td>Pen 60-70, Ductility ≥ 100cm, Softening 49-56°C</td><td>S6 P5</td></tr>
+<tr><td>PMB (Modified)</td><td>Wearing/Binder (رئيسي)</td><td>Pen 40-70 (PMB), Elastic Recovery ≥ 70%</td><td>S6 P5</td></tr>
+<tr><td>Prime Coat (MC-30)</td><td>على Base قبل Binder</td><td>0.8-1.2 L/m², Curing ≥ 24h</td><td>S6 P5</td></tr>
+<tr><td>Tack Coat (CSS-1)</td><td>بين الطبقات الإسفلتية</td><td>0.3-0.5 L/m², جاف تماماً قبل الفرد</td><td>S6 P5</td></tr>
+<tr><td>Geotextile</td><td>فصل/تسليح</td><td>AASHTO M288 Class 1/2 حسب الاستخدام</td><td>S6 + IAN-006</td></tr>
+</table>
+<p>تفاصيل كل مادة: اضغط على البطاقة المخصصة لها في قائمة المواد</p>
+</div>
+<div class="lang-content-en" style="display:none">
+<h3>Road Materials Overview — QCS S6</h3>
+<p>All materials must be approved via Material Submittal before use per Ashghal QMS.</p>
+</div>` };
+
+c["traffic_axle"] = { title: '🚛 أحمال المحاور — Traffic Axle Loads', content: `
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 6 | Traffic Axle Loads | AASHTO 1993
+</div>
+<div class="lang-content-ar">
+<h3>🚛 أحمال المحاور — Axle Loads</h3>
+<p>حساب <strong>ESAL (Equivalent Standard Axle Load)</strong> ضروري لتصميم هيكل الرصيف ومعرفة عمره التصميمي.</p>
+<table class="dm-table">
+<tr><th>نوع المركبة</th><th>LEF (Load Equivalency Factor)</th><th>ملاحظة</th></tr>
+<tr><td>سيارة خاصة</td><td>0.0002</td><td>تأثير ضئيل جداً</td></tr>
+<tr><td>Pick-up / Van</td><td>0.01</td><td>خفيف</td></tr>
+<tr><td>حافلة</td><td>0.5 - 1.5</td><td>حسب الحمولة</td></tr>
+<tr><td>شاحنة 2 محور</td><td>0.5 - 1.0</td><td>5-8 طن</td></tr>
+<tr><td>شاحنة 3 محاور</td><td>1.0 - 2.0</td><td>10-15 طن</td></tr>
+<tr><td>شاحنة مقطورة</td><td>3.0 - 6.0</td><td>30-40 طن</td></tr>
+</table>
+<h3>📐 Structural Number — QCS S6 P2</h3>
+<table class="dm-table">
+<tr><th>ESAL (20 سنة)</th><th>SN المطلوب</th><th>تصنيف الطريق</th></tr>
+<tr><td>< 500,000</td><td>2.5 - 3.0</td><td>محلي</td></tr>
+<tr><td>500K - 2M</td><td>3.0 - 3.5</td><td>ثانوي</td></tr>
+<tr><td>2M - 10M</td><td>3.5 - 4.5</td><td>رئيسي</td></tr>
+<tr><td>10M - 50M</td><td>4.5 - 5.5</td><td>شرياني</td></tr>
+<tr><td>> 50M</td><td>5.5+</td><td>سريع</td></tr>
+</table>
+<p>استخدم <strong>حاسبة ESAL</strong> في التطبيق لحساب قيمة ESAL لمشروعك.</p>
+</div>
+<div class="lang-content-en" style="display:none">
+<h3>Traffic Axle Loads — AASHTO 1993 + QCS S6 P2</h3>
+<p>ESAL calculation is essential for pavement structural design.</p>
+</div>` };
+
+c["road_itps"] = { title: '📋 ITPs الطرق — Roads Inspection Plans', content: `
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 + Ashghal ITP Requirements | Roads ITPs Summary
+</div>
+<div class="lang-content-ar">
+<h3>📋 قائمة ITPs — Inspection & Test Plans للطرق</h3>
+<p>كل مرحلة من مراحل إنشاء الطريق لها ITP مخصصة تحدد <strong>Hold Points (H)</strong> و<strong>Witness Points (W)</strong> و<strong>Review Points (R)</strong>.</p>
+<table class="dm-table">
+<tr><th>ITP</th><th>المرحلة</th><th>اضغط للتفاصيل</th></tr>
+<tr><td>ITP Subgrade</td><td>تحضير Subgrade + الدمك + CBR</td><td>← Subgrade ITP</td></tr>
+<tr><td>ITP Subbase & Base</td><td>فرد الطبقات الحجرية + الدمك</td><td>← Base ITP</td></tr>
+<tr><td>ITP Prime & Tack</td><td>تطبيق Prime Coat و Tack Coat</td><td>← Prime ITP</td></tr>
+<tr><td>ITP Wearing Course</td><td>فرد + دمك + Core Tests</td><td>← Wearing ITP</td></tr>
+</table>
+<h3>🔴 Hold Points العامة للطرق — QCS S6 + Ashghal</h3>
+<table class="dm-table">
+<tr><th>المرحلة</th><th>Hold Point</th><th>المتطلب</th></tr>
+<tr><td>Subgrade</td><td>قبل فرد Subbase</td><td>CBR ≥ 8% + Comp ≥ 95% MDD موثقة</td></tr>
+<tr><td>Subbase</td><td>قبل فرد Base</td><td>CBR ≥ 30% + Comp ≥ 98% MDD</td></tr>
+<tr><td>Base</td><td>قبل Prime Coat</td><td>CBR ≥ 80% + Comp ≥ 100% MDD</td></tr>
+<tr><td>Prime Coat</td><td>قبل Binder</td><td>معدل التطبيق + وقت الجفاف</td></tr>
+<tr><td>Binder/Wearing</td><td>قبل الفرد + بعد Core</td><td>Mix Design + درجة الحرارة + Va</td></tr>
+</table>
+</div>
+<div class="lang-content-en" style="display:none">
+<h3>Roads ITPs Summary — QCS + Ashghal</h3>
+<p>Select the specific ITP from the roads section for detailed Hold/Witness/Review points.</p>
+</div>` };
+
+c["finishing"] = { title: '🏁 تشطيب الرصيف — Finishing', content: `
+<div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 — Section 6 Part 5 | Finishing & Surface Quality
+</div>
+<div class="lang-content-ar">
+<h3>🏁 تشطيب الرصيف — Finishing Requirements</h3>
+<p>الجودة النهائية لسطح الإسفلت تُحدَّد بمعايير QCS 2024 Section 6 Part 5 وتشمل:</p>
+<table class="dm-table">
+<tr><th>المعيار</th><th>الحد المقبول</th><th>القياس</th><th>QCS</th></tr>
+<tr><td>Surface Regularity (3m SE)</td><td>≤ 3mm</td><td>3m Straight Edge</td><td>S6 P5</td></tr>
+<tr><td>IRI (Ride Quality)</td><td>≤ 2.5 m/km</td><td>Profilometer</td><td>S6 P5</td></tr>
+<tr><td>Crossfall</td><td>2.5% ± 0.3%</td><td>Survey</td><td>S6 P2</td></tr>
+<tr><td>Elevation Tolerance</td><td>±6mm من التصميم</td><td>Survey</td><td>S6 P5</td></tr>
+<tr><td>Skid Resistance (SFC)</td><td>≥ 0.45</td><td>SCRIM / Pendulum</td><td>S6 P5</td></tr>
+<tr><td>Texture Depth (Sand Patch)</td><td>≥ 0.7mm</td><td>Sand Patch Method</td><td>S6 P5</td></tr>
+<tr><td>Camber (1-way road)</td><td>2.0%</td><td>Survey</td><td>S6 P2</td></tr>
+</table>
+<h3>🎯 معايير القبول النهائي</h3>
+<table class="dm-table">
+<tr><th>البند</th><th>PASS</th><th>FAIL — الإجراء</th></tr>
+<tr><td>Surface Regularity</td><td>≤ 3mm</td><td>> 3mm → Grinding أو إعادة رصف</td></tr>
+<tr><td>IRI</td><td>≤ 2.5 m/km</td><td>> 2.5 → تحديد السبب + إصلاح</td></tr>
+<tr><td>Thickness (Core)</td><td>Design ± 5mm</td><td>> ±5mm → NCR + تقييم هيكلي</td></tr>
+<tr><td>Manholes</td><td>Flush ± 5mm</td><td>> ±5mm → تعديل فوري</td></tr>
+</table>
+</div>
+<div class="lang-content-en" style="display:none">
+<h3>Finishing & Surface Quality — QCS S6 P5</h3>
+<table class="dm-table">
+<tr><th>Criterion</th><th>Limit</th><th>Measurement</th></tr>
+<tr><td>Surface Regularity</td><td>≤ 3mm (3m SE)</td><td>Straight Edge</td></tr>
+<tr><td>IRI</td><td>≤ 2.5 m/km</td><td>Profilometer</td></tr>
+<tr><td>Crossfall</td><td>2.5% ± 0.3%</td><td>Survey</td></tr>
+<tr><td>Skid Resistance</td><td>SFC ≥ 0.45</td><td>SCRIM</td></tr>
+</table>
+</div>` };
+
 })();

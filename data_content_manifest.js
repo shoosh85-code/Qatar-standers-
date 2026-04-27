@@ -134,5 +134,11 @@ window.QS_CONTENT_MAP = {
   "pipe_sizing_calc": "data_content_extra.js",
   "road_layers_calc": "data_content_extra.js",
   "exec_asphalt_paving": "data_content_roads.js",
-  "daily_report": "data_content_extra.js"
+  "daily_report": "data_content_extra.js",
+  "binder": "data_content_roads.js",
+  "geotextile_specs": "data_content_roads.js",
+  "roads_materials": "data_content_roads.js",
+  "traffic_axle": "data_content_roads.js",
+  "road_itps": "data_content_roads.js",
+  "finishing": "data_content_roads.js"
 };
