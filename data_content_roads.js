@@ -546,33 +546,6 @@
 </table>
 <div style="font-size:11px;color:var(--text3);margin-top:6px;">H = Hold Point | W = Witness Point | QCS 2024 Sections 6 & 8</div>
 </div>
-<div class="lang-content-en" style="display:none;">
-<h3>🔧 Utilities Networks — Materials Summary</h3>
-<table class="dm-table">
-<tr><th>Network</th><th>Pipe Material</th><th>Joint Type</th><th>Color Code</th></tr>
-<tr><td>Water Supply</td><td>DI K9 / HDPE PE100</td><td>Tyton / Electrofusion</td><td>🟡 Yellow tape</td></tr>
-<tr><td>Foul Sewer</td><td>UPVC SN8 / GRP</td><td>Push-fit rubber ring</td><td>🟢 Green tape</td></tr>
-<tr><td>Storm Drainage</td><td>RC Class 120 / HDPE</td><td>Rubber ring</td><td>🔵 Blue tape</td></tr>
-<tr><td>Treated Water</td><td>GRP / HDPE Purple</td><td>Electrofusion</td><td>🟣 Purple tape</td></tr>
-</table>
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
-📌 All materials require prior approval (MAR) from respective authority: KAHRAMAA (water), Ashghal (sewer/storm), MME (treated water).
-</div>
-</div>
-<div class="lang-content-en" style="display:none;">
-<h3>🔧 Utilities — Quality Control Plan Summary</h3>
-<table class="dm-table">
-<tr><th>Network</th><th>Key Test</th><th>Acceptance</th><th>Standard</th></tr>
-<tr><td>Water Supply</td><td>Pressure 1.5×PN / 2hr</td><td>Zero drop</td><td>KAHRAMAA</td></tr>
-<tr><td>Water Supply</td><td>Chlorination ≥50ppm / 24hr</td><td>Residual ≥0.2ppm</td><td>KAHRAMAA</td></tr>
-<tr><td>Water Supply</td><td>Bacteriological</td><td>Zero coliforms</td><td>WHO</td></tr>
-<tr><td>Foul Sewer</td><td>Air test 100mm Hg / 5min</td><td>Drop ≤25mmHg</td><td>Ashghal</td></tr>
-<tr><td>Foul Sewer</td><td>CCTV survey</td><td>100% / Grade ≤B2</td><td>Ashghal</td></tr>
-<tr><td>Storm Drainage</td><td>Hydraulic test</td><td>Zero leakage</td><td>Ashghal</td></tr>
-<tr><td>Treated Water</td><td>Pressure + cross-connection</td><td>Zero cross-connection</td><td>MME</td></tr>
-<tr><td>All Networks</td><td>Compaction backfill</td><td>≥95% MDD</td><td>Ashghal</td></tr>
-</table>
-</div>
 ` };
   c["subgrade"] = { title: '🏔️ Subgrade — طبقة التربة الطبيعية', content: `
 <div class="lang-content-ar">
@@ -1243,10 +1216,6 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td><strong>Tack Coat</strong></td><td>طبقة رقيقة من المستحلب البيتوميني (CSS-1 أو K1-60) تُطبَّق بين طبقتين إسفلتيتين (بين Binder وWearing أو على الأسطح القديمة). تضمن التصاق الطبقات ومنع الانزلاق بينها</td><td>S6 P5 P.31</td></tr>
 </table>
 
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — Section 6 Part 5 | Prime Coat & Tack Coat | Pages 30-31
-</div>
-<div class="lang-content-ar">
 <h3>📐 Prime Coat — ملخص Page 30</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
@@ -1839,10 +1808,6 @@ lang-content-en" style="display:none;">
 <tr><td><strong>Pavement Elevation<br/>(منسوب الرصف)</strong></td><td>الفرق الرأسي بين سطح الطريق والعناصر المجاورة (Manholes/Kerbs). QCS S6 P5: ±6mm من التصميم. Manholes: flush ±5mm مع سطح الإسفلت</td><td>رأسي</td></tr>
 </table>
 
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — Section 6 Part 5 | Joints & Rolling | Pages 28-29
-</div>
-<div class="lang-content-ar">
 <h3>📐 Transverse Joints (الجوانت العرضية) — Page 28</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
