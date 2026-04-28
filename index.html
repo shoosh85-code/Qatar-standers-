@@ -2445,7 +2445,7 @@ async function exportToWord() {
     'tr:nth-child(even) td { background: #f9f5ee; }' +
     '.header-band { background: #7a1515; color: #c9a84c; padding: 12pt 16pt; margin-bottom: 12pt; display: block; }' +
     '.footer-band { border-top: 1pt solid #cccccc; margin-top: 16pt; padding-top: 6pt; font-size: 9pt; color: #888; }' +
-    'strong { color: #7a1515; }' +
+    'strong { color: #7a1515; }';
 
   const blob   = new Blob(['\ufeff', wordHTML], { type: 'application/msword' });
   let url = URL.createObjectURL(blob);
