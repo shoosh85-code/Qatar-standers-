@@ -307,7 +307,16 @@ All numerical values, specifications and test methods shown in Arabic are source
 ⚠️ Qatar Specific: SO3 and Cl tests mandatory in ALL geotechnical investigations. Sabkha, gypseous soils, and high GWL are common.
 </div>
 </div>
-
+<div class="lang-content-en" style="display:none;">
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
+📌 QCS 2024 Reference | 💧 الجسات — المياه الجوفية
+</div>
+<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
+<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
+All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
+</div>
+</div>
 ` };
   c["geo_report"] = { title: '📋 الجسات — التقرير النهائي (GI Report)', content: `
 <div class="lang-content-ar">
@@ -390,8 +399,195 @@ All numerical values, specifications and test methods shown in Arabic are source
 </table>
 </div>
 
+<div class="lang-content-ar">
 
+<h3>📐 جدول 5:1 — Fine Aggregate للـ Marshall Mix — QCS S6 P5 Page 9</h3>
+<p style="font-size:11px;color:var(--text3);">Fine Aggregate = المواد المارة من منخل 2.36mm (Marshall) أو 4.75mm (Superpave)</p>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>المواصفة (Marshall)</th><th>الاختبار</th></tr>
+<tr><td>Sand Equivalent</td><td>≥ 35%</td><td>ASTM D2419</td></tr>
+<tr><td>Fine Aggregate Angularity (FAA)</td><td>≥ 45% Uncompacted Voids</td><td>ASTM C1252</td></tr>
+<tr><td>Clay Content (SE alt.)</td><td>≤ 1%</td><td>ASTM D4318</td></tr>
+<tr><td>Plasticity Index</td><td>Non-Plastic (NP)</td><td>ASTM D4318</td></tr>
+<tr><td>Soundness (MgSO4)</td><td>≤ 12%</td><td>ASTM C88</td></tr>
+<tr><td>Specific Gravity (Bulk SSD)</td><td>≥ 2.50 Mg/m³</td><td>ASTM C128</td></tr>
+<tr><td>Water Absorption</td><td>≤ 2%</td><td>ASTM C128</td></tr>
+<tr><td>Organic Impurities</td><td>Colour ≤ No. 3</td><td>ASTM C40</td></tr>
+<tr><td>Sulphate (SO3)</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
+<tr><td>Chloride</td><td>≤ 0.04%</td><td>BS 1377</td></tr>
+</table>
 
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:8px 0;font-size:12px;">
+<strong>Superpave فرق:</strong> Fine Aggregate يُعرَّف كـ مادة مارة من 4.75mm (بدل 2.36mm في Marshall). FAA ≥ 45% يبقى نفسه.
+</div>
 
+<h3>📐 جدول 5:2 — Coarse Aggregate للإسفلت — QCS S6 P5 Page 10</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>Wearing Course</th><th>Binder Course</th><th>الاختبار</th></tr>
+<tr><td>LA Abrasion Loss</td><td>≤ 25%</td><td>≤ 30%</td><td>ASTM C131</td></tr>
+<tr><td>Flakiness Index</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812 P105</td></tr>
+<tr><td>Elongation Index</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812 P105</td></tr>
+<tr><td>Polished Stone Value (PSV)</td><td>≥ 55</td><td>لا يُشترط</td><td>BS 812 P114</td></tr>
+<tr><td>Fractured Faces (1 face+)</td><td>≥ 95%</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
+<tr><td>Fractured Faces (2 faces+)</td><td>≥ 90%</td><td>≥ 85%</td><td>ASTM D5821</td></tr>
+<tr><td>Soundness (MgSO4)</td><td>≤ 12%</td><td>≤ 12%</td><td>ASTM C88</td></tr>
+<tr><td>Water Absorption</td><td>≤ 2%</td><td>≤ 2%</td><td>ASTM C127</td></tr>
+<tr><td>Specific Gravity (Bulk SSD)</td><td>≥ 2.50</td><td>≥ 2.50</td><td>ASTM C127</td></tr>
+<tr><td>Sulphate (SO3)</td><td>≤ 0.4%</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
+<tr><td>Chloride</td><td>≤ 0.04%</td><td>≤ 0.04%</td><td>BS 1377</td></tr>
+<tr><td>Alkali Silica Reactivity</td><td>Non-reactive</td><td>Non-reactive</td><td>ASTM C1260</td></tr>
+</table>
+
+<h3>📐 جدول 5:3 — Mineral Filler — QCS S6 P5 Page 10</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>المواصفة</th><th>الاختبار</th></tr>
+<tr><td>المصدر</td><td>Stone Dust أو Portland Cement أو Hydrated Lime</td><td>—</td></tr>
+<tr><td>% Passing 0.600 mm</td><td>100%</td><td>ASTM C136</td></tr>
+<tr><td>% Passing 0.300 mm</td><td>95 - 100%</td><td>ASTM C136</td></tr>
+<tr><td>% Passing 0.075 mm</td><td>70 - 100%</td><td>ASTM C136</td></tr>
+<tr><td>Plasticity Index</td><td>Non-Plastic (NP)</td><td>ASTM D4318</td></tr>
+<tr><td>Voids in Dry Compacted Filler</td><td>28 - 45%</td><td>EN 1097-4</td></tr>
+<tr><td>Sulphate SO3</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
+<tr><td>Water Sensitivity (TSR)</td><td>≥ 75% (مع Filler فقط)</td><td>AASHTO T283</td></tr>
+</table>
+
+<h3>📐 جدول 5:4 — Asphalt Binder 60/70 — QCS S6 P5 Page 11</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>المواصفة</th><th>الاختبار</th></tr>
+<tr><td>Penetration @ 25°C</td><td>60 - 70 × 0.1mm</td><td>ASTM D5 / BS EN 1426</td></tr>
+<tr><td>Softening Point R&B</td><td>49 - 56°C</td><td>ASTM D36 / BS EN 1427</td></tr>
+<tr><td>Ductility @ 25°C</td><td>≥ 100 cm</td><td>ASTM D113</td></tr>
+<tr><td>Flash Point (COC)</td><td>≥ 232°C</td><td>ASTM D92</td></tr>
+<tr><td>Solubility in TCE</td><td>≥ 99%</td><td>ASTM D2042</td></tr>
+<tr><td>Specific Gravity @ 25°C</td><td>1.01 - 1.05</td><td>ASTM D70</td></tr>
+<tr><td>Wax Content</td><td>≤ 2.2%</td><td>IP 336</td></tr>
+<tr><td>Loss on Heating (RTFOT)</td><td>≤ 0.8%</td><td>ASTM D1754</td></tr>
+<tr><td>Penetration Ratio after RTFOT</td><td>≥ 50%</td><td>ASTM D5</td></tr>
+<tr><td>Ductility after RTFOT @ 25°C</td><td>≥ 50 cm</td><td>ASTM D113</td></tr>
+<tr><td>Softening Point after RTFOT</td><td>Increase ≤ 8°C</td><td>ASTM D36</td></tr>
+</table>
+
+<h3>📐 جدول 5:5 — PMB Polymer Modified Bitumen — QCS S6 P5 Page 11</h3>
+<p style="font-size:11px;color:var(--text3);">PG = Performance Grade | PG76-10 = يتحمل +76°C صيفاً و -10°C شتاءً</p>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>المواصفة (PG76-10)</th><th>الاختبار</th></tr>
+<tr><td>Penetration @ 25°C</td><td>40 - 80 × 0.1mm</td><td>ASTM D5</td></tr>
+<tr><td>Softening Point R&B</td><td>≥ 65°C</td><td>ASTM D36</td></tr>
+<tr><td>Flash Point</td><td>≥ 235°C</td><td>ASTM D92</td></tr>
+<tr><td>Elastic Recovery @ 25°C</td><td>≥ 70%</td><td>ASTM D6084</td></tr>
+<tr><td>Force Ductility @ 4°C</td><td>≥ 2 N (at 5cm/min)</td><td>EN 13589</td></tr>
+<tr><td>Toughness & Tenacity</td><td>T ≥ 15 J / t ≥ 5 J</td><td>ASTM D5801</td></tr>
+<tr><td>G*/sinδ (DSR Unaged) @ 76°C</td><td>≥ 2.2 kPa</td><td>AASHTO T315</td></tr>
+<tr><td>G*/sinδ (DSR after RTFOT) @ 76°C</td><td>≥ 4.4 kPa</td><td>AASHTO T315</td></tr>
+<tr><td>Phase Angle δ (DSR) @ 76°C</td><td>≤ 75°</td><td>AASHTO T315</td></tr>
+<tr><td>Creep Stiffness S (BBR) @ -10°C</td><td>≤ 300 MPa</td><td>AASHTO T313</td></tr>
+<tr><td>m-value (BBR) @ -10°C</td><td>≥ 0.300</td><td>AASHTO T313</td></tr>
+<tr><td>Storage Stability (ΔSoftening Pt)</td><td>≤ 5°C (after 48hr @ 163°C)</td><td>EN 13399</td></tr>
+<tr><td>Solubility</td><td>≥ 99%</td><td>ASTM D2042</td></tr>
+<tr><td>Polymer Type</td><td>SBS أو SBR (معتمد من المهندس)</td><td>FTIR</td></tr>
+</table>
+
+<h3>📐 Prime Coat — QCS S6 P5 Page 13</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المواصفة</th><th>المرجع</th></tr>
+<tr><td>نوع المادة</td><td>Cutback Bitumen MC-30 أو MC-70</td><td>ASTM D2028</td></tr>
+<tr><td>معدل الرش</td><td>0.8 - 1.2 L/m²</td><td>QCS S6 P5 P13</td></tr>
+<tr><td>درجة الحرارة عند الرش</td><td>50 - 80°C (حسب grade)</td><td>QCS S6 P5</td></tr>
+<tr><td>وقت المعالجة قبل Asphalt</td><td>24 hour كحد أدنى (حسب النفاذ)</td><td>QCS S6 P5</td></tr>
+<tr><td>عمق النفاذ</td><td>10 - 15mm في الطبقة</td><td>QCS S6 P5</td></tr>
+<tr><td>السطح</td><td>جاف + نظيف + مكنوس بـ Power Broom</td><td>MS</td></tr>
+<tr><td>الطقس</td><td>لا يُطبَّق عند مطر أو غبار أو &lt; 10°C</td><td>QCS S6 P5</td></tr>
+</table>
+
+<h3>📐 Tack Coat — QCS S6 P5 Page 13</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>Binder Course</th><th>Wearing Course</th><th>المرجع</th></tr>
+<tr><td>نوع المادة</td><td>Emulsified Bitumen SS-1 أو CSS-1</td><td>Emulsified Bitumen SS-1 أو CSS-1</td><td>ASTM D977</td></tr>
+<tr><td>معدل الرش (Residual)</td><td>0.3 - 0.5 L/m²</td><td>0.2 - 0.4 L/m²</td><td>QCS S6 P5 P13</td></tr>
+<tr><td>درجة الحرارة</td><td>50 - 70°C</td><td>50 - 70°C</td><td>QCS S6 P5</td></tr>
+<tr><td>وقت المعالجة</td><td>حتى يتحول من بني للأسود</td><td>حتى يتحول من بني للأسود</td><td>Visual</td></tr>
+<tr><td>السطح</td><td>جاف + نظيف</td><td>جاف + نظيف</td><td>MS</td></tr>
+<tr><td>تجنب الإفراط</td><td colspan="2">Tack زائد = Slippage بين الطبقات</td><td>QCS S6 P5</td></tr>
+</table>
+
+</div>
+
+<div class="lang-content-en" style="display:none;">
+<h3>Table 5:1 — Fine Aggregate for Asphalt Mix (Marshall) — QCS S6 P5 Page 9</h3>
+<p style="font-size:11px;color:var(--text3);">Fine Aggregate = passing 2.36mm sieve (Marshall) or 4.75mm sieve (Superpave)</p>
+<table class="dm-table">
+<tr><th>Property</th><th>Specification</th><th>Test</th></tr>
+<tr><td>Sand Equivalent</td><td>≥ 35%</td><td>ASTM D2419</td></tr>
+<tr><td>Fine Aggregate Angularity</td><td>≥ 45% Uncompacted Voids</td><td>ASTM C1252</td></tr>
+<tr><td>Plasticity Index</td><td>Non-Plastic (NP)</td><td>ASTM D4318</td></tr>
+<tr><td>Soundness MgSO4</td><td>≤ 12%</td><td>ASTM C88</td></tr>
+<tr><td>Water Absorption</td><td>≤ 2%</td><td>ASTM C128</td></tr>
+<tr><td>Sulphate SO3</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
+<tr><td>Chloride</td><td>≤ 0.04%</td><td>BS 1377</td></tr>
+</table>
+
+<h3>Table 5:2 — Coarse Aggregate for Asphalt — QCS S6 P5 Page 10</h3>
+<table class="dm-table">
+<tr><th>Property</th><th>Wearing</th><th>Binder</th><th>Test</th></tr>
+<tr><td>LA Abrasion</td><td>≤ 25%</td><td>≤ 30%</td><td>ASTM C131</td></tr>
+<tr><td>Flakiness Index</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812</td></tr>
+<tr><td>PSV</td><td>≥ 55</td><td>N/A</td><td>BS 812 P114</td></tr>
+<tr><td>Fractured Faces (1+)</td><td>≥ 95%</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
+<tr><td>Fractured Faces (2+)</td><td>≥ 90%</td><td>≥ 85%</td><td>ASTM D5821</td></tr>
+<tr><td>Water Absorption</td><td>≤ 2%</td><td>≤ 2%</td><td>ASTM C127</td></tr>
+<tr><td>Sulphate SO3</td><td>≤ 0.4%</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
+</table>
+
+<h3>Table 5:3 — Mineral Filler — QCS S6 P5 Page 10</h3>
+<table class="dm-table">
+<tr><th>Property</th><th>Specification</th><th>Test</th></tr>
+<tr><td>Source</td><td>Stone Dust / Portland Cement / Hydrated Lime</td><td>—</td></tr>
+<tr><td>% Passing 0.600mm</td><td>100%</td><td>ASTM C136</td></tr>
+<tr><td>% Passing 0.075mm</td><td>70-100%</td><td>ASTM C136</td></tr>
+<tr><td>Plasticity Index</td><td>Non-Plastic</td><td>ASTM D4318</td></tr>
+<tr><td>Voids in Dry Compacted Filler</td><td>28-45%</td><td>EN 1097-4</td></tr>
+</table>
+
+<h3>Table 5:4 — Bitumen 60/70 — QCS S6 P5 Page 11</h3>
+<table class="dm-table">
+<tr><th>Property</th><th>Specification</th><th>Test</th></tr>
+<tr><td>Penetration @ 25°C</td><td>60-70 × 0.1mm</td><td>ASTM D5</td></tr>
+<tr><td>Softening Point R&B</td><td>49-56°C</td><td>ASTM D36</td></tr>
+<tr><td>Ductility @ 25°C</td><td>≥ 100 cm</td><td>ASTM D113</td></tr>
+<tr><td>Flash Point</td><td>≥ 232°C</td><td>ASTM D92</td></tr>
+<tr><td>Wax Content</td><td>≤ 2.2%</td><td>IP 336</td></tr>
+<tr><td>Loss on Heating RTFOT</td><td>≤ 0.8%</td><td>ASTM D1754</td></tr>
+<tr><td>Penetration Ratio after RTFOT</td><td>≥ 50%</td><td>ASTM D5</td></tr>
+</table>
+
+<h3>Table 5:5 — PMB (PG76-10) — QCS S6 P5 Page 11</h3>
+<table class="dm-table">
+<tr><th>Property</th><th>Specification</th><th>Test</th></tr>
+<tr><td>Penetration @ 25°C</td><td>40-80 × 0.1mm</td><td>ASTM D5</td></tr>
+<tr><td>Softening Point</td><td>≥ 65°C</td><td>ASTM D36</td></tr>
+<tr><td>Elastic Recovery @ 25°C</td><td>≥ 70%</td><td>ASTM D6084</td></tr>
+<tr><td>G*/sinδ (Unaged) @ 76°C</td><td>≥ 2.2 kPa</td><td>AASHTO T315</td></tr>
+<tr><td>G*/sinδ (after RTFOT) @ 76°C</td><td>≥ 4.4 kPa</td><td>AASHTO T315</td></tr>
+<tr><td>Creep Stiffness @ -10°C</td><td>≤ 300 MPa</td><td>AASHTO T313</td></tr>
+<tr><td>Storage Stability ΔSP</td><td>≤ 5°C</td><td>EN 13399</td></tr>
+</table>
+
+<h3>Prime Coat — QCS S6 P5 Page 13</h3>
+<table class="dm-table">
+<tr><th>Item</th><th>Specification</th></tr>
+<tr><td>Material</td><td>Cutback Bitumen MC-30 or MC-70</td></tr>
+<tr><td>Application Rate</td><td>0.8 - 1.2 L/m²</td></tr>
+<tr><td>Temperature at Spray</td><td>50 - 80°C</td></tr>
+<tr><td>Curing Time</td><td>Minimum 24 hours before asphalt</td></tr>
+</table>
+
+<h3>Tack Coat — QCS S6 P5 Page 13</h3>
+<table class="dm-table">
+<tr><th>Item</th><th>On Binder</th><th>On Wearing</th></tr>
+<tr><td>Material</td><td>SS-1 or CSS-1 Emulsion</td><td>SS-1 or CSS-1 Emulsion</td></tr>
+<tr><td>Rate (Residual)</td><td>0.3 - 0.5 L/m²</td><td>0.2 - 0.4 L/m²</td></tr>
+<tr><td>Temperature</td><td>50 - 70°C</td><td>50 - 70°C</td></tr>
+</table>
+</div>
 ` };
 })();

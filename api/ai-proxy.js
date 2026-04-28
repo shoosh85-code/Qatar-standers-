@@ -14,6 +14,18 @@ const CORS = {
 // Uses Vercel KV if available, fallback to in-memory map
 // ══════════════════════════════════════════════════════════════
 // ── JWT verify (shared secret with verify-pro.js) ──
+// ── Extract token from cookie OR Authorization header ──────────
+function extractToken(req) {
+  // 1. Try httpOnly cookie (secure path)
+  const cookieHeader = req.headers.get('cookie') || '';
+  const cookieMatch = cookieHeader.match(/qs_pro=([^;]+)/);
+  if (cookieMatch) return cookieMatch[1];
+  // 2. Fallback: Authorization header (legacy)
+  const auth = req.headers.get('authorization') || '';
+  if (auth.startsWith('Bearer ')) return auth.slice(7);
+  return null;
+}
+
 async function verifyProToken(token) {
   if (!token) return false;
   const secret = process.env.JWT_SECRET;
@@ -35,30 +47,9 @@ async function verifyProToken(token) {
 }
 
 
-const ipCounters  = new Map();  // daily rate limit (per-instance fallback)
-const burstMap    = new Map();  // per-minute burst protection
-const FREE_LIMIT    = 50;   // server-side IP limit per day
-const PRO_LIMIT     = 500;
-const BURST_LIMIT   = 8;    // max requests per minute per IP (burst protection)
-const MAX_BODY_BYTES = 32768; // 32KB max request body
-const MAX_MSG_LEN    = 8000;  // max chars per message
-const MAX_MESSAGES   = 15;    // max messages in conversation
-
-// Check burst limit (per-minute)
-function checkBurst(ip) {
-  const key = `burst:${Math.floor(Date.now() / 60000)}:${ip}`;
-  const count = (burstMap.get(key) || 0) + 1;
-  burstMap.set(key, count);
-  // Cleanup old burst keys (keep map small)
-  if (burstMap.size > 2000) {
-    const oldMin = Math.floor(Date.now() / 60000) - 2;
-    for (const k of burstMap.keys()) {
-      const m = parseInt(k.split(':')[1]);
-      if (m < oldMin) burstMap.delete(k);
-    }
-  }
-  return count <= BURST_LIMIT;
-}
+const ipCounters = new Map();  // fallback: in-memory (per-instance)
+const FREE_LIMIT = 50;  // Phase 8: server-side IP limit (client enforces 5/day)
+const PRO_LIMIT  = 500;
 
 function getTodayStr() {
   return new Date().toISOString().slice(0, 10); // "2026-04-23"
@@ -225,24 +216,10 @@ export default async function handler(req) {
     req.headers.get('cf-connecting-ip') ||
     'unknown';
 
-  // ── Body size guard ──
-  const contentLength = parseInt(req.headers.get('content-length') || '0');
-  if (contentLength > MAX_BODY_BYTES) {
-    return new Response(JSON.stringify({ error: 'Request body too large' }), {
-      status: 413, headers: { ...CORS, 'Content-Type': 'application/json' }
-    });
-  }
-
   // ── Parse body ──
   let body;
   try {
-    const rawText = await req.text();
-    if (rawText.length > MAX_BODY_BYTES) {
-      return new Response(JSON.stringify({ error: 'Request body too large' }), {
-        status: 413, headers: { ...CORS, 'Content-Type': 'application/json' }
-      });
-    }
-    body = JSON.parse(rawText);
+    body = await req.json();
   } catch {
     return new Response(JSON.stringify({ error: 'Invalid JSON' }), {
       status: 400,
@@ -251,43 +228,19 @@ export default async function handler(req) {
   }
 
   // ── Detect Pro user from token (basic check) ──
-  const authHeader = req.headers.get('Authorization') || '';
-  const isProUser = authHeader.startsWith('Bearer ') && authHeader !== 'Bearer ' ? await verifyProToken(authHeader.slice(7)) : false;
+const token = extractToken(req);
+  const isProUser = token ? await verifyProToken(token) : false;
 
   // ── Rate Limit — Admin token from sessionStorage (not URL param) ──
   const adminToken = req.headers.get('X-Admin-Token') || '';
-  // Validate admin token: must be HMAC-signed by /api/admin-session
+  // Validate: token must be base64 starting with "admin:" (set by /api/admin-session)
   let isAdmin = false;
-  if (adminToken && adminToken.length < 512) {
+  if (adminToken) {
     try {
-      // Format: base64(timestamp:random):signature
-      const colonIdx = adminToken.lastIndexOf(':');
-      if (colonIdx > 0) {
-        const data = adminToken.slice(0, colonIdx);
-        const sig  = adminToken.slice(colonIdx + 1);
-        const adminSecret = process.env.ADMIN_SECRET || process.env.JWT_SECRET;
-        if (adminSecret) {
-          const key = await crypto.subtle.importKey(
-            'raw', new TextEncoder().encode(adminSecret),
-            { name: 'HMAC', hash: 'SHA-256' }, false, ['verify']
-          );
-          const decoded = Uint8Array.from(atob(sig.replace(/-/g,'+').replace(/_/g,'/')), c => c.charCodeAt(0));
-          const ok = await crypto.subtle.verify('HMAC', key, decoded, new TextEncoder().encode(data));
-          if (ok) {
-            const ts = parseInt(atob(data).split(':')[1] || '0');
-            isAdmin = (Date.now() - ts) < 86400000; // valid 24h
-          }
-        }
-      }
+      const decoded = atob(adminToken);
+      const ts = parseInt(decoded.split(':')[1] || '0');
+      isAdmin = decoded.startsWith('admin:') && (Date.now() - ts) < 86400000;
     } catch(e) { isAdmin = false; }
-  }
-
-  // ── Burst protection (per minute, not for admin) ──
-  if (!isAdmin && !checkBurst(ip)) {
-    return new Response(
-      JSON.stringify({ error: 'طلبات كثيرة جداً — انتظر دقيقة.', code: 'BURST_LIMIT' }),
-      { status: 429, headers: { ...CORS, 'Content-Type': 'application/json', 'Retry-After': '60' } }
-    );
   }
 
   const rl = isAdmin ? { allowed: true, count: 0, limit: 999 } : await checkRateLimit(ip, isProUser);
@@ -317,27 +270,9 @@ export default async function handler(req) {
 
   if (!messages || !Array.isArray(messages) || messages.length === 0) {
     return new Response(JSON.stringify({ error: 'messages array required' }), {
-      status: 400, headers: { ...CORS, 'Content-Type': 'application/json' }
+      status: 400,
+      headers: { ...CORS, 'Content-Type': 'application/json' },
     });
-  }
-
-  // ── Input sanitization ──
-  if (messages.length > MAX_MESSAGES) {
-    return new Response(JSON.stringify({ error: `Max ${MAX_MESSAGES} messages per request` }), {
-      status: 400, headers: { ...CORS, 'Content-Type': 'application/json' }
-    });
-  }
-  for (const msg of messages) {
-    if (!msg.role || !msg.content || typeof msg.content !== 'string') {
-      return new Response(JSON.stringify({ error: 'Invalid message format' }), {
-        status: 400, headers: { ...CORS, 'Content-Type': 'application/json' }
-      });
-    }
-    if (msg.content.length > MAX_MSG_LEN) {
-      return new Response(JSON.stringify({ error: `Message too long (max ${MAX_MSG_LEN} chars)` }), {
-        status: 400, headers: { ...CORS, 'Content-Type': 'application/json' }
-      });
-    }
   }
 
   // Inject system prompt into first message if provided

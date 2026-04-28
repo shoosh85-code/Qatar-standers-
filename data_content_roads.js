@@ -546,8 +546,33 @@
 </table>
 <div style="font-size:11px;color:var(--text3);margin-top:6px;">H = Hold Point | W = Witness Point | QCS 2024 Sections 6 & 8</div>
 </div>
-
-
+<div class="lang-content-en" style="display:none;">
+<h3>🔧 Utilities Networks — Materials Summary</h3>
+<table class="dm-table">
+<tr><th>Network</th><th>Pipe Material</th><th>Joint Type</th><th>Color Code</th></tr>
+<tr><td>Water Supply</td><td>DI K9 / HDPE PE100</td><td>Tyton / Electrofusion</td><td>🟡 Yellow tape</td></tr>
+<tr><td>Foul Sewer</td><td>UPVC SN8 / GRP</td><td>Push-fit rubber ring</td><td>🟢 Green tape</td></tr>
+<tr><td>Storm Drainage</td><td>RC Class 120 / HDPE</td><td>Rubber ring</td><td>🔵 Blue tape</td></tr>
+<tr><td>Treated Water</td><td>GRP / HDPE Purple</td><td>Electrofusion</td><td>🟣 Purple tape</td></tr>
+</table>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+📌 All materials require prior approval (MAR) from respective authority: KAHRAMAA (water), Ashghal (sewer/storm), MME (treated water).
+</div>
+</div>
+<div class="lang-content-en" style="display:none;">
+<h3>🔧 Utilities — Quality Control Plan Summary</h3>
+<table class="dm-table">
+<tr><th>Network</th><th>Key Test</th><th>Acceptance</th><th>Standard</th></tr>
+<tr><td>Water Supply</td><td>Pressure 1.5×PN / 2hr</td><td>Zero drop</td><td>KAHRAMAA</td></tr>
+<tr><td>Water Supply</td><td>Chlorination ≥50ppm / 24hr</td><td>Residual ≥0.2ppm</td><td>KAHRAMAA</td></tr>
+<tr><td>Water Supply</td><td>Bacteriological</td><td>Zero coliforms</td><td>WHO</td></tr>
+<tr><td>Foul Sewer</td><td>Air test 100mm Hg / 5min</td><td>Drop ≤25mmHg</td><td>Ashghal</td></tr>
+<tr><td>Foul Sewer</td><td>CCTV survey</td><td>100% / Grade ≤B2</td><td>Ashghal</td></tr>
+<tr><td>Storm Drainage</td><td>Hydraulic test</td><td>Zero leakage</td><td>Ashghal</td></tr>
+<tr><td>Treated Water</td><td>Pressure + cross-connection</td><td>Zero cross-connection</td><td>MME</td></tr>
+<tr><td>All Networks</td><td>Compaction backfill</td><td>≥95% MDD</td><td>Ashghal</td></tr>
+</table>
+</div>
 ` };
   c["subgrade"] = { title: '🏔️ Subgrade — طبقة التربة الطبيعية', content: `
 <div class="lang-content-ar">
@@ -883,7 +908,58 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>درجة الدمك</td><td>≥ 100% MDD (Modified Proctor)</td><td>S6 P5</td></tr>
 <tr><td>السماكة الدنيا</td><td>100mm بعد الدمك (لكل طبقة)</td><td>S6 P4</td></tr>
 </table>
+<div class="lang-content-ar">
 
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
+📌 QCS 2024 — Section 6 Part 4 — Tables 4:2, 4:3 (Road Base values only)
+</div>
+<h3>📐 جدول 4:2 — Coarse Aggregate — Road Base فقط — QCS S6 P4 Page 6</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Property — الخاصية</th><th>Road Base Spec Limit</th><th>Test Method</th><th>Min Frequency</th></tr>
+<tr><td>LA Abrasion Loss</td><td>≤ <strong>30%</strong></td><td>ASTM C131</td><td>1 per 1,000 m³</td></tr>
+<tr><td>Flakiness Index</td><td>≤ <strong>30%</strong></td><td>BS 812 P105</td><td>1 per 500 m³</td></tr>
+<tr><td>Elongation Index</td><td>≤ <strong>30%</strong></td><td>BS 812 P105</td><td>1 per 500 m³</td></tr>
+<tr><td>Fractured Faces (1 face+)</td><td>≥ <strong>75%</strong></td><td>ASTM D5821</td><td>1 per 500 m³</td></tr>
+<tr><td>Fractured Faces (2 faces+)</td><td>≥ <strong>50%</strong></td><td>ASTM D5821</td><td>1 per 500 m³</td></tr>
+<tr><td>Water Absorption</td><td>≤ <strong>2%</strong></td><td>ASTM C127</td><td>1 per 500 m³</td></tr>
+<tr><td>Soundness (MgSO₄)</td><td>≤ <strong>12%</strong></td><td>ASTM C88</td><td>1 per 1,000 m³</td></tr>
+<tr><td>Specific Gravity (SSD)</td><td>≥ <strong>2.5</strong></td><td>ASTM C127</td><td>1 per source change</td></tr>
+<tr><td>Water-Soluble Sulphate SO₃</td><td>≤ <strong>0.5%</strong></td><td>BS 1377-3</td><td>1 per 1,000 m³</td></tr>
+<tr><td>Total Chloride</td><td>≤ <strong>0.6%</strong></td><td>BS 1377-3</td><td>1 per 1,000 m³</td></tr>
+</table></div>
+<h3>📐 جدول 4:3 — Combined Aggregate — Road Base — QCS S6 P4 Page 7</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Property — الخاصية</th><th>Road Base Spec Limit</th><th>Test Method</th><th>Min Frequency</th></tr>
+<tr><td>CBR (Soaked 4 days @ 98% MDD)</td><td>≥ <strong style="color:#2ecc71;">80%</strong></td><td>ASTM D1883</td><td>1 per 2,000 m²</td></tr>
+<tr><td>Plasticity Index (PI)</td><td>≤ <strong>4%</strong></td><td>ASTM D4318</td><td>1 per 500 m³</td></tr>
+<tr><td>Liquid Limit (LL)</td><td>≤ <strong>25%</strong></td><td>ASTM D4318</td><td>1 per 500 m³</td></tr>
+<tr><td>Sand Equivalent (SE)</td><td>≥ <strong>35%</strong></td><td>ASTM D2419</td><td>1 per 500 m³</td></tr>
+<tr><td>Organic Content</td><td>≤ <strong>1%</strong></td><td>ASTM D2974</td><td>per source change</td></tr>
+<tr><td>Max Particle Size</td><td>50 mm (≤ ½ layer thickness)</td><td>Sieve</td><td>per source change</td></tr>
+<tr><td>Compaction (Field Density)</td><td>≥ <strong>98% MDD</strong> (Std Proctor)</td><td>ASTM D1556 (Sand Cone)</td><td>1 per 500 m²</td></tr>
+<tr><td>Layer Thickness (compacted)</td><td>150 – 250 mm</td><td>Physical Measurement</td><td>100% each layer</td></tr>
+<tr><td>Level Tolerance</td><td>± <strong>8 mm</strong> from design</td><td>Total Station / Level</td><td>Every 25 m chainage</td></tr>
+</table></div>
+<h3>📐 Grading Envelope — Road Base (Table 4:1) — QCS S6 P4 Page 5</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Sieve Size</th><th>% Passing — Road Base</th></tr>
+<tr><td>75.0 mm</td><td>100</td></tr>
+<tr><td>37.5 mm</td><td>95 – 100</td></tr>
+<tr><td>9.5 mm</td><td>50 – 75</td></tr>
+<tr><td>4.75 mm</td><td>30 – 60</td></tr>
+<tr><td>2.36 mm</td><td>20 – 45</td></tr>
+<tr><td>0.425 mm</td><td>10 – 25</td></tr>
+<tr><td>0.075 mm</td><td><strong>5 – 12</strong></td></tr>
+</table></div>
+<h3>🔴 Hold Points</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>التوثيق</th></tr>
+<tr><td>HP-01</td><td>Material Approval (MAR): Table 4:2 + 4:3 كاملة معتمدة</td><td>Lab Reports + MAR Form</td></tr>
+<tr><td>HP-02</td><td>Subbase HP-04 معتمد</td><td>Subbase Completion Certificate</td></tr>
+<tr><td>HP-03</td><td>Compaction ≥ 98% MDD + CBR ≥ 80% معتمدان</td><td>Sand Cone + CBR Lab Reports</td></tr>
+<tr><td>HP-04</td><td>Level Survey ± 8mm معتمد قبل Prime Coat</td><td>As-Built Survey Report</td></tr>
+</table></div>
+</div>
 
 <div class="lang-content-en" style="display:none;">
 <div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
@@ -1170,7 +1246,35 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 — Section 6 Part 5 | Prime Coat & Tack Coat | Pages 30-31
 </div>
+<div class="lang-content-ar">
+<h3>📐 Prime Coat — ملخص Page 30</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
+<tr><td>نوع المادة</td><td>Cutback Bitumen MC-30 أو MC-70 (ASTM D2028)</td></tr>
+<tr><td>معدل الرش</td><td>0.8 - 1.2 L/m²</td></tr>
+<tr><td>درجة الحرارة عند الرش</td><td>50 - 80°C (حسب Grade)</td></tr>
+<tr><td>السطح المطلوب</td><td>جاف + نظيف + مكنوس بـ Power Broom + مكنوس بـ Power Blower</td></tr>
+<tr><td>وقت المعالجة الأدنى</td><td>24 hour قبل وضع Asphalt</td></tr>
+<tr><td>علامة الجهوزية</td><td>اللون يتحول من بني للأسود + لا لزوجة</td></tr>
+<tr><td>عمق النفاذ</td><td>10 - 15mm في الـ Base Course</td></tr>
+<tr><td>ظروف وقف العمل</td><td>مطر / غبار / درجة حرارة محيط &lt; 10°C</td></tr>
+<tr><td>حماية الجوانب</td><td>Kerbs + Manholes تُغطى قبل الرش</td></tr>
+<tr><td>اختبار معدل الرش</td><td>تسجيل Spray Tanker Calibration Report + Field Rate من كمية/مساحة</td></tr>
+</table>
 
+<h3>📐 Tack Coat — ملخص Page 31</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>على Binder Course</th><th>على Wearing Course</th></tr>
+<tr><td>نوع المادة</td><td colspan="2">Emulsified Bitumen SS-1h أو CSS-1h (ASTM D977)</td></tr>
+<tr><td>معدل الرش (Residual بعد Breakup)</td><td>0.30 - 0.50 L/m²</td><td>0.20 - 0.40 L/m²</td></tr>
+<tr><td>معدل الرش (قبل Breakup — كمادة)</td><td>0.50 - 0.90 L/m²</td><td>0.35 - 0.70 L/m²</td></tr>
+<tr><td>درجة الحرارة</td><td colspan="2">50 - 70°C</td></tr>
+<tr><td>علامة الجهوزية</td><td colspan="2">Emulsion تتحول من بني للأسود (Breakup كامل)</td></tr>
+<tr><td>ظروف وقف العمل</td><td colspan="2">مطر / سطح رطب / درجة حرارة محيط &lt; 10°C</td></tr>
+<tr><td>المشاة والمركبات</td><td colspan="2">لا يُسمح بالمرور قبل Breakup الكامل</td></tr>
+<tr><td>Tack زائد خطر</td><td colspan="2">Excess Tack = Slippage بين الطبقات + Shoving = NCR</td></tr>
+</table>
+</div>
 <div class="lang-content-en" style="display:none;">
 <h3>Prime Coat Summary — Page 30</h3>
 <table class="dm-table">
@@ -1216,7 +1320,54 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 — Section 6 Part 5 | Pages 16-19
 </div>
+<div class="lang-content-ar">
+<h3>📐 جدول 5:9 — Air Voids قبل وبعد الفرش — QCS S6 P5 Page 16</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>المرحلة</th><th>WC</th><th>BC-A</th><th>BC-B</th></tr>
+<tr><td>Air Voids في JMF (Lab Design)</td><td>4.0%</td><td>4.0%</td><td>4.0%</td></tr>
+<tr><td>Air Voids المقبولة في الموقع (Va)</td><td>3 - 5%</td><td>3 - 5%</td><td>3 - 5%</td></tr>
+<tr><td>Max Va في أي نموذج فردي</td><td>7%</td><td>7%</td><td>7%</td></tr>
+<tr><td>Minimum Va الموقع</td><td>2%</td><td>2%</td><td>2%</td></tr>
+<tr><td>TMD المستهدف (% Max Density)</td><td>≥ 97%</td><td>≥ 97%</td><td>≥ 97%</td></tr>
+</table>
 
+<h3>📐 جدول 5:10 — Tolerances الموقع (Mix vs JMF) — QCS S6 P5 Page 17</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>التفاوت المسموح</th></tr>
+<tr><td>Bitumen Content (% of mix)</td><td>± 0.3%</td></tr>
+<tr><td>% Passing 0.075mm sieve</td><td>± 2.0%</td></tr>
+<tr><td>% Passing 2.36mm sieve</td><td>± 5.0%</td></tr>
+<tr><td>% Passing 4.75mm sieve</td><td>± 5.0%</td></tr>
+<tr><td>% Passing 9.5mm sieve</td><td>± 6.0%</td></tr>
+<tr><td>% Passing 12.5mm sieve</td><td>± 6.0%</td></tr>
+<tr><td>% Passing 19.0mm sieve</td><td>± 7.0%</td></tr>
+<tr><td>% Passing 25.0mm sieve</td><td>± 7.0%</td></tr>
+<tr><td>% Passing 37.5mm sieve</td><td>± 8.0%</td></tr>
+<tr><td>Mixing Temperature</td><td>± 10°C من JMF</td></tr>
+</table>
+
+<h3>📐 جدول 5:11 — Field Density Acceptance — QCS S6 P5 Pages 18-19</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>طريقة القياس</th><th>المتطلب</th><th>التكرار</th></tr>
+<tr><td>Core Samples (TMD%)</td><td>≥97% TMD (كل نموذج)</td><td>كل 1000m² كحد أدنى</td></tr>
+<tr><td>Mean Core Density (عينة 5 كورات)</td><td>≥97% TMD</td><td>كل Lot (2000-3000m²)</td></tr>
+<tr><td>أي كور فردي</td><td>لا يقل عن 93% TMD</td><td>رفض فوري إذا &lt; 93%</td></tr>
+<tr><td>Nuclear Gauge (Field Check)</td><td>≥97% TMD</td><td>كل 200m² للمراقبة</td></tr>
+<tr><td>Air Voids من الكور</td><td>2 - 8%</td><td>كل كور</td></tr>
+</table>
+
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;">
+⚠️ <strong>إجراء الفشل:</strong> إذا كان المتوسط &lt; 97% TMD أو كور فردي &lt; 93% → NCR فوري + تحقيق + قرار بالقشط أو القبول بتخفيض.
+</div>
+
+<h3>📐 Layer Thickness Tolerance</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الطبقة</th><th>السماكة التصميمية</th><th>التفاوت المسموح</th></tr>
+<tr><td>Wearing Course</td><td>40-55mm</td><td>-5mm / +10mm</td></tr>
+<tr><td>Base Course B</td><td>60-80mm</td><td>-10mm / +15mm</td></tr>
+<tr><td>Base Course A</td><td>80-100mm</td><td>-10mm / +15mm</td></tr>
+</table>
+</div>
 <h3>📐 Pavement Elevation Tolerances — QCS S6 P5</h3>
 <table class="dm-table">
 <tr><th>المستوى / Level</th><th>التفاوت المسموح / Tolerance</th><th>QCS</th></tr>
@@ -1607,8 +1758,72 @@ lang-content-en" style="display:none;">
 <tr><td>Rejected Mix</td><td>Any truck <130°C at paver</td><td>QCS S8</td></tr>
 </table>
 </div>
+<div class="lang-content-ar">
+<h3>📐 تعريفات أساسية</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>المصطلح</th><th>التعريف</th><th>الوحدة</th></tr>
+<tr><td><strong>Standard Axle Load</strong></td><td>المحور المعياري = 80 kN (8.2 طن) — معيار التصميم العالمي</td><td>80 kN</td></tr>
+<tr><td><strong>Axle Load Factor (ALF)</strong></td><td>نسبة تأثير محور معين مقارنة بالمحور المعياري. محور 160kN = ALF 16 (= 16 محور معياري)</td><td>Dimensionless</td></tr>
+<tr><td><strong>ESAL</strong></td><td>Equivalent Standard Axle Load — مجموع كل المحاور محولة للمحور المعياري خلال عمر الطريق</td><td>× 10⁶</td></tr>
+<tr><td><strong>Traffic Designation</strong></td><td>تصنيف الطريق حسب حجم الحركة الثقيلة (ESAL) لاختيار سماكة الرصيف</td><td>T1-T6</td></tr>
+<tr><td><strong>Design Life</strong></td><td>العمر التصميمي للطريق = 20 سنة للطرق الرئيسية في قطر</td><td>Years</td></tr>
+</table>
 
+<h3>📐 جدول 1 — Traffic Designation — QCS S6 P2</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>التصنيف</th><th>ESAL (× 10⁶)</th><th>نوع الطريق</th></tr>
+<tr><td>T1 — Light</td><td>&lt; 0.5</td><td>طرق محلية سكنية خفيفة</td></tr>
+<tr><td>T2 — Medium Light</td><td>0.5 - 1.5</td><td>طرق محلية وصغيرة</td></tr>
+<tr><td>T3 — Medium</td><td>1.5 - 5.0</td><td>طرق جامعة وخدمية</td></tr>
+<tr><td>T4 — Medium Heavy</td><td>5.0 - 15</td><td>طرق رئيسية شريانية</td></tr>
+<tr><td>T5 — Heavy</td><td>15 - 50</td><td>طرق سريعة رئيسية</td></tr>
+<tr><td>T6 — Very Heavy</td><td>&gt; 50</td><td>طرق سريعة + مناطق صناعية</td></tr>
+</table>
 
+<h3>📐 جدول 2 — Pavement Type حسب Traffic — QCS S6 P2</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>التصنيف</th><th>نوع الرصيف</th><th>طريقة التصميم</th></tr>
+<tr><td>T1 - T2</td><td>Flexible — Asphalt بسيط + Granular</td><td>Empirical (CBR Method)</td></tr>
+<tr><td>T3 - T4</td><td>Flexible — Asphalt معزز + Treated Base</td><td>Mechanistic-Empirical</td></tr>
+<tr><td>T5 - T6</td><td>Flexible PMB أو Semi-Rigid (CTB)</td><td>Mechanistic Full (AASHTO/Shell)</td></tr>
+<tr><td>T5+ Heavy Industrial</td><td>Rigid — Concrete Pavement</td><td>PCA / AASHTO Rigid</td></tr>
+</table>
+
+<h3>📐 جدول 3 — Typical Pavement Structure حسب Traffic — QCS S6 P2</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>التصنيف</th><th>WC</th><th>BC</th><th>Base</th><th>Subbase</th></tr>
+<tr><td>T1 (&lt;0.5M)</td><td>40mm WC</td><td>—</td><td>150mm</td><td>150mm</td></tr>
+<tr><td>T2 (0.5-1.5M)</td><td>40mm WC</td><td>50mm BC-B</td><td>150mm</td><td>200mm</td></tr>
+<tr><td>T3 (1.5-5M)</td><td>50mm WC</td><td>70mm BC-B</td><td>200mm</td><td>250mm</td></tr>
+<tr><td>T4 (5-15M)</td><td>50mm WC</td><td>80mm BC-B</td><td>250mm</td><td>300mm</td></tr>
+<tr><td>T5 (15-50M)</td><td>50mm PMB WC</td><td>80mm BC-A</td><td>250mm</td><td>300mm</td></tr>
+<tr><td>T6 (&gt;50M)</td><td>50mm PMB WC</td><td>100mm BC-A</td><td>300mm</td><td>350mm</td></tr>
+</table>
+
+<h3>📐 جدول 5 — Pavement Design Thickness (Subgrade CBR) — QCS S6 P2</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Subgrade CBR</th><th>T3 Total Asphalt</th><th>T4 Total Asphalt</th><th>T5 Total Asphalt</th></tr>
+<tr><td>CBR ≥ 8% (جيد)</td><td>120mm</td><td>130mm</td><td>140mm</td></tr>
+<tr><td>CBR 8-8% (متوسط / Sabkha)</td><td>130mm</td><td>145mm</td><td>160mm</td></tr>
+<tr><td>CBR 5-8% (ضعيف)</td><td>145mm</td><td>165mm</td><td>185mm</td></tr>
+<tr><td>CBR &lt; 5% (ضعيف جداً)</td><td colspan="3">معالجة إلزامية + استبدال قبل التصميم</td></tr>
+</table>
+<p style="font-size:11px;color:var(--text3);">ملاحظة: هذه أمثلة نموذجية — التصميم الفعلي يعتمد على تحليل ESAL الكامل + CBR الموقع + عمر التصميم.</p>
+</div>
+<div class="lang-content-en" style="display:none;">
+<h3>🛣️ Traffic Loading — Axle Load & ESAL</h3>
+<table class="dm-table">
+<tr><th>Vehicle Type</th><th>Max Legal Axle Load</th><th>ESAL Factor</th></tr>
+<tr><td>Car / Light van</td><td>3.5t front / 6.5t rear</td><td>0.0005</td></tr>
+<tr><td>2-axle truck</td><td>6t / 10t</td><td>0.5–2.0</td></tr>
+<tr><td>3-axle truck</td><td>6t / 10t / 10t</td><td>1.0–3.0</td></tr>
+<tr><td>Semi-trailer (5-axle)</td><td>≤40t GVW</td><td>3.0–6.0</td></tr>
+<tr><td>Standard Axle</td><td>8.2t = 80kN single axle</td><td>1.0 (reference)</td></tr>
+</table>
+<div style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
+ℹ️ Qatar uses AASHTO pavement design. Design ESAL typically 1M–30M for urban Ashghal roads. Traffic survey required for all new roads.
+</div>
+</div>
 ` };
   c["paving_joints"] = { title: '🛣️ Joints, Rolling & Paving Edges — QCS S6 P5 Pages 28-29', content: `
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -1627,7 +1842,61 @@ lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 — Section 6 Part 5 | Joints & Rolling | Pages 28-29
 </div>
+<div class="lang-content-ar">
+<h3>📐 Transverse Joints (الجوانت العرضية) — Page 28</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
+<tr><td>طريقة الإنهاء</td><td>قطع عمودي نظيف (Saw Cut) للوجه القديم قبل الوصل</td></tr>
+<tr><td>طلاء الوجه</td><td>Tack Coat على الوجه العمودي قبل الفرش</td></tr>
+<tr><td>الإزاحة بين الطبقات</td><td>≥ 2.0m offset بين Transverse Joint في طبقة والطبقة التحتها</td></tr>
+<tr><td>الإزاحة بين المسارات</td><td>≥ 2.0m offset بين جوانت المسارات المتجاورة</td></tr>
+<tr><td>موقع WC Transverse Joint</td><td>تحت خط الممر إن أمكن — بعيداً عن الفرامل والتقاطعات</td></tr>
+<tr><td>Compaction عند الجوانت</td><td>Compaction مباشر بـ Vibratory Roller عمودياً على الجوينت</td></tr>
+</table>
 
+<h3>📐 Longitudinal Joints (الجوانت الطولية) — Page 28</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
+<tr><td>الطريقة المفضلة</td><td>Hot-on-Hot: فرش المسار المجاور قبل انخفاض الحرارة عن 90°C</td></tr>
+<tr><td>Cold Joint (لا مفر)</td><td>Saw Cut + Tack Coat على الوجه العمودي</td></tr>
+<tr><td>الإزاحة بين الطبقات</td><td>≥ 300mm offset بين Longitudinal Joint في WC و BC</td></tr>
+<tr><td>موقع WC Longitudinal Joint</td><td>تحت خط الممر (Lane Line) أو بجانبه</td></tr>
+<tr><td>الوجه القديم</td><td>مستقيم + عمودي — لا أوجه مائلة</td></tr>
+<tr><td>Overlap عند الفرش</td><td>Paver يتداخل 25-50mm مع الحافة القديمة</td></tr>
+</table>
+
+<h3>📐 Paving Edges (حواف الرصف) — Page 28</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
+<tr><td>الحافة بجانب Kerb</td><td>فرش Paver لحد الـ Kerb مباشرة + Compaction بـ Small Roller</td></tr>
+<tr><td>الحافة الحرة (Free Edge)</td><td>Edge Compaction فوري بـ Pneumatic أو Small Drum قبل البرودة</td></tr>
+<tr><td>الميل الجانبي (Batter)</td><td>1:3 max (رأسي:أفقي) للحواف الحرة</td></tr>
+<tr><td>Compaction الحواف</td><td>Pedestrian Roller أو Plate Compactor للمناطق الضيقة</td></tr>
+</table>
+
+<h3>📐 Breakdown Rolling (الCompaction الابتدائي) — Page 28</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
+<tr><td>درجة الحرارة للبدء</td><td>≥ 120°C (Non-PMB) / ≥ 125°C (PMB)</td></tr>
+<tr><td>نوع الـ Roller</td><td>Vibratory Double Drum Steel 10-12t</td></tr>
+<tr><td>البداية</td><td>من الحافة المنخفضة للوسط (Low Side to Centre)</td></tr>
+<tr><td>Overlap بين Passes</td><td>300-500mm</td></tr>
+<tr><td>الـ Pass الأول</td><td>Static (بدون اهتزاز) لتثبيت المادة</td></tr>
+<tr><td>الـ Passes التالية</td><td>Vibratory لتحقيق الCompaction المطلوب</td></tr>
+<tr><td>سرعة الـ Roller</td><td>2.5 - 4.5 km/h عند الـ Vibratory</td></tr>
+</table>
+
+<h3>📐 Intermediate & Finish Rolling — Page 29</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>Intermediate</th><th>Finish Rolling</th></tr>
+<tr><td>نوع الـ Roller</td><td>Pneumatic Tyre Roller (PTR)</td><td>Tandem Steel Drum (Static)</td></tr>
+<tr><td>درجة الحرارة</td><td>80-120°C</td><td>≥ 60°C</td></tr>
+<tr><td>عدد الـ Passes</td><td>4-5 passes (2 PTR)</td><td>1-2 passes</td></tr>
+<tr><td>الهدف</td><td>تحسين Density + إغلاق السطح</td><td>إزالة آثار الـ PTR + تسوية السطح</td></tr>
+<tr><td>سرعة الـ PTR</td><td>4-8 km/h</td><td>3-6 km/h</td></tr>
+<tr><td>ضغط الإطارات PTR</td><td>400-600 kPa</td><td>—</td></tr>
+</table>
+</div>
 <div class="lang-content-en" style="display:none;">
 <h3>Transverse Joints — Page 28</h3>
 <table class="dm-table">
@@ -1807,7 +2076,17 @@ lang-content-en" style="display:none;">
 <tr><td>Formation Approval</td><td>All tests passed</td><td>Engineer sign-off</td><td>H</td></tr>
 </table>
 </div></div>
-
+<div class="lang-content-en" style="display:none;">
+<h3>ITP — Subbase Course</h3>
+<table class="dm-table"><tr><th>Activity</th><th>Test</th><th>Frequency</th><th>Standard</th><th>HP/W</th></tr>
+<tr><td>Material Approval</td><td>Grading + LA + PI + SE</td><td>Per source</td><td>QCS S6 P4</td><td>HP</td></tr>
+<tr><td>Grading Analysis</td><td>Within Table 4:1 envelope</td><td>Per 500m³</td><td>ASTM C136</td><td>W</td></tr>
+<tr><td>LA Abrasion</td><td>≤ 30%</td><td>Per 1000m³</td><td>ASTM C131</td><td>W</td></tr>
+<tr><td>Sand Equivalent</td><td>≥ 30%</td><td>Per 500m³</td><td>ASTM D2419</td><td>W</td></tr>
+<tr><td>Field Density</td><td>≥ 98% MDD</td><td>Per 500m²</td><td>ASTM D1556</td><td>W</td></tr>
+<tr><td>CBR (Soaked 4 days)</td><td>≥ 30%</td><td>Per 2000m²</td><td>ASTM D1883</td><td>HP</td></tr>
+<tr><td>Level Survey</td><td>± 10mm from design</td><td>Per 25m</td><td>Total Station</td><td>HP</td></tr></table>
+</div>
 ` };
   c["itp_base"] = { title: '📋 ITP — Base Course', content: `<div class="lang-content-ar"><div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2024 — Part 6 Part 3</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>CBR Soaked</td><td>ASTM D1883</td><td>≥ 80%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.2</td><td>LA Abrasion</td><td>ASTM C131</td><td>≤ 25%</td><td>كل 1000m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 98% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr><tr><td>3.2</td><td>Plate Load Test</td><td>BS 1377 Part 9</td><td>حسب التصميم</td><td>كل 2000m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div></div>
 <div class="lang-content-en" style="display:none;">
@@ -1881,7 +2160,16 @@ lang-content-en" style="display:none;">
 <tr><td>Straightedge (3m)</td><td>Random checks</td><td>≤6mm gap</td><td>W</td></tr>
 </table>
 </div></div>
-
+<div class="lang-content-en" style="display:none;">
+<h3>ITP — Asphalt Testing (All Layers)</h3>
+<table class="dm-table"><tr><th>Test</th><th>Frequency</th><th>WC</th><th>BC</th><th>Standard</th></tr>
+<tr><td>Delivery Temp</td><td>Every load</td><td>≥130°C</td><td>≥130°C</td><td>QCS S6 P5</td></tr>
+<tr><td>Bitumen Extraction</td><td>Per 200t</td><td>±0.3% JMF</td><td>±0.3% JMF</td><td>ASTM D2172</td></tr>
+<tr><td>Marshall Stability</td><td>Per 200t</td><td>≥ 9 kN</td><td>≥ 8 kN</td><td>ASTM D1559</td></tr>
+<tr><td>Air Voids Va</td><td>Per 200t</td><td>3-5%</td><td>3-5%</td><td>ASTM D3203</td></tr>
+<tr><td>Core Density</td><td>Per 1000m²</td><td>≥97% TMD</td><td>≥97% TMD</td><td>ASTM D6927</td></tr>
+<tr><td>IRI</td><td>Per 400m</td><td>≤0.9-1.5</td><td>—</td><td>PWA IAN 013</td></tr></table>
+</div>
 ` };
   c["traffic_management_plan"] = { title: '🚦 Traffic Management Plan — TMP', content: `
 <div class="lang-content-ar">
@@ -2083,8 +2371,76 @@ lang-content-en" style="display:none;">
 ℹ️ Gabbro = primary Qatar road aggregate, imported from Oman. Pre-approval + source testing required before use.
 </div>
 </div>
+<div class="lang-content-ar">
+<h3>🕸️ ما هو Geotextile؟</h3>
+<p>مواد نسيجية هندسية مصنوعة من بوليمر (PP أو PET) تُستخدم في أعمال الطرق والتصريف والتعزيز. وظيفتها الأساسية: الفصل بين طبقات التربة والركام، التصفية، التسليح.</p>
 
+<h3>📐 أنواع Geotextile</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>النوع</th><th>التصنيع</th><th>الوظيفة الأساسية</th><th>الاستخدام في قطر</th></tr>
+<tr><td><strong>Woven (منسوج)</strong></td><td>خيوط بوليمر منسوجة</td><td>Separation + Reinforcement</td><td>تحت الـ Subbase فوق التربة الضعيفة</td></tr>
+<tr><td><strong>Non-Woven (غير منسوج)</strong></td><td>ألياف مرتبطة حرارياً</td><td>Filtration + Separation</td><td>تصريف + حماية طبقة Drainage</td></tr>
+<tr><td><strong>Geonet</strong></td><td>شبكة بلاستيكية</td><td>Drainage (تصريف)</td><td>تحت الـ Kerb + حوائل تصريف</td></tr>
+<tr><td><strong>Geogrid</strong></td><td>شبكة فتحات كبيرة</td><td>Reinforcement (تسليح)</td><td>تحت الـ Road Base لزيادة التحمل</td></tr>
+</table>
 
+<h3>📐 مواصفات Geotextile — QCS S6 P3</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>الحد الأدنى (Separation)</th><th>الحد الأدنى (Filtration)</th><th>الاختبار</th></tr>
+<tr><td>Mass Per Unit Area</td><td>≥ 150 g/m²</td><td>≥ 200 g/m²</td><td>ISO 9864</td></tr>
+<tr><td>Tensile Strength (MD)</td><td>≥ 20 kN/m</td><td>≥ 12 kN/m</td><td>ISO 10319</td></tr>
+<tr><td>Tensile Strength (CMD)</td><td>≥ 20 kN/m</td><td>≥ 12 kN/m</td><td>ISO 10319</td></tr>
+<tr><td>Elongation at Break</td><td>≤ 50%</td><td>≥ 30%</td><td>ISO 10319</td></tr>
+<tr><td>CBR Puncture Resistance</td><td>≥ 2500 N</td><td>≥ 1500 N</td><td>ISO 12236</td></tr>
+<tr><td>Apparent Opening Size (O90)</td><td>≤ 0.20mm</td><td>0.075-0.30mm</td><td>ISO 12956</td></tr>
+<tr><td>Permeability (Kn)</td><td>N/A</td><td>≥ 10×Ksoil</td><td>ISO 11058</td></tr>
+<tr><td>UV Resistance</td><td>≥ 50% retention after 500hr UV</td><td>≥ 50% after 500hr</td><td>ASTM D4355</td></tr>
+<tr><td>Chemical Resistance</td><td>pH 2-13 stable</td><td>pH 2-13 stable</td><td>ISO 14030</td></tr>
+</table>
+
+<h3>📐 متطلبات التركيب</h3>
+<table class="dm-table">
+<tr><th>البند</th><th>المتطلب</th></tr>
+<tr><td>الفردة (Overlap)</td><td>≥ 500mm في الاتجاهين</td></tr>
+<tr><td>التثبيت</td><td>U-pins أو رمل فوقه مباشرة</td></tr>
+<tr><td>الحماية من الأشعة</td><td>تغطية خلال 48hr من الفردة</td></tr>
+<tr><td>الفردة على منحدرات</td><td>من الأعلى للأسفل</td></tr>
+<tr><td>الوصل</td><td>Sewing أو Overlap ≥ 1m</td></tr>
+<tr><td>حماية من المعدات</td><td>لا تسير المعدات الثقيلة مباشرة</td></tr>
+</table>
+
+<h3>🔧 اختبارات الاستقبال</h3>
+<table class="dm-table">
+<tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th><th>HP/W</th></tr>
+<tr><td>Mass Per Unit Area (وزن المتر)</td><td>Per roll batch</td><td>ISO 9864</td><td>W</td></tr>
+<tr><td>Tensile Strength</td><td>Per roll batch</td><td>ISO 10319</td><td>HP</td></tr>
+<tr><td>CBR Puncture</td><td>Per roll batch</td><td>ISO 12236</td><td>W</td></tr>
+<tr><td>Apparent Opening Size</td><td>Per roll batch</td><td>ISO 12956</td><td>W</td></tr>
+<tr><td>Visual Inspection</td><td>100% of rolls</td><td>No holes/tears</td><td>W</td></tr>
+</table>
+</div>
+<div class="lang-content-en" style="display:none;">
+<h3>What is Geotextile?</h3>
+<p>Geotextiles are polymer (PP or PET) fabric materials used in road construction, drainage and reinforcement. Primary functions: separation between soil/aggregate layers, filtration, reinforcement.</p>
+<h3>Geotextile Types</h3>
+<table class="dm-table">
+<tr><th>Type</th><th>Manufacture</th><th>Primary Function</th><th>Qatar Use</th></tr>
+<tr><td>Woven</td><td>Woven polymer threads</td><td>Separation + Reinforcement</td><td>Under Subbase on weak subgrade</td></tr>
+<tr><td>Non-Woven</td><td>Thermally bonded fibres</td><td>Filtration + Separation</td><td>Drainage + protection layers</td></tr>
+<tr><td>Geogrid</td><td>Large aperture grid</td><td>Reinforcement</td><td>Under Road Base to increase bearing</td></tr>
+</table>
+<h3>Geotextile Specifications</h3>
+<table class="dm-table">
+<tr><th>Property</th><th>Min (Separation)</th><th>Min (Filtration)</th><th>Test</th></tr>
+<tr><td>Mass Per Unit Area</td><td>≥ 150 g/m²</td><td>≥ 200 g/m²</td><td>ISO 9864</td></tr>
+<tr><td>Tensile Strength (MD)</td><td>≥ 20 kN/m</td><td>≥ 12 kN/m</td><td>ISO 10319</td></tr>
+<tr><td>CBR Puncture Resistance</td><td>≥ 2500 N</td><td>≥ 1500 N</td><td>ISO 12236</td></tr>
+<tr><td>Apparent Opening Size O90</td><td>≤ 0.20mm</td><td>0.075-0.30mm</td><td>ISO 12956</td></tr>
+<tr><td>UV Resistance</td><td>≥ 50% retention after 500hr</td><td>≥ 50%</td><td>ASTM D4355</td></tr>
+</table>
+<h3>Installation Requirements</h3>
+<p>Overlap: ≥ 500mm both directions | Cover within 48hr of laying | Seams: sewing or ≥ 1m overlap | No heavy equipment directly on geotextile without cover</p>
+</div>
 ` };
   c["testing"] = { title: '🔬 الاختبارات والفحص', content: `
 <div class="lang-content-ar">

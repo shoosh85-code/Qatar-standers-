@@ -1,140 +1,190 @@
-// QatarSpec Pro — Service Worker v4.0.0
-// Smart caching: CacheFirst for immutable assets, NetworkFirst for HTML, StaleWhileRevalidate for JS chunks
-const STATIC_CACHE  = 'qs-static-v4';   // immutable: assets, fonts
-const CHUNK_CACHE   = 'qs-chunks-v4';   // data_*.js with long TTL
-const PAGES_CACHE   = 'qs-pages-v4';    // HTML — network first
-const ALL_CACHES    = [STATIC_CACHE, CHUNK_CACHE, PAGES_CACHE];
+// QatarSpec Pro — Service Worker v4.0 (Security + Performance Upgrade)
+// Strategy: Cache-first for assets, Network-first for content, Offline fallback
 
-// Critical files to precache on install
+const CACHE_STATIC = 'qs-static-v4';
+const CACHE_CONTENT = 'qs-content-v4';
+const CACHE_API = 'qs-api-v4';
+
+// Static assets to precache on install
 const PRECACHE_URLS = [
   '/',
   '/index.html',
+  '/manifest.json',
+  '/loader.js',
   '/data_calcs.js',
   '/data_content_manifest.js',
-  '/manifest.json',
-  '/assets/icon-192.png',
 ];
 
-// ── INSTALL: precache critical shell ──
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(PAGES_CACHE).then(cache =>
-      cache.addAll(PRECACHE_URLS.map(url => new Request(url, { cache: 'no-cache' })))
-        .catch(() => {}) // don't block install on network failure
-    ).then(() => self.skipWaiting())
+// Content chunks — cache on first access
+const CONTENT_PATTERN = /\/data_content.*\.js(\?.*)?$/;
+const STATIC_PATTERN = /\.(css|woff2?|png|ico|svg)(\?.*)?$/;
+const API_PATTERN = /\/api\//;
+
+// ── Install: precache static shell ────────────────────────────
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_STATIC)
+      .then(cache => cache.addAll(PRECACHE_URLS.map(u => new Request(u, { cache: 'reload' }))))
+      .then(() => self.skipWaiting())
+      .catch(() => self.skipWaiting()) // Don't block if some fail
   );
 });
 
-// ── ACTIVATE: delete old caches ──
-self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys.filter(k => !ALL_CACHES.includes(k)).map(k => {
-          console.log('[SW] Deleting old cache:', k);
-          return caches.delete(k);
+// ── Activate: clean old caches ────────────────────────────────
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(keys => {
+      const valid = [CACHE_STATIC, CACHE_CONTENT, CACHE_API];
+      return Promise.all(
+        keys.filter(k => !valid.includes(k)).map(k => caches.delete(k))
+      );
+    }).then(() => self.clients.claim())
+  );
+});
+
+// ── Message: force update ─────────────────────────────────────
+self.addEventListener('message', event => {
+  if (event.data?.type === 'SKIP_WAITING') self.skipWaiting();
+  if (event.data?.type === 'CACHE_STATUS') {
+    caches.keys().then(keys => {
+      event.ports[0]?.postMessage({ caches: keys });
+    });
+  }
+});
+
+// ── Fetch: smart routing ──────────────────────────────────────
+self.addEventListener('fetch', event => {
+  const { request } = event;
+  const url = request.url;
+
+  // Skip non-GET and external auth/payment
+  if (request.method !== 'GET') return;
+  if (url.includes('googleapis.com') && !url.includes('fonts')) return;
+  if (url.includes('supabase.co')) return;
+
+  // API calls: network only (never cache API responses containing auth)
+  if (API_PATTERN.test(url)) {
+    event.respondWith(
+      fetch(request).catch(() => new Response(
+        JSON.stringify({ error: 'Offline — API not available', offline: true }),
+        { status: 503, headers: { 'Content-Type': 'application/json' } }
+      ))
+    );
+    return;
+  }
+
+  // Content chunks: cache-first (immutable, long-lived)
+  if (CONTENT_PATTERN.test(url)) {
+    event.respondWith(
+      caches.open(CACHE_CONTENT).then(cache =>
+        cache.match(request).then(cached => {
+          if (cached) return cached;
+          return fetch(request).then(response => {
+            if (response.ok) cache.put(request, response.clone());
+            return response;
+          });
         })
       )
-    ).then(() => self.clients.claim())
+    );
+    return;
+  }
+
+  // Static assets: cache-first
+  if (STATIC_PATTERN.test(url)) {
+    event.respondWith(
+      caches.open(CACHE_STATIC).then(cache =>
+        cache.match(request).then(cached => cached || fetch(request))
+      )
+    );
+    return;
+  }
+
+  // HTML + JS: network-first, stale fallback
+  event.respondWith(
+    fetch(request)
+      .then(response => {
+        if (response.ok) {
+          caches.open(CACHE_STATIC).then(cache => cache.put(request, response.clone()));
+        }
+        return response;
+      })
+      .catch(() =>
+        caches.match(request)
+          .then(cached => cached || caches.match('/index.html'))
+      )
   );
 });
 
-// ── MESSAGES ──
-self.addEventListener('message', e => {
-  if (!e.data) return;
-  if (e.data.type === 'SKIP_WAITING') self.skipWaiting();
-  if (e.data.type === 'CLEAR_CACHE') {
-    caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))));
-    e.ports?.[0]?.postMessage({ ok: true });
+// ── Background Sync: NCR/RFI pending submissions ──────────────
+self.addEventListener('sync', event => {
+  if (event.tag === 'sync-ncr') {
+    event.waitUntil(syncPendingNCRs());
+  }
+  if (event.tag === 'sync-rfi') {
+    event.waitUntil(syncPendingRFIs());
   }
 });
 
-// ── FETCH ──
-self.addEventListener('fetch', e => {
-  const req = e.request;
-  const url = new URL(req.url);
-
-  // Skip: non-GET, cross-origin API, Supabase, Gemini, Vercel functions
-  if (req.method !== 'GET') return;
-  if (url.pathname.startsWith('/api/')) return;
-  if (url.hostname.includes('supabase')) return;
-  if (url.hostname.includes('googleapis')) return;
-  if (url.hostname.includes('anthropic')) return;
-
-  // ── Strategy 1: CacheFirst — immutable versioned data chunks ──
-  if (url.pathname.match(/^\/data_.*\.js$/) && url.search.includes('v=')) {
-    e.respondWith(cacheFirst(req, CHUNK_CACHE));
-    return;
-  }
-
-  // ── Strategy 2: CacheFirst — static assets (fonts, icons, images) ──
-  if (
-    url.pathname.startsWith('/assets/') ||
-    url.hostname.includes('fonts.gstatic.com') ||
-    url.hostname.includes('fonts.googleapis.com')
-  ) {
-    e.respondWith(cacheFirst(req, STATIC_CACHE));
-    return;
-  }
-
-  // ── Strategy 3: StaleWhileRevalidate — unversioned JS (sw.js, loader.js) ──
-  if (url.pathname.endsWith('.js') && !url.search.includes('v=')) {
-    e.respondWith(staleWhileRevalidate(req, CHUNK_CACHE));
-    return;
-  }
-
-  // ── Strategy 4: NetworkFirst — HTML pages (always fresh) ──
-  if (
-    req.destination === 'document' ||
-    url.pathname === '/' ||
-    url.pathname.endsWith('.html')
-  ) {
-    e.respondWith(networkFirst(req, PAGES_CACHE));
-    return;
-  }
-
-  // ── Default: StaleWhileRevalidate for everything else ──
-  e.respondWith(staleWhileRevalidate(req, PAGES_CACHE));
-});
-
-// ═══════════════════════════════
-// Caching Strategy Helpers
-// ═══════════════════════════════
-
-// CacheFirst: serve from cache, fallback network, update cache
-async function cacheFirst(req, cacheName) {
-  const cache = await caches.open(cacheName);
-  const cached = await cache.match(req);
-  if (cached) return cached;
-  try {
-    const fresh = await fetch(req);
-    if (fresh.ok) cache.put(req, fresh.clone());
-    return fresh;
-  } catch {
-    return new Response('Offline', { status: 503 });
+async function syncPendingNCRs() {
+  // Opens IndexedDB and sends any pending NCRs
+  // Implementation: posts to /api/ncr-submit when online
+  const db = await openDB();
+  const pending = await db.getAll('pending_ncrs');
+  for (const ncr of pending) {
+    try {
+      const r = await fetch('/api/forms', {
+        method: 'POST',
+        body: JSON.stringify({ type: 'NCR', data: ncr }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (r.ok) await db.delete('pending_ncrs', ncr.id);
+    } catch { /* will retry next sync */ }
   }
 }
 
-// NetworkFirst: try network, fallback to cache, update cache on success
-async function networkFirst(req, cacheName) {
-  const cache = await caches.open(cacheName);
-  try {
-    const fresh = await fetch(req, { signal: AbortSignal.timeout(6000) });
-    if (fresh.ok) cache.put(req, fresh.clone());
-    return fresh;
-  } catch {
-    const cached = await cache.match(req) || await cache.match('/index.html');
-    return cached || new Response('Offline', { status: 503 });
+async function syncPendingRFIs() {
+  const db = await openDB();
+  const pending = await db.getAll('pending_rfis');
+  for (const rfi of pending) {
+    try {
+      const r = await fetch('/api/forms', {
+        method: 'POST',
+        body: JSON.stringify({ type: 'RFI', data: rfi }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (r.ok) await db.delete('pending_rfis', rfi.id);
+    } catch { /* will retry */ }
   }
 }
 
-// StaleWhileRevalidate: serve cached immediately, update in background
-async function staleWhileRevalidate(req, cacheName) {
-  const cache = await caches.open(cacheName);
-  const cached = await cache.match(req);
-  const fetchPromise = fetch(req).then(fresh => {
-    if (fresh.ok) cache.put(req, fresh.clone());
-    return fresh;
-  }).catch(() => null);
-  return cached || await fetchPromise || new Response('Offline', { status: 503 });
+// Simple IndexedDB wrapper
+function openDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open('QatarSpecDB', 1);
+    req.onupgradeneeded = e => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains('pending_ncrs'))
+        db.createObjectStore('pending_ncrs', { keyPath: 'id' });
+      if (!db.objectStoreNames.contains('pending_rfis'))
+        db.createObjectStore('pending_rfis', { keyPath: 'id' });
+    };
+    req.onsuccess = e => {
+      const db = e.target.result;
+      resolve({
+        getAll: store => new Promise((res, rej) => {
+          const tx = db.transaction(store, 'readonly');
+          const req2 = tx.objectStore(store).getAll();
+          req2.onsuccess = () => res(req2.result);
+          req2.onerror = rej;
+        }),
+        delete: (store, id) => new Promise((res, rej) => {
+          const tx = db.transaction(store, 'readwrite');
+          const req2 = tx.objectStore(store).delete(id);
+          req2.onsuccess = res;
+          req2.onerror = rej;
+        }),
+      });
+    };
+    req.onerror = reject;
+  });
 }

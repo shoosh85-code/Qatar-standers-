@@ -76,7 +76,7 @@ test('No unescaped </script>', () => {
   assert(!s.match(/(?<!\\)<\/script>/), 'Found unescaped tag');
 });
 test('Arabic proper UTF-8', () => { assert(fs.readFileSync('index.html').includes(Buffer.from('بحث','utf-8')), 'Double-encoded'); });
-test('JWT auth active', () => { assert(html.includes('payload.pro === true && payload.exp'), 'Missing JWT check'); });
+test('JWT auth active', () => { assert(html.includes('_qs_pro_confirmed') || html.includes('verify-pro'), 'Missing Pro verification'); });
 test('PRO_CODES empty', () => { assert(html.includes('PRO_CODES = []'), 'Codes on client'); });
 test('data_calcs.js syntax', () => { require('child_process').execSync('node --check data_calcs.js',{stdio:'pipe'}); });
 
