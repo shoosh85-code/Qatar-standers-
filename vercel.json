@@ -3,200 +3,112 @@
     {
       "source": "/",
       "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        },
-        {
-          "key": "Content-Type",
-          "value": "text/html; charset=utf-8"
-        }
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" },
+        { "key": "Content-Type", "value": "text/html; charset=utf-8" }
       ]
     },
     {
       "source": "/index.html",
       "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        },
-        {
-          "key": "Content-Type",
-          "value": "text/html; charset=utf-8"
-        }
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" },
+        { "key": "Content-Type", "value": "text/html; charset=utf-8" }
       ]
     },
     {
       "source": "/embedding-runner.html",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "text/html; charset=utf-8"
-        }
-      ]
+      "headers": [{ "key": "Content-Type", "value": "text/html; charset=utf-8" }]
     },
     {
       "source": "/translation-runner.html",
+      "headers": [{ "key": "Content-Type", "value": "text/html; charset=utf-8" }]
+    },
+    {
+      "source": "/og-image.svg",
       "headers": [
-        {
-          "key": "Content-Type",
-          "value": "text/html; charset=utf-8"
-        }
+        { "key": "Cache-Control", "value": "public, max-age=2592000, immutable" },
+        { "key": "Content-Type", "value": "image/svg+xml" }
       ]
     },
     {
       "source": "/data_(.*).js",
       "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        },
-        {
-          "key": "Content-Type",
-          "value": "application/javascript; charset=utf-8"
-        }
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" },
+        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" },
+        { "key": "Vary", "value": "Accept-Encoding" }
       ]
     },
     {
       "source": "/loader.js",
       "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600"
-        },
-        {
-          "key": "Content-Type",
-          "value": "application/javascript; charset=utf-8"
-        }
+        { "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" },
+        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" }
       ]
     },
     {
       "source": "/sw.js",
       "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/javascript; charset=utf-8"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "no-cache, no-store, must-revalidate"
-        }
+        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" },
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
+        { "key": "Service-Worker-Allowed", "value": "/" }
+      ]
+    },
+    {
+      "source": "/manifest.json",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=3600" },
+        { "key": "Content-Type", "value": "application/manifest+json" }
       ]
     },
     {
       "source": "/calc-worker.js",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/javascript; charset=utf-8"
-        }
-      ]
+      "headers": [{ "key": "Content-Type", "value": "application/javascript; charset=utf-8" }]
     },
     {
       "source": "/supabase-search.js",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/javascript; charset=utf-8"
-        }
-      ]
+      "headers": [{ "key": "Content-Type", "value": "application/javascript; charset=utf-8" }]
     },
     {
       "source": "/verify-subscription.js",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/javascript; charset=utf-8"
-        }
-      ]
+      "headers": [{ "key": "Content-Type", "value": "application/javascript; charset=utf-8" }]
     },
     {
       "source": "/js/(.*)\\.js",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/javascript; charset=utf-8"
-        }
-      ]
+      "headers": [{ "key": "Content-Type", "value": "application/javascript; charset=utf-8" }]
     },
     {
       "source": "/assets/(.*)",
       "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        },
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        }
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" }
       ]
     },
     {
       "source": "/api/(.*)",
       "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "no-store, no-cache, must-revalidate"
-        },
-        {
-          "key": "Pragma",
-          "value": "no-cache"
-        }
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" },
+        { "key": "Pragma", "value": "no-cache" }
       ]
     },
     {
       "source": "/(.*)",
       "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        },
-        {
-          "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
-        },
-        {
-          "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' cdnjs.cloudflare.com fonts.googleapis.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com fonts.gstatic.com; font-src 'self' fonts.gstatic.com data:; connect-src 'self' https://generativelanguage.googleapis.com https://*.supabase.co; img-src 'self' data: blob:; media-src 'self' blob:; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
-        },
-        {
-          "key": "Strict-Transport-Security",
-          "value": "max-age=31536000; includeSubDomains; preload"
-        }
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()" },
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline' cdnjs.cloudflare.com fonts.googleapis.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com fonts.gstatic.com; font-src 'self' fonts.gstatic.com data:; connect-src 'self' https://generativelanguage.googleapis.com https://*.supabase.co https://api.anthropic.com; img-src 'self' data: blob: https://*.vercel.app; media-src 'self' blob:; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests" },
+        { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains; preload" }
       ]
     }
   ],
   "functions": {
-    "api/ai-proxy.js": {
-      "maxDuration": 60
-    },
-    "api/qcs-search.js": {
-      "maxDuration": 30
-    },
-    "api/tap-checkout.js": {
-      "maxDuration": 30
-    },
-    "api/tap-callback.js": {
-      "maxDuration": 30
-    },
-    "api/admin-session.js": {
-      "maxDuration": 10
-    },
-    "api/vision-proxy.js": {
-      "maxDuration": 60
-    }
+    "api/ai-proxy.js": { "maxDuration": 60 },
+    "api/qcs-search.js": { "maxDuration": 30 },
+    "api/tap-checkout.js": { "maxDuration": 30 },
+    "api/tap-callback.js": { "maxDuration": 30 },
+    "api/admin-session.js": { "maxDuration": 10 },
+    "api/vision-proxy.js": { "maxDuration": 60 },
+    "api/verify-pro.js": { "maxDuration": 10 }
   }
 }

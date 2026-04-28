@@ -109,6 +109,8 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://ehqhbdlvbblmpqxylxfb.supabase.co" crossorigin>
 <script>
 // SW v4 active — old SWs with different scope/origin will be cleaned by activate event
 // Only unregister blob: SW registrations (old workaround — not needed with /sw.js)
@@ -132,17 +134,17 @@ if ('serviceWorker' in navigator) {
 <meta name="keywords" content="QCS 2024, Qatar Construction Specifications, مواصفات قطر, Ashghal, KAHRAMAA, MMUP, QCS standards Qatar, مهندس قطر, ITP Qatar, رخصة بناء قطر, مواصفات الطرق, خرسانة قطر, Pass Fail test Qatar, NCR RFI Qatar engineering">
 <meta name="author" content="QatarSpec Pro">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-<link rel="canonical" href="https://qatarspec.vercel.app/">
+<link rel="canonical" href="https://qatar-standers.vercel.app/">
 <meta name="language" content="Arabic">
 <meta name="geo.region" content="QA">
 <meta name="geo.placename" content="Doha, Qatar">
 
 <!-- ═══════════ Open Graph — Social Sharing ═══════════ -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://qatarspec.vercel.app/">
+<meta property="og:url" content="https://qatar-standers.vercel.app/">
 <meta property="og:title" content="QatarSpec Pro — دليل المواصفات القطرية | QCS 2024">
 <meta property="og:description" content="أكبر مرجع رقمي للمواصفات الهندسية في قطر — بحث ذكي بالذكاء الاصطناعي في QCS 2024 + Ashghal + KAHRAMAA. مجاني للمهندسين.">
-<meta property="og:image" content="https://qatarspec.vercel.app/og-image.png">
+<meta property="og:image" content="https://qatar-standers.vercel.app/og-image.svg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="ar_QA">
@@ -153,7 +155,7 @@ if ('serviceWorker' in navigator) {
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="QatarSpec Pro — مواصفات قطر الهندسية">
 <meta name="twitter:description" content="أكبر مرجع رقمي للمواصفات الهندسية في قطر — QCS 2024 + Ashghal + KAHRAMAA. بحث ذكي مجاني.">
-<meta name="twitter:image" content="https://qatarspec.vercel.app/og-image.png">
+<meta name="twitter:image" content="https://qatar-standers.vercel.app/og-image.svg">
 
 <!-- ═══════════ PWA — Web App Manifest (Inline Blob) ═══════════ -->
 <meta name="theme-color" content="#7A1515">
@@ -172,7 +174,7 @@ if ('serviceWorker' in navigator) {
   "@type": "WebApplication",
   "name": "QatarSpec Pro",
   "alternateName": "دليل المواصفات القطرية",
-  "url": "https://qatarspec.vercel.app/",
+  "url": "https://qatar-standers.vercel.app/",
   "description": "منصة رقمية شاملة للمواصفات الهندسية القطرية — QCS 2024، Ashghal، KAHRAMAA، MMUP. بحث ذكي بالذكاء الاصطناعي، حاسبات تقنية، نماذج رسمية.",
   "applicationCategory": "EngineeeringApplication",
   "operatingSystem": "Web Browser",
@@ -205,7 +207,7 @@ if ('serviceWorker' in navigator) {
   "creator": {
     "@type": "Organization",
     "name": "QatarSpec",
-    "url": "https://qatarspec.vercel.app/"
+    "url": "https://qatar-standers.vercel.app/"
   }
 }
 </script>
@@ -213,15 +215,17 @@ if ('serviceWorker' in navigator) {
 <!-- ═══════════ Performance ═══════════ -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- DNS prefetch for external APIs -->
+<!-- DNS prefetch for external APIs — for faster cold connections -->
 <link rel="dns-prefetch" href="https://generativelanguage.googleapis.com">
 <link rel="dns-prefetch" href="https://api.anthropic.com">
 <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 <!-- Preload critical data files -->
-<link rel="preload" href="data_content_manifest.js?v=7" as="script">
-<link rel="preload" href="data_calcs.js?v=430" as="script">
+<link rel="preload" href="data_content_manifest.js?v=7" as="script" fetchpriority="low">
+<link rel="preload" href="data_calcs.js?v=430" as="script" fetchpriority="high">
 <!-- Google Fonts with local fallback for offline support -->
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<!-- ═════ PERF S4: Non-blocking font loading ═════ -->
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Cairo:wght@400;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Cairo:wght@400;700;900&display=swap"></noscript>
 <style>
 /* Offline-safe font fallback */
 @font-face {
@@ -715,8 +719,64 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 #backToTop.visible { opacity: 1; transform: translateY(0); }
 #backToTop:hover { border-color: var(--gold); color: var(--gold); }
 
+
+/* ── S4 PERFORMANCE: content-visibility for off-screen groups ── */
+.section-group {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+/* ── S4 PERFORMANCE: contain for expensive elements ── */
+.cat-card { contain: layout style; }
+.detail-modal-bg, .modal-bg, .pro-modal-bg, .upgrade-overlay {
+  contain: layout style;
+  will-change: opacity, transform;
+}
+.toast { contain: layout style paint; will-change: transform, opacity; }
+/* ── S4 PERFORMANCE: tabular nums avoids CLS on number updates ── */
+.hero-stat-num, .plan-price { font-variant-numeric: tabular-nums; }
+/* ── S4 PERFORMANCE: Preemptively size skeleton cards ── */
+.skeleton-card { min-height: 160px; }
+/* ── S4 PERFORMANCE: Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  .skeleton-line { animation: none !important; background: var(--dark4); }
+  .spinner { animation: none !important; border: 2px solid var(--gold); }
+}
+/* ── S4 PERFORMANCE: improve search input rendering ── */
+.search-input { will-change: auto; }
+/* ── S4 PERFORMANCE: GPU layer for sticky header only ── */
+header { will-change: auto; transform: translateZ(0); }
+
 </style>
 <!-- data_content.js loaded by loader.js -->
+
+<script>
+// ── S4: Web Vitals tracking ──
+(function(){
+  if(!window.PerformanceObserver) return;
+  try {
+    // LCP
+    new PerformanceObserver(function(l){
+      var e=l.getEntries();
+      if(e.length) window._qs_lcp = e[e.length-1].startTime;
+    }).observe({type:'largest-contentful-paint',buffered:true});
+    // CLS  
+    var cls=0;
+    new PerformanceObserver(function(l){
+      l.getEntries().forEach(function(e){ if(!e.hadRecentInput) cls+=e.value; });
+      window._qs_cls=cls;
+    }).observe({type:'layout-shift',buffered:true});
+    // INP
+    new PerformanceObserver(function(l){
+      l.getEntries().forEach(function(e){ window._qs_inp=e.duration; });
+    }).observe({type:'event',durationThreshold:16,buffered:true});
+  } catch(e){}
+})();
+</script>
 </head>
 <body>
 <div class="lang-toggle">
@@ -4866,7 +4926,7 @@ window.QS = window.QS || {};
   </div>
 </div>
 
-<script src="data_calcs.js?v=430"></script>
+<script src="data_calcs.js?v=430" defer></script>
 <script>
 // QS_CONTENT — manifest + on-demand chunk loader
 (function(){
