@@ -1080,6 +1080,8 @@ function calcTestScheduleCore(matId, qtyId, unitId, resultId, isEn) {
   });
   // Merge with any existing QS properties (set by stub or previous partial init)
   window.QS = Object.assign(window.QS || {}, api);
+  // Bridge: expose global openDetail via QS
+  window.QS.openDetail = window.QS.openDetail || function(k){if(typeof openDetail==='function')openDetail(k);};
 })();
 
 // ════════════════════════════════════════════════

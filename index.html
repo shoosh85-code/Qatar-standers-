@@ -4685,6 +4685,8 @@ window._QS_PUBLIC_FNS = [
 // Temporary stub so any code that references QS before data_calcs.js loads
 // doesn't throw. Will be replaced by the real QS at end of data_calcs.js.
 window.QS = window.QS || {};
+// Expose openDetail via QS namespace (cards use QS.openDetail())
+window.QS.openDetail = function(key) { if(typeof openDetail === 'function') openDetail(key); };
 
 </script>
 
