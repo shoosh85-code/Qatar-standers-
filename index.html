@@ -1085,6 +1085,13 @@ let uploadedFiles = [];
 
 // ===== INIT =====
 window.onload = () => {
+  // ── Security: مسح مفاتيح API القديمة من localStorage (v3.0 upgrade) ──
+  ['qatarspecKey', 'qs_pro_active', 'qs_pro_expiry', 'qs_pro_token'].forEach(function(k) {
+    if (localStorage.getItem(k)) {
+      localStorage.removeItem(k);
+      console.log('[QatarSpec] Cleaned legacy key:', k);
+    }
+  });
   // ── Monetization Init ──
   renderProStatus();
   // Silently revalidate JWT on load (catches expired tokens)
@@ -1413,7 +1420,7 @@ function clearCardFilter() {
 // Key aliases: card key → content key (when names differ)
 window._CONTENT_ALIASES = {
   'asphalt_quick_ref':'ms_asphalt','exec_asphalt_paving':'execution',
-    'road_layers_calc':'ms_asphalt',
+  // road_layers_calc: NO alias — uses data_content_extra.js directly (has its own calculator)
     'exec_water_pipe':'ws_laying',    'pipe_quick_ref':'pipe_bedding','pipe_sizing_calc':'pipe_bedding',
       'exec_concrete_pour':'concrete_placing','exec_bridge_rebar':'rebar_full',
   'exec_foundation_excavation':'foundations_full',
@@ -1957,7 +1964,7 @@ window.addEventListener('DOMContentLoaded', function(){ setLang(currentLang); })
 
 
 // ===== VERSION CHECK =====
-const APP_VERSION = '1.2.0';
+const APP_VERSION = '2.10.0';
 async function checkForUpdates() {
   try {
     const res = await fetch('/version.json?t=' + Date.now());

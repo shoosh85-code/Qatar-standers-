@@ -11,7 +11,8 @@ const CORS = {
   'Access-Control-Allow-Credentials': 'true',
 };
 
-const PRO_CODES_RAW = process.env.PRO_CODES || '';
+// Support both PRO_CODES and PROMO_CODES env var names for compatibility
+const PRO_CODES_RAW = process.env.PROMO_CODES || process.env.PRO_CODES || '';
 const VALID_CODES = new Set(
   PRO_CODES_RAW.split(',').map(c => c.trim().toUpperCase()).filter(Boolean)
 );
