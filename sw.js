@@ -1,9 +1,9 @@
-// QatarSpec Pro — Service Worker v4.0 (Security + Performance Upgrade)
+// QatarSpec Pro — Service Worker v5.0 (Phase 5 — UI/UX Polish) (Security + Performance Upgrade)
 // Strategy: Cache-first for assets, Network-first for content, Offline fallback
 
-const CACHE_STATIC = 'qs-static-v4';
-const CACHE_CONTENT = 'qs-content-v4';
-const CACHE_API = 'qs-api-v4';
+const CACHE_STATIC = 'qs-static-v5';
+const CACHE_CONTENT = 'qs-content-v5';
+const CACHE_API = 'qs-api-v5';
 
 // Static assets to precache on install
 const PRECACHE_URLS = [
@@ -13,6 +13,7 @@ const PRECACHE_URLS = [
   '/loader.js',
   '/data_calcs.js',
   '/data_content_manifest.js',
+  '/data_content_phase4.js',
 ];
 
 // Content chunks — cache on first access

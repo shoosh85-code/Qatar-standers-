@@ -381,6 +381,29 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 .toast.show { transform:translateY(0); opacity:1; }
 @media(max-width:900px) { .hero { grid-template-columns:1fr; gap:32px; } .spec-row { grid-template-columns:90px 1fr; } .spec-tag,.spec-arr { display:none; } }
 @media(max-width:600px) { header { padding:0 16px; } .hero,.search-section,.content-section,.ai-answer-box { padding-left:16px; padding-right:16px; } .hero-stats { gap:16px; } }
+/* ── lang-toggle ── */
+.lang-toggle { position:fixed; bottom:72px; left:16px; z-index:300; display:flex; gap:4px; }
+.lang-btn { background:var(--dark3); border:1px solid var(--border); border-radius:8px; padding:5px 11px; font-family:'Tajawal',sans-serif; font-size:11px; color:var(--text3); cursor:pointer; transition:.2s; }
+.lang-btn.active { background:rgba(201,168,76,0.12); border-color:var(--border2); color:var(--gold); font-weight:700; }
+.lang-btn:hover { border-color:var(--border2); color:var(--text); }
+
+/* ── back to top ── */
+#backToTopBtn { position:fixed; bottom:16px; left:16px; z-index:300; width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,var(--maroon),var(--maroon2)); border:1px solid rgba(201,168,76,0.3); color:var(--gold); font-size:18px; cursor:pointer; display:none; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(0,0,0,0.4); transition:all .3s; }
+#backToTopBtn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(122,21,21,0.5); }
+#backToTopBtn.visible { display:flex; }
+
+/* ── dark mode toggle button ── */
+#darkModeBtn { background:var(--dark3); border:1px solid var(--border); border-radius:8px; padding:6px 10px; font-size:14px; cursor:pointer; transition:.2s; }
+#darkModeBtn:hover { border-color:var(--border2); }
+
+/* ── light theme overrides ── */
+[data-theme="light"] body { background:#f0ede8; color:#1a1a1a; }
+[data-theme="light"] .cat-card { background:#fff; border-color:rgba(0,0,0,0.08); }
+[data-theme="light"] .cat-card:hover { background:#fafafa; }
+[data-theme="light"] .search-input { background:#fff; color:#1a1a1a; border-color:rgba(0,0,0,0.12); }
+[data-theme="light"] .modal-box, [data-theme="light"] .detail-modal { background:#fff; }
+[data-theme="light"] .group-header { background:#fff !important; }
+
 ::-webkit-scrollbar { width:6px; }
 /* Mobile: hide features promo section */
 @media(max-width:768px) {
@@ -743,6 +766,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       </div>
     </div>
     <div class="header-actions">
+      <button id="darkModeBtn" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
       <div id="proStatusBadge" class="free-badge" onclick="openProModal()">
         ⭐ ارقَ لـ Pro
       </div>
@@ -5129,6 +5153,33 @@ window.activateProNow = function(codeArg) {
 
 // ── activateProSimple alias للتوافق ──
 window.activateProSimple = window.activateProNow;
+// ── Back to Top Button ──
+(function initBackToTop() {
+  const btn = document.getElementById('backToTopBtn');
+  if (!btn) return;
+  window.addEventListener('scroll', function() {
+    btn.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+})();
+
+// ── Dark Mode Button Icon Sync ──
+(function syncDarkModeIcon() {
+  function updateIcon() {
+    const btn = document.getElementById('darkModeBtn');
+    if (!btn) return;
+    const theme = localStorage.getItem('qs_theme') || 'dark';
+    btn.textContent = theme === 'light' ? '☀️' : theme === 'system' ? '🖥️' : '🌙';
+    btn.title = theme === 'light' ? 'وضع نهاري — اضغط للتبديل' : theme === 'system' ? 'وضع النظام — اضغط للتبديل' : 'وضع ليلي — اضغط للتبديل';
+  }
+  document.addEventListener('DOMContentLoaded', updateIcon);
+  // Patch toggleTheme to also update icon
+  const _origToggle = window.toggleTheme;
+  window.toggleTheme = function() { _origToggle && _origToggle(); updateIcon(); };
+})();
 </script>
+
+<!-- Back to Top Button -->
+<button id="backToTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="عودة للأعلى">↑</button>
+
 </body>
 </html>
