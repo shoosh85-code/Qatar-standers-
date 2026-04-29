@@ -118,6 +118,15 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<!-- ═══ Google Analytics 4 — QatarSpec Pro ═══ -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QSPEC2026QA"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-QSPEC2026QA', { anonymize_ip: true });
+</script>
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
 <script>
 // ═══ SECURITY CLEANUP v3.1 — مسح أي بيانات حساسة من localStorage ══════════
 // يعمل قبل كل شيء — يحمي المستخدمين القادمين من إصدارات قديمة
@@ -373,7 +382,46 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 .cat-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); opacity:0; transition:.3s; }
 .cat-card:hover { border-color:var(--border2); background:var(--dark4); transform:translateY(-3px); box-shadow:0 12px 32px rgba(0,0,0,0.4); }
 .cat-card:hover::after { opacity:1; }
+.cat-card:active { transform:translateY(-1px) scale(0.98); box-shadow:0 4px 12px rgba(0,0,0,0.3); }
 .cat-emoji { font-size:24px; display:block; }
+
+/* ── Loading Spinner ── */
+.loading-spinner {
+  display:flex; align-items:center; justify-content:center;
+  gap:10px; padding:32px 16px; color:var(--gold);
+  font-family:'Cairo',sans-serif; font-size:14px; opacity:0.8;
+  animation:fadeInUp .3s ease;
+}
+.loading-spinner::before {
+  content:''; width:20px; height:20px; border-radius:50%;
+  border:2px solid rgba(201,168,76,0.3); border-top-color:var(--gold);
+  animation:spin .8s linear infinite; flex-shrink:0;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* ── Empty State ── */
+.empty-state {
+  text-align:center; padding:40px 20px; color:var(--text3);
+  font-family:'Cairo',sans-serif; animation:fadeInUp .3s ease;
+}
+.empty-state-icon { font-size:40px; display:block; margin-bottom:12px; }
+.empty-state-text { font-size:15px; color:var(--text2); margin-bottom:6px; }
+.empty-state-sub { font-size:12px; color:var(--text3); opacity:0.7; }
+
+/* ── Error Banner ── */
+.error-banner {
+  background:rgba(220,53,69,0.12); border:1px solid rgba(220,53,69,0.3);
+  border-radius:8px; padding:12px 16px; margin:8px 0;
+  color:#ff6b7a; font-size:13px; font-family:'Cairo',sans-serif;
+  display:flex; align-items:center; gap:8px;
+}
+
+/* ── Card Entrance Animation ── */
+@keyframes cardEntrance {
+  from { opacity:0; transform:translateY(12px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.cat-card.animate-in { animation:cardEntrance .35s ease forwards; }
 .cat-name { font-family:'Cairo',sans-serif; font-size:14px; font-weight:700; color:var(--text); }
 .cat-desc {
   font-size:11px; color:var(--text3); line-height:1.4;
@@ -4826,6 +4874,13 @@ window.QS = window.QS || {};
     <span style="font-size:10px;color:var(--text3);">للاستخدام المهني فقط — Not for Design Purposes</span>
   </div>
   <div style="margin-top:8px;font-size:10px;color:var(--text3);opacity:0.6;">Reviewed April 2026 | QCS 2024 · Ashghal · KAHRAMAA · MMUP · QCDD</div>
+  <div style="margin-top:10px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;">
+    <a href="/legal/terms.html" style="font-size:10px;color:var(--gold);opacity:0.7;text-decoration:none;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">الشروط والأحكام</a>
+    <span style="color:rgba(255,255,255,0.2);font-size:10px;">|</span>
+    <a href="/legal/privacy.html" style="font-size:10px;color:var(--gold);opacity:0.7;text-decoration:none;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">سياسة الخصوصية</a>
+    <span style="color:rgba(255,255,255,0.2);font-size:10px;">|</span>
+    <span style="font-size:10px;color:var(--text3);opacity:0.6;">© 2026 QatarSpec Pro. All rights reserved.</span>
+  </div>
 </div>
 <!-- ═══════════════════════════════════════════════
      PRO MODAL — خطط الاشتراك
@@ -5232,6 +5287,137 @@ window.activateProSimple = window.activateProNow;
 <script src="js/export/pdf.js?v=700"></script>
 <script src="js/export/word.js?v=700"></script>
 <script src="js/export/excel.js?v=700"></script>
+
+<!-- ═══ المرحلة 10: Final Polish — Error Boundary + Analytics Events + Card Animation ═══ -->
+<script>
+// ── Error Boundary: يمنع crash الصفحة ويُظهر toast للمستخدم ──
+window.onerror = function(msg, url, line, col, err) {
+  const ignore = ['ResizeObserver', 'Script error', 'Non-Error promise'];
+  if (ignore.some(function(i){ return String(msg).includes(i); })) return true;
+  console.warn('[QatarSpec] Error:', msg, 'at', url, 'line', line);
+  if (typeof showToast === 'function') {
+    showToast('⚠️ حدث خطأ — يرجى تحديث الصفحة', 'error', 5000);
+  }
+  return true; // منع ظهور رسالة المتصفح الافتراضية
+};
+
+// ── Unhandled Promise Rejections ──
+window.addEventListener('unhandledrejection', function(e) {
+  console.warn('[QatarSpec] Unhandled Promise:', e.reason);
+  if (e.reason && e.reason.name !== 'AbortError') {
+    if (typeof showToast === 'function') {
+      showToast('⚠️ خطأ في الاتصال — تحقق من الإنترنت', 'warning', 4000);
+    }
+  }
+});
+
+// ── Analytics Events Helper — تتبع الأحداث الرئيسية ──
+(function() {
+  function track(eventName, params) {
+    try {
+      if (typeof gtag === 'function') {
+        gtag('event', eventName, params || {});
+      }
+    } catch(e) { /* لا crash إذا GA غير محمّل */ }
+  }
+
+  // تتبع البحث
+  document.addEventListener('QS:search', function(e) {
+    track('search', { search_term: e.detail && e.detail.term });
+  });
+
+  // تتبع استخدام الحاسبات
+  document.addEventListener('QS:calculator', function(e) {
+    track('calculator_use', { calc_type: e.detail && e.detail.type });
+  });
+
+  // تتبع التصدير
+  document.addEventListener('QS:export', function(e) {
+    track('export', { format: e.detail && e.detail.format });
+  });
+
+  // تتبع فتح الكروت
+  document.addEventListener('click', function(e) {
+    const card = e.target.closest && e.target.closest('.cat-card');
+    if (card) {
+      const title = card.querySelector('.cat-title, h3, [class*="title"]');
+      track('card_open', { card_name: title ? title.textContent.trim().slice(0,50) : 'unknown' });
+    }
+  }, true);
+
+  // تتبع ترقية Pro
+  document.addEventListener('QS:pro_upgrade', function() {
+    track('pro_upgrade_attempt', {});
+  });
+
+  // حفظ track في namespace
+  if (window.QS) window.QS.track = track;
+  else window._qsTrack = track;
+})();
+
+// ── Card Entrance Animation — يُفعَّل تلقائياً عند ظهور الكروت ──
+(function() {
+  if (!('IntersectionObserver' in window)) return;
+  const obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-in');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+
+  function observeCards() {
+    document.querySelectorAll('.cat-card:not(.animate-in)').forEach(function(card) {
+      obs.observe(card);
+    });
+  }
+
+  // تشغيل عند التحميل + عند فلترة الكروت
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', observeCards);
+  } else {
+    observeCards();
+  }
+  // إعادة التشغيل بعد فلترة البحث
+  document.addEventListener('QS:filter', function() {
+    setTimeout(observeCards, 100);
+  });
+})();
+
+// ── Empty State Helper — يُظهر رسالة "لا نتائج" عند الفلترة ──
+(function() {
+  function checkEmptyGroups() {
+    document.querySelectorAll('.section-group, [class*="cat-group"], [class*="section"]').forEach(function(group) {
+      const cards = group.querySelectorAll('.cat-card');
+      const visibleCards = [...cards].filter(function(c) {
+        return c.style.display !== 'none' && !c.hidden;
+      });
+      let emptyEl = group.querySelector('.empty-state');
+      if (visibleCards.length === 0 && cards.length > 0) {
+        if (!emptyEl) {
+          emptyEl = document.createElement('div');
+          emptyEl.className = 'empty-state';
+          emptyEl.innerHTML =
+            '<span class="empty-state-icon">🔍</span>' +
+            '<div class="empty-state-text">لا توجد نتائج في هذا القسم</div>' +
+            '<div class="empty-state-sub">جرّب بحثاً مختلفاً أو أعِد ضبط الفلتر</div>';
+          group.appendChild(emptyEl);
+        }
+      } else if (emptyEl) {
+        emptyEl.remove();
+      }
+    });
+  }
+  // تشغيل على البحث
+  document.addEventListener('input', function(e) {
+    if (e.target && (e.target.id === 'searchBox' || e.target.id === 'mainSearch')) {
+      setTimeout(checkEmptyGroups, 200);
+    }
+  });
+})();
+</script>
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
 
 </body>
 </html>

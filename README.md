@@ -1,88 +1,168 @@
-# QatarSpec — Optimized Build
+# QatarSpec Pro 🏗️
 
-## ما تم تحسينه في هذه النسخة
+> **مرجع المواصفات القطرية — Qatar Construction Specifications Reference**  
+> منصة هندسية متخصصة مدعومة بالذكاء الاصطناعي | AI-Powered Engineering SaaS for Qatar
 
-### 🔴 مشاكل مميتة تم إصلاحها
-
-| المشكلة | الحل |
-|---|---|
-| 921KB JS يُحمَّل قبل أي pixel يظهر | تقسيم `detailData` إلى 4 ملفات منفصلة + `loader.js` ديناميكي |
-| 3 script blocks هيكلياً مكسورة | تنظيف البنية: script1 (state) → loader.js → script2 (calcMaterials) → script3 (app) |
-| 5 دوال مكررة تلغي بعضها صامتة | حذف النسخ القديمة من `calcAirTest`, `calcSlump`, `calcLA`, `calcFlakiness`, `calcSandEq` |
-
-### 🟠 مشاكل خطيرة تم إصلاحها
-
-| المشكلة | الحل |
-|---|---|
-| XSS: أسماء الملفات تذهب مباشرة إلى innerHTML | `renderFileItem` يستخدم `textContent` الآن |
-| XSS: رسائل الخطأ غير محمية | إضافة `sanitizeText()` + تطبيقها على 4 مواضع |
-| XSS: إجابات AI بدون تعقيم | `sanitizeText()` قبل regex replace |
-| 13 setTimeout بدون clearTimeout | حماية `showToast`, `prefillNCR`, `createNCRFromInspector` |
-| 56 عنصر video في DOM عند التحميل | العناصر الآن في ملفات البيانات — تُنشأ فقط عند فتح القسم |
+[![Live Site](https://img.shields.io/badge/Live%20Site-qatar--standers.vercel.app-gold?style=flat-square)](https://qatar-standers.vercel.app)
+[![QCS 2024](https://img.shields.io/badge/QCS-2024%20Compliant-green?style=flat-square)](#)
+[![Ashghal](https://img.shields.io/badge/Ashghal-RDM%202023-blue?style=flat-square)](#)
+[![Version](https://img.shields.io/badge/Version-2.4.6-purple?style=flat-square)](#)
 
 ---
 
-## هيكل الملفات
+## 🎯 المهمة — Mission
 
-```
-├── index.html          ← الواجهة الرئيسية (253KB — بدلاً من 1,237KB)
-├── loader.js           ← يُحمِّل ملفات البيانات بشريط تقدم
-├── data_structural.js  ← الإنشاء، الخرسانة، الجسات (45 قسم)
-├── data_roads.js       ← الطرق والإسفلت (35 قسم)
-├── data_utilities.js   ← المرافق، المياه، الصرف (42 قسم)
-└── data_general.js     ← المحلل والحاسبة (2 قسم)
-```
+تحويل QCS 2024 (18,000 صفحة) إلى إجابات هندسية فورية عبر:
+- بحث ذكي بالذكاء الاصطناعي (Gemini)
+- 38+ حاسبة Pass/Fail فورية
+- تصدير نماذج Ashghal الرسمية (RFI, NCR, ITP, DPR)
 
-⚠️ **جميع الملفات يجب أن تكون في نفس المجلد.**
+*Turn QCS 2024 (18,000 pages) into instant engineering answers via AI search, 38+ Pass/Fail calculators, and official Ashghal form exports.*
 
 ---
 
-## كيف يعمل التحميل الديناميكي
+## ✨ المميزات — Features
 
-```
-المتصفح يفتح index.html (253KB)
-    ↓
-loader.js يعرض شاشة تحميل
-    ↓
-تحميل data_structural.js → window.detailData += 45 قسم
-    ↓
-تحميل data_roads.js → window.detailData += 35 قسم
-    ↓
-تحميل data_utilities.js → window.detailData += 42 قسم
-    ↓
-تحميل data_general.js → window.detailData += 2 قسم
-    ↓
-حدث: document.dispatchEvent(new Event('qatarspec:ready'))
-    ↓
-التطبيق جاهز بالكامل
-```
-
-**التحسين في وقت التفاعل الأولي: ~79%**
-- قبل: المتصفح يحلّل 1.1MB قبل أي render
-- بعد: الواجهة تظهر بعد 253KB، البيانات تتحمل في الخلفية
+| الميزة | الخطة | الوصف |
+|--------|-------|-------|
+| 🔍 بحث ذكي QCS | Free (5/يوم) / Pro (∞) | بحث دلالي في QCS 2024 بالعربية والإنجليزية |
+| 🧮 38+ حاسبة هندسية | Free | طرق، خرسانة، كهرباء، جيوتقني — Pass/Fail |
+| 📄 تصدير PDF/Word/Excel | Pro | نماذج Ashghal الرسمية مع ترويسة المشروع |
+| 🤖 AI Document Inspector | Pro | تحليل الرسومات والوثائق بالذكاء الاصطناعي |
+| 📱 PWA Offline | Free | يعمل بدون إنترنت في المواقع |
+| 🌐 ثنائي اللغة | Free | عربي + إنجليزي + Dark/Light Mode |
 
 ---
 
-## المشاكل المتبقية (خارج نطاق هذه النسخة)
+## 🏗️ التقنيات — Tech Stack
 
-| المشكلة | الأولوية | الصعوبة |
-|---|---|---|
-| 809 استخدام `var` (يجب → `const`/`let`) | متوسطة | سهل — refactor آلي |
-| 138 دالة على `window` (pollution) | عالية | صعب — يحتاج namespace + تحديث all onclick |
-| 39 `innerHTML` بدون sanitization كاملة | متوسطة | سهل — تطبيق `sanitizeText` على الباقي |
-| 10 `setTimeout` بدون حماية | منخفضة | سهل — هذه single-fire آمنة |
-| 0% test coverage | عالية | جداً صعب — يحتاج إعادة هيكلة كاملة |
+```
+Frontend:    Vanilla HTML/CSS/JS (no frameworks) + PWA
+Backend:     Vercel Serverless Functions (Node.js)
+AI:          Google Gemini API (server-side only)
+Database:    Supabase (PostgreSQL + pgvector)
+Hosting:     Vercel (qatar-standers.vercel.app)
+Standards:   QCS 2024 | Ashghal RDM 2023 | KAHRAMAA 2024 | MMUP | FIDIC
+```
 
 ---
 
-## للمرحلة القادمة
+## 📁 هيكل المشروع — Project Structure
 
 ```
-إعادة الكتابة كـ React/Vue app:
-├── /src/data/     ← ملفات JSON نقية (بدون HTML)
-├── /src/components/ ← مكونات منعزلة لكل قسم
-├── /src/utils/    ← الدوال المساعدة (sanitize, calc, etc.)
-└── /tests/        ← unit tests لكل دالة
+Qatar-standers-/
+├── index.html                    ← الواجهة الرئيسية (SPA)
+├── api/                          ← Vercel Serverless APIs
+│   ├── ai-proxy.js               ← Gemini AI proxy (rate-limited)
+│   ├── qcs-search.js             ← QCS semantic search
+│   ├── verify-pro.js             ← Pro subscription verification
+│   └── ...
+├── js/
+│   ├── calculators/              ← 38+ حاسبة هندسية
+│   │   ├── roads.js              ← طرق وإسفلت (12 حاسبة)
+│   │   ├── structural.js         ← إنشاءات وخرسانة (11 حاسبة)
+│   │   ├── utilities.js          ← كهرباء وصرف (5 حاسبات)
+│   │   ├── geotech.js            ← جيوتقني وتربة (6 حاسبات)
+│   │   └── general.js            ← عامة (4 حاسبات)
+│   └── export/                   ← نظام التصدير
+│       ├── pdf.js                ← PDF مع ترويسة QatarSpec
+│       ├── word.js               ← Word مع مراجع QCS
+│       └── excel.js              ← Excel بتنسيق Ashghal
+├── data_content*.js              ← محتوى QCS (موزّع على ملفات)
+├── public/legal/                 ← الصفحات القانونية
+│   ├── terms.html                ← الشروط والأحكام
+│   └── privacy.html              ← سياسة الخصوصية
+├── tests/                        ← 138+ اختبار تلقائي
+│   ├── integration/              ← 31 اختبار API
+│   └── e2e/                      ← 49 اختبار E2E
+├── sw.js                         ← Service Worker (PWA)
+├── manifest.json                 ← PWA Manifest
+├── robots.txt                    ← SEO
+└── sitemap.xml                   ← SEO
 ```
 
-هذا يحل 80% من المشاكل الهيكلية المتبقية.
+---
+
+## 🚀 التشغيل المحلي — Local Development
+
+```bash
+# 1. Clone
+git clone https://github.com/shoosh85-code/Qatar-standers-.git
+cd Qatar-standers-
+
+# 2. Install Vercel CLI
+npm i -g vercel
+
+# 3. Set environment variables (create .env.local)
+cp .env.example .env.local
+# Fill in: GEMINI_API_KEY, SUPABASE_URL, SUPABASE_KEY
+
+# 4. Run locally
+vercel dev
+
+# 5. Open
+open http://localhost:3000
+```
+
+---
+
+## 🧪 الاختبارات — Testing
+
+```bash
+npm test                          # كل الاختبارات
+npm run test:integration          # 31 اختبار API
+npm run test:e2e                  # 49 اختبار E2E
+npm run test:content              # فحص سلامة المحتوى
+```
+
+---
+
+## 🔐 الأمان — Security
+
+- ✅ CSP headers (Vercel + meta tag)
+- ✅ Rate limiting on all API endpoints (100 req/15min)
+- ✅ Server-side API keys only (no localStorage)
+- ✅ Input sanitization (sanitizeText() on all innerHTML)
+- ✅ httpOnly session cookies for Pro auth
+- ✅ XSS protection on all user inputs
+
+---
+
+## 💰 خطط الاشتراك — Pricing
+
+| الخطة | السعر | المميزات |
+|-------|-------|----------|
+| Free | مجاناً | 5 بحثات/يوم + 38 حاسبة + محتوى QCS |
+| Pro | 99 QAR/شهر | بحث غير محدود + تصدير PDF/Word/Excel + AI Inspector |
+| Enterprise | تسعير مخصص | فريق كامل + API + SLA + تكامل مخصص |
+
+**كود ترحيبي:** `QATAR2026PRO` (شهر Pro مجاناً)
+
+---
+
+## 📞 التواصل — Contact
+
+- 🌐 الموقع: [qatar-standers.vercel.app](https://qatar-standers.vercel.app)
+- 📧 الدعم: support@qatarspec.app
+- 💼 Enterprise: enterprise@qatarspec.app
+- ⚖️ قانوني: legal@qatarspec.app
+- 💬 WhatsApp: للاشتراك Pro — راجع الموقع
+
+---
+
+## ⚠️ إخلاء المسؤولية — Disclaimer
+
+> **AI-Generated Content Warning:** جميع مخرجات الذكاء الاصطناعي للاستخدام المرجعي فقط.  
+> يجب التحقق من كل رقم مقابل QCS 2024 الرسمي قبل استخدامه في أي تصميم أو وثيقة رسمية.  
+> *All AI outputs are for reference only. Verify against official QCS 2024 before use in design or official documents.*
+
+---
+
+## 📜 الرخصة — License
+
+Proprietary — © 2026 QatarSpec Pro. All Rights Reserved.  
+See [LICENSE](./LICENSE) for details.
+
+---
+
+*QatarSpec Pro — Engineering SaaS for Qatar | مرجع المواصفات القطرية*
