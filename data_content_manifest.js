@@ -145,5 +145,12 @@ window.QS_CONTENT_MAP = {
   "concrete_phases": "data_content_structural.js",
   "hot_weather_concreting": "data_content_structural.js",
   "rebar_itp": "data_content_structural.js",
-  "foundation_itp": "data_content_structural.js"
+  "foundation_itp": "data_content_structural.js",
+  "itp_rebar": "data_content_structural.js",
+  "itp_piles": "data_content_structural.js",
+  "itp_sewer": "data_content_utilities.js",
+  "itp_storm": "data_content_utilities.js",
+  "itp_subbase": "data_content_utilities.js",
+  "ws_materials": "data_content_utilities.js",
+  "ws_testing": "data_content_utilities.js"
 };

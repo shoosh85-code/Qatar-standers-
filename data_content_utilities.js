@@ -2262,4 +2262,60 @@ All numerical values, specifications and test methods shown in Arabic are source
 </table>
 </div>
 ` };
+
+// ── Missing ITP stubs ──
+c["itp_sewer"] = { title: '📋 ITP — شبكة الصرف الصحي', content: c["ss_testing"] ? c["ss_testing"].content : c["itp_water_supply"].content };
+c["itp_storm"] = { title: '📋 ITP — الصرف السطحي', content: c["sw_testing"] ? c["sw_testing"].content : c["itp_water_supply"].content };
+c["itp_subbase"] = c["itp_subgrade"] || { title: 'ITP Subbase', content: '<p>مرجع: QCS 2024 S6 P4</p>' };
+
+// ── Missing water supply sub-section stubs ──
+c["ws_materials"] = {
+  title: '💧 مواد مياه الشرب — HDPE + DI + GRP',
+  content: `<div class="lang-content-ar">
+<h3>مواد مواسير مياه الشرب — QCS 2024 S8 + KAHRAMAA</h3>
+<table class="dm-table">
+<tr><th>المادة</th><th>الاستخدام</th><th>المعيار</th><th>ملاحظات</th></tr>
+<tr><td><strong>HDPE PE100</strong></td><td>التوزيع DN25–DN630</td><td>ISO 4427</td><td>SDR11 (PN16) أو SDR17 (PN10)</td></tr>
+<tr><td><strong>Ductile Iron (DI)</strong></td><td>الخطوط الرئيسية ≥DN300</td><td>ISO 2531</td><td>Class K9 / K7 — بطانة سمنتية</td></tr>
+<tr><td><strong>GRP</strong></td><td>الخطوط الكبيرة ≥DN600</td><td>AWWA C950</td><td>SN5000 — للضغط العالي</td></tr>
+<tr><td><strong>PVC-U</strong></td><td>التوزيع الداخلي ≤DN160</td><td>ISO 1452</td><td>Class C (PN12.5) للشرب فقط</td></tr>
+</table>
+<h3>متطلبات KAHRAMAA للمواد</h3>
+<table class="dm-table">
+<tr><th>البند</th><th>المتطلب</th></tr>
+<tr><td>شهادة المختبر</td><td>KAHRAMAA Approved Lab — فحص كل دفعة</td></tr>
+<tr><td>شهادة NSF/WRAS</td><td>إلزامي لكل مواد التلامس مع الشرب</td></tr>
+<tr><td>لون HDPE</td><td>أزرق أو أسود بخط أزرق — يميز شبكة المياه</td></tr>
+<tr><td>Marking</td><td>اسم الشركة + DN + PN + المعيار + تاريخ الإنتاج</td></tr>
+<tr><td>Material Approval</td><td>MAR مطلوب قبل التوريد</td></tr>
+</table>
+<p><strong>📌 المراجع:</strong> QCS 2024 S8 P3 + KAHRAMAA WR-001 + ISO 4427</p>
+</div>`
+};
+
+c["ws_testing"] = {
+  title: '💧 اختبار الضغط — Hydrostatic Pressure Test',
+  content: `<div class="lang-content-ar">
+<h3>اختبار الضغط الهيدروستاتيكي — QCS 2024 S8</h3>
+<table class="dm-table">
+<tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>
+<tr><td>ضغط الاختبار</td><td><strong>1.5 × PN</strong> (بار)</td><td>QCS S8 P5</td></tr>
+<tr><td>مدة الاختبار</td><td>2 ساعة كحد أدنى</td><td>QCS S8 P5 Cl.5.3</td></tr>
+<tr><td>معيار القبول</td><td>هبوط ضغط ≤ 0.1 بار / ساعة</td><td>KAHRAMAA Specs</td></tr>
+<tr><td>الحجم المختبَر</td><td>≤ 1 km كل اختبار (عند DN ≤ 400)</td><td>KAHRAMAA</td></tr>
+<tr><td>Pre-test Soak</td><td>24h مملوء قبل رفع الضغط</td><td>BS 8010</td></tr>
+<tr><td>الوثائق</td><td>Pressure Chart + Gauge Calibration Certificate</td><td>Ashghal ITP</td></tr>
+</table>
+<h3>خطوات الاختبار</h3>
+<ol style="color:var(--text2);line-height:2;font-size:13px;">
+<li>ملء الخط بالماء وتهوية الهواء (Air Bleed Valves)</li>
+<li>نقع 24 ساعة (Pre-soak) للتشبع</li>
+<li>رفع الضغط تدريجياً حتى 1.5×PN</li>
+<li>مراقبة 2 ساعة — تسجيل الضغط كل 15 دقيقة</li>
+<li>Pass: هبوط ≤ 0.1 بار | Fail: فحص التسريبات</li>
+</ol>
+<p><strong>📌 المراجع:</strong> QCS 2024 S8 P5 Cl.5.3 + KAHRAMAA Standards + BS 8010</p>
+</div>`
+};
+
 })();

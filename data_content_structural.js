@@ -2225,5 +2225,9 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 ` };
 
+// ── Missing ITP stubs (used in SECTION_MAP breadcrumb/nav) ──
+c["itp_rebar"] = { title: '📋 ITP — تسليح الخرسانة', content: c["rebar_itp"] ? c["rebar_itp"].content : c["itp_structural"].content };
+c["itp_piles"] = { title: '📋 ITP — الخوازيق', content: c["itp_foundations"] ? c["itp_foundations"].content : c["itp_structural"].content };
+
 })();
 
