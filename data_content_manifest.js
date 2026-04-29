@@ -133,7 +133,7 @@ window.QS_CONTENT_MAP = {
   "soil_grading_calc": "data_content_extra.js",
   "pipe_sizing_calc": "data_content_extra.js",
   "road_layers_calc": "data_content_extra.js",
-  "exec_asphalt_paving": "data_content_roads.js",
+  "exec_asphalt_paving": "data_content_phase4.js",
   "daily_report": "data_content_extra.js",
   "binder": "data_content_roads.js",
   "geotextile_specs": "data_content_roads.js",
@@ -152,5 +152,14 @@ window.QS_CONTENT_MAP = {
   "itp_storm": "data_content_utilities.js",
   "itp_subbase": "data_content_utilities.js",
   "ws_materials": "data_content_utilities.js",
-  "ws_testing": "data_content_utilities.js"
+  "ws_testing": "data_content_utilities.js",
+  "pile_load_testing": "data_content_phase4.js",
+  "exec_concrete_pour": "data_content_phase4.js",
+  "exec_bridge_rebar": "data_content_phase4.js",
+  "exec_foundation_excavation": "data_content_phase4.js",
+  "exec_asphalt_paving": "data_content_phase4.js",
+  "exec_water_pipe": "data_content_phase4.js",
+  "concrete_quick_ref": "data_content_phase4.js",
+  "asphalt_quick_ref": "data_content_phase4.js",
+  "pipe_quick_ref": "data_content_phase4.js"
 };
