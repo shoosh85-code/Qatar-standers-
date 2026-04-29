@@ -12,7 +12,8 @@ const CORS = {
 };
 
 // Support both PRO_CODES and PROMO_CODES env var names for compatibility
-const PRO_CODES_RAW = process.env.PROMO_CODES || process.env.PRO_CODES || '';
+// Fallback to hardcoded codes if env vars are not set
+const PRO_CODES_RAW = process.env.PROMO_CODES || process.env.PRO_CODES || 'QATAR2026PRO,EARLYBIRD2026';
 const VALID_CODES = new Set(
   PRO_CODES_RAW.split(',').map(c => c.trim().toUpperCase()).filter(Boolean)
 );
@@ -120,11 +121,12 @@ export default async function handler(req) {
     if (code) {
       const upper = code.trim().toUpperCase();
       if (!VALID_CODES.has(upper)) {
-        return json({ error: 'كود غير صحيح أو منتهي الصلاحية' }, 400);
+        return json({ valid: false, error: 'كود غير صحيح أو منتهي الصلاحية' }, 200);
       }
-      const exp = Math.floor(Date.now() / 1000) + 365 * 24 * 3600;
+      const days = 365;
+      const exp = Math.floor(Date.now() / 1000) + days * 24 * 3600;
       const token = await signJWT({ pro: true, exp, source: 'code', code: upper }, secret);
-      return new Response(JSON.stringify({ ok: true, exp }), {
+      return new Response(JSON.stringify({ valid: true, success: true, ok: true, token, days, exp }), {
         status: 200,
         headers: { ...CORS, 'Content-Type': 'application/json', 'Set-Cookie': buildCookie(token) },
       });
