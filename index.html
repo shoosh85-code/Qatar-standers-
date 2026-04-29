@@ -4834,8 +4834,8 @@ window.QS = window.QS || {};
       <div style="font-size:11px;color:var(--text3);">أدخل الكود لتفعيل النسخة Pro فوراً</div>
       <div class="promo-input-wrap">
         <input type="text" id="promoCodeInput" class="promo-input" placeholder="QATAR-PRO-XXXX" maxlength="20"
-          onkeydown="if(event.key==='Enter') activatePro(this.value)">
-        <button class="promo-btn" onclick="activatePro(document.getElementById('promoCodeInput').value)">✅ تفعيل</button>
+          onkeydown="if(event.key==='Enter') window.activateProSimple(this.value)">
+        <button class="promo-btn" onclick="window.activateProSimple(document.getElementById('promoCodeInput').value)">✅ تفعيل</button>
       </div>
       <div id="promoMsg" style="margin-top:6px;font-size:12px;display:none;"></div>
     </div>
@@ -5081,6 +5081,52 @@ function displayAIResponse(text, container) {
   container.innerHTML = '<p style="margin:0;line-height:1.7">' + rendered + '</p>';
   container.style.display = 'block';
 }
+</script>
+<script>
+// ── activateProSimple — بديل بسيط لا يتجمد ──
+window.activateProSimple = function(codeArg) {
+  var code = codeArg || document.getElementById('promoCodeInput').value || '';
+  code = code.trim();
+  if (!code) { code = prompt('أدخل كود الترقية:'); }
+  if (!code) return;
+
+  var btn = document.querySelector('.promo-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳...'; }
+
+  var ctrl = new AbortController();
+  var tid = setTimeout(function() { ctrl.abort(); }, 10000);
+
+  fetch('/api/verify-pro', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ code: code.toUpperCase() }),
+    signal: ctrl.signal
+  })
+  .then(function(r) { clearTimeout(tid); return r.json(); })
+  .then(function(data) {
+    if (data.ok || data.success || data.valid) {
+      window._qs_pro_confirmed = true;
+      if (typeof renderProStatus === 'function') renderProStatus();
+      if (typeof closeProModal === 'function') closeProModal();
+      alert('✅ تم التفعيل بنجاح! سيتم تحديث الصفحة.');
+      setTimeout(function() { location.reload(); }, 800);
+    } else {
+      alert('❌ كود غير صحيح: ' + (data.error || 'تحقق من الكود وأعد المحاولة'));
+    }
+  })
+  .catch(function(err) {
+    clearTimeout(tid);
+    if (err.name === 'AbortError') {
+      alert('⏱️ انتهت مهلة الاتصال — حاول مجدداً');
+    } else {
+      alert('❌ خطأ في الاتصال: ' + (err.message || 'تحقق من الإنترنت'));
+    }
+  })
+  .finally(function() {
+    if (btn) { btn.disabled = false; btn.textContent = '✅ تفعيل'; }
+  });
+};
 </script>
 </body>
 </html>
