@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════
   QatarSpec Pro — Changelog
+  v2.4.6 (April 2026) — SECURITY HARDENING (Phase 5):
+    - [SEC]  CSP Meta Tag: defense-in-depth meta tag added (vercel.json already has server-side CSP)
+    - [SEC]  cleanupSecurity(): runs at page load — removes ALL legacy API keys from localStorage
+             Catches: apiKey, GEMINI_KEY, ANTHROPIC_KEY, sk-ant-*, qatarspecKey, jwt_token
+             Also scans all localStorage keys for sk-ant-* / AIzaSy* patterns
+    - [SEC]  saveKey(): no longer writes to localStorage — in-memory only (server proxy preferred)
+    - [SEC]  anthropicKey: no longer loaded from localStorage on startup
+    - [SEC]  Rate limiting: already in ai-proxy.js (Vercel KV + fallback in-memory)
+    - [SEC]  sanitizeText(): already in use at all innerHTML injection points
   v2.4.5 (April 2026) — SEO + PWA + LANDING (Phase 5):
     - [SEO]  Full meta tags: description, keywords, robots, canonical
              geo.region QA + geo.placename Doha
@@ -110,13 +119,37 @@
 <head>
 <meta charset="UTF-8">
 <script>
+// ═══ SECURITY CLEANUP v3.1 — مسح أي بيانات حساسة من localStorage ══════════
+// يعمل قبل كل شيء — يحمي المستخدمين القادمين من إصدارات قديمة
+(function cleanupSecurity() {
+  const LEGACY_KEYS = [
+    'apiKey', 'GEMINI_KEY', 'ANTHROPIC_KEY', 'sk-ant',
+    'qatarspecKey', 'jwt_token', 'qs_pro_token',
+    'qs_pro_active', 'qs_pro_expiry',
+  ];
+  LEGACY_KEYS.forEach(function(k) {
+    if (localStorage.getItem(k)) {
+      localStorage.removeItem(k);
+      console.log('[QatarSpec Security] Removed legacy key:', k);
+    }
+  });
+  // إزالة أي مفتاح يشبه API Key (sk- أو AIza...)
+  Object.keys(localStorage).forEach(function(k) {
+    const v = localStorage.getItem(k) || '';
+    if (v.startsWith('sk-ant-') || v.startsWith('AIzaSy') || v.startsWith('sk-') && v.length > 20) {
+      localStorage.removeItem(k);
+      console.warn('[QatarSpec Security] Removed API key from localStorage:', k);
+    }
+  });
+})();
 // Kill old Service Workers
 if('serviceWorker'in navigator){
   navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(sw){sw.unregister();});});
   if('caches'in window)caches.keys().then(function(k){k.forEach(function(c){caches.delete(c);});});
 }
 </script>
-<!-- CSP مُطبَّق عبر Server Headers في vercel.json — لا حاجة لـ meta tag هنا -->
+<!-- CSP: Server Headers في vercel.json (primary) + Meta Tag هنا (defense-in-depth) -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://generativelanguage.googleapis.com https://*.supabase.co https://api.anthropic.com; img-src 'self' data: blob:; media-src 'self' blob:; worker-src 'self' blob:; frame-ancestors 'none'; base-uri 'self'; upgrade-insecure-requests;">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- ═══════════ SEO — Primary ═══════════ -->
@@ -1104,18 +1137,12 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 
 <script>
 // ===== STATE =====
-let anthropicKey = localStorage.getItem('qatarspecKey') || '';
+let anthropicKey = ''; // Never from localStorage — use server-side proxy
 let uploadedFiles = [];
 
 // ===== INIT =====
 window.onload = () => {
-  // ── Security: مسح مفاتيح API القديمة من localStorage (v3.0 upgrade) ──
-  ['qatarspecKey', 'qs_pro_active', 'qs_pro_expiry', 'qs_pro_token'].forEach(function(k) {
-    if (localStorage.getItem(k)) {
-      localStorage.removeItem(k);
-      console.log('[QatarSpec] Cleaned legacy key:', k);
-    }
-  });
+  // ── Security: cleanupSecurity() runs before this (at top of page) ──
   // ── Monetization Init ──
   renderProStatus();
   // Silently revalidate JWT on load (catches expired tokens)
@@ -1163,10 +1190,11 @@ function saveKey() {
   const k = document.getElementById('keyInput').value.trim();
   if (!k || k.length < 20) { showToast('❌ المفتاح غير صحيح'); return; }
   anthropicKey = k;
-  localStorage.setItem('qatarspecKey', k);
+  // ⚠️ Security: لا نحفظ المفتاح في localStorage — فقط في الذاكرة للجلسة الحالية
+  // في الإنتاج يستخدم Server-side Proxy (لا يحتاج مفتاح هنا)
   updateKeyStatus(true);
   closeKeyModal();
-  showToast('✅ تم تفعيل AI!');
+  showToast('✅ تم تفعيل AI (جلسة مؤقتة — للتطوير فقط)');
 }
 function updateKeyStatus(active) {
   document.getElementById('keyDot').className = 'key-dot' + (active ? ' active' : '');
