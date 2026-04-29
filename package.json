@@ -1,12 +1,17 @@
 {
   "name": "qatar-standers",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "type": "module",
   "engines": {
-    "node": "20.x"
+    "node": ">=18.x"
   },
   "scripts": {
-    "test": "node tests/content-integrity.test.cjs",
-    "integrity": "node tests/content-integrity.test.cjs"
+    "test": "node tests/content-integrity.test.cjs && node tests/integration/api.test.cjs && node tests/e2e/flow.test.cjs",
+    "test:integrity": "node tests/content-integrity.test.cjs",
+    "test:integration": "node tests/integration/api.test.cjs",
+    "test:e2e": "node tests/e2e/flow.test.cjs",
+    "test:all": "node tests/content-integrity.test.cjs && node tests/integration/api.test.cjs && node tests/e2e/flow.test.cjs",
+    "integrity": "node tests/content-integrity.test.cjs",
+    "lint": "node -e \"const f=require('fs'); ['js/calculators','js/export','api'].forEach(d=>{ if(f.existsSync(d)) console.log('✅',d,'exists'); else { console.error('❌',d,'missing'); process.exit(1); } });\""
   }
 }

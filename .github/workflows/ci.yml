@@ -1,0 +1,182 @@
+name: QatarSpec Pro — CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ══════════════════════════════════════════════════════════
+  # Content Integrity — يتحقق من محتوى البطاقات
+  # ══════════════════════════════════════════════════════════
+  content-integrity:
+    name: Content Integrity (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['18', '20']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Run Content Integrity Tests
+        run: node tests/content-integrity.test.cjs
+
+  # ══════════════════════════════════════════════════════════
+  # Integration Tests — يتحقق من API endpoints
+  # ══════════════════════════════════════════════════════════
+  integration:
+    name: Integration Tests (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['18', '20']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Run API Integration Tests
+        run: node tests/integration/api.test.cjs
+
+  # ══════════════════════════════════════════════════════════
+  # E2E Flow Tests — يتحقق من تدفق الموقع
+  # ══════════════════════════════════════════════════════════
+  e2e:
+    name: E2E Flow Tests (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['18', '20']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Run E2E Flow Tests
+        run: node tests/e2e/flow.test.cjs
+
+  # ══════════════════════════════════════════════════════════
+  # JSON Validation — يتحقق من صحة ملفات التكوين
+  # ══════════════════════════════════════════════════════════
+  validate-config:
+    name: Validate Config Files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate vercel.json
+        run: node -e "JSON.parse(require('fs').readFileSync('vercel.json','utf-8')); console.log('✅ vercel.json valid');"
+
+      - name: Validate manifest.json
+        run: node -e "const m=JSON.parse(require('fs').readFileSync('manifest.json','utf-8')); if(!m.name&&!m.short_name) throw new Error('manifest missing name'); console.log('✅ manifest.json valid');"
+
+      - name: Validate sitemap.xml
+        run: |
+          if grep -q "qatar-standers.vercel.app" sitemap.xml; then
+            echo "✅ sitemap.xml valid"
+          else
+            echo "❌ sitemap.xml missing site URL"
+            exit 1
+          fi
+
+      - name: Check robots.txt
+        run: |
+          if [ -f "robots.txt" ]; then
+            echo "✅ robots.txt exists"
+          else
+            echo "❌ robots.txt missing"
+            exit 1
+          fi
+
+  # ══════════════════════════════════════════════════════════
+  # Security Check — يتحقق من الأمان
+  # ══════════════════════════════════════════════════════════
+  security:
+    name: Security Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for exposed API keys
+        run: |
+          # تحقق من عدم وجود API keys مكشوفة في الكود
+          if grep -rE "sk-[A-Za-z0-9]{20,}" --include="*.js" --include="*.html" .; then
+            echo "❌ Exposed Anthropic API key found!"
+            exit 1
+          fi
+          echo "✅ No exposed Anthropic keys"
+
+      - name: Check no localStorage for secrets in API
+        run: |
+          # التحقق من عدم استخدام localStorage في ملفات API (تجاهل التعليقات)
+          for f in api/*.js; do
+            if grep -v "^//" "$f" | grep -q "localStorage"; then
+              echo "❌ $f uses localStorage in code (not comments)"
+              exit 1
+            fi
+          done
+          echo "✅ No localStorage in API files (code)"
+
+      - name: Verify Gemini API (not Anthropic)
+        run: |
+          # التحقق من استخدام Gemini وليس Anthropic
+          if grep -r "ANTHROPIC_API_KEY" api/; then
+            echo "❌ ANTHROPIC_API_KEY found in API files"
+            exit 1
+          fi
+          echo "✅ No Anthropic API key in API files"
+
+  # ══════════════════════════════════════════════════════════
+  # Summary — ملخص النتائج
+  # ══════════════════════════════════════════════════════════
+  summary:
+    name: All Tests Passed ✅
+    runs-on: ubuntu-latest
+    needs:
+      - content-integrity
+      - integration
+      - e2e
+      - validate-config
+      - security
+
+    steps:
+      - name: Summary
+        run: |
+          echo "══════════════════════════════════════════"
+          echo "  ✅ QatarSpec Pro — All CI Tests Passed"
+          echo "══════════════════════════════════════════"
+          echo ""
+          echo "  ✅ Content Integrity"
+          echo "  ✅ API Integration Tests"
+          echo "  ✅ E2E Flow Tests"
+          echo "  ✅ Config Validation"
+          echo "  ✅ Security Check"
+          echo ""
+          echo "  Ready to deploy to Vercel 🚀"
