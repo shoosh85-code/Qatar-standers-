@@ -2034,7 +2034,13 @@ function openDetail(key) {
 }
 
 function goBack() {
-  if (navStack.length === 0) return;
+  // إذا كانت navStack فارغة، أغلق المودال بدلاً من لا شيء
+  if (navStack.length === 0) {
+    document.getElementById('detailModal').classList.remove('open');
+    document.getElementById('appFooter').style.display = '';
+    document.body.style.overflow = '';
+    return;
+  }
   const prevKey = navStack.pop();
   const d = detailData[prevKey];
   if (!d) return;
@@ -4553,25 +4559,41 @@ function showPaymentContact() {
 // ── Promo Code Activation ── server-side JWT
 async function activatePro(code) {
   if (!code || code.length < 3) { showToast('❌ أدخل كوداً صحيحاً', 'error'); return; }
+  const btn = document.querySelector('.promo-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ جاري التحقق...'; }
   showToast('⏳ جاري التحقق من الكود...', 'info');
-  fetch('/api/verify-pro', {
-    method: 'POST',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ code: code.trim().toUpperCase() }),
-  })
-    .then(r => r.json())
-    .then(d => {
-      if (d.ok) {
-        window._qs_pro_confirmed = true;
-        renderProStatus();
-        showToast('🎉 تم تفعيل Pro بنجاح!', 'success');
-        setTimeout(() => location.reload(), 1500);
-      } else {
-        showToast('❌ ' + (d.error || 'كود غير صحيح'), 'error');
-      }
-    })
-    .catch(() => showToast('❌ خطأ في الاتصال', 'error'));
+
+  try {
+    const res = await fetch('/api/verify-pro', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: code.trim().toUpperCase() }),
+    });
+    const d = await res.json();
+
+    // API returns {ok: true} on success
+    if (d.ok || d.success || d.valid) {
+      window._qs_pro_confirmed = true;
+      renderProStatus();
+      closeProModal();
+      showToast('🎉 تم تفعيل Pro بنجاح!', 'success');
+      setTimeout(() => location.reload(), 1500);
+      return;
+    }
+
+    // Server config missing (JWT_SECRET not set) — show helpful error
+    if (res.status === 500 && d.error && d.error.includes('config')) {
+      showToast('⚠️ تواصل مع الدعم لتفعيل الكود', 'warning');
+    } else {
+      showToast('❌ ' + (d.error || 'كود غير صحيح أو منتهي الصلاحية'), 'error');
+    }
+  } catch (err) {
+    showToast('❌ خطأ في الاتصال — تحقق من الإنترنت', 'error');
+    console.error('[activatePro]', err.message);
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = '✅ تفعيل'; }
+  }
 }
 
 // ── Upgrade Overlay ──
@@ -4693,8 +4715,32 @@ window._QS_PUBLIC_FNS = [
 // Temporary stub so any code that references QS before data_calcs.js loads
 // doesn't throw. Will be replaced by the real QS at end of data_calcs.js.
 window.QS = window.QS || {};
-// Expose openDetail via QS namespace (cards use QS.openDetail())
-window.QS.openDetail = function(key) { if(typeof openDetail === 'function') openDetail(key); };
+// ── QS stub: expose all public functions before data_calcs.js loads ──
+// Each wrapper checks if the real function exists before calling
+(function _buildQSStub() {
+  var fns = [
+    'openDetail','closeDetailModal','goBack','shareDetail',
+    'doSearch','quickSearch','copyAnswer',
+    'openKeyModal','closeKeyModal','saveKey',
+    'filterCards','clearCardFilter',
+    'exportToPDF','exportToWord','printCurrentDetail',
+    'setLang','switchForm','switchCalc','switchMainCat',
+    'initCalcPanels',
+  ];
+  fns.forEach(function(name) {
+    if (!window.QS[name]) {
+      window.QS[name] = function() {
+        var fn = window[name];
+        if (typeof fn === 'function') return fn.apply(window, arguments);
+        console.warn('[QS stub] ' + name + ' not ready yet — retrying in 300ms');
+        setTimeout(function() {
+          var fn2 = window[name];
+          if (typeof fn2 === 'function') fn2.apply(window, arguments);
+        }, 300);
+      };
+    }
+  });
+})();
 
 </script>
 
