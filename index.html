@@ -4534,20 +4534,14 @@ function updateSearchCounterBar() {
 
 // ── Pro Modal ──
 function openProModal() {
-  document.getElementById('proModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  // Reset payment contact
-  var pc = document.getElementById('paymentContact');
-  if (pc) pc.style.display = 'none';
-  var msg = document.getElementById('promoMsg');
-  if (msg) { msg.style.display = 'none'; }
-  // If already pro, show status
-  if (isProUser()) {
-    showToast('✅ أنت بالفعل مشترك في النسخة Pro!');
+  // بدلاً من المودال المعقد — استخدم activateProNow المباشرة
+  if (typeof window.activateProNow === 'function') {
+    window.activateProNow();
   }
 }
 function closeProModal() {
-  document.getElementById('proModal').classList.remove('open');
+  var m = document.getElementById('proModal');
+  if (m) m.classList.remove('open');
   document.body.style.overflow = '';
 }
 
@@ -4834,8 +4828,8 @@ window.QS = window.QS || {};
       <div style="font-size:11px;color:var(--text3);">أدخل الكود لتفعيل النسخة Pro فوراً</div>
       <div class="promo-input-wrap">
         <input type="text" id="promoCodeInput" class="promo-input" placeholder="QATAR-PRO-XXXX" maxlength="20"
-          onkeydown="if(event.key==='Enter') window.activateProSimple(this.value)">
-        <button class="promo-btn" onclick="window.activateProSimple(document.getElementById('promoCodeInput').value)">✅ تفعيل</button>
+          onkeydown="if(event.key==='Enter') window.activateProNow(this.value)">
+        <button class="promo-btn" onclick="window.activateProNow(document.getElementById('promoCodeInput').value)">✅ تفعيل</button>
       </div>
       <div id="promoMsg" style="margin-top:6px;font-size:12px;display:none;"></div>
     </div>
@@ -5083,15 +5077,22 @@ function displayAIResponse(text, container) {
 }
 </script>
 <script>
-// ── activateProSimple — بديل بسيط لا يتجمد ──
-window.activateProSimple = function(codeArg) {
-  var code = codeArg || document.getElementById('promoCodeInput').value || '';
+// ── activateProNow — الدالة الوحيدة لتفعيل Pro (لا مودال، لا overflow) ──
+window.activateProNow = function(codeArg) {
+  if (window._qs_pro_confirmed) {
+    alert('✅ أنت بالفعل مشترك في Pro!');
+    return;
+  }
+  var code = codeArg || (document.getElementById('promoCodeInput') || {}).value || '';
   code = code.trim();
-  if (!code) { code = prompt('أدخل كود الترقية:'); }
-  if (!code) return;
+  if (!code) { code = prompt('أدخل كود الترقية (مثال: QATAR2026PRO):'); }
+  if (!code || !code.trim()) return;
+  code = code.trim().toUpperCase();
 
   var btn = document.querySelector('.promo-btn');
+  var proBtn = document.getElementById('proBtn');
   if (btn) { btn.disabled = true; btn.textContent = '⏳...'; }
+  if (proBtn) { proBtn.disabled = true; }
 
   var ctrl = new AbortController();
   var tid = setTimeout(function() { ctrl.abort(); }, 10000);
@@ -5100,7 +5101,7 @@ window.activateProSimple = function(codeArg) {
     method: 'POST',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ code: code.toUpperCase() }),
+    body: JSON.stringify({ code: code }),
     signal: ctrl.signal
   })
   .then(function(r) { clearTimeout(tid); return r.json(); })
@@ -5108,25 +5109,26 @@ window.activateProSimple = function(codeArg) {
     if (data.ok || data.success || data.valid) {
       window._qs_pro_confirmed = true;
       if (typeof renderProStatus === 'function') renderProStatus();
-      if (typeof closeProModal === 'function') closeProModal();
-      alert('✅ تم التفعيل بنجاح! سيتم تحديث الصفحة.');
-      setTimeout(function() { location.reload(); }, 800);
+      alert('✅ تم تفعيل Pro بنجاح! سيتم تحديث الصفحة.');
+      setTimeout(function() { location.reload(); }, 500);
     } else {
       alert('❌ كود غير صحيح: ' + (data.error || 'تحقق من الكود وأعد المحاولة'));
     }
   })
   .catch(function(err) {
     clearTimeout(tid);
-    if (err.name === 'AbortError') {
-      alert('⏱️ انتهت مهلة الاتصال — حاول مجدداً');
-    } else {
-      alert('❌ خطأ في الاتصال: ' + (err.message || 'تحقق من الإنترنت'));
-    }
+    alert(err.name === 'AbortError'
+      ? '⏱️ انتهت مهلة الاتصال — حاول مجدداً'
+      : '❌ خطأ: ' + (err.message || 'تحقق من الإنترنت'));
   })
   .finally(function() {
     if (btn) { btn.disabled = false; btn.textContent = '✅ تفعيل'; }
+    if (proBtn) { proBtn.disabled = false; }
   });
 };
+
+// ── activateProSimple alias للتوافق ──
+window.activateProSimple = window.activateProNow;
 </script>
 </body>
 </html>
