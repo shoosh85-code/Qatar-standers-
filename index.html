@@ -142,10 +142,20 @@
     }
   });
 })();
-// Kill old Service Workers
-if('serviceWorker'in navigator){
-  navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(sw){sw.unregister();});});
-  if('caches'in window)caches.keys().then(function(k){k.forEach(function(c){caches.delete(c);});});
+// Register Service Worker v8 — Cache-First + Offline support
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/sw.js').then(function(reg){
+    console.log('[QatarSpec] SW registered, scope:', reg.scope);
+    // Auto-update check
+    reg.addEventListener('updatefound', function(){
+      var newSW = reg.installing;
+      if(newSW) newSW.addEventListener('statechange', function(){
+        if(newSW.state === 'activated') console.log('[QatarSpec] SW updated');
+      });
+    });
+  }).catch(function(err){
+    console.warn('[QatarSpec] SW registration failed:', err);
+  });
 }
 </script>
 <!-- CSP: Server Headers في vercel.json (primary) + Meta Tag هنا (defense-in-depth) -->
@@ -158,17 +168,17 @@ if('serviceWorker'in navigator){
 <meta name="keywords" content="QCS 2024, Qatar Construction Specifications, مواصفات قطر, Ashghal, KAHRAMAA, MMUP, QCS standards Qatar, مهندس قطر, ITP Qatar, رخصة بناء قطر, مواصفات الطرق, خرسانة قطر, Pass Fail test Qatar, NCR RFI Qatar engineering">
 <meta name="author" content="QatarSpec Pro">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-<link rel="canonical" href="https://qatarspec.vercel.app/">
+<link rel="canonical" href="https://qatar-standers.vercel.app/">
 <meta name="language" content="Arabic">
 <meta name="geo.region" content="QA">
 <meta name="geo.placename" content="Doha, Qatar">
 
 <!-- ═══════════ Open Graph — Social Sharing ═══════════ -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://qatarspec.vercel.app/">
+<meta property="og:url" content="https://qatar-standers.vercel.app/">
 <meta property="og:title" content="QatarSpec Pro — دليل المواصفات القطرية | QCS 2024">
 <meta property="og:description" content="أكبر مرجع رقمي للمواصفات الهندسية في قطر — بحث ذكي بالذكاء الاصطناعي في QCS 2024 + Ashghal + KAHRAMAA. مجاني للمهندسين.">
-<meta property="og:image" content="https://qatarspec.vercel.app/og-image.png">
+<meta property="og:image" content="https://qatar-standers.vercel.app/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="ar_QA">
@@ -179,7 +189,7 @@ if('serviceWorker'in navigator){
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="QatarSpec Pro — مواصفات قطر الهندسية">
 <meta name="twitter:description" content="أكبر مرجع رقمي للمواصفات الهندسية في قطر — QCS 2024 + Ashghal + KAHRAMAA. بحث ذكي مجاني.">
-<meta name="twitter:image" content="https://qatarspec.vercel.app/og-image.png">
+<meta name="twitter:image" content="https://qatar-standers.vercel.app/og-image.png">
 
 <!-- ═══════════ PWA — Web App Manifest (Inline Blob) ═══════════ -->
 <meta name="theme-color" content="#7A1515">
@@ -198,9 +208,9 @@ if('serviceWorker'in navigator){
   "@type": "WebApplication",
   "name": "QatarSpec Pro",
   "alternateName": "دليل المواصفات القطرية",
-  "url": "https://qatarspec.vercel.app/",
+  "url": "https://qatar-standers.vercel.app/",
   "description": "منصة رقمية شاملة للمواصفات الهندسية القطرية — QCS 2024، Ashghal، KAHRAMAA، MMUP. بحث ذكي بالذكاء الاصطناعي، حاسبات تقنية، نماذج رسمية.",
-  "applicationCategory": "EngineeeringApplication",
+  "applicationCategory": "EngineeringApplication",
   "operatingSystem": "Web Browser",
   "inLanguage": ["ar", "en"],
   "offers": [
@@ -231,7 +241,7 @@ if('serviceWorker'in navigator){
   "creator": {
     "@type": "Organization",
     "name": "QatarSpec",
-    "url": "https://qatarspec.vercel.app/"
+    "url": "https://qatar-standers.vercel.app/"
   }
 }
 </script>
