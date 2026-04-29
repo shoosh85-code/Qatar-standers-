@@ -1,0 +1,18 @@
+{
+  "template": "Ashghal RFI",
+  "version": "2024",
+  "reference": "QCS 2024 | Ashghal QA/QC Standard",
+  "fields": {
+    "header":      ["rfi-num", "rfi-proj", "rfi-contract", "rfi-contractor"],
+    "submission":  ["rfi-from", "rfi-to", "rfi-date", "rfi-reqby"],
+    "location":    ["rfi-loc", "rfi-grid", "rfi-ch", "rfi-layer", "rfi-clause", "rfi-dwg"],
+    "inspection":  ["rfi-activity", "rfi-point", "rfi-subject"],
+    "results":     ["rfi-results", "rfi-attach"],
+    "response":    ["rfi-response", "rfi-status"]
+  },
+  "point_types": {
+    "H": "Hold Point — يُوقَف العمل حتى الموافقة",
+    "W": "Witness Point — يشهد SC دون إيقاف",
+    "R": "Review Point — مراجعة وثائق فقط"
+  }
+}

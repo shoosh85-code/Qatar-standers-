@@ -1,0 +1,26 @@
+{
+  "template": "Ashghal NCR",
+  "version": "2024",
+  "reference": "QCS 2024 | ISO 9001 Cl.10.2 | Ashghal QA/QC",
+  "fields": {
+    "header": ["ncr-num", "ncr-proj", "ncr-contract", "ncr-contractor"],
+    "classification": ["ncr-class", "ncr-source", "ncr-date", "ncr-target"],
+    "location": ["ncr-loc", "ncr-dwg", "ncr-clause"],
+    "description": ["ncr-desc", "ncr-root"],
+    "actions": ["ncr-corrective", "ncr-preventive", "ncr-retest"],
+    "closure": ["ncr-closed-date", "ncr-status"],
+    "signatures": ["ncr-qc-eng", "ncr-sc", "ncr-client"]
+  },
+  "classification_map": {
+    "major": "Major 🔴",
+    "minor": "Minor 🟡",
+    "obs":   "Observation 🔵"
+  },
+  "status_map": {
+    "open":     "Open 🔴",
+    "inprog":   "In Progress 🟡",
+    "accepted": "Closed — Accepted ✅",
+    "rejected": "Closed — Rejected ❌",
+    "pending":  "Pending ⏳"
+  }
+}
