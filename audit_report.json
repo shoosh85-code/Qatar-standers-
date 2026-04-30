@@ -1,0 +1,200 @@
+{
+  "audit_date": "2026-04-30",
+  "phase": "1 of 10",
+  "environment": {
+    "directory": "/home/claude/Qatar-standers-",
+    "git_status": "clean",
+    "last_commit": "be10034 fix: serve index.html - add outputDirectory + rewrites to vercel.json"
+  },
+  "files": {
+    "index.html": {
+      "exists": true,
+      "lines": 5422,
+      "size_bytes": 309235,
+      "critical_errors": [
+        {"line": 1412, "issue": "model: 'claude-haiku-4-5-20251001' — fake model name sent to backend (backend ignores it and uses Gemini, but code is misleading)", "severity": "HIGH"},
+        {"line": 3993, "issue": "Photo Inspector sends image to /api/ai-proxy in Anthropic format — ai-proxy has NO vision handling. vision-proxy.js exists but is NEVER called from frontend", "severity": "CRITICAL"},
+        {"line": 2231, "issue": "Function named fetchAnthropicAPI() — misleading name. Actually routes to /api/ai-proxy which uses Gemini. Should be renamed", "severity": "MEDIUM"},
+        {"line": 4541, "issue": "localStorage.getItem('qs_pro_token') — JWT stored in localStorage violates project security rules (should be httpOnly cookie)", "severity": "HIGH"},
+        {"line": 4266, "issue": "Blob-based SW registered first, falls back to real sw.js — dual SW creates potential conflicts", "severity": "MEDIUM"},
+        {"line": 1154, "issue": "UI warns user API key is in localStorage but saveKey() is in-memory only — confusing UX message", "severity": "LOW"}
+      ]
+    },
+    "data_calcs.js": {
+      "exists": true,
+      "lines_approx": "51 calc functions",
+      "size_bytes": 86350,
+      "severity": "OK"
+    },
+    "data_content_manifest.js": {
+      "exists": true,
+      "size_bytes": 7613,
+      "severity": "OK"
+    },
+    "data_content.js": {
+      "exists": true,
+      "size_bytes": 1020722,
+      "severity": "OK",
+      "note": "~1MB — may cause slow load on mobile"
+    },
+    "api/ai-proxy.js": {
+      "exists": true,
+      "size_bytes": 12994,
+      "severity": "OK",
+      "note": "Uses gemini-2.0-flash correctly. Fallback to gemini-2.5-flash. No vision handling."
+    },
+    "api/qcs-search.js": {
+      "exists": true,
+      "size_bytes": 4380,
+      "severity": "OK"
+    },
+    "api/verify-pro.js": {
+      "exists": true,
+      "size_bytes": 6506,
+      "severity": "OK"
+    },
+    "api/vision-proxy.js": {
+      "exists": true,
+      "size_bytes": 8096,
+      "severity": "HIGH",
+      "note": "EXISTS but NEVER called from frontend — dead code. Photo Inspector calls ai-proxy instead."
+    },
+    "vercel.json": {
+      "exists": true,
+      "size_bytes": 6192,
+      "severity": "OK"
+    },
+    ".env.example": {
+      "exists": true,
+      "size_bytes": 948,
+      "severity": "OK",
+      "note": "Documents GEMINI_KEY, Supabase, JWT_SECRET, PROMO_CODES, APP_URL"
+    },
+    "manifest.json": {
+      "exists": true,
+      "size_bytes": 1340,
+      "severity": "OK"
+    },
+    "sw.js": {
+      "exists": true,
+      "size_bytes": 6269,
+      "severity": "MEDIUM",
+      "note": "Real file exists but Blob SW in index.html line 4266 takes priority"
+    },
+    "sitemap.xml": {
+      "exists": true,
+      "size_bytes": 276,
+      "severity": "OK"
+    },
+    "robots.txt": {
+      "exists": true,
+      "size_bytes": 78,
+      "severity": "OK"
+    }
+  },
+  "code_issues": {
+    "fake_ai_model": {
+      "present": true,
+      "details": "Frontend sends 'claude-haiku-4-5-20251001' (non-existent model) to backend. Backend ignores and uses Gemini. Misleading but not a runtime crash.",
+      "fix_hours": 0.5
+    },
+    "broken_vision_feature": {
+      "present": true,
+      "details": "Photo Inspector (line 3993) sends Anthropic-format image to /api/ai-proxy which has NO vision support. /api/vision-proxy.js exists with correct Gemini vision code but is never called.",
+      "fix_hours": 1
+    },
+    "missing_backend": {
+      "present": false,
+      "details": "All API endpoints exist: ai-proxy.js, qcs-search.js, verify-pro.js, vision-proxy.js, health.js, etc."
+    },
+    "missing_calculators": {
+      "present": false,
+      "details": "12 calc functions in index.html + 51 in data_calcs.js = 63 total. calcSPT, calcConcrete, calcRebar, calcCover, calcLapLength all in data_calcs.js."
+    },
+    "localStorage_api_keys": {
+      "present": false,
+      "details": "API keys NOT in localStorage — cleanupSecurity() removes them on load. saveKey() is in-memory only. HOWEVER: qs_pro_token JWT IS in localStorage (line 4541).",
+      "jwt_in_localStorage": true,
+      "fix_hours": 2
+    },
+    "xss_risk_innerHTML": {
+      "present": true,
+      "details": "42 innerHTML assignments found. sanitizeText() exists and is used at some points (e.g., line 1477, 1770) but NOT consistently on all 42. Several inject API response or translation strings without sanitization.",
+      "fix_hours": 2
+    },
+    "eval_usage": {
+      "present": false,
+      "details": "No eval() or new Function() found (grep matches were false positives on 'revalidate' and 'evaluation')."
+    },
+    "blob_service_worker": {
+      "present": true,
+      "details": "Line 4266 creates Blob SW first, falls back to real sw.js. Dual registration can cause cache conflicts.",
+      "fix_hours": 1
+    },
+    "misleading_function_names": {
+      "present": true,
+      "details": "fetchAnthropicAPI() at line 2231 routes to /api/ai-proxy (Gemini). Name should be fetchAIProxy() or similar.",
+      "fix_hours": 0.5
+    }
+  },
+  "calculators": {
+    "in_index_html": [
+      "calcAbsorption", "calcBlockwork", "calcConcreteTemp", "calcESAL",
+      "calcGP", "calcHotWeather", "calcMoisture", "calcPipeSize",
+      "calcRoadLayers", "calcSoundness", "calcSulphateRisk", "calcThickness"
+    ],
+    "in_data_calcs_js": [
+      "calcAirTest", "calcAsphaltFull", "calcAtterberg", "calcBearingCap",
+      "calcBitumen", "calcCBR", "calcCBRGeo", "calcCBRRoad", "calcCCTV",
+      "calcChlorination", "calcCompaction", "calcConcrete", "calcCoreDensity",
+      "calcCover", "calcCoverDepth", "calcCrossfall", "calcCubeStrength",
+      "calcFlakiness", "calcFreq", "calcGullyLevel", "calcLA", "calcLapLength",
+      "calcLevel", "calcManholeWT", "calcMarshall", "calcMaterials", "calcPH",
+      "calcPIClass", "calcPipeSep", "calcPlateLoad", "calcPressure",
+      "calcPressureTest", "calcPrimeRate", "calcRebar", "calcRebarCover",
+      "calcResidualCl", "calcSPT", "calcSandEq", "calcSewerGrad", "calcSkid",
+      "calcSlump", "calcStraightedge", "calcSulphate", "calcSulphateClass",
+      "calcTemperature", "calcTestSchedule", "calcTestScheduleCore",
+      "calcTestScheduleEn", "calcTrenchCompact", "calcTurbidity", "calcWCRatio"
+    ],
+    "total": 63
+  },
+  "seo": {
+    "title": "QatarSpec Pro — دليل المواصفات القطرية الرسمي | QCS 2024 + Ashghal + KAHRAMAA",
+    "description": "Present and complete",
+    "canonical": "https://qatar-standers.vercel.app/",
+    "og_tags": "Present",
+    "sitemap": "Present",
+    "robots": "Present"
+  },
+  "summary": {
+    "total_files_checked": 14,
+    "missing_files": 0,
+    "critical_issues": 1,
+    "high_issues": 3,
+    "medium_issues": 3,
+    "low_issues": 1,
+    "estimated_fix_hours": 7,
+    "issue_list": [
+      "CRITICAL: Photo Inspector vision feature broken — sends to wrong endpoint",
+      "HIGH: claude-haiku fake model name in frontend (2 locations)",
+      "HIGH: JWT (qs_pro_token) stored in localStorage instead of httpOnly cookie",
+      "HIGH: vision-proxy.js is dead code — never called from frontend",
+      "MEDIUM: fetchAnthropicAPI misleading function name",
+      "MEDIUM: Blob SW conflicts with real sw.js",
+      "MEDIUM: innerHTML not consistently sanitized (42 instances, partial sanitization)",
+      "LOW: API key warning message in UI is outdated/confusing"
+    ],
+    "positive_findings": [
+      "All 14 files exist — no missing files",
+      "Backend correctly uses Gemini API (not Anthropic)",
+      "63 calculator functions present and well-structured",
+      "API keys NOT in localStorage (cleanup runs on load)",
+      "No eval() or new Function() usage",
+      "SEO fully configured (title, description, canonical, OG, sitemap, robots)",
+      "Real manifest.json and sw.js exist",
+      ".env.example properly documents all env vars"
+    ],
+    "launch_readiness": "NOT READY — 6.5/10. Core functionality works but vision feature is broken, security has JWT localStorage issue, and code has misleading Anthropic references."
+  }
+}
