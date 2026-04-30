@@ -1108,7 +1108,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   </div>
   <div class="group-grid">
     <div class="cat-card" onclick="QS.openDetail('ashghal_forms')" data-keywords="نماذج forms rfi ncr itp excel أشغال" style="background:linear-gradient(135deg,rgba(122,21,21,.15),rgba(201,168,76,.05));border-color:rgba(201,168,76,.3)">
-<span class="cat-emoji">📝</span><div class="cat-name">نماذج Ashghal</div><div class="cat-desc">RFI، NCR، Daily Report — تصدير Excel</div><div class="cat-bottom"><span class="cat-count" style="color:var(--gold)">3 نماذج</span><span class="cat-arr">←</span></div></div>
+<span class="cat-emoji">📝</span><div class="cat-name">نماذج Ashghal</div><div class="cat-desc">RFI، NCR، DPR، Method Statement — تصدير Excel</div><div class="cat-bottom"><span class="cat-count" style="color:var(--gold)">4 نماذج</span><span class="cat-arr">←</span></div></div>
     <div class="cat-card" onclick="QS.openDetail('doc_analyzer')" data-keywords="محلل مستندات document analyzer ai ذكي" style="background:linear-gradient(135deg,rgba(52,152,219,0.15),rgba(52,152,219,0.05));border-color:rgba(52,152,219,0.4);">
       <div class="pro-lock">PRO</div>      <span class="cat-emoji">📁</span>
       <div class="cat-name" data-ar="محلل الوثائق" data-en="Document Analyzer">محلل الوثائق</div>
@@ -1291,25 +1291,24 @@ function renderFileItem(id, name, size, status) {
 
 // ===== SMART SEARCH — QCS 2024 =====
 const QCS_MAP = [
-  { keywords: ['subgrade','سابجريد','تربة طبيعية','earthwork','ردم','حفر','Compaction','proctor','cbr','atterberg','compaction','كومباكشن'], parts: [6,7] },
-  { keywords: ['subbase','sub-base','سابيس','grading','جرادينج'], parts: [7,8] },
-  { keywords: ['base course','بيس كورس','طبقة اساس','crushed','مكسر'], parts: [7,8] },
-  { keywords: ['prime coat','tack coat','بريم','تاك','cutback','كتباك'], parts: [8,9] },
-  { keywords: ['binder','wearing','asphalt','اسفلت','اسفالت','marshall','bitumen','بيتومين','خلطة','جمف','jmf','tmد','core','كور'], parts: [8,9,10] },
-  { keywords: ['طرق','road','طريق','pavement','رصف','crossfall','straightedge','skid','psv'], parts: [6,7,8,9] },
-  { keywords: ['مياه الشرب','water supply','kahramaa','hdpe','pressure test','hydrostatic','chlorination','تعقيم','كلور','مواسير مياه'], parts: [20,21,22] },
-  { keywords: ['صرف صحي','foul sewer','air test','cctv','manhole','انحدار','غرفة تفتيش','بوري','uPVC'], parts: [22,23,24] },
-  { keywords: ['صرف سطحي','storm water','gully','مياه امطار','بالوعة'], parts: [24,25] },
-  { keywords: ['مياه معالجة','treated water','reclaimed','بنفسجي','ري'], parts: [25,26] },
-  { keywords: ['مرافق','utilities','شبكة','ماسورة','pipeline'], parts: [20,21,22] },
-  { keywords: ['Concrete','concrete','mix design','slump','cube','مكعب','curing','صب','خلطة Concrete'], parts: [40,41,42] },
-  { keywords: ['Rebar','rebar','reinforcement','تسليح','tensile','lap','cover','كفر','غطاء'], parts: [40,41] },
-  { keywords: ['اساسات','foundation','خوازيق','piles','pile','raft','لبشة','pit','bearing'], parts: [42,43,44] },
-  { keywords: ['شدات','formwork','striking','قالب','سقالة'], parts: [40,41] },
-  { keywords: ['حريق','fire','qcdd','اطفاء','sprinkler','هيدرانت','alarm','انذار'], parts: [60,61,62] },
-  { keywords: ['جسات','soil investigation','spt','geotechnical','كبريتات','sulphate','بورهول','borehole'], parts: [2,3,4] },
-  { keywords: ['sabkha','سبخة','sabkah','ملوحة','تربة ملحية'], parts: [2,3,4,6] },
-  { keywords: ['مياه جوفية','groundwater','dewatering','ضخ مياه'], parts: [2,3,4] },
+  { keywords: ['general','specification','requirement','عام','مواصفات'], parts: [1] },
+  { keywords: ['geotech','soil','borehole','spt','investigation','جسات','soil investigation','geotechnical','كبريتات','sulphate','بورهول','sabkha','سبخة','ملوحة','تربة ملحية','مياه جوفية','groundwater','dewatering','ضخ مياه'], parts: [2] },
+  { keywords: ['earthwork','excavation','fill','compaction','setting out','subgrade','سابجريد','تربة طبيعية','ردم','حفر','proctor','cbr','atterberg','كومباكشن'], parts: [3] },
+  { keywords: ['concrete','rebar','formwork','precast','curing','mix design','slump','cube','مكعب','صب','تسليح','tensile','lap','cover','كفر','غطاء','اساسات','foundation','خوازيق','piles','pile','raft','لبشة','bearing','شدات','striking','قالب','سقالة','خلطة'], parts: [4] },
+  { keywords: ['steel','metal','welding','bolting','structural steel'], parts: [5] },
+  { keywords: ['masonry','block','brick','mortar','بناء','طوب'], parts: [6] },
+  { keywords: ['waterproofing','damp proofing','tanking','عزل'], parts: [7] },
+  { keywords: ['road','asphalt','paving','subgrade','subbase','binder','wearing','طرق','طريق','رصف','اسفلت','اسفالت','marshall','bitumen','بيتومين','جمف','jmf','كور','core','prime coat','tack coat','بريم','تاك','cutback','كتباك','سابيس','بيس كورس','crossfall','straightedge','skid','psv','grading','جرادينج'], parts: [8] },
+  { keywords: ['external','landscape','paving external','خارجي'], parts: [9] },
+  { keywords: ['roof','roofing','cladding','sheet','سقف'], parts: [10] },
+  { keywords: ['window','door','curtain wall','glazing','نوافذ','أبواب'], parts: [11] },
+  { keywords: ['finish','plaster','paint','floor','tile','تشطيب','دهان','بلاط'], parts: [12] },
+  { keywords: ['furniture','equipment','fixture','أثاث'], parts: [13] },
+  { keywords: ['electrical','cable','lighting','power','kahramaa','كهرباء'], parts: [14] },
+  { keywords: ['mechanical','hvac','duct','ventilation','ac','تكييف'], parts: [15] },
+  { keywords: ['plumbing','drainage','sewer','water supply','مياه الشرب','hdpe','pressure test','hydrostatic','chlorination','تعقيم','كلور','مواسير مياه','صرف صحي','foul sewer','air test','cctv','manhole','انحدار','غرفة تفتيش','بوري','uPVC','صرف سطحي','storm water','gully','مياه امطار','بالوعة','مياه معالجة','treated water','بنفسجي','ري','مرافق','utilities','شبكة','ماسورة','pipeline'], parts: [16] },
+  { keywords: ['fire','sprinkler','alarm','extinguisher','qcdd','حريق','اطفاء','هيدرانت','انذار'], parts: [17] },
+  { keywords: ['lift','escalator','conveyor','مصعد'], parts: [18] },
 ];
 
 function getRelevantParts(query) {
