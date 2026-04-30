@@ -1,0 +1,11 @@
+{
+  "project": "QatarSpec Pro",
+  "repo": "github.com/shoosh85-code/Qatar-standers-",
+  "checkpoint_version": "1.0",
+  "phases": {
+    "1": { "status": "COMPLETED", "date": "2026-04-30", "account": "Pro", "score": "7.5/10", "git_commit": "249758d", "verified": true },
+    "2": { "status": "COMPLETED", "date": "2026-04-30", "account": "Pro", "score": "8/10", "git_commit": "6af528a", "verified": true },
+    "3": { "status": "COMPLETED", "date": "2026-04-30", "account": "Pro", "score": "10/10", "git_commit": "6af528a", "verified": true },
+    "4": { "status": "IN_PROGRESS", "date": "2026-04-30", "account": "Free-2", "score": "7/10", "issues": ["CHECKPOINT missing", "bilingual imbalance"], "git_commit": null, "verified": false }
+  }
+}
