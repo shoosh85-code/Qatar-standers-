@@ -100,7 +100,7 @@
              strategy with API passthrough exclusion
   v1.7 (April 2026):
     - [SEC]  CSP: worker-src 'self' + upgrade-insecure-requests
-    - [SEC]  fetchAnthropicAPI: proxy warning + JSDoc
+    - [SEC]  fetchGeminiAPI: proxy warning + JSDoc
     - [PERF] Virtual Scroll via IntersectionObserver (200+ cards)
     - [QA]   publicFns integrity checker on DOMContentLoaded
     - [PWA]  manifest.json + sw.js (Cache-First / Network-First)
@@ -168,7 +168,7 @@ if('serviceWorker' in navigator){
 }
 </script>
 <!-- CSP: Server Headers في vercel.json (primary) + Meta Tag هنا (defense-in-depth) -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://generativelanguage.googleapis.com https://*.supabase.co https://api.anthropic.com; img-src 'self' data: blob:; media-src 'self' blob:; worker-src 'self' blob:; frame-ancestors 'none'; base-uri 'self'; upgrade-insecure-requests;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://generativelanguage.googleapis.com https://*.supabase.co ; img-src 'self' data: blob:; media-src 'self' blob:; worker-src 'self' blob:; frame-ancestors 'none'; base-uri 'self'; upgrade-insecure-requests;">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- ═══════════ SEO — Primary ═══════════ -->
@@ -260,7 +260,7 @@ if('serviceWorker' in navigator){
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- DNS prefetch for external APIs -->
 <link rel="dns-prefetch" href="https://generativelanguage.googleapis.com">
-<link rel="dns-prefetch" href="https://api.anthropic.com">
+<link rel="dns-prefetch" href="">
 <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 <!-- Preload critical data files -->
 <link rel="preload" href="data_content_manifest.js?v=7" as="script">
@@ -1339,9 +1339,9 @@ function buildQCSPrompt(query, partNum) {
 /**
  * البحث الذكي في QCS 2024 باستخدام Anthropic API
  * يحدد الجزء الأنسب (getRelevantParts) ثم يبني prompt (buildQCSPrompt)
- * يستخدم fetchAnthropicAPI مع AbortController و15s timeout
+ * يستخدم fetchGeminiAPI مع AbortController و15s timeout
  * Fallback: رسالة خطأ واضحة مع أسباب محتملة
- * @see fetchAnthropicAPI - دالة الـ API المركزية مع timeout
+ * @see fetchGeminiAPI - دالة الـ API المركزية مع timeout
  */
 async function doSearch() {
   const query = document.getElementById('searchInput').value.trim();
@@ -1408,8 +1408,8 @@ async function doSearch() {
       }
     } catch(e) { console.log('QCS search:', e.message); }
 
-    const response = await fetchAnthropicAPI({
-        model: 'claude-haiku-4-5-20251001',
+    const response = await fetchGeminiAPI({
+        model: 'gemini-2.0-flash',
         max_tokens: 2000,
         system: `أنت مرجع هندسي رسمي لـ Qatar Construction Specifications (QCS 2024) — المواصفات القطرية للإنشاءات الإصدار الرابع.
 
@@ -1452,7 +1452,8 @@ async function doSearch() {
 
     // Clear loading steps before showing answer
     // Render AI answer: convert markdown to HTML safely
-    // sanitizeText not used here — content is from our own API proxy, not user input
+    // HTML escaped manually: &amp; &lt; &gt; applied before markdown formatting
+    // This is safe — API content is escaped before being rendered as formatted HTML
     const rendered = answer
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')  // escape HTML only
       .replace(/\n/g, '<br>')
@@ -1816,8 +1817,8 @@ function runDocAnalysis() {
     (doQty ? '3. Key quantity thresholds that trigger additional testing. ' : '') +
     'Be specific, practical, and reference QCS 2024 sections. Keep response concise and structured.';
   
-  fetchAnthropicAPI({
-    model: 'claude-sonnet-4-20250514',
+  fetchGeminiAPI({
+    model: 'gemini-2.0-flash',
     max_tokens: 1000,
     messages: [{ role: 'user', content: prompt }]
   }).then(function(r){ return r.json(); })
@@ -2225,10 +2226,10 @@ function sanitizeText(str) {
 }
 // ─── API Helper: server-side proxy (Vercel Edge Function) ───
 /**
- * fetchAnthropicAPI — يتصل بـ server-side proxy (آمن للإنتاج)
+ * fetchGeminiAPI — يتصل بـ server-side proxy (آمن للإنتاج)
  * المفتاح على السيرفر فقط — لا يُكشف في المتصفح
  */
-async function fetchAnthropicAPI(body) {
+async function fetchGeminiAPI(body) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 20000);
 
@@ -3715,39 +3716,33 @@ async function runDrawingAnalysis() {
     const isPdf = _daImageData.startsWith('data:application/pdf');
     let messages;
 
+    // استخراج البيانات حسب النوع (PDF أو صورة)
+    let daBase64, daMimeType;
     if (isPdf) {
-      // PDF: نرسل كـ document
-      messages = [{
-        role: 'user',
-        content: [
-          { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: _daImageData.split(',')[1] } },
-          { type: 'text', text: systemPrompt }
-        ]
-      }];
+      daBase64 = _daImageData.split(',')[1];
+      daMimeType = 'application/pdf';
     } else {
-      // صورة عادية
-      let base64 = _daImageData.split(',')[1];
-      let mimeType = _daImageData.split(';')[0].split(':')[1];
-      messages = [{
-        role: 'user',
-        content: [
-          { type: 'image', source: { type: 'base64', media_type: mimeType, data: base64 } },
-          { type: 'text', text: systemPrompt }
-        ]
-      }];
+      daBase64 = _daImageData.split(',')[1];
+      daMimeType = _daImageData.split(';')[0].split(':')[1];
     }
 
-    let response = await fetchAnthropicAPI({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1500,
-        system: 'أنت مهندس مدني خبير في المواصفات القطرية QCS 2024. قدم تقارير دقيقة ومهنية بالعربية. لا تخمن — إذا لم تستطع قراءة تفصيل اذكر ذلك صراحة.',
-        messages: messages
+    // استخدام vision-proxy مباشرة (Gemini Vision API)
+    let response = await fetch('/api/vision-proxy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          mode: 'analyzer',
+          image: daBase64,
+          mimeType: daMimeType || 'image/jpeg',
+          userMessage: systemPrompt
+        })
     });
 
     let data = await response.json();
 
-    if (data.content && data.content[0] && data.content[0].text) {
-      result.innerHTML = formatDaResult(data.content[0].text, _daDrawingType);
+    if (data.result) {
+      result.innerHTML = formatDaResult(data.result, _daDrawingType);
     } else if (data.error) {
       result.innerHTML = generateDaFallback(_daDrawingType);
       showToast('⚠️ تم استخدام التحليل المحلي');
@@ -3985,25 +3980,25 @@ async function runInspector() {
     + 'الرد بالعربية. كن دقيقاً — لا تخمن.';
   
   try {
-    // Use Anthropic API directly with vision
+    // استخدام vision-proxy مباشرة (Gemini Vision API)
     const base64 = _inspectorImageData.split(',')[1];
     const mimeType = _inspectorImageData.split(';')[0].split(':')[1];
     
-    const response = await fetchAnthropicAPI({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 1000,
-        messages: [{
-          role: 'user',
-          content: [
-            { type: 'image', source: { type: 'base64', media_type: mimeType, data: base64 } },
-            { type: 'text', text: systemPrompt }
-          ]
-        }]
+    const response = await fetch('/api/vision-proxy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          mode: 'inspector',
+          image: base64,
+          mimeType: mimeType || 'image/jpeg',
+          userMessage: systemPrompt
+        })
     });
     
     if (response.ok) {
       const data = await response.json();
-      const answer = (data.content && data.content[0] && data.content[0].text) || 'لم يتمكن من التحليل';
+      const answer = data.result || 'لم يتمكن من التحليل';
       showInspectorResult(answer);
     } else {
       // Fallback: local analysis based on work type
@@ -4232,59 +4227,13 @@ function resetInspector() {
     if (mLink) mLink.href = mURL;
   } catch(e) { console.warn('[PWA] Manifest blob failed:', e); }
 
-  // ── 2. Inline Service Worker via Blob ──
-  if (!('serviceWorker' in navigator) || location.protocol !== 'https:') return;
-
-  var CACHE = 'qatarspec-v4-7-0';
-  var ASSETS = ['/'];
-
-  var swCode = [
-    "var CACHE='" + CACHE + "';",
-    "self.addEventListener('install',function(e){ self.skipWaiting(); });",
-    "self.addEventListener('activate',function(e){",
-    "  e.waitUntil(caches.keys().then(function(keys){",
-    "    return Promise.all(keys.filter(function(k){return k!==CACHE;}).map(function(k){return caches.delete(k);}));",
-    "  }).then(function(){return self.clients.claim();}));",
-    "});",
-    "self.addEventListener('message',function(e){ if(e.data&&e.data.type==='SKIP_WAITING') self.skipWaiting(); });",
-    "self.addEventListener('fetch',function(e){",
-    "  var url=e.request.url;",
-    "  if(e.request.method!=='GET'||url.includes('/api/')||url.includes('anthropic')||url.includes('googleapis')||url.includes('supabase')){ return; }",
-    "  e.respondWith(",
-    "    fetch(e.request).then(function(r){",
-    "      if(r.ok){ var rc=r.clone(); caches.open(CACHE).then(function(c){c.put(e.request,rc);}); }",
-    "      return r;",
-    "    }).catch(function(){",
-    "      return caches.match(e.request).then(function(cached){ return cached||caches.match('/'); });",
-    "    })",
-    "  );",
-    "});"
-  ].join('\n');
-
-  window.addEventListener('load', function() {
-    try {
-      var swBlob = new Blob([swCode], { type: 'application/javascript' });
-      var swURL = URL.createObjectURL(swBlob);
-      navigator.serviceWorker.register(swURL, { scope: '/' })
-        .then(function(reg) {
-          console.log('[QatarSpec] SW registered via Blob ✅ scope:', reg.scope);
-          // Show install prompt handling
-          window.addEventListener('beforeinstallprompt', function(ev) {
-            ev.preventDefault();
-            window._pwaInstallPrompt = ev;
-            var btn = document.getElementById('pwaInstallBtn');
-            if (btn) btn.style.display = 'flex';
-          });
-        })
-        .catch(function(err) {
-          // Fallback: try external sw.js
-          fetch('sw.js', { method: 'HEAD' })
-            .then(function(r) { if (r.ok) navigator.serviceWorker.register('sw.js'); })
-            .catch(function() { console.log('[PWA] SW skipped — single-file mode'); });
-        });
-    } catch(e) {
-      console.warn('[PWA] SW blob init failed:', e);
-    }
+  // ── 2. PWA Install Prompt ──
+  // تسجيل SW يتم في سطر 155 عبر /sw.js الحقيقي
+  window.addEventListener('beforeinstallprompt', function(ev) {
+    ev.preventDefault();
+    window._pwaInstallPrompt = ev;
+    var btn = document.getElementById('pwaInstallBtn');
+    if (btn) btn.style.display = 'flex';
   });
 })();
 
@@ -4537,19 +4486,9 @@ var PRO_CODES = []; // codes verified server-side only
 function isProUser() {
   return window._qs_pro_confirmed === true;
 }
-function getProToken() {
-  return localStorage.getItem('qs_pro_token') || null;
-}
-function getProExpiry() {
-  return localStorage.getItem('qs_pro_expiry') || null;
-}
-function setProActive(val, expiry) {
-  // Legacy — kept for compatibility. Real auth uses setProToken()
-  if (!val) {
-    localStorage.removeItem('qs_pro_token');
-    localStorage.removeItem('qs_pro_active');
-  }
-}
+// Legacy stubs — real auth uses httpOnly cookies via /api/verify-pro
+function getProExpiry() { return null; }
+function setProActive(val, expiry) { /* no-op — cookie handles this */ }
 // ── Pro Status — Server-side httpOnly Cookie (v3.0 Security) ──
 async function setProToken(token) {
   // Token stored in httpOnly cookie by server — not localStorage
