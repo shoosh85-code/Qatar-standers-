@@ -1151,7 +1151,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div class="modal-title">🔑 Anthropic API Key</div>
     <div class="modal-desc">أدخل Anthropic API Key للبحث الذكي في المواصفات. الـ Key يُحفظ محلياً على جهازك فقط ولا يُرسل لأي جهة غير Anthropic.</div>
     <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-bottom:12px;font-size:12px;color:#e74c3c;line-height:1.6;">
-      ⚠️ <strong>تنبيه أمان:</strong> المفتاح يُخزَّن في localStorage ويمكن قراءته من المتصفح. للتطوير الشخصي فقط — لا تشارك الجهاز مع آخرين. للنشر العام استخدم server-side proxy.
+      ⚠️ <strong>تنبيه أمان:</strong> المفتاح يُحفظ في الذاكرة فقط (لا localStorage) ويُمسح عند إغلاق التبويب. للنشر العام استخدم server-side proxy.
     </div>
     <input type="password" class="modal-input" id="keyInput" placeholder="sk-ant-..." />
     <div class="modal-actions">
