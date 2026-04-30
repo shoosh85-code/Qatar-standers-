@@ -482,7 +482,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 @media(max-width:900px) { .hero { grid-template-columns:1fr; gap:32px; } .spec-row { grid-template-columns:90px 1fr; } .spec-tag,.spec-arr { display:none; } }
 @media(max-width:600px) { header { padding:0 16px; } .hero,.search-section,.content-section,.ai-answer-box { padding-left:16px; padding-right:16px; } .hero-stats { gap:16px; } }
 /* ── lang-toggle ── */
-.lang-toggle { position:fixed; bottom:72px; left:16px; z-index:300; display:flex; gap:4px; }
+.lang-toggle { display:flex; gap:4px; align-items:center; }
 .lang-btn { background:var(--dark3); border:1px solid var(--border); border-radius:8px; padding:5px 11px; font-family:'Tajawal',sans-serif; font-size:11px; color:var(--text3); cursor:pointer; transition:.2s; }
 .lang-btn.active { background:rgba(201,168,76,0.12); border-color:var(--border2); color:var(--gold); font-weight:700; }
 .lang-btn:hover { border-color:var(--border2); color:var(--text); }
@@ -848,10 +848,6 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <body>
 <div id="offlineBar">📡 أنت غير متصل — بعض الميزات غير متاحة</div>
 
-<div class="lang-toggle">
-  <button class="lang-btn active" id="btn-ar" onclick="QS.setLang('ar')">عربي</button>
-  <button class="lang-btn" id="btn-en" onclick="QS.setLang('en')">EN</button>
-</div>
 <div id="update-banner" style="display:none;background:linear-gradient(135deg,#7a1515,#c9a84c);padding:10px 16px;text-align:center;font-size:13px;color:#fff;font-family:Tajawal,sans-serif;">
   🔔 يوجد تحديث جديد للتطبيق — <a onclick="location.reload(true)" style="color:#fff;font-weight:700;cursor:pointer;text-decoration:underline;">تحديث الآن</a>
 </div>
@@ -873,6 +869,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       <div class="key-status" onclick="QS.openKeyModal()">
         <div class="key-dot" id="keyDot"></div>
         <span id="keyStatusText">إعداد AI</span>
+      </div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="btn-ar" onclick="QS.setLang('ar')">عربي</button>
+        <button class="lang-btn" id="btn-en" onclick="QS.setLang('en')">EN</button>
       </div>
     </div>
   </div>
@@ -4828,6 +4828,18 @@ window.QS = window.QS || {};
     <span style="color:rgba(255,255,255,0.2);font-size:10px;">|</span>
     <span style="font-size:10px;color:var(--text3);opacity:0.6;">© 2026 QatarSpec Pro. All rights reserved.</span>
   </div>
+  <!-- LEGAL DISCLAIMER — inside footer -->
+  <div id="legalDisclaimer" style="background:rgba(0,0,0,0.3);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:16px 20px;margin-top:16px;width:100%;box-sizing:border-box;text-align:right;">
+    <div style="color:var(--gold);font-family:'Cairo',sans-serif;font-weight:700;font-size:13px;margin-bottom:8px;">⚖️ إخلاء المسؤولية القانونية</div>
+    <div style="font-size:11px;color:var(--text3);line-height:1.8;">
+      <p><strong>QatarSpec Pro</strong> هو مرجع معرفي عام (General Knowledge Reference) للمهندسين والمقاولين في دولة قطر.</p>
+      <p>🔹 جميع المعلومات مبنية على <strong>QCS 2024</strong> و <strong>Ashghal Standards</strong> و <strong>KAHRAMAA Regulations</strong> المتاحة للعامة.</p>
+      <p>🔹 هذا التطبيق <strong>لا يُعتمد</strong> كمرجع تصميمي رسمي — يجب مراجعة الوثائق الأصلية المعتمدة من الجهات المختصة قبل أي قرار هندسي.</p>
+      <p>🔹 لا تتحمل QatarSpec Pro مسؤولية أي أخطاء في التطبيق أو سوء استخدام المعلومات.</p>
+      <p>🔹 للاستخدام المهني التعليمي فقط — <strong>Not for Construction Design Purposes</strong>.</p>
+      <p style="margin-top:8px;color:var(--gold);">📧 للاستفسارات: info@qatarspec.com | 🇶🇦 صُمم لمهندسي قطر</p>
+    </div>
+  </div>
 </div>
 <!-- ═══════════════════════════════════════════════
      PRO MODAL — خطط الاشتراك
@@ -5365,19 +5377,6 @@ window.addEventListener('unhandledrejection', function(e) {
 })();
 </script>
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
-
-<!-- LEGAL DISCLAIMER — ZERO TOLERANCE -->
-<div id="legalDisclaimer" style="background:var(--dark2);border:1px solid var(--border);border-radius:12px;padding:20px;margin:20px auto;max-width:1300px;">
-  <div style="color:var(--gold);font-family:'Cairo',sans-serif;font-weight:700;font-size:14px;margin-bottom:10px;">⚖️ إخلاء المسؤولية القانونية</div>
-  <div style="font-size:12px;color:var(--text3);line-height:1.8;">
-    <p><strong>QatarSpec Pro</strong> هو مرجع معرفي عام (General Knowledge Reference) للمهندسين والمقاولين في دولة قطر.</p>
-    <p>🔹 جميع المعلومات مبنية على <strong>QCS 2024</strong> و <strong>Ashghal Standards</strong> و <strong>KAHRAMAA Regulations</strong> المتاحة للعامة.</p>
-    <p>🔹 هذا التطبيق <strong>لا يُعتمد</strong> كمرجع تصميمي رسمي — يجب مراجعة الوثائق الأصلية المعتمدة من الجهات المختصة قبل أي قرار هندسي.</p>
-    <p>🔹 لا تتحمل QatarSpec Pro مسؤولية أي أخطاء في التطبيق أو سوء استخدام المعلومات.</p>
-    <p>🔹 للاستخدام المهني التعليمي فقط — <strong>Not for Construction Design Purposes</strong>.</p>
-    <p style="margin-top:10px;color:var(--gold);">📧 للاستفسارات: info@qatarspec.com | 🇶🇦 صُمم لمهندسي قطر</p>
-  </div>
-</div>
 
 <!-- Performance Monitoring — QatarSpec Pro -->
 <script>
