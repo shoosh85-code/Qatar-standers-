@@ -5379,5 +5379,46 @@ window.addEventListener('unhandledrejection', function(e) {
   </div>
 </div>
 
+<!-- Performance Monitoring — QatarSpec Pro -->
+<script>
+(function() {
+  // Core Web Vitals
+  new PerformanceObserver(function(list) {
+    for (const entry of list.getEntries()) {
+      if (entry.entryType === 'largest-contentful-paint') {
+        console.log('[QatarSpec] LCP:', entry.startTime);
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'web_vitals', { event_category: 'LCP', value: Math.round(entry.startTime) });
+        }
+      }
+      if (entry.entryType === 'first-input') {
+        var fid = entry.processingStart - entry.startTime;
+        console.log('[QatarSpec] FID:', fid);
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'web_vitals', { event_category: 'FID', value: Math.round(fid) });
+        }
+      }
+      if (entry.entryType === 'layout-shift') {
+        console.log('[QatarSpec] CLS:', entry.value);
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'web_vitals', { event_category: 'CLS', value: Math.round(entry.value * 1000) / 1000 });
+        }
+      }
+    }
+  }).observe({ entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift'] });
+
+  // Custom metrics
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      var ttfb = performance.timing.responseStart - performance.timing.requestStart;
+      console.log('[QatarSpec] TTFB:', ttfb);
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'web_vitals', { event_category: 'TTFB', value: ttfb });
+      }
+    }, 0);
+  });
+})();
+</script>
+
 </body>
 </html>
