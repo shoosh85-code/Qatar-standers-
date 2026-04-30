@@ -1,0 +1,148 @@
+{
+  "audit_date": "2026-04-30",
+  "auditor": "Claude Code",
+  "verification": {
+    "git_status_clean": true,
+    "files_checked": 14,
+    "files_missing": 5,
+    "files_missing_detail": "content/ dir, public/sw.js, public/sitemap.xml, public/robots.txt, public/manifest.json — BUT sw.js, sitemap.xml, robots.txt, manifest.json all exist in ROOT instead",
+    "lines_in_index_html": 5422
+  },
+  "critical_issues": [
+    {
+      "id": 1,
+      "issue": "Photo Inspector sends image data to /api/ai-proxy in Anthropic format (type:image, source:base64). ai-proxy.js does NOT handle images — it converts m.content as string (line 129). vision-proxy.js EXISTS with correct Gemini vision code but is NEVER called from frontend.",
+      "location": "index.html:3993 → api/ai-proxy.js:129 (broken) vs api/vision-proxy.js (unused)",
+      "severity": "CRITICAL",
+      "evidence": "grep -n 'vision-proxy' index.html → (empty). Line 3993: fetchAnthropicAPI({ model:'claude-haiku-4-5-20251001', messages:[{content:[{type:'image'...}]}] }). ai-proxy.js:129: parts:[{text: m.content}] — m.content is array, not string.",
+      "fix_in_phase": "2"
+    },
+    {
+      "id": 2,
+      "issue": "4 Anthropic model references in frontend code. Backend ignores them and uses Gemini. But if backend format ever changes, these hardcoded fake models will cause confusion.",
+      "location": "index.html:1412 (claude-haiku), index.html:1820 (claude-sonnet), index.html:3741 (claude-sonnet), index.html:3993 (claude-haiku)",
+      "severity": "CRITICAL",
+      "evidence": "grep -n 'claude-haiku|claude-sonnet' index.html → 4 matches. ai-proxy.js has ZERO references to claude/anthropic — only gemini.",
+      "fix_in_phase": "2"
+    }
+  ],
+  "high_issues": [
+    {
+      "id": 3,
+      "issue": "Triple Service Worker registration — line 156 registers /sw.js directly, line 4266 creates Blob SW, line 4282 falls back to sw.js. Three competing registrations can cause cache conflicts and unpredictable behavior.",
+      "location": "index.html:156, index.html:4266, index.html:4282",
+      "severity": "HIGH",
+      "evidence": "grep -n 'navigator.serviceWorker' index.html → 4 matches at lines 156, 4268, 4282, 5072",
+      "fix_in_phase": "2"
+    },
+    {
+      "id": 4,
+      "issue": "localStorage still has getProToken() reading qs_pro_token (line 4541). Backend correctly uses httpOnly cookies (verify-pro.js:59), but frontend has legacy localStorage code. cleanupSecurity() removes it on load (line 136), creating a race condition.",
+      "location": "index.html:4541 (getter), index.html:4549 (remover), api/verify-pro.js:59 (httpOnly cookie)",
+      "severity": "HIGH",
+      "evidence": "grep -n 'localStorage.*pro_token' index.html → lines 4541, 4549. verify-pro.js:59: 'qs_pro=...HttpOnly; Secure; SameSite=Strict'",
+      "fix_in_phase": "2"
+    },
+    {
+      "id": 5,
+      "issue": "fetchAnthropicAPI function name is misleading. Routes to /api/ai-proxy which uses Gemini. Every developer seeing this name will assume Anthropic API is used.",
+      "location": "index.html:2231",
+      "severity": "HIGH",
+      "evidence": "grep -n 'function fetchAnthropicAPI' index.html → line 2231. Function body: fetch('/api/ai-proxy',...). ai-proxy.js uses gemini-2.0-flash.",
+      "fix_in_phase": "2"
+    }
+  ],
+  "medium_issues": [
+    {
+      "id": 6,
+      "issue": "innerHTML used 42 times. sanitizeText() defined and used only ~6 times. Remaining ~36 inject API responses, translations, or HTML templates without sanitization.",
+      "location": "index.html (42 innerHTML assignments, 6 sanitizeText calls)",
+      "severity": "MEDIUM",
+      "evidence": "grep -c 'innerHTML.*=' index.html → 42. grep -c 'sanitizeText' index.html → 6 (includes definition + comment).",
+      "fix_in_phase": "3"
+    },
+    {
+      "id": 7,
+      "issue": "Blob manifest AND Blob SW duplicate real files. manifest.json (root) and sw.js (root) exist, but index.html also creates Blob versions. Wastes bytes and creates maintenance confusion.",
+      "location": "index.html:4193-4267 (Blob PWA system), root/manifest.json, root/sw.js",
+      "severity": "MEDIUM",
+      "evidence": "Line 4229: new Blob([JSON.stringify(manifestData)]). Line 4266: new Blob([swCode]). Both create Blob URLs that override the real files.",
+      "fix_in_phase": "3"
+    },
+    {
+      "id": 8,
+      "issue": "PWA files (sw.js, sitemap.xml, robots.txt, manifest.json) are in root instead of public/ directory. Depends on vercel.json routing config — may work but is non-standard.",
+      "location": "root directory",
+      "severity": "MEDIUM",
+      "evidence": "ls public/ → only legal/ directory. ls sw.js sitemap.xml robots.txt manifest.json → all exist in root.",
+      "fix_in_phase": "3"
+    }
+  ],
+  "low_issues": [
+    {
+      "id": 9,
+      "issue": "content/ directory does not exist. Content stored in data_content*.js files (10 files, ~2.6MB total). Not a bug but differs from v3.0 checklist expectation.",
+      "location": "root directory",
+      "severity": "LOW",
+      "evidence": "ls content/ → ❌ MISSING. ls data_content*.js → 10 files totaling ~2.6MB.",
+      "fix_in_phase": "N/A — by design"
+    },
+    {
+      "id": 10,
+      "issue": "UI warning at line 1154 says 'المفتاح يُخزَّن في localStorage' but saveKey() is in-memory only. Confusing UX message.",
+      "location": "index.html:1154",
+      "severity": "LOW",
+      "evidence": "Line 1154: 'تنبيه أمان: المفتاح يُخزَّن في localStorage'. Line 1198: 'let anthropicKey = \\\"\\\" // Never from localStorage'",
+      "fix_in_phase": "3"
+    }
+  ],
+  "facts_only": {
+    "model_name_fake": true,
+    "fake_model_count": 4,
+    "fake_models_found": ["claude-haiku-4-5-20251001 (x2)", "claude-sonnet-4-20250514 (x2)"],
+    "backend_uses_gemini": true,
+    "backend_model": "gemini-2.0-flash (fallback: gemini-2.5-flash)",
+    "qs_content_defined": true,
+    "qs_content_location": "data_content.js:3",
+    "qs_content_sections": 153,
+    "data_calcs_exists": true,
+    "data_calcs_function_count": 51,
+    "index_calc_function_count": 12,
+    "total_calc_functions": 63,
+    "api_files_exist": true,
+    "api_file_count": 13,
+    "calculators_empty": [],
+    "calculators_verified_with_logic": ["calcSPT", "calcConcrete", "calcRebar", "calcGP", "calcBlockwork", "calcRoadLayers"],
+    "localStorage_has_token": true,
+    "localStorage_token_name": "qs_pro_token",
+    "httpOnly_cookie_exists_server": true,
+    "has_eval": false,
+    "has_new_function": false,
+    "sw_is_blob": true,
+    "sw_real_file_exists": true,
+    "sw_registration_count": 3,
+    "innerHTML_count": 42,
+    "sanitizeText_usage_count": 6,
+    "google_analytics": "G-QSPEC2026QA",
+    "vision_proxy_exists_but_unused": true
+  },
+  "score": {
+    "infrastructure": 8,
+    "infrastructure_notes": "All API files exist, Gemini backend works, vercel.json configured, export system complete (PDF/Word/Excel). Deducted for triple SW registration and Blob duplication.",
+    "data_layer": 9,
+    "data_layer_notes": "QS_CONTENT defined with 153 sections. 63 calculators all have real logic. 10 content files (~2.6MB). Deducted for no separate content/ directory structure.",
+    "security": 5,
+    "security_notes": "httpOnly cookies on server ✅. But: localStorage legacy getter still exists, 4 fake Anthropic model names confuse audit trail, innerHTML not consistently sanitized (36/42 unsanitized), vision endpoint sends to wrong handler.",
+    "content": 8,
+    "content_notes": "153 content sections, 63 calculators, export templates, Google Analytics, full SEO. Deducted for broken Photo Inspector and misleading code comments.",
+    "overall": 7.5,
+    "overall_calculation": "(8 + 9 + 5 + 8) / 4 = 7.5"
+  },
+  "recommendations": [
+    "Execute Phase 2 IMMEDIATELY: Fix vision routing (index.html:3993 → vision-proxy.js instead of ai-proxy.js). This is the only fully broken feature.",
+    "Execute Phase 2: Remove all 4 Anthropic model references and rename fetchAnthropicAPI → fetchAIProxy. Evidence: 4 grep matches for claude-haiku/claude-sonnet.",
+    "Execute Phase 2: Consolidate SW registration to single path (remove line 156 duplicate, remove Blob SW, use real sw.js only).",
+    "Execute Phase 2: Remove legacy localStorage getProToken()/setProActive() — httpOnly cookie is the real auth path.",
+    "Execute Phase 3: Audit all 42 innerHTML assignments and add sanitizeText() where user/API data is injected."
+  ]
+}
