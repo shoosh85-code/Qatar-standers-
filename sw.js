@@ -1,9 +1,9 @@
-// QatarSpec Pro — Service Worker v5.0 (Phase 5 — UI/UX Polish) (Security + Performance Upgrade)
+// QatarSpec Pro — Service Worker v2.4.6 (Phase 9 — PWA Complete Offline Support)
 // Strategy: Cache-first for assets, Network-first for content, Offline fallback
 
-const CACHE_STATIC = 'qs-static-v5';
-const CACHE_CONTENT = 'qs-content-v5';
-const CACHE_API = 'qs-api-v5';
+const CACHE_STATIC = 'qatarspec-static-v2.4.6';
+const CACHE_CONTENT = 'qatarspec-content-v2.4.6';
+const CACHE_API = 'qatarspec-api-v2.4.6';
 
 // Static assets to precache on install
 const PRECACHE_URLS = [
