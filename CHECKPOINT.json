@@ -9,6 +9,7 @@
     "4": { "status": "COMPLETED", "date": "2026-04-30", "account": "Free-2", "score": "8/10", "git_commit": "37e9a61", "verified": true },
     "5": { "status": "COMPLETED", "date": "2026-04-30", "account": "Free-2", "score": "7/10", "git_commit": "ce3e9e6", "verified": true },
     "6": { "status": "COMPLETED", "date": "2026-04-30", "account": "Free-3", "score": "9/10", "git_commit": "3c7f453", "verified": true },
-    "7": { "status": "COMPLETED", "date": "2026-04-30", "account": "Free-4", "score": "8.5/10", "git_commit": null, "verified": false }
+    "7": { "status": "COMPLETED", "date": "2026-04-30", "account": "Free-4", "score": "8.5/10", "git_commit": "07c0d37", "verified": true },
+    "8": { "status": "COMPLETED", "date": "2026-04-30", "account": "Free-5", "score": "8/10", "git_commit": "f0d4fb5", "verified": true }
   }
 }
