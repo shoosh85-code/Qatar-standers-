@@ -2099,6 +2099,37 @@ function safeTimeout(key, fn, delay) {
 let navStack = [];
 
 /**
+ * يزيل محتوى اللغة الخاطئة من HTML قبل حقنه في الـ DOM
+ * يمنع ظهور كروت مكررة (عربي + إنجليزي) داخل أقسام التفاصيل
+ * @param {string} contentHTML - محتوى الـ HTML الخام من QS_CONTENT
+ * @param {string} lang - اللغة الحالية ('ar' أو 'en')
+ * @returns {string} - HTML نظيف بلغة واحدة فقط
+ */
+function dedupeSectionContent(contentHTML, lang) {
+  if (!contentHTML) return contentHTML;
+  var parser = new DOMParser();
+  var doc = parser.parseFromString(contentHTML, 'text/html');
+  var otherLang = (lang === 'ar') ? 'en' : 'ar';
+
+  // إزالة حاويات اللغة الخاطئة
+  var wrongLangs = doc.querySelectorAll('.lang-content-' + otherLang);
+  for (var i = 0; i < wrongLangs.length; i++) wrongLangs[i].remove();
+
+  // حذف الكروت المكررة حسب نص العنوان (أول 50 حرف)
+  var seenCards = {};
+  var cards = doc.querySelectorAll('.cat-card, [class*="step"], [class*="phase"]');
+  for (var j = 0; j < cards.length; j++) {
+    var card = cards[j];
+    var titleEl = card.querySelector('.cat-name, h3, h4, strong');
+    var title = (titleEl ? titleEl.textContent : card.textContent)
+                  .trim().substring(0, 50);
+    if (seenCards[title]) card.remove();
+    else seenCards[title] = true;
+  }
+  return doc.body.innerHTML;
+}
+
+/**
  * يفتح الـ modal لعرض محتوى مفتاح معيّن من detailData
  * @param {string} key - مفتاح القسم (مثال: 'structural', 'roads', 'ws_laying')
  * يدير navStack للتنقل للخلف، ويستعيد الفيديوهات المحلية بعد rebuild
@@ -2121,7 +2152,7 @@ function openDetail(key) {
   document.getElementById('appFooter').style.display='none';
   document.body.style.overflow='hidden';
   document.getElementById('dmTitle').textContent = d.title;
-  document.getElementById('dmContent').innerHTML = d.content;
+  document.getElementById('dmContent').innerHTML = dedupeSectionContent(d.content, window.currentLang || 'ar');
   const backBtn = document.getElementById('dmBackBtn');
   if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
   modal.classList.add('open'); var mc=document.getElementById('dmContent'); if(mc) mc.scrollTop=0;
@@ -2156,7 +2187,7 @@ function goBack() {
   const modal = document.getElementById('detailModal');
   modal.dataset.currentKey = prevKey;
   document.getElementById('dmTitle').textContent = d.title;
-  document.getElementById('dmContent').innerHTML = d.content;
+  document.getElementById('dmContent').innerHTML = dedupeSectionContent(d.content, window.currentLang || 'ar');
   const backBtn = document.getElementById('dmBackBtn');
   if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
   // Re-inject stored videos after DOM rebuild
@@ -2861,6 +2892,18 @@ function applyTranslations(lang) {
   }
 
   console.log('QatarSpec Pro: Language set to', lang.toUpperCase());
+
+  // إعادة بناء محتوى المودال بلغة واحدة عند تبديل اللغة
+  var dm = document.getElementById('detailModal');
+  if (dm && dm.classList.contains('open')) {
+    var ck = dm.dataset.currentKey;
+    if (ck && detailData[ck]) {
+      var d2 = detailData[ck];
+      document.getElementById('dmContent').innerHTML =
+        dedupeSectionContent(d2.content, lang);
+      safeTimeout('restoreVideo', _restoreVideosAfterDOMRebuild, 50);
+    }
+  }
 }
 
 
