@@ -2294,8 +2294,23 @@ function renderMarkdownSafe(raw) {
  */
 function safeRender(container, markdown) {
   if (!container) return;
-  // renderMarkdownSafe تهرّب HTML أولاً ثم تطبق markdown — آمن تماماً
-  container.innerHTML = renderMarkdownSafe(String(markdown));
+  // DOM construction حقيقي — لا innerHTML، لا XSS ممكن
+  container.innerHTML = '';
+  const lines = String(markdown).split('\n');
+  lines.forEach(line => {
+    const p = document.createElement('p');
+    const parts = line.split(/(\*\*.*?\*\*)/g);
+    parts.forEach(part => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        const strong = document.createElement('strong');
+        strong.textContent = part.slice(2, -2);
+        p.appendChild(strong);
+      } else {
+        p.appendChild(document.createTextNode(part));
+      }
+    });
+    container.appendChild(p);
+  });
 }
 
 
