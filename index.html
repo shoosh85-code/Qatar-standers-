@@ -1453,13 +1453,8 @@ async function doSearch() {
 
     // Clear loading steps before showing answer
     // Render AI answer: convert markdown to HTML safely
-    // HTML escaped manually: &amp; &lt; &gt; applied before markdown formatting
-    // This is safe — API content is escaped before being rendered as formatted HTML
-    const rendered = answer
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')  // escape HTML only
-      .replace(/\n/g, '<br>')
-      .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold2)">$1</strong>')
-      .replace(/^#{1,3}\s(.+)/gm, '<strong style="color:var(--gold2);font-size:15px">$1</strong>');
+    // [SEC-FIX] نستخدم renderMarkdownSafe() — تهريب كامل ثم markdown
+    const rendered = renderMarkdownSafe(answer);
     textEl.innerHTML = rendered;
     // Show search method badge
     const methodBadge = window._lastSearchMethod === 'vector'
@@ -2253,6 +2248,30 @@ function sanitizeText(str) {
   div.textContent = String(str);
   return div.innerHTML;
 }
+
+/**
+ * renderMarkdownSafe — يُحوّل نص Markdown إلى HTML آمن تماماً
+ * الخطوات بالترتيب:
+ *   1. sanitizeText() — يُهرّب & < > " ' كلها (textContent trick)
+ *   2. \n → <br>   — يحافظ على فواصل الأسطر
+ *   3. **bold** → <strong> — بعد الـ escaping لضمان عدم XSS
+ *   4. ### heading → <strong class="qs-heading">
+ * ملاحظة: لا تستخدم هذه الدالة على HTML موثوق — للنصوص الخام فقط
+ * @param {string} raw - نص خام من API أو مستخدم
+ * @returns {string} - HTML آمن للإدراج في innerHTML
+ */
+function renderMarkdownSafe(raw) {
+  // الخطوة 1: تهريب كامل لكل محارف HTML الخطرة
+  const escaped = sanitizeText(String(raw));
+  // الخطوة 2: فواصل أسطر → <br>
+  // الخطوة 3: **bold** → <strong> (بعد escaping — $ لا تحمل HTML)
+  // الخطوة 4: ### Heading → <strong class>
+  return escaped
+    .replace(/\n/g, '<br>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold2)">$1</strong>')
+    .replace(/^#{1,3}\s(.+)/gm, '<strong style="color:var(--gold2);font-size:15px">$1</strong>');
+}
+
 // ─── API Helper: server-side proxy (Vercel Edge Function) ───
 /**
  * fetchGeminiAPI — يتصل بـ server-side proxy (آمن للإنتاج)
