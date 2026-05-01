@@ -1451,11 +1451,8 @@ async function doSearch() {
     const data = await response.json();
     const answer = (data.content && data.content[0] && data.content[0].text) || 'لم أجد إجابة.';
 
-    // Clear loading steps before showing answer
-    // Render AI answer: convert markdown to HTML safely
-    // [SEC-FIX] نستخدم renderMarkdownSafe() — تهريب كامل ثم markdown
-    const rendered = renderMarkdownSafe(answer);
-    textEl.innerHTML = rendered;
+    // [SEC-FIX #2] safeRender — DOM construction بدون innerHTML
+    safeRender(textEl, answer);
     // Show search method badge
     const methodBadge = window._lastSearchMethod === 'vector'
       ? ' | 🧠 بحث ذكي (Vector)'
@@ -1466,12 +1463,12 @@ async function doSearch() {
   } catch (err) {
     const msg = err.message || 'خطأ غير معروف';
     if (msg.includes('401') || msg.includes('key') || msg.includes('auth')) {
-      textEl.innerHTML = '❌ <strong>مشكلة في الـ API Key</strong><br>اضغط على "إعداد AI" في الأعلى وتأكد من صحة الـ Key.';
+      safeRender(textEl, '❌ **مشكلة في الـ API Key** — اضغط على "إعداد AI" في الأعلى وتأكد من صحة الـ Key.');
       updateKeyStatus(false);
     } else if (msg.includes('429')) {
-      textEl.innerHTML = '⏳ <strong>تجاوزت حد الطلبات</strong><br>انتظر دقيقة واحدة ثم أعد المحاولة.';
+      safeRender(textEl, '⏳ **تجاوزت حد الطلبات** — انتظر دقيقة واحدة ثم أعد المحاولة.');
     } else {
-      textEl.innerHTML = `❌ <strong>خطأ:</strong> ${sanitizeText(msg)}`;
+      safeRender(textEl, '❌ **خطأ:** ' + msg);
     }
     refEl.textContent = '';
   }
