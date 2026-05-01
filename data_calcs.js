@@ -567,15 +567,42 @@ function showResult(elId, pass, value, required, detail, action) {
   }
   const icon = state === 'pass' ? '✅' : state === 'warning' ? '⚠️' : '❌';
   const label = state === 'pass' ? 'PASS — مطابق للمواصفة' : state === 'warning' ? 'WARNING — قريب من الحد' : 'FAIL — لا يطابق المواصفة';
-  let rowsHTML = '';
-  if (value !== null && required !== null) {
-    rowsHTML += '<div class="calc-result-row"><span class="calc-result-label">القيمة الفعلية</span><span class="calc-result-val">' + value + '</span></div>';
-    rowsHTML += '<div class="calc-result-row"><span class="calc-result-label">الحد المطلوب</span><span class="calc-result-val">' + required + '</span></div>';
-  }
-  const actionHTML = (state !== 'pass' && action) ? '<div class="calc-result-action">🔧 الإجراء التصحيحي: ' + action + '</div>' : '';
+  // [SEC] XSS Fix — DOM construction آمن بدل innerHTML
+  const _esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   el.style.display = 'block';
   el.className = 'calc-result ' + state;
-  el.innerHTML = '<div class="calc-result-header"><span class="calc-result-icon">' + icon + '</span><span class="calc-result-text">' + label + '</span></div>' + rowsHTML + '<div class="calc-result-detail">' + detail + '</div>' + actionHTML;
+  el.innerHTML = '';
+  const header = document.createElement('div');
+  header.className = 'calc-result-header';
+  const iconSpan = document.createElement('span');
+  iconSpan.className = 'calc-result-icon';
+  iconSpan.textContent = icon;
+  const labelSpan = document.createElement('span');
+  labelSpan.className = 'calc-result-text';
+  labelSpan.textContent = label;
+  header.appendChild(iconSpan);
+  header.appendChild(labelSpan);
+  el.appendChild(header);
+  if (value !== null && required !== null) {
+    const r1 = document.createElement('div'); r1.className = 'calc-result-row';
+    const l1 = document.createElement('span'); l1.className = 'calc-result-label'; l1.textContent = 'القيمة الفعلية';
+    const v1 = document.createElement('span'); v1.className = 'calc-result-val'; v1.textContent = _esc(value);
+    r1.appendChild(l1); r1.appendChild(v1); el.appendChild(r1);
+    const r2 = document.createElement('div'); r2.className = 'calc-result-row';
+    const l2 = document.createElement('span'); l2.className = 'calc-result-label'; l2.textContent = 'الحد المطلوب';
+    const v2 = document.createElement('span'); v2.className = 'calc-result-val'; v2.textContent = _esc(required);
+    r2.appendChild(l2); r2.appendChild(v2); el.appendChild(r2);
+  }
+  const detailDiv = document.createElement('div');
+  detailDiv.className = 'calc-result-detail';
+  detailDiv.textContent = detail;
+  el.appendChild(detailDiv);
+  if (state !== 'pass' && action) {
+    const actionDiv = document.createElement('div');
+    actionDiv.className = 'calc-result-action';
+    actionDiv.textContent = '🔧 الإجراء التصحيحي: ' + action;
+    el.appendChild(actionDiv);
+  }
 }
 
 // ROADS
@@ -1116,7 +1143,8 @@ function showCalcResult(id, pass, msg, warn) {
   const el = document.getElementById('res-' + id);
   if (!el) return;
   el.className = 'calc-result ' + (warn ? 'warning' : pass ? 'pass' : 'fail');
-  el.innerHTML = (pass ? '✅ PASS' : warn ? '⚠️ WARNING' : '❌ FAIL') + ' — ' + msg;
+  // [SEC] XSS Fix — textContent آمن
+  el.textContent = (pass ? '✅ PASS' : warn ? '⚠️ WARNING' : '❌ FAIL') + ' — ' + msg;
   // Save to history
   saveCalcHistory(id, pass, msg);
 }
@@ -1135,18 +1163,37 @@ function renderCalcHistory() {
   try {
     const h = JSON.parse(localStorage.getItem('qs_calc_history') || '[]');
     if (!h.length) { el.innerHTML = '<div style="text-align:center;color:var(--text3);padding:20px;font-size:13px;">لا يوجد سجل بعد</div>'; return; }
-    el.innerHTML = h.slice(0,50).map(item => {
+    // [SEC] XSS Fix — DOM construction آمن
+    el.innerHTML = '';
+    const frag = document.createDocumentFragment();
+    h.slice(0,50).forEach(item => {
+      const _esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
       const d = new Date(item.ts);
       const time = d.toLocaleTimeString('ar-QA') + ' ' + d.toLocaleDateString('ar-QA');
-      return `<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--dark3);border-radius:8px;margin-bottom:6px;border:1px solid ${item.pass?'rgba(46,204,113,0.2)':'rgba(231,76,60,0.2)'};">
-        <span style="font-size:14px;">${item.pass?'✅':'❌'}</span>
-        <div style="flex:1;min-width:0;">
-          <div style="font-size:11px;font-weight:700;color:${item.pass?'#2ecc71':'#e74c3c'}">${item.id}</div>
-          <div style="font-size:10px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.msg}</div>
-        </div>
-        <div style="font-size:9px;color:var(--text3);white-space:nowrap;">${time}</div>
-      </div>`;
-    }).join('');
+      const wrapper = document.createElement('div');
+      wrapper.style.cssText = 'display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--dark3);border-radius:8px;margin-bottom:6px;border:1px solid ' + (item.pass ? 'rgba(46,204,113,0.2)' : 'rgba(231,76,60,0.2)');
+      const iconEl = document.createElement('span');
+      iconEl.style.fontSize = '14px';
+      iconEl.textContent = item.pass ? '✅' : '❌';
+      const textCol = document.createElement('div');
+      textCol.style.cssText = 'flex:1;min-width:0;';
+      const idEl = document.createElement('div');
+      idEl.style.cssText = 'font-size:11px;font-weight:700;color:' + (item.pass ? '#2ecc71' : '#e74c3c');
+      idEl.textContent = item.id;
+      const msgEl = document.createElement('div');
+      msgEl.style.cssText = 'font-size:10px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;';
+      msgEl.textContent = item.msg;
+      textCol.appendChild(idEl);
+      textCol.appendChild(msgEl);
+      const timeEl = document.createElement('div');
+      timeEl.style.cssText = 'font-size:9px;color:var(--text3);white-space:nowrap;';
+      timeEl.textContent = time;
+      wrapper.appendChild(iconEl);
+      wrapper.appendChild(textCol);
+      wrapper.appendChild(timeEl);
+      frag.appendChild(wrapper);
+    });
+    el.appendChild(frag);
   } catch(e) { el.innerHTML = '<div style="color:var(--text3);">خطأ في تحميل السجل</div>'; }
 }
 
