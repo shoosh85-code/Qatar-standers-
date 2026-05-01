@@ -1035,8 +1035,6 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <div class="cat-card" onclick="QS.openDetail('exec_pressure_test')" data-keywords="ضغط pressure test اختبار stepper" style="background:linear-gradient(135deg,rgba(46,204,113,.08),rgba(46,204,113,.02));border-color:rgba(46,204,113,.25)"><span class="cat-emoji">💪</span><div class="cat-name">آلية اختبار الضغط</div><div class="cat-desc">1.5×PN + 2hr + pass/fail criteria</div><div class="cat-bottom"><span class="cat-count" style="color:#2ecc71">Stepper</span><span class="cat-arr">←</span></div></div>
 </div>
 </div>
-</div>
-</div>
 
 <div class="section-group" id="group-structural">
   <div class="group-header" style="background:linear-gradient(135deg,#5A0F0F22,#5A0F0F08);border:1px solid #5A0F0F33">
@@ -1060,8 +1058,6 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <div class="cat-card" onclick="QS.openDetail('exec_concrete_pour')" data-keywords="صب خرسانة concrete pour stepper آلية" style="background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.02));border-color:rgba(201,168,76,.25)"><span class="cat-emoji">🏗️</span><div class="cat-name">آلية صب الخرسانة</div><div class="cat-desc">6 خطوات تفصيلية + QA + أخطاء</div><div class="cat-bottom"><span class="cat-count" style="color:var(--gold)">Stepper</span><span class="cat-arr">←</span></div></div>
 <div class="cat-card" onclick="QS.openDetail('exec_foundation_excavation')" data-keywords="حفر أساسات foundation excavation stepper" style="background:linear-gradient(135deg,rgba(155,89,182,.1),rgba(155,89,182,.02));border-color:rgba(155,89,182,.3)"><span class="cat-emoji">⛏️</span><div class="cat-name">آلية حفر الأساسات</div><div class="cat-desc">6 خطوات + Shoring + Dewatering + HP</div><div class="cat-bottom"><span class="cat-count" style="color:#9b59b6">Stepper</span><span class="cat-arr">←</span></div></div>
 <div class="cat-card" onclick="QS.openDetail('exec_bridge_rebar')" data-keywords="جسر bridge rebar تسليح stepper" style="background:linear-gradient(135deg,rgba(231,76,60,.08),rgba(231,76,60,.02));border-color:rgba(231,76,60,.25)"><span class="cat-emoji">🌉</span><div class="cat-name">آلية تسليح الجسور</div><div class="cat-desc">4 خطوات + Lap + Cover + Durability</div><div class="cat-bottom"><span class="cat-count" style="color:#e74c3c">Stepper</span><span class="cat-arr">←</span></div></div>
-</div>
-</div>
 </div>
 </div>
 
@@ -1138,10 +1134,6 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 </div>
 </div>
 
-</div>
-
-</div>
-
 <div style="background:var(--dark3);border-top:1px solid var(--border);padding:20px;text-align:center;margin-top:0;">
   <div style="color:var(--gold2);font-size:14px;font-weight:700;margin-bottom:6px;">QatarSpec Pro</div>
   <div style="color:var(--text3);font-size:11px;margin-bottom:4px;">مرجع المواصفات القطرية — QCS 2024</div>
@@ -1198,6 +1190,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     </div>
     <div class="dm-content" id="dmContent"><div id="print-area"></div>
   </div>
+</div>
 </div>
 
 <div class="toast" id="toast">✅ تم!</div>
@@ -1538,12 +1531,9 @@ function clearCardFilter() {
 // Safe lazy reference — يقرأ QS_CONTENT عند كل وصول
 // Key aliases: card key → content key (when names differ)
 window._CONTENT_ALIASES = {
-  'asphalt_quick_ref':'ms_asphalt','exec_asphalt_paving':'execution',
-  // road_layers_calc: NO alias — uses data_content_extra.js directly (has its own calculator)
-    'exec_water_pipe':'ws_laying',    'pipe_quick_ref':'pipe_bedding','pipe_sizing_calc':'pipe_bedding',
-      'exec_concrete_pour':'concrete_placing','exec_bridge_rebar':'rebar_full',
-  'exec_foundation_excavation':'foundations_full',
-  'concrete_quick_ref':'concrete_overview',  'pile_load_testing':'piles_full',            };
+  // All previous aliases removed — data_content_extra.js and data_content_phase4.js
+  // now provide dedicated content for every key. Aliases were shadowing newer content.
+};
 
 const detailData = new Proxy({}, {
   get: function(_, key) {
@@ -4256,24 +4246,20 @@ function resetInspector() {
 function dedupeCards() {
   const seen = new Set();
   const allCards = document.querySelectorAll('[onclick^="QS.openDetail("]');
+  let hidden = 0;
   allCards.forEach(function(card) {
     const match = card.getAttribute('onclick').match(/QS\.openDetail\('([^']+)'\)/);
     if (!match) return;
     const key = match[1];
-    // Only deduplicate known-duplicate keys
-    const dupeKeys = [
-      'roads_materials','prime_tack_summary','bitumen_tests','gabbro_specs','subbase',
-      'superpave_mix','marshall_mix','doc_analyzer','ashghal_forms','itp_concrete'
-    ];
-    if (!dupeKeys.includes(key)) return;
+    // دفاعي: يحذف أي كرت مكرر بغض النظر عن المفتاح
     if (seen.has(key)) {
       card.style.display = 'none';
       card.setAttribute('data-deduped', 'true');
+      hidden++;
     } else {
       seen.add(key);
     }
   });
-  const hidden = document.querySelectorAll('[data-deduped="true"]').length;
   if (hidden > 0) console.log('[QatarSpec] dedupeCards: hid ' + hidden + ' duplicate cards');
 }
 document.addEventListener('DOMContentLoaded', dedupeCards);
