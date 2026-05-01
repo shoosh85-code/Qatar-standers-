@@ -3762,7 +3762,16 @@ function formatDaResult(text, type) {
   const typeNames = { structural:'مخطط إنشائي', road:'مقطع طريق', itp:'نموذج ITP', shop:'Shop Drawing' };
 
   // تحويل النص إلى HTML: Bold، Hold Points بالأحمر
-  const html = text
+  // [SEC] XSS Fix — escape raw AI text before any HTML transformation
+  const _escHtml = s => String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+  const safeText = _escHtml(text);
+  // الآن نطبق transformations على النص المُعقَّم فقط
+  const html = safeText
     .replace(/\*\*(.*?)\*\*/g, '<strong style="color:' + col.main + '">$1</strong>')
     .replace(/\*(.*?)\*/g, '<em style="color:var(--text2)">$1</em>')
     .replace(/(Hold Point|HP-|🔴)/g, '<span style="color:#e74c3c;font-weight:700">$1</span>')
