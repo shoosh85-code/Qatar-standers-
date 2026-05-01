@@ -607,14 +607,152 @@
 
   </div>
 
-  <!-- Navigation to next phases -->
+  <!-- ========== المرحلة 4: الخرسانة المسلحة ========== -->
+  <div style="background:var(--dark2);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:16px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+      <span style="font-size:26px;">🏗️</span>
+      <div>
+        <div style="font-family:'Cairo',sans-serif;font-size:18px;font-weight:800;color:#e67e22;">المرحلة 4: الخرسانة المسلحة</div>
+        <div style="font-size:11px;color:var(--text3);">QCS 2024 S5 P3 | BS EN 206 | ACI 318</div>
+      </div>
+    </div>
+
+    <!-- متطلبات التصميم -->
+    <div style="background:rgba(230,126,34,0.07);border:1px solid rgba(230,126,34,0.2);border-radius:10px;padding:14px;margin-bottom:12px;">
+      <div style="font-size:13px;font-weight:700;color:#e67e22;margin-bottom:10px;">📋 متطلبات الخرسانة — QCS S5/P3/C2</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;">
+        <div style="background:var(--dark3);border-radius:6px;padding:8px;">
+          <div style="color:var(--text3);font-size:10px;">الدرجة الدنيا للأساسات</div>
+          <div style="color:#e67e22;font-weight:700;">C30 — (fck = 30 MPa)</div>
+        </div>
+        <div style="background:var(--dark3);border-radius:6px;padding:8px;">
+          <div style="color:var(--text3);font-size:10px;">الدرجة الدنيا للأعمدة/الجسور</div>
+          <div style="color:#e67e22;font-weight:700;">C35 — (fck = 35 MPa)</div>
+        </div>
+        <div style="background:var(--dark3);border-radius:6px;padding:8px;">
+          <div style="color:var(--text3);font-size:10px;">نسبة الماء/الاسمنت (W/C) — QCS</div>
+          <div style="color:#e67e22;font-weight:700;">≤ 0.45 (بيئة قطر)</div>
+        </div>
+        <div style="background:var(--dark3);border-radius:6px;padding:8px;">
+          <div style="color:var(--text3);font-size:10px;">الحد الأدنى للاسمنت</div>
+          <div style="color:#e67e22;font-weight:700;">350 kg/m³</div>
+        </div>
+        <div style="background:var(--dark3);border-radius:6px;padding:8px;">
+          <div style="color:var(--text3);font-size:10px;">الهبوط (Slump) — QCS S5/P3/C4</div>
+          <div style="color:#e67e22;font-weight:700;">75–125 mm (مضخة: ≤ 150)</div>
+        </div>
+        <div style="background:var(--dark3);border-radius:6px;padding:8px;">
+          <div style="color:var(--text3);font-size:10px;">مقاومة الكلوريد — XS / XD</div>
+          <div style="color:#e67e22;font-weight:700;">≤ 0.2% Cl⁻ by cement wt</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cube Test Requirements -->
+    <div style="background:rgba(230,126,34,0.07);border:1px solid rgba(230,126,34,0.2);border-radius:10px;padding:14px;margin-bottom:12px;">
+      <div style="font-size:13px;font-weight:700;color:#e67e22;margin-bottom:10px;">🧊 اختبار المكعبات — QCS S5/P3/C7</div>
+      <table style="width:100%;border-collapse:collapse;font-size:11px;">
+        <tr style="background:rgba(230,126,34,0.15);">
+          <th style="padding:6px 8px;text-align:right;color:var(--text2);border-bottom:1px solid var(--border);">الدرجة</th>
+          <th style="padding:6px 8px;text-align:center;color:var(--text2);border-bottom:1px solid var(--border);">7 أيام (MPa)</th>
+          <th style="padding:6px 8px;text-align:center;color:var(--text2);border-bottom:1px solid var(--border);">28 يوم (MPa)</th>
+          <th style="padding:6px 8px;text-align:center;color:var(--text2);border-bottom:1px solid var(--border);">العينات لكل 50m³</th>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border2);">
+          <td style="padding:5px 8px;color:#e67e22;font-weight:700;">C25</td>
+          <td style="padding:5px 8px;text-align:center;color:var(--text2);">≥ 16</td>
+          <td style="padding:5px 8px;text-align:center;color:var(--text2);">≥ 25</td>
+          <td style="padding:5px 8px;text-align:center;color:var(--text2);">3 مكعبات</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border2);">
+          <td style="padding:5px 8px;color:#e67e22;font-weight:700;">C30</td>
+          <td style="padding:5px 8px;text-align:center;color:var(--text2);">≥ 20</td>
+          <td style="padding:5px 8px;text-align:center;color:var(--text2);">≥ 30</td>
+          <td style="padding:5px 8px;text-align:center;color:var(--text2);">3 مكعبات</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border2);">
+          <td style="padding:5px 8px;color:#e67e22;font-weight:700;">C35</td>
+          <td style="padding:5px 8px;text-align:center;color:var(--text2);">≥ 23</td>
+          <td style="padding:5px 8px;text-align:center;color:var(--text2);">≥ 35</td>
+          <td style="padding:5px 8px;text-align:center;color:var(--text2);">3 مكعبات</td>
+        </tr>
+        <tr>
+          <td style="padding:5px 8px;color:#e67e22;font-weight:700;">C40</td>
+          <td style="padding:5px 8px;text-align:center;color:var(--text2);">≥ 27</td>
+          <td style="padding:5px 8px;text-align:center;color:var(--text2);">≥ 40</td>
+          <td style="padding:5px 8px;text-align:center;color:var(--text2);">3 مكعبات</td>
+        </tr>
+      </table>
+      <div style="font-size:10px;color:var(--text3);margin-top:6px;">⚠️ فشل أي مكعب بأقل من 85% → STOP + إخطار المهندس فوراً — QCS S5/P3/C7.4</div>
+    </div>
+
+    <!-- Curing Requirements -->
+    <div style="background:rgba(230,126,34,0.07);border:1px solid rgba(230,126,34,0.2);border-radius:10px;padding:14px;margin-bottom:12px;">
+      <div style="font-size:13px;font-weight:700;color:#e67e22;margin-bottom:10px;">💧 المعالجة (Curing) — QCS S5/P3/C9</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.8;">
+        • <strong style="color:#e67e22;">مدة المعالجة:</strong> ≥ 7 أيام بعد الصب (بيئة قطر الحارة)<br>
+        • <strong style="color:#e67e22;">درجة الحرارة أثناء الصب:</strong> ≤ 32°C (خرسانة جاهزة) / ≤ 35°C (في القالب)<br>
+        • <strong style="color:#e67e22;">الصب الليلي:</strong> مُفضَّل في الصيف (يونيو–سبتمبر)<br>
+        • <strong style="color:#e67e22;">طرق المعالجة:</strong> رش الماء + أغطية رطبة + مركبات Curing Compound<br>
+        • <strong style="color:#e67e22;">ممنوع:</strong> الصب عند درجة حرارة > 38°C دون موافقة المهندس<br>
+        • <strong style="color:#e67e22;">حماية من الشمس:</strong> إلزامية لجميع الأسطح الأفقية
+      </div>
+    </div>
+
+    <!-- حاسبة الخرسانة -->
+    <div style="background:rgba(230,126,34,0.1);border:2px solid rgba(230,126,34,0.3);border-radius:10px;padding:14px;margin-bottom:12px;">
+      <div style="font-size:13px;font-weight:700;color:#e67e22;margin-bottom:12px;">🧮 حاسبة المزيج — Concrete Mix Calculator</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+        <div>
+          <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px;">الحجم الكلي (m³)</label>
+          <input type="number" id="conc_vol" value="10" min="0.1" step="0.1"
+            style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text1);font-size:13px;box-sizing:border-box;"
+            oninput="calcConcreteMix()">
+        </div>
+        <div>
+          <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px;">درجة الخرسانة</label>
+          <select id="conc_grade"
+            style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text1);font-size:13px;box-sizing:border-box;"
+            onchange="calcConcreteMix()">
+            <option value="25">C25</option>
+            <option value="30" selected>C30</option>
+            <option value="35">C35</option>
+            <option value="40">C40</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px;">نسبة الهدر (waste %)</label>
+          <input type="number" id="conc_waste" value="5" min="0" max="20" step="1"
+            style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text1);font-size:13px;box-sizing:border-box;"
+            oninput="calcConcreteMix()">
+        </div>
+        <div>
+          <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px;">عدد الطوابق</label>
+          <input type="number" id="conc_floors" value="1" min="1" max="100" step="1"
+            style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text1);font-size:13px;box-sizing:border-box;"
+            oninput="calcConcreteMix()">
+        </div>
+      </div>
+      <div id="concResult" style="background:var(--dark3);border-radius:8px;padding:12px;font-size:12px;line-height:2;"></div>
+    </div>
+
+    <!-- Checklist -->
+    <div style="background:rgba(230,126,34,0.05);border:1px solid rgba(230,126,34,0.15);border-radius:10px;padding:14px;margin-bottom:12px;">
+      <div style="font-size:13px;font-weight:700;color:#e67e22;margin-bottom:10px;">✅ Checklist الخرسانة — QCS S5/P3</div>
+      <div id="conc_checklist"></div>
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <button onclick="exportChecklistExcel('conc','الخرسانة المسلحة')" style="flex:1;background:rgba(230,126,34,0.1);border:1px solid rgba(230,126,34,0.3);border-radius:8px;padding:8px;color:#e67e22;font-size:12px;cursor:pointer;">📊 Excel</button>
+        <button onclick="resetChecklist('conc')" style="background:var(--dark5);border:1px solid var(--border);border-radius:8px;padding:8px 16px;color:var(--text3);font-size:12px;cursor:pointer;">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation: phases 5-8 still pending -->
   <div style="background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(201,168,76,0.02));border:1px solid rgba(201,168,76,0.25);border-radius:12px;padding:16px;text-align:center;">
-    <div style="font-size:13px;color:var(--text2);margin-bottom:12px;">
-      📌 <strong style="color:var(--gold);">المراحل 4-8:</strong> الأعمدة · الجسور والبلاطات · الجدران الهيكلية · التشطيبات · التسليم النهائي
+    <div style="font-size:13px;color:var(--text2);margin-bottom:8px;">
+      📌 <strong style="color:var(--gold);">المراحل 5–8 قيد الإضافة:</strong> حديد التسليح · البناء والطابوق · العزل المائي · التشطيبات والتسليم
     </div>
-    <div style="font-size:11px;color:var(--text3);">
-      المراحل القادمة تحتوي على: حاسبات الانحراف · حاسبات Deflection · checklists تفاعلية · نماذج Handover Certificate
-    </div>
+    <div style="font-size:11px;color:var(--text3);">يتم تحديث الموقع تدريجياً وفق بروتوكول QatarSpec Pro</div>
   </div>
 
 </div>
@@ -633,6 +771,78 @@
   // ═════════════════════════════════════════════════════════════════════════════
   // Helper Functions (injected into page scope)
   // ═════════════════════════════════════════════════════════════════════════════
+
+  // ─── حاسبة مزيج الخرسانة ───
+  window.calcConcreteMix = function() {
+    const vol   = parseFloat(document.getElementById('conc_vol')?.value) || 0;
+    const grade = parseInt(document.getElementById('conc_grade')?.value)  || 30;
+    const waste = parseFloat(document.getElementById('conc_waste')?.value) || 5;
+    const floors = parseInt(document.getElementById('conc_floors')?.value) || 1;
+    const res   = document.getElementById('concResult');
+    if (!res) return;
+
+    if (vol <= 0) { res.innerHTML = '<span style="color:#e74c3c;">⚠️ أدخل حجماً صحيحاً</span>'; return; }
+
+    // نسب المزيج لكل درجة (kg/m³) — QCS S5/P3 + BS EN 206
+    const mixes = {
+      25: { cement:320, water:144, sand:780, aggregate:1080, wc:0.45 },
+      30: { cement:360, water:158, sand:740, aggregate:1060, wc:0.44 },
+      35: { cement:390, water:164, sand:710, aggregate:1040, wc:0.42 },
+      40: { cement:420, water:168, sand:680, aggregate:1020, wc:0.40 }
+    };
+    const m = mixes[grade];
+    const totalVol = vol * floors * (1 + waste/100);
+
+    const cement = (m.cement * totalVol / 1000).toFixed(2);  // طن
+    const water  = (m.water  * totalVol).toFixed(0);          // لتر
+    const sand   = (m.sand   * totalVol / 1000).toFixed(2);   // طن
+    const agg    = (m.aggregate * totalVol / 1000).toFixed(2);// طن
+    const trucks = Math.ceil(totalVol / 6);                   // شاحنة 6m³
+
+    const wcOk   = m.wc <= 0.45;
+    const status = wcOk ? '✅ PASS' : '❌ FAIL';
+    const statusColor = wcOk ? '#2ecc71' : '#e74c3c';
+
+    res.innerHTML =
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">' +
+        '<div style="background:var(--dark2);border-radius:6px;padding:8px;"><div style="font-size:10px;color:var(--text3);">الحجم الكلي (مع الهدر)</div><div style="color:#e67e22;font-weight:700;">' + totalVol.toFixed(2) + ' m³</div></div>' +
+        '<div style="background:var(--dark2);border-radius:6px;padding:8px;"><div style="font-size:10px;color:var(--text3);">عدد الشاحنات (6m³)</div><div style="color:#e67e22;font-weight:700;">' + trucks + ' شاحنة</div></div>' +
+        '<div style="background:var(--dark2);border-radius:6px;padding:8px;"><div style="font-size:10px;color:var(--text3);">اسمنت</div><div style="color:#f1c40f;font-weight:700;">' + cement + ' طن</div></div>' +
+        '<div style="background:var(--dark2);border-radius:6px;padding:8px;"><div style="font-size:10px;color:var(--text3);">ماء</div><div style="color:#3498db;font-weight:700;">' + water + ' لتر</div></div>' +
+        '<div style="background:var(--dark2);border-radius:6px;padding:8px;"><div style="font-size:10px;color:var(--text3);">رمل</div><div style="color:var(--text2);font-weight:700;">' + sand + ' طن</div></div>' +
+        '<div style="background:var(--dark2);border-radius:6px;padding:8px;"><div style="font-size:10px;color:var(--text3);">ركام خشن</div><div style="color:var(--text2);font-weight:700;">' + agg + ' طن</div></div>' +
+      '</div>' +
+      '<div style="margin-top:8px;background:var(--dark2);border-radius:6px;padding:8px;display:flex;justify-content:space-between;align-items:center;">' +
+        '<span style="font-size:11px;color:var(--text3);">نسبة W/C: ' + m.wc + ' | QCS ≤ 0.45</span>' +
+        '<span style="font-size:13px;font-weight:800;color:' + statusColor + ';">' + status + '</span>' +
+      '</div>' +
+      '<div style="font-size:10px;color:var(--text3);margin-top:6px;">📌 QCS 2024 S5/P3/C2 | درجة C' + grade + ' | بيئة قطر الخليجية</div>';
+  };
+
+  // تهيئة الحاسبة عند التحميل
+  document.addEventListener('DOMContentLoaded', function() {
+    if (document.getElementById('concResult')) window.calcConcreteMix();
+    // تهيئة checklist المرحلة 4
+    const concItems = [
+      'تم الحصول على Mix Design معتمد من مختبر معتمد — QCS S5/P3/C2',
+      'تم إجراء Trial Mix وموافقة المهندس الاستشاري',
+      'مصنع الخرسانة الجاهزة معتمد لدى Ashghal/Client',
+      'تم فحص الهبوط (Slump Test) قبل الصب — QCS S5/P3/C4',
+      'درجة الحرارة وقت الصب ≤ 32°C (جسم الخرسانة)',
+      'تم أخذ عينات المكعبات (3 مكعبات/50m³) — QCS S5/P3/C7',
+      'تم ختم/تأريخ/ترقيم عينات المكعبات بشكل صحيح',
+      'فترة الاهتزاز بالمدمكة لا تزيد عن 30 ثانية لكل موقع',
+      'لا فراغ مرئي تحت القالب قبل إغلاقه',
+      'تمت المعالجة الرطبة (Curing) لمدة ≥ 7 أيام — QCS S5/P3/C9',
+      'نتائج مكعبات 28 يوم ≥ fck المحدد',
+      'تم توثيق Delivery Notes جميع شاحنات الخرسانة',
+      'لا توجد فواصل بارد (Cold Joints) غير مخططة'
+    ];
+    const concEl = document.getElementById('conc_checklist');
+    if (concEl && window.generateChecklistItems) {
+      concEl.innerHTML = window.generateChecklistItems(concItems, 'conc');
+    }
+  });
 
   // Checklist generator
   window.generateChecklistItems = function(items, prefix) {
@@ -834,5 +1044,5 @@
     detailsEl.innerHTML = details;
   };
 
-  console.log('[QatarSpec] data_structures_detailed.js loaded — 3 phases ready (Excavation, Piling, Foundations)');
+  console.log('[QatarSpec] data_structures_detailed.js loaded — 4 phases ready (Excavation, Piling, Foundations, Concrete)');
 })();
