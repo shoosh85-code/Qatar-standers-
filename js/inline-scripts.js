@@ -144,7 +144,9 @@ function setLoadingSteps(steps, activeIndex) {
     const done = i < activeIndex, active = i === activeIndex;
     const icon = done ? '✅' : active ? '<div class="spinner" style="width:14px;height:14px;border:2px solid rgba(201,168,76,0.2);border-top:2px solid var(--gold);border-radius:50%;animation:spin .8s linear infinite;display:inline-block;vertical-align:middle;"></div>' : '⏳';
     const color = done ? '#4CAF50' : active ? 'var(--gold)' : 'var(--text3)';
-    return `<div style="display:flex;align-items:center;gap:8px;font-size:13px;color:${color};margin:4px 0;">${icon} ${s}</div>`;
+    // [SEC M-01] sanitizeText قبل innerHTML — منع XSS
+    const safeStep = typeof sanitizeText === 'function' ? sanitizeText(String(s)) : String(s).replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return `<div style="display:flex;align-items:center;gap:8px;font-size:13px;color:${color};margin:4px 0;">${icon} ${safeStep}</div>`;
   }).join('');
   document.getElementById('aiAnswerText').innerHTML = `<div style="display:flex;flex-direction:column;gap:2px;">${html}</div>`;
 }

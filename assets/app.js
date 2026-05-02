@@ -3189,7 +3189,7 @@ window.calcRoadLayers = function calcRoadLayers() {
 
 // ── Constants ──
 var FREE_DAILY_LIMIT = 5;
-var PRO_CODES = ['QATAR2026PRO', 'QATARSPEC-PRO', 'QS-ENGINEER-2026', 'PRO-BETA-QCS'];
+// [SEC H-01] PRO_CODES حُذفت من client-side — التحقق عبر /api/verify-pro فقط
 
 // ── Pro State ──
 function isProUser() {
@@ -3308,7 +3308,22 @@ function showPaymentContact() {
   if (pc) { pc.style.display = 'block'; pc.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
 }
 
-// ── Promo Code Activation ──
+// ── Promo Code Activation — [SEC H-01] Server-side only ──
+// لا يوجد PRO_CODES في client — التحقق عبر /api/verify-pro
+async function validateProCode(code) {
+  try {
+    const res = await fetch('/api/verify-pro', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code }),
+      credentials: 'include', // يستقبل httpOnly cookie من السيرفر
+    });
+    return res.json();
+  } catch (err) {
+    return { error: 'خطأ في الاتصال بالسيرفر' };
+  }
+}
+
 function activatePro(code) {
   var clean = (code || '').trim().toUpperCase();
   var msg = document.getElementById('promoMsg');
@@ -3316,25 +3331,32 @@ function activatePro(code) {
     if (msg) { msg.style.display='block'; msg.style.color='#e74c3c'; msg.textContent='❌ أدخل الكود أولاً'; }
     return;
   }
-  if (PRO_CODES.indexOf(clean) !== -1 || clean === 'QATAR2026PRO') {
-    // Activate for 1 year
-    var expiry = new Date();
-    expiry.setFullYear(expiry.getFullYear() + 1);
-    setProActive(true, expiry.toISOString());
-    renderProStatus();
-    if (msg) { msg.style.display='block'; msg.style.color='#2ecc71'; msg.textContent='🎉 تم تفعيل Pro بنجاح! صالح لسنة كاملة.'; }
-    setTimeout(function() {
-      closeProModal();
-      showToast('🎉 مرحباً بك في QatarSpec Pro!');
-    }, 1500);
-  } else {
-    if (msg) { msg.style.display='block'; msg.style.color='#e74c3c'; msg.textContent='❌ الكود غير صحيح — تحقق من الكود وأعد المحاولة'; }
-    document.getElementById('promoCodeInput').style.borderColor = '#e74c3c';
-    setTimeout(function() {
-      if (document.getElementById('promoCodeInput'))
-        document.getElementById('promoCodeInput').style.borderColor = '';
-    }, 2000);
-  }
+  // [SEC H-01] التحقق عبر السيرفر فقط — لا client-side validation
+  if (msg) { msg.style.display='block'; msg.style.color='var(--gold)'; msg.textContent='⏳ جاري التحقق...'; }
+  validateProCode(clean).then(function(data) {
+    if (data && data.pro === true) {
+      // السيرفر يضع httpOnly cookie — نحدّث الحالة المحلية فقط للـ UI
+      var expiry = new Date();
+      expiry.setFullYear(expiry.getFullYear() + 1);
+      setProActive(true, expiry.toISOString());
+      renderProStatus();
+      if (msg) { msg.style.display='block'; msg.style.color='#2ecc71'; msg.textContent='🎉 تم تفعيل Pro بنجاح! صالح لسنة كاملة.'; }
+      setTimeout(function() {
+        closeProModal();
+        showToast('🎉 مرحباً بك في QatarSpec Pro!');
+      }, 1500);
+    } else {
+      var errMsg = (data && data.error) ? data.error : 'الكود غير صحيح — تحقق من الكود وأعد المحاولة';
+      if (msg) { msg.style.display='block'; msg.style.color='#e74c3c'; msg.textContent='❌ ' + errMsg; }
+      var inp = document.getElementById('promoCodeInput');
+      if (inp) {
+        inp.style.borderColor = '#e74c3c';
+        setTimeout(function() { if (inp) inp.style.borderColor = ''; }, 2000);
+      }
+    }
+  }).catch(function() {
+    if (msg) { msg.style.display='block'; msg.style.color='#e74c3c'; msg.textContent='❌ خطأ في الاتصال — حاول مرة أخرى'; }
+  });
 }
 
 // ── Upgrade Overlay ──

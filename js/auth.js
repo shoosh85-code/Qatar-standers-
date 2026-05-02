@@ -1,5 +1,6 @@
 // js/auth.js — QatarSpec Pro
 // Authentication module — reads ONLY from Supabase
+// [SEC v4.1] NO localStorage for token/user — in-memory only + httpOnly cookie via server
 // No hardcoded tokens or emails — uses NEXT_PUBLIC_SUPABASE_URL + NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 (function () {
@@ -17,12 +18,13 @@
     window.SUPABASE_ANON_KEY ||
     '';
 
-  // ── Local storage keys ───────────────────────────────────────────────────
-  const STORAGE_KEY_TOKEN = 'qsp_user_token';
-  const STORAGE_KEY_USER  = 'qsp_user_data';
+  // ── [SEC] NO localStorage keys for token/user — removed C-01 ────────────
+  // Token lives in httpOnly cookie (set by /api/verify-pro server-side)
+  // User data lives in memory only (currentUser below)
 
-  // ── State ────────────────────────────────────────────────────────────────
+  // ── State (in-memory only — cleared on page close) ───────────────────────
   let currentUser = null;
+  let _tokenMemory = null; // حفظ التوكن في الذاكرة فقط — لا localStorage
 
   // ── Supabase REST helper (no SDK needed in browser) ──────────────────────
   async function supabaseFetch(path, options = {}) {
@@ -82,33 +84,43 @@
    * Initialize auth on page load.
    * Reads saved token → validates → updates UI
    */
+  // [SEC v4.1] Check Pro status via server httpOnly cookie — no localStorage
+  async function getAuthStatus() {
+    try {
+      const res = await fetch('/api/verify-pro', {
+        method: 'GET',
+        credentials: 'include', // يرسل httpOnly cookie تلقائياً
+      });
+      if (!res.ok) return null;
+      const data = await res.json();
+      return data?.pro === true ? data : null;
+    } catch (err) {
+      console.warn('[Auth] Server status check failed:', err.message);
+      return null;
+    }
+  }
+
   async function init() {
-    const savedToken = localStorage.getItem(STORAGE_KEY_TOKEN);
-
-    if (savedToken) {
-      // Try cached user data first (fast path)
-      const cached = localStorage.getItem(STORAGE_KEY_USER);
-      if (cached) {
-        try {
-          currentUser = JSON.parse(cached);
-          updateUI(currentUser);
-        } catch {
-          // ignore corrupt cache
-        }
-      }
-
-      // Re-validate in background
-      validateToken(savedToken).then((user) => {
+    // [SEC] لا قراءة من localStorage — تحقق من الذاكرة أولاً ثم السيرفر
+    if (_tokenMemory) {
+      // التوكن موجود في الذاكرة — تحقق من صلاحيته
+      validateToken(_tokenMemory).then((user) => {
         if (user) {
-          currentUser = { ...user, token: savedToken };
-          localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
+          currentUser = { ...user, token: _tokenMemory };
           updateUI(currentUser);
         } else {
-          logout(true); // silent logout — token expired/invalid
+          logout(true);
         }
       });
     } else {
-      updateUI(null);
+      // لا توكن في الذاكرة — تحقق من httpOnly cookie عبر السيرفر
+      const serverUser = await getAuthStatus();
+      if (serverUser) {
+        currentUser = serverUser;
+        updateUI(currentUser);
+      } else {
+        updateUI(null);
+      }
     }
 
     return currentUser;
@@ -128,9 +140,9 @@
         return false;
       }
 
+      // [SEC v4.1] التوكن في الذاكرة فقط — لا localStorage
+      _tokenMemory = token.trim();
       currentUser = { ...user, token: token.trim() };
-      localStorage.setItem(STORAGE_KEY_TOKEN, token.trim());
-      localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
       updateUI(currentUser);
       closeAuthModal();
       showSuccess(user.is_pro ? '✅ تم تفعيل الاشتراك المميز!' : '✅ تم تسجيل الدخول');
@@ -148,8 +160,7 @@
    */
   function logout(silent = false) {
     currentUser = null;
-    localStorage.removeItem(STORAGE_KEY_TOKEN);
-    localStorage.removeItem(STORAGE_KEY_USER);
+    _tokenMemory = null; // [SEC] مسح الذاكرة فقط — لا localStorage
     updateUI(null);
     if (!silent) showSuccess('تم تسجيل الخروج');
   }
@@ -172,7 +183,8 @@
    * Returns the stored token for API calls
    */
   function getToken() {
-    return localStorage.getItem(STORAGE_KEY_TOKEN) || null;
+    // [SEC v4.1] من الذاكرة فقط — لا localStorage
+    return _tokenMemory || currentUser?.token || null;
   }
 
   /**

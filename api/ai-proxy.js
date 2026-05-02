@@ -277,7 +277,25 @@ export default async function handler(req) {
     });
   }
 
-  // ── Get client IP ──
+  // ── [SEC H-02] Auth Check — رفض الطلبات بدون مصادقة ──────────────────
+  // يقبل: Bearer token أو httpOnly cookie أو طلب من domain الموقع
+  const origin = req.headers.get('origin') || '';
+  const referer = req.headers.get('referer') || '';
+  const authHeader = req.headers.get('authorization') || '';
+  const cookieHeader = req.headers.get('cookie') || '';
+  const allowedOrigin = process.env.APP_URL || 'https://qatar-standers.vercel.app';
+
+  const hasToken     = authHeader.startsWith('Bearer ') || cookieHeader.includes('qs_pro=');
+  const hasOrigin    = origin.includes('qatar-standers.vercel.app') || referer.includes('qatar-standers.vercel.app');
+  const hasAdminHdr  = req.headers.get('X-Admin-Token') || '';
+
+  if (!hasToken && !hasOrigin && !hasAdminHdr) {
+    return new Response(
+      JSON.stringify({ error: 'Unauthorized — token or valid origin required', code: 'UNAUTHORIZED' }),
+      { status: 401, headers: { ...CORS, 'Content-Type': 'application/json' } }
+    );
+  }
+  // ── End Auth Check ───────────────────────────────────────────────────────
   const ip =
     req.headers.get('x-real-ip') ||
     req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
