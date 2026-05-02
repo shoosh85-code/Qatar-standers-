@@ -3171,26 +3171,7 @@ function resetInspector() {
 
 // ─── Card Deduplication — prevents repeated cards (roads_materials × 7, etc.) ───
 // Issue #4 from QatarSpec evaluation: 25+ duplicate card instances
-function dedupeCards() {
-  const seen = new Set();
-  const allCards = document.querySelectorAll('[onclick^="QS.openDetail("]');
-  let hidden = 0;
-  allCards.forEach(function(card) {
-    const match = card.getAttribute('onclick').match(/QS\.openDetail\('([^']+)'\)/);
-    if (!match) return;
-    const key = match[1];
-    // دفاعي: يحذف أي كرت مكرر بغض النظر عن المفتاح
-    if (seen.has(key)) {
-      card.style.display = 'none';
-      card.setAttribute('data-deduped', 'true');
-      hidden++;
-    } else {
-      seen.add(key);
-    }
-  });
-  if (hidden > 0) console.log('[QatarSpec] dedupeCards: hid ' + hidden + ' duplicate cards');
-}
-document.addEventListener('DOMContentLoaded', dedupeCards);
+// [v3.0] dedupeCards() أُزيلت — الكروت المكررة تُدار بـ data-deprecated في HTML مباشرة
 
 // ── Accessibility: Add ARIA to cat-cards ──
 document.addEventListener('DOMContentLoaded', function() {
@@ -3222,7 +3203,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
-// ─── End dedupeCards ───
+// ─── End card utils ───
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // Virtual Scroll — IntersectionObserver لتحسين أداء 200+ كرت
