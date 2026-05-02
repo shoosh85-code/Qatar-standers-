@@ -11,8 +11,8 @@
     document.head.appendChild(s);
   }
 
-  // 1. data_calcs.js — immediate (critical: calculators & QS namespace)
-  load('data_calcs.js?v=430', 'qs-calcs');
+  // data_calcs.js يُحمَّل sync في index.html بعد inline-scripts.js — لا حاجة لتحميل async هنا
+  // (التحميل المزدوج كان يسبب race condition: QS.openDetail is not a function)
 
   // 2. data_content_manifest.js — load soon (small ~6KB, needed for chunk routing)
   if('requestIdleCallback' in window){

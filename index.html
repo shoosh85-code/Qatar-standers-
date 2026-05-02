@@ -1381,6 +1381,27 @@ window.QS.buildExecStepper = function(containerId, stepsData) {
 </div>
 
 <script src="data_calcs.js?v=430"></script>
+<script>
+// ── QS Safety Bridge — يضمن QS.openDetail دائماً بعد تحميل data_calcs.js ──
+// يُشغَّل مرة واحدة بعد data_calcs.js مباشرة — يحل race condition نهائياً
+(function(){
+  window.QS = window.QS || {};
+  // إذا openDetail لم يُعيَّن كدالة حقيقية، نعيّنه الآن
+  if (typeof window.QS.openDetail !== 'function') {
+    window.QS.openDetail = function(k) {
+      if (typeof window.openDetail === 'function') { window.openDetail(k); return; }
+      // retry مرة واحدة بعد 200ms إذا لم تكن الدالة جاهزة بعد
+      setTimeout(function(){ if (typeof window.openDetail === 'function') window.openDetail(k); }, 200);
+    };
+  }
+  // تأكد أن باقي الدوال الأساسية موجودة
+  ['goBack','doSearch','filterCards','setLang'].forEach(function(fn){
+    if (typeof window.QS[fn] !== 'function' && typeof window[fn] === 'function') {
+      window.QS[fn] = window[fn].bind(window);
+    }
+  });
+})();
+</script>
 <script src="js/calculators/roads.js?v=600"></script>
 <script src="js/calculators/structural.js?v=600"></script>
 <script src="js/calculators/utilities.js?v=600"></script>
