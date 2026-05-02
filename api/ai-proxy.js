@@ -1,5 +1,6 @@
-// /api/ai-proxy.js — QatarSpec Pro v2.5.2
-// Gemini 2.5 Flash + IP Rate Limiting + Full Responses
+// /api/ai-proxy.js — QatarSpec Pro v3.0.0
+// Gemini 2.5 Pro (primary) + SSE Streaming + Citations + Rate Limiting
+// v3.0: +streaming, +citations, +gemini-2.5-pro [لا تحذف محتوى — فقط إضافة]
 
 export const config = { runtime: 'edge' };
 
@@ -119,8 +120,8 @@ async function callGemini(messages, maxTokens = 2000) {
   const apiKey = process.env.GEMINI_KEY;
   if (!apiKey) throw new Error('GEMINI_KEY not configured');
 
-  // Use gemini-2.0-flash as primary (fast + stable)
-  const model = 'gemini-2.0-flash';
+  // Gemini 2.5 Pro as primary (v3.0), fallback to 2.0-flash
+  const model = 'gemini-2.5-pro';
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
   // Convert messages format to Gemini format
@@ -194,6 +195,73 @@ async function callGemini(messages, maxTokens = 2000) {
   };
 }
 
+
+// ══════════════════════════════════════════════════════════════
+// CITATIONS — v3.0: التحقق من مراجع QCS (إلزامي)
+// ══════════════════════════════════════════════════════════════
+function validateCitations(text) {
+  // تحذير في console إذا ذُكر QCS بدون رقم Section+Part
+  const qcsWithoutRef = text.match(/QCS(?!\s+S\d+)/g);
+  if (qcsWithoutRef) {
+    console.warn('[citations] QCS mentioned without full ref:', qcsWithoutRef.length, 'times');
+  }
+  // إضافة [تحقق] إذا لم يكن هناك رقم part
+  return text.replace(
+    /QCS\s+(\d{4})?\s*(?:Section|Part)?\s*(\d+)?(?!\s+S\d+)/gi,
+    (match, year, part) => {
+      if (!part && !match.match(/S\d+/)) return match + ' [تحقق من المرجع]';
+      return match;
+    }
+  );
+}
+
+function extractCitations(text) {
+  const matches = text.match(/QCS\s+S\d+(?:\s+P\d+)?(?:\s+Cl\.\d+(?:\.\d+)?)?/g) || [];
+  return [...new Set(matches)];
+}
+
+// ══════════════════════════════════════════════════════════════
+// SSE STREAMING — v3.0: Server-Sent Events مع Gemini 2.5 Pro
+// Edge runtime: ReadableStream (لا Node.js streams)
+// ══════════════════════════════════════════════════════════════
+async function callGeminiStream(messages, maxTokens, apiKey) {
+  const model = 'gemini-2.5-pro';
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${apiKey}`;
+
+  const contents = messages.map(m => ({
+    role: m.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: m.content }],
+  }));
+
+  const body = {
+    contents,
+    generationConfig: {
+      maxOutputTokens: maxTokens || 2000,
+      temperature: 0.1, // منخفض للدقة QCS
+      topP: 0.85,
+    },
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' },
+    ],
+  };
+
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`Gemini stream error ${res.status}: ${errText.slice(0, 200)}`);
+  }
+
+  return res.body; // ReadableStream من Gemini SSE
+}
+
 // ══════════════════════════════════════════════════════════════
 // MAIN HANDLER
 // ══════════════════════════════════════════════════════════════
@@ -265,7 +333,88 @@ const token = extractToken(req);
     );
   }
 
-  // ── Call AI ──
+
+  // ── SSE Streaming Path (v3.0) ──
+  const acceptHeader = req.headers.get('accept') || '';
+  if (acceptHeader.includes('text/event-stream')) {
+    const { messages: sseMessages, max_tokens: sseMT, system: sseSys } = body;
+    if (!sseMessages || !Array.isArray(sseMessages) || sseMessages.length === 0) {
+      return new Response(JSON.stringify({ error: 'messages required' }), {
+        status: 400, headers: { ...CORS, 'Content-Type': 'application/json' }
+      });
+    }
+    const apiKey = process.env.GEMINI_KEY;
+    if (!apiKey) {
+      return new Response(JSON.stringify({ error: 'GEMINI_KEY not configured' }), {
+        status: 500, headers: { ...CORS, 'Content-Type': 'application/json' }
+      });
+    }
+    const finalSSEMessages = sseSys
+      ? [{ role: 'user', content: `[SYSTEM: ${sseSys}]\n\n${sseMessages[0]?.content || ''}` }, ...sseMessages.slice(1)]
+      : sseMessages;
+
+    try {
+      const geminiStream = await callGeminiStream(finalSSEMessages, sseMT || 2000, apiKey);
+      const encoder = new TextEncoder();
+      const decoder = new TextDecoder();
+
+      const readable = new ReadableStream({
+        async start(controller) {
+          const reader = geminiStream.getReader();
+          let buffer = '';
+          try {
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              buffer += decoder.decode(value, { stream: true });
+              // Gemini SSE: "data: {...}\n\n"
+              const lines = buffer.split('\n');
+              buffer = lines.pop() || '';
+              for (const line of lines) {
+                if (!line.startsWith('data:')) continue;
+                const jsonStr = line.slice(5).trim();
+                if (!jsonStr || jsonStr === '[DONE]') continue;
+                try {
+                  const parsed = JSON.parse(jsonStr);
+                  const text = parsed.candidates?.[0]?.content?.parts?.[0]?.text || '';
+                  if (text) {
+                    // Citation check
+                    if (text.includes('QCS') && !text.match(/QCS\s+S\d+/)) {
+                      console.warn('[sse-citations] missing ref in chunk');
+                    }
+                    controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text })}\n\n`));
+                  }
+                } catch (_) { /* تجاهل chunks غير صالحة */ }
+              }
+            }
+          } finally {
+            reader.releaseLock();
+          }
+          controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+          controller.close();
+        }
+      });
+
+      return new Response(readable, {
+        status: 200,
+        headers: {
+          ...CORS,
+          'Content-Type': 'text/event-stream',
+          'Cache-Control': 'no-cache',
+          'Connection': 'keep-alive',
+          'X-RateLimit-Limit': String(rl.limit),
+          'X-RateLimit-Remaining': String(rl.limit - rl.count),
+        }
+      });
+    } catch (sseErr) {
+      console.error('[ai-proxy] SSE error:', sseErr.message);
+      return new Response(JSON.stringify({ error: sseErr.message }), {
+        status: 502, headers: { ...CORS, 'Content-Type': 'application/json' }
+      });
+    }
+  }
+
+  // ── Call AI (non-streaming) ──
   const { messages, max_tokens, system } = body;
 
   if (!messages || !Array.isArray(messages) || messages.length === 0) {
@@ -297,6 +446,11 @@ const token = extractToken(req);
 
   try {
     const result = await callWithRetry(finalMessages, tokenLimit);
+
+    // إضافة citations للـ response (v3.0)
+    const resultText = result.content?.[0]?.text || '';
+    const citations = extractCitations(resultText);
+    if (citations.length > 0) result.citations = citations;
 
     return new Response(JSON.stringify(result), {
       status: 200,
