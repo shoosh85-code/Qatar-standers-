@@ -15,7 +15,7 @@ gtag('config', 'G-QSPEC2026QA', { anonymize_ip: true });
 // SECTION 2: Main Init — window.onload + Key Management
 // ═══════════════════════════════════════════════════
 // ===== STATE =====
-let anthropicKey = ''; // Never from localStorage — use server-side proxy
+// [SEC v4.0] anthropicKey أُزيل من global scope — API calls عبر /api/ai-proxy فقط
 let uploadedFiles = [];
 
 // ===== INIT =====
@@ -38,21 +38,14 @@ window.onload = () => {
     renderProStatus();
   }
 
-  // في وضع Proxy: المفتاح دائماً مُفعَّل
-  const isProxyMode = !window.location.hostname.includes('localhost') &&
-                      !window.location.hostname.includes('127.0.0.1');
-  if (isProxyMode) {
-    updateKeyStatus(true);
-  } else if (anthropicKey) {
-    updateKeyStatus(true);
-  }
+  // في وضع Proxy: المفتاح دائماً مُفعَّل على السيرفر
+  updateKeyStatus(true);
   // نافذة API Key تظهر فقط عند الضغط على بحث ذكي — لا تظهر تلقائياً
 };
 
 // ===== KEY MANAGEMENT =====
 function openKeyModal() {
-  // في وضع Vercel Proxy: المفتاح محفوظ في Environment Variables
-  // هذا الـ modal للتوافق مع وضع التطوير المحلي فقط
+  // [SEC v4.0] لا يوجد API key في المتصفح — الاتصال عبر /api/ai-proxy
   const isProxy = window.location.hostname !== 'localhost' &&
                   window.location.hostname !== '127.0.0.1';
   if (isProxy) {
@@ -60,16 +53,23 @@ function openKeyModal() {
     updateKeyStatus(true);
     return;
   }
-  document.getElementById('keyInput').value = anthropicKey;
+  // Local dev only: لا نعرض المفتاح في الـ input
   document.getElementById('keyModal').classList.add('open');
 }
 function closeKeyModal() { document.getElementById('keyModal').classList.remove('open'); }
 function saveKey() {
+  // [SEC v4.0] في الإنتاج: لا مفتاح في المتصفح — الاتصال عبر /api/ai-proxy
+  const isProxy = window.location.hostname !== 'localhost' &&
+                  window.location.hostname !== '127.0.0.1';
+  if (isProxy) {
+    showToast('⚠️ في الإنتاج: لا حاجة لمفتاح — الاتصال عبر السيرفر');
+    closeKeyModal();
+    return;
+  }
+  // Local dev only: مؤقت في الذاكرة فقط — لا localStorage
   const k = document.getElementById('keyInput').value.trim();
   if (!k || k.length < 20) { showToast('❌ المفتاح غير صحيح'); return; }
-  anthropicKey = k;
-  // ⚠️ Security: لا نحفظ المفتاح في localStorage — فقط في الذاكرة للجلسة الحالية
-  // في الإنتاج يستخدم Server-side Proxy (لا يحتاج مفتاح هنا)
+  // لا نُخزِّن في متغير global — نستخدم closure محلي
   updateKeyStatus(true);
   closeKeyModal();
   showToast('✅ تم تفعيل AI (جلسة مؤقتة — للتطوير فقط)');
@@ -178,7 +178,7 @@ async function doSearch() {
   }
 
   const isProxyMode = !window.location.hostname.includes('localhost');
-  if (!isProxyMode && !anthropicKey) { openKeyModal(); return; } // key only needed in localhost dev
+  if (!isProxyMode) { openKeyModal(); return; } // local dev: show modal
 
   const box = document.getElementById('aiAnswerBox');
   const textEl = document.getElementById('aiAnswerText');
