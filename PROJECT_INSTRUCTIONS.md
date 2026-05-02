@@ -131,12 +131,14 @@ echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-
 
 ## PROJECT INFO
 
-- **Name:** QatarSpec Pro
-- **Site:** qatar-standers.vercel.app
-- **Stack:** Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
-- **Repo:** github.com/shoosh85-code/Qatar-standers-
-- **Audience:** مهندسون قطريون وأجانب يعملون في قطر
-- **References:** QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
+```
+Name:     QatarSpec Pro
+Site:     qatar-standers.vercel.app
+Stack:    Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
+Repo:     github.com/shoosh85-code/Qatar-standers-
+Audience: مهندسون قطريون وأجانب يعملون في قطر
+References: QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
+```
 
 ---
 
@@ -149,7 +151,7 @@ git config user.email "qatarspec@deploy.app"
 git config user.name "QatarSpec Deploy"
 ```
 
-**Push:**
+Push:
 ```bash
 git remote set-url origin https://TOKEN@github.com/shoosh85-code/Qatar-standers-.git
 git push origin main
@@ -178,7 +180,7 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 - **PDF:** QatarSpec Pro header + QCS 2024 reference + page numbers + watermark
 - **Excel:** Ashghal official format + multiple sheets + summary stats
 - **Word:** Professional header + editable fields + QCS clause references
-- **All exports:** Project name + Engineer name + Date + QatarSpec branding
+- All exports: Project name + Engineer name + Date + QatarSpec branding
 
 ---
 
