@@ -1,9 +1,9 @@
-// QatarSpec Pro — Service Worker v3.0.0 (Phase 12 — CSP Fix + Analytics)
+// QatarSpec Pro — Service Worker v3.2.0 (Fix: evict stale CSP + QS.openDetail cache)
 // Strategy: Cache-first for assets, Network-first for content, Offline fallback
 
-const CACHE_STATIC = 'qatarspec-static-v3.0.0';
-const CACHE_CONTENT = 'qatarspec-content-v3.0.0';
-const CACHE_API = 'qatarspec-api-v3.0.0';
+const CACHE_STATIC = 'qatarspec-static-v3.2.0';
+const CACHE_CONTENT = 'qatarspec-content-v3.2.0';
+const CACHE_API = 'qatarspec-api-v3.2.0';
 
 // Static assets to precache on install
 const PRECACHE_URLS = [
