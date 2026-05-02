@@ -157,16 +157,32 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 
 ## CODING RULES
 
-- Follow QCS 2024 always — accuracy over speed
-- Vanilla JS only (no frameworks)
-- RTL + Arabic + English in all UI
-- Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
-- Pro features: gentle prompt for free users
-- Never invent numbers — say "غير موجود في المستند"
-- window.QS namespace for all public functions
-- Sanitize ALL user input before innerHTML
-- const/let only (no var)
-- Arabic comments for complex logic
+1. Follow QCS 2024 always — accuracy over speed
+2. Vanilla JS only (no frameworks)
+3. RTL + Arabic + English in all UI
+4. Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
+5. Pro features: gentle prompt for free users
+6. Never invent numbers — say "غير موجود في المستند"
+7. `window.QS` namespace for all public functions
+8. Sanitize ALL user input before innerHTML
+9. `const`/`let` only (no `var`)
+10. Arabic comments for complex logic
+
+---
+
+## CARD BADGE SYSTEM (v3.0)
+
+كل كرت يجب أن يحمل badge حقيقي يعكس المحتوى الفعلي:
+
+| Badge Class | العرض | متى يُستخدم |
+|-------------|-------|-------------|
+| `.cat-badge.static` | 📖 مرجع | جداول وبيانات ثابتة |
+| `.cat-badge.calc` | 🧮 حاسبة | حاسبة تفاعلية فعلية |
+| `.cat-badge.interactive` | 🔄 تفاعلي | تبويبات / خطوات حقيقية |
+| `.cat-badge.form` | 📝 نموذج | نموذج إدخال بيانات |
+| `.cat-badge.pro` | ⭐ PRO | ميزة مدفوعة |
+
+**قاعدة:** لا تضع "Interactive" أو "Stepper" إلا إذا كان المحتوى يحتوي فعلياً على تفاعل JS حقيقي.
 
 ---
 
