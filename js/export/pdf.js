@@ -214,8 +214,62 @@
   }
 
   // ═══════════════════════════════════════════════════
-  // دالة تصدير عامة — تصدير HTML عبر html2canvas
+  // دالة تصدير عامة — تصدير HTML عبر server-side API
+  // (server-side فقط per PROTOCOL — لا client-side rendering)
   // ═══════════════════════════════════════════════════
+  async function exportToServer(format) {
+    format = format || 'pdf';
+
+    // Pro Gate
+    if (w.isProUser && !w.isProUser()) {
+      if (w.showUpgradePrompt) {
+        w.showUpgradePrompt('pdf', '📄', 'تصدير PDF — ميزة Pro', 'تصدير التقارير إلى PDF احترافي متاح للمشتركين في Pro فقط.');
+      }
+      return;
+    }
+
+    const contentEl = document.getElementById('dmContent');
+    const titleEl   = document.getElementById('dmTitle');
+
+    const content = contentEl ? contentEl.innerHTML : '';
+    const title   = titleEl   ? titleEl.innerText   : 'QatarSpec Report';
+
+    if (!content || content.trim() === '<div id="print-area"></div>') {
+      if (w.showToast) w.showToast('⚠️ لا يوجد محتوى للتصدير — افتح قسماً أولاً');
+      return;
+    }
+
+    if (w.showToast) w.showToast('⏳ جاري إعداد ' + format.toUpperCase() + '...');
+
+    try {
+      const res = await fetch('/api/export-pdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title:   title,
+          content: content,
+          format:  format,
+          date:    new Date().toLocaleDateString('en-GB'),
+        }),
+      });
+
+      if (!res.ok) throw new Error('Server error: ' + res.status);
+
+      const blob = await res.blob();
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = 'QatarSpec-' + title.replace(/[^\w\u0600-\u06FF\s-]/g, '').replace(/\s+/g, '-').substring(0, 40) + '.' + format;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function() { URL.revokeObjectURL(url); a.remove(); }, 2000);
+
+      if (w.showToast) w.showToast('✅ تم تصدير ' + format.toUpperCase() + ' بنجاح');
+    } catch (err) {
+      console.error('[exportToServer]', err);
+      if (w.showToast) w.showToast('❌ فشل التصدير: ' + err.message + ' — جرب مرة أخرى');
+    }
+  }
   async function exportSectionPDF(opts) {
     opts = opts || {};
 
@@ -420,11 +474,13 @@
   w.QS.exportNCRPDF        = exportNCRPDF;
   w.QS.exportRFIPDF        = exportRFIPDF;
   w.QS.exportCalcResultPDF = exportCalcResultPDF;
+  w.QS.exportToServer      = exportToServer;   // ← المرحلة 10: server-side
 
   // كذلك نصدّر كـ window functions مباشرة (توافق مع الكود الموجود)
   w.exportSectionPDF    = exportSectionPDF;
   w.exportNCRPDF        = exportNCRPDF;
   w.exportRFIPDF        = exportRFIPDF;
   w.exportCalcResultPDF = exportCalcResultPDF;
+  w.exportToServer      = exportToServer;
 
 })(window);
