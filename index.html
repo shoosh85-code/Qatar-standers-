@@ -123,47 +123,8 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-QSPEC2026QA"></script>
 <!-- gtag config moved to js/inline-scripts.js -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
-<script nonce="qs-nonce-2026">
-// ═══ SECURITY CLEANUP v3.1 — مسح أي بيانات حساسة من localStorage ══════════
-// يعمل قبل كل شيء — يحمي المستخدمين القادمين من إصدارات قديمة
-(function cleanupSecurity() {
-  const LEGACY_KEYS = [
-    'apiKey', 'GEMINI_KEY', 'ANTHROPIC_KEY', 'sk-ant',
-    'qatarspecKey', 'jwt_token', 'qs_pro_token',
-    'qs_pro_active', 'qs_pro_expiry',
-  ];
-  LEGACY_KEYS.forEach(function(k) {
-    if (localStorage.getItem(k)) {
-      localStorage.removeItem(k);
-      console.log('[QatarSpec Security] Removed legacy key:', k);
-    }
-  });
-  // إزالة أي مفتاح يشبه API Key (sk- أو AIza...)
-  Object.keys(localStorage).forEach(function(k) {
-    const v = localStorage.getItem(k) || '';
-    if (v.startsWith('sk-ant-') || v.startsWith('AIzaSy') || v.startsWith('sk-') && v.length > 20) {
-      localStorage.removeItem(k);
-      console.warn('[QatarSpec Security] Removed API key from localStorage:', k);
-    }
-  });
-})();
-// Register Service Worker v8 — Cache-First + Offline support
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('/sw.js').then(function(reg){
-    console.log('[QatarSpec] SW registered, scope:', reg.scope);
-    // Auto-update check
-    reg.addEventListener('updatefound', function(){
-      var newSW = reg.installing;
-      if(newSW) newSW.addEventListener('statechange', function(){
-        if(newSW.state === 'activated') console.log('[QatarSpec] SW updated');
-      });
-    });
-  }).catch(function(err){
-    console.warn('[QatarSpec] SW registration failed:', err);
-  });
-}
-</script>
-<!-- CSP: Server Headers في vercel.json فقط — Meta CSP أُزيل لأنه كان يحجب scripts بدون nonce -->
+<script src="/js/security-cleanup.js"></script>
+<!-- CSP: Server Headers في vercel.json — see headers config for Content-Security-Policy -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- ═══════════ SEO — Primary ═══════════ -->
@@ -1455,42 +1416,11 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <div class="toast" id="toast">✅ تم!</div>
 
 <!-- Main init — يجب أن يُحمَّل قبل stepper.js لأنه يُعرِّف QS methods -->
-<script src="/inline-scripts.js" nonce="qs-nonce-2026"></script>
+<script src="/inline-scripts.js"></script>
 
 <!-- QatarSpec Stepper System v1.0 — نظام الخطوات التفاعلي -->
-<script src="/stepper.js" nonce="qs-nonce-2026"></script>
-<script nonce="qs-nonce-2026">
-// ── QS.initStepper — factory لإنشاء Stepper في أي container ──
-window.QS = window.QS || {};
-window.QS.stepperInstances = {};
-
-window.QS.initStepper = function(containerId, steps, options) {
-  // تنظيف أي instance سابق
-  if (window.QS.stepperInstances[containerId]) {
-    window.QS.stepperInstances[containerId].destroy();
-  }
-  const instance = new QatarSpecStepper(containerId, steps, {
-    instanceName: 'QS.stepperInstances["' + containerId + '"]',
-    ...options
-  });
-  window.QS.stepperInstances[containerId] = instance;
-  // تسجيل global للـ onclick handlers في الـ render
-  window['QS.stepperInstances["' + containerId + '"]'] = instance;
-  return instance;
-};
-
-// ── مثال: Stepper للكروت التفاعلية (exec_*) ──
-// يُستدعى من data_content_phase4.js عند فتح الكرت
-window.QS.buildExecStepper = function(containerId, stepsData) {
-  return new QatarSpecStepper(containerId, stepsData, {
-    storageKey: 'exec_stepper_' + containerId,
-    instanceName: 'QS.stepperInstances["' + containerId + '"]',
-    onComplete: function(data) {
-      if (typeof showToast === 'function') showToast('✅ اكتملت جميع الخطوات', 'success');
-    }
-  });
-};
-</script>
+<script src="/stepper.js"></script>
+<script src="/js/stepper-init.js"></script>
 
 <!-- ═══ APP FOOTER ═══ -->
 <div id="appFooter" style="background:linear-gradient(135deg,#111,#0A0A0A);border-top:1px solid rgba(201,168,76,0.2);padding:16px 20px;text-align:center;margin-top:24px;position:relative;z-index:1;">
@@ -1639,25 +1569,7 @@ window.QS.buildExecStepper = function(containerId, stepsData) {
 </div>
 
 <script src="data_calcs.js?v=431"></script>
-<script>
-// ── QS Safety Bridge v3.2.1 — بعد data_calcs مباشرة ──
-(function(){
-  window.QS = window.QS || {};
-  if (typeof window.QS.openDetail !== 'function') {
-    window.QS.openDetail = function(k) {
-      if (typeof window.openDetail === 'function') { window.openDetail(k); return; }
-      setTimeout(function(){ if (typeof window.openDetail === 'function') window.openDetail(k); }, 200);
-    };
-  }
-  ['goBack','doSearch','filterCards','setLang','openKeyModal','closeKeyModal',
-   'exportToPDF','exportToWord','printCurrentDetail','shareDetail'].forEach(function(fn){
-    if (typeof window.QS[fn] !== 'function' && typeof window[fn] === 'function') {
-      window.QS[fn] = window[fn].bind(window);
-    }
-  });
-  console.log('[App] QS Safety Bridge active — v3.2.1');
-})();
-</script>
+<script src="/js/safety-bridge.js"></script>
 <!-- loader.js: يُحمِّل data_content.js — بعد QS + data_calcs جاهزَين -->
 <script src="loader.js?v=2"></script>
 <script src="js/calculators/roads.js?v=600"></script>
