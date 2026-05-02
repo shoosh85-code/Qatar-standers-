@@ -228,7 +228,8 @@
 <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 <!-- Preload critical data files -->
 <link rel="preload" href="data_content_manifest.js?v=7" as="script">
-<link rel="preload" href="data_calcs.js?v=430" as="script">
+<link rel="preload" href="js/calcs/core.js?v=1" as="script">
+<link rel="preload" href="js/calcs/structural.js?v=1" as="script">
 <!-- Google Fonts with local fallback for offline support -->
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
@@ -1567,7 +1568,21 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   </div>
 </div>
 
-<script src="data_calcs.js?v=431"></script>
+<!-- data_calcs.js → split into js/calcs/ (v3.0) -->
+<script src="js/calcs/core.js?v=1" defer></script>
+<script src="js/calcs/structural.js?v=1" defer></script>
+<script src="js/calcs/roads.js?v=1" defer></script>
+<script src="js/calcs/utilities.js?v=1" defer></script>
+<script src="js/calcs/geotech.js?v=1" defer></script>
+<script>
+// Dynamic loader — تحميل ملفات الحاسبات عند الحاجة
+async function loadCalc(type) {
+  if (!window['_' + type + 'Loaded']) {
+    await import('/js/calcs/' + type + '.js?v=1');
+    window['_' + type + 'Loaded'] = true;
+  }
+}
+</script>
 <script src="/js/safety-bridge.js"></script>
 <!-- loader.js: يُحمِّل data_content.js — بعد QS + data_calcs جاهزَين -->
 <script src="loader.js?v=2"></script>

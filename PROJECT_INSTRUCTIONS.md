@@ -71,12 +71,7 @@
 ## PROTOCOL 4: صفر تضليل (ZERO HALLUCINATION)
 
 ممنوع تماماً:
-- "أعتقد"
-- "ربما"
-- "على الأرجح"
-- "يبدو"
-- "يجب أن"
-- "من المفترض"
+- "أعتقد" / "ربما" / "على الأرجح" / "يبدو" / "يجب أن" / "من المفترض"
 
 إلزامي:
 - "الناتج الفعلي: [لصق]"
@@ -175,7 +170,7 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 - **PDF:** QatarSpec Pro header + QCS 2024 reference + page numbers + watermark
 - **Excel:** Ashghal official format + multiple sheets + summary stats
 - **Word:** Professional header + editable fields + QCS clause references
-- **All exports:** Project name + Engineer name + Date + QatarSpec branding
+- All exports: Project name + Engineer name + Date + QatarSpec branding
 
 ---
 
@@ -226,3 +221,19 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 - Follow PROTOCOL 2 strictly for every git push
 - Test locally before push — app must stay functional
 - Never delete content — only add or modify
+
+---
+
+## JS/CALCS SPLIT (v3.0)
+
+`data_calcs.js` (1521 lines) → `js/calcs/` (5 files):
+
+| File | Functions | Purpose |
+|------|-----------|---------|
+| `js/calcs/core.js` | 24 | UI helpers + switch + testing scheduler |
+| `js/calcs/roads.js` | 19 | Asphalt / pavement / traffic |
+| `js/calcs/structural.js` | 9 | Concrete / rebar / materials |
+| `js/calcs/utilities.js` | 14 | Water / sewer / pipes |
+| `js/calcs/geotech.js` | 5 | Soil / foundation |
+
+**Total: 71 functions — zero omissions**
