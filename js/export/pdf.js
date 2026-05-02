@@ -26,7 +26,28 @@
   const PAGE = { w: 210, h: 297, margin: 14 };
 
   // ═══════════════════════════════════════════════════
-  // تحميل مكتبة jsPDF ديناميكياً
+  // المرحلة 10: Server-Side PDF via /api/export-pdf
+  // الأولوية: server-side → fallback: jsPDF client
+  // ═══════════════════════════════════════════════════
+  async function _exportServerSide(payload) {
+    const res = await fetch('/api/export-pdf', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error('Server PDF error: ' + res.status);
+    const blob = await res.blob();
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = (payload.title || 'QatarSpec').replace(/[^\w\u0600-\u06FF\s-]/g, '').replace(/\s+/g, '-') + '.pdf';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function() { URL.revokeObjectURL(url); a.remove(); }, 2000);
+  }
+
+  // ═══════════════════════════════════════════════════
+  // تحميل مكتبة jsPDF ديناميكياً (fallback فقط)
   // ═══════════════════════════════════════════════════
   function _loadJsPDF() {
     if (w.jspdf) return Promise.resolve(w.jspdf);
@@ -208,6 +229,25 @@
 
     if (w.showToast) w.showToast('⏳ جاري إعداد PDF...');
 
+    // ─── محاولة server-side أولاً ───
+    try {
+      const payload = {
+        title:    opts.title    || 'QatarSpec Pro Report',
+        content:  opts.content  || (opts.lines ? opts.lines.join('\n') : ''),
+        project:  opts.project  || '',
+        engineer: opts.engineer || '',
+        date:     new Date().toLocaleDateString('en-GB'),
+        section:  opts.section  || '',
+        qcsRef:   opts.qcsRef   || '',
+      };
+      await _exportServerSide(payload);
+      if (w.showToast) w.showToast('✅ تم تصدير PDF — ' + payload.title + '.pdf');
+      return;
+    } catch(serverErr) {
+      console.warn('Server-side PDF failed, falling back to jsPDF:', serverErr.message);
+    }
+
+    // ─── Fallback: jsPDF client-side ───
     let jsPDFLib;
     try { jsPDFLib = await _loadJsPDF(); }
     catch(e) { if (w.showToast) w.showToast('❌ ' + e.message); return; }

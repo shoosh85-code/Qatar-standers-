@@ -1,9 +1,12 @@
 {
   "name": "qatar-standers",
-  "version": "2.9.0",
+  "version": "2.10.0",
   "type": "module",
   "engines": {
     "node": ">=18.x"
+  },
+  "dependencies": {
+    "pdfkit": "^0.15.0"
   },
   "scripts": {
     "test": "node tests/content-integrity.test.cjs && node tests/integration/api.test.cjs && node tests/e2e/flow.test.cjs",
