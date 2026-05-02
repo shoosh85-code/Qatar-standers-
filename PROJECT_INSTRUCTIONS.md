@@ -71,7 +71,12 @@
 ## PROTOCOL 4: صفر تضليل (ZERO HALLUCINATION)
 
 ممنوع تماماً:
-- "أعتقد" / "ربما" / "على الأرجح" / "يبدو" / "يجب أن" / "من المفترض"
+- "أعتقد"
+- "ربما"
+- "على الأرجح"
+- "يبدو"
+- "يجب أن"
+- "من المفترض"
 
 إلزامي:
 - "الناتج الفعلي: [لصق]"
@@ -97,6 +102,7 @@
 ## PROTOCOL 6: RATE LIMITING (إلزامي)
 
 ### API Endpoints Limits:
+
 | Endpoint | Free | Pro | Global |
 |----------|------|-----|--------|
 | /api/ai-proxy | 5/min | 60/min | 100/min/IP |
@@ -141,7 +147,7 @@ git config user.email "qatarspec@deploy.app"
 git config user.name "QatarSpec Deploy"
 ```
 
-Push:
+**Push:**
 ```bash
 git remote set-url origin https://TOKEN@github.com/shoosh85-code/Qatar-standers-.git
 git push origin main
@@ -152,16 +158,16 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 
 ## CODING RULES
 
-- Follow QCS 2024 always — accuracy over speed
-- Vanilla JS only (no frameworks)
-- RTL + Arabic + English in all UI
-- Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
-- Pro features: gentle prompt for free users
-- Never invent numbers — say "غير موجود في المستند"
-- `window.QS` namespace for all public functions
-- Sanitize ALL user input before innerHTML
-- `const`/`let` only (no `var`)
-- Arabic comments for complex logic
+1. Follow QCS 2024 always — accuracy over speed
+2. Vanilla JS only (no frameworks)
+3. RTL + Arabic + English in all UI
+4. Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
+5. Pro features: gentle prompt for free users
+6. Never invent numbers — say "غير موجود في المستند"
+7. `window.QS` namespace for all public functions
+8. Sanitize ALL user input before innerHTML
+9. `const`/`let` only (no `var`)
+10. Arabic comments for complex logic
 
 ---
 
@@ -170,7 +176,7 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 - **PDF:** QatarSpec Pro header + QCS 2024 reference + page numbers + watermark
 - **Excel:** Ashghal official format + multiple sheets + summary stats
 - **Word:** Professional header + editable fields + QCS clause references
-- All exports: Project name + Engineer name + Date + QatarSpec branding
+- **All exports:** Project name + Engineer name + Date + QatarSpec branding
 
 ---
 
@@ -221,19 +227,3 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 - Follow PROTOCOL 2 strictly for every git push
 - Test locally before push — app must stay functional
 - Never delete content — only add or modify
-
----
-
-## JS/CALCS SPLIT (v3.0)
-
-`data_calcs.js` (1521 lines) → `js/calcs/` (5 files):
-
-| File | Functions | Purpose |
-|------|-----------|---------|
-| `js/calcs/core.js` | 24 | UI helpers + switch + testing scheduler |
-| `js/calcs/roads.js` | 19 | Asphalt / pavement / traffic |
-| `js/calcs/structural.js` | 9 | Concrete / rebar / materials |
-| `js/calcs/utilities.js` | 14 | Water / sewer / pipes |
-| `js/calcs/geotech.js` | 5 | Soil / foundation |
-
-**Total: 71 functions — zero omissions**
