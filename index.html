@@ -843,8 +843,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       --gold: #8B6914;
     }
 </style>
-<!-- data_content.js loaded by loader.js -->
-<script src="loader.js"></script>
+<!-- loader.js moved to end of body — after QS + data_calcs are ready -->
 </head>
 <body>
 <div id="offlineBar">📡 أنت غير متصل — بعض الميزات غير متاحة</div>
@@ -1196,6 +1195,9 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 
 <div class="toast" id="toast">✅ تم!</div>
 
+<!-- Main init — يجب أن يُحمَّل قبل stepper.js لأنه يُعرِّف QS methods -->
+<script src="js/inline-scripts.js" nonce="qs-nonce-2026"></script>
+
 <!-- QatarSpec Stepper System v1.0 — نظام الخطوات التفاعلي -->
 <script src="js/stepper.js" nonce="qs-nonce-2026"></script>
 <script nonce="qs-nonce-2026">
@@ -1230,9 +1232,6 @@ window.QS.buildExecStepper = function(containerId, stepsData) {
   });
 };
 </script>
-
-<!-- Main init moved to js/inline-scripts.js (CSP: remove unsafe-inline) -->
-<script src="js/inline-scripts.js" nonce="qs-nonce-2026"></script>
 
 <!-- ═══ APP FOOTER ═══ -->
 <div id="appFooter" style="background:linear-gradient(135deg,#111,#0A0A0A);border-top:1px solid rgba(201,168,76,0.2);padding:16px 20px;text-align:center;margin-top:24px;position:relative;z-index:1;">
@@ -1380,28 +1379,28 @@ window.QS.buildExecStepper = function(containerId, stepsData) {
   </div>
 </div>
 
-<script src="data_calcs.js?v=430"></script>
+<script src="data_calcs.js?v=431"></script>
 <script>
-// ── QS Safety Bridge — يضمن QS.openDetail دائماً بعد تحميل data_calcs.js ──
-// يُشغَّل مرة واحدة بعد data_calcs.js مباشرة — يحل race condition نهائياً
+// ── QS Safety Bridge v3.2.1 — بعد data_calcs مباشرة ──
 (function(){
   window.QS = window.QS || {};
-  // إذا openDetail لم يُعيَّن كدالة حقيقية، نعيّنه الآن
   if (typeof window.QS.openDetail !== 'function') {
     window.QS.openDetail = function(k) {
       if (typeof window.openDetail === 'function') { window.openDetail(k); return; }
-      // retry مرة واحدة بعد 200ms إذا لم تكن الدالة جاهزة بعد
       setTimeout(function(){ if (typeof window.openDetail === 'function') window.openDetail(k); }, 200);
     };
   }
-  // تأكد أن باقي الدوال الأساسية موجودة
-  ['goBack','doSearch','filterCards','setLang'].forEach(function(fn){
+  ['goBack','doSearch','filterCards','setLang','openKeyModal','closeKeyModal',
+   'exportToPDF','exportToWord','printCurrentDetail','shareDetail'].forEach(function(fn){
     if (typeof window.QS[fn] !== 'function' && typeof window[fn] === 'function') {
       window.QS[fn] = window[fn].bind(window);
     }
   });
+  console.log('[App] QS Safety Bridge active — v3.2.1');
 })();
 </script>
+<!-- loader.js: يُحمِّل data_content.js — بعد QS + data_calcs جاهزَين -->
+<script src="loader.js?v=2"></script>
 <script src="js/calculators/roads.js?v=600"></script>
 <script src="js/calculators/structural.js?v=600"></script>
 <script src="js/calculators/utilities.js?v=600"></script>
