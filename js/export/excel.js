@@ -8,17 +8,38 @@
   'use strict';
 
   // ═══════════════════════════════════════════════════
-  // تحميل SheetJS ديناميكياً
+  // CSV Export — يعمل offline بدون مكتبات خارجية
+  // امتداد .csv — يفتح مباشرة في Excel بدون أخطاء
   // ═══════════════════════════════════════════════════
-  function _loadXLSX() {
-    if (w.XLSX) return Promise.resolve(w.XLSX);
-    return new Promise(function(res, rej) {
-      const s = document.createElement('script');
-      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
-      s.onload  = function() { res(w.XLSX); };
-      s.onerror = function() { rej(new Error('SheetJS CDN غير متاح')); };
-      document.head.appendChild(s);
-    });
+
+  // تحويل مصفوفة صفوف إلى نص CSV
+  function _toCSV(rows) {
+    return rows.map(function(row) {
+      if (!row || !row.length) return '';
+      return row.map(function(cell) {
+        const val = (cell === undefined || cell === null) ? '' : String(cell);
+        if (val.indexOf(',') !== -1 || val.indexOf('"') !== -1 || val.indexOf('\n') !== -1) {
+          return '"' + val.replace(/"/g, '""') + '"';
+        }
+        return val;
+      }).join(',');
+    }).join('\r\n');
+  }
+
+  // تحميل ملف .csv مع BOM للعربية في Excel
+  function _downloadCSV(rows, filename) {
+    const csv  = _toCSV(rows);
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = filename.replace(/\.xlsx?$/, '.csv');
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function() {
+      URL.revokeObjectURL(url);
+      if (a.parentNode) a.parentNode.removeChild(a);
+    }, 1500);
   }
 
   // ═══════════════════════════════════════════════════
@@ -34,7 +55,7 @@
   // ═══════════════════════════════════════════════════
   function _buildSheet(X, headerRows, dataRows, colWidths) {
     const allRows = headerRows.concat(dataRows);
-    const ws = X.utils.aoa_to_sheet(allRows);
+    const trAllRows = allRows;
     if (colWidths) ws['!cols'] = colWidths;
     return ws;
   }
@@ -42,10 +63,7 @@
   // ═══════════════════════════════════════════════════
   // تصدير NCR متقدم (Ashghal Format)
   // ═══════════════════════════════════════════════════
-  async function exportNCRFull() {
-    let X;
-    try { X = await _loadXLSX(); }
-    catch(e) { if (w.showToast) w.showToast('❌ ' + e.message); return; }
+  function exportNCRFull() {
 
     const today    = new Date().toLocaleDateString('ar-QA');
     const classMap = { major: 'Major 🔴', minor: 'Minor 🟡', obs: 'Observation 🔵' };
@@ -86,66 +104,46 @@
       ['التوقيع:',         '___________________', '___________________', '___________________', '']
     ];
 
-    const ws1 = X.utils.aoa_to_sheet(ncrRows);
-    ws1['!cols'] = [{ wch: 28 }, { wch: 38 }, { wch: 24 }, { wch: 30 }, { wch: 18 }];
-    ws1['!merges'] = [
-      { s: { r: 0,  c: 0 }, e: { r: 0,  c: 4 } },
-      { s: { r: 1,  c: 0 }, e: { r: 1,  c: 4 } },
-      { s: { r: 10, c: 1 }, e: { r: 10, c: 4 } },
-      { s: { r: 12, c: 0 }, e: { r: 12, c: 4 } },
-      { s: { r: 13, c: 0 }, e: { r: 13, c: 4 } },
-      { s: { r: 15, c: 0 }, e: { r: 15, c: 4 } },
-      { s: { r: 16, c: 0 }, e: { r: 16, c: 4 } },
-      { s: { r: 18, c: 0 }, e: { r: 18, c: 4 } },
-      { s: { r: 19, c: 0 }, e: { r: 19, c: 4 } },
-      { s: { r: 20, c: 0 }, e: { r: 20, c: 4 } },
-      { s: { r: 21, c: 0 }, e: { r: 21, c: 4 } }
-    ];
+    // ورقة NCR Form
 
     // ── Sheet 2: NCR Register ──
-    const ws2 = X.utils.aoa_to_sheet([
+    const ws2Rows = [
       ['\uFEFFNCR Register — سجل عدم المطابقة', '', '', '', '', ''],
       ['QatarSpec Pro | QCS 2024 | ' + today, '', '', '', '', ''],
       ['', '', '', '', '', ''],
       ['NCR No.', 'التصنيف', 'الموقع', 'QCS Clause', 'الحالة', 'Target Close'],
       [_gv('ncr-num'), ncrClass, _gv('ncr-loc'), _gv('ncr-clause'), ncrStatus, _gv('ncr-target')]
-    ]);
-    ws2['!cols'] = [{ wch: 14 }, { wch: 18 }, { wch: 36 }, { wch: 22 }, { wch: 22 }, { wch: 16 }];
-    ws2['!merges'] = [
-      { s: { r: 0, c: 0 }, e: { r: 0, c: 5 } },
-      { s: { r: 1, c: 0 }, e: { r: 1, c: 5 } }
     ];
 
+
     // ── Sheet 3: Action Tracker ──
-    const ws3 = X.utils.aoa_to_sheet([
+    const ws3Rows = [
       ['\uFEFFCorrectiveAction Tracker — متابعة الإجراءات', '', '', '', ''],
       ['NCR No.', 'Corrective Action', 'Responsible', 'Due Date', 'Status'],
       [_gv('ncr-num'), _gv('ncr-corrective'), _gv('ncr-qc-eng'), _gv('ncr-target'), ncrStatus],
       ['', '', '', '', ''],
       ['NCR No.', 'Preventive Action', 'Responsible', 'Due Date', 'Status'],
       [_gv('ncr-num'), _gv('ncr-preventive'), _gv('ncr-qc-eng'), _gv('ncr-target'), ncrStatus]
-    ]);
-    ws3['!cols'] = [{ wch: 14 }, { wch: 50 }, { wch: 22 }, { wch: 16 }, { wch: 18 }];
-    ws3['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 4 } }];
+    ];
 
-    const wb = X.utils.book_new();
-    X.utils.book_append_sheet(wb, ws1, 'NCR Form');
-    X.utils.book_append_sheet(wb, ws2, 'NCR Register');
-    X.utils.book_append_sheet(wb, ws3, 'Action Tracker');
-    X.writeFile(wb, 'NCR-' + (_gv('ncr-num') || '001') + '-' + Date.now() + '.xlsx');
-    if (w.showToast) w.showToast('✅ تم تصدير NCR Excel — 3 أوراق');
+
+    // دمج الأوراق الثلاث في .csv واحد
+    const allNCR = ncrRows
+      .concat([[],[' NCR Register ===','']])
+      .concat(ws2Rows)
+      .concat([[],[' Action Tracker ===','']])
+      .concat(ws3Rows);
+    _downloadCSV(allNCR, 'NCR-' + (_gv('ncr-num') || '001') + '-' + Date.now() + '.csv');
+    if (w.showToast) w.showToast('✅ تم تصدير NCR — CSV يفتح في Excel');
   }
 
   // ═══════════════════════════════════════════════════
   // تصدير RFI متقدم
   // ═══════════════════════════════════════════════════
-  async function exportRFIFull() {
-    let X;
-    try { X = await _loadXLSX(); }
-    catch(e) { if (w.showToast) w.showToast('❌ ' + e.message); return; }
+  function exportRFIFull() {
 
     const today = new Date().toLocaleDateString('ar-QA');
-    const ws = X.utils.aoa_to_sheet([
+    const wsRFIRows = [
       ['\uFEFFQatarSpec Pro — Request for Inspection (RFI)', '', '', ''],
       ['المرجع: QCS 2024 | Ashghal QA/QC | ' + today, '', '', ''],
       ['', '', '', ''],
@@ -172,31 +170,18 @@
       ['توقيع مقدّم الطلب:', '___________________', 'التاريخ:',     '___________'],
       ['توقيع SC / Consultant:', '___________________', 'التاريخ:', '___________'],
       ['قرار SC:', 'مقبول ☐    مرفوض ☐    Hold ☐', '', '']
-    ]);
-    ws['!cols'] = [{ wch: 24 }, { wch: 44 }, { wch: 22 }, { wch: 34 }];
-    ws['!merges'] = [
-      { s: { r: 0, c: 0 }, e: { r: 0, c: 3 } },
-      { s: { r: 1, c: 0 }, e: { r: 1, c: 3 } },
-      { s: { r: 8, c: 0 }, e: { r: 8, c: 3 } },
-      { s: { r: 15, c: 1 }, e: { r: 15, c: 3 } },
-      { s: { r: 17, c: 1 }, e: { r: 17, c: 3 } },
-      { s: { r: 19, c: 1 }, e: { r: 19, c: 3 } }
     ];
 
-    const wb = X.utils.book_new();
-    X.utils.book_append_sheet(wb, ws, 'RFI');
-    X.writeFile(wb, 'RFI-' + (_gv('rfi-num') || '001') + '-' + Date.now() + '.xlsx');
-    if (w.showToast) w.showToast('✅ تم تصدير RFI Excel');
+
+    _downloadCSV(wsRFIRows, 'RFI-' + (_gv('rfi-num') || '001') + '-' + Date.now() + '.csv');
+    if (w.showToast) w.showToast('✅ تم تصدير RFI — CSV يفتح في Excel');
   }
 
   // ═══════════════════════════════════════════════════
   // تصدير Test Results (نتائج الحاسبة)
   // ═══════════════════════════════════════════════════
-  async function exportTestResultsExcel(opts) {
+  function exportTestResultsExcel(opts) {
     opts = opts || {};
-    let X;
-    try { X = await _loadXLSX(); }
-    catch(e) { if (w.showToast) w.showToast('❌ ' + e.message); return; }
 
     const today    = new Date().toLocaleDateString('ar-QA');
     const results  = opts.results || [];
@@ -227,20 +212,10 @@
       ];
     });
 
-    const ws1 = X.utils.aoa_to_sheet(headerRows.concat(dataRows));
-    ws1['!cols'] = [
-      { wch: 5 }, { wch: 40 }, { wch: 16 }, { wch: 12 }, { wch: 24 }, { wch: 14 }
-    ];
-    ws1['!merges'] = [
-      { s: { r: 0, c: 0 }, e: { r: 0, c: 5 } },
-      { s: { r: 1, c: 0 }, e: { r: 1, c: 2 } },
-      { s: { r: 1, c: 3 }, e: { r: 1, c: 5 } },
-      { s: { r: 2, c: 0 }, e: { r: 2, c: 2 } },
-      { s: { r: 2, c: 3 }, e: { r: 2, c: 5 } }
-    ];
+    const tr1Rows = headerRows.concat(dataRows);
 
     // ── Sheet 2: ملخص إحصائي ──
-    const ws2 = X.utils.aoa_to_sheet([
+    const tr2Rows = [
       ['\uFEFFTest Summary — ملخص النتائج', ''],
       ['', ''],
       ['البيان', 'القيمة'],
@@ -255,25 +230,19 @@
       ['المرجع',    'QCS 2024 — QatarSpec Pro'],
       ['', ''],
       ['تنبيه:', 'النتائج للاستخدام المهني. يُرجى التحقق من المختبر المعتمد']
-    ]);
-    ws2['!cols'] = [{ wch: 28 }, { wch: 36 }];
-    ws2['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 1 } }];
+    ];
 
-    const wb = X.utils.book_new();
-    X.utils.book_append_sheet(wb, ws1, 'Test Results');
-    X.utils.book_append_sheet(wb, ws2, 'Summary');
+
     const fname = 'TestResults-' + (opts.title || 'QatarSpec').replace(/\s+/g, '-').substring(0, 20);
-    X.writeFile(wb, fname + '-' + Date.now() + '.xlsx');
-    if (w.showToast) w.showToast('✅ تم تصدير نتائج الاختبارات — 2 أوراق');
+    const allTR = tr1Rows.concat([[], ['=== Summary ===']]).concat(tr2Rows);
+    _downloadCSV(allTR, fname + '-' + Date.now() + '.csv');
+    if (w.showToast) w.showToast('✅ تم تصدير نتائج الاختبارات — CSV يفتح في Excel');
   }
 
   // ═══════════════════════════════════════════════════
   // تصدير ITP متقدم — 4 أوراق (Main, Hold, Witness, Summary)
   // ═══════════════════════════════════════════════════
-  async function exportITPFull() {
-    let X;
-    try { X = await _loadXLSX(); }
-    catch(e) { if (w.showToast) w.showToast('❌ ' + e.message); return; }
+  function exportITPFull() {
 
     const today      = new Date().toLocaleDateString('ar-QA');
     const projectName = _gv('itp-project-name') || '';
@@ -304,54 +273,43 @@
     }
 
     // ── Sheet 1: ITP Main ──
-    const ws1 = X.utils.aoa_to_sheet([
-      ['\uFEFFQatarSpec Pro — Inspection & Test Plan (ITP)', '', '', '', '', '', '', '', '', ''],
+    const itp1Rows = [
+      ['QatarSpec Pro — Inspection & Test Plan (ITP)', '', '', '', '', '', '', '', '', ''],
       ['المشروع:', projectName, '', '', 'رقم ITP:', itpNum, '', '', '', ''],
       ['التاريخ:', itpDate,     '', '', 'المهندس:', engineer, '', '', '', ''],
       ['المرجع:', 'QCS 2024',  '', '', 'تاريخ الطباعة:', today, '', '', '', ''],
       [],
       ['م', 'النشاط / Activity', 'مرجع QCS', 'معيار القبول', 'التكرار', 'طريقة الاختبار', 'Lab', 'QC', 'SC', 'النقطة']
-    ].concat(rows));
+    ].concat(rows);
 
-    ws1['!cols'] = [
-      { wch: 5 }, { wch: 44 }, { wch: 20 }, { wch: 40 },
-      { wch: 20 }, { wch: 20 }, { wch: 6 }, { wch: 6 }, { wch: 6 }, { wch: 14 }
-    ];
-    ws1['!merges'] = [
-      { s: { r: 0, c: 0 }, e: { r: 0, c: 9 } },
-      { s: { r: 1, c: 0 }, e: { r: 1, c: 3 } }, { s: { r: 1, c: 4 }, e: { r: 1, c: 9 } },
-      { s: { r: 2, c: 0 }, e: { r: 2, c: 3 } }, { s: { r: 2, c: 4 }, e: { r: 2, c: 9 } },
-      { s: { r: 3, c: 0 }, e: { r: 3, c: 3 } }, { s: { r: 3, c: 4 }, e: { r: 3, c: 9 } }
-    ];
+
 
     // ── Sheet 2: Hold Points ──
-    const ws2 = X.utils.aoa_to_sheet([
-      ['\uFEFFHold Points — نقاط الإيقاف الإلزامية', '', '', ''],
+    const itp2Rows = [
+      ['Hold Points — نقاط الإيقاف الإلزامية', '', '', ''],
       ['المشروع:', projectName, 'ITP No:', itpNum],
       [],
       ['م', 'النشاط / Activity', 'معيار القبول', 'النوع']
     ].concat(hp_rows.map(function(r) {
       return [r[0] || '', r[1] || '', r[3] || '', 'H — Hold'];
-    })));
-    ws2['!cols'] = [{ wch: 6 }, { wch: 48 }, { wch: 42 }, { wch: 12 }];
-    ws2['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 3 } }];
+    }));
+
 
     // ── Sheet 3: Witness Points ──
-    const ws3 = X.utils.aoa_to_sheet([
-      ['\uFEFFWitness Points — نقاط الشهود', '', '', ''],
+    const itp3Rows = [
+      ['Witness Points — نقاط الشهود', '', '', ''],
       ['المشروع:', projectName, 'ITP No:', itpNum],
       [],
       ['م', 'النشاط / Activity', 'معيار القبول', 'النوع']
     ].concat(wp_rows.map(function(r) {
       return [r[0] || '', r[1] || '', r[3] || '', 'W — Witness'];
-    })));
-    ws3['!cols'] = [{ wch: 6 }, { wch: 48 }, { wch: 42 }, { wch: 14 }];
-    ws3['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 3 } }];
+    }));
+
 
     // ── Sheet 4: Summary ──
     const reviewCount = rows.length - hp_rows.length - wp_rows.length;
-    const ws4 = X.utils.aoa_to_sheet([
-      ['\uFEFFITP Statistics — إحصائيات خطة الفحص', ''],
+    const itp4Rows = [
+      ['ITP Statistics — إحصائيات خطة الفحص', ''],
       [],
       ['البيان', 'القيمة'],
       ['إجمالي بنود ITP',     rows.length],
@@ -366,26 +324,24 @@
       ['تاريخ ITP', itpDate],
       ['تاريخ التصدير', today],
       ['المرجع',    'QCS 2024 — QatarSpec Pro']
-    ]);
-    ws4['!cols'] = [{ wch: 30 }, { wch: 38 }];
-    ws4['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 1 } }];
+    ];
 
-    const wb = X.utils.book_new();
-    X.utils.book_append_sheet(wb, ws1, 'ITP Main');
-    X.utils.book_append_sheet(wb, ws2, 'Hold Points');
-    X.utils.book_append_sheet(wb, ws3, 'Witness Points');
-    X.utils.book_append_sheet(wb, ws4, 'Summary');
-    X.writeFile(wb, 'ITP-' + (itpNum || 'Export') + '-' + Date.now() + '.xlsx');
-    if (w.showToast) w.showToast('✅ تم تصدير ITP Excel — 4 أوراق');
+
+    const allITP = itp1Rows
+      .concat([[], ['=== Hold Points ===']])
+      .concat(itp2Rows)
+      .concat([[], ['=== Witness Points ===']])
+      .concat(itp3Rows)
+      .concat([[], ['=== Summary ===']])
+      .concat(itp4Rows);
+    _downloadCSV(allITP, 'ITP-' + (itpNum || 'Export') + '-' + Date.now() + '.csv');
+    if (w.showToast) w.showToast('✅ تم تصدير ITP — CSV يفتح في Excel');
   }
 
   // ═══════════════════════════════════════════════════
   // تصدير التقرير اليومي DPR
   // ═══════════════════════════════════════════════════
-  async function exportDPRFull() {
-    let X;
-    try { X = await _loadXLSX(); }
-    catch(e) { if (w.showToast) w.showToast('❌ ' + e.message); return; }
+  function exportDPRFull() {
 
     const parseRows = function(id) {
       const el = document.getElementById(id);
@@ -435,14 +391,11 @@
     allRows.push([]);
     allRows.push(['المرجع:', 'QCS 2024 | QatarSpec Pro | ' + today, '', '', '']);
 
-    const ws1 = X.utils.aoa_to_sheet(allRows);
-    ws1['!cols'] = [{ wch: 32 }, { wch: 16 }, { wch: 18 }, { wch: 18 }, { wch: 24 }];
-    ws1['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 4 } }];
+    const dpr1Rows = allRows;
 
-    const wb = X.utils.book_new();
-    X.utils.book_append_sheet(wb, ws1, 'Daily Report');
-    X.writeFile(wb, 'DPR-' + (_gv('dpr-date') || Date.now()) + '.xlsx');
-    if (w.showToast) w.showToast('✅ تم تصدير التقرير اليومي DPR');
+
+    _downloadCSV(dpr1Rows, 'DPR-' + (_gv('dpr-date') || Date.now()) + '.csv');
+    if (w.showToast) w.showToast('✅ تم تصدير DPR — CSV يفتح في Excel');
   }
 
   // ═══════════════════════════════════════════════════
