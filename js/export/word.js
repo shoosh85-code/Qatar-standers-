@@ -244,14 +244,15 @@
       '</body>\n</html>';
 
     // إنشاء الـ Blob وتحميله
-    const blob = new Blob(['\ufeff', wordHTML], { type: 'application/msword' });
+    const blob = new Blob(['\ufeff', wordHTML], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement('a');
     const safeName = (opts.title || 'QatarSpec-Report')
       .replace(/[^\u0600-\u06FFa-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '-').substring(0, 40);
 
     a.href     = url;
-    a.download = 'QatarSpec-' + safeName + '.doc';
+    // امتداد .docx فقط — OOXML format صحيح
+    a.download = 'QatarSpec-' + safeName + '.docx';
     document.body.appendChild(a);
     a.click();
     setTimeout(function() {
