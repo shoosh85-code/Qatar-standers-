@@ -1,24 +1,9 @@
 {
   "version": 2,
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/sw.js",
-      "headers": {
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-        "Service-Worker-Allowed": "/"
-      }
-    },
-    {
-      "src": "/(.*\\.(js|css|svg|png|jpg|jpeg|gif|ico|json|woff|woff2|ttf|eot))",
-      "dest": "/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
@@ -28,6 +13,10 @@
         {
           "key": "Cache-Control",
           "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "Service-Worker-Allowed",
+          "value": "/"
         }
       ]
     },
