@@ -123,7 +123,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-QSPEC2026QA"></script>
 <!-- gtag config moved to js/inline-scripts.js -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
-<script src="/js/security-cleanup.js"></script>
+<script src="/js/security-cleanup.js" defer></script>
 <!-- CSP: Server Headers في vercel.json — see headers config for Content-Security-Policy -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -238,6 +238,7 @@
   font-family: 'Tajawal';
   font-style: normal;
   font-weight: 400;
+  font-display: swap; /* [PERF] LCP fix — لا انتظار تحميل الخط */
   src: local('Tajawal'), local('Tajawal-Regular');
   unicode-range: U+0600-06FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE80-FEFC;
 }
@@ -245,6 +246,7 @@
   font-family: 'Cairo';
   font-style: normal;
   font-weight: 700;
+  font-display: swap; /* [PERF] LCP fix */
   src: local('Cairo'), local('Cairo-Bold');
   unicode-range: U+0600-06FF;
 }
@@ -1427,11 +1429,11 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <div class="toast" id="toast">✅ تم!</div>
 
 <!-- Main init — يجب أن يُحمَّل قبل stepper.js لأنه يُعرِّف QS methods -->
-<script src="/inline-scripts.js"></script>
+<script src="/inline-scripts.js" defer></script>
 
 <!-- QatarSpec Stepper System v1.0 — نظام الخطوات التفاعلي -->
-<script src="/stepper.js"></script>
-<script src="/js/stepper-init.js"></script>
+<script src="/stepper.js" defer></script>
+<script src="/js/stepper-init.js" defer></script>
 
 <!-- ═══ APP FOOTER ═══ -->
 <div id="appFooter" style="background:linear-gradient(135deg,#111,#0A0A0A);border-top:1px solid rgba(201,168,76,0.2);padding:16px 20px;text-align:center;margin-top:24px;position:relative;z-index:1;">
@@ -1594,14 +1596,14 @@ async function loadCalc(type) {
   }
 }
 </script>
-<script src="/js/safety-bridge.js"></script>
+<script src="/js/safety-bridge.js" defer></script>
 <!-- loader.js: يُحمِّل data_content.js — بعد QS + data_calcs جاهزَين -->
-<script src="loader.js?v=2"></script>
-<script src="js/calculators/roads.js?v=600"></script>
-<script src="js/calculators/structural.js?v=600"></script>
-<script src="js/calculators/utilities.js?v=600"></script>
-<script src="js/calculators/geotech.js?v=600"></script>
-<script src="js/calculators/general.js?v=600"></script>
+<script src="loader.js?v=2" defer></script>
+<script src="js/calculators/roads.js?v=600" defer></script>
+<script src="js/calculators/structural.js?v=600" defer></script>
+<script src="js/calculators/utilities.js?v=600" defer></script>
+<script src="js/calculators/geotech.js?v=600" defer></script>
+<script src="js/calculators/general.js?v=600" defer></script>
 
 
 <!-- Back to Top Button -->
@@ -1613,9 +1615,9 @@ async function loadCalc(type) {
      QCS 2024 | QHDM 4th Ed. 2019 | ISO 9001
      ═══════════════════════════════════════════════════════════ -->
 <!-- PDF: server-side /api/export-pdf → fallback client-side library -->
-<script src="js/export/pdf.js?v=1000"></script>
-<script src="js/export/word.js?v=700"></script>
-<script src="js/export/excel.js?v=700"></script><script src="data_structures_detailed.js"></script>
+<script src="js/export/pdf.js?v=1000" defer></script>
+<script src="js/export/word.js?v=700" defer></script>
+<script src="js/export/excel.js?v=700" defer></script><script src="data_structures_detailed.js" defer></script>
 
 <!-- ═══ المرحلة 10: Final Polish — Error Boundary + Analytics Events + Card Animation ═══ -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
