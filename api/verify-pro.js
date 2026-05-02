@@ -1,8 +1,29 @@
-// /api/verify-pro.js — QatarSpec Pro v3.0
+// /api/verify-pro.js — QatarSpec Pro v4.0
 // JWT in httpOnly cookie (security upgrade from localStorage)
 // Supports: promo codes + TAP payment callbacks
+// [SEC v4.0] Rate limiting added per PROTOCOL 6
 
 export const config = { runtime: 'edge' };
+
+// ── Rate Limiting (Edge-compatible in-memory) ──────────────────
+// حدود: 3 طلب/دقيقة لكل IP (PROTOCOL 6)
+const _rl = new Map();
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const windowMs = 60 * 1000;
+  const limit = 3;
+  const entry = _rl.get(ip);
+  if (!entry || now - entry.ts > windowMs) {
+    _rl.set(ip, { count: 1, ts: now });
+    return { allowed: true, remaining: limit - 1 };
+  }
+  if (entry.count >= limit) {
+    const retryAfter = Math.ceil((windowMs - (now - entry.ts)) / 1000);
+    return { allowed: false, retryAfter };
+  }
+  entry.count++;
+  return { allowed: true, remaining: limit - entry.count };
+}
 
 const CORS = {
   'Access-Control-Allow-Origin': process.env.APP_URL || 'https://qatar-standers.vercel.app',
@@ -74,6 +95,22 @@ function extractCookie(cookieHeader, name) {
 export default async function handler(req) {
   if (req.method === 'OPTIONS') {
     return new Response(null, { status: 204, headers: CORS });
+  }
+
+  // ── Rate Limit Check ──────────────────────────────────────────
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '0.0.0.0';
+  const rl = checkRateLimit(ip);
+  if (!rl.allowed) {
+    return new Response(JSON.stringify({ error: 'Too Many Requests' }), {
+      status: 429,
+      headers: {
+        ...CORS,
+        'Content-Type': 'application/json',
+        'Retry-After': String(rl.retryAfter),
+        'X-RateLimit-Limit': '3',
+        'X-RateLimit-Remaining': '0',
+      },
+    });
   }
 
   const secret = process.env.JWT_SECRET;
