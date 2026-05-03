@@ -634,14 +634,14 @@ function runDocAnalysis() {
     let text = data.content && data.content[0] ? data.content[0].text : 'Analysis complete. Upload documents to get specific guidance.';
     resultEl.innerHTML = '<div style="background:var(--dark4);border-radius:10px;padding:14px;">' +
       '<div style="color:var(--gold);font-weight:700;margin-bottom:8px;font-size:13px;">🤖 AI Analysis Results</div>' +
-      '<div style="font-size:12px;color:var(--text1);line-height:1.7;white-space:pre-wrap;">' + text + '</div>' +
+      '<div style="font-size:12px;color:var(--text1);line-height:1.7;white-space:pre-wrap;">' + renderMarkdownSafe(text) + '</div>' +
       '</div>';
   }).catch(function() {
     // Fallback analysis based on project type
     let analysis = getProjectAnalysis(projType, doITP, doTests);
     resultEl.innerHTML = '<div style="background:var(--dark4);border-radius:10px;padding:14px;">' +
-      '<div style="color:var(--gold);font-weight:700;margin-bottom:8px;font-size:13px;">📋 Project Analysis — ' + projType.toUpperCase() + '</div>' +
-      '<div style="font-size:12px;color:var(--text1);line-height:1.7;">' + analysis + '</div>' +
+      '<div style="color:var(--gold);font-weight:700;margin-bottom:8px;font-size:13px;">📋 Project Analysis — ' + sanitizeText(projType.toUpperCase()) + '</div>' +
+      '<div style="font-size:12px;color:var(--text1);line-height:1.7;">' + renderMarkdownSafe(analysis) + '</div>' +
       '</div>';
   });
 }
@@ -3006,7 +3006,8 @@ function showInspectorResult(content) {
   const result = document.getElementById('inspector-result');
   let report = document.getElementById('inspector-report');
   if (result) result.style.display = 'block';
-  if (report) report.innerHTML = content;
+  // [XSS Fix S5] AI output يمر عبر renderMarkdownSafe قبل innerHTML
+  if (report) report.innerHTML = renderMarkdownSafe(content);
 }
 
 function shareInspectorReport() {
