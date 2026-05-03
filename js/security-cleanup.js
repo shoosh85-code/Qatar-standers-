@@ -9,7 +9,6 @@
   LEGACY_KEYS.forEach(function(k) {
     if (localStorage.getItem(k)) {
       localStorage.removeItem(k);
-      console.log('[QatarSpec Security] Removed legacy key:', k);
     }
   });
   // إزالة أي مفتاح يشبه API Key (sk- أو AIza...)
@@ -28,7 +27,6 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('/sw.js', { scope: '/' })
       .then(function(reg) {
-        console.log('[SW] Registered v3.3.0, scope:', reg.scope);
         // تحقق من تحديثات وأعلم المستخدم
         reg.addEventListener('updatefound', function() {
           var newSW = reg.installing;
@@ -38,10 +36,8 @@ if ('serviceWorker' in navigator) {
               // عرض banner التحديث إذا وُجد
               var banner = document.getElementById('update-banner');
               if (banner) banner.style.display = 'block';
-              console.log('[SW] Update available — reload to apply');
             }
             if (newSW.state === 'activated') {
-              console.log('[SW] v3.3.0 activated');
             }
           });
         });

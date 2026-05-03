@@ -122,7 +122,7 @@ Return ONLY the HTML content (no outer div wrapper). Use dm-table CSS class for 
     }
 
     const text = genData?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    console.log(`[enhance-en] ${section_key}: ${qcsChunks.length} QCS chunks found, ${text.length} chars generated`);
+    if (process.env.NODE_ENV !== 'production') console.log(`[enhance-en] ${section_key}: ${qcsChunks.length} QCS chunks found, ${text.length} chars generated`);
 
     return res.status(200).json({
       enhanced: text,

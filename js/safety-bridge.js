@@ -13,5 +13,4 @@
       window.QS[fn] = window[fn].bind(window);
     }
   });
-  console.log('[App] QS Safety Bridge active — v3.2.1');
 })();

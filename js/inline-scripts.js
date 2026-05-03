@@ -227,7 +227,6 @@ async function doSearch() {
             }).join('\n\n');
         }
       }
-    } catch(e) { console.log('QCS search:', e.message); }
 
     const response = await fetchGeminiAPI({
         model: 'gemini-2.0-flash',
@@ -1769,7 +1768,6 @@ function applyTranslations(lang) {
     });
   }
 
-  console.log('QatarSpec Pro: Language set to', lang.toUpperCase());
 
   // إعادة بناء محتوى المودال بلغة واحدة عند تبديل اللغة
   const dm = document.getElementById('detailModal');
@@ -3190,7 +3188,6 @@ function dedupeCards() {
       seen.add(key);
     }
   });
-  if (hidden > 0) console.log('[QatarSpec] dedupeCards: hid ' + hidden + ' duplicate cards');
 }
 document.addEventListener('DOMContentLoaded', dedupeCards);
 
@@ -3257,7 +3254,6 @@ document.addEventListener('DOMContentLoaded', function() {
       observer.observe(card);
       cards.push(card);
     });
-    if (cards.length) console.log('[QatarSpec] VirtualScroll: مُراقبة', cards.length, 'كرت');
   }
 
   // إذا كان DOMContentLoaded قد انتهى بالفعل (script في نهاية الملف) نُشغّل مباشرة
@@ -3657,7 +3653,6 @@ function installPWA() {
     });
 
     if (missing.length === 0) {
-      console.log(
         '%c[QatarSpec] \u2705 publicFns Integrity: \u062c\u0645\u064a\u0639 \u0627\u0644\u062f\u0648\u0627\u0644 \u0645\u0648\u062c\u0648\u062f\u0629 (' + existing.length + '/' + publicFnsCheck.length + ')',
         'color:#4CAF50;font-weight:bold'
       );
@@ -4140,20 +4135,17 @@ window.addEventListener('unhandledrejection', function(e) {
   new PerformanceObserver(function(list) {
     for (const entry of list.getEntries()) {
       if (entry.entryType === 'largest-contentful-paint') {
-        console.log('[QatarSpec] LCP:', entry.startTime);
         if (typeof gtag !== 'undefined') {
           gtag('event', 'web_vitals', { event_category: 'LCP', value: Math.round(entry.startTime) });
         }
       }
       if (entry.entryType === 'first-input') {
         const fid = entry.processingStart - entry.startTime;
-        console.log('[QatarSpec] FID:', fid);
         if (typeof gtag !== 'undefined') {
           gtag('event', 'web_vitals', { event_category: 'FID', value: Math.round(fid) });
         }
       }
       if (entry.entryType === 'layout-shift') {
-        console.log('[QatarSpec] CLS:', entry.value);
         if (typeof gtag !== 'undefined') {
           gtag('event', 'web_vitals', { event_category: 'CLS', value: Math.round(entry.value * 1000) / 1000 });
         }
@@ -4165,7 +4157,6 @@ window.addEventListener('unhandledrejection', function(e) {
   window.addEventListener('load', function() {
     setTimeout(function() {
       const ttfb = performance.timing.responseStart - performance.timing.requestStart;
-      console.log('[QatarSpec] TTFB:', ttfb);
       if (typeof gtag !== 'undefined') {
         gtag('event', 'web_vitals', { event_category: 'TTFB', value: ttfb });
       }

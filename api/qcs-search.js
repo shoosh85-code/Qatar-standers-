@@ -133,7 +133,7 @@ export default async function handler(req) {
             }
           }
         }
-      } catch(e) { console.log('[qcs-search] vector fail:', e.message); }
+      } catch(e) { if (process.env.NODE_ENV !== 'production') console.log('[qcs-search] vector fail:', e.message); }
     }
 
     // 2. Fallback: FTS (ILIKE)
