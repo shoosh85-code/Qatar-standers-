@@ -34,12 +34,12 @@
 لا تقول "تم الرفع" إلا بعد:
 
 ```
-□ 1. git status           → لصق الناتج
-□ 2. git add [ملفات]      → لصق الناتج
+□ 1. git status → لصق الناتج
+□ 2. git add [ملفات] → لصق الناتج
 □ 3. git diff --cached --stat → لصق الناتج
 □ 4. git commit -m "[رسالة]" → لصق الناتج
-□ 5. git log --oneline -3  → لصق الناتج
-□ 6. git push             → لصق الناتج كاملاً
+□ 5. git log --oneline -3 → لصق الناتج
+□ 6. git push → لصق الناتج كاملاً
 □ 7. git ls-remote origin main → لصق hash الـ remote
 □ 8. مقارنة local hash مع remote hash
 ```
@@ -56,10 +56,10 @@
 
 ```
 ❌ STOP: Error [الرمز]
-الأمر:   [الأمر]
-الخطأ:   [نص الخطأ كاملاً]
-السبب:   [تحليلك]
-الحل:    [اقتراحك]
+الأمر: [الأمر]
+الخطأ: [نص الخطأ كاملاً]
+السبب: [تحليلك]
+الحل: [اقتراحك]
 هل أحاول الحل؟ (نعم/لا)
 ```
 
@@ -73,12 +73,7 @@
 ## PROTOCOL 4: صفر تضليل (ZERO HALLUCINATION)
 
 ممنوع تماماً:
-- "أعتقد"
-- "ربما"
-- "على الأرجح"
-- "يبدو"
-- "يجب أن"
-- "من المفترض"
+- "أعتقد" / "ربما" / "على الأرجح" / "يبدو" / "يجب أن" / "من المفترض"
 
 إلزامي:
 - "الناتج الفعلي: [لصق]"
@@ -104,49 +99,24 @@
 ## PROTOCOL 6: RATE LIMITING (إلزامي)
 
 ### API Endpoints Limits:
-
-| Endpoint              | Free    | Pro      | Global       |
-|-----------------------|---------|----------|--------------|
-| /api/ai-proxy         | 5/min   | 60/min   | 100/min/IP   |
-| /api/verify-pro       | 3/min   | 10/min   | 30/min/IP    |
-| /api/qcs-search       | 10/min  | 100/min  | 200/min/IP   |
-| /api/vision-proxy     | 3/min   | 30/min   | 50/min/IP    |
-| /api/tap-checkout     | 3/min   | 10/min   | 30/min/IP    |
-| /api/tap-callback     | 5/min   | 20/min   | 50/min/IP    |
-| /api/setup-vectors    | 2/min   | 2/min    | 10/min/IP    |
-| /api/generate-embeddings | 2/min | 20/min  | 30/min/IP    |
-| /api/health           | 30/min  | 30/min   | 100/min/IP   |
+| Endpoint | Free | Pro | Global |
+|----------|------|-----|--------|
+| /api/ai-proxy | 5/min | 60/min | 100/min/IP |
+| /api/verify-pro | 3/min | 10/min | 30/min/IP |
+| /api/qcs-search | 10/min | 100/min | 200/min/IP |
+| /api/vision-proxy | 3/min | 30/min | 50/min/IP |
 
 ### Implementation:
 - استخدم Vercel KV للـ rate limiting
 - Fallback: in-memory Map مع cleanup
 - Response: 429 Too Many Requests مع Retry-After header
 
-### Code Pattern (إلزامي لكل endpoint):
-```javascript
-import { rateLimit, getIp } from './rate-limit.js';
-
-// في بداية handler — قبل أي منطق آخر:
-const ip = getIp(req);
-const rl = await rateLimit(req, isPro ? 'pro' : 'free', 'endpoint-name');
-if (!rl.allowed) {
-  return res.status(429).json({
-    error: 'Too Many Requests',
-    retryAfter: rl.retryAfter
-  });
-}
-```
-
 ---
 
 ## VERIFICATION SCRIPT
 
 ```bash
-echo "=== LOCAL ===" && git log --oneline -1 && \
-echo "=== REMOTE ===" && git ls-remote origin main | head -1 && \
-LOCAL=$(git rev-parse HEAD) && \
-REMOTE=$(git ls-remote origin main | awk '{print $1}') && \
-if [ "$LOCAL" = "$REMOTE" ]; then echo "✅ MATCH"; else echo "❌ MISMATCH"; fi
+echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-remote origin main | head -1 && LOCAL=$(git rev-parse HEAD) && REMOTE=$(git ls-remote origin main | awk '{print $1}') && if [ "$LOCAL" = "$REMOTE" ]; then echo "✅ MATCH"; else echo "❌ MISMATCH"; fi
 ```
 
 إذا ❌ MISMATCH → STOP. لا تقول "تم".
@@ -155,14 +125,12 @@ if [ "$LOCAL" = "$REMOTE" ]; then echo "✅ MATCH"; else echo "❌ MISMATCH"; fi
 
 ## PROJECT INFO
 
-| Property | Value |
-|----------|-------|
-| Name     | QatarSpec Pro |
-| Site     | qatar-standers.vercel.app |
-| Stack    | Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API |
-| Repo     | github.com/shoosh85-code/Qatar-standers- |
-| Audience | مهندسون قطريون وأجانب يعملون في قطر |
-| References | QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM |
+- **Name:** QatarSpec Pro
+- **Site:** qatar-standers.vercel.app
+- **Stack:** Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
+- **Repo:** github.com/shoosh85-code/Qatar-standers-
+- **Audience:** مهندسون قطريون وأجانب يعملون في قطر
+- **References:** QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
 
 ---
 
@@ -186,25 +154,25 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 
 ## CODING RULES
 
-- Follow QCS 2024 always — accuracy over speed
-- Vanilla JS only (no frameworks)
-- RTL + Arabic + English in all UI
-- Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
-- Pro features: gentle prompt for free users
-- Never invent numbers — say "غير موجود في المستند"
-- `window.QS` namespace for all public functions
-- Sanitize ALL user input before innerHTML
-- `const`/`let` only (no `var`)
-- Arabic comments for complex logic
+1. Follow QCS 2024 always — accuracy over speed
+2. Vanilla JS only (no frameworks)
+3. RTL + Arabic + English in all UI
+4. Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
+5. Pro features: gentle prompt for free users
+6. Never invent numbers — say "غير موجود في المستند"
+7. `window.QS` namespace for all public functions
+8. Sanitize ALL user input before innerHTML
+9. `const`/`let` only (no `var`)
+10. Arabic comments for complex logic
 
 ---
 
 ## EXPORT STANDARDS
 
-- **PDF**: QatarSpec Pro header + QCS 2024 reference + page numbers + watermark
-- **Excel**: Ashghal official format + multiple sheets + summary stats
-- **Word**: Professional header + editable fields + QCS clause references
-- All exports: Project name + Engineer name + Date + QatarSpec branding
+- **PDF:** QatarSpec Pro header + QCS 2024 reference + page numbers + watermark
+- **Excel:** Ashghal official format + multiple sheets + summary stats
+- **Word:** Professional header + editable fields + QCS clause references
+- **All exports:** Project name + Engineer name + Date + QatarSpec branding
 
 ---
 
