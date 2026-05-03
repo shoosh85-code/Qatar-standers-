@@ -1399,12 +1399,12 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 
 <div class="modal-bg" id="keyModal">
   <div class="modal-box">
-    <div class="modal-title">🔑 Anthropic API Key</div>
-    <div class="modal-desc">أدخل Anthropic API Key للبحث الذكي في المواصفات. الـ Key يُحفظ محلياً على جهازك فقط ولا يُرسل لأي جهة غير Anthropic.</div>
-    <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-bottom:12px;font-size:12px;color:#e74c3c;line-height:1.6;">
-      ⚠️ <strong>تنبيه أمان:</strong> المفتاح يُحفظ في الذاكرة فقط (لا localStorage) ويُمسح عند إغلاق التبويب. للنشر العام استخدم server-side proxy.
+    <div class="modal-title">🔑 إعداد AI</div>
+    <div class="modal-desc">التطبيق يعمل عبر server proxy آمن — لا حاجة لمفتاح شخصي. للاستخدام المحلي فقط أدخل Gemini API Key.</div>
+    <div style="background:rgba(39,174,96,0.1);border:1px solid rgba(39,174,96,0.3);border-radius:8px;padding:10px;margin-bottom:12px;font-size:12px;color:#27ae60;line-height:1.6;">
+      ✅ <strong>الإنتاج:</strong> يعمل تلقائياً عبر /api/ai-proxy و /api/vision-proxy — لا حاجة لأي مفتاح. المفتاح هنا للتطوير المحلي فقط.
     </div>
-    <input type="password" class="modal-input" id="keyInput" placeholder="sk-ant-..." />
+    <input type="password" class="modal-input" id="keyInput" placeholder="AIza... (Gemini — للتطوير المحلي فقط)" />
     <div class="modal-actions">
       <button class="modal-save" onclick="QS.saveKey()">✅ حفظ وتفعيل</button>
       <button class="modal-cancel" onclick="QS.closeKeyModal()">إلغاء</button>
