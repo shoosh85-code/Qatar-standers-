@@ -22,10 +22,17 @@ export default async function handler(request, response) {
     return response.status(405).json({ error: 'Method Not Allowed — POST فقط' });
   }
 
-  // ── Rate Limiting (Protocol 6) ──
+  // ── Pro Gate — PDF export للمشتركين فقط ──
   const isPro = request.headers['x-qs-pro'] === '1' || request.cookies?.qs_pro === '1';
-  const tier = isPro ? 'pro' : 'free';
-  const rl = await rateLimit(request, tier, 'ai-proxy');
+  if (!isPro) {
+    return response.status(401).json({
+      error: 'Pro subscription required — تصدير PDF متاح للمشتركين Pro فقط',
+      upgrade: 'qatar-standers.vercel.app/#pro'
+    });
+  }
+
+  // ── Rate Limiting (Protocol 6) ──
+  const rl = await rateLimit(request, 'pro', 'export-pdf');
   applyRateLimitHeaders(response, rl);
   if (!rl.allowed) {
     return response.status(429).json({
