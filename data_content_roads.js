@@ -3047,4 +3047,305 @@ c["bitumen_60_70"] = {
 </div>`
 };
 
+// ─────────────────────────────────────────────────────────────────────────────
+// ROAD PHASE DETAIL CARDS — QCS 2024 §S8 | Ashghal RDM 2023
+// ─────────────────────────────────────────────────────────────────────────────
+
+c['subgrade_detail'] = { title: 'Subgrade — QCS 2024 §S8-P2', content: `
+<div class="lang-content-ar">
+  <h3>تعريف المرحلة</h3>
+  <p>الطبقة الطبيعية أو المُعالجة التي تقع مباشرة تحت Subbase.
+  تُمثل الأساس الحقيقي لكامل هيكل الطريق وتحمل الأحمال عبر باقي الطبقات.</p>
+  <h3>متطلبات القبول — QCS S8 P2 Clause 6.3</h3>
+  <table class="dm-table">
+    <tr><th>الاختبار</th><th>المعيار</th><th>المرجع</th></tr>
+    <tr><td>CBR</td><td>≥ 8% (4 days soaked)</td><td>ASTM D1883</td></tr>
+    <tr><td>Compaction</td><td>≥ 95% MDD Modified Proctor</td><td>ASTM D1557</td></tr>
+    <tr><td>Plasticity Index</td><td>≤ 10</td><td>ASTM D4318</td></tr>
+    <tr><td>Tolerance Level</td><td>±30mm</td><td>QCS Clause 6.3.4</td></tr>
+    <tr><td>Moisture Content</td><td>OMC ± 2%</td><td>ASTM D698</td></tr>
+  </table>
+  <h3>✅ Pass / ❌ Fail</h3>
+  <p>✅ Pass: كل الاختبارات مطابقة → ابدأ Subbase<br>
+  ❌ Fail: أي قيمة خارج النطاق → NCR + إعادة الدمك + إعادة الاختبار</p>
+  <p><strong>نموذج Ashghal:</strong> ITP-ROAD-SUB-001</p>
+</div>
+<div class="lang-content-en" style="display:none">
+  <h3>Phase Definition</h3>
+  <p>The natural or treated layer directly beneath the Subbase. It forms the true foundation of the entire road structure, transferring loads through upper layers to the ground.</p>
+  <h3>Acceptance Criteria — QCS S8 P2 Clause 6.3</h3>
+  <table class="dm-table">
+    <tr><th>Test</th><th>Criterion</th><th>Reference</th></tr>
+    <tr><td>CBR</td><td>≥ 8% (4 days soaked)</td><td>ASTM D1883</td></tr>
+    <tr><td>Compaction</td><td>≥ 95% MDD Modified Proctor</td><td>ASTM D1557</td></tr>
+    <tr><td>Plasticity Index</td><td>≤ 10</td><td>ASTM D4318</td></tr>
+    <tr><td>Level Tolerance</td><td>±30mm</td><td>QCS Clause 6.3.4</td></tr>
+    <tr><td>Moisture Content</td><td>OMC ± 2%</td><td>ASTM D698</td></tr>
+  </table>
+  <h3>✅ Pass / ❌ Fail</h3>
+  <p>✅ Pass: All tests within limits → proceed to Subbase<br>
+  ❌ Fail: Any value out of range → NCR + re-compact + re-test</p>
+  <p><strong>Ashghal Form:</strong> ITP-ROAD-SUB-001</p>
+</div>
+`};
+
+c['subbase_detail'] = { title: 'Subbase — QCS 2024 §S8-P3', content: `
+<div class="lang-content-ar">
+  <h3>تعريف المرحلة</h3>
+  <p>طبقة الحجر المكسور أو الركام غير المحكم فوق Subgrade مباشرة.
+  وظيفتها توزيع الأحمال ومنع التلوث الصاعد من التربة الطبيعية.</p>
+  <h3>متطلبات القبول — QCS S8 P3 Clause 7.2</h3>
+  <table class="dm-table">
+    <tr><th>الاختبار</th><th>المعيار</th><th>المرجع</th></tr>
+    <tr><td>CBR</td><td>≥ 30% (4 days soaked)</td><td>ASTM D1883</td></tr>
+    <tr><td>Compaction</td><td>≥ 98% MDD Modified Proctor</td><td>ASTM D1557</td></tr>
+    <tr><td>Grading</td><td>Type 3 Graded Aggregate</td><td>QCS S8 Table 8:3</td></tr>
+    <tr><td>Los Angeles Abrasion</td><td>≤ 40%</td><td>ASTM C131</td></tr>
+    <tr><td>Plasticity Index</td><td>≤ 6</td><td>ASTM D4318</td></tr>
+    <tr><td>Tolerance Level</td><td>±20mm</td><td>QCS Clause 7.2.5</td></tr>
+  </table>
+  <h3>✅ Pass / ❌ Fail</h3>
+  <p>✅ Pass: كل الاختبارات مطابقة → ابدأ Base Course<br>
+  ❌ Fail: أي قيمة خارج النطاق → NCR + استبدال المواد + إعادة الدمك</p>
+  <p><strong>نموذج Ashghal:</strong> ITP-ROAD-SBS-002</p>
+</div>
+<div class="lang-content-en" style="display:none">
+  <h3>Phase Definition</h3>
+  <p>Crushed stone or unbound granular layer directly above Subgrade. Its function is load distribution and prevention of upward contamination from natural soil.</p>
+  <h3>Acceptance Criteria — QCS S8 P3 Clause 7.2</h3>
+  <table class="dm-table">
+    <tr><th>Test</th><th>Criterion</th><th>Reference</th></tr>
+    <tr><td>CBR</td><td>≥ 30% (4 days soaked)</td><td>ASTM D1883</td></tr>
+    <tr><td>Compaction</td><td>≥ 98% MDD Modified Proctor</td><td>ASTM D1557</td></tr>
+    <tr><td>Grading</td><td>Type 3 Graded Aggregate</td><td>QCS S8 Table 8:3</td></tr>
+    <tr><td>Los Angeles Abrasion</td><td>≤ 40%</td><td>ASTM C131</td></tr>
+    <tr><td>Plasticity Index</td><td>≤ 6</td><td>ASTM D4318</td></tr>
+    <tr><td>Level Tolerance</td><td>±20mm</td><td>QCS Clause 7.2.5</td></tr>
+  </table>
+  <h3>✅ Pass / ❌ Fail</h3>
+  <p>✅ Pass: All tests within limits → proceed to Base Course<br>
+  ❌ Fail: Any value out of range → NCR + replace material + re-compact</p>
+  <p><strong>Ashghal Form:</strong> ITP-ROAD-SBS-002</p>
+</div>
+`};
+
+c['base_detail'] = { title: 'Base Course — QCS 2024 §S8-P3', content: `
+<div class="lang-content-ar">
+  <h3>تعريف المرحلة</h3>
+  <p>طبقة الركام المكسور عالي الجودة فوق Subbase مباشرة.
+  الطبقة الهيكلية الرئيسية التي تحمل وتوزع الأحمال المرورية قبل الوصول للطبقات الإسفلتية.</p>
+  <h3>متطلبات القبول — QCS S8 P3 Clause 8.4</h3>
+  <table class="dm-table">
+    <tr><th>الاختبار</th><th>المعيار</th><th>المرجع</th></tr>
+    <tr><td>CBR</td><td>≥ 80% (4 days soaked)</td><td>ASTM D1883</td></tr>
+    <tr><td>Compaction</td><td>≥ 98% MDD Modified Proctor</td><td>ASTM D1557</td></tr>
+    <tr><td>Los Angeles Abrasion</td><td>≤ 30%</td><td>ASTM C131</td></tr>
+    <tr><td>Flakiness Index</td><td>≤ 25%</td><td>BS 812</td></tr>
+    <tr><td>Plasticity Index</td><td>Non-plastic</td><td>ASTM D4318</td></tr>
+    <tr><td>Tolerance Level</td><td>±15mm</td><td>QCS Clause 8.4.3</td></tr>
+  </table>
+  <h3>✅ Pass / ❌ Fail</h3>
+  <p>✅ Pass: كل الاختبارات مطابقة → رش Prime Coat ثم Binder<br>
+  ❌ Fail: أي قيمة خارج النطاق → NCR + استبدال أو إعادة دمك</p>
+  <p><strong>نموذج Ashghal:</strong> ITP-ROAD-BASE-003</p>
+</div>
+<div class="lang-content-en" style="display:none">
+  <h3>Phase Definition</h3>
+  <p>High-quality crushed aggregate layer directly above Subbase. The primary structural layer that bears and distributes traffic loads before reaching the asphalt layers.</p>
+  <h3>Acceptance Criteria — QCS S8 P3 Clause 8.4</h3>
+  <table class="dm-table">
+    <tr><th>Test</th><th>Criterion</th><th>Reference</th></tr>
+    <tr><td>CBR</td><td>≥ 80% (4 days soaked)</td><td>ASTM D1883</td></tr>
+    <tr><td>Compaction</td><td>≥ 98% MDD Modified Proctor</td><td>ASTM D1557</td></tr>
+    <tr><td>Los Angeles Abrasion</td><td>≤ 30%</td><td>ASTM C131</td></tr>
+    <tr><td>Flakiness Index</td><td>≤ 25%</td><td>BS 812</td></tr>
+    <tr><td>Plasticity Index</td><td>Non-plastic</td><td>ASTM D4318</td></tr>
+    <tr><td>Level Tolerance</td><td>±15mm</td><td>QCS Clause 8.4.3</td></tr>
+  </table>
+  <h3>✅ Pass / ❌ Fail</h3>
+  <p>✅ Pass: All tests within limits → apply Prime Coat then Binder<br>
+  ❌ Fail: Any value out of range → NCR + replace or re-compact</p>
+  <p><strong>Ashghal Form:</strong> ITP-ROAD-BASE-003</p>
+</div>
+`};
+
+c['binder_detail'] = { title: 'Binder Course — QCS 2024 §S8-P4', content: `
+<div class="lang-content-ar">
+  <h3>تعريف المرحلة</h3>
+  <p>الطبقة الإسفلتية الوسطى بين Base و Wearing Course.
+  تعمل كطبقة تحمّل هيكلية وتوزيع للإجهادات قبل الطبقة النهائية.</p>
+  <h3>متطلبات القبول — QCS S8 P4 Clause 9.3</h3>
+  <table class="dm-table">
+    <tr><th>الاختبار</th><th>المعيار</th><th>المرجع</th></tr>
+    <tr><td>Marshall Stability</td><td>≥ 8 kN</td><td>ASTM D1559</td></tr>
+    <tr><td>Marshall Flow</td><td>2 – 4 mm</td><td>ASTM D1559</td></tr>
+    <tr><td>Air Voids</td><td>3 – 5%</td><td>ASTM D3203</td></tr>
+    <tr><td>VMA</td><td>≥ 13%</td><td>QCS S8 Table 8:7</td></tr>
+    <tr><td>Bitumen Content</td><td>4.5 – 5.5%</td><td>ASTM D2172</td></tr>
+    <tr><td>Compaction (Core)</td><td>≥ 97% TMD</td><td>ASTM D2726</td></tr>
+    <tr><td>Thickness</td><td>Design ± 5mm</td><td>QCS Clause 9.3.7</td></tr>
+    <tr><td>Level Tolerance</td><td>±6mm</td><td>QCS Clause 9.3.8</td></tr>
+  </table>
+  <h3>✅ Pass / ❌ Fail</h3>
+  <p>✅ Pass: كل الاختبارات مطابقة → رش Tack Coat ثم Wearing<br>
+  ❌ Fail: Marshall أو Voids خارج النطاق → NCR + مراجعة Mix Design</p>
+  <p><strong>نموذج Ashghal:</strong> ITP-ROAD-BND-004</p>
+</div>
+<div class="lang-content-en" style="display:none">
+  <h3>Phase Definition</h3>
+  <p>The intermediate asphalt layer between Base and Wearing Course. Acts as a structural load-bearing and stress-distribution layer before the final surface.</p>
+  <h3>Acceptance Criteria — QCS S8 P4 Clause 9.3</h3>
+  <table class="dm-table">
+    <tr><th>Test</th><th>Criterion</th><th>Reference</th></tr>
+    <tr><td>Marshall Stability</td><td>≥ 8 kN</td><td>ASTM D1559</td></tr>
+    <tr><td>Marshall Flow</td><td>2 – 4 mm</td><td>ASTM D1559</td></tr>
+    <tr><td>Air Voids</td><td>3 – 5%</td><td>ASTM D3203</td></tr>
+    <tr><td>VMA</td><td>≥ 13%</td><td>QCS S8 Table 8:7</td></tr>
+    <tr><td>Bitumen Content</td><td>4.5 – 5.5%</td><td>ASTM D2172</td></tr>
+    <tr><td>Compaction (Core)</td><td>≥ 97% TMD</td><td>ASTM D2726</td></tr>
+    <tr><td>Thickness</td><td>Design ± 5mm</td><td>QCS Clause 9.3.7</td></tr>
+    <tr><td>Level Tolerance</td><td>±6mm</td><td>QCS Clause 9.3.8</td></tr>
+  </table>
+  <h3>✅ Pass / ❌ Fail</h3>
+  <p>✅ Pass: All tests within limits → apply Tack Coat then Wearing Course<br>
+  ❌ Fail: Marshall or Voids out of range → NCR + review Mix Design</p>
+  <p><strong>Ashghal Form:</strong> ITP-ROAD-BND-004</p>
+</div>
+`};
+
+c['wearing_detail'] = { title: 'Wearing Course — QCS 2024 §S8-P4', content: `
+<div class="lang-content-ar">
+  <h3>تعريف المرحلة</h3>
+  <p>الطبقة الإسفلتية النهائية السطحية. تتحمل الاحتكاك المباشر مع الإطارات
+  وتوفر الأمان والراحة وصرف المياه. أهم طبقة مرئية في الطريق.</p>
+  <h3>متطلبات القبول — QCS S8 P4 Clause 10.2</h3>
+  <table class="dm-table">
+    <tr><th>الاختبار</th><th>المعيار</th><th>المرجع</th></tr>
+    <tr><td>Marshall Stability</td><td>≥ 9 kN</td><td>ASTM D1559</td></tr>
+    <tr><td>Marshall Flow</td><td>2 – 3.5 mm</td><td>ASTM D1559</td></tr>
+    <tr><td>Air Voids</td><td>3 – 5%</td><td>ASTM D3203</td></tr>
+    <tr><td>Bitumen Content</td><td>4.5 – 5.5%</td><td>ASTM D2172</td></tr>
+    <tr><td>Compaction (Core)</td><td>≥ 97% TMD</td><td>ASTM D2726</td></tr>
+    <tr><td>Skid Resistance (SFC)</td><td>≥ 55</td><td>ASTM E303</td></tr>
+    <tr><td>Texture Depth (MTD)</td><td>≥ 1.5 mm</td><td>ASTM E965</td></tr>
+    <tr><td>Crossfall</td><td>2.5% ± 0.5%</td><td>QCS Clause 10.2.6</td></tr>
+    <tr><td>Roughness (IRI)</td><td>≤ 2.5 m/km</td><td>Ashghal RDM §4</td></tr>
+    <tr><td>Level Tolerance</td><td>±6mm under 3m straight-edge</td><td>QCS Clause 10.2.8</td></tr>
+  </table>
+  <h3>✅ Pass / ❌ Fail</h3>
+  <p>✅ Pass: كل الاختبارات مطابقة → انتقل لـ Finishing & Road Markings<br>
+  ❌ Fail: Skid أو IRI أو Voids خارج → NCR + Overlay أو Mill & Replace</p>
+  <p><strong>نموذج Ashghal:</strong> ITP-ROAD-WRN-005</p>
+</div>
+<div class="lang-content-en" style="display:none">
+  <h3>Phase Definition</h3>
+  <p>The final surface asphalt layer. Bears direct friction with tyres and provides safety, comfort and drainage. The most visible layer of the road.</p>
+  <h3>Acceptance Criteria — QCS S8 P4 Clause 10.2</h3>
+  <table class="dm-table">
+    <tr><th>Test</th><th>Criterion</th><th>Reference</th></tr>
+    <tr><td>Marshall Stability</td><td>≥ 9 kN</td><td>ASTM D1559</td></tr>
+    <tr><td>Marshall Flow</td><td>2 – 3.5 mm</td><td>ASTM D1559</td></tr>
+    <tr><td>Air Voids</td><td>3 – 5%</td><td>ASTM D3203</td></tr>
+    <tr><td>Bitumen Content</td><td>4.5 – 5.5%</td><td>ASTM D2172</td></tr>
+    <tr><td>Compaction (Core)</td><td>≥ 97% TMD</td><td>ASTM D2726</td></tr>
+    <tr><td>Skid Resistance (SFC)</td><td>≥ 55</td><td>ASTM E303</td></tr>
+    <tr><td>Texture Depth (MTD)</td><td>≥ 1.5 mm</td><td>ASTM E965</td></tr>
+    <tr><td>Crossfall</td><td>2.5% ± 0.5%</td><td>QCS Clause 10.2.6</td></tr>
+    <tr><td>Roughness (IRI)</td><td>≤ 2.5 m/km</td><td>Ashghal RDM §4</td></tr>
+    <tr><td>Level Tolerance</td><td>±6mm under 3m straight-edge</td><td>QCS Clause 10.2.8</td></tr>
+  </table>
+  <h3>✅ Pass / ❌ Fail</h3>
+  <p>✅ Pass: All tests within limits → proceed to Finishing & Road Markings<br>
+  ❌ Fail: Skid, IRI or Voids out of range → NCR + Overlay or Mill & Replace</p>
+  <p><strong>Ashghal Form:</strong> ITP-ROAD-WRN-005</p>
+</div>
+`};
+
+c['finishing_detail'] = { title: 'Finishing — QCS 2024 §S8-P5 | Ashghal RDM', content: `
+<div class="lang-content-ar">
+  <h3>تعريف المرحلة</h3>
+  <p>مرحلة الإنهاء الشاملة: الدهانات الأرضية، اللوحات، الأرصفة، الحواجز، الصرف السطحي.
+  تُحقق متطلبات السلامة والوضوح البصري للطريق قبل التسليم.</p>
+  <h3>متطلبات القبول — QCS S8 P5 + Ashghal RDM §6</h3>
+  <table class="dm-table">
+    <tr><th>البند</th><th>المعيار</th><th>المرجع</th></tr>
+    <tr><td>Road Markings (Thermoplastic)</td><td>سُمك ≥ 3mm | Retroreflectivity ≥ 150 mcd</td><td>BS EN 1436</td></tr>
+    <tr><td>Kerb Alignment</td><td>±10mm عن الخط التصميمي</td><td>QCS Clause 11.3.2</td></tr>
+    <tr><td>Drainage Outlets</td><td>صرف كامل — لا تجمّع مياه</td><td>QCS S8 P5</td></tr>
+    <tr><td>Signs & Posts</td><td>ارتفاع ≥ 2.1m | Retroreflective Class 2</td><td>Ashghal RDM §6.4</td></tr>
+    <tr><td>Guardrail (W-Beam)</td><td>Working Width W4 | TB32 Test Level</td><td>EN 1317</td></tr>
+    <tr><td>Footpath Surface</td><td>BPN ≥ 45 | Cross-fall ≤ 2%</td><td>QCS S8 P5</td></tr>
+    <tr><td>Street Lighting</td><td>Lux Level per road class</td><td>KAHRAMAA + QCS S21</td></tr>
+  </table>
+  <h3>✅ Pass / ❌ Fail</h3>
+  <p>✅ Pass: كل البنود مطابقة → تُرفع For Record Drawings + طلب Handover<br>
+  ❌ Fail: أي بند ناقص → Snagging List + إعادة الفحص</p>
+  <p><strong>نموذج Ashghal:</strong> ITP-ROAD-FIN-006 | Snagging Form: SNAG-ROAD-001</p>
+</div>
+<div class="lang-content-en" style="display:none">
+  <h3>Phase Definition</h3>
+  <p>Comprehensive finishing stage: road markings, signs, kerbs, barriers, surface drainage. Achieves safety and visual clarity requirements before handover.</p>
+  <h3>Acceptance Criteria — QCS S8 P5 + Ashghal RDM §6</h3>
+  <table class="dm-table">
+    <tr><th>Item</th><th>Criterion</th><th>Reference</th></tr>
+    <tr><td>Road Markings (Thermoplastic)</td><td>Thickness ≥ 3mm | Retroreflectivity ≥ 150 mcd</td><td>BS EN 1436</td></tr>
+    <tr><td>Kerb Alignment</td><td>±10mm from design line</td><td>QCS Clause 11.3.2</td></tr>
+    <tr><td>Drainage Outlets</td><td>Full drainage — no ponding</td><td>QCS S8 P5</td></tr>
+    <tr><td>Signs & Posts</td><td>Height ≥ 2.1m | Retroreflective Class 2</td><td>Ashghal RDM §6.4</td></tr>
+    <tr><td>Guardrail (W-Beam)</td><td>Working Width W4 | TB32 Test Level</td><td>EN 1317</td></tr>
+    <tr><td>Footpath Surface</td><td>BPN ≥ 45 | Cross-fall ≤ 2%</td><td>QCS S8 P5</td></tr>
+    <tr><td>Street Lighting</td><td>Lux Level per road class</td><td>KAHRAMAA + QCS S21</td></tr>
+  </table>
+  <h3>✅ Pass / ❌ Fail</h3>
+  <p>✅ Pass: All items compliant → submit For Record Drawings + Handover request<br>
+  ❌ Fail: Any item incomplete → Snagging List + re-inspection</p>
+  <p><strong>Ashghal Form:</strong> ITP-ROAD-FIN-006 | Snagging Form: SNAG-ROAD-001</p>
+</div>
+`};
+
+c['handover_detail'] = { title: 'Handover — QCS 2024 §S1-P5 | Ashghal RDM §7', content: `
+<div class="lang-content-ar">
+  <h3>تعريف المرحلة</h3>
+  <p>المرحلة الختامية لتسليم الطريق لـ Ashghal رسمياً.
+  تشمل مراجعة كامل الوثائق، الاختبارات، ورسومات As-Built
+  قبل إصدار Taking-Over Certificate.</p>
+  <h3>متطلبات التسليم — QCS S1 P5 + Ashghal RDM §7</h3>
+  <table class="dm-table">
+    <tr><th>الوثيقة / الاختبار</th><th>المطلوب</th><th>المرجع</th></tr>
+    <tr><td>As-Built Drawings</td><td>كاملة + موقّعة من المهندس</td><td>FIDIC Cl.4.1</td></tr>
+    <tr><td>ITP Records</td><td>100% مكتملة + موقّعة</td><td>QCS S1 P5</td></tr>
+    <tr><td>Material Test Reports</td><td>كل الطبقات + Lab Reports</td><td>QCS S8</td></tr>
+    <tr><td>Defects Liability Period</td><td>12 شهراً من Taking-Over</td><td>FIDIC Cl.11.1</td></tr>
+    <tr><td>Performance Bond</td><td>10% من قيمة العقد</td><td>Ashghal Contract</td></tr>
+    <tr><td>O&M Manual</td><td>تسليم نسخة للمشغّل</td><td>Ashghal RDM §7.3</td></tr>
+    <tr><td>Street Lighting Commissioning</td><td>شهادة KAHRAMAA</td><td>KAHRAMAA 2024</td></tr>
+    <tr><td>Final Survey</td><td>Levels + Coords + GIS data</td><td>QCS S1 P2</td></tr>
+  </table>
+  <h3>✅ Pass / ❌ Fail</h3>
+  <p>✅ Pass: كل الوثائق مكتملة → إصدار Taking-Over Certificate<br>
+  ❌ Fail: أي وثيقة ناقصة → Punch List + تأجيل التسليم</p>
+  <p><strong>نموذج Ashghal:</strong> TOC-ROAD-007 | Defects Form: DLP-ROAD-001</p>
+</div>
+<div class="lang-content-en" style="display:none">
+  <h3>Phase Definition</h3>
+  <p>The final stage for officially handing over the road to Ashghal. Includes full document review, test records, and As-Built drawings before issuing the Taking-Over Certificate.</p>
+  <h3>Handover Requirements — QCS S1 P5 + Ashghal RDM §7</h3>
+  <table class="dm-table">
+    <tr><th>Document / Test</th><th>Requirement</th><th>Reference</th></tr>
+    <tr><td>As-Built Drawings</td><td>Complete + signed by Engineer</td><td>FIDIC Cl.4.1</td></tr>
+    <tr><td>ITP Records</td><td>100% complete + signed</td><td>QCS S1 P5</td></tr>
+    <tr><td>Material Test Reports</td><td>All layers + Lab Reports</td><td>QCS S8</td></tr>
+    <tr><td>Defects Liability Period</td><td>12 months from Taking-Over</td><td>FIDIC Cl.11.1</td></tr>
+    <tr><td>Performance Bond</td><td>10% of contract value</td><td>Ashghal Contract</td></tr>
+    <tr><td>O&M Manual</td><td>Delivered to operator</td><td>Ashghal RDM §7.3</td></tr>
+    <tr><td>Street Lighting Commissioning</td><td>KAHRAMAA Certificate</td><td>KAHRAMAA 2024</td></tr>
+    <tr><td>Final Survey</td><td>Levels + Coords + GIS data</td><td>QCS S1 P2</td></tr>
+  </table>
+  <h3>✅ Pass / ❌ Fail</h3>
+  <p>✅ Pass: All documents complete → issue Taking-Over Certificate<br>
+  ❌ Fail: Any document missing → Punch List + postpone handover</p>
+  <p><strong>Ashghal Form:</strong> TOC-ROAD-007 | Defects Form: DLP-ROAD-001</p>
+</div>
+`};
+
 })();
