@@ -1,6 +1,7 @@
 // /api/validate-code.js — QatarSpec Pro
 // Server-side promo code validation
 // PRO_CODES stored ONLY here — never in client HTML
+// [SEC] Rate limiting: 5 محاولات/دقيقة لمنع brute-force على الأكواد
 
 export const config = { runtime: 'edge' };
 
@@ -9,6 +10,26 @@ const CORS = {
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
 };
+
+// ── Rate Limiting (Edge-compatible in-memory) ──────────────────────────────
+// حد 5 محاولات/دقيقة لكل IP — يمنع brute-force على أكواد Pro
+const _rl = new Map();
+function checkRateLimit(ip) {
+  const now       = Date.now();
+  const windowMs  = 60 * 1000;
+  const limit     = 5;
+  const entry     = _rl.get(ip);
+  if (!entry || now - entry.ts > windowMs) {
+    _rl.set(ip, { count: 1, ts: now });
+    return { allowed: true, remaining: limit - 1 };
+  }
+  if (entry.count >= limit) {
+    const retryAfter = Math.ceil((windowMs - (now - entry.ts)) / 1000);
+    return { allowed: false, retryAfter, remaining: 0 };
+  }
+  entry.count++;
+  return { allowed: true, remaining: limit - entry.count };
+}
 
 export default async function handler(req) {
   if (req.method === 'OPTIONS') {
@@ -20,6 +41,28 @@ export default async function handler(req) {
       status: 405,
       headers: { ...CORS, 'Content-Type': 'application/json' },
     });
+  }
+
+  // ── Rate Limit Check ──────────────────────────────────────────────────────
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '0.0.0.0';
+  const rl = checkRateLimit(ip);
+  if (!rl.allowed) {
+    return new Response(
+      JSON.stringify({
+        valid: false,
+        error: `تجاوزت الحد (5 محاولات/دقيقة). حاول بعد ${rl.retryAfter} ثانية.`,
+      }),
+      {
+        status: 429,
+        headers: {
+          ...CORS,
+          'Content-Type':          'application/json',
+          'Retry-After':           String(rl.retryAfter),
+          'X-RateLimit-Limit':     '5',
+          'X-RateLimit-Remaining': '0',
+        },
+      }
+    );
   }
 
   let body;
