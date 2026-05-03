@@ -1302,6 +1302,71 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div class="group-header-count" style="background:#27ae6033;color:#27ae60">0 — مدمجة</div>
   </div>
   <div class="group-grid">
+
+    <!-- كرت 1: معدات الطرق -->
+    <div class="cat-card" onclick="QS.openDetail('roads_equipment')" data-type="static" data-keywords="equipment,معدات,grader,roller,paver,ndg,asphalt,طرق,دمك,إسفلت,nuclear">
+      <span class="cat-badge static">🚜 معدات</span>
+      <h3 class="cat-name" data-ar="معدات أعمال الطرق" data-en="Road Works Equipment">معدات أعمال الطرق — QCS §S8</h3>
+      <div class="card-bullets cat-desc">
+        <span>📌 <strong>Motor Grader:</strong> تسوية Subgrade/Subbase · Blade 3.7-4.3m · مستوى ±10mm · QCS 2024 §S8-P2</span>
+        <span>📌 <strong>Vibratory Roller:</strong> دمك الطبقات الحبيبية · 10-12 طن · ≥95% MDD Subgrade / ≥98% Base · QCS 2024 §S8-P3</span>
+        <span>📌 <strong>Asphalt Paver:</strong> فرد الإسفلت بسُمك محدد · سرعة 3-5 m/min · سُمك design ±6mm · QCS 2024 §S8-P4</span>
+        <span>📌 <strong>Nuclear Density Gauge:</strong> قياس الكثافة ميدانياً · معاير 6 أشهر · Standard Count يومي · ASTM D2950</span>
+      </div>
+      <div class="cat-bottom">
+        <span class="cat-count">QCS 2024 §S8 | 8 معدات رئيسية</span>
+        <span class="cat-arr">←</span>
+      </div>
+    </div>
+
+    <!-- كرت 2: معدات المرافق -->
+    <div class="cat-card" onclick="QS.openDetail('utilities_equipment')" data-type="static" data-keywords="equipment,معدات,excavator,cctv,hdpe,fusion,pressure,مرافق,مواسير,chlorine,utilities">
+      <span class="cat-badge static">🔧 معدات</span>
+      <h3 class="cat-name" data-ar="معدات أعمال المرافق" data-en="Utilities Equipment">معدات أعمال المرافق — QCS §S20</h3>
+      <div class="card-bullets cat-desc">
+        <span>📌 <strong>Pipe Fusion Machine:</strong> لحام Electrofusion + Butt Fusion · Temperature per ISO 12176 · Bead inspection 100% · QCS 2024 §S20</span>
+        <span>📌 <strong>Pressure Test Unit:</strong> اختبار ضغط خطوط المياه · 1.5×PN لمدة ساعتين · Drop ≤0.1 bar · KAHRAMAA 2024</span>
+        <span>📌 <strong>CCTV Camera:</strong> فحص داخلي خطوط الصرف · Speed ≤0.1 m/s · Grade ≤2 مقبول · BS EN 13508</span>
+        <span>📌 <strong>Compaction Plate:</strong> دمك الردم في الخنادق · طبقات ≤200mm · ≥95% MDD حذر حول الماسورة · QCS 2024 §S8-P2</span>
+      </div>
+      <div class="cat-bottom">
+        <span class="cat-count">QCS 2024 §S20 | KAHRAMAA | BS EN 13508</span>
+        <span class="cat-arr">←</span>
+      </div>
+    </div>
+
+    <!-- كرت 3: معدات الإنشاء -->
+    <div class="cat-card" onclick="QS.openDetail('structural_equipment')" data-type="static" data-keywords="equipment,معدات,concrete,pump,vibrator,mixer,rebar,خرسانة,مضخة,هزاز,structural">
+      <span class="cat-badge static">🏗️ معدات</span>
+      <h3 class="cat-name" data-ar="معدات الأعمال الإنشائية" data-en="Structural Equipment">معدات الأعمال الإنشائية — QCS §S5</h3>
+      <div class="card-bullets cat-desc">
+        <span>📌 <strong>Transit Mixer:</strong> نقل الخرسانة · Temp ≤32°C · زمن ≤90 دقيقة (60 صيف) · QCS 2024 §S5-P4</span>
+        <span>📌 <strong>Concrete Pump:</strong> ضخ الخرسانة · Boom 36-52m · Slump 100-150mm للضخ · QCS 2024 §S5-P4</span>
+        <span>📌 <strong>Internal Vibrator:</strong> دمك الخرسانة · Ø50-75mm · تردد ≥12,000 VPM · 10-15 ثانية/نقطة · QCS 2024 §S5</span>
+        <span>📌 <strong>Cover Meter:</strong> قياس concrete cover · Electromagnetic · Scan كل 2m² قبل الصب · BS EN 12504</span>
+      </div>
+      <div class="cat-bottom">
+        <span class="cat-count">QCS 2024 §S5 | BS EN 12350/12390</span>
+        <span class="cat-arr">←</span>
+      </div>
+    </div>
+
+    <!-- كرت 4: معدات الجسات -->
+    <div class="cat-card" onclick="QS.openDetail('geotech_equipment')" data-type="static" data-keywords="equipment,معدات,spt,cpt,boring,rig,shelby,geotech,جسات,تربة,حفر,جيوتقنية">
+      <span class="cat-badge static">🔬 معدات</span>
+      <h3 class="cat-name" data-ar="معدات الجسات والتربة" data-en="Geotechnical Equipment">معدات الجسات والتربة — QCS §S3</h3>
+      <div class="card-bullets cat-desc">
+        <span>📌 <strong>Rotary Drill Rig:</strong> حفر الجسات ≥50m · Core recovery ≥85% · RQD log إلزامي · BS EN ISO 22476</span>
+        <span>📌 <strong>SPT Hammer:</strong> قياس N-value · 63.5 kg / 760mm drop · Auto-trip مُفضَّل · كل 1.5m · ASTM D1586</span>
+        <span>📌 <strong>Shelby Tube:</strong> عينات undisturbed · Ø75mm thin-wall · Sealed + waxed فوراً · Lab خلال 48hr · ASTM D1587</span>
+        <span>📌 <strong>DCP:</strong> تقدير CBR ميداني · CBR = 292/DCP^1.12 · كل 500m² · مقارنة مع Lab CBR · ASTM D6951</span>
+      </div>
+      <div class="cat-bottom">
+        <span class="cat-count">QCS 2024 §S3 | ASTM D1586/D1587 | BS EN ISO 22476</span>
+        <span class="cat-arr">←</span>
+      </div>
+    </div>
+
   </div>
 </div>
 
