@@ -7,6 +7,13 @@ c["qcs_changes_2014_2024"] = {
   title: '📊 QCS 2014 vs QCS 2024 — أهم التغييرات',
   content: `
 <div class="lang-content-ar">
+
+<div class="ref-header" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;">
+  <span class="ref-badge" style="background:rgba(52,152,219,0.2);color:#3498db;border:1px solid rgba(52,152,219,0.4);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;">QCS 2024 vs 2014</span>
+  <span class="ref-section" style="color:var(--text2);font-size:12px;">§S5 | §S8 | §S20 | §S21 (جديد) | مقارنة كاملة</span>
+  <span class="ref-updated" style="margin-left:auto;color:var(--text3);font-size:11px;">آخر تحديث: 2024</span>
+</div>
+
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
 📌 QCS 2024 — مراجعة شاملة للكود القطري بعد 10 سنوات | يجب مراجعة كل التصاميم القديمة
 </div>
@@ -57,6 +64,13 @@ c["top20_ncr"] = {
   title: '🔴 أكثر 20 NCR شيوعاً في قطر',
   content: `
 <div class="lang-content-ar">
+
+<div class="ref-header" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;">
+  <span class="ref-badge" style="background:rgba(231,76,60,0.2);color:#e74c3c;border:1px solid rgba(231,76,60,0.4);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;">QCS 2024 §S5 + §S8</span>
+  <span class="ref-section" style="color:var(--text2);font-size:12px;">خبرة ميدانية | Ashghal Projects | KAHRAMAA Sites</span>
+  <span class="ref-updated" style="margin-left:auto;color:var(--text3);font-size:11px;">آخر تحديث: 2024</span>
+</div>
+
 <h3>أكثر 20 NCR شيوعاً — مبني على خبرة ميدانية في مشاريع Ashghal</h3>
 <table class="dm-table">
 <tr><th>#</th><th>NCR</th><th>السبب الجذري</th><th>الإجراء التصحيحي</th><th>QCS</th></tr>
@@ -448,6 +462,13 @@ c["mmup_road_design"] = {
   title: '🏛️ MMUP — متطلبات تصميم الطرق الكاملة',
   content: `
 <div class="lang-content-ar">
+
+<div class="ref-header" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:10px;">
+  <span class="ref-badge" style="background:rgba(155,89,182,0.2);color:#9b59b6;border:1px solid rgba(155,89,182,0.4);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;">MMUP 2024</span>
+  <span class="ref-section" style="color:var(--text2);font-size:12px;">Zoning Regulations | Building Regulations | Traffic Standards</span>
+  <span class="ref-updated" style="margin-left:auto;color:var(--text3);font-size:11px;">آخر تحديث: 2024</span>
+</div>
+
 <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
 📌 QCS 2024 S6 P2 + MMUP Urban Roads Classification | Ashghal RDM 2023 | Qatar National Planning Council
 </div>
@@ -2086,6 +2107,13 @@ c["road_design_criteria"] = {
   content: `
 <div class="lang-content-ar">
 
+<div class="ref-header" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;">
+  <span class="ref-badge" style="background:rgba(52,152,219,0.2);color:#3498db;border:1px solid rgba(52,152,219,0.4);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;">QHDM 4th Ed. 2019</span>
+  <span class="ref-section" style="color:var(--text2);font-size:12px;">QCS 2024 §S8-P4 | Ashghal RDM | AASHTO 2018</span>
+  <span class="ref-updated" style="margin-left:auto;color:var(--text3);font-size:11px;">آخر تحديث: 2024</span>
+</div>
+
+
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
 📌 QCS 2024 Section 6 Part 2 — Road Design | Ashghal RDM 2023 | AASHTO 2018
 </div>
@@ -2248,6 +2276,13 @@ c["survey_setting_out"] = {
   title: '📐 Survey & Setting Out — QCS + Ashghal',
   content: `
 <div class="lang-content-ar">
+
+<div class="ref-header" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:10px;">
+  <span class="ref-badge" style="background:rgba(46,204,113,0.2);color:#2ecc71;border:1px solid rgba(46,204,113,0.4);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;">QCS 2024 §S1</span>
+  <span class="ref-section" style="color:var(--text2);font-size:12px;">BS 5606 | FIDIC Cl.4.7 | BS EN 1536</span>
+  <span class="ref-updated" style="margin-left:auto;color:var(--text3);font-size:11px;">آخر تحديث: 2024</span>
+</div>
+
 
 <div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
 📌 QCS 2024 Section 1 Part 5 — Setting Out | Ashghal Survey Standards | BS 5606
