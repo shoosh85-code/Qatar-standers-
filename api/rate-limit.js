@@ -27,20 +27,24 @@ setInterval(() => {
 // ── حدود الطلبات (Protocol 6) ────────────────────────────────────────────────
 export const LIMITS = {
   free: {
-    'ai-proxy':     5,
-    'verify-pro':   3,
-    'qcs-search':  10,
-    'vision-proxy': 3,
-    'enhance-en':   5,
-    'export-pdf':   3,
+    'ai-proxy':       5,
+    'verify-pro':     3,
+    'qcs-search':    10,
+    'vision-proxy':   3,
+    'enhance-en':     5,
+    'export-pdf':     3,
+    'supabase-proxy': 10,  // نفس qcs-search — بحث QCS
+    'tap-checkout':   3,   // حماية من spam المدفوعات
   },
   pro: {
-    'ai-proxy':     60,
-    'verify-pro':   10,
-    'qcs-search':  100,
-    'vision-proxy': 30,
-    'enhance-en':   60,
-    'export-pdf':   30,
+    'ai-proxy':       60,
+    'verify-pro':     10,
+    'qcs-search':    100,
+    'vision-proxy':   30,
+    'enhance-en':     60,
+    'export-pdf':     30,
+    'supabase-proxy': 100, // نفس qcs-search
+    'tap-checkout':   10,  // Pro يملك طلبات دفع أكثر
   },
   global: { perIp: 100 },
 };
