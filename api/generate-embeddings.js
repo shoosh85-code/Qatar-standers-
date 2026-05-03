@@ -1,8 +1,22 @@
 // QatarSpec Pro — Generate embeddings for QCS chunks
 // POST /api/generate-embeddings { admin_secret, batch_size, offset }
 // Run multiple times with increasing offset to process all chunks
+import { checkRateLimit, applyRateLimitHeaders, getIp } from './rate-limit.js';
 
 export default async function handler(req, res) {
+  // ── Rate Limiting (Protocol 6) — admin endpoint — 2/min free | 20/min pro ──
+  const ip = getIp(req);
+  const rl = checkRateLimit(ip, 'generate-embeddings', false);
+  applyRateLimitHeaders(res, rl);
+  if (!rl.allowed) {
+    return res.status(429).json({
+      error: 'Too Many Requests',
+      retryAfter: rl.retryAfter,
+      message: `حاول مرة أخرى بعد ${rl.retryAfter} ثانية`,
+    });
+  }
+  // ──────────────────────────────────────────────────────────────────────────
+
   // Embeddings generation complete — endpoint disabled for security
   return res.status(410).json({ 
     message: 'Embedding generation complete. This endpoint is now disabled.',
