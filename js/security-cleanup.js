@@ -1,4 +1,4 @@
-// ═══ SECURITY CLEANUP v3.1 — مسح أي بيانات حساسة من localStorage ══════════
+// ═══ SECURITY CLEANUP v3.2 — مسح أي بيانات حساسة من localStorage ══════════
 // يعمل قبل كل شيء — يحمي المستخدمين القادمين من إصدارات قديمة
 (function cleanupSecurity() {
   const LEGACY_KEYS = [
@@ -15,24 +15,39 @@
   // إزالة أي مفتاح يشبه API Key (sk- أو AIza...)
   Object.keys(localStorage).forEach(function(k) {
     const v = localStorage.getItem(k) || '';
-    if (v.startsWith('sk-ant-') || v.startsWith('AIzaSy') || v.startsWith('sk-') && v.length > 20) {
+    if (v.startsWith('sk-ant-') || v.startsWith('AIzaSy') || (v.startsWith('sk-') && v.length > 20)) {
       localStorage.removeItem(k);
       console.warn('[QatarSpec Security] Removed API key from localStorage:', k);
     }
   });
 })();
-// Register Service Worker v8 — Cache-First + Offline support
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('/sw.js').then(function(reg){
-    console.log('[QatarSpec] SW registered, scope:', reg.scope);
-    // Auto-update check
-    reg.addEventListener('updatefound', function(){
-      var newSW = reg.installing;
-      if(newSW) newSW.addEventListener('statechange', function(){
-        if(newSW.state === 'activated') console.log('[QatarSpec] SW updated');
+
+// ═══ Service Worker v3.3.0 — Registration واحد فقط هنا ══════════════════════
+// [S4] توحيد SW — لا يوجد registration في inline-scripts.js أو assets/app.js
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js', { scope: '/' })
+      .then(function(reg) {
+        console.log('[SW] Registered v3.3.0, scope:', reg.scope);
+        // تحقق من تحديثات وأعلم المستخدم
+        reg.addEventListener('updatefound', function() {
+          var newSW = reg.installing;
+          if (!newSW) return;
+          newSW.addEventListener('statechange', function() {
+            if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+              // عرض banner التحديث إذا وُجد
+              var banner = document.getElementById('update-banner');
+              if (banner) banner.style.display = 'block';
+              console.log('[SW] Update available — reload to apply');
+            }
+            if (newSW.state === 'activated') {
+              console.log('[SW] v3.3.0 activated');
+            }
+          });
+        });
+      })
+      .catch(function(err) {
+        console.warn('[SW] Registration failed:', err);
       });
-    });
-  }).catch(function(err){
-    console.warn('[QatarSpec] SW registration failed:', err);
   });
 }
