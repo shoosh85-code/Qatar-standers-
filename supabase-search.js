@@ -1,8 +1,7 @@
 // QatarSpec Pro — Supabase Real Search Integration
 // قاعدة بيانات: qcs_chunks | 18,000+ chunk من QCS 2024
 
-const SUPABASE_URL = "https://jwhgeolbkqdtedrmkszn.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3aGdlb2xia3FkdGVkcm1rc3puIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0NDQ1NTMsImV4cCI6MjA5MjAyMDU1M30.FZUdxjd6EOPTEZ5sR_im4lWCpA0l4JOHlJeI8NhQ8nM";
+// المفاتيح محذوفة من client-side — تُدار بالكامل في api/supabase-proxy.js
 
 const SECTION_MAP = {
   "road-works":      { section_num: "06", label: "أعمال الطرق" },
@@ -36,11 +35,19 @@ const SECTION_MAP = {
 };
 
 async function searchQCSSection(sectionNum, keyword = "", limit = 20) {
-  let url = SUPABASE_URL + "/rest/v1/qcs_chunks?select=id,section_name,part_name,page_num,content,chunk_index&section_num=eq." + sectionNum;
-  if (keyword && keyword.trim()) url += "&content=ilike.*" + encodeURIComponent(keyword.trim()) + "*";
-  url += "&limit=" + limit + "&order=chunk_index.asc";
-  const r = await fetch(url, { headers: { "apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY } });
-  if (!r.ok) throw new Error("Supabase: " + r.status);
+  // الطلب يذهب إلى server-side proxy — لا SUPABASE_KEY في client
+  const r = await fetch("/api/supabase-proxy", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ sectionNum, keyword, limit })
+  });
+  if (!r.ok) {
+    if (r.status === 429) {
+      const d = await r.json().catch(() => ({}));
+      throw new Error(d.message || "طلبات كثيرة — حاول بعد دقيقة");
+    }
+    throw new Error("Supabase proxy: " + r.status);
+  }
   return r.json();
 }
 
