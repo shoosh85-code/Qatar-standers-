@@ -1,13 +1,12 @@
 // One-time setup: Enable pgvector + add embedding column + create search function
 // POST /api/setup-vectors with { admin_secret }
-import { checkRateLimit, applyRateLimitHeaders, getIp } from './rate-limit.js';
+import { rateLimit, applyRateLimitHeaders } from './rate-limit.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
   // ── Rate Limiting (Protocol 6) — admin endpoint — 2/min ──────────────────
-  const ip = getIp(req);
-  const rl = checkRateLimit(ip, 'setup-vectors', false);
+  const rl = await rateLimit(req, 'free', 'setup-vectors');
   applyRateLimitHeaders(res, rl);
   if (!rl.allowed) {
     return res.status(429).json({

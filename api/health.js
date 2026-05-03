@@ -1,11 +1,10 @@
 // /api/health.js — QatarSpec Pro health check
 // ملاحظة: تم تحويله من Edge إلى Node.js لدعم rate-limit.js
-import { checkRateLimit, applyRateLimitHeaders, getIp } from './rate-limit.js';
+import { rateLimit, applyRateLimitHeaders } from './rate-limit.js';
 
 export default async function handler(req, res) {
   // ── Rate Limiting (Protocol 6) — 30/min — مراقبة سخية ───────────────────
-  const ip = getIp(req);
-  const rl = checkRateLimit(ip, 'health', false);
+  const rl = await rateLimit(req, 'free', 'health');
   applyRateLimitHeaders(res, rl);
   if (!rl.allowed) {
     return res.status(429).json({
