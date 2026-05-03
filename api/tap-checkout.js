@@ -1,6 +1,6 @@
 // Tap Payments — Create checkout session for QatarSpec Pro subscription
 // Docs: https://developers.tap.company/
-import { rateLimit, applyRateLimitHeaders } from './rate-limit.js';
+import { rateLimit, applyRateLimitHeaders, getIp } from './rate-limit.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,14 +10,15 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
   // ── Rate Limiting (Protocol 6) — حماية من spam المدفوعات ─────────────────
-  // دائماً free tier — المستخدم يشتري Pro وليس Pro بعد
-  const rl = await rateLimit(req, 'free', 'tap-checkout');
+  const ip     = getIp(req);
+  const isPro  = false; // المستخدم يشتري Pro — ليس Pro بعد
+  const rl     = await rateLimit(req, isPro ? 'pro' : 'free', 'tap-checkout');
   applyRateLimitHeaders(res, rl);
   if (!rl.allowed) {
     return res.status(429).json({
       error: 'Too Many Requests',
       retryAfter: rl.retryAfter,
-      message: `حاول مرة أخرى بعد ${rl.retryAfter} ثانية`,
+      message: `[${ip}] حاول مرة أخرى بعد ${rl.retryAfter} ثانية`,
     });
   }
   // ─────────────────────────────────────────────────────────────────────────

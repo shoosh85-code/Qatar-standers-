@@ -1,18 +1,20 @@
 // One-time setup: Enable pgvector + add embedding column + create search function
 // POST /api/setup-vectors with { admin_secret }
-import { rateLimit, applyRateLimitHeaders } from './rate-limit.js';
+import { rateLimit, applyRateLimitHeaders, getIp } from './rate-limit.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
   // ── Rate Limiting (Protocol 6) — admin endpoint — 2/min ──────────────────
-  const rl = await rateLimit(req, 'free', 'setup-vectors');
+  const ip    = getIp(req);
+  const isPro = false; // admin endpoint — بدون JWT — حد ثابت 2/min
+  const rl    = await rateLimit(req, isPro ? 'pro' : 'free', 'setup-vectors');
   applyRateLimitHeaders(res, rl);
   if (!rl.allowed) {
     return res.status(429).json({
       error: 'Too Many Requests',
       retryAfter: rl.retryAfter,
-      message: `حاول مرة أخرى بعد ${rl.retryAfter} ثانية`,
+      message: `[${ip}] حاول مرة أخرى بعد ${rl.retryAfter} ثانية`,
     });
   }
   // ──────────────────────────────────────────────────────────────────────────

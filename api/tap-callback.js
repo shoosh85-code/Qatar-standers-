@@ -1,12 +1,14 @@
 // Tap Payments — Handle redirect after payment
-import { rateLimit, applyRateLimitHeaders } from './rate-limit.js';
+import { rateLimit, applyRateLimitHeaders, getIp } from './rate-limit.js';
 
 export default async function handler(req, res) {
   // ── Rate Limiting (Protocol 6) — حماية من spam نتائج الدفع ──────────────
-  const rl = await rateLimit(req, 'free', 'tap-callback');
+  const ip    = getIp(req);
+  const isPro = false; // الدفع لم يُتحقق منه بعد — لا JWT متاح
+  const rl    = await rateLimit(req, isPro ? 'pro' : 'free', 'tap-callback');
   applyRateLimitHeaders(res, rl);
   if (!rl.allowed) {
-    return res.redirect(302, `/?payment=error&reason=rate_limit&retry=${rl.retryAfter}`);
+    return res.redirect(302, `/?payment=error&reason=rate_limit&retry=${rl.retryAfter}&ip=${ip}`);
   }
   // ──────────────────────────────────────────────────────────────────────────
 
