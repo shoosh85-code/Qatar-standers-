@@ -35,6 +35,7 @@ export const LIMITS = {
     'export-pdf':     3,
     'supabase-proxy': 10,  // نفس qcs-search — بحث QCS
     'tap-checkout':   3,   // حماية من spam المدفوعات
+    'auth-proxy':     5,   // تحقق التوكن — نفس verify-pro
   },
   pro: {
     'ai-proxy':       60,
@@ -45,6 +46,7 @@ export const LIMITS = {
     'export-pdf':     30,
     'supabase-proxy': 100, // نفس qcs-search
     'tap-checkout':   10,  // Pro يملك طلبات دفع أكثر
+    'auth-proxy':     10,  // Pro يتحقق أكثر
   },
   global: { perIp: 100 },
 };

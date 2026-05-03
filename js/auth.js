@@ -1,77 +1,44 @@
 // js/auth.js — QatarSpec Pro
 // Authentication module — reads ONLY from Supabase
 // [SEC v4.1] NO localStorage for token/user — in-memory only + httpOnly cookie via server
-// No hardcoded tokens or emails — uses NEXT_PUBLIC_SUPABASE_URL + NEXT_PUBLIC_SUPABASE_ANON_KEY
+// [SEC v4.2] No credentials in client — token validation via /api/auth-proxy
 
 (function () {
   'use strict';
 
-  // ── Config from meta tags injected by Vercel (set in index.html head) ────
-  // Falls back to window globals for legacy support
-  const SUPABASE_URL =
-    document.querySelector('meta[name="supabase-url"]')?.content ||
-    window.SUPABASE_URL ||
-    '';
-
-  const SUPABASE_ANON_KEY =
-    document.querySelector('meta[name="supabase-anon-key"]')?.content ||
-    window.SUPABASE_ANON_KEY ||
-    '';
-
-  // ── [SEC] NO localStorage keys for token/user — removed C-01 ────────────
-  // Token lives in httpOnly cookie (set by /api/verify-pro server-side)
-  // User data lives in memory only (currentUser below)
+  // ── [SEC v4.2] NO Supabase credentials in client ────────────────────────
+  // Token validation → /api/auth-proxy (server-side)
+  // Auth status → /api/verify-pro (httpOnly cookie)
+  // No SUPABASE_URL or SUPABASE_KEY in browser
 
   // ── State (in-memory only — cleared on page close) ───────────────────────
   let currentUser = null;
   let _tokenMemory = null; // حفظ التوكن في الذاكرة فقط — لا localStorage
 
-  // ── Supabase REST helper (no SDK needed in browser) ──────────────────────
-  async function supabaseFetch(path, options = {}) {
-    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-      throw new Error('Supabase not configured');
-    }
-
-    const url = `${SUPABASE_URL}/rest/v1/${path}`;
-    const res = await fetch(url, {
-      ...options,
-      headers: {
-        apikey: SUPABASE_ANON_KEY,
-        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-        'Content-Type': 'application/json',
-        Prefer: 'return=representation',
-        ...(options.headers || {}),
-      },
-    });
-
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.message || `HTTP ${res.status}`);
-    }
-
-    return res.json();
-  }
-
-  // ── Validate token against Supabase ─────────────────────────────────────
+  // ── Validate token via server-side proxy ─────────────────────────────────
   async function validateToken(token) {
     if (!token || typeof token !== 'string' || token.length < 8) return null;
 
     try {
-      const rows = await supabaseFetch(
-        `users?token=eq.${encodeURIComponent(token)}&select=id,email,is_pro,is_active,plan,expires_at`,
-        { method: 'GET' }
-      );
+      // [SEC v4.2] التحقق عبر server-side proxy — لا Supabase مباشرة
+      const res = await fetch('/api/auth-proxy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: token.trim() }),
+      });
 
-      const user = rows?.[0];
-      if (!user) return null;
-      if (!user.is_active) return null;
-
-      // Check expiry
-      if (user.expires_at && new Date(user.expires_at) < new Date()) {
-        return null;
+      if (!res.ok) {
+        if (res.status === 429) {
+          const d = await res.json().catch(() => ({}));
+          throw new Error(d.message || 'طلبات كثيرة — حاول بعد دقيقة');
+        }
+        throw new Error(`HTTP ${res.status}`);
       }
 
-      return user;
+      const data = await res.json();
+      if (!data.valid || !data.user) return null;
+      return data.user;
+
     } catch (err) {
       console.warn('[Auth] Token validation failed:', err.message);
       return null;
