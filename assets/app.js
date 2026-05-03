@@ -1,6 +1,12 @@
 
-// ===== STATE =====
-let anthropicKey = localStorage.getItem('qatarspecKey') || '';
+// ═══════════════════════════════════════════════════════════════
+// LEGACY FILE — NOT LOADED — kept for reference only
+// هذا الملف لا يُحمَّل في التطبيق — تم استبداله بـ inline-scripts.js
+// [SEC v3.0] anthropicKey من localStorage محظور — خرق للقاعدة 7
+// ═══════════════════════════════════════════════════════════════
+
+// ===== STATE (LEGACY — DO NOT USE) =====
+// let anthropicKey = localStorage.getItem('qatarspecKey') || ''; // ❌ REMOVED v3.0
 let uploadedFiles = [];
 
 // ===== INIT =====
