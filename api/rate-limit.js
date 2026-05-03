@@ -1,156 +1,140 @@
 // api/rate-limit.js
-// QatarSpec Pro — Rate Limiting Module v1.0
+// QatarSpec Pro — Rate Limiting Module v2.0
 // يستخدم Vercel KV مع fallback إلى in-memory Map
+// ESM format — متوافق مع "type": "module" في package.json
 
-let kv;
+// ── Vercel KV (اختياري) ──────────────────────────────────────────────────────
+let kv = null;
 try {
-  kv = require('@vercel/kv').kv;
+  const kvMod = await import('@vercel/kv');
+  kv = kvMod.kv ?? null;
 } catch {
-  kv = null; // سيتم استخدام in-memory fallback
+  kv = null;
 }
 
-// In-memory fallback store
+// ── In-memory fallback ────────────────────────────────────────────────────────
 const memoryStore = new Map();
-const MEMORY_CLEANUP_INTERVAL = 5 * 60 * 1000; // 5 دقائق
+const WINDOW_MS               = 60 * 1000;
+const MEMORY_CLEANUP_INTERVAL = 5 * 60 * 1000;
 
-// تنظيف التسجيلات القديمة كل 5 دقائق
 setInterval(() => {
   const now = Date.now();
-  for (const [key, value] of memoryStore.entries()) {
-    if (now - value.timestamp > MEMORY_CLEANUP_INTERVAL) {
-      memoryStore.delete(key);
-    }
+  for (const [key, entry] of memoryStore.entries()) {
+    if (now - entry.timestamp > MEMORY_CLEANUP_INTERVAL) memoryStore.delete(key);
   }
 }, MEMORY_CLEANUP_INTERVAL);
 
-// حدود الطلبات لكل tier وكل endpoint
-const LIMITS = {
+// ── حدود الطلبات (Protocol 6) ────────────────────────────────────────────────
+export const LIMITS = {
   free: {
-    'ai-proxy':    5,
-    'verify-pro':  3,
+    'ai-proxy':     5,
+    'verify-pro':   3,
     'qcs-search':  10,
-    'vision-proxy': 3
+    'vision-proxy': 3,
+    'enhance-en':   5,
+    'export-pdf':   3,
   },
   pro: {
-    'ai-proxy':    60,
-    'verify-pro':  10,
+    'ai-proxy':     60,
+    'verify-pro':   10,
     'qcs-search':  100,
-    'vision-proxy': 30
+    'vision-proxy': 30,
+    'enhance-en':   60,
+    'export-pdf':   30,
   },
-  global: {
-    perIp: 100 // الحد الإجمالي لكل IP بغض النظر عن الـ tier
-  }
+  global: { perIp: 100 },
 };
 
-const WINDOW_MS = 60 * 1000; // نافذة زمنية: 1 دقيقة
-
-/**
- * استخراج IP من الطلب
- */
-function getIp(request) {
+// ── Helpers ───────────────────────────────────────────────────────────────────
+export function getIp(req) {
   return (
-    request.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
-    request.headers['x-real-ip'] ||
-    request.connection?.remoteAddress ||
-    request.socket?.remoteAddress ||
+    req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
+    req.headers['x-real-ip'] ||
+    req.connection?.remoteAddress ||
+    req.socket?.remoteAddress ||
     '0.0.0.0'
   );
 }
 
-/**
- * Rate limiting باستخدام Vercel KV
- */
 async function checkWithKv(key, limit) {
-  const now = Date.now();
-  const current = await kv.get(key);
-  const count = current ? parseInt(current, 10) : 0;
-
+  const count = parseInt(await kv.get(key) || '0', 10);
   if (count >= limit) {
     const ttl = await kv.pttl(key);
-    return {
-      allowed: false,
-      retryAfter: Math.ceil((ttl > 0 ? ttl : WINDOW_MS) / 1000),
-      remaining: 0
-    };
+    return { allowed: false, retryAfter: Math.ceil((ttl > 0 ? ttl : WINDOW_MS) / 1000), remaining: 0 };
   }
-
   await kv.set(key, count + 1, { px: WINDOW_MS });
   return { allowed: true, remaining: limit - count - 1 };
 }
 
-/**
- * Rate limiting باستخدام in-memory Map (fallback)
- */
 function checkWithMemory(key, limit) {
-  const now = Date.now();
+  const now   = Date.now();
   const entry = memoryStore.get(key);
-
-  // نافذة جديدة أو أول طلب
   if (!entry || now - entry.timestamp > WINDOW_MS) {
     memoryStore.set(key, { count: 1, timestamp: now });
     return { allowed: true, remaining: limit - 1 };
   }
-
   if (entry.count >= limit) {
-    const retryAfter = Math.ceil((WINDOW_MS - (now - entry.timestamp)) / 1000);
-    return { allowed: false, retryAfter, remaining: 0 };
+    return { allowed: false, retryAfter: Math.ceil((WINDOW_MS - (now - entry.timestamp)) / 1000), remaining: 0 };
   }
-
   entry.count++;
   return { allowed: true, remaining: limit - entry.count };
 }
 
-/**
- * الدالة الرئيسية للـ Rate Limiting
- * @param {object} request - كائن الطلب
- * @param {string} tier    - 'free' | 'pro'
- * @param {string} endpoint - اسم الـ endpoint (بدون /api/)
- * @returns {object} { allowed, remaining?, retryAfter? }
- */
-async function rateLimit(request, tier = 'free', endpoint = 'ai-proxy') {
-  const ip = getIp(request);
-  const tierLimit = LIMITS[tier]?.[endpoint] ?? LIMITS.free[endpoint] ?? 5;
-  const globalLimit = LIMITS.global.perIp;
+// ── الدوال المُصدَّرة ─────────────────────────────────────────────────────────
 
-  const tierKey   = `rate:${tier}:${endpoint}:${ip}`;
-  const globalKey = `rate:global:${ip}`;
+/**
+ * rateLimit — async، يستخدم KV أو in-memory
+ * @param {object} req       - كائن الطلب
+ * @param {string} tier      - 'free' | 'pro'
+ * @param {string} endpoint  - اسم الـ endpoint بدون /api/
+ */
+export async function rateLimit(req, tier = 'free', endpoint = 'ai-proxy') {
+  const ip          = getIp(req);
+  const tierLimit   = LIMITS[tier]?.[endpoint] ?? LIMITS.free[endpoint] ?? 5;
+  const globalLimit = LIMITS.global.perIp;
+  const tierKey     = `rate:${tier}:${endpoint}:${ip}`;
+  const globalKey   = `rate:global:${ip}`;
 
   try {
     if (kv) {
-      // التحقق من الـ global limit أولاً
-      const globalCheck = await checkWithKv(globalKey, globalLimit);
-      if (!globalCheck.allowed) {
-        return { allowed: false, retryAfter: globalCheck.retryAfter, reason: 'global' };
-      }
-
-      // التحقق من الـ tier limit
+      const g = await checkWithKv(globalKey, globalLimit);
+      if (!g.allowed) return { allowed: false, retryAfter: g.retryAfter, reason: 'global' };
       return await checkWithKv(tierKey, tierLimit);
-    } else {
-      throw new Error('KV not available');
     }
+    throw new Error('no kv');
   } catch {
-    // Fallback: in-memory
-    const globalCheck = checkWithMemory(globalKey, globalLimit);
-    if (!globalCheck.allowed) {
-      return { allowed: false, retryAfter: globalCheck.retryAfter, reason: 'global' };
-    }
-
+    const g = checkWithMemory(globalKey, globalLimit);
+    if (!g.allowed) return { allowed: false, retryAfter: g.retryAfter, reason: 'global' };
     return checkWithMemory(tierKey, tierLimit);
   }
 }
 
 /**
- * Middleware Helper — يضيف headers للـ response
- * @param {object} res    - كائن الـ response
- * @param {object} result - ناتج rateLimit()
+ * checkRateLimit — sync (in-memory فقط)
+ * للتوافق مع ai-proxy / vision-proxy / qcs-search / verify-pro
+ * @param {string}  ip
+ * @param {string}  endpoint
+ * @param {boolean} isPro
  */
-function applyRateLimitHeaders(res, result) {
+export function checkRateLimit(ip, endpoint = 'ai-proxy', isPro = false) {
+  const tier      = isPro ? 'pro' : 'free';
+  const tierLimit = LIMITS[tier]?.[endpoint] ?? (isPro ? 60 : 5);
+  const result    = checkWithMemory(`rate:${tier}:${endpoint}:${ip}`, tierLimit);
+  return {
+    allowed:    result.allowed,
+    limit:      tierLimit,
+    count:      tierLimit - (result.remaining ?? 0),
+    retryAfter: result.retryAfter ?? 0,
+  };
+}
+
+/**
+ * applyRateLimitHeaders — يضيف headers للـ response
+ */
+export function applyRateLimitHeaders(res, result) {
+  res.setHeader('X-RateLimit-Remaining', result.remaining ?? 0);
   if (!result.allowed) {
     res.setHeader('Retry-After', result.retryAfter ?? 60);
     res.setHeader('X-RateLimit-Remaining', 0);
-  } else {
-    res.setHeader('X-RateLimit-Remaining', result.remaining ?? 0);
   }
 }
-
-module.exports = { rateLimit, applyRateLimitHeaders, LIMITS };
