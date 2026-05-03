@@ -349,11 +349,11 @@ window._CONTENT_ALIASES = {
 
 const detailData = new Proxy({}, {
   get: function(_, key) {
-    var realKey = (window._CONTENT_ALIASES && window._CONTENT_ALIASES[key]) || key;
+    const realKey = (window._CONTENT_ALIASES && window._CONTENT_ALIASES[key]) || key;
     return (window.QS_CONTENT || {})[realKey];
   },
   has: function(_, key) {
-    var realKey = (window._CONTENT_ALIASES && window._CONTENT_ALIASES[key]) || key;
+    const realKey = (window._CONTENT_ALIASES && window._CONTENT_ALIASES[key]) || key;
     return realKey in (window.QS_CONTENT || {});
   }
 });
@@ -421,11 +421,11 @@ document.addEventListener('DOMContentLoaded', function() {
 // ─── End IndexedDB system ───
 
 function loadLocalVideo(input, playerId, placeholderId) {
-  var file = input.files[0];
+  const file = input.files[0];
   if (!file) return;
 
-  var inputId = input.id || input.getAttribute('id');
-  var ph = document.getElementById(placeholderId);
+  const inputId = input.id || input.getAttribute('id');
+  const ph = document.getElementById(placeholderId);
   if (ph) ph.innerHTML = '<div style="padding:12px;text-align:center;color:var(--gold);font-size:12px;">⏳ جاري تحميل الفيديو...</div>';
 
   // ─── FIX v1.7.4: استبدال FileReader.readAsDataURL بـ URL.createObjectURL ───
@@ -434,12 +434,12 @@ function loadLocalVideo(input, playerId, placeholderId) {
   // URL.createObjectURL: يُعطي pointer مباشر للملف بدون ترميز — فوري وآمن
   // ملاحظة: blob: URLs مسموحة في media-src (لا تتعارض مع CSP الحالي)
   //         وتعمل في Incognito بدون مشكلة لأنها local file reference
-  var existing = _videoFiles.get(inputId);
+  const existing = _videoFiles.get(inputId);
   if (existing && existing.url && existing.url.startsWith('blob:')) {
     URL.revokeObjectURL(existing.url); // تنظيف الـ URL القديم من الذاكرة
   }
 
-  var url = URL.createObjectURL(file);
+  const url = URL.createObjectURL(file);
   _videoFiles.set(inputId, { file: file, url: url, name: file.name, size: file.size });
   _saveVideoToIDB(inputId, file);
   _applyVideoToDOM(inputId, playerId, placeholderId, url, file.name, file.size);
@@ -476,8 +476,8 @@ function createVideoPlayer(containerId, src) {
 }
 
 function _applyVideoToDOM(inputId, playerId, phId, url, name, size) {
-  var container = document.getElementById(playerId);
-  var ph = document.getElementById(phId);
+  const container = document.getElementById(playerId);
+  const ph = document.getElementById(phId);
 
   if (!container) return;
 
@@ -485,8 +485,8 @@ function _applyVideoToDOM(inputId, playerId, phId, url, name, size) {
   if (typeof container._vidCleanup === 'function') container._vidCleanup();
   container.innerHTML = '';
 
-  var maxH = container.dataset ? (container.dataset.maxh || '280px') : '280px';
-  var video = document.createElement('video');
+  const maxH = container.dataset ? (container.dataset.maxh || '280px') : '280px';
+  const video = document.createElement('video');
   video.controls = true;
   video.setAttribute('playsinline', '');
   video.style.cssText = 'width:100%;max-height:' + maxH + ';background:#000;display:block;border-radius:8px;';
@@ -506,9 +506,9 @@ function _applyVideoToDOM(inputId, playerId, phId, url, name, size) {
   if (ph) ph.style.display = 'none';
 
   // Badge اسم الملف
-  var badgeId = 'vbadge-' + playerId;
+  const badgeId = 'vbadge-' + playerId;
   if (!document.getElementById(badgeId) && container.parentNode) {
-    var badge = document.createElement('div');
+    const badge = document.createElement('div');
     badge.id = badgeId;
     badge.style.cssText = 'font-size:10px;color:#2ecc71;padding:3px 12px;background:rgba(46,204,113,0.1);border-top:1px solid rgba(46,204,113,0.2);border-radius:0 0 8px 8px;';
     badge.textContent = '\u2705 ' + name + ' (' + (size/1024/1024).toFixed(1) + ' MB)';
@@ -527,16 +527,16 @@ function _applyVideoToDOM(inputId, playerId, phId, url, name, size) {
 function _restoreVideosAfterDOMRebuild() {
   if (_videoFiles.size === 0) return;
 
-  var inputs = document.querySelectorAll('input[type="file"][accept*="video"]');
+  const inputs = document.querySelectorAll('input[type="file"][accept*="video"]');
   inputs.forEach(function(input) {
-    var inputId = input.id;
+    const inputId = input.id;
     if (!inputId) return;
 
-    var stored = _videoFiles.get(inputId);
+    const stored = _videoFiles.get(inputId);
     if (!stored) return;
 
-    var playerId = input.getAttribute('data-player');
-    var phId = input.getAttribute('data-ph');
+    const playerId = input.getAttribute('data-player');
+    const phId = input.getAttribute('data-ph');
     if (!playerId) {
       playerId = inputId.replace('vid-', 'vid-player-');
       phId = inputId.replace('vid-', 'vid-ph-');
@@ -919,21 +919,21 @@ let navStack = [];
  */
 function dedupeSectionContent(contentHTML, lang) {
   if (!contentHTML) return contentHTML;
-  var parser = new DOMParser();
-  var doc = parser.parseFromString(contentHTML, 'text/html');
-  var otherLang = (lang === 'ar') ? 'en' : 'ar';
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(contentHTML, 'text/html');
+  const otherLang = (lang === 'ar') ? 'en' : 'ar';
 
   // إزالة حاويات اللغة الخاطئة
-  var wrongLangs = doc.querySelectorAll('.lang-content-' + otherLang);
-  for (var i = 0; i < wrongLangs.length; i++) wrongLangs[i].remove();
+  const wrongLangs = doc.querySelectorAll('.lang-content-' + otherLang);
+  for (let i = 0; i < wrongLangs.length; i++) wrongLangs[i].remove();
 
   // حذف الكروت المكررة حسب نص العنوان (أول 50 حرف)
-  var seenCards = {};
-  var cards = doc.querySelectorAll('.cat-card, [class*="step"], [class*="phase"]');
-  for (var j = 0; j < cards.length; j++) {
-    var card = cards[j];
-    var titleEl = card.querySelector('.cat-name, h3, h4, strong');
-    var title = (titleEl ? titleEl.textContent : card.textContent)
+  const seenCards = {};
+  const cards = doc.querySelectorAll('.cat-card, [class*="step"], [class*="phase"]');
+  for (let j = 0; j < cards.length; j++) {
+    const card = cards[j];
+    const titleEl = card.querySelector('.cat-name, h3, h4, strong');
+    const title = (titleEl ? titleEl.textContent : card.textContent)
                   .trim().substring(0, 50);
     if (seenCards[title]) card.remove();
     else seenCards[title] = true;
@@ -948,7 +948,7 @@ function dedupeSectionContent(contentHTML, lang) {
  */
 function openDetail(key) {
   // Load content chunk on demand if not yet loaded
-  var _realKey = (window._CONTENT_ALIASES && window._CONTENT_ALIASES[key]) || key;
+  const _realKey = (window._CONTENT_ALIASES && window._CONTENT_ALIASES[key]) || key;
   if (typeof window._loadContentChunk === 'function' && !(window.QS_CONTENT && window.QS_CONTENT[_realKey])) {
     window._loadContentChunk(key, function(){ openDetail(key); });
     return;
@@ -967,7 +967,7 @@ function openDetail(key) {
   document.getElementById('dmContent').innerHTML = dedupeSectionContent(d.content, window.currentLang || 'ar');
   const backBtn = document.getElementById('dmBackBtn');
   if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
-  modal.classList.add('open'); var mc=document.getElementById('dmContent'); if(mc) mc.scrollTop=0;
+  modal.classList.add('open'); const mc=document.getElementById('dmContent'); if(mc) mc.scrollTop=0;
   // Re-inject stored videos after DOM rebuild
   safeTimeout('restoreVideo', _restoreVideosAfterDOMRebuild, 50);
   // Re-apply current language
@@ -1009,10 +1009,10 @@ function goBack() {
 }
 
 function shareDetail() {
-  var modal = document.getElementById('detailModal');
-  var key = modal.dataset.currentKey || '';
-  var title = document.getElementById('dmTitle') ? document.getElementById('dmTitle').textContent : 'QatarSpec Pro';
-  var url = window.location.origin + window.location.pathname + (key ? '#' + key : '');
+  const modal = document.getElementById('detailModal');
+  const key = modal.dataset.currentKey || '';
+  const title = document.getElementById('dmTitle') ? document.getElementById('dmTitle').textContent : 'QatarSpec Pro';
+  const url = window.location.origin + window.location.pathname + (key ? '#' + key : '');
   if (navigator.share) {
     navigator.share({ title: title, url: url }).catch(function(){});
   } else {
@@ -1772,11 +1772,11 @@ function applyTranslations(lang) {
   console.log('QatarSpec Pro: Language set to', lang.toUpperCase());
 
   // إعادة بناء محتوى المودال بلغة واحدة عند تبديل اللغة
-  var dm = document.getElementById('detailModal');
+  const dm = document.getElementById('detailModal');
   if (dm && dm.classList.contains('open')) {
-    var ck = dm.dataset.currentKey;
+    const ck = dm.dataset.currentKey;
     if (ck && detailData[ck]) {
-      var d2 = detailData[ck];
+      const d2 = detailData[ck];
       document.getElementById('dmContent').innerHTML =
         dedupeSectionContent(d2.content, lang);
       safeTimeout('restoreVideo', _restoreVideosAfterDOMRebuild, 50);
@@ -2088,7 +2088,7 @@ showToast('✅ تم تصدير التقرير اليومي');
 
 // ===== COPY TEXT FUNCTIONS =====
 function copyRFIText(){
-  var lines=[
+  const lines=[
     '📋 Request for Inspection — RFI',
     '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
     'رقم RFI: '+gv('rfi-num')+'  |  المشروع: '+gv('rfi-proj'),
@@ -2109,16 +2109,16 @@ function copyRFIText(){
     '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
     'QatarSpec Pro | qatar-standers.vercel.app'
   ];
-  var txt=lines.join('\n');
+  const txt=lines.join('\n');
   if(navigator.clipboard&&navigator.clipboard.writeText){
     navigator.clipboard.writeText(txt).then(function(){showToast('✅ تم نسخ RFI — الصقه في واتساب أو بريد إلكتروني');});
   } else {
-    var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showToast('✅ تم النسخ');
+    const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showToast('✅ تم النسخ');
   }
 }
 
 function copyNCRText(){
-  var lines=[
+  const lines=[
     '⚠️ Non-Conformance Report — NCR',
     '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
     'رقم NCR: '+gv('ncr-num')+'  |  المشروع: '+gv('ncr-proj'),
@@ -2139,16 +2139,16 @@ function copyNCRText(){
     '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
     'QatarSpec Pro | qatar-standers.vercel.app'
   ];
-  var txt=lines.join('\n');
+  const txt=lines.join('\n');
   if(navigator.clipboard&&navigator.clipboard.writeText){
     navigator.clipboard.writeText(txt).then(function(){showToast('✅ تم نسخ NCR — الصقه في واتساب أو بريد إلكتروني');});
   } else {
-    var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showToast('✅ تم النسخ');
+    const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showToast('✅ تم النسخ');
   }
 }
 
 function copyDPRText(){
-  var lines=[
+  const lines=[
     '📊 Daily Progress Report — DPR',
     '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
     'المشروع: '+gv('dpr-proj')+'  |  التاريخ: '+gv('dpr-date'),
@@ -2162,11 +2162,11 @@ function copyDPRText(){
     '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
     'QatarSpec Pro | qatar-standers.vercel.app'
   ];
-  var txt=lines.join('\n');
+  const txt=lines.join('\n');
   if(navigator.clipboard&&navigator.clipboard.writeText){
     navigator.clipboard.writeText(txt).then(function(){showToast('✅ تم نسخ DPR — الصقه في واتساب أو بريد إلكتروني');});
   } else {
-    var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showToast('✅ تم النسخ');
+    const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showToast('✅ تم النسخ');
   }
 }
 
@@ -3118,7 +3118,7 @@ function resetInspector() {
 
 (function initPWA() {
   // ── 1. Inline Manifest via Blob ──
-  var manifestData = {
+  const manifestData = {
     name: 'QatarSpec Pro — المواصفات القطرية',
     short_name: 'QatarSpec',
     description: 'دليل المواصفات الهندسية القطرية — QCS 2024 + Ashghal + KAHRAMAA',
@@ -3149,9 +3149,9 @@ function resetInspector() {
     ]
   };
   try {
-    var mBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
-    var mURL = URL.createObjectURL(mBlob);
-    var mLink = document.getElementById('pwaManifestLink');
+    const mBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
+    const mURL = URL.createObjectURL(mBlob);
+    const mLink = document.getElementById('pwaManifestLink');
     if (mLink) mLink.href = mURL;
   } catch(e) { console.warn('[PWA] Manifest blob failed:', e); }
 
@@ -3160,7 +3160,7 @@ function resetInspector() {
   window.addEventListener('beforeinstallprompt', function(ev) {
     ev.preventDefault();
     window._pwaInstallPrompt = ev;
-    var btn = document.getElementById('pwaInstallBtn');
+    const btn = document.getElementById('pwaInstallBtn');
     if (btn) btn.style.display = 'flex';
   });
 })();
@@ -3197,7 +3197,7 @@ document.addEventListener('DOMContentLoaded', dedupeCards);
 // ── Accessibility: Add ARIA to cat-cards ──
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.cat-card').forEach(function(card) {
-    var name = (card.querySelector('.cat-name') || {}).textContent || '';
+    const name = (card.querySelector('.cat-name') || {}).textContent || '';
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
     card.setAttribute('aria-label', name + ' — اضغط للفتح');
@@ -3211,9 +3211,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ── Debounce for card filter (already fast, but good practice) ──
-var _cardFilterDebounce;
+const _cardFilterDebounce;
 document.addEventListener('DOMContentLoaded', function() {
-  var inp = document.getElementById('cardFilterInput');
+  const inp = document.getElementById('cardFilterInput');
   if (inp) {
     inp.removeAttribute('oninput');
     inp.addEventListener('input', function() {
@@ -3237,12 +3237,12 @@ document.addEventListener('DOMContentLoaded', function() {
   const observer = new IntersectionObserver(
     function(entries) {
       entries.forEach(function(entry) {
-        var card = entry.target;
+        const card = entry.target;
         if (entry.isIntersecting) {
           card.style.contentVisibility = 'visible';
           card.style.containIntrinsicSize = '';
         } else {
-          var h = card.offsetHeight;
+          const h = card.offsetHeight;
           if (h > 0) card.style.containIntrinsicSize = h + 'px';
           card.style.contentVisibility = 'auto';
         }
@@ -3267,9 +3267,9 @@ document.addEventListener('DOMContentLoaded', function() {
     requestAnimationFrame(attachObserver);
   }
 
-  var filterInput = document.getElementById('cardFilterInput');
+  const filterInput = document.getElementById('cardFilterInput');
   if (filterInput) {
-    var filterDebounce;
+    const filterDebounce;
     filterInput.addEventListener('input', function() {
       clearTimeout(filterDebounce);
       filterDebounce = setTimeout(function() {
@@ -3298,29 +3298,29 @@ document.addEventListener('DOMContentLoaded', function() {
  * calcGP — Grading & Plasticity Index Check (QCS 2024 S6 P3/P4/P5)
  */
 window.calcGP = function calcGP() {
-  var layer = (document.getElementById('gp-layer')  || {}).value || 'subbase';
-  var pi    = parseFloat((document.getElementById('gp-pi')   || {}).value);
-  var ll    = parseFloat((document.getElementById('gp-ll')   || {}).value);
-  var p200  = parseFloat((document.getElementById('gp-p200') || {}).value);
-  var p4    = parseFloat((document.getElementById('gp-p4')   || {}).value);
-  var p075  = parseFloat((document.getElementById('gp-p075') || {}).value);
+  const layer = (document.getElementById('gp-layer')  || {}).value || 'subbase';
+  const pi    = parseFloat((document.getElementById('gp-pi')   || {}).value);
+  const ll    = parseFloat((document.getElementById('gp-ll')   || {}).value);
+  const p200  = parseFloat((document.getElementById('gp-p200') || {}).value);
+  const p4    = parseFloat((document.getElementById('gp-p4')   || {}).value);
+  const p075  = parseFloat((document.getElementById('gp-p075') || {}).value);
 
   if (isNaN(pi) && isNaN(ll) && isNaN(p200)) {
     showToast('❌ أدخل قيمة واحدة على الأقل');
     return;
   }
 
-  var limits = {
+  const limits = {
     subgrade: { pi: 10, ll: 35, p200: 35, ref: 'QCS 2024 S6 P3 Table 3:1' },
     subbase:  { pi:  6, ll: 25, p200: 12, ref: 'QCS 2024 S6 P4 Table 4:1' },
     base:     { pi:  4, ll: 20, p200:  8, ref: 'QCS 2024 S6 P5 Table 5:1' },
   };
-  var L = limits[layer] || limits.subbase;
-  var lines = [], allPass = true;
+  const L = limits[layer] || limits.subbase;
+  const lines = [], allPass = true;
 
-  if (!isNaN(pi))   { var ok = pi   <= L.pi;   if (!ok) allPass=false; lines.push('PI: '   + pi   + ' | الحد: ≤' + L.pi   + ' ' + (ok?'✅':'❌')); }
-  if (!isNaN(ll))   { var ok = ll   <= L.ll;   if (!ok) allPass=false; lines.push('LL: '   + ll   + '% | الحد: ≤' + L.ll  + '% ' + (ok?'✅':'❌')); }
-  if (!isNaN(p200)) { var ok = p200 <= L.p200; if (!ok) allPass=false; lines.push('% Passing #200: ' + p200 + '% | الحد: ≤' + L.p200 + '% ' + (ok?'✅':'❌')); }
+  if (!isNaN(pi))   { const ok = pi   <= L.pi;   if (!ok) allPass=false; lines.push('PI: '   + pi   + ' | الحد: ≤' + L.pi   + ' ' + (ok?'✅':'❌')); }
+  if (!isNaN(ll))   { const ok = ll   <= L.ll;   if (!ok) allPass=false; lines.push('LL: '   + ll   + '% | الحد: ≤' + L.ll  + '% ' + (ok?'✅':'❌')); }
+  if (!isNaN(p200)) { const ok = p200 <= L.p200; if (!ok) allPass=false; lines.push('% Passing #200: ' + p200 + '% | الحد: ≤' + L.p200 + '% ' + (ok?'✅':'❌')); }
   if (!isNaN(p4))   lines.push('% Passing #4 (4.75mm): ' + p4 + '%');
   if (!isNaN(p075)) lines.push('% Passing #200 (0.075mm): ' + p075 + '%');
   lines.push('المرجع: ' + L.ref);
@@ -3332,22 +3332,22 @@ window.calcGP = function calcGP() {
  * calcBlockwork — حاسبة كميات البلوك والمونة (QCS 2024 S5)
  */
 window.calcBlockwork = function calcBlockwork() {
-  var wallArea  = parseFloat((document.getElementById('bw-area')     || {}).value);
-  var blockType = (document.getElementById('bw-type')    || {}).value || '200';
-  var openings  = parseFloat((document.getElementById('bw-openings') || {}).value) || 0;
+  const wallArea  = parseFloat((document.getElementById('bw-area')     || {}).value);
+  const blockType = (document.getElementById('bw-type')    || {}).value || '200';
+  const openings  = parseFloat((document.getElementById('bw-openings') || {}).value) || 0;
 
   if (!wallArea || isNaN(wallArea)) { showToast('❌ أدخل مساحة الجدار (m²)'); return; }
 
-  var netArea = Math.max(0, wallArea - openings);
-  var sizes   = { '100':{t:100}, '150':{t:150}, '200':{t:200}, '250':{t:250} };
-  var bs      = sizes[blockType] || sizes['200'];
+  const netArea = Math.max(0, wallArea - openings);
+  const sizes   = { '100':{t:100}, '150':{t:150}, '200':{t:200}, '250':{t:250} };
+  const bs      = sizes[blockType] || sizes['200'];
 
   // Standard block face 390×190mm + 10mm joint
-  var faceArea   = (0.400) * (0.200);          // m²
-  var blockCount = Math.ceil(netArea / faceArea * 1.05);
-  var mortarVol  = +(netArea * (bs.t / 1000) * 0.33).toFixed(2);
-  var mortarBags = Math.ceil(mortarVol * 350 / 50);
-  var sandVol    = +(mortarVol * 1.1).toFixed(2);
+  const faceArea   = (0.400) * (0.200);          // m²
+  const blockCount = Math.ceil(netArea / faceArea * 1.05);
+  const mortarVol  = +(netArea * (bs.t / 1000) * 0.33).toFixed(2);
+  const mortarBags = Math.ceil(mortarVol * 350 / 50);
+  const sandVol    = +(mortarVol * 1.1).toFixed(2);
 
   showResult('bw-result', true, null, null, [
     'مساحة الجدار الصافية: ' + netArea.toFixed(1) + ' m²',
@@ -3361,18 +3361,18 @@ window.calcBlockwork = function calcBlockwork() {
  * calcRoadLayers — حاسبة حجم وكميات طبقات الطريق (QCS 2024 S6/S8)
  */
 window.calcRoadLayers = function calcRoadLayers() {
-  var length  = parseFloat((document.getElementById('rl-length')   || {}).value);
-  var width   = parseFloat((document.getElementById('rl-width')    || {}).value);
-  var tSubg   = parseFloat((document.getElementById('rl-subgrade') || {}).value) || 0;
-  var tSubb   = parseFloat((document.getElementById('rl-subbase')  || {}).value) || 0;
-  var tBase   = parseFloat((document.getElementById('rl-base')     || {}).value) || 0;
-  var tBinder = parseFloat((document.getElementById('rl-binder')   || {}).value) || 0;
-  var tWear   = parseFloat((document.getElementById('rl-wearing')  || {}).value) || 0;
+  const length  = parseFloat((document.getElementById('rl-length')   || {}).value);
+  let width   = parseFloat((document.getElementById('rl-width')    || {}).value);
+  const tSubg   = parseFloat((document.getElementById('rl-subgrade') || {}).value) || 0;
+  const tSubb   = parseFloat((document.getElementById('rl-subbase')  || {}).value) || 0;
+  const tBase   = parseFloat((document.getElementById('rl-base')     || {}).value) || 0;
+  const tBinder = parseFloat((document.getElementById('rl-binder')   || {}).value) || 0;
+  const tWear   = parseFloat((document.getElementById('rl-wearing')  || {}).value) || 0;
 
   if (!length || !width) { showToast('❌ أدخل الطول والعرض'); return; }
 
-  var area   = length * width;
-  var layers = [
+  const area   = length * width;
+  const layers = [
     { name:'Subgrade',      t:tSubg,   d:2.00, ref:'QCS S6 P3' },
     { name:'Sub-base',      t:tSubb,   d:2.20, ref:'QCS S6 P4' },
     { name:'Base Course',   t:tBase,   d:2.30, ref:'QCS S6 P5' },
@@ -3382,11 +3382,11 @@ window.calcRoadLayers = function calcRoadLayers() {
 
   if (!layers.length) { showToast('❌ أدخل سماكة طبقة واحدة على الأقل (mm)'); return; }
 
-  var lines = ['المساحة: ' + area.toLocaleString() + ' m² (' + length + ' × ' + width + 'm)', ''];
-  var totVol = 0, totTon = 0;
+  const lines = ['المساحة: ' + area.toLocaleString() + ' m² (' + length + ' × ' + width + 'm)', ''];
+  const totVol = 0, totTon = 0;
   layers.forEach(function(l) {
-    var vol = area * l.t / 1000;
-    var ton = vol * l.d;
+    const vol = area * l.t / 1000;
+    const ton = vol * l.d;
     totVol += vol; totTon += ton;
     lines.push('<strong>' + l.name + '</strong> (' + l.ref + '): ' + l.t + 'mm → ' + vol.toFixed(0) + ' m³ / ' + ton.toFixed(0) + ' t');
   });
@@ -3403,8 +3403,8 @@ window.calcRoadLayers = function calcRoadLayers() {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // ── Constants ──
-var FREE_DAILY_LIMIT = 5;
-var PRO_CODES = []; // codes verified server-side only
+const FREE_DAILY_LIMIT = 5;
+const PRO_CODES = []; // codes verified server-side only
 
 // ── Pro State ──
 function isProUser() {
@@ -3443,14 +3443,14 @@ function getProToken() {
 
 // ── Daily Search Counter ──
 function getTodayKey() {
-  var d = new Date(); return 'qs_searches_' + d.getFullYear() + '_' + d.getMonth() + '_' + d.getDate();
+  let d = new Date(); return 'qs_searches_' + d.getFullYear() + '_' + d.getMonth() + '_' + d.getDate();
 }
 function getSearchCount() {
   return parseInt(localStorage.getItem(getTodayKey()) || '0');
 }
 function incrementSearch() {
-  var k = getTodayKey();
-  var c = getSearchCount() + 1;
+  const k = getTodayKey();
+  let c = getSearchCount() + 1;
   localStorage.setItem(k, c);
   return c;
 }
@@ -3461,8 +3461,8 @@ function canSearch() {
 
 // ── Pro Badge Renderer ──
 function renderProStatus() {
-  var badge = document.getElementById('proStatusBadge');
-  var bar = document.getElementById('searchCounterBar');
+  const badge = document.getElementById('proStatusBadge');
+  const bar = document.getElementById('searchCounterBar');
   if (!badge) return;
 
   if (isProUser()) {
@@ -3480,20 +3480,20 @@ function renderProStatus() {
 }
 
 function updateSearchCounterBar() {
-  var bar = document.getElementById('searchCounterBar');
-  var txt = document.getElementById('searchCounterText');
-  var dots = document.getElementById('searchCounterDots');
+  const bar = document.getElementById('searchCounterBar');
+  const txt = document.getElementById('searchCounterText');
+  const dots = document.getElementById('searchCounterDots');
   if (!bar || !txt || !dots) return;
 
-  var used = getSearchCount();
-  var remaining = Math.max(0, FREE_DAILY_LIMIT - used);
+  const used = getSearchCount();
+  const remaining = Math.max(0, FREE_DAILY_LIMIT - used);
 
   txt.textContent = used + ' / ' + FREE_DAILY_LIMIT + ' بحث ذكي مستخدم اليوم';
 
   // Build dots
-  var html = '';
-  for (var i = 0; i < FREE_DAILY_LIMIT; i++) {
-    var cls = i < used ? (used >= FREE_DAILY_LIMIT ? 'search-dot warn' : 'search-dot used') : 'search-dot';
+  const html = '';
+  for (let i = 0; i < FREE_DAILY_LIMIT; i++) {
+    let cls = i < used ? (used >= FREE_DAILY_LIMIT ? 'search-dot warn' : 'search-dot used') : 'search-dot';
     html += '<div class="' + cls + '"></div>';
   }
   dots.innerHTML = html;
@@ -3513,13 +3513,13 @@ function openProModal() {
   }
 }
 function closeProModal() {
-  var m = document.getElementById('proModal');
+  const m = document.getElementById('proModal');
   if (m) m.classList.remove('open');
   document.body.style.overflow = '';
 }
 
 function showPaymentContact() {
-  var pc = document.getElementById('paymentContact');
+  const pc = document.getElementById('paymentContact');
   if (pc) { pc.style.display = 'block'; pc.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
 }
 
@@ -3577,7 +3577,7 @@ async function activatePro(code) {
 }
 
 // ── Upgrade Overlay ──
-var _pendingUpgradeAction = null;
+let _pendingUpgradeAction = null;
 function showUpgradePrompt(feature, icon, title, desc, action) {
   document.getElementById('upgradeIcon').textContent = icon || '🔒';
   document.getElementById('upgradeTitle').textContent = title || 'ميزة Pro حصرية';
@@ -3609,7 +3609,7 @@ function installPWA() {
     window._pwaInstallPrompt.userChoice.then(function(r) {
       if (r.outcome === 'accepted') {
         showToast('📲 تم تثبيت QatarSpec Pro بنجاح!');
-        var btn = document.getElementById('pwaInstallBtn');
+        const btn = document.getElementById('pwaInstallBtn');
         if (btn) btn.style.display = 'none';
       }
       window._pwaInstallPrompt = null;
@@ -3630,7 +3630,7 @@ function installPWA() {
 })();
 
 (function checkPublicFns() {
-  var publicFnsCheck = [
+  const publicFnsCheck = [
     'openDetail','closeDetailModal','goBack','shareDetail',
     'showToast','doSearch','quickSearch','filterCards','clearCardFilter',
     'openKeyModal','closeKeyModal','saveKey',
@@ -3649,8 +3649,8 @@ function installPWA() {
   ];
 
   document.addEventListener('DOMContentLoaded', function() {
-    var missing  = [];
-    var existing = [];
+    const missing  = [];
+    const existing = [];
     publicFnsCheck.forEach(function(name) {
       if (typeof window[name] === 'function') existing.push(name);
       else missing.push(name);
@@ -3698,7 +3698,7 @@ window.QS = window.QS || {};
 // ── QS stub: expose all public functions before data_calcs.js loads ──
 // Each wrapper checks if the real function exists before calling
 (function _buildQSStub() {
-  var fns = [
+  const fns = [
     'openDetail','closeDetailModal','goBack','shareDetail',
     'doSearch','quickSearch','copyAnswer',
     'openKeyModal','closeKeyModal','saveKey',
@@ -3710,11 +3710,11 @@ window.QS = window.QS || {};
   fns.forEach(function(name) {
     if (!window.QS[name]) {
       window.QS[name] = function() {
-        var fn = window[name];
+        const fn = window[name];
         if (typeof fn === 'function') return fn.apply(window, arguments);
         console.warn('[QS stub] ' + name + ' not ready yet — retrying in 300ms');
         setTimeout(function() {
-          var fn2 = window[name];
+          const fn2 = window[name];
           if (typeof fn2 === 'function') fn2.apply(window, arguments);
         }, 300);
       };
@@ -3728,12 +3728,12 @@ window.QS = window.QS || {};
 // ═══════════════════════════════════════════════════
 // QS_CONTENT — manifest + on-demand chunk loader
 (function(){
-  var _loaded = {};
-  var _loading = {};
+  const _loaded = {};
+  const _loading = {};
 
   function loadManifest(){
     if(window.QS_CONTENT_MAP) return;
-    var s=document.createElement('script');
+    const s=document.createElement('script');
     s.src='data_content_manifest.js?v=7';
     s.async=true;
     document.head.appendChild(s);
@@ -3741,16 +3741,16 @@ window.QS = window.QS || {};
 
   window._loadContentChunk = function(key, cb) {
     // Resolve alias first
-    var realKey = (window._CONTENT_ALIASES && window._CONTENT_ALIASES[key]) || key;
-    var map = window.QS_CONTENT_MAP || {};
-    var chunk = map[realKey] || map[key];
+    const realKey = (window._CONTENT_ALIASES && window._CONTENT_ALIASES[key]) || key;
+    const map = window.QS_CONTENT_MAP || {};
+    const chunk = map[realKey] || map[key];
     if(!chunk){
       chunk = 'data_content.js'; // original full content fallback
     }
     if(_loaded[chunk]){ if(cb) cb(); return; }
     if(_loading[chunk]){ if(cb) _loading[chunk].push(cb); return; }
     _loading[chunk] = cb ? [cb] : [];
-    var s=document.createElement('script');
+    const s=document.createElement('script');
     s.src=chunk+'?v=8';
     s.onload=function(){
       _loaded[chunk]=true;
@@ -3909,7 +3909,7 @@ function displayAIResponse(text, container) {
   }
   if (!container) return;
   // Convert markdown + QCS citations to HTML
-  var rendered = text
+  const rendered = text
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/^#{1,3} (.+)/gm, '<h4 style="color:var(--gold);margin:10px 0 4px;font-size:13px">$1</h4>')
@@ -3932,19 +3932,19 @@ window.activateProNow = function(codeArg) {
     alert('✅ أنت بالفعل مشترك في Pro!');
     return;
   }
-  var code = codeArg || (document.getElementById('promoCodeInput') || {}).value || '';
+  let code = codeArg || (document.getElementById('promoCodeInput') || {}).value || '';
   code = code.trim();
   if (!code) { code = prompt('أدخل كود الترقية (مثال: QATAR2026PRO):'); }
   if (!code || !code.trim()) return;
   code = code.trim().toUpperCase();
 
-  var btn = document.querySelector('.promo-btn');
-  var proBtn = document.getElementById('proBtn');
+  const btn = document.querySelector('.promo-btn');
+  const proBtn = document.getElementById('proBtn');
   if (btn) { btn.disabled = true; btn.textContent = '⏳...'; }
   if (proBtn) { proBtn.disabled = true; }
 
-  var ctrl = new AbortController();
-  var tid = setTimeout(function() { ctrl.abort(); }, 10000);
+  const ctrl = new AbortController();
+  const tid = setTimeout(function() { ctrl.abort(); }, 10000);
 
   fetch('/api/verify-pro', {
     method: 'POST',
@@ -4146,7 +4146,7 @@ window.addEventListener('unhandledrejection', function(e) {
         }
       }
       if (entry.entryType === 'first-input') {
-        var fid = entry.processingStart - entry.startTime;
+        const fid = entry.processingStart - entry.startTime;
         console.log('[QatarSpec] FID:', fid);
         if (typeof gtag !== 'undefined') {
           gtag('event', 'web_vitals', { event_category: 'FID', value: Math.round(fid) });
@@ -4164,7 +4164,7 @@ window.addEventListener('unhandledrejection', function(e) {
   // Custom metrics
   window.addEventListener('load', function() {
     setTimeout(function() {
-      var ttfb = performance.timing.responseStart - performance.timing.requestStart;
+      const ttfb = performance.timing.responseStart - performance.timing.requestStart;
       console.log('[QatarSpec] TTFB:', ttfb);
       if (typeof gtag !== 'undefined') {
         gtag('event', 'web_vitals', { event_category: 'TTFB', value: ttfb });
