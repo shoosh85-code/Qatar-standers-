@@ -2318,4 +2318,367 @@ c["ws_testing"] = {
 </div>`
 };
 
+
+// ============================================================
+// DETAILED EXECUTION STAGES — QCS 2024 Field Engineer Guide
+// Added: water_supply_stages_detail, sewer_stages_detail,
+//        storm_stages_detail, treated_stages_detail
+// ============================================================
+
+c['water_supply_stages_detail'] = {
+  title: '💧 مراحل تنفيذ شبكة مياه الشرب — QCS S8 P12 (دليل ميداني)',
+  content: `
+<div style="font-family:var(--font-main);color:var(--text1);max-width:900px;margin:0 auto;">
+
+<div style="background:rgba(33,150,243,0.1);border-right:4px solid #2196f3;padding:12px 16px;border-radius:8px;margin-bottom:20px;">
+  <strong>⚠️ تنبيه:</strong> هذا الدليل مرجعي فقط — تحقق دائماً من المخططات الرسمية ووثائق العقد.
+  المرجع الأساسي: QCS 2024 Section 8 Part 12 + KAHRAMAA W-001 Specifications
+</div>
+
+<h3 style="color:#2196f3;border-bottom:2px solid rgba(33,150,243,0.3);padding-bottom:8px;">🔵 المرحلة 1: التحضير والحفر (Excavation & Preparation)</h3>
+<table class="dm-table" style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+  <tr style="background:rgba(33,150,243,0.15);"><th style="padding:8px;text-align:right;border:1px solid rgba(33,150,243,0.3);">المتطلب</th><th style="padding:8px;text-align:center;border:1px solid rgba(33,150,243,0.3);">القيمة</th><th style="padding:8px;text-align:center;border:1px solid rgba(33,150,243,0.3);">المرجع</th></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Cover — طريق رئيسي (Arterial)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#4caf50;"><strong>≥ 1000mm</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P12 Cl.4.2</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Cover — طريق محلي / رصيف</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#4caf50;"><strong>≥ 750mm</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">KAHRAMAA W-001 §3.4</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Cover — مناطق زراعية / خضراء</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#4caf50;"><strong>≥ 600mm</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P12 Cl.4.2</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Trench Width (DN ≤ 200)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">OD + 400mm</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P12 Cl.3.1</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Trench Width (DN > 200)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">OD + 600mm</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P12 Cl.3.1</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Separation أفقية عن Sewer</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#ff9800;"><strong>≥ 1000mm</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P12 Cl.3.3</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Water above Sewer (تقاطع)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#ff9800;"><strong>≥ 500mm عمودياً</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P12 Cl.3.3</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Bedding — أسفل الأنبوب</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">150mm رمل نظيف (Clean Sand)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P12 Cl.5.1</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Backfill — فوق الأنبوب</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">300mm رمل نظيف (Granular)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P12 Cl.5.2</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Warning Tape</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">أزرق — 300mm فوق الأنبوب</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">KAHRAMAA W-001</td></tr>
+</table>
+
+<div style="background:rgba(244,67,54,0.08);border:1px solid rgba(244,67,54,0.3);border-radius:8px;padding:12px;margin-bottom:20px;">
+  <strong>🔴 نقاط Fail فورية — المرحلة 1:</strong><br>
+  • Cover أقل من الحد الأدنى بأي قدر<br>
+  • مياه الشرب تحت خط Sewer عند التقاطع<br>
+  • غياب Warning Tape<br>
+  • Bedding بمواد غير معتمدة (حجارة / ردم خلط)
+</div>
+
+<h3 style="color:#2196f3;border-bottom:2px solid rgba(33,150,243,0.3);padding-bottom:8px;">🔵 المرحلة 2: التركيب (Pipe Installation)</h3>
+<table class="dm-table" style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+  <tr style="background:rgba(33,150,243,0.15);"><th style="padding:8px;text-align:right;border:1px solid rgba(33,150,243,0.3);">المتطلب</th><th style="padding:8px;text-align:center;border:1px solid rgba(33,150,243,0.3);">القيمة / الإجراء</th><th style="padding:8px;text-align:center;border:1px solid rgba(33,150,243,0.3);">المرجع</th></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Material (DN ≤ 300)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">HDPE PE100 PN16 / UPVC PN16</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">KAHRAMAA Approved List</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Material (DN 300-1200)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">DI (Ductile Iron) Class K9</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P12 Cl.2.1</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Joint — HDPE</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Butt Fusion / Electrofusion (IIW certified welder)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">ISO 21307</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Joint — DI</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Push-fit Restrained (Tyton/Viking)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">ISO 2531</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Thrust Blocks (bends ≥ 22.5°)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">C20 Concrete — حجم محسوب</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P12 Cl.6</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Gate Valves (spacing)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">≤ 400m على الخطوط الرئيسية</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">KAHRAMAA W-001 §5</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Air Release Valves</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">كل نقطة عالية + نهاية الخطوط</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">KAHRAMAA W-001 §6</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Marker Posts</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">كل Valve + كل تقاطع + كل 100m</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">KAHRAMAA</td></tr>
+</table>
+
+<h3 style="color:#2196f3;border-bottom:2px solid rgba(33,150,243,0.3);padding-bottom:8px;">🔵 المرحلة 3: اختبار الضغط الهيدروستاتيكي (Hydrostatic Pressure Test)</h3>
+<table class="dm-table" style="width:100%;border-collapse:collapse;margin-bottom:12px;">
+  <tr style="background:rgba(33,150,243,0.15);"><th style="padding:8px;text-align:right;border:1px solid rgba(33,150,243,0.3);">البند</th><th style="padding:8px;text-align:center;border:1px solid rgba(33,150,243,0.3);">القيمة</th><th style="padding:8px;text-align:center;border:1px solid rgba(33,150,243,0.3);">المرجع</th></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">ضغط الاختبار</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#4caf50;"><strong>1.5 × MWP (بار)</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P12 Cl.7.2</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">مدة الاختبار</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);"><strong>2 ساعة كحد أدنى</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P12 Cl.7.3</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">معيار القبول (هبوط الضغط)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#4caf50;"><strong>≤ 0.1 بار / ساعة</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">KAHRAMAA W-001</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Pre-soak قبل الاختبار</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">24 ساعة مملوء (لتشبع المفاصل)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">BS 8010-1</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">طول القسم المختبَر</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">≤ 1000m (DN ≤ 400)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">KAHRAMAA</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Gauge Calibration Certificate</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">مطلوب — صالح ≤ 12 شهر</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal ITP</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">تقارير القراءة</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">كل 30 دقيقة (Pressure Chart)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal ITP</td></tr>
+</table>
+<ol style="color:var(--text2);line-height:2;font-size:13px;margin-bottom:16px;">
+  <li>ملء الخط ببطء من أدنى نقطة + تهوية الهواء من كل ARV</li>
+  <li>نقع 24 ساعة (Pre-soak) — الضغط الجوي فقط</li>
+  <li>رفع الضغط تدريجياً (≤ 0.5 بار/دقيقة) حتى ضغط الاختبار</li>
+  <li>تثبيت الضغط — تسجيل كل 30 دقيقة لمدة ساعتين</li>
+  <li>Pass: هبوط ≤ 0.1 بار | Fail: إيقاف فوري + تحديد التسرب</li>
+</ol>
+
+<h3 style="color:#2196f3;border-bottom:2px solid rgba(33,150,243,0.3);padding-bottom:8px;">🔵 المرحلة 4: التعقيم والتشغيل (Disinfection & Commissioning)</h3>
+<table class="dm-table" style="width:100%;border-collapse:collapse;margin-bottom:12px;">
+  <tr style="background:rgba(33,150,243,0.15);"><th style="padding:8px;text-align:right;border:1px solid rgba(33,150,243,0.3);">المرحلة</th><th style="padding:8px;text-align:center;border:1px solid rgba(33,150,243,0.3);">القيمة</th><th style="padding:8px;text-align:center;border:1px solid rgba(33,150,243,0.3);">المرجع</th></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">تركيز Chlorine (Pre-flush)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#ff9800;"><strong>50 ppm لمدة 24 ساعة</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">KAHRAMAA W-001 §8</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Residual Chlorine (بعد Flush)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#4caf50;"><strong>0.2 – 0.5 mg/L</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">KAHRAMAA W-001</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Turbidity (عكارة)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">≤ 1 NTU</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">WHO / KAHRAMAA</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Bacteriological Sample</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">E.coli = 0 / Total Coliforms = 0</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">WHO 2017</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">عدد نقاط الأخذ</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">نقطة كل 200m + كل نهاية</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">KAHRAMAA</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">مختبر معتمد</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">KAHRAMAA Approved Lab فقط</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">KAHRAMAA §8.3</td></tr>
+</table>
+
+<h3 style="color:#2196f3;border-bottom:2px solid rgba(33,150,243,0.3);padding-bottom:8px;">📋 نموذج ITP مختصر — مياه الشرب</h3>
+<table class="dm-table" style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+  <tr style="background:rgba(33,150,243,0.15);"><th style="padding:8px;border:1px solid rgba(33,150,243,0.3);">رقم</th><th style="padding:8px;border:1px solid rgba(33,150,243,0.3);">نشاط التفتيش</th><th style="padding:8px;text-align:center;border:1px solid rgba(33,150,243,0.3);">H/W/R</th><th style="padding:8px;text-align:center;border:1px solid rgba(33,150,243,0.3);">الوثيقة</th></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">1</td><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">فحص Cover Depth قبل الردم</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#f44336;">H</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Cover Survey Sheet</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">2</td><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">اعتماد Material Certificates</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#ff9800;">W</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Mill Certificate + KAHRAMAA Approval</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">3</td><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">مشاهدة اختبار الضغط</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#f44336;">H</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Pressure Test Report + Chart</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">4</td><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">مراجعة نتائج التعقيم</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#ff9800;">W</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Lab Report (KAHRAMAA Approved)</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">5</td><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">As-Built Survey</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#4caf50;">R</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">GIS / As-Built Drawing</td></tr>
+</table>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px;">
+  <div style="background:rgba(76,175,80,0.1);border:1px solid rgba(76,175,80,0.4);border-radius:8px;padding:12px;">
+    <strong style="color:#4caf50;">✅ Pass — كل الشروط التالية:</strong>
+    <ul style="margin:8px 0 0 0;padding-right:16px;color:var(--text2);font-size:13px;line-height:1.8;">
+      <li>Cover ≥ الحد الأدنى في كل النقاط</li>
+      <li>Pressure test: هبوط ≤ 0.1 بار / ساعة</li>
+      <li>Residual Cl: 0.2-0.5 mg/L</li>
+      <li>E.coli = 0 / Coliforms = 0</li>
+      <li>جميع وثائق ITP موقّعة</li>
+    </ul>
+  </div>
+  <div style="background:rgba(244,67,54,0.1);border:1px solid rgba(244,67,54,0.4);border-radius:8px;padding:12px;">
+    <strong style="color:#f44336;">❌ Fail — أي من التالي:</strong>
+    <ul style="margin:8px 0 0 0;padding-right:16px;color:var(--text2);font-size:13px;line-height:1.8;">
+      <li>Cover أقل من الحد بأي مقدار</li>
+      <li>هبوط ضغط > 0.1 بار / ساعة</li>
+      <li>Cl خارج النطاق المقبول</li>
+      <li>أي نتيجة بكتيرية موجبة</li>
+      <li>غياب أي وثيقة ITP</li>
+    </ul>
+  </div>
+</div>
+
+<p style="color:var(--text3);font-size:11px;margin-top:16px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.1);">
+  📌 المراجع: QCS 2024 Section 8 Part 12 | KAHRAMAA W-001 Specifications | BS 8010 Part 1 | WHO Guidelines for Drinking-water Quality 2017 | Ashghal ITP Template
+</p>
+</div>`
+};
+
+// ============================================================
+
+c['sewer_stages_detail'] = {
+  title: '🚽 مراحل تنفيذ شبكة Foul Sewer — QCS S8 P6 (دليل ميداني)',
+  content: `
+<div style="font-family:var(--font-main);color:var(--text1);max-width:900px;margin:0 auto;">
+
+<div style="background:rgba(121,85,72,0.1);border-right:4px solid #795548;padding:12px 16px;border-radius:8px;margin-bottom:20px;">
+  <strong>⚠️ تنبيه:</strong> هذا الدليل مرجعي فقط — تحقق دائماً من المخططات الرسمية ووثائق العقد.
+  المرجع الأساسي: QCS 2024 Section 8 Part 6 + Ashghal Sewer Design Manual
+</div>
+
+<h3 style="color:#795548;border-bottom:2px solid rgba(121,85,72,0.3);padding-bottom:8px;">🟤 المرحلة 1: التحضير والحفر (Excavation)</h3>
+<table class="dm-table" style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+  <tr style="background:rgba(121,85,72,0.15);"><th style="padding:8px;text-align:right;border:1px solid rgba(121,85,72,0.3);">المتطلب</th><th style="padding:8px;text-align:center;border:1px solid rgba(121,85,72,0.3);">القيمة</th><th style="padding:8px;text-align:center;border:1px solid rgba(121,85,72,0.3);">المرجع</th></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Cover minimum (طريق)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#4caf50;"><strong>≥ 1000mm</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P6 Cl.4.1</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Cover minimum (رصيف / خضراء)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#4caf50;"><strong>≥ 600mm</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P6 Cl.4.1</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Gradient minimum (DN 225)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#ff9800;"><strong>1:150 (0.67%)</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P6 Cl.3.2</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Gradient minimum (DN 300)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#ff9800;"><strong>1:300 (0.33%)</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P6 Cl.3.2</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Self-cleaning Velocity</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">≥ 0.75 m/s (at 0.5D flow)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal SDM 2023</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Max Velocity</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">≤ 3.0 m/s</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P6 Cl.3.3</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Bedding — أسفل</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">150mm granular (10mm max)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P6 Cl.5.1</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Haunching</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">حتى مركز الأنبوب (0.5 D)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P6 Cl.5.2</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Warning Tape</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">بني / أصفر — 300mm فوق</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal Standard</td></tr>
+</table>
+
+<h3 style="color:#795548;border-bottom:2px solid rgba(121,85,72,0.3);padding-bottom:8px;">🟤 المرحلة 2: التركيب والمحاور (Installation & Alignment)</h3>
+<table class="dm-table" style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+  <tr style="background:rgba(121,85,72,0.15);"><th style="padding:8px;text-align:right;border:1px solid rgba(121,85,72,0.3);">المتطلب</th><th style="padding:8px;text-align:center;border:1px solid rgba(121,85,72,0.3);">القيمة</th><th style="padding:8px;text-align:center;border:1px solid rgba(121,85,72,0.3);">المرجع</th></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Material (DN 225-600)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">UPVC SN8 / GRP SN10000</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal Approved List</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Material (DN > 600)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">GRP SN10000 / Concrete Class 120D</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P6 Cl.2</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Manhole Spacing (max)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">100m (خطوط رئيسية) / 50m (فرعية)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal SDM 2023</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Manhole — Invert Drop (عند تغيير الاتجاه)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">≥ 25mm (إذا زاوية > 45°)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P6 Cl.6</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Pipe Deflection (joints)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">≤ 1.5° per joint</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P6 Cl.5.4</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Laser Grade Control</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">إلزامي — انحراف ≤ ±5mm</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal ITP</td></tr>
+</table>
+
+<h3 style="color:#795548;border-bottom:2px solid rgba(121,85,72,0.3);padding-bottom:8px;">🟤 المرحلة 3: اختبار الضغط / التسرب (Leakage Test)</h3>
+<table class="dm-table" style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+  <tr style="background:rgba(121,85,72,0.15);"><th style="padding:8px;text-align:right;border:1px solid rgba(121,85,72,0.3);">البند</th><th style="padding:8px;text-align:center;border:1px solid rgba(121,85,72,0.3);">القيمة</th><th style="padding:8px;text-align:center;border:1px solid rgba(121,85,72,0.3);">المرجع</th></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">نوع الاختبار (Gravity Pipes)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Low Pressure Air Test أو Water Test</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">BS EN 1610</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Air Test — ضغط البدء</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">110 mbar</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">BS EN 1610 §13.5</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Air Test — معيار القبول</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#4caf50;"><strong>هبوط ≤ 5 mbar في 5 دقائق</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">BS EN 1610</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Water Test — water level</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">≥ 1.2m فوق Invert أعلى نقطة</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">BS EN 1610 §13.4</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Water Test — معيار القبول</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#4caf50;">هبوط منسوب ≤ 1:2000 من القطر/ساعة</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">BS EN 1610</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">CCTV Inspection</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">إلزامي بعد الردم الكامل</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal ITP §S-7</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Manhole Test</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Vacuum Test أو Water Test (24h)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">BS EN 13508</td></tr>
+</table>
+
+<h3 style="color:#795548;border-bottom:2px solid rgba(121,85,72,0.3);padding-bottom:8px;">📋 نموذج ITP مختصر — Foul Sewer</h3>
+<table class="dm-table" style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+  <tr style="background:rgba(121,85,72,0.15);"><th style="padding:8px;border:1px solid rgba(121,85,72,0.3);">#</th><th style="padding:8px;border:1px solid rgba(121,85,72,0.3);">نشاط التفتيش</th><th style="padding:8px;text-align:center;border:1px solid rgba(121,85,72,0.3);">H/W/R</th><th style="padding:8px;text-align:center;border:1px solid rgba(121,85,72,0.3);">الوثيقة</th></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">1</td><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">قياس Gradient (Laser Survey)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#f44336;">H</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Level Survey Sheet</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">2</td><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Bedding Material Approval</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#ff9800;">W</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Material Certificate</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">3</td><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">مشاهدة Leakage Test</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#f44336;">H</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Air/Water Test Report</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">4</td><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">مراجعة CCTV Report</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#ff9800;">W</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">CCTV Survey Report (EN 13508)</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">5</td><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Compaction Test (Trench)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#4caf50;">R</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Proctor / CBR Report</td></tr>
+</table>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+  <div style="background:rgba(76,175,80,0.1);border:1px solid rgba(76,175,80,0.4);border-radius:8px;padding:12px;">
+    <strong style="color:#4caf50;">✅ Pass:</strong>
+    <ul style="margin:8px 0 0 0;padding-right:16px;color:var(--text2);font-size:13px;line-height:1.8;">
+      <li>Gradient ≥ الحد الأدنى محسوباً</li>
+      <li>Air Test: هبوط ≤ 5 mbar / 5 دقائق</li>
+      <li>CCTV: لا كسور أو تشوهات</li>
+      <li>Compaction ≥ 95% (طريق)</li>
+    </ul>
+  </div>
+  <div style="background:rgba(244,67,54,0.1);border:1px solid rgba(244,67,54,0.4);border-radius:8px;padding:12px;">
+    <strong style="color:#f44336;">❌ Fail:</strong>
+    <ul style="margin:8px 0 0 0;padding-right:16px;color:var(--text2);font-size:13px;line-height:1.8;">
+      <li>Gradient أقل من الحد (ترسبات)</li>
+      <li>هبوط ضغط > 5 mbar</li>
+      <li>كسر أو تشوه في CCTV</li>
+      <li>Counter-gradient (عكس الانحدار)</li>
+    </ul>
+  </div>
+</div>
+
+<p style="color:var(--text3);font-size:11px;margin-top:16px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.1);">
+  📌 المراجع: QCS 2024 Section 8 Part 6 | Ashghal Sewer Design Manual 2023 | BS EN 1610 | BS EN 13508 | Ashghal ITP Template
+</p>
+</div>`
+};
+
+// ============================================================
+
+c['storm_stages_detail'] = {
+  title: '🌧️ مراحل تنفيذ شبكة الصرف السطحي — QCS S8 P7 (دليل ميداني)',
+  content: `
+<div style="font-family:var(--font-main);color:var(--text1);max-width:900px;margin:0 auto;">
+
+<div style="background:rgba(33,150,243,0.08);border-right:4px solid #1565c0;padding:12px 16px;border-radius:8px;margin-bottom:20px;">
+  <strong>⚠️ تنبيه:</strong> هذا الدليل مرجعي فقط — تحقق دائماً من المخططات الرسمية ووثائق العقد.
+  المرجع الأساسي: QCS 2024 Section 8 Part 7 + Ashghal Road Design Manual 2023
+</div>
+
+<h3 style="color:#1565c0;border-bottom:2px solid rgba(21,101,192,0.3);padding-bottom:8px;">🔵 المرحلة 1: التصميم الهيدرولوجي (Hydrological Design)</h3>
+<table class="dm-table" style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+  <tr style="background:rgba(21,101,192,0.15);"><th style="padding:8px;text-align:right;border:1px solid rgba(21,101,192,0.3);">المعامل</th><th style="padding:8px;text-align:center;border:1px solid rgba(21,101,192,0.3);">القيمة</th><th style="padding:8px;text-align:center;border:1px solid rgba(21,101,192,0.3);">المرجع</th></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Return Period — طريق رئيسي</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#ff9800;"><strong>10 سنوات</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal RDM 2023</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Return Period — مناطق حرجة</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#ff9800;"><strong>25-100 سنة</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal RDM 2023</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Rainfall Intensity (قطر)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">IDF Curves — Ashghal Approved</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal RDM App. C</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Runoff Coefficient (طرق مبلطة)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">C = 0.90</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal RDM §3.2</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Runoff Coefficient (مناطق مفتوحة)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">C = 0.35 – 0.55</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal RDM §3.2</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Manning's n (Concrete Pipe)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">0.013</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P7</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Manning's n (GRP / HDPE)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">0.010 – 0.011</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P7</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Design Capacity</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Pipe ≤ 0.75 Full Flow</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P7 Cl.3.4</td></tr>
+</table>
+
+<h3 style="color:#1565c0;border-bottom:2px solid rgba(21,101,192,0.3);padding-bottom:8px;">🔵 المرحلة 2: التركيب (Installation)</h3>
+<table class="dm-table" style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+  <tr style="background:rgba(21,101,192,0.15);"><th style="padding:8px;text-align:right;border:1px solid rgba(21,101,192,0.3);">المتطلب</th><th style="padding:8px;text-align:center;border:1px solid rgba(21,101,192,0.3);">القيمة</th><th style="padding:8px;text-align:center;border:1px solid rgba(21,101,192,0.3);">المرجع</th></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Cover (طريق رئيسي)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#4caf50;"><strong>≥ 1000mm</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P7 Cl.4</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Material (DN 300-1500)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Reinforced Concrete Pipe Class 120D</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P7 Cl.2</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Material (DN > 1500 / Box Culvert)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Cast in-situ Concrete C30</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P7 Cl.2.3</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Gully Spacing (سرعة تصميمية ≤ 50kph)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">≤ 50m</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal RDM §4.5</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Manhole Spacing</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">≤ 120m (خطوط رئيسية)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P7</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Bedding</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Granular 150mm + Concrete Cradle (Class B)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P7 Cl.5</td></tr>
+</table>
+
+<h3 style="color:#1565c0;border-bottom:2px solid rgba(21,101,192,0.3);padding-bottom:8px;">🔵 المرحلة 3: الاختبار والتفتيش (Testing)</h3>
+<table class="dm-table" style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+  <tr style="background:rgba(21,101,192,0.15);"><th style="padding:8px;text-align:right;border:1px solid rgba(21,101,192,0.3);">البند</th><th style="padding:8px;text-align:center;border:1px solid rgba(21,101,192,0.3);">القيمة</th><th style="padding:8px;text-align:center;border:1px solid rgba(21,101,192,0.3);">المرجع</th></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">نوع الاختبار</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Visual Inspection + CCTV</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal ITP</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Hydraulic Testing (large culverts)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Water Fill Test 24h — هبوط ≤ 50mm</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P7</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Outfall Protection</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Rip-Rap أو Concrete Apron</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal RDM §6</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Surface Gradient (طريق)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">≥ 1% نحو Gully</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal RDM §4.2</td></tr>
+</table>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px;">
+  <div style="background:rgba(76,175,80,0.1);border:1px solid rgba(76,175,80,0.4);border-radius:8px;padding:12px;">
+    <strong style="color:#4caf50;">✅ Pass:</strong>
+    <ul style="margin:8px 0 0 0;padding-right:16px;color:var(--text2);font-size:13px;line-height:1.8;">
+      <li>تصميم يطابق Return Period المطلوب</li>
+      <li>Pipe capacity ≤ 75% Full Flow</li>
+      <li>CCTV: لا كسور أو انسداد</li>
+      <li>Gully Spacing موافق للتصميم</li>
+    </ul>
+  </div>
+  <div style="background:rgba(244,67,54,0.1);border:1px solid rgba(244,67,54,0.4);border-radius:8px;padding:12px;">
+    <strong style="color:#f44336;">❌ Fail:</strong>
+    <ul style="margin:8px 0 0 0;padding-right:16px;color:var(--text2);font-size:13px;line-height:1.8;">
+      <li>تصميم بـ Return Period أقل</li>
+      <li>Pipe > 75% Full (فيضان)</li>
+      <li>Counter-gradient (تجمع مياه)</li>
+      <li>غياب Outfall Protection</li>
+    </ul>
+  </div>
+</div>
+
+<p style="color:var(--text3);font-size:11px;margin-top:16px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.1);">
+  📌 المراجع: QCS 2024 Section 8 Part 7 | Ashghal Road Design Manual 2023 | Ashghal ITP Template | BS EN 752
+</p>
+</div>`
+};
+
+// ============================================================
+
+c['treated_stages_detail'] = {
+  title: '♻️ مراحل تنفيذ شبكة المياه المعالجة (TSE) — QCS S8 P5 (دليل ميداني)',
+  content: `
+<div style="font-family:var(--font-main);color:var(--text1);max-width:900px;margin:0 auto;">
+
+<div style="background:rgba(76,175,80,0.08);border-right:4px solid #2e7d32;padding:12px 16px;border-radius:8px;margin-bottom:20px;">
+  <strong>⚠️ تنبيه:</strong> شبكة TSE منفصلة تماماً عن مياه الشرب — أي تقاطع أو قرب = مخالفة فورية.
+  المرجع الأساسي: QCS 2024 Section 8 Part 5 + Ashghal TSE Design Guidelines
+</div>
+
+<h3 style="color:#2e7d32;border-bottom:2px solid rgba(46,125,50,0.3);padding-bottom:8px;">🟢 المرحلة 1: المتطلبات الأساسية للفصل (Separation Requirements)</h3>
+<table class="dm-table" style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+  <tr style="background:rgba(46,125,50,0.15);"><th style="padding:8px;text-align:right;border:1px solid rgba(46,125,50,0.3);">المتطلب</th><th style="padding:8px;text-align:center;border:1px solid rgba(46,125,50,0.3);">القيمة</th><th style="padding:8px;text-align:center;border:1px solid rgba(46,125,50,0.3);">المرجع</th></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">فصل أفقي عن مياه الشرب</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#f44336;"><strong>≥ 1500mm</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P5 Cl.3.2</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">TSE دائماً أسفل مياه الشرب</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#f44336;"><strong>إلزامي — بلا استثناء</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P5 Cl.3.3</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">فصل عمودي عند التقاطع</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#f44336;"><strong>≥ 500mm</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P5 Cl.3.3</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Cover (طريق)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#4caf50;"><strong>≥ 750mm</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P5 Cl.4</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Warning Tape</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">أرجواني / بنفسجي — "TREATED WATER"</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal Standard</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">لون الأنابيب</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">أرجواني (Purple) — HDPE أو UPVC</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal TSE Guidelines</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Pressure Rating</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">PN10 minimum</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P5 Cl.2</td></tr>
+</table>
+
+<h3 style="color:#2e7d32;border-bottom:2px solid rgba(46,125,50,0.3);padding-bottom:8px;">🟢 المرحلة 2: التركيب والمعدات (Installation & Fittings)</h3>
+<table class="dm-table" style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+  <tr style="background:rgba(46,125,50,0.15);"><th style="padding:8px;text-align:right;border:1px solid rgba(46,125,50,0.3);">المتطلب</th><th style="padding:8px;text-align:center;border:1px solid rgba(46,125,50,0.3);">القيمة</th><th style="padding:8px;text-align:center;border:1px solid rgba(46,125,50,0.3);">المرجع</th></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Cross-connection Protection</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#f44336;">Air Gap / Backflow Preventer إلزامي</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P5 Cl.7</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Valves — لون المقابض</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">أرجواني — للتمييز عن مياه الشرب</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal TSE Guidelines</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Irrigation Connection Points</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Quick-Coupling بلون بنفسجي فقط</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal TSE</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Signage</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">"ليست مياه شرب / NOT POTABLE" كل 10m</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P5 Cl.8</td></tr>
+</table>
+
+<h3 style="color:#2e7d32;border-bottom:2px solid rgba(46,125,50,0.3);padding-bottom:8px;">🟢 المرحلة 3: الاختبارات والجودة (Testing & Quality)</h3>
+<table class="dm-table" style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+  <tr style="background:rgba(46,125,50,0.15);"><th style="padding:8px;text-align:right;border:1px solid rgba(46,125,50,0.3);">البند</th><th style="padding:8px;text-align:center;border:1px solid rgba(46,125,50,0.3);">القيمة</th><th style="padding:8px;text-align:center;border:1px solid rgba(46,125,50,0.3);">المرجع</th></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">ضغط الاختبار (Hydrostatic)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#4caf50;"><strong>1.5 × PN لمدة ساعتين</strong></td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">QCS S8 P5 Cl.7.2</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">جودة مياه TSE عند التشغيل</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">BOD ≤ 10 mg/L | TSS ≤ 10 mg/L</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal TSE Standard</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">E.coli في TSE (ري)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">≤ 200 CFU/100mL (Class A)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal TSE / WHO</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">Residual Chlorine في TSE</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">0.5 – 1.0 mg/L</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal TSE</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">نقاط الأخذ (Sampling)</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">نقطة كل 300m + نهايات الشبكة</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Ashghal TSE</td></tr>
+</table>
+
+<h3 style="color:#2e7d32;border-bottom:2px solid rgba(46,125,50,0.3);padding-bottom:8px;">📋 نموذج ITP مختصر — TSE Network</h3>
+<table class="dm-table" style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+  <tr style="background:rgba(46,125,50,0.15);"><th style="padding:8px;border:1px solid rgba(46,125,50,0.3);">#</th><th style="padding:8px;border:1px solid rgba(46,125,50,0.3);">نشاط التفتيش</th><th style="padding:8px;text-align:center;border:1px solid rgba(46,125,50,0.3);">H/W/R</th><th style="padding:8px;text-align:center;border:1px solid rgba(46,125,50,0.3);">الوثيقة</th></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">1</td><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">قياس Separation من مياه الشرب</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#f44336;">H</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Separation Survey Sheet</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">2</td><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">التحقق من لون الأنابيب والتسميات</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#f44336;">H</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Visual Inspection Record</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">3</td><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">مشاهدة اختبار الضغط</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#f44336;">H</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Pressure Test Report</td></tr>
+  <tr style="background:rgba(255,255,255,0.03);"><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">4</td><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">مراجعة نتائج جودة TSE</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#ff9800;">W</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Lab Report — Ashghal Approved</td></tr>
+  <tr><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">5</td><td style="padding:8px;border:1px solid rgba(255,255,255,0.1);">فحص Cross-Connection Protection</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);color:#f44336;">H</td><td style="padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.1);">Backflow Prevention Certificate</td></tr>
+</table>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+  <div style="background:rgba(76,175,80,0.1);border:1px solid rgba(76,175,80,0.4);border-radius:8px;padding:12px;">
+    <strong style="color:#4caf50;">✅ Pass:</strong>
+    <ul style="margin:8px 0 0 0;padding-right:16px;color:var(--text2);font-size:13px;line-height:1.8;">
+      <li>Separation ≥ 1500mm من مياه الشرب</li>
+      <li>TSE دائماً أسفل Water Main</li>
+      <li>Pressure Test: هبوط ≤ 0.1 بار</li>
+      <li>جودة TSE ضمن المعايير</li>
+      <li>جميع النقاط مؤشَّرة بالبنفسجي</li>
+    </ul>
+  </div>
+  <div style="background:rgba(244,67,54,0.1);border:1px solid rgba(244,67,54,0.4);border-radius:8px;padding:12px;">
+    <strong style="color:#f44336;">❌ Fail — IMMEDIATE STOP:</strong>
+    <ul style="margin:8px 0 0 0;padding-right:16px;color:var(--text2);font-size:13px;line-height:1.8;">
+      <li>أي Cross-connection مع مياه الشرب</li>
+      <li>TSE فوق Water Main</li>
+      <li>غياب Backflow Prevention</li>
+      <li>غياب اللون البنفسجي أو التسميات</li>
+      <li>E.coli > 200 CFU/100mL</li>
+    </ul>
+  </div>
+</div>
+
+<p style="color:var(--text3);font-size:11px;margin-top:16px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.1);">
+  📌 المراجع: QCS 2024 Section 8 Part 5 | Ashghal TSE Design Guidelines | WHO Wastewater Reuse Guidelines 2006 | Ashghal ITP Template
+</p>
+</div>`
+};
+
 })();
+
