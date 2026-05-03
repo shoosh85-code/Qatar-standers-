@@ -5,6 +5,7 @@
  */
 
 import PDFDocument from 'pdfkit';
+import { rateLimit, applyRateLimitHeaders } from './rate-limit.js';
 
 // ألوان العلامة التجارية
 const BRAND = {
@@ -19,6 +20,18 @@ export default async function handler(request, response) {
   // POST فقط
   if (request.method !== 'POST') {
     return response.status(405).json({ error: 'Method Not Allowed — POST فقط' });
+  }
+
+  // ── Rate Limiting (Protocol 6) ──
+  const isPro = request.headers['x-qs-pro'] === '1' || request.cookies?.qs_pro === '1';
+  const tier = isPro ? 'pro' : 'free';
+  const rl = await rateLimit(request, tier, 'ai-proxy');
+  applyRateLimitHeaders(response, rl);
+  if (!rl.allowed) {
+    return response.status(429).json({
+      error: 'Too many requests — حاول بعد قليل',
+      retryAfter: rl.retryAfter
+    });
   }
 
   try {

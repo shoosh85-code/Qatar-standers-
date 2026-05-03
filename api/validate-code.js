@@ -41,17 +41,21 @@ export default async function handler(req) {
     });
   }
 
-  // ✅ Codes stored ONLY on server — never exposed to client
+  // ✅ Codes stored ONLY in env vars — never hardcoded in source
   const VALID_CODES = (process.env.PROMO_CODES || '')
     .split(',')
     .map(c => c.trim().toUpperCase())
     .filter(Boolean);
 
-  // Fallback default codes if env not set (for existing users)
-  const DEFAULT_CODES = ['QATAR2026PRO', 'QATARSPEC-PRO', 'QS-ENGINEER-2026', 'PRO-BETA-QCS'];
-  const ALL_CODES = [...new Set([...VALID_CODES, ...DEFAULT_CODES])];
+  // إذا لم تُضبط PROMO_CODES في env → أعد خطأ واضح
+  if (!VALID_CODES.length) {
+    return new Response(
+      JSON.stringify({ error: 'Promo codes not configured — contact support' }),
+      { status: 503, headers: { ...CORS, 'Content-Type': 'application/json' } }
+    );
+  }
 
-  const isValid = ALL_CODES.includes(code);
+  const isValid = VALID_CODES.includes(code);
 
   if (isValid) {
     // Expiry: 1 year from now

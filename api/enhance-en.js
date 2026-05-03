@@ -1,12 +1,26 @@
 // enhance-en: Pull real English content from QCS 2024 PDFs in Supabase
 // Uses vector search to find relevant English text, then Gemini to format it
 
+import { rateLimit, applyRateLimitHeaders } from './rate-limit.js';
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).end();
+
+  // ── Rate Limiting (Protocol 6) ──
+  const isPro = req.headers['x-qs-pro'] === '1' || req.cookies?.qs_pro === '1';
+  const tier = isPro ? 'pro' : 'free';
+  const rl = await rateLimit(req, tier, 'ai-proxy');
+  applyRateLimitHeaders(res, rl);
+  if (!rl.allowed) {
+    return res.status(429).json({
+      error: 'Too many requests — حاول بعد قليل',
+      retryAfter: rl.retryAfter
+    });
+  }
 
   const body = await new Promise((resolve) => {
     let data = '';

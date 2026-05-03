@@ -16,8 +16,8 @@ export default async function handler(req, res) {
   if (!email) return res.status(400).json({ error: 'Email required' });
 
   const PLANS = {
-    monthly: { amount: 199, currency: 'QAR', desc: 'QatarSpec Pro — شهري' },
-    yearly:  { amount: 1990, currency: 'QAR', desc: 'QatarSpec Pro — سنوي (شهرين مجاناً)' },
+    monthly: { amount: 99,  currency: 'QAR', desc: 'QatarSpec Pro — شهري' },
+    yearly:  { amount: 799, currency: 'QAR', desc: 'QatarSpec Pro — سنوي (وفر 33%)' },
   };
 
   const p = PLANS[plan] || PLANS.monthly;
