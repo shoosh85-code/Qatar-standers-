@@ -6,23 +6,37 @@
 export const config = { runtime: 'edge' };
 
 // ── Rate Limiting (Edge-compatible in-memory) ──────────────────
-// حدود: 3 طلب/دقيقة لكل IP (PROTOCOL 6)
+// PROTOCOL 6: Free=3/min | Pro=10/min | Global=30/min/IP
+// rate-limit.js لا يدعم Edge (setInterval + top-level await + Node headers)
+// → نسخة داخلية Edge-compatible
 const _rl = new Map();
-function checkRateLimit(ip) {
-  const now = Date.now();
-  const windowMs = 60 * 1000;
-  const limit = 3;
-  const entry = _rl.get(ip);
-  if (!entry || now - entry.ts > windowMs) {
-    _rl.set(ip, { count: 1, ts: now });
+const RL_WINDOW_MS   = 60 * 1000;
+const RL_FREE_LIMIT  =  3;  // PROTOCOL 6: verify-pro free
+const RL_PRO_LIMIT   = 10;  // PROTOCOL 6: verify-pro pro
+const RL_GLOBAL_LIMIT = 30; // PROTOCOL 6: verify-pro global/IP
+
+function _rlCheck(key, limit) {
+  const now   = Date.now();
+  const entry = _rl.get(key);
+  if (!entry || now - entry.ts > RL_WINDOW_MS) {
+    _rl.set(key, { count: 1, ts: now });
     return { allowed: true, remaining: limit - 1 };
   }
   if (entry.count >= limit) {
-    const retryAfter = Math.ceil((windowMs - (now - entry.ts)) / 1000);
-    return { allowed: false, retryAfter };
+    return { allowed: false, retryAfter: Math.ceil((RL_WINDOW_MS - (now - entry.ts)) / 1000), remaining: 0 };
   }
   entry.count++;
   return { allowed: true, remaining: limit - entry.count };
+}
+
+function checkRateLimit(ip, isPro = false) {
+  // فحص الحد العالمي أولاً
+  const global = _rlCheck(`g:${ip}`, RL_GLOBAL_LIMIT);
+  if (!global.allowed) return { allowed: false, retryAfter: global.retryAfter, limit: RL_GLOBAL_LIMIT };
+  // فحص حد التير
+  const limit  = isPro ? RL_PRO_LIMIT : RL_FREE_LIMIT;
+  const result = _rlCheck(`t:${isPro ? 'pro' : 'free'}:${ip}`, limit);
+  return { ...result, limit };
 }
 
 const CORS = {
@@ -99,7 +113,15 @@ export default async function handler(req) {
 
   // ── Rate Limit Check ──────────────────────────────────────────
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '0.0.0.0';
-  const rl = checkRateLimit(ip);
+  // كشف Pro مبكر (من cookie) لتطبيق الحد الصحيح
+  const _cookieHdr = req.headers.get('cookie') || '';
+  const _existingToken = extractCookie(_cookieHdr, 'qs_pro');
+  let _isPro = false;
+  if (_existingToken && process.env.JWT_SECRET) {
+    const _p = await verifyJWT(_existingToken, process.env.JWT_SECRET);
+    _isPro = _p?.pro === true;
+  }
+  const rl = checkRateLimit(ip, _isPro);
   if (!rl.allowed) {
     return new Response(JSON.stringify({ error: 'Too Many Requests' }), {
       status: 429,
@@ -107,7 +129,7 @@ export default async function handler(req) {
         ...CORS,
         'Content-Type': 'application/json',
         'Retry-After': String(rl.retryAfter),
-        'X-RateLimit-Limit': '3',
+        'X-RateLimit-Limit': String(rl.limit),
         'X-RateLimit-Remaining': '0',
       },
     });
