@@ -1702,8 +1702,8 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <script src="js/calcs/geotech.js?v=1" defer></script>
 <script src="/js/load-calc.js" defer></script>
 <script src="/js/safety-bridge.js" defer></script>
-<!-- loader.js: يُحمِّل data_content.js — بعد QS + data_calcs جاهزَين -->
-<script src="loader.js?v=2" defer></script>
+<!-- loader.js v4: manifest on idle — data_content.js تُحمَّل on-demand فقط من chunks -->
+<script src="loader.js?v=3" defer></script>
 <!-- ═══ Lazy Load: Calculators — يُحمَّل فقط عند الوصول لقسم الحاسبات ═══ -->
 <script src="/js/xss-utils.js" defer></script>
 <script src="/js/content-aliases.js" defer></script>
