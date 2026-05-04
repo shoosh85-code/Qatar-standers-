@@ -1,0 +1,34 @@
+# ── Dependencies ──
+node_modules/
+.pnp.*
+.yarn/
+
+# ── Environment / Secrets ──
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# ── Vercel ──
+.vercel/
+
+# ── OS / IDE ──
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Build / Cache ──
+dist/
+.cache/
+*.tgz
+*.bak
+
+# ── Logs ──
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

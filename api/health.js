@@ -28,7 +28,7 @@ export default async function handler(req, res) {
 
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Cache-Control', 'no-store');
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', process.env.APP_URL || 'https://qatar-standers.vercel.app');
   return res.status(200).json({
     status:    allOk ? 'ok' : 'partial',
     timestamp: new Date().toISOString(),

@@ -2,7 +2,8 @@
 // Requires: RESEND_API_KEY, JWT_SECRET, KV_REST_API_URL, KV_REST_API_TOKEN, APP_URL
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const ORIGIN = process.env.APP_URL || 'https://qatar-standers.vercel.app';
+  res.setHeader('Access-Control-Allow-Origin', ORIGIN);
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).end();
