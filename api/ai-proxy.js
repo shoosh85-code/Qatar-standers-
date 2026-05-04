@@ -48,49 +48,65 @@ async function verifyProToken(token) {
 }
 
 
-const ipCounters = new Map();  // fallback: in-memory (per-instance)
-const FREE_LIMIT = 50;  // Phase 8: server-side IP limit (client enforces 5/day)
-const PRO_LIMIT  = 500;
+// ── Rate Limiting — PROTOCOL 6 (per-minute, Edge-compatible) ──────────────────
+// rate-limit.js لا يدعم Edge runtime (setInterval + top-level await + Node headers)
+// → نبقي النسخة الداخلية مع تعديل الحدود لتتطابق مع PROTOCOL 6
+const ipCounters = new Map();  // fallback: in-memory (per-instance, per-minute window)
+const FREE_LIMIT   =   5;  // PROTOCOL 6: free tier   5 req/min
+const PRO_LIMIT    =  60;  // PROTOCOL 6: pro tier   60 req/min
+const GLOBAL_LIMIT = 100;  // PROTOCOL 6: global    100 req/min/IP
+const WINDOW_MS    = 60 * 1000; // نافذة دقيقة واحدة
 
-function getTodayStr() {
-  return new Date().toISOString().slice(0, 10); // "2026-04-23"
+// مفتاح النافذة الزمنية الحالية (بالدقيقة)
+function getMinuteWindow() {
+  return Math.floor(Date.now() / WINDOW_MS);
 }
 
-function getRateKey(ip) {
-  return `rl:${getTodayStr()}:${ip}`;
+function getRateKey(ip, window) {
+  return `rl:${window}:${ip}`;
 }
 
-// Check and increment rate limit
-// Returns { allowed: bool, count: number, limit: number }
+// Check and increment rate limit — per-minute
+// Returns { allowed: bool, count: number, limit: number, retryAfter: number }
 async function checkRateLimit(ip, isProUser) {
-  const limit = isProUser ? PRO_LIMIT : FREE_LIMIT;
-  const key = getRateKey(ip);
+  const limit  = isProUser ? PRO_LIMIT : FREE_LIMIT;
+  const window = getMinuteWindow();
+  const key    = getRateKey(ip, window);
+  const globalKey = getRateKey(`global:${ip}`, window);
 
-  // Try Vercel KV
+  // Try Vercel KV (fetch-based — Edge compatible)
   if (typeof process !== 'undefined' && process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
     try {
-      const kvBase = process.env.KV_REST_API_URL;
+      const kvBase  = process.env.KV_REST_API_URL;
       const kvToken = process.env.KV_REST_API_TOKEN;
+      const headers = { Authorization: `Bearer ${kvToken}` };
 
-      // GET current count
-      const getRes = await fetch(`${kvBase}/get/${encodeURIComponent(key)}`, {
-        headers: { Authorization: `Bearer ${kvToken}` },
-      });
-      const getData = await getRes.json();
-      const current = parseInt(getData.result || '0');
-
-      if (current >= limit) {
-        return { allowed: false, count: current, limit };
+      // فحص الحد العالمي أولاً
+      const gRes  = await fetch(`${kvBase}/get/${encodeURIComponent(globalKey)}`, { headers });
+      const gData = await gRes.json();
+      const gCount = parseInt(gData.result || '0');
+      if (gCount >= GLOBAL_LIMIT) {
+        const retryAfter = WINDOW_MS / 1000 - (Date.now() % WINDOW_MS) / 1000 | 0;
+        return { allowed: false, count: gCount, limit: GLOBAL_LIMIT, retryAfter };
       }
 
-      // INCR and set TTL 24h
-      await fetch(`${kvBase}/incr/${encodeURIComponent(key)}`, {
-        headers: { Authorization: `Bearer ${kvToken}` },
-      });
-      await fetch(`${kvBase}/expire/${encodeURIComponent(key)}/86400`, {
-        headers: { Authorization: `Bearer ${kvToken}` },
-      });
-      return { allowed: true, count: current + 1, limit };
+      // فحص حد المستخدم (free/pro)
+      const uRes  = await fetch(`${kvBase}/get/${encodeURIComponent(key)}`, { headers });
+      const uData = await uRes.json();
+      const uCount = parseInt(uData.result || '0');
+      if (uCount >= limit) {
+        const retryAfter = WINDOW_MS / 1000 - (Date.now() % WINDOW_MS) / 1000 | 0;
+        return { allowed: false, count: uCount, limit, retryAfter };
+      }
+
+      // INCR + TTL دقيقتان (ضمان انتهاء النافذة)
+      const ttl = 120;
+      await fetch(`${kvBase}/incr/${encodeURIComponent(key)}`,       { method: 'POST', headers });
+      await fetch(`${kvBase}/expire/${encodeURIComponent(key)}/${ttl}`,       { headers });
+      await fetch(`${kvBase}/incr/${encodeURIComponent(globalKey)}`, { method: 'POST', headers });
+      await fetch(`${kvBase}/expire/${encodeURIComponent(globalKey)}/${ttl}`, { headers });
+
+      return { allowed: true, count: uCount + 1, limit, retryAfter: 0 };
     } catch (err) {
       console.error('[rate-limit] KV error:', err.message);
       // Fall through to in-memory
@@ -98,19 +114,30 @@ async function checkRateLimit(ip, isProUser) {
   }
 
   // Fallback: in-memory (resets on cold start — acceptable for edge)
+  // فحص الحد العالمي
+  const gKey   = getRateKey(`global:${ip}`, window);
+  const gCount = ipCounters.get(gKey) || 0;
+  if (gCount >= GLOBAL_LIMIT) {
+    return { allowed: false, count: gCount, limit: GLOBAL_LIMIT, retryAfter: 60 };
+  }
+
+  // فحص حد المستخدم
   const current = ipCounters.get(key) || 0;
   if (current >= limit) {
-    return { allowed: false, count: current, limit };
+    return { allowed: false, count: current, limit, retryAfter: 60 };
   }
+
   ipCounters.set(key, current + 1);
-  // Cleanup old keys periodically
+  ipCounters.set(gKey, gCount + 1);
+
+  // تنظيف النوافذ القديمة (أقدم من دقيقتين)
   if (ipCounters.size > 5000) {
-    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+    const oldWindow = window - 2;
     for (const k of ipCounters.keys()) {
-      if (k.includes(yesterday)) ipCounters.delete(k);
+      if (k.startsWith(`rl:${oldWindow}:`) || k < `rl:${oldWindow}:`) ipCounters.delete(k);
     }
   }
-  return { allowed: true, count: current + 1, limit };
+  return { allowed: true, count: current + 1, limit, retryAfter: 0 };
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -333,17 +360,18 @@ const token = extractToken(req);
   if (!rl.allowed) {
     return new Response(
       JSON.stringify({
-        error: `تجاوزت الحد اليومي (${rl.limit} بحث). اشترك في Pro للبحث غير المحدود.`,
+        error: `تجاوزت الحد المسموح (${rl.limit} طلب/دقيقة). حاول مجدداً خلال ${rl.retryAfter || 60} ثانية.`,
         code: 'RATE_LIMIT',
         count: rl.count,
         limit: rl.limit,
+        retryAfter: rl.retryAfter || 60,
       }),
       {
         status: 429,
         headers: {
           ...CORS,
           'Content-Type': 'application/json',
-          'Retry-After': '86400',
+          'Retry-After': String(rl.retryAfter || 60),
           'X-RateLimit-Limit': String(rl.limit),
           'X-RateLimit-Remaining': '0',
         },
