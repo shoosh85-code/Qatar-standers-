@@ -3403,7 +3403,59 @@ var PRO_CODES = []; // codes verified server-side only
   var _verifiedAt = 0;          // timestamp آخر تحقق فعلي من السيرفر
   var _verifyInProgress = false;
   var _allowServerSet = false;  // flag للسماح بالتعيين من verifyProWithServer فقط
-  var RE_VERIFY_MS = 5 * 60 * 1000; // إعادة التحقق كل 5 دقائق
+  var RE_VERIFY_MS = 5 * 60 * 1000;       // إعادة التحقق كل 5 دقائق
+  var QS_CACHE_KEY = 'qs_pro_cache';      // مفتاح الـ cache في localStorage
+  var QS_CACHE_TTL = 24 * 60 * 60 * 1000; // صلاحية الـ cache: يوم واحد فقط
+
+  // ── localStorage Cache Helpers ──────────────────────────────────────────────
+  // القرار النهائي دائماً من السيرفر — localStorage هو cache مؤقت لليوم فقط
+
+  // اكتب حالة Pro في localStorage مع timestamp
+  function _writeCache(isPro) {
+    try {
+      localStorage.setItem(QS_CACHE_KEY, JSON.stringify({
+        pro: isPro,
+        cachedAt: Date.now(),
+        expires: Date.now() + QS_CACHE_TTL,
+        v: '4.1'
+      }));
+    } catch(e) {
+      // localStorage ممنوع (incognito مثلاً) — تجاهل بصمت
+    }
+  }
+
+  // اقرأ الـ cache — يُرجع null إذا انتهت صلاحيته أو غير موجود
+  function _readCache() {
+    try {
+      var raw = localStorage.getItem(QS_CACHE_KEY);
+      if (!raw) return null;
+      var c = JSON.parse(raw);
+      // تحقق من الصلاحية: يوم واحد كحد أقصى
+      if (!c || !c.expires || Date.now() > c.expires) {
+        localStorage.removeItem(QS_CACHE_KEY);
+        return null;
+      }
+      return c;
+    } catch(e) { return null; }
+  }
+
+  // امسح الـ cache (عند logout أو انتهاء الاشتراك)
+  function _clearCache() {
+    try { localStorage.removeItem(QS_CACHE_KEY); } catch(e) {}
+  }
+
+  // تحميل الـ cache عند بدء التشغيل — قبل وصول رد السيرفر (UI فوري)
+  // السيرفر سيُصحّح هذه القيمة حال وصول الرد
+  (function _initFromCache() {
+    var c = _readCache();
+    if (c && c.pro === true) {
+      // استخدم الـ cache مؤقتاً — السيرفر سيُؤكد أو يُلغي
+      _allowServerSet = true;
+      _proState = true;
+      _allowServerSet = false;
+      console.info('[QS] Pro state loaded from cache (server will confirm shortly)');
+    }
+  })();
 
   // ── استبدال window._qs_pro_confirmed بـ getter/setter محمي ──
   // Object.defineProperty مع configurable: false يمنع إعادة تعريف الخاصية
@@ -3412,9 +3464,10 @@ var PRO_CODES = []; // codes verified server-side only
       get: function() { return _proState; },
       set: function(val) {
         if (val === false) {
-          // الـ logout دائماً مسموح
+          // الـ logout دائماً مسموح + مسح الـ cache
           _proState = false;
           _verifiedAt = 0;
+          _clearCache();
           return;
         }
         if (val === true && _allowServerSet) {
@@ -3444,6 +3497,8 @@ var PRO_CODES = []; // codes verified server-side only
     _allowServerSet = true;
     window._qs_pro_confirmed = val === true;
     _allowServerSet = false;
+    // اكتب القرار النهائي للسيرفر في الـ cache (صالح ليوم واحد)
+    _writeCache(val === true);
   };
 
   // ── verifyProWithServer — التحقق الحقيقي والإلزامي من السيرفر ──
@@ -3462,20 +3517,32 @@ var PRO_CODES = []; // codes verified server-side only
         headers: { 'X-QS-Verify': '1' }
       });
 
-      // معالجة Rate Limiting (429) — لا تغيير الحالة
+      // معالجة Rate Limiting (429) — لا تغيير الحالة، استخدم الـ cache
       if (r.status === 429) {
-        console.warn('[QS] Rate limited — الحالة الحالية محفوظة بدون تغيير');
+        console.warn('[QS] Rate limited — استخدام الـ cache الحالي');
         _verifiedAt = Date.now() - RE_VERIFY_MS + 30000; // أعد المحاولة بعد 30 ثانية
         return _proState;
       }
 
       var d = await r.json();
+      // السيرفر هو القرار النهائي — يُكتب في cache بعده
       window._qsSetProFromServer(d.pro === true);
       if (typeof renderProStatus === 'function') renderProStatus();
       return _proState;
     } catch(e) {
-      // فشل الشبكة → لا نسحب Pro (لا نعاقب المستخدم على مشكلة اتصال)
-      console.warn('[QS] Server verify error:', e.message);
+      // فشل الشبكة → اقرأ من localStorage cache (إذا لم يمرّ يوم)
+      var cached = _readCache();
+      if (cached !== null) {
+        var cacheAgeMin = Math.round((Date.now() - cached.cachedAt) / 60000);
+        console.warn('[QS] شبكة فاشلة — استخدام cache (عمره ' + cacheAgeMin + ' دقيقة):', e.message);
+        // طبّق الـ cache بدون كتابته من جديد (السيرفر سيُصحّح لاحقاً)
+        _allowServerSet = true;
+        _proState = cached.pro === true;
+        _allowServerSet = false;
+      } else {
+        // لا cache صالح — لا نسحب Pro إذا كان مُفعّلاً مسبقاً في الجلسة
+        console.warn('[QS] شبكة فاشلة + لا cache — الحالة الحالية محفوظة:', e.message);
+      }
       return _proState;
     } finally {
       _verifyInProgress = false;
@@ -3501,8 +3568,10 @@ var PRO_CODES = []; // codes verified server-side only
 
 // ── Pro State ──
 function isProUser() {
-  // sync للـ UI — القرار الفعلي يأتي من window._qs_pro_confirmed
-  // الذي يُعيّن فقط عبر verifyProWithServer() → _qsSetProFromServer()
+  // sync للـ UI — يعكس:
+  // 1. قرار السيرفر الأخير (عبر verifyProWithServer → _qsSetProFromServer)
+  // 2. أو cache اليوم (qs_pro_cache في localStorage) عند فشل الشبكة
+  // القرار النهائي دائماً من السيرفر — localStorage cache مؤقت لليوم فقط
   return window._qs_pro_confirmed === true;
 }
 // Legacy stubs — real auth uses httpOnly cookies via /api/verify-pro
