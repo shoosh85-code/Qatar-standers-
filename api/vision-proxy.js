@@ -132,9 +132,11 @@ export default async function handler(req) {
   if (!image) return json({ error: 'No image/file provided' }, 400);
   if (!mode) return json({ error: 'Mode required: inspector or analyzer' }, 400);
 
-  // Pro check
+  // [SEC v4.2] Pro check — Authorization header أو httpOnly cookie
   const authHeader = req.headers.get('authorization') || '';
-  const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
+  const cookieHeader = req.headers.get('cookie') || '';
+  const cookieToken = cookieHeader.match(/qs_pro=([^;]+)/)?.[1] || null;
+  const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : cookieToken;
   const isPro = token ? await verifyProToken(token) : false;
 
   // Rate limiting — PROTOCOL 6

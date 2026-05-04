@@ -1243,8 +1243,7 @@ c["drawing_analyzer"] = {
     document.getElementById('da-actions').style.display = 'none';
 
     try {
-      var token = localStorage.getItem('qs_pro_token') || '';
-
+      // [SEC v4.2] لا localStorage — httpOnly cookie يُرسَل تلقائياً عبر credentials:'include'
       // For PDF - use application/pdf, Gemini supports it
       var mimeType = _daFile.type;
       if (mimeType === 'application/pdf') {
@@ -1254,10 +1253,8 @@ c["drawing_analyzer"] = {
 
       var res = await fetch('/api/vision-proxy', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token ? { 'Authorization': 'Bearer ' + token } : {})
-        },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           mode: 'analyzer',
           image: _daFile.data,
@@ -1470,13 +1467,11 @@ c["photo_analyzer"] = {
     document.getElementById('pi-actions').style.display = 'none';
 
     try {
-      var token = localStorage.getItem('qs_pro_token') || '';
+      // [SEC v4.2] لا localStorage — httpOnly cookie يُرسَل تلقائياً عبر credentials:'include'
       var res = await fetch('/api/vision-proxy', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token ? { 'Authorization': 'Bearer ' + token } : {})
-        },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           mode: 'inspector',
           image: _piImage.data,
