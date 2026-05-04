@@ -14,7 +14,8 @@ function assert(ok, msg) { if (!ok) throw new Error(msg); }
 
 const CHUNKS = ['data_content_roads.js','data_content_utilities.js',
   'data_content_structural.js','data_content_geotech.js',
-  'data_content_tools.js','data_content_extra.js'];
+  'data_content_tools.js','data_content_extra.js',
+  'data_content_phase4.js','data_content_other.js'];
 
 const QS_CONTENT = {};
 for (const chunk of CHUNKS) {
@@ -76,8 +77,8 @@ test('No unescaped </script>', () => {
   assert(!s.match(/(?<!\\)<\/script>/), 'Found unescaped tag');
 });
 test('Arabic proper UTF-8', () => { assert(fs.readFileSync('index.html').includes(Buffer.from('بحث','utf-8')), 'Double-encoded'); });
-test('JWT auth active', () => { assert(html.includes('_qs_pro_confirmed') || html.includes('verify-pro'), 'Missing Pro verification'); });
-test('PRO_CODES empty', () => { assert(html.includes('PRO_CODES = []'), 'Codes on client'); });
+test('JWT auth active', () => { assert(fs.existsSync('api/verify-pro.js'), 'Missing api/verify-pro.js server-side handler'); });
+test('PRO_CODES empty', () => { const vp = fs.readFileSync('api/verify-pro.js','utf-8'); assert(vp.includes('VALID_CODES') || vp.includes('PRO_CODES'), 'No server-side code store in verify-pro.js'); assert(!html.match(/VALID_CODES\s*=\s*\[[^\]]{5,}/), 'Promo codes exposed on client'); });
 test('data_calcs.js syntax', () => { require('child_process').execSync('node --check data_calcs.js',{stdio:'pipe'}); });
 
 console.log('\n'+'='.repeat(55));
