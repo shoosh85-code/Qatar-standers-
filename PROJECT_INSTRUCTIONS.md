@@ -73,7 +73,12 @@
 ## PROTOCOL 4: صفر تضليل (ZERO HALLUCINATION)
 
 ممنوع تماماً:
-- "أعتقد" / "ربما" / "على الأرجح" / "يبدو" / "يجب أن" / "من المفترض"
+- "أعتقد"
+- "ربما"
+- "على الأرجح"
+- "يبدو"
+- "يجب أن"
+- "من المفترض"
 
 إلزامي:
 - "الناتج الفعلي: [لصق]"
@@ -154,16 +159,16 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 
 ## CODING RULES
 
-1. Follow QCS 2024 always — accuracy over speed
-2. Vanilla JS only (no frameworks)
-3. RTL + Arabic + English in all UI
-4. Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
-5. Pro features: gentle prompt for free users
-6. Never invent numbers — say "غير موجود في المستند"
-7. `window.QS` namespace for all public functions
-8. Sanitize ALL user input before innerHTML
-9. `const`/`let` only (no `var`)
-10. Arabic comments for complex logic
+- Follow QCS 2024 always — accuracy over speed
+- Vanilla JS only (no frameworks)
+- RTL + Arabic + English in all UI
+- Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
+- Pro features: gentle prompt for free users
+- Never invent numbers — say "غير موجود في المستند"
+- `window.QS` namespace for all public functions
+- Sanitize ALL user input before innerHTML
+- `const`/`let` only (no `var`)
+- Arabic comments for complex logic
 
 ---
 
@@ -184,6 +189,8 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 - Rate limit all API endpoints (see PROTOCOL 6)
 - Sanitize all user input
 - XSS protection on all innerHTML injections
+- **[SEC v4.1]** `window._qs_pro_confirmed` محمية بـ `Object.defineProperty` — التعيين فقط عبر `_qsSetProFromServer()`
+- **[SEC v4.1]** إعادة التحقق من السيرفر كل 5 دقائق + عند العودة للتبويب
 
 ---
 

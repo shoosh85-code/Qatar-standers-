@@ -26,10 +26,13 @@ window.onload = () => {
   // Silently revalidate JWT on load (catches expired tokens)
   (function revalidateProToken(){
 // Pro status via httpOnly cookie (secure v3.0)
-  fetch('/api/verify-pro?action=status', { credentials: 'include' })
-    .then(r => r.json())
-    .then(d => { window._qs_pro_confirmed = d.pro === true; renderProStatus(); })
-    .catch(() => { window._qs_pro_confirmed = false; renderProStatus(); });
+  // [SEC v4.1] يستخدم verifyProWithServer() — window._qs_pro_confirmed محمية الآن
+  (typeof window.verifyProWithServer === 'function' ? window.verifyProWithServer(true) :
+    fetch('/api/verify-pro?action=status', { credentials: 'include' })
+      .then(r => r.json())
+      .then(d => { window._qsSetProFromServer(d.pro === true); renderProStatus(); })
+      .catch(() => { window._qsSetProFromServer(false); renderProStatus(); })
+  );
   })();
   // Check pro expiry
   const expiry = getProExpiry();
@@ -3386,8 +3389,120 @@ window.calcRoadLayers = function calcRoadLayers() {
 var FREE_DAILY_LIMIT = 5;
 var PRO_CODES = []; // codes verified server-side only
 
+// ══════════════════════════════════════════════════════════════════════════════
+// [SEC v4.1] TAMPER-PROOF PRO STATE — مُضافة فوق isProUser()
+// المشكلة: window._qs_pro_confirmed = true في console يمنح Pro مجاناً
+// الحل: closure محمية + Object.defineProperty + server re-verification دورية
+// لا يُحذف أي كود — فقط إضافة طبقة حماية
+// ══════════════════════════════════════════════════════════════════════════════
+(function _qsSecureProState() {
+  'use strict';
+
+  // حالة Pro محمية داخل closure — لا يمكن الوصول إليها مباشرة من الخارج
+  var _proState = false;
+  var _verifiedAt = 0;          // timestamp آخر تحقق فعلي من السيرفر
+  var _verifyInProgress = false;
+  var _allowServerSet = false;  // flag للسماح بالتعيين من verifyProWithServer فقط
+  var RE_VERIFY_MS = 5 * 60 * 1000; // إعادة التحقق كل 5 دقائق
+
+  // ── استبدال window._qs_pro_confirmed بـ getter/setter محمي ──
+  // Object.defineProperty مع configurable: false يمنع إعادة تعريف الخاصية
+  try {
+    Object.defineProperty(window, '_qs_pro_confirmed', {
+      get: function() { return _proState; },
+      set: function(val) {
+        if (val === false) {
+          // الـ logout دائماً مسموح
+          _proState = false;
+          _verifiedAt = 0;
+          return;
+        }
+        if (val === true && _allowServerSet) {
+          // مسموح فقط عبر _qsSetProFromServer()
+          _proState = true;
+          _verifiedAt = Date.now();
+          return;
+        }
+        // أي محاولة تعيين true من الخارج (console أو كود آخر) → ترفض + تُشغّل re-verify
+        console.warn('[QS-SEC v4.1] ⚠️ محاولة تعديل حالة Pro مرفوضة. جارٍ التحقق من السيرفر...');
+        // شغّل verification حقيقي في الخلفية
+        if (typeof window.verifyProWithServer === 'function') {
+          window.verifyProWithServer(true);
+        }
+      },
+      configurable: false,   // يمنع إعادة defineProperty مستقبلاً
+      enumerable: false,
+    });
+  } catch(e) {
+    // إذا فشل defineProperty (نادر) — سجّل التحذير
+    console.warn('[QS-SEC] defineProperty failed:', e.message);
+  }
+
+  // ── الدالة الوحيدة المخوّلة بتعيين _proState = true ──
+  // تُستخدم فقط من داخل verifyProWithServer()
+  window._qsSetProFromServer = function(val) {
+    _allowServerSet = true;
+    window._qs_pro_confirmed = val === true;
+    _allowServerSet = false;
+  };
+
+  // ── verifyProWithServer — التحقق الحقيقي والإلزامي من السيرفر ──
+  window.verifyProWithServer = async function(force) {
+    // منع طلبات متزامنة متعددة
+    if (_verifyInProgress) return _proState;
+    // إذا لم يمرّ وقت كافٍ منذ آخر تحقق (ما لم يكن force=true)
+    if (!force && _verifiedAt && (Date.now() - _verifiedAt < RE_VERIFY_MS)) return _proState;
+
+    _verifyInProgress = true;
+    try {
+      var r = await fetch('/api/verify-pro?action=status', {
+        method: 'GET',
+        credentials: 'include',
+        cache: 'no-store',
+        headers: { 'X-QS-Verify': '1' }
+      });
+
+      // معالجة Rate Limiting (429) — لا تغيير الحالة
+      if (r.status === 429) {
+        console.warn('[QS] Rate limited — الحالة الحالية محفوظة بدون تغيير');
+        _verifiedAt = Date.now() - RE_VERIFY_MS + 30000; // أعد المحاولة بعد 30 ثانية
+        return _proState;
+      }
+
+      var d = await r.json();
+      window._qsSetProFromServer(d.pro === true);
+      if (typeof renderProStatus === 'function') renderProStatus();
+      return _proState;
+    } catch(e) {
+      // فشل الشبكة → لا نسحب Pro (لا نعاقب المستخدم على مشكلة اتصال)
+      console.warn('[QS] Server verify error:', e.message);
+      return _proState;
+    } finally {
+      _verifyInProgress = false;
+    }
+  };
+
+  // ── إعادة التحقق الدورية كل 5 دقائق (فقط عند التبويب نشطاً) ──
+  setInterval(function() {
+    if (document.visibilityState === 'visible') {
+      window.verifyProWithServer();
+    }
+  }, RE_VERIFY_MS);
+
+  // ── إعادة التحقق عند العودة للتبويب إذا انقضى وقت التحقق ──
+  document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'visible' && _verifiedAt > 0) {
+      var elapsed = Date.now() - _verifiedAt;
+      if (elapsed > RE_VERIFY_MS) window.verifyProWithServer();
+    }
+  });
+
+})(); // نهاية _qsSecureProState IIFE
+
 // ── Pro State ──
 function isProUser() {
+  // sync للـ UI — القرار الفعلي يأتي من window._qs_pro_confirmed
+  // الذي يُعيّن فقط عبر verifyProWithServer() → _qsSetProFromServer()
   return window._qs_pro_confirmed === true;
 }
 // Legacy stubs — real auth uses httpOnly cookies via /api/verify-pro
@@ -3527,7 +3642,7 @@ async function activatePro(code) {
 
     // API returns {ok: true} on success
     if (d.ok || d.success || d.valid) {
-      window._qs_pro_confirmed = true;
+      window._qsSetProFromServer(true);
       renderProStatus();
       closeProModal();
       showToast('🎉 تم تفعيل Pro بنجاح!', 'success');
@@ -3936,7 +4051,7 @@ window.activateProNow = function(codeArg) {
   .then(function(r) { clearTimeout(tid); return r.json(); })
   .then(function(data) {
     if (data.ok || data.success || data.valid) {
-      window._qs_pro_confirmed = true;
+      window._qsSetProFromServer(true);
       if (typeof renderProStatus === 'function') renderProStatus();
       alert('✅ تم تفعيل Pro بنجاح! سيتم تحديث الصفحة.');
       setTimeout(function() { location.reload(); }, 500);
