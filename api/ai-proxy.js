@@ -27,6 +27,11 @@ function extractToken(req) {
   return null;
 }
 
+// SYNC-WITH: api/verify-pro.js verifyJWT() — يجب تحديثهما معاً
+// ملاحظة: Edge functions لا تدعم import بين بعضها في Vercel
+// الفرق المقصود: verifyProToken تُعيد boolean مباشرة (تتحقق من .pro داخلياً)
+//               verifyJWT   تُعيد payload كاملاً (يتحقق الـ caller من .pro)
+// إذا عدّلت منطق الـ crypto هنا → عدّل verify-pro.js + vision-proxy.js أيضاً
 async function verifyProToken(token) {
   if (!token) return false;
   const secret = process.env.JWT_SECRET;
