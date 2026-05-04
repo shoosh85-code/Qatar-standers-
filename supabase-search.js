@@ -85,7 +85,7 @@ async function openSection(key, title) {
     const rows = await searchQCSSection(_currSection, "", 20);
     renderRows(rows);
   } catch(e) {
-    document.getElementById("supa-body").innerHTML = '<div style="color:#f87171;text-align:center;padding:20px;">❌ ' + e.message + '</div>';
+    document.getElementById("supa-body").innerHTML = '<div style="color:#f87171;text-align:center;padding:20px;">❌ ' + (window.QS?.escapeHtml(e.message) || 'خطأ في الاتصال') + '</div>';
   }
 }
 
@@ -93,7 +93,7 @@ async function doSearch() {
   const kw = document.getElementById("supa-kw").value;
   document.getElementById("supa-body").innerHTML = '<div style="text-align:center;padding:30px;color:#64748b;">🔍 جاري البحث...</div>';
   try { renderRows(await searchQCSSection(_currSection, kw, 20)); }
-  catch(e) { document.getElementById("supa-body").innerHTML = '<div style="color:#f87171;padding:16px;">❌ ' + e.message + '</div>'; }
+  catch(e) { document.getElementById("supa-body").innerHTML = '<div style="color:#f87171;padding:16px;">❌ ' + (window.QS?.escapeHtml(e.message) || 'خطأ في البحث') + '</div>'; }
 }
 
 function renderRows(rows) {
