@@ -104,6 +104,7 @@
 ## PROTOCOL 6: RATE LIMITING (إلزامي)
 
 ### API Endpoints Limits:
+
 | Endpoint | Free | Pro | Global |
 |----------|------|-----|--------|
 | /api/ai-proxy | 5/min | 60/min | 100/min/IP |
@@ -130,12 +131,14 @@ echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-
 
 ## PROJECT INFO
 
-- **Name:** QatarSpec Pro
-- **Site:** qatar-standers.vercel.app
-- **Stack:** Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
-- **Repo:** github.com/shoosh85-code/Qatar-standers-
-- **Audience:** مهندسون قطريون وأجانب يعملون في قطر
-- **References:** QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
+```
+Name: QatarSpec Pro
+Site: qatar-standers.vercel.app
+Stack: Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
+Repo: github.com/shoosh85-code/Qatar-standers-
+Audience: مهندسون قطريون وأجانب يعملون في قطر
+References: QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
+```
 
 ---
 
@@ -159,16 +162,16 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 
 ## CODING RULES
 
-- Follow QCS 2024 always — accuracy over speed
-- Vanilla JS only (no frameworks)
-- RTL + Arabic + English in all UI
-- Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
-- Pro features: gentle prompt for free users
-- Never invent numbers — say "غير موجود في المستند"
-- `window.QS` namespace for all public functions
-- Sanitize ALL user input before innerHTML
-- `const`/`let` only (no `var`)
-- Arabic comments for complex logic
+1. Follow QCS 2024 always — accuracy over speed
+2. Vanilla JS only (no frameworks)
+3. RTL + Arabic + English in all UI
+4. Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
+5. Pro features: gentle prompt for free users
+6. Never invent numbers — say "غير موجود في المستند"
+7. window.QS namespace for all public functions
+8. Sanitize ALL user input before innerHTML
+9. const/let only (no var)
+10. Arabic comments for complex logic
 
 ---
 
@@ -189,8 +192,6 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 - Rate limit all API endpoints (see PROTOCOL 6)
 - Sanitize all user input
 - XSS protection on all innerHTML injections
-- **[SEC v4.1]** `window._qs_pro_confirmed` محمية بـ `Object.defineProperty` — التعيين فقط عبر `_qsSetProFromServer()`
-- **[SEC v4.1]** إعادة التحقق من السيرفر كل 5 دقائق + عند العودة للتبويب
 
 ---
 
@@ -233,19 +234,31 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 
 ---
 
-## TEST STATUS (last verified — v3.0)
+## AUDIT STATUS (آخر تحديث: مايو 2026)
 
-```
-node tests/content-integrity.test.cjs
-RESULT: 58 passed, 0 failed
-```
+| الفئة | الدرجة | الأولوية |
+|-------|--------|----------|
+| 🔒 الأمان (CORS wildcard) | 62/100 | 🔴 P0 — إصلاح فوري |
+| ♿ Accessibility | 25/100 | 🔴 P1 — إصلاح عاجل |
+| 📄 API Design | 80/100 | ✅ جيد |
+| 🌐 Bilingual | 85/100 | ✅ ممتاز |
+| 📊 Business Logic | 88/100 | ✅ ممتاز |
+| 🛡️ Content Integrity | 95/100 | ✅ ممتاز |
 
-Content chunks loaded:
-- data_content_roads.js
-- data_content_utilities.js
-- data_content_structural.js
-- data_content_geotech.js
-- data_content_tools.js
-- data_content_extra.js
-- data_content_phase4.js ← added v3.0
-- data_content_other.js ← added v3.0
+### مشاكل مفتوحة (P0):
+- [ ] CORS wildcard في 8 ملفات API → استبدل `*` بـ `process.env.APP_URL`
+- [ ] إنشاء `.gitignore` (5 دقائق)
+- [ ] HSTS header مفقود (5 دقائق)
+
+### مشاكل مفتوحة (P1-P2):
+- [ ] Accessibility: إضافة aria-* + alt + labels
+- [ ] og-image.png مفقود
+- [ ] inline scripts → ملفات خارجية
+- [ ] data_content.js تقسيم (1MB) — جلسة مستقلة
+
+### تم ✅:
+- Rate limiting على كل API endpoints
+- JWT + httpOnly cookies
+- security-cleanup.js
+- Content integrity: 58/58 اختبار ناجح
+- Auth system server-side فقط
