@@ -5,9 +5,11 @@
 export const config = { runtime: 'edge' };
 
 const CORS = {
-  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Origin': process.env.APP_URL || 'https://qatar-standers.vercel.app',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Allow-Credentials': 'true',
+  'Vary': 'Origin',
 };
 
 // ── Rate Limiting (Edge-compatible in-memory) ────────────────────────────────
