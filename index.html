@@ -810,38 +810,42 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 
 </head>
 <body>
-<div id="offlineBar">📡 أنت غير متصل — بعض الميزات غير متاحة</div>
+<!-- Skip Navigation — Accessibility -->
+<a href="#main-content" class="skip-link" style="position:absolute;top:-40px;left:0;background:var(--gold);color:#000;padding:8px 16px;z-index:9999;font-family:Tajawal,sans-serif;font-weight:700;transition:top .2s;" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">تخطي إلى المحتوى الرئيسي</a>
 
-<div id="update-banner" style="display:none;background:linear-gradient(135deg,#7a1515,#c9a84c);padding:10px 16px;text-align:center;font-size:13px;color:#fff;font-family:Tajawal,sans-serif;">
-  🔔 يوجد تحديث جديد للتطبيق — <a onclick="location.reload(true)" style="color:#fff;font-weight:700;cursor:pointer;text-decoration:underline;">تحديث الآن</a>
+<div id="offlineBar" role="alert">📡 أنت غير متصل — بعض الميزات غير متاحة</div>
+
+<div id="update-banner" role="alert" style="display:none;background:linear-gradient(135deg,#7a1515,#c9a84c);padding:10px 16px;text-align:center;font-size:13px;color:#fff;font-family:Tajawal,sans-serif;">
+  🔔 يوجد تحديث جديد للتطبيق — <a onclick="location.reload(true)" style="color:#fff;font-weight:700;cursor:pointer;text-decoration:underline;" role="button" tabindex="0" aria-label="تحديث التطبيق الآن">تحديث الآن</a>
 </div>
 
-<header>
+<header role="banner">
   <div class="header-inner">
-    <div class="logo">
-      <div class="logo-mark">🏗️</div>
+    <div class="logo" aria-label="QatarSpec Pro — دليل المواصفات القطرية">
+      <div class="logo-mark" aria-hidden="true">🏗️</div>
       <div>
         <div class="logo-name">دليل المواصفات القطرية</div>
         <div class="logo-sub">Qatar Engineering Standards</div>
       </div>
     </div>
-    <div class="header-actions">
-      <button id="darkModeBtn" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
-      <div id="proStatusBadge" class="free-badge" onclick="openProModal()">
+    <nav class="header-actions" aria-label="إعدادات التطبيق">
+      <button id="darkModeBtn" onclick="toggleTheme()" title="تبديل المظهر" aria-label="تبديل الوضع المظلم/الفاتح">🌙</button>
+      <div id="proStatusBadge" class="free-badge" onclick="openProModal()" role="button" tabindex="0" aria-label="ترقية إلى الباقة الاحترافية">
         ⭐ ارقَ لـ Pro
       </div>
-      <div class="key-status" onclick="QS.openKeyModal()">
-        <div class="key-dot" id="keyDot"></div>
+      <div class="key-status" onclick="QS.openKeyModal()" role="button" tabindex="0" aria-label="إعداد مفتاح الذكاء الاصطناعي">
+        <div class="key-dot" id="keyDot" aria-hidden="true"></div>
         <span id="keyStatusText">إعداد AI</span>
       </div>
-      <div class="lang-toggle">
-        <button class="lang-btn active" id="btn-ar" onclick="QS.setLang('ar')">عربي</button>
-        <button class="lang-btn" id="btn-en" onclick="QS.setLang('en')">EN</button>
+      <div class="lang-toggle" role="group" aria-label="تبديل اللغة">
+        <button class="lang-btn active" id="btn-ar" onclick="QS.setLang('ar')" aria-pressed="true" aria-label="العربية">عربي</button>
+        <button class="lang-btn" id="btn-en" onclick="QS.setLang('en')" aria-pressed="false" aria-label="English">EN</button>
       </div>
-    </div>
+    </nav>
   </div>
 </header>
 
+<main id="main-content" role="main">
 <div class="hero">
   <div class="hero-left">
     <div class="hero-eyebrow">🇶🇦 الأداة الاحترافية رقم 1 لمهندسي قطر</div>
@@ -872,13 +876,13 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     </div>
   </div>
   <div class="hero-right">
-    <div class="upload-zone" id="uploadZone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" onclick="document.getElementById('fileInput').click()">
-      <div class="upload-icon-wrap">📄</div>
+    <div class="upload-zone" id="uploadZone" role="button" tabindex="0" aria-label="منطقة رفع ملفات PDF — اسحب أو اضغط لاختيار الملفات" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" onclick="document.getElementById('fileInput').click()">
+      <div class="upload-icon-wrap" aria-hidden="true">📄</div>
       <div class="upload-title">ارفع المواصفات هنا</div>
       <div class="upload-desc">اسحب ملفات PDF الكود القطري والمواصفات<br>أو اضغط لاختيار الملفات</div>
-      <button class="upload-btn-main" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">📤 اختر ملفات PDF</button>
+      <button class="upload-btn-main" onclick="event.stopPropagation(); document.getElementById('fileInput').click()" aria-label="اختيار ملفات PDF من الجهاز">📤 اختر ملفات PDF</button>
       <div class="upload-formats">يدعم: PDF • حجم أقصى 50MB لكل ملف</div>
-      <input type="file" id="fileInput" style="display:none" accept=".pdf" multiple onchange="handleFiles(event)">
+      <input type="file" id="fileInput" style="display:none" accept=".pdf" multiple onchange="handleFiles(event)" aria-label="اختيار ملفات PDF">
     </div>
     <div class="files-list" id="filesList"></div>
   </div>
@@ -908,12 +912,12 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   </div>
 </div>
 
-<div class="search-section">
-  <div class="search-label">🔍 البحث الذكي في QCS 2024</div>
+<div class="search-section" role="search" aria-label="البحث الذكي في المواصفات القطرية">
+  <div class="search-label" id="search-label">🔍 البحث الذكي في QCS 2024</div>
   <div class="search-wrap">
-    <span class="search-mic">🎙️</span>
-    <input type="text" class="search-input" id="searchInput" placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة الConcrete في الأساسات وفق الكود القطري؟" onkeydown="if(event.key==='Enter') doSearch()">
-    <button class="search-icon-btn" onclick="QS.doSearch()">⚡ بحث ذكي</button>
+    <span class="search-mic" aria-hidden="true">🎙️</span>
+    <input type="text" class="search-input" id="searchInput" aria-labelledby="search-label" placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة الConcrete في الأساسات وفق الكود القطري؟" onkeydown="if(event.key==='Enter') doSearch()">
+    <button class="search-icon-btn" onclick="QS.doSearch()" aria-label="بحث ذكي في QCS 2024">⚡ بحث ذكي</button>
   </div>
   <div class="quick-tags">
     <span class="quick-tag" onclick="QS.quickSearch('متطلبات الConcrete المسلحة')">🏛️ الConcrete المسلحة</span>
@@ -959,6 +963,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <!-- ===== CARD FILTER SEARCH BAR ===== -->
 <div id="cardFilterWrap" style="margin-bottom:18px;position:relative;">
   <input type="text" id="cardFilterInput"
+    aria-label="تصفية الكروت — ابحث حسب الموضوع"
     placeholder="🔍  ابحث في الكروت... مثال: إسفلت، خوازيق، خرسانة، CCTV"
     oninput="filterCards(this.value)"
     style="width:100%;padding:12px 48px 12px 16px;background:var(--dark3);border:1px solid var(--border2);border-radius:12px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:14px;outline:none;transition:.3s;"
@@ -1477,14 +1482,14 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   </div>
 </div>
 
-<div class="modal-bg" id="keyModal">
+<div class="modal-bg" id="keyModal" role="dialog" aria-modal="true" aria-labelledby="keyModalTitle">
   <div class="modal-box">
-    <div class="modal-title">🔑 إعداد AI</div>
+    <div class="modal-title" id="keyModalTitle">🔑 إعداد AI</div>
     <div class="modal-desc">التطبيق يعمل عبر server proxy آمن — لا حاجة لمفتاح شخصي. للاستخدام المحلي فقط أدخل Gemini API Key.</div>
     <div style="background:rgba(39,174,96,0.1);border:1px solid rgba(39,174,96,0.3);border-radius:8px;padding:10px;margin-bottom:12px;font-size:12px;color:#27ae60;line-height:1.6;">
       ✅ <strong>الإنتاج:</strong> يعمل تلقائياً عبر /api/ai-proxy و /api/vision-proxy — لا حاجة لأي مفتاح. المفتاح هنا للتطوير المحلي فقط.
     </div>
-    <input type="password" class="modal-input" id="keyInput" placeholder="AIza... (Gemini — للتطوير المحلي فقط)" />
+    <input type="password" class="modal-input" id="keyInput" aria-label="مفتاح Gemini API للتطوير المحلي" placeholder="AIza... (Gemini — للتطوير المحلي فقط)" />
     <div class="modal-actions">
       <button class="modal-save" onclick="QS.saveKey()">✅ حفظ وتفعيل</button>
       <button class="modal-cancel" onclick="QS.closeKeyModal()">إلغاء</button>
@@ -1496,10 +1501,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <div class="detail-modal">
     <div id="itp-project-bar" style="display:none;background:rgba(201,168,76,0.06);border-bottom:1px solid var(--border);padding:8px 16px;">
   <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-    <input id="itp-project-name" placeholder="اسم المشروع" style="background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--text);width:160px;outline:none;">
-    <input id="itp-number" placeholder="رقم ITP" style="background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--text);width:100px;outline:none;">
-    <input id="itp-engineer" placeholder="المهندس" style="background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--text);width:120px;outline:none;">
-    <input id="itp-date" type="date" style="background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--text);outline:none;">
+    <input id="itp-project-name" aria-label="اسم المشروع" placeholder="اسم المشروع" style="background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--text);width:160px;outline:none;">
+    <input id="itp-number" aria-label="رقم ITP" placeholder="رقم ITP" style="background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--text);width:100px;outline:none;">
+    <input id="itp-engineer" aria-label="اسم المهندس" placeholder="المهندس" style="background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--text);width:120px;outline:none;">
+    <input id="itp-date" type="date" aria-label="تاريخ ITP" style="background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--text);outline:none;">
     <span style="font-size:10px;color:var(--text3);">للتصدير الرسمي</span>
     <button onclick="document.getElementById('itpSigSection').style.display=document.getElementById('itpSigSection').style.display==='none'?'flex':'none'" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:6px;padding:4px 10px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--gold);cursor:pointer;">✍️ توقيع</button>
   </div>
@@ -1579,11 +1584,11 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <!-- ═══════════════════════════════════════════════
      PRO MODAL — خطط الاشتراك
      ═══════════════════════════════════════════════ -->
-<div class="pro-modal-bg" id="proModal">
+<div class="pro-modal-bg" id="proModal" role="dialog" aria-modal="true" aria-labelledby="proModalTitle">
   <div class="pro-modal-box">
-    <div class="pro-modal-close" onclick="closeProModal()">✕</div>
+    <div class="pro-modal-close" onclick="closeProModal()" role="button" tabindex="0" aria-label="إغلاق نافذة الاشتراك">✕</div>
 
-    <div class="pro-modal-title">🏆 QatarSpec Pro</div>
+    <div class="pro-modal-title" id="proModalTitle">🏆 QatarSpec Pro</div>
     <div class="pro-modal-sub">الأداة الاحترافية الأولى للمواصفات القطرية — اختر الخطة المناسبة</div>
 
     <div class="plans-grid">
@@ -1638,9 +1643,9 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       <div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:4px;">🎁 لديك كود خصم أو ترقية؟</div>
       <div style="font-size:11px;color:var(--text3);">أدخل الكود لتفعيل النسخة Pro فوراً</div>
       <div class="promo-input-wrap">
-        <input type="text" id="promoCodeInput" class="promo-input" placeholder="QATAR-PRO-XXXX" maxlength="20"
+        <input type="text" id="promoCodeInput" class="promo-input" aria-label="كود الترويج للباقة الاحترافية" placeholder="QATAR-PRO-XXXX" maxlength="20"
           onkeydown="if(event.key==='Enter') window.activateProNow(this.value)">
-        <button class="promo-btn" onclick="window.activateProNow(document.getElementById('promoCodeInput').value)">✅ تفعيل</button>
+        <button class="promo-btn" onclick="window.activateProNow(document.getElementById('promoCodeInput').value)" aria-label="تفعيل كود الترويج">✅ تفعيل</button>
       </div>
       <div id="promoMsg" style="margin-top:6px;font-size:12px;display:none;"></div>
     </div>
@@ -1675,9 +1680,9 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <!-- ═══════════════════════════════════════════════
      UPGRADE OVERLAY — contextual gate
      ═══════════════════════════════════════════════ -->
-<div class="upgrade-overlay" id="upgradeOverlay">
+<div class="upgrade-overlay" id="upgradeOverlay" role="dialog" aria-modal="true" aria-labelledby="upgradeTitle">
   <div class="upgrade-box">
-    <div class="upgrade-icon" id="upgradeIcon">🔒</div>
+    <div class="upgrade-icon" id="upgradeIcon" aria-hidden="true">🔒</div>
     <div class="upgrade-title" id="upgradeTitle">ميزة Pro</div>
     <div class="upgrade-desc" id="upgradeDesc">هذه الميزة متاحة للمشتركين في النسخة Pro فقط.</div>
     <div class="upgrade-actions">
@@ -1780,8 +1785,9 @@ window._CONTENT_ALIASES = {
 </script>
 
 
+</main>
 <!-- Back to Top Button -->
-<button id="backToTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="عودة للأعلى">↑</button>
+<button id="backToTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="عودة للأعلى" aria-label="العودة إلى أعلى الصفحة">↑</button>
 
 <!-- ═══════════════════════════════════════════════════════════
      المرحلة 7 — Export System Modules
