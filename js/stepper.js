@@ -1,3 +1,8 @@
+// ⚠️ DEPRECATED: هذا الملف لا يُستخدم — الملف الفعلي هو: /stepper.js (الجذر)
+// لا تعدّل هذا الملف — اعتبره archive فقط
+// تاريخ الإيقاف: 2025 | السبب: index.html يُحمّل /stepper.js وليس js/stepper.js
+window.__DEAD_FILE_WARNING = 'js/stepper.js is deprecated';
+
 // js/stepper.js — QatarSpec Pro Stepper System v1.0
 // نظام Stepper تفاعلي حقيقي مع State Machine + Validation + Auto-save
 // ═══════════════════════════════════════════════════════════════════

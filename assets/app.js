@@ -1,3 +1,8 @@
+// ⚠️ DEPRECATED: هذا الملف لا يُستخدم — الملف الفعلي هو: /inline-scripts.js (الجذر)
+// لا تعدّل هذا الملف — اعتبره archive فقط
+// تاريخ الإيقاف: 2025 | السبب: index.html يُحمّل /inline-scripts.js وليس assets/app.js
+window.__DEAD_FILE_WARNING = 'assets/app.js is deprecated';
+
 
 // ═══════════════════════════════════════════════════════════════
 // LEGACY FILE — NOT LOADED — kept for reference only

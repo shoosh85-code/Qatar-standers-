@@ -1,3 +1,8 @@
+// ⚠️ DEPRECATED: هذا الملف لا يُستخدم — الملف الفعلي هو: /inline-scripts.js (الجذر)
+// لا تعدّل هذا الملف — اعتبره archive فقط
+// تاريخ الإيقاف: 2025 | السبب: index.html يُحمّل /inline-scripts.js وليس js/inline-scripts.js
+window.__DEAD_FILE_WARNING = 'js/inline-scripts.js is deprecated';
+
 // js/inline-scripts.js — QatarSpec Pro
 // نُقل من index.html لإزالة unsafe-inline من CSP
 // المحتوى الأصلي محفوظ — لا حذف
