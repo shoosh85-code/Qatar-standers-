@@ -34,6 +34,9 @@ function checkRateLimit(ip, isPro) {
 }
 
 // ── JWT verify ──────────────────────────────────────────────────────────────
+// SYNC-WITH: api/verify-pro.js verifyJWT() + api/ai-proxy.js verifyProToken()
+// ملاحظة: Edge functions لا تدعم import بين بعضها في Vercel
+// إذا عدّلت منطق الـ crypto هنا → عدّل verify-pro.js + ai-proxy.js أيضاً
 async function verifyProToken(token) {
   if (!token) return false;
   const secret = process.env.JWT_SECRET;
