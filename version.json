@@ -1,5 +1,5 @@
 {
-  "version": "2.10.0",
-  "date": "2026-04-26",
-  "notes": "Phase 8 — Search & Supabase improvements: enhanced system prompt, vector/FTS badge, 6 chunks, 450-char context, FREE_LIMIT=50"
+  "version": "2.11.0",
+  "date": "2026-05-04",
+  "notes": "Phase 9 — Security & PWA: CORS fix, .gitignore, HSTS, Accessibility WCAG 2.1, inline scripts externalized, og-image, rate-limit v3.0, dead files removed (-406KB), XSS utils, sitemap 31 URLs, PNG icons 9 sizes, 404/500 pages, SW v3.4.0"
 }

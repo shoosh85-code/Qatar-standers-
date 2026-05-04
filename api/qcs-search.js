@@ -6,6 +6,7 @@
 export const config = { runtime: 'edge' };
 
 // ── Rate Limiting (Edge-compatible in-memory) ────────────────────────────────
+// SYNC-WITH: api/rate-limit.js LIMITS.free['qcs-search']=10, LIMITS.pro['qcs-search']=100
 // حدود PROTOCOL 6: Free=10/دقيقة، Pro=100/دقيقة، Global=200/دقيقة لكل IP
 const _rl = new Map();
 function checkRateLimit(ip, isPro) {

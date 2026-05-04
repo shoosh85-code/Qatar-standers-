@@ -7,6 +7,7 @@ export const config = { runtime: 'edge' };
 
 // ── Rate Limiting (Edge-compatible in-memory) ──────────────────
 // PROTOCOL 6: Free=3/min | Pro=10/min | Global=30/min/IP
+// SYNC-WITH: api/rate-limit.js LIMITS.free['verify-pro']=3, LIMITS.pro['verify-pro']=10
 // rate-limit.js لا يدعم Edge (setInterval + top-level await + Node headers)
 // → نسخة داخلية Edge-compatible
 const _rl = new Map();

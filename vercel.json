@@ -3,7 +3,7 @@
   "outputDirectory": ".",
   "rewrites": [
     {
-      "source": "/((?!api/).*)",
+      "source": "/((?!api/|404\\.html|500\\.html).*)",
       "destination": "/index.html"
     }
   ],
