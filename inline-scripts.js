@@ -4152,3 +4152,68 @@ window.addEventListener('unhandledrejection', function(e) {
     }, 0);
   });
 })();
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// [SEC v4.1] TAP PAYMENT — معالج redirect بعد الدفع
+// يقرأ JWT من URL fragment ويرسله لـ /api/verify-pro لإصدار httpOnly cookie
+// السبب: tap-callback.js يعيد redirect إلى /?payment=success#pro_token=JWT
+// الـ fragment (#) لا يُرسل للسيرفر — آمن — لكن يحتاج client يقرأه ويعالجه
+// ═══════════════════════════════════════════════════════════════════════════════
+(function handleTapPaymentRedirect() {
+  'use strict';
+
+  // تشغيل فقط عند وجود payment=success في الـ URL
+  var urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('payment') !== 'success') return;
+
+  // قراءة الـ JWT من URL fragment
+  var hash = window.location.hash || '';
+  var tokenMatch = hash.match(/pro_token=([^&]+)/);
+  if (!tokenMatch || !tokenMatch[1]) {
+    console.warn('[Payment] payment=success لكن لا يوجد pro_token في الـ hash');
+    showToast('⚠️ مشكلة في معالجة الدفع — تواصل مع الدعم');
+    return;
+  }
+
+  var jwtToken = decodeURIComponent(tokenMatch[1]);
+
+  // أظهر رسالة جاري المعالجة
+  showToast('⏳ جاري تفعيل الاشتراك...');
+
+  // أرسل الـ JWT لـ /api/verify-pro لإصدار httpOnly cookie
+  fetch('/api/verify-pro', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include', // مهم: يستقبل httpOnly cookie
+    body: JSON.stringify({ action: 'activate', token: jwtToken }),
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    if (data && data.ok) {
+      // نجاح — السيرفر أصدر httpOnly cookie
+      // نحدّث الـ localStorage كـ UI cache فقط (ليس للتحقق الأمني)
+      var expiry = new Date();
+      expiry.setDate(expiry.getDate() + 30); // افتراضي شهر — السيرفر هو المرجع
+      if (typeof setProActive === 'function') {
+        setProActive(true, expiry.toISOString());
+      }
+      if (typeof renderProStatus === 'function') renderProStatus();
+
+      // امسح الـ fragment من الـ URL (أمان — لا تخزن JWT في الـ URL)
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+
+      showToast('🎉 تم تفعيل QatarSpec Pro بنجاح! مرحباً بك.');
+
+      // إعادة تحميل بعد ثانيتين لتطبيق الـ Pro features
+      setTimeout(function() { location.reload(); }, 2000);
+    } else {
+      console.error('[Payment] activate failed:', data);
+      showToast('❌ فشل تفعيل الاشتراك — ' + (data.error || 'تواصل مع الدعم'));
+      history.replaceState(null, '', window.location.pathname);
+    }
+  })
+  .catch(function(err) {
+    console.error('[Payment] network error:', err);
+    showToast('❌ خطأ في الاتصال — تواصل مع الدعم');
+  });
+}());
