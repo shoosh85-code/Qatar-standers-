@@ -1,5 +1,24 @@
 // Tap Payments — Handle redirect after payment
+// [SEC v4.1] استبدال base64 البسيط بـ JWT حقيقي موقّع بـ HMAC-SHA256
 import { rateLimit, applyRateLimitHeaders, getIp } from './rate-limit.js';
+
+// ── signJWT — منسوخة من verify-pro.js (Edge) — متوافقة مع Node 20+ crypto.subtle ──
+// SYNC-WITH: api/verify-pro.js signJWT() — يجب تحديثهما معاً عند أي تغيير
+async function signJWT(payload, secret) {
+  const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }))
+    .replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
+  const body = btoa(JSON.stringify(payload))
+    .replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
+  const msg = `${header}.${body}`;
+  const key = await crypto.subtle.importKey(
+    'raw', new TextEncoder().encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
+  );
+  const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(msg));
+  const sigB64 = btoa(String.fromCharCode(...new Uint8Array(sig)))
+    .replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
+  return `${msg}.${sigB64}`;
+}
 
 export default async function handler(req, res) {
   // ── Rate Limiting (Protocol 6) — حماية من spam نتائج الدفع ──────────────
@@ -31,21 +50,28 @@ export default async function handler(req, res) {
       return res.redirect(302, '/?payment=failed');
     }
 
-    // Issue Pro JWT (reuse verify-pro logic)
+    // [SEC v4.1] Issue Pro JWT — HMAC-SHA256 موقّع — يستحيل تزويره بدون JWT_SECRET
     const JWT_SECRET = process.env.JWT_SECRET;
+    if (!JWT_SECRET) {
+      console.error('[tap-callback] JWT_SECRET missing — cannot issue token');
+      return res.redirect(302, '/?payment=error&reason=config');
+    }
+
     const expiry = new Date();
     expiry.setDate(expiry.getDate() + (plan === 'yearly' ? 365 : 30));
-    
-    const payload = { 
-      email, 
-      plan, 
-      tier: 'pro', 
-      exp: expiry.getTime(),
-      tap_id 
-    };
-    const token = Buffer.from(JSON.stringify(payload)).toString('base64');
 
-    // Redirect with token in URL fragment (not query string - not logged by servers)
+    // payload متوافق مع verify-pro.js: pro=true، exp بـ SECONDS (ليس milliseconds)
+    const payload = {
+      pro: true,
+      exp: Math.floor(expiry.getTime() / 1000), // Unix timestamp بالثواني — معيار JWT
+      source: 'tap',
+      tap_id,
+      email,
+      plan,
+    };
+    const token = await signJWT(payload, JWT_SECRET);
+
+    // Redirect — الـ client يرسل الـ token لـ /api/verify-pro لإصدار httpOnly cookie
     return res.redirect(302, `/?payment=success#pro_token=${token}&expiry=${expiry.getTime()}`);
 
   } catch(e) {
