@@ -3093,6 +3093,16 @@ function resetInspector() {
     if (map.equipment && detailData[map.equipment]) links += '<a onclick="QS.openDetail(\'' + map.equipment + '\')">\u{1F527} المعدات</a>';
     if (map.itp && detailData[map.itp]) links += '<a onclick="QS.openDetail(\'' + map.itp + '\')">\u{1F4CB} ITP</a>';
     if (map.parent && map.parent !== 'home' && detailData[map.parent]) links += '<a onclick="QS.openDetail(\'' + map.parent + '\')">\u{1F4C2} القسم</a>';
+    // [v4.2] زر الدليل التنفيذي المفصّل — يظهر فقط لـ 4 بطاقات stages
+    var _stagesDetailMap = {
+      'water_supply_stages': 'water_supply_stages_detail',
+      'sewer_stages':        'sewer_stages_detail',
+      'storm_stages':        'storm_stages_detail',
+      'treated_stages':      'treated_stages_detail'
+    };
+    if (_stagesDetailMap[key] && window.QS_CONTENT_MAP && window.QS_CONTENT_MAP[_stagesDetailMap[key]]) {
+      links += '<a class="detail-guide-btn" style="background:var(--accent,#0077cc);color:#fff;font-weight:700;border-radius:8px;padding:6px 14px;" onclick="QS.openDetail(\'' + _stagesDetailMap[key] + '\')">\u{1F4D6} \u062F\u0644\u064A\u0644 \u062A\u0646\u0641\u064A\u0630\u064A \u0645\u0641\u0635\u0651\u0644</a>';
+    }
     links += '</div>';
     
     const pa = document.getElementById('print-area');

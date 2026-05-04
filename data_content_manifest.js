@@ -161,5 +161,9 @@ window.QS_CONTENT_MAP = {
   "exec_water_pipe": "data_content_phase4.js",
   "concrete_quick_ref": "data_content_phase4.js",
   "asphalt_quick_ref": "data_content_phase4.js",
-  "pipe_quick_ref": "data_content_phase4.js"
+  "pipe_quick_ref": "data_content_phase4.js",
+  "water_supply_stages_detail": "data_content_utilities.js",
+  "sewer_stages_detail": "data_content_utilities.js",
+  "storm_stages_detail": "data_content_utilities.js",
+  "treated_stages_detail": "data_content_utilities.js"
 };
