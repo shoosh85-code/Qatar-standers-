@@ -1,7 +1,7 @@
-// QatarSpec Pro — Smart Loader v4.0 (Phase 8)
-// data_content.js (1MB) مُزالة من التحميل المسبق — كل المحتوى موجود في chunk files
+// QatarSpec Pro — Smart Loader v4.1 (Phase 9)
+// data_content.js (997KB) محذوفة نهائياً — commit 679a7b7
+// جميع الـ 98 key مغطاة في 7 chunk files عبر data_content_manifest.js
 // الـ chunks تُحمَّل on-demand عبر _loadContentChunk() في inline-scripts.js
-// data_content.js تبقى كـ fallback طارئ فقط (يُحمَّلها _loadContentChunk إذا لم يجد chunk)
 (function(){
   var VER = '?v=8';
 
