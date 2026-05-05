@@ -129,7 +129,7 @@ async function kvSet(key, value, ttlSeconds) {
 // دالة فحص الـ rate limit
 // تُعيد: { allowed, remaining, resetAt, retryAfter }
 // ─────────────────────────────────────────────
-async function checkRateLimit(key, maxRequests, windowMs) {
+async function _checkRL(key, maxRequests, windowMs) {
   const now = Date.now();
   const windowSeconds = Math.floor(windowMs / 1000);
 
@@ -242,8 +242,8 @@ export function withRateLimit(handler, options = {}) {
 
     // فحص الـ rate limit على مستويين
     const [userResult, globalResult] = await Promise.all([
-      checkRateLimit(userKey, tierLimit, TIER_LIMITS[tier]?.windowMs || 60000),
-      checkRateLimit(globalKey, endpointConfig.global, TIER_LIMITS.global_ip.windowMs),
+      _checkRL(userKey, tierLimit, TIER_LIMITS[tier]?.windowMs || 60000),
+      _checkRL(globalKey, endpointConfig.global, TIER_LIMITS.global_ip.windowMs),
     ]);
 
     // أضف headers للـ rate limit في كل الحالات
@@ -295,8 +295,8 @@ export async function applyRateLimit(req, res, endpoint = '/api/unknown') {
   const globalKey = `${endpoint}:ip:${ip}`;
 
   const [userResult, globalResult] = await Promise.all([
-    checkRateLimit(userKey, tierLimit, TIER_LIMITS[tier]?.windowMs || 60000),
-    checkRateLimit(globalKey, endpointConfig.global, TIER_LIMITS.global_ip.windowMs),
+    _checkRL(userKey, tierLimit, TIER_LIMITS[tier]?.windowMs || 60000),
+    _checkRL(globalKey, endpointConfig.global, TIER_LIMITS.global_ip.windowMs),
   ]);
 
   const resetAtSeconds = Math.ceil(
@@ -353,7 +353,7 @@ async function rateLimit(req, tier, endpointName) {
   const tierLimit = endpointConfig[tier] || endpointConfig.free;
   const windowMs = TIER_LIMITS[tier]?.windowMs || 60000;
   const userKey = `${endpointKey}:${ip}:${tier}`;
-  const result = await checkRateLimit(userKey, tierLimit, windowMs);
+  const result = await _checkRL(userKey, tierLimit, windowMs);
   return { ...result, limit: tierLimit, tier };
 }
 
@@ -376,7 +376,7 @@ async function checkRateLimitCompat(ip, endpointName, isPro) {
   const tierLimit = endpointConfig[tier] || endpointConfig.free;
   const windowMs = TIER_LIMITS[tier]?.windowMs || 60000;
   const userKey = `${endpointKey}:${hashedIp}:${tier}`;
-  const result = await checkRateLimit(userKey, tierLimit, windowMs);
+  const result = await _checkRL(userKey, tierLimit, windowMs);
   return { ...result, limit: tierLimit, tier };
 }
 
