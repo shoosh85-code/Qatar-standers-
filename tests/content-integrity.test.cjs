@@ -15,7 +15,7 @@ function assert(ok, msg) { if (!ok) throw new Error(msg); }
 const CHUNKS = ['data_content_roads.js','data_content_utilities.js',
   'data_content_structural.js','data_content_geotech.js',
   'data_content_tools.js','data_content_extra.js',
-  'data_content_phase4.js','data_content_other.js'];
+  'data_content_phase4.js'];
 
 const QS_CONTENT = {};
 for (const chunk of CHUNKS) {
@@ -25,7 +25,11 @@ for (const chunk of CHUNKS) {
 }
 
 const html = fs.readFileSync('index.html', 'utf-8');
-const aliasMatch = html.match(/window._CONTENT_ALIASES = {(.*?)\};/s);
+// aliases نُقلت من inline في index.html إلى js/content-aliases.js
+const aliasSource = fs.existsSync('js/content-aliases.js')
+  ? fs.readFileSync('js/content-aliases.js', 'utf-8')
+  : html;
+const aliasMatch = aliasSource.match(/window._CONTENT_ALIASES = {(.*?)\};/s);
 const ALIASES = {};
 if (aliasMatch)
   for (const [,k,v] of aliasMatch[1].matchAll(/'(\w+)':'(\w+)'/g)) ALIASES[k]=v;
