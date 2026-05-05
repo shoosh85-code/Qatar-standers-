@@ -1,13 +1,7 @@
 // /api/health.js — QatarSpec Pro health check
-// استخدم applyRateLimit المُصدّرة مباشرة بـ export function
-import { applyRateLimit } from './rate-limit.js';
+// مستقل تماماً — بدون import من rate-limit.js
 
 export default async function handler(req, res) {
-  // ── Rate Limiting (Protocol 6) ────────────────────────────────────────────
-  const rl = await applyRateLimit(req, res, '/api/health');
-  if (!rl.allowed) return; // applyRateLimit أرسلت 429 بالفعل
-  // ──────────────────────────────────────────────────────────────────────────
-
   const checks = {
     gemini:     !!process.env.GEMINI_KEY,
     supabase:   !!(process.env.NEXT_PUBLIC_SUPABASE_URL && (process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)),
