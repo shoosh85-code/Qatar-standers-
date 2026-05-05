@@ -17,7 +17,16 @@ window.QS.initStepper = function(containerId, steps, options) {
   return instance;
 };
 
-// ── مثال: Stepper للكروت التفاعلية (exec_*) ──
+// ── QS.reorderSteps — إعادة ترتيب خطوات instance معين ──
+window.QS.reorderSteps = function(containerId, oldIndex, newIndex) {
+  const instance = QS.stepperInstances[containerId];
+  if (!instance) return;
+  const moved = instance.steps.splice(oldIndex, 1)[0];
+  instance.steps.splice(newIndex, 0, moved);
+  instance.render();
+  instance._attachSwipe();
+};
+
 // يُستدعى من data_content_phase4.js عند فتح الكرت
 window.QS.buildExecStepper = function(containerId, stepsData) {
   return new QatarSpecStepper(containerId, stepsData, {

@@ -805,6 +805,13 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       --text3: #777;
       --gold: #8B6914;
     }
+    /* ── Sortable Drag & Drop — ITP Stepper ── */
+    .step-drag-handle { cursor:grab; padding:2px 6px; color:var(--text3); font-size:13px; line-height:1; user-select:none; opacity:0.6; transition:opacity 0.2s; }
+    .step-drag-handle:hover { opacity:1; color:var(--gold); }
+    .step-drag-handle:active { cursor:grabbing; }
+    .sortable-ghost { opacity:0.35; background:rgba(201,168,76,0.12); border-radius:8px; }
+    .sortable-chosen { box-shadow:0 4px 16px rgba(0,0,0,0.35); }
+    .sortable-drag { opacity:1 !important; }
 </style>
 <!-- loader.js moved to end of body — after QS + data_calcs are ready -->
 
@@ -1547,6 +1554,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <!-- QatarSpec Stepper System v1.0 — نظام الخطوات التفاعلي -->
 <script src="/stepper.js" defer></script>
 <script src="/js/stepper-init.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.6/Sortable.min.js" defer></script>
 
 <!-- ═══ APP FOOTER ═══ -->
 <div id="appFooter" style="background:linear-gradient(135deg,#111,#0A0A0A);border-top:1px solid rgba(201,168,76,0.2);padding:16px 20px;text-align:center;margin-top:24px;position:relative;z-index:1;">

@@ -139,6 +139,7 @@ class QatarSpecStepper {
                  aria-label="خطوة ${i + 1}: ${step.title}"
                  onclick="${canClick ? `window['${iName}'].goTo(${i})` : ''}"
                  style="${canClick ? 'cursor:pointer' : 'cursor:not-allowed'}">
+              <span class="step-drag-handle" title="اسحب لتغيير الترتيب">⋮⋮</span>
               <div class="step-number">${isDone ? '✓' : i + 1}</div>
               <div class="step-title">${step.title}</div>
             </div>`;
@@ -174,6 +175,38 @@ class QatarSpecStepper {
     `;
 
     this.container.innerHTML = html;
+    this._initSortable();
+  }
+
+  // ── Sortable Drag & Drop ──
+  _initSortable() {
+    if (typeof Sortable === 'undefined') return;
+    const stepsList = this.container && this.container.querySelector('.stepper-steps');
+    if (!stepsList) return;
+    const self = this;
+    new Sortable(stepsList, {
+      animation: 150,
+      handle: '.step-drag-handle',
+      ghostClass: 'sortable-ghost',
+      chosenClass: 'sortable-chosen',
+      onEnd: function(evt) {
+        if (evt.oldIndex === evt.newIndex) return;
+        // أعد ترتيب الخطوات في الـ data
+        const moved = self.steps.splice(evt.oldIndex, 1)[0];
+        self.steps.splice(evt.newIndex, 0, moved);
+        // تعديل الخطوة الحالية بعد الترتيب
+        if (self.currentStep === evt.oldIndex) {
+          self.currentStep = evt.newIndex;
+        } else if (evt.oldIndex < self.currentStep && evt.newIndex >= self.currentStep) {
+          self.currentStep--;
+        } else if (evt.oldIndex > self.currentStep && evt.newIndex <= self.currentStep) {
+          self.currentStep++;
+        }
+        self.saveState();
+        self.render();
+        self._attachSwipe();
+      }
+    });
   }
 
   // ── Completion ──
