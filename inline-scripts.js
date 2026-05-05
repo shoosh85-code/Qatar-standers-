@@ -1096,10 +1096,12 @@ function renderMarkdownSafe(raw) {
   // الخطوة 2: فواصل أسطر → <br>
   // الخطوة 3: **bold** → <strong> (بعد escaping — $ لا تحمل HTML)
   // الخطوة 4: ### Heading → <strong class>
-  return escaped
+  const html = escaped
     .replace(/\n/g, '<br>')
     .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold2)">$1</strong>')
     .replace(/^#{1,3}\s(.+)/gm, '<strong style="color:var(--gold2);font-size:15px">$1</strong>');
+  // الخطوة 5: DOMPurify — طبقة حماية نهائية إذا متاح
+  return (typeof DOMPurify !== 'undefined') ? DOMPurify.sanitize(html) : html;
 }
 
 // ─── safeRender: عرض آمن لـ markdown داخل عنصر DOM ───
@@ -1129,6 +1131,10 @@ function safeRender(container, markdown) {
     });
     container.appendChild(p);
   });
+  // طبقة حماية إضافية — DOMPurify ينظّف أي شيء فات
+  if (typeof DOMPurify !== 'undefined') {
+    container.innerHTML = DOMPurify.sanitize(container.innerHTML);
+  }
 }
 
 
@@ -4084,17 +4090,30 @@ function displayAIResponse(text, container) {
     container = document.getElementById('aiOutput');
   }
   if (!container) return;
-  // Convert markdown + QCS citations to HTML
-  var rendered = text
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/^#{1,3} (.+)/gm, '<h4 style="color:var(--gold);margin:10px 0 4px;font-size:13px">$1</h4>')
-    .replace(/^[-•] (.+)/gm, '<li style="margin:3px 0">$1</li>')
+
+  var rendered;
+
+  // Enhanced: marked.js + DOMPurify إذا متاحين — fallback للكود القديم
+  if (typeof marked !== 'undefined' && typeof DOMPurify !== 'undefined') {
+    marked.setOptions({ breaks: true, gfm: true });
+    rendered = DOMPurify.sanitize(marked.parse(String(text)));
+  } else {
+    // Fallback — الكود القديم يعمل إذا CDN فشل
+    rendered = text
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/^#{1,3} (.+)/gm, '<h4 style="color:var(--gold);margin:10px 0 4px;font-size:13px">$1</h4>')
+      .replace(/^[-•] (.+)/gm, '<li style="margin:3px 0">$1</li>')
+      .replace(/\n\n/g, '</p><p style="margin:5px 0">')
+      .replace(/\n/g, '<br>');
+  }
+
+  // QCS/KAHRAMAA/Ashghal citation badges — تعمل مع أي renderer
+  rendered = rendered
     .replace(/\[QCS ([^\]]+)\]/g, '<span style="background:rgba(201,168,76,0.15);color:var(--gold);padding:1px 6px;border-radius:4px;font-size:10px;font-weight:700;display:inline-block;margin:1px">📌 QCS $1</span>')
     .replace(/\[KAHRAMAA ([^\]]+)\]/g, '<span style="background:rgba(52,152,219,0.15);color:#3498db;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:700;display:inline-block;margin:1px">⚡ KAHRAMAA $1</span>')
-    .replace(/\[Ashghal ([^\]]+)\]/g, '<span style="background:rgba(231,76,60,0.15);color:#e74c3c;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:700;display:inline-block;margin:1px">🏗️ Ashghal $1</span>')
-    .replace(/\n\n/g, '</p><p style="margin:5px 0">')
-    .replace(/\n/g, '<br>');
+    .replace(/\[Ashghal ([^\]]+)\]/g, '<span style="background:rgba(231,76,60,0.15);color:#e74c3c;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:700;display:inline-block;margin:1px">🏗️ Ashghal $1</span>');
+
   container.innerHTML = '<p style="margin:0;line-height:1.7">' + rendered + '</p>';
   container.style.display = 'block';
 }
