@@ -227,7 +227,8 @@ export function withRateLimit(handler, options = {}) {
   const { endpoint = '/api/unknown' } = options;
 
   return async function rateLimitedHandler(req, res) {
-    const ip = getClientIP(req);
+    const rawIp = getClientIP(req);
+    const ip = await hashIP(rawIp); // SHA-256 — لا PII في الـ cache
     const tier = getUserTier(req);
     const endpointConfig = ENDPOINT_LIMITS[endpoint] || { free: 5, pro: 60, global: 100 };
 
@@ -284,7 +285,8 @@ export function withRateLimit(handler, options = {}) {
 //   if (!allowed) return; // res.status(429) أُرسلت تلقائياً
 // ─────────────────────────────────────────────
 export async function applyRateLimit(req, res, endpoint = '/api/unknown') {
-  const ip = getClientIP(req);
+  const rawIp = getClientIP(req);
+  const ip = await hashIP(rawIp); // SHA-256 — لا PII في الـ cache
   const tier = getUserTier(req);
   const endpointConfig = ENDPOINT_LIMITS[endpoint] || { free: 5, pro: 60, global: 100 };
   const tierLimit = endpointConfig[tier] || endpointConfig.free;
@@ -324,6 +326,23 @@ export async function applyRateLimit(req, res, endpoint = '/api/unknown') {
 }
 
 // ─────────────────────────────────────────────
+// تشفير IP بـ SHA-256 لحماية الخصوصية — لا PII في الـ logs أو KV
+// ─────────────────────────────────────────────
+async function hashIP(ip) {
+  if (!ip || ip === 'unknown') return 'unknown';
+  try {
+    const { createHash } = await import('crypto');
+    return createHash('sha256').update(ip).digest('hex').slice(0, 16);
+  } catch {
+    // fallback بسيط إذا crypto غير متاح
+    let h = 0;
+    for (let i = 0; i < ip.length; i++) h = ((h << 5) - h + ip.charCodeAt(i)) | 0;
+    return 'ip_' + Math.abs(h).toString(36);
+  }
+}
+
+// ─────────────────────────────────────────────
 // تصدير الثوابت للاستخدام الخارجي
 // ─────────────────────────────────────────────
-export { TIER_LIMITS, ENDPOINT_LIMITS, getClientIP, getUserTier };
+const getIp = getClientIP; // alias للتوافق مع الملفات القديمة
+export { TIER_LIMITS, ENDPOINT_LIMITS, getClientIP, getIp, getUserTier, hashIP };
