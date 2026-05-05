@@ -340,14 +340,12 @@ function hashIP(ip) {
 }
 
 // ─────────────────────────────────────────────
-// تصدير الثوابت + Aliases للتوافق مع كل ملفات API
 // ─────────────────────────────────────────────
-const getIp = getClientIP;
 
 // rateLimit(req, tier, endpointName) — wrapper مُبسّط للاستخدام في API files
-async function rateLimit(req, tier, endpointName) {
+export async function rateLimit(req, tier, endpointName) {
   const rawIp = getClientIP(req);
-  const ip = await hashIP(rawIp);
+  const ip = hashIP(rawIp);
   const endpointKey = '/api/' + endpointName;
   const endpointConfig = ENDPOINT_LIMITS[endpointKey] || { free: 5, pro: 60, global: 100 };
   const tierLimit = endpointConfig[tier] || endpointConfig.free;
@@ -358,7 +356,7 @@ async function rateLimit(req, tier, endpointName) {
 }
 
 // applyRateLimitHeaders(res, rlResult) — يضع rate limit headers
-function applyRateLimitHeaders(res, rl) {
+export function applyRateLimitHeaders(res, rl) {
   if (!res || !rl) return;
   res.setHeader('X-RateLimit-Limit', rl.limit || 5);
   res.setHeader('X-RateLimit-Remaining', rl.remaining || 0);
@@ -367,9 +365,9 @@ function applyRateLimitHeaders(res, rl) {
   if (!rl.allowed && rl.retryAfter) res.setHeader('Retry-After', rl.retryAfter);
 }
 
-// checkRateLimitCompat(ip, endpointName, isPro) — alias لملفات auth-proxy و supabase-proxy
-async function checkRateLimitCompat(ip, endpointName, isPro) {
-  const hashedIp = await hashIP(ip);
+// checkRateLimit(ip, endpointName, isPro) — alias لملفات auth-proxy و supabase-proxy
+export async function checkRateLimit(ip, endpointName, isPro) {
+  const hashedIp = hashIP(ip);
   const endpointKey = '/api/' + endpointName;
   const tier = isPro ? 'pro' : 'free';
   const endpointConfig = ENDPOINT_LIMITS[endpointKey] || { free: 5, pro: 60, global: 100 };
@@ -380,9 +378,8 @@ async function checkRateLimitCompat(ip, endpointName, isPro) {
   return { ...result, limit: tierLimit, tier };
 }
 
-export {
-  TIER_LIMITS, ENDPOINT_LIMITS,
-  getClientIP, getIp, getUserTier, hashIP,
-  rateLimit, applyRateLimitHeaders,
-  checkRateLimitCompat as checkRateLimit
-};
+// getIp alias
+export const getIp = getClientIP;
+
+// Re-export constants
+export { TIER_LIMITS, ENDPOINT_LIMITS, getClientIP, getUserTier, hashIP };
