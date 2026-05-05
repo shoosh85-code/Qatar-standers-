@@ -1,3 +1,5 @@
+import { createHash } from 'crypto';
+
 /**
  * QatarSpec Pro — Rate Limiting Middleware
  * PROTOCOL 6: كل API endpoint يجب أن يحتوي على rate limit
@@ -331,10 +333,9 @@ export async function applyRateLimit(req, res, endpoint = '/api/unknown') {
 async function hashIP(ip) {
   if (!ip || ip === 'unknown') return 'unknown';
   try {
-    const { createHash } = await import('crypto');
     return createHash('sha256').update(ip).digest('hex').slice(0, 16);
   } catch {
-    // fallback بسيط إذا crypto غير متاح
+    // fallback بسيط
     let h = 0;
     for (let i = 0; i < ip.length; i++) h = ((h << 5) - h + ip.charCodeAt(i)) | 0;
     return 'ip_' + Math.abs(h).toString(36);
