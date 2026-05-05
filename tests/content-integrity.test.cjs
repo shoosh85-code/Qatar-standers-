@@ -85,6 +85,18 @@ test('JWT auth active', () => { assert(fs.existsSync('api/verify-pro.js'), 'Miss
 test('PRO_CODES empty', () => { const vp = fs.readFileSync('api/verify-pro.js','utf-8'); assert(vp.includes('VALID_CODES') || vp.includes('PRO_CODES'), 'No server-side code store in verify-pro.js'); assert(!html.match(/VALID_CODES\s*=\s*\[[^\]]{5,}/), 'Promo codes exposed on client'); });
 test('data_calcs.js syntax', () => { require('child_process').execSync('node --check data_calcs.js',{stdio:'pipe'}); });
 
+// ── XSS / innerHTML Audit Tests ──
+const mainJS = fs.readFileSync('inline-scripts.js','utf-8');
+test('sanitizeText() exists', () => { assert(mainJS.includes('function sanitizeText'), 'Missing sanitizeText'); });
+test('renderMarkdownSafe() exists', () => { assert(mainJS.includes('function renderMarkdownSafe'), 'Missing renderMarkdownSafe'); });
+test('safeRender() exists', () => { assert(mainJS.includes('function safeRender'), 'Missing safeRender'); });
+test('xss-utils.js exists', () => { assert(fs.existsSync('js/xss-utils.js'), 'Missing js/xss-utils.js'); });
+test('No innerHTML with raw .value', () => {
+  // innerHTML مع .value بدون sanitize/escape = خطر XSS
+  const danger = mainJS.match(/innerHTML\s*=.*\.value(?!.*sanitize|.*escape|.*_esc)/g);
+  assert(!danger || danger.length === 0, 'Unsanitized .value in innerHTML: ' + (danger||[]).join(', '));
+});
+
 console.log('\n'+'='.repeat(55));
 console.log(`RESULT: ${passed} passed, ${failed} failed`);
 if (errors.length) { console.log('\n❌ Failed:'); errors.forEach(e=>console.log('  '+e)); }
