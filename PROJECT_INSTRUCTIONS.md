@@ -34,19 +34,21 @@
 لا تقول "تم الرفع" إلا بعد:
 
 ```
-□ 1. git status → لصق الناتج
-□ 2. git add [ملفات] → لصق الناتج
+□ 1. git status            → لصق الناتج
+□ 2. git add [ملفات]       → لصق الناتج
 □ 3. git diff --cached --stat → لصق الناتج
-□ 4. git commit -m "[رسالة]" → لصق الناتج
-□ 5. git log --oneline -3 → لصق الناتج
-□ 6. git push → لصق الناتج كاملاً
+□ 4. git commit -m "[رسالة]"  → لصق الناتج
+□ 5. git log --oneline -3  → لصق الناتج
+□ 6. git push              → لصق الناتج كاملاً
 □ 7. git ls-remote origin main → لصق hash الـ remote
 □ 8. مقارنة local hash مع remote hash
 ```
 
 إذا لم يتطابقان:
+```
 → ❌ STOP: git push فشل — الـ commit لم يصل
 → لا تكمل. لا تكذب. لا تقول "تم".
+```
 
 ---
 
@@ -56,10 +58,10 @@
 
 ```
 ❌ STOP: Error [الرمز]
-الأمر: [الأمر]
-الخطأ: [نص الخطأ كاملاً]
-السبب: [تحليلك]
-الحل: [اقتراحك]
+الأمر:  [الأمر]
+الخطأ:  [نص الخطأ كاملاً]
+السبب:  [تحليلك]
+الحل:   [اقتراحك]
 هل أحاول الحل؟ (نعم/لا)
 ```
 
@@ -132,11 +134,11 @@ echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-
 ## PROJECT INFO
 
 ```
-Name: QatarSpec Pro
-Site: qatar-standers.vercel.app
-Stack: Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
-Repo: github.com/shoosh85-code/Qatar-standers-
-Audience: مهندسون قطريون وأجانب يعملون في قطر
+Name:      QatarSpec Pro
+Site:      qatar-standers.vercel.app
+Stack:     Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
+Repo:      github.com/shoosh85-code/Qatar-standers-
+Audience:  مهندسون قطريون وأجانب يعملون في قطر
 References: QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
 ```
 
@@ -168,9 +170,9 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 4. Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
 5. Pro features: gentle prompt for free users
 6. Never invent numbers — say "غير موجود في المستند"
-7. window.QS namespace for all public functions
+7. `window.QS` namespace for all public functions
 8. Sanitize ALL user input before innerHTML
-9. const/let only (no var)
+9. `const`/`let` only (no `var`)
 10. Arabic comments for complex logic
 
 ---
@@ -231,34 +233,3 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 - Follow PROTOCOL 2 strictly for every git push
 - Test locally before push — app must stay functional
 - Never delete content — only add or modify
-
----
-
-## AUDIT STATUS (آخر تحديث: مايو 2026)
-
-| الفئة | الدرجة | الأولوية |
-|-------|--------|----------|
-| 🔒 الأمان (CORS wildcard) | 62/100 | 🔴 P0 — إصلاح فوري |
-| ♿ Accessibility | 25/100 | 🔴 P1 — إصلاح عاجل |
-| 📄 API Design | 80/100 | ✅ جيد |
-| 🌐 Bilingual | 85/100 | ✅ ممتاز |
-| 📊 Business Logic | 88/100 | ✅ ممتاز |
-| 🛡️ Content Integrity | 95/100 | ✅ ممتاز |
-
-### مشاكل مفتوحة (P0):
-- [ ] CORS wildcard في 8 ملفات API → استبدل `*` بـ `process.env.APP_URL`
-- [ ] إنشاء `.gitignore` (5 دقائق)
-- [ ] HSTS header مفقود (5 دقائق)
-
-### مشاكل مفتوحة (P1-P2):
-- [ ] Accessibility: إضافة aria-* + alt + labels
-- [ ] og-image.png مفقود
-- [ ] inline scripts → ملفات خارجية
-- [ ] data_content.js تقسيم (1MB) — جلسة مستقلة
-
-### تم ✅:
-- Rate limiting على كل API endpoints
-- JWT + httpOnly cookies
-- security-cleanup.js
-- Content integrity: 58/58 اختبار ناجح
-- Auth system server-side فقط

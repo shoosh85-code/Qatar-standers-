@@ -1,285 +1,329 @@
 /**
- * QatarSpec Pro — Rate Limiting Utility v1.0
- * SYNC-WITH: PROJECT_INSTRUCTIONS.md → PROTOCOL 6
+ * QatarSpec Pro — Rate Limiting Middleware
+ * PROTOCOL 6: كل API endpoint يجب أن يحتوي على rate limit
  *
- * الأولوية: Vercel KV → in-memory Map (fallback)
- * لا يُستخدم localStorage أبداً (RULE 7)
+ * الأولوية:
+ * 1. Vercel KV (إذا متاح) — موزع عبر كل instances
+ * 2. In-Memory Map (fallback) — يعمل على instance واحد فقط
+ *
+ * الحدود:
+ * - Free tier:   5  req/min
+ * - Pro tier:    60 req/min
+ * - Global/IP:   100 req/min per IP
  */
 
-// ─── Vercel KV (إذا كان متاحاً) ─────────────────────────────────────────────
-let kv = null;
-try {
-  // يعمل فقط في بيئة Vercel مع KV مُفعَّل
-  // eslint-disable-next-line import/no-unresolved
-  const kvModule = await import('@vercel/kv').catch(() => null);
-  if (kvModule?.kv) kv = kvModule.kv;
-} catch {
-  // Fallback to in-memory
-}
-
-// ─── In-Memory Fallback ───────────────────────────────────────────────────────
-/** @type {Map<string, {count: number, resetAt: number}>} */
+// ─────────────────────────────────────────────
+// IN-MEMORY FALLBACK STORE
+// يُستخدم عندما Vercel KV غير متاح
+// ─────────────────────────────────────────────
 const memoryStore = new Map();
 
-// تنظيف دوري كل دقيقة لمنع memory leak
-setInterval(() => {
-  const now = Date.now();
-  for (const [key, val] of memoryStore.entries()) {
-    if (val.resetAt < now) memoryStore.delete(key);
-  }
-}, 60_000);
+// تنظيف تلقائي كل دقيقة — يمنع تراكم الذاكرة
+const CLEANUP_INTERVAL_MS = 60 * 1000;
+if (typeof setInterval !== 'undefined') {
+  setInterval(() => {
+    const now = Date.now();
+    for (const [key, record] of memoryStore.entries()) {
+      if (now > record.resetAt) {
+        memoryStore.delete(key);
+      }
+    }
+  }, CLEANUP_INTERVAL_MS);
+}
 
-// ─── حدود الطلبات حسب المسار والـ tier ──────────────────────────────────────
-/**
- * SYNC-WITH: PROJECT_INSTRUCTIONS.md → PROTOCOL 6 → API Endpoints Limits
- * @type {Record<string, {free: number, pro: number, global: number, window: number}>}
- */
-const LIMITS = {
-  '/api/ai-proxy':         { free: 5,  pro: 60,  global: 100, window: 60 },
-  '/api/verify-pro':       { free: 3,  pro: 10,  global: 30,  window: 60 },
-  '/api/qcs-search':       { free: 10, pro: 100, global: 200, window: 60 },
-  '/api/vision-proxy':     { free: 3,  pro: 30,  global: 50,  window: 60 },
-  // Auth endpoints — أكثر حساسية
-  '/api/auth/login':       { free: 5,  pro: 5,   global: 20,  window: 60 },
-  '/api/auth/verify':      { free: 10, pro: 10,  global: 30,  window: 60 },
-  '/api/validate-code':    { free: 3,  pro: 10,  global: 30,  window: 60 },
-  // Payment — الأكثر تقييداً
-  '/api/tap-checkout':     { free: 2,  pro: 5,   global: 10,  window: 60 },
-  '/api/admin-session':    { free: 3,  pro: 3,   global: 10,  window: 60 },
-  // Default
-  'default':               { free: 10, pro: 60,  global: 100, window: 60 },
+// ─────────────────────────────────────────────
+// حدود كل tier
+// ─────────────────────────────────────────────
+const TIER_LIMITS = {
+  free:       { requests: 5,   windowMs: 60 * 1000 },
+  pro:        { requests: 60,  windowMs: 60 * 1000 },
+  enterprise: { requests: 300, windowMs: 60 * 1000 },
+  global_ip:  { requests: 100, windowMs: 60 * 1000 },
 };
 
-// ─── استخراج IP من الـ request ───────────────────────────────────────────────
-/**
- * @param {Request} req
- * @returns {string}
- */
-function getIP(req) {
+// حدود مخصصة لكل endpoint
+const ENDPOINT_LIMITS = {
+  '/api/ai-proxy':     { free: 5,  pro: 60,  global: 100 },
+  '/api/verify-pro':   { free: 3,  pro: 10,  global: 30  },
+  '/api/qcs-search':   { free: 10, pro: 100, global: 200 },
+  '/api/vision-proxy': { free: 3,  pro: 30,  global: 50  },
+};
+
+// ─────────────────────────────────────────────
+// استخراج IP من الطلب
+// ─────────────────────────────────────────────
+function getClientIP(req) {
+  const forwarded = req.headers['x-forwarded-for'];
+  if (forwarded) {
+    // خذ أول IP في السلسلة (المستخدم الأصلي)
+    return forwarded.split(',')[0].trim();
+  }
   return (
-    req.headers.get('x-real-ip') ||
-    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-    req.headers.get('cf-connecting-ip') ||
+    req.headers['x-real-ip'] ||
+    req.connection?.remoteAddress ||
+    req.socket?.remoteAddress ||
     'unknown'
   );
 }
 
-// ─── KV Operations ────────────────────────────────────────────────────────────
-async function kvIncrement(key, windowSec) {
-  if (!kv) return null;
+// ─────────────────────────────────────────────
+// تحديد tier المستخدم
+// يمكن تطوير هذه الدالة لاحقاً لتتحقق من Supabase
+// ─────────────────────────────────────────────
+function getUserTier(req) {
+  // Authorization header: "Bearer pro_<token>" أو "Bearer ent_<token>"
+  const auth = req.headers['authorization'] || '';
+  const token = auth.replace('Bearer ', '').trim();
+
+  if (!token) return 'free';
+  if (token.startsWith('ent_')) return 'enterprise';
+  if (token.startsWith('pro_')) return 'pro';
+
+  // x-user-tier header كبديل (للـ internal calls)
+  const tierHeader = req.headers['x-user-tier'] || '';
+  if (['pro', 'enterprise'].includes(tierHeader)) return tierHeader;
+
+  return 'free';
+}
+
+// ─────────────────────────────────────────────
+// VERCEL KV: قراءة وكتابة
+// ─────────────────────────────────────────────
+let kv = null;
+
+async function getKV() {
+  if (kv) return kv;
   try {
-    const pipeline = kv.pipeline();
-    pipeline.incr(key);
-    pipeline.expire(key, windowSec);
-    const [count] = await pipeline.exec();
-    return count;
+    // @vercel/kv متاح في بيئة Vercel فقط
+    const module = await import('@vercel/kv');
+    kv = module.kv;
+    return kv;
   } catch {
-    return null; // Fallback to memory
+    // KV غير متاح — نستخدم in-memory
+    return null;
   }
 }
 
 async function kvGet(key) {
-  if (!kv) return null;
+  const store = await getKV();
+  if (!store) return null;
   try {
-    return await kv.get(key);
+    return await store.get(key);
   } catch {
     return null;
   }
 }
 
-// ─── Memory Operations ────────────────────────────────────────────────────────
-function memIncrement(key, windowMs) {
+async function kvSet(key, value, ttlSeconds) {
+  const store = await getKV();
+  if (!store) return false;
+  try {
+    await store.set(key, value, { ex: ttlSeconds });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// ─────────────────────────────────────────────
+// دالة فحص الـ rate limit
+// تُعيد: { allowed, remaining, resetAt, retryAfter }
+// ─────────────────────────────────────────────
+async function checkRateLimit(key, maxRequests, windowMs) {
   const now = Date.now();
-  const entry = memoryStore.get(key);
+  const windowSeconds = Math.floor(windowMs / 1000);
 
-  if (!entry || entry.resetAt < now) {
-    memoryStore.set(key, { count: 1, resetAt: now + windowMs });
-    return 1;
-  }
-
-  entry.count += 1;
-  return entry.count;
-}
-
-function memTTL(key) {
-  const entry = memoryStore.get(key);
-  if (!entry) return 0;
-  return Math.max(0, Math.ceil((entry.resetAt - Date.now()) / 1000));
-}
-
-// ─── الدالة الرئيسية ──────────────────────────────────────────────────────────
-/**
- * تحقق من rate limit وأعد النتيجة.
- *
- * @param {Request} req          - طلب Vercel Edge/Serverless
- * @param {object}  [options]
- * @param {'free'|'pro'|'global'} [options.tier='global']  - نوع الحد
- * @param {string}  [options.endpoint]  - مسار API (يُكشف تلقائياً من req.url)
- * @param {string}  [options.identifier] - معرِّف مخصص (افتراضي: IP)
- *
- * @returns {Promise<{
- *   allowed: boolean,
- *   limit: number,
- *   remaining: number,
- *   retryAfter: number,
- *   headers: Record<string, string>
- * }>}
- */
-export async function checkRateLimit(req, options = {}) {
-  const {
-    tier = 'global',
-    endpoint = new URL(req.url).pathname,
-    identifier,
-  } = options;
-
-  // الحصول على الحدود المناسبة للـ endpoint
-  const limits = LIMITS[endpoint] || LIMITS['default'];
-  const maxRequests = limits[tier];
-  const windowSec = limits.window;
-  const windowMs = windowSec * 1000;
-
-  // بناء مفتاح فريد
-  const id = identifier || getIP(req);
-  const key = `rl:${endpoint.replace(/\//g, '_')}:${tier}:${id}`;
-
-  // محاولة KV أولاً، ثم Memory
-  let count;
-  let retryAfter = windowSec;
-
-  const kvCount = await kvIncrement(key, windowSec);
-
-  if (kvCount !== null) {
-    count = kvCount;
-    // حساب TTL من KV
+  // ────── محاولة Vercel KV أولاً ──────
+  const store = await getKV();
+  if (store) {
     try {
-      const ttl = await kv.ttl(key);
-      retryAfter = ttl > 0 ? ttl : windowSec;
+      const kvKey = `rl:${key}`;
+      let record = await kvGet(kvKey);
+
+      if (!record || now > record.resetAt) {
+        // نافذة جديدة
+        record = { count: 1, resetAt: now + windowMs };
+        await kvSet(kvKey, record, windowSeconds);
+        return {
+          allowed: true,
+          remaining: maxRequests - 1,
+          resetAt: record.resetAt,
+          retryAfter: 0,
+          store: 'kv',
+        };
+      }
+
+      if (record.count >= maxRequests) {
+        const retryAfter = Math.ceil((record.resetAt - now) / 1000);
+        return {
+          allowed: false,
+          remaining: 0,
+          resetAt: record.resetAt,
+          retryAfter,
+          store: 'kv',
+        };
+      }
+
+      record.count++;
+      await kvSet(kvKey, record, Math.ceil((record.resetAt - now) / 1000));
+      return {
+        allowed: true,
+        remaining: maxRequests - record.count,
+        resetAt: record.resetAt,
+        retryAfter: 0,
+        store: 'kv',
+      };
     } catch {
-      retryAfter = windowSec;
+      // KV فشل — نكمل بـ in-memory
     }
-  } else {
-    // Fallback: in-memory
-    count = memIncrement(key, windowMs);
-    retryAfter = memTTL(key);
   }
 
-  const allowed = count <= maxRequests;
-  const remaining = Math.max(0, maxRequests - count);
+  // ────── In-Memory Fallback ──────
+  const memKey = `rl:${key}`;
+  let record = memoryStore.get(memKey);
 
-  // Headers استجابة قياسية (RFC 6585)
-  const headers = {
-    'X-RateLimit-Limit':     String(maxRequests),
-    'X-RateLimit-Remaining': String(remaining),
-    'X-RateLimit-Reset':     String(Math.ceil(Date.now() / 1000) + retryAfter),
-    'X-RateLimit-Policy':    `${maxRequests};w=${windowSec};tier=${tier}`,
-  };
-
-  if (!allowed) {
-    headers['Retry-After'] = String(retryAfter);
+  if (!record || now > record.resetAt) {
+    record = { count: 1, resetAt: now + windowMs };
+    memoryStore.set(memKey, record);
+    return {
+      allowed: true,
+      remaining: maxRequests - 1,
+      resetAt: record.resetAt,
+      retryAfter: 0,
+      store: 'memory',
+    };
   }
 
-  return { allowed, limit: maxRequests, remaining, retryAfter, headers };
-}
-
-// ─── دالة مساعدة: إنشاء Response 429 جاهز ───────────────────────────────────
-/**
- * @param {number} retryAfter - ثوانٍ قبل المحاولة التالية
- * @param {Record<string, string>} rateLimitHeaders
- * @returns {Response}
- */
-export function tooManyRequestsResponse(retryAfter, rateLimitHeaders = {}) {
-  return new Response(
-    JSON.stringify({
-      error: 'Too Many Requests',
-      message: 'لقد تجاوزت الحد المسموح به من الطلبات. يرجى الانتظار.',
+  if (record.count >= maxRequests) {
+    const retryAfter = Math.ceil((record.resetAt - now) / 1000);
+    return {
+      allowed: false,
+      remaining: 0,
+      resetAt: record.resetAt,
       retryAfter,
-      upgradeUrl: 'https://qatar-standers.vercel.app/#pricing',
-    }),
-    {
-      status: 429,
-      headers: {
-        'Content-Type': 'application/json',
-        ...rateLimitHeaders,
-      },
-    }
-  );
-}
+      store: 'memory',
+    };
+  }
 
-// ─── Middleware جاهز للاستخدام في أي API endpoint ────────────────────────────
-/**
- * استخدام:
- *
- * import { withRateLimit } from '../api/rate-limit.js';
- *
- * export default withRateLimit(async function handler(req) {
- *   // منطق الـ API هنا
- *   return new Response(JSON.stringify({ ok: true }));
- * }, { tier: 'free' });
- *
- * @param {Function} handler
- * @param {object} [options]
- * @returns {Function}
- */
-export function withRateLimit(handler, options = {}) {
-  return async function rateLimitedHandler(req) {
-    // تحديد الـ tier من الـ request (يُحقَّق من JWT على الخادم)
-    const tierFromRequest = req.headers.get('x-user-tier') || 'free';
-    const tier = options.tier || tierFromRequest;
-
-    const result = await checkRateLimit(req, { ...options, tier });
-
-    if (!result.allowed) {
-      return tooManyRequestsResponse(result.retryAfter, result.headers);
-    }
-
-    // تمرير نتيجة rate limit للـ handler إذا احتاجها
-    req._rateLimit = result;
-
-    const response = await handler(req);
-
-    // إضافة headers للـ response
-    const newHeaders = new Headers(response.headers);
-    for (const [k, v] of Object.entries(result.headers)) {
-      newHeaders.set(k, v);
-    }
-
-    return new Response(response.body, {
-      status: response.status,
-      statusText: response.statusText,
-      headers: newHeaders,
-    });
+  record.count++;
+  return {
+    allowed: true,
+    remaining: maxRequests - record.count,
+    resetAt: record.resetAt,
+    retryAfter: 0,
+    store: 'memory',
   };
 }
 
-// ─── دالة مساعدة: تحقق سريع لـ CJS (Vercel legacy) ─────────────────────────
-/**
- * للـ endpoints التي تستخدم module.exports بدلاً من ES modules
- *
- * مثال:
- *   const { applyRateLimit } = require('../api/rate-limit.cjs');
- *   const blocked = await applyRateLimit(req, res, { tier: 'free' });
- *   if (blocked) return; // الـ response أُرسل بالفعل
- */
-export async function applyRateLimit(req, res, options = {}) {
-  const tier = options.tier || req.headers['x-user-tier'] || 'free';
-  const result = await checkRateLimit(req, { ...options, tier });
+// ─────────────────────────────────────────────
+// الدالة الرئيسية: withRateLimit
+// تُغلف أي Vercel API handler
+//
+// الاستخدام:
+//   import { withRateLimit } from './rate-limit.js';
+//   export default withRateLimit(handler, { endpoint: '/api/ai-proxy' });
+// ─────────────────────────────────────────────
+export function withRateLimit(handler, options = {}) {
+  const { endpoint = '/api/unknown' } = options;
 
-  // إضافة headers
-  for (const [k, v] of Object.entries(result.headers)) {
-    res.setHeader(k, v);
-  }
+  return async function rateLimitedHandler(req, res) {
+    const ip = getClientIP(req);
+    const tier = getUserTier(req);
+    const endpointConfig = ENDPOINT_LIMITS[endpoint] || { free: 5, pro: 60, global: 100 };
 
-  if (!result.allowed) {
-    res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Retry-After', String(result.retryAfter));
+    // الحد بناءً على tier المستخدم
+    const tierLimit = endpointConfig[tier] || endpointConfig.free;
+
+    // مفتاح per-user (IP + tier)
+    const userKey = `${endpoint}:${ip}:${tier}`;
+    // مفتاح global per-IP
+    const globalKey = `${endpoint}:ip:${ip}`;
+
+    // فحص الـ rate limit على مستويين
+    const [userResult, globalResult] = await Promise.all([
+      checkRateLimit(userKey, tierLimit, TIER_LIMITS[tier]?.windowMs || 60000),
+      checkRateLimit(globalKey, endpointConfig.global, TIER_LIMITS.global_ip.windowMs),
+    ]);
+
+    // أضف headers للـ rate limit في كل الحالات
+    const resetAtSeconds = Math.ceil(
+      Math.min(userResult.resetAt, globalResult.resetAt) / 1000
+    );
+    res.setHeader('X-RateLimit-Limit', tierLimit);
+    res.setHeader('X-RateLimit-Remaining', Math.min(userResult.remaining, globalResult.remaining));
+    res.setHeader('X-RateLimit-Reset', resetAtSeconds);
+    res.setHeader('X-RateLimit-Tier', tier);
+
+    // إذا تجاوز أي من الحدين
+    if (!userResult.allowed || !globalResult.allowed) {
+      const retryAfter = Math.max(userResult.retryAfter, globalResult.retryAfter);
+      res.setHeader('Retry-After', retryAfter);
+
+      return res.status(429).json({
+        error: 'Too Many Requests',
+        message: tier === 'free'
+          ? 'وصلت للحد المجاني. ارقَ لـ Pro للحصول على 60 طلب/دقيقة.'
+          : 'تجاوزت الحد المسموح. حاول بعد ' + retryAfter + ' ثانية.',
+        retryAfter,
+        tier,
+        upgrade: tier === 'free' ? 'https://qatar-standers.vercel.app/#pro' : null,
+      });
+    }
+
+    // الطلب مسموح — استدعِ الـ handler الأصلي
+    return handler(req, res);
+  };
+}
+
+// ─────────────────────────────────────────────
+// دالة مساعدة: applyRateLimit (بدون wrapper)
+// للاستخدام المباشر داخل handler موجود
+//
+// الاستخدام:
+//   const { allowed, retryAfter } = await applyRateLimit(req, res, '/api/ai-proxy');
+//   if (!allowed) return; // res.status(429) أُرسلت تلقائياً
+// ─────────────────────────────────────────────
+export async function applyRateLimit(req, res, endpoint = '/api/unknown') {
+  const ip = getClientIP(req);
+  const tier = getUserTier(req);
+  const endpointConfig = ENDPOINT_LIMITS[endpoint] || { free: 5, pro: 60, global: 100 };
+  const tierLimit = endpointConfig[tier] || endpointConfig.free;
+
+  const userKey = `${endpoint}:${ip}:${tier}`;
+  const globalKey = `${endpoint}:ip:${ip}`;
+
+  const [userResult, globalResult] = await Promise.all([
+    checkRateLimit(userKey, tierLimit, TIER_LIMITS[tier]?.windowMs || 60000),
+    checkRateLimit(globalKey, endpointConfig.global, TIER_LIMITS.global_ip.windowMs),
+  ]);
+
+  const resetAtSeconds = Math.ceil(
+    Math.min(userResult.resetAt, globalResult.resetAt) / 1000
+  );
+  res.setHeader('X-RateLimit-Limit', tierLimit);
+  res.setHeader('X-RateLimit-Remaining', Math.min(userResult.remaining, globalResult.remaining));
+  res.setHeader('X-RateLimit-Reset', resetAtSeconds);
+  res.setHeader('X-RateLimit-Tier', tier);
+
+  if (!userResult.allowed || !globalResult.allowed) {
+    const retryAfter = Math.max(userResult.retryAfter, globalResult.retryAfter);
+    res.setHeader('Retry-After', retryAfter);
     res.status(429).json({
       error: 'Too Many Requests',
-      message: 'لقد تجاوزت الحد المسموح به من الطلبات. يرجى الانتظار.',
-      retryAfter: result.retryAfter,
-      upgradeUrl: 'https://qatar-standers.vercel.app/#pricing',
+      message: tier === 'free'
+        ? 'وصلت للحد المجاني. ارقَ لـ Pro للحصول على 60 طلب/دقيقة.'
+        : 'تجاوزت الحد المسموح. حاول بعد ' + retryAfter + ' ثانية.',
+      retryAfter,
+      tier,
+      upgrade: tier === 'free' ? 'https://qatar-standers.vercel.app/#pro' : null,
     });
-    return true; // محظور
+    return { allowed: false, retryAfter };
   }
 
-  return false; // مسموح
+  return { allowed: true, retryAfter: 0 };
 }
+
+// ─────────────────────────────────────────────
+// تصدير الثوابت للاستخدام الخارجي
+// ─────────────────────────────────────────────
+export { TIER_LIMITS, ENDPOINT_LIMITS, getClientIP, getUserTier };
