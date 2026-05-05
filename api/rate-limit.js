@@ -342,7 +342,49 @@ async function hashIP(ip) {
 }
 
 // ─────────────────────────────────────────────
-// تصدير الثوابت للاستخدام الخارجي
+// تصدير الثوابت + Aliases للتوافق مع كل ملفات API
 // ─────────────────────────────────────────────
-const getIp = getClientIP; // alias للتوافق مع الملفات القديمة
-export { TIER_LIMITS, ENDPOINT_LIMITS, getClientIP, getIp, getUserTier, hashIP };
+const getIp = getClientIP;
+
+// rateLimit(req, tier, endpointName) — wrapper مُبسّط للاستخدام في API files
+async function rateLimit(req, tier, endpointName) {
+  const rawIp = getClientIP(req);
+  const ip = await hashIP(rawIp);
+  const endpointKey = '/api/' + endpointName;
+  const endpointConfig = ENDPOINT_LIMITS[endpointKey] || { free: 5, pro: 60, global: 100 };
+  const tierLimit = endpointConfig[tier] || endpointConfig.free;
+  const windowMs = TIER_LIMITS[tier]?.windowMs || 60000;
+  const userKey = `${endpointKey}:${ip}:${tier}`;
+  const result = await checkRateLimit(userKey, tierLimit, windowMs);
+  return { ...result, limit: tierLimit, tier };
+}
+
+// applyRateLimitHeaders(res, rlResult) — يضع rate limit headers
+function applyRateLimitHeaders(res, rl) {
+  if (!res || !rl) return;
+  res.setHeader('X-RateLimit-Limit', rl.limit || 5);
+  res.setHeader('X-RateLimit-Remaining', rl.remaining || 0);
+  if (rl.resetAt) res.setHeader('X-RateLimit-Reset', Math.ceil(rl.resetAt / 1000));
+  if (rl.tier) res.setHeader('X-RateLimit-Tier', rl.tier);
+  if (!rl.allowed && rl.retryAfter) res.setHeader('Retry-After', rl.retryAfter);
+}
+
+// checkRateLimitCompat(ip, endpointName, isPro) — alias لملفات auth-proxy و supabase-proxy
+async function checkRateLimitCompat(ip, endpointName, isPro) {
+  const hashedIp = await hashIP(ip);
+  const endpointKey = '/api/' + endpointName;
+  const tier = isPro ? 'pro' : 'free';
+  const endpointConfig = ENDPOINT_LIMITS[endpointKey] || { free: 5, pro: 60, global: 100 };
+  const tierLimit = endpointConfig[tier] || endpointConfig.free;
+  const windowMs = TIER_LIMITS[tier]?.windowMs || 60000;
+  const userKey = `${endpointKey}:${hashedIp}:${tier}`;
+  const result = await checkRateLimit(userKey, tierLimit, windowMs);
+  return { ...result, limit: tierLimit, tier };
+}
+
+export {
+  TIER_LIMITS, ENDPOINT_LIMITS,
+  getClientIP, getIp, getUserTier, hashIP,
+  rateLimit, applyRateLimitHeaders,
+  checkRateLimitCompat as checkRateLimit
+};
