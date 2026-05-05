@@ -1,5 +1,3 @@
-import { createHash } from 'crypto';
-
 /**
  * QatarSpec Pro — Rate Limiting Middleware
  * PROTOCOL 6: كل API endpoint يجب أن يحتوي على rate limit
@@ -330,16 +328,15 @@ export async function applyRateLimit(req, res, endpoint = '/api/unknown') {
 // ─────────────────────────────────────────────
 // تشفير IP بـ SHA-256 لحماية الخصوصية — لا PII في الـ logs أو KV
 // ─────────────────────────────────────────────
-async function hashIP(ip) {
+function hashIP(ip) {
+  // تشفير بسيط لحماية الخصوصية — لا PII في الـ cache
   if (!ip || ip === 'unknown') return 'unknown';
-  try {
-    return createHash('sha256').update(ip).digest('hex').slice(0, 16);
-  } catch {
-    // fallback بسيط
-    let h = 0;
-    for (let i = 0; i < ip.length; i++) h = ((h << 5) - h + ip.charCodeAt(i)) | 0;
-    return 'ip_' + Math.abs(h).toString(36);
+  let h1 = 0x811c9dc5, h2 = 0xcbf29ce4;
+  for (let i = 0; i < ip.length; i++) {
+    h1 ^= ip.charCodeAt(i); h1 = Math.imul(h1, 0x01000193);
+    h2 ^= ip.charCodeAt(i); h2 = Math.imul(h2, 0x01000193);
   }
+  return (h1 >>> 0).toString(36) + (h2 >>> 0).toString(36);
 }
 
 // ─────────────────────────────────────────────
