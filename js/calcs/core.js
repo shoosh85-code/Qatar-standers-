@@ -266,6 +266,15 @@ function showResult(elId, pass, value, required, detail, action) {
     actionDiv.textContent = '🔧 الإجراء التصحيحي: ' + action;
     el.appendChild(actionDiv);
   }
+  // ── رسم بياني — Chart.js addon (Pro) أو رسالة ترقية (Free) ──
+  if (value !== null && required !== null && typeof window.QS !== 'undefined' && typeof window.QS.showCalcChart === 'function') {
+    const numVal = parseFloat(String(value));
+    const numReq = parseFloat(String(required));
+    if (!isNaN(numVal) && !isNaN(numReq)) {
+      // setTimeout لضمان أن DOM جاهز بعد التعديل
+      setTimeout(function() { window.QS.showCalcChart(elId, numVal, numReq, detail || 'المقارنة', null, pass); }, 0);
+    }
+  }
 }
 
 // ── switchCalcMode ──
