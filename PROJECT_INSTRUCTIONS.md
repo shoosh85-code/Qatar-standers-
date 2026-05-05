@@ -34,21 +34,19 @@
 لا تقول "تم الرفع" إلا بعد:
 
 ```
-□ 1. git status            → لصق الناتج
-□ 2. git add [ملفات]       → لصق الناتج
+□ 1. git status         → لصق الناتج
+□ 2. git add [ملفات]    → لصق الناتج
 □ 3. git diff --cached --stat → لصق الناتج
 □ 4. git commit -m "[رسالة]"  → لصق الناتج
-□ 5. git log --oneline -3  → لصق الناتج
-□ 6. git push              → لصق الناتج كاملاً
+□ 5. git log --oneline -3     → لصق الناتج
+□ 6. git push                 → لصق الناتج كاملاً
 □ 7. git ls-remote origin main → لصق hash الـ remote
 □ 8. مقارنة local hash مع remote hash
 ```
 
 إذا لم يتطابقان:
-```
 → ❌ STOP: git push فشل — الـ commit لم يصل
 → لا تكمل. لا تكذب. لا تقول "تم".
-```
 
 ---
 
@@ -75,12 +73,7 @@
 ## PROTOCOL 4: صفر تضليل (ZERO HALLUCINATION)
 
 ممنوع تماماً:
-- "أعتقد"
-- "ربما"
-- "على الأرجح"
-- "يبدو"
-- "يجب أن"
-- "من المفترض"
+- "أعتقد" / "ربما" / "على الأرجح" / "يبدو" / "يجب أن" / "من المفترض"
 
 إلزامي:
 - "الناتج الفعلي: [لصق]"
@@ -133,14 +126,12 @@ echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-
 
 ## PROJECT INFO
 
-```
-Name:      QatarSpec Pro
-Site:      qatar-standers.vercel.app
-Stack:     Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
-Repo:      github.com/shoosh85-code/Qatar-standers-
-Audience:  مهندسون قطريون وأجانب يعملون في قطر
-References: QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
-```
+- **Name:** QatarSpec Pro
+- **Site:** qatar-standers.vercel.app
+- **Stack:** Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
+- **Repo:** github.com/shoosh85-code/Qatar-standers-
+- **Audience:** مهندسون قطريون وأجانب يعملون في قطر
+- **References:** QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
 
 ---
 
@@ -153,7 +144,7 @@ git config user.email "qatarspec@deploy.app"
 git config user.name "QatarSpec Deploy"
 ```
 
-Push:
+**Push:**
 ```bash
 git remote set-url origin https://TOKEN@github.com/shoosh85-code/Qatar-standers-.git
 git push origin main
