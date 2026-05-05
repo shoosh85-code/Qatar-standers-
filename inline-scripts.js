@@ -93,6 +93,11 @@ function processFiles(files) {
     const id = Date.now() + Math.random();
     uploadedFiles.push({ id, file, name: file.name, size: file.size });
     renderFileItem(id, file.name, file.size, 'loading');
+    // ربط زر العرض بالملف الفعلي
+    const item = document.querySelector(`[data-file-id="${id}"] .pdf-view-btn`);
+    if (item) item.addEventListener('click', function() {
+      if (typeof QS !== 'undefined' && QS.openPDFViewer) QS.openPDFViewer(file);
+    });
     setTimeout(() => {
       document.querySelector(`[data-file-id="${id}"] .file-status`).textContent = 'جاهز ✓';
       document.querySelector(`[data-file-id="${id}"] .file-status`).className = 'file-status ready';
@@ -107,8 +112,9 @@ function renderFileItem(id, name, size, status) {
   div.className = 'file-item';
   div.setAttribute('data-file-id', id);
   const safeName = name.length > 30 ? name.slice(0,30)+'...' : name;
-  div.innerHTML = `<span class="file-icon">📄</span><div class="file-info"><div class="file-name"></div><div class="file-size">${(size/1024/1024).toFixed(1)} MB</div></div><span class="file-status ${status}">${status === 'loading' ? 'جاري الرفع...' : 'جاهز ✓'}</span>`;
+  div.innerHTML = `<span class="file-icon">📄</span><div class="file-info"><div class="file-name"></div><div class="file-size">${(size/1024/1024).toFixed(1)} MB</div></div><span class="file-status ${status}">${status === 'loading' ? 'جاري الرفع...' : 'جاهز ✓'}</span><button class="pdf-view-btn" aria-label="عرض PDF" style="background:var(--dark4,#2a2a3e);border:1px solid var(--gold,#c9a84c);border-radius:6px;padding:3px 10px;color:var(--gold,#c9a84c);font-size:11px;cursor:pointer;margin-right:6px;">👁️ عرض</button>`;
   div.querySelector('.file-name').textContent = safeName;
+  // ربط زر العرض بالملف الفعلي — يُضاف لاحقاً في processFiles
   list.appendChild(div);
 }
 

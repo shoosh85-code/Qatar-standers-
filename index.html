@@ -1725,6 +1725,16 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
      ═══════════════════════════════════════════════════════════ -->
 <!-- PDF: server-side /api/export-pdf → fallback client-side library -->
 <script src="js/export/pdf.js?v=1000" defer></script>
+<!-- ═══ المرحلة 5: pdf.js — عارض PDF مدمج ═══ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs" type="module"></script>
+<script type="module">
+  // إعداد pdf.js worker
+  if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs';
+  }
+</script>
+<script src="/js/pdf-viewer.js" defer></script>
 <script src="js/export/word.js?v=700" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.umd.min.js" defer></script>
 <script src="js/export/word-pro.js?v=100" defer></script>
