@@ -5,7 +5,7 @@
 
 // ── Rate Limiting (in-memory) — Node runtime ────────────────────────────────
 
-import { withSecurity } from './lib/security.js';
+import { withSecurity } from './_lib/security.js';
 const _rl = new Map();
 function checkRateLimit(ip) {
   const now      = Date.now();

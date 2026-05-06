@@ -4,7 +4,7 @@
 // Dashboard: https://businesses.tap.company → Webhooks → https://qatar-standers.vercel.app/api/tap-webhook
 
 import { createClient } from '@supabase/supabase-js';
-import { withSentry, captureException, captureMessage } from './lib/sentry.js';
+import { withSentry, captureException, captureMessage } from './_lib/sentry.js';
 import { rateLimit, getIp } from './rate-limit.js';
 
 // ─── Supabase Admin Client ────────────────────────────────────────────────
