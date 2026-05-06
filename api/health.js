@@ -2,7 +2,7 @@
 // مستقل تماماً — بدون import من rate-limit.js
 
 
-import { withSecurity } from '../lib/security.js';
+import { withSecurity } from './lib/security.js';
 const _handler = async function handler(req, res) {
   const checks = {
     gemini:     !!process.env.GEMINI_KEY,
