@@ -3,7 +3,7 @@
  * PROTOCOL 6: كل API endpoint يجب أن يحتوي على rate limit
  *
  * Stack:
- *   Primary:  @upstash/ratelimit + @vercel/kv → Sliding Window, Multi-instance safe
+ *   Primary:  @upstash/ratelimit + @upstash/redis → Sliding Window, Multi-instance safe
  *   Fallback: in-memory Map → Single instance (dev / KV not configured)
  *
  * الاستخدام:
@@ -41,16 +41,21 @@ async function getUpstashLimiter(maxRequests) {
   if (_upstashCache.has(maxRequests)) return _upstashCache.get(maxRequests);
 
   try {
-    const [{ Ratelimit }, { kv }] = await Promise.all([
+    const [{ Ratelimit }, { Redis }] = await Promise.all([
       import('@upstash/ratelimit'),
-      import('@vercel/kv'),
+      import('@upstash/redis'),
     ]);
 
-    // KV يحتاج إحدى هذه المتغيرات لكي يعمل
-    if (!process.env.KV_REST_API_URL && !process.env.KV_URL) return null;
+    // Upstash Redis يحتاج هذه المتغيرات
+    if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) return null;
+
+    const redis = new Redis({
+      url:   process.env.UPSTASH_REDIS_REST_URL,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN,
+    });
 
     const limiter = new Ratelimit({
-      redis: kv,
+      redis,
       // Sliding Window: أدق من Fixed Window — يمنع burst على حدود النافذة
       limiter: Ratelimit.slidingWindow(maxRequests, '1 m'),
       prefix: 'qs:rl',
