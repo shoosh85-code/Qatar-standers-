@@ -3,7 +3,7 @@
 // v3.0: +streaming, +citations, +gemini-2.5-pro [لا تحذف محتوى — فقط إضافة]
 // v3.1: +retryGemini exponential backoff from api/lib/retry.js
 
-import { retryGemini } from './_lib/retry.js';
+import { retryGemini } from '../lib/retry.js';
 
 export const config = { runtime: 'edge' };
 
