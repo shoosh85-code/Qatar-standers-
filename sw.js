@@ -15,6 +15,7 @@ const STATIC_ASSETS = [
   '/js/stepper-init.js',
   '/js/content-aliases.js',
   '/js/calc-lazy-loader.js',
+  '/js/calcs/materials.js',
   '/js/analytics.js',
   '/js/export/pdf.js',
   '/js/export/word.js',

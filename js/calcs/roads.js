@@ -220,3 +220,44 @@ function calcPrimeRate() {
   const pass = rate >= min && rate <= max;
   showResult('prate-result', pass, rate.toFixed(3), null, `معدل الرش الفعلي: ${rate.toFixed(3)} L/m² | المطلوب: ${min}-${max} L/m²`);
 }
+
+// ── calcSubbaseCheck — فحص Subbase الكامل ──────────────────────────
+// QCS 2024 Section 17 Part 4 Table 4.1 + Ashghal RDM 2023 Table 3.2
+window.calcSubbaseCheck = function() {
+  var cbr  = parseFloat(document.getElementById('sb-cbr').value);
+  var comp = parseFloat(document.getElementById('sb-comp').value);
+  var pi   = parseFloat(document.getElementById('sb-pi').value);
+  var el   = document.getElementById('sb-result');
+  if (!el) return;
+
+  var REQ = { cbr: 30, comp: 100, pi: 6 };
+  var issues = [], pass = true;
+
+  if (!isNaN(cbr)) {
+    if (cbr < REQ.cbr) { issues.push('❌ CBR ' + cbr + '% < 30% — Subbase غير مقبول'); pass = false; }
+    else { issues.push('✅ CBR ' + cbr + '% ≥ 30% — مقبول'); }
+  }
+  if (!isNaN(comp)) {
+    if (comp < REQ.comp) { issues.push('❌ Compaction ' + comp + '% < 100% BS Heavy — رفض'); pass = false; }
+    else { issues.push('✅ Compaction ' + comp + '% ≥ 100% BS Heavy — مقبول'); }
+  }
+  if (!isNaN(pi)) {
+    if (pi > REQ.pi) { issues.push('❌ PI ' + pi + ' > 6 — مادة غير مناسبة'); pass = false; }
+    else { issues.push('✅ PI ' + pi + ' ≤ 6 — مقبول'); }
+  }
+
+  var action = pass
+    ? 'Subbase مطابق لـ QCS 2024 Section 17 Part 4 ✅'
+    : 'رفض — تغيير المصدر أو إعادة الدمك';
+
+  el.innerHTML =
+    '<div style="background:' + (pass ? '#eafaf1' : '#fdf2f2') + ';border-radius:10px;padding:14px;margin-top:10px;">' +
+    '<div style="font-weight:700;color:' + (pass ? '#27ae60' : '#e74c3c') + ';font-size:15px;margin-bottom:8px;">' +
+    (pass ? '✅ PASS — Subbase مطابق' : '❌ FAIL — Subbase مرفوض') + '</div>' +
+    '<ul style="list-style:none;padding:0;margin:0 0 8px;">' +
+    issues.map(function(i){ return '<li style="padding:3px 0;font-size:13px;">' + i + '</li>'; }).join('') +
+    '</ul>' +
+    '<div style="font-size:12px;color:#666;border-top:1px solid #ddd;padding-top:8px;">' +
+    '📋 ' + action + '<br>' +
+    '<span style="color:#999;">QCS 2024 S17 P4 Table 4.1 | Ashghal RDM 2023 Table 3.2</span></div></div>';
+};

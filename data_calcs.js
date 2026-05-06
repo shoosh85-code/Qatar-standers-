@@ -273,14 +273,14 @@ function initCalcPanels() {
   if (roadsEl && !roadsEl.dataset.built) {
     roadsEl.dataset.built = '1';
     roadsEl.innerHTML =
-      _tabs('roads',[['comp-r','🔵 Compaction'],['cbr-r','🟤 CBR'],['att-r','📊 Atterberg'],['la-r','💪 LA Abrasion'],['fli-r','🔷 Flakiness'],['se-r','🟡 Sand Eq.'],['asp-r','🛣️ Asphalt']]) +
+      _tabs('roads',[['comp-r','🔵 Compaction'],['cbr-r','🟤 CBR'],['att-r','📊 Atterberg'],['la-r','💪 LA Abrasion'],['fli-r','🔷 Flakiness'],['se-r','🟡 Sand Eq.'],['asp-r','🛣️ Asphalt'],['sb-r','🪨 Subbase']]) +
       _section('comp-r','🔵 Compaction — ضغط الطبقة',
         _calcSelect('comp-layer','الطبقة / Layer',[['95','Subgrade (≥95% MDD)'],['98','Subbase (≥98% MDD)'],['98','Base Course (≥98% MDD)']]) +
         _calcField('comp-actual','الكثافة الحقلية (g/cm³)','e.g. 1.92','g/cm³') +
         _calcField('comp-mdd','MDD من Proctor','e.g. 2.01','g/cm³') +
         _calcBtn('calcCompaction()','احسب النتيجة ✅') + _calcResult('comp-result')) +
       _section('cbr-r','🟤 CBR',
-        _calcSelect('cbr-layer','الطبقة',[['8','Subgrade (≥8%)'],['70','Subbase (≥70%)'],['80','Base Course (≥80%)']]) +
+        _calcSelect('cbr-layer','الطبقة',[['8','Subgrade (≥8%)'],['30','Subbase (≥30%)'],['80','Base Course (≥80%)']]) +
         _calcField('cbr-val','CBR Soaked (4 أيام)','e.g. 75','%') +
         _calcBtn('calcCBR()','احسب CBR') + _calcResult('cbr-result')) +
       _section('att-r','📊 Atterberg Limits',
@@ -307,7 +307,12 @@ function initCalcPanels() {
         _calcField('asp-va','Air Voids Va','e.g. 4.1','%') +
         _calcField('asp-core','Core Density','e.g. 97.8','% TMD') +
         _calcField('asp-temp','Temp عند التسليم','e.g. 145','°C') +
-        _calcBtn('calcAsphaltFull()','فحص كامل للإسفلت') + _calcResult('asp-result'));
+        _calcBtn('calcAsphaltFull()','فحص كامل للإسفلت') + _calcResult('asp-result')) +
+      _section('sb-r','🪨 Subbase Check — QCS 2024 S17 P4',
+        _calcField('sb-cbr','CBR (Soaked 4 days)','e.g. 35','%') +
+        _calcField('sb-comp','Compaction (% BS Heavy)','e.g. 102','%') +
+        _calcField('sb-pi','Plasticity Index (PI)','e.g. 4','') +
+        _calcBtn('calcSubbaseCheck()','فحص الـ Subbase 🪨') + _calcResult('sb-result'));
     // hide non-first sections
     roadsEl.querySelectorAll('.calc-section').forEach(function(s,i){ s.style.display = i===0?'block':'none'; });
   }
@@ -399,6 +404,47 @@ function initCalcPanels() {
         _calcField('bc-b','عرض الأساس B','e.g. 1.5','m') +
         _calcBtn('calcBearingCap()','احسب القدرة التحملية') + _calcResult('bc-result'));
     geoEl.querySelectorAll('.calc-section').forEach(function(s,i){ s.style.display = i===0?'block':'none'; });
+  }
+
+  // ── MATERIALS (حاسبات كميات المواد) ─────────────────────────
+  // يبحث عن div#cat-materials_calc أو يُنشئه بعد geotech
+  var matEl = document.getElementById('cat-materials_calc');
+  if (!matEl && geoEl) {
+    matEl = document.createElement('div');
+    matEl.id = 'cat-materials_calc';
+    matEl.style.cssText = 'margin-top:20px;border-top:2px solid var(--gold);padding-top:12px;';
+    matEl.innerHTML = '<div style="font-weight:700;color:var(--gold);font-size:14px;margin-bottom:10px;">🧮 حاسبات كميات المواد — QCS 2024</div>';
+    geoEl.parentNode.insertBefore(matEl, geoEl.nextSibling);
+  }
+  if (matEl && !matEl.dataset.built) {
+    matEl.dataset.built = '1';
+    var matContent = document.createElement('div');
+    matContent.innerHTML =
+      _tabs('mat',[['mat-brick','🧱 طابوق'],['mat-concrete','🏗️ خرسانة'],['mat-mortar','🪣 ملاط'],['mat-road','🛣️ كميات طريق']]) +
+      _section('mat-brick','🧱 حاسبة الطابوق — QCS 2024 Part 6',
+        _calcSelect('brk-type','نوع البلوك',[['200','بلوك 200mm'],['150','بلوك 150mm'],['100','بلوك 100mm']]) +
+        _calcField('brk-length','طول الجدار','e.g. 10','م') +
+        _calcField('brk-height','ارتفاع الجدار','e.g. 3','م') +
+        _calcField('brk-open','مساحة الفتحات','e.g. 4','m²') +
+        _calcBtn('calcBrickQty()','احسب الكمية 🧱') + _calcResult('brk-result')) +
+      _section('mat-concrete','🏗️ حاسبة الخرسانة — QCS 2024 Part 14',
+        _calcSelect('con-grade','Grade',[['C20','C20 — مساعد'],['C25','C25 — شائع'],['C30','C30 — مكشوف'],['C35','C35 — كبريتي DS2'],['C40','C40 — خاص DS3']]) +
+        _calcField('con-vol','الحجم المطلوب','e.g. 10','m³') +
+        _calcBtn('calcConcreteQty()','احسب الخرسانة 🏗️') + _calcResult('con-result')) +
+      _section('mat-mortar','🪣 حاسبة الملاط — QCS Part 6 S3',
+        _calcSelect('mort-ratio','نسبة الملاط',[['1:3','1:3 — بلاط'],['1:4','1:4 — بناء عام'],['1:6','1:6 — بلوك']]) +
+        _calcField('mort-vol','الحجم','e.g. 2','m³') +
+        _calcBtn('calcMortarQty()','احسب الملاط 🪣') + _calcResult('mort-result')) +
+      _section('mat-road','🛣️ كميات الطريق — QCS S17 + Ashghal RDM',
+        _calcField('rd-length','طول الطريق','e.g. 500','م') +
+        _calcField('rd-width','عرض الطريق','e.g. 7','م') +
+        _calcField('rd-wc','Wearing Course','e.g. 50','mm') +
+        _calcField('rd-bc','Binder Course','e.g. 60','mm') +
+        _calcField('rd-base','Base Course','e.g. 150','mm') +
+        _calcField('rd-sb','Subbase','e.g. 200','mm') +
+        _calcBtn('calcRoadMaterials()','احسب الكميات 🛣️') + _calcResult('rd-result'));
+    matEl.appendChild(matContent);
+    matContent.querySelectorAll('.calc-section').forEach(function(s,i){ s.style.display = i===0?'block':'none'; });
   }
 }
 
@@ -1519,3 +1565,13 @@ function exportBatchNCR() {
   a.click();
   showToast('✅ تم تصدير NCR');
 }
+
+// ── تحميل حاسبات المواد ──────────────────────────────────
+(function loadMaterialsCalcs() {
+  if (typeof window._materialsLoaded !== 'undefined') return;
+  window._materialsLoaded = true;
+  var s = document.createElement('script');
+  s.src = '/js/calcs/materials.js';
+  s.onerror = function() { console.warn('[QS] materials.js load failed'); };
+  document.head.appendChild(s);
+})();

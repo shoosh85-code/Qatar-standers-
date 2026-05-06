@@ -15,7 +15,7 @@
 <div style="color:var(--text3);font-size:11px;">CBR≥8% | Comp≥95% MDD</div></div>
 <div onclick="QS.openDetail('subbase')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
 <div style="font-size:18px;">2️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subbase</div>
-<div style="color:var(--text3);font-size:11px;">CBR≥70% | Comp≥98% MDD</div></div>
+<div style="color:var(--text3);font-size:11px;">CBR≥30% | Comp≥98% MDD</div></div>
 <div onclick="QS.openDetail('base')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
 <div style="font-size:18px;">3️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Road Base</div>
 <div style="color:var(--text3);font-size:11px;">CBR≥80% | Comp≥98% MDD</div></div>
@@ -177,7 +177,7 @@
 <div style="color:var(--text3);font-size:11px;">CBR≥8% | Comp≥95% MDD</div></div>
 <div onclick="QS.openDetail('subbase')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
 <div style="font-size:18px;">2️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Subbase</div>
-<div style="color:var(--text3);font-size:11px;">CBR≥70% | Comp≥98% MDD</div></div>
+<div style="color:var(--text3);font-size:11px;">CBR≥30% | Comp≥98% MDD</div></div>
 <div onclick="QS.openDetail('base')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;">
 <div style="font-size:18px;">3️⃣</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Road Base</div>
 <div style="color:var(--text3);font-size:11px;">CBR≥80% | Comp≥98% MDD</div></div>
@@ -491,7 +491,7 @@
 <tr><th>HP</th><th>المرحلة</th><th>الشرط</th><th>الجهة</th></tr>
 <tr><td>HP-01</td><td>قبل ردم Subgrade</td><td>Material Approval + Proctor + CBR</td><td>Consultant</td></tr>
 <tr><td>HP-02</td><td>اعتماد Subgrade</td><td>Density ≥95% + CBR ≥8% + Level</td><td>Consultant</td></tr>
-<tr><td>HP-03</td><td>اعتماد Subbase</td><td>Density ≥98% + CBR ≥70% + Level</td><td>Consultant</td></tr>
+<tr><td>HP-03</td><td>اعتماد Subbase</td><td>Density ≥98% + CBR ≥30% + Level</td><td>Consultant</td></tr>
 <tr><td>HP-04</td><td>اعتماد Base Course</td><td>Density ≥98% + CBR ≥80% + Level</td><td>Consultant</td></tr>
 <tr><td>HP-05</td><td>اعتماد Prime Coat</td><td>Rate + Coverage + Curing</td><td>Consultant</td></tr>
 <tr><td>HP-06</td><td>قبل إنتاج Asphalt</td><td>JMF + Trial Section معتمدة</td><td>Consultant</td></tr>
