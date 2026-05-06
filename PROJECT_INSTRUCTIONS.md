@@ -34,8 +34,8 @@
 لا تقول "تم الرفع" إلا بعد:
 
 ```
-□ 1. git status         → لصق الناتج
-□ 2. git add [ملفات]    → لصق الناتج
+□ 1. git status          → لصق الناتج
+□ 2. git add [ملفات]     → لصق الناتج
 □ 3. git diff --cached --stat → لصق الناتج
 □ 4. git commit -m "[رسالة]"  → لصق الناتج
 □ 5. git log --oneline -3     → لصق الناتج
@@ -45,8 +45,10 @@
 ```
 
 إذا لم يتطابقان:
+```
 → ❌ STOP: git push فشل — الـ commit لم يصل
 → لا تكمل. لا تكذب. لا تقول "تم".
+```
 
 ---
 
@@ -56,10 +58,10 @@
 
 ```
 ❌ STOP: Error [الرمز]
-الأمر:  [الأمر]
-الخطأ:  [نص الخطأ كاملاً]
-السبب:  [تحليلك]
-الحل:   [اقتراحك]
+الأمر:   [الأمر]
+الخطأ:   [نص الخطأ كاملاً]
+السبب:   [تحليلك]
+الحل:    [اقتراحك]
 هل أحاول الحل؟ (نعم/لا)
 ```
 
@@ -73,7 +75,12 @@
 ## PROTOCOL 4: صفر تضليل (ZERO HALLUCINATION)
 
 ممنوع تماماً:
-- "أعتقد" / "ربما" / "على الأرجح" / "يبدو" / "يجب أن" / "من المفترض"
+- "أعتقد"
+- "ربما"
+- "على الأرجح"
+- "يبدو"
+- "يجب أن"
+- "من المفترض"
 
 إلزامي:
 - "الناتج الفعلي: [لصق]"
@@ -126,12 +133,14 @@ echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-
 
 ## PROJECT INFO
 
-- **Name:** QatarSpec Pro
-- **Site:** qatar-standers.vercel.app
-- **Stack:** Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
-- **Repo:** github.com/shoosh85-code/Qatar-standers-
-- **Audience:** مهندسون قطريون وأجانب يعملون في قطر
-- **References:** QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
+```
+Name:     QatarSpec Pro
+Site:     qatar-standers.vercel.app
+Stack:    Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
+Repo:     github.com/shoosh85-code/Qatar-standers-
+Audience: مهندسون قطريون وأجانب يعملون في قطر
+References: QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
+```
 
 ---
 
@@ -144,7 +153,7 @@ git config user.email "qatarspec@deploy.app"
 git config user.name "QatarSpec Deploy"
 ```
 
-**Push:**
+Push:
 ```bash
 git remote set-url origin https://TOKEN@github.com/shoosh85-code/Qatar-standers-.git
 git push origin main
@@ -190,13 +199,13 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 
 ## BUSINESS RULES
 
-- Every feature serves Free, Pro, or Enterprise tier
-- Free tier genuinely useful (builds trust)
-- Pro tier saves >2 hours/week (justifies 99 QAR/month)
-- Enterprise reduces QC costs >20%
-- Every QCS reference traceable — no invented numbers
-- AI responses include disclaimer + QCS Part/Section/Clause
-- Export formats match Ashghal official templates exactly
+1. Every feature serves Free, Pro, or Enterprise tier
+2. Free tier genuinely useful (builds trust)
+3. Pro tier saves >2 hours/week (justifies 99 QAR/month)
+4. Enterprise reduces QC costs >20%
+5. Every QCS reference traceable — no invented numbers
+6. AI responses include disclaimer + QCS Part/Section/Clause
+7. Export formats match Ashghal official templates exactly
 
 ---
 
