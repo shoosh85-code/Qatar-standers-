@@ -3,6 +3,8 @@
 // PRO_CODES stored ONLY here — never in client HTML
 // [SEC] Rate limiting: 5 محاولات/دقيقة لمنع brute-force على الأكواد
 
+
+import { withSecurity } from '../lib/security.js';
 export const config = { runtime: 'edge' };
 
 const CORS = {
@@ -31,7 +33,7 @@ function checkRateLimit(ip) {
   return { allowed: true, remaining: limit - entry.count };
 }
 
-export default async function handler(req) {
+const _handler = async function handler(req) {
   if (req.method === 'OPTIONS') {
     return new Response(null, { status: 204, headers: CORS });
   }
@@ -124,3 +126,5 @@ export default async function handler(req) {
     );
   }
 }
+
+export default withSecurity(_handler);

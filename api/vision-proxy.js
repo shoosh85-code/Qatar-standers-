@@ -2,6 +2,8 @@
 // Vision AI for Photo Inspector + Drawing Analyzer
 // Uses Gemini 2.0 Flash (vision capable) + JWT Pro verification
 
+
+import { withSecurity } from '../lib/security.js';
 export const config = { runtime: 'edge' };
 
 const CORS = {
@@ -118,7 +120,7 @@ const ANALYZER_PROMPT = `أنت مهندس استشاري خبير في تحلي
 [المواصفات المستخدمة في التحليل]`;
 
 // ── Main Handler ────────────────────────────────────────────────────────────
-export default async function handler(req) {
+const _handler = async function handler(req) {
   if (req.method === 'OPTIONS') {
     return new Response(null, { status: 204, headers: CORS });
   }
@@ -241,3 +243,5 @@ function json(data, status = 200) {
     headers: { ...CORS, 'Content-Type': 'application/json' },
   });
 }
+
+export default withSecurity(_handler);

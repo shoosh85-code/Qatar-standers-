@@ -4,6 +4,8 @@
 // [SEC] Rate limiting: 3 محاولات/دقيقة لمنع brute-force على الـ admin
 
 // ── Rate Limiting (in-memory) — Node runtime ────────────────────────────────
+
+import { withSecurity } from '../lib/security.js';
 const _rl = new Map();
 function checkRateLimit(ip) {
   const now      = Date.now();
@@ -22,7 +24,7 @@ function checkRateLimit(ip) {
   return { allowed: true, remaining: limit - entry.count };
 }
 
-export default async function handler(req, res) {
+const _handler = async function handler(req, res) {
   const ORIGIN = process.env.APP_URL || 'https://qatar-standers.vercel.app';
   res.setHeader('Access-Control-Allow-Origin', ORIGIN);
   if (req.method === 'OPTIONS') return res.status(200).end();
@@ -58,3 +60,5 @@ export default async function handler(req, res) {
     message: 'Store this token in sessionStorage key: qs_admin_token'
   });
 }
+
+export default withSecurity(_handler);

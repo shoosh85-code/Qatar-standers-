@@ -1,7 +1,9 @@
 // /api/health.js — QatarSpec Pro health check
 // مستقل تماماً — بدون import من rate-limit.js
 
-export default async function handler(req, res) {
+
+import { withSecurity } from '../lib/security.js';
+const _handler = async function handler(req, res) {
   const checks = {
     gemini:     !!process.env.GEMINI_KEY,
     supabase:   !!(process.env.NEXT_PUBLIC_SUPABASE_URL && (process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)),
@@ -21,3 +23,5 @@ export default async function handler(req, res) {
     checks,
   });
 }
+
+export default withSecurity(_handler);
