@@ -112,14 +112,9 @@
 | /api/vision-proxy | 3/min | 30/min | 50/min/IP |
 
 ### Implementation:
-- استخدم Upstash Redis للـ rate limiting (مُطبَّق في api/rate-limit.js)
-- Fallback: in-memory Map مع cleanup (مُطبَّق)
+- استخدم Vercel KV للـ rate limiting
+- Fallback: in-memory Map مع cleanup
 - Response: 429 Too Many Requests مع Retry-After header
-
-### الملفات الموجودة:
-- `api/rate-limit.js` — نظام rate limiting كامل بـ Upstash + in-memory fallback
-- `api/lib/security.js` — security headers + CORS + withSecurity wrapper
-- `vercel.json` — global security headers على كل المسارات
 
 ---
 
@@ -135,14 +130,12 @@ echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-
 
 ## PROJECT INFO
 
-```
-Name:     QatarSpec Pro
-Site:     qatar-standers.vercel.app
-Stack:    Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
-Repo:     github.com/shoosh85-code/Qatar-standers-
-Audience: مهندسون قطريون وأجانب يعملون في قطر
-References: QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
-```
+- **Name:** QatarSpec Pro
+- **Site:** qatar-standers.vercel.app
+- **Stack:** Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
+- **Repo:** github.com/shoosh85-code/Qatar-standers-
+- **Audience:** مهندسون قطريون وأجانب يعملون في قطر
+- **References:** QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
 
 ---
 
@@ -155,7 +148,7 @@ git config user.email "qatarspec@deploy.app"
 git config user.name "QatarSpec Deploy"
 ```
 
-Push:
+**Push:**
 ```bash
 git remote set-url origin https://TOKEN@github.com/shoosh85-code/Qatar-standers-.git
 git push origin main
@@ -184,7 +177,7 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 - **PDF:** QatarSpec Pro header + QCS 2024 reference + page numbers + watermark
 - **Excel:** Ashghal official format + multiple sheets + summary stats
 - **Word:** Professional header + editable fields + QCS clause references
-- All exports: Project name + Engineer name + Date + QatarSpec branding
+- **All exports:** Project name + Engineer name + Date + QatarSpec branding
 
 ---
 
@@ -192,8 +185,8 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 
 - NO API keys in localStorage — server-side env vars only
 - NO JWT in localStorage — httpOnly cookies only
-- CSP headers required (مُطبَّق في vercel.json + api/lib/security.js)
-- Rate limit all API endpoints (مُطبَّق في api/rate-limit.js — see PROTOCOL 6)
+- CSP headers required
+- Rate limit all API endpoints (see PROTOCOL 6)
 - Sanitize all user input
 - XSS protection on all innerHTML injections
 
