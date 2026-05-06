@@ -1,6 +1,9 @@
-// /api/ai-proxy.js — QatarSpec Pro v3.0.0
+// /api/ai-proxy.js — QatarSpec Pro v3.1.0
 // Gemini 2.5 Pro (primary) + SSE Streaming + Citations + Rate Limiting
 // v3.0: +streaming, +citations, +gemini-2.5-pro [لا تحذف محتوى — فقط إضافة]
+// v3.1: +retryGemini exponential backoff from api/lib/retry.js
+
+import { retryGemini } from './lib/retry.js';
 
 export const config = { runtime: 'edge' };
 
@@ -295,6 +298,37 @@ async function callGeminiStream(messages, maxTokens, apiKey) {
 }
 
 // ══════════════════════════════════════════════════════════════
+// GEMINI FALLBACK — gemini-2.5-flash عند فشل 2.5-pro
+// ══════════════════════════════════════════════════════════════
+async function callGeminiFallback(messages, maxTokens = 2000) {
+  const apiKey = process.env.GEMINI_KEY;
+  if (!apiKey) throw new Error('GEMINI_KEY not configured');
+  const model = 'gemini-2.5-flash';
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+  const contents = messages.map(m => ({
+    role: m.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: m.content }],
+  }));
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents,
+      generationConfig: { maxOutputTokens: maxTokens, temperature: 0.2 },
+    }),
+  });
+  if (!res.ok) {
+    const err = new Error(`Gemini flash ${res.status}`);
+    err.status = res.status;
+    throw err;
+  }
+  const data = await res.json();
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  if (!text) throw new Error('Empty flash response');
+  return { content: [{ type: 'text', text }], model, usage: {} };
+}
+
+// ══════════════════════════════════════════════════════════════
 // MAIN HANDLER
 // ══════════════════════════════════════════════════════════════
 export default async function handler(req) {
@@ -482,21 +516,12 @@ const token = extractToken(req);
 
   const tokenLimit = Math.min(max_tokens || 2500, 3000); // max 3000 tokens
 
-  // Retry once on 429
-  async function callWithRetry(msgs, tokens, retries = 1) {
-    try {
-      return await callGemini(msgs, tokens);
-    } catch (err) {
-      if (retries > 0 && (err.message?.includes('429') || err.message?.includes('quota'))) {
-        await new Promise(r => setTimeout(r, 3000)); // wait 3s
-        return callWithRetry(msgs, tokens, retries - 1);
-      }
-      throw err;
-    }
-  }
-
+  // v3.1: retryGemini — exponential backoff (2s→5s→12.5s) + flash fallback
   try {
-    const result = await callWithRetry(finalMessages, tokenLimit);
+    const result = await retryGemini(
+      () => callGemini(finalMessages, tokenLimit),           // primary: gemini-2.5-pro
+      () => callGeminiFallback(finalMessages, tokenLimit),   // fallback: gemini-2.5-flash
+    );
 
     // إضافة citations للـ response (v3.0)
     const resultText = result.content?.[0]?.text || '';
