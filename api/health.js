@@ -1,7 +1,6 @@
 // /api/health.js — QatarSpec Pro health check
 // مستقل تماماً — بدون import من rate-limit.js
 
-import { withSecurity } from './lib/security.js';
 import { secureHandler } from './lib/security-headers.js';
 const _handler = async function handler(req, res) {
   const checks = {
