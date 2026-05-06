@@ -289,7 +289,7 @@ function initCalcPanels() {
         _calcField('att-pl','Plastic Limit (PL)','e.g. 18','%') +
         _calcBtn('calcAtterberg()','احسب PI') + _calcResult('att-result')) +
       _section('la-r','💪 LA Abrasion',
-        _calcSelect('la-layer','الطبقة',[['30','Subbase (≤30%)'],['25','Base Course (≤25%)']]) +
+        _calcSelect('la-layer','الطبقة',[['40','Subbase (≤40%)'],['25','Base Course (≤25%)']]) +
         _calcField('la-val','نتيجة LA Abrasion','e.g. 22','%') +
         _calcBtn('calcLA()','احسب') + _calcResult('la-result')) +
       _section('fli-r','🔷 Flakiness Index',
