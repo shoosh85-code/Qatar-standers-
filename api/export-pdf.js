@@ -2,9 +2,12 @@
  * QatarSpec Pro — Server-Side PDF Export
  * المرحلة 10 | توليد PDF بـ PDFKit (server-side)
  * QCS 2024 | Ashghal RDM 2023 | KAHRAMAA 2024
+ * NOTE: pdfkit is optional — if not installed, returns 501
  */
 
-import PDFDocument from 'pdfkit';
+// Dynamic import — pdfkit قد لا يكون مُثبّتاً في بيئات خفيفة
+let PDFDocument = null;
+try { PDFDocument = (await import('pdfkit')).default; } catch { /* not installed */ }
 import { rateLimit, applyRateLimitHeaders } from './rate-limit.js';
 
 // ألوان العلامة التجارية
@@ -17,6 +20,10 @@ const BRAND = {
 };
 
 export default async function handler(request, response) {
+  // PDFKit check — if not installed, return 501
+  if (!PDFDocument) {
+    return response.status(501).json({ error: 'PDF export temporarily unavailable — pdfkit not installed' });
+  }
   // POST فقط
   if (request.method !== 'POST') {
     return response.status(405).json({ error: 'Method Not Allowed — POST فقط' });
