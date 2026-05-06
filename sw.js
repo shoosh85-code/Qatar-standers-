@@ -1,8 +1,8 @@
-// sw.js — QatarSpec Pro v3.4.0
+// sw.js — QatarSpec Pro v3.5.0
 // هدف: مسح كل الكاش القديم وتحميل النسخة الجديدة فوراً
 // [S4] توحيد SW registration — security-cleanup.js فقط
 
-const CACHE_NAME = 'qatarspec-v3-4-0';
+const CACHE_NAME = 'qatarspec-v3-5-0';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -22,13 +22,15 @@ const STATIC_ASSETS = [
   '/icons/icon-192x192.png',
   '/icons/icon-512x512.png',
   '/icons/icon-512x512-maskable.png',
+  '/offline.html',
+  '/api/health',
   '/404.html',
   '/500.html'
 ];
 
 // INSTALL: مسح كل الكاش القديم فوراً
 self.addEventListener('install', (event) => {
-  console.log('[SW] v3.4.0 installing...');
+  console.log('[SW] v3.5.0 installing...');
 
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -53,7 +55,7 @@ self.addEventListener('install', (event) => {
 
 // ACTIVATE: تفعيل فوري بدون انتظار
 self.addEventListener('activate', (event) => {
-  console.log('[SW] v3.4.0 activated');
+  console.log('[SW] v3.5.0 activated');
   event.waitUntil(
     // مسح أي كاش متبقٍّ لا يطابق الإصدار الحالي
     caches.keys().then((cacheNames) => {

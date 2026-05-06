@@ -1,3 +1,16 @@
+// QatarSpec Analytics — Plausible (no cookies, no personal data)
+function qsTrack(event, props) {
+  try {
+    if (typeof window.plausible !== 'function') return;
+    var safe = {};
+    if (props && props.tier)      safe.tier      = String(props.tier).slice(0,20);
+    if (props && props.calc_name) safe.calc_name = String(props.calc_name).slice(0,50);
+    if (props && props.type)      safe.type      = String(props.type).slice(0,20);
+    if (props && props.section)   safe.section   = String(props.section).slice(0,50);
+    window.plausible(String(event).slice(0,100), { props: safe });
+  } catch(e) { /* silent fail */ }
+}
+
 // js/inline-scripts.js — QatarSpec Pro
 // نُقل من index.html لإزالة unsafe-inline من CSP
 // المحتوى الأصلي محفوظ — لا حذف
@@ -225,6 +238,7 @@ async function doSearch() {
         body: JSON.stringify({ query: query, limit: 6 })
       });
       if (qcsRes.ok) {
+          qsTrack('AI Search', { tier: getProToken() ? 'pro' : 'free' });
         const qcsData = await qcsRes.json();
         if (qcsData.results && qcsData.results.length > 0) {
           window._lastSearchMethod = qcsData.method || 'fts';
@@ -1160,6 +1174,7 @@ async function fetchGeminiAPI(body) {
       body: JSON.stringify(body),
       signal: controller.signal
     });
+    qsTrack('AI Proxy Used', { tier: typeof getProToken === 'function' && getProToken() ? 'pro' : 'free' });
     clearTimeout(timeoutId);
     return response;
   } catch (err) {
@@ -2684,6 +2699,7 @@ async function runDrawingAnalysis() {
 
     if (data.result) {
       result.innerHTML = formatDaResult(data.result, _daDrawingType);
+      qsTrack('Vision Analysis', { tier: typeof getProToken === 'function' && getProToken() ? 'pro' : 'free' });
     } else if (data.error) {
       result.innerHTML = generateDaFallback(_daDrawingType);
       showToast('⚠️ تم استخدام التحليل المحلي');
