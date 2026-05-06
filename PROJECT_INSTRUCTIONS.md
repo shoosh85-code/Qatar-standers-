@@ -52,6 +52,8 @@
 
 ## PROTOCOL 3: التعامل مع الأخطاء (ERROR = STOP)
 
+إذا ظهر أي خطأ:
+
 ```
 ❌ STOP: Error [الرمز]
 الأمر: [الأمر]
@@ -61,28 +63,47 @@
 هل أحاول الحل؟ (نعم/لا)
 ```
 
-ممنوع: تجاهل الخطأ / تغيير الموضوع / "لنحاول مرة أخرى" بدون تحليل
+ممنوع:
+- تجاهل الخطأ والمتابعة
+- تغيير الموضوع
+- "لنحاول مرة أخرى" بدون تحليل
 
 ---
 
 ## PROTOCOL 4: صفر تضليل (ZERO HALLUCINATION)
 
-ممنوع: "أعتقد" / "ربما" / "على الأرجح" / "يبدو" / "يجب أن" / "من المفترض"
+ممنوع تماماً:
+- "أعتقد"
+- "ربما"
+- "على الأرجح"
+- "يبدو"
+- "يجب أن"
+- "من المفترض"
 
-إلزامي: "الناتج الفعلي: [لصق]" / "الاختبار أظهر: [لصق]" / "الملف يحتوي: [لصق]"
+إلزامي:
+- "الناتج الفعلي: [لصق]"
+- "الاختبار أظهر: [لصق]"
+- "الملف يحتوي: [لصق]"
 
 ---
 
 ## PROTOCOL 5: مرحلة واحدة فقط (ONE PHASE ONLY)
 
-ممنوع: أكثر من مرحلة في رسالة / الانتقال قبل التحقق / "سأنفذ 1 و 2 معاً"
+ممنوع:
+- أكثر من مرحلة في رسالة واحدة
+- الانتقال قبل التحقق
+- "سأنفذ 1 و 2 معاً"
 
-إلزامي: كل رسالة = مرحلة واحدة → تحقق كامل → "هل أنتقل للمرحلة التالية؟"
+إلزامي:
+- كل رسالة = مرحلة واحدة
+- نهاية المرحلة = تحقق كامل + "هل أنتقل للمرحلة التالية؟"
+- لا تنتقل إلا بعد موافقة صريحة
 
 ---
 
 ## PROTOCOL 6: RATE LIMITING (إلزامي)
 
+### API Endpoints Limits:
 | Endpoint | Free | Pro | Global |
 |----------|------|-----|--------|
 | /api/ai-proxy | 5/min | 60/min | 100/min/IP |
@@ -90,26 +111,38 @@
 | /api/qcs-search | 10/min | 100/min | 200/min/IP |
 | /api/vision-proxy | 3/min | 30/min | 50/min/IP |
 
-Implementation: Upstash Redis (@upstash/ratelimit) + in-memory fallback → 429 + Retry-After
+### Implementation:
+- استخدم Upstash Redis للـ rate limiting (مُطبَّق في api/rate-limit.js)
+- Fallback: in-memory Map مع cleanup (مُطبَّق)
+- Response: 429 Too Many Requests مع Retry-After header
+
+### الملفات الموجودة:
+- `api/rate-limit.js` — نظام rate limiting كامل بـ Upstash + in-memory fallback
+- `api/lib/security.js` — security headers + CORS + withSecurity wrapper
+- `vercel.json` — global security headers على كل المسارات
 
 ---
 
 ## VERIFICATION SCRIPT
 
 ```bash
-LOCAL=$(git rev-parse HEAD) && REMOTE=$(git ls-remote origin main | awk '{print $1}') && [ "$LOCAL" = "$REMOTE" ] && echo "✅ MATCH" || echo "❌ MISMATCH"
+echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-remote origin main | head -1 && LOCAL=$(git rev-parse HEAD) && REMOTE=$(git ls-remote origin main | awk '{print $1}') && if [ "$LOCAL" = "$REMOTE" ]; then echo "✅ MATCH"; else echo "❌ MISMATCH"; fi
 ```
+
+إذا ❌ MISMATCH → STOP. لا تقول "تم".
 
 ---
 
 ## PROJECT INFO
 
-- **Name:** QatarSpec Pro
-- **Site:** qatar-standers.vercel.app
-- **Stack:** Vanilla HTML/JS + Vercel Serverless Node 20.x + Supabase + Gemini API
-- **Repo:** github.com/shoosh85-code/Qatar-standers-
-- **Audience:** مهندسون قطريون وأجانب يعملون في قطر
-- **References:** QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
+```
+Name:     QatarSpec Pro
+Site:     qatar-standers.vercel.app
+Stack:    Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
+Repo:     github.com/shoosh85-code/Qatar-standers-
+Audience: مهندسون قطريون وأجانب يعملون في قطر
+References: QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
+```
 
 ---
 
@@ -120,7 +153,10 @@ git clone https://github.com/shoosh85-code/Qatar-standers-.git
 cd Qatar-standers-
 git config user.email "qatarspec@deploy.app"
 git config user.name "QatarSpec Deploy"
-# Push:
+```
+
+Push:
+```bash
 git remote set-url origin https://TOKEN@github.com/shoosh85-code/Qatar-standers-.git
 git push origin main
 git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
@@ -156,8 +192,8 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 
 - NO API keys in localStorage — server-side env vars only
 - NO JWT in localStorage — httpOnly cookies only
-- CSP headers required
-- Rate limit all API endpoints (see PROTOCOL 6)
+- CSP headers required (مُطبَّق في vercel.json + api/lib/security.js)
+- Rate limit all API endpoints (مُطبَّق في api/rate-limit.js — see PROTOCOL 6)
 - Sanitize all user input
 - XSS protection on all innerHTML injections
 
