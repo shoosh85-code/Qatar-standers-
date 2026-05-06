@@ -1,75 +1,82 @@
 // api/lib/sentry.js — QatarSpec Pro Error Tracking
-// لا top-level await — init عند أول استخدام (lazy)
-// ESM dynamic import بدلاً من require (project type: module)
+// بدون @sentry/node SDK — HTTP fetch مباشر لـ Sentry API
+// يتجنب تجاوز حد Lambda bundle size (50MB)
+// API surface متوافق 100% مع @sentry/node
 
-let _sentry   = null;
 let _initDone = false;
+let _dsn       = null;
+let _sentryUrl = null;
+let _sentryKey = null;
 
-// تهيئة كسولة — تعمل عند أول استدعاء فقط
-async function getSentry() {
-  if (_initDone) return _sentry;
+// تهيئة كسولة
+function init() {
+  if (_initDone) return;
   _initDone = true;
-
-  const dsn = process.env.SENTRY_DSN;
-  if (!dsn) {
+  _dsn = process.env.SENTRY_DSN;
+  if (!_dsn) {
     console.warn('[Sentry] SENTRY_DSN غير موجود — fallback لـ console.error');
-    return null;
+    return;
   }
-
   try {
-    const SentryMod = await import('@sentry/node');
-    SentryMod.init({
-      dsn,
-      environment:      process.env.NODE_ENV || 'production',
-      release:          'qatarspec-pro@2.11.0',
-      tracesSampleRate: 0.05, // 5% فقط لتوفير حصة الـ free tier
-      beforeSend(event) {
-        // حذف البيانات الحساسة قبل الإرسال
-        if (event.request?.headers) {
-          delete event.request.headers['authorization'];
-          delete event.request.headers['cookie'];
-          delete event.request.headers['x-real-ip'];
-        }
-        if (event.user) {
-          delete event.user.email;
-          delete event.user.ip_address;
-        }
-        return event;
-      },
-    });
-    _sentry = SentryMod;
-    console.log('[Sentry] تم التهيئة بنجاح');
-  } catch (err) {
-    console.error('[Sentry] فشل التهيئة:', err.message);
+    // Parse DSN: https://KEY@HOST/PROJECT_ID
+    const url    = new URL(_dsn);
+    _sentryKey   = url.username;
+    const host   = url.hostname;
+    const projId = url.pathname.replace('/', '');
+    _sentryUrl   = `https://${host}/api/${projId}/store/`;
+  } catch (e) {
+    console.error('[Sentry] DSN غير صالح:', e.message);
   }
+}
 
-  return _sentry;
+// إرسال event لـ Sentry عبر HTTP fetch
+async function sendToSentry(payload) {
+  init();
+  if (!_sentryUrl) return null;
+  try {
+    await fetch(_sentryUrl, {
+      method:  'POST',
+      headers: {
+        'Content-Type':   'application/json',
+        'X-Sentry-Auth':  `Sentry sentry_version=7, sentry_key=${_sentryKey}`,
+      },
+      body: JSON.stringify({
+        event_id:    crypto.randomUUID?.() || Date.now().toString(36),
+        timestamp:   new Date().toISOString(),
+        platform:    'node',
+        environment: process.env.NODE_ENV || 'production',
+        release:     'qatarspec-pro@2.11.0',
+        ...payload,
+      }),
+    });
+  } catch (e) {
+    console.warn('[Sentry] فشل الإرسال:', e.message);
+  }
 }
 
 export async function captureError(error, context = {}) {
-  const sentry = await getSentry();
-  const safe   = {
+  // حذف البيانات الحساسة
+  const safe = {
     endpoint: context.endpoint || 'unknown',
     tier:     context.tier     || 'unknown',
     method:   context.method   || 'unknown',
   };
-
-  if (sentry) {
-    sentry.withScope(scope => {
-      scope.setTag('endpoint', safe.endpoint);
-      scope.setTag('tier',     safe.tier);
-      scope.setExtra('context', safe);
-      sentry.captureException(error);
+  if (_sentryUrl) {
+    await sendToSentry({
+      level:   'error',
+      message: error?.message || String(error),
+      exception: { values: [{ type: error?.name || 'Error', value: error?.message || String(error) }] },
+      tags:    safe,
     });
   } else {
-    console.error('[QatarSpec Error]', safe, error.message);
+    console.error('[QatarSpec Error]', safe, error?.message);
   }
 }
 
 export async function captureWarning(message, context = {}) {
-  const sentry = await getSentry();
-  if (sentry) {
-    sentry.captureMessage(message, 'warning');
+  init();
+  if (_sentryUrl) {
+    await sendToSentry({ level: 'warning', message });
   } else {
     console.warn('[QatarSpec Warning]', message, context);
   }
@@ -110,6 +117,5 @@ export function withSentry(handler) {
 }
 
 export function setUserContext() { /* no PII */ }
-export function init() { /* lazy — يعمل عند أول استخدام */ }
 
 export default { withSentry, captureException, captureMessage, setUserContext, init, captureError, captureWarning, withErrorTracking };
