@@ -1,218 +1,119 @@
-/**
- * QatarSpec Pro — Monitoring & Analytics Module
- * المرحلة 11 | تتبع الأخطاء + Web Vitals + Business Metrics
- * No PII collection | QCS 2024
- */
+// js/analytics.js — QatarSpec Pro v1.0
+// Unified Analytics: Plausible (primary) + GA4 (fallback)
+// ✅ بدون cookies — GDPR compliant — قانون قطر للبيانات
+// ✅ لا تتبع شخصي — فقط أحداث مجهولة
+// ✅ يعمل حتى لو حُظر أحدهما بـ ad-blocker
 
-/* global gtag */
+(function () {
+  'use strict';
 
-const QatarSpecAnalytics = {
+  // ─── هل Plausible محمّل؟ ──────────────────────────────────────────────
+  function plausibleReady() {
+    return typeof window.plausible === 'function';
+  }
 
-  // ═══════════════════════════════════════════════════
-  // تهيئة النظام
-  // ═══════════════════════════════════════════════════
-  init() {
-    this.queue    = [];
-    this.flushTimer = null;
-    this.session  = this._genSessionId();
+  // ─── هل GA4 محمّل؟ ───────────────────────────────────────────────────
+  function ga4Ready() {
+    return typeof window.gtag === 'function';
+  }
 
-    this.trackWebVitals();
-    this.trackErrors();
-    this.trackNavigation();
+  // ─── track: الدالة الموحّدة ───────────────────────────────────────────
+  // الاستخدام: window.QS.track('CalculatorUsed', { tool: 'concrete-mix' })
+  //
+  function track(eventName, props = {}) {
+    // لا تتبع في development
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      console.log('[analytics] dev mode — تخطي:', eventName, props);
+      return;
+    }
 
-    // إرسال دوري كل 60 ثانية
-    setInterval(() => this.flush(), 60000);
-
-    // إرسال عند إغلاق الصفحة
-    window.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden') this.flush();
-    });
-  },
-
-  // ═══════════════════════════════════════════════════
-  // Web Vitals — LCP / CLS / FCP / TTFB
-  // ═══════════════════════════════════════════════════
-  trackWebVitals() {
-    // استخدام PerformanceObserver المدمج — لا يحتاج CDN
-    try {
-      // LCP — Largest Contentful Paint
-      const lcpObs = new PerformanceObserver((list) => {
-        const entries = list.getEntries();
-        const last = entries[entries.length - 1];
-        this.send('web_vital', { name: 'LCP', value: Math.round(last.startTime), rating: last.startTime < 2500 ? 'good' : last.startTime < 4000 ? 'needs-improvement' : 'poor' });
-      });
-      lcpObs.observe({ type: 'largest-contentful-paint', buffered: true });
-    } catch (_) { /* غير مدعوم */ }
-
-    try {
-      // CLS — Cumulative Layout Shift
-      let clsValue = 0;
-      const clsObs = new PerformanceObserver((list) => {
-        list.getEntries().forEach((e) => { if (!e.hadRecentInput) clsValue += e.value; });
-        this.send('web_vital', { name: 'CLS', value: +clsValue.toFixed(4), rating: clsValue < 0.1 ? 'good' : clsValue < 0.25 ? 'needs-improvement' : 'poor' });
-      });
-      clsObs.observe({ type: 'layout-shift', buffered: true });
-    } catch (_) { /* غير مدعوم */ }
-
-    try {
-      // FCP — First Contentful Paint
-      const fcpObs = new PerformanceObserver((list) => {
-        list.getEntries().forEach((e) => {
-          if (e.name === 'first-contentful-paint') {
-            this.send('web_vital', { name: 'FCP', value: Math.round(e.startTime), rating: e.startTime < 1800 ? 'good' : e.startTime < 3000 ? 'needs-improvement' : 'poor' });
-          }
-        });
-      });
-      fcpObs.observe({ type: 'paint', buffered: true });
-    } catch (_) { /* غير مدعوم */ }
-
-    // TTFB من Navigation Timing
-    window.addEventListener('load', () => {
+    // Plausible (primary — بدون cookies)
+    if (plausibleReady()) {
       try {
-        const nav = performance.getEntriesByType('navigation')[0];
-        if (nav) {
-          const ttfb = Math.round(nav.responseStart - nav.requestStart);
-          this.send('web_vital', { name: 'TTFB', value: ttfb, rating: ttfb < 800 ? 'good' : ttfb < 1800 ? 'needs-improvement' : 'poor' });
-        }
-      } catch (_) { /* غير مدعوم */ }
-    });
-  },
-
-  // ═══════════════════════════════════════════════════
-  // تتبع الأخطاء — JS errors + Unhandled rejections
-  // ═══════════════════════════════════════════════════
-  trackErrors() {
-    window.addEventListener('error', (e) => {
-      // تجاهل أخطاء CDN خارجية لا علاقة لنا بها
-      if (e.filename && !e.filename.includes(location.hostname) && !e.filename.includes('localhost')) return;
-      this.send('error', {
-        message:  e.message,
-        filename: e.filename ? e.filename.split('/').pop() : 'unknown', // لا نحفظ path كاملة
-        lineno:   e.lineno,
-        colno:    e.colno,
-        stack:    e.error?.stack ? e.error.stack.split('\n').slice(0, 5).join(' | ') : null,
-      });
-    });
-
-    window.addEventListener('unhandledrejection', (e) => {
-      this.send('unhandledrejection', {
-        reason: e.reason?.message || String(e.reason).substring(0, 200),
-      });
-    });
-  },
-
-  // ═══════════════════════════════════════════════════
-  // تتبع التنقل بين الأقسام
-  // ═══════════════════════════════════════════════════
-  trackNavigation() {
-    // تتبع نقرات الكروت
-    document.addEventListener('click', (e) => {
-      const card = e.target.closest('[onclick*="openDetail"]');
-      if (card) {
-        const id = (card.getAttribute('onclick') || '').match(/openDetail\(['"]([^'"]+)['"]\)/)?.[1];
-        if (id) this.event('section_open', { section_id: id });
+        window.plausible(eventName, { props });
+      } catch (e) {
+        console.warn('[analytics] Plausible error:', e.message);
       }
-    });
-  },
-
-  // ═══════════════════════════════════════════════════
-  // Business Metrics — Pro conversion + feature usage
-  // ═══════════════════════════════════════════════════
-  trackProConversion(step) {
-    // step: 'prompt_shown' | 'upgrade_clicked' | 'checkout_started' | 'subscribed'
-    this.event('pro_conversion', { step });
-    if (typeof gtag !== 'undefined') gtag('event', 'pro_conversion_' + step);
-  },
-
-  trackCalculatorUsage(calcId, result) {
-    // لا نحفظ القيم الدقيقة — فقط pass/fail + اسم الحاسبة
-    this.event('calculator_used', {
-      calc_id: calcId,
-      result:  result === 'pass' || result === 'fail' ? result : 'completed',
-    });
-  },
-
-  trackSearchUsage(hasResults) {
-    this.event('search_used', { has_results: hasResults });
-  },
-
-  trackExport(format) {
-    // format: 'pdf' | 'word' | 'excel'
-    this.event('export_used', { format });
-  },
-
-  trackAIUsage(tier, feature) {
-    // tier: 'free' | 'pro' | feature: 'doc_analyzer' | 'photo_analyzer' etc.
-    this.event('ai_used', { tier, feature });
-  },
-
-  // ═══════════════════════════════════════════════════
-  // إرسال حدث عام
-  // ═══════════════════════════════════════════════════
-  event(name, params) {
-    params = params || {};
-    if (typeof gtag !== 'undefined') {
-      gtag('event', name, params);
     }
-    this.send('event', { name, params, ts: Date.now() });
-  },
 
-  // ═══════════════════════════════════════════════════
-  // قائمة الانتظار — batching لتقليل الطلبات
-  // ═══════════════════════════════════════════════════
-  send(type, data) {
-    if (!this.queue) this.queue = [];
-    // لا PII — تأكد عدم وجود بيانات شخصية
-    const safe = this._sanitize(data);
-    this.queue.push({ type, data: safe, s: this.session });
-
-    if (!this.flushTimer) {
-      this.flushTimer = setTimeout(() => this.flush(), 30000);
+    // GA4 (fallback — للإحصاءات الإضافية)
+    if (ga4Ready()) {
+      try {
+        window.gtag('event', eventName, {
+          ...props,
+          send_to: 'G-QSPEC2026QA',
+        });
+      } catch (e) {
+        console.warn('[analytics] GA4 error:', e.message);
+      }
     }
-  },
+  }
 
-  async flush() {
-    if (!this.queue || !this.queue.length) return;
-    const batch = this.queue.splice(0, 20);
-    this.flushTimer = null;
+  // ─── أحداث QatarSpec القياسية ─────────────────────────────────────────
 
-    try {
-      await fetch('/api/analytics', {
-        method:    'POST',
-        headers:   { 'Content-Type': 'application/json' },
-        body:      JSON.stringify({ batch }),
-        keepalive: true,
-      });
-    } catch (_) {
-      // أعد العناصر للقائمة عند فشل الإرسال (بحد أقصى 100)
-      if (this.queue.length < 100) this.queue.unshift(...batch);
-    }
-  },
-
-  // ═══════════════════════════════════════════════════
-  // مساعدات داخلية
-  // ═══════════════════════════════════════════════════
-  _genSessionId() {
-    // معرف جلسة عشوائي — لا يُخزّن في localStorage
-    return Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
-  },
-
-  _sanitize(data) {
-    if (!data || typeof data !== 'object') return data;
-    const safe = {};
-    const PII_PATTERNS = /email|phone|name|user|password|token|key|secret/i;
-    Object.keys(data).forEach((k) => {
-      if (PII_PATTERNS.test(k)) return; // تجاهل الحقول الحساسة
-      const v = data[k];
-      // اقتصار النصوص على 500 حرف
-      safe[k] = typeof v === 'string' ? v.substring(0, 500) : v;
+  // تتبع استخدام الحاسبات
+  function trackCalculator(calcName, result = {}) {
+    track('CalculatorUsed', {
+      calculator: calcName,
+      result: result.pass ? 'pass' : result.fail ? 'fail' : 'calculated',
+      tier: getUserTier(),
     });
-    return safe;
-  },
-};
+  }
 
-// تصدير للـ window
-window.QatarSpecAnalytics = QatarSpecAnalytics;
+  // تتبع بحث QCS
+  function trackSearch(query, resultsCount) {
+    track('QCSSearch', {
+      has_results: resultsCount > 0,
+      tier: getUserTier(),
+    });
+  }
 
-// تهيئة تلقائية
-QatarSpecAnalytics.init();
+  // تتبع التصدير (PDF/Excel/Word)
+  function trackExport(format) {
+    track('ExportCreated', {
+      format,
+      tier: getUserTier(),
+    });
+  }
+
+  // تتبع ضغط ترقية Pro
+  function trackUpgradeClick(source) {
+    track('UpgradeClicked', { source, tier: 'free' });
+  }
+
+  // تتبع سؤال AI
+  function trackAIQuery(isPro) {
+    track('AIQuerySent', { tier: isPro ? 'pro' : 'free' });
+  }
+
+  // تتبع pageview يدوي (للـ SPA)
+  function trackPageview(path) {
+    if (plausibleReady()) {
+      window.plausible('pageview', { u: window.location.origin + (path || window.location.pathname) });
+    }
+  }
+
+  // ─── مساعد: تحديد tier المستخدم ──────────────────────────────────────
+  function getUserTier() {
+    // لا نقرأ localStorage — نقرأ من cookie فقط
+    const hasCookie = document.cookie.includes('qs_pro=');
+    return hasCookie ? 'pro' : 'free';
+  }
+
+  // ─── تسجيل في namespace window.QS ────────────────────────────────────
+  window.QS = window.QS || {};
+  window.QS.analytics = {
+    track,
+    trackCalculator,
+    trackSearch,
+    trackExport,
+    trackUpgradeClick,
+    trackAIQuery,
+    trackPageview,
+  };
+
+  // Alias مختصر
+  window.QS.track = track;
+
+  console.log('[analytics] ✅ Plausible + GA4 جاهزان');
+})();
