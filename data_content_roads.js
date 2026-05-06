@@ -745,25 +745,26 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 
 <h3>📐 تعريف Subbase Course — QCS S6 P4 Cl. 4.1</h3>
-<p>Road Base هي الطبقة الإنشائية الرئيسية في الرصيف، تقع مباشرة تحت طبقات الإسفلت وفوق الـ Subbase. وظيفتها تحمّل الأحمال المرورية وتوزيعها. تُنفَّذ من الجابرو المكسّر عالي الجودة بمتطلبات أكثر صرامة من الـ Subbase. الفرق الجوهري: LA Abrasion ≤ 30% (بدل 40%) و Fines ≤ 12% (بدل 15%). السماكة التصميمية 200mm–300mm.</p>
+<p>Subbase هي الطبقة الحبيبية السفلية في تركيب الرصيف، تقع بين الـ Subgrade (الأرض الطبيعية) والـ Base Course (طبقة الأساس). وظيفتها توزيع الأحمال المرورية على الـ Subgrade، توفير تصريف مياه تحتية، ومنع صعود الأملاح. في قطر تُنفَّذ من الجابرو العُماني المكسّر (Type B) بمتطلبات: CBR ≥ 30% (Soaked 4 أيام) + Compaction ≥ 100% BS Heavy + PI ≤ 6. السماكة التصميمية 150mm–300mm حسب الأحمال.</p>
 
 <h3>⚠️ المواد غير المقبولة — QCS S6 P4</h3>
 <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;">
-<strong>يُحظر استخدامه في Road Base:</strong><br>
-• مواد LA Abrasion &gt; 30%<br>
-• Flakiness أو Elongation &gt; 30%<br>
-• Soundness (MgSO₄) &gt; 12%<br>
-• Water Absorption &gt; 1.5%<br>
-• Fines (0.075mm) &gt; 12%<br>
+<strong>يُحظر استخدامه في Subbase (Type B):</strong><br>
+• مواد LA Abrasion &gt; 40%<br>
+• Flakiness أو Elongation &gt; 35%<br>
+• Soundness (MgSO₄) &gt; 18%<br>
+• Water Absorption &gt; 2%<br>
+• Fines (0.075mm) &gt; 15%<br>
 • SO₃ &gt; 0.5% أو Chloride &gt; 0.04%<br>
-• مواد غير مكسّرة أو ملوثة<br>
-• حجم أكبر من 37.5mm
+• PI &gt; 6<br>
+• CBR &lt; 30% (Soaked 4 أيام)<br>
+• مواد غير مكسّرة أو ملوثة
 </div>
 
 <h3>📐 جدول 4:1 — التدرج الحبيبي Subbase Course — QCS S6 P4</h3>
 <div style="overflow-x:auto;">
 <table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.9);"><th>Sieve Size</th><th>% Passing — Road Base</th><th>Test Method</th><th>Frequency</th></tr>
+<tr style="background:rgba(122,21,21,0.9);"><th>Sieve Size</th><th>% Passing — Subbase Type B</th><th>Test Method</th><th>Frequency</th></tr>
 <tr><td>37.5 mm</td><td><strong>100</strong></td><td rowspan="7">ASTM C136</td><td rowspan="7">1 per <strong>2,000 m³</strong></td></tr>
 <tr><td>19.0 mm</td><td><strong>65 – 85</strong></td></tr>
 <tr><td>9.5 mm</td><td><strong>50 – 75</strong></td></tr>
