@@ -3,8 +3,28 @@
 // Uses Gemini 2.0 Flash (vision capable) + JWT Pro verification
 
 
-import { withSecurity } from '../lib/security.js';
 export const config = { runtime: 'edge' };
+// ── Security Headers (Inline — Edge functions لا تدعم imports خارجية) ────
+function applySecurityHeaders(res) {
+  const headers = {
+    'X-Content-Type-Options':            'nosniff',
+    'X-Frame-Options':                   'DENY',
+    'X-DNS-Prefetch-Control':            'off',
+    'X-Download-Options':                'noopen',
+    'X-Permitted-Cross-Domain-Policies': 'none',
+    'Strict-Transport-Security':         'max-age=63072000; includeSubDomains; preload',
+    'Referrer-Policy':                   'strict-origin-when-cross-origin',
+    'Cross-Origin-Opener-Policy':        'same-origin',
+    'Cross-Origin-Resource-Policy':      'same-origin',
+    'Origin-Agent-Cluster':              '?1',
+    'Access-Control-Allow-Origin':       'https://qatar-standers.vercel.app',
+    'Access-Control-Allow-Methods':      'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers':      'Content-Type, Authorization, X-User-Tier',
+    'Vary':                              'Origin',
+  };
+  for (const [k, v] of Object.entries(headers)) res.setHeader(k, v);
+}
+
 
 const CORS = {
   'Access-Control-Allow-Origin': process.env.APP_URL || 'https://qatar-standers.vercel.app',
@@ -120,7 +140,7 @@ const ANALYZER_PROMPT = `أنت مهندس استشاري خبير في تحلي
 [المواصفات المستخدمة في التحليل]`;
 
 // ── Main Handler ────────────────────────────────────────────────────────────
-const _handler = async function handler(req) {
+export default async function handler(req) {
   if (req.method === 'OPTIONS') {
     return new Response(null, { status: 204, headers: CORS });
   }
@@ -244,4 +264,3 @@ function json(data, status = 200) {
   });
 }
 
-export default withSecurity(_handler);
