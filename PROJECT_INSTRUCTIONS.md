@@ -34,19 +34,21 @@
 لا تقول "تم الرفع" إلا بعد:
 
 ```
-□ 1. git status → لصق الناتج
-□ 2. git add [ملفات] → لصق الناتج
+□ 1. git status              → لصق الناتج
+□ 2. git add [ملفات]         → لصق الناتج
 □ 3. git diff --cached --stat → لصق الناتج
-□ 4. git commit -m "[رسالة]" → لصق الناتج
-□ 5. git log --oneline -3 → لصق الناتج
-□ 6. git push → لصق الناتج كاملاً
+□ 4. git commit -m "[رسالة]"  → لصق الناتج
+□ 5. git log --oneline -3    → لصق الناتج
+□ 6. git push                → لصق الناتج كاملاً
 □ 7. git ls-remote origin main → لصق hash الـ remote
 □ 8. مقارنة local hash مع remote hash
 ```
 
 إذا لم يتطابقان:
+```
 → ❌ STOP: git push فشل — الـ commit لم يصل
 → لا تكمل. لا تكذب. لا تقول "تم".
+```
 
 ---
 
@@ -56,10 +58,10 @@
 
 ```
 ❌ STOP: Error [الرمز]
-الأمر: [الأمر]
-الخطأ: [نص الخطأ كاملاً]
-السبب: [تحليلك]
-الحل: [اقتراحك]
+الأمر:  [الأمر]
+الخطأ:  [نص الخطأ كاملاً]
+السبب:  [تحليلك]
+الحل:   [اقتراحك]
 هل أحاول الحل؟ (نعم/لا)
 ```
 
@@ -104,6 +106,7 @@
 ## PROTOCOL 6: RATE LIMITING (إلزامي)
 
 ### API Endpoints Limits:
+
 | Endpoint | Free | Pro | Global |
 |----------|------|-----|--------|
 | /api/ai-proxy | 5/min | 60/min | 100/min/IP |
@@ -121,7 +124,11 @@
 ## VERIFICATION SCRIPT
 
 ```bash
-echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-remote origin main | head -1 && LOCAL=$(git rev-parse HEAD) && REMOTE=$(git ls-remote origin main | awk '{print $1}') && if [ "$LOCAL" = "$REMOTE" ]; then echo "✅ MATCH"; else echo "❌ MISMATCH"; fi
+echo "=== LOCAL ===" && git log --oneline -1 && \
+echo "=== REMOTE ===" && git ls-remote origin main | head -1 && \
+LOCAL=$(git rev-parse HEAD) && \
+REMOTE=$(git ls-remote origin main | awk '{print $1}') && \
+if [ "$LOCAL" = "$REMOTE" ]; then echo "✅ MATCH"; else echo "❌ MISMATCH"; fi
 ```
 
 إذا ❌ MISMATCH → STOP. لا تقول "تم".
@@ -130,12 +137,14 @@ echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-
 
 ## PROJECT INFO
 
-- **Name:** QatarSpec Pro
-- **Site:** qatar-standers.vercel.app
-- **Stack:** Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
-- **Repo:** github.com/shoosh85-code/Qatar-standers-
-- **Audience:** مهندسون قطريون وأجانب يعملون في قطر
-- **References:** QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
+```
+Name:      QatarSpec Pro
+Site:      qatar-standers.vercel.app
+Stack:     Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
+Repo:      github.com/shoosh85-code/Qatar-standers-
+Audience:  مهندسون قطريون وأجانب يعملون في قطر
+References: QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
+```
 
 ---
 
@@ -148,7 +157,7 @@ git config user.email "qatarspec@deploy.app"
 git config user.name "QatarSpec Deploy"
 ```
 
-**Push:**
+Push:
 ```bash
 git remote set-url origin https://TOKEN@github.com/shoosh85-code/Qatar-standers-.git
 git push origin main
