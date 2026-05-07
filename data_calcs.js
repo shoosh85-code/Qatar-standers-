@@ -461,6 +461,52 @@ function initCalcPanels() {
   }
 }
 
+// ── initMaterialsCalc — مستقلة تماماً عن initCalcPanels ────────────
+function initMaterialsCalc() {
+  var matEl = document.getElementById('cat-materials_calc');
+  if (!matEl) return;
+  if (matEl.dataset.built) return;
+  matEl.dataset.built = '1';
+
+  matEl.innerHTML =
+    '<div style="font-weight:700;color:var(--gold);font-size:15px;margin-bottom:12px;">🧮 حاسبات كميات المواد — QCS 2024</div>' +
+    _tabs('mat',[['mat-brick','🧱 طابوق'],['mat-concrete','🏗️ خرسانة'],['mat-rebar','🔩 حديد'],['mat-mortar','🪣 ملاط'],['mat-road','🛣️ طريق'],['mat-tests','🧪 اختبارات']]) +
+    _section('mat-brick','🧱 حاسبة الطابوق — QCS 2024 Part 6',
+      _calcSelect('brk-type','نوع البلوك',[['200','بلوك 200mm'],['150','بلوك 150mm'],['100','بلوك 100mm']]) +
+      _calcField('brk-length','طول الجدار','e.g. 10','م') +
+      _calcField('brk-height','ارتفاع الجدار','e.g. 3','م') +
+      _calcField('brk-open','مساحة الفتحات','e.g. 4','m²') +
+      _calcBtn('calcBrickQty()','احسب الكمية 🧱') + _calcResult('brk-result')) +
+    _section('mat-concrete','🏗️ حاسبة الخرسانة — QCS 2024 Part 14',
+      _calcSelect('con-grade','Grade',[['C20','C20 — مساعد'],['C25','C25 — شائع'],['C30','C30 — مكشوف'],['C35','C35 — كبريتي DS2'],['C40','C40 — خاص DS3']]) +
+      _calcField('con-vol','الحجم المطلوب','e.g. 10','m³') +
+      _calcBtn('calcConcreteQty()','احسب الخرسانة 🏗️') + _calcResult('con-result')) +
+    _section('mat-rebar','🔩 حاسبة حديد التسليح — QCS S5 P4',
+      _calcSelect('reb-dia','قطر السيخ',[['8','Ø8mm — 0.395 kg/m'],['10','Ø10mm — 0.617 kg/m'],['12','Ø12mm — 0.888 kg/m'],['16','Ø16mm — 1.578 kg/m'],['20','Ø20mm — 2.466 kg/m'],['25','Ø25mm — 3.853 kg/m'],['32','Ø32mm — 6.313 kg/m']]) +
+      _calcField('reb-count','عدد الأسياخ','e.g. 50','حبة') +
+      _calcField('reb-len','طول السيخ','e.g. 12','م') +
+      _calcField('reb-lap','عدد وصلات Lap','e.g. 1','') +
+      _calcBtn('calcRebarQty()','احسب الحديد 🔩') + _calcResult('reb-result')) +
+    _section('mat-mortar','🪣 حاسبة الملاط — QCS Part 6 S3',
+      _calcSelect('mort-ratio','نسبة الملاط',[['1:3','1:3 — بلاط'],['1:4','1:4 — بناء عام'],['1:6','1:6 — بلوك']]) +
+      _calcField('mort-vol','الحجم','e.g. 2','m³') +
+      _calcBtn('calcMortarQty()','احسب الملاط 🪣') + _calcResult('mort-result')) +
+    _section('mat-road','🛣️ كميات الطريق — QCS S17 + Ashghal RDM',
+      _calcField('rd-length','طول الطريق','e.g. 500','م') +
+      _calcField('rd-width','عرض الطريق','e.g. 7','م') +
+      _calcField('rd-wc','Wearing Course','e.g. 50','mm') +
+      _calcField('rd-bc','Binder Course','e.g. 60','mm') +
+      _calcField('rd-base','Base Course','e.g. 150','mm') +
+      _calcField('rd-sb','Subbase','e.g. 200','mm') +
+      _calcBtn('calcRoadMaterials()','احسب الكميات 🛣️') + _calcResult('rd-result')) +
+    _section('mat-tests','🧪 الاختبارات المطلوبة حسب الكمية',
+      _calcSelect('tst-material','المادة',[['concrete','خرسانة'],['asphalt','إسفلت'],['subbase','Subbase/Base'],['backfill','ردم Backfill'],['blocks','بلوك/طابوق']]) +
+      _calcField('tst-qty','الكمية الموردة','e.g. 500','m³ أو طن') +
+      _calcBtn('calcTestFreq()','احسب الاختبارات 🧪') + _calcResult('tst-result'));
+
+  matEl.querySelectorAll('.calc-section').forEach(function(s,i){ s.style.display = i===0?'block':'none'; });
+}
+
 // ── NEW CALC FUNCTIONS (Phase 5) ──────────────────────────────
 function calcAsphaltFull() {
   let type = document.getElementById('asp-type-r').value;
@@ -1187,7 +1233,7 @@ function switchCalcTab(tab, btn) {
   });
   if (tab === 'history') renderCalcHistory();
   if (tab === 'freq') { calcFreq(); calcTestScheduleEn && calcTestScheduleEn(); }
-  if (tab === 'materials') initCalcPanels(); // يبني حاسبات المواد
+  if (tab === 'materials') initMaterialsCalc();
 }
 
 function filterCalcCat(cat) {
