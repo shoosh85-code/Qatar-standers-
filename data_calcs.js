@@ -269,7 +269,7 @@ function _tabs(catId, tabs) {
 
 function initCalcPanels() {
   // ── ROADS ──────────────────────────────────────────────────
-  const roadsEl = document.getElementById('cat-roads');
+  const roadsEl = document.getElementById('cat-roads-calc') || document.getElementById('cat-roads');
   if (roadsEl && !roadsEl.dataset.built) {
     roadsEl.dataset.built = '1';
     roadsEl.innerHTML =
@@ -407,20 +407,23 @@ function initCalcPanels() {
   }
 
   // ── MATERIALS (حاسبات كميات المواد) ─────────────────────────
-  // يبحث عن div#cat-materials_calc أو يُنشئه بعد geotech
   var matEl = document.getElementById('cat-materials_calc');
-  if (!matEl && geoEl) {
-    matEl = document.createElement('div');
-    matEl.id = 'cat-materials_calc';
-    matEl.style.cssText = 'margin-top:20px;border-top:2px solid var(--gold);padding-top:12px;';
-    matEl.innerHTML = '<div style="font-weight:700;color:var(--gold);font-size:14px;margin-bottom:10px;">🧮 حاسبات كميات المواد — QCS 2024</div>';
-    geoEl.parentNode.insertBefore(matEl, geoEl.nextSibling);
+  // أنشئ العنصر إذا غير موجود — ابحث عن أي parent متاح
+  if (!matEl) {
+    var parentEl = geoEl || strEl || utilEl || roadsEl;
+    if (parentEl && parentEl.parentNode) {
+      matEl = document.createElement('div');
+      matEl.id = 'cat-materials_calc';
+      matEl.style.cssText = 'margin-top:20px;border-top:2px solid var(--gold);padding-top:12px;';
+      matEl.innerHTML = '<div style="font-weight:700;color:var(--gold);font-size:14px;margin-bottom:10px;">🧮 حاسبات كميات المواد — QCS 2024</div>';
+      parentEl.parentNode.insertBefore(matEl, parentEl.nextSibling);
+    }
   }
   if (matEl && !matEl.dataset.built) {
     matEl.dataset.built = '1';
     var matContent = document.createElement('div');
     matContent.innerHTML =
-      _tabs('mat',[['mat-brick','🧱 طابوق'],['mat-concrete','🏗️ خرسانة'],['mat-mortar','🪣 ملاط'],['mat-road','🛣️ كميات طريق']]) +
+      _tabs('mat',[['mat-brick','🧱 طابوق'],['mat-concrete','🏗️ خرسانة'],['mat-rebar','🔩 حديد'],['mat-mortar','🪣 ملاط'],['mat-road','🛣️ طريق'],['mat-tests','🧪 اختبارات']]) +
       _section('mat-brick','🧱 حاسبة الطابوق — QCS 2024 Part 6',
         _calcSelect('brk-type','نوع البلوك',[['200','بلوك 200mm'],['150','بلوك 150mm'],['100','بلوك 100mm']]) +
         _calcField('brk-length','طول الجدار','e.g. 10','م') +
@@ -431,6 +434,12 @@ function initCalcPanels() {
         _calcSelect('con-grade','Grade',[['C20','C20 — مساعد'],['C25','C25 — شائع'],['C30','C30 — مكشوف'],['C35','C35 — كبريتي DS2'],['C40','C40 — خاص DS3']]) +
         _calcField('con-vol','الحجم المطلوب','e.g. 10','m³') +
         _calcBtn('calcConcreteQty()','احسب الخرسانة 🏗️') + _calcResult('con-result')) +
+      _section('mat-rebar','🔩 حاسبة حديد التسليح — QCS S5 P4',
+        _calcSelect('reb-dia','قطر السيخ',[['8','Ø8mm — 0.395 kg/m'],['10','Ø10mm — 0.617 kg/m'],['12','Ø12mm — 0.888 kg/m'],['16','Ø16mm — 1.578 kg/m'],['20','Ø20mm — 2.466 kg/m'],['25','Ø25mm — 3.853 kg/m'],['32','Ø32mm — 6.313 kg/m']]) +
+        _calcField('reb-count','عدد الأسياخ','e.g. 50','حبة') +
+        _calcField('reb-len','طول السيخ','e.g. 12','م') +
+        _calcField('reb-lap','عدد وصلات Lap','e.g. 1','') +
+        _calcBtn('calcRebarQty()','احسب الحديد 🔩') + _calcResult('reb-result')) +
       _section('mat-mortar','🪣 حاسبة الملاط — QCS Part 6 S3',
         _calcSelect('mort-ratio','نسبة الملاط',[['1:3','1:3 — بلاط'],['1:4','1:4 — بناء عام'],['1:6','1:6 — بلوك']]) +
         _calcField('mort-vol','الحجم','e.g. 2','m³') +
@@ -442,7 +451,11 @@ function initCalcPanels() {
         _calcField('rd-bc','Binder Course','e.g. 60','mm') +
         _calcField('rd-base','Base Course','e.g. 150','mm') +
         _calcField('rd-sb','Subbase','e.g. 200','mm') +
-        _calcBtn('calcRoadMaterials()','احسب الكميات 🛣️') + _calcResult('rd-result'));
+        _calcBtn('calcRoadMaterials()','احسب الكميات 🛣️') + _calcResult('rd-result')) +
+      _section('mat-tests','🧪 الاختبارات المطلوبة حسب الكمية',
+        _calcSelect('tst-material','المادة',[['concrete','خرسانة'],['asphalt','إسفلت'],['subbase','Subbase/Base'],['backfill','ردم Backfill'],['blocks','بلوك/طابوق']]) +
+        _calcField('tst-qty','الكمية الموردة','e.g. 500','m³ أو طن') +
+        _calcBtn('calcTestFreq()','احسب الاختبارات 🧪') + _calcResult('tst-result'));
     matEl.appendChild(matContent);
     matContent.querySelectorAll('.calc-section').forEach(function(s,i){ s.style.display = i===0?'block':'none'; });
   }

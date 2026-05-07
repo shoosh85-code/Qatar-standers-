@@ -191,4 +191,156 @@ window.calcMortarQty = function() {
     '<div style="font-size:11px;color:#888;margin-top:8px;">📋 QCS 2024 Part 6 Section 3 | هدر 30% | الاستخدام: ' + rx.use + '</div></div>';
 };
 
+// ══════════════════════════════════════════════════════════
+// 5. حاسبة حديد التسليح (Rebar)
+// QCS 2024 Section 5 Part 4 + BS 4449 Grade B500B
+// ══════════════════════════════════════════════════════════
+window.calcRebarQty = function() {
+  var dia   = parseInt(document.getElementById('reb-dia').value);
+  var count = parseInt(document.getElementById('reb-count').value);
+  var len   = parseFloat(document.getElementById('reb-len').value);
+  var laps  = parseInt(document.getElementById('reb-lap').value) || 0;
+  var el    = document.getElementById('reb-result');
+  if (!el) return;
+
+  if (isNaN(dia) || isNaN(count) || isNaN(len) || count <= 0 || len <= 0) {
+    el.innerHTML = '<p style="color:#e74c3c;">❌ أدخل القطر والعدد والطول</p>';
+    return;
+  }
+
+  // وزن المتر الطولي لكل قطر (kg/m) — BS 4449
+  var weights = {6:0.222, 8:0.395, 10:0.617, 12:0.888, 16:1.578, 20:2.466, 25:3.853, 32:6.313, 40:9.864};
+  var wpm = weights[dia] || 0;
+  if (wpm === 0) { el.innerHTML = '<p style="color:#e74c3c;">❌ قطر غير معروف</p>'; return; }
+
+  // طول الوصلة Lap Length — QCS S5 P4: 40×Ø (تربة عادية) أو 50×Ø (زلزالي)
+  var lapLen = (dia * 40 / 1000); // m
+  var totalLapLen = laps * lapLen;
+
+  var barLen   = len + totalLapLen;
+  var totalLen = barLen * count;
+  var totalKg  = totalLen * wpm;
+  var waste    = totalKg * 0.03; // هدر 3%
+  var grandKg  = totalKg + waste;
+  var tons     = (grandKg / 1000).toFixed(3);
+
+  // عدد الأسياخ من مصنع (12m standard)
+  var barsFrom12m = Math.ceil(count * barLen / 12);
+
+  el.innerHTML =
+    '<div style="background:#fce4ec;border-radius:10px;padding:14px;margin-top:10px;">' +
+    '<div style="font-weight:700;color:#c62828;font-size:15px;margin-bottom:12px;">🔩 حديد Ø' + dia + 'mm — ' + count + ' سيخ</div>' +
+    '<table style="width:100%;border-collapse:collapse;font-size:13px;">' +
+    '<tr style="background:#ffcdd2;"><td style="padding:6px 8px;font-weight:700;">البند</td><td style="padding:6px 8px;font-weight:700;">الكمية</td><td style="padding:6px 8px;font-weight:700;">الوحدة</td></tr>' +
+    '<tr><td style="padding:5px 8px;">وزن المتر</td><td style="padding:5px 8px;font-weight:700;">' + wpm + '</td><td style="padding:5px 8px;">kg/m</td></tr>' +
+    '<tr style="background:#f9f9f9;"><td style="padding:5px 8px;">طول السيخ + وصلات</td><td style="padding:5px 8px;font-weight:700;">' + barLen.toFixed(2) + '</td><td style="padding:5px 8px;">م</td></tr>' +
+    (laps > 0 ? '<tr><td style="padding:5px 8px;">Lap Length (40Ø)</td><td style="padding:5px 8px;font-weight:700;">' + (lapLen*1000).toFixed(0) + 'mm × ' + laps + '</td><td style="padding:5px 8px;">' + totalLapLen.toFixed(2) + ' م</td></tr>' : '') +
+    '<tr style="background:#f9f9f9;"><td style="padding:5px 8px;">إجمالي الطول</td><td style="padding:5px 8px;font-weight:700;">' + totalLen.toFixed(1) + '</td><td style="padding:5px 8px;">م.ط</td></tr>' +
+    '<tr><td style="padding:5px 8px;">الوزن الصافي</td><td style="padding:5px 8px;font-weight:700;">' + totalKg.toFixed(1) + '</td><td style="padding:5px 8px;">kg</td></tr>' +
+    '<tr style="background:#ffcdd2;"><td style="padding:6px 8px;font-weight:700;">الوزن + هدر 3%</td><td style="padding:6px 8px;font-weight:700;font-size:15px;color:#c62828;">' + grandKg.toFixed(1) + ' kg (' + tons + ' طن)</td><td style="padding:6px 8px;"></td></tr>' +
+    '<tr><td style="padding:5px 8px;">أسياخ 12م من المصنع</td><td style="padding:5px 8px;font-weight:700;">' + barsFrom12m + '</td><td style="padding:5px 8px;">حبة</td></tr>' +
+    '</table>' +
+    '<div style="font-size:11px;color:#888;margin-top:8px;">📋 QCS S5 P4 | BS 4449 B500B | Lap=40Ø | هدر 3%</div></div>';
+};
+
+// ══════════════════════════════════════════════════════════
+// 6. حاسبة الاختبارات المطلوبة حسب الكمية
+// QCS 2024 + Ashghal ITP frequency tables
+// ══════════════════════════════════════════════════════════
+window.calcTestFreq = function() {
+  var material = document.getElementById('tst-material').value;
+  var qty      = parseFloat(document.getElementById('tst-qty').value);
+  var el       = document.getElementById('tst-result');
+  if (!el) return;
+
+  if (isNaN(qty) || qty <= 0) {
+    el.innerHTML = '<p style="color:#e74c3c;">❌ أدخل الكمية</p>';
+    return;
+  }
+
+  // جداول تكرار الاختبارات — QCS 2024 + Ashghal ITPs
+  var tests = {
+    concrete: {
+      label: '🏗️ خرسانة (' + qty + ' m³)',
+      unit: 'm³',
+      items: [
+        { name:'Cube Test (7+28 day)', freq: 50, unit:'m³', method:'BS EN 12390-3', note:'3 cubes لكل عينة' },
+        { name:'Slump Test', freq: 1, unit:'حمولة', method:'BS EN 12350-2', note:'كل حمولة خلاط' },
+        { name:'Temperature Check', freq: 1, unit:'حمولة', method:'—', note:'≤32°C عند الصب' },
+        { name:'W/C Ratio Check', freq: 50, unit:'m³', method:'BS EN 12350-6', note:'max حسب Exposure Class' },
+        { name:'Core Test (إذا فشل)', freq: 0, unit:'—', method:'BS EN 12504-1', note:'3 cores من العنصر المشكوك' },
+      ]
+    },
+    asphalt: {
+      label: '🛣️ إسفلت (' + qty + ' طن)',
+      unit: 'طن',
+      items: [
+        { name:'Marshall Test (Plant)', freq: 250, unit:'طن', method:'ASTM D6927', note:'Stability + Flow + Va' },
+        { name:'Core Sample (Field)', freq: 1000, unit:'m²', method:'BS EN 12697-6', note:'كثافة + سماكة' },
+        { name:'Extraction / Gradation', freq: 500, unit:'طن', method:'ASTM D2172', note:'نسبة البيتومين + التدرج' },
+        { name:'Temperature (Delivery)', freq: 1, unit:'حمولة', method:'—', note:'≥140°C عند الوصول' },
+        { name:'Straightedge 3m', freq: 100, unit:'م.ط', method:'—', note:'≤5mm WC / ≤10mm BC' },
+      ]
+    },
+    subbase: {
+      label: '🪨 Subbase/Base (' + qty + ' m³)',
+      unit: 'm³',
+      items: [
+        { name:'CBR (Soaked 4 days)', freq: 2000, unit:'m²', method:'ASTM D1883', note:'≥30% Sub / ≥80% Base' },
+        { name:'Compaction (Sand Cone)', freq: 500, unit:'m²', method:'ASTM D1556', note:'≥98% MDD' },
+        { name:'Gradation', freq: 1000, unit:'m³', method:'ASTM C136', note:'مطابقة للمغلف' },
+        { name:'Atterberg Limits', freq: 0, unit:'مصدر', method:'ASTM D4318', note:'PI ≤6 Sub / ≤4 Base' },
+        { name:'LA Abrasion', freq: 0, unit:'مصدر', method:'ASTM C131', note:'≤40% Sub / ≤25% Base' },
+        { name:'Level Survey', freq: 25, unit:'م', method:'—', note:'±10mm' },
+      ]
+    },
+    backfill: {
+      label: '🏗️ ردم Backfill (' + qty + ' m³)',
+      unit: 'm³',
+      items: [
+        { name:'Sand Cone Density', freq: 500, unit:'m²', method:'ASTM D1556', note:'≥95% MDD' },
+        { name:'Proctor Test', freq: 0, unit:'مصدر', method:'ASTM D1557', note:'MDD + OMC تحديد' },
+        { name:'CBR (Subgrade)', freq: 2000, unit:'m²', method:'ASTM D1883', note:'≥8%' },
+        { name:'Level Check', freq: 50, unit:'م', method:'—', note:'±10mm' },
+      ]
+    },
+    blocks: {
+      label: '🧱 بلوك (' + qty + ' حبة)',
+      unit: 'حبة',
+      items: [
+        { name:'Compressive Strength', freq: 10000, unit:'حبة', method:'BS EN 772-1', note:'3 عينات — ≥7 N/mm²' },
+        { name:'Water Absorption', freq: 10000, unit:'حبة', method:'BS EN 772-11', note:'≤10%' },
+        { name:'Dimensional Check', freq: 5000, unit:'حبة', method:'BS EN 772-16', note:'±2mm' },
+        { name:'Visual Inspection', freq: 1, unit:'شحنة', method:'—', note:'لا تشققات / كسور' },
+      ]
+    }
+  };
+
+  var spec = tests[material];
+  if (!spec) { el.innerHTML = '<p style="color:#e74c3c;">❌ اختر المادة</p>'; return; }
+
+  var rows = '';
+  spec.items.forEach(function(t) {
+    var needed;
+    if (t.freq === 0) needed = '1 (لكل مصدر)';
+    else if (t.freq === 1) needed = qty + '+';
+    else needed = Math.max(1, Math.ceil(qty / t.freq));
+
+    rows += '<tr><td style="padding:5px 8px;">' + t.name + '</td>' +
+      '<td style="padding:5px 8px;text-align:center;">كل ' + (t.freq === 0 ? 'مصدر' : t.freq === 1 ? 'حمولة' : t.freq + ' ' + t.unit) + '</td>' +
+      '<td style="padding:5px 8px;font-weight:700;text-align:center;color:#2980b9;">' + needed + '</td>' +
+      '<td style="padding:5px 8px;font-size:11px;color:#888;">' + t.method + '</td>' +
+      '<td style="padding:5px 8px;font-size:11px;">' + t.note + '</td></tr>';
+  });
+
+  el.innerHTML =
+    '<div style="background:#e8f8f5;border-radius:10px;padding:14px;margin-top:10px;">' +
+    '<div style="font-weight:700;color:#16a085;font-size:15px;margin-bottom:12px;">🧪 ' + spec.label + '</div>' +
+    '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12px;">' +
+    '<tr style="background:#a3e4d7;"><td style="padding:6px 8px;font-weight:700;">الاختبار</td><td style="padding:6px 8px;font-weight:700;text-align:center;">التكرار</td><td style="padding:6px 8px;font-weight:700;text-align:center;">العدد المطلوب</td><td style="padding:6px 8px;font-weight:700;">الطريقة</td><td style="padding:6px 8px;font-weight:700;">ملاحظة</td></tr>' +
+    rows +
+    '</table></div>' +
+    '<div style="font-size:11px;color:#888;margin-top:8px;">📋 QCS 2024 + Ashghal ITP Frequency Tables | الأعداد تقريبية — راجع ITP المشروع</div></div>';
+};
+
 })();
