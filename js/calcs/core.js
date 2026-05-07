@@ -366,7 +366,7 @@ function calcTestScheduleCore(matId, qtyId, unitId, resultId, isEn) {
 
 // ── switchCalcTab ──
 function switchCalcTab(tab, btn) {
-  ['passfail','batch','history','freq'].forEach(t => {
+  ['passfail','batch','history','freq','materials'].forEach(t => {
     const el = document.getElementById('calc-tab-'+t);
     const b = document.getElementById('ctab-'+t);
     if (el) el.style.display = t === tab ? '' : 'none';
@@ -378,6 +378,50 @@ function switchCalcTab(tab, btn) {
   });
   if (tab === 'history') renderCalcHistory();
   if (tab === 'freq') { calcFreq(); calcTestScheduleEn && calcTestScheduleEn(); }
+  if (tab === 'materials') initMaterialsCalc();
+}
+
+// ── initMaterialsCalc — حاسبات كميات المواد (QCS 2024) ──
+function initMaterialsCalc() {
+  var el = document.getElementById('cat-materials_calc');
+  if (!el || el.dataset.built) return;
+  el.dataset.built = '1';
+  el.innerHTML =
+    '<div style="font-weight:700;color:var(--gold);font-size:15px;margin-bottom:12px;">🧮 حاسبات كميات المواد — QCS 2024</div>' +
+    _tabs('mat',[['mat-brick','🧱 طابوق'],['mat-concrete','🏗️ خرسانة'],['mat-rebar','🔩 حديد'],['mat-mortar','🪣 ملاط'],['mat-road','🛣️ طريق'],['mat-tests','🧪 اختبارات']]) +
+    _section('mat-brick','🧱 حاسبة الطابوق — QCS 2024 Part 6',
+      _calcSelect('brk-type','نوع البلوك',[['200','بلوك 200mm'],['150','بلوك 150mm'],['100','بلوك 100mm']]) +
+      _calcField('brk-length','طول الجدار','مثال: 10','م') +
+      _calcField('brk-height','ارتفاع الجدار','مثال: 3','م') +
+      _calcField('brk-open','مساحة الفتحات (نوافذ+أبواب)','مثال: 4','m²') +
+      _calcBtn('calcBrickQty()','احسب الكمية 🧱') + _calcResult('brk-result')) +
+    _section('mat-concrete','🏗️ حاسبة الخرسانة — QCS 2024 Part 14 + ACI 211',
+      _calcSelect('con-grade','Grade الخرسانة',[['C20','C20 — مساعد'],['C25','C25 — الأكثر شيوعاً'],['C30','C30 — هياكل مكشوفة'],['C35','C35 — بيئة كبريتية DS2'],['C40','C40 — هياكل خاصة DS3']]) +
+      _calcField('con-vol','الحجم المطلوب','مثال: 10','m³') +
+      _calcBtn('calcConcreteQty()','احسب الخرسانة 🏗️') + _calcResult('con-result')) +
+    _section('mat-rebar','🔩 حاسبة حديد التسليح — QCS S5 P4 + BS 4449',
+      _calcSelect('reb-dia','قطر السيخ',[['8','Ø8mm — 0.395 kg/m'],['10','Ø10mm — 0.617 kg/m'],['12','Ø12mm — 0.888 kg/m'],['16','Ø16mm — 1.578 kg/m'],['20','Ø20mm — 2.466 kg/m'],['25','Ø25mm — 3.853 kg/m'],['32','Ø32mm — 6.313 kg/m']]) +
+      _calcField('reb-count','عدد الأسياخ','مثال: 50','حبة') +
+      _calcField('reb-len','طول السيخ','مثال: 12','م') +
+      _calcField('reb-lap','عدد وصلات Lap','مثال: 1','') +
+      _calcBtn('calcRebarQty()','احسب الحديد 🔩') + _calcResult('reb-result')) +
+    _section('mat-mortar','🪣 حاسبة الملاط — QCS Part 6 Section 3',
+      _calcSelect('mort-ratio','نسبة الملاط',[['1:3','1:3 — بلاط وتشطيب'],['1:4','1:4 — بناء عام'],['1:6','1:6 — بناء بلوك']]) +
+      _calcField('mort-vol','الحجم','مثال: 2','m³') +
+      _calcBtn('calcMortarQty()','احسب الملاط 🪣') + _calcResult('mort-result')) +
+    _section('mat-road','🛣️ كميات الطريق — QCS S17 + Ashghal RDM 2023',
+      _calcField('rd-length','طول الطريق','مثال: 500','م') +
+      _calcField('rd-width','عرض الطريق','مثال: 7','م') +
+      _calcField('rd-wc','سماكة Wearing Course','مثال: 50','mm') +
+      _calcField('rd-bc','سماكة Binder Course','مثال: 60','mm') +
+      _calcField('rd-base','سماكة Base Course','مثال: 150','mm') +
+      _calcField('rd-sb','سماكة Subbase','مثال: 200','mm') +
+      _calcBtn('calcRoadMaterials()','احسب الكميات 🛣️') + _calcResult('rd-result')) +
+    _section('mat-tests','🧪 الاختبارات المطلوبة حسب الكمية — QCS + Ashghal ITP',
+      _calcSelect('tst-material','المادة',[['concrete','خرسانة'],['asphalt','إسفلت'],['subbase','Subbase/Base Course'],['backfill','ردم Backfill'],['blocks','بلوك/طابوق']]) +
+      _calcField('tst-qty','الكمية الموردة','مثال: 500','m³ أو طن') +
+      _calcBtn('calcTestFreq()','احسب الاختبارات المطلوبة 🧪') + _calcResult('tst-result'));
+  el.querySelectorAll('.calc-section').forEach(function(s,i){ s.style.display = i===0?'block':'none'; });
 }
 
 // ── filterCalcCat ──
