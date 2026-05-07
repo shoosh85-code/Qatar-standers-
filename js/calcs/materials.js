@@ -17,6 +17,7 @@ window.calcBrickQty = function() {
   var type    = document.getElementById('brk-type').value;
   var el      = document.getElementById('brk-result');
   if (!el) return;
+  el.style.display = 'block';
 
   if (isNaN(length) || isNaN(height) || length <= 0 || height <= 0) {
     el.innerHTML = '<p style="color:#e74c3c;">❌ أدخل طول الجدار وارتفاعه</p>';
@@ -68,6 +69,7 @@ window.calcConcreteQty = function() {
   var grade  = document.getElementById('con-grade').value;
   var el     = document.getElementById('con-result');
   if (!el) return;
+  el.style.display = 'block';
 
   if (isNaN(volume) || volume <= 0) {
     el.innerHTML = '<p style="color:#e74c3c;">❌ أدخل الحجم بالـ m³</p>';
@@ -119,6 +121,7 @@ window.calcRoadMaterials = function() {
   var sbThk   = parseFloat(document.getElementById('rd-sb').value) || 0;
   var el      = document.getElementById('rd-result');
   if (!el) return;
+  el.style.display = 'block';
 
   if (isNaN(length) || isNaN(width) || length <= 0 || width <= 0) {
     el.innerHTML = '<p style="color:#e74c3c;">❌ أدخل الطول والعرض</p>';
@@ -161,6 +164,7 @@ window.calcMortarQty = function() {
   var ratio = document.getElementById('mort-ratio').value;
   var el    = document.getElementById('mort-result');
   if (!el) return;
+  el.style.display = 'block';
 
   if (isNaN(vol) || vol <= 0) {
     el.innerHTML = '<p style="color:#e74c3c;">❌ أدخل الحجم</p>';
@@ -202,6 +206,7 @@ window.calcRebarQty = function() {
   var laps  = parseInt(document.getElementById('reb-lap').value) || 0;
   var el    = document.getElementById('reb-result');
   if (!el) return;
+  el.style.display = 'block';
 
   if (isNaN(dia) || isNaN(count) || isNaN(len) || count <= 0 || len <= 0) {
     el.innerHTML = '<p style="color:#e74c3c;">❌ أدخل القطر والعدد والطول</p>';
@@ -252,6 +257,7 @@ window.calcTestFreq = function() {
   var qty      = parseFloat(document.getElementById('tst-qty').value);
   var el       = document.getElementById('tst-result');
   if (!el) return;
+  el.style.display = 'block';
 
   if (isNaN(qty) || qty <= 0) {
     el.innerHTML = '<p style="color:#e74c3c;">❌ أدخل الكمية</p>';
