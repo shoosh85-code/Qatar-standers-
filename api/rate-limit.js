@@ -13,11 +13,12 @@ export const TIER_LIMITS = {
 
 // ── حدود كل endpoint ──────────────────────────────────────
 export const ENDPOINT_LIMITS = {
-  'ai-proxy':     { free: 5,  pro: 60,  global: 100 },
-  'vision-proxy': { free: 3,  pro: 30,  global: 50  },
-  'verify-pro':   { free: 3,  pro: 10,  global: 30  },
-  'qcs-search':   { free: 10, pro: 100, global: 200 },
-  default:        { free: 5,  pro: 60,  global: 100 },
+  'ai-proxy':       { free: 5,  pro: 60,  global: 100 },
+  'vision-proxy':   { free: 3,  pro: 30,  global: 50  },
+  'verify-pro':     { free: 3,  pro: 10,  global: 30  },
+  'qcs-search':     { free: 10, pro: 100, global: 200 },
+  'mos-generator':  { free: 5,  pro: 60,  global: 100 },
+  default:          { free: 5,  pro: 60,  global: 100 },
 };
 
 // ── FNV-1a hash للـ IP (بدون crypto) ──────────────────────
