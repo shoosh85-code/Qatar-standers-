@@ -335,10 +335,36 @@
 
 <!-- FREQUENCY TAB -->
 <div id="calc-tab-freq" style="display:none;">
-<div id="cat-roads-calc" style="display:block;"></div>
-<div id="cat-utilities" style="display:none;"></div>
-<div id="cat-structural" style="display:none;"></div>
-<div id="cat-geotech_calc" style="display:none;"></div>
+<div style="padding:4px 0 12px 0;">
+  <div style="font-weight:700;color:var(--gold);font-size:14px;margin-bottom:12px;">🗓️ حاسبة الاختبارات المطلوبة حسب الكمية — QCS 2024 + Ashghal ITP</div>
+  <div class="calc-row">
+    <span class="calc-label">نوع المادة</span>
+    <select class="calc-select" id="ts-mat" onchange="calcFreq()" style="flex:1;max-width:260px;">
+      <option value="">— اختر المادة —</option>
+      <option value="subgrade">🟤 Subgrade Soil — تربة طبيعية</option>
+      <option value="subbase">🪨 Subbase Course — طبقة أساس ثانوي</option>
+      <option value="base">🛣️ Road Base Course — طبقة أساس رئيسي</option>
+      <option value="asphalt_bc">⚫ Asphalt Binder Course — طبقة رابطة</option>
+      <option value="asphalt_wc">🔵 Asphalt Wearing Course — طبقة سطحية</option>
+      <option value="concrete">🏗️ Concrete — خرسانة</option>
+      <option value="water_pipe">💧 Water Supply Pipe — مواسير مياه</option>
+      <option value="sewer_pipe">🚰 Foul Sewer Pipe — مواسير صرف</option>
+      <option value="rebar">🔩 Reinforcement Steel — حديد تسليح</option>
+    </select>
+  </div>
+  <div class="calc-row">
+    <span class="calc-label">الكمية المسلّمة</span>
+    <input class="calc-input" id="ts-qty" type="number" placeholder="مثال: 500" step="any" style="width:120px;">
+    <select class="calc-select" id="ts-unit" style="width:90px;margin-right:4px;">
+      <option value="m³">m³</option>
+      <option value="m²">m²</option>
+      <option value="طن">طن</option>
+      <option value="m LM">m LM</option>
+    </select>
+  </div>
+  <button class="calc-btn" onclick="calcFreq()" style="margin-top:4px;">📋 احسب الاختبارات المطلوبة</button>
+  <div id="ts-result-box" style="margin-top:10px;display:none;"></div>
+</div>
 </div>
 
 <!-- MATERIALS/QUANTITIES TAB -->

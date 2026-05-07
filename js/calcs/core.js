@@ -312,6 +312,108 @@ function calcTestScheduleEn() {
   calcTestScheduleCore('ts-material-en','ts-qty-en','ts-unit-en','ts-result-en', true);
 }
 
+// ── TS_DATA — جداول تكرار الاختبارات QCS 2024 + Ashghal ITP ──
+var TS_DATA = {
+  subgrade: {
+    name: 'Subgrade Soil', unit: 'm²',
+    tests: [
+      { test: 'Proctor Compaction (MDD + OMC)', freq_qty: 0, freq_unit: 'Per material source change', standard: 'ASTM D698', type: 'HP' },
+      { test: 'Atterberg Limits (LL + PI)', freq_qty: 500, freq_unit: 'm³', standard: 'ASTM D4318', type: 'W' },
+      { test: 'Sulphate (SO3) + Chloride', freq_qty: 500, freq_unit: 'm³', standard: 'BS 1377', type: 'W' },
+      { test: 'Field Density / Sand Cone (≥95% MDD)', freq_qty: 500, freq_unit: 'm²', standard: 'ASTM D1556', type: 'W' },
+      { test: 'CBR Soaked 4 days (≥8%)', freq_qty: 2000, freq_unit: 'm²', standard: 'ASTM D1883', type: 'HP' },
+      { test: 'Level Survey (±10mm)', freq_qty: 25, freq_unit: 'm LM', standard: 'Total Station', type: 'HP' }
+    ]
+  },
+  subbase: {
+    name: 'Subbase Course', unit: 'm³',
+    tests: [
+      { test: 'Grading Analysis', freq_qty: 500, freq_unit: 'm³', standard: 'ASTM C136', type: 'W' },
+      { test: 'LA Abrasion (≤30%)', freq_qty: 1000, freq_unit: 'm³', standard: 'ASTM C131', type: 'W' },
+      { test: 'Sand Equivalent (≥30%)', freq_qty: 500, freq_unit: 'm³', standard: 'ASTM D2419', type: 'W' },
+      { test: 'Plasticity Index (≤6%)', freq_qty: 500, freq_unit: 'm³', standard: 'ASTM D4318', type: 'W' },
+      { test: 'Field Density (≥98% MDD)', freq_qty: 500, freq_unit: 'm²', standard: 'ASTM D1556', type: 'W' },
+      { test: 'CBR Soaked 4 days (≥70%)', freq_qty: 2000, freq_unit: 'm²', standard: 'ASTM D1883', type: 'HP' }
+    ]
+  },
+  base: {
+    name: 'Road Base Course', unit: 'm³',
+    tests: [
+      { test: 'Grading Analysis (Table 4:1)', freq_qty: 500, freq_unit: 'm³', standard: 'ASTM C136', type: 'W' },
+      { test: 'LA Abrasion (≤25%)', freq_qty: 1000, freq_unit: 'm³', standard: 'ASTM C131', type: 'W' },
+      { test: 'Fractured Faces 1+ (≥95%)', freq_qty: 500, freq_unit: 'm³', standard: 'ASTM D5821', type: 'W' },
+      { test: 'Sand Equivalent (≥45%)', freq_qty: 500, freq_unit: 'm³', standard: 'ASTM D2419', type: 'W' },
+      { test: 'Plasticity Index (≤4%)', freq_qty: 500, freq_unit: 'm³', standard: 'ASTM D4318', type: 'W' },
+      { test: 'Field Density (≥98% MDD)', freq_qty: 500, freq_unit: 'm²', standard: 'ASTM D1556', type: 'W' },
+      { test: 'CBR Soaked 4 days (≥80%)', freq_qty: 2000, freq_unit: 'm²', standard: 'ASTM D1883', type: 'HP' },
+      { test: 'Level Survey (±8mm)', freq_qty: 25, freq_unit: 'm LM', standard: 'Total Station', type: 'HP' }
+    ]
+  },
+  asphalt_bc: {
+    name: 'Asphalt Binder Course', unit: 'طن',
+    tests: [
+      { test: 'Delivery Temperature (≥140°C)', freq_qty: 1, freq_unit: 'Every load', standard: 'QCS 2024 S8 P5', type: 'W' },
+      { test: 'Bitumen Extraction (JMF ±0.3%)', freq_qty: 200, freq_unit: 'tonne', standard: 'ASTM D2172', type: 'W' },
+      { test: 'Gradation Analysis', freq_qty: 200, freq_unit: 'tonne', standard: 'ASTM C136', type: 'W' },
+      { test: 'Marshall Stability (≥8kN) + Flow', freq_qty: 200, freq_unit: 'tonne', standard: 'ASTM D1559', type: 'HP' },
+      { test: 'Air Voids Va (3-5%)', freq_qty: 200, freq_unit: 'tonne', standard: 'ASTM D3203', type: 'W' },
+      { test: 'Core Density (≥97% TMD)', freq_qty: 1000, freq_unit: 'm²', standard: 'ASTM D6927', type: 'HP' },
+      { test: 'Level Survey (±8mm)', freq_qty: 25, freq_unit: 'm LM', standard: 'Total Station', type: 'W' }
+    ]
+  },
+  asphalt_wc: {
+    name: 'Asphalt Wearing Course', unit: 'طن',
+    tests: [
+      { test: 'Delivery Temperature (≥130°C / ≥145°C PMB)', freq_qty: 1, freq_unit: 'Every load', standard: 'QCS S6 P5', type: 'W' },
+      { test: 'Bitumen Extraction (JMF ±0.3%)', freq_qty: 200, freq_unit: 'tonne', standard: 'ASTM D2172', type: 'W' },
+      { test: 'Marshall Stability (≥9kN) + Flow', freq_qty: 200, freq_unit: 'tonne', standard: 'ASTM D1559', type: 'HP' },
+      { test: 'Air Voids Va (3-5%)', freq_qty: 200, freq_unit: 'tonne', standard: 'ASTM D3203', type: 'W' },
+      { test: 'Core Density (≥97% TMD)', freq_qty: 1000, freq_unit: 'm²', standard: 'ASTM D6927', type: 'HP' },
+      { test: 'Straightedge 3m (≤3mm PMB / ≤5mm)', freq_qty: 100, freq_unit: 'm LM', standard: 'QCS S6 P5', type: 'W' },
+      { test: 'IRI Measurement', freq_qty: 400, freq_unit: 'm LM', standard: 'PWA IAN 013', type: 'HP' },
+      { test: 'Level Survey (±6mm)', freq_qty: 25, freq_unit: 'm LM', standard: 'Total Station', type: 'HP' }
+    ]
+  },
+  concrete: {
+    name: 'Concrete', unit: 'm³',
+    tests: [
+      { test: 'Slump Test', freq_qty: 50, freq_unit: 'm³', standard: 'BS EN 12350', type: 'W' },
+      { test: 'Temperature Check (≤32°C)', freq_qty: 1, freq_unit: 'Every load', standard: 'QCS S5', type: 'W' },
+      { test: 'Cube Samples (6 cubes)', freq_qty: 50, freq_unit: 'm³', standard: 'BS EN 12390', type: 'W' },
+      { test: '7-Day Cube Result (≥70% fcu)', freq_qty: 50, freq_unit: 'm³', standard: 'BS EN 12390', type: 'HP' },
+      { test: '28-Day Cube Result (≥fcu)', freq_qty: 50, freq_unit: 'm³', standard: 'BS EN 12390', type: 'HP' },
+      { test: 'Rebar Cover Check', freq_qty: 0, freq_unit: 'Per element after strike', standard: 'QCS S5', type: 'W' }
+    ]
+  },
+  water_pipe: {
+    name: 'Water Supply Pipe', unit: 'm LM',
+    tests: [
+      { test: 'Bedding Compaction (≥90% MDD)', freq_qty: 50, freq_unit: 'm LM', standard: 'ASTM D1556', type: 'W' },
+      { test: 'Backfill Compaction (≥95% MDD)', freq_qty: 500, freq_unit: 'm²', standard: 'ASTM D698', type: 'W' },
+      { test: 'Hydrostatic Pressure Test (1.5×PN / 2hr)', freq_qty: 0, freq_unit: 'Per section (500m max)', standard: 'KAHRAMAA', type: 'HP' },
+      { test: 'Chlorination (≥50ppm / ≥24hr)', freq_qty: 0, freq_unit: 'Per section', standard: 'KAHRAMAA', type: 'HP' },
+      { test: 'Water Quality (Coliform=0 / Turbidity≤1NTU)', freq_qty: 0, freq_unit: 'Per section', standard: 'KAHRAMAA', type: 'HP' }
+    ]
+  },
+  sewer_pipe: {
+    name: 'Foul Sewer Pipe', unit: 'm LM',
+    tests: [
+      { test: 'Bedding Compaction (≥90% MDD)', freq_qty: 50, freq_unit: 'm LM', standard: 'ASTM D1556', type: 'W' },
+      { test: 'Air Test (100mm WG / 5min / ≤25mm drop)', freq_qty: 0, freq_unit: 'Per section (500m max)', standard: 'BS EN 1610', type: 'HP' },
+      { test: 'CCTV Survey (Grade ≤ 2)', freq_qty: 0, freq_unit: '100% of pipes', standard: 'WRc', type: 'HP' },
+      { test: 'Manhole Level (±5mm)', freq_qty: 0, freq_unit: '100% of manholes', standard: 'Survey', type: 'W' }
+    ]
+  },
+  rebar: {
+    name: 'Reinforcement Steel', unit: 'طن',
+    tests: [
+      { test: 'Mill Certificate Review (fy, fu, Elongation)', freq_qty: 0, freq_unit: 'Each heat number', standard: 'BS 4449', type: 'HP' },
+      { test: 'Third Party Tensile Test', freq_qty: 25, freq_unit: 'tonne', standard: 'BS 4449', type: 'HP' },
+      { test: 'Bend Test (180° cold)', freq_qty: 25, freq_unit: 'tonne', standard: 'BS 4449', type: 'W' }
+    ]
+  }
+};
+
 // ── calcTestScheduleCore ──
 function calcTestScheduleCore(matId, qtyId, unitId, resultId, isEn) {
   const mat = document.getElementById(matId);
