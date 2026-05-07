@@ -12,6 +12,7 @@
 <button onclick="switchCalcTab('batch',this)" id="ctab-batch" style="flex:1;padding:9px;border:none;background:var(--dark4);color:var(--text2);font-size:11px;cursor:pointer;font-family:Tajawal,sans-serif;">📊 Batch</button>
 <button onclick="switchCalcTab('history',this)" id="ctab-history" style="flex:1;padding:9px;border:none;background:var(--dark4);color:var(--text2);font-size:11px;cursor:pointer;font-family:Tajawal,sans-serif;">📋 History</button>
 <button onclick="switchCalcTab('freq',this)" id="ctab-freq" style="flex:1;padding:9px;border:none;background:var(--dark4);color:var(--text2);font-size:11px;cursor:pointer;font-family:Tajawal,sans-serif;">🗓️ Frequency</button>
+<button onclick="switchCalcTab('materials',this)" id="ctab-materials" style="flex:1;padding:9px;border:none;background:var(--dark4);color:var(--text2);font-size:11px;cursor:pointer;font-family:Tajawal,sans-serif;">🧮 كميات</button>
 </div>
 
 <!-- PASS/FAIL TAB -->
@@ -338,6 +339,11 @@
 <div id="cat-utilities" style="display:none;"></div>
 <div id="cat-structural" style="display:none;"></div>
 <div id="cat-geotech_calc" style="display:none;"></div>
+</div>
+
+<!-- MATERIALS/QUANTITIES TAB -->
+<div id="calc-tab-materials" style="display:none;">
+<div id="cat-materials_calc"></div>
 </div>
 
 <style>

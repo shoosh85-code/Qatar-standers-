@@ -1175,7 +1175,7 @@ function calcTestScheduleCore(matId, qtyId, unitId, resultId, isEn) {
 // ════════════════════════════════════════════════
 
 function switchCalcTab(tab, btn) {
-  ['passfail','batch','history','freq'].forEach(t => {
+  ['passfail','batch','history','freq','materials'].forEach(t => {
     const el = document.getElementById('calc-tab-'+t);
     const b = document.getElementById('ctab-'+t);
     if (el) el.style.display = t === tab ? '' : 'none';
@@ -1187,6 +1187,7 @@ function switchCalcTab(tab, btn) {
   });
   if (tab === 'history') renderCalcHistory();
   if (tab === 'freq') { calcFreq(); calcTestScheduleEn && calcTestScheduleEn(); }
+  if (tab === 'materials') initCalcPanels(); // يبني حاسبات المواد
 }
 
 function filterCalcCat(cat) {
