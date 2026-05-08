@@ -395,3 +395,134 @@ function prt(id){
 </script>
 </body>
 </html>
+
+<!-- AI ASSISTANT PANEL — يُضاف في نهاية الـ body قبل </body> -->
+<style>
+.ai-panel{position:fixed;bottom:20px;left:20px;z-index:200;width:340px}
+@media(max-width:600px){.ai-panel{width:calc(100vw - 28px);left:14px;bottom:14px}}
+.ai-toggle{background:var(--qa);color:#fff;border:none;padding:11px 18px;border-radius:var(--rl);cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(141,27,61,.35);width:100%;justify-content:center}
+.ai-toggle:hover{background:var(--qa2)}
+.ai-box{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:16px;margin-bottom:8px;display:none;box-shadow:0 8px 32px rgba(0,0,0,.12)}
+.ai-box.open{display:block}
+.ai-hdr{font-size:13px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:7px;color:var(--tx)}
+.ai-mod{font-size:11px;color:var(--info-tx);background:var(--info-bg);padding:2px 8px;border-radius:20px;margin-right:auto}
+.ai-ctx{font-size:11px;color:var(--tx3);margin-bottom:8px;padding:7px;background:var(--bg);border-radius:var(--r);display:none}
+.ai-ctx.show{display:block}
+.ai-inp{width:100%;border:1px solid var(--bd);border-radius:var(--r);padding:8px 11px;font-size:13px;font-family:inherit;resize:none;background:var(--bg);color:var(--tx);margin-bottom:8px}
+.ai-inp:focus{outline:none;border-color:var(--qa)}
+.ai-send{background:var(--qa);color:#fff;border:none;padding:8px 16px;border-radius:var(--r);font-size:12px;cursor:pointer;font-weight:600;width:100%}
+.ai-send:hover{background:var(--qa2)}.ai-send:disabled{opacity:.5;cursor:not-allowed}
+.ai-resp{margin-top:11px;font-size:12px;line-height:1.7;color:var(--tx);padding:10px;background:var(--bg);border-radius:var(--r);border-right:3px solid var(--qa);display:none;max-height:260px;overflow-y:auto}
+.ai-resp.show{display:block}
+.ai-spin{display:inline-block;width:14px;height:14px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ai-disc{font-size:10px;color:var(--tx3);margin-top:8px;text-align:center}
+</style>
+
+<div class="ai-panel">
+  <div class="ai-box" id="ai-box">
+    <div class="ai-hdr">
+      🤖 مساعد QCS الذكي
+      <span class="ai-mod" id="ai-mod-label">عام</span>
+    </div>
+    <div class="ai-ctx" id="ai-ctx-display"></div>
+    <textarea class="ai-inp" id="ai-q" rows="3" placeholder="اكتب سؤالك أو المشكلة...&#10;مثال: الـ slump طلع 60mm ماذا أفعل؟"></textarea>
+    <button class="ai-send" id="ai-send-btn" onclick="askAI()">⚡ اسأل QCS 2024</button>
+    <div class="ai-resp" id="ai-resp"></div>
+    <div class="ai-disc">⚠️ تحقق دائماً من QCS 2024 الأصلي · للاسترشاد فقط</div>
+  </div>
+  <button class="ai-toggle" onclick="toggleAI()">
+    <span id="ai-toggle-icon">🤖</span>
+    <span id="ai-toggle-txt">استشر الذكاء الاصطناعي</span>
+  </button>
+</div>
+
+<script>
+// AI ASSISTANT — يتكامل مع التبويبات
+var aiOpen = false;
+var currentModule = 'general';
+var moduleNames = {pour:'بطاقة الصب',mar:'موافقة مادة',ncr:'مخالفة NCR',tst:'الاختبارات',dwr:'السجل اليومي'};
+
+// تحديث الـ module عند تغيير التبويب
+var _origSw = sw;
+window.sw = function(id, btn) {
+  _origSw(id, btn);
+  currentModule = id === 'tst' ? 'tests' : id;
+  var lbl = document.getElementById('ai-mod-label');
+  if (lbl) lbl.textContent = moduleNames[id] || 'عام';
+  updateAIContext(id);
+};
+
+function updateAIContext(tab) {
+  var ctx = document.getElementById('ai-ctx-display');
+  if (!ctx) return;
+  var info = '';
+  if (tab === 'pour') {
+    var g = document.getElementById('pg')?.value, sl = document.getElementById('psl')?.value, tp = document.getElementById('ptp')?.value;
+    if (g || sl || tp) { info = 'السياق: Grade=' + (g||'—') + ' · Slump=' + (sl||'—') + 'mm · Temp=' + (tp||'—') + '°C'; }
+  } else if (tab === 'ncr') {
+    var nt = document.getElementById('nt')?.value;
+    if (nt) info = 'نوع المخالفة: ' + nt;
+  } else if (tab === 'tst') {
+    var tt = document.getElementById('tt')?.value, tr = document.getElementById('tr')?.value;
+    if (tt) info = 'الاختبار: ' + (TN[tt]||tt) + (tr ? ' · النتيجة: ' + tr : '');
+  }
+  if (info) { ctx.textContent = info; ctx.classList.add('show'); }
+  else { ctx.classList.remove('show'); }
+}
+
+function toggleAI() {
+  aiOpen = !aiOpen;
+  var box = document.getElementById('ai-box');
+  var icon = document.getElementById('ai-toggle-icon');
+  var txt = document.getElementById('ai-toggle-txt');
+  if (aiOpen) {
+    box.classList.add('open');
+    icon.textContent = '✕';
+    txt.textContent = 'إغلاق';
+  } else {
+    box.classList.remove('open');
+    icon.textContent = '🤖';
+    txt.textContent = 'استشر الذكاء الاصطناعي';
+  }
+}
+
+async function askAI() {
+  var q = document.getElementById('ai-q').value.trim();
+  if (!q) { alert('اكتب سؤالك أولاً'); return; }
+
+  var btn = document.getElementById('ai-send-btn');
+  var resp = document.getElementById('ai-resp');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="ai-spin"></span> جاري السؤال...';
+  resp.classList.remove('show');
+
+  // جمع السياق من الوحدة الحالية
+  var context = document.getElementById('ai-ctx-display')?.textContent || '';
+
+  try {
+    var res = await fetch('/api/execution-ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: q, module: currentModule, context: context })
+    });
+    var data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'خطأ في الخادم');
+
+    resp.textContent = data.answer;
+    resp.classList.add('show');
+    document.getElementById('ai-q').value = '';
+  } catch (err) {
+    resp.textContent = '❌ ' + (err.message || 'خطأ — حاول مرة أخرى');
+    resp.classList.add('show');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '⚡ اسأل QCS 2024';
+  }
+}
+
+// إرسال بـ Ctrl+Enter
+document.getElementById('ai-q').addEventListener('keydown', function(e) {
+  if (e.ctrlKey && e.key === 'Enter') askAI();
+});
+</script>

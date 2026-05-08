@@ -1,0 +1,133 @@
+// api/execution-ai.js — QatarSpec Pro
+// AI Assistant للتنفيذ الميداني — Gemini API
+// كل وحدة (Pour/MAR/NCR/Tests/DWR) تستشير هذا الـ endpoint
+// لا تحذف محتوى — فقط إضافة
+
+export const config = { runtime: 'edge' };
+
+const CORS = {
+  'Access-Control-Allow-Origin': process.env.APP_URL || 'https://qatar-standers.vercel.app',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
+
+// Rate limiting — in-memory
+const rl = new Map();
+function checkRL(ip) {
+  const now = Date.now(), key = `${ip}:${Math.floor(now/60000)}`;
+  const c = (rl.get(key) || 0) + 1;
+  rl.set(key, c);
+  setTimeout(() => rl.delete(key), 60000);
+  return c <= 8; // 8 req/min free
+}
+
+// System prompt مخصص لكل وحدة
+const PROMPTS = {
+  pour: `أنت مهندس خبير في QCS 2024 Part 8 (الخرسانة). 
+المهندس يعطيك بيانات صب خرسانة أو مشكلة، أنت تُجيب بـ:
+1. تقييم فوري: هل البيانات مطابقة QCS أم لا؟
+2. البند الدقيق من QCS 2024 (مثال: Part 8 Cl.8.5.1)
+3. الإجراء التصحيحي إن وجدت مشكلة
+4. تحذير فوري إن كان الصب يجب أن يتوقف
+الإجابة بالعربية، مختصرة، عملية. لا تخترع أرقاماً.`,
+
+  mar: `أنت مهندس خبير في مواصفات المواد QCS 2024.
+المهندس يسألك عن موافقة مادة (MAR). أجب بـ:
+1. المتطلبات الدقيقة لهذه المادة من QCS 2024
+2. الاختبارات المطلوبة والمعايير (Pass/Fail)
+3. الوثائق الإلزامية لـ Ashghal
+4. تحذيرات إن وجدت
+الإجابة بالعربية، مختصرة، مع ذكر البند الدقيق.`,
+
+  ncr: `أنت مهندس خبير في إجراءات الجودة QCS 2024 + FIDIC.
+المهندس يصف لك مخالفة موقعية. أجب بـ:
+1. تحديد البند المخالف من QCS 2024 بدقة
+2. تصنيف الخطورة (Minor/Major/Critical) مع السبب
+3. الإجراء التصحيحي الإلزامي
+4. هل يجب إيقاف العمل؟ نعم/لا مع السبب
+الإجابة بالعربية، حازمة، دقيقة.`,
+
+  tests: `أنت مهندس خبير في اختبارات المواد QCS 2024 + Ashghal RDM 2023.
+المهندس يعطيك نتيجة اختبار أو مشكلة. أجب بـ:
+1. هل النتيجة Pass أم Fail؟ مع المعيار الدقيق
+2. البند من QCS 2024 أو Ashghal RDM 2023
+3. ماذا يفعل إذا كانت Fail؟ (إعادة اختبار / رفض / إصلاح)
+4. عدد العينات المطلوبة وتوقيت الاختبار
+الإجابة بالعربية، فورية، عملية.`,
+
+  dwr: `أنت مهندس خبير في توثيق مشاريع Ashghal.
+المهندس يسألك عن توثيق يومي أو مشكلة تنفيذية. أجب بـ:
+1. الإجراء الصحيح حسب متطلبات Ashghal
+2. التوثيق المطلوب (نماذج، تقارير)
+3. مَن يجب إبلاغه؟
+4. المدة الزمنية للاستجابة
+الإجابة بالعربية، عملية، مباشرة.`,
+
+  general: `أنت مهندس خبير في مشاريع البنية التحتية في قطر.
+مراجعك: QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC.
+أجب بالعربية بشكل مختصر وعملي مع ذكر المرجع الدقيق.
+لا تخترع أرقاماً — إذا لم تجد المعلومة قل "غير موجود في المستند".`
+};
+
+export default async function handler(req) {
+  if (req.method === 'OPTIONS') return new Response(null, { headers: CORS });
+  if (req.method !== 'POST') return new Response('Method Not Allowed', { status: 405 });
+
+  // Rate limit
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown';
+  if (!checkRL(ip)) {
+    return new Response(JSON.stringify({
+      error: 'Rate limit exceeded',
+      message: 'تجاوزت الحد المسموح (8 طلبات/دقيقة). حاول بعد قليل.'
+    }), { status: 429, headers: { ...CORS, 'Content-Type': 'application/json', 'Retry-After': '60' }});
+  }
+
+  let body;
+  try { body = await req.json(); } 
+  catch { return new Response('Invalid JSON', { status: 400 }); }
+
+  const { question, module = 'general', context = '' } = body;
+  if (!question?.trim()) return new Response('Missing question', { status: 400 });
+
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) return new Response('API key not configured', { status: 500 });
+
+  const systemPrompt = PROMPTS[module] || PROMPTS.general;
+  const fullPrompt = context
+    ? `السياق:\n${context}\n\nالسؤال: ${question}`
+    : question;
+
+  try {
+    const geminiRes = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: systemPrompt }] },
+          contents: [{ role: 'user', parts: [{ text: fullPrompt }] }],
+          generationConfig: { temperature: 0.2, maxOutputTokens: 800 }
+        })
+      }
+    );
+
+    if (!geminiRes.ok) {
+      const err = await geminiRes.text();
+      console.error('[execution-ai] Gemini error:', err);
+      return new Response(JSON.stringify({ error: 'Gemini API error', detail: err }),
+        { status: 502, headers: { ...CORS, 'Content-Type': 'application/json' }});
+    }
+
+    const data = await geminiRes.json();
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'لا توجد إجابة';
+
+    return new Response(JSON.stringify({ answer: text, module, timestamp: new Date().toISOString() }), {
+      headers: { ...CORS, 'Content-Type': 'application/json' }
+    });
+
+  } catch (err) {
+    console.error('[execution-ai] Error:', err);
+    return new Response(JSON.stringify({ error: 'Internal error', message: err.message }),
+      { status: 500, headers: { ...CORS, 'Content-Type': 'application/json' }});
+  }
+}
