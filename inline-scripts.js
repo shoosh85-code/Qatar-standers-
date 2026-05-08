@@ -989,6 +989,8 @@ function openDetail(key) {
   const backBtn = document.getElementById('dmBackBtn');
   if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
   modal.classList.add('open'); var mc=document.getElementById('dmContent'); if(mc) mc.scrollTop=0;
+  // تنفيذ <script> داخل المحتوى المُحمَّل ديناميكياً
+  if (mc) { mc.querySelectorAll('script').forEach(function(old){ var s=document.createElement('script'); s.textContent=old.textContent; old.parentNode.replaceChild(s, old); }); }
   // Re-inject stored videos after DOM rebuild
   safeTimeout('restoreVideo', _restoreVideosAfterDOMRebuild, 50);
   // Re-apply current language
@@ -1021,6 +1023,8 @@ function goBack() {
   modal.dataset.currentKey = prevKey;
   document.getElementById('dmTitle').textContent = d.title;
   document.getElementById('dmContent').innerHTML = dedupeSectionContent(d.content, window.currentLang || 'ar');
+  // تنفيذ <script> داخل المحتوى المُحمَّل
+  var mc2=document.getElementById('dmContent'); if(mc2){mc2.querySelectorAll('script').forEach(function(old){var s=document.createElement('script');s.textContent=old.textContent;old.parentNode.replaceChild(s,old);});}
   const backBtn = document.getElementById('dmBackBtn');
   if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
   // Re-inject stored videos after DOM rebuild
@@ -2528,6 +2532,16 @@ function handleDaUpload(input) {
   reader.readAsDataURL(file);
 }
 
+// Bridge functions — ربط الأسماء في HTML مع الدوال الفعلية
+window.daLoadFile = handleDaUpload;
+window.daHandleDrop = function(e) {
+  e.preventDefault();
+  var zone = document.getElementById('da-upload-area');
+  if (zone) zone.style.borderColor = 'rgba(52,152,219,0.4)';
+  var file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+  if (file) { var dt = new DataTransfer(); dt.items.add(file); var inp = document.getElementById('da-file'); if(inp){inp.files = dt.files; handleDaUpload(inp);} }
+};
+
 // بناء System Prompt حسب نوع المخطط
 function getDaSystemPrompt(type, notes) {
   const base = 'أنت مهندس متخصص في قراءة وتحليل المخططات الإنشائية في دولة قطر، خبير في QCS 2024.\n'
@@ -2650,10 +2664,15 @@ function copyDaResult() {
 
 // دالة تحليل المخطط الرئيسية
 async function runDrawingAnalysis() {
-  // ── MONETIZATION: Pro Feature ──
+  // ── Free users: 3 analyses/day ──
   if (!isProUser()) {
-    showUpgradePrompt('drawing_analyzer','📐','محلل المخططات الذكي — Pro فقط','فحص المخططات الإنشائية والطرق ومطابقتها مع QCS 2024 متاح للمشتركين في Pro فقط.');
-    return;
+    var daKey = 'qs_da_count_' + new Date().toISOString().slice(0,10);
+    var daCount = parseInt(sessionStorage.getItem(daKey) || '0');
+    if (daCount >= 3) {
+      showUpgradePrompt('drawing_analyzer','📐','وصلت الحد اليومي — 3 تحليلات/يوم','اشترك في Pro لتحليلات غير محدودة للمخططات.');
+      return;
+    }
+    sessionStorage.setItem(daKey, String(daCount + 1));
   }
   if (!_daImageData) { showToast('❌ ارفع مخططاً أولاً'); return; }
 
