@@ -222,8 +222,10 @@ export default async function handler(req) {
   };
 
   // ── Gemini API call with retry + fallback model ──
+  // ترتيب الأفضلية: الأحدث أولاً ثم الاحتياطي
   const models = [
-    'gemini-2.0-flash',
+    'gemini-2.5-flash-preview-05-20',
+    'gemini-2.0-flash-001',
     'gemini-1.5-flash',
   ];
 
