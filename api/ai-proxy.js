@@ -597,15 +597,33 @@ const token = extractToken(req);
       }
     }
 
-    const status = err.message.includes('abort') || err.message.includes('timeout') ? 504 : 502;
+    // تحديد نوع الخطأ لإعطاء رسالة واضحة
+    const isQuota   = err.message.includes('quota') || err.message.includes('429');
+    const isTimeout = err.message.includes('abort') || err.message.includes('timeout');
+    const status    = isQuota ? 429 : isTimeout ? 504 : 502;
+
+    const errorMsg = isQuota
+      ? 'حصة Gemini API مستنفدة مؤقتاً — انتظر 60 ثانية وأعد المحاولة (جميع النماذج: 2.5-pro / 2.5-flash / 1.5-flash / 1.5-pro وصلت للحد)'
+      : isTimeout
+        ? 'انتهت مهلة الاتصال — حاول مرة أخرى'
+        : `خطأ في خدمة AI: ${err.message.slice(0, 100)}`;
+
+    console.error(`[ai-proxy] final error (status=${status}): ${err.message.slice(0,120)}`);
+
     return new Response(
       JSON.stringify({
-        error: err.message.includes('abort')
-          ? 'انتهت مهلة الاتصال — حاول مرة أخرى'
-          : `خطأ في خدمة AI: ${err.message.slice(0, 100)}`,
-        code: 'AI_ERROR',
+        error: errorMsg,
+        code: isQuota ? 'QUOTA_EXHAUSTED' : 'AI_ERROR',
+        retryAfter: isQuota ? 60 : 0,
       }),
-      { status, headers: { ...CORS, 'Content-Type': 'application/json' } }
+      {
+        status,
+        headers: {
+          ...CORS,
+          'Content-Type': 'application/json',
+          ...(isQuota ? { 'Retry-After': '60' } : {}),
+        },
+      }
     );
   }
 }

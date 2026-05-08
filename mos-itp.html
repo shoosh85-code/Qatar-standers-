@@ -611,14 +611,30 @@ async function generateMOS() {
 
     if (response.status === 429) {
       const data = await response.json().catch(() => ({}));
-      outputText.textContent = 'تجاوزت الحد المسموح. ' + (data.error || 'انتظر دقيقة وأعد المحاولة.');
+      const wait = data.retryAfter || 60;
       output.classList.remove('loading');
+      // countdown مع زر إعادة المحاولة
+      let remaining = wait;
+      outputText.innerHTML = `⏳ حصة Gemini API مستنفدة مؤقتاً — تلقائياً بعد <strong id="mos-countdown">${remaining}</strong> ثانية...`;
+      const timer = setInterval(() => {
+        remaining--;
+        const cd = document.getElementById('mos-countdown');
+        if (cd) cd.textContent = remaining;
+        if (remaining <= 0) {
+          clearInterval(timer);
+          outputText.innerHTML = '🔄 جاري إعادة المحاولة...';
+          generateMOS(); // إعادة المحاولة تلقائياً
+        }
+      }, 1000);
       return;
     }
 
     if (!response.ok) {
       const errData = await response.json().catch(() => ({}));
-      outputText.textContent = 'خطأ من الخادم: ' + response.status + ' — ' + (errData.error || 'تحقق من اعدادات API.');
+      const isQuota = errData.code === 'QUOTA_EXHAUSTED';
+      outputText.textContent = isQuota
+        ? '⚠️ حصة Gemini API مستنفدة — انتظر دقيقة وأعد المحاولة يدوياً.'
+        : 'خطأ من الخادم: ' + response.status + ' — ' + (errData.error || 'تحقق من إعدادات API.');
       output.classList.remove('loading');
       return;
     }
