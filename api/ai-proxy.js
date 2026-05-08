@@ -298,34 +298,59 @@ async function callGeminiStream(messages, maxTokens, apiKey) {
 }
 
 // ══════════════════════════════════════════════════════════════
-// GEMINI FALLBACK — gemini-2.5-flash عند فشل 2.5-pro
+// GEMINI FALLBACK — chain: 2.5-flash → 1.5-flash → 1.5-pro
+// SYNC-WITH: api/execution-ai.js MODELS chain
 // ══════════════════════════════════════════════════════════════
 async function callGeminiFallback(messages, maxTokens = 2000) {
   const apiKey = process.env.GEMINI_KEY;
   if (!apiKey) throw new Error('GEMINI_KEY not configured');
-  const model = 'gemini-2.5-flash';
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+  // نجرب الموديلات بالترتيب — الأول المتاح يُعيد النتيجة
+  const FALLBACK_MODELS = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-1.5-pro'];
+
   const contents = messages.map(m => ({
     role: m.role === 'assistant' ? 'model' : 'user',
     parts: [{ text: m.content }],
   }));
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents,
-      generationConfig: { maxOutputTokens: maxTokens, temperature: 0.2 },
-    }),
-  });
-  if (!res.ok) {
-    const err = new Error(`Gemini flash ${res.status}`);
-    err.status = res.status;
-    throw err;
+
+  let lastErr;
+  for (const model of FALLBACK_MODELS) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents,
+          generationConfig: { maxOutputTokens: maxTokens, temperature: 0.2 },
+        }),
+      });
+
+      if (!res.ok) {
+        const errText = await res.text().catch(() => '');
+        lastErr = new Error(`${model} ${res.status}: ${errText.slice(0, 100)}`);
+        lastErr.status = res.status;
+        console.warn(`[fallback] ${model} failed ${res.status} — trying next`);
+        continue; // جرّب الموديل التالي
+      }
+
+      const data = await res.json();
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      if (!text) {
+        lastErr = new Error(`${model} empty response`);
+        continue;
+      }
+
+      console.log(`[fallback] نجح: ${model}`);
+      return { content: [{ type: 'text', text }], model, usage: {} };
+
+    } catch (e) {
+      lastErr = e;
+      console.warn(`[fallback] ${model} exception: ${e.message}`);
+    }
   }
-  const data = await res.json();
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-  if (!text) throw new Error('Empty flash response');
-  return { content: [{ type: 'text', text }], model, usage: {} };
+
+  throw lastErr || new Error('All fallback models failed');
 }
 
 // ══════════════════════════════════════════════════════════════
