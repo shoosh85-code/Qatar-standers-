@@ -5,30 +5,8 @@
 
 export const config = { runtime: 'edge' };
 
-// ── Rate Limiting (Edge-compatible in-memory) ──────────────────
-// PROTOCOL 6: Free=3/min | Pro=10/min | Global=30/min/IP
-// SYNC-WITH: api/rate-limit.js LIMITS.free['verify-pro']=3, LIMITS.pro['verify-pro']=10
-// rate-limit.js لا يدعم Edge (setInterval + top-level await + Node headers)
-// → نسخة داخلية Edge-compatible
-const _rl = new Map();
-const RL_WINDOW_MS   = 60 * 1000;
-const RL_FREE_LIMIT  =  3;  // PROTOCOL 6: verify-pro free
-const RL_PRO_LIMIT   = 10;  // PROTOCOL 6: verify-pro pro
-const RL_GLOBAL_LIMIT = 30; // PROTOCOL 6: verify-pro global/IP
+import { checkRateLimit, rateLimitResponse } from '../lib/rate-limit.js';
 
-function _rlCheck(key, limit) {
-  const now   = Date.now();
-  const entry = _rl.get(key);
-  if (!entry || now - entry.ts > RL_WINDOW_MS) {
-    _rl.set(key, { count: 1, ts: now });
-    return { allowed: true, remaining: limit - 1 };
-  }
-  if (entry.count >= limit) {
-    return { allowed: false, retryAfter: Math.ceil((RL_WINDOW_MS - (now - entry.ts)) / 1000), remaining: 0 };
-  }
-  entry.count++;
-  return { allowed: true, remaining: limit - entry.count };
-}
 
 function checkRateLimit(ip, isPro = false) {
   // فحص الحد العالمي أولاً
@@ -112,7 +90,7 @@ export default async function handler(req) {
     return new Response(null, { status: 204, headers: CORS });
   }
 
-  // ── Rate Limit Check ──────────────────────────────────────────
+  // ── Rate Limit Check (PROTOCOL 6 — Upstash Redis) ──────────────
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '0.0.0.0';
   // كشف Pro مبكر (من cookie) لتطبيق الحد الصحيح
   const _cookieHdr = req.headers.get('cookie') || '';
@@ -122,19 +100,8 @@ export default async function handler(req) {
     const _p = await verifyJWT(_existingToken, process.env.JWT_SECRET);
     _isPro = _p?.pro === true;
   }
-  const rl = checkRateLimit(ip, _isPro);
-  if (!rl.allowed) {
-    return new Response(JSON.stringify({ error: 'Too Many Requests' }), {
-      status: 429,
-      headers: {
-        ...CORS,
-        'Content-Type': 'application/json',
-        'Retry-After': String(rl.retryAfter),
-        'X-RateLimit-Limit': String(rl.limit),
-        'X-RateLimit-Remaining': '0',
-      },
-    });
-  }
+  const rl = await checkRateLimit(ip, '/api/verify-pro', _isPro);
+  if (!rl.allowed) return rateLimitResponse(rl, CORS);
 
   const secret = process.env.JWT_SECRET;
   if (!secret) return json({ error: 'Server config missing' }, 500);

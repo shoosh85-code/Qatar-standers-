@@ -4,6 +4,8 @@
 
 
 export const config = { runtime: 'edge' };
+
+import { checkRateLimit, rateLimitResponse } from '../lib/rate-limit.js';
 // ── Security Headers (Inline — Edge functions لا تدعم imports خارجية) ────
 function applySecurityHeaders(res) {
   const headers = {
@@ -34,26 +36,6 @@ const CORS = {
   'Vary': 'Origin',
 };
 
-// ── Rate Limiting (Edge-compatible in-memory) ────────────────────────────────
-// حدود PROTOCOL 6: Free=3/دقيقة، Pro=30/دقيقة لكل IP
-const _rl = new Map();
-function checkRateLimit(ip, isPro) {
-  const now = Date.now();
-  const windowMs = 60 * 1000;
-  const limit = isPro ? 30 : 3;
-  const key = `${ip}:${isPro ? 'pro' : 'free'}`;
-  const entry = _rl.get(key);
-  if (!entry || now - entry.ts > windowMs) {
-    _rl.set(key, { count: 1, ts: now });
-    return { allowed: true, remaining: limit - 1 };
-  }
-  if (entry.count >= limit) {
-    const retryAfter = Math.ceil((windowMs - (now - entry.ts)) / 1000);
-    return { allowed: false, retryAfter, remaining: 0 };
-  }
-  entry.count++;
-  return { allowed: true, remaining: limit - entry.count };
-}
 
 // ── JWT verify ──────────────────────────────────────────────────────────────
 // SYNC-WITH: api/verify-pro.js verifyJWT() + api/ai-proxy.js verifyProToken()
@@ -166,20 +148,10 @@ export default async function handler(req) {
   const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : cookieToken;
   const isPro = token ? await verifyProToken(token) : false;
 
-  // Rate limiting — PROTOCOL 6
+  // Rate limiting — PROTOCOL 6 (Upstash Redis)
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '0.0.0.0';
-  const rl = checkRateLimit(ip, isPro);
-  if (!rl.allowed) {
-    return new Response(JSON.stringify({
-      error: isPro
-        ? `تجاوزت الحد (30 طلب/دقيقة للـ Pro). حاول بعد ${rl.retryAfter} ثانية.`
-        : `تجاوزت الحد (3 طلبات/دقيقة). اشترك في Pro للرفع إلى 30/دقيقة.`,
-      retryAfter: rl.retryAfter,
-    }), {
-      status: 429,
-      headers: { ...CORS, 'Content-Type': 'application/json', 'Retry-After': String(rl.retryAfter) },
-    });
-  }
+  const rl = await checkRateLimit(ip, '/api/vision-proxy', isPro);
+  if (!rl.allowed) return rateLimitResponse(rl, CORS);
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return json({ error: 'Vision service not configured' }, 503);

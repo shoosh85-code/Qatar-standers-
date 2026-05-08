@@ -5,42 +5,8 @@
 
 export const config = { runtime: 'edge' };
 
-// ── Rate Limiting (Edge-compatible in-memory) ────────────────────────────────
-// SYNC-WITH: api/rate-limit.js LIMITS.free['qcs-search']=10, LIMITS.pro['qcs-search']=100
-// حدود PROTOCOL 6: Free=10/دقيقة، Pro=100/دقيقة، Global=200/دقيقة لكل IP
-const _rl = new Map();
-function checkRateLimit(ip, isPro) {
-  const now = Date.now();
-  const windowMs = 60 * 1000;
-  const limit = isPro ? 100 : 10;
-  const globalLimit = 200;
+import { checkRateLimit, rateLimitResponse } from '../lib/rate-limit.js';
 
-  // Global check
-  const gKey = `global:${ip}`;
-  const gEntry = _rl.get(gKey);
-  if (!gEntry || now - gEntry.ts > windowMs) {
-    _rl.set(gKey, { count: 1, ts: now });
-  } else if (gEntry.count >= globalLimit) {
-    const retryAfter = Math.ceil((windowMs - (now - gEntry.ts)) / 1000);
-    return { allowed: false, retryAfter, remaining: 0, reason: 'global' };
-  } else {
-    gEntry.count++;
-  }
-
-  // Tier check
-  const key = `${ip}:${isPro ? 'pro' : 'free'}`;
-  const entry = _rl.get(key);
-  if (!entry || now - entry.ts > windowMs) {
-    _rl.set(key, { count: 1, ts: now });
-    return { allowed: true, remaining: limit - 1 };
-  }
-  if (entry.count >= limit) {
-    const retryAfter = Math.ceil((windowMs - (now - entry.ts)) / 1000);
-    return { allowed: false, retryAfter, remaining: 0 };
-  }
-  entry.count++;
-  return { allowed: true, remaining: limit - entry.count };
-}
 
 const CORS_ORIGIN = process.env.APP_URL || 'https://qatar-standers.vercel.app';
 
@@ -67,27 +33,13 @@ export default async function handler(req) {
   }
   if (req.method !== 'POST') return json({ error: 'POST only' }, 405);
 
-  // ── Rate Limit Check (PROTOCOL 6) ──────────────────────────────
+  // ── Rate Limit Check (PROTOCOL 6 — Upstash Redis) ──────────────
   const ip = (req.headers.get('x-forwarded-for') || '').split(',')[0].trim() || '0.0.0.0';
   const authHeader = req.headers.get('authorization') || '';
   const cookieHeader = req.headers.get('cookie') || '';
   const hasProToken = authHeader.startsWith('Bearer ') || cookieHeader.includes('qs_pro=');
-  const rl = checkRateLimit(ip, hasProToken);
-  if (!rl.allowed) {
-    return new Response(JSON.stringify({
-      error: 'Too Many Requests',
-      retryAfter: rl.retryAfter,
-      message: `حد الطلبات: ${hasProToken ? '100' : '10'} طلب/دقيقة. انتظر ${rl.retryAfter} ثانية.`
-    }), {
-      status: 429,
-      headers: {
-        ...makeCors(),
-        'Content-Type': 'application/json',
-        'Retry-After': String(rl.retryAfter),
-        'X-RateLimit-Remaining': '0'
-      }
-    });
-  }
+  const rl = await checkRateLimit(ip, '/api/qcs-search', hasProToken);
+  if (!rl.allowed) return rateLimitResponse(rl, makeCors());
 
   let body;
   try { body = await req.json(); } catch { return json({ error: 'Invalid JSON' }, 400); }
