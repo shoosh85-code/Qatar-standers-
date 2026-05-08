@@ -940,8 +940,16 @@ let navStack = [];
  */
 function dedupeSectionContent(contentHTML, lang) {
   if (!contentHTML) return contentHTML;
+
+  // حفظ <script> قبل DOMParser لأنه يحذفها تلقائياً
+  var scripts = [];
+  var htmlNoScript = contentHTML.replace(/<script[\s\S]*?<\/script>/gi, function(match) {
+    scripts.push(match);
+    return '<!--SCRIPT_PLACEHOLDER_' + (scripts.length - 1) + '-->';
+  });
+
   var parser = new DOMParser();
-  var doc = parser.parseFromString(contentHTML, 'text/html');
+  var doc = parser.parseFromString(htmlNoScript, 'text/html');
   var otherLang = (lang === 'ar') ? 'en' : 'ar';
 
   // إزالة حاويات اللغة الخاطئة
@@ -959,7 +967,13 @@ function dedupeSectionContent(contentHTML, lang) {
     if (seenCards[title]) card.remove();
     else seenCards[title] = true;
   }
-  return doc.body.innerHTML;
+
+  // إعادة <script> بعد المعالجة
+  var result = doc.body.innerHTML;
+  for (var k = 0; k < scripts.length; k++) {
+    result = result.replace('<!--SCRIPT_PLACEHOLDER_' + k + '-->', scripts[k]);
+  }
+  return result;
 }
 
 /**
