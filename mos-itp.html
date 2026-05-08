@@ -624,7 +624,12 @@ async function generateMOS() {
     }
 
     const data = await response.json();
-    const text = data.content || data.result || data.text || 'لا يوجد رد.';
+    // ai-proxy يُعيد { content: [{ type:'text', text:'...' }] } — نستخرج النص من الـ array
+    const text =
+      (Array.isArray(data.content) ? data.content[0]?.text : data.content) ||
+      data.result ||
+      data.text ||
+      'لا يوجد رد.';
     outputText.textContent = text;
 
     // إضافة disclaimer
