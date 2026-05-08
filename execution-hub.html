@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>لوحة التنفيذ الميداني — QatarSpec Pro</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--qa:#8D1B3D;--qa2:#A82048;--bg:#F8F7F5;--sf:#FFF;--bd:#E2E0DC;--bd2:#CCC;--tx:#1A1916;--tx2:#5C5A56;--tx3:#9B9893;--pass-bg:#EAF3DE;--pass-tx:#3B6D11;--fail-bg:#FCEBEB;--fail-tx:#A32D2D;--warn-bg:#FAEEDA;--warn-tx:#854F0B;--info-bg:#E6F1FB;--info-tx:#185FA5;--r:8px;--rl:12px}
+@media(prefers-color-scheme:dark){:root{--bg:#1A1916;--sf:#242220;--bd:#363330;--bd2:#4A4743;--tx:#F0EEE9;--tx2:#A09D98;--tx3:#6B6865;--pass-bg:#17340A;--pass-tx:#97C459;--fail-bg:#2E0F0F;--fail-tx:#F09595;--warn-bg:#2A1E08;--warn-tx:#FAC775;--info-bg:#082030;--info-tx:#85B7EB}}
+body{font-family:-apple-system,'Segoe UI','Noto Sans Arabic',Arial,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;font-size:14px;line-height:1.5}
+.hdr{background:var(--sf);border-bottom:1px solid var(--bd);padding:0 20px;display:flex;align-items:center;gap:12px;height:58px;position:sticky;top:0;z-index:100}
+.logo{width:34px;height:34px;background:var(--qa);border-radius:var(--r);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0}
+.htl{font-size:15px;font-weight:600}.hsu{font-size:11px;color:var(--tx3)}
+.hr{margin-right:auto;display:flex;align-items:center;gap:10px}
+.tier{background:#F5E6EB;color:var(--qa);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.con{max-width:1060px;margin:0 auto;padding:20px 14px}
+.tnav{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:20px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:7px}
+.tb{padding:7px 14px;border-radius:var(--r);border:none;background:transparent;color:var(--tx2);font-size:12px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:.15s;white-space:nowrap}
+.tb:hover{background:var(--bg);color:var(--tx)}.tb.on{background:var(--qa);color:#fff;font-weight:500}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:18px;margin-bottom:14px}
+.ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:11px;border-bottom:1px solid var(--bd)}
+.ct{font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+@media(max-width:600px){.g2,.g3{grid-template-columns:1fr}}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.fl{font-size:11px;font-weight:500;color:var(--tx2)}
+input,select,textarea{background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:7px 11px;font-size:13px;color:var(--tx);width:100%;outline:none;font-family:inherit;transition:.15s}
+input:focus,select:focus,textarea:focus{border-color:var(--qa);box-shadow:0 0 0 3px rgba(141,27,61,.08)}
+textarea{resize:vertical}
+.ht{font-size:10px;color:var(--tx3);margin-top:3px}
+.cli{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--bd);font-size:12px;cursor:pointer}
+.cli:last-child{border-bottom:none}
+.cli input[type=checkbox]{width:15px;height:15px;accent-color:var(--qa);cursor:pointer;flex-shrink:0}
+.br{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+.bp{background:var(--qa);color:#fff;border:none;padding:9px 18px;border-radius:var(--r);font-size:13px;cursor:pointer;display:flex;align-items:center;gap:7px;font-weight:500;transition:.15s}
+.bp:hover{background:var(--qa2)}
+.bs{background:var(--sf);color:var(--tx);border:1px solid var(--bd2);padding:9px 18px;border-radius:var(--r);font-size:13px;cursor:pointer;display:flex;align-items:center;gap:7px;transition:.15s}
+.bs:hover{background:var(--bg)}
+.bdg{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.bp-badge{background:var(--pass-bg);color:var(--pass-tx)}.bf-badge{background:var(--fail-bg);color:var(--fail-tx)}.bw-badge{background:var(--warn-bg);color:var(--warn-tx)}.bi-badge{background:var(--info-bg);color:var(--info-tx)}
+.qr{display:inline-flex;align-items:center;background:var(--info-bg);color:var(--info-tx);padding:2px 7px;border-radius:20px;font-size:10px}
+.rb{background:var(--bg);border:1px solid var(--bd);border-radius:var(--rl);padding:18px;margin-top:18px}
+.rh{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:11px;border-bottom:1px solid var(--bd);font-weight:600;font-size:13px}
+.rr{display:flex;justify-content:space-between;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--bd);font-size:12px}
+.rr:last-child{border-bottom:none}
+.rk{color:var(--tx2);flex-shrink:0;min-width:130px}.rv{font-weight:500;text-align:left;max-width:58%}
+.sb{margin-top:11px;padding:9px 13px;border-radius:var(--r);font-size:12px;font-weight:500}
+.so{background:var(--pass-bg);color:var(--pass-tx)}.sw{background:var(--warn-bg);color:var(--warn-tx)}.sf{background:var(--fail-bg);color:var(--fail-tx)}
+.iv{font-size:11px;margin-top:4px;display:block;min-height:17px}
+.stl{font-size:17px;font-weight:700;margin-bottom:3px}.sds{font-size:12px;color:var(--tx2);margin-bottom:18px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:right;padding:9px 11px;border-bottom:1px solid var(--bd2);font-size:10px;font-weight:600;color:var(--tx2)}
+td{padding:9px 11px;border-bottom:1px solid var(--bd)}tr:last-child td{border-bottom:none}
+.erow{text-align:center;color:var(--tx3);padding:35px}
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-top:14px}
+.sc{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:13px;text-align:center}
+.sn{font-size:26px;font-weight:700}.sl{font-size:10px;color:var(--tx2);margin-top:3px}
+.ps{display:none}.ps.on{display:block}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="logo">🏗</div>
+  <div><div class="htl">لوحة التنفيذ الميداني</div><div class="hsu">QatarSpec Pro · QCS 2024 · Ashghal RDM 2023</div></div>
+  <div class="hr">
+    <input type="text" id="ename" placeholder="اسم المهندس" style="width:150px;font-size:12px;padding:6px 10px">
+    <span class="tier">Free</span>
+  </div>
+</header>
+<div class="con">
+  <nav class="tnav">
+    <button class="tb on" onclick="sw('pour',this)">🪣 بطاقة الصب</button>
+    <button class="tb" onclick="sw('mar',this)">📋 MAR موافقة مادة</button>
+    <button class="tb" onclick="sw('ncr',this)">⚠️ NCR مخالفة</button>
+    <button class="tb" onclick="sw('tst',this)">🧪 الاختبارات</button>
+    <button class="tb" onclick="sw('dwr',this)">📅 سجل DWR</button>
+  </nav>
+
+  <!-- POUR -->
+  <section id="p-pour" class="ps on">
+    <div class="stl">بطاقة صب الخرسانة</div>
+    <div class="sds">Concrete Pour Card · <span class="qr">QCS 2024 · Part 8</span></div>
+    <div class="card">
+      <div class="ch"><div class="ct">🏢 معلومات المشروع</div></div>
+      <div class="g2">
+        <div class="fg"><label class="fl">اسم المشروع / Project</label><input id="pp" placeholder="Zone A Foundation"></div>
+        <div class="fg"><label class="fl">العنصر / Element</label><input id="pe" placeholder="Column C1-05"></div>
+      </div>
+      <div class="g3">
+        <div class="fg"><label class="fl">Mix Design</label><input id="pm" placeholder="MD-001"></div>
+        <div class="fg"><label class="fl">Grade</label><select id="pg"><option>C20</option><option>C25</option><option selected>C30</option><option>C35</option><option>C40</option><option>C45</option><option>C50</option></select></div>
+        <div class="fg"><label class="fl">الكمية (m³)</label><input type="number" id="pv" placeholder="0.0" step="0.5"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ct">✅ قائمة التحقق قبل الصب</div><span class="qr">QCS 2024 · Cl.8.3.2</span></div>
+      <label class="cli"><input type="checkbox" id="c1"><span>الفورمورك معتمد ومحكم — Formwork approved & sealed</span></label>
+      <label class="cli"><input type="checkbox" id="c2"><span>حديد التسليح موافق عليه — Rebar with valid MAR</span></label>
+      <label class="cli"><input type="checkbox" id="c3"><span>الغطاء الكافي للحديد — Cover spacers in place (Cl.8.4.3)</span></label>
+      <label class="cli"><input type="checkbox" id="c4"><span>المنطقة نظيفة خالية من الشوائب — Area clean & debris-free</span></label>
+      <label class="cli"><input type="checkbox" id="c5"><span>مضخة الخرسانة والهزاز جاهزان — Pump & vibrators ready</span></label>
+      <label class="cli"><input type="checkbox" id="c6"><span>فريق المعمل حاضر — Lab technician on site</span></label>
+      <label class="cli"><input type="checkbox" id="c7"><span>تصريح العمل صالح — Valid work permit in hand</span></label>
+      <label class="cli"><input type="checkbox" id="c8"><span>الموافقة الهندسية مكتوبة — Written engineer approval</span></label>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ct">🧪 اختبارات الموقع</div><span class="qr">QCS 2024 · Cl.8.5.1</span></div>
+      <div class="g2">
+        <div class="fg">
+          <label class="fl">Slump (mm)</label>
+          <input type="number" id="psl" placeholder="0" oninput="chkSl()">
+          <span class="iv" id="slv"></span>
+          <span class="ht">75–150mm عام · 100–180mm مضخة</span>
+        </div>
+        <div class="fg">
+          <label class="fl">درجة الحرارة (°C)</label>
+          <input type="number" id="ptp" placeholder="0" oninput="chkTp()">
+          <span class="iv" id="tpv"></span>
+          <span class="ht">الحد الأقصى 32°C للخرسانة (Qatar Hot Weather)</span>
+        </div>
+      </div>
+      <div class="g3">
+        <div class="fg"><label class="fl">عدد المكعبات</label><input type="number" id="pcu" value="6"><span class="ht">كل 50m³ أو كل شاحنة (Cl.8.7)</span></div>
+        <div class="fg"><label class="fl">رقم الشاحنة</label><input id="ptk" placeholder="TRK-001"></div>
+        <div class="fg"><label class="fl">وقت الوصول</label><input type="time" id="ptm"></div>
+      </div>
+    </div>
+    <div class="br">
+      <button class="bp" onclick="genP()">📄 توليد بطاقة الصب</button>
+      <button class="bs" onclick="prt('pr')">🖨 طباعة</button>
+      <button class="bs" onclick="clrP()">🔄 مسح</button>
+    </div>
+    <div id="pr"></div>
+  </section>
+
+  <!-- MAR -->
+  <section id="p-mar" class="ps">
+    <div class="stl">طلب موافقة مادة — MAR</div>
+    <div class="sds">Material Approval Request · <span class="qr">QCS 2024</span></div>
+    <div class="card">
+      <div class="ch"><div class="ct">🚛 بيانات المادة</div></div>
+      <div class="g2">
+        <div class="fg"><label class="fl">المورد / Supplier</label><input id="ms" placeholder="اسم الشركة"></div>
+        <div class="fg"><label class="fl">المادة / Material</label><input id="mm" placeholder="Ready Mix Concrete C30"></div>
+      </div>
+      <div class="g2">
+        <div class="fg"><label class="fl">الفئة / Category</label>
+          <select id="mc"><option>Concrete</option><option>Steel / Rebar</option><option>Aggregate</option><option>Waterproofing</option><option>Admixture</option><option>Block / Masonry</option><option>Pipe</option><option>Cable</option><option>Other</option></select>
+        </div>
+        <div class="fg"><label class="fl">المرجع / Standard</label>
+          <select id="mst"><option>QCS 2024</option><option>BS EN</option><option>ASTM</option><option>AASHTO</option><option>ISO</option><option>KAHRAMAA 2024</option><option>Ashghal RDM 2023</option></select>
+        </div>
+      </div>
+      <div class="g3">
+        <div class="fg"><label class="fl">موقع الاستخدام</label><input id="ml" placeholder="Foundation Zone A"></div>
+        <div class="fg"><label class="fl">الكمية</label><input id="mq" placeholder="500 m³"></div>
+        <div class="fg"><label class="fl">التاريخ</label><input type="date" id="md"></div>
+      </div>
+      <div class="fg"><label class="fl">ملاحظات</label><textarea id="mn" rows="2" placeholder="أي ملاحظات..."></textarea></div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ct">📎 الوثائق المطلوبة</div></div>
+      <label class="cli"><input type="checkbox" id="m1"><span>شهادة الاختبار — Supplier Test Certificate</span></label>
+      <label class="cli"><input type="checkbox" id="m2"><span>جدول البيانات التقنية — Technical Data Sheet</span></label>
+      <label class="cli"><input type="checkbox" id="m3"><span>نتائج مختبر مستقل — Independent Lab Results</span></label>
+      <label class="cli"><input type="checkbox" id="m4"><span>بيانات السلامة — MSDS</span></label>
+      <label class="cli"><input type="checkbox" id="m5"><span>موافقة المهندس المشرف — Engineer Approval</span></label>
+    </div>
+    <div class="br">
+      <button class="bp" onclick="genM()">📄 توليد MAR</button>
+      <button class="bs" onclick="prt('mr')">🖨 طباعة</button>
+    </div>
+    <div id="mr"></div>
+  </section>
+
+  <!-- NCR -->
+  <section id="p-ncr" class="ps">
+    <div class="stl">تقرير عدم المطابقة — NCR</div>
+    <div class="sds">Non-Conformance Report · <span class="qr">QCS 2024 · FIDIC</span></div>
+    <div class="card">
+      <div class="ch"><div class="ct">⚠️ تفاصيل المخالفة</div></div>
+      <div class="g2">
+        <div class="fg"><label class="fl">رقم NCR</label><input id="nn" placeholder="NCR-2024-001"></div>
+        <div class="fg"><label class="fl">تاريخ الاكتشاف</label><input type="date" id="nd"></div>
+      </div>
+      <div class="g2">
+        <div class="fg"><label class="fl">الموقع / Location</label><input id="nl" placeholder="Zone / Grid / Level"></div>
+        <div class="fg"><label class="fl">نوع المخالفة</label>
+          <select id="nt"><option>Concrete Quality</option><option>Rebar Placement</option><option>Formwork</option><option>Cover to Rebar</option><option>Unapproved Material</option><option>Workmanship</option><option>Safety Violation</option><option>Dimension Tolerance</option><option>Other</option></select>
+        </div>
+      </div>
+      <div class="fg"><label class="fl">وصف المخالفة — Description</label><textarea id="nds" rows="3" placeholder="صف المخالفة بوضوح..."></textarea></div>
+      <div class="g2">
+        <div class="fg"><label class="fl">بند QCS المخالف</label><input id="nc" placeholder="QCS 2024 Part 8 Cl.8.3.4"></div>
+        <div class="fg"><label class="fl">الخطورة / Severity</label>
+          <select id="ns"><option value="minor">Minor — ثانوي</option><option value="major">Major — رئيسي</option><option value="critical">Critical — حرج</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ct">🔧 الإجراء التصحيحي</div></div>
+      <div class="fg"><label class="fl">الإجراء المقترح</label><textarea id="na" rows="3" placeholder="صف خطة الإصلاح..."></textarea></div>
+      <div class="g2">
+        <div class="fg"><label class="fl">المسؤول</label><input id="nr" placeholder="اسم المهندس / المقاول"></div>
+        <div class="fg"><label class="fl">الموعد النهائي</label><input type="date" id="ndu"></div>
+      </div>
+    </div>
+    <div class="br">
+      <button class="bp" onclick="genN()">📄 توليد NCR</button>
+      <button class="bs" onclick="prt('ncr')">🖨 طباعة</button>
+    </div>
+    <div id="ncr"></div>
+  </section>
+
+  <!-- TESTS -->
+  <section id="p-tst" class="ps">
+    <div class="stl">متابعة الاختبارات الميدانية</div>
+    <div class="sds">Field Test Tracker · Pass/Fail فوري · <span class="qr">QCS 2024</span> <span class="qr">Ashghal RDM 2023</span></div>
+    <div class="card">
+      <div class="ch"><div class="ct">➕ إضافة نتيجة</div></div>
+      <div class="g2">
+        <div class="fg"><label class="fl">نوع الاختبار</label>
+          <select id="tt" onchange="updT()"><option value="comp">Compaction — تدحيج</option><option value="cube">Cube Strength — مكعب</option><option value="slmp">Slump Test</option><option value="tens">Rebar Tensile — شد</option><option value="siev">Sieve Analysis — منخل</option><option value="cbr">CBR Test</option></select>
+        </div>
+        <div class="fg"><label class="fl">الموقع</label><input id="tl" placeholder="Layer 3 / Zone B / Grid A5"></div>
+      </div>
+      <div id="tdf">
+        <div class="g2">
+          <div class="fg"><label class="fl" id="trl">نسبة التدحيج (%)</label><input type="number" step="0.1" placeholder="96.5" id="tr" oninput="chkT()"></div>
+          <div class="fg"><label class="fl">الحد الأدنى Min (%)</label><input type="number" step="0.1" value="95" id="tmi"><span class="ht">MMUP/Ashghal: ≥95% Base · ≥98% Sub-base</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:11px">
+        <span id="tvd" style="font-size:13px"></span>
+        <button class="bp" onclick="addT()" style="margin-right:auto">➕ إضافة</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ct">📊 سجل الاختبارات</div><button class="bs" onclick="expT()" style="padding:5px 11px;font-size:11px">📥 CSV</button></div>
+      <div class="tw">
+        <table><thead><tr><th>#</th><th>التاريخ</th><th>الاختبار</th><th>الموقع</th><th>النتيجة</th><th>الحد</th><th>الحكم</th></tr></thead>
+        <tbody id="tb"><tr><td colspan="7" class="erow">لا توجد نتائج — أضف اختبارك الأول</td></tr></tbody></table>
+      </div>
+      <div id="ts"></div>
+    </div>
+  </section>
+
+  <!-- DWR -->
+  <section id="p-dwr" class="ps">
+    <div class="stl">سجل العمل اليومي — DWR</div>
+    <div class="sds">Daily Work Record · تنسيق Ashghal الرسمي</div>
+    <div class="card">
+      <div class="ch"><div class="ct">📅 معلومات اليوم</div></div>
+      <div class="g3">
+        <div class="fg"><label class="fl">التاريخ</label><input type="date" id="dd"></div>
+        <div class="fg"><label class="fl">الطقس</label>
+          <select id="dw"><option>☀️ صحو / Clear</option><option>⛅ غائم / Partly Cloudy</option><option>🌧 ممطر / Rainy</option><option>💨 عاصف / Windy</option><option>🌫 ضباب / Foggy</option><option>🌡 شديد الحر / Extreme Heat</option></select>
+        </div>
+        <div class="fg"><label class="fl">الحرارة (°C)</label><input type="number" id="dt" placeholder="35"></div>
+      </div>
+      <div class="g3">
+        <div class="fg"><label class="fl">مهندسون</label><input type="number" id="de" value="0"></div>
+        <div class="fg"><label class="fl">عمالة ماهرة</label><input type="number" id="dsk" value="0"></div>
+        <div class="fg"><label class="fl">عمالة عادية</label><input type="number" id="dun" value="0"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ct">🔨 الأعمال والمواد</div></div>
+      <div class="fg"><label class="fl">الأعمال المنجزة</label><textarea id="dwk" rows="4" placeholder="صف جميع الأعمال المنجزة اليوم مع الكميات..."></textarea></div>
+      <div class="fg"><label class="fl">المواد المستخدمة</label><textarea id="dmt" rows="2" placeholder="120 m³ C30, 2.5t Rebar ∅16..."></textarea></div>
+      <div class="fg"><label class="fl">المعدات</label><textarea id="deq" rows="2" placeholder="1x Concrete Pump, 2x Excavator CAT 320..."></textarea></div>
+      <div class="fg"><label class="fl">المشاكل والتأخيرات</label><textarea id="dis" rows="2" placeholder="أي مشاكل أو تأخيرات..."></textarea></div>
+      <div class="fg"><label class="fl">خطة الغد</label><textarea id="dpl" rows="2" placeholder="الأعمال المخططة ليوم الغد..."></textarea></div>
+    </div>
+    <div class="br">
+      <button class="bp" onclick="genD()">📄 توليد التقرير اليومي</button>
+      <button class="bs" onclick="prt('dr')">🖨 طباعة</button>
+    </div>
+    <div id="dr"></div>
+  </section>
+</div>
+
+<script>
+'use strict';
+const TABS=['pour','mar','ncr','tst','dwr'];
+function sw(id,btn){
+  TABS.forEach(t=>{const s=document.getElementById('p-'+t);if(s)s.classList.remove('on')});
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
+  const s=document.getElementById('p-'+id);if(s)s.classList.add('on');if(btn)btn.classList.add('on');
+}
+(function(){
+  const t=new Date().toISOString().split('T')[0];
+  ['md','nd','ndu','dd'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=t});
+})();
+function gv(id){const e=document.getElementById(id);return e?e.value:''}
+function eng(){return gv('ename')||'غير محدد'}
+function now(){return new Date().toLocaleString('ar-QA')}
+
+// POUR
+function chkSl(){const v=parseFloat(gv('psl')),el=document.getElementById('slv');if(!el||isNaN(v)){if(el)el.textContent='';return}el.innerHTML=v>=75&&v<=150?'<span style="color:var(--pass-tx)">✓ PASS — QCS 2024 Cl.8.5.1</span>':v>=100&&v<=180?'<span style="color:var(--warn-tx)">⚠ PASS مضخة (100-180mm)</span>':'<span style="color:var(--fail-tx)">✗ FAIL — خارج الحدود</span>'}
+function chkTp(){const v=parseFloat(gv('ptp')),el=document.getElementById('tpv');if(!el||isNaN(v)){if(el)el.textContent='';return}el.innerHTML=v<=32&&v>=5?'<span style="color:var(--pass-tx)">✓ مقبول (≤32°C)</span>':v>32?'<span style="color:var(--fail-tx)">✗ حار جداً — برّد المواد</span>':'<span style="color:var(--warn-tx)">⚠ منخفض</span>'}
+function genP(){
+  const c=[1,2,3,4,5,6,7,8].filter(i=>document.getElementById('c'+i)?.checked).length;
+  const sl=gv('psl'),tp=gv('ptp'),ok=c===8&&parseFloat(sl)>=75&&parseFloat(sl)<=180&&parseFloat(tp)<=32;
+  document.getElementById('pr').innerHTML=box(`📋 بطاقة الصب — ${gv('pp')||'—'}`,`<span class="qr">QCS 2024 Part 8</span>`,
+    [['العنصر',gv('pe')||'—'],['Mix / Grade',`${gv('pm')||'—'} / ${gv('pg')}`],['الكمية',`${gv('pv')||'—'} m³`],['Slump',`${sl||'—'} mm`],['الحرارة',`${tp||'—'} °C`],['المكعبات',`${gv('pcu')||'6'} Cubes`],['الشاحنة',gv('ptk')||'—'],['وقت الوصول',gv('ptm')||'—'],['قائمة التحقق',`${c}/8 ✓`],['المهندس',eng()],['وقت التوليد',now()]],
+    ok?['so','✅ جميع الشروط مكتملة — يمكن البدء بالصب']:['sw',`⚠ ${8-c} بند غير مكتمل أو اختبار خارج الحدود`]);
+}
+function clrP(){['pp','pe','pm','pv','psl','ptp','ptk','ptm'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});[1,2,3,4,5,6,7,8].forEach(i=>document.getElementById('c'+i).checked=false);['slv','tpv'].forEach(id=>document.getElementById(id).textContent='');document.getElementById('pr').innerHTML=''}
+
+// MAR
+function genM(){
+  const d=[1,2,3,4,5].filter(i=>document.getElementById('m'+i)?.checked).length;
+  const ok=d>=4;
+  document.getElementById('mr').innerHTML=box(`📋 MAR-${Date.now().toString().slice(-5)}`,'<span class="bdg bi-badge">⏳ قيد المراجعة</span>',
+    [['المادة',gv('mm')||'—'],['المورد',gv('ms')||'—'],['الفئة / المرجع',`${gv('mc')} · ${gv('mst')}`],['الموقع',gv('ml')||'—'],['الكمية',gv('mq')||'—'],['الوثائق',`<span class="bdg ${ok?'bp-badge':'bw-badge'}">${d}/5 — ${ok?'كافية':'ناقصة'}</span>`],['ملاحظات',gv('mn')||'لا يوجد'],['التاريخ',gv('md')||'—'],['المهندس',eng()]],
+    ok?['so','✅ الوثائق كافية — جاهز للرفع للمشرف']:['sw',`⚠ أضف ${5-d} وثيقة ناقصة`]);
+}
+
+// NCR
+function genN(){
+  const sev=gv('ns'),sc=sev==='critical'?'sf':sev==='major'?'sw':'so';
+  const sl={'minor':'Minor — ثانوي','major':'Major — رئيسي','critical':'Critical — حرج'};
+  const sm=sev==='critical'?'🔴 حرج — أوقف العمل فوراً حتى الإصلاح':sev==='major'?'🟡 رئيسي — أصلح قبل الدفعة التالية':'🟢 ثانوي — ضمن الجدول الزمني';
+  const ds=gv('nds'),act=gv('na');
+  document.getElementById('ncr').innerHTML=box(`⚠️ ${gv('nn')||'NCR-'+Date.now().toString().slice(-4)}`,`<span class="bdg ${sc==='sf'?'bf-badge':sc==='sw'?'bw-badge':'bp-badge'}">${sl[sev]}</span>`,
+    [['التاريخ',gv('nd')||'—'],['الموقع',gv('nl')||'—'],['النوع',gv('nt')],['البند المخالف',gv('nc')||'—'],['الوصف',ds.slice(0,120)+(ds.length>120?'...':'')],['الإجراء التصحيحي',act.slice(0,120)+(act.length>120?'...':'')],['المسؤول',gv('nr')||'—'],['الموعد النهائي',gv('ndu')||'—'],['أصدره',eng()],['وقت الإصدار',now()]],
+    [sc,sm]);
+}
+
+// TESTS
+const TC={comp:{l:'تدحيج (%)',min:95,ph:'96.5',mx:false,ht:'Ashghal: ≥95% Base · ≥98% Sub-base'},cube:{l:'Cube Strength (MPa)',min:30,ph:'32.5',mx:false,ht:'C30: ≥30MPa at 28d (QCS Cl.8.7.4)'},slmp:{l:'Slump (mm)',min:75,ph:'120',mx:false,ht:'General: 75-150mm · Pumped: 100-180mm'},tens:{l:'Tensile (MPa)',min:500,ph:'525',mx:false,ht:'Grade 500: ≥500MPa (QCS Cl.10.5.2)'},siev:{l:'Fines (%)',min:5,ph:'3.2',mx:true,ht:'QCS Cl.7.3: ≤5% passing 0.075mm'},cbr:{l:'CBR (%)',min:20,ph:'25',mx:false,ht:'Ashghal RDM 2023: ≥20% Sub-base'}};
+const TN={comp:'تدحيج',cube:'مكعب',slmp:'Slump',tens:'شد حديد',siev:'منخل',cbr:'CBR'};
+let recs=[];
+function updT(){
+  const t=gv('tt'),c=TC[t]||TC.comp;
+  document.getElementById('tdf').innerHTML=`<div class="g2"><div class="fg"><label class="fl">${c.l}</label><input type="number" step="0.1" placeholder="${c.ph}" id="tr" oninput="chkT()"></div><div class="fg"><label class="fl">${c.mx?'الحد الأقصى':'الحد الأدنى'}</label><input type="number" step="0.1" value="${c.min}" id="tmi"><span class="ht">${c.ht}</span></div></div>`;
+  document.getElementById('tvd').innerHTML='';
+}
+function chkT(){
+  const r=parseFloat(document.getElementById('tr')?.value),m=parseFloat(document.getElementById('tmi')?.value),t=gv('tt'),el=document.getElementById('tvd');
+  if(!el||isNaN(r)||isNaN(m)){if(el)el.innerHTML='';return}
+  const pass=(TC[t]||TC.comp).mx?(r<=m):(r>=m);
+  el.innerHTML=pass?'<span class="bdg bp-badge">✓ PASS</span>':'<span class="bdg bf-badge">✗ FAIL</span>';
+}
+function addT(){
+  const re=document.getElementById('tr');if(!re){alert('اختر الاختبار أولاً');return}
+  const r=parseFloat(re.value);if(isNaN(r)){alert('أدخل النتيجة');return}
+  const m=parseFloat(document.getElementById('tmi')?.value)||0,t=gv('tt'),l=gv('tl')||'—';
+  const pass=(TC[t]||TC.comp).mx?(r<=m):(r>=m);
+  recs.unshift({date:new Date().toLocaleDateString('ar-QA'),t,l,r,m,pass});
+  renderT();
+}
+function renderT(){
+  const tb=document.getElementById('tb');
+  if(!recs.length){tb.innerHTML='<tr><td colspan="7" class="erow">لا توجد نتائج</td></tr>';return}
+  tb.innerHTML=recs.map((r,i)=>`<tr><td style="color:var(--tx3)">${recs.length-i}</td><td>${r.date}</td><td>${TN[r.t]||r.t}</td><td>${r.l}</td><td style="font-weight:600">${r.r.toFixed(1)}</td><td style="color:var(--tx3)">${r.m}</td><td><span class="bdg ${r.pass?'bp-badge':'bf-badge'}">${r.pass?'PASS':'FAIL'}</span></td></tr>`).join('');
+  const tot=recs.length,pas=recs.filter(r=>r.pass).length,rate=Math.round(pas/tot*100);
+  document.getElementById('ts').innerHTML=`<div class="sg"><div class="sc"><div class="sn">${tot}</div><div class="sl">إجمالي</div></div><div class="sc" style="background:var(--pass-bg);border-color:var(--pass-bg)"><div class="sn" style="color:var(--pass-tx)">${pas}</div><div class="sl" style="color:var(--pass-tx)">PASS</div></div><div class="sc" style="background:${tot-pas>0?'var(--fail-bg)':'var(--pass-bg)'};border-color:${tot-pas>0?'var(--fail-bg)':'var(--pass-bg)'}"><div class="sn" style="color:${tot-pas>0?'var(--fail-tx)':'var(--pass-tx)'}">${rate}%</div><div class="sl" style="color:${tot-pas>0?'var(--fail-tx)':'var(--pass-tx)'}">نسبة النجاح</div></div></div>`;
+}
+function expT(){
+  if(!recs.length){alert('لا توجد نتائج');return}
+  const csv=['#,التاريخ,الاختبار,الموقع,النتيجة,الحد,الحكم'].concat(recs.map((r,i)=>`${recs.length-i},${r.date},${TN[r.t]},${r.l},${r.r.toFixed(1)},${r.m},${r.pass?'PASS':'FAIL'}`)).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));a.download='FieldTests_'+new Date().toISOString().split('T')[0]+'.csv';a.click();
+}
+
+// DWR
+function genD(){
+  const e=parseInt(gv('de'))||0,sk=parseInt(gv('dsk'))||0,un=parseInt(gv('dun'))||0,tot=e+sk+un;
+  const is=gv('dis'),hi=is&&is.trim();
+  document.getElementById('dr').innerHTML=box(`📅 DWR — ${gv('dd')||'—'}`,'<span class="bdg bi-badge">Ashghal Format</span>',
+    [['الطقس',gv('dw')],['الحرارة',`${gv('dt')||'—'} °C`],['إجمالي العمالة',`${tot} — م:${e} ماهر:${sk} عادي:${un}`],['الأعمال المنجزة',(gv('dwk')||'—').slice(0,150)],['المواد',(gv('dmt')||'—').slice(0,100)],['المعدات',(gv('deq')||'—').slice(0,100)],['المشاكل',is||'لا يوجد'],['خطة الغد',(gv('dpl')||'—').slice(0,100)],['المهندس',eng()],['وقت الإصدار',now()]],
+    hi?['sw','⚠ يوجد مشاكل/تأخيرات — أبلغ مدير المشروع']:['so','✅ يوم بدون مشاكل']);
+}
+
+// SHARED BOX BUILDER
+function box(title,badge,rows,status){
+  const[sc,sm]=Array.isArray(status)?status:['so',status];
+  return`<div class="rb"><div class="rh"><span>${title}</span>${badge}</div>${rows.map(([k,v])=>`<div class="rr"><span class="rk">${k}</span><span class="rv">${v}</span></div>`).join('')}<div class="sb ${sc}">${sm}</div></div>`;
+}
+
+// PRINT
+function prt(id){
+  const el=document.getElementById(id);
+  if(!el||!el.innerHTML.trim()){alert('ولّد التقرير أولاً');return}
+  const w=window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>QatarSpec Pro</title><style>body{font-family:Arial,sans-serif;padding:24px;color:#000}.rh{display:flex;justify-content:space-between;font-weight:700;font-size:15px;border-bottom:2px solid #8D1B3D;padding-bottom:8px;margin-bottom:12px}.rr{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;font-size:12px}.rk{color:#666}.rv{font-weight:600}.sb{margin-top:10px;padding:9px;border-radius:6px;font-size:12px;font-weight:600}.so{background:#EAF3DE;color:#3B6D11}.sw{background:#FAEEDA;color:#854F0B}.sf{background:#FCEBEB;color:#A32D2D}.bdg{padding:2px 7px;border-radius:20px;font-size:11px;font-weight:700}.bp-badge{background:#EAF3DE;color:#3B6D11}.bf-badge{background:#FCEBEB;color:#A32D2D}.bw-badge{background:#FAEEDA;color:#854F0B}.bi-badge{background:#E6F1FB;color:#185FA5}.qr{background:#E6F1FB;color:#185FA5;padding:2px 7px;border-radius:20px;font-size:10px}</style></head><body>
+  <div style="text-align:center;margin-bottom:16px;border-bottom:3px solid #8D1B3D;padding-bottom:10px"><strong style="font-size:16px;color:#8D1B3D">QatarSpec Pro</strong><br><span style="font-size:11px;color:#666">qatar-standers.vercel.app · QCS 2024 · Ashghal Format</span></div>
+  ${el.innerHTML}</body></html>`);
+  w.document.close();setTimeout(()=>w.print(),500);
+}
+</script>
+</body>
+</html>

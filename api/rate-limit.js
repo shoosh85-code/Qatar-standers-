@@ -1,155 +1,124 @@
-// api/rate-limit.js — QatarSpec Pro v2.0
-// يستخدم @upstash/ratelimit بدلاً من @vercel/kv المهجور
+// api/rate-limit.js — QatarSpec Pro Rate Limiting
+// Vercel KV (primary) + in-memory Map (fallback)
+// PROTOCOL 6: كل endpoint يجب أن يمر من هنا
 
-import { Ratelimit } from '@upstash/ratelimit';
-import { Redis }     from '@upstash/redis';
-
-// ── حدود كل tier ─────────────────────────────────────────
-export const TIER_LIMITS = {
-  free:       { requests: 5,   window: '1 m' },
-  pro:        { requests: 60,  window: '1 m' },
-  enterprise: { requests: 300, window: '1 m' },
+const LIMITS = {
+  free:   { requests: 5,   window: 60 },
+  pro:    { requests: 60,  window: 60 },
+  global: { requests: 100, window: 60 },
 };
 
-// ── حدود كل endpoint ──────────────────────────────────────
-export const ENDPOINT_LIMITS = {
-  'ai-proxy':       { free: 5,  pro: 60,  global: 100 },
-  'vision-proxy':   { free: 3,  pro: 30,  global: 50  },
-  'verify-pro':     { free: 3,  pro: 10,  global: 30  },
-  'qcs-search':     { free: 10, pro: 100, global: 200 },
-  'mos-generator':  { free: 5,  pro: 60,  global: 100 },
-  default:          { free: 5,  pro: 60,  global: 100 },
+const ENDPOINT_LIMITS = {
+  '/api/ai-proxy':      { free: 5,  pro: 60,  global: 100 },
+  '/api/verify-pro':    { free: 3,  pro: 10,  global: 30  },
+  '/api/qcs-search':    { free: 10, pro: 100, global: 200 },
+  '/api/vision-proxy':  { free: 3,  pro: 30,  global: 50  },
+  '/api/execution-hub': { free: 5,  pro: 60,  global: 100 },
 };
 
-// ── FNV-1a hash للـ IP (بدون crypto) ──────────────────────
-function fnv1a(str) {
-  let h = 2166136261;
-  for (let i = 0; i < str.length; i++) {
-    h ^= str.charCodeAt(i);
-    h = (h * 16777619) >>> 0;
-  }
-  return h.toString(16);
-}
-
-// ── استخراج IP ────────────────────────────────────────────
-export function getClientIP(req) {
-  const raw =
-    req.headers['x-real-ip'] ||
-    req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
-    req.socket?.remoteAddress ||
-    'unknown';
-  return fnv1a(raw);
-}
-export const getIp = getClientIP;
-
-// ── تحديد الـ tier من الـ Authorization header ────────────
-export function getUserTier(req) {
-  const auth = req.headers['authorization'] || '';
-  if (auth.startsWith('Enterprise ')) return 'enterprise';
-  if (auth.startsWith('Pro '))        return 'pro';
-  return 'free';
-}
-
-// ── Redis client (singleton) ──────────────────────────────
-let _redis = null;
-function getRedis() {
-  if (_redis) return _redis;
-  const url   = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (url && token) {
-    _redis = new Redis({ url, token });
-  }
-  return _redis;
-}
-
-// ── Ratelimit instances cache ─────────────────────────────
-const _limiters = {};
-function getLimiter(tier, endpoint) {
-  const key = `${tier}:${endpoint}`;
-  if (_limiters[key]) return _limiters[key];
-  const redis = getRedis();
-  if (!redis) return null;
-  const limits  = ENDPOINT_LIMITS[endpoint] || ENDPOINT_LIMITS.default;
-  const max     = limits[tier] || limits.free;
-  const window  = TIER_LIMITS[tier]?.window || '1 m';
-  _limiters[key] = new Ratelimit({
-    redis,
-    limiter:        Ratelimit.slidingWindow(max, window),
-    analytics:      true,
-    prefix:         `qs:rl:${endpoint}`,
-    ephemeralCache: new Map(),
-  });
-  return _limiters[key];
-}
-
-// ── In-memory fallback ────────────────────────────────────
-const _mem = new Map();
+// In-Memory Fallback
+const memoryStore = new Map();
 setInterval(() => {
   const now = Date.now();
-  for (const [k, v] of _mem) {
-    if (now > v.resetAt + 60000) _mem.delete(k);
+  for (const [key, data] of memoryStore.entries()) {
+    if (now > data.resetAt) memoryStore.delete(key);
   }
-}, 60000);
+}, 60_000);
 
-function memCheck(id, max) {
-  const now  = Date.now();
-  const data = _mem.get(id) || { count: 0, resetAt: now + 60000 };
-  if (now > data.resetAt) { data.count = 0; data.resetAt = now + 60000; }
-  data.count++;
-  _mem.set(id, data);
-  return {
-    success:   data.count <= max,
-    limit:     max,
-    remaining: Math.max(0, max - data.count),
-    reset:     data.resetAt,
-  };
-}
-
-// ── Core check ────────────────────────────────────────────
-export async function checkRateLimit(id, tier, endpoint) {
-  const limiter = getLimiter(tier, endpoint);
-  if (!limiter) {
-    const max = (ENDPOINT_LIMITS[endpoint] || ENDPOINT_LIMITS.default)[tier] || 5;
-    return memCheck(id, max);
-  }
+// Vercel KV Helper
+let kv = null;
+async function getKV() {
+  if (kv) return kv;
   try {
-    const r = await limiter.limit(id);
-    return { success: r.success, limit: r.limit, remaining: r.remaining, reset: r.reset };
+    const { kv: vercelKV } = await import('@vercel/kv');
+    kv = vercelKV;
+    return kv;
   } catch {
-    return { success: true, limit: 999, remaining: 999, reset: Date.now() + 60000 };
+    return null;
   }
 }
 
-// ── Headers helper ─────────────────────────────────────────
-export function applyRateLimitHeaders(res, r) {
-  res.setHeader('X-RateLimit-Limit',     r.limit);
-  res.setHeader('X-RateLimit-Remaining', r.remaining);
-  res.setHeader('X-RateLimit-Reset',     Math.ceil(r.reset / 1000));
-  if (!r.success) {
-    res.setHeader('Retry-After', Math.max(1, Math.ceil((r.reset - Date.now()) / 1000)));
+async function checkRateLimitKV(key, maxRequests, windowSeconds) {
+  const store = await getKV();
+  if (!store) return null;
+  try {
+    const now = Math.floor(Date.now() / 1000);
+    const windowKey = `rl:${key}:${Math.floor(now / windowSeconds)}`;
+    const count = await store.incr(windowKey);
+    if (count === 1) await store.expire(windowKey, windowSeconds);
+    const remaining = Math.max(0, maxRequests - count);
+    const resetAt = (Math.floor(now / windowSeconds) + 1) * windowSeconds;
+    return { allowed: count <= maxRequests, count, remaining, resetAt, limit: maxRequests, source: 'kv' };
+  } catch (err) {
+    console.error('[RateLimit] KV error:', err.message);
+    return null;
   }
 }
 
-// ── Main wrapper ──────────────────────────────────────────
-export async function withRateLimit(req, res, endpoint = 'default') {
-  if (req.method === 'OPTIONS') return true;
-  const ip   = getClientIP(req);
-  const tier = getUserTier(req);
-  const r    = await checkRateLimit(ip, tier, endpoint);
-  applyRateLimitHeaders(res, r);
-  if (!r.success) {
+function checkRateLimitMemory(key, maxRequests, windowSeconds) {
+  const now = Date.now();
+  const windowMs = windowSeconds * 1000;
+  const windowKey = `${key}:${Math.floor(now / windowMs)}`;
+  const existing = memoryStore.get(windowKey);
+  if (!existing) {
+    memoryStore.set(windowKey, { count: 1, resetAt: now + windowMs });
+    return { allowed: true, count: 1, remaining: maxRequests - 1, resetAt: Math.floor((now + windowMs) / 1000), limit: maxRequests, source: 'memory' };
+  }
+  existing.count++;
+  return { allowed: existing.count <= maxRequests, count: existing.count, remaining: Math.max(0, maxRequests - existing.count), resetAt: Math.floor(existing.resetAt / 1000), limit: maxRequests, source: 'memory' };
+}
+
+export async function checkRateLimit(req, tier = 'free', endpointPath = null) {
+  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.headers['x-real-ip'] || req.connection?.remoteAddress || 'unknown';
+  const endpointConfig = endpointPath && ENDPOINT_LIMITS[endpointPath];
+  const maxRequests = endpointConfig ? (endpointConfig[tier] ?? LIMITS[tier].requests) : LIMITS[tier].requests;
+  const windowSeconds = LIMITS[tier]?.window ?? 60;
+  const tierKey = `${tier}:${ip}:${endpointPath || 'default'}`;
+  const globalKey = `global:${ip}:${endpointPath || 'default'}`;
+
+  const tierResult = await checkRateLimitKV(tierKey, maxRequests, windowSeconds) || checkRateLimitMemory(tierKey, maxRequests, windowSeconds);
+  const globalMax = endpointConfig?.global ?? LIMITS.global.requests;
+  const globalResult = await checkRateLimitKV(globalKey, globalMax, windowSeconds) || checkRateLimitMemory(globalKey, globalMax, windowSeconds);
+
+  const allowed = tierResult.allowed && globalResult.allowed;
+  const remaining = Math.min(tierResult.remaining, globalResult.remaining);
+  const resetAt = Math.max(tierResult.resetAt, globalResult.resetAt);
+
+  return { allowed, tier, ip, limit: maxRequests, remaining, resetAt, retryAfter: allowed ? null : resetAt - Math.floor(Date.now() / 1000), source: tierResult.source };
+}
+
+export function rateLimitHeaders(result) {
+  const h = {
+    'X-RateLimit-Limit':     String(result.limit),
+    'X-RateLimit-Remaining': String(result.remaining),
+    'X-RateLimit-Reset':     String(result.resetAt),
+    'X-RateLimit-Tier':      result.tier,
+  };
+  if (!result.allowed) h['Retry-After'] = String(result.retryAfter || 60);
+  return h;
+}
+
+export async function withRateLimit(req, res, tier = 'free') {
+  const endpoint = req.url?.split('?')[0] || null;
+  const result = await checkRateLimit(req, tier, endpoint);
+  Object.entries(rateLimitHeaders(result)).forEach(([k, v]) => res.setHeader(k, v));
+  if (!result.allowed) {
     res.status(429).json({
-      error:      'Too Many Requests',
-      message:    `تجاوزت الحد — ${tier}: ${r.limit} طلب/دقيقة`,
-      retryAfter: parseInt(res.getHeader('Retry-After'), 10),
+      error: 'Too Many Requests',
+      message: tier === 'free'
+        ? 'تجاوزت الحد المسموح للمستخدمين المجانيين. قم بالترقية إلى Pro للحصول على 60 طلب/دقيقة.'
+        : 'تجاوزت الحد المسموح. حاول مرة أخرى بعد قليل.',
+      retryAfter: result.retryAfter,
+      tier,
+      upgrade: tier === 'free' ? 'https://qatar-standers.vercel.app/pro' : null,
     });
     return false;
   }
   return true;
 }
 
-export const applyRateLimit = withRateLimit;
-
-export async function rateLimit(req, tier, endpoint = 'default') {
-  return checkRateLimit(getClientIP(req), tier, endpoint);
-}
+// مثال الاستخدام:
+// import { withRateLimit } from './rate-limit.js';
+// const tier = req.headers['x-user-tier'] || 'free';
+// const allowed = await withRateLimit(req, res, tier);
+// if (!allowed) return;
