@@ -33,7 +33,6 @@
 
 لا تقول "تم الرفع" إلا بعد:
 
-```
 □ 1. git status → لصق الناتج
 □ 2. git add [ملفات] → لصق الناتج
 □ 3. git diff --cached --stat → لصق الناتج
@@ -42,13 +41,10 @@
 □ 6. git push → لصق الناتج كاملاً
 □ 7. git ls-remote origin main → لصق hash الـ remote
 □ 8. مقارنة local hash مع remote hash
-```
 
 إذا لم يتطابقان:
-```
 → ❌ STOP: git push فشل — الـ commit لم يصل
 → لا تكمل. لا تكذب. لا تقول "تم".
-```
 
 ---
 
@@ -75,12 +71,7 @@
 ## PROTOCOL 4: صفر تضليل (ZERO HALLUCINATION)
 
 ممنوع تماماً:
-- "أعتقد"
-- "ربما"
-- "على الأرجح"
-- "يبدو"
-- "يجب أن"
-- "من المفترض"
+- "أعتقد" / "ربما" / "على الأرجح" / "يبدو" / "يجب أن" / "من المفترض"
 
 إلزامي:
 - "الناتج الفعلي: [لصق]"
@@ -113,6 +104,8 @@
 | /api/verify-pro | 3/min | 10/min | 30/min/IP |
 | /api/qcs-search | 10/min | 100/min | 200/min/IP |
 | /api/vision-proxy | 3/min | 30/min | 50/min/IP |
+| /api/mos-generator | 3/min | 20/min | 50/min/IP |
+| /api/itp-generator | 3/min | 20/min | 50/min/IP |
 
 ### Implementation:
 - استخدم Vercel KV للـ rate limiting
@@ -124,7 +117,11 @@
 ## VERIFICATION SCRIPT
 
 ```bash
-echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-remote origin main | head -1 && LOCAL=$(git rev-parse HEAD) && REMOTE=$(git ls-remote origin main | awk '{print $1}') && if [ "$LOCAL" = "$REMOTE" ]; then echo "✅ MATCH"; else echo "❌ MISMATCH"; fi
+echo "=== LOCAL ===" && git log --oneline -1 && \
+echo "=== REMOTE ===" && git ls-remote origin main | head -1 && \
+LOCAL=$(git rev-parse HEAD) && \
+REMOTE=$(git ls-remote origin main | awk '{print $1}') && \
+if [ "$LOCAL" = "$REMOTE" ]; then echo "✅ MATCH"; else echo "❌ MISMATCH"; fi
 ```
 
 إذا ❌ MISMATCH → STOP. لا تقول "تم".
@@ -133,12 +130,14 @@ echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-
 
 ## PROJECT INFO
 
-- **Name:** QatarSpec Pro
-- **Site:** qatar-standers.vercel.app
-- **Stack:** Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
-- **Repo:** github.com/shoosh85-code/Qatar-standers-
-- **Audience:** مهندسون قطريون وأجانب يعملون في قطر
-- **References:** QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
+```
+Name:      QatarSpec Pro
+Site:      qatar-standers.vercel.app
+Stack:     Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
+Repo:      github.com/shoosh85-code/Qatar-standers-
+Audience:  مهندسون قطريون وأجانب يعملون في قطر
+References: QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
+```
 
 ---
 
@@ -151,7 +150,7 @@ git config user.email "qatarspec@deploy.app"
 git config user.name "QatarSpec Deploy"
 ```
 
-**Push:**
+Push (استبدل TOKEN بـ Personal Access Token آمن — لا تضع الـ token في هذا الملف):
 ```bash
 git remote set-url origin https://TOKEN@github.com/shoosh85-code/Qatar-standers-.git
 git push origin main
@@ -168,19 +167,35 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 4. Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
 5. Pro features: gentle prompt for free users
 6. Never invent numbers — say "غير موجود في المستند"
-7. `window.QS` namespace for all public functions
+7. window.QS namespace for all public functions
 8. Sanitize ALL user input before innerHTML
-9. `const`/`let` only (no `var`)
+9. const/let only (no var)
 10. Arabic comments for complex logic
+
+---
+
+## MOS/ITP MODULE RULES (v3.0 addition)
+
+- لا تستخدم Parsons كمرجع — المراجع الوحيدة المقبولة:
+  - QCS 2024 (Primary)
+  - Ashghal RDM 2023
+  - KAHRAMAA Standards 2024
+  - MMUP Guidelines
+  - FIDIC / BS / ASTM (للمعايير الدولية فقط)
+- كل قالب MOS يجب أن يحتوي على 6 أقسام إلزامية (General, Pre-Construction, Work Methodology, QC, HSE, Appendices)
+- كل سطر في ITP يجب أن يحتوي على: QCS Reference + Acceptance Criteria + Test Method + Frequency + Surveillance Points
+- Hold Points (H) تتطلب موافقة SC قبل المتابعة
+- Witness Points (W) تتطلب حضور QC
+- كل ITP يُصدَّر بتنسيق Ashghal الرسمي
 
 ---
 
 ## EXPORT STANDARDS
 
-- **PDF:** QatarSpec Pro header + QCS 2024 reference + page numbers + watermark
-- **Excel:** Ashghal official format + multiple sheets + summary stats
-- **Word:** Professional header + editable fields + QCS clause references
-- **All exports:** Project name + Engineer name + Date + QatarSpec branding
+- PDF: QatarSpec Pro header + QCS 2024 reference + page numbers + watermark
+- Excel: Ashghal official format + multiple sheets + summary stats
+- Word: Professional header + editable fields + QCS clause references
+- All exports: Project name + Engineer name + Date + QatarSpec branding
 
 ---
 
@@ -188,6 +203,7 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 
 - NO API keys in localStorage — server-side env vars only
 - NO JWT in localStorage — httpOnly cookies only
+- NO GitHub tokens in any file — use environment variables
 - CSP headers required
 - Rate limit all API endpoints (see PROTOCOL 6)
 - Sanitize all user input
