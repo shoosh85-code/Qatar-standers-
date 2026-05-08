@@ -125,29 +125,50 @@ export default async function handler(req) {
     ? `السياق:\n${context}\n\nالسؤال: ${question}`
     : question;
 
-  try {
-    const geminiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: systemPrompt }] },
-          contents: [{ role: 'user', parts: [{ text: fullPrompt }] }],
-          generationConfig: { temperature: 0.2, maxOutputTokens: 800 }
-        })
-      }
-    );
+  // SYNC-WITH: api/vision-proxy.js model chain — نفس النماذج المؤكدة
+  const MODELS = ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-1.5-flash'];
+  // Method Statements تحتاج توكنز أكثر من الأسئلة القصيرة
+  const maxTokens = (module === 'mos') ? 4096 : 1500;
 
-    if (!geminiRes.ok) {
-      const err = await geminiRes.text();
-      console.error('[execution-ai] Gemini error:', err);
-      return new Response(JSON.stringify({ error: 'Gemini API error', detail: err }),
-        { status: 502, headers: { ...CORS, 'Content-Type': 'application/json' }});
+  try {
+    let lastErr = '';
+    let text = '';
+
+    for (const model of MODELS) {
+      try {
+        const geminiRes = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              system_instruction: { parts: [{ text: systemPrompt }] },
+              contents: [{ role: 'user', parts: [{ text: fullPrompt }] }],
+              generationConfig: { temperature: 0.2, maxOutputTokens: maxTokens }
+            })
+          }
+        );
+
+        if (!geminiRes.ok) {
+          lastErr = await geminiRes.text();
+          console.error(`[execution-ai] ${model} failed:`, lastErr);
+          continue; // حاول النموذج التالي
+        }
+
+        const data = await geminiRes.json();
+        text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        if (text) break; // نجح — لا تحاول نموذج آخر
+      } catch (modelErr) {
+        lastErr = modelErr.message;
+        console.error(`[execution-ai] ${model} exception:`, modelErr.message);
+        continue;
+      }
     }
 
-    const data = await geminiRes.json();
-    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'لا توجد إجابة';
+    if (!text) {
+      return new Response(JSON.stringify({ error: 'جميع النماذج فشلت', detail: lastErr }),
+        { status: 502, headers: { ...CORS, 'Content-Type': 'application/json' }});
+    }
 
     return new Response(JSON.stringify({ answer: text, module, timestamp: new Date().toISOString() }), {
       headers: { ...CORS, 'Content-Type': 'application/json' }
