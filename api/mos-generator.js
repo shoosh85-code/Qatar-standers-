@@ -3,7 +3,7 @@
 // المراجع: QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024
 // ⚠️ لا يُستخدم Parsons كمرجع
 
-import { rateLimiter } from './rate-limit.js';
+import { withRateLimit } from './rate-limit.js';
 
 // ============================================================
 // قواميس القوالب — Templates Dictionary
@@ -768,17 +768,8 @@ export default async function handler(req, res) {
   const authHeader = req.headers.authorization;
   const tier = await getUserTier(authHeader); // 'free' | 'pro' | 'enterprise'
 
-  const limits = { free: 3, pro: 20, enterprise: 60 };
-  const allowed = await rateLimiter(ip, 'mos-generator', limits[tier]);
-  if (!allowed) {
-    return res.status(429).json({
-      error: 'Rate limit exceeded',
-      message: tier === 'free'
-        ? 'وصلت للحد الأقصى للطلبات. ترقَّ إلى Pro للحصول على 20 طلباً في الدقيقة'
-        : 'Rate limit exceeded. Please try again in 1 minute.',
-      retryAfter: 60
-    });
-  }
+  const rlResult = await withRateLimit(req, res, 'mos-generator');
+  if (!rlResult) return;
 
   // ── PARSE REQUEST
   const { type, projectInfo, phase, executionMethod, language } = req.body;

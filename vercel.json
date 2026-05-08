@@ -3,7 +3,7 @@
   "outputDirectory": ".",
   "rewrites": [
     {
-      "source": "/((?!api/|404\\.html|500\\.html).*)",
+      "source": "/((?!api/|404\\.html|500\\.html|mos-itp\\.html|offline\\.html|embedding-runner\\.html|translation-runner\\.html).*)",
       "destination": "/index.html"
     }
   ],
