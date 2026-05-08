@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مولّد طريقة التنفيذ — QatarSpec Pro</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--qa:#8D1B3D;--qa2:#A82048;--bg:#F8F7F5;--sf:#FFF;--bd:#E2E0DC;--bd2:#CCC;--tx:#1A1916;--tx2:#5C5A56;--tx3:#9B9893;--gold:#C9A84C;--pass-bg:#EAF3DE;--pass-tx:#3B6D11;--info-bg:#E6F1FB;--info-tx:#185FA5;--warn-bg:#FAEEDA;--warn-tx:#854F0B;--r:8px;--rl:12px}
+@media(prefers-color-scheme:dark){:root{--bg:#1A1916;--sf:#242220;--bd:#363330;--bd2:#4A4743;--tx:#F0EEE9;--tx2:#A09D98;--tx3:#6B6865;--pass-bg:#17340A;--pass-tx:#97C459;--info-bg:#082030;--info-tx:#85B7EB;--warn-bg:#2A1E08;--warn-tx:#FAC775}}
+body{font-family:-apple-system,'Segoe UI','Noto Sans Arabic',Arial,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;font-size:14px;line-height:1.6}
+.hdr{background:var(--sf);border-bottom:1px solid var(--bd);padding:0 20px;display:flex;align-items:center;gap:12px;height:58px;position:sticky;top:0;z-index:100}
+.logo{width:34px;height:34px;background:var(--qa);border-radius:var(--r);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0}
+.htl{font-size:15px;font-weight:600}.hsu{font-size:11px;color:var(--tx3)}
+.back{margin-right:auto;background:var(--bg);border:1px solid var(--bd);color:var(--tx2);padding:6px 12px;border-radius:var(--r);font-size:12px;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:5px}
+.con{max-width:900px;margin:0 auto;padding:24px 16px}
+.hero{text-align:center;margin-bottom:32px}
+.hero h1{font-size:24px;font-weight:700;margin-bottom:6px}
+.hero p{font-size:13px;color:var(--tx2)}
+.refs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.ref{background:var(--info-bg);color:var(--info-tx);padding:3px 10px;border-radius:20px;font-size:11px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:20px;margin-bottom:16px}
+.clbl{font-size:13px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+@media(max-width:580px){.g2,.g3{grid-template-columns:1fr}}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.fl{font-size:11px;font-weight:500;color:var(--tx2)}
+input,select,textarea{background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:8px 12px;font-size:13px;color:var(--tx);width:100%;outline:none;font-family:inherit;transition:.15s}
+input:focus,select:focus,textarea:focus{border-color:var(--qa);box-shadow:0 0 0 3px rgba(141,27,61,.08)}
+textarea{resize:vertical}
+/* ACTIVITIES GRID */
+.act-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:14px}
+.act-btn{padding:12px 10px;border:1px solid var(--bd);border-radius:var(--r);background:var(--bg);cursor:pointer;text-align:center;font-size:12px;color:var(--tx2);transition:.15s;display:flex;flex-direction:column;align-items:center;gap:6px}
+.act-btn:hover{border-color:var(--bd2);color:var(--tx);background:var(--sf)}
+.act-btn.on{border-color:var(--qa);background:rgba(141,27,61,.06);color:var(--qa);font-weight:600}
+.act-icon{font-size:22px}
+.act-name{font-size:11px;font-weight:500}
+.act-ref{font-size:10px;color:var(--tx3)}
+/* GENERATE BUTTON */
+.gen-btn{width:100%;background:var(--qa);color:#fff;border:none;padding:14px;border-radius:var(--r);font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:.15s;margin-top:8px}
+.gen-btn:hover{background:var(--qa2)}.gen-btn:disabled{opacity:.5;cursor:not-allowed}
+.spin{display:inline-block;width:18px;height:18px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:sp .6s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+/* OUTPUT */
+.output{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:24px;margin-top:20px;display:none}
+.output.show{display:block}
+.out-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--qa)}
+.out-title{font-size:16px;font-weight:700}
+.out-actions{display:flex;gap:8px}
+.act-action{background:var(--bg);border:1px solid var(--bd);color:var(--tx2);padding:7px 14px;border-radius:var(--r);font-size:12px;cursor:pointer}
+.act-action:hover{border-color:var(--bd2);color:var(--tx)}
+.mos-body{font-size:13px;line-height:1.8;color:var(--tx);white-space:pre-wrap}
+.mos-body h2,.section-hdr{font-size:14px;font-weight:700;color:var(--qa);margin:18px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--bd)}
+.disclaimer{background:var(--warn-bg);color:var(--warn-tx);padding:10px 14px;border-radius:var(--r);font-size:11px;margin-top:16px}
+/* PROGRESS */
+.prog-steps{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.step{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--tx3)}
+.step.done{color:var(--pass-tx)}.step.active{color:var(--qa);font-weight:600}
+.step-dot{width:8px;height:8px;border-radius:50%;background:var(--bd2)}
+.step.done .step-dot{background:var(--pass-tx)}.step.active .step-dot{background:var(--qa)}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="logo">📋</div>
+  <div><div class="htl">مولّد طريقة التنفيذ</div><div class="hsu">Method Statement Generator · QCS 2024 · Ashghal RDM 2023</div></div>
+  <a href="index.html" class="back">← الرئيسية</a>
+</header>
+
+<div class="con">
+  <div class="hero">
+    <h1>مولّد Method Statement</h1>
+    <p>اختر النشاط — أدخل التفاصيل — احصل على MS كامل جاهز لـ Ashghal</p>
+    <div class="refs">
+      <span class="ref">QCS 2024</span>
+      <span class="ref">Ashghal RDM 2023</span>
+      <span class="ref">KAHRAMAA 2024</span>
+      <span class="ref">FIDIC</span>
+    </div>
+  </div>
+
+  <!-- STEP 1: اختيار النشاط -->
+  <div class="card">
+    <div class="clbl">🏗 الخطوة 1 — اختر نوع النشاط</div>
+    <div class="act-grid">
+      <button class="act-btn" onclick="selAct('concrete',this)">
+        <span class="act-icon">🪣</span>
+        <span class="act-name">أعمال الخرسانة</span>
+        <span class="act-ref">QCS Part 8</span>
+      </button>
+      <button class="act-btn" onclick="selAct('earthworks',this)">
+        <span class="act-icon">🚧</span>
+        <span class="act-name">أعمال الحفر والردم</span>
+        <span class="act-ref">QCS Part 6</span>
+      </button>
+      <button class="act-btn" onclick="selAct('asphalt',this)">
+        <span class="act-icon">🛣</span>
+        <span class="act-name">أعمال الأسفلت</span>
+        <span class="act-ref">QCS S6 P5</span>
+      </button>
+      <button class="act-btn" onclick="selAct('subbase',this)">
+        <span class="act-icon">🪨</span>
+        <span class="act-name">Sub-base / Base Course</span>
+        <span class="act-ref">Ashghal RDM</span>
+      </button>
+      <button class="act-btn" onclick="selAct('drainage',this)">
+        <span class="act-icon">💧</span>
+        <span class="act-name">أعمال الصرف الصحي</span>
+        <span class="act-ref">QCS Part 10</span>
+      </button>
+      <button class="act-btn" onclick="selAct('waterproofing',this)">
+        <span class="act-icon">🔵</span>
+        <span class="act-name">العزل المائي</span>
+        <span class="act-ref">QCS Part 11</span>
+      </button>
+      <button class="act-btn" onclick="selAct('rebar',this)">
+        <span class="act-icon">🔩</span>
+        <span class="act-name">حديد التسليح</span>
+        <span class="act-ref">QCS Part 8</span>
+      </button>
+      <button class="act-btn" onclick="selAct('utilities',this)">
+        <span class="act-icon">⚡</span>
+        <span class="act-name">مرافق / Utilities</span>
+        <span class="act-ref">KAHRAMAA 2024</span>
+      </button>
+      <button class="act-btn" onclick="selAct('formwork',this)">
+        <span class="act-icon">🪵</span>
+        <span class="act-name">الفورمورك</span>
+        <span class="act-ref">QCS Part 8</span>
+      </button>
+      <button class="act-btn" onclick="selAct('masonry',this)">
+        <span class="act-icon">🧱</span>
+        <span class="act-name">أعمال البناء</span>
+        <span class="act-ref">QCS Part 7</span>
+      </button>
+      <button class="act-btn" onclick="selAct('piling',this)">
+        <span class="act-icon">🏚</span>
+        <span class="act-name">الأوتاد / Piling</span>
+        <span class="act-ref">QCS Part 5</span>
+      </button>
+      <button class="act-btn" onclick="selAct('painting',this)">
+        <span class="act-icon">🎨</span>
+        <span class="act-name">الدهانات والطلاء</span>
+        <span class="act-ref">QCS Part 12</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 2: تفاصيل المشروع -->
+  <div class="card" id="step2" style="display:none">
+    <div class="clbl">📝 الخطوة 2 — تفاصيل المشروع</div>
+    <div class="g2">
+      <div class="fg"><label class="fl">اسم المشروع / Project</label><input id="proj" placeholder="مثال: Al Wakra Road Widening"></div>
+      <div class="fg"><label class="fl">رقم العقد / Contract</label><input id="cnum" placeholder="MOWH/2024/001"></div>
+    </div>
+    <div class="g3">
+      <div class="fg"><label class="fl">المقاول / Contractor</label><input id="cont" placeholder="اسم الشركة"></div>
+      <div class="fg"><label class="fl">المشرف / Engineer</label><input id="eng" placeholder="اسم المشرف"></div>
+      <div class="fg"><label class="fl">التاريخ / Date</label><input type="date" id="dt"></div>
+    </div>
+    <div class="fg">
+      <label class="fl">تفاصيل إضافية (اختياري) — Additional Details</label>
+      <textarea id="extra" rows="3" placeholder="مثال: عمق الحفر 3م، نوع التربة طينية، الكمية 500m³، موقع قريب من مبانٍ قائمة..."></textarea>
+    </div>
+    <div class="fg">
+      <label class="fl">نطاق العمل / Scope</label>
+      <textarea id="scope" rows="2" placeholder="وصف موجز للعمل المطلوب..."></textarea>
+    </div>
+    <button class="gen-btn" id="gen-btn" onclick="generateMS()">
+      ⚡ توليد Method Statement
+    </button>
+  </div>
+
+  <!-- OUTPUT -->
+  <div class="output" id="ms-output">
+    <div class="out-hdr">
+      <div class="out-title" id="ms-title">Method Statement</div>
+      <div class="out-actions">
+        <button class="act-action" onclick="copyMS()">📋 نسخ</button>
+        <button class="act-action" onclick="printMS()">🖨 طباعة</button>
+        <button class="act-action" onclick="resetAll()">🔄 جديد</button>
+      </div>
+    </div>
+    <div class="mos-body" id="ms-body"></div>
+    <div class="disclaimer">
+      ⚠️ هذا المستند مولّد بالذكاء الاصطناعي للاسترشاد فقط — تحقق من QCS 2024 الأصلي وراجع المهندس المختص قبل التنفيذ.
+      المرجع: QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+var selActivity = '';
+var actLabels = {
+  concrete:'أعمال الخرسانة — Concrete Works',
+  earthworks:'أعمال الحفر والردم — Earthworks',
+  asphalt:'أعمال الأسفلت — Asphalt Works',
+  subbase:'Sub-base & Base Course',
+  drainage:'أعمال الصرف الصحي — Drainage Works',
+  waterproofing:'العزل المائي — Waterproofing',
+  rebar:'حديد التسليح — Rebar Works',
+  utilities:'المرافق — Utilities',
+  formwork:'الفورمورك — Formwork',
+  masonry:'أعمال البناء — Masonry',
+  piling:'الأوتاد — Piling Works',
+  painting:'الدهانات — Painting & Coating'
+};
+
+function selAct(id, btn) {
+  selActivity = id;
+  document.querySelectorAll('.act-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('step2').style.display = 'block';
+  document.getElementById('step2').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+(function(){ document.getElementById('dt').value = new Date().toISOString().split('T')[0]; })();
+
+async function generateMS() {
+  if (!selActivity) { alert('اختر نوع النشاط أولاً'); return; }
+  var proj  = document.getElementById('proj').value  || 'غير محدد';
+  var cnum  = document.getElementById('cnum').value  || '—';
+  var cont  = document.getElementById('cont').value  || '—';
+  var engN  = document.getElementById('eng').value   || '—';
+  var dt    = document.getElementById('dt').value    || '—';
+  var extra = document.getElementById('extra').value || '';
+  var scope = document.getElementById('scope').value || '';
+  var label = actLabels[selActivity] || selActivity;
+
+  var btn = document.getElementById('gen-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span> جاري التوليد...';
+  document.getElementById('ms-output').classList.remove('show');
+
+  var question = `أنشئ Method Statement كاملاً لـ: ${label}
+المشروع: ${proj}
+رقم العقد: ${cnum}
+المقاول: ${cont}
+المهندس المشرف: ${engN}
+التاريخ: ${dt}
+${scope ? 'نطاق العمل: ' + scope : ''}
+${extra ? 'تفاصيل إضافية: ' + extra : ''}
+
+أنتج Method Statement كامل ومنظم بعناوين واضحة يشمل جميع الأقسام المطلوبة.`;
+
+  try {
+    var res = await fetch('/api/execution-ai', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ question, module: 'mos', context: `النشاط: ${label} · المشروع: ${proj}` })
+    });
+    var data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'خطأ في الخادم');
+
+    document.getElementById('ms-title').textContent = 'Method Statement — ' + label;
+    document.getElementById('ms-body').textContent = data.answer;
+    document.getElementById('ms-output').classList.add('show');
+    document.getElementById('ms-output').scrollIntoView({behavior:'smooth'});
+  } catch(err) {
+    document.getElementById('ms-body').textContent = '❌ ' + (err.message || 'خطأ — حاول مرة أخرى');
+    document.getElementById('ms-output').classList.add('show');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '⚡ توليد Method Statement';
+  }
+}
+
+function copyMS() {
+  var t = document.getElementById('ms-body').textContent;
+  navigator.clipboard.writeText(t).then(() => alert('✅ تم النسخ'));
+}
+
+function printMS() {
+  var title = document.getElementById('ms-title').textContent;
+  var body  = document.getElementById('ms-body').textContent;
+  var proj  = document.getElementById('proj').value || '—';
+  var cnum  = document.getElementById('cnum').value || '—';
+  var cont  = document.getElementById('cont').value || '—';
+  var dt    = document.getElementById('dt').value   || '—';
+  var w = window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8">
+<title>${title}</title>
+<style>
+body{font-family:Arial,'Noto Sans Arabic',sans-serif;padding:30px;color:#000;font-size:12px;line-height:1.8}
+.hdr-print{border-bottom:3px solid #8D1B3D;padding-bottom:14px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:flex-start}
+.proj-info{font-size:11px;color:#444;margin-bottom:20px;display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.proj-info span{padding:3px 0;border-bottom:1px solid #eee}
+h1{font-size:18px;color:#8D1B3D;margin:0}
+h2{font-size:13px;color:#8D1B3D;margin:16px 0 6px;padding-bottom:4px;border-bottom:1px solid #ddd}
+pre{white-space:pre-wrap;font-family:inherit;font-size:12px}
+.footer{margin-top:30px;border-top:1px solid #ddd;padding-top:10px;font-size:10px;color:#666;text-align:center}
+.disclaimer{background:#FAEEDA;color:#854F0B;padding:8px 12px;border-radius:4px;font-size:10px;margin-top:14px}
+@media print{body{padding:15px}}
+</style></head><body>
+<div class="hdr-print">
+  <div><h1>📋 ${title}</h1><div style="font-size:11px;color:#666;margin-top:4px">QatarSpec Pro · qatar-standers.vercel.app</div></div>
+  <div style="text-align:left;font-size:11px;color:#444">${dt}</div>
+</div>
+<div class="proj-info">
+  <span><strong>المشروع:</strong> ${proj}</span>
+  <span><strong>رقم العقد:</strong> ${cnum}</span>
+  <span><strong>المقاول:</strong> ${cont}</span>
+  <span><strong>المرجع:</strong> QCS 2024 · Ashghal RDM 2023</span>
+</div>
+<pre>${body}</pre>
+<div class="disclaimer">⚠️ مولّد بالذكاء الاصطناعي للاسترشاد فقط — تحقق من QCS 2024 الأصلي قبل التنفيذ</div>
+<div class="footer">QatarSpec Pro · QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · تاريخ الطباعة: ${new Date().toLocaleDateString('ar-QA')}</div>
+</body></html>`);
+  w.document.close();
+  setTimeout(() => w.print(), 500);
+}
+
+function resetAll() {
+  selActivity = '';
+  document.querySelectorAll('.act-btn').forEach(b => b.classList.remove('on'));
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('ms-output').classList.remove('show');
+  ['proj','cnum','cont','eng','extra','scope'].forEach(id => document.getElementById(id).value = '');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
