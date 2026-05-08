@@ -191,7 +191,7 @@ export default async function handler(req) {
       : 'حلل هذه الوثيقة/المخطط بشكل شامل وفق المواصفات القطرية QCS 2024');
 
   // Build Gemini vision request
-  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+  // Model URL constructed inside retry loop below
 
   const geminiBody = {
     contents: [
@@ -221,40 +221,65 @@ export default async function handler(req) {
     ],
   };
 
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 55000);
+  // ── Gemini API call with retry + fallback model ──
+  const models = [
+    'gemini-2.0-flash',
+    'gemini-1.5-flash',
+  ];
 
-  try {
-    const res = await fetch(geminiUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(geminiBody),
-      signal: controller.signal,
-    });
+  for (let attempt = 0; attempt < models.length; attempt++) {
+    const model = models[attempt];
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
-    clearTimeout(timeout);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 55000);
 
-    if (!res.ok) {
-      const err = await res.text();
-      return json({ error: `Vision API error: ${res.status}`, detail: err.slice(0, 200) }, 502);
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(geminiBody),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeout);
+
+      // 429 = rate limit — retry with next model
+      if (res.status === 429 && attempt < models.length - 1) {
+        await new Promise(r => setTimeout(r, 2000)); // انتظر 2 ثانية
+        continue;
+      }
+
+      if (!res.ok) {
+        const err = await res.text();
+        // آخر محاولة فشلت — أرجع الخطأ
+        if (attempt === models.length - 1) {
+          return json({ error: `Vision API error: ${res.status}`, detail: err.slice(0, 200) }, 502);
+        }
+        continue;
+      }
+
+      const data = await res.json();
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+      if (!text) {
+        return json({ error: 'No response from vision AI' }, 502);
+      }
+
+      return json({ result: text, isPro, mode, model });
+
+    } catch (err) {
+      clearTimeout(timeout);
+      if (err.name === 'AbortError') {
+        return json({ error: 'Vision analysis timed out — try a smaller image' }, 504);
+      }
+      if (attempt === models.length - 1) {
+        return json({ error: err.message }, 500);
+      }
     }
-
-    const data = await res.json();
-    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-
-    if (!text) {
-      return json({ error: 'No response from vision AI' }, 502);
-    }
-
-    return json({ result: text, isPro, mode });
-
-  } catch (err) {
-    clearTimeout(timeout);
-    if (err.name === 'AbortError') {
-      return json({ error: 'Vision analysis timed out — try a smaller image' }, 504);
-    }
-    return json({ error: err.message }, 500);
   }
+
+  return json({ error: 'All models failed — حاول مرة أخرى بعد دقيقة' }, 503);
 }
 
 function json(data, status = 200) {
