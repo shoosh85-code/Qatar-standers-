@@ -152,8 +152,8 @@ async function checkRateLimit(ip, isProUser) {
 // GEMINI API CALL
 // ══════════════════════════════════════════════════════════════
 async function callGemini(messages, maxTokens = 2000) {
-  const apiKey = process.env.GEMINI_KEY;
-  if (!apiKey) throw new Error('GEMINI_KEY not configured');
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) throw new Error('GEMINI_API_KEY not configured');
 
   // Gemini 2.5 Pro as primary (v3.0), fallback to 2.0-flash
   const model = 'gemini-2.5-pro';
@@ -302,8 +302,8 @@ async function callGeminiStream(messages, maxTokens, apiKey) {
 // SYNC-WITH: api/execution-ai.js MODELS chain
 // ══════════════════════════════════════════════════════════════
 async function callGeminiFallback(messages, maxTokens = 2000) {
-  const apiKey = process.env.GEMINI_KEY;
-  if (!apiKey) throw new Error('GEMINI_KEY not configured');
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) throw new Error('GEMINI_API_KEY not configured');
 
   // نجرب الموديلات بالترتيب — الأول المتاح يُعيد النتيجة
   const FALLBACK_MODELS = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-1.5-pro'];
@@ -453,9 +453,9 @@ const token = extractToken(req);
         status: 400, headers: { ...CORS, 'Content-Type': 'application/json' }
       });
     }
-    const apiKey = process.env.GEMINI_KEY;
+    const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      return new Response(JSON.stringify({ error: 'GEMINI_KEY not configured' }), {
+      return new Response(JSON.stringify({ error: 'GEMINI_API_KEY not configured' }), {
         status: 500, headers: { ...CORS, 'Content-Type': 'application/json' }
       });
     }
@@ -568,7 +568,7 @@ const token = extractToken(req);
     // Try gemini-2.5-flash as fallback
     if (err.message.includes('quota') || err.message.includes('2.0')) {
       try {
-        const apiKey = process.env.GEMINI_KEY;
+        const apiKey = process.env.GEMINI_API_KEY;
         const fallbackUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
         const fallbackBody = {
           contents: finalMessages.map(m => ({

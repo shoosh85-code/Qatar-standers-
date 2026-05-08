@@ -36,9 +36,9 @@ export default async function handler(req, res) {
 
   const SUPA_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const SUPA_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  const GEMINI_KEY = process.env.GEMINI_KEY;
+  const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-  if (!SUPA_URL || !SUPA_KEY || !GEMINI_KEY) {
+  if (!SUPA_URL || !SUPA_KEY || !GEMINI_API_KEY) {
     return res.status(503).json({ error: 'Missing env vars' });
   }
 
@@ -105,7 +105,7 @@ Task: Create a well-structured HTML section in English that:
 Return ONLY the HTML content (no outer div wrapper). Use dm-table CSS class for tables.`;
 
     const genRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

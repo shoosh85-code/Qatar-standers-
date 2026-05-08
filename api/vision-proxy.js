@@ -181,7 +181,7 @@ export default async function handler(req) {
     });
   }
 
-  const apiKey = process.env.GEMINI_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return json({ error: 'Vision service not configured' }, 503);
 
   const systemPrompt = mode === 'inspector' ? INSPECTOR_PROMPT : ANALYZER_PROMPT;

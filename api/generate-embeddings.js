@@ -32,9 +32,9 @@ export default async function handler(req, res) {
 
   const SUPA_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const SUPA_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  const GEMINI_KEY = process.env.GEMINI_KEY;
+  const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-  if (!SUPA_URL || !SUPA_KEY || !GEMINI_KEY) {
+  if (!SUPA_URL || !SUPA_KEY || !GEMINI_API_KEY) {
     return res.status(503).json({ error: 'Missing env vars' });
   }
 
@@ -59,7 +59,7 @@ export default async function handler(req, res) {
     try {
       // Get embedding from Gemini
       const embedRes = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent?key=${GEMINI_KEY}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent?key=${GEMINI_API_KEY}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

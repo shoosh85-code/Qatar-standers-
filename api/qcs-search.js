@@ -97,7 +97,7 @@ export default async function handler(req) {
 
   const SUPA_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const SUPA_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  const GEMINI_KEY = process.env.GEMINI_KEY;
+  const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
   if (!SUPA_URL || !SUPA_KEY) {
     return json({ results: [], query, count: 0, method: 'none', note: 'DB not configured' });
@@ -108,10 +108,10 @@ export default async function handler(req) {
     let searchMethod = 'fts';
 
     // 1. Try vector search (Gemini embeddings)
-    if (GEMINI_KEY) {
+    if (GEMINI_API_KEY) {
       try {
         const embedRes = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent?key=${GEMINI_KEY}`,
+          `https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent?key=${GEMINI_API_KEY}`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

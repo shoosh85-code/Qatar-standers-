@@ -7,7 +7,7 @@ import { captureWarning } from '../lib/sentry.js';
 
 const _handler = async function handler(req, res) {
   const services = {
-    gemini:     !!process.env.GEMINI_KEY,
+    gemini:     !!process.env.GEMINI_API_KEY,
     supabase:   !!(process.env.NEXT_PUBLIC_SUPABASE_URL && (process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)),
     jwt:        !!process.env.JWT_SECRET,
     promoCodes: !!(process.env.PROMO_CODES || process.env.PRO_CODES),
