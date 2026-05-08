@@ -15,14 +15,24 @@ const _handler = async function handler(req, res) {
     sentry:     !!process.env.SENTRY_DSN,
   };
 
-  const allOk = Object.values(services).every(Boolean);
+  // الفحوصات الأربعة الأساسية — PROTOCOL 6 format
+  const checks = {
+    gemini:   services.gemini,
+    jwt:      services.jwt,
+    redis:    services.redis,
+    supabase: services.supabase,
+  };
 
-  if (!allOk) await captureWarning('Health check degraded', services);
+  const allOk = Object.values(services).every(Boolean);
+  const status = allOk ? 'ok' : (services.gemini && services.jwt ? 'degraded' : 'error');
+
+  if (status !== 'ok') await captureWarning('Health check degraded', services);
 
   res.setHeader('Cache-Control', 'no-store');
   return res.status(200).json({
-    status:    allOk ? 'ok' : 'degraded',
-    services,
+    status,
+    checks,
+    services,                        // backward compat — يبقى كما هو
     timestamp: new Date().toISOString(),
     version:   '2.11.0',
   });

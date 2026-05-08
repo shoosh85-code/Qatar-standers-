@@ -31,43 +31,68 @@
 
 ## PROTOCOL 2: git push صارم (8 خطوات إلزامية)
 
-```
-□ 1. git status               → لصق الناتج
-□ 2. git add [ملفات]          → لصق الناتج
+لا تقول "تم الرفع" إلا بعد:
+
+□ 1. git status → لصق الناتج
+□ 2. git add [ملفات] → لصق الناتج
 □ 3. git diff --cached --stat → لصق الناتج
-□ 4. git commit -m "[رسالة]"  → لصق الناتج
-□ 5. git log --oneline -3     → لصق الناتج
-□ 6. git push                 → لصق الناتج كاملاً
+□ 4. git commit -m "[رسالة]" → لصق الناتج
+□ 5. git log --oneline -3 → لصق الناتج
+□ 6. git push → لصق الناتج كاملاً
 □ 7. git ls-remote origin main → لصق hash الـ remote
 □ 8. مقارنة local hash مع remote hash
-```
 
-إذا لم يتطابقان → ❌ STOP. لا تقول "تم".
+إذا لم يتطابقان:
+→ ❌ STOP: git push فشل — الـ commit لم يصل
+→ لا تكمل. لا تكذب. لا تقول "تم".
 
 ---
 
 ## PROTOCOL 3: التعامل مع الأخطاء (ERROR = STOP)
 
+إذا ظهر أي خطأ:
+
 ```
 ❌ STOP: Error [الرمز]
-الأمر:  [الأمر]
-الخطأ:  [نص الخطأ كاملاً]
-السبب:  [تحليلك]
-الحل:   [اقتراحك]
+الأمر: [الأمر]
+الخطأ: [نص الخطأ كاملاً]
+السبب: [تحليلك]
+الحل: [اقتراحك]
 هل أحاول الحل؟ (نعم/لا)
 ```
+
+ممنوع:
+- تجاهل الخطأ والمتابعة
+- تغيير الموضوع
+- "لنحاول مرة أخرى" بدون تحليل
 
 ---
 
 ## PROTOCOL 4: صفر تضليل (ZERO HALLUCINATION)
 
-ممنوع: "أعتقد" / "ربما" / "على الأرجح" / "يبدو" / "يجب أن" / "من المفترض"
-إلزامي: "الناتج الفعلي: [لصق]" / "الاختبار أظهر: [لصق]"
+ممنوع تماماً:
+- "أعتقد"
+- "ربما"
+- "على الأرجح"
+- "يبدو"
+- "يجب أن"
+- "من المفترض"
+
+إلزامي:
+- "الناتج الفعلي: [لصق]"
+- "الاختبار أظهر: [لصق]"
+- "الملف يحتوي: [لصق]"
 
 ---
 
 ## PROTOCOL 5: مرحلة واحدة فقط (ONE PHASE ONLY)
 
+ممنوع:
+- أكثر من مرحلة في رسالة واحدة
+- الانتقال قبل التحقق
+- "سأنفذ 1 و 2 معاً"
+
+إلزامي:
 - كل رسالة = مرحلة واحدة
 - نهاية المرحلة = تحقق كامل + "هل أنتقل للمرحلة التالية؟"
 - لا تنتقل إلا بعد موافقة صريحة
@@ -76,61 +101,39 @@
 
 ## PROTOCOL 6: RATE LIMITING (إلزامي)
 
+### API Endpoints Limits:
 | Endpoint | Free | Pro | Global |
 |----------|------|-----|--------|
 | /api/ai-proxy | 5/min | 60/min | 100/min/IP |
 | /api/verify-pro | 3/min | 10/min | 30/min/IP |
 | /api/qcs-search | 10/min | 100/min | 200/min/IP |
 | /api/vision-proxy | 3/min | 30/min | 50/min/IP |
-| /api/execution-hub | 5/min | 60/min | 100/min/IP |
 
-Implementation:
-- Vercel KV للـ rate limiting (primary)
-- in-memory Map مع cleanup كل 60s (fallback)
-- Response: 429 + Retry-After header
-- Headers: X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset
-
----
-
-## PROTOCOL 7: EXECUTION HUB
-
-وحدات إلزامية:
-1. Concrete Pour Card — بطاقة صب الخرسانة
-2. MAR — Material Approval Request
-3. NCR — Non-Conformance Report
-4. Field Test Tracker — متابعة الاختبارات (Pass/Fail فوري)
-5. DWR — Daily Work Record
-
-قواعد:
-- كل Pass/Fail مرتبط ببند QCS محدد
-- كل تقرير: timestamp + اسم المهندس
-- تصدير PDF بتنسيق Ashghal
-- "غير موجود في المستند" إذا لم تجد الرقم
+### Implementation:
+- استخدم Vercel KV للـ rate limiting
+- Fallback: in-memory Map مع cleanup
+- Response: 429 Too Many Requests مع Retry-After header
 
 ---
 
 ## VERIFICATION SCRIPT
 
 ```bash
-echo "=== LOCAL ===" && git log --oneline -1 && \
-echo "=== REMOTE ===" && git ls-remote origin main | head -1 && \
-LOCAL=$(git rev-parse HEAD) && \
-REMOTE=$(git ls-remote origin main | awk '{print $1}') && \
-if [ "$LOCAL" = "$REMOTE" ]; then echo "✅ MATCH"; else echo "❌ MISMATCH"; fi
+echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-remote origin main | head -1 && LOCAL=$(git rev-parse HEAD) && REMOTE=$(git ls-remote origin main | awk '{print $1}') && if [ "$LOCAL" = "$REMOTE" ]; then echo "✅ MATCH"; else echo "❌ MISMATCH"; fi
 ```
+
+إذا ❌ MISMATCH → STOP. لا تقول "تم".
 
 ---
 
 ## PROJECT INFO
 
-```
-Name:     QatarSpec Pro
-Site:     qatar-standers.vercel.app
-Stack:    Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
-Repo:     github.com/shoosh85-code/Qatar-standers-
-Audience: مهندسون قطريون وأجانب يعملون في قطر
-Refs:     QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
-```
+- **Name:** QatarSpec Pro
+- **Site:** qatar-standers.vercel.app
+- **Stack:** Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
+- **Repo:** github.com/shoosh85-code/Qatar-standers-
+- **Audience:** مهندسون قطريون وأجانب يعملون في قطر
+- **References:** QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
 
 ---
 
@@ -154,68 +157,72 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 
 ## CODING RULES
 
-- QCS 2024 أولاً — الدقة قبل السرعة
-- Vanilla JS فقط (لا frameworks)
-- RTL + Arabic + English في كل UI
-- كل آلة حاسبة: validation + وحدات قطرية + Pass/Fail + مرجع QCS
-- window.QS namespace لجميع الدوال العامة
-- Sanitize كل مدخلات المستخدم قبل innerHTML
-- const/let فقط (لا var)
-- تعليقات عربية للمنطق المعقد
+- Follow QCS 2024 always — accuracy over speed
+- Vanilla JS only (no frameworks)
+- RTL + Arabic + English in all UI
+- Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
+- Pro features: gentle prompt for free users
+- Never invent numbers — say "غير موجود في المستند"
+- window.QS namespace for all public functions
+- Sanitize ALL user input before innerHTML
+- const/let only (no var)
+- Arabic comments for complex logic
 
 ---
 
 ## EXPORT STANDARDS
 
-- PDF: QatarSpec Pro header + QCS 2024 ref + أرقام صفحات + watermark
-- Excel: تنسيق Ashghal الرسمي + أوراق متعددة + إحصاءات
-- Word: Professional header + حقول قابلة للتعديل + مراجع QCS clause
-- جميع التصديرات: اسم المشروع + المهندس + التاريخ + QatarSpec branding
+- **PDF:** QatarSpec Pro header + QCS 2024 reference + page numbers + watermark
+- **Excel:** Ashghal official format + multiple sheets + summary stats
+- **Word:** Professional header + editable fields + QCS clause references
+- **All exports:** Project name + Engineer name + Date + QatarSpec branding
 
 ---
 
 ## SECURITY
 
-- لا API keys في localStorage — متغيرات server-side فقط
-- لا JWT في localStorage — httpOnly cookies فقط
-- CSP headers إلزامية
-- Rate limit على كل API endpoints (PROTOCOL 6)
-- Sanitize كل مدخلات المستخدم
-- XSS protection على كل innerHTML
+- NO API keys in localStorage — server-side env vars only
+- NO JWT in localStorage — httpOnly cookies only
+- CSP headers required
+- Rate limit all API endpoints (see PROTOCOL 6)
+- Sanitize all user input
+- XSS protection on all innerHTML injections
 
 ---
 
 ## BUSINESS RULES
 
-- Free tier: مفيد حقاً (يبني الثقة)
-- Pro tier: يوفر >2 ساعة/أسبوع (يبرر 99 QAR/شهر)
-- Enterprise: يقلل تكاليف QC >20%
-- كل مرجع QCS قابل للتتبع — لا أرقام مخترعة
-- AI responses: تحذير + QCS Part/Section/Clause
+- Every feature serves Free, Pro, or Enterprise tier
+- Free tier genuinely useful (builds trust)
+- Pro tier saves >2 hours/week (justifies 99 QAR/month)
+- Enterprise reduces QC costs >20%
+- Every QCS reference traceable — no invented numbers
+- AI responses include disclaimer + QCS Part/Section/Clause
+- Export formats match Ashghal official templates exactly
 
 ---
 
 ## DECISION FRAMEWORK
 
-- أيهما يخدم المستخدم المستهدف أفضل؟
-- أيهما أدق حسب QCS 2024؟
-- أيهما يحوّل مستخدمين Free → Pro أكثر؟
-- أيهما يقلل الأخطاء الهندسية في الموقع؟
-- أيهما أسرع تنفيذاً واختباراً؟
+1. Which serves target user tier better?
+2. Which is more accurate per QCS 2024?
+3. Which converts more Free → Pro users?
+4. Which reduces engineering errors on site?
+5. Which is faster to implement and test?
 
 ---
 
 ## ENGINEERING STANDARDS
 
-- اتبع QCS 2024 بدقة — نبّه المستخدم إذا وُجد تعارض
-- كل آلة حاسبة: input validation + وحدات قطرية + Pass/Fail + مرجع QCS
-- كل تصدير: QatarSpec Pro header + مشروع + مهندس + تاريخ + QCS clause
-- كل AI output: عربي + تحذير + QCS Part/Section/Clause بالضبط
+- Follow QCS 2024 exactly — alert user if conflict
+- All calculators: input validation + Qatari units + Pass/Fail + QCS reference
+- All exports: QatarSpec Pro header + project + engineer + date + QCS clause
+- All AI outputs: Arabic + disclaimer + exact QCS Part/Section/Clause
 
 ---
 
 ## DEPLOYMENT
 
-- اتبع PROTOCOL 2 لكل git push
-- اختبر locally قبل الرفع
-- لا تحذف محتوى — أضف أو عدّل فقط
+- Follow PROTOCOL 2 strictly for every git push
+- Test locally before push — app must stay functional
+- Never delete content — only add or modify
