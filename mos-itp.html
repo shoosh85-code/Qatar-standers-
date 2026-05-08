@@ -603,27 +603,28 @@ async function generateMOS() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'gemini-1.5-flash',
-        prompt: prompt,
-        maxTokens: 2000
+        messages: [{ role: 'user', content: prompt }],
+        max_tokens: 2000,
+        system: 'أنت مهندس متخصص في مواصفات قطر QCS 2024. تجيب بدقة ولا تخترع أرقاما.'
       })
     });
 
     if (response.status === 429) {
       const data = await response.json().catch(() => ({}));
-      outputText.textContent = '⚠️ تجاوزت الحد المسموح على الخادم. انتظر دقيقة وأعد المحاولة.';
+      outputText.textContent = 'تجاوزت الحد المسموح. ' + (data.error || 'انتظر دقيقة وأعد المحاولة.');
       output.classList.remove('loading');
       return;
     }
 
     if (!response.ok) {
-      outputText.textContent = `❌ خطأ من الخادم: ${response.status}. تحقق من إعدادات API.`;
+      const errData = await response.json().catch(() => ({}));
+      outputText.textContent = 'خطأ من الخادم: ' + response.status + ' — ' + (errData.error || 'تحقق من اعدادات API.');
       output.classList.remove('loading');
       return;
     }
 
     const data = await response.json();
-    const text = data.result || data.text || data.candidates?.[0]?.content?.parts?.[0]?.text || 'لا يوجد رد.';
+    const text = data.content || data.result || data.text || 'لا يوجد رد.';
     outputText.textContent = text;
 
     // إضافة disclaimer
