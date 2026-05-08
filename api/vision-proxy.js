@@ -223,9 +223,10 @@ export default async function handler(req) {
 
   // ── Gemini API call with retry + fallback model ──
   // ترتيب الأفضلية: الأحدث أولاً ثم الاحتياطي
+  // نفس الأسماء المستخدمة في ai-proxy.js (مؤكد تعمل)
   const models = [
-    'gemini-2.5-flash-preview-05-20',
-    'gemini-2.0-flash-001',
+    'gemini-2.5-flash',
+    'gemini-2.5-pro',
     'gemini-1.5-flash',
   ];
 
