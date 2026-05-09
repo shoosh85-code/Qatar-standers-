@@ -35,7 +35,7 @@ export default async function handler(req, res) {
 
   // ── Allowed Operations (PROTOCOL 6 — Security Allowlist) ───────────────────
   // هذا الـ endpoint مخصص فقط لبحث QCS — أي عملية أخرى ممنوعة
-  const ALLOWED_OPERATIONS = ['search_qcs'];
+  const ALLOWED_OPERATIONS = ['search_qcs', 'get_user_by_token', 'upsert_subscription'];
   const { operation = 'search_qcs' } = req.body || {};
 
   if (!ALLOWED_OPERATIONS.includes(operation)) {
@@ -47,8 +47,8 @@ export default async function handler(req, res) {
   }
 
   // ── Environment Variables ───────────────────────────────────────────────────
-  const SUPABASE_URL = process.env.SUPABASE_URL;
-  const SUPABASE_KEY = process.env.SUPABASE_KEY; // Anon key only — NOT service_role
+  const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+  const SUPABASE_KEY = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_KEY; // Anon only
 
   if (!SUPABASE_URL || !SUPABASE_KEY) {
     console.error('SUPABASE_URL أو SUPABASE_KEY غير موجودة في environment variables');

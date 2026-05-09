@@ -1,188 +1,145 @@
-// api/rate-limit.js — QatarSpec Pro Rate Limiting
-// Vercel KV (primary) + in-memory Map (fallback)
-// PROTOCOL 6: كل endpoint يجب أن يمر من هنا
+// api/rate-limit.js — QatarSpec Pro v4.0
+// Node.js Serverless Rate Limiting — Upstash Redis (PRIMARY) + in-memory fallback
+// يحتفظ بكل exports القديمة (backward compatible)
+// [إعادة كتابة: استبدال vercel-kv بـ upstash-redis]
 
-const LIMITS = {
-  free:   { requests: 5,   window: 60 },
-  pro:    { requests: 60,  window: 60 },
-  global: { requests: 100, window: 60 },
-};
+import { Redis } from '@upstash/redis';
 
+// ── Endpoint limits — PROTOCOL 6 ──────────────────────────────────────────
 const ENDPOINT_LIMITS = {
-  '/api/ai-proxy':      { free: 5,  pro: 60,  global: 100 },
-  '/api/verify-pro':    { free: 3,  pro: 10,  global: 30  },
-  '/api/qcs-search':    { free: 10, pro: 100, global: 200 },
-  '/api/vision-proxy':  { free: 3,  pro: 30,  global: 50  },
-  '/api/execution-hub': { free: 5,  pro: 60,  global: 100 },
+  '/api/ai-proxy':            { free: 5,  pro: 60,  global: 100 },
+  '/api/verify-pro':          { free: 3,  pro: 10,  global: 30  },
+  '/api/qcs-search':          { free: 10, pro: 100, global: 200 },
+  '/api/vision-proxy':        { free: 3,  pro: 30,  global: 50  },
+  '/api/execution-hub':       { free: 5,  pro: 60,  global: 100 },
+  '/api/generate-embeddings': { free: 2,  pro: 20,  global: 30  },
+  '/api/setup-vectors':       { free: 1,  pro: 5,   global: 10  },
+  '/api/tap':                 { free: 3,  pro: 10,  global: 20  },
+  '/api/supabase-proxy':      { free: 10, pro: 100, global: 200 },
+  '/api/auth-proxy':          { free: 5,  pro: 20,  global: 50  },
+  '/api/export-pdf':          { free: 2,  pro: 30,  global: 50  },
+  'verify-pro':               { free: 3,  pro: 10,  global: 30  },
+  'qcs-search':               { free: 10, pro: 100, global: 200 },
+  'generate-embeddings':      { free: 2,  pro: 20,  global: 30  },
 };
+const DEFAULT_LIMITS = { free: 5, pro: 60, global: 100 };
+const WINDOW = 60;
 
-// In-Memory Fallback
-const memoryStore = new Map();
+// ── Upstash Redis singleton ────────────────────────────────────────────────
+let _redis = null;
+function getRedis() {
+  if (_redis) return _redis;
+  const url   = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) return null;
+  try { _redis = new Redis({ url, token }); return _redis; }
+  catch (e) { console.error('[rate-limit] Redis init:', e.message); return null; }
+}
+
+// ── In-memory fallback ─────────────────────────────────────────────────────
+const _mem = new Map();
 setInterval(() => {
-  const now = Date.now();
-  for (const [key, data] of memoryStore.entries()) {
-    if (now > data.resetAt) memoryStore.delete(key);
+  const cutoff = Math.floor(Date.now() / 60000) - 2;
+  for (const k of _mem.keys()) {
+    const win = parseInt(k.split(':').pop(), 10);
+    if (!isNaN(win) && win < cutoff) _mem.delete(k);
   }
-}, 60_000);
+}, 120_000);
 
-// Vercel KV Helper
-let kv = null;
-async function getKV() {
-  if (kv) return kv;
+function memCheck(key, limit) {
+  const win = Math.floor(Date.now() / 60000);
+  const k   = `${key}:${win}`;
+  const c   = (_mem.get(k) || 0) + 1;
+  _mem.set(k, c);
+  const retryAfter = 60 - Math.floor((Date.now() % 60000) / 1000);
+  return { allowed: c <= limit, count: c, limit, remaining: Math.max(0, limit - c), retryAfter, source: 'memory' };
+}
+
+async function redisCheck(key, limit) {
+  const redis = getRedis();
+  if (!redis) return null;
+  const win = Math.floor(Date.now() / WINDOW);
+  const k   = `rl:${win}:${key}`;
   try {
-    const { kv: vercelKV } = await import('@vercel/kv');
-    kv = vercelKV;
-    return kv;
-  } catch {
-    return null;
-  }
+    const c = await redis.incr(k);
+    if (c === 1) await redis.expire(k, WINDOW * 2);
+    const retryAfter = WINDOW - Math.floor((Date.now() / 1000) % WINDOW);
+    return { allowed: c <= limit, count: c, limit, remaining: Math.max(0, limit - c), retryAfter, source: 'redis' };
+  } catch (e) { console.error('[rate-limit] Redis error:', e.message); return null; }
 }
 
-async function checkRateLimitKV(key, maxRequests, windowSeconds) {
-  const store = await getKV();
-  if (!store) return null;
-  try {
-    const now = Math.floor(Date.now() / 1000);
-    const windowKey = `rl:${key}:${Math.floor(now / windowSeconds)}`;
-    const count = await store.incr(windowKey);
-    if (count === 1) await store.expire(windowKey, windowSeconds);
-    const remaining = Math.max(0, maxRequests - count);
-    const resetAt = (Math.floor(now / windowSeconds) + 1) * windowSeconds;
-    return { allowed: count <= maxRequests, count, remaining, resetAt, limit: maxRequests, source: 'kv' };
-  } catch (err) {
-    console.error('[RateLimit] KV error:', err.message);
-    return null;
-  }
-}
-
-function checkRateLimitMemory(key, maxRequests, windowSeconds) {
-  const now = Date.now();
-  const windowMs = windowSeconds * 1000;
-  const windowKey = `${key}:${Math.floor(now / windowMs)}`;
-  const existing = memoryStore.get(windowKey);
-  if (!existing) {
-    memoryStore.set(windowKey, { count: 1, resetAt: now + windowMs });
-    return { allowed: true, count: 1, remaining: maxRequests - 1, resetAt: Math.floor((now + windowMs) / 1000), limit: maxRequests, source: 'memory' };
-  }
-  existing.count++;
-  return { allowed: existing.count <= maxRequests, count: existing.count, remaining: Math.max(0, maxRequests - existing.count), resetAt: Math.floor(existing.resetAt / 1000), limit: maxRequests, source: 'memory' };
-}
-
-export async function checkRateLimit(req, tier = 'free', endpointPath = null) {
-  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.headers['x-real-ip'] || req.connection?.remoteAddress || 'unknown';
-  const endpointConfig = endpointPath && ENDPOINT_LIMITS[endpointPath];
-  const maxRequests = endpointConfig ? (endpointConfig[tier] ?? LIMITS[tier].requests) : LIMITS[tier].requests;
-  const windowSeconds = LIMITS[tier]?.window ?? 60;
-  const tierKey = `${tier}:${ip}:${endpointPath || 'default'}`;
-  const globalKey = `global:${ip}:${endpointPath || 'default'}`;
-
-  const tierResult = await checkRateLimitKV(tierKey, maxRequests, windowSeconds) || checkRateLimitMemory(tierKey, maxRequests, windowSeconds);
-  const globalMax = endpointConfig?.global ?? LIMITS.global.requests;
-  const globalResult = await checkRateLimitKV(globalKey, globalMax, windowSeconds) || checkRateLimitMemory(globalKey, globalMax, windowSeconds);
-
-  const allowed = tierResult.allowed && globalResult.allowed;
-  const remaining = Math.min(tierResult.remaining, globalResult.remaining);
-  const resetAt = Math.max(tierResult.resetAt, globalResult.resetAt);
-
-  return { allowed, tier, ip, limit: maxRequests, remaining, resetAt, retryAfter: allowed ? null : resetAt - Math.floor(Date.now() / 1000), source: tierResult.source };
-}
-
-export function rateLimitHeaders(result) {
-  const h = {
-    'X-RateLimit-Limit':     String(result.limit),
-    'X-RateLimit-Remaining': String(result.remaining),
-    'X-RateLimit-Reset':     String(result.resetAt),
-    'X-RateLimit-Tier':      result.tier,
-  };
-  if (!result.allowed) h['Retry-After'] = String(result.retryAfter || 60);
-  return h;
-}
-
-export async function withRateLimit(req, res, tier = 'free') {
-  const endpoint = req.url?.split('?')[0] || null;
-  const result = await checkRateLimit(req, tier, endpoint);
-  Object.entries(rateLimitHeaders(result)).forEach(([k, v]) => res.setHeader(k, v));
-  if (!result.allowed) {
-    res.status(429).json({
-      error: 'Too Many Requests',
-      message: tier === 'free'
-        ? 'تجاوزت الحد المسموح للمستخدمين المجانيين. قم بالترقية إلى Pro للحصول على 60 طلب/دقيقة.'
-        : 'تجاوزت الحد المسموح. حاول مرة أخرى بعد قليل.',
-      retryAfter: result.retryAfter,
-      tier,
-      upgrade: tier === 'free' ? 'https://qatar-standers.vercel.app/pro' : null,
-    });
-    return false;
-  }
-  return true;
-}
-
-// مثال الاستخدام:
-// import { withRateLimit } from './rate-limit.js';
-// const tier = req.headers['x-user-tier'] || 'free';
-// const allowed = await withRateLimit(req, res, tier);
-// if (!allowed) return;
-
-// ── Backward-compatible exports ─────────────────────────────────────────────
-// بعض الملفات تستخدم هذه الأسماء القديمة — نحافظ على التوافق
-
-/**
- * استخراج IP من الطلب
- * @param {object} req - Node.js request object
- * @returns {string} IP address
- */
+// ── EXPORT: getIp ──────────────────────────────────────────────────────────
 export function getIp(req) {
   return (
     req.headers?.['x-forwarded-for']?.split(',')[0]?.trim() ||
     req.headers?.['x-real-ip'] ||
-    req.connection?.remoteAddress ||
     req.socket?.remoteAddress ||
     'unknown'
   );
 }
 
-/**
- * تطبيق Rate Limit headers على الـ response
- * @param {object} res - Node.js response object
- * @param {object} result - نتيجة checkRateLimit
- */
-export function applyRateLimitHeaders(res, result) {
-  const headers = rateLimitHeaders(result);
-  Object.entries(headers).forEach(([key, value]) => {
-    res.setHeader(key, value);
-  });
+// ── EXPORT: checkRateLimit — backward compat (new + old calling patterns) ──
+export async function checkRateLimit(ipOrReq, tierOrEndpoint = 'free', endpointOrFlag = null) {
+  let ip, isPro, endpoint;
+  if (typeof ipOrReq === 'string') {
+    ip = ipOrReq; endpoint = tierOrEndpoint;
+    isPro = endpointOrFlag === true || endpointOrFlag === 'pro';
+  } else {
+    ip = getIp(ipOrReq); isPro = tierOrEndpoint === 'pro';
+    endpoint = endpointOrFlag || ipOrReq.url?.split('?')[0] || 'default';
+  }
+  const lim = ENDPOINT_LIMITS[endpoint] || DEFAULT_LIMITS;
+  const tLimit = isPro ? lim.pro : lim.free;
+  const tier   = isPro ? 'pro' : 'free';
+  const tRes = (await redisCheck(`${tier}:${ip}:${endpoint}`, tLimit))   || memCheck(`${tier}:${ip}:${endpoint}`, tLimit);
+  const gRes = (await redisCheck(`global:${ip}:${endpoint}`, lim.global)) || memCheck(`global:${ip}:${endpoint}`, lim.global);
+  const allowed    = tRes.allowed && gRes.allowed;
+  const remaining  = Math.min(tRes.remaining, gRes.remaining);
+  const retryAfter = Math.max(tRes.retryAfter, gRes.retryAfter);
+  return { allowed, tier, ip, limit: tLimit, remaining, retryAfter, resetAt: Math.floor(Date.now() / 1000) + retryAfter, source: tRes.source };
 }
 
-/**
- * Alias لـ checkRateLimit — للتوافق مع الملفات التي تستخدم rateLimit
- * استخدام: const rl = await rateLimit(ip, endpoint, isPro);
- */
-export async function rateLimit(ip, endpoint = 'default', isPro = false) {
-  const endpointConfig = ENDPOINT_LIMITS[endpoint];
-  const tier = isPro ? 'pro' : 'free';
-  const maxRequests = endpointConfig ? (endpointConfig[tier] ?? LIMITS[tier].requests) : LIMITS[tier].requests;
-  const windowSeconds = LIMITS[tier]?.window ?? 60;
-  const tierKey = `${tier}:${ip}:${endpoint}`;
-  const globalKey = `global:${ip}:${endpoint}`;
-
-  const tierResult = await checkRateLimitKV(tierKey, maxRequests, windowSeconds)
-                     || checkRateLimitMemory(tierKey, maxRequests, windowSeconds);
-  const globalMax = endpointConfig?.global ?? LIMITS.global.requests;
-  const globalResult = await checkRateLimitKV(globalKey, globalMax, windowSeconds)
-                       || checkRateLimitMemory(globalKey, globalMax, windowSeconds);
-
-  const allowed = tierResult.allowed && globalResult.allowed;
-  const remaining = Math.min(tierResult.remaining, globalResult.remaining);
-  const resetAt = Math.max(tierResult.resetAt, globalResult.resetAt);
-
-  return {
-    allowed,
-    tier,
-    ip,
-    limit: maxRequests,
-    remaining,
-    resetAt,
-    retryAfter: allowed ? null : resetAt - Math.floor(Date.now() / 1000),
-    source: tierResult.source
+// ── EXPORT: rateLimitHeaders ───────────────────────────────────────────────
+export function rateLimitHeaders(result) {
+  const h = {
+    'X-RateLimit-Limit':     String(result.limit),
+    'X-RateLimit-Remaining': String(result.remaining ?? 0),
+    'X-RateLimit-Reset':     String(result.resetAt   ?? 0),
+    'X-RateLimit-Tier':      result.tier   || 'free',
+    'X-RateLimit-Source':    result.source || 'memory',
   };
+  if (!result.allowed) h['Retry-After'] = String(result.retryAfter || 60);
+  return h;
+}
+
+// ── EXPORT: applyRateLimitHeaders ──────────────────────────────────────────
+export function applyRateLimitHeaders(res, result) {
+  Object.entries(rateLimitHeaders(result)).forEach(([k, v]) => res.setHeader(k, v));
+}
+
+// ── EXPORT: rateLimit (alias — backward compat) ────────────────────────────
+export async function rateLimit(ip, endpoint = 'default', isPro = false) {
+  return checkRateLimit(ip, endpoint, isPro);
+}
+
+// ── EXPORT: withRateLimit ──────────────────────────────────────────────────
+export async function withRateLimit(req, res, tier = 'free') {
+  const ip       = getIp(req);
+  const isPro    = tier === 'pro';
+  const endpoint = req.url?.split('?')[0] || 'default';
+  const result   = await checkRateLimit(ip, endpoint, isPro);
+  applyRateLimitHeaders(res, result);
+  if (!result.allowed) {
+    res.status(429).json({
+      error: 'Too Many Requests',
+      message: isPro
+        ? `تجاوزت الحد المسموح (${result.limit} طلب/دقيقة). حاول بعد ${result.retryAfter} ثانية.`
+        : `تجاوزت الحد (${result.limit} طلبات/دقيقة للـ Free). قم بالترقية إلى Pro.`,
+      retryAfter: result.retryAfter,
+      tier,
+      upgrade: !isPro ? 'https://qatar-standers.vercel.app/pro' : null,
+    });
+    return false;
+  }
+  return true;
 }

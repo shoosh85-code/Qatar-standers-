@@ -84,10 +84,10 @@ async function checkRateLimit(ip, isProUser) {
   const globalKey = getRateKey(`global:${ip}`, window);
 
   // Try Vercel KV (fetch-based — Edge compatible)
-  if (typeof process !== 'undefined' && process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
+  if (typeof process !== 'undefined' && process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
     try {
-      const kvBase  = process.env.KV_REST_API_URL;
-      const kvToken = process.env.KV_REST_API_TOKEN;
+      const kvBase  = process.env.UPSTASH_REDIS_REST_URL;
+      const kvToken = process.env.UPSTASH_REDIS_REST_TOKEN;
       const headers = { Authorization: `Bearer ${kvToken}` };
 
       // فحص الحد العالمي أولاً

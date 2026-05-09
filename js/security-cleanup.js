@@ -47,3 +47,35 @@ if ('serviceWorker' in navigator) {
       });
   });
 }
+
+// ═══ SERVICE KEY GUARD v1.0 — مسح Supabase service_role key ═══════════════
+// service_role key يعطي وصولاً كاملاً للـ database — أخطر من أي API key
+(function checkForLeakedServiceKey() {
+  'use strict';
+  const DANGEROUS_PATTERNS = [
+    'service_role', 'supabase_service', 'SUPABASE_SERVICE',
+    'serviceRoleKey', 'service-role',
+  ];
+  const STORAGES = [
+    { name: 'localStorage',   store: window.localStorage   },
+    { name: 'sessionStorage', store: window.sessionStorage },
+  ];
+  for (const { name, store } of STORAGES) {
+    try {
+      const keys = Object.keys(store);
+      for (const key of keys) {
+        const keyLower = key.toLowerCase();
+        const val      = store.getItem(key) || '';
+        const isDangerous =
+          DANGEROUS_PATTERNS.some(p => keyLower.includes(p.toLowerCase())) ||
+          (val.length > 30 && val.startsWith('eyJ') && keyLower.includes('supabase'));
+        if (isDangerous) {
+          console.error(`[QatarSpec SECURITY] مفتاح خطير في ${name}:`, key);
+          store.removeItem(key);
+        }
+      }
+    } catch (_e) {
+      // Storage محجوب (private mode أو iframe)
+    }
+  }
+})();
