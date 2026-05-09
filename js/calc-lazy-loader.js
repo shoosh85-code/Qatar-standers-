@@ -114,3 +114,84 @@
   window.loadCategoryData('tools');
 
 })();
+
+/* ═══════════════════════════════════════════════════════════════════
+   MANIFEST RACE-CONDITION FIX — v3
+   المشكلة: requestIdleCallback(loadManifest, {timeout:800})
+            إذا ضغط المستخدم openDetail قبل 800ms → map={} → حلقة صامتة
+   الحل:    نحمّل manifest فوراً عند DOMContentLoaded (هو في cache بالفعل)
+            + نحفظ الضغطات المبكرة في queue ونُفرّغها بعد الجهوزية
+   ═══════════════════════════════════════════════════════════════════ */
+
+(function() {
+  const MANIFEST_SRC = 'data_content_manifest.js?v=7';
+  // queue للضغطات التي حدثت قبل جهوزية الـ manifest
+  const _earlyQueue = [];
+  let _manifestReady = false;
+
+  // تحميل manifest فوري (لا ينتظر idle) — الملف 8KB ومخزّن في cache
+  function forceLoadManifest() {
+    if (window.QS_CONTENT_MAP) { _manifestReady = true; _flushQueue(); return; }
+    const s = document.createElement('script');
+    s.src = MANIFEST_SRC;
+    s.async = true;
+    s.onload = function() {
+      _manifestReady = true;
+      _flushQueue();
+    };
+    document.head.appendChild(s);
+  }
+
+  // تفريغ الضغطات المؤجّلة بعد جهوزية المانيفست
+  function _flushQueue() {
+    while (_earlyQueue.length) {
+      const key = _earlyQueue.shift();
+      // نستدعي openDetail بعد تأكد جهوزية _loadContentChunk
+      if (typeof window.openDetail === 'function') {
+        window.openDetail(key);
+      } else if (typeof window.QS === 'object' && typeof window.QS.openDetail === 'function') {
+        window.QS.openDetail(key);
+      }
+    }
+  }
+
+  // تغليف QS.openDetail لحفظ الضغطات المبكرة
+  function _wrapOpenDetail() {
+    const _qs = window.QS;
+    if (!_qs) return;
+
+    const _orig = _qs.openDetail;
+    _qs.openDetail = function(key) {
+      // إذا المانيفست جاهز أو المحتوى محمّل → شغّل مباشرةً
+      if (_manifestReady || (window.QS_CONTENT && window.QS_CONTENT[key])) {
+        return _orig.call(_qs, key);
+      }
+      // المانيفست لم يُحمَّل بعد → أضف للـ queue
+      _earlyQueue.push(key);
+      // أظهر loading hint للمستخدم
+      const modal = document.getElementById('detailModal');
+      const title = document.getElementById('dmTitle');
+      const content = document.getElementById('dmContent');
+      if (modal && title && content) {
+        title.textContent = '...';
+        content.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3,#888);font-size:14px;">⏳ جاري التحميل...</div>';
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+    };
+  }
+
+  // تشغيل بعد DOMContentLoaded مباشرةً
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      forceLoadManifest();
+      // انتظر حتى تُسجَّل QS وopenDetail من inline-scripts.js
+      setTimeout(_wrapOpenDetail, 100);
+    });
+  } else {
+    // الصفحة محمّلة بالفعل
+    forceLoadManifest();
+    setTimeout(_wrapOpenDetail, 100);
+  }
+
+})();
