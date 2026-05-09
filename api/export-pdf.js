@@ -3,12 +3,47 @@
  * المرحلة 10 | توليد PDF بـ PDFKit (server-side)
  * QCS 2024 | Ashghal RDM 2023 | KAHRAMAA 2024
  * NOTE: pdfkit is optional — if not installed, returns 501
+ * v3.2: +JWT Pro verification (replaces weak x-qs-pro header check)
  */
 
 // Dynamic import — pdfkit قد لا يكون مُثبّتاً في بيئات خفيفة
 let PDFDocument = null;
 try { PDFDocument = (await import('pdfkit')).default; } catch { /* not installed */ }
 import { rateLimit, applyRateLimitHeaders } from './rate-limit.js';
+
+// ── Extract token from cookie OR Authorization header (Node.js style) ─────
+// SYNC-WITH: api/ai-proxy.js extractToken + api/vision-proxy.js
+function extractToken(request) {
+  const cookieHeader = request.headers['cookie'] || '';
+  const cookieMatch  = cookieHeader.match(/qs_pro=([^;]+)/);
+  if (cookieMatch) return cookieMatch[1];
+  const auth = request.headers['authorization'] || '';
+  if (auth.startsWith('Bearer ')) return auth.slice(7);
+  return null;
+}
+
+// ── JWT verify — Node.js runtime (crypto.subtle متاحة في Node 18+) ─────────
+// SYNC-WITH: api/ai-proxy.js verifyProToken + api/vision-proxy.js verifyProToken
+// إذا عدّلت منطق الـ crypto هنا → عدّل ai-proxy.js + vision-proxy.js + verify-pro.js
+async function verifyProToken(token) {
+  if (!token) return false;
+  const secret = process.env.JWT_SECRET;
+  if (!secret) return false;
+  try {
+    const parts = token.split('.');
+    if (parts.length !== 3) return false;
+    const msg = `${parts[0]}.${parts[1]}`;
+    const key = await crypto.subtle.importKey(
+      'raw', new TextEncoder().encode(secret),
+      { name: 'HMAC', hash: 'SHA-256' }, false, ['verify']
+    );
+    const d = s => Uint8Array.from(atob(s.replace(/-/g,'+').replace(/_/g,'/')), c => c.charCodeAt(0));
+    const ok = await crypto.subtle.verify('HMAC', key, d(parts[2]), new TextEncoder().encode(msg));
+    if (!ok) return false;
+    const payload = JSON.parse(atob(parts[1].replace(/-/g,'+').replace(/_/g,'/')));
+    return payload.pro === true && payload.exp > Math.floor(Date.now() / 1000);
+  } catch { return false; }
+}
 
 // ألوان العلامة التجارية
 const BRAND = {
@@ -29,14 +64,19 @@ export default async function handler(request, response) {
     return response.status(405).json({ error: 'Method Not Allowed — POST فقط' });
   }
 
-  // ── Pro Gate — PDF export للمشتركين فقط ──
-  const isPro = request.headers['x-qs-pro'] === '1' || request.cookies?.qs_pro === '1';
+  // ── Pro Gate — JWT server-side verification (v3.2) ────────────────────────
+  // استبدال الـ check الضعيف (x-qs-pro header) بـ JWT حقيقي
+  // لا يمكن تزويره من DevTools لأنه يتحقق من signature في الـ server
+  const token = extractToken(request);
+  const isPro = token ? await verifyProToken(token) : false;
   if (!isPro) {
-    return response.status(401).json({
-      error: 'Pro subscription required — تصدير PDF متاح للمشتركين Pro فقط',
-      upgrade: 'qatar-standers.vercel.app/#pro'
+    return response.status(403).json({
+      error: 'هذه الميزة للمشتركين Pro فقط', 
+      code:  'PRO_REQUIRED',
+      upgrade: 'qatar-standers.vercel.app/#pro',
     });
   }
+  // ── End Pro Gate ──────────────────────────────────────────────────────────
 
   // ── Rate Limiting (Protocol 6) ──
   const rl = await rateLimit(request, 'pro', 'export-pdf');

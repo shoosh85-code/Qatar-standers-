@@ -1,6 +1,7 @@
 // /api/vision-proxy.js — QatarSpec Pro
 // Vision AI for Photo Inspector + Drawing Analyzer
 // Uses Gemini 2.0 Flash (vision capable) + JWT Pro verification
+// v3.2: +server-side Pro gate (X-Feature-Gate header)
 
 
 export const config = { runtime: 'edge' };
@@ -147,6 +148,16 @@ export default async function handler(req) {
   const cookieToken = cookieHeader.match(/qs_pro=([^;]+)/)?.[1] || null;
   const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : cookieToken;
   const isPro = token ? await verifyProToken(token) : false;
+
+  // ── Pro gate — server-side (v3.2) ─────────────────────────────────────────
+  // Vision هي ميزة Pro — يُرفض الطلب إذا لم يكن المستخدم Pro
+  if (!isPro && req.headers.get('X-Feature-Gate') === 'pro') {
+    return new Response(
+      JSON.stringify({ error: 'هذه الميزة للمشتركين Pro فقط', code: 'PRO_REQUIRED' }),
+      { status: 403, headers: { ...CORS, 'Content-Type': 'application/json' } }
+    );
+  }
+  // ── End Pro gate ──────────────────────────────────────────────────────────
 
   // Rate limiting — PROTOCOL 6 (Upstash Redis)
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '0.0.0.0';

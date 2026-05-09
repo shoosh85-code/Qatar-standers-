@@ -1,7 +1,8 @@
-// /api/ai-proxy.js — QatarSpec Pro v3.1.0
+// /api/ai-proxy.js — QatarSpec Pro v3.2.0
 // Gemini 2.5 Pro (primary) + SSE Streaming + Citations + Rate Limiting
 // v3.0: +streaming, +citations, +gemini-2.5-pro [لا تحذف محتوى — فقط إضافة]
 // v3.1: +retryGemini exponential backoff from api/lib/retry.js
+// v3.2: +server-side Pro gate (X-Feature-Gate header)
 
 import { retryGemini } from '../lib/retry.js';
 
@@ -407,6 +408,17 @@ export default async function handler(req) {
   // ── Detect Pro user from token (basic check) ──
 const token = extractToken(req);
   const isProUser = token ? await verifyProToken(token) : false;
+
+  // ── Pro gate — server-side (v3.2) ─────────────────────────────────────────
+  // يرفض الطلب إذا كان X-Feature-Gate: pro موجود والمستخدم ليس Pro
+  // المستخدمون الـ free بدون هذا الـ header يصلون للخدمة بحد 5 طلبات
+  if (!isProUser && req.headers.get('X-Feature-Gate') === 'pro') {
+    return new Response(
+      JSON.stringify({ error: 'هذه الميزة للمشتركين Pro فقط', code: 'PRO_REQUIRED' }),
+      { status: 403, headers: { ...CORS, 'Content-Type': 'application/json' } }
+    );
+  }
+  // ── End Pro gate ──────────────────────────────────────────────────────────
 
   // ── Rate Limit — Admin token from sessionStorage (not URL param) ──
   const adminToken = req.headers.get('X-Admin-Token') || '';
