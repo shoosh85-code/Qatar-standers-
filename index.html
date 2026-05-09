@@ -16,7 +16,7 @@
 <!-- ═══ Plausible Analytics — بدون cookies — GDPR compliant ═══ -->
 <!-- domain: qatar-standers.vercel.app — يُسجَّل في plausible.io -->
 <script defer data-domain="qatar-standers.vercel.app" src="https://plausible.io/js/script.tagged-events.outbound-links.js"></script>
-<script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+<!-- plausible stub moved to /js/analytics.js -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <script src="/js/security-cleanup.js"></script>
 <!-- CSP: Server Headers في vercel.json — see headers config for Content-Security-Policy -->
@@ -66,49 +66,7 @@
 <link id="pwaManifestLink" rel="manifest" href="/manifest.json">
 
 <!-- ═══════════ Schema.org — Structured Data ═══════════ -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "QatarSpec Pro",
-  "alternateName": "دليل المواصفات القطرية",
-  "url": "https://qatar-standers.vercel.app/",
-  "description": "منصة رقمية شاملة للمواصفات الهندسية القطرية — QCS 2024، Ashghal، KAHRAMAA، MMUP. بحث ذكي بالذكاء الاصطناعي، حاسبات تقنية، نماذج رسمية.",
-  "applicationCategory": "EngineeringApplication",
-  "operatingSystem": "Web Browser",
-  "inLanguage": ["ar", "en"],
-  "offers": [
-    {
-      "@type": "Offer",
-      "name": "مجاني",
-      "price": "0",
-      "priceCurrency": "QAR"
-    },
-    {
-      "@type": "Offer",
-      "name": "Pro",
-      "price": "99",
-      "priceCurrency": "QAR",
-      "billingIncrement": "P1M"
-    }
-  ],
-  "featureList": [
-    "QCS 2024 Smart Search",
-    "111+ Engineering Reference Sections",
-    "Pass/Fail Calculators",
-    "ITP Templates",
-    "RFI/NCR Forms",
-    "AI Document Analyzer",
-    "Road Layers Calculator",
-    "Rebar Cover & Lap Length"
-  ],
-  "creator": {
-    "@type": "Organization",
-    "name": "QatarSpec",
-    "url": "https://qatar-standers.vercel.app/"
-  }
-}
-</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"QatarSpec Pro","alternateName":"دليل المواصفات القطرية","url":"https://qatar-standers.vercel.app/","description":"منصة رقمية شاملة للمواصفات الهندسية القطرية — QCS 2024، Ashghal، KAHRAMAA، MMUP. بحث ذكي بالذكاء الاصطناعي، حاسبات تقنية، نماذج رسمية.","applicationCategory":"EngineeringApplication","operatingSystem":"Web Browser","inLanguage":["ar","en"],"offers":[{"@type":"Offer","name":"مجاني","price":"0","priceCurrency":"QAR"},{"@type":"Offer","name":"Pro","price":"99","priceCurrency":"QAR","billingIncrement":"P1M"}],"featureList":["QCS 2024 Smart Search","111+ Engineering Reference Sections","Pass/Fail Calculators","ITP Templates","RFI/NCR Forms","AI Document Analyzer","Road Layers Calculator","Rebar Cover & Lap Length"],"creator":{"@type":"Organization","name":"QatarSpec","url":"https://qatar-standers.vercel.app/"}}</script>
 
 <!-- ═══════════ Performance ═══════════ -->
 <link rel="preconnect" href="https://fonts.googleapis.com">

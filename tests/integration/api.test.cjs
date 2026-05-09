@@ -336,3 +336,85 @@ setTimeout(() => {
   }
   console.log('══════════════════════════════════════════\n');
 }, 100);
+
+// ══════════════════════════════════════════════════════════════
+// ROUND 2 TESTS — تغطية المشاكل المكتشفة في التقرير الثاني
+// ══════════════════════════════════════════════════════════════
+let passed2 = 0, failed2 = 0;
+const test2 = (name, fn) => {
+  try { fn(); console.log('  ✅', name); passed2++; }
+  catch(e) { console.error('  ❌', name, '\n    ', e.message); failed2++; }
+};
+
+console.log('\n⚡ Round 2: Architecture & Security Tests');
+
+test2('api/rate-limit.js: no @vercel/kv', () => {
+  const src = fs.readFileSync('api/rate-limit.js', 'utf-8');
+  assert(!src.includes('@vercel/kv'), 'api/rate-limit.js لا يزال يستخدم @vercel/kv المنتهي الصلاحية');
+});
+
+test2('api/rate-limit.js: uses UPSTASH_REDIS_REST_URL', () => {
+  const src = fs.readFileSync('api/rate-limit.js', 'utf-8');
+  assert(src.includes('UPSTASH_REDIS_REST_URL'), 'api/rate-limit.js يجب أن يستخدم UPSTASH_REDIS_REST_URL');
+});
+
+test2('ai-proxy.js: no KV_REST_API_URL', () => {
+  const src = fs.readFileSync('api/ai-proxy.js', 'utf-8');
+  assert(!src.includes('KV_REST_API_URL'), 'ai-proxy.js لا يزال يستخدم KV_REST_API_URL القديم');
+});
+
+test2('api/rate-limit.js: exports all required functions', () => {
+  const src = fs.readFileSync('api/rate-limit.js', 'utf-8');
+  ['checkRateLimit','getIp','applyRateLimitHeaders','rateLimit','rateLimitHeaders','withRateLimit']
+    .forEach(fn => assert(src.includes(fn), `api/rate-limit.js لا يُصدّر ${fn}`));
+});
+
+test2('middleware/rateLimit.js: removed (dead code)', () => {
+  assert(!fs.existsSync('middleware/rateLimit.js'), 'middleware/rateLimit.js لا يزال موجوداً — يجب حذفه');
+});
+
+test2('supabase-proxy: ALLOWED_OPERATIONS includes get_user_by_token', () => {
+  const src = fs.readFileSync('api/supabase-proxy.js', 'utf-8');
+  assert(src.includes('get_user_by_token'), 'supabase-proxy ALLOWED_OPERATIONS لا تشمل get_user_by_token');
+});
+
+test2('security-cleanup: checks for service_role key leak', () => {
+  const src = fs.readFileSync('js/security-cleanup.js', 'utf-8');
+  assert(src.includes('service_role'), 'security-cleanup لا يفحص service_role key leak');
+});
+
+test2('lib/security-headers.js: no unsafe-inline in script-src', () => {
+  const src = fs.readFileSync('lib/security-headers.js', 'utf-8');
+  const lines = src.split('\n').filter(l => l.includes('script-src'));
+  lines.forEach(l => assert(!l.includes("'unsafe-inline'"), 'lib/security-headers.js CSP تحتوي unsafe-inline في script-src'));
+});
+
+test2('.env.example: all required vars present', () => {
+  const src = fs.readFileSync('.env.example', 'utf-8');
+  ['GEMINI_API_KEY','UPSTASH_REDIS_REST_URL','UPSTASH_REDIS_REST_TOKEN','JWT_SECRET','NEXT_PUBLIC_SUPABASE_URL','TAP_SECRET_KEY']
+    .forEach(v => assert(src.includes(v), `.env.example يفتقد ${v}`));
+});
+
+test2('vercel.json: no unsafe-inline in script-src', () => {
+  const v = JSON.parse(fs.readFileSync('vercel.json', 'utf-8'));
+  (v.headers || []).forEach(block => {
+    (block.headers || []).forEach(h => {
+      if (h.key === 'Content-Security-Policy') {
+        const scriptSrc = h.value.split('script-src')[1]?.split(';')[0] || '';
+        assert(!scriptSrc.includes("'unsafe-inline'"), "vercel.json CSP تحتوي 'unsafe-inline' في script-src");
+      }
+    });
+  });
+});
+
+test2('index.html: no bare inline scripts', () => {
+  const src = fs.readFileSync('index.html', 'utf-8');
+  const inlineScripts = (src.match(/<script>/g) || []).length;
+  assert(inlineScripts === 0, `index.html يحتوي ${inlineScripts} inline script(s) بدون src`);
+});
+
+console.log(`\n${'═'.repeat(44)}`);
+console.log(failed2 === 0
+  ? `✅ Round 2: ${passed2} passed, 0 failed`
+  : `❌ Round 2: ${passed2} passed, ${failed2} FAILED`);
+console.log('═'.repeat(44));

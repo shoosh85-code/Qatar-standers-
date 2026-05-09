@@ -1,3 +1,5 @@
+// Plausible queue stub — must run before plausible.js loads
+(function(){window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)}})();
 // js/analytics.js — QatarSpec Pro v1.0
 // Unified Analytics: Plausible (primary) + GA4 (fallback)
 // ✅ بدون cookies — GDPR compliant — قانون قطر للبيانات
