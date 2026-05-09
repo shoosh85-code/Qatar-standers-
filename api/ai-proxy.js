@@ -456,6 +456,129 @@ const token = extractToken(req);
   }
 
 
+  // ── Enhance Action (v3.3) — merged from enhance-en.js ─────────────────────
+  // [لا تحذف محتوى — فقط إضافة — v3.3]
+  // مُدمج من api/enhance-en.js: يجلب نص QCS الحقيقي من Supabase ثم يُنسّقه بـ Gemini
+  // الاستخدام: POST /api/ai-proxy { action: 'enhance', section_key: '...', ar_content: '...' }
+  if (body.action === 'enhance') {
+    const { section_key = 'unknown', ar_content = '' } = body;
+    if (!ar_content || ar_content.length < 30) {
+      return new Response(JSON.stringify({ error: 'No content — ar_content مطلوب (30 حرف+)' }), {
+        status: 400, headers: { ...CORS, 'Content-Type': 'application/json' }
+      });
+    }
+
+    const SUPA_URL  = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const SUPA_KEY  = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const GEMINI_KEY = process.env.GEMINI_API_KEY;
+
+    if (!SUPA_URL || !SUPA_KEY || !GEMINI_KEY) {
+      return new Response(JSON.stringify({ error: 'Missing env vars (SUPABASE or GEMINI)' }), {
+        status: 503, headers: { ...CORS, 'Content-Type': 'application/json' }
+      });
+    }
+
+    // خريطة section_key → مصطلحات بحث QCS بالإنجليزية
+    const searchTerms = {
+      roads:                'road construction pavement asphalt subgrade compaction',
+      subgrade:             'subgrade formation compaction CBR density',
+      subbase:              'subbase granular Type B CBR compaction',
+      base:                 'road base course aggregate compaction',
+      binder:               'binder course asphalt AC20 temperature density',
+      wearing:              'wearing course AC14 asphalt IRI smoothness temperature',
+      prime:                'prime coat tack coat bitumen application rate',
+      finishing:            'road finishing road markings kerb reinstatement',
+      handover:             'project handover as-built documentation defects',
+      utilities:            'utilities networks water supply sewer drainage',
+      water_supply_stages:  'water supply pipe laying pressure test chlorination',
+      sewer_stages:         'foul sewer pipe laying air test CCTV inspection',
+      structural:           'reinforced concrete structural works construction',
+      concrete_full:        'concrete mix design placing curing testing',
+      rebar_full:           'reinforcement steel bar fixing cover lap length',
+      geotech:              'geotechnical investigation borehole SPT soil testing',
+      itp_concrete:         'concrete inspection test plan ITP hold witness',
+      itp_structural:       'structural concrete ITP inspection plan',
+      marshall_mix:         'Marshall mix design stability flow air voids asphalt',
+    };
+
+    const query   = searchTerms[section_key] || section_key.replace(/_/g, ' ') + ' QCS Qatar specifications';
+    const keyword = query.split(' ').slice(0, 2).join(' ');
+
+    try {
+      // البحث في Supabase عن مقاطع QCS ذات صلة (FTS)
+      let qcsChunks = [];
+      const ftsRes = await fetch(
+        `${SUPA_URL}/rest/v1/qcs_chunks?content=ilike.*${encodeURIComponent(keyword)}*&select=content,source_file,section_name,page_num&limit=6&order=char_count.desc`,
+        {
+          headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}` },
+          signal: AbortSignal.timeout(8000)
+        }
+      );
+      if (ftsRes.ok) qcsChunks = await ftsRes.json();
+
+      // بناء السياق من نص QCS الحقيقي
+      const qcsContext = qcsChunks.length > 0
+        ? qcsChunks.map((c, i) =>
+            `[QCS Source ${i+1}: ${(c.source_file||'').replace(/Copy of /g,'')} | ${c.section_name||''} | p.${c.page_num||'?'}]\n${(c.content||'').slice(0,600)}`
+          ).join('\n\n')
+        : '';
+
+      // توجيه Gemini لتنسيق محتوى QCS
+      const enhancePrompt = `You are formatting Qatar QCS 2024 content for an engineering reference app.
+
+Section: "${section_key}"
+
+Real QCS 2024 source text (English, from official PDFs):
+${qcsContext || 'No direct QCS text found — use your QCS 2024 knowledge for this section.'}
+
+Task: Create a well-structured HTML section in English that:
+1. Uses the real QCS 2024 text above as primary source
+2. Formats it as tables, numbered lists, and clear paragraphs
+3. Highlights key values (Pass/Fail criteria, limits, tolerances)
+4. References exact QCS Part/Section/Clause numbers
+5. Adds Hold Points (HP) and Witness Points (WP) where applicable
+
+Return ONLY the HTML content (no outer div wrapper). Use dm-table CSS class for tables.`;
+
+      const genRes = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: enhancePrompt }] }],
+            generationConfig: { maxOutputTokens: 2000, temperature: 0.1 }
+          }),
+          signal: AbortSignal.timeout(25000)
+        }
+      );
+
+      const genData = await genRes.json();
+      if (!genRes.ok) {
+        return new Response(JSON.stringify({ error: genData?.error?.message, status: genRes.status }), {
+          status: 502, headers: { ...CORS, 'Content-Type': 'application/json' }
+        });
+      }
+
+      const enhancedText = genData?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      return new Response(JSON.stringify({
+        enhanced:        enhancedText,
+        key:             section_key,
+        qcs_chunks_used: qcsChunks.length,
+        sources:         qcsChunks.map(c => c.source_file).filter(Boolean).slice(0, 3),
+      }), {
+        status: 200, headers: { ...CORS, 'Content-Type': 'application/json' }
+      });
+
+    } catch (e) {
+      console.error('[ai-proxy/enhance]', e.message);
+      return new Response(JSON.stringify({ error: e.message }), {
+        status: 500, headers: { ...CORS, 'Content-Type': 'application/json' }
+      });
+    }
+  }
+  // ── End Enhance Action ────────────────────────────────────────────────────
+
   // ── SSE Streaming Path (v3.0) ──
   const acceptHeader = req.headers.get('accept') || '';
   if (acceptHeader.includes('text/event-stream')) {

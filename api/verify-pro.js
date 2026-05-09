@@ -170,7 +170,113 @@ export default async function handler(req) {
       });
     }
 
+    // ── Merged from api/auth/login.js (v4.1) ─────────────────────────────
+    // إرسال OTP عبر Resend إلى البريد الإلكتروني
+    // [لا تحذف محتوى — فقط إضافة — v4.1]
+    if (bodyAction === 'login') {
+      const { email: loginEmail } = body;
+      if (!loginEmail || !loginEmail.includes('@')) {
+        return json({ error: 'Valid email required' }, 400);
+      }
+
+      const RESEND_KEY = process.env.RESEND_API_KEY;
+      const KV_URL     = process.env.KV_REST_API_URL;
+      const KV_TOKEN   = process.env.KV_REST_API_TOKEN;
+      const APP_URL    = process.env.APP_URL || 'https://qatar-standers.vercel.app';
+
+      if (!RESEND_KEY) return json({ error: 'Email service not configured' }, 503);
+
+      // توليد رمز 6 أرقام
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+      try {
+        // حفظ الرمز في KV (ينتهي بعد 15 دقيقة)
+        if (KV_URL) {
+          await fetch(KV_URL + '/set/otp:' + loginEmail, {
+            method: 'POST',
+            headers: { Authorization: 'Bearer ' + KV_TOKEN, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ value: otp, ex: 900 })
+          });
+        }
+
+        // إرسال البريد عبر Resend
+        await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: { Authorization: 'Bearer ' + RESEND_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            from:    'QatarSpec Pro <noreply@qatarspec.com>',
+            to:      loginEmail,
+            subject: 'رمز تسجيل الدخول — QatarSpec Pro',
+            html: `
+              <div dir="rtl" style="font-family:Arial;max-width:400px;margin:0 auto;padding:24px;">
+                <h2 style="color:#7a1515;">QatarSpec Pro 🏗️</h2>
+                <p>رمز تسجيل الدخول الخاص بك:</p>
+                <div style="background:#f5f5f5;border-radius:12px;padding:20px;text-align:center;margin:20px 0;">
+                  <span style="font-size:36px;font-weight:900;letter-spacing:8px;color:#7a1515;">${otp}</span>
+                </div>
+                <p style="color:#666;font-size:13px;">صالح لمدة 15 دقيقة فقط.</p>
+              </div>`
+          })
+        });
+
+        return json({ sent: true, message: 'تم إرسال الرمز على بريدك الإلكتروني' }, 200);
+      } catch (err) {
+        console.error('[verify-pro/login] error:', err.message);
+        return json({ error: 'فشل إرسال البريد' }, 500);
+      }
+    }
+
+    // ── Merged from api/auth/verify.js (v4.1) ────────────────────────────
+    // التحقق من OTP وإصدار JWT
+    // [لا تحذف محتوى — فقط إضافة — v4.1]
+    if (bodyAction === 'verify-otp') {
+      const { email: otpEmail, otp: otpCode } = body;
+      if (!otpEmail || !otpCode) return json({ error: 'Email and otp required' }, 400);
+
+      const KV_URL   = process.env.KV_REST_API_URL;
+      const KV_TOKEN = process.env.KV_REST_API_TOKEN;
+
+      try {
+        // التحقق من OTP المحفوظ في KV
+        const kvRes  = await fetch(KV_URL + '/get/otp:' + otpEmail, {
+          headers: { Authorization: 'Bearer ' + KV_TOKEN }
+        });
+        const kvData = await kvRes.json();
+
+        if (kvData.result !== otpCode) {
+          return json({ error: 'الرمز غير صحيح أو منتهي الصلاحية' }, 401);
+        }
+
+        // حذف الـ OTP بعد الاستخدام
+        await fetch(KV_URL + '/del/otp:' + otpEmail, {
+          method: 'POST',
+          headers: { Authorization: 'Bearer ' + KV_TOKEN }
+        });
+
+        // فحص هل المستخدم Pro
+        const subRes  = await fetch(KV_URL + '/get/sub:' + otpEmail, {
+          headers: { Authorization: 'Bearer ' + KV_TOKEN }
+        });
+        const subData = await subRes.json();
+        const isPro   = subData.result === 'active';
+
+        // إصدار JWT موقّع بـ HMAC-SHA256
+        const exp     = Math.floor(Date.now() / 1000) + 30 * 24 * 3600;
+        const jwt     = await signJWT({ email: otpEmail, pro: isPro, exp, source: 'otp' }, secret);
+
+        return new Response(JSON.stringify({ jwt, email: otpEmail, isPro }), {
+          status: 200,
+          headers: { ...CORS, 'Content-Type': 'application/json', 'Set-Cookie': isPro ? buildCookie(jwt) : '' },
+        });
+      } catch (err) {
+        console.error('[verify-pro/verify-otp] error:', err.message);
+        return json({ error: 'Internal error' }, 500);
+      }
+    }
+    // ── End merged auth actions ───────────────────────────────────────────
+
     return json({ error: 'Missing code or token' }, 400);
+
   }
 
   return json({ error: 'Method not allowed' }, 405);

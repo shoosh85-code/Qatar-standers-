@@ -128,12 +128,12 @@ echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-
 
 ## PROJECT INFO
 
-- **Name:** QatarSpec Pro
-- **Site:** qatar-standers.vercel.app
-- **Stack:** Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
-- **Repo:** github.com/shoosh85-code/Qatar-standers-
-- **Audience:** مهندسون قطريون وأجانب يعملون في قطر
-- **References:** QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
+- **Name**: QatarSpec Pro
+- **Site**: qatar-standers.vercel.app
+- **Stack**: Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
+- **Repo**: github.com/shoosh85-code/Qatar-standers-
+- **Audience**: مهندسون قطريون وأجانب يعملون في قطر
+- **References**: QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
 
 ---
 
@@ -172,10 +172,10 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 
 ## EXPORT STANDARDS
 
-- **PDF:** QatarSpec Pro header + QCS 2024 reference + page numbers + watermark
-- **Excel:** Ashghal official format + multiple sheets + summary stats
-- **Word:** Professional header + editable fields + QCS clause references
-- **All exports:** Project name + Engineer name + Date + QatarSpec branding
+- **PDF**: QatarSpec Pro header + QCS 2024 reference + page numbers + watermark
+- **Excel**: Ashghal official format + multiple sheets + summary stats
+- **Word**: Professional header + editable fields + QCS clause references
+- **All exports**: Project name + Engineer name + Date + QatarSpec branding
 
 ---
 
@@ -226,3 +226,36 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 - Follow PROTOCOL 2 strictly for every git push
 - Test locally before push — app must stay functional
 - Never delete content — only add or modify
+
+---
+
+## FUNCTION COUNT LIMIT (Vercel Hobby)
+
+**الحد الفعلي**: ≤ 16 functions (هدف آمن مع هامش)
+
+### الـ functions بعد الدمج:
+| File | Purpose |
+|------|---------|
+| api/admin-session.js | Admin auth |
+| api/ai-proxy.js | Gemini AI + enhance action (merged) |
+| api/auth-proxy.js | Auth proxy |
+| api/execution-ai.js | Execution AI |
+| api/export-pdf.js | PDF export |
+| api/generate-embeddings.js | Embeddings |
+| api/health.js | Health check |
+| api/qcs-search.js | QCS vector search |
+| api/rate-limit.js | Rate limit helper |
+| api/setup-vectors.js | Vector setup |
+| api/supabase-proxy.js | Supabase proxy |
+| api/tap.js | TAP checkout + callback (merged) |
+| api/tap-webhook.js | TAP webhook |
+| api/validate-code.js | Code validation |
+| api/verify-pro.js | Pro verify + OTP login + verify-otp (merged) |
+| api/vision-proxy.js | Vision AI |
+
+**المجموع**: 16 functions ✅
+
+### الدمجات المنجزة:
+- `api/auth/login.js` + `api/auth/verify.js` → `api/verify-pro.js` (actions: login, verify-otp)
+- `api/tap-checkout.js` + `api/tap-callback.js` → `api/tap.js` (?action=checkout|callback)
+- `api/enhance-en.js` → `api/ai-proxy.js` (action: 'enhance')
