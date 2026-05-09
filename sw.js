@@ -1,8 +1,8 @@
-// sw.js — QatarSpec Pro v3.5.0
-// هدف: مسح كل الكاش القديم وتحميل النسخة الجديدة فوراً
-// [S4] توحيد SW registration — security-cleanup.js فقط
+// sw.js — QatarSpec Pro v3.6.0
+// هدف: استراتيجيات كاش متعددة حسب نوع الملف
+// [PERF] Cache-First لـ data/ | Network-First لـ api/ | Stale-While-Revalidate لـ js/
 
-const CACHE_NAME = 'qatarspec-v3-5-0';
+const CACHE_NAME = 'qatarspec-v3-6-0';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -31,7 +31,7 @@ const STATIC_ASSETS = [
 
 // INSTALL: مسح كل الكاش القديم فوراً
 self.addEventListener('install', (event) => {
-  console.log('[SW] v3.5.0 installing...');
+  console.log('[SW] v3.6.0 installing...');
 
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -56,7 +56,7 @@ self.addEventListener('install', (event) => {
 
 // ACTIVATE: تفعيل فوري بدون انتظار
 self.addEventListener('activate', (event) => {
-  console.log('[SW] v3.5.0 activated');
+  console.log('[SW] v3.6.0 activated');
   event.waitUntil(
     // مسح أي كاش متبقٍّ لا يطابق الإصدار الحالي
     caches.keys().then((cacheNames) => {
@@ -72,18 +72,86 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// FETCH: network-first دائماً (لا cache-first)
+// ── استراتيجيات الكاش ──────────────────────────────────────────────
+
+/**
+ * Cache-First: يرجع من الكاش فوراً — يحدّث في الخلفية فقط إذا وُجد
+ * مناسب لـ: data/*.js (تتغير نادراً، حجمها كبير)
+ */
+async function cacheFirst(request) {
+  const cached = await caches.match(request);
+  if (cached) return cached;
+  // إذا لم يكن في الكاش — اجلبه من النت واحفظه
+  const response = await fetch(request);
+  if (response && response.status === 200) {
+    const cache = await caches.open(CACHE_NAME);
+    cache.put(request, response.clone());
+  }
+  return response;
+}
+
+/**
+ * Network-First: يجلب من النت دائماً — يرجع للكاش فقط عند فشل النت
+ * مناسب لـ: /api/* (دائماً fresh)
+ */
+async function networkFirst(request) {
+  try {
+    const response = await fetch(request);
+    return response;
+  } catch {
+    const cached = await caches.match(request);
+    return cached || caches.match('/');
+  }
+}
+
+/**
+ * Stale-While-Revalidate: يرجع من الكاش فوراً ويحدّث في الخلفية
+ * مناسب لـ: /js/*.js (سرعة + تحديث تدريجي)
+ */
+async function staleWhileRevalidate(request) {
+  const cached = await caches.match(request);
+  // ابدأ تحديث الكاش في الخلفية
+  const fetchPromise = fetch(request).then(async (response) => {
+    if (response && response.status === 200) {
+      const cache = await caches.open(CACHE_NAME);
+      cache.put(request, response.clone());
+    }
+    return response;
+  }).catch(() => null);
+
+  // إذا وُجد في الكاش — ارجعه فوراً (بدون انتظار التحديث)
+  return cached || fetchPromise;
+}
+
+// FETCH: توجيه حسب نوع الطلب
 self.addEventListener('fetch', (event) => {
   // تجاهل طلبات غير GET
   if (event.request.method !== 'GET') return;
 
-  // تجاهل طلبات API — لا تُكاش أبداً
-  if (event.request.url.includes('/api/')) return;
+  const url = event.request.url;
 
+  // ── Network-First: API — لا تُكاش أبداً ──
+  if (url.includes('/api/')) {
+    event.respondWith(networkFirst(event.request));
+    return;
+  }
+
+  // ── Cache-First: Data files — تتغير نادراً ──
+  if (url.includes('/data/') || url.match(/data_\w+\.js/)) {
+    event.respondWith(cacheFirst(event.request));
+    return;
+  }
+
+  // ── Stale-While-Revalidate: JS files — سرعة + تحديث تدريجي ──
+  if (url.includes('/js/') || url.match(/\.js(\?|$)/)) {
+    event.respondWith(staleWhileRevalidate(event.request));
+    return;
+  }
+
+  // ── Default: Network-First مع fallback للكاش ──
   event.respondWith(
     fetch(event.request)
       .then((response) => {
-        // تحديث الكاش بالنسخة الجديدة فقط إذا كان الرد صحيحاً
         if (response && response.status === 200) {
           const clone = response.clone();
           caches.open(CACHE_NAME).then((cache) => {
@@ -93,10 +161,8 @@ self.addEventListener('fetch', (event) => {
         return response;
       })
       .catch(() => {
-        // fallback للكاش فقط إذا فشل النت
         return caches.match(event.request).then(cached => {
           if (cached) return cached;
-          // إذا لم يوجد في الكاش — أرجع صفحة رئيسية
           return caches.match('/');
         });
       })

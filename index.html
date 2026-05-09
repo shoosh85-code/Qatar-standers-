@@ -1,124 +1,14 @@
 <!DOCTYPE html>
-<!-- ═══════════════════════════════════════════════════════════════
-  QatarSpec Pro — Changelog
-  v2.4.6 (April 2026) — SECURITY HARDENING (Phase 5):
-    - [SEC]  CSP Meta Tag: defense-in-depth meta tag added (vercel.json already has server-side CSP)
-    - [SEC]  cleanupSecurity(): runs at page load — removes ALL legacy API keys from localStorage
-             Catches: apiKey, GEMINI_KEY, ANTHROPIC_KEY, sk-ant-*, qatarspecKey, jwt_token
-             Also scans all localStorage keys for sk-ant-* / AIzaSy* patterns
-    - [SEC]  saveKey(): no longer writes to localStorage — in-memory only (server proxy preferred)
-    - [SEC]  anthropicKey: no longer loaded from localStorage on startup
-    - [SEC]  Rate limiting: already in ai-proxy.js (Vercel KV + fallback in-memory)
-    - [SEC]  sanitizeText(): already in use at all innerHTML injection points
-  v2.4.5 (April 2026) — SEO + PWA + LANDING (Phase 5):
-    - [SEO]  Full meta tags: description, keywords, robots, canonical
-             geo.region QA + geo.placename Doha
-    - [SEO]  Open Graph: og:title, og:description, og:image (1200×630)
-    - [SEO]  Twitter Card: summary_large_image
-    - [SEO]  Schema.org WebApplication JSON-LD
-             name, description, offers (Free+Pro), featureList, creator
-    - [SEO]  <title> optimised: QatarSpec Pro + QCS 2024 + Ashghal + KAHRAMAA
-    - [SEO]  preconnect: fonts.googleapis + fonts.gstatic
-    - [PWA]  Inline Service Worker via Blob URL — Cache-First strategy
-             Caches app shell, passes through API + Fonts
-             Cleans old cache versions on activate
-    - [PWA]  Inline manifest via Blob URL — icons (512 + 192 SVG)
-             shortcuts: بحث + حاسبة
-    - [PWA]  beforeinstallprompt → pwaInstallBtn shown in Hero
-             installPWA() function
-    - [LAND] Hero redesigned — eyebrow "رقم 1 لمهندسي قطر"
-             2 CTA buttons: ابدأ البحث + عرض خطط Pro + 📲 ثبّت
-             Stats: 111+ قسم / 50+ حاسبة / QCS 2024
-    - [LAND] Trust Bar — 6 authority badges (QCS · Ashghal · KAHRAMAA · MMUP · FIDIC · PWA)
-    - [LAND] Features Section — 6 بطاقات + Bottom CTA Banner
-             "جرّب Pro مجاناً" button with [PROMO-CODE] auto-activation
-  v2.1.0 (April 2026) — MONETIZATION SYSTEM (Phase 4):
-    - [NEW]  Pro / Free Tier System — localStorage-based
-             Free: 5 بحث ذكي يومي + كل المحتوى الثابت
-             Pro:  بحث غير محدود + PDF/Word تصدير + AI Features
-    - [NEW]  Pro Modal — خطط الاشتراك الشهرية والسنوية
-             99 QAR/شهر | 799 QAR/سنة (وفر 33%)
-             WhatsApp + Email + Promo Code تفعيل
-    - [NEW]  Promo Code System — [PROMO-CODES] via server env vars
-    - [NEW]  Search Counter Bar — 5 نقاط تتبع + تحذير عند النفاد
-    - [NEW]  Pro Badge في الهيدر — يتحول لـ "Pro مُفعَّل ✓" بعد الاشتراك
-    - [GATE] exportToPDF() — Pro فقط
-    - [GATE] exportToWord() — Pro فقط
-    - [GATE] runDocAnalysis() — Pro فقط
-    - [GATE] runDrawingAnalysis() — Pro فقط
-    - [GATE] runInspector() — Pro فقط
-    - [NEW]  PRO lock badge على كروت: doc_analyzer / drawing_analyzer / photo_analyzer
-    - [NEW]  Upgrade Overlay — contextual gate بأيقونة ووصف مخصص لكل ميزة
-    - [NEW]  Pro Expiry Check — تحقق تلقائي من صلاحية الاشتراك
-  v2.0.0 (April 2026) — CALCULATORS PHASE 3:
-    - [NEW]  Survey & Setting Out Tolerances (survey_setting_out)
-             10 tolerance values: Centerline, Level, Piles, Grid, Earthworks layers
-             Reference: QCS S1 + S5 + S6 + BS 5606 + FIDIC Cl.4.7
-    - [NEW]  MMUP Building Permit Requirements (mmup_building_permits)
-             Setbacks (R1/R2/R3/C1) + Plot Coverage + FAR + NOC matrix (6 جهات)
-             Reference: MMUP Building Regulations 2024
-    - [NEW]  MEP Standards Qatar (mep_standards)
-             KAHRAMAA LV (8 items) + Water Supply (6 items) + QCDD Fire Alarm (6 items) + QCS S21 Drainage (6 items)
-             Reference: KAHRAMAA 2024 + QCS S21 + QCDD + NFPA 72/13
-    - [NEW]  Ashghal RDM Quick Reference (ashghal_rdm)
-             Lane widths (6 road classes) + Sight distances (7 speeds) + Grades + R min + Qatar-specific requirements
-             Reference: QHDM 4th Ed. 2019 + AASHTO 2018
-    - [NEW]  4 new cat-cards added to main grid with correct keywords for AI search
-  v1.8.0 (April 2026) — TECHNICAL ACCURACY FIXES (Phase 1):
-    - [FIX]  calcCrossfall(): tolerance corrected to ±0.3% (QCS 2024 S6)
-             الخطأ: كان يقبل 2-3% كنطاق واسع
-             الصح: الهدف 2.5% ± تفاوت 0.3% | NCR عند انحراف > 0.5%
-             مواضع مُصلَّحة: calcCrossfall() + جدول S6 + Inspector checklist + Motor Grader spec
-    - [FIX]  Concrete 7-day Rule: حذف "acceptance" من 7-day
-             الخطأ: كان يعرض "7-day acceptance ≥70% fcu" كمعيار قبول
-             الصح: 7-day للمراقبة فقط — القبول الرسمي (QCS S5) = 28-day فقط
-             مواضع مُصلَّحة: جداول ITP + Hold Points + Test Schedule (4 مواضع)
-    - [FIX]  Asphalt Laying Temperature: تصحيح من 130°C إلى القيم الصحيحة
-             الخطأ: placeholder ≥130°C موحَّد لكل أنواع الخلطات
-             الصح: DBM ≥140°C | Wearing Course ≥145°C (QCS 2024 S8)
-             مواضع مُصلَّحة: calcMarshall() + calcTemperature() + NCR placeholders + Risk table + ITP items (7 مواضع)
-    - [FIX]  AI Search Disclaimer: تقوية التحذير
-             إضافة نص واضح: "AI-Generated — لا تستند إلى QCS PDF مباشرةً"
-             لا تستخدم كمرجع وحيد في NCR/ITP/Design
-  v1.7.4 (April 2026) — VIDEO LOADING FIX (Root Cause):
-    - [FIX]  loadLocalVideo(): FileReader.readAsDataURL → URL.createObjectURL
-             السبب: readAsDataURL تُحوّل الفيديو base64 (+33% حجم) وتفشل > 16MB
-             الحل: createObjectURL pointer مباشر — فوري، آمن، يدعم Seeking
-             التأثير: صفر على المحتوى المعلوماتي — تغيير في السطور 12099-12121 فقط
-  v1.7.3 (April 2026) — BUG FIXES:
-    - [FIX]  publicFns Integrity: 3 missing functions added —
-             calcGP() — Grading & PI checker (QCS S6 P3/P4/P5)
-             calcBlockwork() — Block quantity calculator (QCS S5)
-             calcRoadLayers() — Road layers volume & tonnage (QCS S6/S8)
-  v1.7.2 (April 2026) — BUG FIXES:
-    - [FIX]  dedupeCards(): expanded dupeKeys to 10 keys (superpave_mix, marshall_mix,
-             doc_analyzer, ashghal_forms, itp_concrete now included)
-    - [FIX]  getRelevantParts(): returns up to 3 parts (was 2); all parts passed
-             to buildQCSPrompt prompt and displayed in sourceEl / refEl
-    - [PWA]  manifest.json: inlined as Blob URL — no external file needed
-    - [PWA]  sw.js: inlined as Blob URL — no external file needed, Cache-First
-             strategy with API passthrough exclusion
-  v1.7 (April 2026):
-    - [SEC]  CSP: worker-src 'self' + upgrade-insecure-requests
-    - [SEC]  fetchGeminiAPI: proxy warning + JSDoc
-    - [PERF] Virtual Scroll via IntersectionObserver (200+ cards)
-    - [QA]   publicFns integrity checker on DOMContentLoaded
-    - [PWA]  manifest.json + sw.js (Cache-First / Network-First)
-  v1.6 (April 2026):
-    - [FIX]  176 onclick handlers migrated to QS.openDetail() namespace
-    - [FIX]  "17 سنة خبرة" removed (unverifiable claim)
-    - [NEW]  IndexedDB video persistence — videos survive page refresh
-    - [NEW]  dedupeCards() — hides duplicate cards (roads_materials ×7, etc.)
-    - [NEW]  API Key security warning in modal
-    - [FIX]  calcSPT, calcConcrete, calcRebar, calcCover, calcLapLength added to QS namespace
-  v1.5: CSS gap fix, script blocks merged
-  v1.4: var→const/let, namespace migration
-═══════════════════════════════════════════════════════════════ -->
+<!-- QatarSpec Pro v2.11.0 — see CHANGELOG.md -->
 
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<!-- ═══ Resource Hints — Performance ═══ -->
+<link rel="preconnect" href="https://generativelanguage.googleapis.com">
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+<link rel="preload" href="/inline-scripts.js" as="script">
 <!-- ═══ Google Analytics 4 — QatarSpec Pro ═══ -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-QSPEC2026QA"></script>
 <!-- gtag config is in /inline-scripts.js -->
@@ -128,7 +18,7 @@
 <script defer data-domain="qatar-standers.vercel.app" src="https://plausible.io/js/script.tagged-events.outbound-links.js"></script>
 <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
-<script src="/js/security-cleanup.js" defer></script>
+<script src="/js/security-cleanup.js"></script>
 <script src="/js/analytics.js" defer></script>
 <!-- CSP: Server Headers في vercel.json — see headers config for Content-Security-Policy -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1752,11 +1642,6 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 
 <!-- data_calcs.js → split into js/calcs/ (v3.0) -->
 <script src="js/calcs/core.js?v=1" defer></script>
-<script src="js/calcs/structural.js?v=1" defer></script>
-<script src="js/calcs/roads.js?v=1" defer></script>
-<script src="js/calcs/utilities.js?v=1" defer></script>
-<script src="js/calcs/geotech.js?v=1" defer></script>
-<script src="js/calcs/materials.js?v=1" defer></script>
 <script src="js/vision-features.js?v=1" defer></script>
 <script src="/js/load-calc.js" defer></script>
 <script src="/js/safety-bridge.js" defer></script>

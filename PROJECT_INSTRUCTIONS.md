@@ -33,6 +33,7 @@
 
 لا تقول "تم الرفع" إلا بعد:
 
+```
 □ 1. git status → لصق الناتج
 □ 2. git add [ملفات] → لصق الناتج
 □ 3. git diff --cached --stat → لصق الناتج
@@ -41,6 +42,7 @@
 □ 6. git push → لصق الناتج كاملاً
 □ 7. git ls-remote origin main → لصق hash الـ remote
 □ 8. مقارنة local hash مع remote hash
+```
 
 إذا لم يتطابقان:
 → ❌ STOP: git push فشل — الـ commit لم يصل
@@ -70,32 +72,17 @@
 
 ## PROTOCOL 4: صفر تضليل (ZERO HALLUCINATION)
 
-ممنوع تماماً:
-- "أعتقد"
-- "ربما"
-- "على الأرجح"
-- "يبدو"
-- "يجب أن"
-- "من المفترض"
+ممنوع تماماً: "أعتقد" / "ربما" / "على الأرجح" / "يبدو" / "يجب أن" / "من المفترض"
 
-إلزامي:
-- "الناتج الفعلي: [لصق]"
-- "الاختبار أظهر: [لصق]"
-- "الملف يحتوي: [لصق]"
+إلزامي: "الناتج الفعلي: [لصق]" / "الاختبار أظهر: [لصق]" / "الملف يحتوي: [لصق]"
 
 ---
 
 ## PROTOCOL 5: مرحلة واحدة فقط (ONE PHASE ONLY)
 
-ممنوع:
-- أكثر من مرحلة في رسالة واحدة
-- الانتقال قبل التحقق
-- "سأنفذ 1 و 2 معاً"
+ممنوع: أكثر من مرحلة في رسالة واحدة / الانتقال قبل التحقق / "سأنفذ 1 و 2 معاً"
 
-إلزامي:
-- كل رسالة = مرحلة واحدة
-- نهاية المرحلة = تحقق كامل + "هل أنتقل للمرحلة التالية؟"
-- لا تنتقل إلا بعد موافقة صريحة
+إلزامي: كل رسالة = مرحلة واحدة / نهاية المرحلة = تحقق كامل + "هل أنتقل للمرحلة التالية؟"
 
 ---
 
@@ -128,12 +115,12 @@ echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-
 
 ## PROJECT INFO
 
-- **Name**: QatarSpec Pro
-- **Site**: qatar-standers.vercel.app
-- **Stack**: Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
-- **Repo**: github.com/shoosh85-code/Qatar-standers-
-- **Audience**: مهندسون قطريون وأجانب يعملون في قطر
-- **References**: QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
+- **Name:** QatarSpec Pro  
+- **Site:** qatar-standers.vercel.app  
+- **Stack:** Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API  
+- **Repo:** github.com/shoosh85-code/Qatar-standers-  
+- **Audience:** مهندسون قطريون وأجانب يعملون في قطر  
+- **References:** QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM  
 
 ---
 
@@ -163,19 +150,19 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 - Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
 - Pro features: gentle prompt for free users
 - Never invent numbers — say "غير موجود في المستند"
-- window.QS namespace for all public functions
+- `window.QS` namespace for all public functions
 - Sanitize ALL user input before innerHTML
-- const/let only (no var)
+- `const`/`let` only (no `var`)
 - Arabic comments for complex logic
 
 ---
 
 ## EXPORT STANDARDS
 
-- **PDF**: QatarSpec Pro header + QCS 2024 reference + page numbers + watermark
-- **Excel**: Ashghal official format + multiple sheets + summary stats
-- **Word**: Professional header + editable fields + QCS clause references
-- **All exports**: Project name + Engineer name + Date + QatarSpec branding
+- **PDF:** QatarSpec Pro header + QCS 2024 reference + page numbers + watermark
+- **Excel:** Ashghal official format + multiple sheets + summary stats
+- **Word:** Professional header + editable fields + QCS clause references
+- **All exports:** Project name + Engineer name + Date + QatarSpec branding
 
 ---
 
@@ -226,36 +213,3 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 - Follow PROTOCOL 2 strictly for every git push
 - Test locally before push — app must stay functional
 - Never delete content — only add or modify
-
----
-
-## FUNCTION COUNT LIMIT (Vercel Hobby)
-
-**الحد الفعلي**: ≤ 16 functions (هدف آمن مع هامش)
-
-### الـ functions بعد الدمج:
-| File | Purpose |
-|------|---------|
-| api/admin-session.js | Admin auth |
-| api/ai-proxy.js | Gemini AI + enhance action (merged) |
-| api/auth-proxy.js | Auth proxy |
-| api/execution-ai.js | Execution AI |
-| api/export-pdf.js | PDF export |
-| api/generate-embeddings.js | Embeddings |
-| api/health.js | Health check |
-| api/qcs-search.js | QCS vector search |
-| api/rate-limit.js | Rate limit helper |
-| api/setup-vectors.js | Vector setup |
-| api/supabase-proxy.js | Supabase proxy |
-| api/tap.js | TAP checkout + callback (merged) |
-| api/tap-webhook.js | TAP webhook |
-| api/validate-code.js | Code validation |
-| api/verify-pro.js | Pro verify + OTP login + verify-otp (merged) |
-| api/vision-proxy.js | Vision AI |
-
-**المجموع**: 16 functions ✅
-
-### الدمجات المنجزة:
-- `api/auth/login.js` + `api/auth/verify.js` → `api/verify-pro.js` (actions: login, verify-otp)
-- `api/tap-checkout.js` + `api/tap-callback.js` → `api/tap.js` (?action=checkout|callback)
-- `api/enhance-en.js` → `api/ai-proxy.js` (action: 'enhance')
