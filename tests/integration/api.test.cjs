@@ -264,6 +264,64 @@ test('vercel.json صالح JSON', () => {
 });
 
 // ─────────────────────────────────────────────
+// 7. Rate Limit Architecture
+// ─────────────────────────────────────────────
+console.log('\n⚡ Rate Limit Architecture');
+
+// اختبار: rate-limit.js لا يستخدم setInterval (Edge incompatible)
+test('rate-limit has no setInterval', () => {
+  const src = fs.readFileSync('lib/rate-limit.js', 'utf-8');
+  assert(!src.includes('setInterval'), 'setInterval غير مسموح في Edge runtime');
+});
+
+// اختبار: كل API file تستورد من lib/rate-limit.js
+test('api files use shared rate-limit', () => {
+  const apiFiles = ['api/qcs-search.js', 'api/verify-pro.js', 'api/vision-proxy.js'];
+  for (const f of apiFiles) {
+    if (!fs.existsSync(f)) continue;
+    const src = fs.readFileSync(f, 'utf-8');
+    // يجب أن تستورد من lib/ أو لا تحتوي "new Map()" للـ rate limit
+    const hasLocalMap = src.includes("const _rl = new Map()");
+    assert(!hasLocalMap, `${f} يحتوي rate limit محلي — يجب استخدام lib/rate-limit.js`);
+  }
+});
+
+// اختبار: GEMINI_API_KEY (وليس GEMINI_KEY) في كل API files
+test('api files use GEMINI_API_KEY not GEMINI_KEY', () => {
+  const apiFiles = fs.readdirSync('api').filter(f => f.endsWith('.js'));
+  for (const f of apiFiles) {
+    const src = fs.readFileSync(`api/${f}`, 'utf-8');
+    assert(!src.includes('process.env.GEMINI_KEY'),
+      `${f} يستخدم GEMINI_KEY القديم — يجب GEMINI_API_KEY`);
+  }
+});
+
+// اختبار: لا يوجد @vercel/kv في endpoint files (deprecated)
+// ملاحظة: api/rate-limit.js مستثنى — هو نفسه ملف rate-limit utility
+test('no @vercel/kv usage', () => {
+  const apiJsFiles = fs.readdirSync('api')
+    .filter(f => f.endsWith('.js') && fs.statSync(`api/${f}`).isFile()
+      && f !== 'rate-limit.js') // rate-limit utility files مستثناة
+    .map(f => `api/${f}`);
+  const files = ['lib/rate-limit.js', ...apiJsFiles];
+  for (const f of files) {
+    if (!fs.existsSync(f)) continue;
+    const src = fs.readFileSync(f, 'utf-8');
+    assert(!src.includes('@vercel/kv'), `${f} يستخدم @vercel/kv المنتهي الصلاحية`);
+  }
+});
+
+// اختبار: كل Edge function تحتوي export const config = { runtime: 'edge' }
+test('edge functions declare runtime', () => {
+  const edgeFns = ['api/ai-proxy.js', 'api/qcs-search.js', 'api/verify-pro.js', 'api/vision-proxy.js'];
+  for (const f of edgeFns) {
+    if (!fs.existsSync(f)) continue;
+    const src = fs.readFileSync(f, 'utf-8');
+    assert(src.includes("runtime: 'edge'"), `${f} يجب أن يُعلن Edge runtime`);
+  }
+});
+
+// ─────────────────────────────────────────────
 // النتيجة
 // ─────────────────────────────────────────────
 setTimeout(() => {

@@ -154,6 +154,39 @@ jobs:
           echo "✅ No Anthropic API key in API files"
 
   # ══════════════════════════════════════════════════════════
+  # Rate Limit Architecture — يتحقق من بنية Rate Limiting
+  # ══════════════════════════════════════════════════════════
+  rate-limit-check:
+    name: Rate Limit Architecture
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: Check no @vercel/kv
+        run: |
+          if grep -r "@vercel/kv" lib/; then
+            echo "❌ @vercel/kv found in lib/ — use @upstash/redis"
+            exit 1
+          fi
+          echo "✅ No @vercel/kv in lib/"
+      - name: Check no GEMINI_KEY (wrong var)
+        run: |
+          if grep -rn "process\.env\.GEMINI_KEY[^_]" api/; then
+            echo "❌ GEMINI_KEY found — should be GEMINI_API_KEY"
+            exit 1
+          fi
+          echo "✅ Correct env var name"
+      - name: Check no local rate-limit Maps
+        run: |
+          if grep -n "const _rl = new Map" api/*.js; then
+            echo "❌ Local rate-limit Map found — should use lib/rate-limit.js"
+            exit 1
+          fi
+          echo "✅ No duplicate rate-limit Maps"
+
+  # ══════════════════════════════════════════════════════════
   # Summary — ملخص النتائج
   # ══════════════════════════════════════════════════════════
   summary:
@@ -165,6 +198,7 @@ jobs:
       - e2e
       - validate-config
       - security
+      - rate-limit-check
 
     steps:
       - name: Summary
@@ -178,5 +212,6 @@ jobs:
           echo "  ✅ E2E Flow Tests"
           echo "  ✅ Config Validation"
           echo "  ✅ Security Check"
+          echo "  ✅ Rate Limit Architecture"
           echo ""
           echo "  Ready to deploy to Vercel 🚀"
