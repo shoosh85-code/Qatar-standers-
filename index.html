@@ -19,7 +19,6 @@
 <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <script src="/js/security-cleanup.js"></script>
-<script src="/js/analytics.js" defer></script>
 <!-- CSP: Server Headers في vercel.json — see headers config for Content-Security-Policy -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -1486,13 +1485,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 
 <div class="toast" id="toast">✅ تم!</div>
 
-<!-- Main init — يجب أن يُحمَّل قبل stepper.js لأنه يُعرِّف QS methods -->
-<script src="/inline-scripts.js" defer></script>
 
-<!-- QatarSpec Stepper System v1.0 — نظام الخطوات التفاعلي -->
-<script src="/stepper.js" defer></script>
-<script src="/js/stepper-init.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.6/Sortable.min.js" defer></script>
 
 <!-- ═══ APP FOOTER ═══ -->
 <div id="appFooter" style="background:linear-gradient(135deg,#111,#0A0A0A);border-top:1px solid rgba(201,168,76,0.2);padding:16px 20px;text-align:center;margin-top:24px;position:relative;z-index:1;">
@@ -1640,63 +1633,68 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   </div>
 </div>
 
-<!-- data_calcs.js → split into js/calcs/ (v3.0) -->
-<script src="js/calcs/core.js?v=1" defer></script>
-<script src="js/vision-features.js?v=1" defer></script>
-<script src="/js/load-calc.js" defer></script>
-<script src="/js/safety-bridge.js" defer></script>
-<!-- loader.js v4: manifest on idle — data_content.js تُحمَّل on-demand فقط من chunks -->
-<script src="loader.js?v=3" defer></script>
-<!-- ═══ Lazy Load: Calculators — يُحمَّل فقط عند الوصول لقسم الحاسبات ═══ -->
-<script src="/js/xss-utils.js" defer></script>
-<script src="/js/content-aliases.js" defer></script>
-<script src="/js/calc-lazy-loader.js" defer></script>
-
-<!-- Security + AI Rendering Enhancement (CDN — fallback to existing code if unavailable) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.4.2/purify.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js" defer></script>
 
 
 </main>
 <!-- Back to Top Button -->
 <button id="backToTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="عودة للأعلى" aria-label="العودة إلى أعلى الصفحة">↑</button>
 
-<!-- ═══════════════════════════════════════════════════════════
-     المرحلة 7 — Export System Modules
-     PDF + Word + Excel بمعايير Ashghal الرسمية
-     QCS 2024 | QHDM 4th Ed. 2019 | ISO 9001
-     ═══════════════════════════════════════════════════════════ -->
-<!-- PDF: server-side /api/export-pdf → fallback client-side library -->
+
+
+
+
+
+<!-- ═══════════════════════════════════════════════════
+     SCRIPTS — Priority Order (QatarSpec Pro v3.0)
+     Priority 1: security-cleanup.js (in <head> — no defer)
+     ═══════════════════════════════════════════════════ -->
+
+<!-- ═══ Priority 2: Core Functionality — defer ═══ -->
+<script src="/inline-scripts.js" defer></script>
+<script src="loader.js?v=3" defer></script>
+<script src="/js/xss-utils.js" defer></script>
+<script src="/js/content-aliases.js" defer></script>
+<script src="/js/auth.js" defer></script>
+
+<!-- ═══ Priority 3: Calculators — lazy loaded ═══ -->
+<script src="/js/calc-lazy-loader.js" defer></script>
+<script src="js/calcs/core.js?v=1" defer></script>
+
+<!-- ═══ Priority 4: Features ═══ -->
+<script src="js/vision-features.js?v=1" defer></script>
+<!-- PDF Export + Viewer -->
 <script src="js/export/pdf.js?v=1000" defer></script>
-<!-- ═══ المرحلة 5: pdf.js — عارض PDF مدمج ═══ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs" type="module"></script>
 <script type="module">
-  // إعداد pdf.js worker
   if (typeof pdfjsLib !== 'undefined') {
     pdfjsLib.GlobalWorkerOptions.workerSrc =
       'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs';
   }
 </script>
 <script src="/js/pdf-viewer.js" defer></script>
+<!-- Word Export -->
 <script src="js/export/word.js?v=700" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.umd.min.js" defer></script>
 <script src="js/export/word-pro.js?v=100" defer></script>
+<!-- Excel Export -->
+<script src="js/export/excel.js?v=700" defer></script>
+<script src="data_structures_detailed.js" defer></script>
+<!-- Chart.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
 <script src="js/calcs/chart-addon.js?v=100" defer></script>
-<script src="js/export/excel.js?v=700" defer></script><script src="data_structures_detailed.js" defer></script>
-
-<!-- ═══ المرحلة 10: Final Polish — Error Boundary + Analytics Events + Card Animation ═══ -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-
-<!-- Performance Monitoring — QatarSpec Pro -->
-
-
-<!-- ═══ المرحلة 11: Monitoring & Analytics ═══ -->
-<script src="js/analytics.js?v=1100" defer></script>
-<!-- QatarSpecAnalytics: LCP/CLS/FCP/TTFB + errors + business metrics -->
-<!-- ═══ Digital Signature — ITP signaturePad ═══ -->
+<!-- CDN: Security + Rendering -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.4.2/purify.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js" defer></script>
+<!-- Stepper + Sortable + Misc -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.6/Sortable.min.js" defer></script>
+<script src="/stepper.js" defer></script>
+<script src="/js/stepper-init.js" defer></script>
+<script src="/js/load-calc.js" defer></script>
+<script src="/js/safety-bridge.js" defer></script>
 <script src="/js/signature-pad.js" defer></script>
 
+<!-- ═══ Priority 5: Analytics — async ═══ -->
+<script src="js/analytics.js?v=1100" async></script>
 
 </body>
 </html>
