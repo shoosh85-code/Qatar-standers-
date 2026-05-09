@@ -4,8 +4,8 @@
 // Auto-detect: presence of tap_id in query → callback; POST without tap_id → checkout
 // [لا تحذف محتوى — فقط إضافة]
 
-import { rateLimit, applyRateLimitHeaders, getIp } from './rate-limit.js';
-import { checkRateLimit } from '../lib/rate-limit.js';
+// استخدام api/rate-limit.js الموحّد (Node-compatible)
+import { checkRateLimit, rateLimitHeaders } from './rate-limit.js';
 
 const CORS = {
   'Access-Control-Allow-Origin':  process.env.APP_URL || 'https://qatar-standers.vercel.app',
@@ -59,13 +59,9 @@ export default async function handler(req, res) {
     if (req.method !== 'POST') return res.status(405).json({ error: 'POST فقط للـ checkout' });
 
     // ── Rate Limiting (PROTOCOL 6) ──────────────────────────────────────
-    const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim()
-             || req.socket?.remoteAddress || '0.0.0.0';
-    const rl = await checkRateLimit(ip, '/api/ai-proxy', false); // free tier limits
+    const rl = await checkRateLimit(req, 'free', '/api/tap');
+    Object.entries(rateLimitHeaders(rl)).forEach(([k, v]) => res.setHeader(k, v));
     if (!rl.allowed) {
-      res.setHeader('Retry-After', String(rl.retryAfter));
-      res.setHeader('X-RateLimit-Limit',     String(rl.limit));
-      res.setHeader('X-RateLimit-Remaining', '0');
       return res.status(429).json({
         error:      'تجاوزت الحد المسموح',
         code:       'RATE_LIMIT',
@@ -154,9 +150,9 @@ export default async function handler(req, res) {
   // ════════════════════════════════════════════════════════════════════════
   if (action === 'callback') {
     // ── Rate Limiting (Protocol 6) — حماية من spam نتائج الدفع ──────
-    const ip = getIp(req);
-    const rl = await rateLimit(req, 'free', 'tap-callback');
-    applyRateLimitHeaders(res, rl);
+    const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.socket?.remoteAddress || '0.0.0.0';
+    const rl = await checkRateLimit(req, 'free', '/api/tap');
+    Object.entries(rateLimitHeaders(rl)).forEach(([k, v]) => res.setHeader(k, v));
     if (!rl.allowed) {
       return res.redirect(302, `/?payment=error&reason=rate_limit&retry=${rl.retryAfter}`);
     }

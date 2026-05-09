@@ -6,17 +6,8 @@
 export const config = { runtime: 'edge' };
 
 import { checkRateLimit, rateLimitResponse } from '../lib/rate-limit.js';
-
-
-function checkRateLimit(ip, isPro = false) {
-  // فحص الحد العالمي أولاً
-  const global = _rlCheck(`g:${ip}`, RL_GLOBAL_LIMIT);
-  if (!global.allowed) return { allowed: false, retryAfter: global.retryAfter, limit: RL_GLOBAL_LIMIT };
-  // فحص حد التير
-  const limit  = isPro ? RL_PRO_LIMIT : RL_FREE_LIMIT;
-  const result = _rlCheck(`t:${isPro ? 'pro' : 'free'}:${ip}`, limit);
-  return { ...result, limit };
-}
+// ملاحظة: checkRateLimit مُستوردة من lib/rate-limit.js — signature: (ip, endpoint, isPro)
+// الدالة المحلية القديمة حُذفت لأنها كانت تُسبب SyntaxError في Edge runtime (تعريف مكرر)
 
 const CORS = {
   'Access-Control-Allow-Origin': process.env.APP_URL || 'https://qatar-standers.vercel.app',
