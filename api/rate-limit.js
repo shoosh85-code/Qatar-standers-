@@ -122,3 +122,67 @@ export async function withRateLimit(req, res, tier = 'free') {
 // const tier = req.headers['x-user-tier'] || 'free';
 // const allowed = await withRateLimit(req, res, tier);
 // if (!allowed) return;
+
+// ── Backward-compatible exports ─────────────────────────────────────────────
+// بعض الملفات تستخدم هذه الأسماء القديمة — نحافظ على التوافق
+
+/**
+ * استخراج IP من الطلب
+ * @param {object} req - Node.js request object
+ * @returns {string} IP address
+ */
+export function getIp(req) {
+  return (
+    req.headers?.['x-forwarded-for']?.split(',')[0]?.trim() ||
+    req.headers?.['x-real-ip'] ||
+    req.connection?.remoteAddress ||
+    req.socket?.remoteAddress ||
+    'unknown'
+  );
+}
+
+/**
+ * تطبيق Rate Limit headers على الـ response
+ * @param {object} res - Node.js response object
+ * @param {object} result - نتيجة checkRateLimit
+ */
+export function applyRateLimitHeaders(res, result) {
+  const headers = rateLimitHeaders(result);
+  Object.entries(headers).forEach(([key, value]) => {
+    res.setHeader(key, value);
+  });
+}
+
+/**
+ * Alias لـ checkRateLimit — للتوافق مع الملفات التي تستخدم rateLimit
+ * استخدام: const rl = await rateLimit(ip, endpoint, isPro);
+ */
+export async function rateLimit(ip, endpoint = 'default', isPro = false) {
+  const endpointConfig = ENDPOINT_LIMITS[endpoint];
+  const tier = isPro ? 'pro' : 'free';
+  const maxRequests = endpointConfig ? (endpointConfig[tier] ?? LIMITS[tier].requests) : LIMITS[tier].requests;
+  const windowSeconds = LIMITS[tier]?.window ?? 60;
+  const tierKey = `${tier}:${ip}:${endpoint}`;
+  const globalKey = `global:${ip}:${endpoint}`;
+
+  const tierResult = await checkRateLimitKV(tierKey, maxRequests, windowSeconds)
+                     || checkRateLimitMemory(tierKey, maxRequests, windowSeconds);
+  const globalMax = endpointConfig?.global ?? LIMITS.global.requests;
+  const globalResult = await checkRateLimitKV(globalKey, globalMax, windowSeconds)
+                       || checkRateLimitMemory(globalKey, globalMax, windowSeconds);
+
+  const allowed = tierResult.allowed && globalResult.allowed;
+  const remaining = Math.min(tierResult.remaining, globalResult.remaining);
+  const resetAt = Math.max(tierResult.resetAt, globalResult.resetAt);
+
+  return {
+    allowed,
+    tier,
+    ip,
+    limit: maxRequests,
+    remaining,
+    resetAt,
+    retryAfter: allowed ? null : resetAt - Math.floor(Date.now() / 1000),
+    source: tierResult.source
+  };
+}

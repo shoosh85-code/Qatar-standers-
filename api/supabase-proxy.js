@@ -3,7 +3,7 @@
 // المفاتيح من process.env فقط — لا شيء في client-side
 // يستخدم rate-limit.js (Protocol 6)
 
-import { checkRateLimit, applyRateLimitHeaders, getIp } from './rate-limit.js';
+import { rateLimit, applyRateLimitHeaders, getIp } from './rate-limit.js';
 
 export default async function handler(req, res) {
   // CORS headers
@@ -19,7 +19,7 @@ export default async function handler(req, res) {
   // ── Rate Limiting (Protocol 6) ──────────────────────────────────────────────
   const ip      = getIp(req);
   const isPro   = req.headers['x-user-tier'] === 'pro';
-  const rl      = checkRateLimit(ip, 'qcs-search', isPro);
+  const rl      = await rateLimit(ip, 'qcs-search', isPro);
 
   applyRateLimitHeaders(res, rl);
 

@@ -3,7 +3,7 @@
 // يتحقق من التوكن مع Supabase من server-side فقط — لا credentials في client
 // PROTOCOL 6: rate limiting مفعّل
 
-import { checkRateLimit, applyRateLimitHeaders, getIp } from './rate-limit.js';
+import { rateLimit, applyRateLimitHeaders, getIp } from './rate-limit.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', 'https://qatar-standers.vercel.app');
@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
   // ── Rate Limiting ─────────────────────────────────────────────────────────
   const ip = getIp(req);
-  const rl = checkRateLimit(ip, 'verify-pro', false); // نفس حدود verify-pro
+  const rl = await rateLimit(ip, 'verify-pro', false); // نفس حدود verify-pro
   applyRateLimitHeaders(res, rl);
   if (!rl.allowed) {
     return res.status(429).json({
