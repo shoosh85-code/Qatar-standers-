@@ -420,15 +420,37 @@ const token = extractToken(req);
   }
   // ── End Pro gate ──────────────────────────────────────────────────────────
 
-  // ── Rate Limit — Admin token from sessionStorage (not URL param) ──
+  // ── Rate Limit — Admin HMAC token from sessionStorage (not URL param) ──
   const adminToken = req.headers.get('X-Admin-Token') || '';
-  // Validate: token must be base64 starting with "admin:" (set by /api/admin-session)
+  // Validate: HMAC-SHA256 signed token from /api/admin-session
   let isAdmin = false;
   if (adminToken) {
     try {
-      const decoded = atob(adminToken);
-      const ts = parseInt(decoded.split(':')[1] || '0');
-      isAdmin = decoded.startsWith('admin:') && (Date.now() - ts) < 86400000;
+      const ADMIN_SECRET = (typeof process !== 'undefined' && process.env?.ADMIN_SECRET) || '';
+      if (ADMIN_SECRET && adminToken.includes('.')) {
+        const [payloadB64, signature] = adminToken.split('.');
+        // Web Crypto HMAC verification (Edge runtime compatible)
+        const key = await crypto.subtle.importKey(
+          'raw',
+          new TextEncoder().encode(ADMIN_SECRET),
+          { name: 'HMAC', hash: 'SHA-256' },
+          false,
+          ['sign']
+        );
+        const expectedSigBuf = await crypto.subtle.sign(
+          'HMAC',
+          key,
+          new TextEncoder().encode(payloadB64)
+        );
+        // base64url encode the expected signature
+        const expectedSig = btoa(String.fromCharCode(...new Uint8Array(expectedSigBuf)))
+          .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+        // Constant-length comparison
+        if (signature === expectedSig && signature.length === expectedSig.length) {
+          const payload = JSON.parse(atob(payloadB64.replace(/-/g, '+').replace(/_/g, '/')));
+          isAdmin = payload.role === 'admin' && Date.now() < payload.exp;
+        }
+      }
     } catch(e) { isAdmin = false; }
   }
 

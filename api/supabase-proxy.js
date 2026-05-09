@@ -33,12 +33,31 @@ export default async function handler(req, res) {
     });
   }
 
+  // ── Allowed Operations (PROTOCOL 6 — Security Allowlist) ───────────────────
+  // هذا الـ endpoint مخصص فقط لبحث QCS — أي عملية أخرى ممنوعة
+  const ALLOWED_OPERATIONS = ['search_qcs'];
+  const { operation = 'search_qcs' } = req.body || {};
+
+  if (!ALLOWED_OPERATIONS.includes(operation)) {
+    console.warn(`[SECURITY] Blocked operation: ${String(operation).slice(0, 50)} from IP: ${ip}`);
+    return res.status(403).json({
+      error: 'Operation not allowed',
+      allowed: ALLOWED_OPERATIONS
+    });
+  }
+
   // ── Environment Variables ───────────────────────────────────────────────────
   const SUPABASE_URL = process.env.SUPABASE_URL;
-  const SUPABASE_KEY = process.env.SUPABASE_KEY;
+  const SUPABASE_KEY = process.env.SUPABASE_KEY; // Anon key only — NOT service_role
 
   if (!SUPABASE_URL || !SUPABASE_KEY) {
     console.error('SUPABASE_URL أو SUPABASE_KEY غير موجودة في environment variables');
+    return res.status(500).json({ error: 'Server configuration error' });
+  }
+
+  // ── Guard: Never use service_role key in this proxy ────────────────────────
+  if (SUPABASE_KEY === process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    console.error('[SECURITY CRITICAL] supabase-proxy using SERVICE_ROLE_KEY — BLOCKED');
     return res.status(500).json({ error: 'Server configuration error' });
   }
 
