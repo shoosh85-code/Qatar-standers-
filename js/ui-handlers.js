@@ -152,5 +152,53 @@
     var reloadLink = document.querySelector('#updateBanner a[data-action="reloadPage"], #updateBanner a.reload-link');
     if (reloadLink) reloadLink.addEventListener('click', function (e) { e.preventDefault(); location.reload(true); });
 
+    /* ── 6. Keyboard: Enter → doSearch ──────────────────────── */
+    var searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+      searchInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && window.QS && typeof QS.doSearch === 'function') QS.doSearch();
+      });
+    }
+
+    /* ── 7. Keyboard: Enter → activatePromo ─────────────────── */
+    var promoInput = document.querySelector('[data-enter-action="activatePromo"]');
+    if (promoInput) {
+      promoInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && window.activateProNow) window.activateProNow(this.value);
+      });
+    }
+
+    /* ── 8. Skip link onfocus/onblur ─────────────────────────── */
+    var skipLink = document.querySelector('[data-skip-link="1"]');
+    if (skipLink) {
+      skipLink.addEventListener('focus', function () { this.style.top = '0'; });
+      skipLink.addEventListener('blur',  function () { this.style.top = '-40px'; });
+    }
+
+    /* ── 9. Drag & Drop على uploadZone ──────────────────────── */
+    var dropZone = document.querySelector('[data-dropzone="1"]');
+    if (dropZone) {
+      dropZone.addEventListener('dragover',   function (e) { if (typeof handleDragOver  === 'function') handleDragOver(e); });
+      dropZone.addEventListener('dragleave',  function (e) { if (typeof handleDragLeave === 'function') handleDragLeave(e); });
+      dropZone.addEventListener('drop',       function (e) { if (typeof handleDrop      === 'function') handleDrop(e); });
+    }
+
+    /* ── 10. File input onchange ─────────────────────────────── */
+    var fileInput = document.querySelector('[data-fileinput="1"]');
+    if (fileInput) {
+      fileInput.addEventListener('change', function (e) { if (typeof handleFiles === 'function') handleFiles(e); });
+    }
+
+    /* ── 11. Card search filter (oninput + gold border) ──────── */
+    var cardSearch = document.querySelector('[data-cardsearch="1"]');
+    if (cardSearch) {
+      cardSearch.addEventListener('input', function () { if (typeof filterCards === 'function') filterCards(this.value); });
+    }
+    var goldBorder = document.querySelector('[data-goldborder="1"]');
+    if (goldBorder) {
+      goldBorder.addEventListener('focus', function () { this.style.borderColor = 'var(--gold)'; });
+      goldBorder.addEventListener('blur',  function () { this.style.borderColor = 'var(--border2)'; });
+    }
+
   }); // ready
 })();

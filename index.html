@@ -665,13 +665,18 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     .sortable-ghost { opacity:0.35; background:rgba(201,168,76,0.12); border-radius:8px; }
     .sortable-chosen { box-shadow:0 4px 16px rgba(0,0,0,0.35); }
     .sortable-drag { opacity:1 !important; }
+/* ui-handlers.js hover classes — CSP-safe replacement for inline onmouseover */
+.btn-hover-red:hover   { box-shadow: 0 0 24px rgba(122,21,21,0.6); }
+.btn-hover-gold:hover  { border-color: var(--gold) !important; background: rgba(201,168,76,0.06) !important; }
+.link-hover-opacity    { opacity: 0.7; transition: opacity .2s; }
+.link-hover-opacity:hover { opacity: 1; }
 </style>
 <!-- loader.js moved to end of body — after QS + data_calcs are ready -->
 
 </head>
 <body>
 <!-- Skip Navigation — Accessibility -->
-<a href="#main-content" class="skip-link" style="position:absolute;top:-40px;left:0;background:var(--gold);color:#000;padding:8px 16px;z-index:9999;font-family:Tajawal,sans-serif;font-weight:700;transition:top .2s;" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">تخطي إلى المحتوى الرئيسي</a>
+<a href="#main-content" class="skip-link" style="position:absolute;top:-40px;left:0;background:var(--gold);color:#000;padding:8px 16px;z-index:9999;font-family:Tajawal,sans-serif;font-weight:700;transition:top .2s;" data-skip-link="1">تخطي إلى المحتوى الرئيسي</a>
 
 <div id="offlineBar" role="alert">📡 أنت غير متصل — بعض الميزات غير متاحة</div>
 
@@ -720,12 +725,12 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;">
       <button data-action="focusSearch"
         style="background:linear-gradient(135deg,var(--maroon),var(--maroon2));border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:13px 24px;color:var(--gold2);font-family:'Tajawal',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.3s;display:flex;align-items:center;gap:8px;"
-        onmouseover="this.style.boxShadow='0 0 24px rgba(122,21,21,0.6)'" onmouseout="this.style.boxShadow=''">
+        class="btn-hover-red">
         ⚡ ابدأ البحث مجاناً
       </button>
       <button data-action="openProModal"
         style="background:transparent;border:1px solid rgba(201,168,76,0.35);border-radius:12px;padding:13px 24px;color:var(--gold);font-family:'Tajawal',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:.3s;"
-        onmouseover="this.style.borderColor='var(--gold)';this.style.background='rgba(201,168,76,0.06)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.35)';this.style.background='transparent'">
+        class="btn-hover-gold">
         ⭐ عرض خطط Pro
       </button>
       <!-- PWA Install Button (hidden until prompt fires) -->
@@ -736,13 +741,13 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     </div>
   </div>
   <div class="hero-right">
-    <div class="upload-zone" id="uploadZone" role="button" tabindex="0" aria-label="منطقة رفع ملفات PDF — اسحب أو اضغط لاختيار الملفات" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" data-action="uploadFileZone">
+    <div class="upload-zone" id="uploadZone" role="button" tabindex="0" aria-label="منطقة رفع ملفات PDF — اسحب أو اضغط لاختيار الملفات" data-dropzone="1" data-action="uploadFileZone">
       <div class="upload-icon-wrap" aria-hidden="true">📄</div>
       <div class="upload-title">ارفع المواصفات هنا</div>
       <div class="upload-desc">اسحب ملفات PDF الكود القطري والمواصفات<br>أو اضغط لاختيار الملفات</div>
       <button class="upload-btn-main" data-action="uploadFile" aria-label="اختيار ملفات PDF من الجهاز">📤 اختر ملفات PDF</button>
       <div class="upload-formats">يدعم: PDF • حجم أقصى 50MB لكل ملف</div>
-      <input type="file" id="fileInput" style="display:none" accept=".pdf" multiple onchange="handleFiles(event)" aria-label="اختيار ملفات PDF">
+      <input type="file" id="fileInput" style="display:none" accept=".pdf" multiple data-fileinput="1" aria-label="اختيار ملفات PDF">
     </div>
     <div class="files-list" id="filesList"></div>
   </div>
@@ -776,7 +781,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <div class="search-label" id="search-label">🔍 البحث الذكي في QCS 2024</div>
   <div class="search-wrap">
     <span class="search-mic" aria-hidden="true">🎙️</span>
-    <input type="text" class="search-input" id="searchInput" aria-labelledby="search-label" placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة الConcrete في الأساسات وفق الكود القطري؟" onkeydown="if(event.key==='Enter') doSearch()">
+    <input type="text" class="search-input" id="searchInput" aria-labelledby="search-label" placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة الConcrete في الأساسات وفق الكود القطري؟" data-enter-action="doSearch">
     <button class="search-icon-btn" data-action="doSearch" aria-label="بحث ذكي في QCS 2024">⚡ بحث ذكي</button>
   </div>
   <div class="quick-tags">
@@ -825,9 +830,9 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <input type="text" id="cardFilterInput"
     aria-label="تصفية الكروت — ابحث حسب الموضوع"
     placeholder="🔍  ابحث في الكروت... مثال: إسفلت، خوازيق، خرسانة، CCTV"
-    oninput="filterCards(this.value)"
+    data-cardsearch="1"
     style="width:100%;padding:12px 48px 12px 16px;background:var(--dark3);border:1px solid var(--border2);border-radius:12px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:14px;outline:none;transition:.3s;"
-    onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border2)'">
+    data-goldborder="1">
   <span id="cardFilterClear" data-action="clearCardFilter" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:16px;color:var(--text3);display:none;">✕</span>
   <div id="cardFilterCount" style="display:none;margin-top:6px;font-size:11px;color:var(--text3);text-align:center;"></div>
 </div>
@@ -1459,9 +1464,9 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   </div>
   <div style="margin-top:8px;font-size:10px;color:var(--text3);opacity:0.6;">Reviewed April 2026 | QCS 2024 · Ashghal · KAHRAMAA · MMUP · QCDD</div>
   <div style="margin-top:10px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;">
-    <a href="/legal/terms.html" style="font-size:10px;color:var(--gold);opacity:0.7;text-decoration:none;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">الشروط والأحكام</a>
+    <a href="/legal/terms.html" style="font-size:10px;color:var(--gold);opacity:0.7;text-decoration:none;" class="link-hover-opacity">الشروط والأحكام</a>
     <span style="color:rgba(255,255,255,0.2);font-size:10px;">|</span>
-    <a href="/legal/privacy.html" style="font-size:10px;color:var(--gold);opacity:0.7;text-decoration:none;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">سياسة الخصوصية</a>
+    <a href="/legal/privacy.html" style="font-size:10px;color:var(--gold);opacity:0.7;text-decoration:none;" class="link-hover-opacity">سياسة الخصوصية</a>
     <span style="color:rgba(255,255,255,0.2);font-size:10px;">|</span>
     <span style="font-size:10px;color:var(--text3);opacity:0.6;">© 2026 QatarSpec Pro. All rights reserved.</span>
   </div>
@@ -1542,7 +1547,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       <div style="font-size:11px;color:var(--text3);">أدخل الكود لتفعيل النسخة Pro فوراً</div>
       <div class="promo-input-wrap">
         <input type="text" id="promoCodeInput" class="promo-input" aria-label="كود الترويج للباقة الاحترافية" placeholder="QATAR-PRO-XXXX" maxlength="20"
-          onkeydown="if(event.key==='Enter') window.activateProNow(this.value)">
+          data-enter-action="activatePromo">
         <button class="promo-btn" data-action="activatePromo" aria-label="تفعيل كود الترويج">✅ تفعيل</button>
       </div>
       <div id="promoMsg" style="margin-top:6px;font-size:12px;display:none;"></div>
