@@ -70,11 +70,9 @@ async function callGemini(messages, maxTokens = 2000) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) throw new Error('GEMINI_API_KEY not configured');
 
-  // Gemini 2.5 Pro as primary (v3.0), fallback to 2.0-flash
-  const model = 'gemini-2.5-pro';
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+  // ترتيب حسب الحصة المجانية: الأعلى أولاً
+  const MODELS = ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-2.5-flash'];
 
-  // Convert messages format to Gemini format
   const contents = messages.map(m => ({
     role: m.role === 'assistant' ? 'model' : 'user',
     parts: [{ text: m.content }],
@@ -95,54 +93,57 @@ async function callGemini(messages, maxTokens = 2000) {
     ],
   };
 
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 28000); // 28s timeout
+  let lastErr = '';
+  for (const model of MODELS) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 28000);
 
-  let res;
-  try {
-    res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-      signal: controller.signal,
-    });
-  } finally {
-    clearTimeout(timeout);
-  }
+      let res;
+      try {
+        res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+          signal: controller.signal,
+        });
+      } finally {
+        clearTimeout(timeout);
+      }
 
-  if (!res.ok) {
-    const errText = await res.text();
-    // Try gemini-2.5-flash if 2.0 fails
-    if (res.status === 429 || res.status === 503) {
-      throw new Error(`Gemini ${model} quota: ${res.status}`);
+      if (!res.ok) {
+        if (res.status === 429 || res.status === 503) {
+          lastErr = `${model}: ${res.status} rate limit`;
+          continue; // جرب النموذج التالي
+        }
+        const errText = await res.text();
+        lastErr = `${model}: ${res.status} ${errText.slice(0, 100)}`;
+        continue;
+      }
+
+      const data = await res.json();
+      const candidate = data.candidates?.[0];
+      if (!candidate) { lastErr = `${model}: no candidates`; continue; }
+      if (candidate.finishReason === 'SAFETY') { lastErr = `${model}: safety block`; continue; }
+
+      const text = candidate.content?.parts?.[0]?.text || '';
+      if (!text) { lastErr = `${model}: empty response`; continue; }
+
+      return {
+        content: [{ type: 'text', text }],
+        model,
+        usage: {
+          input_tokens: data.usageMetadata?.promptTokenCount || 0,
+          output_tokens: data.usageMetadata?.candidatesTokenCount || 0,
+        },
+      };
+    } catch (e) {
+      lastErr = `${model}: ${e.message}`;
     }
-    throw new Error(`Gemini error ${res.status}: ${errText.slice(0, 200)}`);
   }
 
-  const data = await res.json();
-  const candidate = data.candidates?.[0];
-
-  if (!candidate) {
-    throw new Error('No candidates in Gemini response');
-  }
-
-  if (candidate.finishReason === 'SAFETY') {
-    throw new Error('Gemini blocked by safety filters');
-  }
-
-  const text = candidate.content?.parts?.[0]?.text || '';
-  if (!text) {
-    throw new Error(`Empty response (finishReason: ${candidate.finishReason})`);
-  }
-
-  return {
-    content: [{ type: 'text', text }],
-    model,
-    usage: {
-      input_tokens: data.usageMetadata?.promptTokenCount || 0,
-      output_tokens: data.usageMetadata?.candidatesTokenCount || 0,
-    },
-  };
+  throw new Error(`All models failed. Last: ${lastErr}`);
 }
 
 
@@ -173,10 +174,11 @@ function extractCitations(text) {
 // ══════════════════════════════════════════════════════════════
 // SSE STREAMING — v3.0: Server-Sent Events مع Gemini 2.5 Pro
 // Edge runtime: ReadableStream (لا Node.js streams)
+// Retry chain: gemini-2.0-flash (15 RPM free) → 1.5-flash → 2.5-flash
 // ══════════════════════════════════════════════════════════════
 async function callGeminiStream(messages, maxTokens, apiKey) {
-  const model = 'gemini-2.5-pro';
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${apiKey}`;
+  // ترتيب حسب الحصة المجانية: الأعلى أولاً
+  const MODELS = ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-2.5-flash'];
 
   const contents = messages.map(m => ({
     role: m.role === 'assistant' ? 'model' : 'user',
@@ -198,18 +200,33 @@ async function callGeminiStream(messages, maxTokens, apiKey) {
     ],
   };
 
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  });
+  let lastErr = '';
+  for (const model of MODELS) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${apiKey}`;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
 
-  if (!res.ok) {
-    const errText = await res.text();
-    throw new Error(`Gemini stream error ${res.status}: ${errText.slice(0, 200)}`);
+      if (res.ok) return res.body; // ReadableStream من Gemini SSE
+
+      // 429 = rate limit → جرب النموذج التالي
+      if (res.status === 429) {
+        lastErr = `${model}: 429 rate limit`;
+        continue;
+      }
+
+      const errText = await res.text();
+      lastErr = `${model}: ${res.status} ${errText.slice(0, 100)}`;
+      // أي خطأ غير 429 → جرب النموذج التالي أيضاً
+    } catch (e) {
+      lastErr = `${model}: ${e.message}`;
+    }
   }
 
-  return res.body; // ReadableStream من Gemini SSE
+  throw new Error(`All models failed. Last: ${lastErr}`);
 }
 
 // ══════════════════════════════════════════════════════════════
