@@ -72,23 +72,39 @@
 
 ## PROTOCOL 4: صفر تضليل (ZERO HALLUCINATION)
 
-ممنوع تماماً: "أعتقد" / "ربما" / "على الأرجح" / "يبدو" / "يجب أن" / "من المفترض"
+ممنوع تماماً:
+- "أعتقد"
+- "ربما"
+- "على الأرجح"
+- "يبدو"
+- "يجب أن"
+- "من المفترض"
 
-إلزامي: "الناتج الفعلي: [لصق]" / "الاختبار أظهر: [لصق]" / "الملف يحتوي: [لصق]"
+إلزامي:
+- "الناتج الفعلي: [لصق]"
+- "الاختبار أظهر: [لصق]"
+- "الملف يحتوي: [لصق]"
 
 ---
 
 ## PROTOCOL 5: مرحلة واحدة فقط (ONE PHASE ONLY)
 
-ممنوع: أكثر من مرحلة في رسالة واحدة / الانتقال قبل التحقق / "سأنفذ 1 و 2 معاً"
+ممنوع:
+- أكثر من مرحلة في رسالة واحدة
+- الانتقال قبل التحقق
+- "سأنفذ 1 و 2 معاً"
 
-إلزامي: كل رسالة = مرحلة واحدة / نهاية المرحلة = تحقق كامل + "هل أنتقل للمرحلة التالية؟"
+إلزامي:
+- كل رسالة = مرحلة واحدة
+- نهاية المرحلة = تحقق كامل + "هل أنتقل للمرحلة التالية؟"
+- لا تنتقل إلا بعد موافقة صريحة
 
 ---
 
 ## PROTOCOL 6: RATE LIMITING (إلزامي)
 
 ### API Endpoints Limits:
+
 | Endpoint | Free | Pro | Global |
 |----------|------|-----|--------|
 | /api/ai-proxy | 5/min | 60/min | 100/min/IP |
@@ -115,12 +131,12 @@ echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-
 
 ## PROJECT INFO
 
-- **Name:** QatarSpec Pro  
-- **Site:** qatar-standers.vercel.app  
-- **Stack:** Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API  
-- **Repo:** github.com/shoosh85-code/Qatar-standers-  
-- **Audience:** مهندسون قطريون وأجانب يعملون في قطر  
-- **References:** QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM  
+- **Name:** QatarSpec Pro
+- **Site:** qatar-standers.vercel.app
+- **Stack:** Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
+- **Repo:** github.com/shoosh85-code/Qatar-standers-
+- **Audience:** مهندسون قطريون وأجانب يعملون في قطر
+- **References:** QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
 
 ---
 
@@ -133,7 +149,7 @@ git config user.email "qatarspec@deploy.app"
 git config user.name "QatarSpec Deploy"
 ```
 
-Push:
+**Push:**
 ```bash
 git remote set-url origin https://TOKEN@github.com/shoosh85-code/Qatar-standers-.git
 git push origin main
@@ -213,53 +229,3 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 - Follow PROTOCOL 2 strictly for every git push
 - Test locally before push — app must stay functional
 - Never delete content — only add or modify
-
----
-
-## ROUND 2 FIXES — COMPLETED 2026-05-10
-
-### ما تم إصلاحه في الجولة الثانية:
-
-| الحساب | المشكلة | الملفات | الحالة |
-|--------|---------|---------|--------|
-| A2 | api/rate-limit.js → @upstash/redis | api/rate-limit.js | ✅ |
-| A3 | ai-proxy KV_REST_API → UPSTASH | api/ai-proxy.js | ✅ |
-| A4 | توحيد Supabase env vars | api/supabase-proxy.js, auth-proxy.js | ✅ |
-| A5 | Dead code + service key guard | middleware/ (حذف), js/security-cleanup.js | ✅ |
-| A6 | CSP unsafe-inline | مؤجل — onclick handlers تتطلبها | ⚠️ |
-| A7 | index.html أداء | index.html, js/analytics.js | ✅ |
-| A8 | 47 اختبار — 0 فشل | tests/integration/api.test.cjs | ✅ |
-| A9 | Error handling موحّد | lib/api-error.js | ✅ |
-| A10 | توثيق نهائي | PROJECT_INSTRUCTIONS.md v4.0 | ✅ |
-
-### التقييم بعد Round 2:
-- الموقع يعمل: ✅ LIVE
-- Rate Limiting حقيقي (Upstash): ✅
-- Env vars موحّدة: ✅
-- Dead code محذوف: ✅
-- اختبارات: 47 ✅ / 0 ❌
-- Functions: 16 (ضمن Hobby limit)
-- نظام الدفع: ⚠️ بانتظار TAP keys
-
----
-
-## PROTOCOL 7: ENV VARS الإلزامية (Vercel Dashboard)
-
-| المتغير | من أين |
-|---------|--------|
-| GEMINI_API_KEY | Google AI Studio |
-| UPSTASH_REDIS_REST_URL | Upstash Console → Redis DB |
-| UPSTASH_REDIS_REST_TOKEN | Upstash Console → Redis DB |
-| NEXT_PUBLIC_SUPABASE_URL | Supabase → Settings → API |
-| SUPABASE_ANON_KEY | Supabase → Settings → API |
-| NEXT_PUBLIC_SUPABASE_ANON_KEY | نفس SUPABASE_ANON_KEY |
-| SUPABASE_SERVICE_ROLE_KEY | Supabase → Settings → API |
-| JWT_SECRET | openssl rand -base64 32 |
-| ADMIN_SECRET | openssl rand -base64 32 |
-| TAP_SECRET_KEY | TAP Dashboard → API Keys |
-| TAP_WEBHOOK_SECRET | TAP Dashboard → Webhooks |
-
-## TODO — المرحلة القادمة:
-1. تحويل onclick="..." لـ addEventListener (يسمح بإزالة unsafe-inline)
-2. تفعيل TAP Payment بعد الحصول على الـ keys
-3. Vite/esbuild للـ bundling (يقلل حجم JS 60%)
