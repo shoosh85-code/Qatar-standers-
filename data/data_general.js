@@ -272,5 +272,97 @@ content: `
 
 
 
+// ════════════════════════════════════════════════════════════════
+// المفتش الذكي — Photo Inspector (photo_analyzer)
+// ════════════════════════════════════════════════════════════════
+photo_analyzer: {
+  title: '📸 المفتش الذكي — Site Photo Inspector',
+  content: `
+<div class="qcs-ref-badge">QCS 2024 — فحص ميداني ذكي بالذكاء الاصطناعي</div>
+
+<div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.25);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;color:var(--text2);line-height:1.7;">
+📸 ارفع صورة من الموقع → الذكاء الاصطناعي يفحصها فوراً ويعطيك تقرير <strong style="color:#2ecc71">PASS / FAIL / ⚠️</strong> مع المراجع الدقيقة من QCS 2024
+</div>
+
+<!-- ① نوع الفحص -->
+<div style="margin-bottom:14px">
+  <div style="font-size:12px;color:var(--text3);margin-bottom:8px;font-weight:700;letter-spacing:1px">① اختر نوع الفحص</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px" id="pi-focus-grid">
+    <div class="pi-focus-opt pi-active" onclick="piSelectFocus('concrete',this)" style="background:rgba(52,152,219,.1);border:2px solid rgba(52,152,219,.5);border-radius:10px;padding:10px;cursor:pointer;text-align:center;transition:.2s">
+      <div style="font-size:20px">🏗️</div>
+      <div style="color:#3498db;font-weight:700;font-size:11px;margin-top:3px">خرسانة</div>
+      <div style="color:var(--text3);font-size:9px">Concrete Works</div>
+    </div>
+    <div class="pi-focus-opt" onclick="piSelectFocus('rebar',this)" style="background:rgba(201,168,76,.06);border:2px dashed rgba(201,168,76,.3);border-radius:10px;padding:10px;cursor:pointer;text-align:center;transition:.2s">
+      <div style="font-size:20px">⚙️</div>
+      <div style="color:var(--gold);font-weight:700;font-size:11px;margin-top:3px">تسليح</div>
+      <div style="color:var(--text3);font-size:9px">Reinforcement</div>
+    </div>
+    <div class="pi-focus-opt" onclick="piSelectFocus('road',this)" style="background:rgba(46,204,113,.06);border:2px dashed rgba(46,204,113,.3);border-radius:10px;padding:10px;cursor:pointer;text-align:center;transition:.2s">
+      <div style="font-size:20px">🛣️</div>
+      <div style="color:#2ecc71;font-weight:700;font-size:11px;margin-top:3px">إسفلت / طرق</div>
+      <div style="color:var(--text3);font-size:9px">Road / Asphalt</div>
+    </div>
+    <div class="pi-focus-opt" onclick="piSelectFocus('utilities',this)" style="background:rgba(155,89,182,.06);border:2px dashed rgba(155,89,182,.3);border-radius:10px;padding:10px;cursor:pointer;text-align:center;transition:.2s">
+      <div style="font-size:20px">🔧</div>
+      <div style="color:#9b59b6;font-weight:700;font-size:11px;margin-top:3px">مرافق</div>
+      <div style="color:var(--text3);font-size:9px">Utilities / Pipes</div>
+    </div>
+    <div class="pi-focus-opt" onclick="piSelectFocus('earthwork',this)" style="background:rgba(230,126,34,.06);border:2px dashed rgba(230,126,34,.3);border-radius:10px;padding:10px;cursor:pointer;text-align:center;transition:.2s">
+      <div style="font-size:20px">⛏️</div>
+      <div style="color:#e67e22;font-weight:700;font-size:11px;margin-top:3px">حفر / ردم</div>
+      <div style="color:var(--text3);font-size:9px">Earthworks</div>
+    </div>
+    <div class="pi-focus-opt" onclick="piSelectFocus('formwork',this)" style="background:rgba(231,76,60,.06);border:2px dashed rgba(231,76,60,.3);border-radius:10px;padding:10px;cursor:pointer;text-align:center;transition:.2s">
+      <div style="font-size:20px">🪵</div>
+      <div style="color:#e74c3c;font-weight:700;font-size:11px;margin-top:3px">شدات</div>
+      <div style="color:var(--text3);font-size:9px">Formwork</div>
+    </div>
+  </div>
+</div>
+
+<!-- ② رفع الصورة -->
+<div style="margin-bottom:14px">
+  <div style="font-size:12px;color:var(--text3);margin-bottom:8px;font-weight:700;letter-spacing:1px">② ارفع صورة من الموقع</div>
+  <div onclick="document.getElementById('pi-img-input').click()" id="pi-drop-zone"
+    ondragover="event.preventDefault()"
+    ondrop="piHandleDropZone(event)"
+    style="background:rgba(46,204,113,.04);border:2px dashed rgba(46,204,113,.35);border-radius:12px;padding:22px;text-align:center;cursor:pointer;transition:.3s">
+    <div style="font-size:38px;margin-bottom:8px">📸</div>
+    <div style="color:#2ecc71;font-weight:700;font-size:13px">اسحب الصورة هنا أو اضغط للرفع</div>
+    <div style="color:var(--text3);font-size:11px;margin-top:4px">JPG · PNG · WEBP — حتى 10MB</div>
+    <input type="file" id="pi-img-input" accept="image/*" style="display:none" onchange="piLoadPhoto(this)">
+  </div>
+  <div id="pi-preview-wrap" style="display:none;margin-top:10px;text-align:center;position:relative">
+    <img id="pi-preview-img" style="max-width:100%;max-height:220px;border-radius:10px;border:2px solid rgba(46,204,113,.3);object-fit:contain">
+    <div style="font-size:11px;color:var(--text3);margin-top:6px" id="pi-file-label"></div>
+    <button onclick="piResetPhoto()" style="margin-top:6px;background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.3);border-radius:6px;padding:4px 12px;font-size:11px;color:#e74c3c;cursor:pointer">✕ حذف الصورة</button>
+  </div>
+</div>
+
+<!-- ③ ملاحظات المهندس -->
+<div style="margin-bottom:14px">
+  <div style="font-size:12px;color:var(--text3);margin-bottom:6px;font-weight:700;letter-spacing:1px">③ ملاحظة إضافية (اختياري)</div>
+  <textarea id="pi-notes" placeholder="مثال: هذا صب خرسانة أساس — تحقق من Cover والـ Rebar spacing قبل الصب..." style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:10px;padding:10px;font-family:Tajawal,sans-serif;font-size:13px;color:var(--text);resize:vertical;min-height:60px;outline:none;box-sizing:border-box"></textarea>
+</div>
+
+<!-- زر الفحص -->
+<button onclick="runPhotoInspection()" id="pi-inspect-btn" disabled
+  style="width:100%;background:linear-gradient(135deg,#1a6b3c,#2ecc71);border:1px solid rgba(46,204,113,.5);border-radius:12px;padding:14px;color:#fff;font-family:Cairo,sans-serif;font-weight:800;font-size:15px;cursor:pointer;margin-bottom:14px;letter-spacing:.5px;opacity:.5;transition:.3s">
+  🔍 فحص الصورة — Inspect Now
+</button>
+
+<!-- Loading -->
+<div id="pi-loading" style="display:none;text-align:center;padding:24px">
+  <div style="font-size:32px;margin-bottom:10px">🔍</div>
+  <div class="spinner" style="width:28px;height:28px;border:3px solid rgba(46,204,113,.2);border-top:3px solid #2ecc71;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px"></div>
+  <div style="color:#2ecc71;font-size:13px;font-weight:700">جاري الفحص الميداني بالذكاء الاصطناعي...</div>
+  <div style="color:var(--text3);font-size:11px;margin-top:4px">مقارنة مع QCS 2024</div>
+</div>
+
+<!-- نتيجة الفحص -->
+<div id="pi-result" style="margin-top:4px"></div>
+`},
+
   });
 })();

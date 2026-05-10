@@ -193,11 +193,19 @@ export default async function handler(req) {
 
   // ── RAG: جلب مراجع QCS ذات صلة بالتحليل البصري ────────────────────────
   const qcsRef = await fetchVisionQCSContext(mode, userMessage);
-  const systemPrompt = (mode === 'inspector' ? INSPECTOR_PROMPT : ANALYZER_PROMPT) + qcsRef;
-  const userPrompt = userMessage ||
-    (mode === 'inspector'
-      ? 'افحص هذه الصورة من الموقع وأعطني تقرير تفتيش شاملاً وفق QCS 2024'
-      : 'حلل هذه الوثيقة/المخطط بشكل شامل وفق المواصفات القطرية QCS 2024');
+
+  // إذا كان userMessage يحتوي prompt مفصّل (>200 حرف) استخدمه مباشرة
+  // وإلا أضف systemPrompt الافتراضي
+  let combinedPrompt;
+  if (userMessage && userMessage.length > 200) {
+    combinedPrompt = userMessage + (qcsRef ? '\n' + qcsRef : '');
+  } else {
+    const sysP = (mode === 'inspector' ? INSPECTOR_PROMPT : ANALYZER_PROMPT) + qcsRef;
+    combinedPrompt = sysP + '\n\n' + (userMessage ||
+      (mode === 'inspector'
+        ? 'افحص هذه الصورة من الموقع وأعطني تقرير تفتيش شاملاً وفق QCS 2024'
+        : 'حلل هذه الوثيقة/المخطط بشكل شامل وفق المواصفات القطرية QCS 2024'));
+  }
 
   // Build Gemini vision request
   // Model URL constructed inside retry loop below
@@ -213,7 +221,7 @@ export default async function handler(req) {
               data: image,   // base64 string
             }
           },
-          { text: systemPrompt + '\n\n' + userPrompt }
+          { text: combinedPrompt }
         ]
       }
     ],
