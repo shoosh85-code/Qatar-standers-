@@ -6,6 +6,7 @@
 export const config = { runtime: 'edge' };
 
 import { checkRateLimit, rateLimitResponse } from '../lib/rate-limit.js';
+import { getSupabaseUrl, getSupabaseServiceKey, getSupabaseAnonKey } from '../lib/supabase.js';
 
 
 const CORS_ORIGIN = process.env.APP_URL || 'https://qatar-standers.vercel.app';
@@ -47,8 +48,8 @@ export default async function handler(req) {
   const { query, limit = 6 } = body;
   if (!query || String(query).trim().length < 2) return json({ error: 'Query too short' }, 400);
 
-  const SUPA_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const SUPA_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const SUPA_URL = getSupabaseUrl();
+  const SUPA_KEY = getSupabaseServiceKey() || getSupabaseAnonKey();
   const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
   if (!SUPA_URL || !SUPA_KEY) {

@@ -6,6 +6,7 @@
 
 import { retryGemini }                          from '../lib/retry.js';
 import { checkRateLimit, rateLimitResponse }    from '../lib/rate-limit.js';
+import { getSupabaseUrl, getSupabaseServiceKey } from '../lib/supabase.js';
 
 export const config = { runtime: 'edge' };
 
@@ -403,8 +404,8 @@ const token = extractToken(req);
       });
     }
 
-    const SUPA_URL  = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const SUPA_KEY  = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const SUPA_URL  = getSupabaseUrl();
+    const SUPA_KEY  = getSupabaseServiceKey();
     const GEMINI_KEY = process.env.GEMINI_API_KEY;
 
     if (!SUPA_URL || !SUPA_KEY || !GEMINI_KEY) {

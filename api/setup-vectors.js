@@ -1,6 +1,7 @@
 // One-time setup: Enable pgvector + add embedding column + create search function
 // POST /api/setup-vectors with { admin_secret }
 import { rateLimit, applyRateLimitHeaders, getIp } from './rate-limit.js';
+import { getSupabaseUrl, getSupabaseServiceKey } from '../lib/supabase.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
@@ -24,8 +25,8 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  const URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const SVC = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const URL = getSupabaseUrl();
+  const SVC = getSupabaseServiceKey();
   if (!URL || !SVC) return res.status(503).json({ error: 'Supabase not configured' });
 
   const results = [];

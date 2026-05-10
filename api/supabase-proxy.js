@@ -4,6 +4,7 @@
 // يستخدم rate-limit.js (Protocol 6)
 
 import { rateLimit, applyRateLimitHeaders, getIp } from './rate-limit.js';
+import { getSupabaseUrl, getSupabaseAnonKey, getSupabaseServiceKey } from '../lib/supabase.js';
 
 export default async function handler(req, res) {
   // CORS headers
@@ -47,8 +48,8 @@ export default async function handler(req, res) {
   }
 
   // ── Environment Variables ───────────────────────────────────────────────────
-  const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
-  const SUPABASE_KEY = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_KEY; // Anon only
+  const SUPABASE_URL = getSupabaseUrl();
+  const SUPABASE_KEY = getSupabaseAnonKey(); // Anon only
 
   if (!SUPABASE_URL || !SUPABASE_KEY) {
     console.error('SUPABASE_URL أو SUPABASE_KEY غير موجودة في environment variables');
@@ -56,7 +57,7 @@ export default async function handler(req, res) {
   }
 
   // ── Guard: Never use service_role key in this proxy ────────────────────────
-  if (SUPABASE_KEY === process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  if (SUPABASE_KEY === getSupabaseServiceKey()) {
     console.error('[SECURITY CRITICAL] supabase-proxy using SERVICE_ROLE_KEY — BLOCKED');
     return res.status(500).json({ error: 'Server configuration error' });
   }

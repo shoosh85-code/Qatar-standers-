@@ -2,6 +2,7 @@
 // POST /api/generate-embeddings { admin_secret, batch_size, offset }
 // Run multiple times with increasing offset to process all chunks
 import { rateLimit, applyRateLimitHeaders, getIp } from './rate-limit.js';
+import { getSupabaseUrl, getSupabaseServiceKey } from '../lib/supabase.js';
 
 export default async function handler(req, res) {
   // ── Rate Limiting (Protocol 6) — 2/min free | 20/min pro ─────────────────
@@ -30,8 +31,8 @@ export default async function handler(req, res) {
   const batch_size = parseInt(bodyData.batch_size || 50);
   const offset = parseInt(bodyData.offset || 0);
 
-  const SUPA_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const SUPA_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const SUPA_URL = getSupabaseUrl();
+  const SUPA_KEY = getSupabaseServiceKey();
   const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
   if (!SUPA_URL || !SUPA_KEY || !GEMINI_API_KEY) {

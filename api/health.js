@@ -4,11 +4,12 @@
 import { withSecurity }  from '../lib/security.js';
 import { secureHandler } from '../lib/security-headers.js';
 import { captureWarning } from '../lib/sentry.js';
+import { getSupabaseUrl, getSupabaseServiceKey, getSupabaseAnonKey } from '../lib/supabase.js';
 
 const _handler = async function handler(req, res) {
   const services = {
     gemini:     !!process.env.GEMINI_API_KEY,
-    supabase:   !!(process.env.NEXT_PUBLIC_SUPABASE_URL && (process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)),
+    supabase:   !!(getSupabaseUrl() && (getSupabaseServiceKey() || getSupabaseAnonKey())),
     jwt:        !!process.env.JWT_SECRET,
     promoCodes: !!(process.env.PROMO_CODES || process.env.PRO_CODES),
     redis:      !!process.env.UPSTASH_REDIS_REST_URL,

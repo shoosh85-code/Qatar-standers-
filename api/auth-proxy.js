@@ -4,6 +4,7 @@
 // PROTOCOL 6: rate limiting مفعّل
 
 import { rateLimit, applyRateLimitHeaders, getIp } from './rate-limit.js';
+import { getSupabaseUrl, getSupabaseAnonKey } from '../lib/supabase.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', 'https://qatar-standers.vercel.app');
@@ -26,8 +27,8 @@ export default async function handler(req, res) {
   }
 
   // ── Environment Variables ─────────────────────────────────────────────────
-  const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
-  const SUPABASE_KEY = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_KEY;
+  const SUPABASE_URL = getSupabaseUrl();
+  const SUPABASE_KEY = getSupabaseAnonKey();
 
   if (!SUPABASE_URL || !SUPABASE_KEY) {
     console.error('auth-proxy: SUPABASE_URL أو SUPABASE_KEY غير موجودة');

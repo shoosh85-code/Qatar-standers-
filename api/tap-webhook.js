@@ -7,12 +7,13 @@
 import { createClient }                              from '@supabase/supabase-js';
 import { withSentry, captureException, captureMessage } from '../lib/sentry.js';
 import { checkRateLimit }                            from '../lib/rate-limit.js';
+import { getSupabaseUrl, getSupabaseServiceKey }     from '../lib/supabase.js';
 
 // ─── Supabase Admin Client ────────────────────────────────────────────────
 function getSupabase() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) throw new Error('NEXT_PUBLIC_SUPABASE_URL أو SUPABASE_SERVICE_ROLE_KEY غير موجود');
+  const url = getSupabaseUrl();
+  const key = getSupabaseServiceKey();
+  if (!url || !key) throw new Error('SUPABASE_URL أو SUPABASE_SERVICE_ROLE_KEY غير موجود');
   return createClient(url, key);
 }
 
