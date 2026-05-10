@@ -816,7 +816,7 @@ function setLang(lang) {
   let tags = [t.tag1,t.tag2,t.tag3,t.tag4,t.tag5,t.tag6,t.tag7];
   let qs   = [t.tq1, t.tq2, t.tq3, t.tq4, t.tq5, t.tq6, t.tq7];
   qts.forEach(function(tag,i){
-    if(tags[i]){ tag.textContent = tags[i]; tag.setAttribute('onclick',"quickSearch('"+qs[i]+"')"); }
+    if(tags[i]){ tag.textContent = tags[i]; tag.setAttribute('data-search', qs[i]); }
   });
 
   // Section heading
@@ -955,6 +955,10 @@ function dedupeSectionContent(contentHTML, lang) {
   // إزالة حاويات اللغة الخاطئة
   var wrongLangs = doc.querySelectorAll('.lang-content-' + otherLang);
   for (var i = 0; i < wrongLangs.length; i++) wrongLangs[i].remove();
+
+  // إظهار حاويات اللغة الصحيحة (قد تكون display:none افتراضياً)
+  var rightLangs = doc.querySelectorAll('.lang-content-' + lang);
+  for (var i = 0; i < rightLangs.length; i++) rightLangs[i].style.display = 'block';
 
   // حذف الكروت المكررة حسب نص العنوان (أول 50 حرف)
   var seenCards = {};
