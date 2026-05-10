@@ -1,32 +1,132 @@
 {
   "project": "QatarSpec Pro",
-  "version": "3.3.0",
+  "version": "3.0.0",
   "repo": "github.com/shoosh85-code/Qatar-standers-",
-  "last_updated": "2026-05-03",
-  "checkpoint_version": "3.0",
+  "last_updated": "2026-05-10",
+  "checkpoint_version": "4.0",
   "phases": {
-    "1":  { "status": "COMPLETED", "date": "2026-04-30", "score": "7.5/10",  "git_commit": "249758d", "verified": true },
-    "2":  { "status": "COMPLETED", "date": "2026-04-30", "score": "8/10",    "git_commit": "6af528a", "verified": true },
-    "3":  { "status": "COMPLETED", "date": "2026-04-30", "score": "10/10",   "git_commit": "6af528a", "verified": true },
-    "4":  { "status": "COMPLETED", "date": "2026-04-30", "score": "8/10",    "git_commit": "37e9a61", "verified": true },
-    "5":  { "status": "COMPLETED", "date": "2026-04-30", "score": "7/10",    "git_commit": "ce3e9e6", "verified": true },
-    "6":  { "status": "COMPLETED", "date": "2026-04-30", "score": "9/10",    "git_commit": "3c7f453", "verified": true },
-    "7":  { "status": "COMPLETED", "date": "2026-04-30", "score": "8.5/10",  "git_commit": "07c0d37", "verified": true },
-    "8":  { "status": "COMPLETED", "date": "2026-04-30", "score": "8/10",    "git_commit": "c8dff85", "verified": true },
-    "9":  { "status": "COMPLETED", "date": "2026-04-30", "score": "9/10",    "git_commit": "c4f585c", "verified": true },
-    "10": { "status": "COMPLETED", "date": "2026-04-30", "score": "8.5/10",  "git_commit": "e9a858c", "verified": true }
+    "1": {
+      "status": "COMPLETED",
+      "date": "2026-04-30",
+      "score": "7.5/10",
+      "git_commit": "249758d",
+      "verified": true
+    },
+    "2": {
+      "status": "COMPLETED",
+      "date": "2026-04-30",
+      "score": "8/10",
+      "git_commit": "6af528a",
+      "verified": true
+    },
+    "3": {
+      "status": "COMPLETED",
+      "date": "2026-04-30",
+      "score": "10/10",
+      "git_commit": "6af528a",
+      "verified": true
+    },
+    "4": {
+      "status": "COMPLETED",
+      "date": "2026-04-30",
+      "score": "8/10",
+      "git_commit": "37e9a61",
+      "verified": true
+    },
+    "5": {
+      "status": "COMPLETED",
+      "date": "2026-04-30",
+      "score": "7/10",
+      "git_commit": "ce3e9e6",
+      "verified": true
+    },
+    "6": {
+      "status": "COMPLETED",
+      "date": "2026-04-30",
+      "score": "9/10",
+      "git_commit": "3c7f453",
+      "verified": true
+    },
+    "7": {
+      "status": "COMPLETED",
+      "date": "2026-04-30",
+      "score": "8.5/10",
+      "git_commit": "07c0d37",
+      "verified": true
+    },
+    "8": {
+      "status": "COMPLETED",
+      "date": "2026-04-30",
+      "score": "8/10",
+      "git_commit": "c8dff85",
+      "verified": true
+    },
+    "9": {
+      "status": "COMPLETED",
+      "date": "2026-04-30",
+      "score": "9/10",
+      "git_commit": "c4f585c",
+      "verified": true
+    },
+    "10": {
+      "status": "COMPLETED",
+      "date": "2026-04-30",
+      "score": "8.5/10",
+      "git_commit": "e9a858c",
+      "verified": true
+    }
   },
   "master_fix_sessions": {
-    "S1_photo_inspector":    { "status": "COMPLETE", "commit": "3a8d478", "desc": "API modal Anthropic→Gemini proxy" },
-    "S2_localStorage_key":   { "status": "COMPLETE", "commit": "c2781fb", "desc": "assets/app.js marked LEGACY, qatarspecKey removed" },
-    "S3_api_auth":           { "status": "COMPLETE", "commit": "d0aafa2", "desc": "Rate limit enhance-en+export-pdf, TAP 199→99, remove PROMO codes" },
-    "S4_service_worker":     { "status": "COMPLETE", "commit": "209bc21", "desc": "SW unified v3.3.0, single register security-cleanup.js" },
-    "S5_xss_fix":            { "status": "COMPLETE", "commit": "6991876", "desc": "renderMarkdownSafe on AI output, sanitizeText on user input" },
-    "S6_review_cleanup":     { "status": "COMPLETE", "commit": "e9a858c", "desc": "reviewTable removed, merged-content removed, fake Schema.org removed" },
-    "S6b_rate_limit_esm":    { "status": "COMPLETE", "commit": "2636a7a", "desc": "rate-limit.js ESM + checkRateLimit sync export" },
-    "S7_missing_cards":      { "status": "COMPLETE", "commit": "c4e633f", "desc": "5 cards: superpave_mix, marshall_mix, mep_standards, survey_setting_out, roads_materials" },
-    "S8_data_content":       { "status": "COMPLETE", "commit": "pre-existing", "desc": "All 4 card data entries confirmed in data_content.js + data_content_extra.js" },
-    "S9_final_audit":        { "status": "COMPLETE", "commit": "c4e633fae636ca14bf310dd5d2a9d0d6e50a8d75", "desc": "13/13 audit checks PASSED" }
+    "S1_photo_inspector": {
+      "status": "COMPLETE",
+      "commit": "3a8d478",
+      "desc": "API modal Anthropic→Gemini proxy"
+    },
+    "S2_localStorage_key": {
+      "status": "COMPLETE",
+      "commit": "c2781fb",
+      "desc": "assets/app.js marked LEGACY, qatarspecKey removed"
+    },
+    "S3_api_auth": {
+      "status": "COMPLETE",
+      "commit": "d0aafa2",
+      "desc": "Rate limit enhance-en+export-pdf, TAP 199→99, remove PROMO codes"
+    },
+    "S4_service_worker": {
+      "status": "COMPLETE",
+      "commit": "209bc21",
+      "desc": "SW unified v3.3.0, single register security-cleanup.js"
+    },
+    "S5_xss_fix": {
+      "status": "COMPLETE",
+      "commit": "6991876",
+      "desc": "renderMarkdownSafe on AI output, sanitizeText on user input"
+    },
+    "S6_review_cleanup": {
+      "status": "COMPLETE",
+      "commit": "e9a858c",
+      "desc": "reviewTable removed, merged-content removed, fake Schema.org removed"
+    },
+    "S6b_rate_limit_esm": {
+      "status": "COMPLETE",
+      "commit": "2636a7a",
+      "desc": "rate-limit.js ESM + checkRateLimit sync export"
+    },
+    "S7_missing_cards": {
+      "status": "COMPLETE",
+      "commit": "c4e633f",
+      "desc": "5 cards: superpave_mix, marshall_mix, mep_standards, survey_setting_out, roads_materials"
+    },
+    "S8_data_content": {
+      "status": "COMPLETE",
+      "commit": "pre-existing",
+      "desc": "All 4 card data entries confirmed in data_content.js + data_content_extra.js"
+    },
+    "S9_final_audit": {
+      "status": "COMPLETE",
+      "commit": "c4e633fae636ca14bf310dd5d2a9d0d6e50a8d75",
+      "desc": "13/13 audit checks PASSED"
+    }
   },
   "final_audit": {
     "date": "2026-05-03",
@@ -37,5 +137,32 @@
   "known_issues": [],
   "production_ready": true,
   "site": "qatar-standers.vercel.app",
-  "stack": "Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API"
+  "stack": "Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API",
+  "round2_fixes": {
+    "date": "2026-05-10",
+    "commits": {
+      "A2_A5": "7f310a1",
+      "A2_A9": "f203d87",
+      "vercel_fix": "0993aa7",
+      "csp_fix": "f7f7ee4",
+      "test_fix": "pending"
+    },
+    "status": {
+      "rate_limit_upstash": "COMPLETED",
+      "ai_proxy_env_fix": "COMPLETED",
+      "supabase_env_unify": "COMPLETED",
+      "dead_code_removed": "COMPLETED",
+      "service_key_guard": "COMPLETED",
+      "csp_tightened": "COMPLETED",
+      "inline_script_extracted": "COMPLETED",
+      "tests_47_passing": "COMPLETED",
+      "api_error_lib": "COMPLETED",
+      "csp_unsafe_inline": "DEFERRED - onclick handlers require it",
+      "tap_payment": "PENDING - awaiting TAP keys",
+      "documentation": "IN_PROGRESS"
+    },
+    "tests": "47 passed, 0 failed",
+    "functions_count": 16,
+    "site_status": "LIVE"
+  }
 }

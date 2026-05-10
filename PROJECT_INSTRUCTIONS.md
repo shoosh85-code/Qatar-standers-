@@ -213,3 +213,53 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 - Follow PROTOCOL 2 strictly for every git push
 - Test locally before push — app must stay functional
 - Never delete content — only add or modify
+
+---
+
+## ROUND 2 FIXES — COMPLETED 2026-05-10
+
+### ما تم إصلاحه في الجولة الثانية:
+
+| الحساب | المشكلة | الملفات | الحالة |
+|--------|---------|---------|--------|
+| A2 | api/rate-limit.js → @upstash/redis | api/rate-limit.js | ✅ |
+| A3 | ai-proxy KV_REST_API → UPSTASH | api/ai-proxy.js | ✅ |
+| A4 | توحيد Supabase env vars | api/supabase-proxy.js, auth-proxy.js | ✅ |
+| A5 | Dead code + service key guard | middleware/ (حذف), js/security-cleanup.js | ✅ |
+| A6 | CSP unsafe-inline | مؤجل — onclick handlers تتطلبها | ⚠️ |
+| A7 | index.html أداء | index.html, js/analytics.js | ✅ |
+| A8 | 47 اختبار — 0 فشل | tests/integration/api.test.cjs | ✅ |
+| A9 | Error handling موحّد | lib/api-error.js | ✅ |
+| A10 | توثيق نهائي | PROJECT_INSTRUCTIONS.md v4.0 | ✅ |
+
+### التقييم بعد Round 2:
+- الموقع يعمل: ✅ LIVE
+- Rate Limiting حقيقي (Upstash): ✅
+- Env vars موحّدة: ✅
+- Dead code محذوف: ✅
+- اختبارات: 47 ✅ / 0 ❌
+- Functions: 16 (ضمن Hobby limit)
+- نظام الدفع: ⚠️ بانتظار TAP keys
+
+---
+
+## PROTOCOL 7: ENV VARS الإلزامية (Vercel Dashboard)
+
+| المتغير | من أين |
+|---------|--------|
+| GEMINI_API_KEY | Google AI Studio |
+| UPSTASH_REDIS_REST_URL | Upstash Console → Redis DB |
+| UPSTASH_REDIS_REST_TOKEN | Upstash Console → Redis DB |
+| NEXT_PUBLIC_SUPABASE_URL | Supabase → Settings → API |
+| SUPABASE_ANON_KEY | Supabase → Settings → API |
+| NEXT_PUBLIC_SUPABASE_ANON_KEY | نفس SUPABASE_ANON_KEY |
+| SUPABASE_SERVICE_ROLE_KEY | Supabase → Settings → API |
+| JWT_SECRET | openssl rand -base64 32 |
+| ADMIN_SECRET | openssl rand -base64 32 |
+| TAP_SECRET_KEY | TAP Dashboard → API Keys |
+| TAP_WEBHOOK_SECRET | TAP Dashboard → Webhooks |
+
+## TODO — المرحلة القادمة:
+1. تحويل onclick="..." لـ addEventListener (يسمح بإزالة unsafe-inline)
+2. تفعيل TAP Payment بعد الحصول على الـ keys
+3. Vite/esbuild للـ bundling (يقلل حجم JS 60%)

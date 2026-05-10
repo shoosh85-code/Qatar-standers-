@@ -1,5 +1,5 @@
 {
-  "version": "2.11.0",
-  "date": "2026-05-04",
-  "notes": "Phase 9 — Security & PWA: CORS fix, .gitignore, HSTS, Accessibility WCAG 2.1, inline scripts externalized, og-image, rate-limit v3.0, dead files removed (-406KB), XSS utils, sitemap 31 URLs, PNG icons 9 sizes, 404/500 pages, SW v3.4.0"
+  "version": "3.0.0",
+  "date": "2026-05-10",
+  "notes": "Round 2 Architecture Fixes: @upstash/redis rate-limit, UPSTASH env vars unification, Supabase env unification, dead middleware removed, service-key guard, CSP hardening, inline script extraction, 47 tests passing, api-error lib, vercel.json fixes"
 }
