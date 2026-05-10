@@ -44,7 +44,7 @@
         // PDF - show filename
         document.getElementById('da-preview').style.display = 'block';
         document.getElementById('da-img').style.display = 'none';
-        document.getElementById('da-preview').innerHTML = '<div style="padding:12px;background:rgba(52,152,219,0.1);border-radius:8px;color:#3498db;font-weight:700">📄 ' + file.name + '</div>';
+        document.getElementById('da-preview').innerHTML = '<div style="padding:12px;background:rgba(52,152,219,0.1);border-radius:8px;color:#3498db;font-weight:700">📄 ' + QS.escapeHtml(file.name) + '</div>';
       }
 
       document.getElementById('da-placeholder').style.display = 'none';
@@ -94,7 +94,7 @@
 
       if (!res.ok || data.error) {
         document.getElementById('da-result').style.display = 'block';
-        document.getElementById('da-result').innerHTML = '<div style="color:#e74c3c">❌ ' + (data.error || 'خطأ في الاتصال') + '</div>';
+        document.getElementById('da-result').innerHTML = '<div style="color:#e74c3c">❌ ' + QS.escapeHtml(data.error || 'خطأ في الاتصال') + '</div>';
       } else {
         _daLastResult = data.result;
         var html = daMarkdownToHTML(data.result);
@@ -105,7 +105,7 @@
     } catch(err) {
       document.getElementById('da-loading').style.display = 'none';
       document.getElementById('da-result').style.display = 'block';
-      document.getElementById('da-result').innerHTML = '<div style="color:#e74c3c">❌ خطأ: ' + err.message + '</div>';
+      document.getElementById('da-result').innerHTML = '<div style="color:#e74c3c">❌ خطأ: ' + QS.escapeHtml(err.message) + '</div>';
     } finally {
       btn.disabled = false;
     }
@@ -228,7 +228,7 @@
 
       if (!res.ok || data.error) {
         document.getElementById('pi-result').style.display = 'block';
-        document.getElementById('pi-result').innerHTML = '<div style="color:#e74c3c">❌ ' + (data.error || 'خطأ في الاتصال') + '</div>';
+        document.getElementById('pi-result').innerHTML = '<div style="color:#e74c3c">❌ ' + QS.escapeHtml(data.error || 'خطأ في الاتصال') + '</div>';
       } else {
         _piLastResult = data.result;
         var html = piMarkdownToHTML(data.result);
@@ -239,7 +239,7 @@
     } catch(err) {
       document.getElementById('pi-loading').style.display = 'none';
       document.getElementById('pi-result').style.display = 'block';
-      document.getElementById('pi-result').innerHTML = '<div style="color:#e74c3c">❌ خطأ في الاتصال: ' + err.message + '</div>';
+      document.getElementById('pi-result').innerHTML = '<div style="color:#e74c3c">❌ خطأ في الاتصال: ' + QS.escapeHtml(err.message) + '</div>';
     } finally {
       btn.disabled = false;
     }
