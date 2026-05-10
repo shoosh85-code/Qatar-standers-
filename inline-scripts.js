@@ -4076,7 +4076,7 @@ window.QS = window.QS || {};
     if(_loading[chunk]){ if(cb) _loading[chunk].push(cb); return; }
     _loading[chunk] = cb ? [cb] : [];
     var s=document.createElement('script');
-    s.src=chunk+'?v=8';
+    s.src=chunk+'?v=9';
     s.onload=function(){
       _loaded[chunk]=true;
       (_loading[chunk]||[]).forEach(function(f){ try{f();}catch(e){} });

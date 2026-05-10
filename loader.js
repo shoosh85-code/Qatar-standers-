@@ -3,7 +3,7 @@
 // جميع الـ 98 key مغطاة في 7 chunk files عبر data_content_manifest.js
 // الـ chunks تُحمَّل on-demand عبر _loadContentChunk() في inline-scripts.js
 (function(){
-  var VER = '?v=8';
+  var VER = '?v=9';
 
   function load(src, id){
     var s = document.createElement('script');

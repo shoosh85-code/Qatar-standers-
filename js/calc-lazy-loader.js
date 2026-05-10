@@ -70,7 +70,7 @@
     'structural': ['data_content_structural.js?v=8'],
     'geotech':    ['data_content_geotech.js?v=8'],
     'tools':      ['data_content_tools.js?v=8'],
-    'extra':      ['data_content_extra.js?v=8'],
+    'extra':      ['data_content_extra.js?v=9'],
     'phase4':     ['data_content_phase4.js?v=8']
   };
 
