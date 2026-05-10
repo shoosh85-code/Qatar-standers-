@@ -266,7 +266,7 @@ export default async function handler(req) {
       }
     ],
     generationConfig: {
-      maxOutputTokens: isPro ? 8000 : 4000,  // Gemini 2.0 Flash max = 8192 — كان 3000/1500 يقطع التحليل
+      maxOutputTokens: isPro ? 4000 : 2500,  // 8000 كان يسبب timeout — Vercel Edge limit = 30s
       temperature: 0.15,
       topP: 0.9,
     },
@@ -292,7 +292,7 @@ export default async function handler(req) {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 55000);
+    const timeout = setTimeout(() => controller.abort(), 22000); // Vercel Edge = 30s max — نترك 8s للـ overhead
 
     try {
       const res = await fetch(url, {

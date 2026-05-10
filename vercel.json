@@ -91,5 +91,16 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/vision-proxy.js": {
+      "maxDuration": 60
+    },
+    "api/ai-proxy.js": {
+      "maxDuration": 60
+    },
+    "api/execution-ai.js": {
+      "maxDuration": 60
+    }
+  }
 }
