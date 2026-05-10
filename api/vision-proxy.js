@@ -244,13 +244,13 @@ export default async function handler(req) {
       ? 'افحص هذه الصورة من الموقع وأعطني تقرير تفتيش شاملاً وفق QCS 2024'
       : 'حلل هذه الوثيقة/المخطط بشكل شامل وفق المواصفات القطرية QCS 2024');
 
-  // Build Gemini vision request — systemInstruction منفصل عن content
+  // Build Gemini vision request — system prompt in first content part
   const geminiBody = {
-    systemInstruction: { parts: [{ text: systemPrompt }] },
     contents: [
       {
         role: 'user',
         parts: [
+          { text: systemPrompt },
           {
             inline_data: {
               mime_type: mimeType || 'image/jpeg',
@@ -278,9 +278,9 @@ export default async function handler(req) {
   // ترتيب الأفضلية: الأحدث أولاً ثم الاحتياطي
   // نفس الأسماء المستخدمة في ai-proxy.js (مؤكد تعمل)
   const models = [
-    'gemini-2.5-flash',
-    'gemini-2.5-pro',
-    'gemini-1.5-flash',
+    'gemini-2.0-flash',   // 15 RPM free — الأعلى حصة
+    'gemini-1.5-flash',   // 15 RPM free
+    'gemini-2.5-flash',   // 10 RPM free
   ];
 
   for (let attempt = 0; attempt < models.length; attempt++) {
