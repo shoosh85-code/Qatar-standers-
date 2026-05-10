@@ -5,21 +5,13 @@
 
 export const config = { runtime: 'edge' };
 
+import { checkRateLimit, rateLimitResponse } from '../lib/rate-limit.js';
+
 const CORS = {
   'Access-Control-Allow-Origin': process.env.APP_URL || 'https://qatar-standers.vercel.app',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
 };
-
-// Rate limiting — in-memory
-const rl = new Map();
-function checkRL(ip) {
-  const now = Date.now(), key = `${ip}:${Math.floor(now/60000)}`;
-  const c = (rl.get(key) || 0) + 1;
-  rl.set(key, c);
-  setTimeout(() => rl.delete(key), 60000);
-  return c <= 8; // 8 req/min free
-}
 
 // System prompt مخصص لكل وحدة
 const PROMPTS = {
@@ -101,14 +93,10 @@ export default async function handler(req) {
   if (req.method === 'OPTIONS') return new Response(null, { headers: CORS });
   if (req.method !== 'POST') return new Response('Method Not Allowed', { status: 405 });
 
-  // Rate limit
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown';
-  if (!checkRL(ip)) {
-    return new Response(JSON.stringify({
-      error: 'Rate limit exceeded',
-      message: 'تجاوزت الحد المسموح (8 طلبات/دقيقة). حاول بعد قليل.'
-    }), { status: 429, headers: { ...CORS, 'Content-Type': 'application/json', 'Retry-After': '60' }});
-  }
+  // ── Rate Limit (PROTOCOL 6 — Upstash Redis shared) ──────────────────────
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '0.0.0.0';
+  const rl = await checkRateLimit(ip, '/api/ai-proxy', false); // execution-ai = AI endpoint limits
+  if (!rl.allowed) return rateLimitResponse(rl, CORS);
 
   let body;
   try { body = await req.json(); } 
