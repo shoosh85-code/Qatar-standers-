@@ -2,6 +2,43 @@
 // يضمن عمل daAnalyze/piInspect حتى إذا فشل تنفيذ inline scripts
 // [لا تحذف — فقط أضف أو عدّل]
 
+// ── Image compression (حد Vercel Edge = 4.5MB) ──────────────────────────
+function _compressImage(base64Data, mimeType, maxSizeKB) {
+  return new Promise(function(resolve) {
+    if (!mimeType || !mimeType.startsWith('image/')) {
+      resolve({ data: base64Data, type: mimeType }); return;
+    }
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement('canvas');
+      var w = img.width, h = img.height;
+      var maxDim = 1600;
+      if (w > maxDim || h > maxDim) {
+        var ratio = Math.min(maxDim / w, maxDim / h);
+        w = Math.round(w * ratio); h = Math.round(h * ratio);
+      }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      var quality = 0.75;
+      var result = canvas.toDataURL('image/jpeg', quality).split(',')[1];
+      while (result.length > (maxSizeKB || 2000) * 1024 && quality > 0.3) {
+        quality -= 0.1;
+        result = canvas.toDataURL('image/jpeg', quality).split(',')[1];
+      }
+      resolve({ data: result, type: 'image/jpeg' });
+    };
+    img.onerror = function() { resolve({ data: base64Data, type: mimeType }); };
+    img.src = 'data:' + mimeType + ';base64,' + base64Data;
+  });
+}
+
+// ── Safe JSON parse — يتعامل مع ردود غير JSON ──────────────────────────
+async function _safeJsonParse(res) {
+  var text = await res.text();
+  try { return JSON.parse(text); }
+  catch(e) { return { error: text.slice(0, 300) || ('HTTP ' + res.status) }; }
+}
+
 // ── Drawing Analyzer (script 0) ──
 (function(){
   var _daFile = null;
@@ -72,11 +109,14 @@
 
     try {
       // [SEC v4.2] لا localStorage — httpOnly cookie يُرسَل تلقائياً عبر credentials:'include'
-      // For PDF - use application/pdf, Gemini supports it
       var mimeType = _daFile.type;
-      if (mimeType === 'application/pdf') {
-        // Gemini vision supports PDF directly
-        mimeType = 'application/pdf';
+      var imageData = _daFile.data;
+
+      // ضغط الصورة لتجنب خطأ 413 (Request Entity Too Large)
+      if (mimeType && mimeType.startsWith('image/')) {
+        var compressed = await _compressImage(imageData, mimeType, 2000);
+        imageData = compressed.data;
+        mimeType = compressed.type;
       }
 
       var res = await fetch('/api/vision-proxy', {
@@ -85,13 +125,13 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           mode: 'analyzer',
-          image: _daFile.data,
+          image: imageData,
           mimeType: mimeType,
           userMessage: userMsg
         })
       });
 
-      var data = await res.json();
+      var data = await _safeJsonParse(res);
       document.getElementById('da-loading').style.display = 'none';
 
       if (!res.ok || data.error) {
@@ -213,20 +253,22 @@
     document.getElementById('pi-actions').style.display = 'none';
 
     try {
-      // [SEC v4.2] لا localStorage — httpOnly cookie يُرسَل تلقائياً عبر credentials:'include'
+      // ضغط الصورة لتجنب خطأ 413
+      var compressed = await _compressImage(_piImage.data, _piImage.type, 2000);
+
       var res = await fetch('/api/vision-proxy', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           mode: 'inspector',
-          image: _piImage.data,
-          mimeType: _piImage.type,
+          image: compressed.data,
+          mimeType: compressed.type,
           userMessage: userMsg
         })
       });
 
-      var data = await res.json();
+      var data = await _safeJsonParse(res);
       document.getElementById('pi-loading').style.display = 'none';
 
       if (!res.ok || data.error) {
