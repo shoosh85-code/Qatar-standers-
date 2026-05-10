@@ -3758,6 +3758,94 @@ function showPaymentContact() {
   if (pc) { pc.style.display = 'block'; pc.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
 }
 
+// ── TAP Payment — checkout مباشر بدون WhatsApp ────────────────────────────
+// يُظهر نموذج البريد الإلكتروني ثم يحوّل لبوابة TAP
+window.startTapCheckout = async function(plan) {
+  plan = plan || 'monthly';
+  var planLabel = plan === 'yearly' ? '799 QAR / سنة' : '99 QAR / شهر';
+
+  // ── إظهار نموذج الدفع داخل الـ modal ────────────────────────────────
+  var formHtml =
+    '<div id="tapCheckoutForm" style="margin-top:12px;background:rgba(0,0,0,0.06);border-radius:12px;padding:16px;">' +
+      '<div style="font-size:13px;font-weight:700;margin-bottom:10px;">💳 بوابة الدفع الآمنة — TAP Payments</div>' +
+      '<div style="font-size:11px;color:var(--text3);margin-bottom:12px;">الخطة: <b style="color:var(--gold);">' + planLabel + '</b></div>' +
+      '<input id="tapEmail" type="email" placeholder="البريد الإلكتروني *" required ' +
+        'style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--color-border-tertiary,#ddd);' +
+        'background:var(--color-background-primary,#fff);color:var(--text,#222);font-size:13px;margin-bottom:8px;box-sizing:border-box;" />' +
+      '<input id="tapName" type="text" placeholder="الاسم (اختياري)" ' +
+        'style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--color-border-tertiary,#ddd);' +
+        'background:var(--color-background-primary,#fff);color:var(--text,#222);font-size:13px;margin-bottom:12px;box-sizing:border-box;" />' +
+      '<button id="tapSubmitBtn" onclick="window._submitTapCheckout(\'' + plan + '\')" ' +
+        'style="width:100%;padding:12px;background:var(--gold,#c8a951);color:#fff;border:none;border-radius:10px;' +
+        'font-size:14px;font-weight:700;cursor:pointer;">🚀 انتقل للدفع الآمن</button>' +
+      '<div style="font-size:10px;color:var(--text3);text-align:center;margin-top:8px;">🔒 مشفّر بـ 3D Secure — TAP Payments</div>' +
+      '<button onclick="document.getElementById(\'tapCheckoutForm\').remove();showPaymentContact();" ' +
+        'style="width:100%;padding:8px;background:transparent;border:none;color:var(--text3);font-size:11px;cursor:pointer;margin-top:4px;">' +
+        'تفضّل الدفع عبر WhatsApp بدلاً من ذلك</button>' +
+    '</div>';
+
+  // أزل نموذج سابق إن وجد وأضف الجديد
+  var existing = document.getElementById('tapCheckoutForm');
+  if (existing) existing.remove();
+  var contact = document.getElementById('paymentContact');
+  if (contact) {
+    contact.insertAdjacentHTML('afterend', formHtml);
+  } else {
+    var box = document.querySelector('.pro-modal-box');
+    if (box) box.insertAdjacentHTML('beforeend', formHtml);
+  }
+  setTimeout(function() {
+    var emailInput = document.getElementById('tapEmail');
+    if (emailInput) emailInput.focus();
+  }, 100);
+};
+
+// ── إرسال الـ checkout request ──────────────────────────────────────────
+window._submitTapCheckout = async function(plan) {
+  var emailEl = document.getElementById('tapEmail');
+  var nameEl  = document.getElementById('tapName');
+  var btn     = document.getElementById('tapSubmitBtn');
+  var email   = emailEl ? emailEl.value.trim() : '';
+  var name    = nameEl  ? nameEl.value.trim()  : '';
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showToast('❌ أدخل بريداً إلكترونياً صحيحاً', 'error');
+    if (emailEl) emailEl.focus();
+    return;
+  }
+
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ جاري الإعداد...'; }
+
+  try {
+    var res = await fetch('/api/tap', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ plan: plan, email: email, name: name || 'Engineer' }),
+    });
+
+    var data = await res.json();
+
+    if (res.ok && data.checkout_url) {
+      showToast('✅ جاري التحويل لبوابة الدفع...', 'success');
+      setTimeout(function() { window.location.href = data.checkout_url; }, 800);
+      return;
+    }
+
+    // خطأ من الـ API — fallback لـ WhatsApp
+    var errMsg = data.message || data.error || 'خطأ في بوابة الدفع';
+    console.error('[TAP checkout] error:', data);
+    showToast('⚠️ ' + errMsg + ' — جرّب WhatsApp', 'warning');
+    if (btn) { btn.disabled = false; btn.textContent = '🚀 انتقل للدفع الآمن'; }
+    showPaymentContact();
+
+  } catch (err) {
+    console.error('[TAP checkout] fetch error:', err.message);
+    showToast('⚠️ خطأ في الاتصال — جرّب WhatsApp', 'warning');
+    if (btn) { btn.disabled = false; btn.textContent = '🚀 انتقل للدفع الآمن'; }
+    showPaymentContact();
+  }
+};
+
 // ── Promo Code Activation ── server-side JWT
 async function activatePro(code) {
   if (!code || code.length < 3) { showToast('❌ أدخل كوداً صحيحاً', 'error'); return; }

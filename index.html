@@ -1531,7 +1531,8 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
           <li>المفتش الذكي بالصور</li>
           <li>دعم فني أولوية</li>
         </ul>
-        <button class="plan-btn primary" onclick="showPaymentContact()">🚀 اشترك الآن</button>
+        <button class="plan-btn primary" onclick="window.startTapCheckout('monthly')" style="margin-bottom:6px;">🚀 اشترك شهرياً — 99 QAR</button>
+        <button class="plan-btn" onclick="window.startTapCheckout('yearly')" style="background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;border:none;width:100%;padding:10px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">💎 اشترك سنوياً — 799 QAR <span style="font-size:10px;opacity:0.9;">(وفر 33%)</span></button>
       </div>
     </div>
 
