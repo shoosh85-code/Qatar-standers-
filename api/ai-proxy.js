@@ -4,7 +4,8 @@
 // v3.1: +retryGemini exponential backoff from api/lib/retry.js
 // v3.2: +server-side Pro gate (X-Feature-Gate header)
 
-import { retryGemini } from '../lib/retry.js';
+import { retryGemini }                          from '../lib/retry.js';
+import { checkRateLimit, rateLimitResponse }    from '../lib/rate-limit.js';
 
 export const config = { runtime: 'edge' };
 
@@ -57,97 +58,9 @@ async function verifyProToken(token) {
 }
 
 
-// ── Rate Limiting — PROTOCOL 6 (per-minute, Edge-compatible) ──────────────────
-// rate-limit.js لا يدعم Edge runtime (setInterval + top-level await + Node headers)
-// → نبقي النسخة الداخلية مع تعديل الحدود لتتطابق مع PROTOCOL 6
-const ipCounters = new Map();  // fallback: in-memory (per-instance, per-minute window)
-const FREE_LIMIT   =   5;  // PROTOCOL 6: free tier   5 req/min
-const PRO_LIMIT    =  60;  // PROTOCOL 6: pro tier   60 req/min
-const GLOBAL_LIMIT = 100;  // PROTOCOL 6: global    100 req/min/IP
-const WINDOW_MS    = 60 * 1000; // نافذة دقيقة واحدة
-
-// مفتاح النافذة الزمنية الحالية (بالدقيقة)
-function getMinuteWindow() {
-  return Math.floor(Date.now() / WINDOW_MS);
-}
-
-function getRateKey(ip, window) {
-  return `rl:${window}:${ip}`;
-}
-
-// Check and increment rate limit — per-minute
-// Returns { allowed: bool, count: number, limit: number, retryAfter: number }
-async function checkRateLimit(ip, isProUser) {
-  const limit  = isProUser ? PRO_LIMIT : FREE_LIMIT;
-  const window = getMinuteWindow();
-  const key    = getRateKey(ip, window);
-  const globalKey = getRateKey(`global:${ip}`, window);
-
-  // Try Vercel KV (fetch-based — Edge compatible)
-  if (typeof process !== 'undefined' && process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
-    try {
-      const kvBase  = process.env.UPSTASH_REDIS_REST_URL;
-      const kvToken = process.env.UPSTASH_REDIS_REST_TOKEN;
-      const headers = { Authorization: `Bearer ${kvToken}` };
-
-      // فحص الحد العالمي أولاً
-      const gRes  = await fetch(`${kvBase}/get/${encodeURIComponent(globalKey)}`, { headers });
-      const gData = await gRes.json();
-      const gCount = parseInt(gData.result || '0');
-      if (gCount >= GLOBAL_LIMIT) {
-        const retryAfter = WINDOW_MS / 1000 - (Date.now() % WINDOW_MS) / 1000 | 0;
-        return { allowed: false, count: gCount, limit: GLOBAL_LIMIT, retryAfter };
-      }
-
-      // فحص حد المستخدم (free/pro)
-      const uRes  = await fetch(`${kvBase}/get/${encodeURIComponent(key)}`, { headers });
-      const uData = await uRes.json();
-      const uCount = parseInt(uData.result || '0');
-      if (uCount >= limit) {
-        const retryAfter = WINDOW_MS / 1000 - (Date.now() % WINDOW_MS) / 1000 | 0;
-        return { allowed: false, count: uCount, limit, retryAfter };
-      }
-
-      // INCR + TTL دقيقتان (ضمان انتهاء النافذة)
-      const ttl = 120;
-      await fetch(`${kvBase}/incr/${encodeURIComponent(key)}`,       { method: 'POST', headers });
-      await fetch(`${kvBase}/expire/${encodeURIComponent(key)}/${ttl}`,       { headers });
-      await fetch(`${kvBase}/incr/${encodeURIComponent(globalKey)}`, { method: 'POST', headers });
-      await fetch(`${kvBase}/expire/${encodeURIComponent(globalKey)}/${ttl}`, { headers });
-
-      return { allowed: true, count: uCount + 1, limit, retryAfter: 0 };
-    } catch (err) {
-      console.error('[rate-limit] KV error:', err.message);
-      // Fall through to in-memory
-    }
-  }
-
-  // Fallback: in-memory (resets on cold start — acceptable for edge)
-  // فحص الحد العالمي
-  const gKey   = getRateKey(`global:${ip}`, window);
-  const gCount = ipCounters.get(gKey) || 0;
-  if (gCount >= GLOBAL_LIMIT) {
-    return { allowed: false, count: gCount, limit: GLOBAL_LIMIT, retryAfter: 60 };
-  }
-
-  // فحص حد المستخدم
-  const current = ipCounters.get(key) || 0;
-  if (current >= limit) {
-    return { allowed: false, count: current, limit, retryAfter: 60 };
-  }
-
-  ipCounters.set(key, current + 1);
-  ipCounters.set(gKey, gCount + 1);
-
-  // تنظيف النوافذ القديمة (أقدم من دقيقتين)
-  if (ipCounters.size > 5000) {
-    const oldWindow = window - 2;
-    for (const k of ipCounters.keys()) {
-      if (k.startsWith(`rl:${oldWindow}:`) || k < `rl:${oldWindow}:`) ipCounters.delete(k);
-    }
-  }
-  return { allowed: true, count: current + 1, limit, retryAfter: 0 };
-}
+// ── Rate Limiting — PROTOCOL 6 (Upstash Redis shared — lib/rate-limit.js) ────
+// تم نقل checkRateLimit إلى lib/rate-limit.js — Edge-compatible + Upstash SDK
+// لا local Map، لا fetch يدوي — موحّد مع كل endpoints
 
 // ══════════════════════════════════════════════════════════════
 // GEMINI API CALL
@@ -454,7 +367,7 @@ const token = extractToken(req);
     } catch(e) { isAdmin = false; }
   }
 
-  const rl = isAdmin ? { allowed: true, count: 0, limit: 999 } : await checkRateLimit(ip, isProUser);
+  const rl = isAdmin ? { allowed: true, count: 0, limit: 999 } : await checkRateLimit(ip, '/api/ai-proxy', isProUser);
   if (!rl.allowed) {
     return new Response(
       JSON.stringify({
