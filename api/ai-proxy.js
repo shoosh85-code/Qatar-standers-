@@ -465,7 +465,7 @@ const token = extractToken(req);
 Section: "${section_key}"
 
 Real QCS 2024 source text (English, from official PDFs):
-${qcsContext || 'No direct QCS text found — use your QCS 2024 knowledge for this section.'}
+${qcsContext || '⚠️ لم يتم العثور على نصوص QCS مباشرة لهذا القسم في قاعدة البيانات. أجب فقط بما هو موجود أدناه. لا تخترع مواصفات أو أرقام بنود.'}
 
 Task: Create a well-structured HTML section in English that:
 1. Uses the real QCS 2024 text above as primary source

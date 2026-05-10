@@ -7,6 +7,30 @@
 export const config = { runtime: 'edge' };
 
 import { checkRateLimit, rateLimitResponse } from '../lib/rate-limit.js';
+import { getSupabaseUrl, getSupabaseServiceKey } from '../lib/supabase.js';
+
+// ── جلب سياق QCS للتحليل البصري ──────────────────────────────────────────
+async function fetchVisionQCSContext(mode, userMessage) {
+  const url = getSupabaseUrl();
+  const key = getSupabaseServiceKey();
+  if (!url || !key) return '';
+  const keywords = mode === 'inspector'
+    ? 'inspection quality control defect workmanship'
+    : 'drawing specification design requirements';
+  const word = (userMessage || keywords).split(' ').slice(0, 2).join(' ');
+  try {
+    const res = await fetch(
+      `${url}/rest/v1/qcs_chunks?content=ilike.*${encodeURIComponent(word)}*&select=content,source_file,section_name,page_num&limit=3&order=char_count.desc`,
+      { headers: { 'apikey': key, 'Authorization': `Bearer ${key}` }, signal: AbortSignal.timeout(5000) }
+    );
+    if (!res.ok) return '';
+    const chunks = await res.json();
+    if (!Array.isArray(chunks) || chunks.length === 0) return '';
+    return '\n\n── مراجع QCS 2024 ذات صلة ──\n' +
+      chunks.map((c, i) => `[${i+1}] ${(c.source_file||'QCS').replace(/Copy of /g,'')} | ص.${c.page_num||'?'}: ${(c.content||'').slice(0, 400)}`).join('\n') +
+      '\n── استخدم المراجع أعلاه في تقريرك. ──';
+  } catch { return ''; }
+}
 // ── Security Headers (Inline — Edge functions لا تدعم imports خارجية) ────
 function applySecurityHeaders(res) {
   const headers = {
@@ -167,7 +191,9 @@ export default async function handler(req) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return json({ error: 'Vision service not configured' }, 503);
 
-  const systemPrompt = mode === 'inspector' ? INSPECTOR_PROMPT : ANALYZER_PROMPT;
+  // ── RAG: جلب مراجع QCS ذات صلة بالتحليل البصري ────────────────────────
+  const qcsRef = await fetchVisionQCSContext(mode, userMessage);
+  const systemPrompt = (mode === 'inspector' ? INSPECTOR_PROMPT : ANALYZER_PROMPT) + qcsRef;
   const userPrompt = userMessage ||
     (mode === 'inspector'
       ? 'افحص هذه الصورة من الموقع وأعطني تقرير تفتيش شاملاً وفق QCS 2024'

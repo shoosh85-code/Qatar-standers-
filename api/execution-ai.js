@@ -6,6 +6,27 @@
 export const config = { runtime: 'edge' };
 
 import { checkRateLimit, rateLimitResponse } from '../lib/rate-limit.js';
+import { getSupabaseUrl, getSupabaseServiceKey } from '../lib/supabase.js';
+
+// ── جلب نصوص QCS حقيقية من Supabase ────────────────────────────────────
+async function fetchQCSContext(keywords, limit) {
+  const url = getSupabaseUrl();
+  const key = getSupabaseServiceKey();
+  if (!url || !key) return '';
+  try {
+    const word = keywords.split(' ').slice(0, 2).join(' ');
+    const res = await fetch(
+      `${url}/rest/v1/qcs_chunks?content=ilike.*${encodeURIComponent(word)}*&select=content,source_file,section_name,page_num&limit=${limit || 4}&order=char_count.desc`,
+      { headers: { 'apikey': key, 'Authorization': `Bearer ${key}` }, signal: AbortSignal.timeout(6000) }
+    );
+    if (!res.ok) return '';
+    const chunks = await res.json();
+    if (!Array.isArray(chunks) || chunks.length === 0) return '';
+    return '\n\n── نصوص QCS 2024 حقيقية من قاعدة البيانات ──\n' +
+      chunks.map((c, i) => `[مصدر ${i+1}: ${(c.source_file||'').replace(/Copy of /g,'')} | ${c.section_name||''} | ص.${c.page_num||'?'}]\n${(c.content||'').slice(0, 600)}`).join('\n\n') +
+      '\n── استخدم النصوص أعلاه كمرجع أساسي. إذا المعلومة غير موجودة فيها، قل "غير موجود في المصادر المتاحة — راجع QCS المختص". ──';
+  } catch { return ''; }
+}
 
 const CORS = {
   'Access-Control-Allow-Origin': process.env.APP_URL || 'https://qatar-standers.vercel.app',
@@ -108,7 +129,16 @@ export default async function handler(req) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return new Response('API key not configured', { status: 500 });
 
-  const systemPrompt = PROMPTS[module] || PROMPTS.general;
+  // ── RAG: جلب نصوص QCS حقيقية قبل إرسال لـ Gemini ──────────────────────
+  const moduleKeywords = {
+    pour: 'concrete placing curing compaction', mar: 'material approval testing',
+    ncr: 'non conformance defect quality', tests: 'testing laboratory results',
+    dwr: 'daily work report documentation', mos: question.slice(0, 60),
+    general: question.slice(0, 60)
+  };
+  const qcsContext = await fetchQCSContext(moduleKeywords[module] || question.slice(0, 40), module === 'mos' ? 6 : 4);
+
+  const systemPrompt = (PROMPTS[module] || PROMPTS.general) + qcsContext;
   const fullPrompt = context
     ? `السياق:\n${context}\n\nالسؤال: ${question}`
     : question;
