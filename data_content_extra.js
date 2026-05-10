@@ -1246,11 +1246,34 @@ c["drawing_analyzer"] = {
 
     try {
       // [SEC v4.2] لا localStorage — httpOnly cookie يُرسَل تلقائياً عبر credentials:'include'
-      // For PDF - use application/pdf, Gemini supports it
+      // ── ضغط الصورة — Vercel Edge limit = 4MB — target < 1MB base64 ────────
       var mimeType = _daFile.type;
-      if (mimeType === 'application/pdf') {
-        // Gemini vision supports PDF directly
-        mimeType = 'application/pdf';
+      var imageData = _daFile.data;
+
+      if (mimeType && mimeType.startsWith('image/')) {
+        if (typeof window._compressImage === 'function') {
+          var c = await window._compressImage(imageData, mimeType, 1000);
+          imageData = c.data; mimeType = c.type;
+        } else {
+          // inline fallback — يعمل بغض النظر عن defer timing
+          imageData = await new Promise(function(resolve) {
+            var img = new Image();
+            img.onload = function() {
+              var canvas = document.createElement('canvas');
+              var ratio = Math.min(900 / img.width, 900 / img.height, 1);
+              canvas.width = Math.round(img.width * ratio);
+              canvas.height = Math.round(img.height * ratio);
+              canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+              var q = 0.55, r = canvas.toDataURL('image/jpeg', q).split(',')[1];
+              while (r.length > 900 * 1024 && q > 0.2) { q -= 0.1; r = canvas.toDataURL('image/jpeg', q).split(',')[1]; }
+              console.log('[da-compress] ' + canvas.width + 'x' + canvas.height + ' q=' + q.toFixed(1) + ' ' + Math.round(r.length/1024) + 'KB');
+              resolve(r);
+            };
+            img.onerror = function() { resolve(imageData); };
+            img.src = 'data:' + mimeType + ';base64,' + imageData;
+          });
+          mimeType = 'image/jpeg';
+        }
       }
 
       var res = await fetch('/api/vision-proxy', {
@@ -1259,7 +1282,7 @@ c["drawing_analyzer"] = {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           mode: 'analyzer',
-          image: _daFile.data,
+          image: imageData,
           mimeType: mimeType,
           userMessage: userMsg
         })
@@ -1472,14 +1495,44 @@ c["photo_analyzer"] = {
 
     try {
       // [SEC v4.2] لا localStorage — httpOnly cookie يُرسَل تلقائياً عبر credentials:'include'
+      // ── ضغط الصورة — Vercel Edge limit = 4MB — target < 1MB base64 ────────
+      var piMimeType = _piImage.type;
+      var piImageData = _piImage.data;
+
+      if (piMimeType && piMimeType.startsWith('image/')) {
+        if (typeof window._compressImage === 'function') {
+          var pc = await window._compressImage(piImageData, piMimeType, 1000);
+          piImageData = pc.data; piMimeType = pc.type;
+        } else {
+          // inline fallback — يعمل بغض النظر عن defer timing
+          piImageData = await new Promise(function(resolve) {
+            var img = new Image();
+            img.onload = function() {
+              var canvas = document.createElement('canvas');
+              var ratio = Math.min(900 / img.width, 900 / img.height, 1);
+              canvas.width = Math.round(img.width * ratio);
+              canvas.height = Math.round(img.height * ratio);
+              canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+              var q = 0.55, r = canvas.toDataURL('image/jpeg', q).split(',')[1];
+              while (r.length > 900 * 1024 && q > 0.2) { q -= 0.1; r = canvas.toDataURL('image/jpeg', q).split(',')[1]; }
+              console.log('[pi-compress] ' + canvas.width + 'x' + canvas.height + ' q=' + q.toFixed(1) + ' ' + Math.round(r.length/1024) + 'KB');
+              resolve(r);
+            };
+            img.onerror = function() { resolve(piImageData); };
+            img.src = 'data:' + piMimeType + ';base64,' + piImageData;
+          });
+          piMimeType = 'image/jpeg';
+        }
+      }
+
       var res = await fetch('/api/vision-proxy', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           mode: 'inspector',
-          image: _piImage.data,
-          mimeType: _piImage.type,
+          image: piImageData,
+          mimeType: piMimeType,
           userMessage: userMsg
         })
       });

@@ -117,7 +117,7 @@ async function _safeJsonParse(res) {
 
       // ضغط الصورة لتجنب خطأ 413 (Request Entity Too Large)
       if (mimeType && mimeType.startsWith('image/')) {
-        var compressed = await _compressImage(imageData, mimeType, 2000);
+        var compressed = await _compressImage(imageData, mimeType, 1000); // 1MB base64 = well under 4MB Vercel limit
         imageData = compressed.data;
         mimeType = compressed.type;
       }
@@ -257,7 +257,7 @@ async function _safeJsonParse(res) {
 
     try {
       // ضغط الصورة لتجنب خطأ 413
-      var compressed = await _compressImage(_piImage.data, _piImage.type, 2000);
+      var compressed = await _compressImage(_piImage.data, _piImage.type, 1000); // 1MB base64 = well under 4MB Vercel limit
 
       var res = await fetch('/api/vision-proxy', {
         method: 'POST',
