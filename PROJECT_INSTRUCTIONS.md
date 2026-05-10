@@ -33,7 +33,6 @@
 
 لا تقول "تم الرفع" إلا بعد:
 
-```
 □ 1. git status → لصق الناتج
 □ 2. git add [ملفات] → لصق الناتج
 □ 3. git diff --cached --stat → لصق الناتج
@@ -42,7 +41,6 @@
 □ 6. git push → لصق الناتج كاملاً
 □ 7. git ls-remote origin main → لصق hash الـ remote
 □ 8. مقارنة local hash مع remote hash
-```
 
 إذا لم يتطابقان:
 → ❌ STOP: git push فشل — الـ commit لم يصل
@@ -73,12 +71,7 @@
 ## PROTOCOL 4: صفر تضليل (ZERO HALLUCINATION)
 
 ممنوع تماماً:
-- "أعتقد"
-- "ربما"
-- "على الأرجح"
-- "يبدو"
-- "يجب أن"
-- "من المفترض"
+- "أعتقد" / "ربما" / "على الأرجح" / "يبدو" / "يجب أن" / "من المفترض"
 
 إلزامي:
 - "الناتج الفعلي: [لصق]"
@@ -104,7 +97,6 @@
 ## PROTOCOL 6: RATE LIMITING (إلزامي)
 
 ### API Endpoints Limits:
-
 | Endpoint | Free | Pro | Global |
 |----------|------|-----|--------|
 | /api/ai-proxy | 5/min | 60/min | 100/min/IP |
@@ -149,7 +141,7 @@ git config user.email "qatarspec@deploy.app"
 git config user.name "QatarSpec Deploy"
 ```
 
-**Push:**
+Push:
 ```bash
 git remote set-url origin https://TOKEN@github.com/shoosh85-code/Qatar-standers-.git
 git push origin main
