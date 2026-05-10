@@ -676,7 +676,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <div id="offlineBar" role="alert">📡 أنت غير متصل — بعض الميزات غير متاحة</div>
 
 <div id="update-banner" role="alert" style="display:none;background:linear-gradient(135deg,#7a1515,#c9a84c);padding:10px 16px;text-align:center;font-size:13px;color:#fff;font-family:Tajawal,sans-serif;">
-  🔔 يوجد تحديث جديد للتطبيق — <a onclick="location.reload(true)" style="color:#fff;font-weight:700;cursor:pointer;text-decoration:underline;" role="button" tabindex="0" aria-label="تحديث التطبيق الآن">تحديث الآن</a>
+  🔔 يوجد تحديث جديد للتطبيق — <a data-action="reloadPage" style="color:#fff;font-weight:700;cursor:pointer;text-decoration:underline;" role="button" tabindex="0" aria-label="تحديث التطبيق الآن">تحديث الآن</a>
 </div>
 
 <header role="banner">
@@ -689,17 +689,17 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       </div>
     </div>
     <nav class="header-actions" aria-label="إعدادات التطبيق">
-      <button id="darkModeBtn" onclick="toggleTheme()" title="تبديل المظهر" aria-label="تبديل الوضع المظلم/الفاتح">🌙</button>
-      <div id="proStatusBadge" class="free-badge" onclick="openProModal()" role="button" tabindex="0" aria-label="ترقية إلى الباقة الاحترافية">
+      <button id="darkModeBtn" data-action="toggleTheme" title="تبديل المظهر" aria-label="تبديل الوضع المظلم/الفاتح">🌙</button>
+      <div id="proStatusBadge" class="free-badge" data-action="openProModal" role="button" tabindex="0" aria-label="ترقية إلى الباقة الاحترافية">
         ⭐ ارقَ لـ Pro
       </div>
-      <div class="key-status" onclick="QS.openKeyModal()" role="button" tabindex="0" aria-label="إعداد مفتاح الذكاء الاصطناعي">
+      <div class="key-status" data-action="openKeyModal" role="button" tabindex="0" aria-label="إعداد مفتاح الذكاء الاصطناعي">
         <div class="key-dot" id="keyDot" aria-hidden="true"></div>
         <span id="keyStatusText">إعداد AI</span>
       </div>
       <div class="lang-toggle" role="group" aria-label="تبديل اللغة">
-        <button class="lang-btn active" id="btn-ar" onclick="QS.setLang('ar')" aria-pressed="true" aria-label="العربية">عربي</button>
-        <button class="lang-btn" id="btn-en" onclick="QS.setLang('en')" aria-pressed="false" aria-label="English">EN</button>
+        <button class="lang-btn active" id="btn-ar" data-action="setLang" data-param="ar" aria-pressed="true" aria-label="العربية">عربي</button>
+        <button class="lang-btn" id="btn-en" data-action="setLang" data-param="en" aria-pressed="false" aria-label="English">EN</button>
       </div>
     </nav>
   </div>
@@ -718,29 +718,29 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     </div>
     <!-- CTA Buttons -->
     <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;">
-      <button onclick="document.getElementById('searchInput').focus();document.getElementById('searchInput').scrollIntoView({behavior:'smooth'})"
+      <button data-action="focusSearch"
         style="background:linear-gradient(135deg,var(--maroon),var(--maroon2));border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:13px 24px;color:var(--gold2);font-family:'Tajawal',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.3s;display:flex;align-items:center;gap:8px;"
         onmouseover="this.style.boxShadow='0 0 24px rgba(122,21,21,0.6)'" onmouseout="this.style.boxShadow=''">
         ⚡ ابدأ البحث مجاناً
       </button>
-      <button onclick="openProModal()"
+      <button data-action="openProModal"
         style="background:transparent;border:1px solid rgba(201,168,76,0.35);border-radius:12px;padding:13px 24px;color:var(--gold);font-family:'Tajawal',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:.3s;"
         onmouseover="this.style.borderColor='var(--gold)';this.style.background='rgba(201,168,76,0.06)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.35)';this.style.background='transparent'">
         ⭐ عرض خطط Pro
       </button>
       <!-- PWA Install Button (hidden until prompt fires) -->
-      <button id="pwaInstallBtn" onclick="installPWA()"
+      <button id="pwaInstallBtn" data-action="installPWA"
         style="display:none;background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.35);border-radius:12px;padding:13px 18px;color:#2ecc71;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:600;cursor:pointer;align-items:center;gap:6px;">
         📲 ثبّت التطبيق
       </button>
     </div>
   </div>
   <div class="hero-right">
-    <div class="upload-zone" id="uploadZone" role="button" tabindex="0" aria-label="منطقة رفع ملفات PDF — اسحب أو اضغط لاختيار الملفات" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" onclick="document.getElementById('fileInput').click()">
+    <div class="upload-zone" id="uploadZone" role="button" tabindex="0" aria-label="منطقة رفع ملفات PDF — اسحب أو اضغط لاختيار الملفات" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" data-action="uploadFileZone">
       <div class="upload-icon-wrap" aria-hidden="true">📄</div>
       <div class="upload-title">ارفع المواصفات هنا</div>
       <div class="upload-desc">اسحب ملفات PDF الكود القطري والمواصفات<br>أو اضغط لاختيار الملفات</div>
-      <button class="upload-btn-main" onclick="event.stopPropagation(); document.getElementById('fileInput').click()" aria-label="اختيار ملفات PDF من الجهاز">📤 اختر ملفات PDF</button>
+      <button class="upload-btn-main" data-action="uploadFile" aria-label="اختيار ملفات PDF من الجهاز">📤 اختر ملفات PDF</button>
       <div class="upload-formats">يدعم: PDF • حجم أقصى 50MB لكل ملف</div>
       <input type="file" id="fileInput" style="display:none" accept=".pdf" multiple onchange="handleFiles(event)" aria-label="اختيار ملفات PDF">
     </div>
@@ -777,16 +777,16 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <div class="search-wrap">
     <span class="search-mic" aria-hidden="true">🎙️</span>
     <input type="text" class="search-input" id="searchInput" aria-labelledby="search-label" placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة الConcrete في الأساسات وفق الكود القطري؟" onkeydown="if(event.key==='Enter') doSearch()">
-    <button class="search-icon-btn" onclick="QS.doSearch()" aria-label="بحث ذكي في QCS 2024">⚡ بحث ذكي</button>
+    <button class="search-icon-btn" data-action="doSearch" aria-label="بحث ذكي في QCS 2024">⚡ بحث ذكي</button>
   </div>
   <div class="quick-tags">
-    <span class="quick-tag" onclick="QS.quickSearch('متطلبات الConcrete المسلحة')">🏛️ الConcrete المسلحة</span>
-    <span class="quick-tag" onclick="QS.quickSearch('مواصفات الأساسات والخوازيق')">⚓ الأساسات</span>
-    <span class="quick-tag" onclick="QS.quickSearch('اشتراطات الحريق للمباني')">🔥 متطلبات الحريق</span>
-    <span class="quick-tag" onclick="QS.quickSearch('مواصفات الطرق والأرصفة')">🛣️ الطرق</span>
-    <span class="quick-tag" onclick="QS.quickSearch('العزل الحراري والرطوبي')">🌡️ العزل</span>
-    <span class="quick-tag" onclick="QS.quickSearch('اختبارات التربة')">🔬 اختبارات التربة</span>
-    <span class="quick-tag" onclick="QS.quickSearch('مراحل تنفيذ المشاريع')">⚒️ مراحل التنفيذ</span>
+    <span class="quick-tag" data-action="quickSearch" data-param="متطلبات الConcrete المسلحة">🏛️ الConcrete المسلحة</span>
+    <span class="quick-tag" data-action="quickSearch" data-param="مواصفات الأساسات والخوازيق">⚓ الأساسات</span>
+    <span class="quick-tag" data-action="quickSearch" data-param="اشتراطات الحريق للمباني">🔥 متطلبات الحريق</span>
+    <span class="quick-tag" data-action="quickSearch" data-param="مواصفات الطرق والأرصفة">🛣️ الطرق</span>
+    <span class="quick-tag" data-action="quickSearch" data-param="العزل الحراري والرطوبي">🌡️ العزل</span>
+    <span class="quick-tag" data-action="quickSearch" data-param="اختبارات التربة">🔬 اختبارات التربة</span>
+    <span class="quick-tag" data-action="quickSearch" data-param="مراحل تنفيذ المشاريع">⚒️ مراحل التنفيذ</span>
   </div>
   <!-- Search Counter Bar — Free Plan -->
   <div id="searchCounterBar" class="search-counter-bar" style="display:none;">
@@ -794,7 +794,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       <span id="searchCounterText">0 / 5 بحث ذكي مستخدم اليوم</span>
       <div class="search-counter-track" id="searchCounterDots"></div>
     </div>
-    <span onclick="openProModal()" style="color:var(--gold);font-size:11px;font-weight:700;cursor:pointer;">🚀 ارقَ لـ Pro — بحث غير محدود</span>
+    <span data-action="openProModal" style="color:var(--gold);font-size:11px;font-weight:700;cursor:pointer;">🚀 ارقَ لـ Pro — بحث غير محدود</span>
   </div>
 </div>
 
@@ -805,7 +805,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
         <div class="ai-badge">📖 QCS 2024</div>
         <div class="ai-source" id="aiSource">الكود القطري</div>
       </div>
-      <button class="ai-copy-btn" onclick="QS.copyAnswer()">📋 نسخ الإجابة</button>
+      <button class="ai-copy-btn" data-action="copyAnswer">📋 نسخ الإجابة</button>
     </div>
     <div class="ai-answer-text" id="aiAnswerText">
       <div class="loading-wrap"><div class="spinner"></div> جاري البحث في المواصفات...</div>
@@ -828,7 +828,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     oninput="filterCards(this.value)"
     style="width:100%;padding:12px 48px 12px 16px;background:var(--dark3);border:1px solid var(--border2);border-radius:12px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:14px;outline:none;transition:.3s;"
     onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border2)'">
-  <span id="cardFilterClear" onclick="QS.clearCardFilter()" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:16px;color:var(--text3);display:none;">✕</span>
+  <span id="cardFilterClear" data-action="clearCardFilter" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:16px;color:var(--text3);display:none;">✕</span>
   <div id="cardFilterCount" style="display:none;margin-top:6px;font-size:11px;color:var(--text3);text-align:center;"></div>
 </div>
 
@@ -842,7 +842,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div class="group-header-count" style="background:#7A151533;color:#7A1515">5 أقسام</div>
   </div>
   <div class="group-grid">
-    <div class="cat-card" onclick="QS.openDetail('roads')" data-type="static" data-keywords="roads,pavement,QCS,S8,asphalt,subgrade,طرق,إسفلت,itp,hold point">
+    <div class="cat-card" data-action="openDetail" data-param="roads" data-type="static" data-keywords="roads,pavement,QCS,S8,asphalt,subgrade,طرق,إسفلت,itp,hold point">
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="أعمال الطرق — QCS 2024 §S8" data-en="Road Works — QCS 2024 §S8">أعمال الطرق — QCS 2024 §S8</h3>
   <div class="card-bullets cat-desc">
@@ -857,7 +857,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="cat-arr">←</span>
   </div>
 </div>
-    <div class="cat-card" onclick="QS.openDetail('utilities')" data-type="static" data-keywords="utilities,مرافق,مياه,sewer,صرف,pipe,mawater,kahramaa,storm">
+    <div class="cat-card" data-action="openDetail" data-param="utilities" data-type="static" data-keywords="utilities,مرافق,مياه,sewer,صرف,pipe,mawater,kahramaa,storm">
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="شبكات المرافق — QCS 2024 §S20" data-en="Utility Networks — QCS 2024 §S20">شبكات المرافق — QCS 2024 §S20</h3>
   <div class="card-bullets cat-desc">
@@ -871,7 +871,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="cat-arr">←</span>
   </div>
 </div>
-    <div class="cat-card" onclick="QS.openDetail('road_design_criteria')" data-type="static" data-keywords="تصميم,طرق,design,criteria,superelevation,عروض,lane,sight,crossfall,ssd,osd">
+    <div class="cat-card" data-action="openDetail" data-param="road_design_criteria" data-type="static" data-keywords="تصميم,طرق,design,criteria,superelevation,عروض,lane,sight,crossfall,ssd,osd">
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="معايير تصميم الطرق — QHDM 2019" data-en="Road Design Criteria — QHDM 2019">معايير تصميم الطرق — QHDM 2019</h3>
   <div class="card-bullets cat-desc">
@@ -886,7 +886,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   </div>
 </div>
   
-    <div class="cat-card" onclick="QS.openDetail('mmup_road_design')" data-type="static" data-keywords="mmup,road,طرق,حارات,kerb,setback,coverage,far,parking,تنظيم,بناء">
+    <div class="cat-card" data-action="openDetail" data-param="mmup_road_design" data-type="static" data-keywords="mmup,road,طرق,حارات,kerb,setback,coverage,far,parking,تنظيم,بناء">
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="اشتراطات MMUP — 2024" data-en="MMUP Building & Road Regulations 2024">اشتراطات MMUP — 2024</h3>
   <div class="card-bullets cat-desc">
@@ -900,7 +900,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="cat-arr">←</span>
   </div>
 </div>
-    <div class="cat-card" onclick="QS.openDetail('ashghal_rdm')" data-type="static" data-keywords="ashghal,rdm,road,design,manual,تصميم,طرق,حارات,سرعة,رؤية,qhdm">
+    <div class="cat-card" data-action="openDetail" data-param="ashghal_rdm" data-type="static" data-keywords="ashghal,rdm,road,design,manual,تصميم,طرق,حارات,سرعة,رؤية,qhdm">
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="Ashghal RDM — مرجع سريع" data-en="Ashghal Road Design Manual">Ashghal RDM — QHDM 4th Ed. 2019</h3>
   <div class="card-bullets cat-desc">
@@ -914,7 +914,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="cat-arr">←</span>
   </div>
 </div>
-<div class="cat-card" onclick="QS.openDetail('equipment')" data-type="static" data-keywords="equipment,معدات,grader,roller,pump,excavator,crane,rig,paver,vibrator,mixer,boring">
+<div class="cat-card" data-action="openDetail" data-param="equipment" data-type="static" data-keywords="equipment,معدات,grader,roller,pump,excavator,crane,rig,paver,vibrator,mixer,boring">
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="معدات المشاريع — 66 معدة" data-en="Project Equipment — 66 Items">معدات المشاريع — 66 معدة</h3>
   <div class="card-bullets cat-desc">
@@ -945,7 +945,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div class="group-header-count" style="background:#5A0F0F33;color:#5A0F0F">5 أقسام</div>
   </div>
   <div class="group-grid">
-    <div class="cat-card" onclick="QS.openDetail('structural')" data-type="static" data-keywords="خرسانة,concrete,rebar,إنشائي,أساسات,structural,crack,cover,grade">
+    <div class="cat-card" data-action="openDetail" data-param="structural" data-type="static" data-keywords="خرسانة,concrete,rebar,إنشائي,أساسات,structural,crack,cover,grade">
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="الكود الإنشائي — QCS 2024 §S5" data-en="Structural Code — QCS 2024 §S5">الكود الإنشائي — QCS 2024 §S5</h3>
   <div class="card-bullets cat-desc">
@@ -959,7 +959,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="cat-arr">←</span>
   </div>
 </div>
-    <div class="cat-card" onclick="QS.openDetail('foundations_full')" data-type="static" data-keywords="أساسات,foundations,bearing,capacity,settlement,pile,load,raft,pad,shoring,dewatering">
+    <div class="cat-card" data-action="openDetail" data-param="foundations_full" data-type="static" data-keywords="أساسات,foundations,bearing,capacity,settlement,pile,load,raft,pad,shoring,dewatering">
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="الأساسات — QCS 2024 §S5" data-en="Foundations — QCS 2024 §S5">الأساسات — QCS 2024 §S5</h3>
   <div class="card-bullets cat-desc">
@@ -973,7 +973,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="cat-arr">←</span>
   </div>
 </div>
-    <div class="cat-card" onclick="QS.openDetail('pile_load_testing')" data-type="static" data-keywords="خوازيق,piles,load,test,static,pit,dynamic,integrity,pda,bs8004">
+    <div class="cat-card" data-action="openDetail" data-param="pile_load_testing" data-type="static" data-keywords="خوازيق,piles,load,test,static,pit,dynamic,integrity,pda,bs8004">
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="اختبار الخوازيق — QCS 2024 §S5" data-en="Pile Load Testing — QCS 2024 §S5">اختبار الخوازيق — QCS 2024 §S5</h3>
   <div class="card-bullets cat-desc">
@@ -988,7 +988,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   </div>
 </div>
   
-    <div class="cat-card" onclick="QS.openDetail('concrete_quick_ref')" data-type="static" data-keywords="خرسانة,concrete,grade,cover,cement,درجات,mix,curing,testing,slump,cube">
+    <div class="cat-card" data-action="openDetail" data-param="concrete_quick_ref" data-type="static" data-keywords="خرسانة,concrete,grade,cover,cement,درجات,mix,curing,testing,slump,cube">
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="مرجع الخرسانة السريع — QCS 2024 §S5" data-en="Concrete Quick Reference — QCS 2024 §S5">مرجع الخرسانة السريع — QCS 2024 §S5</h3>
   <div class="card-bullets cat-desc">
@@ -1002,7 +1002,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="cat-arr">←</span>
   </div>
 </div>
-    <div class="cat-card" onclick="QS.openDetail('survey_setting_out')" data-type="static" data-keywords="survey,setting,out,مساحة,رفع,ضبط,tolerances,bs5606,fidic,pile,level,centerline">
+    <div class="cat-card" data-action="openDetail" data-param="survey_setting_out" data-type="static" data-keywords="survey,setting,out,مساحة,رفع,ضبط,tolerances,bs5606,fidic,pile,level,centerline">
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="المساحة وضبط المحاور — QCS 2024 §S1" data-en="Survey & Setting Out — QCS 2024 §S1">المساحة وضبط المحاور — QCS 2024 §S1</h3>
   <div class="card-bullets cat-desc">
@@ -1029,7 +1029,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div class="group-header-count" style="background:#C9A84C33;color:#C9A84C">4 حاسبات</div>
   </div>
   <div class="group-grid">
-    <div class="cat-card" onclick="QS.openDetail('calculator')" data-type="calc" data-keywords="حاسبة,calculator,pass,fail,اختبار,test,spec,مواصفات">
+    <div class="cat-card" data-action="openDetail" data-param="calculator" data-type="calc" data-keywords="حاسبة,calculator,pass,fail,اختبار,test,spec,مواصفات">
   <span class="cat-badge calc">🧮 حاسبة</span>
   <h3 class="cat-name" data-ar="حاسبة المواصفات" data-en="Specification Calculator">حاسبة المواصفات</h3>
   <div class="card-bullets cat-desc">
@@ -1042,7 +1042,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="cat-arr">←</span>
   </div>
 </div>
-    <div class="cat-card" onclick="QS.openDetail('esal_calculator_full')" data-type="calc" data-keywords="esal,حاسبة,traffic,aashto,axle,design,life,cbr">
+    <div class="cat-card" data-action="openDetail" data-param="esal_calculator_full" data-type="calc" data-keywords="esal,حاسبة,traffic,aashto,axle,design,life,cbr">
   <span class="cat-badge calc">🧮 حاسبة</span>
   <h3 class="cat-name" data-ar="حاسبة ESAL" data-en="ESAL Calculator">حاسبة ESAL</h3>
   <div class="card-bullets cat-desc">
@@ -1056,7 +1056,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="cat-arr">←</span>
   </div>
 </div>
-    <div class="cat-card" onclick="QS.openDetail('mix_design_validator')" data-type="calc" data-keywords="خلطة,mix,design,validator,sulphate,aggregate,binder,marshall">
+    <div class="cat-card" data-action="openDetail" data-param="mix_design_validator" data-type="calc" data-keywords="خلطة,mix,design,validator,sulphate,aggregate,binder,marshall">
   <span class="cat-badge calc">🧮 حاسبة</span>
   <h3 class="cat-name" data-ar="Mix Design Validator" data-en="Mix Design Validator">Mix Design Validator</h3>
   <div class="card-bullets cat-desc">
@@ -1070,7 +1070,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="cat-arr">←</span>
   </div>
 </div>
-    <div class="cat-card" onclick="QS.openDetail('pipe_sizing_calc')" data-type="calc" data-keywords="مواسير,pipe,sizing,حاسبة,manning,flow,velocity,head,loss">
+    <div class="cat-card" data-action="openDetail" data-param="pipe_sizing_calc" data-type="calc" data-keywords="مواسير,pipe,sizing,حاسبة,manning,flow,velocity,head,loss">
   <span class="cat-badge calc">🧮 حاسبة</span>
   <h3 class="cat-name" data-ar="حاسبة أقطار المواسير" data-en="Pipe Sizing Calculator">حاسبة أقطار المواسير</h3>
   <div class="card-bullets cat-desc">
@@ -1084,7 +1084,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="cat-arr">←</span>
   </div>
 </div>
-    <div class="cat-card" onclick="QS.openDetail('rebar_cover_calc')" data-type="calc" data-keywords="حديد,تسليح,rebar,cover,lap,length,غطاء,وصلة,calculator">
+    <div class="cat-card" data-action="openDetail" data-param="rebar_cover_calc" data-type="calc" data-keywords="حديد,تسليح,rebar,cover,lap,length,غطاء,وصلة,calculator">
   <span class="cat-badge calc">🧮 حاسبة</span>
   <h3 class="cat-name" data-ar="حاسبة الحديد والتسليح" data-en="Rebar Cover Calculator">حاسبة الحديد والتسليح</h3>
   <div class="card-bullets cat-desc">
@@ -1098,7 +1098,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="cat-arr">←</span>
   </div>
 </div>
-    <div class="cat-card" onclick="QS.openDetail('superpave_mix')" data-type="calc" data-keywords="superpave,mix,design,PG,VMA,VFA,خلطة,إسفلت,asphalt,gyration,aashto">
+    <div class="cat-card" data-action="openDetail" data-param="superpave_mix" data-type="calc" data-keywords="superpave,mix,design,PG,VMA,VFA,خلطة,إسفلت,asphalt,gyration,aashto">
   <span class="cat-badge calc">🧮 حاسبة</span>
   <h3 class="cat-name" data-ar="Superpave Mix Design" data-en="Superpave Mix Design">Superpave Mix Design</h3>
   <div class="card-bullets cat-desc">
@@ -1112,7 +1112,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="cat-arr">←</span>
   </div>
 </div>
-    <div class="cat-card" onclick="QS.openDetail('marshall_mix')" data-type="calc" data-keywords="marshall,mix,stability,flow,حاسبة,مارشال,خلطة,asphalt,vma,density">
+    <div class="cat-card" data-action="openDetail" data-param="marshall_mix" data-type="calc" data-keywords="marshall,mix,stability,flow,حاسبة,مارشال,خلطة,asphalt,vma,density">
   <span class="cat-badge calc">🧮 حاسبة</span>
   <h3 class="cat-name" data-ar="Marshall Mix Design" data-en="Marshall Mix Design">Marshall Mix Design</h3>
   <div class="card-bullets cat-desc">
@@ -1143,7 +1143,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <div class="group-grid">
 
     <!-- كرت 1: معدات الطرق -->
-    <div class="cat-card" onclick="QS.openDetail('roads_equipment')" data-type="static" data-keywords="equipment,معدات,grader,roller,paver,ndg,asphalt,طرق,دمك,إسفلت,nuclear">
+    <div class="cat-card" data-action="openDetail" data-param="roads_equipment" data-type="static" data-keywords="equipment,معدات,grader,roller,paver,ndg,asphalt,طرق,دمك,إسفلت,nuclear">
       <span class="cat-badge static">🚜 معدات</span>
       <h3 class="cat-name" data-ar="معدات أعمال الطرق" data-en="Road Works Equipment">معدات أعمال الطرق — QCS §S8</h3>
       <div class="card-bullets cat-desc">
@@ -1159,7 +1159,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     </div>
 
     <!-- كرت 2: معدات المرافق -->
-    <div class="cat-card" onclick="QS.openDetail('utilities_equipment')" data-type="static" data-keywords="equipment,معدات,excavator,cctv,hdpe,fusion,pressure,مرافق,مواسير,chlorine,utilities">
+    <div class="cat-card" data-action="openDetail" data-param="utilities_equipment" data-type="static" data-keywords="equipment,معدات,excavator,cctv,hdpe,fusion,pressure,مرافق,مواسير,chlorine,utilities">
       <span class="cat-badge static">🔧 معدات</span>
       <h3 class="cat-name" data-ar="معدات أعمال المرافق" data-en="Utilities Equipment">معدات أعمال المرافق — QCS §S20</h3>
       <div class="card-bullets cat-desc">
@@ -1175,7 +1175,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     </div>
 
     <!-- كرت 3: معدات الإنشاء -->
-    <div class="cat-card" onclick="QS.openDetail('structural_equipment')" data-type="static" data-keywords="equipment,معدات,concrete,pump,vibrator,mixer,rebar,خرسانة,مضخة,هزاز,structural">
+    <div class="cat-card" data-action="openDetail" data-param="structural_equipment" data-type="static" data-keywords="equipment,معدات,concrete,pump,vibrator,mixer,rebar,خرسانة,مضخة,هزاز,structural">
       <span class="cat-badge static">🏗️ معدات</span>
       <h3 class="cat-name" data-ar="معدات الأعمال الإنشائية" data-en="Structural Equipment">معدات الأعمال الإنشائية — QCS §S5</h3>
       <div class="card-bullets cat-desc">
@@ -1191,7 +1191,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     </div>
 
     <!-- كرت 4: معدات الجسات -->
-    <div class="cat-card" onclick="QS.openDetail('geotech_equipment')" data-type="static" data-keywords="equipment,معدات,spt,cpt,boring,rig,shelby,geotech,جسات,تربة,حفر,جيوتقنية">
+    <div class="cat-card" data-action="openDetail" data-param="geotech_equipment" data-type="static" data-keywords="equipment,معدات,spt,cpt,boring,rig,shelby,geotech,جسات,تربة,حفر,جيوتقنية">
       <span class="cat-badge static">🔬 معدات</span>
       <h3 class="cat-name" data-ar="معدات الجسات والتربة" data-en="Geotechnical Equipment">معدات الجسات والتربة — QCS §S3</h3>
       <div class="card-bullets cat-desc">
@@ -1219,7 +1219,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div class="group-header-count" style="background:#8e44ad33;color:#8e44ad">7 أدوات</div>
   </div>
   <div class="group-grid">
-    <div class="cat-card" onclick="window.location.href='method-statement.html'" data-type="free" data-keywords="method,statement,mos,طريقة,تنفيذ,خرسانة,أسفلت,حفر,ردم,تسليح,عزل,صرف,مرافق,ashghal,qcs">
+    <div class="cat-card" data-action="navigate" data-param="method-statement.html" data-type="free" data-keywords="method,statement,mos,طريقة,تنفيذ,خرسانة,أسفلت,حفر,ردم,تسليح,عزل,صرف,مرافق,ashghal,qcs">
   <span class="cat-badge free">📋 MS</span>
   <h3 class="cat-name" data-ar="مولّد طريقة التنفيذ" data-en="Method Statement Generator">مولّد طريقة التنفيذ</h3>
   <div class="card-bullets cat-desc">
@@ -1233,7 +1233,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="cat-arr">←</span>
   </div>
 </div>
-    <div class="cat-card" onclick="window.location.href='execution-hub.html'" data-type="free" data-keywords="تنفيذ,ميداني,صب,خرسانة,pour,mar,ncr,dwr,اختبارات,بطاقة,موافقة,مادة,مخالفة,يومي,field,execution,hub,compaction,slump,concrete">
+    <div class="cat-card" data-action="navigate" data-param="execution-hub.html" data-type="free" data-keywords="تنفيذ,ميداني,صب,خرسانة,pour,mar,ncr,dwr,اختبارات,بطاقة,موافقة,مادة,مخالفة,يومي,field,execution,hub,compaction,slump,concrete">
   <span class="cat-badge free">🏗 ميداني</span>
   <h3 class="cat-name" data-ar="لوحة التنفيذ الميداني" data-en="Project Execution Hub">لوحة التنفيذ الميداني</h3>
   <div class="card-bullets cat-desc">
@@ -1247,7 +1247,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="cat-arr">←</span>
   </div>
 </div>
-    <div class="cat-card" onclick="window.location.href='mos-itp.html'" data-type="pro" data-keywords="mos,itp,method,statement,طريقة,عمل,فحص,اختبار,خطة,جودة,hold,witness,قطر">
+    <div class="cat-card" data-action="navigate" data-param="mos-itp.html" data-type="pro" data-keywords="mos,itp,method,statement,طريقة,عمل,فحص,اختبار,خطة,جودة,hold,witness,قطر">
   <div class="pro-lock">PRO</div><span class="cat-badge pro">🤖 PRO</span>
   <h3 class="cat-name" data-ar="مولّد MOS / ITP" data-en="MOS / ITP Generator">مولّد MOS / ITP</h3>
   <div class="card-bullets cat-desc">
@@ -1261,7 +1261,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="cat-arr">←</span>
   </div>
 </div>
-    <div class="cat-card" onclick="QS.openDetail('ashghal_forms')" data-type="form" data-keywords="نماذج,forms,rfi,ncr,itp,excel,أشغال,dpr">
+    <div class="cat-card" data-action="openDetail" data-param="ashghal_forms" data-type="form" data-keywords="نماذج,forms,rfi,ncr,itp,excel,أشغال,dpr">
   <span class="cat-badge form">📋 نماذج</span>
   <h3 class="cat-name" data-ar="نماذج Ashghal" data-en="Ashghal Forms">نماذج Ashghal</h3>
   <div class="card-bullets cat-desc">
@@ -1276,7 +1276,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   </div>
 </div>
 <!-- [DEPRECATED] كرت ashghal_forms القديم — المحتوى موجود في الكرت الجديد أعلاه -->
-    <div class="cat-card" onclick="QS.openDetail('doc_analyzer')" data-type="pro" data-keywords="محلل,مستندات,document,analyzer,ai,ذكي,specs,contract">
+    <div class="cat-card" data-action="openDetail" data-param="doc_analyzer" data-type="pro" data-keywords="محلل,مستندات,document,analyzer,ai,ذكي,specs,contract">
   <div class="pro-lock">PRO</div><span class="cat-badge pro">🤖 PRO</span>
   <h3 class="cat-name" data-ar="محلل الوثائق الذكي" data-en="AI Document Analyzer">محلل الوثائق الذكي</h3>
   <div class="card-bullets cat-desc">
@@ -1297,7 +1297,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
         <span class="cat-arr">←</span>
       </div>
     </div>
-    <div class="cat-card" onclick="QS.openDetail('photo_analyzer')" data-type="pro" data-keywords="مفتش,ذكي,photo,inspector,ai,صورة,فحص,site">
+    <div class="cat-card" data-action="openDetail" data-param="photo_analyzer" data-type="pro" data-keywords="مفتش,ذكي,photo,inspector,ai,صورة,فحص,site">
   <div class="pro-lock">PRO</div><span class="cat-badge pro">🤖 PRO</span>
   <h3 class="cat-name" data-ar="المفتش الذكي" data-en="AI Site Inspector">المفتش الذكي</h3>
   <div class="card-bullets cat-desc">
@@ -1310,7 +1310,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="cat-arr">←</span>
   </div>
 </div>
-    <div class="cat-card" onclick="QS.openDetail('qcs_changes_2014_2024')" data-type="static" data-keywords="تغييرات,changes,2014,2024,qcs,مقارنة,differences,تحديث,بنود">
+    <div class="cat-card" data-action="openDetail" data-param="qcs_changes_2014_2024" data-type="static" data-keywords="تغييرات,changes,2014,2024,qcs,مقارنة,differences,تحديث,بنود">
   <span class="cat-badge static">📊 مقارنة</span>
   <h3 class="cat-name" data-ar="QCS 2014 vs 2024 — أبرز التغييرات" data-en="QCS Changes 2014–2024">QCS 2014 vs 2024 — أبرز التغييرات</h3>
   <div class="card-bullets cat-desc">
@@ -1325,7 +1325,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   </div>
 </div>
   
-    <div class="cat-card" onclick="QS.openDetail('top20_ncr')" data-type="static" data-keywords="ncr,شائعة,common,أخطاء,mistakes,ميداني,field">
+    <div class="cat-card" data-action="openDetail" data-param="top20_ncr" data-type="static" data-keywords="ncr,شائعة,common,أخطاء,mistakes,ميداني,field">
   <span class="cat-badge static">🔴 NCR</span>
   <h3 class="cat-name" data-ar="أكثر 20 NCR شيوعاً — ميدانياً" data-en="Top 20 Common NCRs">أكثر 20 NCR شيوعاً — ميدانياً</h3>
   <div class="card-bullets cat-desc">
@@ -1339,7 +1339,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="cat-arr">←</span>
   </div>
 </div>
-    <div class="cat-card" onclick="QS.openDetail('drawing_analyzer')" data-type="pro" data-keywords="مخططات,drawing,analyzer,ai,shop,structural,road">
+    <div class="cat-card" data-action="openDetail" data-param="drawing_analyzer" data-type="pro" data-keywords="مخططات,drawing,analyzer,ai,shop,structural,road">
   <div class="pro-lock">PRO</div><span class="cat-badge pro">🤖 PRO</span>
   <h3 class="cat-name" data-ar="محلل المخططات الذكي" data-en="AI Drawing Analyzer">محلل المخططات الذكي</h3>
   <div class="card-bullets cat-desc">
@@ -1353,7 +1353,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <span class="cat-arr">←</span>
   </div>
 </div>
-    <div class="cat-card" onclick="QS.openDetail('mep_standards')" data-type="static" data-keywords="mep,kahramaa,كهرباء,ميكانيكا,fire,alarm,drainage,qcdd,s21,hvac,plumbing">
+    <div class="cat-card" data-action="openDetail" data-param="mep_standards" data-type="static" data-keywords="mep,kahramaa,كهرباء,ميكانيكا,fire,alarm,drainage,qcdd,s21,hvac,plumbing">
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="معايير MEP — قطر 2024" data-en="MEP Standards Qatar 2024">معايير MEP — قطر 2024</h3>
   <div class="card-bullets cat-desc">
@@ -1393,13 +1393,13 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     </div>
     <input type="password" class="modal-input" id="keyInput" aria-label="مفتاح Gemini API للتطوير المحلي" placeholder="AIza... (Gemini — للتطوير المحلي فقط)" />
     <div class="modal-actions">
-      <button class="modal-save" onclick="QS.saveKey()">✅ حفظ وتفعيل</button>
-      <button class="modal-cancel" onclick="QS.closeKeyModal()">إلغاء</button>
+      <button class="modal-save" data-action="saveKey">✅ حفظ وتفعيل</button>
+      <button class="modal-cancel" data-action="closeKeyModal">إلغاء</button>
     </div>
   </div>
 </div>
 
-<div class="detail-modal-bg" id="detailModal" onclick="QS.closeDetailModal(event)">
+<div class="detail-modal-bg" id="detailModal" data-action="closeDetailModal">
   <div class="detail-modal">
     <div id="itp-project-bar" style="display:none;background:rgba(201,168,76,0.06);border-bottom:1px solid var(--border);padding:8px 16px;">
   <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
@@ -1408,32 +1408,32 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <input id="itp-engineer" aria-label="اسم المهندس" placeholder="المهندس" style="background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--text);width:120px;outline:none;">
     <input id="itp-date" type="date" aria-label="تاريخ ITP" style="background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--text);outline:none;">
     <span style="font-size:10px;color:var(--text3);">للتصدير الرسمي</span>
-    <button onclick="document.getElementById('itpSigSection').style.display=document.getElementById('itpSigSection').style.display==='none'?'flex':'none'" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:6px;padding:4px 10px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--gold);cursor:pointer;">✍️ توقيع</button>
+    <button data-action="toggleSigSection" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:6px;padding:4px 10px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--gold);cursor:pointer;">✍️ توقيع</button>
   </div>
   <!-- Digital Signature Section — ITP -->
   <div id="itpSigSection" style="display:none;flex-direction:column;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
     <span style="font-size:11px;color:var(--text3);">التوقيع الرقمي — QC Engineer</span>
     <canvas id="signaturePad" width="300" height="100" style="border:1px solid var(--border);border-radius:8px;background:var(--dark4);cursor:crosshair;touch-action:none;"></canvas>
     <div style="display:flex;gap:6px;">
-      <button onclick="clearSignature()" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.3);border-radius:6px;padding:4px 12px;font-family:Tajawal,sans-serif;font-size:12px;color:#e74c3c;cursor:pointer;">مسح</button>
-      <button onclick="saveSignature()" style="background:rgba(46,204,113,0.12);border:1px solid rgba(46,204,113,0.3);border-radius:6px;padding:4px 12px;font-family:Tajawal,sans-serif;font-size:12px;color:#2ecc71;cursor:pointer;">✅ حفظ التوقيع</button>
+      <button data-action="clearSignature" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.3);border-radius:6px;padding:4px 12px;font-family:Tajawal,sans-serif;font-size:12px;color:#e74c3c;cursor:pointer;">مسح</button>
+      <button data-action="saveSignature" style="background:rgba(46,204,113,0.12);border:1px solid rgba(46,204,113,0.3);border-radius:6px;padding:4px 12px;font-family:Tajawal,sans-serif;font-size:12px;color:#2ecc71;cursor:pointer;">✅ حفظ التوقيع</button>
       <span id="sigSavedMsg" style="font-size:11px;color:#2ecc71;align-self:center;display:none;">✅ تم الحفظ</span>
     </div>
   </div>
 </div>
 <div class="dm-header">
       <div style="display:flex;align-items:center;gap:10px;">
-        <div id="dmBackBtn" onclick="QS.goBack()" style="display:none;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:var(--gold);">←</div>
+        <div id="dmBackBtn" data-action="goBack" style="display:none;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:var(--gold);">←</div>
         <div class="modal-title" id="dmTitle"></div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;">
         <div style="display:flex;gap:6px;">
-        <div onclick="QS.exportToServer('pdf')" title="تصدير PDF احترافي (Server-Side)" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.3);border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;color:#e74c3c;">PDF</div>
-        <div onclick="QS.exportToWord()" title="تصدير Word" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(52,152,219,0.12);border:1px solid rgba(52,152,219,0.3);border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;color:#3498db;">DOC</div>
-        <div onclick="QS.printCurrentDetail()" title="طباعة" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:var(--gold);">🖨️</div>
+        <div data-action="exportPDF" title="تصدير PDF احترافي (Server-Side)" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.3);border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;color:#e74c3c;">PDF</div>
+        <div data-action="exportWord" title="تصدير Word" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(52,152,219,0.12);border:1px solid rgba(52,152,219,0.3);border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;color:#3498db;">DOC</div>
+        <div data-action="printDetail" title="طباعة" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:var(--gold);">🖨️</div>
       </div>
-        <div onclick="QS.shareDetail()" title="مشاركة / نسخ الرابط" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(46,204,113,0.12);border:1px solid rgba(46,204,113,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:#2ecc71;">🔗</div>
-        <div class="dm-close" onclick="document.getElementById('detailModal').classList.remove('open');document.getElementById('appFooter').style.display='';document.body.style.overflow='';navStack=[];">✕</div>
+        <div data-action="shareDetail" title="مشاركة / نسخ الرابط" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(46,204,113,0.12);border:1px solid rgba(46,204,113,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:#2ecc71;">🔗</div>
+        <div class="dm-close" data-action="closeDetail">✕</div>
       </div>
     </div>
     <div class="dm-content" id="dmContent"><div id="print-area"></div>
@@ -1483,7 +1483,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
      ═══════════════════════════════════════════════ -->
 <div class="pro-modal-bg" id="proModal" role="dialog" aria-modal="true" aria-labelledby="proModalTitle">
   <div class="pro-modal-box">
-    <div class="pro-modal-close" onclick="closeProModal()" role="button" tabindex="0" aria-label="إغلاق نافذة الاشتراك">✕</div>
+    <div class="pro-modal-close" data-action="closeProModal" role="button" tabindex="0" aria-label="إغلاق نافذة الاشتراك">✕</div>
 
     <div class="pro-modal-title" id="proModalTitle">🏆 QatarSpec Pro</div>
     <div class="pro-modal-sub">الأداة الاحترافية الأولى للمواصفات القطرية — اختر الخطة المناسبة</div>
@@ -1504,7 +1504,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
           <li class="no">المفتش الذكي بالصور</li>
           <li class="no">بحث غير محدود</li>
         </ul>
-        <button class="plan-btn secondary" onclick="closeProModal()">الخطة الحالية</button>
+        <button class="plan-btn secondary" data-action="closeProModal">الخطة الحالية</button>
       </div>
 
       <!-- PRO PLAN -->
@@ -1531,8 +1531,8 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
           <li>المفتش الذكي بالصور</li>
           <li>دعم فني أولوية</li>
         </ul>
-        <button class="plan-btn primary" onclick="window.startTapCheckout('monthly')" style="margin-bottom:6px;">🚀 اشترك شهرياً — 99 QAR</button>
-        <button class="plan-btn" onclick="window.startTapCheckout('yearly')" style="background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;border:none;width:100%;padding:10px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">💎 اشترك سنوياً — 799 QAR <span style="font-size:10px;opacity:0.9;">(وفر 33%)</span></button>
+        <button class="plan-btn primary" data-action="tapMonthly" style="margin-bottom:6px;">🚀 اشترك شهرياً — 99 QAR</button>
+        <button class="plan-btn" data-action="tapYearly" style="background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;border:none;width:100%;padding:10px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">💎 اشترك سنوياً — 799 QAR <span style="font-size:10px;opacity:0.9;">(وفر 33%)</span></button>
       </div>
     </div>
 
@@ -1543,7 +1543,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       <div class="promo-input-wrap">
         <input type="text" id="promoCodeInput" class="promo-input" aria-label="كود الترويج للباقة الاحترافية" placeholder="QATAR-PRO-XXXX" maxlength="20"
           onkeydown="if(event.key==='Enter') window.activateProNow(this.value)">
-        <button class="promo-btn" onclick="window.activateProNow(document.getElementById('promoCodeInput').value)" aria-label="تفعيل كود الترويج">✅ تفعيل</button>
+        <button class="promo-btn" data-action="activatePromo" aria-label="تفعيل كود الترويج">✅ تفعيل</button>
       </div>
       <div id="promoMsg" style="margin-top:6px;font-size:12px;display:none;"></div>
     </div>
@@ -1584,10 +1584,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
     <div class="upgrade-title" id="upgradeTitle">ميزة Pro</div>
     <div class="upgrade-desc" id="upgradeDesc">هذه الميزة متاحة للمشتركين في النسخة Pro فقط.</div>
     <div class="upgrade-actions">
-      <button class="upgrade-cta" onclick="closeUpgradeOverlay(); openProModal();">
+      <button class="upgrade-cta" data-action="closeUpgradeOpenPro">
         🚀 ارقَ إلى Pro الآن
       </button>
-      <button class="upgrade-dismiss" onclick="closeUpgradeOverlay()">ليس الآن</button>
+      <button class="upgrade-dismiss" data-action="closeUpgrade">ليس الآن</button>
     </div>
   </div>
 </div>
@@ -1596,7 +1596,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 
 </main>
 <!-- Back to Top Button -->
-<button id="backToTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="عودة للأعلى" aria-label="العودة إلى أعلى الصفحة">↑</button>
+<button id="backToTopBtn" data-action="scrollTop" title="عودة للأعلى" aria-label="العودة إلى أعلى الصفحة">↑</button>
 
 
 
@@ -1613,6 +1613,7 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 <script src="loader.js?v=3" defer></script>
 <script src="/js/xss-utils.js" defer></script>
 <script src="/js/payment.js" defer></script>
+<script src="/js/ui-handlers.js" defer></script>
 <script src="/js/smart-search.js" defer></script>
 <script src="/js/content-aliases.js" defer></script>
 <script src="/js/auth.js" defer></script>
