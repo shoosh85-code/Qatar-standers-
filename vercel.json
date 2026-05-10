@@ -91,9 +91,5 @@
         }
       ]
     }
-  ],
-  "errorHandling": {
-    "pageNotFound": "/404.html",
-    "serverError": "/500.html"
-  }
+  ]
 }
