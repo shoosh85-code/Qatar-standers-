@@ -1176,6 +1176,8 @@ c["drawing_analyzer"] = {
 
 <script>
 (function(){
+  // إذا card-functions.js حمّل الدوال — لا تعيد تعريفها (النسخة الخارجية تضغط الصور)
+  if (window.daAnalyze && window._cardFunctionsLoaded) return;
   var _daFile = null;
   var _daType = '';
   var _daLastResult = '';
@@ -1415,6 +1417,8 @@ c["photo_analyzer"] = {
 
 <script>
 (function(){
+  // إذا card-functions.js حمّل الدوال — لا تعيد تعريفها
+  if (window.piInspect && window._cardFunctionsLoaded) return;
   var _piImage = null;
   var _piFocus = '';
   var _piLastResult = '';

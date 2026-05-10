@@ -12,19 +12,22 @@ function _compressImage(base64Data, mimeType, maxSizeKB) {
     img.onload = function() {
       var canvas = document.createElement('canvas');
       var w = img.width, h = img.height;
-      var maxDim = 1600;
+      var maxDim = 1200; // أصغر لضمان عدم تجاوز حد Vercel
       if (w > maxDim || h > maxDim) {
         var ratio = Math.min(maxDim / w, maxDim / h);
         w = Math.round(w * ratio); h = Math.round(h * ratio);
       }
       canvas.width = w; canvas.height = h;
       canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      var quality = 0.75;
+      var quality = 0.6;
       var result = canvas.toDataURL('image/jpeg', quality).split(',')[1];
-      while (result.length > (maxSizeKB || 2000) * 1024 && quality > 0.3) {
+      // target max 1.5MB base64 (~1.1MB actual)
+      var maxBytes = (maxSizeKB || 1500) * 1024;
+      while (result.length > maxBytes && quality > 0.2) {
         quality -= 0.1;
         result = canvas.toDataURL('image/jpeg', quality).split(',')[1];
       }
+      console.log('[compress] ' + img.width + 'x' + img.height + ' → ' + w + 'x' + h + ' q=' + quality.toFixed(1) + ' size=' + Math.round(result.length/1024) + 'KB');
       resolve({ data: result, type: 'image/jpeg' });
     };
     img.onerror = function() { resolve({ data: base64Data, type: mimeType }); };
@@ -334,3 +337,6 @@ async function _safeJsonParse(res) {
   };
 })();
 
+
+// Flag — يمنع inline scripts من إعادة تعريف الدوال المضغوطة
+window._cardFunctionsLoaded = true;
