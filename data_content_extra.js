@@ -1268,7 +1268,7 @@ c["drawing_analyzer"] = {
 
       if (!res.ok || data.error) {
         document.getElementById('da-result').style.display = 'block';
-        document.getElementById('da-result').innerHTML = '<div style="color:#e74c3c">❌ ' + (data.error || 'خطأ في الاتصال') + '</div>';
+        document.getElementById('da-result').innerHTML = '<div style="color:#e74c3c">❌ ' + (typeof QS !== 'undefined' && QS.escapeHtml ? QS.escapeHtml(data.error || 'خطأ في الاتصال') : (data.error || 'خطأ في الاتصال')) + '</div>';
       } else {
         _daLastResult = data.result;
         var html = daMarkdownToHTML(data.result);
@@ -1279,7 +1279,7 @@ c["drawing_analyzer"] = {
     } catch(err) {
       document.getElementById('da-loading').style.display = 'none';
       document.getElementById('da-result').style.display = 'block';
-      document.getElementById('da-result').innerHTML = '<div style="color:#e74c3c">❌ خطأ: ' + err.message + '</div>';
+      document.getElementById('da-result').innerHTML = '<div style="color:#e74c3c">❌ خطأ: ' + (typeof QS !== 'undefined' && QS.escapeHtml ? QS.escapeHtml(err.message) : err.message) + '</div>';
     } finally {
       btn.disabled = false;
     }
@@ -1485,7 +1485,7 @@ c["photo_analyzer"] = {
 
       if (!res.ok || data.error) {
         document.getElementById('pi-result').style.display = 'block';
-        document.getElementById('pi-result').innerHTML = '<div style="color:#e74c3c">❌ ' + (data.error || 'خطأ في الاتصال') + '</div>';
+        document.getElementById('pi-result').innerHTML = '<div style="color:#e74c3c">❌ ' + (typeof QS !== 'undefined' && QS.escapeHtml ? QS.escapeHtml(data.error || 'خطأ في الاتصال') : (data.error || 'خطأ في الاتصال')) + '</div>';
       } else {
         _piLastResult = data.result;
         var html = piMarkdownToHTML(data.result);
@@ -1496,7 +1496,7 @@ c["photo_analyzer"] = {
     } catch(err) {
       document.getElementById('pi-loading').style.display = 'none';
       document.getElementById('pi-result').style.display = 'block';
-      document.getElementById('pi-result').innerHTML = '<div style="color:#e74c3c">❌ خطأ في الاتصال: ' + err.message + '</div>';
+      document.getElementById('pi-result').innerHTML = '<div style="color:#e74c3c">❌ خطأ في الاتصال: ' + (typeof QS !== 'undefined' && QS.escapeHtml ? QS.escapeHtml(err.message) : err.message) + '</div>';
     } finally {
       btn.disabled = false;
     }
