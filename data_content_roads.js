@@ -2414,13 +2414,16 @@ lang-content-en" style="display:none;">
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🔬 الاختبارات والفحص
+📌 QCS 2024 — Section 6 | Testing &amp; Inspection | ASTM / BS Standards
 </div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<h3>🔬 Mandatory Tests — QCS 2024</h3>
+<p>• <strong>SPT:</strong> Standard Penetration Test for soil (every 1.5m depth — ASTM D1586)</p>
+<p>• <strong>Concrete Strength:</strong> 150×150 cubes at 7 and 28 days (BS EN 12390)</p>
+<p>• <strong>Rebar:</strong> Tensile and bend tests per consignment (BS 4449)</p>
+<p>• <strong>Sulphates &amp; Chlorides:</strong> Soil and groundwater per QCS S6 (BS 1377)</p>
+<h3>Investigation Requirements</h3>
+<p>• Minimum 1 borehole/trial pit per 500 m²</p>
+<p>• Depth must exceed influence level by 5 metres minimum</p>
 </div>
 
 <h3>قاعدة بيانات الاختبارات الشاملة — QCS 2024</h3>
@@ -2583,10 +2586,7 @@ All numerical values, specifications and test methods shown in Arabic are source
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | ⚒️ مراحل تنفيذ المشاريع
 </div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
 
 <h3 style="color:var(--gold);margin:16px 0 8px;">📋 جدول ITP — خطوات التنفيذ ونقاط الفحص</h3>
 <div style="overflow-x:auto;">

@@ -1630,43 +1630,6 @@ HP3: 28-day cube results — Engineer approval before loading
 🔴 HP: Load test results must be approved before pile cap construction. Integrity test failures require investigation + remedial works.
 </div>
 </div>
-<div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🧪 اختبارات الأساسات
-</div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Bored Piles</div>
-<h3>📐 Specifications</h3>
-<table class="dm-table"><tr><th>Item</th><th>Requirement</th></tr>
-<tr><td>Concrete Grade</td><td>C35–C40</td></tr>
-<tr><td>Slump</td><td>160–220mm (Self Levelling)</td></tr>
-<tr style="background:rgba(46,204,113,0.08);"><td><strong>🆕 SCC Bored Piles — Slump Flow</strong></td><td><strong style="color:#2ecc71">600–750mm / Flow Time SF2 class</strong> — QCS 2024 S5</td></tr>
-<tr><td>Cover</td><td>75mm</td></tr>
-<tr><td>Casing</td><td>Mandatory in loose/weak soil</td></tr>
-<tr><td>Bentonite Slurry</td><td>In unstable soil</td></tr>
-<tr><td>Pouring Method</td><td>Tremie Pipe — bottom up</td></tr>
-<tr><td>Concrete Overcast</td><td>500mm above Cut-Off Level</td></tr>
-</table>
-<h3>🔧 Execution Steps</h3>
-<p>1. Set out pile positions and verify grid lines<br>
-2. Temporary Casing for initial depth<br>
-3. Bore to required diameter and depth<br>
-4. Inspect base cleanliness (Base Cleanliness Check)<br>
-5. Lower rebar cage<br>
-6. Lower Tremie Pipe<br>
-7. Pour from base upward continuously<br>
-8. Extract Casing during pour</p>
-<h3>🧪 Pile Tests</h3>
-<table class="dm-table"><tr><th>Test</th><th>Coverage</th><th>Requirement</th></tr>
-<tr><td>PIT (Pile Integrity Test)</td><td>100%</td><td>No defects</td></tr>
-<tr><td>Static Load Test</td><td>1–2% of total count</td><td>Settlement ≤ per design</td></tr>
-<tr><td>Cube Test</td><td>Every pile (min 6 cubes)</td><td>fcu ≥ C35</td></tr>
-</table>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-01:</strong> Base cleanliness inspection before rebar<br>
-• <strong>HP-02:</strong> Rebar cage inspection before pour<br>
-• <strong>HP-03:</strong> PIT results before cap beam construction</p>
-</div>
 ` };
   c["piles_full"] = { title: '🔧 الخوازيق — Bored Piles',
     titleEn: '🔩 Piles — Full Detail', content: `
@@ -1843,21 +1806,6 @@ HP3: 28-day cube results — Engineer approval before loading
 </table>
 </div>
 
-</div>
-<div class="lang-content-en" style="display:none;">
-<h3>🔩 Piled Foundations — Inspection & Test Plan</h3>
-<table class="dm-table">
-<tr><th>Activity</th><th>Test</th><th>Acceptance</th><th>Type</th></tr>
-<tr><td>Pile Position</td><td>Survey before boring</td><td>±75mm from drawing</td><td>W</td></tr>
-<tr><td>Pile Diameter</td><td>Caliper during boring</td><td>As specified</td><td>W</td></tr>
-<tr><td>Founding Level</td><td>Engineer confirmation</td><td>Competent stratum</td><td>H</td></tr>
-<tr><td>Cage Assembly</td><td>Dimensions + cover blocks</td><td>50mm cover sides / 75mm top</td><td>W</td></tr>
-<tr><td>Cage Installation</td><td>Level + position</td><td>±100mm length tolerance</td><td>H</td></tr>
-<tr><td>Concrete (Tremie)</td><td>Slump + cube samples</td><td>Slump 150-200mm</td><td>W</td></tr>
-<tr><td>Cut-off Level</td><td>Survey</td><td>Min 600mm above design</td><td>W</td></tr>
-<tr><td>Sonic Integrity Test</td><td>100% of piles</td><td>Class A (clean)</td><td>H</td></tr>
-<tr><td>Static Load Test</td><td>1% piles (min 2)</td><td>1.5×design load</td><td>H</td></tr>
-</table>
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 QCS 2024 — Section 5 | Foundations</div>
@@ -2379,43 +2327,6 @@ HP3: 28-day cube results — Engineer approval before loading
 <div class="dm-note">📌 Cover Meter (non-destructive test) used post-pour to verify actual cover — recommended for major projects</div>
 </div>
 
-<div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🏗️ Foundation ITP Phases
-</div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
-📌 QCS 2024 Section 5 Part 7 | BS 8004 | Foundation Execution Phases
-</div>
-<h3>📋 Foundation ITP</h3>
-<table class="dm-table">
-<thead><tr><th>#</th><th>Phase</th><th>Inspection</th><th>Type</th><th>Reference</th></tr></thead>
-<tbody>
-<tr><td>1</td><td>Setting Out</td><td>Match drawings — verify coordinates</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P7</td></tr>
-<tr><td>2</td><td>Excavate to required depth</td><td>Depth + soil type at base</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P7</td></tr>
-<tr><td>3</td><td>Founding Level soil check</td><td>Match GI Report — Bearing Capacity confirmed</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P7 + GI</td></tr>
-<tr><td>4</td><td>Blinding Concrete (Blinding)</td><td>75–100mm thick, level</td><td><strong style="color:#f39c12;">WP</strong></td><td>S5 P7</td></tr>
-<tr><td>5</td><td>Waterproofing</td><td>Type + thickness + continuity + laps</td><td><strong style="color:#e74c3c;">HP</strong></td><td>IAN-006</td></tr>
-<tr><td>6</td><td>Foundation Rebar Inspection</td><td>Cover 60mm+, Spacing, Laps</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P3</td></tr>
-<tr><td>7</td><td>Concrete Pour</td><td>Grade, Slump, Temp, Cubes</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P4</td></tr>
-<tr><td>8</td><td>Curing</td><td>7 days minimum — wet hessian</td><td><strong style="color:#f39c12;">WP</strong></td><td>S5 P4</td></tr>
-<tr><td>9</td><td>28-Day Cube Results</td><td>fcu ≥ design grade — formal acceptance</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P4</td></tr>
-<tr><td>10</td><td>Backfill Approval</td><td>Waterproofing complete + Cubes accepted</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5</td></tr>
-</tbody>
-</table>
-<h3>Foundation ITP — Key Hold Points</h3>
-<table class="dm-table">
-<thead><tr><th>Stage</th><th>Check</th><th>Type</th><th>QCS</th></tr></thead>
-<tbody>
-<tr><td>Setting Out</td><td>Coordinates match drawings</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P7</td></tr>
-<tr><td>Founding Level</td><td>Depth + soil quality matches GI Report</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P7</td></tr>
-<tr><td>Waterproofing</td><td>Type + thickness + continuity + laps</td><td><strong style="color:#e74c3c;">HP</strong></td><td>IAN-006</td></tr>
-<tr><td>Rebar</td><td>Cover 60mm min, spacing, laps</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P3</td></tr>
-<tr><td>Concrete Pour</td><td>Grade, slump, temp, cube samples</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P4</td></tr>
-<tr><td>28-Day Cubes</td><td>≥ fcu before releasing next floor</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P4</td></tr>
-</tbody>
-</table>
-</div>
 ` };
 
   c["hot_weather_concreting"] = { title: '🌡️ الصب في الجو الحار — Hot Weather Concreting',
