@@ -823,20 +823,11 @@ function setLang(lang) {
   el = document.querySelector('.section-title');    if(el) el.innerHTML   = t.secTitle;
   el = document.querySelector('.section-subtitle'); if(el) el.textContent = t.secSub;
 
-  // Category cards (6 cards)
-  const cats = document.querySelectorAll('.cat-card');
-  const cd = [
-    [t.c1n,t.c1d,t.c1c],[t.c2n,t.c2d,t.c2c],[t.c3n,t.c3d,t.c3c],
-    [t.c4n,t.c4d,t.c4c],[t.c5n,t.c5d,t.c5c],[t.c6n,t.c6d,t.c6c]
-  ];
-  cats.forEach(function(card,i){
-    if(!cd[i]) return;
-    let n=card.querySelector('.cat-name'), d=card.querySelector('.cat-desc'),
-        c=card.querySelector('.cat-count'), a=card.querySelector('.cat-arr');
-    if(n) n.textContent=cd[i][0];
-    if(d) d.textContent=cd[i][1];
-    if(c) c.textContent=cd[i][2];
-    if(a) a.textContent=t.catArr;
+  // Category cards — ONLY update arrow direction (cat-arr)
+  // cat-name / card-bullets / cat-count all have data-ar/data-en → handled by generic handler below
+  document.querySelectorAll('.cat-card').forEach(function(card){
+    var a = card.querySelector('.cat-arr');
+    if(a) a.textContent = t.catArr;
   });
 
   // ITP bar
