@@ -888,16 +888,29 @@ function setLang(lang) {
   document.querySelectorAll('.lang-content-ar').forEach(function(e){ e.style.display=isEn?'none':'block'; });
   document.querySelectorAll('.lang-content-en').forEach(function(e){ e.style.display=isEn?'block':'none'; });
 
-  // If detail panel is open — refresh it
+  // [FIX v3.1] استهداف detailModal/dmContent — الـ ID الصحيح للـ modal
+  // المشكلة: كان يبحث عن 'detailPanel' غير الموجود — الصحيح 'detailModal'+'dmContent'
+  const detailModal = document.getElementById('detailModal');
+  const dmContent   = document.getElementById('dmContent');
+  if (detailModal && detailModal.classList.contains('open') && dmContent) {
+    dmContent.querySelectorAll('.lang-content-ar').forEach(function(e){ e.style.display = isEn ? 'none' : 'block'; });
+    dmContent.querySelectorAll('.lang-content-en').forEach(function(e){ e.style.display = isEn ? 'block' : 'none'; });
+    dmContent.querySelectorAll('[data-ar][data-en]').forEach(function(e){
+      let v = isEn ? e.getAttribute('data-en') : e.getAttribute('data-ar');
+      if (v) e.innerHTML = v;
+    });
+    const pb = dmContent.querySelector('.back-btn'); if(pb) pb.textContent = t.backBtn;
+  }
+  // Legacy: للتوافق مع detailPanel القديم إن وجد
   const panel = document.getElementById('detailPanel');
   if(panel && panel.style.display!=='none'){
     panel.querySelectorAll('.lang-content-ar').forEach(function(e){ e.style.display=isEn?'none':'block'; });
     panel.querySelectorAll('.lang-content-en').forEach(function(e){ e.style.display=isEn?'block':'none'; });
     panel.querySelectorAll('[data-ar][data-en]').forEach(function(e){
       let v = isEn?e.getAttribute('data-en'):e.getAttribute('data-ar');
-      if(v && e.children.length===0) e.textContent=v;
+      if(v) e.innerHTML=v;
     });
-    const pb = panel.querySelector('.back-btn'); if(pb) pb.textContent=t.backBtn;
+    const pb2 = panel.querySelector('.back-btn'); if(pb2) pb2.textContent=t.backBtn;
   }
 }
 
@@ -952,13 +965,22 @@ function dedupeSectionContent(contentHTML, lang) {
   var doc = parser.parseFromString(htmlNoScript, 'text/html');
   var otherLang = (lang === 'ar') ? 'en' : 'ar';
 
-  // إزالة حاويات اللغة الخاطئة
+  // [FIX v3.1] لا تحذف lang-content-* — فقط أخفِ/أظهر
+  // السبب: الحذف يمنع setLang من إظهار اللغة الثانية لاحقاً
   var wrongLangs = doc.querySelectorAll('.lang-content-' + otherLang);
-  for (var i = 0; i < wrongLangs.length; i++) wrongLangs[i].remove();
+  for (var i = 0; i < wrongLangs.length; i++) wrongLangs[i].style.display = 'none';
 
-  // إظهار حاويات اللغة الصحيحة (قد تكون display:none افتراضياً)
+  // إظهار حاويات اللغة الصحيحة
   var rightLangs = doc.querySelectorAll('.lang-content-' + lang);
   for (var i = 0; i < rightLangs.length; i++) rightLangs[i].style.display = 'block';
+
+  // تحديث data-ar/data-en spans داخل المحتوى المُحمَّل
+  var biSpans = doc.querySelectorAll('[data-ar][data-en]');
+  for (var i = 0; i < biSpans.length; i++) {
+    var sp = biSpans[i];
+    var val = (lang === 'en') ? sp.getAttribute('data-en') : sp.getAttribute('data-ar');
+    if (val) sp.innerHTML = val;
+  }
 
   // حذف الكروت المكررة حسب نص العنوان (أول 50 حرف)
   var seenCards = {};

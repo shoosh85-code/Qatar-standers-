@@ -759,11 +759,67 @@
 
 <!-- English Version -->
 <div class="lang-content-en" style="display:none">
-  <div style="padding:20px;text-align:center;color:var(--text3);">
-    <div style="font-size:18px;margin-bottom:8px;">🏗️</div>
-    <div style="font-family:'Cairo',sans-serif;font-size:16px;font-weight:700;color:var(--gold);">Buildings & Towers</div>
-    <div style="font-size:13px;margin-top:8px;">Full bilingual content coming in Phase 1B.<br>النسخة العربية الكاملة متاحة أعلاه.</div>
+
+  <!-- Phase 1: Excavation & Earthworks -->
+  <div style="background:linear-gradient(135deg,rgba(122,21,21,0.15),rgba(90,15,15,0.05));border:1px solid rgba(122,21,21,0.3);border-radius:16px;padding:20px;margin-bottom:20px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+      <span style="font-size:28px;">⛏️</span>
+      <div>
+        <div style="font-family:'Cairo',sans-serif;font-size:18px;font-weight:800;color:var(--gold);">Phase 1: Excavation & Earthworks</div>
+        <div style="font-size:11px;color:var(--text3);">QCS 2024 S3 P2 + S5 P2</div>
+      </div>
+    </div>
+    <div style="font-size:13px;line-height:1.8;color:var(--text2);margin-bottom:16px;">
+      <strong style="color:var(--gold2);">Purpose:</strong> Site preparation for foundations by removing unsuitable soil and backfilling required layers.<br>
+      <strong style="color:var(--gold2);">Scope:</strong> Excavate to approved Founding Level, backfill with approved materials, compact to specified density.<br>
+      <strong style="color:var(--gold2);">Common Errors:</strong> Over-excavation without geotechnical approval, backfill with unapproved materials, insufficient compaction leading to differential settlement.
+    </div>
+    <div style="margin-bottom:12px;">
+      <div style="font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px;">Key QCS 2024 Requirements:</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.8;">
+        📌 <strong>Compaction:</strong> ≥ 95% Modified Proctor (MDD) for subgrade · ≥ 98% for granular fill · QCS 2024 §S3-P2-Cl.2.4<br>
+        📌 <strong>Founding Level:</strong> Must be approved by geotechnical engineer before base layer placement · QCS 2024 §S5-P2-Cl.2.1<br>
+        📌 <strong>CBR:</strong> Subgrade CBR ≥ 8% · Test frequency: 1 per 500m² or per layer · QCS 2024 §S3-P2-Cl.2.3<br>
+        📌 <strong>Dewatering:</strong> Maintain pumping level ≥ 500mm below formation level · Well Point or Deep Wells · QCS 2024 §S5-P7-Cl.7.1
+      </div>
+    </div>
   </div>
+
+  <!-- Phase 2: Piling & Deep Foundations -->
+  <div style="background:linear-gradient(135deg,rgba(122,21,21,0.10),rgba(90,15,15,0.03));border:1px solid rgba(122,21,21,0.2);border-radius:16px;padding:20px;margin-bottom:20px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+      <span style="font-size:28px;">🔩</span>
+      <div>
+        <div style="font-family:'Cairo',sans-serif;font-size:18px;font-weight:800;color:var(--gold);">Phase 2: Piling & Deep Foundations</div>
+        <div style="font-size:11px;color:var(--text3);">QCS 2024 S5 P8 | BS EN 1536 | ASTM D4945</div>
+      </div>
+    </div>
+    <div style="font-size:12px;color:var(--text2);line-height:1.8;margin-bottom:12px;">
+      📌 <strong>Pile Position Tolerance:</strong> Horizontal ± 75mm · Vertical ± 25mm · Documented in As-Built · QCS 2024 §S5-P8-Cl.8.2 | BS EN 1536<br>
+      📌 <strong>Static Load Test (SLT):</strong> Test load = 1.5× design load · Maintained 72hr at max load · QCS 2024 §S5-P8-Cl.8.4 | BS EN 1537<br>
+      📌 <strong>PDA (Dynamic):</strong> ≥ 5% of total pile count · ASTM D4945<br>
+      📌 <strong>PIT (Integrity):</strong> 100% when suspected defects · ASTM D5882<br>
+      📌 <strong>Testing Rate:</strong> SLT ≥ 1% · PDA ≥ 5% · PIT 100% on suspicion · QCS 2024 §S5-P8-Cl.8.3
+    </div>
+  </div>
+
+  <!-- Phase 3: Concrete Works -->
+  <div style="background:linear-gradient(135deg,rgba(122,21,21,0.10),rgba(90,15,15,0.03));border:1px solid rgba(122,21,21,0.2);border-radius:16px;padding:20px;margin-bottom:20px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+      <span style="font-size:28px;">🧱</span>
+      <div>
+        <div style="font-family:'Cairo',sans-serif;font-size:18px;font-weight:800;color:var(--gold);">Phase 3: Concrete & Structural Works</div>
+        <div style="font-size:11px;color:var(--text3);">QCS 2024 S5 P4 | BS EN 12350 | BS EN 12390</div>
+      </div>
+    </div>
+    <div style="font-size:12px;color:var(--text2);line-height:1.8;">
+      📌 <strong>Slump Test:</strong> Normal 75–125mm · Pumped 100–150mm · Reject if exceeded · QCS 2024 §S5-P4-Cl.4.4 | BS EN 12350-2<br>
+      📌 <strong>Cube Testing:</strong> Sample every 50m³ or daily · 3 cubes per set (7d / 28d) · Pass when fcu ≥ specified grade · QCS 2024 §S5-P4-Cl.4.5 | BS EN 12390-3<br>
+      📌 <strong>Rebar Cover (RC):</strong> Foundations 50mm · Columns/beams 35–40mm · Slabs 25–35mm · QCS 2024 §S5-P3<br>
+      📌 <strong>Hot Weather Concreting:</strong> Max concrete temp ≤ 32°C · Max ambient 45°C · Curing ≥ 7 days · QCS 2024 §S5-P4-Cl.4.7
+    </div>
+  </div>
+
 </div>
 `
   };
