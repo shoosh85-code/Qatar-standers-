@@ -423,10 +423,32 @@ HP3: 28-day cube results — Engineer approval before loading
 </div>
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3 | Concrete</div>
+<h3>📋 Overview</h3>
+<p>Concrete in Qatar faces unique challenges — extreme heat, high sulphate content in soil and groundwater. SRPC (Sulphate Resisting Portland Cement) is mandatory on most projects.</p>
+<h3>📐 Concrete Grades — QCS 2024</h3>
+<table class="dm-table"><tr><th>Grade</th><th>fcu (N/mm²)</th><th>w/c Max</th><th>Application</th></tr>
+<tr><td>C15</td><td>15</td><td>0.65</td><td>Blinding only</td></tr>
+<tr><td>C25</td><td>25</td><td>0.55</td><td>Simple foundations — normal soil</td></tr>
+<tr><td>C30</td><td>30</td><td>0.50</td><td>Columns and slabs — normal environment</td></tr>
+<tr><td>C35</td><td>35</td><td>0.45</td><td>Sulphate environment — Manholes — Piles</td></tr>
+<tr><td>C40</td><td>40</td><td>0.40</td><td>Marine zones — severe exposure</td></tr></table>
+<h3>📐 General Specifications</h3>
+<table class="dm-table"><tr><th>Item</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Cement</td><td>SRPC mandatory in Qatar (most projects)</td><td>BS EN 197-1</td></tr>
+<tr><td>Water/Cement Ratio</td><td>≤ 0.45 (Qatar environment)</td><td>QCS S5 P3</td></tr>
+<tr><td>Slump — Normal pour</td><td>75–100mm</td><td>QCS S5 P3</td></tr>
+<tr><td>Slump — Pumped</td><td>100–150mm</td><td>QCS S5 P3</td></tr>
+<tr><td>Chloride in aggregate</td><td>≤ 0.04%</td><td>QCS S5 P3</td></tr>
+<tr><td>Sulphate in aggregate</td><td>≤ 4% SO₃</td><td>QCS S5 P3</td></tr>
+<tr><td>Delivery temperature</td><td>≤ 32°C (at truck arrival)</td><td>QCS S5 P3</td></tr>
+<tr style="background:rgba(46,204,113,0.08)"><td><strong>🆕 Placing temperature</strong></td><td><strong style="color:#2ecc71">≤ 35°C at point of pour</strong></td><td>QCS S5 P4</td></tr>
+<tr><td>Cube testing</td><td>6 cubes per 50m³ or per pour</td><td>QCS S5 P3</td></tr>
+<tr><td>Curing period</td><td>7 days minimum — 10 days in hot weather</td><td>QCS S5 P3</td></tr></table>
+<h3>🔴 Hold Points</h3>
+<p>• <strong>HP-01:</strong> Rebar and formwork inspection before pour<br>
+• <strong>HP-02:</strong> Acceptance of concrete truck (Slump + Temp)<br>
+• <strong>HP-03:</strong> 7-day cube results before formwork striking</p>
 </div>
 ` };
   c["concrete_materials"] = { title: '🔩 الConcrete — المواد', content: `<div class="lang-content-ar">
@@ -976,10 +998,41 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 2 | Reinforcement</div>
+<h3>📐 Technical Specifications — Grade 500B</h3>
+<table class="dm-table"><tr><th>Item</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Grade</td><td>Grade 500B</td><td>BS 4449</td></tr>
+<tr><td>Yield Strength (fy)</td><td>≥ 500 N/mm²</td><td>BS 4449</td></tr>
+<tr><td>Ultimate Strength (fu)</td><td>≥ 600 N/mm²</td><td>BS 4449</td></tr>
+<tr><td>fu/fy Ratio</td><td>≥ 1.15</td><td>BS 4449</td></tr>
+<tr><td>Elongation</td><td>≥ 14%</td><td>BS 4449</td></tr>
+<tr><td>Bend Test</td><td>180° without cracking</td><td>BS 4449</td></tr></table>
+<h3>📐 Lap Lengths</h3>
+<table class="dm-table"><tr><th>Joint Type</th><th>Length</th><th>Note</th></tr>
+<tr><td>Tension — Standard</td><td>40d</td><td>d = bar diameter</td></tr>
+<tr><td>Tension — Aggressive environment</td><td>50d</td><td>Qatar + sulphate soil</td></tr>
+<tr><td>Compression</td><td>30d</td><td>Compression columns</td></tr></table>
+<h3>📐 Bend Radius</h3>
+<table class="dm-table"><tr><th>Diameter</th><th>Min Bend Radius</th></tr>
+<tr><td>≤ 16mm</td><td>≥ 3.5d</td></tr>
+<tr><td>&gt; 16mm</td><td>≥ 4d</td></tr></table>
+<h3>🔧 Execution Method</h3>
+<p><strong>1. Acceptance:</strong><br>
+• Check Mill Certificate from manufacturer<br>
+• Confirm Grade 500B marked on bars<br>
+• Tensile Test every 50 tonnes or per diameter</p>
+<p><strong>2. Storage:</strong><br>
+• Elevate ≥ 100mm off ground (prevent corrosion)<br>
+• Cover in humid conditions<br>
+• Segregate different diameters</p>
+<p><strong>3. Fixing:</strong><br>
+• Use correct size Spacers to ensure Cover<br>
+• Tie Wire at intersections<br>
+• Check spacing and Cover before pouring<br>
+• Do not bend rebar embedded in hardened concrete</p>
+<h3>🔴 Hold Points</h3>
+<p>• <strong>HP-01:</strong> Mill Certificate accepted before use<br>
+• <strong>HP-02:</strong> Rebar placement and cover inspection before pour</p>
 </div>
 ` };
   c["rebar_materials"] = { title: '🔩 Rebar التسليح — المواصفات', content: `<div class="lang-content-ar">
@@ -1198,10 +1251,30 @@ All numerical values, specifications and test methods shown in Arabic are source
 📌 QCS 2024 Reference | 🪵 الشدات — Formwork
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | Formwork</div>
+<h3>📐 Specifications</h3>
+<table class="dm-table"><tr><th>Item</th><th>Requirement</th></tr>
+<tr><td>Design load</td><td>Self weight of concrete + live loads + vibration</td></tr>
+<tr><td>Formwork deflection</td><td>≤ L/500 or 5mm whichever is less</td></tr>
+<tr><td>Release Agent</td><td>Mandatory + approved — must not contaminate rebar</td></tr>
+<tr><td>Pre-pour inspection</td><td>Mandatory sign-off by Supervising Consultant</td></tr>
+</table>
+<h3>📐 Striking Times</h3>
+<table class="dm-table"><tr><th>Element</th><th>OPC</th><th>SRPC/GGBS</th></tr>
+<tr><td>Column and wall sides</td><td>12–24 hours</td><td>24–48 hours</td></tr>
+<tr><td>Beam soffits (props remaining)</td><td>4 days</td><td>6 days</td></tr>
+<tr><td>Slab soffits (props remaining)</td><td>3 days</td><td>4 days</td></tr>
+<tr><td>Beam props (span &lt; 6m)</td><td>14 days</td><td>21 days</td></tr>
+<tr><td>Beam props (span &gt; 6m)</td><td>21 days</td><td>28 days</td></tr>
+</table>
+<h3>⚠️ Important Notes</h3>
+<p>• Strike formwork only after 7-day cube results are accepted<br>
+• Do not strike early in cold weather<br>
+• In Qatar summer — high temps accelerate strength gain but do not reduce minimum strike times<br>
+• Reshoring is mandatory in multi-storey construction</p>
+<h3>🔴 Hold Points</h3>
+<p>• <strong>HP-01:</strong> Formwork inspection by SC before pour<br>
+• <strong>HP-02:</strong> 7-day cube approval before striking</p>
 </div>
 ` };
   c["formwork_full"] = { title: '🪵 الشدات — Formwork', content: `
@@ -1236,10 +1309,28 @@ All numerical values, specifications and test methods shown in Arabic are source
 📌 QCS 2024 Reference | 🪵 الشدات — Formwork
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Formwork</div>
+<h3>📐 Specifications</h3>
+<table class="dm-table"><tr><th>Item</th><th>Requirement</th></tr>
+<tr><td>Strength</td><td>Must resist concrete pressure + live loads</td></tr>
+<tr><td>Tightness</td><td>No leakage of water or grout</td></tr>
+<tr><td>Straightness</td><td>3m straightedge ≤ 6mm</td></tr>
+<tr><td>Release Agent</td><td>Mandatory before every pour</td></tr>
+<tr><td>Internal cleaning</td><td>Free of dust, timber offcuts and water</td></tr></table>
+<h3>⏱️ Stripping Times</h3>
+<table class="dm-table"><tr><th>Element</th><th>OPC</th><th>SRPC</th><th>Condition</th></tr>
+<tr><td>Column and wall sides</td><td>24 hours</td><td>36 hours</td><td>fcu ≥ 5 N/mm²</td></tr>
+<tr><td>Slab soffits</td><td>4 days</td><td>6 days</td><td>fcu ≥ 10 N/mm²</td></tr>
+<tr><td>Slab props</td><td>10 days</td><td>14 days</td><td>fcu ≥ 70% design fcu</td></tr>
+<tr><td>Beam props</td><td>14 days</td><td>21 days</td><td>fcu ≥ 70% design fcu</td></tr></table>
+<h3>⚠️ Important Notes</h3>
+<p>• <strong>Do not strike before 7-day cube results are received</strong><br>
+• In Qatar: SRPC cures slower — longer striking times apply<br>
+• Props must not be removed without Supervising Consultant approval<br>
+• Back Propping mandatory for multi-storey structures</p>
+<h3>🔴 Hold Points</h3>
+<p>• <strong>HP-01:</strong> Formwork inspection before pour<br>
+• <strong>HP-02:</strong> Engineer approval before removing props</p>
 </div>
 ` };
   c["foundations_overview"] = { title: '🏛️ الأساسات — نظرة عامة', content: `
@@ -1284,10 +1375,27 @@ All numerical values, specifications and test methods shown in Arabic are source
 📌 QCS 2024 Reference | 🏗️ Strip / Pad Foundations
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Foundations</div>
+<h3>📋 Overview</h3>
+<p>Foundations in Qatar face specific challenges: Sabkha soil, groundwater with high sulphate content, and corrosion risk. Foundation type selection depends on the Ground Investigation (GI) report.</p>
+<h3>📌 Select Foundation Type</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
+<div onclick="QS.openDetail('found_strip')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🏗️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Strip / Pad</div></div>
+<div onclick="QS.openDetail('found_raft')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">⬛</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Raft Foundation</div></div>
+<div onclick="QS.openDetail('found_piles')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🕳️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Bored Piles</div></div>
+<div onclick="QS.openDetail('found_testing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧪</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Foundation Testing</div></div>
 </div>
+<div style="margin-top:12px;">
+<h3>📐 Key Requirements — Qatar</h3>
+<table class="dm-table"><tr><th>Item</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Blinding concrete</td><td>C15 — 75mm thick before rebar</td><td>QCS S5</td></tr>
+<tr><td>Min concrete grade</td><td>C35 (sulphate environment Qatar)</td><td>QCS S5</td></tr>
+<tr><td>Cement type</td><td>SRPC mandatory</td><td>BS EN 197-1</td></tr>
+<tr><td>Concrete cover</td><td>75mm minimum on soil / 50mm on blinding</td><td>QCS S5 P3</td></tr>
+<tr><td>Dewatering</td><td>Mandatory before any pour</td><td>QCS S5</td></tr>
+<tr><td>Waterproofing</td><td>Required below groundwater table</td><td>QCS S5</td></tr>
+<tr><td>Founding level approval</td><td>HP — must be signed off by SC before blinding</td><td>QCS S5 P7</td></tr>
+</table></div>
 </div>
 ` };
   c["foundations_full"] = { title: '⚓ الأساسات — Foundations', content: `
@@ -1366,10 +1474,44 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Foundations</div>
+<h3>📋 Overview</h3>
+<p>Foundations in Qatar face challenges from high sulphate levels in soil and groundwater. SRPC is mandatory and minimum cover is 75mm.</p>
+<h3>📐 Foundation Types</h3>
+<table class="dm-table"><tr><th>Type</th><th>Application</th><th>Concrete Grade</th></tr>
+<tr><td>Pad Foundation</td><td>Isolated columns — light loads</td><td>C30–C35</td></tr>
+<tr><td>Strip Foundation</td><td>Load-bearing walls</td><td>C30–C35</td></tr>
+<tr><td>Raft Foundation</td><td>Heavy loads — weak soil</td><td>C35–C40</td></tr>
+<tr><td>Pile Cap</td><td>Above piles</td><td>C35</td></tr></table>
+<h3>📐 General Specifications</h3>
+<table class="dm-table"><tr><th>Item</th><th>Requirement</th></tr>
+<tr><td>Blinding Concrete</td><td>C15 — 75mm thick before rebar placement</td></tr>
+<tr><td>Cover</td><td>75mm (direct on soil)</td></tr>
+<tr><td>Concrete Grade</td><td>C35 minimum in Qatar (sulphates)</td></tr>
+<tr><td>Dewatering</td><td>Mandatory before pouring foundations</td></tr>
+<tr><td>Waterproofing</td><td>Mandatory for foundations below GWT</td></tr>
+<tr><td>Sulphate Attack Prevention</td><td>SRPC + w/c ≤ 0.45</td></tr></table>
+<h3>🔧 Execution Method</h3>
+<p><strong>1. Excavation:</strong><br>
+• Excavate to required depth + 75mm for Blinding<br>
+• Dewatering before any pour<br>
+• Visual inspection of soil — no weak soil or Sabkha<br>
+• Supervising Consultant approval of founding level</p>
+<p><strong>2. Blinding:</strong><br>
+• Pour C15 at 75mm thickness<br>
+• Wait ≥ 24 hours<br>
+• Clean and level before rebar placement</p>
+<p><strong>3. Rebar and Formwork:</strong><br>
+• 75mm spacers to ensure Cover<br>
+• Inspect and document before pour (HP)</p>
+<p><strong>4. Pour:</strong><br>
+• C35 SRPC minimum<br>
+• Slump Test from every truck<br>
+• Vibration every 300–450mm</p>
+<h3>🔴 Hold Points</h3>
+<p>• <strong>HP-01:</strong> Founding Level approval by SC<br>
+• <strong>HP-02:</strong> Rebar and cover inspection<br>
+• <strong>HP-03:</strong> Waterproofing inspection before backfill</p>
 </div>
 ` };
   c["found_raft"] = { title: '⬛ Raft Foundation', content: `
@@ -1397,10 +1539,28 @@ All numerical values, specifications and test methods shown in Arabic are source
 📌 QCS 2024 Reference | ⬛ Raft Foundation
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Raft Foundation</div>
+<h3>📐 Specifications</h3>
+<table class="dm-table"><tr><th>Item</th><th>Requirement</th></tr>
+<tr><td>Concrete Grade</td><td>C35–C40 (aggressive environment)</td></tr>
+<tr><td>Blinding</td><td>C15 — 100mm thick</td></tr>
+<tr><td>Bottom Cover</td><td>75mm</td></tr>
+<tr><td>Side Cover</td><td>50mm</td></tr>
+<tr><td>Waterproofing</td><td>Full Tanking System</td></tr>
+<tr><td>Construction Joints</td><td>Waterstop mandatory</td></tr>
+<tr><td>Max Pour Size</td><td>Per Thermal Analysis</td></tr>
+</table>
+<h3>⚠️ Massive Concrete — Qatar Specific</h3>
+<p>• Large thickness = risk of Thermal Cracking<br>
+• Thermal Analysis mandatory before pour<br>
+• Internal concrete temperature ≤ 70°C<br>
+• Temperature differential between core and surface ≤ 20°C<br>
+• Use of GGBS reduces heat of hydration<br>
+• Monitor with Thermocouples during pour</p>
+<h3>🔴 Hold Points</h3>
+<p>• <strong>HP-01:</strong> Thermal Analysis approved before pour<br>
+• <strong>HP-02:</strong> Waterstop approval before pour<br>
+• <strong>HP-03:</strong> Temperature monitoring every 4 hours</p>
 </div>
 ` };
   c["found_piles"] = { title: '🕳️ Bored Piles', content: `
@@ -1453,10 +1613,37 @@ All numerical values, specifications and test methods shown in Arabic are source
 📌 QCS 2024 Reference | 🧪 اختبارات الأساسات
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Bored Piles</div>
+<h3>📐 Specifications</h3>
+<table class="dm-table"><tr><th>Item</th><th>Requirement</th></tr>
+<tr><td>Concrete Grade</td><td>C35–C40</td></tr>
+<tr><td>Slump</td><td>160–220mm (Self Levelling)</td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>🆕 SCC Bored Piles — Slump Flow</strong></td><td><strong style="color:#2ecc71">600–750mm / Flow Time SF2 class</strong> — QCS 2024 S5</td></tr>
+<tr><td>Cover</td><td>75mm</td></tr>
+<tr><td>Casing</td><td>Mandatory in loose/weak soil</td></tr>
+<tr><td>Bentonite Slurry</td><td>In unstable soil</td></tr>
+<tr><td>Pouring Method</td><td>Tremie Pipe — bottom up</td></tr>
+<tr><td>Concrete Overcast</td><td>500mm above Cut-Off Level</td></tr>
+</table>
+<h3>🔧 Execution Steps</h3>
+<p>1. Set out pile positions and verify grid lines<br>
+2. Temporary Casing for initial depth<br>
+3. Bore to required diameter and depth<br>
+4. Inspect base cleanliness (Base Cleanliness Check)<br>
+5. Lower rebar cage<br>
+6. Lower Tremie Pipe<br>
+7. Pour from base upward continuously<br>
+8. Extract Casing during pour</p>
+<h3>🧪 Pile Tests</h3>
+<table class="dm-table"><tr><th>Test</th><th>Coverage</th><th>Requirement</th></tr>
+<tr><td>PIT (Pile Integrity Test)</td><td>100%</td><td>No defects</td></tr>
+<tr><td>Static Load Test</td><td>1–2% of total count</td><td>Settlement ≤ per design</td></tr>
+<tr><td>Cube Test</td><td>Every pile (min 6 cubes)</td><td>fcu ≥ C35</td></tr>
+</table>
+<h3>🔴 Hold Points</h3>
+<p>• <strong>HP-01:</strong> Base cleanliness inspection before rebar<br>
+• <strong>HP-02:</strong> Rebar cage inspection before pour<br>
+• <strong>HP-03:</strong> PIT results before cap beam construction</p>
 </div>
 ` };
   c["piles_full"] = { title: '🔧 الخوازيق — Bored Piles', content: `
@@ -1527,10 +1714,41 @@ All numerical values, specifications and test methods shown in Arabic are source
 </div>
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Bored Piles</div>
+<h3>📐 Technical Specifications</h3>
+<table class="dm-table"><tr><th>Item</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>Concrete Grade</td><td>C35 SRPC minimum</td><td>QCS S5</td></tr>
+<tr><td>w/c</td><td>≤ 0.45</td><td>QCS S5</td></tr>
+<tr><td>Slump</td><td>160–220mm (Self Compacting)</td><td>QCS S5</td></tr>
+<tr><td>Cover</td><td>75mm</td><td>QCS S5</td></tr>
+<tr><td>Verticality</td><td>≤ 1:75 deviation</td><td>QCS S5</td></tr>
+<tr><td>Position Tolerance</td><td>≤ 75mm from centreline</td><td>QCS S5</td></tr>
+<tr><td>Cut-off Level</td><td>Per design ± 25mm</td><td>QCS S5</td></tr></table>
+<h3>🔧 Execution Method</h3>
+<p><strong>1. Boring:</strong><br>
+• Temporary Casing in soft ground<br>
+• Bentonite Slurry to support borehole walls<br>
+• Verify depth and base soil type<br>
+• Base Cleaning before rebar cage</p>
+<p><strong>2. Rebar:</strong><br>
+• Pre-assembled Rebar Cage<br>
+• Circular Spacers every 2m to ensure Cover<br>
+• Lower Cage carefully without disturbing walls</p>
+<p><strong>3. Pour:</strong><br>
+• Tremie Pipe from base upward<br>
+• Continuous pour without interruption<br>
+• Concrete level to rise 500mm above Cut-off Level<br>
+• Break away excess head after hardening</p>
+<h3>🧪 Testing</h3>
+<table class="dm-table"><tr><th>Test</th><th>Requirement</th><th>Frequency</th></tr>
+<tr><td>PIT (Pile Integrity Test)</td><td>Class A — no defects</td><td>100% of piles</td></tr>
+<tr><td>Static Load Test (SLT)</td><td>Settlement ≤ design limit</td><td>1–2% of piles</td></tr>
+<tr><td>Cube Test</td><td>fcu ≥ C35</td><td>6 cubes per pile</td></tr>
+</table>
+<h3>🔴 Hold Points</h3>
+<p>• <strong>HP-01:</strong> Base cleanliness check before lowering cage<br>
+• <strong>HP-02:</strong> Rebar cage inspection<br>
+• <strong>HP-03:</strong> PIT Class A acceptance before Cap Beam</p>
 </div>
 ` };
   c["itp_structural"] = { title: '📋 ITPs الإنشاء — Structural ITPs', content: `
@@ -1551,9 +1769,22 @@ All numerical values, specifications and test methods shown in Arabic are source
 📌 QCS 2024 Reference | 📋 ITPs الإنشاء — Structural ITPs
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Structural ITPs</div>
+<h3>📌 Select ITP</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
+<div onclick="QS.openDetail('itp_concrete')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧱</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Concrete ITP</div></div>
+<div onclick="QS.openDetail('itp_rebar')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔩</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Rebar ITP</div></div>
+<div onclick="QS.openDetail('itp_foundations')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">⚓</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Foundations ITP</div></div>
+<div onclick="QS.openDetail('itp_piles')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔧</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Piles ITP</div></div>
+</div>
+<div style="margin-top:12px;">
+<h3>📐 ITP Legend</h3>
+<table class="dm-table"><tr><th>Symbol</th><th>Meaning</th><th>Action Required</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">H</td><td>Hold Point</td><td>Work STOPS — Signed RFI required from SC</td></tr>
+<tr><td style="color:#f39c12;font-weight:700;">W</td><td>Witness Point</td><td>SC notified — work continues after reasonable wait</td></tr>
+<tr><td style="color:#3498db;font-weight:700;">R</td><td>Review</td><td>Document submitted for SC review</td></tr>
+<tr><td>IR</td><td>Inspection Record</td><td>Form filled and filed</td></tr>
+</table>
 </div>
 </div>
 ` };
@@ -1604,10 +1835,17 @@ All numerical values, specifications and test methods shown in Arabic are source
 </table>
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 QCS 2024 — Section 5 | Foundations</div>
+<table class="dm-table"><tr><th>SN</th><th>Activity</th><th>Reference</th><th>Acceptance Criterion</th><th>Frequency</th><th>LAB</th><th>QC</th><th>SC</th><th>Record</th></tr>
+<tr><td>1.1</td><td>Excavation Level</td><td>Design Drawing</td><td>Engineer approval of soil condition</td><td>Each foundation</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
+<tr><td>1.2</td><td>Dewatering</td><td>QCS S5</td><td>Dry before any pour</td><td>Each foundation</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR</td></tr>
+<tr><td>1.3</td><td>Blinding Concrete C15</td><td>QCS S5</td><td>75mm thick — level surface</td><td>Each foundation</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Pour Record</td></tr>
+<tr><td>1.4</td><td>Rebar &amp; Cover 75mm</td><td>QCS S5</td><td>Cover 75mm + Spacers</td><td>Each foundation</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
+<tr><td>1.5</td><td>Waterproofing</td><td>QCS S5</td><td>Per design — before backfill</td><td>Each foundation</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR</td></tr>
+<tr><td>1.6</td><td>Concrete Pour</td><td>QCS S5 P4</td><td>Slump ✓ Temp ≤ 35°C ✓ Cubes ✓</td><td>Each pour</td><td>✓</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Pour Record</td></tr>
+<tr><td>1.7</td><td>Curing</td><td>QCS S5 P4</td><td>7 days minimum — wet hessian or compound</td><td>Continuous</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td>—</td><td>Daily Log</td></tr>
+<tr><td>1.8</td><td>28-Day Cube Results</td><td>QCS S5 P4</td><td>fcu ≥ design grade</td><td>Per set</td><td>✓</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Lab Report</td></tr>
+</table>
 </div>
 ` };
   c["itp_concrete"] = { title: '📋 ITP — الConcrete | Concrete Works', content: `<div class="lang-content-ar">
@@ -1889,10 +2127,12 @@ All numerical values, specifications and test methods shown in Arabic are source
 📌 QCS 2024 Reference | 🧱 مواد البناء والمنتجات
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<h3>Basic Specifications</h3>
+<table class="dm-table"><tr><th>Material</th><th>Standard</th><th>Note</th></tr>
+<tr><td>Cement</td><td>BS EN 197-1</td><td>Sulphate Resisting (SRPC) mandatory</td></tr>
+<tr><td>Rebar</td><td>BS 4449</td><td>Grade 500B</td></tr>
+<tr><td>Concrete</td><td>QCS-2024</td><td>Water/Cement Ratio ≤ 0.45</td></tr>
+<tr><td>Blockwork</td><td>BS EN 771</td><td>Compressive Strength ≥ 7 N/mm²</td></tr></table>
 </div>
 
 <h3>مواد البناء الرئيسية — QCS 2024</h3>
@@ -1969,10 +2209,32 @@ All numerical values, specifications and test methods shown in Arabic are source
 📌 QCS 2024 Reference | 📅 Concrete Pouring Phases
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 Section 5 | Concrete Pour Phases and Control Procedures
 </div>
+<h3>📋 Pour Phases — Hold &amp; Witness Points</h3>
+<table class="dm-table">
+<thead><tr><th>#</th><th>Phase</th><th>Action</th><th>Type</th><th>Responsible</th><th>QCS</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Rebar inspection before pour</td><td>Cover, Spacing, Ties, Laps — complete check</td><td><span style="color:#e74c3c;font-weight:700;">HP</span></td><td>QC Inspector</td><td>S5 P3</td></tr>
+<tr><td>2</td><td>Formwork and shutter inspection</td><td>Clean, oiled, joints tight</td><td><span style="color:#f39c12;font-weight:700;">WP</span></td><td>Engineer</td><td>S5 P5</td></tr>
+<tr><td>3</td><td>Cleanliness check before pour</td><td>Remove standing water and debris</td><td><span style="color:#e74c3c;font-weight:700;">HP</span></td><td>Engineer</td><td>S5 P4</td></tr>
+<tr><td>4</td><td>Concrete truck acceptance</td><td>Delivery Note, Slump, Temp before unloading</td><td><span style="color:#e74c3c;font-weight:700;">HP</span></td><td>QC Inspector</td><td>S5 P4</td></tr>
+<tr><td>5</td><td>Placing and vibration</td><td>Vibrator every 300–450mm, no delay between layers</td><td><span style="color:#f39c12;font-weight:700;">WP</span></td><td>Inspector</td><td>S5 P4</td></tr>
+<tr><td>6</td><td>Cube sampling</td><td>1 Set / 50m³ — 3 cubes per Set</td><td><span style="color:#f39c12;font-weight:700;">WP</span></td><td>Lab Tech</td><td>S5 P4</td></tr>
+<tr><td>7</td><td>Curing start</td><td>Within 30 min of pour — wet hessian or curing compound</td><td><span style="color:#f39c12;font-weight:700;">WP</span></td><td>Inspector</td><td>S5 P4</td></tr>
+<tr><td>8</td><td>7-Day cube results</td><td>Monitor only — not for acceptance</td><td><span style="color:#3498db;font-weight:700;">R</span></td><td>QC</td><td>S5 P4</td></tr>
+<tr><td>9</td><td>28-Day cube results</td><td>fcu ≥ design grade — formal acceptance</td><td><span style="color:#e74c3c;font-weight:700;">HP</span></td><td>QC + SC</td><td>S5 P4</td></tr>
+</tbody>
+</table>
+<h3>🌡️ Hot Weather Protocol (Qatar)</h3>
+<table class="dm-table">
+<tr><th>Condition</th><th>Mandatory Action</th><th>QCS</th></tr>
+<tr><td>Ambient &gt; 35°C</td><td>Night pour only — start after sunset</td><td>S5 P4 Cl.4.8</td></tr>
+<tr><td>Concrete temp &gt; 35°C</td><td>Reject truck — no exceptions</td><td>S5 P4</td></tr>
+<tr><td>Any hot weather pour</td><td>Ice instead of mixing water (up to 50%)</td><td>S5 P4</td></tr>
+<tr><td>Mass concrete</td><td>Thermal Analysis + Thermocouple monitoring</td><td>S5 P4</td></tr>
+</table>
 <h3>Concrete Pour — Key Hold Points</h3>
 <table class="dm-table">
 <thead><tr><th>Stage</th><th>Activity</th><th>Point Type</th><th>QCS</th></tr></thead>
@@ -2045,10 +2307,27 @@ All numerical values, specifications and test methods shown in Arabic are source
 📌 QCS 2024 Reference | 🔩 Rebar Inspection ITP
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 Section 5 Part 3 | BS 8110 | Reinforcement Inspection
 </div>
+<h3>📋 Rebar Checklist</h3>
+<table class="dm-table">
+<thead><tr><th>Item</th><th>Requirement</th><th>Method</th><th>Decision</th><th>QCS</th></tr></thead>
+<tbody>
+<tr><td><strong>Rebar Type</strong></td><td>B460B / B500B — High Yield Deformed</td><td>Mill Certificate</td><td>Accept / Reject</td><td>S5 P3</td></tr>
+<tr><td><strong>Bar diameter</strong></td><td>Per drawings ± 2mm</td><td>Vernier Caliper</td><td>Accept / Reject</td><td>S5 P3</td></tr>
+<tr><td><strong>Cover — Internal</strong></td><td>25mm minimum</td><td>Cover Meter</td><td>&lt; 20mm → Reject</td><td>S5 P3</td></tr>
+<tr><td><strong>Cover — External normal</strong></td><td>40mm minimum</td><td>Cover Meter</td><td>&lt; 35mm → Reject</td><td>S5 P3</td></tr>
+<tr><td><strong>Cover — Aggressive env.</strong></td><td>50mm minimum</td><td>Cover Meter</td><td>&lt; 45mm → Reject</td><td>S5 P3 Qatar</td></tr>
+<tr><td><strong>Cover — Sabkha</strong></td><td>60mm minimum</td><td>Cover Meter</td><td>&lt; 55mm → Reject</td><td>IAN-006</td></tr>
+<tr><td><strong>Spacing — Main Bars</strong></td><td>Per drawings ± 10mm</td><td>Tape Measure</td><td>Accept / Reject</td><td>S5 P3</td></tr>
+<tr><td><strong>Lap Length — Tension</strong></td><td>40φ minimum</td><td>Tape Measure</td><td>&lt; 38φ → Reject</td><td>S5 P3</td></tr>
+<tr><td><strong>Lap Length — Compression</strong></td><td>30φ minimum</td><td>Tape Measure</td><td>&lt; 28φ → Reject</td><td>S5 P3</td></tr>
+<tr><td><strong>Tie Wire</strong></td><td>At all intersections — no loose bars</td><td>Visual</td><td>Accept / Reject</td><td>S5 P3</td></tr>
+<tr><td><strong>Spacers</strong></td><td>Correct size, every 1m (slabs) / 0.75m (walls)</td><td>Visual</td><td>Accept / Reject</td><td>S5 P3</td></tr>
+<tr><td><strong>Links/Stirrups</strong></td><td>135° hooks — not 90°</td><td>Visual</td><td>Accept / Reject</td><td>S5 P3</td></tr>
+</tbody>
+</table>
 <h3>Rebar Cover Requirements — QCS 2024</h3>
 <table class="dm-table">
 <thead><tr><th>Location</th><th>Min Cover</th><th>Reject if &lt;</th><th>QCS</th></tr></thead>
@@ -2116,10 +2395,25 @@ All numerical values, specifications and test methods shown in Arabic are source
 📌 QCS 2024 Reference | 🏗️ Foundation ITP Phases
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 Section 5 Part 7 | BS 8004 | Foundation Execution Phases
 </div>
+<h3>📋 Foundation ITP</h3>
+<table class="dm-table">
+<thead><tr><th>#</th><th>Phase</th><th>Inspection</th><th>Type</th><th>Reference</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Setting Out</td><td>Match drawings — verify coordinates</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P7</td></tr>
+<tr><td>2</td><td>Excavate to required depth</td><td>Depth + soil type at base</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P7</td></tr>
+<tr><td>3</td><td>Founding Level soil check</td><td>Match GI Report — Bearing Capacity confirmed</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P7 + GI</td></tr>
+<tr><td>4</td><td>Blinding Concrete (Blinding)</td><td>75–100mm thick, level</td><td><strong style="color:#f39c12;">WP</strong></td><td>S5 P7</td></tr>
+<tr><td>5</td><td>Waterproofing</td><td>Type + thickness + continuity + laps</td><td><strong style="color:#e74c3c;">HP</strong></td><td>IAN-006</td></tr>
+<tr><td>6</td><td>Foundation Rebar Inspection</td><td>Cover 60mm+, Spacing, Laps</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P3</td></tr>
+<tr><td>7</td><td>Concrete Pour</td><td>Grade, Slump, Temp, Cubes</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P4</td></tr>
+<tr><td>8</td><td>Curing</td><td>7 days minimum — wet hessian</td><td><strong style="color:#f39c12;">WP</strong></td><td>S5 P4</td></tr>
+<tr><td>9</td><td>28-Day Cube Results</td><td>fcu ≥ design grade — formal acceptance</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P4</td></tr>
+<tr><td>10</td><td>Backfill Approval</td><td>Waterproofing complete + Cubes accepted</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5</td></tr>
+</tbody>
+</table>
 <h3>Foundation ITP — Key Hold Points</h3>
 <table class="dm-table">
 <thead><tr><th>Stage</th><th>Check</th><th>Type</th><th>QCS</th></tr></thead>
@@ -2208,10 +2502,40 @@ All numerical values, specifications and test methods shown in Arabic are source
 📌 QCS 2024 Reference | 🌡️ Hot Weather Concreting — Qatar
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
+<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+⚠️ QCS 2024 Section 5 Part 4 | Ashghal Practice | Hot Weather Concreting — Qatar
 </div>
+<h3>🌡️ Temperature Limits</h3>
+<table class="dm-table">
+<thead><tr><th>Parameter</th><th>Limit</th><th>Action if Exceeded</th><th>QCS</th></tr></thead>
+<tbody>
+<tr><td><strong>Max concrete temp at pour point</strong></td><td>35°C</td><td>Reject truck — no exceptions</td><td>S5 P4</td></tr>
+<tr><td><strong>Max temp after mixing (at plant)</strong></td><td>30°C</td><td>Add ice or chilled water</td><td>S5 P4</td></tr>
+<tr><td><strong>Min temp for concreting</strong></td><td>10°C</td><td>Thermal protection + heaters</td><td>S5 P4</td></tr>
+<tr><td><strong>Differential Temp (Mass Concrete)</strong></td><td>≤ 20°C</td><td>Thermal plan mandatory</td><td>S5 P4</td></tr>
+<tr><td><strong>Max Ambient Temp for work</strong></td><td>40°C (Qatar)</td><td>Delay pour</td><td>Ashghal</td></tr>
+</tbody>
+</table>
+<h3>🧊 Cooling Procedures</h3>
+<table class="dm-table">
+<thead><tr><th>Procedure</th><th>Details</th><th>Temp Reduction</th><th>Effectiveness</th></tr></thead>
+<tbody>
+<tr><td><strong>Ice instead of water</strong></td><td>Replace 50–100% of mixing water with ice</td><td>10–15°C reduction</td><td>⭐⭐⭐⭐⭐</td></tr>
+<tr><td><strong>Aggregate cooling</strong></td><td>Cover and wet aggregate before mixing</td><td>3–5°C reduction</td><td>⭐⭐⭐</td></tr>
+<tr><td><strong>Cement cooling</strong></td><td>Store in shaded silos — avoid direct sunlight</td><td>2–3°C reduction</td><td>⭐⭐</td></tr>
+<tr><td><strong>Truck washing</strong></td><td>Wet truck drum before loading</td><td>1–2°C reduction</td><td>⭐⭐</td></tr>
+<tr><td><strong>Night pour</strong></td><td>Start after sunset — most effective in Qatar</td><td>5–10°C ambient</td><td>⭐⭐⭐⭐⭐</td></tr>
+</tbody>
+</table>
+<h3>⏱️ Timing and Planning</h3>
+<table class="dm-table">
+<tr><th>Item</th><th>Qatar Requirement</th></tr>
+<tr><td>Summer hours (June–Aug)</td><td>Night pours only — stop by 08:00</td></tr>
+<tr><td>Max haul time</td><td>45 min summer / 60 min other months</td></tr>
+<tr><td>Curing start</td><td>Within 20 min of finishing (hot weather)</td></tr>
+<tr><td>Minimum curing duration</td><td>10 days (T &gt; 30°C) / 14 days (T &gt; 40°C)</td></tr>
+<tr><td>Standby ice supply</td><td>Mandatory at site during summer pours</td></tr>
+</table>
 <h3>🌡️ Hot Weather Limits — Qatar (QCS 2024)</h3>
 <table class="dm-table">
 <thead><tr><th>Parameter</th><th>Limit</th><th>Action if Exceeded</th></tr></thead>
