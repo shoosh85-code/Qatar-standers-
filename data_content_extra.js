@@ -97,8 +97,35 @@ c["top20_ncr"] = {
 </table>
 </div>
 <div class="lang-content-en" style="display:none">
-<h3>Top 20 NCRs in Qatar — Field Experience</h3>
-<p>Based on Ashghal project experience. See Arabic version for full details.</p>
+<div class="ref-header" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;">
+  <span class="ref-badge" style="background:rgba(231,76,60,0.2);color:#e74c3c;border:1px solid rgba(231,76,60,0.4);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;">QCS 2024 §S5 + §S8</span>
+  <span class="ref-section" style="color:var(--text2);font-size:12px;">Field Experience | Ashghal Projects | KAHRAMAA Sites</span>
+  <span class="ref-updated" style="margin-left:auto;color:var(--text3);font-size:11px;">Last updated: 2024</span>
+</div>
+<h3>Top 20 Most Common NCRs — Based on Ashghal Project Field Experience</h3>
+<table class="dm-table">
+<tr><th>#</th><th>NCR</th><th>Root Cause</th><th>Corrective Action</th><th>QCS</th></tr>
+<tr><td>1</td><td>Subgrade Compaction Failure</td><td>Moisture content outside OMC ±2%</td><td>Adjust moisture + re-compact</td><td>S6 P5</td></tr>
+<tr><td>2</td><td>Slump Out of Limits</td><td>Unauthorized water addition</td><td>Reject mix + NCR to supplier</td><td>S5 P4</td></tr>
+<tr><td>3</td><td>Insufficient Rebar Cover</td><td>Missing or displaced spacers</td><td>Add spacers + re-inspect</td><td>S5 P3</td></tr>
+<tr><td>4</td><td>Asphalt Layer Thickness Deficient</td><td>Incorrect paver screed setting</td><td>Re-lay the affected area</td><td>S8 P6</td></tr>
+<tr><td>5</td><td>Air Voids Outside 3–5%</td><td>Low laying temperature</td><td>Core tests + corrective report</td><td>S8 P6</td></tr>
+<tr><td>6</td><td>Water Pressure Test Failure</td><td>Loose joints or substandard materials</td><td>Inspect every joint + re-test</td><td>S8 P12</td></tr>
+<tr><td>7</td><td>Concrete Poured Before Hold Point</td><td>Schedule pressure</td><td>Remove concrete + Stop Work</td><td>S5 P4</td></tr>
+<tr><td>8</td><td>Unapproved Materials Used</td><td>Procurement without Material Submittal</td><td>Stop use + submit for approval</td><td>S1</td></tr>
+<tr><td>9</td><td>Early Concrete Cracking</td><td>Sun exposure without curing</td><td>Apply Curing Compound immediately</td><td>S5 P4</td></tr>
+<tr><td>10</td><td>Weak Marshall Stability</td><td>Change in aggregate source</td><td>Review Mix Design + new approval</td><td>S8 P5</td></tr>
+<tr><td>11</td><td>Incorrect Subbase Crossfall</td><td>Survey error</td><td>Adjust Subbase layer</td><td>S6 P4</td></tr>
+<tr><td>12</td><td>High Chloride Content</td><td>Beach-sourced sand</td><td>Change sand source</td><td>S5 P2</td></tr>
+<tr><td>13</td><td>Subbase Thickness Test Failed</td><td>Layers too thick without grading</td><td>Re-compact in layers ≤ 200mm</td><td>S6 P4</td></tr>
+<tr><td>14</td><td>Short Rebar Lap Length</td><td>Bars cut without calculation</td><td>Add approved supplemental bars</td><td>S5 P3</td></tr>
+<tr><td>15</td><td>Incorrect Pile Position</td><td>Setting Out error</td><td>Independent survey + engineering report</td><td>S5 P7</td></tr>
+<tr><td>16</td><td>Groundwater During Pour</td><td>Inadequate dewatering</td><td>Stop pour + improve dewatering</td><td>S5 P4</td></tr>
+<tr><td>17</td><td>Poor Tack Coat Application</td><td>Uneven rate</td><td>Re-apply + verify rate</td><td>S8 P5</td></tr>
+<tr><td>18</td><td>Insufficient Pipe Bedding</td><td>Sand saving</td><td>Excavate + redo bedding</td><td>S8 P12</td></tr>
+<tr><td>19</td><td>Incorrect Manhole Level</td><td>Final survey ignored</td><td>Raise/lower manhole + re-pave</td><td>S8 P15</td></tr>
+<tr><td>20</td><td>CCTV Grade C or Higher</td><td>Sewer defects post-construction</td><td>Report + repair per WRc Code</td><td>S8 + BS EN 13508</td></tr>
+</table>
 </div>`
 };
 

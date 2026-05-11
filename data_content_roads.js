@@ -2762,8 +2762,18 @@ c["roads_materials"] = { title: '🧪 مواد الطرق — Roads Materials', 
 <p>تفاصيل كل مادة: اضغط على البطاقة المخصصة لها في قائمة المواد</p>
 </div>
 <div class="lang-content-en" style="display:none">
-<h3>Road Materials Overview — QCS S6</h3>
-<p>All materials must be approved via Material Submittal before use per Ashghal QMS.</p>
+<h3>📋 Road Materials Classification — QCS S6</h3>
+<p>All materials used in road construction must be approved via <strong>Material Submittal</strong> before use, per Ashghal QMS requirements.</p>
+<table class="dm-table">
+<tr><th>Material</th><th>Layer</th><th>Key Specification</th><th>QCS</th></tr>
+<tr><td>Crushed Gabbro</td><td>Subgrade/Subbase/Base</td><td>LAA ≤ 25%, PI ≤ 6, CBR per layer</td><td>S6 P3/P4</td></tr>
+<tr><td>Bitumen 60/70</td><td>Non-PMB Asphalt</td><td>Pen 60–70, Ductility ≥ 100cm, Softening 49–56°C</td><td>S6 P5</td></tr>
+<tr><td>PMB (Modified)</td><td>Wearing/Binder (primary)</td><td>Pen 40–70 (PMB), Elastic Recovery ≥ 70%</td><td>S6 P5</td></tr>
+<tr><td>Prime Coat (MC-30)</td><td>On Base before Binder</td><td>0.8–1.2 L/m², Curing ≥ 24h</td><td>S6 P5</td></tr>
+<tr><td>Tack Coat (CSS-1)</td><td>Between asphalt layers</td><td>0.3–0.5 L/m², fully dry before paving</td><td>S6 P5</td></tr>
+<tr><td>Geotextile</td><td>Separation / Reinforcement</td><td>AASHTO M288 Class 1/2 per application</td><td>S6 + IAN-006</td></tr>
+</table>
+<p>For detailed specs on each material, select its dedicated card from the materials list.</p>
 </div>` };
 
 c["traffic_axle"] = { title: '🚛 أحمال المحاور — Traffic Axle Loads', content: `
@@ -2794,8 +2804,27 @@ c["traffic_axle"] = { title: '🚛 أحمال المحاور — Traffic Axle Lo
 <p>استخدم <strong>حاسبة ESAL</strong> في التطبيق لحساب قيمة ESAL لمشروعك.</p>
 </div>
 <div class="lang-content-en" style="display:none">
-<h3>Traffic Axle Loads — AASHTO 1993 + QCS S6 P2</h3>
-<p>ESAL calculation is essential for pavement structural design.</p>
+<h3>🚛 Axle Loads — Traffic Loading</h3>
+<p><strong>ESAL (Equivalent Standard Axle Load)</strong> calculation is essential for pavement structural design and determining design life.</p>
+<table class="dm-table">
+<tr><th>Vehicle Type</th><th>LEF (Load Equivalency Factor)</th><th>Note</th></tr>
+<tr><td>Private Car</td><td>0.0002</td><td>Negligible impact</td></tr>
+<tr><td>Pick-up / Van</td><td>0.01</td><td>Light</td></tr>
+<tr><td>Bus</td><td>0.5 – 1.5</td><td>Depends on load</td></tr>
+<tr><td>2-Axle Truck</td><td>0.5 – 1.0</td><td>5–8 tonnes</td></tr>
+<tr><td>3-Axle Truck</td><td>1.0 – 2.0</td><td>10–15 tonnes</td></tr>
+<tr><td>Semi-Trailer</td><td>3.0 – 6.0</td><td>30–40 tonnes</td></tr>
+</table>
+<h3>📐 Structural Number — QCS S6 P2</h3>
+<table class="dm-table">
+<tr><th>ESAL (20 years)</th><th>Required SN</th><th>Road Classification</th></tr>
+<tr><td>&lt; 500,000</td><td>2.5 – 3.0</td><td>Local</td></tr>
+<tr><td>500K – 2M</td><td>3.0 – 3.5</td><td>Secondary</td></tr>
+<tr><td>2M – 10M</td><td>3.5 – 4.5</td><td>Primary</td></tr>
+<tr><td>10M – 50M</td><td>4.5 – 5.5</td><td>Arterial</td></tr>
+<tr><td>&gt; 50M</td><td>5.5+</td><td>Expressway</td></tr>
+</table>
+<p>Use the <strong>ESAL Calculator</strong> in the app to compute the ESAL value for your project.</p>
 </div>` };
 
 c["road_itps"] = { title: '📋 ITPs الطرق — Roads Inspection Plans', content: `
@@ -2823,8 +2852,24 @@ c["road_itps"] = { title: '📋 ITPs الطرق — Roads Inspection Plans', con
 </table>
 </div>
 <div class="lang-content-en" style="display:none">
-<h3>Roads ITPs Summary — QCS + Ashghal</h3>
-<p>Select the specific ITP from the roads section for detailed Hold/Witness/Review points.</p>
+<h3>📋 ITPs List — Inspection & Test Plans for Roads</h3>
+<p>Each stage of road construction has a dedicated ITP defining <strong>Hold Points (H)</strong>, <strong>Witness Points (W)</strong>, and <strong>Review Points (R)</strong>.</p>
+<table class="dm-table">
+<tr><th>ITP</th><th>Stage</th><th>Details</th></tr>
+<tr><td>ITP Subgrade</td><td>Subgrade preparation + Compaction + CBR</td><td>← Subgrade ITP</td></tr>
+<tr><td>ITP Subbase &amp; Base</td><td>Granular layer spreading + Compaction</td><td>← Base ITP</td></tr>
+<tr><td>ITP Prime &amp; Tack</td><td>Prime Coat and Tack Coat application</td><td>← Prime ITP</td></tr>
+<tr><td>ITP Wearing Course</td><td>Spreading + Compaction + Core Tests</td><td>← Wearing ITP</td></tr>
+</table>
+<h3>🔴 General Road Hold Points — QCS S6 + Ashghal</h3>
+<table class="dm-table">
+<tr><th>Stage</th><th>Hold Point</th><th>Requirement</th></tr>
+<tr><td>Subgrade</td><td>Before Subbase spreading</td><td>CBR ≥ 8% + Comp ≥ 95% MDD documented</td></tr>
+<tr><td>Subbase</td><td>Before Base spreading</td><td>CBR ≥ 30% + Comp ≥ 98% MDD</td></tr>
+<tr><td>Base</td><td>Before Prime Coat</td><td>CBR ≥ 80% + Comp ≥ 100% MDD</td></tr>
+<tr><td>Prime Coat</td><td>Before Binder</td><td>Application rate + curing time confirmed</td></tr>
+<tr><td>Binder/Wearing</td><td>Before spread + after cores</td><td>Mix Design + Temperature + Va within limits</td></tr>
+</table>
 </div>` };
 
 c["finishing"] = { title: '🏁 تشطيب الرصيف — Finishing', content: `
