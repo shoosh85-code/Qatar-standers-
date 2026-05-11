@@ -255,6 +255,8 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 .cat-badge.pro { background:linear-gradient(135deg,var(--maroon),var(--gold)); color:#fff; }
 .card-bullets { display:flex; flex-direction:column; gap:3px; margin:8px 0 6px; }
 .card-bullets span { font-size:11px; color:var(--text2); line-height:1.4; direction:ltr; text-align:left; }
+html[lang="ar"] .card-bullets span { direction:ltr; text-align:right; unicode-bidi:embed; }
+html[lang="en"] .card-bullets span { direction:ltr; text-align:left; }
 .cat-card h3.cat-name { font-size:14px; margin:4px 0 2px; font-weight:700; color:var(--text); font-family:'Cairo',sans-serif; }
 
 .specs-section { margin-top:8px; }
@@ -851,11 +853,11 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="أعمال الطرق — QCS 2024 §S8" data-en="Road Works — QCS 2024 §S8">أعمال الطرق — QCS 2024 §S8</h3>
   <div class="card-bullets cat-desc">
-    <span>📌 <strong>Subgrade:</strong> الطبقة الطبيعية أو المعبأة أسفل هيكل الرصيف · CBR ≥ 8% · دمك ≥ 95% Modified Proctor · QCS 2024 §S8-P2-Cl.2.3</span>
-    <span>📌 <strong>Subbase:</strong> طبقة حبيبية غير مربوطة لتوزيع الأحمال وتصريف المياه · CBR ≥ 30% · دمك ≥ 95% Modified Proctor · QCS 2024 §S8-P3-Cl.3.2</span>
-    <span>📌 <strong>Road Base:</strong> طبقة حبيبية عالية الجودة تُشكّل أساس الرصيف الإسفلتي · CBR ≥ 80% · دمك ≥ 98% Modified Proctor · QCS 2024 §S8-P3-Cl.3.3</span>
-    <span>📌 <strong>DBM (Binder):</strong> خلطة إسفلتية كثيفة الحبيبات طبقة الربط · درجة فرد ≥ 140°C · دمك ≥ 96% Gmm · QCS 2024 §S8-P4-Cl.4.5</span>
-    <span>📌 <strong>Wearing Course:</strong> الطبقة النهائية للرصيف تتحمل الاحتكاك المباشر · درجة فرد ≥ 145°C · دمك ≥ 98% Gmm · QCS 2024 §S8-P4-Cl.4.6</span>
+    <span data-ar="📌 <strong>Subgrade:</strong> الطبقة الطبيعية أو المعبأة أسفل هيكل الرصيف · CBR ≥ 8% · دمك ≥ 95% Modified Proctor · QCS 2024 §S8-P2-Cl.2.3" data-en="📌 <strong>Subgrade:</strong> Natural or compacted layer beneath pavement structure · CBR ≥ 8% · Compaction ≥ 95% Modified Proctor · QCS 2024 §S8-P2-Cl.2.3">📌 <strong>Subgrade:</strong> الطبقة الطبيعية أو المعبأة أسفل هيكل الرصيف · CBR ≥ 8% · دمك ≥ 95% Modified Proctor · QCS 2024 §S8-P2-Cl.2.3</span>
+    <span data-ar="📌 <strong>Subbase:</strong> طبقة حبيبية غير مربوطة لتوزيع الأحمال وتصريف المياه · CBR ≥ 30% · دمك ≥ 95% Modified Proctor · QCS 2024 §S8-P3-Cl.3.2" data-en="📌 <strong>Subbase:</strong> Unbound granular layer for load distribution and drainage · CBR ≥ 30% · Compaction ≥ 95% Modified Proctor · QCS 2024 §S8-P3-Cl.3.2">📌 <strong>Subbase:</strong> طبقة حبيبية غير مربوطة لتوزيع الأحمال وتصريف المياه · CBR ≥ 30% · دمك ≥ 95% Modified Proctor · QCS 2024 §S8-P3-Cl.3.2</span>
+    <span data-ar="📌 <strong>Road Base:</strong> طبقة حبيبية عالية الجودة تُشكّل أساس الرصيف الإسفلتي · CBR ≥ 80% · دمك ≥ 98% Modified Proctor · QCS 2024 §S8-P3-Cl.3.3" data-en="📌 <strong>Road Base:</strong> High-quality granular layer forming asphalt pavement foundation · CBR ≥ 80% · Compaction ≥ 98% Modified Proctor · QCS 2024 §S8-P3-Cl.3.3">📌 <strong>Road Base:</strong> طبقة حبيبية عالية الجودة تُشكّل أساس الرصيف الإسفلتي · CBR ≥ 80% · دمك ≥ 98% Modified Proctor · QCS 2024 §S8-P3-Cl.3.3</span>
+    <span data-ar="📌 <strong>DBM (Binder):</strong> خلطة إسفلتية كثيفة الحبيبات طبقة الربط · درجة فرد ≥ 140°C · دمك ≥ 96% Gmm · QCS 2024 §S8-P4-Cl.4.5" data-en="📌 <strong>DBM (Binder):</strong> Dense bituminous macadam binder course · Laying temp ≥ 140°C · Compaction ≥ 96% Gmm · QCS 2024 §S8-P4-Cl.4.5">📌 <strong>DBM (Binder):</strong> خلطة إسفلتية كثيفة الحبيبات طبقة الربط · درجة فرد ≥ 140°C · دمك ≥ 96% Gmm · QCS 2024 §S8-P4-Cl.4.5</span>
+    <span data-ar="📌 <strong>Wearing Course:</strong> الطبقة النهائية للرصيف تتحمل الاحتكاك المباشر · درجة فرد ≥ 145°C · دمك ≥ 98% Gmm · QCS 2024 §S8-P4-Cl.4.6" data-en="📌 <strong>Wearing Course:</strong> Final pavement layer carrying direct traffic friction · Laying temp ≥ 145°C · Compaction ≥ 98% Gmm · QCS 2024 §S8-P4-Cl.4.6">📌 <strong>Wearing Course:</strong> الطبقة النهائية للرصيف تتحمل الاحتكاك المباشر · درجة فرد ≥ 145°C · دمك ≥ 98% Gmm · QCS 2024 §S8-P4-Cl.4.6</span>
   </div>
   <div class="cat-bottom">
     <span class="cat-count">QCS 2024 §S8 | Parts 2–4 | 5 ITPs</span>
@@ -866,10 +868,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="شبكات المرافق — QCS 2024 §S20" data-en="Utility Networks — QCS 2024 §S20">شبكات المرافق — QCS 2024 §S20</h3>
   <div class="card-bullets cat-desc">
-    <span>📌 <strong>Water (Potable):</strong> خطوط المياه الصالحة للشرب · HDPE PN16 أو DI Class K9 · اختبار 1.5×PN لمدة 2hr · تعقيم ≥50 ppm · KAHRAMAA 2024 §W3</span>
-    <span>📌 <strong>Foul Sewer:</strong> شبكة الصرف الصحي · uPVC SN8 أو GRP · CCTV بعد التركيب · اختبار تسرب Air/Water · QCS 2024 §S20-P3-Cl.3.4</span>
-    <span>📌 <strong>Storm Drainage:</strong> شبكة تصريف مياه الأمطار · RCP Class III أو HDPE · ميل ≥ 0.5% · Ashghal RDM 2023 §SD-2</span>
-    <span>📌 <strong>TSE (Treated Sewage):</strong> خطوط المياه المعالجة · HDPE PN10 لون بنفسجي · منفصلة عن المياه الصالحة · QCS 2024 §S20-P4-Cl.4.1</span>
+    <span data-ar="📌 <strong>Water (Potable):</strong> خطوط المياه الصالحة للشرب · HDPE PN16 أو DI Class K9 · اختبار 1.5×PN لمدة 2hr · تعقيم ≥50 ppm · KAHRAMAA 2024 §W3" data-en="📌 <strong>Water (Potable):</strong> Potable water mains · HDPE PN16 or DI Class K9 · Test at 1.5×PN for 2hr · Disinfection ≥50 ppm · KAHRAMAA 2024 §W3">📌 <strong>Water (Potable):</strong> خطوط المياه الصالحة للشرب · HDPE PN16 أو DI Class K9 · اختبار 1.5×PN لمدة 2hr · تعقيم ≥50 ppm · KAHRAMAA 2024 §W3</span>
+    <span data-ar="📌 <strong>Foul Sewer:</strong> شبكة الصرف الصحي · uPVC SN8 أو GRP · CCTV بعد التركيب · اختبار تسرب Air/Water · QCS 2024 §S20-P3-Cl.3.4" data-en="📌 <strong>Foul Sewer:</strong> Foul sewerage network · uPVC SN8 or GRP · CCTV after installation · Air/Water leakage test · QCS 2024 §S20-P3-Cl.3.4">📌 <strong>Foul Sewer:</strong> شبكة الصرف الصحي · uPVC SN8 أو GRP · CCTV بعد التركيب · اختبار تسرب Air/Water · QCS 2024 §S20-P3-Cl.3.4</span>
+    <span data-ar="📌 <strong>Storm Drainage:</strong> شبكة تصريف مياه الأمطار · RCP Class III أو HDPE · ميل ≥ 0.5% · Ashghal RDM 2023 §SD-2" data-en="📌 <strong>Storm Drainage:</strong> Stormwater drainage network · RCP Class III or HDPE · Gradient ≥ 0.5% · Ashghal RDM 2023 §SD-2">📌 <strong>Storm Drainage:</strong> شبكة تصريف مياه الأمطار · RCP Class III أو HDPE · ميل ≥ 0.5% · Ashghal RDM 2023 §SD-2</span>
+    <span data-ar="📌 <strong>TSE (Treated Sewage):</strong> خطوط المياه المعالجة · HDPE PN10 لون بنفسجي · منفصلة عن المياه الصالحة · QCS 2024 §S20-P4-Cl.4.1" data-en="📌 <strong>TSE (Treated Sewage):</strong> Treated effluent mains · HDPE PN10 purple colour · Segregated from potable water · QCS 2024 §S20-P4-Cl.4.1">📌 <strong>TSE (Treated Sewage):</strong> خطوط المياه المعالجة · HDPE PN10 لون بنفسجي · منفصلة عن المياه الصالحة · QCS 2024 §S20-P4-Cl.4.1</span>
   </div>
   <div class="cat-bottom">
     <span class="cat-count">QCS 2024 §S20 | KAHRAMAA 2024 | Ashghal RDM</span>
@@ -880,10 +882,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="معايير تصميم الطرق — QHDM 2019" data-en="Road Design Criteria — QHDM 2019">معايير تصميم الطرق — QHDM 2019</h3>
   <div class="card-bullets cat-desc">
-    <span>📌 <strong>عرض الحارة (Lane Width):</strong> عرض الحارة الواحدة حسب تصنيف الطريق · Expressway 3.75m · Primary Arterial 3.5m · Collector/Local 3.0–3.25m · QHDM 4th Ed. 2019 §4-1</span>
-    <span>📌 <strong>SSD (Stopping Sight Distance):</strong> مسافة الرؤية للتوقف الآمن · V=80km/h → SSD=160m · V=120km/h → SSD=285m · تُقاس من ارتفاع عين 1.05m إلى عائق 0.2m · QHDM 2019 §3-3</span>
-    <span>📌 <strong>Crossfall (ميل عرضي):</strong> ميل السطح العرضي لتصريف مياه الأمطار · Asphalt: 2.5% ± 0.3% · Superelevation max: 6% · QCS 2024 §S8-P4-Cl.4.8 | QHDM 2019 §5-2</span>
-    <span>📌 <strong>Superelevation:</strong> الرفع الفائق في المنحنيات الأفقية · حد أقصى 6% في قطر · معدل الانتقال ≤ 0.5% لكل 1m عرض حارة · QHDM 4th Ed. 2019 §5-3</span>
+    <span data-ar="📌 <strong>عرض الحارة (Lane Width):</strong> عرض الحارة الواحدة حسب تصنيف الطريق · Expressway 3.75m · Primary Arterial 3.5m · Collector/Local 3.0–3.25m · QHDM 4th Ed. 2019 §4-1" data-en="📌 <strong>Lane Width:</strong> Single lane width per road classification · Expressway 3.75m · Primary Arterial 3.5m · Collector/Local 3.0–3.25m · QHDM 4th Ed. 2019 §4-1">📌 <strong>عرض الحارة (Lane Width):</strong> عرض الحارة الواحدة حسب تصنيف الطريق · Expressway 3.75m · Primary Arterial 3.5m · Collector/Local 3.0–3.25m · QHDM 4th Ed. 2019 §4-1</span>
+    <span data-ar="📌 <strong>SSD (Stopping Sight Distance):</strong> مسافة الرؤية للتوقف الآمن · V=80km/h → SSD=160m · V=120km/h → SSD=285m · تُقاس من ارتفاع عين 1.05m إلى عائق 0.2m · QHDM 2019 §3-3" data-en="📌 <strong>SSD (Stopping Sight Distance):</strong> Safe stopping visibility distance · V=80km/h → SSD=160m · V=120km/h → SSD=285m · Measured from 1.05m eye height to 0.2m obstacle · QHDM 2019 §3-3">📌 <strong>SSD (Stopping Sight Distance):</strong> مسافة الرؤية للتوقف الآمن · V=80km/h → SSD=160m · V=120km/h → SSD=285m · تُقاس من ارتفاع عين 1.05m إلى عائق 0.2m · QHDM 2019 §3-3</span>
+    <span data-ar="📌 <strong>Crossfall (ميل عرضي):</strong> ميل السطح العرضي لتصريف مياه الأمطار · Asphalt: 2.5% ± 0.3% · Superelevation max: 6% · QCS 2024 §S8-P4-Cl.4.8 | QHDM 2019 §5-2" data-en="📌 <strong>Crossfall:</strong> Transverse surface gradient for rainwater drainage · Asphalt: 2.5% ± 0.3% · Superelevation max: 6% · QCS 2024 §S8-P4-Cl.4.8 | QHDM 2019 §5-2">📌 <strong>Crossfall (ميل عرضي):</strong> ميل السطح العرضي لتصريف مياه الأمطار · Asphalt: 2.5% ± 0.3% · Superelevation max: 6% · QCS 2024 §S8-P4-Cl.4.8 | QHDM 2019 §5-2</span>
+    <span data-ar="📌 <strong>Superelevation:</strong> الرفع الفائق في المنحنيات الأفقية · حد أقصى 6% في قطر · معدل الانتقال ≤ 0.5% لكل 1m عرض حارة · QHDM 4th Ed. 2019 §5-3" data-en="📌 <strong>Superelevation:</strong> Elevated banking on horizontal curves · Max 6% in Qatar · Transition rate ≤ 0.5% per 1m lane width · QHDM 4th Ed. 2019 §5-3">📌 <strong>Superelevation:</strong> الرفع الفائق في المنحنيات الأفقية · حد أقصى 6% في قطر · معدل الانتقال ≤ 0.5% لكل 1m عرض حارة · QHDM 4th Ed. 2019 §5-3</span>
   </div>
   <div class="cat-bottom">
     <span class="cat-count">QHDM 4th Ed. 2019 | QCS 2024 §S8-P4 | Ashghal Standards</span>
@@ -895,10 +897,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="اشتراطات MMUP — 2024" data-en="MMUP Building & Road Regulations 2024">اشتراطات MMUP — 2024</h3>
   <div class="card-bullets cat-desc">
-    <span>📌 <strong>Setback (إطار البناء):</strong> المسافة الإلزامية بين المبنى وحدود القطعة · أمامي ≥ 6m على الشوارع الرئيسية · جانبي ≥ 1.5–3m · خلفي ≥ 3m · MMUP 2024 §Zoning-3</span>
-    <span>📌 <strong>Coverage (نسبة البناء):</strong> نسبة المسقط الأفقي للمبنى إلى مساحة القطعة · سكني ≤ 60% · تجاري ≤ 70% · صناعي ≤ 65% · MMUP 2024 §BU-2</span>
-    <span>📌 <strong>FAR (معامل استغلال المساحة):</strong> نسبة إجمالي مساحة الطوابق إلى مساحة القطعة · سكني 1.5–3.0 · تجاري 3.0–6.0 · يتحدد حسب التصنيف · MMUP 2024 §BU-3</span>
-    <span>📌 <strong>Parking Ratios:</strong> عدد مواقف السيارات الإلزامي لكل استخدام · سكني: 1 موقف/وحدة + 10% للزوار · مكتبي: 1/50m² · تجاري: 1/30m² · MMUP 2024 §Traffic-4</span>
+    <span data-ar="📌 <strong>Setback (إطار البناء):</strong> المسافة الإلزامية بين المبنى وحدود القطعة · أمامي ≥ 6m على الشوارع الرئيسية · جانبي ≥ 1.5–3m · خلفي ≥ 3m · MMUP 2024 §Zoning-3" data-en="📌 <strong>Setback:</strong> Mandatory distance between building and plot boundary · Front ≥ 6m on main streets · Side ≥ 1.5–3m · Rear ≥ 3m · MMUP 2024 §Zoning-3">📌 <strong>Setback (إطار البناء):</strong> المسافة الإلزامية بين المبنى وحدود القطعة · أمامي ≥ 6m على الشوارع الرئيسية · جانبي ≥ 1.5–3m · خلفي ≥ 3m · MMUP 2024 §Zoning-3</span>
+    <span data-ar="📌 <strong>Coverage (نسبة البناء):</strong> نسبة المسقط الأفقي للمبنى إلى مساحة القطعة · سكني ≤ 60% · تجاري ≤ 70% · صناعي ≤ 65% · MMUP 2024 §BU-2" data-en="📌 <strong>Coverage:</strong> Ratio of building footprint to plot area · Residential ≤ 60% · Commercial ≤ 70% · Industrial ≤ 65% · MMUP 2024 §BU-2">📌 <strong>Coverage (نسبة البناء):</strong> نسبة المسقط الأفقي للمبنى إلى مساحة القطعة · سكني ≤ 60% · تجاري ≤ 70% · صناعي ≤ 65% · MMUP 2024 §BU-2</span>
+    <span data-ar="📌 <strong>FAR (معامل استغلال المساحة):</strong> نسبة إجمالي مساحة الطوابق إلى مساحة القطعة · سكني 1.5–3.0 · تجاري 3.0–6.0 · يتحدد حسب التصنيف · MMUP 2024 §BU-3" data-en="📌 <strong>FAR (Floor Area Ratio):</strong> Ratio of total floor area to plot area · Residential 1.5–3.0 · Commercial 3.0–6.0 · Determined by classification · MMUP 2024 §BU-3">📌 <strong>FAR (معامل استغلال المساحة):</strong> نسبة إجمالي مساحة الطوابق إلى مساحة القطعة · سكني 1.5–3.0 · تجاري 3.0–6.0 · يتحدد حسب التصنيف · MMUP 2024 §BU-3</span>
+    <span data-ar="📌 <strong>Parking Ratios:</strong> عدد مواقف السيارات الإلزامي لكل استخدام · سكني: 1 موقف/وحدة + 10% للزوار · مكتبي: 1/50m² · تجاري: 1/30m² · MMUP 2024 §Traffic-4" data-en="📌 <strong>Parking Ratios:</strong> Mandatory parking spaces per use · Residential: 1 space/unit + 10% visitors · Office: 1/50m² · Commercial: 1/30m² · MMUP 2024 §Traffic-4">📌 <strong>Parking Ratios:</strong> عدد مواقف السيارات الإلزامي لكل استخدام · سكني: 1 موقف/وحدة + 10% للزوار · مكتبي: 1/50m² · تجاري: 1/30m² · MMUP 2024 §Traffic-4</span>
   </div>
   <div class="cat-bottom">
     <span class="cat-count">MMUP 2024 | Zoning Regulations | Traffic Standards</span>
@@ -909,10 +911,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="Ashghal RDM — مرجع سريع" data-en="Ashghal Road Design Manual">Ashghal RDM — QHDM 4th Ed. 2019</h3>
   <div class="card-bullets cat-desc">
-    <span>📌 <strong>ROW (حق الطريق):</strong> العرض المحجوز لهيكل الطريق والمرافق · Expressway 80-120m · Primary 40-60m · Secondary 20-30m · QHDM 2019 §2-3</span>
-    <span>📌 <strong>Design Speed:</strong> السرعة التصميمية التي تُحدد عناصر الهندسة الأفقية والرأسية · Expressway 120 km/h · Primary 80 km/h · Local 40-50 km/h · QHDM 2019 §3-2</span>
-    <span>📌 <strong>Lane Width:</strong> عرض الحارة المرورية الواحدة حسب تصنيف الطريق · Expressway 3.75m · Primary 3.5m · Local 3.0-3.25m · QHDM 2019 §4-1</span>
-    <span>📌 <strong>Utility Corridor:</strong> الممرات المخصصة لخطوط المرافق داخل ROW · Water/Sewer: جانب N أو E · كهرباء: الجانب المقابل · QHDM 2019 §8-2</span>
+    <span data-ar="📌 <strong>ROW (حق الطريق):</strong> العرض المحجوز لهيكل الطريق والمرافق · Expressway 80-120m · Primary 40-60m · Secondary 20-30m · QHDM 2019 §2-3" data-en="📌 <strong>ROW (Right of Way):</strong> Reserved width for road structure and utilities · Expressway 80–120m · Primary 40–60m · Secondary 20–30m · QHDM 2019 §2-3">📌 <strong>ROW (حق الطريق):</strong> العرض المحجوز لهيكل الطريق والمرافق · Expressway 80-120m · Primary 40-60m · Secondary 20-30m · QHDM 2019 §2-3</span>
+    <span data-ar="📌 <strong>Design Speed:</strong> السرعة التصميمية التي تُحدد عناصر الهندسة الأفقية والرأسية · Expressway 120 km/h · Primary 80 km/h · Local 40-50 km/h · QHDM 2019 §3-2" data-en="📌 <strong>Design Speed:</strong> Speed defining horizontal and vertical geometry elements · Expressway 120 km/h · Primary 80 km/h · Local 40–50 km/h · QHDM 2019 §3-2">📌 <strong>Design Speed:</strong> السرعة التصميمية التي تُحدد عناصر الهندسة الأفقية والرأسية · Expressway 120 km/h · Primary 80 km/h · Local 40-50 km/h · QHDM 2019 §3-2</span>
+    <span data-ar="📌 <strong>Lane Width:</strong> عرض الحارة المرورية الواحدة حسب تصنيف الطريق · Expressway 3.75m · Primary 3.5m · Local 3.0-3.25m · QHDM 2019 §4-1" data-en="📌 <strong>Lane Width:</strong> Single traffic lane width per road classification · Expressway 3.75m · Primary 3.5m · Local 3.0–3.25m · QHDM 2019 §4-1">📌 <strong>Lane Width:</strong> عرض الحارة المرورية الواحدة حسب تصنيف الطريق · Expressway 3.75m · Primary 3.5m · Local 3.0-3.25m · QHDM 2019 §4-1</span>
+    <span data-ar="📌 <strong>Utility Corridor:</strong> الممرات المخصصة لخطوط المرافق داخل ROW · Water/Sewer: جانب N أو E · كهرباء: الجانب المقابل · QHDM 2019 §8-2" data-en="📌 <strong>Utility Corridor:</strong> Designated utility corridors within ROW · Water/Sewer: N or E side · Electricity: opposite side · QHDM 2019 §8-2">📌 <strong>Utility Corridor:</strong> الممرات المخصصة لخطوط المرافق داخل ROW · Water/Sewer: جانب N أو E · كهرباء: الجانب المقابل · QHDM 2019 §8-2</span>
   </div>
   <div class="cat-bottom">
     <span class="cat-count">QHDM 4th Ed. 2019 | Ashghal Standards</span>
@@ -923,14 +925,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="معدات المشاريع — 66 معدة" data-en="Project Equipment — 66 Items">معدات المشاريع — 66 معدة</h3>
   <div class="card-bullets cat-desc">
-    <!-- ↓↓↓ منقول من roads_equipment (17 معدة) ↓↓↓ -->
-    <span>• طرق: Grader, Roller, Paver, NDG (17)</span>
-    <!-- ↓↓↓ منقول من utilities_equipment (16 معدة) ↓↓↓ -->
-    <span>• مرافق: Excavator, Fusion, CCTV (16)</span>
-    <!-- ↓↓↓ منقول من structural_equipment (14 معدة) ↓↓↓ -->
-    <span>• إنشاء: Pump, Mixer, Vibrator (14)</span>
-    <!-- ↓↓↓ منقول من geotech_equipment (19 معدة) ↓↓↓ -->
-    <span>• جسات: Rig, SPT, Shelby (19)</span>
+    <span data-ar="• طرق: Grader, Roller, Paver, NDG (17)" data-en="• Roads: Grader, Roller, Paver, NDG (17)">• طرق: Grader, Roller, Paver, NDG (17)</span>
+    <span data-ar="• مرافق: Excavator, Fusion, CCTV (16)" data-en="• Utilities: Excavator, Fusion Machine, CCTV (16)">• مرافق: Excavator, Fusion, CCTV (16)</span>
+    <span data-ar="• إنشاء: Pump, Mixer, Vibrator (14)" data-en="• Structural: Pump, Mixer, Vibrator (14)">• إنشاء: Pump, Mixer, Vibrator (14)</span>
+    <span data-ar="• جسات: Rig, SPT, Shelby (19)" data-en="• Geotech: Rig, SPT, Shelby Tube (19)">• جسات: Rig, SPT, Shelby (19)</span>
   </div>
   <div class="cat-bottom">
     <span class="cat-count">[66 معدة + مواصفات]</span>
@@ -954,10 +952,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="الكود الإنشائي — QCS 2024 §S5" data-en="Structural Code — QCS 2024 §S5">الكود الإنشائي — QCS 2024 §S5</h3>
   <div class="card-bullets cat-desc">
-    <span>📌 <strong>درجات الخرسانة:</strong> فئات المقاومة المحددة لكل عنصر إنشائي · C25 (عادي) · C32 (أعمدة) · C40 (جسور) · C50+ (مسبق الإجهاد) · QCS 2024 §S5-P4-Cl.4.2</span>
-    <span>📌 <strong>Concrete Cover:</strong> سُمك الغطاء الخرساني لحماية التسليح من الصدأ · Slab 25mm · Beam/Column 30mm · Foundation 50mm · Exposure XS 50mm · QCS 2024 §S5-P4-Cl.4.7</span>
-    <span>📌 <strong>المعالجة (Curing):</strong> صيانة الخرسانة بعد الصب للحفاظ على الرطوبة · 7 أيام دنيا · Wet burlap + polythene · الطقس الحار: مياه باردة + ice ≤10% · QCS 2024 §S5-P4-Cl.4.12</span>
-    <span>📌 <strong>Lap Splice:</strong> طول الوصل بين قضبان التسليح · ≥ max(40φ, 300mm) للشدّ · ≥ max(30φ, 200mm) للضغط · QCS 2024 §S5-P5-Cl.5.4</span>
+    <span data-ar="📌 <strong>درجات الخرسانة:</strong> فئات المقاومة المحددة لكل عنصر إنشائي · C25 (عادي) · C32 (أعمدة) · C40 (جسور) · C50+ (مسبق الإجهاد) · QCS 2024 §S5-P4-Cl.4.2" data-en="📌 <strong>Concrete Grades:</strong> Compressive strength classes per element · C25 (general) · C32 (columns) · C40 (beams) · C50+ (prestressed) · QCS 2024 §S5-P4-Cl.4.2">📌 <strong>درجات الخرسانة:</strong> فئات المقاومة المحددة لكل عنصر إنشائي · C25 (عادي) · C32 (أعمدة) · C40 (جسور) · C50+ (مسبق الإجهاد) · QCS 2024 §S5-P4-Cl.4.2</span>
+    <span data-ar="📌 <strong>Concrete Cover:</strong> سُمك الغطاء الخرساني لحماية التسليح من الصدأ · Slab 25mm · Beam/Column 30mm · Foundation 50mm · Exposure XS 50mm · QCS 2024 §S5-P4-Cl.4.7" data-en="📌 <strong>Concrete Cover:</strong> Cover thickness protecting reinforcement from corrosion · Slab 25mm · Beam/Column 30mm · Foundation 50mm · Exposure XS 50mm · QCS 2024 §S5-P4-Cl.4.7">📌 <strong>Concrete Cover:</strong> سُمك الغطاء الخرساني لحماية التسليح من الصدأ · Slab 25mm · Beam/Column 30mm · Foundation 50mm · Exposure XS 50mm · QCS 2024 §S5-P4-Cl.4.7</span>
+    <span data-ar="📌 <strong>المعالجة (Curing):</strong> صيانة الخرسانة بعد الصب للحفاظ على الرطوبة · 7 أيام دنيا · Wet burlap + polythene · الطقس الحار: مياه باردة + ice ≤10% · QCS 2024 §S5-P4-Cl.4.12" data-en="📌 <strong>Curing:</strong> Post-pour maintenance to retain moisture · Minimum 7 days · Wet burlap + polythene · Hot weather: cold water + ice ≤10% · QCS 2024 §S5-P4-Cl.4.12">📌 <strong>المعالجة (Curing):</strong> صيانة الخرسانة بعد الصب للحفاظ على الرطوبة · 7 أيام دنيا · Wet burlap + polythene · الطقس الحار: مياه باردة + ice ≤10% · QCS 2024 §S5-P4-Cl.4.12</span>
+    <span data-ar="📌 <strong>Lap Splice:</strong> طول الوصل بين قضبان التسليح · ≥ max(40φ, 300mm) للشدّ · ≥ max(30φ, 200mm) للضغط · QCS 2024 §S5-P5-Cl.5.4" data-en="📌 <strong>Lap Splice:</strong> Reinforcement bar overlap length · ≥ max(40φ, 300mm) in tension · ≥ max(30φ, 200mm) in compression · QCS 2024 §S5-P5-Cl.5.4">📌 <strong>Lap Splice:</strong> طول الوصل بين قضبان التسليح · ≥ max(40φ, 300mm) للشدّ · ≥ max(30φ, 200mm) للضغط · QCS 2024 §S5-P5-Cl.5.4</span>
   </div>
   <div class="cat-bottom">
     <span class="cat-count">QCS 2024 §S5 | Parts 4–5 | BS EN 1992</span>
@@ -968,10 +966,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="الأساسات — QCS 2024 §S5" data-en="Foundations — QCS 2024 §S5">الأساسات — QCS 2024 §S5</h3>
   <div class="card-bullets cat-desc">
-    <span>📌 <strong>Pad/Strip Footing:</strong> أساسات سطحية تُستخدم على تربة ذات قدرة تحمّل كافية · قدرة تحمّل مسموح بها ≥ 150 kPa · غطاء خرساني ≥ 50mm · QCS 2024 §S5-P7-Cl.7.2</span>
-    <span>📌 <strong>Raft Foundation:</strong> لبشة خرسانية تغطي المسقط الكامل للمبنى لتوزيع الأحمال · تُستخدم عند تباين التربة أو الأحمال العالية · سُمك ≥ 500mm للمباني متعددة الطوابق · QCS 2024 §S5-P7-Cl.7.4</span>
-    <span>📌 <strong>Shoring (دعم الحفر):</strong> حماية جوانب الحفر من الانهيار · Sheet Pile أو Soldier Pile · دعم متدرج إذا عمق > 1.2m · BS 8004 + موافقة المهندس قبل الاستمرار · QCS 2024 §S5-P7-Cl.7.1</span>
-    <span>📌 <strong>Dewatering:</strong> خفض منسوب المياه الجوفية أسفل مستوى الحفر · منسوب الضخ ≥ 500mm أسفل Formation Level · Well Point أو Deep Wells · QCS 2024 §S5-P7-Cl.7.1 | BS EN 1997</span>
+    <span data-ar="📌 <strong>Pad/Strip Footing:</strong> أساسات سطحية تُستخدم على تربة ذات قدرة تحمّل كافية · قدرة تحمّل مسموح بها ≥ 150 kPa · غطاء خرساني ≥ 50mm · QCS 2024 §S5-P7-Cl.7.2" data-en="📌 <strong>Pad/Strip Footing:</strong> Shallow foundations on adequate bearing soil · Allowable bearing ≥ 150 kPa · Concrete cover ≥ 50mm · QCS 2024 §S5-P7-Cl.7.2">📌 <strong>Pad/Strip Footing:</strong> أساسات سطحية تُستخدم على تربة ذات قدرة تحمّل كافية · قدرة تحمّل مسموح بها ≥ 150 kPa · غطاء خرساني ≥ 50mm · QCS 2024 §S5-P7-Cl.7.2</span>
+    <span data-ar="📌 <strong>Raft Foundation:</strong> لبشة خرسانية تغطي المسقط الكامل للمبنى لتوزيع الأحمال · تُستخدم عند تباين التربة أو الأحمال العالية · سُمك ≥ 500mm للمباني متعددة الطوابق · QCS 2024 §S5-P7-Cl.7.4" data-en="📌 <strong>Raft Foundation:</strong> Concrete slab covering full building footprint · Used for variable soils or heavy loads · Thickness ≥ 500mm for multi-storey buildings · QCS 2024 §S5-P7-Cl.7.4">📌 <strong>Raft Foundation:</strong> لبشة خرسانية تغطي المسقط الكامل للمبنى لتوزيع الأحمال · تُستخدم عند تباين التربة أو الأحمال العالية · سُمك ≥ 500mm للمباني متعددة الطوابق · QCS 2024 §S5-P7-Cl.7.4</span>
+    <span data-ar="📌 <strong>Shoring (دعم الحفر):</strong> حماية جوانب الحفر من الانهيار · Sheet Pile أو Soldier Pile · دعم متدرج إذا عمق > 1.2m · BS 8004 + موافقة المهندس قبل الاستمرار · QCS 2024 §S5-P7-Cl.7.1" data-en="📌 <strong>Shoring:</strong> Lateral support to prevent excavation collapse · Sheet Pile or Soldier Pile · Staged support if depth > 1.2m · BS 8004 + Engineer approval before proceeding · QCS 2024 §S5-P7-Cl.7.1">📌 <strong>Shoring (دعم الحفر):</strong> حماية جوانب الحفر من الانهيار · Sheet Pile أو Soldier Pile · دعم متدرج إذا عمق > 1.2m · BS 8004 + موافقة المهندس قبل الاستمرار · QCS 2024 §S5-P7-Cl.7.1</span>
+    <span data-ar="📌 <strong>Dewatering:</strong> خفض منسوب المياه الجوفية أسفل مستوى الحفر · منسوب الضخ ≥ 500mm أسفل Formation Level · Well Point أو Deep Wells · QCS 2024 §S5-P7-Cl.7.1 | BS EN 1997" data-en="📌 <strong>Dewatering:</strong> Lowering groundwater below excavation level · Pumping level ≥ 500mm below Formation Level · Well Point or Deep Wells · QCS 2024 §S5-P7-Cl.7.1 | BS EN 1997">📌 <strong>Dewatering:</strong> خفض منسوب المياه الجوفية أسفل مستوى الحفر · منسوب الضخ ≥ 500mm أسفل Formation Level · Well Point أو Deep Wells · QCS 2024 §S5-P7-Cl.7.1 | BS EN 1997</span>
   </div>
   <div class="cat-bottom">
     <span class="cat-count">QCS 2024 §S5 | Part 7 | BS 8004 | BS EN 1997</span>
@@ -982,10 +980,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="اختبار الخوازيق — QCS 2024 §S5" data-en="Pile Load Testing — QCS 2024 §S5">اختبار الخوازيق — QCS 2024 §S5</h3>
   <div class="card-bullets cat-desc">
-    <span>📌 <strong>Static Load Test (SLT):</strong> اختبار الحمل الساكن لقياس قدرة تحمّل الخازوق فعلياً · حِمل اختبار = 1.5× الحمل التصميمي · استمرار 72hr عند الحمل الأقصى · QCS 2024 §S5-P8-Cl.8.4 | BS EN 1537</span>
-    <span>📌 <strong>PDA (Dynamic Load Test):</strong> اختبار ديناميكي بالمطرقة لتحليل طاقة الدق وقدرة التحمّل · CASE Method + CAPWAP Analysis · يُنفَّذ على ≥ 5% من الخوازيق · ASTM D4945 | QCS 2024 §S5-P8-Cl.8.5</span>
-    <span>📌 <strong>PIT (Pile Integrity Test):</strong> اختبار نزاهة الخازوق للكشف عن عيوب الصب · Low Strain Impact Method · يُنفَّذ على 100% من الخوازيق المشبوهة · ASTM D5882 | QCS 2024 §S5-P8-Cl.8.6</span>
-    <span>📌 <strong>معدل الاختبار:</strong> نسب الاختبارات الإلزامية لضمان الجودة · SLT: ≥ 1% من عدد الخوازيق · PDA: ≥ 5% · PIT: 100% عند الشك · QCS 2024 §S5-P8-Cl.8.3 | BS EN 1536</span>
+    <span data-ar="📌 <strong>Static Load Test (SLT):</strong> اختبار الحمل الساكن لقياس قدرة تحمّل الخازوق فعلياً · حِمل اختبار = 1.5× الحمل التصميمي · استمرار 72hr عند الحمل الأقصى · QCS 2024 §S5-P8-Cl.8.4 | BS EN 1537" data-en="📌 <strong>Static Load Test (SLT):</strong> Static load test to measure actual pile bearing capacity · Test load = 1.5× design load · Maintained 72hr at maximum load · QCS 2024 §S5-P8-Cl.8.4 | BS EN 1537">📌 <strong>Static Load Test (SLT):</strong> اختبار الحمل الساكن لقياس قدرة تحمّل الخازوق فعلياً · حِمل اختبار = 1.5× الحمل التصميمي · استمرار 72hr عند الحمل الأقصى · QCS 2024 §S5-P8-Cl.8.4 | BS EN 1537</span>
+    <span data-ar="📌 <strong>PDA (Dynamic Load Test):</strong> اختبار ديناميكي بالمطرقة لتحليل طاقة الدق وقدرة التحمّل · CASE Method + CAPWAP Analysis · يُنفَّذ على ≥ 5% من الخوازيق · ASTM D4945 | QCS 2024 §S5-P8-Cl.8.5" data-en="📌 <strong>PDA (Dynamic Load Test):</strong> Dynamic hammer test to analyse driving energy and bearing capacity · CASE Method + CAPWAP Analysis · Performed on ≥ 5% of piles · ASTM D4945 | QCS 2024 §S5-P8-Cl.8.5">📌 <strong>PDA (Dynamic Load Test):</strong> اختبار ديناميكي بالمطرقة لتحليل طاقة الدق وقدرة التحمّل · CASE Method + CAPWAP Analysis · يُنفَّذ على ≥ 5% من الخوازيق · ASTM D4945 | QCS 2024 §S5-P8-Cl.8.5</span>
+    <span data-ar="📌 <strong>PIT (Pile Integrity Test):</strong> اختبار نزاهة الخازوق للكشف عن عيوب الصب · Low Strain Impact Method · يُنفَّذ على 100% من الخوازيق المشبوهة · ASTM D5882 | QCS 2024 §S5-P8-Cl.8.6" data-en="📌 <strong>PIT (Pile Integrity Test):</strong> Pile integrity test to detect casting defects · Low Strain Impact Method · Performed on 100% of suspect piles · ASTM D5882 | QCS 2024 §S5-P8-Cl.8.6">📌 <strong>PIT (Pile Integrity Test):</strong> اختبار نزاهة الخازوق للكشف عن عيوب الصب · Low Strain Impact Method · يُنفَّذ على 100% من الخوازيق المشبوهة · ASTM D5882 | QCS 2024 §S5-P8-Cl.8.6</span>
+    <span data-ar="📌 <strong>معدل الاختبار:</strong> نسب الاختبارات الإلزامية لضمان الجودة · SLT: ≥ 1% من عدد الخوازيق · PDA: ≥ 5% · PIT: 100% عند الشك · QCS 2024 §S5-P8-Cl.8.3 | BS EN 1536" data-en="📌 <strong>Testing Rate:</strong> Mandatory QA testing ratios · SLT: ≥ 1% of pile count · PDA: ≥ 5% · PIT: 100% when suspected · QCS 2024 §S5-P8-Cl.8.3 | BS EN 1536">📌 <strong>معدل الاختبار:</strong> نسب الاختبارات الإلزامية لضمان الجودة · SLT: ≥ 1% من عدد الخوازيق · PDA: ≥ 5% · PIT: 100% عند الشك · QCS 2024 §S5-P8-Cl.8.3 | BS EN 1536</span>
   </div>
   <div class="cat-bottom">
     <span class="cat-count">QCS 2024 §S5-P8 | BS EN 1536 | ASTM D4945 | ASTM D5882</span>
@@ -997,10 +995,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="مرجع الخرسانة السريع — QCS 2024 §S5" data-en="Concrete Quick Reference — QCS 2024 §S5">مرجع الخرسانة السريع — QCS 2024 §S5</h3>
   <div class="card-bullets cat-desc">
-    <span>📌 <strong>درجات الخرسانة (Mix Grades):</strong> مقاومة الضغط عند 28 يوم · Blinding C15 · Foundation/Slab C25 · Columns/Beams C32 · Bridges/Prestressed C40–C50 · QCS 2024 §S5-P4-Cl.4.2</span>
-    <span>📌 <strong>Slump Test:</strong> قياس قوام الخرسانة الطازجة في الموقع · عادي 75–125mm · مضخة 100–150mm · يُرفض إذا تجاوز الحد أو استخدم ماء إضافي · QCS 2024 §S5-P4-Cl.4.4 | BS EN 12350-2</span>
-    <span>📌 <strong>Cube Testing:</strong> اختبار مكعبات الخرسانة لتحقق المقاومة · عينة كل 50m³ أو يومياً أيهما أقل · 3 مكعبات للاختبار (7d / 28d) · قبول عند fcu ≥ الدرجة المطلوبة · QCS 2024 §S5-P4-Cl.4.5 | BS EN 12390-3</span>
-    <span>📌 <strong>فترة المعالجة (Curing):</strong> الحفاظ على الرطوبة والحرارة لاكتمال الإماهة · ≥ 7 أيام للخرسانة العادية · ≥ 10 أيام عند استخدام GGBS/PFA · Wet burlap + polythene في الطقس الحار · QCS 2024 §S5-P4-Cl.4.12</span>
+    <span data-ar="📌 <strong>درجات الخرسانة (Mix Grades):</strong> مقاومة الضغط عند 28 يوم · Blinding C15 · Foundation/Slab C25 · Columns/Beams C32 · Bridges/Prestressed C40–C50 · QCS 2024 §S5-P4-Cl.4.2" data-en="📌 <strong>Mix Grades:</strong> Compressive strength at 28 days · Blinding C15 · Foundation/Slab C25 · Columns/Beams C32 · Bridges/Prestressed C40–C50 · QCS 2024 §S5-P4-Cl.4.2">📌 <strong>درجات الخرسانة (Mix Grades):</strong> مقاومة الضغط عند 28 يوم · Blinding C15 · Foundation/Slab C25 · Columns/Beams C32 · Bridges/Prestressed C40–C50 · QCS 2024 §S5-P4-Cl.4.2</span>
+    <span data-ar="📌 <strong>Slump Test:</strong> قياس قوام الخرسانة الطازجة في الموقع · عادي 75–125mm · مضخة 100–150mm · يُرفض إذا تجاوز الحد أو استخدم ماء إضافي · QCS 2024 §S5-P4-Cl.4.4 | BS EN 12350-2" data-en="📌 <strong>Slump Test:</strong> Fresh concrete workability measurement on site · Normal 75–125mm · Pumped 100–150mm · Reject if exceeded or water added · QCS 2024 §S5-P4-Cl.4.4 | BS EN 12350-2">📌 <strong>Slump Test:</strong> قياس قوام الخرسانة الطازجة في الموقع · عادي 75–125mm · مضخة 100–150mm · يُرفض إذا تجاوز الحد أو استخدم ماء إضافي · QCS 2024 §S5-P4-Cl.4.4 | BS EN 12350-2</span>
+    <span data-ar="📌 <strong>Cube Testing:</strong> اختبار مكعبات الخرسانة لتحقق المقاومة · عينة كل 50m³ أو يومياً أيهما أقل · 3 مكعبات للاختبار (7d / 28d) · قبول عند fcu ≥ الدرجة المطلوبة · QCS 2024 §S5-P4-Cl.4.5 | BS EN 12390-3" data-en="📌 <strong>Cube Testing:</strong> Concrete cube testing for strength verification · Sample every 50m³ or daily · 3 cubes per test (7d / 28d) · Pass when fcu ≥ specified grade · QCS 2024 §S5-P4-Cl.4.5 | BS EN 12390-3">📌 <strong>Cube Testing:</strong> اختبار مكعبات الخرسانة لتحقق المقاومة · عينة كل 50m³ أو يومياً أيهما أقل · 3 مكعبات للاختبار (7d / 28d) · قبول عند fcu ≥ الدرجة المطلوبة · QCS 2024 §S5-P4-Cl.4.5 | BS EN 12390-3</span>
+    <span data-ar="📌 <strong>فترة المعالجة (Curing):</strong> الحفاظ على الرطوبة والحرارة لاكتمال الإماهة · ≥ 7 أيام للخرسانة العادية · ≥ 10 أيام عند استخدام GGBS/PFA · Wet burlap + polythene في الطقس الحار · QCS 2024 §S5-P4-Cl.4.12" data-en="📌 <strong>Curing Period:</strong> Maintaining moisture and temperature for full hydration · ≥ 7 days for normal concrete · ≥ 10 days with GGBS/PFA · Wet burlap + polythene in hot weather · QCS 2024 §S5-P4-Cl.4.12">📌 <strong>فترة المعالجة (Curing):</strong> الحفاظ على الرطوبة والحرارة لاكتمال الإماهة · ≥ 7 أيام للخرسانة العادية · ≥ 10 أيام عند استخدام GGBS/PFA · Wet burlap + polythene في الطقس الحار · QCS 2024 §S5-P4-Cl.4.12</span>
   </div>
   <div class="cat-bottom">
     <span class="cat-count">QCS 2024 §S5-P4 | BS EN 12350 | BS EN 12390 | BS 8500</span>
@@ -1011,10 +1009,10 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
   <span class="cat-badge static">📖 مرجع</span>
   <h3 class="cat-name" data-ar="المساحة وضبط المحاور — QCS 2024 §S1" data-en="Survey & Setting Out — QCS 2024 §S1">المساحة وضبط المحاور — QCS 2024 §S1</h3>
   <div class="card-bullets cat-desc">
-    <span>📌 <strong>Centerline Setting Out:</strong> ضبط محور الطريق أو المنشأ · دقة أفقية ± 10mm · يُستخدم Total Station من نقاط ثابتة معتمدة · QCS 2024 §S1-P2-Cl.2.3 | FIDIC Cl.4.7</span>
-    <span>📌 <strong>Level Control:</strong> ضبط المناسيب الرأسية للطبقات · تفاوت مسموح ± 6mm/10m · يُستخدم Digital Level Class II · BS 5606 | QCS 2024 §S1-P2-Cl.2.4</span>
-    <span>📌 <strong>Pile Position Tolerance:</strong> انحراف موضع الخازوق عن التصميم · أفقي ± 75mm · رأسي ± 25mm · يُقاس قبل الصب ويوثَّق في As-Built · QCS 2024 §S5-P8-Cl.8.2 | BS EN 1536</span>
-    <span>📌 <strong>موافقة المهندس (FIDIC Cl.4.7):</strong> كل نقاط الضبط تُعتمد من المهندس قبل البدء · أي انحراف يُبلَّغ فوراً · As-Built Survey عند اكتمال كل مرحلة · FIDIC Cl.4.7 | QCS 2024 §S1-P1</span>
+    <span data-ar="📌 <strong>Centerline Setting Out:</strong> ضبط محور الطريق أو المنشأ · دقة أفقية ± 10mm · يُستخدم Total Station من نقاط ثابتة معتمدة · QCS 2024 §S1-P2-Cl.2.3 | FIDIC Cl.4.7" data-en="📌 <strong>Centerline Setting Out:</strong> Establishing road or structure centreline · Horizontal accuracy ± 10mm · Total Station from approved fixed points · QCS 2024 §S1-P2-Cl.2.3 | FIDIC Cl.4.7">📌 <strong>Centerline Setting Out:</strong> ضبط محور الطريق أو المنشأ · دقة أفقية ± 10mm · يُستخدم Total Station من نقاط ثابتة معتمدة · QCS 2024 §S1-P2-Cl.2.3 | FIDIC Cl.4.7</span>
+    <span data-ar="📌 <strong>Level Control:</strong> ضبط المناسيب الرأسية للطبقات · تفاوت مسموح ± 6mm/10m · يُستخدم Digital Level Class II · BS 5606 | QCS 2024 §S1-P2-Cl.2.4" data-en="📌 <strong>Level Control:</strong> Vertical level control for layers · Tolerance ± 6mm/10m · Digital Level Class II · BS 5606 | QCS 2024 §S1-P2-Cl.2.4">📌 <strong>Level Control:</strong> ضبط المناسيب الرأسية للطبقات · تفاوت مسموح ± 6mm/10m · يُستخدم Digital Level Class II · BS 5606 | QCS 2024 §S1-P2-Cl.2.4</span>
+    <span data-ar="📌 <strong>Pile Position Tolerance:</strong> انحراف موضع الخازوق عن التصميم · أفقي ± 75mm · رأسي ± 25mm · يُقاس قبل الصب ويوثَّق في As-Built · QCS 2024 §S5-P8-Cl.8.2 | BS EN 1536" data-en="📌 <strong>Pile Position Tolerance:</strong> Pile deviation from design position · Horizontal ± 75mm · Vertical ± 25mm · Measured before pour, documented in As-Built · QCS 2024 §S5-P8-Cl.8.2 | BS EN 1536">📌 <strong>Pile Position Tolerance:</strong> انحراف موضع الخازوق عن التصميم · أفقي ± 75mm · رأسي ± 25mm · يُقاس قبل الصب ويوثَّق في As-Built · QCS 2024 §S5-P8-Cl.8.2 | BS EN 1536</span>
+    <span data-ar="📌 <strong>موافقة المهندس (FIDIC Cl.4.7):</strong> كل نقاط الضبط تُعتمد من المهندس قبل البدء · أي انحراف يُبلَّغ فوراً · As-Built Survey عند اكتمال كل مرحلة · FIDIC Cl.4.7 | QCS 2024 §S1-P1" data-en="📌 <strong>Engineer Approval (FIDIC Cl.4.7):</strong> All control points approved by Engineer before start · Any deviation reported immediately · As-Built Survey on completion of each phase · FIDIC Cl.4.7 | QCS 2024 §S1-P1">📌 <strong>موافقة المهندس (FIDIC Cl.4.7):</strong> كل نقاط الضبط تُعتمد من المهندس قبل البدء · أي انحراف يُبلَّغ فوراً · As-Built Survey عند اكتمال كل مرحلة · FIDIC Cl.4.7 | QCS 2024 §S1-P1</span>
   </div>
   <div class="cat-bottom">
     <span class="cat-count">QCS 2024 §S1 | BS 5606 | FIDIC Cl.4.7 | BS EN 1536</span>
@@ -1152,11 +1150,11 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       <span class="cat-badge static">🚜 معدات</span>
       <h3 class="cat-name" data-ar="معدات أعمال الطرق" data-en="Road Works Equipment">معدات أعمال الطرق — QCS §S8</h3>
       <div class="card-bullets cat-desc">
-        <span>📌 <strong>Motor Grader:</strong> تسوية Subgrade/Subbase · Blade 3.7-4.3m · مستوى ±10mm · QCS 2024 §S8-P2</span>
-        <span>📌 <strong>Vibratory Roller:</strong> دمك الطبقات الحبيبية · 10-12 طن · ≥95% MDD Subgrade / ≥98% Base · QCS 2024 §S8-P3</span>
-        <span>📌 <strong>Asphalt Paver:</strong> فرد الإسفلت بسُمك محدد · سرعة 3-5 m/min · سُمك design ±6mm · QCS 2024 §S8-P4</span>
-        <span>📌 <strong>Nuclear Density Gauge:</strong> قياس الكثافة ميدانياً · معاير 6 أشهر · Standard Count يومي · ASTM D2950</span>
-      </div>
+    <span data-ar="📌 <strong>Motor Grader:</strong> تسوية Subgrade/Subbase · Blade 3.7-4.3m · مستوى ±10mm · QCS 2024 §S8-P2" data-en="📌 <strong>Motor Grader:</strong> Subgrade/Subbase trimming · Blade 3.7–4.3m · Level tolerance ±10mm · QCS 2024 §S8-P2">📌 <strong>Motor Grader:</strong> تسوية Subgrade/Subbase · Blade 3.7-4.3m · مستوى ±10mm · QCS 2024 §S8-P2</span>
+    <span data-ar="📌 <strong>Vibratory Roller:</strong> دمك الطبقات الحبيبية · 10-12 طن · ≥95% MDD Subgrade / ≥98% Base · QCS 2024 §S8-P3" data-en="📌 <strong>Vibratory Roller:</strong> Granular layer compaction · 10–12 tonnes · ≥95% MDD Subgrade / ≥98% Base · QCS 2024 §S8-P3">📌 <strong>Vibratory Roller:</strong> دمك الطبقات الحبيبية · 10-12 طن · ≥95% MDD Subgrade / ≥98% Base · QCS 2024 §S8-P3</span>
+    <span data-ar="📌 <strong>Asphalt Paver:</strong> فرد الإسفلت بسُمك محدد · سرعة 3-5 m/min · سُمك design ±6mm · QCS 2024 §S8-P4" data-en="📌 <strong>Asphalt Paver:</strong> Asphalt laying at specified thickness · Speed 3–5 m/min · Thickness ±6mm · QCS 2024 §S8-P4">📌 <strong>Asphalt Paver:</strong> فرد الإسفلت بسُمك محدد · سرعة 3-5 m/min · سُمك design ±6mm · QCS 2024 §S8-P4</span>
+    <span data-ar="📌 <strong>Nuclear Density Gauge:</strong> قياس الكثافة ميدانياً · معاير 6 أشهر · Standard Count يومي · ASTM D2950" data-en="📌 <strong>Nuclear Density Gauge:</strong> In-situ density measurement · Calibrate every 6 months · Daily Standard Count · ASTM D2950">📌 <strong>Nuclear Density Gauge:</strong> قياس الكثافة ميدانياً · معاير 6 أشهر · Standard Count يومي · ASTM D2950</span>
+  </div>
       <div class="cat-bottom">
         <span class="cat-count">QCS 2024 §S8 | 8 معدات رئيسية</span>
         <span class="cat-arr">←</span>
@@ -1168,11 +1166,11 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       <span class="cat-badge static">🔧 معدات</span>
       <h3 class="cat-name" data-ar="معدات أعمال المرافق" data-en="Utilities Equipment">معدات أعمال المرافق — QCS §S20</h3>
       <div class="card-bullets cat-desc">
-        <span>📌 <strong>Pipe Fusion Machine:</strong> لحام Electrofusion + Butt Fusion · Temperature per ISO 12176 · Bead inspection 100% · QCS 2024 §S20</span>
-        <span>📌 <strong>Pressure Test Unit:</strong> اختبار ضغط خطوط المياه · 1.5×PN لمدة ساعتين · Drop ≤0.1 bar · KAHRAMAA 2024</span>
-        <span>📌 <strong>CCTV Camera:</strong> فحص داخلي خطوط الصرف · Speed ≤0.1 m/s · Grade ≤2 مقبول · BS EN 13508</span>
-        <span>📌 <strong>Compaction Plate:</strong> دمك الردم في الخنادق · طبقات ≤200mm · ≥95% MDD حذر حول الماسورة · QCS 2024 §S8-P2</span>
-      </div>
+    <span data-ar="📌 <strong>Pipe Fusion Machine:</strong> لحام Electrofusion + Butt Fusion · Temperature per ISO 12176 · Bead inspection 100% · QCS 2024 §S20" data-en="📌 <strong>Pipe Fusion Machine:</strong> Electrofusion + Butt Fusion welding · Temperature per ISO 12176 · 100% bead inspection · QCS 2024 §S20">📌 <strong>Pipe Fusion Machine:</strong> لحام Electrofusion + Butt Fusion · Temperature per ISO 12176 · Bead inspection 100% · QCS 2024 §S20</span>
+    <span data-ar="📌 <strong>Pressure Test Unit:</strong> اختبار ضغط خطوط المياه · 1.5×PN لمدة ساعتين · Drop ≤0.1 bar · KAHRAMAA 2024" data-en="📌 <strong>Pressure Test Unit:</strong> Water main pressure testing · 1.5×PN for two hours · Drop ≤0.1 bar · KAHRAMAA 2024">📌 <strong>Pressure Test Unit:</strong> اختبار ضغط خطوط المياه · 1.5×PN لمدة ساعتين · Drop ≤0.1 bar · KAHRAMAA 2024</span>
+    <span data-ar="📌 <strong>CCTV Camera:</strong> فحص داخلي خطوط الصرف · Speed ≤0.1 m/s · Grade ≤2 مقبول · BS EN 13508" data-en="📌 <strong>CCTV Camera:</strong> Internal inspection of drainage lines · Speed ≤0.1 m/s · Grade ≤2 acceptable · BS EN 13508">📌 <strong>CCTV Camera:</strong> فحص داخلي خطوط الصرف · Speed ≤0.1 m/s · Grade ≤2 مقبول · BS EN 13508</span>
+    <span data-ar="📌 <strong>Compaction Plate:</strong> دمك الردم في الخنادق · طبقات ≤200mm · ≥95% MDD حذر حول الماسورة · QCS 2024 §S8-P2" data-en="📌 <strong>Compaction Plate:</strong> Trench backfill compaction · Layers ≤200mm · ≥95% MDD with care around pipe · QCS 2024 §S8-P2">📌 <strong>Compaction Plate:</strong> دمك الردم في الخنادق · طبقات ≤200mm · ≥95% MDD حذر حول الماسورة · QCS 2024 §S8-P2</span>
+  </div>
       <div class="cat-bottom">
         <span class="cat-count">QCS 2024 §S20 | KAHRAMAA | BS EN 13508</span>
         <span class="cat-arr">←</span>
@@ -1184,11 +1182,11 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       <span class="cat-badge static">🏗️ معدات</span>
       <h3 class="cat-name" data-ar="معدات الأعمال الإنشائية" data-en="Structural Equipment">معدات الأعمال الإنشائية — QCS §S5</h3>
       <div class="card-bullets cat-desc">
-        <span>📌 <strong>Transit Mixer:</strong> نقل الخرسانة · Temp ≤32°C · زمن ≤90 دقيقة (60 صيف) · QCS 2024 §S5-P4</span>
-        <span>📌 <strong>Concrete Pump:</strong> ضخ الخرسانة · Boom 36-52m · Slump 100-150mm للضخ · QCS 2024 §S5-P4</span>
-        <span>📌 <strong>Internal Vibrator:</strong> دمك الخرسانة · Ø50-75mm · تردد ≥12,000 VPM · 10-15 ثانية/نقطة · QCS 2024 §S5</span>
-        <span>📌 <strong>Cover Meter:</strong> قياس concrete cover · Electromagnetic · Scan كل 2m² قبل الصب · BS EN 12504</span>
-      </div>
+    <span data-ar="📌 <strong>Transit Mixer:</strong> نقل الخرسانة · Temp ≤32°C · زمن ≤90 دقيقة (60 صيف) · QCS 2024 §S5-P4" data-en="📌 <strong>Transit Mixer:</strong> Concrete transport · Temp ≤32°C · Time ≤90 min (60 in summer) · QCS 2024 §S5-P4">📌 <strong>Transit Mixer:</strong> نقل الخرسانة · Temp ≤32°C · زمن ≤90 دقيقة (60 صيف) · QCS 2024 §S5-P4</span>
+    <span data-ar="📌 <strong>Concrete Pump:</strong> ضخ الخرسانة · Boom 36-52m · Slump 100-150mm للضخ · QCS 2024 §S5-P4" data-en="📌 <strong>Concrete Pump:</strong> Concrete pumping · Boom 36–52m · Slump 100–150mm for pumping · QCS 2024 §S5-P4">📌 <strong>Concrete Pump:</strong> ضخ الخرسانة · Boom 36-52m · Slump 100-150mm للضخ · QCS 2024 §S5-P4</span>
+    <span data-ar="📌 <strong>Internal Vibrator:</strong> دمك الخرسانة · Ø50-75mm · تردد ≥12,000 VPM · 10-15 ثانية/نقطة · QCS 2024 §S5" data-en="📌 <strong>Internal Vibrator:</strong> Concrete compaction · Ø50–75mm · Frequency ≥12,000 VPM · 10–15 sec per point · QCS 2024 §S5">📌 <strong>Internal Vibrator:</strong> دمك الخرسانة · Ø50-75mm · تردد ≥12,000 VPM · 10-15 ثانية/نقطة · QCS 2024 §S5</span>
+    <span data-ar="📌 <strong>Cover Meter:</strong> قياس concrete cover · Electromagnetic · Scan كل 2m² قبل الصب · BS EN 12504" data-en="📌 <strong>Cover Meter:</strong> Concrete cover measurement · Electromagnetic · Scan every 2m² before pour · BS EN 12504">📌 <strong>Cover Meter:</strong> قياس concrete cover · Electromagnetic · Scan كل 2m² قبل الصب · BS EN 12504</span>
+  </div>
       <div class="cat-bottom">
         <span class="cat-count">QCS 2024 §S5 | BS EN 12350/12390</span>
         <span class="cat-arr">←</span>
@@ -1200,11 +1198,11 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
       <span class="cat-badge static">🔬 معدات</span>
       <h3 class="cat-name" data-ar="معدات الجسات والتربة" data-en="Geotechnical Equipment">معدات الجسات والتربة — QCS §S3</h3>
       <div class="card-bullets cat-desc">
-        <span>📌 <strong>Rotary Drill Rig:</strong> حفر الجسات ≥50m · Core recovery ≥85% · RQD log إلزامي · BS EN ISO 22476</span>
-        <span>📌 <strong>SPT Hammer:</strong> قياس N-value · 63.5 kg / 760mm drop · Auto-trip مُفضَّل · كل 1.5m · ASTM D1586</span>
-        <span>📌 <strong>Shelby Tube:</strong> عينات undisturbed · Ø75mm thin-wall · Sealed + waxed فوراً · Lab خلال 48hr · ASTM D1587</span>
-        <span>📌 <strong>DCP:</strong> تقدير CBR ميداني · CBR = 292/DCP^1.12 · كل 500m² · مقارنة مع Lab CBR · ASTM D6951</span>
-      </div>
+    <span data-ar="📌 <strong>Rotary Drill Rig:</strong> حفر الجسات ≥50m · Core recovery ≥85% · RQD log إلزامي · BS EN ISO 22476" data-en="📌 <strong>Rotary Drill Rig:</strong> Borehole drilling ≥50m · Core recovery ≥85% · RQD log mandatory · BS EN ISO 22476">📌 <strong>Rotary Drill Rig:</strong> حفر الجسات ≥50m · Core recovery ≥85% · RQD log إلزامي · BS EN ISO 22476</span>
+    <span data-ar="📌 <strong>SPT Hammer:</strong> قياس N-value · 63.5 kg / 760mm drop · Auto-trip مُفضَّل · كل 1.5m · ASTM D1586" data-en="📌 <strong>SPT Hammer:</strong> N-value measurement · 63.5 kg / 760mm drop · Auto-trip preferred · Every 1.5m · ASTM D1586">📌 <strong>SPT Hammer:</strong> قياس N-value · 63.5 kg / 760mm drop · Auto-trip مُفضَّل · كل 1.5m · ASTM D1586</span>
+    <span data-ar="📌 <strong>Shelby Tube:</strong> عينات undisturbed · Ø75mm thin-wall · Sealed + waxed فوراً · Lab خلال 48hr · ASTM D1587" data-en="📌 <strong>Shelby Tube:</strong> Undisturbed samples · Ø75mm thin-wall · Sealed + waxed immediately · Lab within 48hr · ASTM D1587">📌 <strong>Shelby Tube:</strong> عينات undisturbed · Ø75mm thin-wall · Sealed + waxed فوراً · Lab خلال 48hr · ASTM D1587</span>
+    <span data-ar="📌 <strong>DCP:</strong> تقدير CBR ميداني · CBR = 292/DCP^1.12 · كل 500m² · مقارنة مع Lab CBR · ASTM D6951" data-en="📌 <strong>DCP:</strong> In-situ CBR estimation · CBR = 292/DCP^1.12 · Every 500m² · Compare with Lab CBR · ASTM D6951">📌 <strong>DCP:</strong> تقدير CBR ميداني · CBR = 292/DCP^1.12 · كل 500m² · مقارنة مع Lab CBR · ASTM D6951</span>
+  </div>
       <div class="cat-bottom">
         <span class="cat-count">QCS 2024 §S3 | ASTM D1586/D1587 | BS EN ISO 22476</span>
         <span class="cat-arr">←</span>

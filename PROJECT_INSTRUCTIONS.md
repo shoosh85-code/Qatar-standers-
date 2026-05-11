@@ -33,14 +33,14 @@
 
 لا تقول "تم الرفع" إلا بعد:
 
-□ 1. git status → لصق الناتج
-□ 2. git add [ملفات] → لصق الناتج
-□ 3. git diff --cached --stat → لصق الناتج
-□ 4. git commit -m "[رسالة]" → لصق الناتج
-□ 5. git log --oneline -3 → لصق الناتج
-□ 6. git push → لصق الناتج كاملاً
-□ 7. git ls-remote origin main → لصق hash الـ remote
-□ 8. مقارنة local hash مع remote hash
+- [ ] 1. git status → لصق الناتج
+- [ ] 2. git add [ملفات] → لصق الناتج
+- [ ] 3. git diff --cached --stat → لصق الناتج
+- [ ] 4. git commit -m "[رسالة]" → لصق الناتج
+- [ ] 5. git log --oneline -3 → لصق الناتج
+- [ ] 6. git push → لصق الناتج كاملاً
+- [ ] 7. git ls-remote origin main → لصق hash الـ remote
+- [ ] 8. مقارنة local hash مع remote hash
 
 إذا لم يتطابقان:
 → ❌ STOP: git push فشل — الـ commit لم يصل
@@ -141,9 +141,10 @@ git config user.email "qatarspec@deploy.app"
 git config user.name "QatarSpec Deploy"
 ```
 
-Push:
+**Push (استخدم TOKEN من environment variable — لا تضعه في الكود):**
+
 ```bash
-git remote set-url origin https://TOKEN@github.com/shoosh85-code/Qatar-standers-.git
+git remote set-url origin https://$GH_TOKEN@github.com/shoosh85-code/Qatar-standers-.git
 git push origin main
 git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 ```
@@ -152,16 +153,16 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 
 ## CODING RULES
 
-- Follow QCS 2024 always — accuracy over speed
-- Vanilla JS only (no frameworks)
-- RTL + Arabic + English in all UI
-- Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
-- Pro features: gentle prompt for free users
-- Never invent numbers — say "غير موجود في المستند"
-- `window.QS` namespace for all public functions
-- Sanitize ALL user input before innerHTML
-- `const`/`let` only (no `var`)
-- Arabic comments for complex logic
+1. Follow QCS 2024 always — accuracy over speed
+2. Vanilla JS only (no frameworks)
+3. RTL + Arabic + English in all UI
+4. Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
+5. Pro features: gentle prompt for free users
+6. Never invent numbers — say "غير موجود في المستند"
+7. `window.QS` namespace for all public functions
+8. Sanitize ALL user input before innerHTML
+9. `const`/`let` only (no `var`)
+10. Arabic comments for complex logic
 
 ---
 

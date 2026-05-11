@@ -876,12 +876,12 @@ function setLang(lang) {
   if(fh[2]) fh[2].textContent=t.f3;
   el=document.querySelector('.footer-copy'); if(el) el.textContent=t.fcopy;
 
-  // data-ar / data-en elements (bilingual nav buttons etc.)
+  // data-ar / data-en elements (bilingual nav buttons, card bullets etc.)
   document.querySelectorAll('[data-ar][data-en]').forEach(function(e){
     let v = isEn?e.getAttribute('data-en'):e.getAttribute('data-ar');
     if(!v) return;
     if(e.tagName==='INPUT'||e.tagName==='TEXTAREA') e.placeholder=v;
-    else if(e.children.length===0) e.textContent=v;
+    else e.innerHTML=v;
   });
 
   // lang-content-ar / lang-content-en blocks (detail sections)
