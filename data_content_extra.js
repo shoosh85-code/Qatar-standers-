@@ -1745,6 +1745,29 @@ window.calcESAL = function(){
 <tr><td>3-Axle Truck (10T)</td><td>1.0-1.5</td><td>AASHTO 1993</td></tr>
 <tr><td>Semi-Trailer (40T)</td><td>4.0-6.0</td><td>AASHTO 1993</td></tr>
 </table>
+</div>
+<div class="lang-content-en" style="display:none">
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 AASHTO 1993 | QCS 2024 S6 P2 | Ashghal RDM 2023 — Pavement Design
+</div>
+<h3>📐 ESAL Calculator — Reference Tables</h3>
+<table class="dm-table">
+<tr><th>Road Type</th><th>LEF</th><th>Design ESAL (20yr)</th><th>Reference</th></tr>
+<tr><td>Local / Residential</td><td>0.3</td><td>&lt; 0.5M</td><td>Ashghal RDM Class A</td></tr>
+<tr><td>Collector / Secondary</td><td>0.5</td><td>0.5–1.5M</td><td>Ashghal RDM Class B</td></tr>
+<tr><td>Arterial / Primary</td><td>0.8</td><td>1.5–5M</td><td>Ashghal RDM Class C</td></tr>
+<tr><td>Expressway / Motorway</td><td>1.2</td><td>5–15M</td><td>Ashghal RDM Class D</td></tr>
+<tr><td>Heavy Industrial</td><td>2.0</td><td>&gt; 15M</td><td>Ashghal RDM Class E</td></tr>
+</table>
+<h3>🚛 Vehicle Load Equivalency Factors (LEF) — AASHTO 1993</h3>
+<table class="dm-table">
+<tr><th>Vehicle Type</th><th>LEF</th><th>Reference</th></tr>
+<tr><td>Car / Light Vehicle</td><td>0.001</td><td>AASHTO 1993</td></tr>
+<tr><td>Mini Bus / Pickup</td><td>0.01</td><td>AASHTO 1993</td></tr>
+<tr><td>2-Axle Truck (10T)</td><td>0.5–1.0</td><td>AASHTO 1993</td></tr>
+<tr><td>3-Axle Truck (20T)</td><td>1.5–2.5</td><td>AASHTO 1993</td></tr>
+<tr><td>Semi-Trailer (40T)</td><td>4.0–6.0</td><td>AASHTO 1993</td></tr>
+</table>
 </div>`
 };
 
@@ -1854,6 +1877,28 @@ window.validateMix = function(){
 <tr><td>Stability min</td><td>8 kN</td><td>7 kN</td><td>5 kN</td></tr>
 <tr><td>Flow</td><td>2-4 mm</td><td>2-4 mm</td><td>2-5 mm</td></tr>
 <tr><td>Bitumen Content</td><td>4.5-6.5%</td><td>4.0-6.0%</td><td>3.5-5.5%</td></tr>
+</table>
+</div>
+<div class="lang-content-en" style="display:none">
+<div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 S8 P5 | ASTM D3515 | BS 594 | Marshall Method + Superpave
+</div>
+<h3>✅ Marshall Mix Design Criteria — QCS S8 P5</h3>
+<table class="dm-table">
+<tr><th>Parameter</th><th>Wearing Course</th><th>Binder Course</th><th>Base Course</th></tr>
+<tr><td>Air Voids Va (%)</td><td>3.0–5.0</td><td>3.0–5.0</td><td>3.0–6.0</td></tr>
+<tr><td>VMA (%)</td><td>≥ 14</td><td>≥ 13</td><td>≥ 12</td></tr>
+<tr><td>VFB / VFA (%)</td><td>65–75</td><td>65–75</td><td>60–75</td></tr>
+<tr><td>Stability (kN)</td><td>≥ 8.0</td><td>≥ 7.5</td><td>≥ 5.0</td></tr>
+<tr><td>Flow (mm)</td><td>2.0–4.0</td><td>2.0–4.0</td><td>2.0–4.5</td></tr>
+<tr><td>Bitumen Content (%)</td><td>4.5–6.5</td><td>4.0–6.0</td><td>3.5–5.5</td></tr>
+</table>
+<h3>📌 Superpave Criteria — QCS S8 P5</h3>
+<table class="dm-table">
+<tr><th>Parameter</th><th>Ndesign</th><th>Criterion</th></tr>
+<tr><td>Air Voids</td><td>Design Ndesign</td><td>4.0%</td></tr>
+<tr><td>VMA</td><td>All levels</td><td>≥ 13–16% (by aggregate size)</td></tr>
+<tr><td>Dust/Binder Ratio</td><td>—</td><td>0.6–1.2</td></tr>
 </table>
 </div>`
 };
@@ -2928,7 +2973,30 @@ window.calcPipeSizing = function(){
     +'</div></div>';
 };
 </script>
-`
+<div class="lang-content-en" style="display:none">
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;">
+<strong>📐 QCS Section 8 — P12 | Manning + Hazen-Williams</strong><br>
+Flow velocity and pressure loss reference for water and sewer networks
+</div>
+<h3>📐 Pipe Material — C &amp; n Values</h3>
+<table class="dm-table">
+<tr><th>Material</th><th>C (H-W)</th><th>n (Manning)</th><th>Application</th></tr>
+<tr><td>Ductile Iron (DI)</td><td>150</td><td>0.013</td><td>Potable Water</td></tr>
+<tr><td>HDPE</td><td>150</td><td>0.011</td><td>Water / Sewer</td></tr>
+<tr><td>PVC-U / PVC-O</td><td>150</td><td>0.011</td><td>Water / Light Sewer</td></tr>
+<tr><td>Reinforced Concrete (RCP)</td><td>100</td><td>0.015</td><td>Surface Drainage</td></tr>
+<tr><td>Steel (Welded)</td><td>120</td><td>0.014</td><td>High Pressure</td></tr>
+<tr><td>GRP</td><td>150</td><td>0.011</td><td>Large Diameter Networks</td></tr>
+</table>
+<h3>⚡ Design Velocity Limits — QCS S8 P12</h3>
+<table class="dm-table">
+<tr><th>Network Type</th><th>Min. Velocity</th><th>Max. Velocity</th></tr>
+<tr><td>Potable Water</td><td>0.6 m/s</td><td>2.5 m/s</td></tr>
+<tr><td>Gravity Sewer</td><td>0.75 m/s</td><td>3.0 m/s</td></tr>
+<tr><td>Pressure Sewer</td><td>0.9 m/s</td><td>3.0 m/s</td></tr>
+<tr><td>Storm Drainage</td><td>0.5 m/s</td><td>4.0 m/s</td></tr>
+</table>
+</div>`
 };
 
 c["road_layers_calc"] = {
@@ -3074,7 +3142,30 @@ window.calcRoadLayers = function(){
     +'</div></div>';
 };
 </script>
-`
+<div class="lang-content-en" style="display:none">
+<div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;">
+<strong>📐 QCS Section 6 — P5 + Ashghal RDM 2023 | AASHTO 1993</strong><br>
+Flexible pavement layer thickness based on ESAL, CBR and traffic class
+</div>
+<h3>📏 Road Layer Thickness — Ashghal RDM 2023</h3>
+<table class="dm-table">
+<tr><th>Layer</th><th>Class A–B</th><th>Class C</th><th>Class D</th><th>Class E</th></tr>
+<tr><td>Wearing Course (AC)</td><td>40mm</td><td>50mm</td><td>60mm</td><td>60mm</td></tr>
+<tr><td>Binder Course (AC)</td><td>—</td><td>60mm</td><td>70mm</td><td>80mm</td></tr>
+<tr><td>Road Base (Granular)</td><td>150mm</td><td>200mm</td><td>250mm</td><td>300mm</td></tr>
+<tr><td>Sub-Base</td><td>150mm</td><td>200mm</td><td>250mm</td><td>300mm</td></tr>
+<tr><td>Subgrade (Improved)</td><td>As designed</td><td>As designed</td><td>As designed</td><td>As designed</td></tr>
+</table>
+<h3>🔬 CBR Design Criteria — QCS S6 P5</h3>
+<table class="dm-table">
+<tr><th>CBR (%)</th><th>Classification</th><th>Action Required</th></tr>
+<tr><td>≥ 15</td><td>Excellent</td><td>No improvement needed</td></tr>
+<tr><td>10–15</td><td>Good</td><td>Standard design applies</td></tr>
+<tr><td>5–10</td><td>Fair</td><td>Verify design thickness</td></tr>
+<tr><td>3–5</td><td>Poor</td><td>Subgrade improvement required</td></tr>
+<tr><td>&lt; 3</td><td>Very Poor</td><td>Full subgrade replacement</td></tr>
+</table>
+</div>`
 };
 
 // ═══════════════════════════════════════════════════════════════
