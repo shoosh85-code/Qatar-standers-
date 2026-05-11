@@ -4,6 +4,7 @@
   
   c["structural"] = {
     title: '🏛️ الكود الإنشائي القطري — QCS 2024',
+    titleEn: '🏛️ Qatar Structural Code — QCS 2024',
     content: `
 <div class="lang-content-ar">
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -83,8 +84,24 @@
 <div onclick="QS.openDetail('concrete_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:var(--gold);font-size:11px;font-weight:700">Concrete</div></div>
 <div onclick="QS.openDetail('rebar_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:var(--gold);font-size:11px;font-weight:700">Rebar</div></div>
 <div onclick="QS.openDetail('formwork_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:var(--gold);font-size:11px;font-weight:700">Formwork</div></div>
+<div onclick="QS.openDetail('concrete_phases')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center">
+<div style="font-size:18px">5️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px">Pouring Phases</div>
+<div style="color:var(--text3);font-size:10px">Sequence ← Hold Points ← Testing</div></div>
+<div onclick="QS.openDetail('hot_weather_concreting')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center">
+<div style="font-size:18px">6️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px">Hot Weather</div>
+<div style="color:var(--text3);font-size:10px">Max 35°C ← Ice ← Curing</div></div>
+</div>
+<h3>📋 Materials & Specifications</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0">
+<div onclick="QS.openDetail('structural_materials')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center">
+<div style="color:#3498db;font-weight:700;font-size:11px">Structural Materials</div></div>
+<div onclick="QS.openDetail('rebar_materials')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center">
+<div style="color:#3498db;font-weight:700;font-size:11px">Rebar Materials</div></div>
+<div onclick="QS.openDetail('concrete_materials')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center">
+<div style="color:#3498db;font-weight:700;font-size:11px">Concrete Materials</div></div>
 <div onclick="QS.openDetail('itp_concrete')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:#e74c3c;font-size:11px;font-weight:700">ITP Concrete</div></div>
 <div onclick="QS.openDetail('itp_foundations')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:#e74c3c;font-size:11px;font-weight:700">ITP Foundations</div></div>
+<div onclick="QS.openDetail('rebar_itp')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:#e74c3c;font-size:11px;font-weight:700">ITP Rebar</div></div>
 </div>
 <table class="dm-table">
 <tr><th>Element</th><th>Key Requirement</th><th>QCS</th></tr>
@@ -97,7 +114,8 @@
 </div>`
   };
   
-  c["structural_materials"] = { title: '🧱 مواد الإنشاء — المواصفات والاختبارات', content: `
+  c["structural_materials"] = { title: '🧱 مواد الإنشاء — المواصفات والاختبارات',
+    titleEn: '🧱 Structural Materials', content: `
 <div class="lang-content-ar">
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Structural Materials</div>
@@ -192,7 +210,8 @@
 </div>
 </div>
 ` };
-  c["structural_qcp"] = { title: '📊 خطة ضبط الجودة — الإنشاء (QCP)', content: `
+  c["structural_qcp"] = { title: '📊 خطة ضبط الجودة — الإنشاء (QCP)',
+    titleEn: '📋 Quality Control Plan', content: `
 <div class="lang-content-ar">
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Quality Control Plan — Structural</div>
@@ -277,7 +296,8 @@
 <div style="font-size:11px;color:var(--text3);margin-top:8px;">H = Hold Point | W = Witness Point | QCS 2024 Section 5</div>
 </div>
 ` };
-  c["concrete_overview"] = { title: '🏗️ الConcrete — نظرة عامة', content: `<div class="lang-content-ar">
+  c["concrete_overview"] = { title: '🏗️ الConcrete — نظرة عامة',
+    titleEn: '🔵 Concrete — Overview', content: `<div class="lang-content-ar">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | Concrete Works</div>
 <h3>📋 نظرة عامة</h3>
 <p>الConcrete هي المادة الأساسية في كل مشاريع البنية التحتية والإنشاء في قطر. جودة الConcrete تحدد عمر المنشأ. بيئة قطر الساحلية (كبريتات + كلوريدات + حرارة) تتطلب Concrete عالية المقاومة ومضافات خاصة.</p>
@@ -329,7 +349,8 @@
 <tr><td>Cover — External Columns</td><td>40mm</td><td>QCS S5 P4</td></tr>
 </table></div>
 ` };
-  c["concrete_full"] = { title: '🧱 الConcrete — Concrete Works', content: `
+  c["concrete_full"] = { title: '🧱 الConcrete — Concrete Works',
+    titleEn: '🔵 Concrete — Full Detail', content: `
 <div class="lang-content-ar">
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3 | Concrete</div>
@@ -451,7 +472,8 @@ HP3: 28-day cube results — Engineer approval before loading
 • <strong>HP-03:</strong> 7-day cube results before formwork striking</p>
 </div>
 ` };
-  c["concrete_materials"] = { title: '🔩 الConcrete — المواد', content: `<div class="lang-content-ar">
+  c["concrete_materials"] = { title: '🔩 الConcrete — المواد',
+    titleEn: '⚗️ Concrete Materials', content: `<div class="lang-content-ar">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | Materials</div>
 <h3>📐 الأسمنت (Cement)</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
@@ -501,7 +523,8 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>pH</td><td>5-9</td></tr>
 </table></div>
 ` };
-  c["concrete_mix"] = { title: '🧪 الConcrete — Mix Design', content: `<div class="lang-content-ar">
+  c["concrete_mix"] = { title: '🧪 الConcrete — Mix Design',
+    titleEn: '🔬 Concrete Mix Design', content: `<div class="lang-content-ar">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | Mix Design</div>
 <h3>📐 متطلبات التصميم</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
@@ -544,7 +567,8 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>Submerged marine</td><td>C45</td><td>0.38</td></tr>
 </table></div>
 ` };
-  c["concrete_placing"] = { title: '🏗️ الConcrete — الصب والCompaction', content: `<div class="lang-content-ar">
+  c["concrete_placing"] = { title: '🏗️ الConcrete — الصب والCompaction',
+    titleEn: '🏗️ Concrete Placing & Pouring', content: `<div class="lang-content-ar">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | Placing & Compaction</div>
 <h3>📐 متطلبات قبل الصب</h3>
 <p>• اعتماد الشدات والRebar (Hold Point)<br>• تنظيف القاع وإزالة المياه والمخلفات<br>• رش المياه على القاع (منع امتصاص المياه)<br>• تركيب Spacers للـ Cover<br>• اعتماد طلب الصب (Concrete Pour Card)</p>
@@ -587,7 +611,8 @@ HP3: 28-day cube results — Engineer approval before loading
 </div>
 </div>
 ` };
-  c["concrete_testing"] = { title: '🧪 الConcrete — الاختبارات', content: `<div class="lang-content-ar">
+  c["concrete_testing"] = { title: '🧪 الConcrete — الاختبارات',
+    titleEn: '🧪 Concrete Testing', content: `<div class="lang-content-ar">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | Testing</div>
 <h3>1. Slump Test — في الموقع</h3>
 <table class="dm-table"><tr><th>نوع الصب</th><th>المعيار</th></tr>
@@ -630,7 +655,8 @@ HP3: 28-day cube results — Engineer approval before loading
 </table>
 </div>
 ` };
-  c["concrete_curing"] = { title: '💧 الConcrete — المعالجة (Curing)', content: `<div class="lang-content-ar">
+  c["concrete_curing"] = { title: '💧 الConcrete — المعالجة (Curing)',
+    titleEn: '💧 Concrete Curing', content: `<div class="lang-content-ar">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | Curing</div>
 <h3>📐 متطلبات المعالجة</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
@@ -661,7 +687,8 @@ HP3: 28-day cube results — Engineer approval before loading
 <h3>Qatar Summer — Critical</h3>
 <p>• Rapid evaporation = Plastic Cracking risk<br>• Curing Compound mandatory in summer<br>• Monitor every 4 hours in extreme heat<br>• Use Evaporation Retarder in windy conditions</p></div>
 ` };
-  c["concrete_joints"] = { title: '✂️ الConcrete — الفواصل', content: `<div class="lang-content-ar">
+  c["concrete_joints"] = { title: '✂️ الConcrete — الفواصل',
+    titleEn: '🔗 Structural Joints', content: `<div class="lang-content-ar">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | Construction Joints</div>
 <h3>📐 أنواع الفواصل</h3>
 <table class="dm-table"><tr><th>النوع</th><th>الوصف</th><th>المتطلب</th></tr>
@@ -687,7 +714,8 @@ HP3: 28-day cube results — Engineer approval before loading
 <h3>Construction Joint Treatment</h3>
 <p>1. Stop pour at designated level<br>2. After initial set: Water jet or wire brush to remove laitance<br>3. Apply SBR or Epoxy Bonding Agent<br>4. Pour next layer before Bonding Agent dries<br>5. Waterstop mandatory in water-retaining walls</p></div>
 ` };
-  c["concrete_pavement"] = { title: '🏗️ Concrete Road Pavement — QCS Section 6 Part 6 Full Summary', content: `
+  c["concrete_pavement"] = { title: '🏗️ Concrete Road Pavement — QCS Section 6 Part 6 Full Summary',
+    titleEn: '🛣️ Concrete Pavement', content: `
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 — Section 6 Part 6 | Concrete Road Pavement | Full Summary
 </div>
@@ -817,7 +845,8 @@ HP3: 28-day cube results — Engineer approval before loading
 </div>
 </div>
 ` };
-  c["ms_concrete"] = { title: '📋 Method Statement — Concrete Works', content: `
+  c["ms_concrete"] = { title: '📋 Method Statement — Concrete Works',
+    titleEn: '📄 Concrete Method Statement', content: `
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 — Section 5 | Hot Weather Concreting — Qatar
 </div>
@@ -889,7 +918,8 @@ HP3: 28-day cube results — Engineer approval before loading
 </table>
 </div>
 ` };
-  c["rebar_overview"] = { title: '🔩 Rebar التسليح — نظرة عامة', content: `<div class="lang-content-ar">
+  c["rebar_overview"] = { title: '🔩 Rebar التسليح — نظرة عامة',
+    titleEn: '🔩 Reinforcement — Overview', content: `<div class="lang-content-ar">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3 | Reinforcement</div>
 <h3>📋 نظرة عامة</h3>
 <p>Rebar التسليح في قطر يجب أن يكون Grade 500B وفق BS 4449. بيئة قطر العدوانية تتطلب Cover كافٍ ومراقبة صارمة للـ Chloride.</p>
@@ -917,6 +947,7 @@ HP3: 28-day cube results — Engineer approval before loading
 <div onclick="QS.openDetail('rebar_fixing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:18px">🔧</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Fixing & Lapping</div></div>
 <div onclick="QS.openDetail('rebar_cover')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:18px">📏</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Cover & Spacers</div></div>
 <div onclick="QS.openDetail('rebar_testing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:18px">🧪</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Testing</div></div>
+<div onclick="QS.openDetail('itp_rebar')" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.2);border-radius:10px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:18px">📋</div><div style="color:#e74c3c;font-weight:700;font-size:12px;">ITP Rebar</div></div>
 </div>
 <h3>Key Specifications — Grade 500B</h3>
 <table class="dm-table">
@@ -929,7 +960,8 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>Bend Test 180°</td><td>No cracking</td><td>BS 4449</td></tr>
 </table></div>
 ` };
-  c["rebar_full"] = { title: '🔩 Rebar التسليح — Reinforcement', content: `
+  c["rebar_full"] = { title: '🔩 Rebar التسليح — Reinforcement',
+    titleEn: '🔩 Reinforcement — Full Detail', content: `
 <div class="lang-content-ar">
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 2 | Reinforcement</div>
@@ -1035,7 +1067,8 @@ HP3: 28-day cube results — Engineer approval before loading
 • <strong>HP-02:</strong> Rebar placement and cover inspection before pour</p>
 </div>
 ` };
-  c["rebar_materials"] = { title: '🔩 Rebar التسليح — المواصفات', content: `<div class="lang-content-ar">
+  c["rebar_materials"] = { title: '🔩 Rebar التسليح — المواصفات',
+    titleEn: '⚙️ Rebar Materials', content: `<div class="lang-content-ar">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3 | Rebar Materials</div>
 <h3>📐 المواصفات الفنية</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
@@ -1083,7 +1116,8 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>Mill Certificate</td><td>Every delivery</td></tr>
 </table></div>
 ` };
-  c["rebar_fixing"] = { title: '🔧 Rebar التسليح — الربط والتوزيع', content: `<div class="lang-content-ar">
+  c["rebar_fixing"] = { title: '🔧 Rebar التسليح — الربط والتوزيع',
+    titleEn: '🔧 Rebar Fixing & Tying', content: `<div class="lang-content-ar">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3 | Fixing</div>
 <h3>📐 Lap Lengths — أطوال الوصلات</h3>
 <table class="dm-table"><tr><th>نوع الوصلة</th><th>الطول</th></tr>
@@ -1139,7 +1173,8 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>Bend radius</td><td>≤16mm → 4d | >16mm → 7d</td><td>BS 8666</td></tr>
 </tbody></table>
 ` };
-  c["rebar_cover"] = { title: '📏 Rebar التسليح — Cover & Spacers', content: `<div class="lang-content-ar">
+  c["rebar_cover"] = { title: '📏 Rebar التسليح — Cover & Spacers',
+    titleEn: '📏 Concrete Cover', content: `<div class="lang-content-ar">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3 | Cover</div>
 <h3>📐 الغطاء الخرساني المطلوب</h3>
 <table class="dm-table"><tr><th>العنصر</th><th>Cover</th><th>الملاحظة</th></tr>
@@ -1183,7 +1218,8 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>In soil contact</td><td>Cast concrete blocks ONLY — no plastic</td></tr>
 </table></div>
 ` };
-  c["rebar_testing"] = { title: '🧪 Rebar التسليح — الاختبارات', content: `<div class="lang-content-ar">
+  c["rebar_testing"] = { title: '🧪 Rebar التسليح — الاختبارات',
+    titleEn: '🧪 Rebar Testing', content: `<div class="lang-content-ar">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3 | Testing</div>
 <h3>📐 الاختبارات المطلوبة</h3>
 <table class="dm-table"><tr><th>الاختبار</th><th>المعيار</th><th>التكرار</th></tr>
@@ -1221,7 +1257,8 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>All results pass</td><td style="color:#2ecc71;">ACCEPT ✓</td></tr>
 </table></div>
 ` };
-  c["formwork_overview"] = { title: '🪵 الشدات — Formwork', content: `
+  c["formwork_overview"] = { title: '🪵 الشدات — Formwork',
+    titleEn: '🏗️ Formwork & Falsework', content: `
 <div class="lang-content-ar">
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | Formwork</div>
@@ -1277,7 +1314,8 @@ HP3: 28-day cube results — Engineer approval before loading
 • <strong>HP-02:</strong> 7-day cube approval before striking</p>
 </div>
 ` };
-  c["formwork_full"] = { title: '🪵 الشدات — Formwork', content: `
+  c["formwork_full"] = { title: '🪵 الشدات — Formwork',
+    titleEn: '🏗️ Formwork — Full Detail', content: `
 <div class="lang-content-ar">
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Formwork</div>
@@ -1333,7 +1371,8 @@ HP3: 28-day cube results — Engineer approval before loading
 • <strong>HP-02:</strong> Engineer approval before removing props</p>
 </div>
 ` };
-  c["foundations_overview"] = { title: '🏛️ الأساسات — نظرة عامة', content: `
+  c["foundations_overview"] = { title: '🏛️ الأساسات — نظرة عامة',
+    titleEn: '🏛️ Foundations — Overview', content: `
 <div class="lang-content-ar">
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Foundations</div>
@@ -1350,27 +1389,6 @@ HP3: 28-day cube results — Engineer approval before loading
 
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🏔️ Foundations Overview — Qatar QCS 2024</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
-<div onclick="QS.openDetail('found_strip')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:20px">📏</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Strip Foundation</div></div>
-<div onclick="QS.openDetail('found_raft')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:20px">⬛</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Raft Foundation</div></div>
-<div onclick="QS.openDetail('found_piles')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:20px">🔩</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Piled Foundations</div></div>
-<div onclick="QS.openDetail('found_testing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:20px">🔬</div><div style="color:var(--gold);font-weight:700;font-size:12px;">Testing</div></div>
-</div>
-<table class="dm-table">
-<tr><th>Item</th><th>Qatar QCS Requirement</th></tr>
-<tr><td>Min Founding Depth</td><td>1.0m below finished level (strip)</td></tr>
-<tr><td>Blinding Concrete</td><td>75mm C10 minimum</td></tr>
-<tr><td>Cover in soil</td><td>75mm minimum</td></tr>
-<tr><td>Sulphate check</td><td>MANDATORY before specifying cement type</td></tr>
-<tr><td>Waterproofing</td><td>Required if GWL within 1.5m</td></tr>
-</table>
-</div>
-<div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 Reference | 🏗️ Strip / Pad Foundations
 </div>
@@ -1384,6 +1402,7 @@ HP3: 28-day cube results — Engineer approval before loading
 <div onclick="QS.openDetail('found_raft')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">⬛</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Raft Foundation</div></div>
 <div onclick="QS.openDetail('found_piles')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🕳️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Bored Piles</div></div>
 <div onclick="QS.openDetail('found_testing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧪</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Foundation Testing</div></div>
+<div onclick="QS.openDetail('itp_foundations')" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">📋</div><div style="color:#e74c3c;font-weight:700;font-size:13px;">ITP Foundations</div></div>
 </div>
 <div style="margin-top:12px;">
 <h3>📐 Key Requirements — Qatar</h3>
@@ -1398,7 +1417,8 @@ HP3: 28-day cube results — Engineer approval before loading
 </table></div>
 </div>
 ` };
-  c["foundations_full"] = { title: '⚓ الأساسات — Foundations', content: `
+  c["foundations_full"] = { title: '⚓ الأساسات — Foundations',
+    titleEn: '🏛️ Foundations — Full Detail', content: `
 <div class="lang-content-ar">
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Foundations</div>
@@ -1514,7 +1534,8 @@ HP3: 28-day cube results — Engineer approval before loading
 • <strong>HP-03:</strong> Waterproofing inspection before backfill</p>
 </div>
 ` };
-  c["found_raft"] = { title: '⬛ Raft Foundation', content: `
+  c["found_raft"] = { title: '⬛ Raft Foundation',
+    titleEn: '🏛️ Raft Foundations', content: `
 <div class="lang-content-ar">
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Raft Foundation</div>
@@ -1563,7 +1584,8 @@ HP3: 28-day cube results — Engineer approval before loading
 • <strong>HP-03:</strong> Temperature monitoring every 4 hours</p>
 </div>
 ` };
-  c["found_piles"] = { title: '🕳️ Bored Piles', content: `
+  c["found_piles"] = { title: '🕳️ Bored Piles',
+    titleEn: '🔩 Piled Foundations', content: `
 <div class="lang-content-ar">
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Bored Piles</div>
@@ -1646,7 +1668,8 @@ HP3: 28-day cube results — Engineer approval before loading
 • <strong>HP-03:</strong> PIT results before cap beam construction</p>
 </div>
 ` };
-  c["piles_full"] = { title: '🔧 الخوازيق — Bored Piles', content: `
+  c["piles_full"] = { title: '🔧 الخوازيق — Bored Piles',
+    titleEn: '🔩 Piles — Full Detail', content: `
 <div class="lang-content-ar">
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Bored Piles</div>
@@ -1751,7 +1774,8 @@ HP3: 28-day cube results — Engineer approval before loading
 • <strong>HP-03:</strong> PIT Class A acceptance before Cap Beam</p>
 </div>
 ` };
-  c["itp_structural"] = { title: '📋 ITPs الإنشاء — Structural ITPs', content: `
+  c["itp_structural"] = { title: '📋 ITPs الإنشاء — Structural ITPs',
+    titleEn: '📋 ITP Structural', content: `
 <div class="lang-content-ar">
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Structural ITPs</div>
@@ -1788,7 +1812,8 @@ HP3: 28-day cube results — Engineer approval before loading
 </div>
 </div>
 ` };
-  c["itp_foundations"] = { title: '📋 ITP — الأساسات | Foundations', content: `<div class="lang-content-ar">
+  c["itp_foundations"] = { title: '📋 ITP — الأساسات | Foundations',
+    titleEn: '📋 ITP Foundations', content: `<div class="lang-content-ar">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 QCS 2024 — Section 5 | Foundations</div>
 <table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
 <tr><td>1.1</td><td>Excavation Level</td><td>Design Drawing</td><td>موافقة المهندس على التربة</td><td>كل أساس</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
@@ -1848,7 +1873,8 @@ HP3: 28-day cube results — Engineer approval before loading
 </table>
 </div>
 ` };
-  c["itp_concrete"] = { title: '📋 ITP — الConcrete | Concrete Works', content: `<div class="lang-content-ar">
+  c["itp_concrete"] = { title: '📋 ITP — الConcrete | Concrete Works',
+    titleEn: '📋 ITP Concrete', content: `<div class="lang-content-ar">
 <div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
 <span style="font-size:16px;">🎥</span>
@@ -1921,7 +1947,8 @@ HP3: 28-day cube results — Engineer approval before loading
 <div style="font-size:11px;color:var(--text3);margin-top:8px;">H = Hold Point (no work proceeds without approval) | W = Witness Point (engineer notified) | QCS 2024 Section 5</div>
 </div>
 ` };
-  c["fire"] = { title: '🔥 الحريق والسلامة — QCDD', content: `
+  c["fire"] = { title: '🔥 الحريق والسلامة — QCDD',
+    titleEn: '🔥 Fire Resistance', content: `
 <div class="lang-content-ar">
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 17 | Fire & Safety + QCDD Requirements</div>
@@ -2118,7 +2145,8 @@ HP3: 28-day cube results — Engineer approval before loading
 <div id="doc-ai-result-en" style="margin-top:10px;"></div>
 </div>
 ` };
-  c["materials"] = { title: '🧱 مواد البناء والمنتجات', content: `
+  c["materials"] = { title: '🧱 مواد البناء والمنتجات',
+    titleEn: '🧱 Structural Materials', content: `
 <div class="lang-content-ar">
 <h3>المواصفات الأساسية</h3><table class="dm-table"><tr><th>المادة</th><th>المعيار</th><th>الملاحظة</th></tr><tr><td>الأسمنت</td><td>BS EN 197-1</td><td>مقاوم للكبريتات</td></tr><tr><td>الRebar</td><td>BS 4449</td><td>درجة 500B</td></tr><tr><td>الConcrete</td><td>QCS-2024</td><td>نسبة ماء/أسمنت ≤ 0.45</td></tr><tr><td>الطوب</td><td>BS EN 771</td><td>مقاومة ≥ 7 N/mm²</td></tr></table>
 </div>
@@ -2152,7 +2180,8 @@ HP3: 28-day cube results — Engineer approval before loading
 
   // ─── Phase 4 additions ───────────────────────────────────────────────────
 
-  c["concrete_phases"] = { title: '📅 مراحل الصب — Concrete Pouring Phases', content: `
+  c["concrete_phases"] = { title: '📅 مراحل الصب — Concrete Pouring Phases',
+    titleEn: '📊 Concrete Pouring Phases', content: `
 <div class="lang-content-ar">
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
 📌 QCS 2024 Section 5 | مراحل الصب وإجراءات الضبط
@@ -2250,7 +2279,8 @@ HP3: 28-day cube results — Engineer approval before loading
 </div>
 ` };
 
-  c["rebar_itp"] = { title: '🔩 ITP الحديد — Rebar Inspection', content: `
+  c["rebar_itp"] = { title: '🔩 ITP الحديد — Rebar Inspection',
+    titleEn: '📋 ITP Reinforcement', content: `
 <div class="lang-content-ar">
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
 📌 QCS 2024 Section 5 Part 3 | BS 8110 | فحص حديد التسليح
@@ -2303,91 +2333,50 @@ HP3: 28-day cube results — Engineer approval before loading
 </div>
 
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🔩 Rebar Inspection ITP
-</div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below.</p>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
-📌 QCS 2024 Section 5 Part 3 | BS 8110 | Reinforcement Inspection
+📌 QCS 2024 Section 5 Part 3 | BS 8110 | Rebar Inspection ITP
 </div>
-<h3>📋 Rebar Checklist</h3>
+<h3>📋 Rebar Inspection Checklist — ITP</h3>
 <table class="dm-table">
 <thead><tr><th>Item</th><th>Requirement</th><th>Method</th><th>Decision</th><th>QCS</th></tr></thead>
 <tbody>
-<tr><td><strong>Rebar Type</strong></td><td>B460B / B500B — High Yield Deformed</td><td>Mill Certificate</td><td>Accept / Reject</td><td>S5 P3</td></tr>
-<tr><td><strong>Bar diameter</strong></td><td>Per drawings ± 2mm</td><td>Vernier Caliper</td><td>Accept / Reject</td><td>S5 P3</td></tr>
+<tr><td><strong>Rebar Grade</strong></td><td>B460B / B500B — High Yield Deformed</td><td>Mill Certificate</td><td>Accept / Reject</td><td>S5 P3</td></tr>
+<tr><td><strong>Bar Diameter</strong></td><td>As drawings ± 2mm</td><td>Vernier Caliper</td><td>Accept / Reject</td><td>S5 P3</td></tr>
 <tr><td><strong>Cover — Internal</strong></td><td>25mm minimum</td><td>Cover Meter</td><td>&lt; 20mm → Reject</td><td>S5 P3</td></tr>
-<tr><td><strong>Cover — External normal</strong></td><td>40mm minimum</td><td>Cover Meter</td><td>&lt; 35mm → Reject</td><td>S5 P3</td></tr>
-<tr><td><strong>Cover — Aggressive env.</strong></td><td>50mm minimum</td><td>Cover Meter</td><td>&lt; 45mm → Reject</td><td>S5 P3 Qatar</td></tr>
-<tr><td><strong>Cover — Sabkha</strong></td><td>60mm minimum</td><td>Cover Meter</td><td>&lt; 55mm → Reject</td><td>IAN-006</td></tr>
-<tr><td><strong>Spacing — Main Bars</strong></td><td>Per drawings ± 10mm</td><td>Tape Measure</td><td>Accept / Reject</td><td>S5 P3</td></tr>
+<tr><td><strong>Cover — External (normal)</strong></td><td>40mm minimum</td><td>Cover Meter</td><td>&lt; 35mm → Reject</td><td>S5 P3</td></tr>
+<tr><td><strong>Cover — Aggressive Env.</strong></td><td>50mm minimum</td><td>Cover Meter</td><td>&lt; 45mm → Reject</td><td>S5 P3 Qatar</td></tr>
+<tr><td><strong>Cover — Sabkha Soil</strong></td><td>60mm minimum</td><td>Cover Meter</td><td>&lt; 55mm → Reject</td><td>IAN-006</td></tr>
+<tr><td><strong>Spacing — Main Bars</strong></td><td>As drawings ± 10mm</td><td>Tape Measure</td><td>Accept / Reject</td><td>S5 P3</td></tr>
 <tr><td><strong>Lap Length — Tension</strong></td><td>40φ minimum</td><td>Tape Measure</td><td>&lt; 38φ → Reject</td><td>S5 P3</td></tr>
-<tr><td><strong>Lap Length — Compression</strong></td><td>30φ minimum</td><td>Tape Measure</td><td>&lt; 28φ → Reject</td><td>S5 P3</td></tr>
-<tr><td><strong>Tie Wire</strong></td><td>At all intersections — no loose bars</td><td>Visual</td><td>Accept / Reject</td><td>S5 P3</td></tr>
-<tr><td><strong>Spacers</strong></td><td>Correct size, every 1m (slabs) / 0.75m (walls)</td><td>Visual</td><td>Accept / Reject</td><td>S5 P3</td></tr>
-<tr><td><strong>Links/Stirrups</strong></td><td>135° hooks — not 90°</td><td>Visual</td><td>Accept / Reject</td><td>S5 P3</td></tr>
+<tr><td><strong>Lap Length — Compression</strong></td><td>32φ minimum</td><td>Tape Measure</td><td>&lt; 30φ → Reject</td><td>S5 P3</td></tr>
+<tr><td><strong>Ties / Stirrups</strong></td><td>135° Hooks — fully tied</td><td>Visual</td><td>90° hooks → Reject</td><td>S5 P3</td></tr>
+<tr><td><strong>Spacers / Chairs</strong></td><td>Plastic — correct size for cover</td><td>Visual</td><td>Timber/stone → Reject</td><td>S5 P3</td></tr>
+<tr><td><strong>Bar Condition</strong></td><td>No mud, grease, or heavy rust</td><td>Visual</td><td>Mud/grease → Reject</td><td>S5 P3</td></tr>
+<tr><td><strong>Continuity</strong></td><td>No unauthorized breaks</td><td>Visual + Drawings</td><td>Accept / Reject</td><td>S5 P3</td></tr>
 </tbody>
 </table>
-<h3>Rebar Cover Requirements — QCS 2024</h3>
+<h3>📏 Lap Length Reference Table</h3>
 <table class="dm-table">
-<thead><tr><th>Location</th><th>Min Cover</th><th>Reject if &lt;</th><th>QCS</th></tr></thead>
+<thead><tr><th>Bar Dia. (φ)</th><th>Lap Tension (40φ)</th><th>Lap Compression (32φ)</th><th>Note</th></tr></thead>
 <tbody>
-<tr><td>Internal (protected)</td><td>25mm</td><td>20mm</td><td>S5 P3</td></tr>
-<tr><td>External (normal)</td><td>40mm</td><td>35mm</td><td>S5 P3</td></tr>
-<tr><td>Aggressive environment</td><td>50mm</td><td>45mm</td><td>S5 P3 Qatar</td></tr>
-<tr><td>Sabkha / below GWL</td><td>60mm</td><td>55mm</td><td>IAN-006</td></tr>
+<tr><td>T10 (10mm)</td><td>400mm</td><td>320mm</td><td>—</td></tr>
+<tr><td>T12 (12mm)</td><td>480mm</td><td>384mm</td><td>—</td></tr>
+<tr><td>T16 (16mm)</td><td>640mm</td><td>512mm</td><td>—</td></tr>
+<tr><td>T20 (20mm)</td><td>800mm</td><td>640mm</td><td>Common in columns</td></tr>
+<tr><td>T25 (25mm)</td><td>1000mm</td><td>800mm</td><td>Main columns</td></tr>
+<tr><td>T32 (32mm)</td><td>1280mm</td><td>1024mm</td><td>Heavy sections</td></tr>
 </tbody>
 </table>
-</div>
-` };
-
-  c["foundation_itp"] = { title: '🏗️ ITP الأساسات — Foundation Phases', content: `
-<div class="lang-content-ar">
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
-📌 QCS 2024 Section 5 Part 7 | BS 8004 | مراحل تنفيذ الأساسات
-</div>
-
-<h3>📋 مراحل تنفيذ الأساسات — ITP</h3>
+<h3>🔴 Hold Points — Rebar Inspection</h3>
 <table class="dm-table">
-<thead><tr><th>#</th><th>المرحلة</th><th>الفحص</th><th>النوع</th><th>المرجع</th></tr></thead>
+<thead><tr><th>HP</th><th>Description</th><th>Condition</th></tr></thead>
 <tbody>
-<tr><td>1</td><td>تحديد الحفر (Setting Out)</td><td>مطابقة الرسومات — قياس إحداثيات</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P7</td></tr>
-<tr><td>2</td><td>الحفر إلى العمق المطلوب</td><td>عمق الحفر + طبيعة التربة في القاع</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P7</td></tr>
-<tr><td>3</td><td>فحص تربة القاع (Founding Level)</td><td>مطابقة GI Report — Bearing Capacity</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P7 + GI</td></tr>
-<tr><td>4</td><td>طبقة الخرسانة الإطارية (Blinding)</td><td>سماكة 75-100mm، استواء</td><td><strong style="color:#f39c12;">WP</strong></td><td>S5 P7</td></tr>
-<tr><td>5</td><td>العزل المائي (Waterproofing)</td><td>نوع + سماكة + استمرارية + Laps</td><td><strong style="color:#e74c3c;">HP</strong></td><td>IAN-006</td></tr>
-<tr><td>6</td><td>فحص حديد الأساسات</td><td>Cover 60mm+ ، Spacing، Laps</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P3</td></tr>
-<tr><td>7</td><td>الصب (Concrete Pouring)</td><td>Grade، Slump، Temp، Cubes</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P4</td></tr>
-<tr><td>8</td><td>المعالجة (Curing)</td><td>7 أيام مياه أو compound معتمد</td><td><strong style="color:#f39c12;">WP</strong></td><td>S5 P4</td></tr>
-<tr><td>9</td><td>الردم (Backfill)</td><td>طبقات 200mm + Compaction ≥ 95% MDD</td><td><strong style="color:#f39c12;">WP</strong></td><td>S5 P7</td></tr>
-<tr><td>10</td><td>نتائج مكعبات 28 يوم</td><td>≥ fcu — قبل الإفراج عن الطابق</td><td><strong style="color:#e74c3c;">HP</strong></td><td>S5 P4</td></tr>
+<tr><td><strong>HP-R01</strong></td><td>Review Mill Certificates</td><td>Before site storage</td></tr>
+<tr><td><strong>HP-R02</strong></td><td>Pre-pour Rebar Inspection</td><td>Cover + Spacing + Laps + Ties all complete</td></tr>
+<tr><td><strong>HP-R03</strong></td><td>Tensile Test</td><td>Every 50 tonnes or new batch</td></tr>
 </tbody>
 </table>
-
-<h3>🔎 فحص تربة القاع — Founding Level Inspection</h3>
-<table class="dm-table">
-<thead><tr><th>البند</th><th>المطلوب</th><th>الإجراء عند عدم المطابقة</th></tr></thead>
-<tbody>
-<tr><td>عمق التأسيس</td><td>حسب GI Report (عادة ≥ 1.5m)</td><td>استمرار الحفر + إشعار الاستشاري</td></tr>
-<tr><td>Bearing Capacity</td><td>حسب GI — لا يقل عن Safe BC</td><td>Plate Load Test + تعديل التصميم</td></tr>
-<tr><td>غياب Sabkha</td><td>لا توجد طبقة Sabkha في مستوى التأسيس</td><td>استبدال التربة أو معالجتها</td></tr>
-<tr><td>حالة المياه الجوفية</td><td>ما دون مستوى التأسيس أو Dewatering</td><td>ضخ مياه + فحص استقرار الجدران</td></tr>
-<tr><td>المواد الغريبة</td><td>لا ردميات أو مخلفات</td><td>إزالة كاملة + موافقة الاستشاري</td></tr>
-</tbody>
-</table>
-
-<h3>🧱 متطلبات الخرسانة الإطارية — Blinding Concrete</h3>
-<table class="dm-table">
-<thead><tr><th>البند</th><th>المتطلب</th><th>QCS</th></tr></thead>
-<tbody>
-<tr><td>الدرجة</td><td>C15 (Blinding) — غير إنشائي</td><td>S5 P4</td></tr>
-<tr><td>السماكة</td><td>75mm min (100mm عند Sabkha)</td><td>S5 P7</td></tr>
-<tr><td>الغرض</td><td>سطح نظيف للعزل + حماية من الرطوبة</td><td>S5 P7</td></tr>
-<tr><td>وقت الصب</td><td>فور انتهاء الحفر — قبل تلوث القاع</td><td>S5 P7</td></tr>
-</tbody>
-</table>
-
-<div class="dm-note">📌 في قطر: الكبريتات والمياه الجوفية شائعة — SRPC إلزامي في الأساسات + Waterproofing من Class 1 على الأقل</div>
+<div class="dm-note">📌 Cover Meter (non-destructive test) used post-pour to verify actual cover — recommended for major projects</div>
 </div>
 
 <div class="lang-content-en" style="display:none;">
@@ -2429,7 +2418,8 @@ HP3: 28-day cube results — Engineer approval before loading
 </div>
 ` };
 
-  c["hot_weather_concreting"] = { title: '🌡️ الصب في الجو الحار — Hot Weather Concreting', content: `
+  c["hot_weather_concreting"] = { title: '🌡️ الصب في الجو الحار — Hot Weather Concreting',
+    titleEn: '🌡️ Hot Weather Concreting', content: `
 <div class="lang-content-ar">
 <div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
 ⚠️ QCS 2024 Section 5 Part 4 | Ashghal Practice | الصب في الجو الحار — قطر
@@ -2550,8 +2540,10 @@ HP3: 28-day cube results — Engineer approval before loading
 ` };
 
 // ── Missing ITP stubs (used in SECTION_MAP breadcrumb/nav) ──
-c["itp_rebar"] = { title: '📋 ITP — تسليح الخرسانة', content: c["rebar_itp"] ? c["rebar_itp"].content : c["itp_structural"].content };
-c["itp_piles"] = { title: '📋 ITP — الخوازيق', content: c["itp_foundations"] ? c["itp_foundations"].content : c["itp_structural"].content };
+c["itp_rebar"] = { title: '📋 ITP — تسليح الخرسانة',
+    titleEn: '📋 ITP Rebar', content: c["rebar_itp"] ? c["rebar_itp"].content : c["itp_structural"].content };
+c["itp_piles"] = { title: '📋 ITP — الخوازيق',
+    titleEn: '📋 ITP Piles', content: c["itp_foundations"] ? c["itp_foundations"].content : c["itp_structural"].content };
 
 })();
 
