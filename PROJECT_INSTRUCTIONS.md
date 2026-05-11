@@ -33,18 +33,20 @@
 
 لا تقول "تم الرفع" إلا بعد:
 
-□ 1. git status → لصق الناتج
-□ 2. git add [ملفات] → لصق الناتج
-□ 3. git diff --cached --stat → لصق الناتج
-□ 4. git commit -m "[رسالة]" → لصق الناتج
-□ 5. git log --oneline -3 → لصق الناتج
-□ 6. git push → لصق الناتج كاملاً
-□ 7. git ls-remote origin main → لصق hash الـ remote
-□ 8. مقارنة local hash مع remote hash
+- [ ] 1. git status → لصق الناتج
+- [ ] 2. git add [ملفات] → لصق الناتج
+- [ ] 3. git diff --cached --stat → لصق الناتج
+- [ ] 4. git commit -m "[رسالة]" → لصق الناتج
+- [ ] 5. git log --oneline -3 → لصق الناتج
+- [ ] 6. git push → لصق الناتج كاملاً
+- [ ] 7. git ls-remote origin main → لصق hash الـ remote
+- [ ] 8. مقارنة local hash مع remote hash
 
 إذا لم يتطابقان:
+```
 → ❌ STOP: git push فشل — الـ commit لم يصل
 → لا تكمل. لا تكذب. لا تقول "تم".
+```
 
 ---
 
@@ -71,7 +73,12 @@
 ## PROTOCOL 4: صفر تضليل (ZERO HALLUCINATION)
 
 ممنوع تماماً:
-- "أعتقد" / "ربما" / "على الأرجح" / "يبدو" / "يجب أن" / "من المفترض"
+- "أعتقد"
+- "ربما"
+- "على الأرجح"
+- "يبدو"
+- "يجب أن"
+- "من المفترض"
 
 إلزامي:
 - "الناتج الفعلي: [لصق]"
@@ -97,6 +104,7 @@
 ## PROTOCOL 6: RATE LIMITING (إلزامي)
 
 ### API Endpoints Limits:
+
 | Endpoint | Free | Pro | Global |
 |----------|------|-----|--------|
 | /api/ai-proxy | 5/min | 60/min | 100/min/IP |
@@ -123,12 +131,14 @@ echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-
 
 ## PROJECT INFO
 
-- **Name:** QatarSpec Pro
-- **Site:** qatar-standers.vercel.app
-- **Stack:** Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
-- **Repo:** github.com/shoosh85-code/Qatar-standers-
-- **Audience:** مهندسون قطريون وأجانب يعملون في قطر
-- **References:** QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
+```
+Name:      QatarSpec Pro
+Site:      qatar-standers.vercel.app
+Stack:     Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
+Repo:      github.com/shoosh85-code/Qatar-standers-
+Audience:  مهندسون قطريون وأجانب يعملون في قطر
+References: QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
+```
 
 ---
 
@@ -141,7 +151,7 @@ git config user.email "qatarspec@deploy.app"
 git config user.name "QatarSpec Deploy"
 ```
 
-Push:
+**Push:**
 ```bash
 git remote set-url origin https://TOKEN@github.com/shoosh85-code/Qatar-standers-.git
 git push origin main
@@ -158,19 +168,19 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 - Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
 - Pro features: gentle prompt for free users
 - Never invent numbers — say "غير موجود في المستند"
-- window.QS namespace for all public functions
+- `window.QS` namespace for all public functions
 - Sanitize ALL user input before innerHTML
-- const/let only (no var)
+- `const`/`let` only (no `var`)
 - Arabic comments for complex logic
 
 ---
 
 ## EXPORT STANDARDS
 
-- PDF: QatarSpec Pro header + QCS 2024 reference + page numbers + watermark
-- Excel: Ashghal official format + multiple sheets + summary stats
-- Word: Professional header + editable fields + QCS clause references
-- All exports: Project name + Engineer name + Date + QatarSpec branding
+- **PDF:** QatarSpec Pro header + QCS 2024 reference + page numbers + watermark
+- **Excel:** Ashghal official format + multiple sheets + summary stats
+- **Word:** Professional header + editable fields + QCS clause references
+- **All exports:** Project name + Engineer name + Date + QatarSpec branding
 
 ---
 
@@ -197,25 +207,22 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 
 ---
 
-## ZERO DIFFERENCE — Bilingual Parity Check
+## DECISION FRAMEWORK
 
-```python
-python3 -c "
-import re, os
-files = ['data_content_roads.js','data_content_utilities.js','data_content_structural.js',
-         'data_content_extra.js','data_content_phase4.js','data_content_geotech.js','data_content_tools.js']
-all_ok = True
-for f in files:
-    if not os.path.exists(f): print(f'⚠️ {f}: NOT FOUND'); continue
-    src = open(f, encoding='utf-8').read()
-    ar = len(re.findall(r'lang-content-ar', src))
-    en = len(re.findall(r'lang-content-en', src))
-    diff = ar - en
-    if diff != 0: all_ok = False
-    print(f'{'✅' if diff==0 else '❌'} {f}: AR={ar} EN={en} DIFF={diff}')
-print('✅ ALL OK' if all_ok else '❌ PARITY BROKEN')
-"
-```
+1. Which serves target user tier better?
+2. Which is more accurate per QCS 2024?
+3. Which converts more Free → Pro users?
+4. Which reduces engineering errors on site?
+5. Which is faster to implement and test?
+
+---
+
+## ENGINEERING STANDARDS
+
+- Follow QCS 2024 exactly — alert user if conflict
+- All calculators: input validation + Qatari units + Pass/Fail + QCS reference
+- All exports: QatarSpec Pro header + project + engineer + date + QCS clause
+- All AI outputs: Arabic + disclaimer + exact QCS Part/Section/Clause
 
 ---
 
