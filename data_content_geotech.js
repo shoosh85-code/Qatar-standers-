@@ -119,14 +119,26 @@
 
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 📐 الجسات — التخطيط والنطاق
-</div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 2 | Planning & Scope</div>
+<h3>📐 Borehole Grid</h3>
+<table class="dm-table"><tr><th>Project Type</th><th>BH Spacing</th><th>Minimum</th></tr>
+<tr><td>Small Residential Building</td><td>15-25m</td><td>3 BH</td></tr>
+<tr><td>Commercial Building / Tower</td><td>15-20m</td><td>4 BH at corners + 1 centre</td></tr>
+<tr><td>Road</td><td>Every 50-100m</td><td>BH every 50m for main roads</td></tr>
+<tr><td>Utilities</td><td>Every 100m</td><td>BH + Trial Pit</td></tr>
+<tr><td>Bridge / Marine Structure</td><td>Per support configuration</td><td>BH at each Pier</td></tr>
+</table>
+<h3>📐 Required Depths</h3>
+<table class="dm-table"><tr><th>Foundation Type</th><th>Depth</th></tr>
+<tr><td>Pad / Strip Foundation</td><td>Foundation depth + 5B or 10m</td></tr>
+<tr><td>Raft Foundation</td><td>Foundation depth + 2B or 15m</td></tr>
+<tr><td>Bored Piles</td><td>Pile length + 5D or 3m</td></tr>
+<tr><td>Roads & Utilities</td><td>3-5m below road level</td></tr>
+</table>
+<h3>🔧 Site Requirements</h3>
+<p>• NOC from all authorities before drilling<br>• Locate all buried services before drilling<br>• Geotechnical supervisor on site during drilling<br>• Document everything with photos</p>
+<h3>🔴 Hold Points</h3>
+<p>• <strong>HP-01:</strong> Investigation plan approved by Geotechnical Engineer before commencement</p>
 </div>
 ` };
   c["geo_borehole"] = { title: '🕳️ الجسات — Boreholes', content: `
@@ -177,14 +189,46 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🕳️ الجسات — Boreholes
-</div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 2 | Borehole Drilling</div>
+<h3>📐 Drilling Methods</h3>
+<table class="dm-table"><tr><th>Method</th><th>Application</th><th>Advantages</th></tr>
+<tr><td>Rotary Drilling</td><td>Rock and hard materials</td><td>Good samples + large depths</td></tr>
+<tr><td>Cable Percussion</td><td>Soil and sand</td><td>Excellent for SPT</td></tr>
+<tr><td>Auger Drilling</td><td>Soft clay layers</td><td>Fast and cost-effective</td></tr>
+<tr><td>Trial Pits</td><td>Depths ≤ 3m</td><td>Excellent visual inspection</td></tr>
+</table>
+<h3>📐 Borehole Log Records</h3>
+<p>• Describe each layer (type + colour + density + moisture)<br>• Groundwater level at first occurrence<br>• SPT depth and result for each test<br>• Type and depth of each sample<br>• Any abnormal conditions (Sabkha, Cavities, Gas)</p>
+<h3>⚠️ Qatar-Specific Alerts</h3>
+<p>• <strong>Sabkha:</strong> White/grey saline layer — record depth and thickness<br>• <strong>Cavernous Limestone:</strong> Voids in limestone — hazard to foundations<br>• <strong>Fill Material:</strong> Old fill common in coastal areas<br>• <strong>Gas:</strong> Present in some areas — mandatory safety precautions</p>
+<h3>📐 Minimum BH Requirements</h3>
+<table class="dm-table">
+<thead><tr><th>Project Type</th><th>Min. Boreholes</th><th>Min. Depth</th><th>Reference</th></tr></thead>
+<tbody>
+<tr><td>Buildings ≤ 3 Storeys</td><td>1 BH per footing / 500m²</td><td>6m or 1.5× foundation width</td><td>QCS 2024 S2</td></tr>
+<tr><td>Buildings 4-10 Storeys</td><td>1 BH / 250m²</td><td>15m or to rock</td><td>QCS 2024 S2</td></tr>
+<tr><td>Buildings > 10 Storeys / Tower</td><td>1 BH / 200m² + deep BH</td><td>30m+ or as directed</td><td>QCS 2024 S2</td></tr>
+<tr><td>Piles</td><td>BH at each main pile location</td><td>Pile length + 3× diameter</td><td>S5 P7</td></tr>
+<tr><td>Roads / Infrastructure</td><td>1 BH every 50-100m on alignment</td><td>3m below excavation level</td><td>Ashghal IAN</td></tr>
+<tr><td>Suspected Sabkha Areas</td><td>1 BH every 25-50m</td><td>Full penetration of Sabkha layer</td><td>IAN-006</td></tr>
+</tbody>
+</table>
+<h3>📏 Mandatory BH Log Data</h3>
+<table class="dm-table">
+<thead><tr><th>Item</th><th>Requirement</th><th>Note</th></tr></thead>
+<tbody>
+<tr><td>Layer Description</td><td>Type + Colour + Density + Moisture</td><td>Unified description per BS 5930</td></tr>
+<tr><td>Groundwater Level</td><td>Depth at occurrence + level after 24h</td><td>Identify Artesian if present</td></tr>
+<tr><td>SPT Results</td><td>Every 1.5m or at stratum change</td><td>N-Value + blows 3×150mm</td></tr>
+<tr><td>Sample Depth</td><td>Sample type (D/U) + condition</td><td>Disturbed / Undisturbed</td></tr>
+<tr><td>Drilling Conditions</td><td>Drilling fluid loss, flow, collapse</td><td>Indicators of Cavities or Karst</td></tr>
+<tr><td>Sabkha Notes</td><td>Depth + thickness + mineralisation</td><td>Photographic record mandatory</td></tr>
+</tbody>
+</table>
+<h3>🔴 Hold Points</h3>
+<p>• <strong>HP-02:</strong> Geotechnical supervisor on site throughout drilling period<br>
+• <strong>HP-BH01:</strong> Inspect and record proposed founding level before finalising report<br>
+• <strong>HP-BH02:</strong> Number and depth of boreholes approved by consultant before drilling commences</p>
 </div>
 ` };
   c["geo_spt"] = { title: '🔨 الجسات — SPT Test', content: `
@@ -251,14 +295,61 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🔨 الجسات — SPT Test
-</div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 BS EN ISO 22476-3 | Standard Penetration Test</div>
+<h3>📐 SPT Procedure</h3>
+<table class="dm-table"><tr><th>Item</th><th>Requirement</th></tr>
+<tr><td>Hammer Weight</td><td>63.5 kg</td></tr>
+<tr><td>Drop Height</td><td>760mm</td></tr>
+<tr><td>Seating Drive</td><td>150mm (not counted)</td></tr>
+<tr><td>Test Drive</td><td>300mm = total N blows</td></tr>
+<tr><td>Refusal</td><td>&gt; 50 blows for 300mm or 100 blows for 150mm</td></tr>
+<tr><td>Frequency</td><td>Every 1.5m or at stratum change</td></tr>
+</table>
+<h3>📊 SPT N-Value Interpretation</h3>
+<table class="dm-table"><tr><th>N-Value</th><th>Sand</th><th>Clay</th></tr>
+<tr><td>0-4</td><td>Very Loose</td><td>Very Soft</td></tr>
+<tr><td>4-10</td><td>Loose</td><td>Soft</td></tr>
+<tr><td>10-30</td><td>Medium Dense</td><td>Medium Stiff</td></tr>
+<tr><td>30-50</td><td>Dense</td><td>Stiff</td></tr>
+<tr><td>&gt; 50</td><td>Very Dense</td><td>Very Stiff</td></tr>
+</table>
+<h3>⚙️ N-Value Corrections</h3>
+<p>• <strong>N60:</strong> Energy efficiency correction (typically × 0.6-1.0)<br>• <strong>N1,60:</strong> Overburden pressure correction<br>• <strong>Qatar Note:</strong> High Gravel Content gives misleadingly high N — exercise caution</p>
+<h3>📊 Detailed N-SPT Interpretation — Qatar Context</h3>
+<table class="dm-table">
+<thead><tr><th>N-Value</th><th>Sand / Gravel</th><th>Clay</th><th>φ°</th><th>qu (kPa)</th><th>Foundation Recommendation</th></tr></thead>
+<tbody>
+<tr><td><strong>0-4</strong></td><td>Very Loose</td><td>Very Soft</td><td>&lt; 28°</td><td>&lt; 25</td><td>Not suitable for direct founding</td></tr>
+<tr><td><strong>4-10</strong></td><td>Loose</td><td>Soft</td><td>28-30°</td><td>25-50</td><td>Raft or Piles generally required</td></tr>
+<tr><td><strong>10-20</strong></td><td>Medium Dense</td><td>Medium Stiff</td><td>30-35°</td><td>50-100</td><td>Pad / Strip with additional verification</td></tr>
+<tr><td><strong>20-30</strong></td><td>Medium Dense (Upper)</td><td>Stiff</td><td>35-38°</td><td>100-200</td><td>Pad / Strip — acceptable</td></tr>
+<tr><td><strong>30-50</strong></td><td>Dense</td><td>Very Stiff</td><td>38-42°</td><td>200-400</td><td>Excellent for most foundation types</td></tr>
+<tr><td><strong>&gt; 50</strong></td><td>Very Dense / Rock</td><td>Hard</td><td>&gt; 42°</td><td>&gt; 400</td><td>Excellent — Piles end bearing</td></tr>
+</tbody>
+</table>
+<h3>⚠️ Qatar N-SPT Alerts</h3>
+<table class="dm-table">
+<thead><tr><th>Condition</th><th>Problem</th><th>Solution</th></tr></thead>
+<tbody>
+<tr><td>Cemented Sand / Calcarenite</td><td>Misleadingly high N due to cementation, not density</td><td>Core Sampling + qu from lab tests</td></tr>
+<tr><td>High Gravel Content</td><td>Falsely high N due to gravel</td><td>DCPT + Plate Load Test to verify</td></tr>
+<tr><td>Sabkha (saline soil)</td><td>Misleadingly low N — improves on drying</td><td>Chemical analysis + UCS test</td></tr>
+<tr><td>Cavernous Limestone</td><td>Sudden N = 0 at void location</td><td>Rotary Coring + geophysical testing</td></tr>
+<tr><td>High GWL</td><td>Reduces N in fine sand below water table</td><td>Apply N60 + Overburden corrections</td></tr>
+</tbody>
+</table>
+<h3>🔧 N-Value Corrections Table</h3>
+<table class="dm-table">
+<thead><tr><th>Correction</th><th>Symbol</th><th>Formula / Value</th><th>Use</th></tr></thead>
+<tbody>
+<tr><td>Energy Correction</td><td>N₆₀</td><td>N × (ER/60)</td><td>Normalise to 60% energy efficiency</td></tr>
+<tr><td>Overburden Correction</td><td>(N₁)₆₀</td><td>N₆₀ × Cn where Cn = (100/σ'v)^0.5</td><td>Normalise to σ'v = 100 kPa</td></tr>
+<tr><td>Rod Length (&lt; 3m)</td><td>Cr</td><td>0.75 (rod &lt; 3m)</td><td>Shallow investigations</td></tr>
+<tr><td>Sampler (liner absent)</td><td>Cs</td><td>1.1-1.3</td><td>When liner is absent in sampler</td></tr>
+</tbody>
+</table>
+<h3>🔴 Hold Points</h3>
+<p>• <strong>HP-03:</strong> Hammer and equipment calibration verified before commencement</p>
 </div>
 ` };
   c["geo_lab"] = { title: '🧪 الجسات — اختبارات المختبر', content: `
@@ -307,16 +398,6 @@ All numerical values, specifications and test methods shown in Arabic are source
 ⚠️ Qatar Specific: SO3 and Cl tests mandatory in ALL geotechnical investigations. Sabkha, gypseous soils, and high GWL are common.
 </div>
 </div>
-<div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 💧 الجسات — المياه الجوفية
-</div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
-</div>
 ` };
   c["geo_report"] = { title: '📋 الجسات — التقرير النهائي (GI Report)', content: `
 <div class="lang-content-ar">
@@ -340,14 +421,22 @@ All numerical values, specifications and test methods shown in Arabic are source
 
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 📋 الجسات — التقرير النهائي (GI Report)
-</div>
-<p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
-<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:12px;margin:10px 0;">
-<strong style="color:#3498db;">Switch to Arabic (عربي) for full detailed content, tables and ITP checklists.</strong><br>
-All numerical values, specifications and test methods shown in Arabic are sourced directly from QCS 2024 and apply universally.
-</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 2 | GI Report</div>
+<h3>📋 Mandatory Report Contents</h3>
+<table class="dm-table"><tr><th>Section</th><th>Content</th></tr>
+<tr><td>1. Introduction</td><td>Site location + purpose + scope of investigation</td></tr>
+<tr><td>2. Regional Geology</td><td>Geological formations in the area</td></tr>
+<tr><td>3. Drilling Results</td><td>Borehole Logs + photos + layer descriptions</td></tr>
+<tr><td>4. Field Test Results</td><td>SPT + Permeability + any other field tests</td></tr>
+<tr><td>5. Laboratory Results</td><td>All chemical and physical test data</td></tr>
+<tr><td>6. Groundwater</td><td>Levels + water quality + recommendations</td></tr>
+<tr><td>7. Recommendations</td><td>Foundation type + founding depths + sulphate classification</td></tr>
+<tr><td>8. Geological Sections</td><td>Cross Sections linking all boreholes</td></tr>
+</table>
+<h3>⭐ Mandatory Qatar Recommendations</h3>
+<p>• <strong>Sulphate Classification:</strong> Class 1-5 for soil and groundwater<br>• <strong>Cement Type:</strong> OPC / SRPC / SRPC+GGBS as applicable<br>• <strong>Concrete Cover:</strong> Per Exposure Class<br>• <strong>Waterproofing:</strong> Type and specification of protection required<br>• <strong>Dewatering:</strong> Method and expected depth<br>• <strong>Sabkha:</strong> Recommendation for treatment or replacement</p>
+<h3>🔴 Hold Points</h3>
+<p>• <strong>HP-06:</strong> GI Report approved by Geotechnical Engineer before design commences</p>
 </div>
 ` };
   c["itp_geotech"] = { title: '📋 ITP — الجسات | Geotechnical Investigation', content: `<div class="lang-content-ar">
