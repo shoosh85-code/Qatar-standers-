@@ -724,6 +724,76 @@ const TR = {
     fcopy:'© 2025 دليل المواصفات القطرية — QatarSpec Pro',
     aiCopy:'📋 نسخ الإجابة',
     searching:'جاري البحث في المواصفات...',
+    // Key Modal
+    keyModalTitle:'🔑 إعداد AI',
+    keyModalDesc:'التطبيق يعمل عبر server proxy آمن — لا حاجة لمفتاح شخصي. للاستخدام المحلي فقط أدخل Gemini API Key.',
+    keyModalNote:'✅ <strong>الإنتاج:</strong> يعمل تلقائياً عبر /api/ai-proxy و /api/vision-proxy — لا حاجة لأي مفتاح. المفتاح هنا للتطوير المحلي فقط.',
+    keyModalPH:'AIza... (Gemini — للتطوير المحلي فقط)',
+    keyModalSave:'✅ حفظ وتفعيل',
+    keyModalCancel:'إلغاء',
+    // Pro Modal
+    proModalSub:'الأداة الاحترافية الأولى للمواصفات القطرية — اختر الخطة المناسبة',
+    planFreeName:'🆓 المجاني',
+    planFreePeriod:'للأبد — بدون بطاقة',
+    planFreeF1:'5 بحث ذكي يومياً',
+    planFreeF2:'كل المحتوى الثابت (100+ قسم)',
+    planFreeF3:'الحاسبات الأساسية',
+    planFreeF4:'تصدير PDF / Word',
+    planFreeF5:'محلل المستندات الذكي',
+    planFreeF6:'محلل المخططات',
+    planFreeF7:'المفتش الذكي بالصور',
+    planFreeF8:'بحث غير محدود',
+    planFreeCta:'الخطة الحالية',
+    planProBadge:'🔥 الأكثر شيوعاً',
+    planProPeriod:'شهرياً',
+    planProSave:'سنوياً — وفر 33%',
+    planProF1:'بحث ذكي غير محدود',
+    planProF2:'كل المحتوى الثابت (100+ قسم)',
+    planProF3:'جميع الحاسبات',
+    planProF4:'تصدير PDF + Word احترافي',
+    planProF5:'محلل المستندات بالذكاء الاصطناعي',
+    planProF6:'محلل المخططات (Structural/Road)',
+    planProF7:'المفتش الذكي بالصور',
+    planProF8:'دعم فني أولوية',
+    planProMonthly:'🚀 اشترك شهرياً — 99 QAR',
+    planProYearly:'💎 اشترك سنوياً — 799 QAR <span style="font-size:10px;opacity:0.9;">(وفر 33%)</span>',
+    promoTitle:'🎁 لديك كود خصم أو ترقية؟',
+    promoDesc:'أدخل الكود لتفعيل النسخة Pro فوراً',
+    promoActivate:'✅ تفعيل',
+    payContactTitle:'📱 للاشتراك — تواصل معنا مباشرةً',
+    waReply:'رد خلال ساعة — دفع آمن',
+    emailLabel:'البريد الإلكتروني',
+    payMethods:'💳 نقبل: بطاقات ائتمان · تحويل بنكي · Ooredoo Pay · QNB',
+    proGuarantee:'✅ ضمان استرداد 7 أيام &nbsp;|&nbsp; 🔒 دفع آمن &nbsp;|&nbsp; 🇶🇦 مصمم لمهندسي قطر',
+    // Upgrade Overlay
+    upgradeDefault:'ميزة Pro',
+    upgradeDefaultDesc:'هذه الميزة متاحة للمشتركين في النسخة Pro فقط.',
+    upgradeCta:'🚀 ارقَ إلى Pro الآن',
+    upgradeDismiss:'ليس الآن',
+    // Offline
+    offlineMsg:'📡 أنت غير متصل — بعض الميزات غير متاحة',
+    // AI Disclaimer
+    aiDisc:'🔍 <strong>بحث RAG:</strong> يتم جلب نصوص QCS 2024 الفعلية من قاعدة البيانات أولاً، ثم بناء الإجابة عليها. القرارات الهندسية الرسمية تتطلب مراجعة الوثيقة الأصلية.',
+    // Signature
+    sigLabel:'التوقيع الرقمي — QC Engineer',
+    sigClear:'مسح',
+    sigSave:'✅ حفظ التوقيع',
+    sigSaved:'✅ تم الحفظ',
+    forExport:'للتصدير الرسمي',
+    sigBtn:'✍️ توقيع',
+    // Legal Disclaimer
+    legalTitle:'⚖️ إخلاء المسؤولية القانونية',
+    legalP1:'<strong>QatarSpec Pro</strong> هو مرجع معرفي عام (General Knowledge Reference) للمهندسين والمقاولين في دولة قطر.',
+    legalP2:'🔹 جميع المعلومات مبنية على <strong>QCS 2024</strong> و <strong>Ashghal Standards</strong> و <strong>KAHRAMAA Regulations</strong> المتاحة للعامة.',
+    legalP3:'🔹 هذا التطبيق <strong>لا يُعتمد</strong> كمرجع تصميمي رسمي — يجب مراجعة الوثائق الأصلية المعتمدة من الجهات المختصة قبل أي قرار هندسي.',
+    legalP4:'🔹 لا تتحمل QatarSpec Pro مسؤولية أي أخطاء في التطبيق أو سوء استخدام المعلومات.',
+    legalP5:'🔹 للاستخدام المهني التعليمي فقط — <strong>Not for Construction Design Purposes</strong>.',
+    legalContact:'📧 للاستفسارات: info@qatarspec.com | 🇶🇦 صُمم لمهندسي قطر',
+    // Toast
+    toastDone:'✅ تم!',
+    // Footer legal links
+    termsLink:'الشروط والأحكام',
+    privacyLink:'سياسة الخصوصية',
   },
   en: {
     dir: 'ltr', lang: 'en', align: 'left',
@@ -765,6 +835,76 @@ const TR = {
     fcopy:'© 2025 Qatar Spec Guide — QatarSpec Pro',
     aiCopy:'📋 Copy Answer',
     searching:'Searching specifications...',
+    // Key Modal
+    keyModalTitle:'🔑 AI Setup',
+    keyModalDesc:'The app works via secure server proxy — no personal key needed. For local development only, enter your Gemini API Key.',
+    keyModalNote:'✅ <strong>Production:</strong> Works automatically via /api/ai-proxy &amp; /api/vision-proxy — no key needed. Key here is for local development only.',
+    keyModalPH:'AIza... (Gemini — local development only)',
+    keyModalSave:'✅ Save & Activate',
+    keyModalCancel:'Cancel',
+    // Pro Modal
+    proModalSub:"Qatar's #1 Professional Specifications Tool — Choose Your Plan",
+    planFreeName:'🆓 Free',
+    planFreePeriod:'Forever — No card needed',
+    planFreeF1:'5 AI searches per day',
+    planFreeF2:'All static content (100+ sections)',
+    planFreeF3:'Basic calculators',
+    planFreeF4:'Export PDF / Word',
+    planFreeF5:'Smart Document Analyzer',
+    planFreeF6:'Drawing Analyzer',
+    planFreeF7:'AI Photo Inspector',
+    planFreeF8:'Unlimited search',
+    planFreeCta:'Current Plan',
+    planProBadge:'🔥 Most Popular',
+    planProPeriod:'Monthly',
+    planProSave:'Yearly — Save 33%',
+    planProF1:'Unlimited AI search',
+    planProF2:'All static content (100+ sections)',
+    planProF3:'All calculators',
+    planProF4:'Professional PDF + Word export',
+    planProF5:'AI Document Analyzer',
+    planProF6:'Drawing Analyzer (Structural/Road)',
+    planProF7:'AI Photo Inspector',
+    planProF8:'Priority technical support',
+    planProMonthly:'🚀 Subscribe Monthly — 99 QAR',
+    planProYearly:'💎 Subscribe Yearly — 799 QAR <span style="font-size:10px;opacity:0.9;">(Save 33%)</span>',
+    promoTitle:'🎁 Have a promo or upgrade code?',
+    promoDesc:'Enter code to activate Pro instantly',
+    promoActivate:'✅ Activate',
+    payContactTitle:'📱 To Subscribe — Contact Us Directly',
+    waReply:'Reply within 1 hour — Secure payment',
+    emailLabel:'Email',
+    payMethods:'💳 Accepted: Credit Cards · Bank Transfer · Ooredoo Pay · QNB',
+    proGuarantee:'✅ 7-Day Money Back &nbsp;|&nbsp; 🔒 Secure Payment &nbsp;|&nbsp; 🇶🇦 Built for Qatar Engineers',
+    // Upgrade Overlay
+    upgradeDefault:'Pro Feature',
+    upgradeDefaultDesc:'This feature is available for Pro subscribers only.',
+    upgradeCta:'🚀 Upgrade to Pro Now',
+    upgradeDismiss:'Not Now',
+    // Offline
+    offlineMsg:'📡 You are offline — some features unavailable',
+    // AI Disclaimer
+    aiDisc:'🔍 <strong>RAG Search:</strong> Actual QCS 2024 text is retrieved from the database first, then the answer is built from it. Official engineering decisions require reviewing the original approved document.',
+    // Signature
+    sigLabel:'Digital Signature — QC Engineer',
+    sigClear:'Clear',
+    sigSave:'✅ Save Signature',
+    sigSaved:'✅ Saved',
+    forExport:'For Official Export',
+    sigBtn:'✍️ Signature',
+    // Legal Disclaimer
+    legalTitle:'⚖️ Legal Disclaimer',
+    legalP1:'<strong>QatarSpec Pro</strong> is a General Knowledge Reference for engineers and contractors in Qatar.',
+    legalP2:'🔹 All information is based on publicly available <strong>QCS 2024</strong>, <strong>Ashghal Standards</strong>, and <strong>KAHRAMAA Regulations</strong>.',
+    legalP3:'🔹 This app is <strong>not approved</strong> as an official design reference — original documents approved by relevant authorities must be reviewed before any engineering decision.',
+    legalP4:'🔹 QatarSpec Pro bears no responsibility for any errors in the app or misuse of information.',
+    legalP5:'🔹 For professional educational use only — <strong>Not for Construction Design Purposes</strong>.',
+    legalContact:'📧 Enquiries: info@qatarspec.com | 🇶🇦 Built for Qatar Engineers',
+    // Toast
+    toastDone:'✅ Done!',
+    // Footer legal links
+    termsLink:'Terms & Conditions',
+    privacyLink:'Privacy Policy',
   }
 };
 
@@ -903,6 +1043,98 @@ function setLang(lang) {
     });
     const pb2 = panel.querySelector('.back-btn'); if(pb2) pb2.textContent=t.backBtn;
   }
+
+  // ═══ v3.3: 86 UNTRANSLATED TEXTS FIX ═══
+  let el2;
+
+  // --- Key Modal ---
+  el2=document.getElementById('keyModalTitle'); if(el2) el2.textContent=t.keyModalTitle;
+  el2=document.querySelector('#keyModal .modal-desc'); if(el2) el2.textContent=t.keyModalDesc;
+  el2=document.querySelector('#keyModal .modal-save'); if(el2) el2.textContent=t.keyModalSave;
+  el2=document.querySelector('#keyModal .modal-cancel'); if(el2) el2.textContent=t.keyModalCancel;
+  el2=document.getElementById('keyInput'); if(el2) el2.placeholder=t.keyModalPH;
+  var _keyNote=document.querySelector('#keyModal .modal-box>div[style*="rgba(39"]');
+  if(_keyNote) _keyNote.innerHTML=t.keyModalNote;
+
+  // --- Pro Modal ---
+  el2=document.querySelector('#proModal .pro-modal-sub'); if(el2) el2.textContent=t.proModalSub;
+  var _plans=document.querySelectorAll('#proModal .plan-card');
+  if(_plans[0]){
+    var _fc=_plans[0];
+    var _fn=_fc.querySelector('.plan-name'); if(_fn) _fn.textContent=t.planFreeName;
+    var _fp=_fc.querySelector('.plan-period'); if(_fp) _fp.textContent=t.planFreePeriod;
+    var _flis=_fc.querySelectorAll('.plan-features li');
+    [t.planFreeF1,t.planFreeF2,t.planFreeF3,t.planFreeF4,t.planFreeF5,t.planFreeF6,t.planFreeF7,t.planFreeF8].forEach(function(txt,i){ if(_flis[i]) _flis[i].textContent=txt; });
+    var _fb=_fc.querySelector('.plan-btn'); if(_fb) _fb.textContent=t.planFreeCta;
+  }
+  if(_plans[1]){
+    var _pc=_plans[1];
+    var _pb=_pc.querySelector('.plan-badge-top'); if(_pb) _pb.textContent=t.planProBadge;
+    var _pp=_pc.querySelector('.plan-period'); if(_pp) _pp.textContent=t.planProPeriod;
+    var _ps=_pc.querySelector('div[style*="2ecc71"][style*="10px"]'); if(_ps) _ps.textContent=t.planProSave;
+    var _plis=_pc.querySelectorAll('.plan-features li');
+    [t.planProF1,t.planProF2,t.planProF3,t.planProF4,t.planProF5,t.planProF6,t.planProF7,t.planProF8].forEach(function(txt,i){ if(_plis[i]) _plis[i].textContent=txt; });
+    var _pm=_pc.querySelector('[data-action="tapMonthly"]'); if(_pm) _pm.textContent=t.planProMonthly;
+    var _py=_pc.querySelector('[data-action="tapYearly"]'); if(_py) _py.innerHTML=t.planProYearly;
+  }
+  var _promo=document.querySelector('#proModal .promo-section');
+  if(_promo){
+    var _pt=_promo.querySelector('div:first-child'); if(_pt) _pt.textContent=t.promoTitle;
+    var _pd=_promo.querySelector('div:nth-child(2)'); if(_pd) _pd.textContent=t.promoDesc;
+    var _pab=_promo.querySelector('.promo-btn'); if(_pab) _pab.textContent=t.promoActivate;
+  }
+  var _payC=document.getElementById('paymentContact');
+  if(_payC){
+    var _pct=_payC.querySelector('div:first-child'); if(_pct) _pct.textContent=t.payContactTitle;
+    var _waR=_payC.querySelector('a[href*="wa.me"] div div:last-child'); if(_waR) _waR.textContent=t.waReply;
+    var _emD=_payC.querySelector('a[href*="mailto"] div div:first-child'); if(_emD) _emD.textContent=t.emailLabel;
+    var _payM=_payC.querySelector('div[style*="margin-top:10px"]'); if(_payM) _payM.textContent=t.payMethods;
+  }
+  // Pro modal footer guarantee line (last child of modal-box, no ID)
+  var _proBox=document.querySelector('#proModal .pro-modal-box');
+  if(_proBox){ var _proFoot=_proBox.lastElementChild; if(_proFoot&&!_proFoot.id&&!_proFoot.className) _proFoot.innerHTML=t.proGuarantee; }
+
+  // --- Upgrade Overlay ---
+  var _ut=document.getElementById('upgradeTitle');
+  var _ud=document.getElementById('upgradeDesc');
+  if(_ut&&(_ut.textContent==='ميزة Pro'||_ut.textContent==='Pro Feature')) _ut.textContent=t.upgradeDefault;
+  if(_ud&&_ud.textContent.length<80) _ud.textContent=t.upgradeDefaultDesc;
+  el2=document.querySelector('#upgradeOverlay .upgrade-cta'); if(el2) el2.textContent=t.upgradeCta;
+  el2=document.querySelector('#upgradeOverlay .upgrade-dismiss'); if(el2) el2.textContent=t.upgradeDismiss;
+
+  // --- Offline bar ---
+  el2=document.getElementById('offlineBar'); if(el2) el2.textContent=t.offlineMsg;
+
+  // --- AI Disclaimer ---
+  el2=document.querySelector('.ai-disclaimer'); if(el2) el2.innerHTML=t.aiDisc;
+
+  // --- ITP Signature ---
+  el2=document.querySelector('#itpSigSection>span'); if(el2) el2.textContent=t.sigLabel;
+  el2=document.querySelector('[data-action="clearSignature"]'); if(el2) el2.textContent=t.sigClear;
+  el2=document.querySelector('[data-action="saveSignature"]'); if(el2) el2.textContent=t.sigSave;
+  el2=document.getElementById('sigSavedMsg'); if(el2) el2.textContent=t.sigSaved;
+  el2=document.querySelector('#itp-project-bar>div>span'); if(el2) el2.textContent=t.forExport;
+  el2=document.querySelector('[data-action="toggleSigSection"]'); if(el2) el2.textContent=t.sigBtn;
+
+  // --- Legal Disclaimer ---
+  el2=document.querySelector('#legalDisclaimer>div:first-child'); if(el2) el2.textContent=t.legalTitle;
+  var _ldBody=document.querySelector('#legalDisclaimer>div:last-child');
+  if(_ldBody){
+    var _lps=_ldBody.querySelectorAll('p');
+    [t.legalP1,t.legalP2,t.legalP3,t.legalP4,t.legalP5,t.legalContact].forEach(function(html,i){ if(_lps[i]) _lps[i].innerHTML=html; });
+  }
+
+  // --- Toast (reset label) ---
+  el2=document.getElementById('toast'); if(el2&&(el2.textContent==='✅ تم!'||el2.textContent==='✅ Done!')) el2.textContent=t.toastDone;
+
+  // --- Footer legal links ---
+  var _fLinks=document.querySelectorAll('#appFooter a[href*="legal"]');
+  if(_fLinks[0]) _fLinks[0].textContent=t.termsLink;
+  if(_fLinks[1]) _fLinks[1].textContent=t.privacyLink;
+
+  // --- Back to top ---
+  el2=document.getElementById('backToTopBtn'); if(el2) el2.title=isEn?'Back to Top':'عودة للأعلى';
+  el2=document.getElementById('backToTopBtn'); if(el2) el2.setAttribute('aria-label',isEn?'Back to top':'العودة إلى أعلى الصفحة');
 }
 
 // Auto-apply on load
