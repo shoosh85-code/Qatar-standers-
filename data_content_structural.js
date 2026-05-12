@@ -1350,7 +1350,7 @@ HP3: 28-day cube results — Engineer approval before loading
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🪵 الشدات — Formwork
+📌 QCS 2024 Reference | 🪵 Formwork
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | Formwork</div>
@@ -1409,7 +1409,7 @@ HP3: 28-day cube results — Engineer approval before loading
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🪵 الشدات — Formwork
+📌 QCS 2024 Reference | 🪵 Formwork
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Formwork</div>
@@ -1818,7 +1818,7 @@ HP3: 28-day cube results — Engineer approval before loading
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 📋 ITPs الإنشاء — Structural ITPs
+📌 QCS 2024 Reference | 📋 Structural ITPs
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Structural ITPs</div>
