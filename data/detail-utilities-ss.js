@@ -2198,44 +2198,6 @@ structures_buildings: { title: '🏗️ الإنشاءات — الأبراج و
 <div style="color:var(--text3);font-size:12px;margin-top:4px;">خرسانة + حديد + طابوق + اسمنت + رمل</div>
 </div>
 </div>
-<div class="lang-content-en">
-<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;color:#3498db;">
-📌 QCS 2024 — Section 5 | BS EN 1992 | Tower & Residential/Commercial Building Construction
-</div>
-<h3>📐 Select Phase</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
-<div onclick="QS.openDetail('struct_survey')" style="background:rgba(44,62,80,0.3);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:22px;">📐</div><div style="color:#3498db;font-weight:700;font-size:12px;">Survey & Design</div>
-<div style="color:var(--text3);font-size:10px;">Survey + Design + NOC</div></div>
-<div onclick="QS.openDetail('struct_foundation')" style="background:rgba(44,62,80,0.3);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:22px;">🏛️</div><div style="color:#3498db;font-weight:700;font-size:12px;">Foundations</div>
-<div style="color:var(--text3);font-size:10px;">Strip + Raft + Piles + Tests</div></div>
-<div onclick="QS.openDetail('struct_concrete')" style="background:rgba(44,62,80,0.3);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:22px;">🏗️</div><div style="color:#3498db;font-weight:700;font-size:12px;">Reinforced Concrete</div>
-<div style="color:var(--text3);font-size:10px;">Mix Design + Pouring + Curing</div></div>
-<div onclick="QS.openDetail('struct_rebar')" style="background:rgba(44,62,80,0.3);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:22px;">🔩</div><div style="color:#3498db;font-weight:700;font-size:12px;">Reinforcement Steel</div>
-<div style="color:var(--text3);font-size:10px;">Grade 500B + Cover + Lap</div></div>
-<div onclick="QS.openDetail('struct_masonry')" style="background:rgba(44,62,80,0.3);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:22px;">🧱</div><div style="color:#3498db;font-weight:700;font-size:12px;">Masonry & Blockwork</div>
-<div style="color:var(--text3);font-size:10px;">Block + Mortar + Tests</div></div>
-<div onclick="QS.openDetail('struct_waterproofing')" style="background:rgba(44,62,80,0.3);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:22px;">💧</div><div style="color:#3498db;font-weight:700;font-size:12px;">Waterproofing</div>
-<div style="color:var(--text3);font-size:10px;">Basement + Roof + Tests</div></div>
-<div onclick="QS.openDetail('struct_finishing')" style="background:rgba(44,62,80,0.3);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:22px;">🪟</div><div style="color:#3498db;font-weight:700;font-size:12px;">Finishing Works</div>
-<div style="color:var(--text3);font-size:10px;">Plaster + Tiles + Paint</div></div>
-<div onclick="QS.openDetail('struct_handover')" style="background:rgba(44,62,80,0.3);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;cursor:pointer;text-align:center;">
-<div style="font-size:22px;">✅</div><div style="color:#3498db;font-weight:700;font-size:12px;">Handover</div>
-<div style="color:var(--text3);font-size:10px;">Inspection + As-Built + DLP</div></div>
-</div>
-<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:12px;padding:14px;cursor:pointer;text-align:center;margin-top:6px;" onclick="QS.openDetail('materials_calculator_buildings')">
-<div style="font-size:28px;">🧮</div>
-<div style="color:#3498db;font-weight:700;font-size:15px;">Materials Quantity Calculator</div>
-<div style="color:var(--text3);font-size:12px;margin-top:4px;">Concrete + Steel + Blocks + Cement + Sand</div>
-</div>
-</div>
-
 ` },
 
 struct_survey: { title: '📐 الإنشاءات — الدراسة والتصميم', content: `
@@ -2281,49 +2243,6 @@ struct_survey: { title: '📐 الإنشاءات — الدراسة والتصم
 <tr><td style="color:#e74c3c;font-weight:700;">HP-01C</td><td>المخططات الإنشائية معتمدة + Material Submittals</td><td>Consultant + QC</td><td>Approved Drawings + Submittals</td></tr>
 </table></div>
 </div>
-<div class="lang-content-en">
-<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;color:#3498db;">📌 QCS 2024 — Section 5 | MME Building Regulations | Pre-Construction</div>
-
-<h3>📐 1. Pre-Construction Requirements</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Requirement</th><th>Authority</th><th>Timing</th></tr>
-<tr><td>Building Permit</td><td>Approved by MME / Ashghal per site location</td><td>MME / Ashghal</td><td>Before any work</td></tr>
-<tr><td>Structural Drawings</td><td>Approved by licensed structural engineer + MME</td><td>Consultant + MME</td><td>Before construction</td></tr>
-<tr><td>Soil Investigation Report</td><td>Boreholes + SPT + Lab Tests — per QCS S4</td><td>Geotech Lab</td><td>Before design</td></tr>
-<tr><td>Method Statement</td><td>Includes: Excavation + Concrete + Rebar + Safety</td><td>Consultant</td><td>Before excavation</td></tr>
-<tr><td>Material Submittals</td><td>Concrete + Rebar + Blocks + Admixtures — Mill Certs</td><td>QC + Consultant</td><td>Before supply</td></tr>
-<tr><td>Utility Detection (GPR)</td><td>Detect buried utilities before excavation</td><td>Ashghal NOC</td><td>Before excavation</td></tr>
-<tr><td>Traffic Management Plan</td><td>Approved plan if project is on a road</td><td>MME / MOI</td><td>Before excavation</td></tr>
-<tr><td>Environmental Permit</td><td>Noise + Dust + Working hours</td><td>MME</td><td>Before construction</td></tr>
-</table></div>
-
-<h3>📐 2. Geotechnical Investigation — Minimum Requirements</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Building Type</th><th>Min. No. of Boreholes</th><th>Min. Depth</th><th>Required Tests</th></tr>
-<tr><td>Villa / House (G+1)</td><td>1 Borehole + 2 Trial Pits</td><td>1.5× foundation depth + 5m</td><td>SPT + Atterberg + Grading + Sulphate</td></tr>
-<tr><td>Apartment (G+4)</td><td>3 Boreholes</td><td>20m or to rock</td><td>SPT + Shear + Consolidation</td></tr>
-<tr><td>Tower (>G+10)</td><td>5+ Boreholes</td><td>30m+ or to Bedrock</td><td>SPT + CPT + Pressuremeter + Pile Tests</td></tr>
-<tr><td>Sabkha Zone (any building)</td><td>+50% of required</td><td>+5m additional</td><td>+ SO₃ + TDS + Chloride detailed</td></tr>
-</table></div>
-
-<h3>📐 3. Separation Distances & Architectural Requirements</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Requirement</th><th>Reference</th></tr>
-<tr><td>Setback from property line</td><td>Per MME Zoning Regulations — varies by area</td><td>MME</td></tr>
-<tr><td>Building height</td><td>Requires MME + Civil Aviation approval near airports</td><td>MME / QCAA</td></tr>
-<tr><td>Separation from neighbors</td><td>Min 3.0m between detached buildings</td><td>MME Building Code</td></tr>
-<tr><td>Car parking</td><td>Per use — 1 space/residential unit minimum</td><td>MME</td></tr>
-</table></div>
-
-<h3>🔴 4. Hold Points — Pre-Construction</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th><th>Documentation</th></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">HP-01A</td><td>Building Permit + MME Approval</td><td>MME</td><td>Building Permit</td></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">HP-01B</td><td>Approved Soil Investigation Report</td><td>Geotech + Consultant</td><td>GI Report</td></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">HP-01C</td><td>Approved Structural Drawings + Material Submittals</td><td>Consultant + QC</td><td>Approved Drawings + Submittals</td></tr>
-</table></div>
-</div>
-
 ` },
 
 struct_foundation: { title: '🏛️ الإنشاءات — الأساسات', content: `
@@ -2379,59 +2298,6 @@ struct_foundation: { title: '🏛️ الإنشاءات — الأساسات', c
 • ❌ تربة Sabkha دون معالجة تحت الأساس
 </div>
 </div>
-<div class="lang-content-en">
-<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;color:#3498db;">📌 QCS 2024 — Section 5 Part 2 | BS EN 1997 | Foundation Works</div>
-
-<h3>📐 1. Foundation Types & Usage Conditions</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Type</th><th>Usage</th><th>Min. Bearing Capacity</th><th>Soil Condition</th><th>Reference</th></tr>
-<tr><td>Strip Foundation</td><td>Load-bearing walls — Villas — G+2 max</td><td>≥ 75 kN/m²</td><td>Uniform non-Sabkha soil</td><td>QCS S5 P2 + BS 8004</td></tr>
-<tr><td>Pad Foundation (Isolated)</td><td>Isolated columns — Low-rise buildings</td><td>≥ 100 kN/m²</td><td>Firm uniform soil</td><td>QCS S5 + BS EN 1997</td></tr>
-<tr><td>Raft Foundation</td><td>Weak soil — Distributed loads — Sabkha</td><td>≥ 50 kN/m² (distributed)</td><td>Any soil — equalizes differential</td><td>QCS S5 P2</td></tr>
-<tr><td>Bored Piles</td><td>Towers — Deep weak soil — >G+5</td><td>Per Pile Load Test</td><td>Any soil</td><td>QCS S5 P5 + BS 8004</td></tr>
-<tr><td>Driven Piles</td><td>Sandy soil — Coastal sites</td><td>Per Dynamic Formula</td><td>Sand + Gravel</td><td>QCS S5 + BS EN 12699</td></tr>
-</table></div>
-
-<h3>📐 2. Foundation Material Specifications</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Element</th><th>Concrete Grade</th><th>Min. Cover</th><th>Cement Type</th><th>Reference</th></tr>
-<tr><td>Blinding Concrete</td><td>C15 — 50mm thick</td><td>Not reinforced</td><td>SRPC (Sulphate Resistant)</td><td>QCS S5 P2.3</td></tr>
-<tr><td>Strip / Pad Foundation</td><td>C30 minimum</td><td>50mm (soil contact) | 40mm (with Blinding)</td><td>SRPC Class 3</td><td>QCS S5 + BS EN 206</td></tr>
-<tr><td>Raft Foundation</td><td>C35 minimum</td><td>50mm bottom | 40mm sides</td><td>SRPC Class 3 + FA/GGBS</td><td>QCS S5 P2.3</td></tr>
-<tr><td>Pile Cap</td><td>C35</td><td>75mm (soil contact)</td><td>SRPC</td><td>QCS S5 P5</td></tr>
-<tr><td>Bored Pile</td><td>C35 — C40 Self-Compacting</td><td>75mm</td><td>SRPC + Admixtures</td><td>QCS S5 P5.4</td></tr>
-</table></div>
-
-<h3>📐 3. Foundation Testing Schedule</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Test</th><th>Acceptance Criteria</th><th>Frequency</th><th>Timing</th><th>Reference</th></tr>
-<tr><td>Bearing Capacity Test (Plate Load)</td><td>≥ Design Safe Bearing Capacity</td><td>1 test per 500m² raft</td><td>After excavation before pour</td><td>BS 1377 Part 9</td></tr>
-<tr><td>Concrete Cube — Foundation</td><td>≥ fcu @ 28days | 7-day ≥ 70%fcu</td><td>6 cubes per 50m³</td><td>At time of pour</td><td>BS EN 12390</td></tr>
-<tr><td>Reinforcement Inspection</td><td>Size + Spacing + Cover — per drawing</td><td>100% before each pour</td><td>Before pour</td><td>QCS S5 + ITP</td></tr>
-<tr><td>GWT Level Check</td><td>GWT ≥ 0.5m below excavation base</td><td>Daily during excavation</td><td>During excavation</td><td>QCS S5 P2</td></tr>
-<tr><td>Pile Integrity Test (PIT)</td><td>No major defects — Full continuity</td><td>10% of piles minimum</td><td>After 7 days from pour</td><td>ASTM D5882</td></tr>
-<tr><td>Static Pile Load Test</td><td>≥ 2.0× Working Load</td><td>1% of piles or 3 min</td><td>After 28 days</td><td>QCS S5 P5 + BS 8004</td></tr>
-<tr><td>Sulphate Content (soil)</td><td>SO₃ < 0.5% → C30 | 0.5-1.5% → SRPC</td><td>Each Borehole</td><td>Before design</td><td>QCS S4 + BS 8004</td></tr>
-</table></div>
-
-<h3>🔴 4. Hold Points — Foundations</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th><th>Documentation</th></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">HP-02A</td><td>Bearing Capacity Confirmed + GWT Check before pour</td><td>QC + Consultant</td><td>Plate Load Test + GWT Record</td></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">HP-02B</td><td>Rebar 100% Inspection — Size + Cover + Laps</td><td>QC + Structural Eng.</td><td>ITR-02B Rebar</td></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">HP-02C</td><td>Pile Integrity Test (100% for main piles)</td><td>QC + Consultant</td><td>PIT Report</td></tr>
-</table></div>
-
-<h3>⛔ 5. Unacceptable — Immediate Rejection</h3>
-<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
-• ❌ Pouring foundations with water present in excavation<br>
-• ❌ Blinding without SRPC in Sulphate zones<br>
-• ❌ Cover less than 50mm in soil contact<br>
-• ❌ Piles without PIT or Load Test<br>
-• ❌ Sabkha soil without treatment beneath foundation
-</div>
-</div>
-
 ` },
 
 struct_concrete: { title: '🏗️ الإنشاءات — الخرسانة المسلحة', content: `
@@ -2503,75 +2369,6 @@ struct_concrete: { title: '🏗️ الإنشاءات — الخرسانة ال�
 • ❌ نزع القوالب قبل الوقت المحدد
 </div>
 </div>
-<div class="lang-content-en">
-<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;color:#3498db;">📌 QCS 2024 — Section 5 Part 4 | BS EN 206 | BS EN 13670 | Hot Weather Concreting</div>
-
-<h3>📐 1. Concrete Grades — Structural Elements</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Element</th><th>Concrete Grade</th><th>Cement Type</th><th>w/c Max</th><th>Cover (mm)</th><th>Reference</th></tr>
-<tr><td>Blinding</td><td>C15</td><td>OPC or SRPC</td><td>0.65</td><td>Not reinforced</td><td>QCS S5 P4</td></tr>
-<tr><td>Foundations / Raft</td><td>C30–C35</td><td>SRPC Class 3</td><td>0.45</td><td>50 (soil) / 40 (blinding)</td><td>QCS S5 P4</td></tr>
-<tr><td>Ground Floor Slab</td><td>C30</td><td>SRPC</td><td>0.45</td><td>40</td><td>QCS S5</td></tr>
-<tr><td>Columns</td><td>C35–C45</td><td>SRPC + FA/GGBS</td><td>0.40</td><td>35</td><td>QCS S5 + BS EN 1992</td></tr>
-<tr><td>Beams</td><td>C35–C40</td><td>SRPC</td><td>0.40</td><td>35</td><td>QCS S5</td></tr>
-<tr><td>Floor Slabs</td><td>C35</td><td>SRPC</td><td>0.40</td><td>25 (internal) / 35 (external)</td><td>QCS S5</td></tr>
-<tr><td>Shear Walls</td><td>C40</td><td>SRPC + GGBS</td><td>0.38</td><td>35</td><td>QCS S5</td></tr>
-<tr><td>Retaining Walls</td><td>C35</td><td>SRPC</td><td>0.40</td><td>50 (soil side)</td><td>QCS S5 P4</td></tr>
-<tr><td>Roof Slab</td><td>C35</td><td>SRPC</td><td>0.40</td><td>40</td><td>QCS S5</td></tr>
-</table></div>
-
-<h3>📐 2. Hot Weather Procedures — Qatar (Critical)</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Temperature</th><th>Mandatory Action</th><th>Reference</th></tr>
-<tr><td>≤ 25°C</td><td>Normal procedures</td><td>QCS S5 P4.10</td></tr>
-<tr><td>25–35°C</td><td>Pre-wetting formwork + Aggregate cooling + Reduce transport time</td><td>QCS S5 P4.10</td></tr>
-<tr><td>35–40°C</td><td>Ice in mixing water + Night pouring + Immediate curing</td><td>QCS S5 P4.10</td></tr>
-<tr><td>> 40°C</td><td>Stop daytime pouring (10am–4pm) | Ice mandatory</td><td>QCS S5 P4.10</td></tr>
-<tr><td>Max concrete temperature</td><td>≤ 32°C at site delivery</td><td>QCS S5 P4.10</td></tr>
-<tr><td>Max transport & pour time</td><td>≤ 45 min (summer) | ≤ 90 min (winter)</td><td>QCS S5 P4.10</td></tr>
-</table></div>
-
-<h3>📐 3. Concrete Testing Schedule</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Test</th><th>Acceptance Criteria</th><th>Frequency</th><th>Reference</th></tr>
-<tr><td>Slump Test</td><td>Design ± 25mm (50–175mm typical)</td><td>Each truck or each 50m³</td><td>BS EN 12350-2</td></tr>
-<tr><td>Temperature (Concrete)</td><td>≤ 32°C at delivery</td><td>Each truck</td><td>QCS S5 P4.10</td></tr>
-<tr><td>Cube Test (7 Day)</td><td>≥ 70% fcu</td><td>6 cubes per 50m³ or per pour</td><td>BS EN 12390-3</td></tr>
-<tr><td>Cube Test (28 Day)</td><td>≥ 100% fcu | Mean ≥ fck + 4 MPa</td><td>Same set of 6</td><td>BS EN 12390-3</td></tr>
-<tr><td>Water Permeability</td><td>≤ 30mm depth (BS EN 12390-8)</td><td>Each Mix Design + when in doubt</td><td>BS EN 12390-8</td></tr>
-<tr><td>Chloride Content</td><td>≤ 0.4% by weight of cement (RC)</td><td>Each Mix Design</td><td>BS 1881 Part 124</td></tr>
-<tr><td>Cover Measurement</td><td>Design cover ±5mm</td><td>After each pour — Cover Meter</td><td>QCS S5 + BS 1881</td></tr>
-<tr><td>Rebound Hammer (Schmidt)</td><td>Compare with Cube results</td><td>Grid 200mm when in doubt</td><td>BS EN 12504-2</td></tr>
-</table></div>
-
-<h3>📐 4. Curing Specifications</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Element</th><th>Curing Method</th><th>Min. Duration</th><th>Condition</th></tr>
-<tr><td>Slabs (general)</td><td>Burlap + Water or Curing Compound</td><td>7 days</td><td>Maintain continuous moisture</td></tr>
-<tr><td>Columns / Walls</td><td>Curing Compound after formwork removal</td><td>7 days</td><td>Apply within 30 min of removal</td></tr>
-<tr><td>Foundation Slab</td><td>Polythene Sheet + Water</td><td>10 days</td><td>No direct sun exposure</td></tr>
-<tr><td>Roof Slab (Qatar)</td><td>Pond Curing (standing water) or heavy Burlap</td><td>10–14 days</td><td>Temperature > 35°C</td></tr>
-</table></div>
-
-<h3>🔴 5. Hold Points</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th><th>Documentation</th></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">HP-03A</td><td>Formwork + Rebar Inspection before each pour</td><td>QC + Consultant</td><td>Pre-pour ITR</td></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">HP-03B</td><td>Slump + Temperature ≤ 32°C at delivery</td><td>QC</td><td>Delivery Note + Test Record</td></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">HP-03C</td><td>Cube 7-day ≥ 70% fcu before side formwork removal</td><td>Lab + QC</td><td>Cube Test Certificate</td></tr>
-</table></div>
-
-<h3>⛔ 6. Unacceptable</h3>
-<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
-• ❌ Adding water on site to ready-mix concrete<br>
-• ❌ Pouring without Cube Tests<br>
-• ❌ Concrete temperature > 32°C at delivery<br>
-• ❌ Honeycomb > 25mm depth without approved repair<br>
-• ❌ Cover less than design (Cover meter after pour)<br>
-• ❌ Formwork removal before specified time
-</div>
-</div>
-
 ` },
 
 struct_rebar: { title: '🔩 الإنشاءات — حديد التسليح', content: `
@@ -2638,70 +2435,6 @@ struct_rebar: { title: '🔩 الإنشاءات — حديد التسليح', co
 • ❌ Cover Spacers من الخشب أو المواد غير المعتمدة
 </div>
 </div>
-<div class="lang-content-en">
-<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;color:#3498db;">📌 QCS 2024 — Section 5 Part 3 | BS 4449 | BS EN 1992 | Reinforcement Steel</div>
-
-<h3>📐 1. Reinforcement Steel Specifications</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Specification</th><th>Reference</th></tr>
-<tr><td>Approved Grade in Qatar</td><td>Grade B500B — Fy = 500 N/mm²</td><td>BS 4449:2005 + QCS S5</td></tr>
-<tr><td>Deformed Bars</td><td>High Yield Deformed (HYD) — mandatory</td><td>BS 4449</td></tr>
-<tr><td>Plain Bars (Mild Steel)</td><td>Grade 250 — for simple uses only</td><td>BS 4449</td></tr>
-<tr><td>Mesh Reinforcement</td><td>Type A / B / C — BS 4483</td><td>BS 4483</td></tr>
-<tr><td>Stainless Steel Rebar</td><td>Grade 316L — coastal and special sites</td><td>BS EN 10088</td></tr>
-<tr><td>Weldability</td><td>CE (Carbon Equivalent) ≤ 0.5%</td><td>BS 4449</td></tr>
-</table></div>
-
-<h3>📐 2. Lap Lengths & Anchorage</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Diameter</th><th>Lap Length (tension)</th><th>Anchorage Length</th><th>Bend Radius Min</th><th>Note</th></tr>
-<tr><td>T10</td><td>500mm (50d)</td><td>400mm (40d)</td><td>40mm (4d)</td><td>—</td></tr>
-<tr><td>T12</td><td>600mm (50d)</td><td>480mm (40d)</td><td>48mm (4d)</td><td>—</td></tr>
-<tr><td>T16</td><td>800mm (50d)</td><td>640mm (40d)</td><td>64mm (4d)</td><td>—</td></tr>
-<tr><td>T20</td><td>1000mm (50d)</td><td>800mm (40d)</td><td>80mm (4d)</td><td>—</td></tr>
-<tr><td>T25</td><td>1250mm (50d)</td><td>1000mm (40d)</td><td>100mm (4d)</td><td>—</td></tr>
-<tr><td>T32</td><td>1600mm (50d)</td><td>1280mm (40d)</td><td>128mm (4d)</td><td>—</td></tr>
-<tr><td>With Hooks</td><td colspan="3">Hook = 4d straight + 12d extension</td><td>BS EN 1992</td></tr>
-</table></div>
-
-<h3>📐 3. Required Cover by Location</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Element Location</th><th>Min. Cover (mm)</th><th>Reference</th></tr>
-<tr><td>Internal — Dry</td><td>25mm</td><td>QCS S5 + BS EN 1992</td></tr>
-<tr><td>External — Weather exposed</td><td>35mm</td><td>QCS S5</td></tr>
-<tr><td>Soil contact (with Blinding)</td><td>40mm</td><td>QCS S5 P4</td></tr>
-<tr><td>Soil contact (without Blinding)</td><td>75mm</td><td>QCS S5 P4</td></tr>
-<tr><td>Water / Sea contact</td><td>50mm minimum</td><td>QCS S5 + BS EN 1992</td></tr>
-<tr><td>Sabkha / Sulphate zone</td><td>50mm + SRPC cement</td><td>QCS S4 + QCS S5</td></tr>
-</table></div>
-
-<h3>📐 4. Reinforcement Tests</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Test</th><th>Acceptance Criteria</th><th>Frequency</th><th>Reference</th></tr>
-<tr><td>Tensile Test (Yield + UTS)</td><td>Fy ≥ 500 N/mm² | Fu/Fy ≥ 1.08</td><td>3 samples / 20 tonnes</td><td>BS EN ISO 6892</td></tr>
-<tr><td>Bend Test</td><td>No cracking after 180° Bend on 3d mandrel</td><td>Same as Tensile sample</td><td>BS EN ISO 7438</td></tr>
-<tr><td>Re-bend Test</td><td>No fracture after unbending and re-bending</td><td>Each shipment</td><td>BS 4449</td></tr>
-<tr><td>Mass per metre</td><td>±4.5% of standard</td><td>Each diameter per shipment</td><td>BS 4449</td></tr>
-<tr><td>Chemical Analysis (CE)</td><td>CE ≤ 0.50% | C ≤ 0.22%</td><td>Mill Certificate per Batch</td><td>BS 4449</td></tr>
-</table></div>
-
-<h3>🔴 5. Hold Points</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th><th>Documentation</th></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">HP-04A</td><td>Mill Certificate + Tensile Test approved before supply</td><td>QC</td><td>Mill Cert + Lab Report</td></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">HP-04B</td><td>Rebar Inspection 100% — Cover + Laps + Spacing + Consultant HP inspection</td><td>QC + Structural Eng.</td><td>Rebar ITR</td></tr>
-</table></div>
-
-<h3>⛔ 6. Unacceptable</h3>
-<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
-• ❌ Rebar with flaky rust — rejected<br>
-• ❌ Lap in maximum moment zone without engineer approval<br>
-• ❌ Cutting with grinder or Flame Cutting<br>
-• ❌ Without Mill Certificate or non-matching certificate<br>
-• ❌ Cover Spacers made of wood or unapproved materials
-</div>
-</div>
-
 ` },
 
 struct_masonry: { title: '🧱 الإنشاءات — البناء والطابوق', content: `
@@ -2765,67 +2498,6 @@ struct_masonry: { title: '🧱 الإنشاءات — البناء والطاب�
 • ❌ بناء في الحر الشديد بدون تغطية وري
 </div>
 </div>
-<div class="lang-content-en">
-<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;color:#3498db;">📌 QCS 2024 — Section 5 Part 6 | BS EN 771 | BS EN 998 | Masonry Works</div>
-
-<h3>📐 1. Block Types & Usage — Qatar</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Type</th><th>Standard Dimensions (mm)</th><th>Min. Compressive Strength</th><th>Usage</th><th>Reference</th></tr>
-<tr><td>Hollow Concrete Block (HCB)</td><td>400×200×200</td><td>≥ 7 N/mm²</td><td>Internal & external walls</td><td>BS EN 771-3</td></tr>
-<tr><td>Solid Concrete Block</td><td>400×200×200</td><td>≥ 12 N/mm²</td><td>Load-bearing walls</td><td>BS EN 771-3</td></tr>
-<tr><td>Lightweight Block (AAC)</td><td>600×200×100/150/200</td><td>≥ 3.5 N/mm²</td><td>Internal partition walls</td><td>BS EN 771-4</td></tr>
-<tr><td>Fired Clay Brick</td><td>215×102.5×65</td><td>≥ 20 N/mm²</td><td>External finish — heritage</td><td>BS EN 771-1</td></tr>
-<tr><td>Face Brick (Qatar)</td><td>230×115×76</td><td>≥ 30 N/mm²</td><td>Exposed external facades</td><td>BS EN 771-1</td></tr>
-</table></div>
-
-<h3>📐 2. Mortar Specifications — Mortar Mixes</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Classification</th><th>Ratio Cement:Sand</th><th>Compressive Strength</th><th>Usage</th><th>Reference</th></tr>
-<tr><td>M12 (Strong)</td><td>1:3</td><td>≥ 12 N/mm²</td><td>Load-bearing walls — foundations</td><td>BS EN 998-2</td></tr>
-<tr><td>M6</td><td>1:4 to 1:4.5</td><td>≥ 6 N/mm²</td><td>General external walls</td><td>BS EN 998-2</td></tr>
-<tr><td>M4</td><td>1:5 to 1:6</td><td>≥ 4 N/mm²</td><td>Internal partition walls</td><td>BS EN 998-2</td></tr>
-<tr><td>Sulphate Resistant additive</td><td>SRPC 1:3 or 1:4</td><td>≥ 6 N/mm²</td><td>Below DPC / soil / exposure</td><td>QCS S5 P6</td></tr>
-</table></div>
-
-<h3>📐 3. Testing Schedule — Masonry</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Test</th><th>Acceptance Criteria</th><th>Frequency</th><th>Reference</th></tr>
-<tr><td>Compressive Strength (Block)</td><td>≥ Specified Grade | Mean ≥ declared value</td><td>6 blocks per 5000 units</td><td>BS EN 772-1</td></tr>
-<tr><td>Water Absorption (Block)</td><td>≤ 10% (Outer) | ≤ 20% (Inner)</td><td>Each shipment</td><td>BS EN 772-11</td></tr>
-<tr><td>Mortar Cube (28 day)</td><td>≥ Specified Grade (M4/M6/M12)</td><td>3 cubes per 50m² masonry</td><td>BS EN 1015-11</td></tr>
-<tr><td>Bond Wrench Test</td><td>≥ 0.3 N/mm² (Flexural Bond)</td><td>Each floor or per 250m²</td><td>BS EN 1052-5</td></tr>
-<tr><td>Plumb Check</td><td>≤ 10mm deviation per 3m height</td><td>Every 3m height</td><td>QCS S5 P6</td></tr>
-<tr><td>Level Check (Courses)</td><td>± 5mm per 10 courses</td><td>Every 10 courses</td><td>QCS S5</td></tr>
-<tr><td>Joint Thickness</td><td>8–12mm (Standard)</td><td>Visual + measurement</td><td>BS EN 1996</td></tr>
-</table></div>
-
-<h3>📐 4. Execution Requirements</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Requirement</th><th>Reference</th></tr>
-<tr><td>DPC (Damp Proof Course)</td><td>Continuous, 150mm above ground level</td><td>QCS S5 P6</td></tr>
-<tr><td>Lintel above openings</td><td>Precast RC or Steel — extends 150mm each side of opening</td><td>QCS S5 + BS 5977</td></tr>
-<tr><td>Stitching / Ties</td><td>Wall Ties every 600mm horizontal × 450mm vertical</td><td>BS EN 845</td></tr>
-<tr><td>Chasing (services routing)</td><td>Chase depth ≤ 1/3 wall thickness | No chases in load-bearing leaves</td><td>QCS S5 P6</td></tr>
-<tr><td>Movement Joints</td><td>Every 6m for mortar without Admixtures</td><td>BS EN 1996</td></tr>
-<tr><td>Height per day</td><td>≤ 1.2m in one day (collapse prevention)</td><td>QCS S5 P6</td></tr>
-</table></div>
-
-<h3>🔴 5. Hold Points</h3>
-<p style="font-size:12px;">
-• <strong>HP-05A:</strong> Block Compressive Strength Certificate before supply<br>
-• <strong>HP-05B:</strong> Mortar Cube 28-day ≥ Required Grade — taken before finishing
-</p>
-
-<h3>⛔ 6. Unacceptable</h3>
-<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
-• ❌ Masonry without DPC in moisture-exposed areas<br>
-• ❌ Dry mortar mix re-tempered with water after setting<br>
-• ❌ Broken blocks or blocks with Water Absorption > 20%<br>
-• ❌ Vertical chasing in load-bearing walls deeper than 1/3 thickness<br>
-• ❌ Masonry in extreme heat without covering and wetting
-</div>
-</div>
-
 ` },
 
 struct_waterproofing: { title: '💧 الإنشاءات — العزل المائي', content: `
@@ -2869,47 +2541,6 @@ struct_waterproofing: { title: '💧 الإنشاءات — العزل الما�
 • ❌ عزل بدون Protection Board في المناطق المعرضة للحركة
 </div>
 </div>
-<div class="lang-content-en">
-<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;color:#3498db;">📌 QCS 2024 — Section 5 Part 7 | BS 8102 | Basement + Roof Waterproofing</div>
-
-<h3>📐 1. Waterproofing Types by Location</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Location</th><th>Suitable Type</th><th>Thickness</th><th>Reference</th></tr>
-<tr><td>Basement (below ground)</td><td>Torch-Applied SBS Membrane (Type III)</td><td>4mm + 4mm (two layers)</td><td>BS 8102 Grade 3</td></tr>
-<tr><td>Raft Foundation</td><td>SBS Sheet + Blinding Protection</td><td>4mm</td><td>QCS S5 P7</td></tr>
-<tr><td>Roof Slab (Flat)</td><td>APP/SBS Torch-On or Liquid Membrane</td><td>3mm + 3mm</td><td>BS 6229</td></tr>
-<tr><td>Wet Areas (bathrooms + kitchens)</td><td>Cementitious 2-Component</td><td>2mm (two layers)</td><td>QCS S5 P7</td></tr>
-<tr><td>Retaining Wall (external)</td><td>Bituminous Tanking + Drainage Board</td><td>3mm + 8mm Board</td><td>BS 8102</td></tr>
-<tr><td>Swimming Pool</td><td>Crystalline + Cementitious Coat</td><td>Per manufacturer</td><td>QCS S5</td></tr>
-</table></div>
-
-<h3>📐 2. Waterproofing Tests</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Test</th><th>Procedure</th><th>Acceptance Criteria</th><th>Frequency</th><th>Reference</th></tr>
-<tr><td>Flood Test (Roof)</td><td>Fill pool with 50mm water for 24hr</td><td>Zero visible leakage + level measurement</td><td>100% before completion</td><td>NRCA + QCS S5</td></tr>
-<tr><td>Water Test (Basement)</td><td>Monitor wall moisture 48hr after GWT</td><td>No damp patch > 10cm²</td><td>100%</td><td>BS 8102</td></tr>
-<tr><td>Adhesion Test (Pull-off)</td><td>Dolly Test — ASTM D4541</td><td>≥ 0.3 N/mm² (Membrane)</td><td>1 test/50m²</td><td>ASTM D4541</td></tr>
-<tr><td>Thickness Measurement</td><td>DFT Gauge or Calibrated Comb</td><td>± 10% of specified</td><td>Every 25m²</td><td>BS 8102</td></tr>
-<tr><td>Wet Area 24hr Flood Test</td><td>Fill temporary pool 25mm for 24hr</td><td>Zero leakage to floor below</td><td>Every wet room</td><td>QCS S5 P7</td></tr>
-</table></div>
-
-<h3>🔴 3. Hold Points</h3>
-<p style="font-size:12px;">
-• <strong>HP-06A:</strong> Substrate Inspection before waterproofing application (dry + clean + gap-free)<br>
-• <strong>HP-06B:</strong> Flood Test Pass before adding Screed or Protection Layer<br>
-• <strong>HP-06C:</strong> Adhesion Test ≥ 0.3 N/mm²
-</p>
-
-<h3>⛔ 4. Unacceptable</h3>
-<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
-• ❌ Membrane on wet or unclean surface<br>
-• ❌ Single layer only in Basement<br>
-• ❌ Without Flood Test for flat roofs<br>
-• ❌ Overlap joints < 150mm<br>
-• ❌ Waterproofing without Protection Board in traffic-exposed areas
-</div>
-</div>
-
 ` },
 
 struct_finishing: { title: '🪟 الإنشاءات — التشطيبات', content: `
@@ -2945,39 +2576,6 @@ struct_finishing: { title: '🪟 الإنشاءات — التشطيبات', con
 • <strong>HP-07C:</strong> Tile Hollow Test < 5% قبل التسليم
 </p>
 </div>
-<div class="lang-content-en">
-<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;color:#3498db;">📌 QCS 2024 — Section 5 Part 8 | Building Finishing Works</div>
-
-<h3>📐 1. Finishing Works Specifications</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Work</th><th>Material</th><th>Thickness</th><th>Acceptance Criteria</th><th>Reference</th></tr>
-<tr><td>Render (external plaster)</td><td>Cement:Sand 1:4 + Bonding Agent</td><td>15–20mm (2 coats)</td><td>Plumb ≤ 5mm / 3m | No cracks</td><td>QCS S5 P8 + BS 5262</td></tr>
-<tr><td>Internal Plaster</td><td>Gypsum or Cement:Sand 1:4</td><td>10–15mm</td><td>Flatness ≤ 4mm / 2m rule</td><td>BS 5492</td></tr>
-<tr><td>Floor Screed</td><td>Cement:Sand 1:3.5 — semi-dry</td><td>50mm min (bonded) | 75mm (unbonded)</td><td>SR2 (≤ 3mm / 2m) | No hollow</td><td>BS 8204</td></tr>
-<tr><td>Ceramic / Porcelain Tiles</td><td>Adhesive Type S1 or S2 — BS EN 12004</td><td>Bed: 5–8mm</td><td>Lippage ≤ 1mm | Hollow ≤ 5%</td><td>BS 5385 + BS EN 13006</td></tr>
-<tr><td>Paint (External)</td><td>Elastomeric Masonry Paint or Silicone</td><td>2 coats DFT ≥ 80μm</td><td>No Peeling | No Crazing</td><td>QCS S5 P8</td></tr>
-<tr><td>Paint (Internal)</td><td>Emulsion — Low VOC</td><td>2 coats DFT ≥ 50μm</td><td>Even finish | No Runs</td><td>BS 6150</td></tr>
-<tr><td>Suspended Ceiling (T-Grid)</td><td>Metal T-Bar + Mineral Fiber Tiles</td><td>Hanger every 1.2m × 1.2m</td><td>Level ≤ 3mm / 3m | Seismic bracing</td><td>QCS S5</td></tr>
-</table></div>
-
-<h3>📐 2. Finishing Tests</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Test</th><th>Acceptance Criteria</th><th>Frequency</th><th>Reference</th></tr>
-<tr><td>Floor Levelness (SR)</td><td>SR2: ≤ 3mm / 2m | SR1: ≤ 2mm / 2m</td><td>Each room with 3m Straightedge</td><td>BS 8204</td></tr>
-<tr><td>Tile Hollow Test</td><td>≤ 5% hollow tiles by tapping</td><td>100% visual + tapping</td><td>BS 5385</td></tr>
-<tr><td>Paint DFT</td><td>≥ Specified DFT in drawings</td><td>DFT Meter every 25m²</td><td>BS 6150</td></tr>
-<tr><td>Plumb Check (Render)</td><td>≤ 5mm deviation / 3m height</td><td>Every 10m² with Spirit Level</td><td>QCS S5 P8</td></tr>
-<tr><td>Adhesion Test (Tiles)</td><td>≥ 0.5 N/mm² Pull-off</td><td>1 test/100m²</td><td>BS EN 1348</td></tr>
-</table></div>
-
-<h3>🔴 3. Hold Points</h3>
-<p style="font-size:12px;">
-• <strong>HP-07A:</strong> Substrate preparation approved before Plaster / Render<br>
-• <strong>HP-07B:</strong> Floor Screed SR Test Pass before tiling<br>
-• <strong>HP-07C:</strong> Tile Hollow Test < 5% before handover
-</p>
-</div>
-
 ` },
 
 struct_handover: { title: '✅ الإنشاءات — التسليم', content: `
@@ -3028,54 +2626,6 @@ struct_handover: { title: '✅ الإنشاءات — التسليم', content: 
 <tr><td style="color:#e74c3c;font-weight:700;">HP-08C</td><td>Structural Engineer Sign-off + As-Built Approved</td><td>Structural Eng. + Consultant</td></tr>
 </table></div>
 </div>
-<div class="lang-content-en">
-<div style="background:rgba(44,62,80,0.4);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;color:#3498db;">📌 QCS 2024 — Section 5 | MME Building Regulations | Handover Requirements</div>
-
-<h3>📐 1. Mandatory Handover Documents</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Document</th><th>Content</th><th>Copies</th><th>Authority</th></tr>
-<tr><td>As-Built Drawings</td><td>Structural + Architectural + Services — actual dimensions</td><td>3 hard + digital</td><td>MME + Owner</td></tr>
-<tr><td>Concrete Cube Results</td><td>All 7 + 28 day results — complete schedule</td><td>Original + 2 copies</td><td>Owner + Consultant</td></tr>
-<tr><td>Rebar Test Certificates</td><td>Mill Certs + Tensile + Bend per Grade</td><td>Original</td><td>Owner</td></tr>
-<tr><td>Waterproofing Test Reports</td><td>Flood Tests + Adhesion — all surfaces</td><td>Original</td><td>Consultant</td></tr>
-<tr><td>Material Approval Registers</td><td>All approved materials + factory certificates</td><td>Hard + digital</td><td>QC + Owner</td></tr>
-<tr><td>ITP Register (Closed)</td><td>All ITPs signed — zero open NCRs</td><td>Original</td><td>QC + Consultant</td></tr>
-<tr><td>Occupancy Certificate</td><td>Occupancy/habitation certificate from MME</td><td>Original</td><td>MME</td></tr>
-<tr><td>O&M Manuals</td><td>MEP + Lifts + Fire Systems + Structural</td><td>2 copies</td><td>Facilities Team</td></tr>
-</table></div>
-
-<h3>📐 2. Pre-Handover Checklist</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Condition</th><th>Authority</th></tr>
-<tr><td>Concrete Strength</td><td>28-day ≥ 100% fcu — all elements</td><td>Lab + QC</td></tr>
-<tr><td>Waterproofing</td><td>Flood Tests Pass — all roofs and basements</td><td>QC + Consultant</td></tr>
-<tr><td>Structural Inspection</td><td>Full visual inspection — no major Honeycomb | no structural cracking</td><td>Structural Eng.</td></tr>
-<tr><td>Fire Safety</td><td>QCDD Inspection Certificate</td><td>QCDD</td></tr>
-<tr><td>MEP Commissioning</td><td>Electrical + Plumbing + HVAC activated and tested</td><td>MEP Eng.</td></tr>
-<tr><td>Finishing Snag List</td><td>Zero Level 1 (Safety) snagging items</td><td>QC + Architect</td></tr>
-<tr><td>Zero Open NCRs</td><td>All NCRs closed with corrective actions</td><td>QC</td></tr>
-</table></div>
-
-<h3>🛡️ 3. Defects Liability Period (DLP)</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Duration / Requirement</th></tr>
-<tr><td>DLP (Warranty Period)</td><td>12 months from TOC (may extend to 24 months)</td></tr>
-<tr><td>Structural Warranty</td><td>10 years — contractor liable for latent defects</td></tr>
-<tr><td>Waterproofing Warranty</td><td>10 years from manufacturer</td></tr>
-<tr><td>Periodic Inspection</td><td>Every 3 months during DLP</td></tr>
-<tr><td>Crack Monitoring</td><td>Any crack > 0.3mm → immediate investigation</td></tr>
-<tr><td>Defect Response Time</td><td>Safety defects: 24hr | Others: 7 days</td></tr>
-</table></div>
-
-<h3>🔴 4. Final Hold Points</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">HP-08A</td><td>Occupancy Certificate from MME</td><td>MME</td></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">HP-08B</td><td>QCDD Fire Safety Certificate</td><td>QCDD</td></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">HP-08C</td><td>Structural Engineer Sign-off + As-Built Approved</td><td>Structural Eng. + Consultant</td></tr>
-</table></div>
-</div>
-
 ` },
 
 // ═══════════════════════════════════════════════════════════
