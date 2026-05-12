@@ -356,7 +356,62 @@
     'كيلوباسكال': 'kPa',
     'ميجاباسكال': 'MPa',
 
-    // ── جمل كاملة شائعة ──────────────────────────────────────
+    // ── جمل كاملة من محتوى الـ modals ────────────────────────
+    'فيديو شرح طبقة Subgrade': 'Subgrade Layer Explanation Video',
+    'ارفع فيديو MP4/MOV لشرح طبقة الـ Subgrade': 'Upload MP4/MOV video explaining the Subgrade layer',
+    'تعريف Subgrade — QCS S6 P3 Cl. 3.1': 'Subgrade Definition — QCS S6 P3 Cl. 3.1',
+    'Subgrade هي الطبقة الطبيعية أو المحسّنة من التربة التي تُشكّل قاعدة الرصيف مباشرة. تُمثّل الطبقة الأساسية لكل طبقات الرصيف فوقها وجودتها تحدد سماكة التصميم وتكلفة المشروع بالكامل.':
+      'Subgrade is the natural or improved soil layer forming the immediate foundation of the pavement structure. It is the base layer for all overlying pavement layers; its quality determines design thickness and overall project cost.',
+    'المواد غير المقبولة — QCS S6 P3 Cl. 3.3': 'Unacceptable Materials — QCS S6 P3 Cl. 3.3',
+    'يُحظر استخدام الآتي في طبقة الـ Subgrade:': 'The following are prohibited in the Subgrade layer:',
+    'Peat أو التربة العضوية': 'Peat or Organic Soil',
+    'مواد متجمدة': 'Frozen Materials',
+    'مواد ملوثة أو ضارة (Deleterious Materials)': 'Contaminated or deleterious materials',
+    'مواد تحتوي SO₃ > 0.5% بدون موافقة مهندس ومعالجة': 'Materials with SO₃ > 0.5% without Engineer approval and treatment',
+    'مواد تحتوي Chloride > 0.6% بدون موافقة': 'Materials with Chloride > 0.6% without approval',
+    'تربة CBR < 8% (عادية) أو < 8% (Sabkha) بدون معالجة معتمدة': 'Soil with CBR < 8% (general) or < 8% (Sabkha) without approved treatment',
+    'أي مادة بحجم يتجاوز 75mm': 'Any material exceeding 75mm in size',
+    'جدول 3:1 — مواصفات مادة الـ Fill Subgrade — QCS 2024 / Section 6 / Part 3 / Page 8': 'Table 3:1 — Fill Subgrade Material Specifications — QCS 2024 / Section 6 / Part 3 / Page 8',
+    'المصدر: QCS 2024 — Section 6 Part 3 Table 3:1 — Page 8 — كما هو في المواصفات القطرية بالضبط': 'Source: QCS 2024 — Section 6 Part 3 Table 3:1 — Page 8 — exact as in Qatar specifications',
+    'التدرج الحبيبي': 'Particle Grading',
+    'حد السيولة': 'Liquid Limit',
+    'مؤشر اللدونة': 'Plasticity Index',
+    'الانكماش الخطي': 'Linear Shrinkage',
+    'المحتوى العضوي': 'Organic Content',
+    'الكبريتات الذائبة': 'Water-Soluble Sulphate',
+    'إجمالي الكلوريدات': 'Total Chloride Content',
+    'أقصى كثافة جافة': 'Maximum Dry Density',
+    'يُحدد من اختبار Standard Proctor': 'Determined from Standard Proctor test',
+    'يُعتمد كمرجع للدمك الميداني': 'Used as reference for field compaction',
+    'محتوى الرطوبة أثناء الدمك': 'Moisture Content during Compaction',
+    'Optimum Moisture Content من اختبار Proctor': 'Optimum Moisture Content from Proctor test',
+    'الكثافة الحقلية': 'Field Density',
+    'لكل طبقة مدموكة ≤ 200mm': 'per compacted layer ≤ 200mm',
+    'General Fill — تربة عادية': 'General Fill — Normal Soil',
+    'عند دمك ≥ 95% MDD — Std. Proctor': 'at compaction ≥ 95% MDD — Std. Proctor',
+    'Sabkha — تربة ملحية': 'Sabkha — Saline Soil',
+    'بموافقة المهندس — عند 95% MDD': 'with Engineer approval — at 95% MDD',
+    'سماكة الطبقة': 'Layer Thickness',
+    '≤ 200mm مدموك (General)': '≤ 200mm compacted (General)',
+    '≤ 150mm مدموك (Sabkha)': '≤ 150mm compacted (Sabkha)',
+    'دقة المنسوب': 'Level Accuracy',
+    'من المنسوب التصميمي': 'from design level',
+    'الانحدار العرضي': 'Crossfall',
+    'لضمان التصريف السطحي الصحيح': 'to ensure proper surface drainage',
+    'ملاحظات QCS S6 P3 Cl. 3.3.2 الجوهرية:': 'Key Notes — QCS S6 P3 Cl. 3.3.2:',
+    'اختبار Proctor يُجرى لكل نوع تربة قبل البدء — يُحدد MDD و OMC': 'Proctor test performed per soil type before commencement — determines MDD and OMC',
+    'Nuclear Gauge مسموح للمراقبة اليومية فقط — Sand Cone هو المرجع الرسمي للقبول': 'Nuclear Gauge permitted for daily monitoring only — Sand Cone is the official acceptance reference',
+    'أي نتيجة كثافة < 95% MDD → إعادة دمك فورية + إعادة اختبار': 'Any density result < 95% MDD → immediate re-compaction + re-testing',
+    'Subgrade لا يُقبَّل ولا تُبدأ الـ Subbase قبل HP رسمي من الاستشاري': 'Subgrade shall not be accepted and Subbase shall not commence without formal HP approval from the Consultant',
+    'Hold Points الإلزامية': 'Mandatory Hold Points',
+    'الشرط': 'Condition',
+    'التوثيق المطلوب': 'Required Documentation',
+    'اعتماد تقرير الجسات + تصنيف التربة قبل أي حفر': 'Approval of geotechnical investigation report + soil classification before any excavation',
+    'إزالة المواد غير المقبولة وتأكيد الاستبدال': 'Removal of unacceptable materials and confirmation of replacement',
+    'Proctor MDD + OMC معتمد قبل بدء الدمك': 'Proctor MDD + OMC approved before commencement of compaction',
+    'Field Density ≥ 95% MDD + CBR ≥ 8%/8% مكتملان ومعتمدان': 'Field Density ≥ 95% MDD + CBR ≥ 8%/8% complete and approved',
+    'Level Survey ± 10mm معتمد من الاستشاري': 'Level Survey ± 10mm approved by Consultant',
+    'مكتملة + موقّعة': 'Complete + Signed',
     'كل نقطة عالية + نهاية الخطوط': 'At each high point + end of lines',
     'كل Valve + كل تقاطع + كل 100m': 'At each Valve + each intersection + every 100m',
     '24 ساعة مملوء (لتشبع المفاصل)': '24 hours filled (for joint absorption)',
@@ -520,20 +575,29 @@
     if (!arDivs.length) return;
 
     arDivs.forEach(function(arDiv) {
-      // هل يوجد lang-content-en في نفس الـ parent؟
       var parent = arDiv.parentNode;
-      var hasEn = parent.querySelector('.lang-content-en');
-      if (!hasEn) {
-        // إنشاء lang-content-en وإدراجه بعد lang-content-ar
+      var existingEn = parent.querySelector('.lang-content-en');
+
+      // الحالة 1: لا يوجد lang-content-en → أنشئه
+      if (!existingEn) {
         var enDiv = createEnFromAr(arDiv);
         parent.insertBefore(enDiv, arDiv.nextSibling);
+        return;
+      }
+
+      // الحالة 2: يوجد lang-content-en لكنه أقل من 50% من AR
+      // يعني: نسخة ملخصة مختلفة — استبدلها بنسخة مطابقة مترجمة
+      var arLen = arDiv.innerHTML.length;
+      var enLen = existingEn.innerHTML.length;
+
+      if ((enLen / arLen) < 0.5) {
+        var freshEn = createEnFromAr(arDiv);
+        parent.replaceChild(freshEn, existingEn);
       }
     });
 
-    // أيضاً: للأقسام بدون أي wrapper — لف المحتوى
     wrapUnlabelledContent(container);
 
-    // تطبيق اللغة الحالية
     var lang = window.currentLang || localStorage.getItem('qsp_lang') || 'ar';
     applyLang(container, lang);
   }
