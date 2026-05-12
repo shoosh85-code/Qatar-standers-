@@ -709,9 +709,10 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — Section 6 Part 3 | Subgrade Formation
-</div>
+
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:8px;"><span>🎥</span><span style="color:var(--gold);font-weight:700;font-size:13px;">Subgrade Layer — Explanation Video</span></div>
 <h3>Subgrade — Key Requirements Summary (QCS S6 P3)</h3>
 <table class="dm-table">
 <tr><th>Parameter</th><th>Requirement</th><th>Standard</th><th>Test Frequency</th></tr>
@@ -822,8 +823,10 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — Section 6 | Subbase Course (Granular Type B)
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<span style="color:var(--gold);font-weight:700;font-size:13px;">📐 Subbase Course — Definition & Execution</span>
+<button onclick="document.getElementById('vid-base-new').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
 </div>
 <h3>🪨 Subbase — Complete QCS 2024 Requirements</h3>
 <p style="font-size:12px;color:var(--text2);margin-bottom:12px;">The subbase is the granular layer between subgrade and roadbase. It distributes loads, provides drainage, and prevents frost heave. In Qatar, gabbro aggregate from Oman is the primary material.</p>
@@ -1175,8 +1178,10 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — Section 8 P3 | Prime Coat & Tack Coat
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Wearing Course — Final Surface Layer</span>
+<button onclick="document.getElementById('vid-wc-new').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
 </div>
 <h3>🛢️ Prime Coat & Tack Coat — Complete Requirements</h3>
 <p style="font-size:12px;color:var(--text2);margin-bottom:12px;">Prime coat is applied to the finished granular roadbase before laying asphalt. Tack coat is applied between existing and new asphalt layers to ensure bonding.</p>
@@ -1347,8 +1352,40 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>Edge of Carriageway</td><td>±25mm from design line</td><td>S6 P5</td></tr>
 </table>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — Section 8 | Asphalt Volumetric Properties & Field Tolerances
+<h3>📐 Definitions</h3>
+<table class="dm-table">
+<tr><th>Term</th><th>Definition</th><th>QCS</th></tr>
+<tr><td><strong>Prime Coat</strong></td><td>A thin layer of liquid bitumen (MC-30 or emulsion) applied to a non-asphaltic Base Course before laying the Binder Course. Purpose: stabilize surface, fill voids, achieve inter-layer bond</td><td>S6 P5 P.30</td></tr>
+<tr><td><strong>Tack Coat</strong></td><td>A thin layer of bitumen emulsion (CSS-1 or K1-60) applied between two asphalt layers (between Binder and Wearing, or on existing surfaces). Ensures layer adhesion and prevents slippage</td><td>S6 P5 P.31</td></tr>
+</table>
+
+<h3>📐 Prime Coat — Summary Page 30</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Requirement</th></tr>
+<tr><td>Material Type</td><td>Cutback Bitumen MC-30 or MC-70 (ASTM D2028)</td></tr>
+<tr><td>Spray Rate</td><td>0.8 – 1.2 L/m²</td></tr>
+<tr><td>Temperature at Application</td><td>50 – 80°C (per Grade)</td></tr>
+<tr><td>Surface Condition</td><td>Dry + Clean + Power Broomed + Power Blown</td></tr>
+<tr><td>Minimum Curing Time</td><td>24 hours before placing Asphalt</td></tr>
+<tr><td>Readiness Indicator</td><td>Colour changes from brown to black + no tackiness</td></tr>
+<tr><td>Penetration Depth</td><td>10 – 15mm into Base Course</td></tr>
+<tr><td>Stop Work Conditions</td><td>Rain / Dust / Ambient temperature &lt; 10°C</td></tr>
+<tr><td>Edge Protection</td><td>Cover Kerbs + Manholes before spraying</td></tr>
+<tr><td>Rate Verification</td><td>Record Spray Tanker Calibration Report + Field Rate from quantity/area</td></tr>
+</table>
+
+<h3>📐 Tack Coat — Summary Page 31</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>On Binder Course</th><th>On Wearing Course</th></tr>
+<tr><td>Material Type</td><td colspan="2">Emulsified Bitumen SS-1h or CSS-1h (ASTM D977)</td></tr>
+<tr><td>Spray Rate (Residual after Breakup)</td><td>0.30 – 0.50 L/m²</td><td>0.20 – 0.40 L/m²</td></tr>
+<tr><td>Spray Rate (Before Breakup — as material)</td><td>0.50 – 0.90 L/m²</td><td>0.35 – 0.70 L/m²</td></tr>
+<tr><td>Temperature</td><td colspan="2">50 – 70°C</td></tr>
+<tr><td>Readiness Indicator</td><td colspan="2">Emulsion changes from brown to black (complete Breakup)</td></tr>
+<tr><td>Stop Work Conditions</td><td colspan="2">Rain / Wet surface / Ambient temperature &lt; 10°C</td></tr>
+<tr><td>Pedestrians and Vehicles</td><td colspan="2">No traffic allowed before complete Breakup</td></tr>
+<tr><td>Excess Tack Risk</td><td colspan="2">Excess Tack = Slippage between layers + Shoving = NCR</td></tr>
+</table>
 </div>
 <h3>🛣️ Air Voids & Field Tolerances — QCS 2024</h3>
 <p style="font-size:12px;color:var(--text2);margin-bottom:12px;">Air void content is the most critical volumetric property of asphalt. Too high = water ingress + early deterioration. Too low = bleeding + rutting in Qatar heat.</p>
@@ -1715,17 +1752,46 @@ lang-content-en" style="display:none;">
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🛣️ Asphalt Production — QCS 2024</h3>
+<h3>📐 Marshall Mix Design — Definition</h3>
+<p>The most widely used asphalt mix design method in Qatar. Based on compacting specimens with 75 blows (primary roads) or 50 blows (secondary roads), then measuring Stability and Flow at 60°C.</p>
+
+<h3>📐 Asphalt Layer Definitions per QCS S6 P5</h3>
 <table class="dm-table">
-<tr><th>Parameter</th><th>Requirement</th><th>Reference</th></tr>
-<tr><td>Plant Type</td><td>Drum mix or batch plant — calibrated</td><td>QCS S8</td></tr>
-<tr><td>Mix Temperature (plant)</td><td>145–175°C (conventional) / 155–185°C (PMB)</td><td>QCS S8 P5</td></tr>
-<tr><td>Bitumen Content Tolerance</td><td>Design ±0.3%</td><td>QCS S8</td></tr>
-<tr><td>Gradation Tolerance (4.75mm)</td><td>±5% passing</td><td>QCS S8</td></tr>
-<tr><td>Plant Calibration</td><td>Before each new mix design</td><td>QCS S8</td></tr>
-<tr><td>Delivery Records</td><td>Each truck — temp + time + mix type</td><td>QCS S8</td></tr>
-<tr><td>Max Haul Time</td><td>≤2hr (conventional) / ≤1.5hr (PMB)</td><td>QCS S8</td></tr>
-<tr><td>Rejected Mix</td><td>Any truck <130°C at paver</td><td>QCS S8</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Layer</th><th>Definition</th><th>NMAS</th></tr>
+<tr><td><strong>Base Course Class A (BC-A)</strong></td><td>Heavy-duty base course for very high-load roads. Placed directly above Subbase.</td><td>25mm or 37.5mm</td></tr>
+<tr><td><strong>Base Course Class B (BC-B)</strong></td><td>Base course for standard and secondary roads. Less thickness and aggregate size than BC-A.</td><td>19mm or 25mm</td></tr>
+<tr><td><strong>Wearing Course (WC)</strong></td><td>Top layer in contact with traffic. Provides impermeability, skid resistance, and surface regularity. PSV ≥ 55 mandatory.</td><td>9.5mm or 12.5mm</td></tr>
+</table>
+
+<h3>📐 Table 5:6 — Marshall Design Criteria — QCS S6 P5 Page 15</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Property</th><th>Wearing Course</th><th>Base Course A</th><th>Base Course B</th></tr>
+<tr><td>Compaction Blows</td><td>75 / face</td><td>75 / face</td><td>75 / face</td></tr>
+<tr><td>Marshall Stability (kN)</td><td>≥ 9.0</td><td>≥ 9.0</td><td>≥ 8.0</td></tr>
+<tr><td>Marshall Flow (mm)</td><td>2 – 4</td><td>2 – 4</td><td>2 – 4</td></tr>
+<tr><td>Air Voids Va (%)</td><td>3 – 5</td><td>3 – 5</td><td>3 – 5</td></tr>
+<tr><td>VMA — Voids in Mineral Aggregate (%)</td><td>≥ 15</td><td>≥ 14</td><td>≥ 14</td></tr>
+<tr><td>VFA — Voids Filled with Asphalt (%)</td><td>65 – 80</td><td>65 – 75</td><td>65 – 75</td></tr>
+<tr><td>Stability Retained (TSR %)</td><td>≥ 80</td><td>≥ 80</td><td>≥ 75</td></tr>
+<tr><td>Dust-to-Binder Ratio (P0.075/Pb)</td><td>0.6 – 1.2</td><td>0.6 – 1.2</td><td>0.6 – 1.2</td></tr>
+</table>
+
+<h3>📐 Table 5:7 — Asphalt Mix Composition Limits — QCS S6 P5 Page 15</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>WC</th><th>BC-A</th><th>BC-B</th></tr>
+<tr><td>Bitumen Content % (by mix weight)</td><td>5.0 – 6.5</td><td>4.0 – 5.5</td><td>4.5 – 6.0</td></tr>
+<tr><td>Max Aggregate Size (NMAS)</td><td>9.5 or 12.5mm</td><td>25 or 37.5mm</td><td>19 or 25mm</td></tr>
+<tr><td>Film Thickness (avg microns)</td><td>≥ 8</td><td>≥ 8</td><td>≥ 8</td></tr>
+<tr><td>% Passing 0.075mm (Filler)</td><td>2 – 8</td><td>2 – 7</td><td>2 – 7</td></tr>
+</table>
+
+<h3>📐 Table 5:8 — Compacted Layer Thickness — QCS S6 P5 Page 15</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Layer</th><th>Compacted Thickness</th><th>Min</th><th>Max</th></tr>
+<tr><td>Wearing Course (WC)</td><td>40 – 55mm</td><td>40mm</td><td>55mm</td></tr>
+<tr><td>Base Course B (BC-B)</td><td>60 – 80mm</td><td>60mm</td><td>80mm</td></tr>
+<tr><td>Base Course A (BC-A)</td><td>80 – 100mm</td><td>80mm</td><td>100mm</td></tr>
+<tr><td>Note: if thickness exceeds 100mm</td><td colspan="3">Split into two layers — each layer ≤ 100mm</td></tr>
 </table>
 </div>
 <div class="lang-content-ar">
@@ -1781,17 +1847,43 @@ lang-content-en" style="display:none;">
 <p style="font-size:11px;color:var(--text3);">ملاحظة: هذه أمثلة نموذجية — التصميم الفعلي يعتمد على تحليل ESAL الكامل + CBR الموقع + عمر التصميم.</p>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🛣️ Traffic Loading — Axle Load & ESAL</h3>
+<h3>📐 Superpave Mix Design — Definition</h3>
+<p>An American asphalt design system (SHRP/AASHTO) based on actual asphalt performance under weather and traffic conditions. Uses <strong>SGC (Superpave Gyratory Compactor)</strong> instead of the Marshall Hammer, and classifies bitumen using the <strong>PG Grade</strong> system.</p>
+
+<h3>📐 Marshall vs Superpave — Comparison</h3>
 <table class="dm-table">
-<tr><th>Vehicle Type</th><th>Max Legal Axle Load</th><th>ESAL Factor</th></tr>
-<tr><td>Car / Light van</td><td>3.5t front / 6.5t rear</td><td>0.0005</td></tr>
-<tr><td>2-axle truck</td><td>6t / 10t</td><td>0.5–2.0</td></tr>
-<tr><td>3-axle truck</td><td>6t / 10t / 10t</td><td>1.0–3.0</td></tr>
-<tr><td>Semi-trailer (5-axle)</td><td>≤40t GVW</td><td>3.0–6.0</td></tr>
-<tr><td>Standard Axle</td><td>8.2t = 80kN single axle</td><td>1.0 (reference)</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Marshall</th><th>Superpave</th></tr>
+<tr><td>Compaction Device</td><td>Marshall Hammer (blows)</td><td>SGC Gyratory Compactor (gyrations)</td></tr>
+<tr><td>Compaction Count</td><td>50 or 75 blows</td><td>Nini + Ndesign + Nmax per ESAL</td></tr>
+<tr><td>Bitumen Classification</td><td>Penetration Grade (60/70)</td><td>Performance Grade (PG64-xx to PG82-xx)</td></tr>
+<tr><td>Bitumen Tests</td><td>Penetration + Softening</td><td>DSR + BBR + RTFOT + PAV</td></tr>
+<tr><td>Fine Aggregate Definition</td><td>Passing 2.36mm</td><td>Passing 4.75mm</td></tr>
+<tr><td>Air Voids Design</td><td>3–5% @ 75 blows</td><td>4.0% @ Ndesign</td></tr>
+<tr><td>Use in Qatar</td><td>All roads</td><td>PMB Wearing + major roads ESAL &gt; 3×10⁶</td></tr>
 </table>
-<div style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
-ℹ️ Qatar uses AASHTO pavement design. Design ESAL typically 1M–30M for urban Ashghal roads. Traffic survey required for all new roads.
+
+<h3>📐 Superpave Gyratory Compaction — Number of Gyrations</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Traffic Level (ESAL × 10⁶)</th><th>Nini</th><th>Ndesign</th><th>Nmax</th><th>PG Grade</th></tr>
+<tr><td>&lt; 0.3</td><td>6</td><td>50</td><td>75</td><td>PG64-10</td></tr>
+<tr><td>0.3 – &lt; 3</td><td>7</td><td>75</td><td>115</td><td>PG70-10</td></tr>
+<tr><td>3 – &lt; 10</td><td>8</td><td>100</td><td>160</td><td>PG76-10</td></tr>
+<tr><td>10 – &lt; 30</td><td>9</td><td>125</td><td>205</td><td>PG76-10 or PG76E-10</td></tr>
+<tr><td>≥ 30 (major expressways)</td><td>9</td><td>125</td><td>205</td><td>PG82-10</td></tr>
+</table>
+
+<h3>📐 Table 5:17 — Superpave Sampling Frequency — QCS S6 P5 Page 23</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Stage</th><th>Frequency</th><th>Reference</th></tr>
+<tr><td>Bitumen PG Testing (DSR, BBR, RTFOT)</td><td>Material Approval</td><td>Per consignment</td><td>AASHTO T315, T313</td></tr>
+<tr><td>Gradation + Bitumen Extraction</td><td>During Production</td><td>Every 400t or daily</td><td>ASTM D2172</td></tr>
+<tr><td>SGC Compaction + Va</td><td>During Production</td><td>Every 400t</td><td>AASHTO T312</td></tr>
+<tr><td>Hamburg Wheel Track (Rutting)</td><td>JMF Approval</td><td>Once at design</td><td>AASHTO T324</td></tr>
+<tr><td>Cantabro (Raveling — SMA)</td><td>JMF Approval</td><td>Once at design</td><td>ASTM D7064</td></tr>
+<tr><td>TSR (Moisture Sensitivity)</td><td>JMF Approval</td><td>Once at design</td><td>AASHTO T283</td></tr>
+<tr><td>Core Density TMD%</td><td>After Paving</td><td>Every 1000m²</td><td>ASTM D6927</td></tr>
+<tr><td>IRI (Roughness)</td><td>After Paving</td><td>Every Section 400m</td><td>PWA IAN 013</td></tr>
+</table>
 </div>
 </div>
 ` };
@@ -1864,37 +1956,87 @@ lang-content-en" style="display:none;">
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>Transverse Joints — Page 28</h3>
+<h3>🧪 1. Standard Tests — Bitumen 60/70</h3>
 <table class="dm-table">
-<tr><th>Item</th><th>Requirement</th></tr>
-<tr><td>Face Preparation</td><td>Vertical saw cut of existing face before joining</td></tr>
-<tr><td>Face Coating</td><td>Tack Coat on vertical face before paving</td></tr>
-<tr><td>Offset between layers</td><td>≥ 2.0m between transverse joints in adjacent layers</td></tr>
-<tr><td>Compaction</td><td>Direct Vibratory Roller perpendicular to joint</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>QCS Limit</th><th>Standard</th></tr>
+<tr><td><strong>Penetration @ 25°C</strong></td><td>Measures depth of standard needle penetration = stiffness indicator</td><td>60–70 × 0.1mm</td><td>ASTM D5 / EN 1426</td></tr>
+<tr><td><strong>Softening Point R&B</strong></td><td>Temperature at which bitumen specimen begins to soften (Ring & Ball)</td><td>49 – 56°C</td><td>ASTM D36 / EN 1427</td></tr>
+<tr><td><strong>Ductility @ 25°C</strong></td><td>Measures elongation before fracture — flexibility indicator</td><td>≥ 100 cm</td><td>ASTM D113</td></tr>
+<tr><td><strong>Flash Point (COC)</strong></td><td>Minimum temperature at which bitumen ignites — for safety</td><td>≥ 232°C</td><td>ASTM D92</td></tr>
+<tr><td><strong>Specific Gravity @ 25°C</strong></td><td>Relative density of bitumen</td><td>1.01 – 1.05</td><td>ASTM D70</td></tr>
+<tr><td><strong>Solubility in TCE</strong></td><td>Dissolving in Trichloroethylene — bitumen purity indicator</td><td>≥ 99%</td><td>ASTM D2042</td></tr>
+<tr><td><strong>Wax Content</strong></td><td>Wax percentage — excess wax harms thermal performance</td><td>≤ 2.2%</td><td>IP 336</td></tr>
 </table>
-<h3>Longitudinal Joints — Page 28</h3>
+
+<h3>🧪 2. Aging Tests — RTFOT + TFOT</h3>
 <table class="dm-table">
-<tr><th>Item</th><th>Requirement</th></tr>
-<tr><td>Preferred Method</td><td>Hot-on-Hot: adjacent lane paved before temperature drops below 90°C</td></tr>
-<tr><td>Cold Joint</td><td>Saw Cut + Tack Coat on vertical face</td></tr>
-<tr><td>Offset between layers</td><td>≥ 300mm between WC and BC longitudinal joints</td></tr>
-<tr><td>WC joint location</td><td>Under lane line or adjacent to it</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>QCS Limit</th><th>Standard</th></tr>
+<tr><td><strong>RTFOT (Rolling Thin Film Oven Test)</strong></td><td>Simulates bitumen aging during hot mix production (163°C / 75 min). Measures mass loss and property changes</td><td>Loss ≤ 0.8%</td><td>ASTM D2872 / EN 12607-1</td></tr>
+<tr><td><strong>TFOT (Thin Film Oven Test)</strong></td><td>Older alternative to RTFOT — same purpose but less accurate</td><td>Loss ≤ 0.8%</td><td>ASTM D1754</td></tr>
+<tr><td><strong>Penetration after RTFOT</strong></td><td>Penetration on aged specimen — compared to original</td><td>≥ 50% of original</td><td>ASTM D5</td></tr>
+<tr><td><strong>Ductility after RTFOT @ 25°C</strong></td><td>Elongation after aging</td><td>≥ 50 cm</td><td>ASTM D113</td></tr>
+<tr><td><strong>Softening Point after RTFOT</strong></td><td>Rise in Softening Point after RTFOT — stiffening indicator</td><td>Increase ≤ 8°C</td><td>ASTM D36</td></tr>
 </table>
-<h3>Breakdown Rolling — Page 28</h3>
+
+<h3>🧪 3. PAV — Pressure Aging Vessel Residue</h3>
 <table class="dm-table">
-<tr><th>Item</th><th>Requirement</th></tr>
-<tr><td>Start Temperature</td><td>≥ 120°C (Non-PMB) / ≥ 125°C (PMB)</td></tr>
-<tr><td>Roller Type</td><td>10-12t Vibratory Double Drum Steel</td></tr>
-<tr><td>Direction</td><td>Low side to centre, 300-500mm overlap</td></tr>
-<tr><td>Roller Speed</td><td>2.5-4.5 km/h at vibratory</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>Standard</th></tr>
+<tr><td><strong>PAV (Pressure Aging Vessel)</strong></td><td>Simulates long-term bitumen aging during road service life (20+ years). Specimen treated in pressure vessel at 100°C / 2.1 MPa for 20 hours after RTFOT</td><td>AASHTO R28 / EN 14769</td></tr>
+<tr><td><strong>Input</strong></td><td>Pre-heated RTFOT Residue</td><td>—</td></tr>
+<tr><td><strong>Conditions</strong></td><td>100°C or 110°C (climate-dependent) / 2.1 MPa / 20 hr</td><td>AASHTO R28</td></tr>
+<tr><td><strong>Output</strong></td><td>PAV Residue used in DSR Creep + DTT</td><td>—</td></tr>
 </table>
-<h3>Intermediate & Finish Rolling — Page 29</h3>
+
+<h3>🧪 4. DSR — Dynamic Shear Rheometer</h3>
 <table class="dm-table">
-<tr><th>Item</th><th>Intermediate</th><th>Finish</th></tr>
-<tr><td>Roller Type</td><td>PTR (Pneumatic)</td><td>Tandem Steel (Static)</td></tr>
-<tr><td>Temperature</td><td>80-120°C</td><td>≥ 60°C</td></tr>
-<tr><td>Passes</td><td>4-5 passes</td><td>1-2 passes</td></tr>
-<tr><td>Purpose</td><td>Density + surface sealing</td><td>Remove tyre marks + level</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>QCS Limit (PMB)</th><th>Reference</th></tr>
+<tr><td><strong>G*/sinδ (Unaged)</strong></td><td>Measures bitumen stiffness at high temperatures (Summer Rutting). G* = Stiffness Modulus, δ = Phase Angle. Higher G*/sinδ = better Rutting resistance</td><td>≥ 2.2 kPa @ 76°C (PMB)</td><td>AASHTO T315</td></tr>
+<tr><td><strong>G*/sinδ (RTFOT Residue)</strong></td><td>Same test after RTFOT — fatigue cracking resistance</td><td>≥ 4.4 kPa @ 76°C (PMB)</td><td>AASHTO T315</td></tr>
+<tr><td><strong>Phase Angle δ (PAV Residue)</strong></td><td>Lag angle — elasticity indicator. Small δ = more elastic</td><td>≤ 75° @ 25°C</td><td>AASHTO T315</td></tr>
+<tr><td><strong>G*×sinδ (PAV Residue)</strong></td><td>Fatigue and cracking resistance at intermediate temperatures</td><td>≤ 5000 kPa @ 25°C</td><td>AASHTO T315</td></tr>
+</table>
+
+<h3>🧪 5. BBR — Bending Beam Rheometer (Creep Stiffness)</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>QCS Limit</th><th>Reference</th></tr>
+<tr><td><strong>Creep Stiffness S</strong></td><td>Measures bitumen stiffness at low temperatures (winter/night). Specimen bent at -10°C for 60 seconds. High S = stiff bitumen = thermal cracking</td><td>S ≤ 300 MPa @ -10°C / 60s</td><td>AASHTO T313 / EN 14771</td></tr>
+<tr><td><strong>m-value (Rate of Relaxation)</strong></td><td>Rate of thermal stress relaxation. Higher m = faster relaxation = less cracking</td><td>m ≥ 0.300 @ -10°C</td><td>AASHTO T313</td></tr>
+</table>
+
+<h3>🧪 6. Direct Tension Test (DTT)</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>Standard</th></tr>
+<tr><td><strong>Failure Strain</strong></td><td>Measures specimen elongation at fracture under cold conditions. Complements BBR for thermal cracking evaluation. Used when m-value is near the limit (0.300)</td><td>AASHTO T314</td></tr>
+<tr><td><strong>Trigger Condition</strong></td><td>If BBR Stiffness is between 300–600 MPa → DTT is performed</td><td>AASHTO MP1</td></tr>
+<tr><td><strong>Acceptance Criterion</strong></td><td>Failure Strain ≥ 1.0%</td><td>AASHTO MP1</td></tr>
+</table>
+
+<h3>🧪 7. Rotational Viscosity (RV)</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>Standard</th></tr>
+<tr><td><strong>Rotational Viscosity @ 135°C</strong></td><td>Measures bitumen viscosity at pumping and production temperature. High viscosity = difficulty in pumping and mixing</td><td>AASHTO T316 / ASTM D4402</td></tr>
+<tr><td><strong>Acceptance Criterion (Pumping)</strong></td><td>≤ 3 Pa·s @ 135°C</td><td>AASHTO MP1</td></tr>
+<tr><td><strong>Acceptance Criterion (Mixing)</strong></td><td>0.17 ± 0.02 Pa·s → determines Mixing Temperature</td><td>AASHTO T316</td></tr>
+<tr><td><strong>Standard Temperatures</strong></td><td>135°C and 165°C (to determine Equiviscous Temperature)</td><td>AASHTO T316</td></tr>
+</table>
+
+<h3>🧪 8. Additional PMB Tests (Polymer Modified Bitumen)</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>QCS Limit</th><th>Reference</th></tr>
+<tr><td><strong>Elastic Recovery @ 25°C</strong></td><td>Measures shape recovery after stretching = polymer indicator. Good PMB recovers shape &gt; 70%</td><td>≥ 70%</td><td>ASTM D6084 / EN 13398</td></tr>
+<tr><td><strong>Force Ductility @ 4°C</strong></td><td>Cold cracking resistance when extending specimen at 5cm/min</td><td>≥ 2 N (at 200mm)</td><td>EN 13589</td></tr>
+<tr><td><strong>Toughness & Tenacity</strong></td><td>Total energy at fracture — Toughness ≥15J / Tenacity ≥5J</td><td>T ≥ 15J, t ≥ 5J</td><td>ASTM D5801</td></tr>
+<tr><td><strong>Storage Stability (ΔSoftening Point)</strong></td><td>Difference in Softening Point between top and bottom of Tube after 48hr @ 163°C. Detects polymer-bitumen separation</td><td>ΔSP ≤ 5°C</td><td>EN 13399</td></tr>
+<tr><td><strong>FTIR (Polymer Identification)</strong></td><td>Identifies polymer type (SBS or SBR) and confirms authenticity</td><td>SBS or SBR confirmed</td><td>FTIR Spectroscopy</td></tr>
+<tr><td><strong>Separation Test @ 163°C</strong></td><td>Thermal stability test — PMB must remain homogeneous</td><td>ΔSP ≤ 5°C</td><td>EN 13399</td></tr>
+</table>
+
+<h3>📐 PG Grade and Testing Sequence</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Stage</th><th>Specimen</th><th>Tests</th><th>Purpose</th></tr>
+<tr><td>1 — Original (Unaged)</td><td>Raw bitumen</td><td>Penetration, Softening, Flash, Viscosity, DSR G*/sinδ</td><td>Manufacturing properties</td></tr>
+<tr><td>2 — After RTFOT</td><td>Short-term Aged</td><td>Penetration Ratio, Ductility, DSR G*/sinδ (RTFOT)</td><td>Mixing aging</td></tr>
+<tr><td>3 — After PAV</td><td>Long-term Aged</td><td>DSR Phase Angle, G*×sinδ, BBR S + m-value, DTT</td><td>Service life aging</td></tr>
 </table>
 </div>
 ` };
@@ -2027,31 +2169,120 @@ lang-content-en" style="display:none;">
 ` };
   c["itp_subgrade"] = { title: '📋 ITP — Subgrade', content: `<div class="lang-content-ar"><div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2024 — Part 6, Section 2</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>Standard Proctor</td><td>ASTM D698</td><td>تحديد MDD و OMC</td><td>كل تغيير مادة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.2</td><td>CBR Soaked 4 days</td><td>ASTM D1883</td><td>≥ 8%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.3</td><td>Atterberg Limits</td><td>ASTM D4318</td><td>LL ≤ 35% | PI ≤ 10%</td><td>كل تغيير مادة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 95% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr><tr><td>3.2</td><td>Level Survey</td><td>Design Drawing</td><td>± 10mm</td><td>كل 25m</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Survey Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness Point | <strong style="color:#2ecc71;">R</strong> = Review</div></div>
 <div class="lang-content-en" style="display:none;">
-<h3>🏔️ Subgrade Formation — Full ITP</h3>
+<h3>📐 Basic Definitions</h3>
 <table class="dm-table">
-<tr><th>Activity</th><th>Test</th><th>Acceptance</th><th>Type</th></tr>
-<tr><td>Stripping Level</td><td>Survey to formation</td><td>±20mm of design</td><td>W</td></tr>
-<tr><td>Unsuitable Material</td><td>Visual + lab if doubt</td><td>Remove organic/sabkha/soft</td><td>H</td></tr>
-<tr><td>Proctor MDD/OMC</td><td>Lab per source</td><td>BS Heavy Compaction</td><td>W</td></tr>
-<tr><td>Moisture Content</td><td>Daily per 500m² area</td><td>OMC ±2%</td><td>W</td></tr>
-<tr><td>Field Density (Sand Cone)</td><td>1 test/500m²/layer</td><td>≥95% MDD</td><td>H</td></tr>
-<tr><td>CBR Soaked 4 days</td><td>1 test/500m³</td><td>≥8% urban / ≥5% rural</td><td>H</td></tr>
-<tr><td>PI + Sulphate + Cl</td><td>Per source change</td><td>PI≤12 / SO3≤0.3%</td><td>W</td></tr>
-<tr><td>Proof Rolling</td><td>10t roller full width</td><td>No rutting >12mm</td><td>H</td></tr>
-<tr><td>Level Survey</td><td>Grid every 25m</td><td>±20mm design level</td><td>W</td></tr>
-<tr><td>Formation Approval</td><td>All tests passed</td><td>Engineer sign-off</td><td>H</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Term</th><th>Definition</th><th>Unit</th></tr>
+<tr><td><strong>Standard Axle Load</strong></td><td>Standard axle = 80 kN (8.2 tonnes) — global design standard</td><td>80 kN</td></tr>
+<tr><td><strong>Axle Load Factor (ALF)</strong></td><td>Ratio of damage by a given axle compared to the standard axle. A 160kN axle = ALF 16 (= 16 standard axles)</td><td>Dimensionless</td></tr>
+<tr><td><strong>ESAL</strong></td><td>Equivalent Standard Axle Load — sum of all axles converted to standard axle equivalents over the road design life</td><td>× 10⁶</td></tr>
+<tr><td><strong>Traffic Designation</strong></td><td>Road classification by heavy traffic volume (ESAL) for pavement thickness selection</td><td>T1–T6</td></tr>
+<tr><td><strong>Design Life</strong></td><td>Design life of road = 20 years for primary roads in Qatar</td><td>Years</td></tr>
 </table>
+
+<h3>📐 Table 1 — Traffic Designation — QCS S6 P2</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Designation</th><th>ESAL (× 10⁶)</th><th>Road Type</th></tr>
+<tr><td>T1 — Light</td><td>&lt; 0.5</td><td>Light residential local roads</td></tr>
+<tr><td>T2 — Medium Light</td><td>0.5 – 1.5</td><td>Local and minor roads</td></tr>
+<tr><td>T3 — Medium</td><td>1.5 – 5.0</td><td>Collector and service roads</td></tr>
+<tr><td>T4 — Medium Heavy</td><td>5.0 – 15</td><td>Primary arterial roads</td></tr>
+<tr><td>T5 — Heavy</td><td>15 – 50</td><td>Primary expressways</td></tr>
+<tr><td>T6 — Very Heavy</td><td>&gt; 50</td><td>Expressways + industrial zones</td></tr>
+</table>
+
+<h3>📐 Table 2 — Pavement Type by Traffic — QCS S6 P2</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Designation</th><th>Pavement Type</th><th>Design Method</th></tr>
+<tr><td>T1 – T2</td><td>Flexible — Simple Asphalt + Granular</td><td>Empirical (CBR Method)</td></tr>
+<tr><td>T3 – T4</td><td>Flexible — Reinforced Asphalt + Treated Base</td><td>Mechanistic-Empirical</td></tr>
+<tr><td>T5 – T6</td><td>Flexible PMB or Semi-Rigid (CTB)</td><td>Mechanistic Full (AASHTO/Shell)</td></tr>
+<tr><td>T5+ Heavy Industrial</td><td>Rigid — Concrete Pavement</td><td>PCA / AASHTO Rigid</td></tr>
+</table>
+
+<h3>📐 Table 3 — Typical Pavement Structure by Traffic — QCS S6 P2</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Designation</th><th>WC</th><th>BC</th><th>Base</th><th>Subbase</th></tr>
+<tr><td>T1 (&lt;0.5M)</td><td>40mm WC</td><td>—</td><td>150mm</td><td>150mm</td></tr>
+<tr><td>T2 (0.5–1.5M)</td><td>40mm WC</td><td>50mm BC-B</td><td>150mm</td><td>200mm</td></tr>
+<tr><td>T3 (1.5–5M)</td><td>50mm WC</td><td>70mm BC-B</td><td>200mm</td><td>250mm</td></tr>
+<tr><td>T4 (5–15M)</td><td>50mm WC</td><td>80mm BC-B</td><td>250mm</td><td>300mm</td></tr>
+<tr><td>T5 (15–50M)</td><td>50mm PMB WC</td><td>80mm BC-A</td><td>250mm</td><td>300mm</td></tr>
+<tr><td>T6 (&gt;50M)</td><td>50mm PMB WC</td><td>100mm BC-A</td><td>300mm</td><td>350mm</td></tr>
+</table>
+
+<h3>📐 Table 5 — Pavement Design Thickness (Subgrade CBR) — QCS S6 P2</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Subgrade CBR</th><th>T3 Total Asphalt</th><th>T4 Total Asphalt</th><th>T5 Total Asphalt</th></tr>
+<tr><td>CBR ≥ 8% (Good)</td><td>120mm</td><td>130mm</td><td>140mm</td></tr>
+<tr><td>CBR 8–8% (Medium / Sabkha)</td><td>130mm</td><td>145mm</td><td>160mm</td></tr>
+<tr><td>CBR 5–8% (Weak)</td><td>145mm</td><td>165mm</td><td>185mm</td></tr>
+<tr><td>CBR &lt; 5% (Very Weak)</td><td colspan="3">Mandatory treatment + replacement before design</td></tr>
+</table>
+<p style="font-size:11px;color:var(--text3);">Note: These are representative examples — actual design is based on full ESAL analysis + site CBR + design life.</p>
 </div></div>
 <div class="lang-content-en" style="display:none;">
-<h3>ITP — Subbase Course</h3>
-<table class="dm-table"><tr><th>Activity</th><th>Test</th><th>Frequency</th><th>Standard</th><th>HP/W</th></tr>
-<tr><td>Material Approval</td><td>Grading + LA + PI + SE</td><td>Per source</td><td>QCS S6 P4</td><td>HP</td></tr>
-<tr><td>Grading Analysis</td><td>Within Table 4:1 envelope</td><td>Per 500m³</td><td>ASTM C136</td><td>W</td></tr>
-<tr><td>LA Abrasion</td><td>≤ 30%</td><td>Per 1000m³</td><td>ASTM C131</td><td>W</td></tr>
-<tr><td>Sand Equivalent</td><td>≥ 30%</td><td>Per 500m³</td><td>ASTM D2419</td><td>W</td></tr>
-<tr><td>Field Density</td><td>≥ 98% MDD</td><td>Per 500m²</td><td>ASTM D1556</td><td>W</td></tr>
-<tr><td>CBR (Soaked 4 days)</td><td>≥ 30%</td><td>Per 2000m²</td><td>ASTM D1883</td><td>HP</td></tr>
-<tr><td>Level Survey</td><td>± 10mm from design</td><td>Per 25m</td><td>Total Station</td><td>HP</td></tr></table>
+<h3>📐 Joints Definitions</h3>
+<p>Joints in asphalt pavement are the interfaces between adjacent sections of asphalt. Proper management is essential to ensure pavement continuity and prevent water ingress and cracking.</p>
+<table class="dm-table">
+<tr><th>Type</th><th>Definition</th><th>Direction</th></tr>
+<tr><td><strong>Transverse Joint</strong></td><td>Joint extending perpendicular to the road centreline — forms at the beginning and end of each working day or when the Paver stops</td><td>⊥ Perpendicular to direction of travel</td></tr>
+<tr><td><strong>Longitudinal Joint</strong></td><td>Joint extending parallel to the road centreline — forms between two adjacent lanes or adjacent Paver passes</td><td>// Parallel to direction of travel</td></tr>
+<tr><td><strong>Pavement Elevation</strong></td><td>Vertical difference between road surface and adjacent elements (Manholes/Kerbs). QCS S6 P5: ±6mm from design. Manholes: flush ±5mm with asphalt surface</td><td>Vertical</td></tr>
+</table>
+
+<h3>📐 Transverse Joints — Page 28</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Requirement</th></tr>
+<tr><td>Termination Method</td><td>Clean vertical cut (Saw Cut) of old face before joining</td></tr>
+<tr><td>Face Coating</td><td>Tack Coat on vertical face before laying</td></tr>
+<tr><td>Offset Between Layers</td><td>≥ 2.0m offset between Transverse Joint in upper and lower layers</td></tr>
+<tr><td>Offset Between Passes</td><td>≥ 2.0m offset between joints in adjacent passes</td></tr>
+<tr><td>WC Transverse Joint Location</td><td>Under lane line if possible — away from braking zones and intersections</td></tr>
+<tr><td>Compaction at Joints</td><td>Direct Vibratory Roller compaction perpendicular to joint</td></tr>
+</table>
+
+<h3>📐 Longitudinal Joints — Page 28</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Requirement</th></tr>
+<tr><td>Preferred Method</td><td>Hot-on-Hot: lay adjacent lane before temperature drops below 90°C</td></tr>
+<tr><td>Cold Joint (unavoidable)</td><td>Saw Cut + Tack Coat on vertical face</td></tr>
+<tr><td>Offset Between Layers</td><td>≥ 300mm offset between Longitudinal Joint in WC and BC</td></tr>
+<tr><td>WC Longitudinal Joint Location</td><td>Under or beside the Lane Line</td></tr>
+<tr><td>Old Face Condition</td><td>Straight + Vertical — no inclined faces</td></tr>
+<tr><td>Overlap During Paving</td><td>Paver overlaps 25–50mm onto old edge</td></tr>
+</table>
+
+<h3>📐 Paving Edges — Page 28</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Requirement</th></tr>
+<tr><td>Edge Adjacent to Kerb</td><td>Pave directly to Kerb + Compact with Small Roller</td></tr>
+<tr><td>Free Edge</td><td>Immediate Edge Compaction with Pneumatic or Small Drum before cooling</td></tr>
+<tr><td>Side Batter</td><td>1:3 max (vertical:horizontal) for free edges</td></tr>
+<tr><td>Edge Compaction</td><td>Pedestrian Roller or Plate Compactor for confined areas</td></tr>
+</table>
+
+<h3>📐 Breakdown Rolling — Page 28</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Requirement</th></tr>
+<tr><td>Start Temperature</td><td>≥ 120°C (Non-PMB) / ≥ 125°C (PMB)</td></tr>
+<tr><td>Roller Type</td><td>Vibratory Double Drum Steel 10–12t</td></tr>
+<tr><td>Rolling Direction</td><td>From low edge to centre (Low Side to Centre)</td></tr>
+<tr><td>Overlap Between Passes</td><td>300–500mm</td></tr>
+<tr><td>First Pass</td><td>Static (no vibration) to seat material</td></tr>
+<tr><td>Subsequent Passes</td><td>Vibratory to achieve required Compaction</td></tr>
+<tr><td>Roller Speed</td><td>2.5 – 4.5 km/h during Vibratory</td></tr>
+</table>
+
+<h3>📐 Intermediate & Finish Rolling — Page 29</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Intermediate</th><th>Finish Rolling</th></tr>
+<tr><td>Roller Type</td><td>Pneumatic Tyre Roller (PTR)</td><td>Tandem Steel Drum (Static)</td></tr>
+<tr><td>Temperature</td><td>80–120°C</td><td>≥ 60°C</td></tr>
+<tr><td>Number of Passes</td><td>4–5 passes (2 PTR)</td><td>1–2 passes</td></tr>
+<tr><td>Purpose</td><td>Improve Density + close surface</td><td>Remove PTR marks + level surface</td></tr>
+<tr><td>PTR Speed</td><td>4–8 km/h</td><td>3–6 km/h</td></tr>
+<tr><td>PTR Tyre Pressure</td><td>400–600 kPa</td><td>—</td></tr>
+</table>
 </div>
 ` };
   c["itp_base"] = { title: '📋 ITP — Base Course', content: `<div class="lang-content-ar"><div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2024 — Part 6 Part 3</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>CBR Soaked</td><td>ASTM D1883</td><td>≥ 80%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.2</td><td>LA Abrasion</td><td>ASTM C131</td><td>≤ 25%</td><td>كل 1000m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 98% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr><tr><td>3.2</td><td>Plate Load Test</td><td>BS 1377 Part 9</td><td>حسب التصميم</td><td>كل 2000m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div></div>
@@ -2386,26 +2617,52 @@ lang-content-en" style="display:none;">
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>What is Geotextile?</h3>
-<p>Geotextiles are polymer (PP or PET) fabric materials used in road construction, drainage and reinforcement. Primary functions: separation between soil/aggregate layers, filtration, reinforcement.</p>
-<h3>Geotextile Types</h3>
+<h3>🪨 What is Gabbro?</h3>
+<p>Gabbro is a crystalline igneous rock extracted primarily from UAE and Fujairah quarries. It is the primary aggregate used in Qatar for all road layers and concrete due to its high hardness and resistance.</p>
+
+<h3>📐 Gabbro Specifications — Coarse Aggregate</h3>
 <table class="dm-table">
-<tr><th>Type</th><th>Manufacture</th><th>Primary Function</th><th>Qatar Use</th></tr>
-<tr><td>Woven</td><td>Woven polymer threads</td><td>Separation + Reinforcement</td><td>Under Subbase on weak subgrade</td></tr>
-<tr><td>Non-Woven</td><td>Thermally bonded fibres</td><td>Filtration + Separation</td><td>Drainage + protection layers</td></tr>
-<tr><td>Geogrid</td><td>Large aperture grid</td><td>Reinforcement</td><td>Under Road Base to increase bearing</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Property</th><th>Subbase</th><th>Base Course</th><th>Asphalt WC</th><th>Asphalt BC</th><th>Test</th></tr>
+<tr><td>LA Abrasion</td><td>≤ 40%</td><td>≤ 30%</td><td>≤ 25%</td><td>≤ 30%</td><td>ASTM C131</td></tr>
+<tr><td>Flakiness Index</td><td>≤ 40%</td><td>≤ 30%</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812 P105</td></tr>
+<tr><td>Elongation Index</td><td>≤ 40%</td><td>≤ 30%</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812 P105</td></tr>
+<tr><td>Fractured Faces (1+)</td><td>≥ 25%</td><td>≥ 75%</td><td>≥ 95%</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
+<tr><td>Fractured Faces (2+)</td><td>—</td><td>≥ 50%</td><td>≥ 90%</td><td>≥ 85%</td><td>ASTM D5821</td></tr>
+<tr><td>PSV (Polished Stone Value)</td><td>—</td><td>—</td><td>≥ 55</td><td>—</td><td>BS 812 P114</td></tr>
+<tr><td>Water Absorption</td><td>≤ 3%</td><td>≤ 2%</td><td>≤ 2%</td><td>≤ 2%</td><td>ASTM C127</td></tr>
+<tr><td>Soundness (MgSO4)</td><td>≤ 18%</td><td>≤ 12%</td><td>≤ 12%</td><td>≤ 12%</td><td>ASTM C88</td></tr>
+<tr><td>Specific Gravity SSD</td><td>≥ 2.4</td><td>≥ 2.5</td><td>≥ 2.5</td><td>≥ 2.5</td><td>ASTM C127</td></tr>
+<tr><td>Sulphate SO3</td><td>≤ 0.5%</td><td>≤ 0.5%</td><td>≤ 0.4%</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
+<tr><td>Chloride</td><td>≤ 0.6%</td><td>≤ 0.6%</td><td>≤ 0.04%</td><td>≤ 0.04%</td><td>BS 1377</td></tr>
+<tr><td>Alkali-Silica Reactivity</td><td>Non-reactive</td><td>Non-reactive</td><td>Non-reactive</td><td>Non-reactive</td><td>ASTM C1260</td></tr>
 </table>
-<h3>Geotextile Specifications</h3>
+
+<h3>📐 Common Sources in Qatar</h3>
 <table class="dm-table">
-<tr><th>Property</th><th>Min (Separation)</th><th>Min (Filtration)</th><th>Test</th></tr>
-<tr><td>Mass Per Unit Area</td><td>≥ 150 g/m²</td><td>≥ 200 g/m²</td><td>ISO 9864</td></tr>
-<tr><td>Tensile Strength (MD)</td><td>≥ 20 kN/m</td><td>≥ 12 kN/m</td><td>ISO 10319</td></tr>
-<tr><td>CBR Puncture Resistance</td><td>≥ 2500 N</td><td>≥ 1500 N</td><td>ISO 12236</td></tr>
-<tr><td>Apparent Opening Size O90</td><td>≤ 0.20mm</td><td>0.075-0.30mm</td><td>ISO 12956</td></tr>
-<tr><td>UV Resistance</td><td>≥ 50% retention after 500hr</td><td>≥ 50%</td><td>ASTM D4355</td></tr>
+<tr><th>Quarry</th><th>Location</th><th>Note</th></tr>
+<tr><td>QPMC (Qatar Primary Materials Company)</td><td>Doha — Warehouses</td><td>Main distributor in Qatar</td></tr>
+<tr><td>Al Hodaifi / Al Jaber</td><td>Fujairah — UAE</td><td>Gabbro Class A</td></tr>
+<tr><td>Fujairah Rocks & Aggregates</td><td>Fujairah</td><td>Primary source for Qatar</td></tr>
+<tr><td>Doha Quarry</td><td>Doha</td><td>Local use</td></tr>
 </table>
-<h3>Installation Requirements</h3>
-<p>Overlap: ≥ 500mm both directions | Cover within 48hr of laying | Seams: sewing or ≥ 1m overlap | No heavy equipment directly on geotextile without cover</p>
+
+<h3>📐 Conformity Certificate</h3>
+<p>Each Gabbro consignment must include:<br>
+• <strong>Conformity Certificate</strong> from QGOS (Qatar General Organization for Standardization)<br>
+• Laboratory analysis confirming: LA Abrasion + Flakiness + Fractured Faces + Water Absorption + Sulphate<br>
+• Certificate validity ≤ 12 months from issue date<br>
+• MAR (Material Approval Request) approved by Engineer before use</p>
+
+<h3>🔧 Site Gabbro Testing</h3>
+<table class="dm-table">
+<tr><th>Test</th><th>Frequency</th><th>Standard</th></tr>
+<tr><td>Visual Inspection (colour and cleanliness)</td><td>Each delivery</td><td>Clean, no contamination</td></tr>
+<tr><td>Grading Analysis</td><td>Every 500m³</td><td>ASTM C136</td></tr>
+<tr><td>LA Abrasion</td><td>Every 1000m³</td><td>ASTM C131</td></tr>
+<tr><td>Flakiness Index</td><td>Every 500m³</td><td>BS 812</td></tr>
+<tr><td>Water Absorption</td><td>Every 500m³</td><td>ASTM C127</td></tr>
+<tr><td>Sulphate + Chloride</td><td>Every 1000m³</td><td>BS 1377</td></tr>
+</table>
 </div>
 ` };
   c["testing"] = { title: '🔬 الاختبارات والفحص', content: `
@@ -2413,8 +2670,52 @@ lang-content-en" style="display:none;">
 <h3>اختبارات إلزامية</h3><p>• <strong>SPT:</strong> Standard Penetration Test للتربة</p><p>• <strong>قوة الConcrete:</strong> مكعبات 150×150 عند 7 و 28 يوم</p><p>• <strong>الRebar:</strong> شد وانحناء لكل دفعة</p><p>• <strong>الكبريتات والكلوريدات:</strong> في التربة والمياه</p><h3>عدد الجسات</h3><p>• جسة واحدة لكل 500 م² كحد أدنى</p><p>• عمق يتجاوز مستوى التأثير بـ 5 متر</p>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — Section 6 | Testing &amp; Inspection | ASTM / BS Standards
+<h3>🕸️ What is Geotextile?</h3>
+<p>Polymer-based engineering textile materials (PP or PET) used in road works, drainage and reinforcement. Primary functions: separation between soil/aggregate layers, filtration, reinforcement.</p>
+
+<h3>📐 Types of Geotextile</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Type</th><th>Manufacture</th><th>Primary Function</th><th>Use in Qatar</th></tr>
+<tr><td><strong>Woven</strong></td><td>Woven polymer threads</td><td>Separation + Reinforcement</td><td>Under Subbase above weak soil</td></tr>
+<tr><td><strong>Non-Woven</strong></td><td>Thermally bonded fibres</td><td>Filtration + Separation</td><td>Drainage + Drainage layer protection</td></tr>
+<tr><td><strong>Geonet</strong></td><td>Plastic mesh</td><td>Drainage</td><td>Under Kerb + drainage barriers</td></tr>
+<tr><td><strong>Geogrid</strong></td><td>Large-aperture mesh</td><td>Reinforcement</td><td>Under Road Base for increased load capacity</td></tr>
+</table>
+
+<h3>📐 Geotextile Specifications — QCS S6 P3</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Property</th><th>Min (Separation)</th><th>Min (Filtration)</th><th>Test</th></tr>
+<tr><td>Mass Per Unit Area</td><td>≥ 150 g/m²</td><td>≥ 200 g/m²</td><td>ISO 9864</td></tr>
+<tr><td>Tensile Strength (MD)</td><td>≥ 20 kN/m</td><td>≥ 12 kN/m</td><td>ISO 10319</td></tr>
+<tr><td>Tensile Strength (CMD)</td><td>≥ 20 kN/m</td><td>≥ 12 kN/m</td><td>ISO 10319</td></tr>
+<tr><td>Elongation at Break</td><td>≤ 50%</td><td>≥ 30%</td><td>ISO 10319</td></tr>
+<tr><td>CBR Puncture Resistance</td><td>≥ 2500 N</td><td>≥ 1500 N</td><td>ISO 12236</td></tr>
+<tr><td>Apparent Opening Size (O90)</td><td>≤ 0.20mm</td><td>0.075–0.30mm</td><td>ISO 12956</td></tr>
+<tr><td>Permeability (Kn)</td><td>N/A</td><td>≥ 10×Ksoil</td><td>ISO 11058</td></tr>
+<tr><td>UV Resistance</td><td>≥ 50% retention after 500hr UV</td><td>≥ 50% after 500hr</td><td>ASTM D4355</td></tr>
+<tr><td>Chemical Resistance</td><td>pH 2–13 stable</td><td>pH 2–13 stable</td><td>ISO 14030</td></tr>
+</table>
+
+<h3>📐 Installation Requirements</h3>
+<table class="dm-table">
+<tr><th>Item</th><th>Requirement</th></tr>
+<tr><td>Overlap</td><td>≥ 500mm in both directions</td></tr>
+<tr><td>Anchoring</td><td>U-pins or sand placed directly on top</td></tr>
+<tr><td>UV Protection</td><td>Cover within 48hr of placement</td></tr>
+<tr><td>Placement on Slopes</td><td>From top to bottom</td></tr>
+<tr><td>Joining</td><td>Sewing or Overlap ≥ 1m</td></tr>
+<tr><td>Equipment Protection</td><td>No heavy equipment directly on geotextile</td></tr>
+</table>
+
+<h3>🔧 Acceptance Testing</h3>
+<table class="dm-table">
+<tr><th>Test</th><th>Frequency</th><th>Standard</th><th>HP/W</th></tr>
+<tr><td>Mass Per Unit Area</td><td>Per roll batch</td><td>ISO 9864</td><td>W</td></tr>
+<tr><td>Tensile Strength</td><td>Per roll batch</td><td>ISO 10319</td><td>HP</td></tr>
+<tr><td>CBR Puncture</td><td>Per roll batch</td><td>ISO 12236</td><td>W</td></tr>
+<tr><td>Apparent Opening Size</td><td>Per roll batch</td><td>ISO 12956</td><td>W</td></tr>
+<tr><td>Visual Inspection</td><td>100% of rolls</td><td>No holes/tears</td><td>W</td></tr>
+</table>
 </div>
 <h3>🔬 Mandatory Tests — QCS 2024</h3>
 <p>• <strong>SPT:</strong> Standard Penetration Test for soil (every 1.5m depth — ASTM D1586)</p>
@@ -2566,11 +2867,24 @@ lang-content-en" style="display:none;">
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="margin:14px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-<div style="padding:10px 12px;background:rgba(201,168,70,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<div style="display:flex;align-items:center;gap:8px;">
-<span style="font-size:16px;">🎥</span>
-<span style="color:var(--gold);font-weight:700;font-size:13px;">Foundation & Structural Concrete Execution</span>
+<h3>🗓️ Required Tests Calculator by Quantity</h3>
+<p style="font-size:12px;color:var(--text3);">Enter material type and delivered quantity → Calculator determines required tests and mandatory frequency per QCS 2024</p>
+
+<div style="background:var(--dark4);border-radius:10px;padding:14px;margin:10px 0;">
+<div style="margin-bottom:10px;">
+<label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">Material Type:</label>
+<select id="ts-material" onchange="calcTestSchedule()" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--text1);font-family:Tajawal,sans-serif;font-size:13px;">
+<option value="">-- Select Material --</option>
+<option value="subgrade">Subgrade (Subgrade Soil)</option>
+<option value="subbase">Subbase Course</option>
+<option value="base">Road Base Course</option>
+<option value="asphalt_bc">Asphalt Binder Course (BC)</option>
+<option value="asphalt_wc">Asphalt Wearing Course (WC)</option>
+<option value="concrete">Concrete (Concrete)</option>
+<option value="water_pipe">Water Supply Pipe</option>
+<option value="sewer_pipe">Foul Sewer Pipe</option>
+<option value="rebar">Reinforcement Steel (Steel)</option>
+</select>
 </div>
 <button onclick="document.getElementById('vid-execution-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
 </div>
@@ -2734,12 +3048,48 @@ c["geotextile_specs"] = { title: '🧶 Geotextile — المواد الجيوت�
 </table>
 </div>
 <div class="lang-content-en" style="display:none">
-<h3>Geotextile Specifications — QCS S6</h3>
+<h3>📐 Binder Course Definition — QCS S6 P5</h3>
+<p><strong>Binder Course</strong> is the intermediate asphalt layer between the Base Course and the Wearing Course. It acts as a structural bonding element transferring loads from the surface layer to the base layers. Manufactured from a coarser asphalt mix using larger aggregate (AC-20 or AC-25) than the Wearing Course.</p>
+
+<h3>📊 Specifications — QCS S6 P5</h3>
 <table class="dm-table">
-<tr><th>Type</th><th>Use</th><th>Standard</th></tr>
-<tr><td>Woven</td><td>Subgrade reinforcement, Sabkha Class 2-3</td><td>AASHTO M288 Class 1</td></tr>
-<tr><td>Non-Woven</td><td>Separation Subgrade/Subbase, filtration</td><td>AASHTO M288 Class 2</td></tr>
-<tr><td>Paving Fabric</td><td>Crack retardation, moisture barrier</td><td>ASTM D7239</td></tr>
+<tr><th>Property</th><th>Requirement</th><th>QCS S6 P5</th></tr>
+<tr><td>Mix Type</td><td>AC-20 or AC-25 (Dense Graded)</td><td>P5 Table 5:1</td></tr>
+<tr><td>Air Voids (Va)</td><td>3.0 – 5.0%</td><td>P5 Table 5:6</td></tr>
+<tr><td>VMA min</td><td>13%</td><td>P5 Table 5:6</td></tr>
+<tr><td>Marshall Stability min</td><td>7 kN</td><td>P5 Table 5:6</td></tr>
+<tr><td>Flow</td><td>2 – 4 mm</td><td>P5 Table 5:6</td></tr>
+<tr><td>Bitumen Content</td><td>4.0 – 6.0%</td><td>P5 Table 5:6</td></tr>
+<tr><td>Production Temperature</td><td>145 – 160°C</td><td>P5</td></tr>
+<tr><td>Min Laying Temperature</td><td>135°C</td><td>P5</td></tr>
+<tr><td>Compaction Degree</td><td>≥ 92% TMD</td><td>P5</td></tr>
+<tr><td>Typical Thickness</td><td>60 – 80mm (per road designation)</td><td>RDM 2023</td></tr>
+</table>
+
+<h3>🔄 Tack Coat Before Binder — QCS S6 P5</h3>
+<table class="dm-table">
+<tr><th>Item</th><th>Requirement</th></tr>
+<tr><td>Material Type</td><td>Bitumen Emulsion (CSS-1 or K1-60)</td></tr>
+<tr><td>Application Rate</td><td>0.3 – 0.5 L/m²</td></tr>
+<tr><td>Drying Time</td><td>≥ 4 hours before laying</td></tr>
+<tr><td>Surface Condition</td><td>Dry + Clean + dust-free</td></tr>
+</table>
+
+<h3>🔴 Hold Points</h3>
+<table class="dm-table">
+<tr><th>Stage</th><th>Requirement</th><th>H/W/R</th></tr>
+<tr><td>Before laying Binder</td><td>Tack Coat approval + mix temperature</td><td>H</td></tr>
+<tr><td>During laying</td><td>Temperature measurement with IR Thermometer</td><td>W</td></tr>
+<tr><td>After compaction</td><td>Core Test: Va + Thickness + Density</td><td>H</td></tr>
+</table>
+
+<h3>📏 Binder Thickness by Road Classification — Ashghal RDM</h3>
+<table class="dm-table">
+<tr><th>Road Classification</th><th>Binder Thickness</th><th>Mix Type</th></tr>
+<tr><td>Local Road</td><td>60mm</td><td>AC-20</td></tr>
+<tr><td>Collector Road</td><td>70mm</td><td>AC-20</td></tr>
+<tr><td>Arterial Road</td><td>80mm</td><td>AC-20 / AC-25</td></tr>
+<tr><td>Expressway</td><td>80mm</td><td>AC-25 (PMB)</td></tr>
 </table>
 </div>` };
 
@@ -2899,13 +3249,23 @@ c["finishing"] = { title: '🏁 تشطيب الرصيف — Finishing', content:
 </table>
 </div>
 <div class="lang-content-en" style="display:none">
-<h3>Finishing & Surface Quality — QCS S6 P5</h3>
+<h3>📋 ITP List — Inspection & Test Plans for Roads</h3>
+<p>Each phase of road construction has a dedicated ITP defining <strong>Hold Points (H)</strong>, <strong>Witness Points (W)</strong>, and <strong>Review Points (R)</strong>.</p>
 <table class="dm-table">
-<tr><th>Criterion</th><th>Limit</th><th>Measurement</th></tr>
-<tr><td>Surface Regularity</td><td>≤ 3mm (3m SE)</td><td>Straight Edge</td></tr>
-<tr><td>IRI</td><td>≤ 2.5 m/km</td><td>Profilometer</td></tr>
-<tr><td>Crossfall</td><td>2.5% ± 0.3%</td><td>Survey</td></tr>
-<tr><td>Skid Resistance</td><td>SFC ≥ 0.45</td><td>SCRIM</td></tr>
+<tr><th>ITP</th><th>Phase</th><th>Click for Details</th></tr>
+<tr><td>ITP Subgrade</td><td>Subgrade preparation + Compaction + CBR</td><td>← Subgrade ITP</td></tr>
+<tr><td>ITP Subbase & Base</td><td>Granular layer laying + Compaction</td><td>← Base ITP</td></tr>
+<tr><td>ITP Prime & Tack</td><td>Prime Coat and Tack Coat application</td><td>← Prime ITP</td></tr>
+<tr><td>ITP Wearing Course</td><td>Laying + Compaction + Core Tests</td><td>← Wearing ITP</td></tr>
+</table>
+<h3>🔴 General Hold Points for Roads — QCS S6 + Ashghal</h3>
+<table class="dm-table">
+<tr><th>Phase</th><th>Hold Point</th><th>Requirement</th></tr>
+<tr><td>Subgrade</td><td>Before laying Subbase</td><td>CBR ≥ 8% + Comp ≥ 95% MDD documented</td></tr>
+<tr><td>Subbase</td><td>Before laying Base</td><td>CBR ≥ 30% + Comp ≥ 98% MDD</td></tr>
+<tr><td>Base</td><td>Before Prime Coat</td><td>CBR ≥ 80% + Comp ≥ 100% MDD</td></tr>
+<tr><td>Prime Coat</td><td>Before Binder</td><td>Application rate + curing time</td></tr>
+<tr><td>Binder/Wearing</td><td>Before laying + after Core</td><td>Mix Design + Temperature + Va</td></tr>
 </table>
 </div>` };
 
@@ -3012,8 +3372,26 @@ c["concrete_pavement"] = {
 • <strong>HP-07:</strong> Joint Sealing بعد اكتمال المعالجة</p>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — Section 8 P9 | Concrete Pavement (Rigid Pavement)
+<h3>🏁 Pavement Finishing Requirements</h3>
+<p>The final quality of asphalt surface is defined by QCS 2024 Section 6 Part 5 criteria including:</p>
+<table class="dm-table">
+<tr><th>Criterion</th><th>Acceptance Limit</th><th>Measurement</th><th>QCS</th></tr>
+<tr><td>Surface Regularity (3m SE)</td><td>≤ 3mm</td><td>3m Straight Edge</td><td>S6 P5</td></tr>
+<tr><td>IRI (Ride Quality)</td><td>≤ 2.5 m/km</td><td>Profilometer</td><td>S6 P5</td></tr>
+<tr><td>Crossfall</td><td>2.5% ± 0.3%</td><td>Survey</td><td>S6 P2</td></tr>
+<tr><td>Elevation Tolerance</td><td>±6mm from design</td><td>Survey</td><td>S6 P5</td></tr>
+<tr><td>Skid Resistance (SFC)</td><td>≥ 0.45</td><td>SCRIM / Pendulum</td><td>S6 P5</td></tr>
+<tr><td>Texture Depth (Sand Patch)</td><td>≥ 0.7mm</td><td>Sand Patch Method</td><td>S6 P5</td></tr>
+<tr><td>Camber (1-way road)</td><td>2.0%</td><td>Survey</td><td>S6 P2</td></tr>
+</table>
+<h3>🎯 Final Acceptance Criteria</h3>
+<table class="dm-table">
+<tr><th>Item</th><th>PASS</th><th>FAIL — Action</th></tr>
+<tr><td>Surface Regularity</td><td>≤ 3mm</td><td>&gt; 3mm → Grinding or re-paving</td></tr>
+<tr><td>IRI</td><td>≤ 2.5 m/km</td><td>&gt; 2.5 → Identify cause + repair</td></tr>
+<tr><td>Thickness (Core)</td><td>Design ± 5mm</td><td>&gt; ±5mm → NCR + structural assessment</td></tr>
+<tr><td>Manholes</td><td>Flush ± 5mm</td><td>&gt; ±5mm → Immediate adjustment</td></tr>
+</table>
 </div>
 <h3>🛣️ Concrete Pavement — Complete QCS 2024 Requirements</h3>
 <p style="font-size:12px;color:var(--text2);margin-bottom:12px;">Rigid concrete pavements are used for high-load areas (container ports, airports, industrial roads). In Qatar, they are specified where flexible asphalt cannot withstand point loads or extreme temperatures.</p>
@@ -3081,15 +3459,99 @@ c["bitumen_60_70"] = {
 </p>
 </div>
 <div class="lang-content-en" style="display:none">
-<h3>Bitumen 60/70 & PMB — QCS S6 P5</h3>
+<h3>📐 1. Concrete Pavement Types</h3>
 <table class="dm-table">
-<tr><th>Property</th><th>Limit</th><th>Standard</th></tr>
-<tr><td>Penetration @ 25°C</td><td>60 – 70 (0.1 mm)</td><td>ASTM D5</td></tr>
-<tr><td>Softening Point</td><td>49 – 56°C</td><td>ASTM D36</td></tr>
-<tr><td>Ductility @ 25°C</td><td>≥ 100 cm</td><td>ASTM D113</td></tr>
-<tr><td>Flash Point</td><td>≥ 232°C</td><td>ASTM D92</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Type</th><th>Description</th><th>Use in Qatar</th></tr>
+<tr><td><strong>JPCP</strong> (Jointed Plain Concrete)</td><td>Concrete slabs without reinforcement + Transverse Joints</td><td>Airports + Ports + Industrial</td></tr>
+<tr><td><strong>JRCP</strong> (Jointed Reinforced)</td><td>Concrete slabs with light reinforcement</td><td>Rarely used</td></tr>
+<tr><td><strong>CRCP</strong> (Continuously Reinforced)</td><td>Continuous reinforcement — no Transverse Joints</td><td>Heavy expressways</td></tr>
+<tr><td><strong>Roller Compacted Concrete (RCC)</strong></td><td>Very dry concrete compacted by Roller</td><td>Car parks + Industrial warehouses</td></tr>
 </table>
-<p>PMB (Polymer Modified): Softening Point ≥ 65°C, Elastic Recovery ≥ 70% — used on arterial/expressway roads.</p>
+
+<h3>📐 2. Concrete Specifications — QCS S6 P6</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Specification</th><th>Reference</th></tr>
+<tr><td>Concrete Grade (fcu)</td><td>≥ C35 / fcu ≥ 35 N/mm²</td><td>QCS S6 P6</td></tr>
+<tr><td>Flexural Strength (MR)</td><td>≥ 4.5 MPa @ 28 days</td><td>QCS S6 P6</td></tr>
+<tr><td>w/c Ratio (maximum)</td><td>≤ 0.40</td><td>QCS S6 P6</td></tr>
+<tr><td>Cement Content (minimum)</td><td>≥ 380 kg/m³</td><td>QCS S6 P6</td></tr>
+<tr><td>Cement Type in Qatar</td><td>SRPC or OPC+GGBS (aggressive environment)</td><td>QCS S6 P6</td></tr>
+<tr><td>Air Content</td><td>4.5 ± 1.5% (Qatar climate)</td><td>QCS S6 P6</td></tr>
+<tr><td>Max Aggregate Size</td><td>≤ ⅓ slab thickness or 37.5mm</td><td>QCS S6 P6</td></tr>
+<tr><td>Slump (Slipform Paving)</td><td>20 – 60mm</td><td>QCS S6 P6</td></tr>
+</table>
+
+<h3>📐 3. Slab Dimensions and Joints</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Specification</th></tr>
+<tr><td>Slab Thickness</td><td>200 – 300mm per Traffic Designation</td></tr>
+<tr><td>Slab Width</td><td>= traffic lane width (typically 3.65m)</td></tr>
+<tr><td>JPCP Slab Length (Transverse Joint Spacing)</td><td>4.5 – 6.0m</td></tr>
+<tr><td>Transverse Joint Width</td><td>6 – 10mm</td></tr>
+<tr><td>Transverse Joint Depth</td><td>⅓ slab thickness (cut after 24–72hr)</td></tr>
+<tr><td>Longitudinal Joint</td><td>At slab centre if width &gt; 4.5m</td></tr>
+<tr><td>Expansion Joint</td><td>At Fixed Objects (Bridges + Buildings)</td></tr>
+</table>
+
+<h3>📐 4. Dowel Bars & Tie Bars</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Dowel Bars (Transverse)</th><th>Tie Bars (Longitudinal)</th></tr>
+<tr><td>Function</td><td>Load transfer between slabs — allows movement</td><td>Tie adjacent slabs — prevents opening</td></tr>
+<tr><td>Diameter</td><td>32mm or 38mm</td><td>16mm or 20mm</td></tr>
+<tr><td>Length</td><td>450mm</td><td>800mm</td></tr>
+<tr><td>Spacing</td><td>Every 300mm at slab centre</td><td>Every 750–1000mm</td></tr>
+<tr><td>Lubrication</td><td>Half length lubricated (allows movement)</td><td>No lubrication</td></tr>
+<tr><td>Material</td><td>Steel Grade 250 or Epoxy Coated</td><td>Steel Grade 460</td></tr>
+</table>
+
+<h3>📐 5. Paving Methods</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Method</th><th>Description</th><th>Advantages</th></tr>
+<tr><td>Slipform Paving</td><td>Specialised Paver that casts, forms and compacts in one pass</td><td>Fast + high quality + less labour</td></tr>
+<tr><td>Fixed Form Paving</td><td>Fixed side forms + manual/pump casting</td><td>For complex shapes + Ramps</td></tr>
+</table>
+
+<h3>📐 6. Curing — QCS S6 P6</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Requirement</th></tr>
+<tr><td>Curing Compound</td><td>Immediate spray after finishing Surface — Resin-Based Compound</td></tr>
+<tr><td>Curing Duration</td><td>≥ 7 days OPC / ≥ 10 days SRPC</td></tr>
+<tr><td>Hot Weather Protection</td><td>Polythene Sheet + Wet Hessian over Compound when temperature &gt; 35°C</td></tr>
+<tr><td>Solar Radiation Protection</td><td>White Pigmented Compound to reflect heat</td></tr>
+<tr><td>Concrete Temperature at Casting</td><td>Concrete ≤ 32°C at site</td></tr>
+</table>
+
+<h3>📐 7. Joint Sealant</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Requirement</th></tr>
+<tr><td>Material Type</td><td>Hot-Applied Rubberized Bitumen or Polyurethane</td></tr>
+<tr><td>Application Time</td><td>After 24–72hr from cutting + after joint drying</td></tr>
+<tr><td>Backer Rod Depth</td><td>Placed before Sealant at depth = joint width</td></tr>
+<tr><td>Sealant Level</td><td>5–10mm below slab surface</td></tr>
+<tr><td>Heat Resistance</td><td>Withstands ≥ 70°C (essential in Qatar)</td></tr>
+</table>
+
+<h3>📐 8. Acceptance Tests</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Criterion</th><th>Frequency</th></tr>
+<tr><td>Flexural Strength (Beam Test)</td><td>≥ 4.5 MPa @ 28 days</td><td>Every 50m³</td></tr>
+<tr><td>Cube Compressive Strength</td><td>≥ 35 N/mm² @ 28 days</td><td>Every 50m³</td></tr>
+<tr><td>Slab Thickness (Core)</td><td>Design ± 10mm</td><td>Every 1000m²</td></tr>
+<tr><td>Surface Evenness (3m Straightedge)</td><td>≤ 3mm under 3m Straight Edge</td><td>Every 25m</td></tr>
+<tr><td>Level Survey</td><td>± 10mm from design</td><td>Every 25m length</td></tr>
+<tr><td>Texture Depth (Sand Patch)</td><td>≥ 0.7mm (Skid Resistance)</td><td>Every 1000m²</td></tr>
+<tr><td>IRI</td><td>≤ 2.0 m/km</td><td>Every Section</td></tr>
+<tr><td>Dowel Bar Alignment</td><td>± 6mm from centreline</td><td>100% Visual + Sampling</td></tr>
+</table>
+
+<h3>🔴 Hold Points</h3>
+<p>• <strong>HP-01:</strong> Mix Design Approval + JMF before production<br>
+• <strong>HP-02:</strong> Subbase + Grade inspection before casting<br>
+• <strong>HP-03:</strong> Dowel Bars + Tie Bars inspection before casting<br>
+• <strong>HP-04:</strong> Pour Card + Slipform Calibration before casting<br>
+• <strong>HP-05:</strong> Flexural Strength 7 days → to Consultant<br>
+• <strong>HP-06:</strong> Joint Cutting within 24–72hr of casting<br>
+• <strong>HP-07:</strong> Joint Sealing after curing completion</p>
 </div>`
 };
 
