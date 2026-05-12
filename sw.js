@@ -1,8 +1,8 @@
-// sw.js — QatarSpec Pro v3.6.0
+// sw.js — QatarSpec Pro v3.7.0
 // هدف: استراتيجيات كاش متعددة حسب نوع الملف
 // [PERF] Cache-First لـ data/ | Network-First لـ api/ | Stale-While-Revalidate لـ js/
 
-const CACHE_NAME = 'qatarspec-v3-6-0';
+const CACHE_NAME = 'qatarspec-v3-7-0';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -31,7 +31,7 @@ const STATIC_ASSETS = [
 
 // INSTALL: مسح كل الكاش القديم فوراً
 self.addEventListener('install', (event) => {
-  console.log('[SW] v3.6.0 installing...');
+  console.log('[SW] v3.7.0 installing...');
 
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -56,7 +56,7 @@ self.addEventListener('install', (event) => {
 
 // ACTIVATE: تفعيل فوري بدون انتظار
 self.addEventListener('activate', (event) => {
-  console.log('[SW] v3.6.0 activated');
+  console.log('[SW] v3.7.0 activated — force cache refresh');
   event.waitUntil(
     // مسح أي كاش متبقٍّ لا يطابق الإصدار الحالي
     caches.keys().then((cacheNames) => {
