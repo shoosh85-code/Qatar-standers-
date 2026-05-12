@@ -724,11 +724,6 @@ const TR = {
     fcopy:'© 2025 دليل المواصفات القطرية — QatarSpec Pro',
     aiCopy:'📋 نسخ الإجابة',
     searching:'جاري البحث في المواصفات...',
-    discP1:'<strong>QatarSpec Pro</strong> هو مرجع معرفي عام (General Knowledge Reference) للمهندسين والمقاولين في دولة قطر.',
-    discP2:'🔹 جميع المعلومات مبنية على <strong>QCS 2024</strong> و <strong>Ashghal Standards</strong> و <strong>KAHRAMAA Regulations</strong> المتاحة للعامة.',
-    discP3:'🔹 هذا التطبيق <strong>لا يُعتمد</strong> كمرجع تصميمي رسمي — يجب مراجعة الوثائق الأصلية المعتمدة من الجهات المختصة قبل أي قرار هندسي.',
-    discP4:'🔹 لا تتحمل QatarSpec Pro مسؤولية أي أخطاء في التطبيق أو سوء استخدام المعلومات.',
-    discP5:'🔹 للاستخدام المهني التعليمي فقط — <strong>Not for Design Purposes</strong>',
   },
   en: {
     dir: 'ltr', lang: 'en', align: 'left',
@@ -770,11 +765,6 @@ const TR = {
     fcopy:'© 2025 Qatar Spec Guide — QatarSpec Pro',
     aiCopy:'📋 Copy Answer',
     searching:'Searching specifications...',
-    discP1:'<strong>QatarSpec Pro</strong> is a general knowledge reference for engineers and contractors in the State of Qatar.',
-    discP2:'🔹 All information is based on <strong>QCS 2024</strong>, <strong>Ashghal Standards</strong>, and <strong>KAHRAMAA Regulations</strong> publicly available.',
-    discP3:'🔹 This application <strong>is not approved</strong> as an official design reference — original approved documents from competent authorities must be reviewed before any engineering decision.',
-    discP4:'🔹 QatarSpec Pro is not responsible for any errors in the application or misuse of information.',
-    discP5:'🔹 For professional educational use only — <strong>Not for Design Purposes</strong>',
   }
 };
 
@@ -876,15 +866,6 @@ function setLang(lang) {
   if(fh[1]) fh[1].textContent=t.f2;
   if(fh[2]) fh[2].textContent=t.f3;
   el=document.querySelector('.footer-copy'); if(el) el.textContent=t.fcopy;
-
-  // Legal disclaimer paragraphs
-  var discIds = {
-    'disc-p1':'discP1','disc-p2':'discP2','disc-p3':'discP3','disc-p4':'discP4','disc-p5':'discP5',
-    'disc2-p1':'discP1','disc2-p2':'discP2','disc2-p3':'discP3','disc2-p4':'discP4','disc2-p5':'discP5'
-  };
-  Object.keys(discIds).forEach(function(id){
-    el=document.getElementById(id); if(el&&t[discIds[id]]) el.innerHTML=t[discIds[id]];
-  });
 
   // data-ar / data-en elements (bilingual nav buttons, card bullets etc.)
   document.querySelectorAll('[data-ar][data-en]').forEach(function(e){
