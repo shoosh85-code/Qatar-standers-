@@ -2287,33 +2287,46 @@ lang-content-en" style="display:none;">
 ` };
   c["itp_base"] = { title: '📋 ITP — Base Course', content: `<div class="lang-content-ar"><div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 المرجع: QCS 2024 — Part 6 Part 3</div><table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr><tr><td>2.1</td><td>CBR Soaked</td><td>ASTM D1883</td><td>≥ 80%</td><td>كل 2000m²</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>2.2</td><td>LA Abrasion</td><td>ASTM C131</td><td>≤ 25%</td><td>كل 1000m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr><tr><td>3.1</td><td>Sand Cone Density</td><td>ASTM D1556</td><td>≥ 98% MDD</td><td>كل 500m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Density Report</td></tr><tr><td>3.2</td><td>Plate Load Test</td><td>BS 1377 Part 9</td><td>حسب التصميم</td><td>كل 2000m²</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR + Test Report</td></tr></table><div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div></div>
 <div class="lang-content-en" style="display:none;">
-<h3>ITP — Road Base Course</h3>
-<table class="dm-table"><tr><th>Activity</th><th>Test</th><th>Frequency</th><th>Standard</th><th>HP/W</th></tr>
-<tr><td>Material Approval</td><td>Grading + LA + Fractured Faces + SE</td><td>Per source</td><td>QCS S6 P4</td><td>HP</td></tr>
-<tr><td>LA Abrasion</td><td>≤ 25%</td><td>Per 1000m³</td><td>ASTM C131</td><td>W</td></tr>
-<tr><td>Fractured Faces (1+)</td><td>≥ 95%</td><td>Per 500m³</td><td>ASTM D5821</td><td>W</td></tr>
-<tr><td>Sand Equivalent</td><td>≥ 45%</td><td>Per 500m³</td><td>ASTM D2419</td><td>W</td></tr>
-<tr><td>Field Density</td><td>≥ 98% MDD</td><td>Per 500m²</td><td>ASTM D1556</td><td>W</td></tr>
-<tr><td>CBR (Soaked 4 days)</td><td>≥ 80%</td><td>Per 2000m²</td><td>ASTM D1883</td><td>HP</td></tr>
-<tr><td>Level Survey</td><td>± 8mm from design</td><td>Per 25m</td><td>Total Station</td><td>HP</td></tr></table>
+<h3>📋 Scope of Work</h3>
+<p>This Method Statement covers Asphalt works (PMB and Non-PMB) in accordance with QCS 2024 Part 6. Applicable to all Asphalt layers in Qatar road projects.</p>
 
-<h3 style="color:var(--gold);margin:16px 0 8px;">📋 ITP كامل — Crushed Aggregate Base (QCS 2024 Sec 6.2.3)</h3>
-<div style="overflow-x:auto;">
-<table>
-<tr><th>النشاط</th><th>المعيار</th><th>التردد</th><th>طريقة الفحص</th><th>نوع النقطة</th></tr>
-<tr><td>موافقة مصدر المواد (Quarry Approval)</td><td>QCS 2024 Table 6.5</td><td>قبل البدء</td><td>مراجعة شهادات المختبر</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
-<tr><td>PSD (Particle Size Distribution)</td><td>Grading A, B, or C</td><td>كل 500 طن</td><td>ASTM C136</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
-<tr><td>Los Angeles Abrasion</td><td>≤ 35%</td><td>كل 2000 طن</td><td>ASTM C131</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
-<tr><td>Flakiness Index</td><td>≤ 35%</td><td>كل 1000 طن</td><td>BS 812</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
-<tr><td>Plasticity Index (PI)</td><td>≤ 6</td><td>كل 500 طن</td><td>ASTM D4318</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
-<tr><td>CBR (Soaked, 4 days)</td><td>≥ 80%</td><td>كل 2000م²</td><td>ASTM D1883</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
-<tr><td>Optimum Moisture Content (OMC)</td><td>Per Proctor</td><td>كل 500 طن</td><td>ASTM D698/D1557</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
-<tr><td>سماكة الطبقة (قبل الدمك)</td><td>Design + 20% للضغط</td><td>كل 50م</td><td>قياس مباشر</td><td style="color:#f39c12;font-weight:700;">W</td></tr>
-<tr><td>Field Density (Nuclear/Sand Cone)</td><td>≥ 98% MDD</td><td>كل 500م²</td><td>ASTM D1556 / D2922</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
-<tr><td>Moisture Content (Field)</td><td>OMC ± 2%</td><td>كل 500م²</td><td>ASTM D3017</td><td style="color:#3498db;font-weight:700;">R</td></tr>
-<tr><td>مستوى السطح (Level Survey)</td><td>± 8mm من التصميم</td><td>كل 25م</td><td>Total Station</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
-<tr><td>استقامة الحافة (Edge Tolerance)</td><td>± 25mm</td><td>كل 100م</td><td>قياس مباشر</td><td style="color:#3498db;font-weight:700;">R</td></tr>
-<tr><td>Plate Bearing Test (LBR/CBR)</td><td>≥ 80% (Soaked)</td><td>كل 5000م²</td><td>ASTM D1196</td><td style="color:#e74c3c;font-weight:700;">HP</td></tr>
+<h3>1.3 Equipment & Plant</h3>
+<table class="dm-table">
+<tr><th>Equipment</th><th>Notes</th></tr>
+<tr><td>Paver VOGELE 1900-2100</td><td>Self-propelled + Sonic Averaging Beam</td></tr>
+<tr><td>Double Drum Roller 10-12t</td><td>Initial + Intermediate Rolling</td></tr>
+<tr><td>Pneumatic Tyre Roller (PTR)</td><td>4-5 passes intermediate</td></tr>
+<tr><td>Shuttle Buggy</td><td>Mandatory for PMB Asphalt</td></tr>
+<tr><td>Bitumen Spray Tanker</td><td>Calibrated + Thermometer</td></tr>
+<tr><td>IR Thermometer</td><td>Mandatory for temperature checks during paving</td></tr>
+<tr><td>Nuclear Density Gauge</td><td>Field Density check per QCS S6 P5</td></tr>
+<tr><td>Straight Edge 3m</td><td>Surface regularity check ≤ 3mm</td></tr>
+</table>
+
+<h3>1.4 Asphalt ITP — Inspection & Test Plan</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Activity</th><th>Test</th><th>Frequency</th><th>Standard</th><th>HP/W</th></tr>
+<tr><td>Material Approval</td><td>JMF + Bitumen Certificate + Aggregate Tests</td><td>Per source</td><td>QCS S6 P5</td><td>HP</td></tr>
+<tr><td>Plant Calibration</td><td>Asphalt Plant + Tanker Calibration</td><td>Before production</td><td>QCS S6 P5</td><td>HP</td></tr>
+<tr><td>Mix Temperature at Plant</td><td>IR Thermometer</td><td>Every load</td><td>QCS S6 P5</td><td>W</td></tr>
+<tr><td>Mix Temperature at Site</td><td>IR Thermometer</td><td>Every load</td><td>QCS S6 P5</td><td>W</td></tr>
+<tr><td>Extraction + Gradation</td><td>Bitumen Content + Sieve Analysis</td><td>Every 400t</td><td>ASTM D2172</td><td>W</td></tr>
+<tr><td>Marshall Stability + Flow</td><td>Marshall Test (75 blows)</td><td>Every 400t</td><td>ASTM D6927</td><td>W</td></tr>
+<tr><td>Field Density (Nuclear)</td><td>≥ 92% TMD (WC) / ≥ 92% (BC)</td><td>Every 1000m²</td><td>ASTM D2950</td><td>HP</td></tr>
+<tr><td>Core Density + Thickness</td><td>1 core per 1000m² min</td><td>Every 1000m²</td><td>ASTM D5361</td><td>HP</td></tr>
+<tr><td>Surface Regularity</td><td>3m Straight Edge ≤ 3mm</td><td>Every 25m</td><td>QCS S6 P5</td><td>W</td></tr>
+<tr><td>IRI (Ride Quality)</td><td>≤ 2.5 m/km</td><td>Every section</td><td>PWA IAN 013</td><td>HP</td></tr>
+<tr><td>Tack Coat Rate</td><td>0.3–0.5 L/m² residual</td><td>Every application</td><td>QCS S6 P5</td><td>W</td></tr>
+</table>
+
+<h3>🔴 Hold Points — Asphalt Works</h3>
+<table class="dm-table">
+<tr><th>#</th><th>Hold Point</th><th>Requirement</th></tr>
+<tr><td>HP-01</td><td>Before production</td><td>JMF approval + Plant calibration</td></tr>
+<tr><td>HP-02</td><td>Before paving each layer</td><td>Surface acceptance + Tack Coat approval</td></tr>
+<tr><td>HP-03</td><td>After compaction</td><td>Nuclear density ≥ 92% TMD documented</td></tr>
+<tr><td>HP-04</td><td>Core Test results</td><td>Va 3–5% + Thickness ± 5mm</td></tr>
+<tr><td>HP-05</td><td>Final acceptance</td><td>IRI ≤ 2.5 m/km + Surface regularity ≤ 3mm</td></tr>
 </table>
 </div>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin:10px 0;">

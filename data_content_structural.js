@@ -2164,8 +2164,14 @@ HP3: 28-day cube results — Engineer approval before loading
 <h3>المواصفات الأساسية</h3><table class="dm-table"><tr><th>المادة</th><th>المعيار</th><th>الملاحظة</th></tr><tr><td>الأسمنت</td><td>BS EN 197-1</td><td>مقاوم للكبريتات</td></tr><tr><td>الRebar</td><td>BS 4449</td><td>درجة 500B</td></tr><tr><td>الConcrete</td><td>QCS-2024</td><td>نسبة ماء/أسمنت ≤ 0.45</td></tr><tr><td>الطوب</td><td>BS EN 771</td><td>مقاومة ≥ 7 N/mm²</td></tr></table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 Reference | 🧱 مواد البناء والمنتجات
+<h3>Basic Specifications</h3>
+<table class="dm-table">
+<tr><th>Material</th><th>Standard</th><th>Note</th></tr>
+<tr><td>Cement</td><td>BS EN 197-1</td><td>Sulphate Resistant</td></tr>
+<tr><td>Rebar</td><td>BS 4449</td><td>Grade 500B</td></tr>
+<tr><td>Concrete</td><td>QCS-2024</td><td>w/c ratio ≤ 0.45</td></tr>
+<tr><td>Brick / Masonry Unit</td><td>BS EN 771</td><td>Compressive strength ≥ 7 N/mm²</td></tr>
+</table>
 </div>
 <p style="color:var(--text2);font-size:13px;">This section contains detailed Arabic specifications per QCS 2024. Key data points are summarized below — all tables and technical data apply equally in both languages.</p>
 <h3>Basic Specifications</h3>

@@ -51,7 +51,7 @@
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
 <div style="display:flex;align-items:center;gap:8px;">
 <span style="font-size:16px;">🎥</span>
-<span style="color:var(--gold);font-weight:700;font-size:13px;">أعمال الجسات والفحوصات الجيوتقنية</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">Geotechnical Investigations & Field Testing</span>
 </div>
 <h3>🔬 Select Investigation Phase</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
