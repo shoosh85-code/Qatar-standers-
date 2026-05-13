@@ -13,12 +13,13 @@ import { getSupabaseUrl, getSupabaseServiceKey } from '../lib/supabase.js';
 const AR_TO_EN = {
   'درجة حرارة': 'maximum temperature fresh', 'الخرسانة': 'concrete',
   'الحد الأقصى': 'maximum', 'عند الصب': 'fresh placing',
-  'slump': 'slump', 'هبوط': 'slump', 'إسمنت': 'cement', 'سمنت': 'cement',
+  'هبوط': 'slump', 'slump': 'slump',
+  'إسمنت': 'cement', 'سمنت': 'cement', 'اسمنت': 'cement',
   'تسليح': 'reinforcement', 'حديد': 'reinforcement', 'تغطية': 'cover',
-  'ضغط': 'compressive strength', 'مقاومة': 'compressive strength',
+  'ضغط': 'compressive', 'مقاومة': 'compressive strength',
   'تشققات': 'crack repair defect', 'تشقق': 'crack repair',
   'رفض': 'rejection non conformance', 'مخالفة': 'non conformance defect',
-  'موافقة': 'approval material submittal', 'إسمنت': 'cement approval',
+  'موافقة': 'material approval submittal',
   'ماء': 'water', 'رمل': 'sand', 'حصى': 'aggregate',
   'ركام': 'aggregate', 'أسفلت': 'asphalt', 'تربة': 'soil',
 };
@@ -26,7 +27,7 @@ const AR_TO_EN = {
 // ملفات QCS حسب الوحدة
 const MODULE_FILES = {
   pour:    'Part15',
-  mar:     'Part15',
+  mar:     'Part3',
   ncr:     'Part15',
   tests:   'Part15',
   dwr:     'Part1',
@@ -51,7 +52,7 @@ async function fetchQCSContext(keywords, limit, module) {
       pour:  ['35', 'placing temperature', 'fresh concrete temperature'],
       ncr:   ['crack', 'cracks repair', 'non conformance', 'defect rejection'],
       tests: ['compressive strength', 'cube test', 'works cube'],
-      mar:   ['material approval', 'cement approval', 'submittal'],
+      mar:   ['cement', 'material approval', 'submittal requirement'],
     };
     if (DIRECT_TERMS[module]) {
       for (const term of DIRECT_TERMS[module]) {
