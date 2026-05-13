@@ -14,10 +14,14 @@ async function fetchQCSContext(keywords, limit) {
   const key = getSupabaseServiceKey();
   if (!url || !key) return '';
   try {
-    const word = keywords.split(' ').slice(0, 2).join(' ');
+    const lim = limit || 4;
+    // استخدم كل كلمة منفردة للبحث بـ OR — أفضل من عبارة واحدة
+    const words = keywords.split(' ').filter(w => w.length > 3).slice(0, 4);
+    const ilikeFilter = words.map(w => `content.ilike.*${encodeURIComponent(w)}*`).join(',');
+    const orParam = `or=(${ilikeFilter})`;
     const res = await fetch(
-      `${url}/rest/v1/qcs_chunks?content=ilike.*${encodeURIComponent(word)}*&select=content,source_file,section_name,page_num&limit=${limit || 4}&order=char_count.desc`,
-      { headers: { 'apikey': key, 'Authorization': `Bearer ${key}` }, signal: AbortSignal.timeout(6000) }
+      `${url}/rest/v1/qcs_chunks?${orParam}&select=content,source_file,section_name,page_num&limit=${lim}&order=char_count.desc`,
+      { headers: { 'apikey': key, 'Authorization': `Bearer ${key}` }, signal: AbortSignal.timeout(8000) }
     );
     if (!res.ok) return '';
     const chunks = await res.json();
@@ -131,9 +135,12 @@ export default async function handler(req) {
 
   // ── RAG: جلب نصوص QCS حقيقية قبل إرسال لـ Gemini ──────────────────────
   const moduleKeywords = {
-    pour: 'concrete placing curing compaction', mar: 'material approval testing',
-    ncr: 'non conformance defect quality', tests: 'testing laboratory results',
-    dwr: 'daily work report documentation', mos: question.slice(0, 60),
+    pour: 'concrete temperature placing curing compaction',
+    mar:  'material approval testing submittal',
+    ncr:  'non conformance defect quality reject',
+    tests:'testing laboratory results frequency',
+    dwr:  'daily work report documentation record',
+    mos:  question.slice(0, 60),
     general: question.slice(0, 60)
   };
   const qcsContext = await fetchQCSContext(moduleKeywords[module] || question.slice(0, 40), module === 'mos' ? 6 : 4);
