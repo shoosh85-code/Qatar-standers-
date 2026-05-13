@@ -1003,34 +1003,87 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <span style="color:var(--gold);font-weight:700;font-size:13px;">📐 Subbase Course — Definition & Execution</span>
 <button onclick="document.getElementById('vid-base-new').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
 </div>
-<h3>🪨 Subbase — Complete QCS 2024 Requirements</h3>
-<p style="font-size:12px;color:var(--text2);margin-bottom:12px;">The subbase is the granular layer between subgrade and roadbase. It distributes loads, provides drainage, and prevents frost heave. In Qatar, gabbro aggregate from Oman is the primary material.</p>
-<table class="dm-table">
-<tr><th>Material Property</th><th>Requirement</th><th>Test Standard</th><th>Reference</th></tr>
-<tr><td>Material Type</td><td>Crushed aggregate — Type B (Gabbro preferred)</td><td>Visual + Source</td><td>QCS S6 P3 T3.1</td></tr>
-<tr><td>Maximum Particle Size</td><td>37.5 mm</td><td>BS 812</td><td>QCS S6 T3.1</td></tr>
-<tr><td>CBR (4-day soaked)</td><td>≥30% (urban) / ≥25% (rural)</td><td>ASTM D1883</td><td>QCS S6 P3</td></tr>
-<tr><td>Plasticity Index</td><td>≤6</td><td>ASTM D4318</td><td>QCS S6 P3</td></tr>
-<tr><td>Sand Equivalent</td><td>≥30</td><td>ASTM D2419</td><td>QCS S6 P3</td></tr>
-<tr><td>LA Abrasion</td><td>≤40%</td><td>ASTM C131</td><td>QCS S6 P3</td></tr>
-<tr><td>Flakiness Index</td><td>≤35%</td><td>BS 812</td><td>QCS S6 P3</td></tr>
-<tr><td>Sulphate (SO3)</td><td>≤0.5%</td><td>BS 1377</td><td>QCS S6 P3</td></tr>
-<tr><td>Chloride Content</td><td>≤0.1%</td><td>BS 1377</td><td>QCS S6 P3</td></tr>
-</table>
-<h4 style="margin-top:14px;color:var(--gold);">Compaction & Laying Requirements</h4>
-<table class="dm-table">
-<tr><th>Property</th><th>Requirement</th><th>Reference</th></tr>
-<tr><td>Compaction (MDD)</td><td>≥100% BS Heavy (ASTM D1557)</td><td>QCS S6 P5</td></tr>
-<tr><td>Layer Thickness</td><td>150–250 mm per compacted layer</td><td>QCS S6 P5</td></tr>
-<tr><td>Level Tolerance</td><td>±15 mm from design level</td><td>QCS S6 P5</td></tr>
-<tr><td>Width Tolerance</td><td>±25 mm from design width</td><td>QCS S6 P5</td></tr>
-<tr><td>Test Frequency (Density)</td><td>1 test per 500m² per layer</td><td>QCS S6 P5</td></tr>
-<tr><td>CBR Frequency</td><td>1 test per source change or 5000m³</td><td>QCS S6 P5</td></tr>
-<tr><td>Moisture at Compaction</td><td>OMC ±2%</td><td>QCS S6 P5</td></tr>
-</table>
-<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
-🔴 HP: Engineer sign-off on subbase compaction + level survey before placing roadbase. All density + CBR results must pass.
+<input type="file" id="vid-base-new" accept="video/*" style="display:none" data-player="vid-base-new-p" data-ph="vid-base-new-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
+<div id="vid-base-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload video MP4/MOV — saved for the session</div>
+<div id="vid-base-new-p" class="qs-vid-ph" data-maxh="260px"></div>
 </div>
+
+<h3>📐 Subbase Course Definition — QCS S6 P4 Cl. 4.1</h3>
+<p>Subbase is the lower granular layer in pavement construction, placed between the Subgrade (natural ground) and the Base Course. Its function is to distribute traffic loads onto the Subgrade, provide sub-surface drainage, and prevent salt migration. In Qatar it is executed from crushed Omani Gabbro (Type B) with requirements: CBR ≥ 30% (Soaked 4 days) + Compaction ≥ 100% BS Heavy + PI ≤ 6. Design thickness 150mm–300mm depending on loads.</p>
+
+<h3>⚠️ Unacceptable Materials — QCS S6 P4</h3>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;">
+<strong>Prohibited in Subbase (Type B):</strong><br>
+• Materials with LA Abrasion &gt; 40%<br>
+• Flakiness or Elongation &gt; 35%<br>
+• Soundness (MgSO₄) &gt; 18%<br>
+• Water Absorption &gt; 2%<br>
+• Fines (0.075mm) &gt; 15%<br>
+• SO₃ &gt; 0.5% or Chloride &gt; 0.04%<br>
+• PI &gt; 6<br>
+• CBR &lt; 30% (Soaked 4 days)<br>
+• Uncrushed or contaminated materials
+</div>
+
+<h3>📐 Table 4:1 — Subbase Course Gradation — QCS S6 P4</h3>
+<div style="overflow-x:auto;">
+<table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.9);"><th>Sieve Size</th><th>% Passing — Subbase Type B</th><th>Test Method</th><th>Frequency</th></tr>
+<tr><td>37.5 mm</td><td><strong>100</strong></td><td rowspan="7">ASTM C136</td><td rowspan="7">1 per <strong>2,000 m³</strong></td></tr>
+<tr><td>19.0 mm</td><td><strong>65 – 85</strong></td></tr>
+<tr><td>9.5 mm</td><td><strong>50 – 75</strong></td></tr>
+<tr><td>4.75 mm</td><td><strong>30 – 60</strong></td></tr>
+<tr><td>2.36 mm</td><td><strong>20 – 45</strong></td></tr>
+<tr><td>0.425 mm</td><td><strong>10 – 25</strong></td></tr>
+<tr><td>0.075 mm</td><td style="color:#e74c3c;font-weight:700;">5 – 12</td></tr>
+</table></div>
+
+<h3>📐 Table 4:2 — Subbase Course Aggregate Properties — QCS S6 P4</h3>
+<div style="overflow-x:auto;">
+<table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Parameter</th><th>Limit</th><th>Test Method</th><th>Frequency</th></tr>
+<tr><td><strong>LA Abrasion</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 30%</td><td>ASTM C131</td><td>1 per source</td></tr>
+<tr><td><strong>Flakiness Index</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 30%</td><td>BS 812-105</td><td>1 per source</td></tr>
+<tr><td><strong>Elongation Index</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 30%</td><td>BS 812-105</td><td>1 per source</td></tr>
+<tr><td><strong>Soundness (MgSO₄)</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 12%</td><td>ASTM C88</td><td>1 per source</td></tr>
+<tr><td><strong>Water Absorption</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 1.5%</td><td>BS 812-2</td><td>1 per source</td></tr>
+<tr><td><strong>10% Fines Value (TFV)</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 110 kN (dry)<br>Wet/Dry ratio ≥ 75%</td><td>BS 812-111</td><td>1 per source</td></tr>
+<tr><td><strong>CBR (Soaked 4 days)</strong></td><td style="color:#2ecc71;font-weight:700;font-size:14px;">≥ 80%</td><td>ASTM D1883</td><td>1 per 2,000 m²</td></tr>
+<tr><td><strong>SO₃</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 0.5%</td><td>BS 1377-3</td><td>1 per 2,000 m³</td></tr>
+<tr><td><strong>Chloride</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 0.04%</td><td>BS 1377-3</td><td>1 per 2,000 m³</td></tr>
+</table></div>
+
+<h3>📐 Compaction & Field Acceptance</h3>
+<div style="overflow-x:auto;">
+<table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.9);"><th>Parameter</th><th>Specification</th><th>Test Method</th><th>Frequency</th></tr>
+<tr style="background:rgba(201,168,76,0.06);"><td><strong>MDD (Modified Proctor)</strong></td><td>ASTM D1557 — Reference</td><td>ASTM D1557</td><td>1 per material</td></tr>
+<tr style="background:rgba(201,168,76,0.06);"><td><strong>Moisture</strong></td><td style="color:#2ecc71;font-weight:700;">OMC ± 1.5%<br><span style="font-size:10px;font-weight:400;">Stricter than Subbase (± 2%)</span></td><td>ASTM D2216</td><td>1 per 500 m²</td></tr>
+<tr style="background:rgba(46,204,113,0.1);"><td><strong>Field Density</strong></td><td style="color:#2ecc71;font-weight:700;font-size:14px;">≥ 98% MDD<br><span style="font-size:10px;font-weight:400;">Modified Proctor</span></td><td>ASTM D1556</td><td>1 per <strong>500 m²</strong></td></tr>
+<tr><td><strong>Layer Thickness</strong></td><td>≤ <strong>200mm</strong> compacted</td><td>Measurement</td><td>100%</td></tr>
+<tr><td><strong>Surface Level</strong></td><td>± <strong>10mm</strong></td><td>Total Station</td><td>Every 25m</td></tr>
+<tr><td><strong>Surface Regularity</strong></td><td>≤ <strong>10mm</strong> under 3m straightedge<br><span style="font-size:10px;">Stricter than Subbase (15mm)</span></td><td>3m Straightedge</td><td>Random per 100m</td></tr>
+<tr><td><strong>Crossfall</strong></td><td><strong>2.5% ± 0.3%</strong></td><td>Template</td><td>Every 25m</td></tr>
+</table></div>
+
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin:12px 0;font-size:12px;">
+<strong>🔵 Key Notes — Road Base vs Subbase:</strong><br>
+• Aggregate requirements are <strong>stricter</strong>: LA ≤ 30% (vs 40%), Soundness ≤ 12% (vs 18%)<br>
+• Moisture tolerance is tighter: <strong>OMC ± 1.5%</strong> instead of ± 2%<br>
+• Surface regularity is more precise: <strong>≤ 10mm</strong> instead of 15mm<br>
+• 10% Fines Value (TFV) is required — not required for Subbase<br>
+• Laying is prohibited before Subbase approval (mandatory HP)
+</div>
+
+<h3>🔴 Hold Points</h3>
+<table class="dm-table">
+<tr><th>HP</th><th>Condition</th><th>Documentation</th></tr>
+<tr><td>HP-01</td><td>Approved Gabbro source + TFV + LA + Grading</td><td>Source Approval + Full Lab Report</td></tr>
+<tr><td>HP-02</td><td>Modified Proctor approved</td><td>Lab Compaction Report</td></tr>
+<tr><td>HP-03</td><td>Subbase approved before laying</td><td>Subbase Approval Certificate</td></tr>
+<tr><td>HP-04</td><td>Density ≥ 98% MDD + CBR ≥ 80%</td><td>Sand Cone + CBR Reports</td></tr>
+<tr><td>HP-05</td><td>Level ± 10mm + Regularity ≤ 10mm</td><td>Survey + Straightedge Reports</td></tr>
+</table>
 </div>
 ` };
   c["base"] = { title: '🧱 Base Course', content: `
