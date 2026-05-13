@@ -2033,52 +2033,88 @@ lang-content-en" style="display:none;">
 </div>
 
 <div class="lang-content-en" style="display:none;">
-<h3>1. Standard Tests — Bitumen 60/70</h3>
+
+<h3>🧪 1. Standard Tests — Bitumen 60/70</h3>
 <table class="dm-table">
-<tr><th>Test</th><th>Description</th><th>QCS Requirement</th><th>Method</th></tr>
-<tr><td>Penetration @ 25°C</td><td>Depth of standard needle — hardness indicator</td><td>60-70 × 0.1mm</td><td>ASTM D5 / EN 1426</td></tr>
-<tr><td>Softening Point R&B</td><td>Temperature at which bitumen starts to soften (Ring & Ball)</td><td>49-56°C</td><td>ASTM D36 / EN 1427</td></tr>
-<tr><td>Ductility @ 25°C</td><td>Extension before breaking — flexibility indicator</td><td>≥ 100 cm</td><td>ASTM D113</td></tr>
-<tr><td>Flash Point (COC)</td><td>Minimum ignition temperature — safety</td><td>≥ 232°C</td><td>ASTM D92</td></tr>
-<tr><td>Specific Gravity</td><td>Relative density of bitumen</td><td>1.01-1.05</td><td>ASTM D70</td></tr>
-<tr><td>Solubility in TCE</td><td>Bitumen purity indicator</td><td>≥ 99%</td><td>ASTM D2042</td></tr>
-<tr><td>Wax Content</td><td>Excess wax degrades thermal performance</td><td>≤ 2.2%</td><td>IP 336</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>QCS Standard</th><th>Method</th></tr>
+<tr><td><strong>Penetration @ 25°C</strong></td><td>Measures penetration depth of standard needle into bitumen = hardness indicator</td><td>60-70 × 0.1mm</td><td>ASTM D5 / EN 1426</td></tr>
+<tr><td><strong>Softening Point R&amp;B</strong></td><td>Temperature at which bitumen sample begins to soften (Ring &amp; Ball)</td><td>49 - 56°C</td><td>ASTM D36 / EN 1427</td></tr>
+<tr><td><strong>Ductility @ 25°C</strong></td><td>Measures extensibility before fracture — flexibility indicator</td><td>≥ 100 cm</td><td>ASTM D113</td></tr>
+<tr><td><strong>Flash Point (COC)</strong></td><td>Lowest temperature at which bitumen ignites — for safety</td><td>≥ 232°C</td><td>ASTM D92</td></tr>
+<tr><td><strong>Specific Gravity @ 25°C</strong></td><td>Relative density of bitumen</td><td>1.01 - 1.05</td><td>ASTM D70</td></tr>
+<tr><td><strong>Solubility in TCE</strong></td><td>Solubility in Trichloroethylene — bitumen purity indicator</td><td>≥ 99%</td><td>ASTM D2042</td></tr>
+<tr><td><strong>Wax Content</strong></td><td>Wax content — excess wax harms thermal performance</td><td>≤ 2.2%</td><td>IP 336</td></tr>
 </table>
-<h3>2. RTFOT — Short-Term Aging</h3>
+
+<h3>🧪 2. Aging Tests — RTFOT + TFOT</h3>
 <table class="dm-table">
-<tr><th>Test</th><th>Description</th><th>QCS Requirement</th><th>Method</th></tr>
-<tr><td>Mass Loss (RTFOT)</td><td>Simulates mixing aging at 163°C for 75 min</td><td>≤ 0.8%</td><td>ASTM D2872</td></tr>
-<tr><td>Penetration Ratio after RTFOT</td><td>Hardening ratio vs original</td><td>≥ 50%</td><td>ASTM D5</td></tr>
-<tr><td>Ductility after RTFOT</td><td>Flexibility after aging</td><td>≥ 50 cm</td><td>ASTM D113</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>QCS Standard</th><th>Method</th></tr>
+<tr><td><strong>RTFOT (Rolling Thin Film Oven Test)</strong></td><td>Simulates bitumen ageing during hot mixing (163°C / 75 min). Measures mass loss and property changes</td><td>Loss ≤ 0.8%</td><td>ASTM D2872 / EN 12607-1</td></tr>
+<tr><td><strong>TFOT (Thin Film Oven Test)</strong></td><td>Older alternative to RTFOT — same purpose but less precise</td><td>Loss ≤ 0.8%</td><td>ASTM D1754</td></tr>
+<tr><td><strong>Penetration after RTFOT</strong></td><td>Measures Penetration on aged sample = comparison with original</td><td>≥ 50% of original</td><td>ASTM D5</td></tr>
+<tr><td><strong>Ductility after RTFOT @ 25°C</strong></td><td>Extensibility after ageing</td><td>≥ 50 cm</td><td>ASTM D113</td></tr>
+<tr><td><strong>Softening Point after RTFOT</strong></td><td>Rise in Softening Point after RTFOT — hardening indicator</td><td>Increase ≤ 8°C</td><td>ASTM D36</td></tr>
 </table>
-<h3>3. PAV — Long-Term Aging (Pressure Aging Vessel)</h3>
-<p>Simulates 20+ years of in-service aging. RTFOT residue is aged in pressure vessel at 100°C / 2.1 MPa / 20 hours. Output residue used for DSR creep and DTT testing. Method: AASHTO R28 / EN 14769.</p>
-<h3>4. DSR — Dynamic Shear Rheometer</h3>
+
+<h3>🧪 3. PAV — Pressure Aging Vessel Residue</h3>
 <table class="dm-table">
-<tr><th>Test</th><th>Description</th><th>PMB Requirement</th><th>Method</th></tr>
-<tr><td>G*/sinδ (Unaged)</td><td>Rutting resistance at high temp — higher = better</td><td>≥ 2.2 kPa @ 76°C</td><td>AASHTO T315</td></tr>
-<tr><td>G*/sinδ (RTFOT Residue)</td><td>Stiffness after short-term aging</td><td>≥ 4.4 kPa @ 76°C</td><td>AASHTO T315</td></tr>
-<tr><td>Phase Angle δ (PAV)</td><td>Elasticity indicator — lower = more elastic</td><td>≤ 75° @ 25°C</td><td>AASHTO T315</td></tr>
-<tr><td>G*×sinδ (PAV)</td><td>Fatigue cracking resistance</td><td>≤ 5000 kPa @ 25°C</td><td>AASHTO T315</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>Standard</th></tr>
+<tr><td><strong>PAV (Pressure Aging Vessel)</strong></td><td>Simulates long-term bitumen ageing during road service (20+ years). Sample processed in pressure vessel at 100°C / 2.1 MPa for 20 hr after RTFOT</td><td>AASHTO R28 / EN 14769</td></tr>
+<tr><td><strong>Input</strong></td><td>RTFOT Residue pre-heated</td><td>—</td></tr>
+<tr><td><strong>Conditions</strong></td><td>100°C or 110°C (per climate) / 2.1 MPa / 20 hr</td><td>AASHTO R28</td></tr>
+<tr><td><strong>Outputs</strong></td><td>PAV Residue used in DSR Creep + DTT</td><td>—</td></tr>
 </table>
-<h3>5. BBR — Bending Beam Rheometer</h3>
+
+<h3>🧪 4. DSR — Dynamic Shear Rheometer</h3>
 <table class="dm-table">
-<tr><th>Test</th><th>Description</th><th>QCS Requirement</th><th>Method</th></tr>
-<tr><td>Creep Stiffness S</td><td>Stiffness at low temperature — high S = thermal cracking risk</td><td>S ≤ 300 MPa @ -10°C / 60s</td><td>AASHTO T313</td></tr>
-<tr><td>m-value</td><td>Stress relaxation rate — higher = less cracking</td><td>m ≥ 0.300</td><td>AASHTO T313</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>QCS Standard (PMB)</th><th>Reference</th></tr>
+<tr><td><strong>G*/sinδ (Unaged)</strong></td><td>Measures bitumen stiffness at high temperatures (Summer Rutting). G* = Stiffness Module, δ = Phase Angle. Higher G*/sinδ = better Rutting resistance</td><td>≥ 2.2 kPa @ 76°C (PMB)</td><td>AASHTO T315</td></tr>
+<tr><td><strong>G*/sinδ (RTFOT Residue)</strong></td><td>Same test after RTFOT — thermal cracking resistance</td><td>≥ 4.4 kPa @ 76°C (PMB)</td><td>AASHTO T315</td></tr>
+<tr><td><strong>Phase Angle δ (PAV Residue)</strong></td><td>Phase angle — flexibility indicator. Small δ = more flexible</td><td>≤ 75° @ 25°C</td><td>AASHTO T315</td></tr>
+<tr><td><strong>G*×sinδ (PAV Residue)</strong></td><td>Fatigue and cracking resistance at intermediate temperatures</td><td>≤ 5000 kPa @ 25°C</td><td>AASHTO T315</td></tr>
 </table>
-<h3>6. Direct Tension Test (DTT)</h3>
-<p>Measures failure strain of PAV residue at low temperature. Used when BBR Stiffness is between 300-600 MPa. Acceptance: Failure Strain ≥ 1.0%. Method: AASHTO T314.</p>
-<h3>7. Rotational Viscosity (RV)</h3>
-<p>Measures bitumen viscosity at pumping/mixing temperatures. Max ≤ 3 Pa·s @ 135°C for pumpability. Used to determine mixing and compaction temperature equiviscous range. Method: AASHTO T316 / ASTM D4402.</p>
-<h3>8. PMB Additional Tests</h3>
+
+<h3>🧪 5. BBR — Bending Beam Rheometer (Creep Stiffness)</h3>
 <table class="dm-table">
-<tr><th>Test</th><th>Description</th><th>QCS Requirement</th><th>Method</th></tr>
-<tr><td>Elastic Recovery @ 25°C</td><td>Shape recovery after stretching — polymer quality indicator</td><td>≥ 70%</td><td>ASTM D6084</td></tr>
-<tr><td>Force Ductility @ 4°C</td><td>Cold cracking resistance at 5cm/min extension</td><td>≥ 2 N</td><td>EN 13589</td></tr>
-<tr><td>Toughness & Tenacity</td><td>Energy at failure — Toughness ≥15J, Tenacity ≥5J</td><td>T≥15J, t≥5J</td><td>ASTM D5801</td></tr>
-<tr><td>Storage Stability ΔSP</td><td>Polymer separation test after 48hr @ 163°C</td><td>ΔSP ≤ 5°C</td><td>EN 13399</td></tr>
-<tr><td>FTIR</td><td>Polymer type identification (SBS vs SBR)</td><td>SBS or SBR confirmed</td><td>FTIR Spectroscopy</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>QCS Standard</th><th>Reference</th></tr>
+<tr><td><strong>Creep Stiffness S</strong></td><td>Measures bitumen stiffness at low temperatures (winter/night). Sample bent at -10°C for 60 seconds. High S = stiff bitumen = thermal cracking risk</td><td>S ≤ 300 MPa @ -10°C / 60s</td><td>AASHTO T313 / EN 14771</td></tr>
+<tr><td><strong>m-value (Rate of Relaxation)</strong></td><td>Rate of thermal stress relaxation. Higher m = faster relaxation = less cracking</td><td>m ≥ 0.300 @ -10°C</td><td>AASHTO T313</td></tr>
+</table>
+
+<h3>🧪 6. Direct Tension Test (DTT)</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>Standard</th></tr>
+<tr><td><strong>Failure Strain</strong></td><td>Measures sample strain at fracture in cold temperatures. Complements BBR for thermal cracking evaluation. Used when m-value is close to the limit (0.300)</td><td>AASHTO T314</td></tr>
+<tr><td><strong>Condition for Use</strong></td><td>If BBR Stiffness is between 300-600 MPa → DTT is performed</td><td>AASHTO MP1</td></tr>
+<tr><td><strong>Acceptance Criterion</strong></td><td>Failure Strain ≥ 1.0%</td><td>AASHTO MP1</td></tr>
+</table>
+
+<h3>🧪 7. Rotational Viscosity (RV)</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>Standard</th></tr>
+<tr><td><strong>Rotational Viscosity @ 135°C</strong></td><td>Measures bitumen viscosity at pumping and production temperature. High viscosity = difficulty in pumping and mixing</td><td>AASHTO T316 / ASTM D4402</td></tr>
+<tr><td><strong>Acceptance Criterion (for pumping)</strong></td><td>≤ 3 Pa·s @ 135°C</td><td>AASHTO MP1</td></tr>
+<tr><td><strong>Acceptance Criterion (for mixing)</strong></td><td>0.17 ± 0.02 Pa·s → determines Mixing Temperature</td><td>AASHTO T316</td></tr>
+<tr><td><strong>Standard Temperatures</strong></td><td>135°C and 165°C (to determine Equiviscous Temp)</td><td>AASHTO T316</td></tr>
+</table>
+
+<h3>🧪 8. Additional PMB Tests (Polymer Modified Bitumen)</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>QCS Standard</th><th>Reference</th></tr>
+<tr><td><strong>Elastic Recovery @ 25°C</strong></td><td>Measures shape recovery after stretching = polymer indicator. Good PMB recovers &gt; 70% of shape</td><td>≥ 70%</td><td>ASTM D6084 / EN 13398</td></tr>
+<tr><td><strong>Force Ductility @ 4°C</strong></td><td>Cold cracking resistance when sample extended at 5cm/min</td><td>≥ 2 N (at 200mm)</td><td>EN 13589</td></tr>
+<tr><td><strong>Toughness &amp; Tenacity</strong></td><td>Total energy measurement at fracture — Toughness ≥15J / Tenacity ≥5J</td><td>T ≥ 15J, t ≥ 5J</td><td>ASTM D5801</td></tr>
+<tr><td><strong>Storage Stability (ΔSoftening Point)</strong></td><td>Difference in Softening Point between top and bottom of Tube after 48hr @ 163°C. Reveals polymer separation from bitumen</td><td>ΔSP ≤ 5°C</td><td>EN 13399</td></tr>
+<tr><td><strong>FTIR (Polymer Identification)</strong></td><td>Identify polymer type (SBS or SBR) and confirm no adulteration</td><td>SBS or SBR confirmed</td><td>FTIR Spectroscopy</td></tr>
+<tr><td><strong>Separation Test @ 163°C</strong></td><td>Thermal stability test — PMB must remain homogeneous</td><td>ΔSP ≤ 5°C</td><td>EN 13399</td></tr>
+</table>
+
+<h3>📐 PG Grade Table and Test Sequence</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Stage</th><th>Sample</th><th>Tests</th><th>Purpose</th></tr>
+<tr><td>1 — Original (Unaged)</td><td>Raw bitumen</td><td>Penetration, Softening, Flash, Viscosity, DSR G*/sinδ</td><td>Manufacturing properties</td></tr>
+<tr><td>2 — After RTFOT</td><td>Short-term Aged</td><td>Penetration Ratio, Ductility, DSR G*/sinδ (RTFOT)</td><td>Mixing ageing</td></tr>
+<tr><td>3 — After PAV</td><td>Long-term Aged</td><td>DSR Phase Angle, G*×sinδ, BBR S + m-value, DTT</td><td>Service ageing</td></tr>
 </table>
 </div>
 ` };
