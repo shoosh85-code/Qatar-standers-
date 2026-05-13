@@ -2,6 +2,14 @@
 export const config = { runtime: 'edge' };
 
 export default async function handler(req) {
+  // ── حماية: test endpoints للـ dev فقط ──────────────────────────
+  const testSecret = process.env.TEST_SECRET;
+  const providedSecret = new URL(req.url).searchParams.get('secret');
+  if (!testSecret || providedSecret !== testSecret) {
+    return new Response(JSON.stringify({ error: 'Forbidden' }), 
+      { status: 403, headers: { 'Content-Type': 'application/json' } });
+  }
+
   const CORS = { 'Access-Control-Allow-Origin': '*' };
   const key = process.env.GEMINI_API_KEY;
   if (!key) return Response.json({ error: 'GEMINI_API_KEY غير موجود' }, { headers: CORS });

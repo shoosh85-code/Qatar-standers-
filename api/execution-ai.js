@@ -36,6 +36,21 @@ const MODULE_FILES = {
   general: null,
 };
 
+async function embedText(text, apiKey) {
+  // text-embedding-004: free tier 1,500 RPM — كافي للإنتاج
+  try {
+    const r = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent?key=${apiKey}`,
+      { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'models/text-embedding-004', content: { parts: [{ text: text.slice(0, 1000) }] } }),
+        signal: AbortSignal.timeout(5000) }
+    );
+    if (!r.ok) return null;
+    const d = await r.json();
+    return d?.embedding?.values || null;
+  } catch { return null; }
+}
+
 async function fetchQCSContext(keywords, limit, module) {
   const url = getSupabaseUrl();
   const key = getSupabaseServiceKey();
@@ -43,24 +58,45 @@ async function fetchQCSContext(keywords, limit, module) {
   try {
     const lim = limit || 4;
     const headers = { 'apikey': key, 'Authorization': `Bearer ${key}` };
-    const fileFilter = MODULE_FILES[module] ? `&source_file=ilike.*${MODULE_FILES[module]}*` : '';
-    const words = keywords.split(' ').filter(w => w.length > 3);
+    const fileFilter = MODULE_FILES[module] ? MODULE_FILES[module] : null;
     const allChunks = [];
     const seen = new Set();
 
-    // ── استراتيجية 0: بحث مباشر بمصطلحات محددة (أدق لـ chunks المعروفة) ──
-    // chunk 819 يحتوي "35" لكن يبدأ بـ "perature" — نستهدفه مباشرة
+    // ── استراتيجية 0: Vector Search (أدق — semantic similarity) ──────────
+    const apiKey = process.env.GEMINI_API_KEY;
+    const queryEmbedding = apiKey ? await embedText(keywords, apiKey) : null;
+    if (queryEmbedding) {
+      const body = JSON.stringify({
+        query_embedding: queryEmbedding,
+        match_threshold:  0.45,
+        match_count:      lim,
+        filter_file:      fileFilter
+      });
+      const r = await fetch(`${url}/rest/v1/rpc/match_qcs_chunks`,
+        { method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' }, body }
+      );
+      if (r.ok) {
+        const data = await r.json();
+        for (const c of (Array.isArray(data) ? data : [])) {
+          if (!seen.has(c.id)) { seen.add(c.id); allChunks.push(c); }
+        }
+        console.log(`[rag] vector search: ${allChunks.length} chunks (threshold 0.45)`);
+      }
+    }
+
+    // ── استراتيجية 1: DIRECT_TERMS (للـ chunks المعروفة) ─────────────────
     const DIRECT_TERMS = {
       pour:  ['35', 'placing temperature', 'fresh concrete temperature'],
       ncr:   ['crack', 'cracks repair', 'non conformance', 'defect rejection'],
       tests: ['compressive strength', 'cube test', 'works cube'],
       mar:   ['cement', 'material approval', 'submittal requirement'],
     };
-    if (DIRECT_TERMS[module]) {
+    const fileQ = fileFilter ? `&source_file=ilike.*${fileFilter}*` : '';
+    if (DIRECT_TERMS[module] && allChunks.length < lim) {
       for (const term of DIRECT_TERMS[module]) {
         if (allChunks.length >= lim) break;
         const r = await fetch(
-          `${url}/rest/v1/qcs_chunks?content=ilike.*${encodeURIComponent(term)}*${fileFilter}&select=id,content,source_file,section_name,page_num&limit=2&order=page_num.asc`,
+          `${url}/rest/v1/qcs_chunks?content=ilike.*${encodeURIComponent(term)}*${fileQ}&select=id,content,source_file,section_name,page_num&limit=2&order=page_num.asc`,
           { headers }
         );
         if (r.ok) {
@@ -72,40 +108,12 @@ async function fetchQCSContext(keywords, limit, module) {
       }
     }
 
-    // ── استراتيجية 1: Full-Text Search (fallback عام) ──
+    // ── استراتيجية 2: FTS fallback ────────────────────────────────────────
+    const words = keywords.split(' ').filter(w => w.length > 3);
     if (words.length > 0 && allChunks.length < lim) {
       const ftsQuery = words.slice(0, 4).join(' ');
       const r = await fetch(
-        `${url}/rest/v1/qcs_chunks?fts=phfts.${encodeURIComponent(ftsQuery)}${fileFilter}&select=id,content,source_file,section_name,page_num&limit=${lim}&order=page_num.asc`,
-        { headers }
-      );
-      if (r.ok) {
-        const data = await r.json();
-        for (const c of (Array.isArray(data) ? data : [])) {
-          if (!seen.has(c.id)) { seen.add(c.id); allChunks.push(c); }
-        }
-      }
-      // أضف الـ chunk التالي لكل chunk (لحل النص المقطوع)
-      const toFetch = allChunks.map(c => c.id + 1).filter(id => !seen.has(id)).slice(0, 2);
-      for (const nextId of toFetch) {
-        const rNext = await fetch(
-          `${url}/rest/v1/qcs_chunks?id=eq.${nextId}&select=id,content,source_file,section_name,page_num`,
-          { headers }
-        );
-        if (rNext.ok) {
-          const nextData = await rNext.json();
-          if (Array.isArray(nextData) && nextData[0]) {
-            seen.add(nextId); allChunks.push(nextData[0]);
-          }
-        }
-      }
-    }
-
-    // ── استراتيجية 2: ILIKE phrase مركبة (fallback إذا FTS لم يكفِ) ──
-    if (allChunks.length < lim && words.length >= 2) {
-      const phrase = words.slice(0, 2).join(' ');
-      const r = await fetch(
-        `${url}/rest/v1/qcs_chunks?content=ilike.*${encodeURIComponent(phrase)}*${fileFilter}&select=id,content,source_file,section_name,page_num&limit=${lim}&order=page_num.asc`,
+        `${url}/rest/v1/qcs_chunks?fts=phfts.${encodeURIComponent(ftsQuery)}${fileQ}&select=id,content,source_file,section_name,page_num&limit=${lim}&order=page_num.asc`,
         { headers }
       );
       if (r.ok) {
@@ -116,11 +124,11 @@ async function fetchQCSContext(keywords, limit, module) {
       }
     }
 
-    // ── استراتيجية 3: ILIKE per-word (آخر fallback) ──
+    // ── استراتيجية 3: ILIKE per-word (آخر fallback) ──────────────────────
     for (const word of words) {
       if (allChunks.length >= lim) break;
       const r = await fetch(
-        `${url}/rest/v1/qcs_chunks?content=ilike.*${encodeURIComponent(word)}*${fileFilter}&select=id,content,source_file,section_name,page_num&limit=2&order=page_num.asc`,
+        `${url}/rest/v1/qcs_chunks?content=ilike.*${encodeURIComponent(word)}*${fileQ}&select=id,content,source_file,section_name,page_num&limit=2&order=page_num.asc`,
         { headers }
       );
       if (!r.ok) continue;
@@ -131,7 +139,6 @@ async function fetchQCSContext(keywords, limit, module) {
     }
 
     if (!allChunks.length) return '';
-    // رتّب النتيجة النهائية حسب page_num لقراءة متسلسلة
     allChunks.sort((a, b) => (a.page_num || 0) - (b.page_num || 0));
     return '\n\n── نصوص QCS 2024 حقيقية من قاعدة البيانات ──\n' +
       allChunks.slice(0, lim + 1).map((c, i) =>

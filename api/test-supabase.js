@@ -3,6 +3,14 @@ export const config = { runtime: 'edge' };
 import { getSupabaseUrl, getSupabaseServiceKey } from '../lib/supabase.js';
 
 export default async function handler(req) {
+  // ── حماية: test endpoints للـ dev فقط ──────────────────────────
+  const testSecret = process.env.TEST_SECRET;
+  const providedSecret = new URL(req.url).searchParams.get('secret');
+  if (!testSecret || providedSecret !== testSecret) {
+    return new Response(JSON.stringify({ error: 'Forbidden' }), 
+      { status: 403, headers: { 'Content-Type': 'application/json' } });
+  }
+
   const CORS = { 'Access-Control-Allow-Origin': '*' };
   const url = getSupabaseUrl();
   const key = getSupabaseServiceKey();

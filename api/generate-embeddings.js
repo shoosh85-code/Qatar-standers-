@@ -19,15 +19,13 @@ export default async function handler(req, res) {
   }
   // ──────────────────────────────────────────────────────────────────────────
 
-  // Embeddings generation complete — endpoint disabled for security
-  return res.status(410).json({ 
-    message: 'Embedding generation complete. This endpoint is now disabled.',
-    hint: 'Re-enable by removing this check when needed.'
-  });
+  // Admin secret protection — يجب تمرير ADMIN_SECRET في الـ body
   if (req.method !== 'POST') return res.status(405).end();
-
-  // One-time setup endpoint — no auth needed
   const bodyData = req.body || {};
+  const adminSecret = process.env.ADMIN_SECRET;
+  if (!adminSecret || bodyData.admin_secret !== adminSecret) {
+    return res.status(403).json({ error: 'Forbidden — admin_secret required' });
+  }
   const batch_size = parseInt(bodyData.batch_size || 50);
   const offset = parseInt(bodyData.offset || 0);
 
