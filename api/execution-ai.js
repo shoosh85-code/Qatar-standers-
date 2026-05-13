@@ -9,6 +9,15 @@ import { checkRateLimit, rateLimitResponse } from '../lib/rate-limit.js';
 import { getSupabaseUrl, getSupabaseServiceKey } from '../lib/supabase.js';
 
 // ── جلب نصوص QCS حقيقية من Supabase ────────────────────────────────────
+// خريطة مصطلحات عربي → إنجليزي
+const AR_TO_EN = {
+  'درجة حرارة': 'temperature', 'الخرسانة': 'concrete', 'صب': 'placing',
+  'slump': 'slump', 'هبوط': 'slump', 'إسمنت': 'cement', 'سمنت': 'cement',
+  'تسليح': 'reinforcement', 'حديد': 'reinforcement', 'تغطية': 'cover',
+  'ضغط': 'compressive', 'ماء': 'water', 'رمل': 'sand', 'حصى': 'aggregate',
+  'ركام': 'aggregate', 'أسفلت': 'asphalt', 'تربة': 'soil',
+};
+
 // ملفات QCS حسب الوحدة
 const MODULE_FILES = {
   pour:    'Part15',
