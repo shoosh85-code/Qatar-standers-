@@ -24,13 +24,15 @@ const AR_TO_EN = {
   'ركام': 'aggregate', 'أسفلت': 'asphalt', 'تربة': 'soil',
 };
 
-// ملفات QCS حسب الوحدة
+// ملفات QCS حسب الوحدة — محدّث بناءً على ListFiles 2026-05-13
+// أسماء الملفات sequential upload numbers وليس QCS Part numbers
 const MODULE_FILES = {
-  pour:    'Part15',
-  mar:     'Part15',
-  ncr:     'Part15',
-  tests:   'Part15',
-  dwr:     'Part1',
+  pour:    'Part15',  // ✅ Concrete Section — يعمل (35°C confirmed)
+  mar:     'Part10',  // Section 02: QA/QC — cement/material approval
+  ncr:     'Part18',  // Section 05: Concrete Miscellaneous — crack/defect/repair
+  tests:   'Part15',  // Concrete testing — نفس قسم pour
+  dwr:     'Part1',   // unchanged
+  mos:     null,      // general search — Method Statements
   general: null,
 };
 
