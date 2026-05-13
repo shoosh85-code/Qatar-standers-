@@ -227,7 +227,7 @@ export default async function handler(req) {
         { status: 502, headers: { ...CORS, 'Content-Type': 'application/json' }});
     }
 
-    return new Response(JSON.stringify({ answer: text, module, timestamp: new Date().toISOString(), _debug: { keywords: searchKeywords, chunksFound: qcsContext.length > 100 } }), {
+    return new Response(JSON.stringify({ answer: text, module, timestamp: new Date().toISOString(), _debug: { keywords: searchKeywords, chunksFound: qcsContext.length > 100, contextPreview: qcsContext.slice(0, 300) } }), {
       headers: { ...CORS, 'Content-Type': 'application/json' }
     });
 
