@@ -2,38 +2,73 @@
 <html dir="rtl" lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>اختبار API</title>
+<title>اختبار API — QatarSpec</title>
 <style>
-body { font-family: Arial; padding: 30px; background: #f5f5f5; }
-button { background: #8D1B3D; color: white; border: none; padding: 14px 28px; font-size: 16px; border-radius: 8px; cursor: pointer; }
-#result { margin-top: 20px; padding: 16px; background: white; border-radius: 8px; font-size: 14px; line-height: 1.8; white-space: pre-wrap; min-height: 60px; border: 2px solid #ddd; }
-.ok { border-color: #3B6D11 !important; color: #3B6D11; }
+body { font-family: Arial; padding: 30px; background: #f5f5f5; max-width: 900px; margin: auto; }
+h2 { color: #8D1B3D; }
+label { font-weight: bold; display: block; margin-top: 16px; margin-bottom: 4px; }
+select, textarea { width: 100%; padding: 10px; font-size: 15px; border-radius: 6px; border: 1px solid #ccc; box-sizing: border-box; }
+textarea { height: 80px; resize: vertical; }
+button { margin-top: 14px; background: #8D1B3D; color: white; border: none; padding: 12px 28px; font-size: 16px; border-radius: 8px; cursor: pointer; }
+button:hover { background: #6b1430; }
+#result { margin-top: 20px; padding: 16px; background: white; border-radius: 8px; font-size: 13px; line-height: 1.8; white-space: pre-wrap; min-height: 60px; border: 2px solid #ddd; direction: ltr; }
+.ok  { border-color: #3B6D11 !important; }
 .err { border-color: #A32D2D !important; color: #A32D2D; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; margin-bottom: 8px; }
+.badge-ok  { background: #e6f4e0; color: #3B6D11; }
+.badge-err { background: #fdecea; color: #A32D2D; }
 </style>
 </head>
 <body>
 <h2>🔬 اختبار /api/execution-ai</h2>
-<button onclick="runTest()">▶ شغّل الاختبار</button>
+
+<label>📦 Module:</label>
+<select id="module">
+  <option value="pour">pour — صب الخرسانة</option>
+  <option value="mar">mar — موافقة المواد</option>
+  <option value="ncr">ncr — تقرير عدم المطابقة</option>
+  <option value="tests">tests — نتائج الاختبارات</option>
+  <option value="dwr">dwr — التقرير اليومي</option>
+  <option value="mos">mos — Method Statement</option>
+  <option value="general">general — عام</option>
+</select>
+
+<label>❓ السؤال:</label>
+<textarea id="question">ما هو الحد الأقصى لدرجة حرارة الخرسانة عند الصب؟</textarea>
+
+<button onclick="runTest()">▶ إرسال</button>
+
 <div id="result">جاهز...</div>
+
 <script>
 async function runTest() {
   const el = document.getElementById('result');
+  const module = document.getElementById('module').value;
+  const question = document.getElementById('question').value.trim();
+  if (!question) { el.textContent = '⚠️ اكتب سؤالاً'; return; }
+
   el.className = '';
   el.textContent = '⏳ جاري الاختبار...';
+  const t0 = Date.now();
+
   try {
     const res = await fetch('/api/execution-ai', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question: 'ما هو الحد الأقصى لدرجة حرارة الخرسانة عند الصب؟', module: 'pour' })
+      body: JSON.stringify({ question, module })
     });
     const data = await res.json();
+    const ms = Date.now() - t0;
     el.className = res.ok ? 'ok' : 'err';
-    el.textContent = `HTTP Status: ${res.status}\n\n${JSON.stringify(data, null, 2)}`;
+    el.textContent = `HTTP: ${res.status} | ${ms}ms\n\n${JSON.stringify(data, null, 2)}`;
   } catch(e) {
     el.className = 'err';
     el.textContent = `❌ خطأ: ${e.message}`;
   }
 }
+document.getElementById('question').addEventListener('keydown', e => {
+  if (e.ctrlKey && e.key === 'Enter') runTest();
+});
 </script>
 </body>
 </html>
