@@ -556,14 +556,14 @@
 <button onclick="document.getElementById('vid-sg-ar').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
 </div>
 <input type="file" id="vid-sg-ar" accept="video/*" style="display:none" data-player="vid-sg-ar-p" data-ph="vid-sg-ar-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-sg-ar-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV لشرح طبقة الـ Subgrade</div>
+<div id="vid-sg-ar-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload video MP4/MOV لشرح طبقة الـ Subgrade</div>
 <div id="vid-sg-ar-p" class="qs-vid-ph" data-maxh="250px"></div>
 </div>
 
 <h3>📐 تعريف Subgrade — QCS S6 P3 Cl. 3.1</h3>
 <p>Subgrade هي الطبقة الطبيعية أو المحسّنة من التربة التي تُشكّل قاعدة الرصيف مباشرة. تُمثّل الطبقة الأساسية لكل طبقات الرصيف فوقها وجودتها تحدد سماكة التصميم وتكلفة المشروع بالكامل.</p>
 
-<h3>⚠️ المواد غير المقبولة — QCS S6 P3 Cl. 3.3</h3>
+<h3>⚠️ Unacceptable Materials — QCS S6 P3 Cl. 3.3</h3>
 <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;">
 <strong>يُحظر استخدام الآتي في طبقة الـ Subgrade:</strong><br>
 • Peat أو التربة العضوية — Organic Content &gt; 2%<br>
@@ -741,14 +741,14 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <button onclick="document.getElementById('vid-base-new').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
 </div>
 <input type="file" id="vid-base-new" accept="video/*" style="display:none" data-player="vid-base-new-p" data-ph="vid-base-new-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-base-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
+<div id="vid-base-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload video MP4/MOV — saved for the session</div>
 <div id="vid-base-new-p" class="qs-vid-ph" data-maxh="260px"></div>
 </div>
 
 <h3>📐 تعريف Subbase Course — QCS S6 P4 Cl. 4.1</h3>
 <p>Subbase هي الطبقة الحبيبية السفلية في تركيب الرصيف، تقع بين الـ Subgrade (الأرض الطبيعية) والـ Base Course (طبقة الأساس). وظيفتها توزيع الأحمال المرورية على الـ Subgrade، توفير تصريف مياه تحتية، ومنع صعود الأملاح. في قطر تُنفَّذ من الجابرو العُماني المكسّر (Type B) بمتطلبات: CBR ≥ 30% (Soaked 4 أيام) + Compaction ≥ 100% BS Heavy + PI ≤ 6. السماكة التصميمية 150mm–300mm حسب الأحمال.</p>
 
-<h3>⚠️ المواد غير المقبولة — QCS S6 P4</h3>
+<h3>⚠️ Unacceptable Materials — QCS S6 P4</h3>
 <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;">
 <strong>يُحظر استخدامه في Subbase (Type B):</strong><br>
 • مواد LA Abrasion &gt; 40%<br>
@@ -858,41 +858,41 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 </div>
 ` };
-  c["base"] = { title: '🧱 Base Course — طبقة الأساس', content: `
+  c["base"] = { title: '🧱 Base Course', content: `
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 — Section 6 Part 4 | Road Base Course
 </div>
 <div class="lang-content-ar">
 <div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Road Base Course — التنفيذ والاختبارات</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Road Base Course — Execution & Testing</span>
 <button onclick="document.getElementById('vid-base').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
 </div>
 <input type="file" id="vid-base" accept="video/*" style="display:none" data-player="vid-player-base" data-ph="vid-ph-base" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-base" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
+<div id="vid-ph-base" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload video MP4/MOV — saved for the session</div>
 <div id="vid-player-base" class="qs-vid-ph" data-maxh="260px"></div>
 </div>
 
-<h3>📐 تعريف Base Course — QCS S6 P4</h3>
-<p><strong>Base Course (طبقة الأساس)</strong> هي الطبقة الإنشائية الرئيسية في تركيب الرصيف المرن، تقع مباشرةً فوق Subbase وتحت Binder/Wearing Courses. تتكوّن من ركام متدرج مكسور (Crushed Aggregate) ذو قيم CBR وLAA عالية، وتتحمّل الجزء الأكبر من الأحمال الديناميكية قبل توزيعها على Subbase والـ Subgrade.</p>
+<h3>📐 Base Course Definition — QCS S6 P4</h3>
+<p><strong>Base Course</strong> is the main structural layer in flexible pavement construction, located directly above the Subbase and below Binder/Wearing Courses. It consists of graded crushed aggregate with high CBR and LAA values, bearing the largest portion of dynamic loads before distributing them to the Subbase and Subgrade.</p>
 <table class="dm-table">
-<tr><th>الخاصية</th><th>المتطلب</th><th>QCS</th></tr>
-<tr><td>الوظيفة</td><td>توزيع الأحمال + نقلها للـ Subbase</td><td>S6 P4</td></tr>
-<tr><td>المادة</td><td>Crushed Gabbro أو ركام مكسور معتمد</td><td>S6 P4</td></tr>
+<tr><th>Property</th><th>Requirement</th><th>QCS</th></tr>
+<tr><td>Function</td><td>Load distribution + transfer to Subbase</td><td>S6 P4</td></tr>
+<tr><td>Material</td><td>Crushed Gabbro or approved crushed aggregate</td><td>S6 P4</td></tr>
 <tr><td>CBR min</td><td>≥ 80%</td><td>S6 P4</td></tr>
 <tr><td>PI max</td><td>≤ 6</td><td>S6 P4</td></tr>
 <tr><td>LAA max</td><td>≤ 30%</td><td>S6 P4</td></tr>
-<tr><td>درجة الدمك</td><td>≥ 100% MDD (Modified Proctor)</td><td>S6 P5</td></tr>
-<tr><td>السماكة الدنيا</td><td>100mm بعد الدمك (لكل طبقة)</td><td>S6 P4</td></tr>
+<tr><td>Compaction Degree</td><td>≥ 100% MDD (Modified Proctor)</td><td>S6 P5</td></tr>
+<tr><td>Minimum Thickness</td><td>100mm after compaction (per layer)</td><td>S6 P4</td></tr>
 </table>
 <div class="lang-content-ar">
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
 📌 QCS 2024 — Section 6 Part 4 — Tables 4:2, 4:3 (Road Base values only)
 </div>
-<h3>📐 جدول 4:2 — Coarse Aggregate — Road Base فقط — QCS S6 P4 Page 6</h3>
+<h3>📐 Table 4:2 — Coarse Aggregate — Road Base only — QCS S6 P4 Page 6</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Property — الخاصية</th><th>Road Base Spec Limit</th><th>Test Method</th><th>Min Frequency</th></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>Property</th><th>Road Base Spec Limit</th><th>Test Method</th><th>Min Frequency</th></tr>
 <tr><td>LA Abrasion Loss</td><td>≤ <strong>30%</strong></td><td>ASTM C131</td><td>1 per 1,000 m³</td></tr>
 <tr><td>Flakiness Index</td><td>≤ <strong>30%</strong></td><td>BS 812 P105</td><td>1 per 500 m³</td></tr>
 <tr><td>Elongation Index</td><td>≤ <strong>30%</strong></td><td>BS 812 P105</td><td>1 per 500 m³</td></tr>
@@ -904,9 +904,9 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>Water-Soluble Sulphate SO₃</td><td>≤ <strong>0.5%</strong></td><td>BS 1377-3</td><td>1 per 1,000 m³</td></tr>
 <tr><td>Total Chloride</td><td>≤ <strong>0.6%</strong></td><td>BS 1377-3</td><td>1 per 1,000 m³</td></tr>
 </table></div>
-<h3>📐 جدول 4:3 — Combined Aggregate — Road Base — QCS S6 P4 Page 7</h3>
+<h3>📐 Table 4:3 — Combined Aggregate — Road Base — QCS S6 P4 Page 7</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Property — الخاصية</th><th>Road Base Spec Limit</th><th>Test Method</th><th>Min Frequency</th></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>Property</th><th>Road Base Spec Limit</th><th>Test Method</th><th>Min Frequency</th></tr>
 <tr><td>CBR (Soaked 4 days @ 98% MDD)</td><td>≥ <strong style="color:#2ecc71;">80%</strong></td><td>ASTM D1883</td><td>1 per 2,000 m²</td></tr>
 <tr><td>Plasticity Index (PI)</td><td>≤ <strong>4%</strong></td><td>ASTM D4318</td><td>1 per 500 m³</td></tr>
 <tr><td>Liquid Limit (LL)</td><td>≤ <strong>25%</strong></td><td>ASTM D4318</td><td>1 per 500 m³</td></tr>
@@ -930,11 +930,11 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </table></div>
 <h3>🔴 Hold Points</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>التوثيق</th></tr>
-<tr><td>HP-01</td><td>Material Approval (MAR): Table 4:2 + 4:3 كاملة معتمدة</td><td>Lab Reports + MAR Form</td></tr>
-<tr><td>HP-02</td><td>Subbase HP-04 معتمد</td><td>Subbase Completion Certificate</td></tr>
-<tr><td>HP-03</td><td>Compaction ≥ 98% MDD + CBR ≥ 80% معتمدان</td><td>Sand Cone + CBR Lab Reports</td></tr>
-<tr><td>HP-04</td><td>Level Survey ± 8mm معتمد قبل Prime Coat</td><td>As-Built Survey Report</td></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Documentation</th></tr>
+<tr><td>HP-01</td><td>Material Approval (MAR): Table 4:2 + 4:3 fully approved</td><td>Lab Reports + MAR Form</td></tr>
+<tr><td>HP-02</td><td>Subbase HP-04 approved</td><td>Subbase Completion Certificate</td></tr>
+<tr><td>HP-03</td><td>Compaction ≥ 98% MDD + CBR ≥ 80% approved</td><td>Sand Cone + CBR Lab Reports</td></tr>
+<tr><td>HP-04</td><td>Level Survey ± 8mm approved before Prime Coat</td><td>As-Built Survey Report</td></tr>
 </table></div>
 </div>
 
@@ -976,33 +976,33 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <div class="lang-content-ar">
 <div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Wearing Course — طبقة السطح النهائية</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Wearing Course — Final Surface Layer</span>
 <button onclick="document.getElementById('vid-wc-new').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
 </div>
 <input type="file" id="vid-wc-new" accept="video/*" style="display:none" data-player="vid-wc-new-p" data-ph="vid-wc-new-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-wc-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV</div>
+<div id="vid-wc-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload video MP4/MOV</div>
 <div id="vid-wc-new-p" class="qs-vid-ph" data-maxh="260px"></div>
 </div>
 
-<h3>📐 تعريف Wearing Course — QCS S6 P5</h3>
-<p>Wearing Course هي الطبقة السطحية النهائية من الرصيف الإسفلتي — الطبقة التي تتعامل مباشرة مع الإطارات والأحمال المرورية والعوامل الجوية. تتطلب أعلى جودة ركام (PSV ≥ 55) ومقاومة تآكل عالية. تُستخدم خلطة HMA بتدرج WC-A أو WC-B. السماكة المعتادة 40mm–50mm. البيتومين PMB (Polymer Modified) إلزامي في الطرق الرئيسية.</p>
+<h3>📐 Wearing Course Definition — QCS S6 P5</h3>
+<p>Wearing Course is the final surface layer of the asphalt pavement — the layer that directly contacts tyres, traffic loads and weather conditions. It requires the highest aggregate quality (PSV ≥ 55) and maximum resistance to tآكل عالية. تُستخدم خلطة HMA بتدرج WC-A أو WC-B. السماكة المعتادة 40mm–50mm. البيتومين PMB (Polymer Modified) إلزامي في الطرق الرئيسية.</p>
 
-<h3>⚠️ المواد غير المقبولة</h3>
+<h3>⚠️ Unacceptable Materials</h3>
 <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;">
-<strong>يُرفض في Wearing Course:</strong><br>
-• ركام PSV &lt; 55 — يسبب انزلاق الإطارات (Safety Critical)<br>
-• ركام LA Abrasion &gt; 25%<br>
+<strong>Rejected in Wearing Course:</strong><br>
+• Aggregate PSV &lt; 55 — causes tyre skidding (Safety Critical)<br>
+• Aggregate LA Abrasion &gt; 25%<br>
 • Soundness (MgSO₄) &gt; 12%<br>
 • Flakiness &gt; 20%<br>
 • Water Absorption &gt; 1.5%<br>
-• Chloride في الركام &gt; 0.04%<br>
-• بيتومين 60/70 بدون PMB في طرق T4+ (Expressways)<br>
-• Marshall Stability &lt; 10 kN (PMB) أو &lt; 8 kN (Non-PMB)<br>
-• حمولة وصلت بدرجة &lt; 145°C (PMB) أو &lt; 135°C (Non-PMB)<br>
-• IRI &gt; 2.0 m/km بعد الفرش
+• Chloride in aggregate &gt; 0.04%<br>
+• Bitumen 60/70 without PMB on T4+ roads (Expressways)<br>
+• Marshall Stability &lt; 10 kN (PMB) or &lt; 8 kN (Non-PMB)<br>
+• Delivery below &lt; 145°C (PMB) or &lt; 135°C (Non-PMB)<br>
+• IRI &gt; 2.0 m/km after laying
 </div>
 
-<h3>📐 تدرج Wearing Course — QCS S6 P5 Table 5:8</h3>
+<h3>📐 Wearing Course Gradation — QCS S6 P5 Table 5:8</h3>
 <div style="overflow-x:auto;">
 <table class="dm-table" style="font-size:11px;">
 <tr style="background:rgba(122,21,21,0.9);"><th>Sieve</th><th>WC-A (19mm)</th><th>WC-B (12.5mm)</th></tr>
@@ -1015,7 +1015,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>0.075 mm</td><td style="color:#e74c3c;font-weight:700;">3 – 8</td><td style="color:#e74c3c;font-weight:700;">2 – 10</td></tr>
 </table></div>
 
-<h3>📐 ركام Wearing Course — متطلبات خاصة</h3>
+<h3>📐 Wearing Course Aggregate — Special Requirements</h3>
 <div style="overflow-x:auto;">
 <table class="dm-table" style="font-size:11px;">
 <tr style="background:rgba(122,21,21,0.9);"><th>Parameter</th><th>Wearing Course</th><th>Test</th></tr>
@@ -1045,11 +1045,11 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <table class="dm-table" style="font-size:11px;">
 <tr style="background:rgba(122,21,21,0.9);"><th>Parameter</th><th>Expressway</th><th>Urban Road</th><th>Reference</th></tr>
 <tr><td><strong>IRI (International Roughness Index)</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 0.9 m/km</td><td style="color:#2ecc71;font-weight:700;">≤ 1.5 m/km</td><td>PWA IAN 013</td></tr>
-<tr style="background:rgba(46,204,113,0.08);"><td><strong>🆕 IRI New Road — QCS 2024 S6</strong></td><td colspan="2" style="color:#2ecc71;font-weight:700;">≤ 2.0 m/km — شرط الاستلام النهائي</td><td>QCS 2024 S6</td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>🆕 IRI New Road — QCS 2024 S6</strong></td><td colspan="2" style="color:#2ecc71;font-weight:700;">≤ 2.0 m/km — acceptance condition النهائي</td><td>QCS 2024 S6</td></tr>
 <tr><td><strong>3m Straightedge</strong></td><td>≤ 3mm</td><td>≤ 5mm</td><td>QCS S6 P5</td></tr>
 </table></div>
 
-<h3>📐 الدمك الميداني</h3>
+<h3>📐 Field Compaction</h3>
 <div style="overflow-x:auto;">
 <table class="dm-table" style="font-size:11px;">
 <tr style="background:rgba(122,21,21,0.9);"><th>Parameter</th><th>Specification</th><th>Test</th><th>Frequency</th></tr>
@@ -1062,9 +1062,9 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <h3>🔴 Hold Points</h3>
 <table class="dm-table">
 <tr><th>HP</th><th>الشرط</th><th>التوثيق</th></tr>
-<tr><td>HP-01</td><td>Mix Design (Marshall/Superpave) + PSV ≥ 55 معتمد</td><td>Lab Report + PSV Certificate</td></tr>
-<tr><td>HP-02</td><td>Trial Section ≥ 200m معتمد</td><td>Trial Report + Cores + IRI</td></tr>
-<tr><td>HP-03</td><td>Tack Coat SS-1h معتمد (0.20–0.50 L/m²)</td><td>Tack Coat Approval</td></tr>
+<tr><td>HP-01</td><td>Mix Design (Marshall/Superpave) + PSV ≥ 55 approved</td><td>Lab Report + PSV Certificate</td></tr>
+<tr><td>HP-02</td><td>Trial Section ≥ 200m approved</td><td>Trial Report + Cores + IRI</td></tr>
+<tr><td>HP-03</td><td>Tack Coat SS-1h approved (0.20–0.50 L/m²)</td><td>Tack Coat Approval</td></tr>
 <tr><td>HP-04</td><td>Cores ≥ 97% TMD + Thickness</td><td>Core Reports</td></tr>
 <tr><td>HP-05</td><td>IRI Final ≤ 0.9/1.5/2.0 m/km</td><td>IRI Survey Report</td></tr>
 </table>
@@ -1111,31 +1111,31 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <div class="lang-content-ar">
 <div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Prime Coat — التنفيذ والاختبارات</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Prime Coat — Execution & Testing</span>
 <button onclick="document.getElementById('vid-prime-new').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
 </div>
 <input type="file" id="vid-prime-new" accept="video/*" style="display:none" data-player="vid-prime-new-p" data-ph="vid-prime-new-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-prime-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV — يُحفظ طوال الجلسة</div>
+<div id="vid-prime-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload video MP4/MOV — saved for the session</div>
 <div id="vid-prime-new-p" class="qs-vid-ph" data-maxh="260px"></div>
 </div>
 
-<h3>📐 تعريف Prime Coat — QCS S6 P5 Cl. 5.3</h3>
-<p>Prime Coat هو رش البيتومين المخفف على سطح الـ Road Base المدموك قبل فرش طبقة الإسفلت الأولى. وظيفته: ربط حبيبات سطح الـ Base Course، منع الغبار، وتوفير التصاق بين الطبقة الحبيبية وطبقة الإسفلت. يُنفَّذ بمادة MC-30 أو MC-70 (Medium Curing Cutback Bitumen). يُمنع فرش الإسفلت بدون Prime Coat معتمد.</p>
+<h3>📐 Prime Coat Definition — QCS S6 P5 Cl. 5.3</h3>
+<p>Prime Coat is the application of diluted bitumen on the compacted Road Base surface before laying the first asphalt layer. Its purpose: binding Base Course surface particles, dust prevention, and providing adhesion between the granular layerة وطبقة الإسفلت. يُنفَّذ بمادة MC-30 أو MC-70 (Medium Curing Cutback Bitumen). يُمنع فرش الإسفلت بدون Prime Coat معتمد.</p>
 
-<h3>⚠️ شروط عدم القبول — QCS S6 P5</h3>
+<h3>⚠️ Rejection Conditions — QCS S6 P5</h3>
 <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;">
-<strong>يُرفض Prime Coat في الحالات التالية:</strong><br>
-• الرش على سطح Base مبلل أو به مياه راكدة<br>
-• الرش على سطح Base غير معتمد (لم يُقبل HP)<br>
-• درجة حرارة السطح &lt; 10°C أو أثناء المطر<br>
-• معدل الرش أقل من 0.8 L/m² أو أكثر من 1.2 L/m²<br>
-• عدم اختراق البيتومين للسطح بعمق ≥ 5mm<br>
-• عدم السماح بفترة Curing كافية (24–48 ساعة)<br>
-• وجود بقع برك (Pooling) أو مناطق جافة (Bare Spots)<br>
-• استخدام مواد منتهية الصلاحية أو غير مطابقة
+<strong>Prime Coat is rejected in the following cases:</strong><br>
+• Spraying on wet Base or with standing water<br>
+• Spraying on unapproved Base (HP not accepted)<br>
+• Surface temperature &lt; 10°C or during rain<br>
+• Application rate below 0.8 L/m² or above 1.2 L/m²<br>
+• Bitumen penetration < 5mm into surface<br>
+• Insufficient curing period (24–48 hours)<br>
+• Presence of pooling patches or bare spots<br>
+• Use of expired or non-conforming materials
 </div>
 
-<h3>📐 مواصفات المادة — MC-30 / MC-70</h3>
+<h3>📐 Material Specifications — MC-30 / MC-70</h3>
 <div style="overflow-x:auto;">
 <table class="dm-table" style="font-size:11px;">
 <tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Property</th><th>MC-30</th><th>MC-70</th><th>Test Method</th></tr>
@@ -1147,34 +1147,34 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td><strong>Water Content</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 0.2%</td><td style="color:#2ecc71;font-weight:700;">≤ 0.2%</td><td>ASTM D95</td></tr>
 </table></div>
 
-<h3>📐 معدلات الرش والتطبيق — QCS S6 P5</h3>
+<h3>📐 Application Rates — QCS S6 P5</h3>
 <div style="overflow-x:auto;">
 <table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.9);"><th>Parameter</th><th>Specification</th><th>ملاحظة</th></tr>
-<tr><td><strong>Application Rate</strong></td><td style="color:#2ecc71;font-weight:700;font-size:14px;">0.8 – 1.2 L/m²</td><td>يُحدد من Trial Section</td></tr>
-<tr><td><strong>Spray Temperature</strong></td><td><strong>MC-30:</strong> 35–60°C<br><strong>MC-70:</strong> 50–80°C</td><td>حسب Viscosity-Temperature Chart</td></tr>
+<tr style="background:rgba(122,21,21,0.9);"><th>Parameter</th><th>Specification</th><th>Note</th></tr>
+<tr><td><strong>Application Rate</strong></td><td style="color:#2ecc71;font-weight:700;font-size:14px;">0.8 – 1.2 L/m²</td><td>Determined from Trial Section</td></tr>
+<tr><td><strong>Spray Temperature</strong></td><td><strong>MC-30:</strong> 35–60°C<br><strong>MC-70:</strong> 50–80°C</td><td>Per Viscosity-Temperature Chart</td></tr>
 <tr><td><strong>Penetration Depth</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 5mm into Base surface</td><td>Visual + Core check</td></tr>
-<tr><td><strong>Curing Time</strong></td><td><strong>24 – 48 hours minimum</strong></td><td>حتى يجف السطح ولا يلتصق</td></tr>
-<tr><td><strong>Surface Condition</strong></td><td>جاف + نظيف + خالي من الغبار</td><td>كنس + نفخ بالهواء قبل الرش</td></tr>
-<tr><td><strong>Weather</strong></td><td>لا مطر + سطح &gt; 10°C + رياح &lt; 30 km/h</td><td>توقف في حالة المطر فوراً</td></tr>
+<tr><td><strong>Curing Time</strong></td><td><strong>24 – 48 hours minimum</strong></td><td>Until surface dries and is non-tacky</td></tr>
+<tr><td><strong>Surface Condition</strong></td><td>Dry + clean + dust-free</td><td>Sweep + air-blow before spraying</td></tr>
+<tr><td><strong>Weather</strong></td><td>No rain + surface &gt; 10°C + wind &lt; 30 km/h</td><td>Stop immediately in case of rain</td></tr>
 </table></div>
 
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin:12px 0;font-size:12px;">
-<strong>🔵 ملاحظات جوهرية:</strong><br>
+<strong>🔵 Key Notes:</strong><br>
 • <strong>Trial Section</strong> إلزامي لتحديد معدل الرش المناسب قبل العمل الفعلي<br>
-• يُمنع حركة المعدات على Prime Coat قبل الجفاف التام<br>
-• أي مناطق pooling تُزال بالرمل ويُعاد الرش<br>
-• Bare spots يُعاد رشها يدوياً بنفس المعدل<br>
-• الأمطار خلال 24 ساعة من الرش = إعادة العمل
+• Equipment movement on Prime Coat is prohibited before complete drying<br>
+• Any pooling areas must be sanded and re-sprayed<br>
+• Bare spots must be manually re-sprayed at the same rate<br>
+• Rain within 24 hours of spraying = redo the work
 </div>
 
 <h3>🔴 Hold Points</h3>
 <table class="dm-table">
 <tr><th>HP</th><th>الشرط</th><th>التوثيق</th></tr>
-<tr><td>HP-01</td><td>Road Base معتمد ومقبول</td><td>Base Approval Certificate</td></tr>
-<tr><td>HP-02</td><td>اعتماد مادة Prime Coat (MC-30/70)</td><td>Material Certificate + Lab Test</td></tr>
-<tr><td>HP-03</td><td>Trial Section معتمد (rate + penetration)</td><td>Trial Section Report</td></tr>
-<tr><td>HP-04</td><td>Curing مكتمل (24-48 hr) + سطح جاف</td><td>Visual Inspection + Photo Record</td></tr>
+<tr><td>HP-01</td><td>Road Base approved and accepted</td><td>Base Approval Certificate</td></tr>
+<tr><td>HP-02</td><td>Prime Coat material approval (MC-30/70)</td><td>Material Certificate + Lab Test</td></tr>
+<tr><td>HP-03</td><td>Trial Section approved (rate + penetration)</td><td>Trial Section Report</td></tr>
+<tr><td>HP-04</td><td>Curing complete (24-48 hr) + dry surface</td><td>Visual Inspection + Photo Record</td></tr>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
@@ -1215,39 +1215,39 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 📌 QCS 2024 — Section 6 Part 5 | Prime Coat & Tack Coat | Pages 30-31
 </div>
 <div class="lang-content-ar">
-<h3>📐 تعريفات — Definitions</h3>
+<h3>📐 Definitions</h3>
 <table class="dm-table">
-<tr><th>المصطلح</th><th>التعريف</th><th>QCS</th></tr>
-<tr><td><strong>Prime Coat</strong></td><td>طبقة رقيقة من البيتومين السائل (MC-30 أو مستحلب) تُطبَّق على Base Course غير الإسفلتي قبل رصف Binder Course. تهدف إلى: تثبيت السطح، ملء الفراغات، تحقيق التصاق بين الطبقات</td><td>S6 P5 P.30</td></tr>
-<tr><td><strong>Tack Coat</strong></td><td>طبقة رقيقة من المستحلب البيتوميني (CSS-1 أو K1-60) تُطبَّق بين طبقتين إسفلتيتين (بين Binder وWearing أو على الأسطح القديمة). تضمن التصاق الطبقات ومنع الانزلاق بينها</td><td>S6 P5 P.31</td></tr>
+<tr><th>Term</th><th>Definition</th><th>QCS</th></tr>
+<tr><td><strong>Prime Coat</strong></td><td>A thin layer of liquid bitumen (MC-30 or emulsion) applied to non-asphalt Base Course before paving Binder Course. Purpose: stabilise surface, fill الفراغات، تحقيق التصاق بين الطبقات</td><td>S6 P5 P.30</td></tr>
+<tr><td><strong>Tack Coat</strong></td><td>A thin layer of bituminous emulsion (CSS-1 or K1-60) applied between two asphalt layers (between Binder and Wearing or on existing surfaces). Ensures bonding الطبقات ومنع الانزلاق بينها</td><td>S6 P5 P.31</td></tr>
 </table>
 
-<h3>📐 Prime Coat — ملخص Page 30</h3>
+<h3>📐 Prime Coat — Summary Page 30</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
-<tr><td>نوع المادة</td><td>Cutback Bitumen MC-30 أو MC-70 (ASTM D2028)</td></tr>
-<tr><td>معدل الرش</td><td>0.8 - 1.2 L/m²</td></tr>
-<tr><td>درجة الحرارة عند الرش</td><td>50 - 80°C (حسب Grade)</td></tr>
-<tr><td>السطح المطلوب</td><td>جاف + نظيف + مكنوس بـ Power Broom + مكنوس بـ Power Blower</td></tr>
-<tr><td>وقت المعالجة الأدنى</td><td>24 hour قبل وضع Asphalt</td></tr>
-<tr><td>علامة الجهوزية</td><td>اللون يتحول من بني للأسود + لا لزوجة</td></tr>
-<tr><td>عمق النفاذ</td><td>10 - 15mm في الـ Base Course</td></tr>
-<tr><td>ظروف وقف العمل</td><td>مطر / غبار / درجة حرارة محيط &lt; 10°C</td></tr>
-<tr><td>حماية الجوانب</td><td>Kerbs + Manholes تُغطى قبل الرش</td></tr>
-<tr><td>اختبار معدل الرش</td><td>تسجيل Spray Tanker Calibration Report + Field Rate من كمية/مساحة</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Requirement</th></tr>
+<tr><td>Material Type</td><td>Cutback Bitumen MC-30 or MC-70 (ASTM D2028)</td></tr>
+<tr><td>Application Rate</td><td>0.8 - 1.2 L/m²</td></tr>
+<tr><td>Spray Temperature</td><td>50 - 80°C (per Grade)</td></tr>
+<tr><td>Required Surface</td><td>Dry + clean + swept with Power Broom + blown with Power Blower</td></tr>
+<tr><td>Minimum Curing Time</td><td>24 hours before placing Asphalt</td></tr>
+<tr><td>Readiness Sign</td><td>Colour changes from brown to black + non-tacky</td></tr>
+<tr><td>Penetration Depth</td><td>10 - 15mm into Base Course</td></tr>
+<tr><td>Stop Work Conditions</td><td>مطر / غبار / درجة حرارة محيط &lt; 10°C</td></tr>
+<tr><td>Edge Protection</td><td>Kerbs + Manholes covered before spraying</td></tr>
+<tr><td>Rate Test</td><td>Record Spray Tanker Calibration Report + Field Rate from quantity/area</td></tr>
 </table>
 
-<h3>📐 Tack Coat — ملخص Page 31</h3>
+<h3>📐 Tack Coat — Summary Page 31</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>على Binder Course</th><th>على Wearing Course</th></tr>
-<tr><td>نوع المادة</td><td colspan="2">Emulsified Bitumen SS-1h أو CSS-1h (ASTM D977)</td></tr>
-<tr><td>معدل الرش (Residual بعد Breakup)</td><td>0.30 - 0.50 L/m²</td><td>0.20 - 0.40 L/m²</td></tr>
-<tr><td>معدل الرش (قبل Breakup — كمادة)</td><td>0.50 - 0.90 L/m²</td><td>0.35 - 0.70 L/m²</td></tr>
-<tr><td>درجة الحرارة</td><td colspan="2">50 - 70°C</td></tr>
-<tr><td>علامة الجهوزية</td><td colspan="2">Emulsion تتحول من بني للأسود (Breakup كامل)</td></tr>
-<tr><td>ظروف وقف العمل</td><td colspan="2">مطر / سطح رطب / درجة حرارة محيط &lt; 10°C</td></tr>
-<tr><td>المشاة والمركبات</td><td colspan="2">لا يُسمح بالمرور قبل Breakup الكامل</td></tr>
-<tr><td>Tack زائد خطر</td><td colspan="2">Excess Tack = Slippage بين الطبقات + Shoving = NCR</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>On Binder Course</th><th>On Wearing Course</th></tr>
+<tr><td>Material Type</td><td colspan="2">Emulsified Bitumen SS-1h أو CSS-1h (ASTM D977)</td></tr>
+<tr><td>Application Rate (Residual after Breakup)</td><td>0.30 - 0.50 L/m²</td><td>0.20 - 0.40 L/m²</td></tr>
+<tr><td>Application Rate (before Breakup — as material)</td><td>0.50 - 0.90 L/m²</td><td>0.35 - 0.70 L/m²</td></tr>
+<tr><td>Temperature</td><td colspan="2">50 - 70°C</td></tr>
+<tr><td>Readiness Sign</td><td colspan="2">Emulsion changes from brown to black (complete Breakup)</td></tr>
+<tr><td>Stop Work Conditions</td><td colspan="2">Rain / wet surface / ambient temperature &lt; 10°C</td></tr>
+<tr><td>Pedestrians & Vehicles</td><td colspan="2">No movement permitted before complete Breakup</td></tr>
+<tr><td>Excess Tack Risk</td><td colspan="2">Excess Tack = Slippage between layers + Shoving = NCR</td></tr>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
@@ -1948,7 +1948,7 @@ lang-content-en" style="display:none;">
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>Intermediate</th><th>Finish Rolling</th></tr>
 <tr><td>نوع الـ Roller</td><td>Pneumatic Tyre Roller (PTR)</td><td>Tandem Steel Drum (Static)</td></tr>
-<tr><td>درجة الحرارة</td><td>80-120°C</td><td>≥ 60°C</td></tr>
+<tr><td>Temperature</td><td>80-120°C</td><td>≥ 60°C</td></tr>
 <tr><td>عدد الـ Passes</td><td>4-5 passes (2 PTR)</td><td>1-2 passes</td></tr>
 <tr><td>الهدف</td><td>تحسين Density + إغلاق السطح</td><td>إزالة آثار الـ PTR + تسوية السطح</td></tr>
 <tr><td>سرعة الـ PTR</td><td>4-8 km/h</td><td>3-6 km/h</td></tr>
@@ -2105,7 +2105,7 @@ lang-content-en" style="display:none;">
 1️⃣ Pass Static — 10t DDR (Finishing)</p>
 <h3>3.0 ضبط الجودة الميداني</h3>
 <table class="dm-table"><tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr>
-<tr><td>درجة الحرارة</td><td>كل حمولة</td><td>≥ 135°C (Non-PMB) / ≥ 145°C (PMB)</td></tr>
+<tr><td>Temperature</td><td>كل حمولة</td><td>≥ 135°C (Non-PMB) / ≥ 145°C (PMB)</td></tr>
 <tr><td>Marshall Test</td><td>كل 200 طن</td><td>≥ 8kN (≥9 للطرق الرئيسية)</td></tr>
 <tr><td>Bitumen Extraction</td><td>كل 200 طن</td><td>JMF ± 0.3%</td></tr>
 <tr><td>Core Samples</td><td>كل 1000m²</td><td>≥ 98% TMD</td></tr>
@@ -2423,7 +2423,7 @@ lang-content-en" style="display:none;">
 <button onclick="document.getElementById('vid-handover-new').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
 </div>
 <input type="file" id="vid-handover-new" accept="video/*" style="display:none" data-player="vid-handover-new-p" data-ph="vid-handover-new-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-handover-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 ارفع فيديو MP4/MOV</div>
+<div id="vid-handover-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload video MP4/MOV</div>
 <div id="vid-handover-new-p" class="qs-vid-ph" data-maxh="260px"></div>
 </div>
 
@@ -2461,7 +2461,7 @@ lang-content-en" style="display:none;">
 </table></div>
 
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin:12px 0;font-size:12px;">
-<strong>🔵 ملاحظات جوهرية:</strong><br>
+<strong>🔵 Key Notes:</strong><br>
 • <strong>DLP (Defects Liability Period)</strong> عادة 12 شهر — أي عيوب خلالها على المقاول<br>
 • لا يُصدر Final Completion Certificate إلا بعد إغلاق 100% من الـ Punch List<br>
 • As-Built Drawings لازم تعكس الواقع الفعلي — مش التصميم<br>
@@ -2986,7 +2986,7 @@ c["binder"] = { title: '🟫 Binder Course — طبقة الرابط', content: 
 <h3>🔄 Tack Coat قبل Binder — QCS S6 P5</h3>
 <table class="dm-table">
 <tr><th>البيان</th><th>المتطلب</th></tr>
-<tr><td>نوع المادة</td><td>Bitumen Emulsion (CSS-1 أو K1-60)</td></tr>
+<tr><td>Material Type</td><td>Bitumen Emulsion (CSS-1 أو K1-60)</td></tr>
 <tr><td>معدل التطبيق</td><td>0.3 - 0.5 L/m²</td></tr>
 <tr><td>وقت الجفاف</td><td>≥ 4 ساعات قبل الفرد</td></tr>
 <tr><td>حالة السطح</td><td>جاف + نظيف + بدون غبار</td></tr>
@@ -3354,8 +3354,8 @@ c["concrete_pavement"] = {
 
 <h3>📐 7. Joint Sealant</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
-<tr><td>نوع المادة</td><td>Hot-Applied Rubberized Bitumen أو Polyurethane</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Requirement</th></tr>
+<tr><td>Material Type</td><td>Hot-Applied Rubberized Bitumen أو Polyurethane</td></tr>
 <tr><td>وقت التطبيق</td><td>بعد 24-72hr من القطع + بعد جفاف الجوانت</td></tr>
 <tr><td>عمق Backer Rod</td><td>يُوضع قبل الـ Sealant بعمق = عرض الجوينت</td></tr>
 <tr><td>مستوى الـ Sealant</td><td>5-10mm أقل من سطح اللوح</td></tr>
