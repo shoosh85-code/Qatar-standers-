@@ -239,7 +239,7 @@ td{padding:9px 11px;border-bottom:1px solid var(--bd)}tr:last-child td{border-bo
       </div>
     </div>
     <div class="card">
-      <div class="ch"><div class="ct">📊 سجل الاختبارات</div><button class="bs" onclick="expT()" style="padding:5px 11px;font-size:11px">📥 CSV</button></div>
+      <div class="ch"><div class="ct">📊 سجل الاختبارات</div><button class="bs" onclick="expT()" style="padding:5px 11px;font-size:11px">📥 CSV</button><button class="bs" onclick="clearAllRecs()" style="padding:5px 11px;font-size:11px;color:var(--fail-tx)">🗑 مسح الكل</button></div>
       <div class="tw">
         <table><thead><tr><th>#</th><th>التاريخ</th><th>الاختبار</th><th>الموقع</th><th>النتيجة</th><th>الحد</th><th>الحكم</th></tr></thead>
         <tbody id="tb"><tr><td colspan="7" class="erow">لا توجد نتائج — أضف اختبارك الأول</td></tr></tbody></table>
@@ -335,6 +335,12 @@ function genN(){
 const TC={comp:{l:'تدحيج (%)',min:95,ph:'96.5',mx:false,ht:'Ashghal: ≥95% Base · ≥98% Sub-base'},cube:{l:'Cube Strength (MPa)',min:30,ph:'32.5',mx:false,ht:'C30: ≥30MPa at 28d (QCS Cl.8.7.4)'},slmp:{l:'Slump (mm)',min:75,ph:'120',mx:false,ht:'General: 75-150mm · Pumped: 100-180mm'},tens:{l:'Tensile (MPa)',min:500,ph:'525',mx:false,ht:'Grade 500: ≥500MPa (QCS Cl.10.5.2)'},siev:{l:'Fines (%)',min:5,ph:'3.2',mx:true,ht:'QCS Cl.7.3: ≤5% passing 0.075mm'},cbr:{l:'CBR (%)',min:20,ph:'25',mx:false,ht:'Ashghal RDM 2023: ≥20% Sub-base'}};
 const TN={comp:'تدحيج',cube:'مكعب',slmp:'Slump',tens:'شد حديد',siev:'منخل',cbr:'CBR'};
 let recs=[];
+
+// localStorage persistence — STORAGE v1
+const STORAGE_KEY='qs_field_tests_v1';
+function saveRecs(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(recs));}catch(e){console.warn('Storage unavailable:',e.message);}}
+function loadRecs(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return;const parsed=JSON.parse(raw);if(Array.isArray(parsed)){recs=parsed;renderT();}}catch(e){console.warn('Could not load saved tests:',e.message);}}
+function clearAllRecs(){if(!confirm('هل تريد مسح جميع نتائج الاختبارات؟ لا يمكن التراجع.'))return;recs=[];try{localStorage.removeItem(STORAGE_KEY);}catch(e){}renderT();}
 function updT(){
   const t=gv('tt'),c=TC[t]||TC.comp;
   document.getElementById('tdf').innerHTML=`<div class="g2"><div class="fg"><label class="fl">${c.l}</label><input type="number" step="0.1" placeholder="${c.ph}" id="tr" oninput="chkT()"></div><div class="fg"><label class="fl">${c.mx?'الحد الأقصى':'الحد الأدنى'}</label><input type="number" step="0.1" value="${c.min}" id="tmi"><span class="ht">${c.ht}</span></div></div>`;
@@ -352,6 +358,7 @@ function addT(){
   const m=parseFloat(document.getElementById('tmi')?.value)||0,t=gv('tt'),l=gv('tl')||'—';
   const pass=(TC[t]||TC.comp).mx?(r<=m):(r>=m);
   recs.unshift({date:new Date().toLocaleDateString('ar-QA'),t,l,r,m,pass});
+  saveRecs();
   renderT();
 }
 function renderT(){
@@ -376,10 +383,16 @@ function genD(){
     hi?['sw','⚠ يوجد مشاكل/تأخيرات — أبلغ مدير المشروع']:['so','✅ يوم بدون مشاكل']);
 }
 
+// XSS PROTECTION — esc() على كل قيمة مستخدم
+function esc(str){
+  if(typeof str!=='string')return String(str??'');
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
 // SHARED BOX BUILDER
 function box(title,badge,rows,status){
   const[sc,sm]=Array.isArray(status)?status:['so',status];
-  return`<div class="rb"><div class="rh"><span>${title}</span>${badge}</div>${rows.map(([k,v])=>`<div class="rr"><span class="rk">${k}</span><span class="rv">${v}</span></div>`).join('')}<div class="sb ${sc}">${sm}</div></div>`;
+  return`<div class="rb"><div class="rh"><span>${esc(title)}</span>${badge}</div>${rows.map(([k,v])=>`<div class="rr"><span class="rk">${esc(k)}</span><span class="rv">${esc(String(v))}</span></div>`).join('')}<div class="sb ${sc}">${esc(sm)}</div></div>`;
 }
 
 // PRINT
@@ -439,32 +452,32 @@ function prt(id){
 
 <script>
 // AI ASSISTANT — يتكامل مع التبويبات
-var aiOpen = false;
-var currentModule = 'general';
-var moduleNames = {pour:'بطاقة الصب',mar:'موافقة مادة',ncr:'مخالفة NCR',tst:'الاختبارات',dwr:'السجل اليومي'};
+let aiOpen = false;
+let currentModule = 'general';
+const moduleNames = {pour:'بطاقة الصب',mar:'موافقة مادة',ncr:'مخالفة NCR',tst:'الاختبارات',dwr:'السجل اليومي'};
 
 // تحديث الـ module عند تغيير التبويب
-var _origSw = sw;
+const _origSw = sw;
 window.sw = function(id, btn) {
   _origSw(id, btn);
   currentModule = id === 'tst' ? 'tests' : id;
-  var lbl = document.getElementById('ai-mod-label');
+  const lbl = document.getElementById('ai-mod-label');
   if (lbl) lbl.textContent = moduleNames[id] || 'عام';
   updateAIContext(id);
 };
 
 function updateAIContext(tab) {
-  var ctx = document.getElementById('ai-ctx-display');
+  const ctx = document.getElementById('ai-ctx-display');
   if (!ctx) return;
-  var info = '';
+  let info = '';
   if (tab === 'pour') {
-    var g = document.getElementById('pg')?.value, sl = document.getElementById('psl')?.value, tp = document.getElementById('ptp')?.value;
+    const g = document.getElementById('pg')?.value, sl = document.getElementById('psl')?.value, tp = document.getElementById('ptp')?.value;
     if (g || sl || tp) { info = 'السياق: Grade=' + (g||'—') + ' · Slump=' + (sl||'—') + 'mm · Temp=' + (tp||'—') + '°C'; }
   } else if (tab === 'ncr') {
-    var nt = document.getElementById('nt')?.value;
+    const nt = document.getElementById('nt')?.value;
     if (nt) info = 'نوع المخالفة: ' + nt;
   } else if (tab === 'tst') {
-    var tt = document.getElementById('tt')?.value, tr = document.getElementById('tr')?.value;
+    const tt = document.getElementById('tt')?.value, tr = document.getElementById('tr')?.value;
     if (tt) info = 'الاختبار: ' + (TN[tt]||tt) + (tr ? ' · النتيجة: ' + tr : '');
   }
   if (info) { ctx.textContent = info; ctx.classList.add('show'); }
@@ -473,9 +486,9 @@ function updateAIContext(tab) {
 
 function toggleAI() {
   aiOpen = !aiOpen;
-  var box = document.getElementById('ai-box');
-  var icon = document.getElementById('ai-toggle-icon');
-  var txt = document.getElementById('ai-toggle-txt');
+  const box = document.getElementById('ai-box');
+  const icon = document.getElementById('ai-toggle-icon');
+  const txt = document.getElementById('ai-toggle-txt');
   if (aiOpen) {
     box.classList.add('open');
     icon.textContent = '✕';
@@ -488,32 +501,47 @@ function toggleAI() {
 }
 
 async function askAI() {
-  var q = document.getElementById('ai-q').value.trim();
+  const q = document.getElementById('ai-q').value.trim();
   if (!q) { alert('اكتب سؤالك أولاً'); return; }
 
-  var btn = document.getElementById('ai-send-btn');
-  var resp = document.getElementById('ai-resp');
+  const btn = document.getElementById('ai-send-btn');
+  const resp = document.getElementById('ai-resp');
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 20000);
+
   btn.disabled = true;
   btn.innerHTML = '<span class="ai-spin"></span> جاري السؤال...';
   resp.classList.remove('show');
 
-  // جمع السياق من الوحدة الحالية
-  var context = document.getElementById('ai-ctx-display')?.textContent || '';
+  const context = document.getElementById('ai-ctx-display')?.textContent || '';
 
   try {
-    var res = await fetch('/api/execution-ai', {
+    const res = await fetch('/api/execution-ai', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question: q, module: currentModule, context: context })
+      body: JSON.stringify({ question: q, module: currentModule, context: context }),
+      signal: controller.signal
     });
-    var data = await res.json();
+    clearTimeout(timeoutId);
+    const data = await res.json();
+
+    if (res.status === 429) {
+      resp.textContent = '⏳ ' + (data.error || 'تجاوزت الحد المسموح — حاول بعد دقيقة');
+      resp.classList.add('show');
+      return;
+    }
     if (!res.ok) throw new Error(data.message || 'خطأ في الخادم');
 
     resp.textContent = data.answer;
     resp.classList.add('show');
     document.getElementById('ai-q').value = '';
   } catch (err) {
-    resp.textContent = '❌ ' + (err.message || 'خطأ — حاول مرة أخرى');
+    clearTimeout(timeoutId);
+    if (err.name === 'AbortError') {
+      resp.textContent = '⏱ انتهت المهلة — الخادم بطيء. حاول مرة أخرى.';
+    } else {
+      resp.textContent = '❌ ' + (err.message || 'خطأ — حاول مرة أخرى');
+    }
     resp.classList.add('show');
   } finally {
     btn.disabled = false;
@@ -525,4 +553,7 @@ async function askAI() {
 document.getElementById('ai-q').addEventListener('keydown', function(e) {
   if (e.ctrlKey && e.key === 'Enter') askAI();
 });
+
+// تحميل البيانات المحفوظة عند بدء التطبيق
+loadRecs();
 </script>
