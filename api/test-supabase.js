@@ -1,4 +1,4 @@
-// api/test-supabase.js — اكتشاف الـ Parts المتاحة في qcs_chunks
+// api/test-supabase.js — v2: single keyword search
 export const config = { runtime: 'edge' };
 import { getSupabaseUrl, getSupabaseServiceKey } from '../lib/supabase.js';
 
@@ -10,54 +10,40 @@ export default async function handler(req) {
 
   const headers = { 'apikey': key, 'Authorization': `Bearer ${key}` };
 
-  // 1. قائمة كل source_file مع عدد الـ chunks
-  const r1 = await fetch(
-    `${url}/rest/v1/qcs_chunks?select=source_file&order=source_file.asc`,
-    { headers: { ...headers, 'Range': '0-0', 'Prefer': 'count=exact' } }
-  );
-
-  const r2 = await fetch(
-    `${url}/rest/v1/rpc/get_source_files`,
-    { method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' }, body: '{}' }
-  );
-
-  // fallback: ILIKE per part
-  const parts = ['Part1','Part2','Part3','Part4','Part5','Part6','Part7','Part8',
-                  'Part9','Part10','Part11','Part12','Part13','Part14','Part15',
-                  'Part16','Part17','Part18','Part19','Part20'];
-  const found = {};
-  for (const p of parts) {
-    const r = await fetch(
-      `${url}/rest/v1/qcs_chunks?source_file=ilike.*${p}*&select=id&limit=1`,
-      { headers }
-    );
-    if (r.ok) {
-      const d = await r.json();
-      if (Array.isArray(d) && d.length > 0) found[p] = true;
-    }
-  }
-
-  // 2. بحث عن كلمات مفتاحية لكل module
+  // بحث بكلمة واحدة فقط لكل module
   const searches = {
-    ncr_crack:    'crack repair defect',
-    mar_cement:   'cement approval submittal',
-    tests_cube:   'compressive strength cube',
-    pour_temp:    'temperature placing fresh',
-    dwr_report:   'daily work report',
-    road_asphalt: 'asphalt bitumen pavement',
-    steel_rebar:  'reinforcement steel bar',
+    ncr_crack:    'crack',
+    ncr_defect:   'defect',
+    mar_cement:   'cement',
+    mar_approval: 'approval',
+    tests_cube:   'cube',
+    tests_compressive: 'compressive',
+    pour_temperature: 'temperature',
+    pour_placing: 'placing',
+    dwr_daily:    'daily',
+    road_asphalt: 'asphalt',
+    road_pavement:'pavement',
+    steel_rebar:  'rebar',
+    steel_reinforcement: 'reinforcement',
+    water_supply: 'pipeline',
+    drainage:     'drainage',
   };
+
   const moduleHits = {};
   for (const [label, term] of Object.entries(searches)) {
     const r = await fetch(
-      `${url}/rest/v1/qcs_chunks?content=ilike.*${encodeURIComponent(term)}*&select=source_file,page_num&limit=3&order=page_num.asc`,
+      `${url}/rest/v1/qcs_chunks?content=ilike.*${term}*&select=source_file,page_num&limit=3&order=page_num.asc`,
       { headers }
     );
     if (r.ok) {
       const d = await r.json();
-      moduleHits[label] = (Array.isArray(d) ? d : []).map(c => `${c.source_file} p.${c.page_num}`);
+      // اعرض فقط اسم الـ Part (بدون "Copy of QCS 2024 Full _")
+      moduleHits[label] = (Array.isArray(d) ? d : []).map(c => {
+        const part = (c.source_file || '').match(/Part\d+/)?.[0] || c.source_file;
+        return `${part} p.${c.page_num}`;
+      });
     }
   }
 
-  return Response.json({ partsFound: Object.keys(found), moduleHits }, { headers: CORS });
+  return Response.json({ moduleHits }, { headers: CORS });
 }
