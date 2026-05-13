@@ -1931,28 +1931,42 @@ lang-content-en" style="display:none;">
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>Superpave Mix Design — Definition</h3>
-<p>American performance-based asphalt design system (SHRP/AASHTO). Uses SGC (Gyratory Compactor) instead of Marshall hammer. Classifies bitumen by PG Grade based on climate performance.</p>
-<h3>Marshall vs Superpave Comparison</h3>
+<h3>📐 Superpave Mix Design — Definition</h3>
+<p>An American asphalt design system (SHRP/AASHTO) based on actual asphalt performance under weather and traffic conditions. Uses <strong>SGC (Superpave Gyratory Compactor)</strong> instead of hammer and classifies bitumen using the <strong>PG Grade</strong> system.</p>
+
+<h3>📐 Difference between Marshall and Superpave</h3>
 <table class="dm-table">
-<tr><th>Item</th><th>Marshall</th><th>Superpave</th></tr>
-<tr><td>Compaction Device</td><td>Marshall Hammer</td><td>SGC Gyratory Compactor</td></tr>
-<tr><td>Compaction Level</td><td>50 or 75 blows</td><td>Nini + Ndesign + Nmax</td></tr>
-<tr><td>Binder Classification</td><td>Penetration Grade 60/70</td><td>Performance Grade PG</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Marshall</th><th>Superpave</th></tr>
+<tr><td>Compaction Device</td><td>Marshall Hammer (blows)</td><td>SGC Gyratory Compactor (gyrations)</td></tr>
+<tr><td>Number of Compactions</td><td>50 or 75 blows</td><td>Nini + Ndesign + Nmax per ESAL</td></tr>
+<tr><td>Bitumen Classification</td><td>Penetration Grade (60/70)</td><td>Performance Grade (PG64-xx to PG82-xx)</td></tr>
+<tr><td>Bitumen Tests</td><td>Penetration + Softening</td><td>DSR + BBR + RTFOT + PAV</td></tr>
 <tr><td>Fine Aggregate Definition</td><td>Passing 2.36mm</td><td>Passing 4.75mm</td></tr>
-<tr><td>Design Air Voids</td><td>3-5% @ 75 blows</td><td>4.0% @ Ndesign</td></tr>
-<tr><td>Use in Qatar</td><td>All roads</td><td>PMB Wearing + Major roads ESAL &gt;3M</td></tr>
+<tr><td>Air Voids Design</td><td>3-5% @ 75 blows</td><td>4.0% @ Ndesign</td></tr>
+<tr><td>Use in Qatar</td><td>All roads</td><td>PMB Wearing + major roads ESAL &gt; 3×10⁶</td></tr>
 </table>
-<h3>Table 5:17 — Superpave Sampling Frequency — Page 23</h3>
+
+<h3>📐 Superpave Gyratory Compaction — Number of Gyrations</h3>
 <table class="dm-table">
-<tr><th>Test</th><th>Stage</th><th>Frequency</th><th>Method</th></tr>
-<tr><td>Bitumen PG (DSR, BBR)</td><td>Approval</td><td>Each delivery</td><td>AASHTO T315/T313</td></tr>
-<tr><td>Gradation + Extraction</td><td>Production</td><td>Per 400t or daily</td><td>ASTM D2172</td></tr>
-<tr><td>SGC + Air Voids</td><td>Production</td><td>Per 400t</td><td>AASHTO T312</td></tr>
-<tr><td>Hamburg Wheel Track</td><td>JMF Approval</td><td>Once at design</td><td>AASHTO T324</td></tr>
-<tr><td>TSR Moisture Sensitivity</td><td>JMF Approval</td><td>Once at design</td><td>AASHTO T283</td></tr>
-<tr><td>Core Density</td><td>Post-paving</td><td>Per 1000m²</td><td>ASTM D6927</td></tr>
-<tr><td>IRI</td><td>Post-paving</td><td>Per 400m section</td><td>PWA IAN 013</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Traffic Level (ESAL × 10⁶)</th><th>Nini</th><th>Ndesign</th><th>Nmax</th><th>PG Grade</th></tr>
+<tr><td>&lt; 0.3</td><td>6</td><td>50</td><td>75</td><td>PG64-10</td></tr>
+<tr><td>0.3 - &lt; 3</td><td>7</td><td>75</td><td>115</td><td>PG70-10</td></tr>
+<tr><td>3 - &lt; 10</td><td>8</td><td>100</td><td>160</td><td>PG76-10</td></tr>
+<tr><td>10 - &lt; 30</td><td>9</td><td>125</td><td>205</td><td>PG76-10 or PG76E-10</td></tr>
+<tr><td>≥ 30 (Major expressways)</td><td>9</td><td>125</td><td>205</td><td>PG82-10</td></tr>
+</table>
+
+<h3>📐 Table 5:17 — Sampling Frequency for Superpave — QCS S6 P5 Page 23</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Stage</th><th>Frequency</th><th>Reference Test</th></tr>
+<tr><td>Bitumen PG Testing (DSR, BBR, RTFOT)</td><td>Material Approval</td><td>Each shipment</td><td>AASHTO T315, T313</td></tr>
+<tr><td>Gradation + Bitumen Extraction</td><td>During production</td><td>Every 400t or daily</td><td>ASTM D2172</td></tr>
+<tr><td>SGC Compaction + Va</td><td>During production</td><td>Every 400t</td><td>AASHTO T312</td></tr>
+<tr><td>Hamburg Wheel Track (Rutting)</td><td>JMF Approval</td><td>Once at design</td><td>AASHTO T324</td></tr>
+<tr><td>Cantabro (Raveling — SMA)</td><td>JMF Approval</td><td>Once at design</td><td>ASTM D7064</td></tr>
+<tr><td>TSR (Moisture Sensitivity)</td><td>JMF Approval</td><td>Once at design</td><td>AASHTO T283</td></tr>
+<tr><td>Core Density TMD%</td><td>After laying</td><td>Every 1000m²</td><td>ASTM D6927</td></tr>
+<tr><td>IRI (Roughness)</td><td>After laying</td><td>Every 400m Section</td><td>PWA IAN 013</td></tr>
 </table>
 </div>
 ` };
