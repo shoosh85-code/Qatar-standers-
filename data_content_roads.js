@@ -1170,32 +1170,78 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
 <span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Road Base Course — Execution & Testing</span>
-<button onclick="document.getElementById('vid-base-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+<button onclick="document.getElementById('vid-base').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
 </div>
-<input type="file" id="vid-base-en" accept="video/*" style="display:none" data-player="vid-player-base-en" data-ph="vid-ph-base-en" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-ph-base-en" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload MP4/MOV — Video saved for entire session</div>
-<div id="vid-player-base-en" class="qs-vid-ph" data-maxh="260px"></div>
+<input type="file" id="vid-base" accept="video/*" style="display:none" data-player="vid-player-base" data-ph="vid-ph-base" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
+<div id="vid-ph-base" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload video MP4/MOV — saved for the session</div>
+<div id="vid-player-base" class="qs-vid-ph" data-maxh="260px"></div>
 </div>
-<h3>Table 4:2 — Coarse Aggregate — Road Base — QCS S6 P4 Page 6</h3>
+
+<h3>📐 Base Course Definition — QCS S6 P4</h3>
+<p><strong>Base Course</strong> is the main structural layer in flexible pavement construction, located directly above the Subbase and below Binder/Wearing Courses. It consists of graded crushed aggregate with high CBR and LAA values, bearing the largest portion of dynamic loads before distributing them to the Subbase and Subgrade.</p>
+<table class="dm-table">
+<tr><th>Property</th><th>Requirement</th><th>QCS</th></tr>
+<tr><td>Function</td><td>Load distribution + transfer to Subbase</td><td>S6 P4</td></tr>
+<tr><td>Material</td><td>Crushed Gabbro or approved crushed aggregate</td><td>S6 P4</td></tr>
+<tr><td>CBR min</td><td>≥ 80%</td><td>S6 P4</td></tr>
+<tr><td>PI max</td><td>≤ 6</td><td>S6 P4</td></tr>
+<tr><td>LAA max</td><td>≤ 30%</td><td>S6 P4</td></tr>
+<tr><td>Compaction Degree</td><td>≥ 100% MDD (Modified Proctor)</td><td>S6 P5</td></tr>
+<tr><td>Minimum Thickness</td><td>100mm after compaction (per layer)</td><td>S6 P4</td></tr>
+</table>
+
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">
+📌 QCS 2024 — Section 6 Part 4 — Tables 4:2, 4:3 (Road Base values only)
+</div>
+
+<h3>📐 Table 4:2 — Coarse Aggregate — Road Base only — QCS S6 P4 Page 6</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Property</th><th>Road Base Limit</th><th>Test</th><th>Frequency</th></tr>
-<tr><td>LA Abrasion</td><td>≤ 30%</td><td>ASTM C131</td><td>1/1000m³</td></tr>
-<tr><td>Flakiness Index</td><td>≤ 30%</td><td>BS 812 P105</td><td>1/500m³</td></tr>
-<tr><td>Fractured Faces (1+)</td><td>≥ 75%</td><td>ASTM D5821</td><td>1/500m³</td></tr>
-<tr><td>Fractured Faces (2+)</td><td>≥ 50%</td><td>ASTM D5821</td><td>1/500m³</td></tr>
-<tr><td>Water Absorption</td><td>≤ 2%</td><td>ASTM C127</td><td>1/500m³</td></tr>
-<tr><td>Soundness MgSO₄</td><td>≤ 12%</td><td>ASTM C88</td><td>1/1000m³</td></tr>
-<tr><td>Specific Gravity SSD</td><td>≥ 2.5</td><td>ASTM C127</td><td>per source</td></tr>
-<tr><td>SO₃</td><td>≤ 0.5%</td><td>BS 1377-3</td><td>1/1000m³</td></tr>
-<tr><td>Chloride</td><td>≤ 0.6%</td><td>BS 1377-3</td><td>1/1000m³</td></tr>
-</table></div><h3>Table 4:3 — Combined Road Base — QCS S6 P4 Page 7</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>Property</th><th>Road Base Limit</th><th>Test</th><th>Frequency</th></tr>
-<tr><td>CBR (Soaked 4d)</td><td>≥ <strong>80%</strong></td><td>ASTM D1883</td><td>1/2000m²</td></tr>
-<tr><td>Plasticity Index</td><td>≤ 4%</td><td>ASTM D4318</td><td>1/500m³</td></tr>
-<tr><td>Sand Equivalent</td><td>≥ 35%</td><td>ASTM D2419</td><td>1/500m³</td></tr>
-<tr><td>Compaction MDD</td><td>≥ 98%</td><td>ASTM D1556</td><td>1/500m²</td></tr>
-<tr><td>Layer Thickness</td><td>150–250mm</td><td>Physical</td><td>100%</td></tr>
-<tr><td>Level Tolerance</td><td>± 8mm</td><td>Total Station</td><td>Every 25m</td></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>Property</th><th>Road Base Spec Limit</th><th>Test Method</th><th>Min Frequency</th></tr>
+<tr><td>LA Abrasion Loss</td><td>≤ <strong>30%</strong></td><td>ASTM C131</td><td>1 per 1,000 m³</td></tr>
+<tr><td>Flakiness Index</td><td>≤ <strong>30%</strong></td><td>BS 812 P105</td><td>1 per 500 m³</td></tr>
+<tr><td>Elongation Index</td><td>≤ <strong>30%</strong></td><td>BS 812 P105</td><td>1 per 500 m³</td></tr>
+<tr><td>Fractured Faces (1 face+)</td><td>≥ <strong>75%</strong></td><td>ASTM D5821</td><td>1 per 500 m³</td></tr>
+<tr><td>Fractured Faces (2 faces+)</td><td>≥ <strong>50%</strong></td><td>ASTM D5821</td><td>1 per 500 m³</td></tr>
+<tr><td>Water Absorption</td><td>≤ <strong>2%</strong></td><td>ASTM C127</td><td>1 per 500 m³</td></tr>
+<tr><td>Soundness (MgSO₄)</td><td>≤ <strong>12%</strong></td><td>ASTM C88</td><td>1 per 1,000 m³</td></tr>
+<tr><td>Specific Gravity (SSD)</td><td>≥ <strong>2.5</strong></td><td>ASTM C127</td><td>1 per source change</td></tr>
+<tr><td>Water-Soluble Sulphate SO₃</td><td>≤ <strong>0.5%</strong></td><td>BS 1377-3</td><td>1 per 1,000 m³</td></tr>
+<tr><td>Total Chloride</td><td>≤ <strong>0.6%</strong></td><td>BS 1377-3</td><td>1 per 1,000 m³</td></tr>
+</table></div>
+
+<h3>📐 Table 4:3 — Combined Aggregate — Road Base — QCS S6 P4 Page 7</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Property</th><th>Road Base Spec Limit</th><th>Test Method</th><th>Min Frequency</th></tr>
+<tr><td>CBR (Soaked 4 days @ 98% MDD)</td><td>≥ <strong style="color:#2ecc71;">80%</strong></td><td>ASTM D1883</td><td>1 per 2,000 m²</td></tr>
+<tr><td>Plasticity Index (PI)</td><td>≤ <strong>4%</strong></td><td>ASTM D4318</td><td>1 per 500 m³</td></tr>
+<tr><td>Liquid Limit (LL)</td><td>≤ <strong>25%</strong></td><td>ASTM D4318</td><td>1 per 500 m³</td></tr>
+<tr><td>Sand Equivalent (SE)</td><td>≥ <strong>35%</strong></td><td>ASTM D2419</td><td>1 per 500 m³</td></tr>
+<tr><td>Organic Content</td><td>≤ <strong>1%</strong></td><td>ASTM D2974</td><td>per source change</td></tr>
+<tr><td>Max Particle Size</td><td>50 mm (≤ ½ layer thickness)</td><td>Sieve</td><td>per source change</td></tr>
+<tr><td>Compaction (Field Density)</td><td>≥ <strong>98% MDD</strong> (Std Proctor)</td><td>ASTM D1556 (Sand Cone)</td><td>1 per 500 m²</td></tr>
+<tr><td>Layer Thickness (compacted)</td><td>150 – 250 mm</td><td>Physical Measurement</td><td>100% each layer</td></tr>
+<tr><td>Level Tolerance</td><td>± <strong>8 mm</strong> from design</td><td>Total Station / Level</td><td>Every 25 m chainage</td></tr>
+</table></div>
+
+<h3>📐 Grading Envelope — Road Base (Table 4:1) — QCS S6 P4 Page 5</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>Sieve Size</th><th>% Passing — Road Base</th></tr>
+<tr><td>75.0 mm</td><td>100</td></tr>
+<tr><td>37.5 mm</td><td>95 – 100</td></tr>
+<tr><td>9.5 mm</td><td>50 – 75</td></tr>
+<tr><td>4.75 mm</td><td>30 – 60</td></tr>
+<tr><td>2.36 mm</td><td>20 – 45</td></tr>
+<tr><td>0.425 mm</td><td>10 – 25</td></tr>
+<tr><td>0.075 mm</td><td><strong>5 – 12</strong></td></tr>
+</table></div>
+
+<h3>🔴 Hold Points</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Documentation</th></tr>
+<tr><td>HP-01</td><td>Material Approval (MAR): Table 4:2 + 4:3 fully approved</td><td>Lab Reports + MAR Form</td></tr>
+<tr><td>HP-02</td><td>Subbase HP-04 approved</td><td>Subbase Completion Certificate</td></tr>
+<tr><td>HP-03</td><td>Compaction ≥ 98% MDD + CBR ≥ 80% approved</td><td>Sand Cone + CBR Lab Reports</td></tr>
+<tr><td>HP-04</td><td>Level Survey ± 8mm approved before Prime Coat</td><td>As-Built Survey Report</td></tr>
 </table></div>
 </div>
 ` };
