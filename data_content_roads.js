@@ -2867,21 +2867,21 @@ lang-content-en" style="display:none;">
 <div class="lang-content-en" style="display:none;">
 <div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Handover — Final Handover</span>
-<button onclick="document.getElementById('vid-handover-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Final Handover</span>
+<button onclick="document.getElementById('vid-handover-new').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
 </div>
-<input type="file" id="vid-handover-en" accept="video/*" style="display:none" data-player="vid-handover-en-p" data-ph="vid-handover-en-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-handover-en-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload video MP4/MOV</div>
-<div id="vid-handover-en-p" class="qs-vid-ph" data-maxh="260px"></div>
+<input type="file" id="vid-handover-new" accept="video/*" style="display:none" data-player="vid-handover-new-p" data-ph="vid-handover-new-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
+<div id="vid-handover-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload video MP4/MOV</div>
+<div id="vid-handover-new-p" class="qs-vid-ph" data-maxh="260px"></div>
 </div>
 
 <h3>📐 Handover Phase Definition — Ashghal Requirements</h3>
-<p>Final handover is the last phase in a road project — all documents are compiled, final inspections conducted, and the road is officially handed over to Ashghal. Includes: Final IRI Survey, As-Built Drawings, O&M Manuals, Defects Liability Period (DLP), and Punch List Resolution. DLP is typically 12 months.</p>
+<p>The final handover phase is the last stage in a road project — it involves compiling all documents, conducting final inspections, and formally handing the road over to Ashghal. It includes: Final IRI Survey, As-Built Drawings, O&M Manuals, Defects Liability Period (DLP), and Punch List Resolution. The defects liability period is typically 12 months.</p>
 
 <h3>📐 Handover Requirements — Checklist</h3>
 <div style="overflow-x:auto;">
 <table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.9);"><th style="min-width:50px;">SN</th><th>Requirement</th><th>Details</th><th>Status</th></tr>
+<tr style="background:rgba(122,21,21,0.9);"><th style="min-width:50px;">SN</th><th>Requirement</th><th>Detail</th><th>Status</th></tr>
 <tr><td>1</td><td><strong>Final IRI Survey</strong></td><td>IRI ≤ 2.0 m/km (new roads) — full road length</td><td>Mandatory</td></tr>
 <tr><td>2</td><td><strong>As-Built Drawings</strong></td><td>AutoCAD + PDF — all layers, manholes, utilities</td><td>Mandatory</td></tr>
 <tr><td>3</td><td><strong>Material Test Records</strong></td><td>All lab reports: Subgrade → WC — organised by chainage</td><td>Mandatory</td></tr>
@@ -2910,10 +2910,10 @@ lang-content-en" style="display:none;">
 
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin:12px 0;font-size:12px;">
 <strong>🔵 Key Notes:</strong><br>
-• <strong>DLP (Defects Liability Period)</strong> typically 12 months — any defects during this period are the contractor's responsibility<br>
-• Final Completion Certificate is not issued until 100% of the Punch List is closed<br>
-• As-Built Drawings must reflect actual conditions — not the design<br>
-• Ashghal requires a digital copy + hard copy of all documents
+• <strong>DLP (Defects Liability Period)</strong> is typically 12 months — any defects during this period are the contractor's responsibility<br>
+• Final Completion Certificate is only issued after 100% of the Punch List is closed<br>
+• As-Built Drawings must reflect actual site conditions — not the design<br>
+• Ashghal requires both a digital copy and a hard copy of all documents
 </div>
 
 <h3>🔴 Hold Points</h3>
