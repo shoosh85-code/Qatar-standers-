@@ -11,15 +11,16 @@ export default async function handler(req) {
   const results = {};
 
   const models = [
-    'gemini-2.5-flash',
-    'gemini-2.0-flash',
-    'gemini-1.5-flash',
+    { name: 'gemini-2.5-flash',         api: 'v1beta' },
+    { name: 'gemini-2.0-flash',         api: 'v1beta' },
+    { name: 'gemini-1.5-flash-latest',  api: 'v1'     },
+    { name: 'gemini-1.5-flash',         api: 'v1'     },
   ];
 
-  for (const model of models) {
+  for (const { name: model, api: apiVer } of models) {
     try {
       const r = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
+        `https://generativelanguage.googleapis.com/${apiVer}/models/${model}:generateContent?key=${key}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

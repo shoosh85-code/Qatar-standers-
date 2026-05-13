@@ -277,14 +277,14 @@ export default async function handler(req) {
     : question;
 
   // SYNC-WITH: api/vision-proxy.js model chain — نفس النماذج المؤكدة
-  // Gemini models — ordered by preference, fallback on failure
-  // ملاحظة: gemini-2.5-* يُعيد thinking parts — نستخرج النص الحقيقي فقط
+  // كل نموذج له API version خاص — v1beta للجديد، v1 للقديم
   const MODELS = [
-    'gemini-2.5-flash',
-    'gemini-2.5-flash-preview-05-20',
-    'gemini-2.0-flash',
-    'gemini-1.5-flash',
-    'gemini-1.5-pro',
+    { name: 'gemini-2.5-flash',               api: 'v1beta' },
+    { name: 'gemini-2.5-flash-preview-05-20',  api: 'v1beta' },
+    { name: 'gemini-2.0-flash',               api: 'v1beta' },
+    { name: 'gemini-1.5-flash-latest',        api: 'v1'     },
+    { name: 'gemini-1.5-flash',               api: 'v1'     },
+    { name: 'gemini-1.5-pro-latest',          api: 'v1'     },
   ];
   // Method Statements تحتاج توكنز أكثر من الأسئلة القصيرة
   const maxTokens = (module === 'mos') ? 4096 : 1500;
@@ -293,10 +293,10 @@ export default async function handler(req) {
     let lastErr = '';
     let text = '';
 
-    for (const model of MODELS) {
+    for (const { name: model, api: apiVer } of MODELS) {
       try {
         const geminiRes = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+          `https://generativelanguage.googleapis.com/${apiVer}/models/${model}:generateContent?key=${apiKey}`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
