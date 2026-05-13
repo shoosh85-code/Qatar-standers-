@@ -11,7 +11,8 @@ import { getSupabaseUrl, getSupabaseServiceKey } from '../lib/supabase.js';
 // ── جلب نصوص QCS حقيقية من Supabase ────────────────────────────────────
 // خريطة مصطلحات عربي → إنجليزي
 const AR_TO_EN = {
-  'درجة حرارة': 'temperature', 'الخرسانة': 'concrete', 'صب': 'placing',
+  'درجة حرارة': 'maximum temperature fresh', 'الخرسانة': 'concrete placing',
+  'الحد الأقصى': 'maximum', 'عند الصب': 'fresh placing',
   'slump': 'slump', 'هبوط': 'slump', 'إسمنت': 'cement', 'سمنت': 'cement',
   'تسليح': 'reinforcement', 'حديد': 'reinforcement', 'تغطية': 'cover',
   'ضغط': 'compressive', 'ماء': 'water', 'رمل': 'sand', 'حصى': 'aggregate',
@@ -184,7 +185,7 @@ export default async function handler(req) {
 
   // ── RAG: جلب نصوص QCS حقيقية قبل إرسال لـ Gemini ──────────────────────
   const moduleKeywords = {
-    pour: 'concrete temperature placing curing compaction',
+    pour: 'maximum temperature fresh concrete placing 35',
     mar:  'material approval testing submittal',
     ncr:  'non conformance defect quality reject',
     tests:'testing laboratory results frequency',
