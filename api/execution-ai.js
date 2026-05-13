@@ -27,7 +27,7 @@ const AR_TO_EN = {
 // ملفات QCS حسب الوحدة
 const MODULE_FILES = {
   pour:    'Part15',
-  mar:     'Part3',
+  mar:     'Part15',
   ncr:     'Part15',
   tests:   'Part15',
   dwr:     'Part1',
@@ -254,10 +254,13 @@ export default async function handler(req) {
     general: question.slice(0, 60)
   };
   // استخرج كلمات إنجليزية من سؤال المستخدم العربي
-  const questionKeywords = Object.entries(AR_TO_EN)
+  // استخرج كلمات إنجليزية — فلتر substring overlap + deduplicate
+  const _arMatches = Object.entries(AR_TO_EN)
     .filter(([ar]) => question.includes(ar))
-    .map(([, en]) => en)
-    .join(' ');
+    // احذف المصطلح إذا كان مصطلح أطول يغطيه (مثال: سمنت داخل إسمنت)
+    .filter(([ar], _, arr) => !arr.some(([b]) => b !== ar && b.includes(ar) && question.includes(b)))
+    .map(([, en]) => en);
+  const questionKeywords = [...new Set(_arMatches)].join(' ');
 
   // ادمج كلمات السؤال + كلمات الـ module للحصول على أدق نتيجة
   const baseKeywords = moduleKeywords[module] || '';
