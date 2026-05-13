@@ -44,11 +44,12 @@ export default async function handler(req, res) {
      ON qcs_chunks USING hnsw (embedding vector_cosine_ops)
      WITH (m = 16, ef_construction = 64);`,
     
-    // 4. Create search function
-    `CREATE OR REPLACE FUNCTION search_qcs(
+    // 4. Create search function — الاسم يجب أن يطابق execution-ai.js: match_qcs_chunks
+    `CREATE OR REPLACE FUNCTION match_qcs_chunks(
        query_embedding vector(768),
+       match_threshold float DEFAULT 0.45,
        match_count int DEFAULT 5,
-       similarity_threshold float DEFAULT 0.5
+       filter_file text DEFAULT NULL
      )
      RETURNS TABLE (
        id bigint,
@@ -64,7 +65,8 @@ export default async function handler(req, res) {
               1 - (embedding <=> query_embedding) AS similarity
        FROM qcs_chunks
        WHERE embedding IS NOT NULL
-         AND 1 - (embedding <=> query_embedding) > similarity_threshold
+         AND 1 - (embedding <=> query_embedding) > match_threshold
+         AND (filter_file IS NULL OR source_file ILIKE '%' || filter_file || '%')
        ORDER BY embedding <=> query_embedding
        LIMIT match_count;
      $$;`,
