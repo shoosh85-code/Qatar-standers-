@@ -278,13 +278,13 @@ export default async function handler(req) {
 
   // SYNC-WITH: api/vision-proxy.js model chain — نفس النماذج المؤكدة
   // Gemini models — ordered by preference, fallback on failure
+  // ملاحظة: gemini-2.5-* يُعيد thinking parts — نستخرج النص الحقيقي فقط
   const MODELS = [
     'gemini-2.5-flash',
     'gemini-2.5-flash-preview-05-20',
-    'gemini-2.0-flash-001',
     'gemini-2.0-flash',
+    'gemini-1.5-flash',
     'gemini-1.5-pro',
-    'gemini-1.5-flash-002',
   ];
   // Method Statements تحتاج توكنز أكثر من الأسئلة القصيرة
   const maxTokens = (module === 'mos') ? 4096 : 1500;
@@ -315,12 +315,17 @@ export default async function handler(req) {
         }
 
         const data = await geminiRes.json();
-        text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        // gemini-2.5-flash يُعيد thinking parts أولاً ثم الجواب الحقيقي
+        // نفلتر: أي part حيث thought=true هو تفكير داخلي، ليس الجواب
+        const allParts = data?.candidates?.[0]?.content?.parts || [];
+        const answerParts = allParts.filter(p => !p.thought);
+        text = answerParts.map(p => p.text || '').join('').trim()
+             || allParts.map(p => p.text || '').join('').trim();
         if (text) break; // نجح — لا تحاول نموذج آخر
         // لم يرجع نص — سجّل السبب
         const finishReason = data?.candidates?.[0]?.finishReason || 'unknown';
         const promptFeedback = data?.promptFeedback?.blockReason || '';
-        console.error(`[execution-ai] ${model} empty text — finishReason=${finishReason} block=${promptFeedback}`);
+        console.error(`[execution-ai] ${model} empty text — finishReason=${finishReason} block=${promptFeedback} parts=${allParts.length}`);
       } catch (modelErr) {
         lastErr = modelErr.message;
         console.error(`[execution-ai] ${model} exception:`, modelErr.message);
