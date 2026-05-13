@@ -277,14 +277,15 @@ export default async function handler(req) {
     : question;
 
   // SYNC-WITH: api/vision-proxy.js model chain — نفس النماذج المؤكدة
-  // كل نموذج له API version خاص — v1beta للجديد، v1 للقديم
+  // ترتيب النماذج: lite أولاً (quota أعلى) ثم full models
+  // المصدر: ListModels API — نماذج مؤكدة لهذا الـ key
   const MODELS = [
+    { name: 'gemini-2.0-flash-lite',          api: 'v1beta' },
+    { name: 'gemini-2.5-flash-lite',          api: 'v1beta' },
+    { name: 'gemini-flash-lite-latest',       api: 'v1beta' },
     { name: 'gemini-2.5-flash',               api: 'v1beta' },
-    { name: 'gemini-2.5-flash-preview-05-20',  api: 'v1beta' },
     { name: 'gemini-2.0-flash',               api: 'v1beta' },
-    { name: 'gemini-1.5-flash-latest',        api: 'v1'     },
-    { name: 'gemini-1.5-flash',               api: 'v1'     },
-    { name: 'gemini-1.5-pro-latest',          api: 'v1'     },
+    { name: 'gemini-flash-latest',            api: 'v1beta' },
   ];
   // Method Statements تحتاج توكنز أكثر من الأسئلة القصيرة
   const maxTokens = (module === 'mos') ? 4096 : 1500;

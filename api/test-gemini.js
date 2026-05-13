@@ -1,4 +1,4 @@
-// api/test-gemini.js — اختبار + قائمة النماذج المتاحة
+// api/test-gemini.js — اختبار النماذج بترتيب الأولوية
 export const config = { runtime: 'edge' };
 
 export default async function handler(req) {
@@ -8,22 +8,18 @@ export default async function handler(req) {
 
   const keyPreview = key.slice(0, 8) + '...' + key.slice(-4);
 
-  // 1. قائمة النماذج المتاحة فعلاً لهذا الـ key
-  let availableModels = [];
-  try {
-    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${key}`);
-    const data = await r.json();
-    availableModels = (data.models || [])
-      .filter(m => (m.supportedGenerationMethods || []).includes('generateContent'))
-      .map(m => m.name.replace('models/', ''));
-  } catch(e) {
-    availableModels = [`error: ${e.message}`];
-  }
+  // نماذج بالترتيب — lite أولاً لأن quota أعلى
+  const MODELS = [
+    'gemini-2.0-flash-lite',
+    'gemini-2.5-flash-lite',
+    'gemini-flash-lite-latest',
+    'gemini-2.5-flash',
+    'gemini-2.0-flash',
+    'gemini-flash-latest',
+  ];
 
-  // 2. اختبر أول نموذج generateContent متاح
-  let testResult = 'لا يوجد نموذج للاختبار';
-  if (availableModels.length && !availableModels[0].startsWith('error')) {
-    const model = availableModels[0];
+  const results = {};
+  for (const model of MODELS) {
     try {
       const r = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
@@ -32,14 +28,16 @@ export default async function handler(req) {
       );
       const data = await r.json();
       if (!r.ok) {
-        testResult = `❌ ${r.status}: ${data?.error?.message?.slice(0, 120)}`;
+        const msg = data?.error?.message || '';
+        const short = msg.includes('quota') ? `❌ 429 quota` : `❌ ${r.status}: ${msg.slice(0,80)}`;
+        results[model] = short;
       } else {
         const parts = data?.candidates?.[0]?.content?.parts || [];
         const text = parts.filter(p => !p.thought).map(p => p.text).join('').trim() || parts[0]?.text || '';
-        testResult = text ? `✅ ${model}: "${text.slice(0, 60)}"` : `⚠️ empty — finishReason: ${data?.candidates?.[0]?.finishReason}`;
+        results[model] = text ? `✅ "${text.slice(0,50)}"` : `⚠️ empty (${data?.candidates?.[0]?.finishReason})`;
       }
-    } catch(e) { testResult = `💥 ${e.message}`; }
+    } catch(e) { results[model] = `💥 ${e.message}`; }
   }
 
-  return Response.json({ keyPreview, availableModels, testResult }, { headers: CORS });
+  return Response.json({ keyPreview, results }, { headers: CORS });
 }
