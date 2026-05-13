@@ -35,7 +35,7 @@ async function fetchQCSContext(keywords, limit) {
 
     for (const word of words) {
       const r = await fetch(
-        `${url}/rest/v1/qcs_chunks?content=ilike.*${encodeURIComponent(word)}*&select=content,source_file,section_name,page_num&limit=2&order=char_count.desc`,
+        `${url}/rest/v1/qcs_chunks?content=ilike.*${encodeURIComponent(word)}*&select=id,content,source_file,section_name,page_num&limit=2&order=char_count.desc`,
         { headers, signal: sig }
       );
       if (!r.ok) continue;
