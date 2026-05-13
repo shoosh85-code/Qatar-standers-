@@ -527,26 +527,65 @@
 
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🛣️ Road Works — Full Quality Control Plan</h3>
+
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 1 | Quality Control Plan — Roads</div>
+
+<h3>📋 Quality Control Plan Structure</h3>
+<p>The Quality Control Plan (QCP) is a mandatory document submitted to the Consultant before starting execution. It includes all tests and inspections required for each phase.</p>
+
+<h3>1.0 — Pre-Execution Documents</h3>
 <table class="dm-table">
-<tr><th>Phase</th><th>Test</th><th>Frequency</th><th>Acceptance</th><th>Type</th></tr>
-<tr><td>Subgrade</td><td>Density (Sand Cone)</td><td>1/500m²/layer</td><td>≥95% MDD</td><td>H</td></tr>
-<tr><td>Subgrade</td><td>CBR Soaked 4d</td><td>1/500m³</td><td>≥8%</td><td>H</td></tr>
-<tr><td>Subbase</td><td>Density</td><td>1/500m²/layer</td><td>≥100% BS Heavy</td><td>H</td></tr>
-<tr><td>Subbase</td><td>Gradation + CBR</td><td>Per source change</td><td>QCS S6 spec</td><td>W</td></tr>
-<tr><td>Roadbase</td><td>Density</td><td>1/500m²/layer</td><td>≥100% BS Heavy</td><td>H</td></tr>
-<tr><td>Prime Coat</td><td>Rate + absorption</td><td>100%</td><td>0.5–1.5 L/m²</td><td>W</td></tr>
-<tr><td>Binder Course</td><td>Delivery Temp</td><td>Each truck</td><td>≥140°C</td><td>W</td></tr>
-<tr><td>Binder Course</td><td>Core Density</td><td>1/250m²</td><td>≥97% TMD</td><td>H</td></tr>
-<tr><td>Tack Coat</td><td>Rate + visual</td><td>100%</td><td>0.2–0.4 L/m²</td><td>W</td></tr>
-<tr><td>Wearing Course</td><td>Delivery Temp</td><td>Each truck</td><td>≥145°C</td><td>W</td></tr>
-<tr><td>Wearing Course</td><td>Core Density</td><td>1/250m²</td><td>≥97% TMD</td><td>H</td></tr>
-<tr><td>Wearing Course</td><td>IRI</td><td>100% lanes</td><td>≤2.5 m/km</td><td>H</td></tr>
-<tr><td>Final Surface</td><td>Straightedge 3m</td><td>Random</td><td>≤6mm gap</td><td>W</td></tr>
+<tr><th>Document</th><th>Content</th><th>Timing</th><th>Approval</th></tr>
+<tr><td>Method Statement</td><td>Execution method for each phase</td><td>2 weeks before start</td><td>Consultant</td></tr>
+<tr><td>Material Submittal</td><td>All material certificates + tests</td><td>Before delivery</td><td>Consultant</td></tr>
+<tr><td>ITP</td><td>Inspection and Test Plan</td><td>Before start</td><td>Consultant + Client</td></tr>
+<tr><td>Mix Design / JMF</td><td>Asphalt mix design</td><td>Before production</td><td>Consultant</td></tr>
+<tr><td>Trial Section Report</td><td>50m trial section results</td><td>Before full production</td><td>Consultant</td></tr>
+<tr><td>Plant Calibration</td><td>Asphalt plant calibration</td><td>Before production</td><td>Consultant</td></tr>
 </table>
-<div style="font-size:11px;color:var(--text3);margin-top:6px;">H = Hold Point | W = Witness Point | QCS 2024 Sections 6 & 8</div>
+
+<h3>2.0 — Mandatory Hold Points</h3>
+<table class="dm-table">
+<tr><th>HP</th><th>Phase</th><th>Condition</th><th>Authority</th></tr>
+<tr><td>HP-01</td><td>Before Subgrade fill</td><td>Material Approval + Proctor + CBR</td><td>Consultant</td></tr>
+<tr><td>HP-02</td><td>Subgrade approval</td><td>Density ≥95% + CBR ≥8% + Level</td><td>Consultant</td></tr>
+<tr><td>HP-03</td><td>Subbase approval</td><td>Density ≥98% + CBR ≥30% + Level</td><td>Consultant</td></tr>
+<tr><td>HP-04</td><td>Base Course approval</td><td>Density ≥98% + CBR ≥80% + Level</td><td>Consultant</td></tr>
+<tr><td>HP-05</td><td>Prime Coat approval</td><td>Rate + Coverage + Curing</td><td>Consultant</td></tr>
+<tr><td>HP-06</td><td>Before Asphalt production</td><td>JMF + Trial Section approved</td><td>Consultant</td></tr>
+<tr><td>HP-07</td><td>Binder Course approval</td><td>Core Density + Thickness + Level</td><td>Consultant</td></tr>
+<tr><td>HP-08</td><td>Wearing Course approval</td><td>Core + PSV + Straightedge + Level</td><td>Consultant + Ashghal</td></tr>
+<tr><td>HP-09</td><td>Final handover</td><td>As-Built + All Tests + Road Markings</td><td>Ashghal</td></tr>
+</table>
+
+<h3>3.0 — Field Test Frequency</h3>
+<table class="dm-table">
+<tr><th>Test</th><th>Layer</th><th>Frequency</th><th>Standard</th></tr>
+<tr><td>Sand Cone Density</td><td>Subgrade/Subbase/Base</td><td>Every 500m²</td><td>≥95-98% MDD</td></tr>
+<tr><td>Nuclear Gauge</td><td>All layers</td><td>Every 200m²</td><td>Quick monitoring</td></tr>
+<tr><td>CBR Field</td><td>Subgrade/Subbase/Base</td><td>Every 2000m²</td><td>Per layer requirement</td></tr>
+<tr><td>Level Survey</td><td>All layers</td><td>Every 25m</td><td>± 6-10mm</td></tr>
+<tr><td>Asphalt Temperature</td><td>Binder/Wearing</td><td>Each load</td><td>≥ 140°C</td></tr>
+<tr><td>Marshall Test</td><td>Binder/Wearing</td><td>Every 200 tonnes</td><td>≥ 8 kN</td></tr>
+<tr><td>Core Samples</td><td>Binder/Wearing</td><td>Every 1000m²</td><td>≥ 98% TMD</td></tr>
+<tr><td>Straightedge 3m</td><td>Wearing</td><td>Every 100m</td><td>≤ 5mm</td></tr>
+<tr><td>PSV Test</td><td>Wearing (aggregate)</td><td>Per source</td><td>≥ 55</td></tr>
+</table>
+
+<h3>4.0 — NCR Non-Conformance Procedures</h3>
+<table class="dm-table">
+<tr><th>Condition</th><th>Action</th><th>Responsible</th></tr>
+<tr><td>Density &lt; 95% MDD</td><td>Stop + Re-compact + Re-test</td><td>QC Engineer</td></tr>
+<tr><td>CBR below requirement</td><td>NCR + Replace materials + Redo</td><td>QC + Consultant</td></tr>
+<tr><td>Asphalt temperature &lt; 140°C</td><td>Reject load immediately</td><td>QC Engineer</td></tr>
+<tr><td>Marshall Fail</td><td>NCR + Review JMF + Stop production</td><td>QC + Consultant</td></tr>
+<tr><td>Core Density &lt; 98% TMD</td><td>NCR + Investigation + Additional cores</td><td>QC + Consultant</td></tr>
+<tr><td>Level out of tolerance</td><td>Mill or fill + Re-survey</td><td>QC Engineer</td></tr>
+</table>
+
 </div>
 ` };
+
   c["subgrade"] = { title: '🏔️ Subgrade — طبقة التربة الطبيعية', content: `
 <div class="lang-content-ar">
 
@@ -2544,12 +2583,27 @@ lang-content-en" style="display:none;">
 <div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
 📌 Ashghal / MMUP Standards | Qatar Highway Design Manual | Traffic Management
 </div>
-<h3>What is a Traffic Management Plan (TMP)?</h3>
+
+<h3>📋 What is a Traffic Management Plan (TMP)?</h3>
 <p style="font-size:12px;">A mandatory plan submitted and approved before any road works. Defines how to maintain road user safety and ensure traffic continuity during construction.</p>
-<h3>Ashghal TMP Requirements</h3>
-<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Requirement</th><th>Reference</th></tr><tr><td>Plan Submission</td><td>At least 14 days before road works start</td><td>Ashghal TMP Guidelines</td></tr><tr><td>Plan Approval</td><td>Written approval from Ashghal Traffic Dept</td><td>Ashghal</td></tr><tr><td>Prepared By</td><td>Certified Traffic Engineer + TMP Officer</td><td>Ashghal</td></tr><tr><td>Updates</td><td>When scope or schedule changes</td><td>Ashghal</td></tr><tr><td>Review Frequency</td><td>Weekly + after any incident</td><td>Ashghal</td></tr></table></div><h3>Mandatory TMP Elements</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Element</th><th>Requirement</th><th>Standard</th></tr><tr><td>Traffic Signs</td><td>Warning + Guidance + Temp Speed signs</td><td>MMUP Traffic Signs Manual</td></tr><tr><td>Lane Closure Plan</td><td>Closure details + timing</td><td>Ashghal TMP</td></tr><tr><td>Detour Routes</td><td>Mapped alternative routes</td><td>Ashghal TMP</td></tr><tr><td>Work Zone Lighting</td><td>LED portable ≥ 50 lux</td><td>MMUP</td></tr><tr><td>Temporary Barriers</td><td>Water-filled or Jersey Concrete</td><td>BS EN 1317</td></tr><tr><td>Traffic Cones</td><td>Every 5m in transition zone</td><td>Ashghal</td></tr><tr><td>Arrow Boards</td><td>At each major diversion — Solar</td><td>Ashghal TMP</td></tr><tr><td>Traffic Controllers</td><td>At active intersections</td><td>Ashghal TMP</td></tr><tr><td>Emergency Response Plan</td><td>Ashghal + MoI contact numbers</td><td>Ashghal</td></tr></table></div><h3>Qatar-Specific Requirements</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Condition</th><th>Requirements</th></tr><tr><td>Night Work</td><td>Special permit + Night TMP + Extra lighting</td></tr><tr><td>Highway Closure</td><td>Special TMP + MOI coordination in advance</td></tr><tr><td>Ramadan Period</td><td>Minimize closures + no works 2hr after Iftar</td></tr><tr><td>National Events</td><td>Stop road works + advance Ashghal notice</td></tr><tr><td>School Zones</td><td>No works 7-9am & 2-4pm on school days</td></tr></table></div>
+
+<h3>📐 Ashghal TMP Requirements</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Requirement</th><th>Reference</th></tr><tr><td>Plan Submission</td><td>At least 14 days before road works start</td><td>Ashghal TMP Guidelines</td></tr><tr><td>Plan Approval</td><td>Written approval from Ashghal Traffic Management Department</td><td>Ashghal</td></tr><tr><td>Prepared By</td><td>Certified Traffic Engineer + Contractor TMP Officer</td><td>Ashghal</td></tr><tr><td>Updates</td><td>When scope or schedule changes</td><td>Ashghal</td></tr><tr><td>Periodic Review</td><td>Weekly minimum + after any incident</td><td>Ashghal</td></tr></table></div>
+
+<h3>📐 Mandatory TMP Elements</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Element</th><th>Requirement</th><th>Standard</th></tr><tr><td>Traffic Signs</td><td>Warning + Guidance + Temporary speed</td><td>MMUP Traffic Signs Manual</td></tr><tr><td>Lane Closure Plan</td><td>Lane closure details + timing</td><td>Ashghal TMP</td></tr><tr><td>Detour Routes</td><td>Mapped alternative routes</td><td>Ashghal TMP</td></tr><tr><td>Work Zone Lighting</td><td>Adequate night lighting — LED Portable</td><td>MMUP</td></tr><tr><td>Temporary Barriers</td><td>Water-filled barriers or Jersey Concrete</td><td>BS EN 1317</td></tr><tr><td>Traffic Cones</td><td>Every 5m in transition zone</td><td>Ashghal</td></tr><tr><td>Arrow Boards</td><td>At each major diversion — Solar Powered</td><td>Ashghal TMP</td></tr><tr><td>Flagmen/Traffic Controllers</td><td>At active intersections</td><td>Ashghal TMP</td></tr><tr><td>Emergency Response Plan</td><td>Emergency plan with Ashghal + MoI numbers</td><td>Ashghal</td></tr><tr><td>TMP Coordinator</td><td>On-site TMP officer 24/7 during works</td><td>Ashghal</td></tr></table></div>
+
+<h3>📐 Work Zone Safety Requirements</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Requirement</th></tr><tr><td>Advance Warning Distance</td><td>≥ 150m before work zone on expressways / ≥ 50m on streets</td></tr><tr><td>Minimum Lane Width</td><td>≥ 3.0m for vehicles / ≥ 3.5m for heavy trucks</td></tr><tr><td>Emergency Shoulder</td><td>≥ 1.5m where possible</td></tr><tr><td>Work Zone Speed</td><td>Reduce by 20-40 km/h from original speed</td></tr><tr><td>Isolation Barriers</td><td>Jersey Concrete or Water-filled ≥ 100m from work zone</td></tr><tr><td>Night Lighting</td><td>Lux Level ≥ 50 lux in work zone</td></tr><tr><td>Safety Officer</td><td>Full-time on-site during works</td></tr><tr><td>First Aid Kit</td><td>On-site — Qatar Red Crescent approved</td></tr><tr><td>Retroreflective Gear</td><td>Reflective PPE — Class 3 EN 20471</td></tr></table></div>
+
+<h3>📐 Qatar-Specific Requirements</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Condition</th><th>Requirements</th></tr><tr><td>Night Work</td><td>Special permit from Ashghal + Night TMP + Extra lighting</td></tr><tr><td>Highway Closure</td><td>Special TMP + Prior MOI + Ashghal coordination</td></tr><tr><td>Ramadan Period</td><td>Minimise closures + no works 2hr after Iftar</td></tr><tr><td>National Events</td><td>Stop road works — advance Ashghal notice</td></tr><tr><td>Utility Crossings</td><td>TMP includes all utilities with NGC/KAHRAMAA</td></tr><tr><td>School Zones</td><td>No works 7-9am & 2-4pm on school days</td></tr></table></div>
+
+<h3>📐 TMP Inspection & Test Plan</h3>
+<div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Activity</th><th>Test</th><th>Frequency</th><th>HP/W</th></tr><tr><td>TMP Submission</td><td>TMP submitted ≥ 14 days before start</td><td>Before each phase</td><td>HP</td></tr><tr><td>TMP Approval</td><td>Written Ashghal approval</td><td>Per Submission</td><td>HP</td></tr><tr><td>Signs Installation</td><td>Visual Inspection — accuracy and completeness</td><td>Daily</td><td>W</td></tr><tr><td>Barriers Check</td><td>Visual — stability and no displacement</td><td>Daily</td><td>W</td></tr><tr><td>Night Inspection</td><td>Lighting Level + Visibility Check</td><td>Each work night</td><td>W</td></tr><tr><td>Incident Recording</td><td>Record any incident + Ashghal report</td><td>Immediate</td><td>HP</td></tr><tr><td>TMP Update</td><td>Update when any changes occur</td><td>As needed</td><td>HP</td></tr></table></div>
 </div>
 ` };
+
   c["handover"] = { title: '✅ التسليم النهائي', content: `
 
 <div class="lang-content-ar">
@@ -2615,39 +2669,69 @@ lang-content-en" style="display:none;">
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 | Project Completion & Handover Requirements
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Handover — Final Handover</span>
+<button onclick="document.getElementById('vid-handover-en').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
 </div>
-<h3>📋 Project Handover — Complete Checklist</h3>
-<p style="font-size:12px;color:var(--text2);margin-bottom:12px;">Handover is the formal transfer of the completed works to the Employer. All contractual requirements must be met before issuing the Practical Completion Certificate (PCC).</p>
-<h4 style="color:var(--gold);margin-bottom:8px;">Technical Documents Required</h4>
-<table class="dm-table">
-<tr><th>Document</th><th>Contents</th><th>By Whom</th></tr>
-<tr><td>As-Built Drawings</td><td>All disciplines — roads, utilities, structures</td><td>Contractor</td></tr>
-<tr><td>Materials Test Certificates</td><td>Every material used on project</td><td>QC Engineer</td></tr>
-<tr><td>ITP Closeout Sheets</td><td>All ITPs signed by Engineer + QC</td><td>QC + Engineer</td></tr>
-<tr><td>NCR Register</td><td>All NCRs raised and closed</td><td>QC Manager</td></tr>
-<tr><td>Pressure Test Reports</td><td>All water + sewer + treated water mains</td><td>QC Team</td></tr>
-<tr><td>CCTV Survey Reports</td><td>All gravity drainage lines</td><td>QC Team</td></tr>
-<tr><td>Compaction Test Reports</td><td>All earthworks + utilities backfill</td><td>QC Team</td></tr>
-<tr><td>Concrete Cube Results</td><td>All structural concrete pours</td><td>QC Team</td></tr>
-<tr><td>Asphalt Core Reports</td><td>Density + IRI results</td><td>QC Team</td></tr>
-<tr><td>CCTV Sewer Reports</td><td>Grade + defect report</td><td>Ashghal Inspector</td></tr>
-</table>
-<h4 style="color:var(--gold);margin-top:14px;margin-bottom:8px;">Operational Handover</h4>
-<table class="dm-table">
-<tr><th>Item</th><th>Requirement</th></tr>
-<tr><td>O&M Manuals</td><td>All installed equipment + systems</td></tr>
-<tr><td>Warranties</td><td>Materials (10yr) + workmanship (2yr) typical</td></tr>
-<tr><td>Spare Parts</td><td>As specified in contract</td></tr>
-<tr><td>Training</td><td>Employer's staff on O&M</td></tr>
-<tr><td>Final Snag Inspection</td><td>Joint walkover — all items closed</td></tr>
-</table>
-<div style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
-ℹ️ <strong>Defects Liability Period (DLP):</strong> 12 months from PCC (unless contract states otherwise). At month 10, Employer issues final defects list. Contractor must rectify all within DLP. Performance Bond released at DLP expiry.
+<input type="file" id="vid-handover-en" accept="video/*" style="display:none" data-player="vid-handover-en-p" data-ph="vid-handover-en-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
+<div id="vid-handover-en-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload video MP4/MOV</div>
+<div id="vid-handover-en-p" class="qs-vid-ph" data-maxh="260px"></div>
 </div>
+
+<h3>📐 Handover Phase Definition — Ashghal Requirements</h3>
+<p>Final handover is the last phase in a road project — all documents are compiled, final inspections conducted, and the road is officially handed over to Ashghal. Includes: Final IRI Survey, As-Built Drawings, O&M Manuals, Defects Liability Period (DLP), and Punch List Resolution. DLP is typically 12 months.</p>
+
+<h3>📐 Handover Requirements — Checklist</h3>
+<div style="overflow-x:auto;">
+<table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.9);"><th style="min-width:50px;">SN</th><th>Requirement</th><th>Details</th><th>Status</th></tr>
+<tr><td>1</td><td><strong>Final IRI Survey</strong></td><td>IRI ≤ 2.0 m/km (new roads) — full road length</td><td>Mandatory</td></tr>
+<tr><td>2</td><td><strong>As-Built Drawings</strong></td><td>AutoCAD + PDF — all layers, manholes, utilities</td><td>Mandatory</td></tr>
+<tr><td>3</td><td><strong>Material Test Records</strong></td><td>All lab reports: Subgrade → WC — organised by chainage</td><td>Mandatory</td></tr>
+<tr><td>4</td><td><strong>ITP Sign-off Sheets</strong></td><td>All Hold Points signed by Contractor + SC + Engineer</td><td>Mandatory</td></tr>
+<tr><td>5</td><td><strong>NCR Closeout</strong></td><td>All NCRs closed with evidence — zero open NCRs</td><td>Mandatory</td></tr>
+<tr><td>6</td><td><strong>Punch List Resolution</strong></td><td>All snag items resolved + re-inspected</td><td>Mandatory</td></tr>
+<tr><td>7</td><td><strong>O&M Manual</strong></td><td>Operation & Maintenance manual — lighting, drainage, signs</td><td>Mandatory</td></tr>
+<tr><td>8</td><td><strong>Health & Safety File</strong></td><td>CDM file + accident records + safety certificates</td><td>Mandatory</td></tr>
+<tr><td>9</td><td><strong>Utility Clearances</strong></td><td>KAHRAMAA, Ooredoo, Vodafone — NOC letters</td><td>Mandatory</td></tr>
+<tr><td>10</td><td><strong>Survey Benchmarks</strong></td><td>Permanent benchmarks installed + coordinates recorded</td><td>Mandatory</td></tr>
+<tr><td>11</td><td><strong>DLP Certificate</strong></td><td>Defects Liability Period start date + duration (12 months)</td><td>Mandatory</td></tr>
+<tr><td>12</td><td><strong>Final Completion Certificate</strong></td><td>Signed by Engineer + Ashghal — triggers DLP</td><td>Mandatory</td></tr>
+</table></div>
+
+<h3>📐 Final Handover Inspections</h3>
+<div style="overflow-x:auto;">
+<table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.9);"><th>Test</th><th>Acceptance</th><th>Method</th></tr>
+<tr><td><strong>IRI Final Survey</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 2.0 m/km (QCS 2024)</td><td>Laser Profiler</td></tr>
+<tr><td><strong>Deflection (FWD)</strong></td><td>Per design structural capacity</td><td>Falling Weight Deflectometer</td></tr>
+<tr><td><strong>Marking Retroreflectivity</strong></td><td>≥ 100 mcd/m²/lux</td><td>ASTM E1710</td></tr>
+<tr><td><strong>Drainage Test</strong></td><td>No ponding &gt; 10mm after 1hr rain</td><td>Visual / CCTV</td></tr>
+<tr><td><strong>Lighting Levels</strong></td><td>Per MMUP road classification</td><td>Lux Meter Survey</td></tr>
+<tr><td><strong>Sign Visibility</strong></td><td>Readable at design distance — night + day</td><td>Drive-through test</td></tr>
+</table></div>
+
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin:12px 0;font-size:12px;">
+<strong>🔵 Key Notes:</strong><br>
+• <strong>DLP (Defects Liability Period)</strong> typically 12 months — any defects during this period are the contractor's responsibility<br>
+• Final Completion Certificate is not issued until 100% of the Punch List is closed<br>
+• As-Built Drawings must reflect actual conditions — not the design<br>
+• Ashghal requires a digital copy + hard copy of all documents
+</div>
+
+<h3>🔴 Hold Points</h3>
+<table class="dm-table">
+<tr><th>HP</th><th>Condition</th><th>Documentation</th></tr>
+<tr><td>HP-01</td><td>Final IRI ≤ 2.0 m/km completed</td><td>IRI Survey Report</td></tr>
+<tr><td>HP-02</td><td>Punch List 100% resolved</td><td>Punch List Closeout Sheet</td></tr>
+<tr><td>HP-03</td><td>All NCRs closed</td><td>NCR Register — all closed</td></tr>
+<tr><td>HP-04</td><td>As-Built approved by Engineer</td><td>Signed As-Built Drawings</td></tr>
+<tr><td>HP-05</td><td>Final Completion Certificate issued</td><td>Signed Certificate</td></tr>
+</table>
 </div>
 ` };
+
   c["gabbro_specs"] = { title: '🪨 Gabbro — مواصفات وخصائص مادة الجابرو', content: `
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 — Section 6 Part 4 & 5 | Gabbro — الركام الأساسي في قطر
@@ -3147,20 +3231,51 @@ c["binder"] = { title: '🟫 Binder Course — طبقة الرابط', content: 
 </div>
 
 <div class="lang-content-en" style="display:none">
-<h3>Binder Course Definition — QCS S6 P5</h3>
+<h3>📐 Binder Course Definition — QCS S6 P5</h3>
 <p><strong>Binder Course</strong> is the intermediate asphalt layer between the Base Course and the Wearing Course. It acts as the structural bonding element, transferring loads from the surface layer to the base layers. It is manufactured using a coarser asphalt mix (AC-20 or AC-25) compared to the Wearing Course.</p>
+
+<h3>📊 Specifications — QCS S6 P5</h3>
 <table class="dm-table">
 <tr><th>Property</th><th>Requirement</th><th>QCS S6 P5</th></tr>
 <tr><td>Mix Type</td><td>AC-20 or AC-25 (Dense Graded)</td><td>P5 Table 5:1</td></tr>
 <tr><td>Air Voids (Va)</td><td>3.0 - 5.0%</td><td>P5 Table 5:6</td></tr>
 <tr><td>VMA min</td><td>13%</td><td>P5 Table 5:6</td></tr>
 <tr><td>Marshall Stability min</td><td>7 kN</td><td>P5 Table 5:6</td></tr>
+<tr><td>Flow</td><td>2 - 4 mm</td><td>P5 Table 5:6</td></tr>
 <tr><td>Bitumen Content</td><td>4.0 - 6.0%</td><td>P5 Table 5:6</td></tr>
 <tr><td>Production Temperature</td><td>145 - 160°C</td><td>P5</td></tr>
 <tr><td>Min Laying Temperature</td><td>135°C</td><td>P5</td></tr>
 <tr><td>Compaction Degree</td><td>≥ 92% TMD</td><td>P5</td></tr>
+<tr><td>Typical Thickness</td><td>60 - 80mm (per road classification)</td><td>RDM 2023</td></tr>
+</table>
+
+<h3>🔄 Tack Coat before Binder — QCS S6 P5</h3>
+<table class="dm-table">
+<tr><th>Item</th><th>Requirement</th></tr>
+<tr><td>Material Type</td><td>Bitumen Emulsion (CSS-1 or K1-60)</td></tr>
+<tr><td>Application Rate</td><td>0.3 - 0.5 L/m²</td></tr>
+<tr><td>Drying Time</td><td>≥ 4 hours before laying</td></tr>
+<tr><td>Surface Condition</td><td>Dry + clean + dust-free</td></tr>
+</table>
+
+<h3>🔴 Hold Points</h3>
+<table class="dm-table">
+<tr><th>Stage</th><th>Requirement</th><th>H/W/R</th></tr>
+<tr><td>Before Binder laying</td><td>Tack Coat approval + mix temperature</td><td>H</td></tr>
+<tr><td>During laying</td><td>Temperature measurement with IR Thermometer</td><td>W</td></tr>
+<tr><td>After compaction</td><td>Core Test: Va + Thickness + Density</td><td>H</td></tr>
+</table>
+
+<h3>📏 Binder Thickness by Road Classification — Ashghal RDM</h3>
+<table class="dm-table">
+<tr><th>Road Classification</th><th>Binder Thickness</th><th>Mix Type</th></tr>
+<tr><td>Local Road</td><td>60mm</td><td>AC-20</td></tr>
+<tr><td>Collector Road</td><td>70mm</td><td>AC-20</td></tr>
+<tr><td>Arterial Road</td><td>80mm</td><td>AC-20 / AC-25</td></tr>
+<tr><td>Expressway</td><td>80mm</td><td>AC-25 (PMB)</td></tr>
 </table>
 </div>` };
+
 
 c["geotextile_specs"] = { title: '🧶 Geotextile — المواد الجيوتقنية', content: `
 <div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
