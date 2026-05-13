@@ -9,41 +9,55 @@ import { checkRateLimit, rateLimitResponse } from '../lib/rate-limit.js';
 import { getSupabaseUrl, getSupabaseServiceKey } from '../lib/supabase.js';
 
 // ── جلب نصوص QCS حقيقية من Supabase ────────────────────────────────────
-// خريطة مصطلحات عربي → إنجليزي للبحث في محتوى QCS الإنجليزي
-const AR_TO_EN = {
-  'درجة حرارة': 'temperature', 'الخرسانة': 'concrete', 'صب': 'placing',
-  'slump': 'slump', 'هبوط': 'slump', 'إسمنت': 'cement', 'سمنت': 'cement',
-  'تسليح': 'reinforcement', 'حديد': 'reinforcement', 'قطر': 'diameter',
-  'تغطية': 'cover', 'كثافة': 'density', 'ضغط': 'compressive', 'شد': 'tensile',
-  'ماء': 'water', 'رمل': 'sand', 'حصى': 'aggregate', 'ركام': 'aggregate',
-  'لحام': 'welding', 'أسفلت': 'asphalt', 'تربة': 'soil', 'ضغط حرارة': 'temperature placing',
+// ملفات QCS حسب الوحدة
+const MODULE_FILES = {
+  pour:    'Part15',
+  mar:     'Part15',
+  ncr:     'Part15',
+  tests:   'Part15',
+  dwr:     'Part1',
+  general: null,
 };
 
-async function fetchQCSContext(keywords, limit) {
+async function fetchQCSContext(keywords, limit, module) {
   const url = getSupabaseUrl();
   const key = getSupabaseServiceKey();
   if (!url || !key) return '';
   try {
     const lim = limit || 4;
     const headers = { 'apikey': key, 'Authorization': `Bearer ${key}` };
-    const sig = AbortSignal.timeout(8000);
-
-    // ابحث بكل كلمة على حدة — ILIKE البسيطة المضمونة
-    const words = keywords.split(' ').filter(w => w.length > 3).slice(0, 3);
+    const fileFilter = MODULE_FILES[module] ? `&source_file=ilike.*${MODULE_FILES[module]}*` : '';
+    const words = keywords.split(' ').filter(w => w.length > 3);
     const allChunks = [];
     const seen = new Set();
 
-    for (const word of words) {
+    // أولاً: جرب phrase مركبة (أكثر دقة)
+    if (words.length >= 2) {
+      const phrase = words.slice(0, 2).join(' ');
       const r = await fetch(
-        `${url}/rest/v1/qcs_chunks?content=ilike.*${encodeURIComponent(word)}*&select=id,content,source_file,section_name,page_num&limit=2&order=char_count.desc`,
-        { headers, signal: sig }
+        `${url}/rest/v1/qcs_chunks?content=ilike.*${encodeURIComponent(phrase)}*${fileFilter}&select=id,content,source_file,section_name,page_num&limit=${lim}&order=char_count.desc`,
+        { headers }
+      );
+      if (r.ok) {
+        const data = await r.json();
+        for (const c of (Array.isArray(data) ? data : [])) {
+          if (!seen.has(c.id)) { seen.add(c.id); allChunks.push(c); }
+        }
+      }
+    }
+
+    // ثانياً: إذا لم يكفِ، ابحث بكل كلمة مع فلتر الملف
+    for (const word of words) {
+      if (allChunks.length >= lim) break;
+      const r = await fetch(
+        `${url}/rest/v1/qcs_chunks?content=ilike.*${encodeURIComponent(word)}*${fileFilter}&select=id,content,source_file,section_name,page_num&limit=2&order=char_count.desc`,
+        { headers }
       );
       if (!r.ok) continue;
       const data = await r.json();
       for (const c of (Array.isArray(data) ? data : [])) {
         if (!seen.has(c.id)) { seen.add(c.id); allChunks.push(c); }
       }
-      if (allChunks.length >= lim) break;
     }
 
     if (!allChunks.length) return '';
@@ -52,7 +66,10 @@ async function fetchQCSContext(keywords, limit) {
         `[مصدر ${i+1}: ${(c.source_file||'').replace(/Copy of /g,'')} | ${c.section_name||''} | ص.${c.page_num||'?'}]\n${(c.content||'').slice(0, 600)}`
       ).join('\n\n') +
       '\n── استخدم النصوص أعلاه كمرجع أساسي. إذا المعلومة غير موجودة فيها، قل "غير موجود في المصادر المتاحة — راجع QCS المختص". ──';
-  } catch { return ''; }
+  } catch (e) {
+    console.error('[rag] error:', e.message);
+    return '';
+  }
 }
 
 const CORS = {
@@ -173,7 +190,7 @@ export default async function handler(req) {
     .join(' ');
 
   const searchKeywords = questionKeywords || moduleKeywords[module] || question.slice(0, 60);
-  const qcsContext = await fetchQCSContext(searchKeywords, module === 'mos' ? 6 : 4);
+  const qcsContext = await fetchQCSContext(searchKeywords, module === 'mos' ? 6 : 4, module);
 
   const systemPrompt = (PROMPTS[module] || PROMPTS.general) + qcsContext;
   // للـ debugging — يظهر في Vercel logs
