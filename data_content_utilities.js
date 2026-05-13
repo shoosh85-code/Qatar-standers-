@@ -165,32 +165,32 @@
 <tr><td>Chlorination before commissioning</td><td>≥ 50ppm / ≥ 24 hours</td></tr>
 <tr><td>Water quality acceptance</td><td>Coliform = 0 / Turbidity ≤ 1 NTU</td></tr>
 </table>
-<h3>2.0 تسلسل العمل — Work Sequence</h3>
+<h3>2.0 Work Sequence</h3>
 <div style="margin-bottom:16px">
-<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">1</div><div><strong style="color:var(--gold2)">Survey & Setting Out</strong><br>تحديد مسار الأنابيب بالـ Total Station — مناسيب الـ Invert Level كل 25m — علامات CH على الأرض<br><small style="color:var(--text3)">Hold Point: SC يعتمد المناسيب قبل الحفر</small></div></div>
-<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">2</div><div><strong style="color:var(--gold2)">Utilities Detection (GPR)</strong><br>كشف المرافق الموجودة بـ Ground Penetrating Radar قبل الحفر — تحديد الكابلات والمواسير القائمة<br><small style="color:var(--text3)">Ashghal NOC مطلوب قبل الحفر</small></div></div>
-<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">3</div><div><strong style="color:var(--gold2)">Excavation + Shoring</strong><br>حفر الخنادق بعرض DN + 600mm حد أدنى — Shoring إلزامي >1.2m — Dewatering إذا وُجدت مياه جوفية<br><small style="color:var(--text3)">Hold Point: عمق >1.2m يوقف العمل بدون Shoring Design</small></div></div>
-<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">4</div><div><strong style="color:var(--gold2)">Bedding Preparation</strong><br>فرش Bedding Material (Type 1 أو رمل نظيف) بسماكة 150mm — دمك ≥90% MDD — Level ±10mm<br><small style="color:var(--text3)">Witness Point: تحقق من المادة والسماكة</small></div></div>
-<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">5</div><div><strong style="color:var(--gold2)">Pipe Laying & Jointing</strong><br>وضع المواسير وفق Invert Levels المعتمدة — فحص الوصلات واحدة واحدة — Deflection Test للأنابيب المرنة<br><small style="color:var(--text3)">Hold Point: Sewer gradient ≥ minimum (DN150→1:100, DN200→1:150)</small></div></div>
-<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">6</div><div><strong style="color:var(--gold2)">Testing</strong><br>Water Supply: Pressure Test 1.5×PN لمدة 2 ساعة — Foul Sewer: Air Test 100mm WG → drop ≤25mm/5min — CCTV Survey 100%<br><small style="color:var(--text3)">Hold Point: لا backfill قبل اعتماد الاختبارات</small></div></div>
-<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">7</div><div><strong style="color:var(--gold2)">Backfill & Compaction</strong><br>ردم بطبقات ≤200mm — دمك ≥95% MDD — لا مواد Sabkha أو عضوية<br><small style="color:var(--text3)">Witness Point: Field Density Test كل 50m طولي</small></div></div>
+<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">1</div><div><strong style="color:var(--gold2)">Survey & Setting Out</strong><br>Locate pipe route using Total Station — Invert Level elevations every 25m — CH markers on ground<br><small style="color:var(--text3)">Hold Point: SC approves elevations before excavation</small></div></div>
+<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">2</div><div><strong style="color:var(--gold2)">Utilities Detection (GPR)</strong><br>Detect existing utilities using Ground Penetrating Radar before excavation — identify existing cables and pipes<br><small style="color:var(--text3)">Ashghal NOC required before excavation</small></div></div>
+<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">3</div><div><strong style="color:var(--gold2)">Excavation + Shoring</strong><br>Excavate trenches min width DN + 600mm — Shoring mandatory >1.2m depth — Dewatering if groundwater present<br><small style="color:var(--text3)">Hold Point: Depth >1.2m stops work without approved Shoring Design</small></div></div>
+<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">4</div><div><strong style="color:var(--gold2)">Bedding Preparation</strong><br>Spread Bedding Material (Type 1 or clean sand) at 150mm thickness — compact ≥90% MDD — Level ±10mm<br><small style="color:var(--text3)">Witness Point: Verify material type and thickness</small></div></div>
+<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">5</div><div><strong style="color:var(--gold2)">Pipe Laying & Jointing</strong><br>Lay pipes per approved Invert Levels — inspect joints one by one — Deflection Test for flexible pipes<br><small style="color:var(--text3)">Hold Point: Sewer gradient ≥ minimum (DN150→1:100, DN200→1:150)</small></div></div>
+<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">6</div><div><strong style="color:var(--gold2)">Testing</strong><br>Water Supply: Pressure Test 1.5×PN for 2 hours — Foul Sewer: Air Test 100mm WG → drop ≤25mm/5min — CCTV Survey 100%<br><small style="color:var(--text3)">Hold Point: No backfill before test approval</small></div></div>
+<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px"><div style="min-width:28px;height:28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">7</div><div><strong style="color:var(--gold2)">Backfill & Compaction</strong><br>Backfill in ≤200mm layers — compact ≥95% MDD — no Sabkha or organic material<br><small style="color:var(--text3)">Witness Point: Field Density Test every 50m</small></div></div>
 </div>
-<h3>3.0 السلامة — Safety Requirements</h3>
-<table class="dm-table"><tr><th>البند</th><th>الاشتراط</th><th>المرجع</th></tr>
-<tr><td>PPE</td><td>خوذة + سترة عاكسة + حذاء أمان + قفازات — إلزامي 100%</td><td>Ashghal QHSE</td></tr>
-<tr><td>Shoring</td><td>إلزامي لأي حفرية >1.2m — Timber أو Sheet Pile</td><td>QCS 2024 P1 S8.4</td></tr>
-<tr><td>Barricading</td><td>سياج ≥1.5m من حافة الحفرية + إضاءة ليلية</td><td>Ashghal TMP</td></tr>
+<h3>3.0 Safety Requirements</h3>
+<table class="dm-table"><tr><th>Item</th><th>Requirement</th><th>Reference</th></tr>
+<tr><td>PPE</td><td>Hard hat + Hi-vis vest + Safety boots + Gloves — 100% mandatory</td><td>Ashghal QHSE</td></tr>
+<tr><td>Shoring</td><td>Mandatory for any excavation >1.2m — Timber or Sheet Pile</td><td>QCS 2024 P1 S8.4</td></tr>
+<tr><td>Barricading</td><td>Fencing ≥1.5m from excavation edge + night lighting</td><td>Ashghal TMP</td></tr>
 <tr><td>Confined Space</td><td>Manhole entry = Permit to Work + Gas Test + Standby Man</td><td>QCS P1 S8</td></tr>
 <tr><td>Hot Work</td><td>Welding permit + Fire extinguisher within 5m</td><td>QCDD</td></tr>
 </table>
 <h3>4.0 QA Checkpoints</h3>
-<table class="dm-table"><tr><th>المرحلة</th><th>النقطة</th><th>القبول</th></tr>
-<tr><td>قبل الحفر</td><td style="color:#e74c3c;font-weight:700">Hold Point</td><td>Survey approved + NOC + Shoring design</td></tr>
-<tr><td>بعد Bedding</td><td style="color:#f39c12">Witness</td><td>Level ±10mm + Material approved</td></tr>
-<tr><td>بعد Laying</td><td style="color:#e74c3c;font-weight:700">Hold Point</td><td>Invert levels + Joint check</td></tr>
-<tr><td>اختبار الضغط/الهواء</td><td style="color:#e74c3c;font-weight:700">Hold Point</td><td>Pass criteria met + Lab report</td></tr>
-<tr><td>CCTV (Sewer فقط)</td><td style="color:#e74c3c;font-weight:700">Hold Point</td><td>Grade ≤2 + Full video + Report</td></tr>
-<tr><td>بعد Backfill</td><td style="color:#f39c12">Witness</td><td>≥95% MDD + لا مواد ملوثة</td></tr>
+<table class="dm-table"><tr><th>Stage</th><th>Point</th><th>Acceptance</th></tr>
+<tr><td>Before excavation</td><td style="color:#e74c3c;font-weight:700">Hold Point</td><td>Survey approved + NOC + Shoring design</td></tr>
+<tr><td>After Bedding</td><td style="color:#f39c12">Witness</td><td>Level ±10mm + Material approved</td></tr>
+<tr><td>After Laying</td><td style="color:#e74c3c;font-weight:700">Hold Point</td><td>Invert levels + Joint check</td></tr>
+<tr><td>Pressure / Air Test</td><td style="color:#e74c3c;font-weight:700">Hold Point</td><td>Pass criteria met + Lab report</td></tr>
+<tr><td>CCTV (Sewer only)</td><td style="color:#e74c3c;font-weight:700">Hold Point</td><td>Grade ≤2 + Full video + Report</td></tr>
+<tr><td>After Backfill</td><td style="color:#f39c12">Witness</td><td>≥95% MDD + no contaminated material</td></tr>
 </table>
 
 </div>
@@ -242,7 +242,7 @@
 
 <h3>🔴 4. Hold Points</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th><th>Documentation</th></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-04</td><td>فحص الوصلات والمواسير + مسافات الفصل قبل الردم</td><td>QC + Consultant</td><td>Joint Inspection Record</td></tr>
 </table></div>
 </div>
@@ -309,7 +309,7 @@
 
 <h3>🔴 4. Hold Points</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th><th>Documentation</th></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-03</td><td>فحص الخندق: العمق + العرض + Bedding قبل وضع المواسير</td><td>QC + Consultant</td><td>Trench Inspection Record</td></tr>
 </table></div>
 </div>
@@ -406,7 +406,7 @@
 
 <h3>🔴 5. Hold Points — الردم والتشطيب</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th><th>Documentation</th></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-07A</td><td>Compaction Test Pass (≥93% MDD) للطبقات 300–600mm</td><td>QC + Lab</td><td>Compaction Test Report</td></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-07B</td><td>Subbase + Base Course Compaction ≥ 98% MDD</td><td>QC + Ashghal</td><td>Lab Results + ITR-07B</td></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-07C</td><td>Saw Cut نظيف + Asphalt مطابق مواصفة الطريق الأصلي</td><td>Ashghal Inspector</td><td>Reinstatement ITR</td></tr>
@@ -454,7 +454,7 @@
 
 <h3>📐 1. متطلبات ما قبل التنفيذ — Water Supply</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المتطلب</th><th>الجهة المعتمِدة</th><th>التوقيت</th></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Requirement</th><th>Approving Authority</th><th>Timing</th></tr>
 <tr><td>مخططات التصميم</td><td>معتمدة من KAHRAMAA — Plan + Profile + Details</td><td>KAHRAMAA</td><td>قبل أي تنفيذ</td></tr>
 <tr><td>Hydraulic Analysis</td><td>تحليل الضغط والتدفق — Epanet أو WaterGEMS<br>Min pressure ≥ 15m (1.5 bar) في أي نقطة</td><td>Consultant + KAHRAMAA</td><td>قبل التصميم النهائي</td></tr>
 <tr><td>Material Submittal</td><td>اعتماد كل المواسير + Fittings + Valves<br>شهادات المصنع + KAHRAMAA Approved List</td><td>KAHRAMAA</td><td>قبل التوريد</td></tr>
@@ -500,9 +500,9 @@
 <tr><td>Telecom Cables</td><td>≥ 300mm</td><td>أي وضع</td><td>Ooredoo</td></tr>
 </table></div>
 
-<h3>🔴 5. Hold Points — ما قبل التنفيذ</h3>
+<h3>🔴 5. Hold Points — Pre-execution</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th><th>Documentation</th></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-01A</td><td>كل NOCs مكتملة قبل الحفر</td><td>KAHRAMAA + Ashghal + MME</td><td>NOC Letters File</td></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-01B</td><td>Material Approval من KAHRAMAA قبل التوريد</td><td>KAHRAMAA</td><td>Approved Submittal</td></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-01C</td><td>Hydraulic Analysis معتمد + Method Statement</td><td>Consultant + KAHRAMAA</td><td>Approved MS + Hydraulic Report</td></tr>
@@ -599,9 +599,9 @@
 </div>
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 — Section 8 Part 1 | KAHRAMAA W.S.S. | Water Supply Handover</div>
 
-<h3>📐 1. وثائق التسليم الإلزامية</h3>
+<h3>📐 1. Mandatory Handover Documents</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>الوثيقة</th><th>المحتوى المطلوب</th><th>النسخ</th><th>الجهة</th></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>Document</th><th>Required Content</th><th>Copies</th><th>Authority</th></tr>
 <tr><td>As-Built Drawings</td><td>Plan + Profile مع مناسيب فعلية<br>GPS Coordinates لكل Valve + Fitting + Chamber<br>نقاط التوصيل + مواضع Tie-ins</td><td>3 ورقي + 1 رقمي DWG/PDF</td><td>KAHRAMAA</td></tr>
 <tr><td>Pressure Test Certificates</td><td>كل sections — 1.5×PN / 2hr / Zero drop<br>تاريخ + اسم القائم بالاختبار + توقيع KAHRAMAA</td><td>أصلي + نسختان</td><td>KAHRAMAA</td></tr>
 <tr><td>Chlorination & Flushing Records</td><td>≥ 50ppm لمدة ≥ 24hr<br>نتائج Residual Chlorine + Flush Volume</td><td>أصلي + نسخة</td><td>KAHRAMAA Lab</td></tr>
@@ -610,12 +610,12 @@
 <tr><td>Material Certificates</td><td>Mill Certs للمواسير + Fittings + Valves<br>KAHRAMAA Approved List Confirmation</td><td>أصلي</td><td>Manufacturer</td></tr>
 <tr><td>Valve Schedule</td><td>كل Valves: Type / Size / Location / GPS<br>Operating Turn Direction + Key Type</td><td>ورقي + رقمي</td><td>KAHRAMAA</td></tr>
 <tr><td>Fusion Welding Records</td><td>كل HDPE Butt Fusion + Electrofusion<br>Barcode / Temperature / Time لكل وصلة</td><td>رقمي + ورقي</td><td>QC</td></tr>
-<tr><td>ITP Signed Register</td><td>كل ITPs مغلقة — صفر NCR مفتوح</td><td>أصلي موقّع</td><td>QC + Consultant</td></tr>
+<tr><td>ITP Signed Register</td><td>All ITPs closed — zero open NCRs</td><td>Original signed</td><td>QC + Consultant</td></tr>
 <tr><td>O&M Manual</td><td>Operating procedures + Valve Key Schedule<br>Emergency Isolation Plan + Contact Numbers</td><td>نسختان</td><td>KAHRAMAA</td></tr>
 <tr><td>GIS Data File</td><td>Shapefile أو DWG مع Attributes لكل Asset</td><td>رقمي</td><td>KAHRAMAA GIS</td></tr>
 </table></div>
 
-<h3>📐 2. قائمة التحقق قبل التسليم النهائي</h3>
+<h3>📐 2. Pre-Handover Checklist</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
 <tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>الشرط</th><th>الجهة</th></tr>
 <tr><td>Pressure Test</td><td>100% Pass — كل Sections</td><td>QC + KAHRAMAA</td></tr>
@@ -632,10 +632,10 @@
 <tr><td>Zero Open NCRs</td><td>كل NCRs مغلقة بإجراءات تصحيحية موثقة</td><td>QC</td></tr>
 </table></div>
 
-<h3>🛡️ 3. فترة الضمان DLP — Defects Liability Period</h3>
+<h3>🛡️ 3. Defects Liability Period (DLP)</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المتطلب</th></tr>
-<tr><td>مدة DLP</td><td>12 شهر من تاريخ التسليم الرسمي (TOC)</td></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Requirement</th></tr>
+<tr><td>DLP Duration</td><td>12 months from official handover date (TOC)</td></tr>
 <tr><td>Bacteriological Monitoring</td><td>كل 3 أشهر — نتائج لـ KAHRAMAA</td></tr>
 <tr><td>Pressure Monitoring</td><td>شهري — لوغر ضغط على نقاط حرجة</td></tr>
 <tr><td>Valve Exercise</td><td>تشغيل كل الـ Valves كل 6 أشهر + توثيق</td></tr>
@@ -644,9 +644,9 @@
 <tr><td>Road Settlement Check</td><td>كل 3 أشهر — إبلاغ Ashghal عند أي هبوط</td></tr>
 </table></div>
 
-<h3>🔴 4. Hold Points النهائية</h3>
+<h3>🔴 4. Final Hold Points</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th><th>Documentation</th></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-08A</td><td>Bacteriological Water Quality = Zero Coliform — KAHRAMAA Lab</td><td>KAHRAMAA Lab</td><td>Water Quality Certificate</td></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-08B</td><td>As-Built + GIS Data مُسلَّمة ومعتمدة</td><td>KAHRAMAA GIS</td><td>Approved As-Built Set</td></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-08C</td><td>موافقة KAHRAMAA الرسمية — TOC Certificate</td><td>KAHRAMAA</td><td>Taking Over Certificate</td></tr>
@@ -862,7 +862,7 @@
 
 <h3>🔴 4. Hold Points</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th><th>Documentation</th></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-04</td><td>فحص المواسير والوصلات والانحدار قبل الردم الجانبي</td><td>QC + Consultant</td><td>Pipe Laying Inspection Record</td></tr>
 </table></div>
 </div>
@@ -945,7 +945,7 @@
 
 <h3>🔴 4. Hold Points</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th><th>Documentation</th></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-03</td><td>فحص الخندق: العمق + الانحدار + Bedding قبل وضع المواسير</td><td>QC + Consultant</td><td>Trench Inspection Record</td></tr>
 </table></div>
 </div>
@@ -1024,7 +1024,7 @@
 
 <h3>🔴 4. Hold Points</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th><th>Documentation</th></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-07</td><td>Air Test Pass + CCTV مكتمل قبل الردم النهائي</td><td>QC + Consultant + Ashghal</td><td>Test Certificates</td></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-08</td><td>Compaction Test ≥ 95% MDD قبل إعادة الطريق</td><td>QC + Consultant</td><td>Compaction Test Report</td></tr>
 </table></div>
@@ -1167,44 +1167,44 @@
 <h3>Air Test — BS EN 1610</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Specification</th><th>Reference</th><th>Frequency</th></tr><tr><td>Test Pressure</td><td>100 mm WG (Water Gauge)</td><td>BS EN 1610</td><td>Per section ≤500m</td></tr><tr><td>Test Duration</td><td>5 minutes</td><td>BS EN 1610</td><td>Per section</td></tr><tr><td>Pass Criterion</td><td>Pressure drop ≤ 25mm WG in 5 minutes</td><td>BS EN 1610</td><td>Per section</td></tr><tr><td>Max Section Length</td><td>500m per test</td><td>Ashghal</td><td>—</td></tr></table></div><h3>CCTV Survey</h3><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Specification</th><th>Reference</th><th>Frequency</th></tr><tr><td>Coverage</td><td>100% of all pipes</td><td>Ashghal</td><td>After backfill</td></tr><tr><td>Acceptable Grade</td><td>Grade 1 or Grade 2 only</td><td>WRc</td><td>Per pipe</td></tr><tr><td>Grade 4 or 5</td><td>Reject + mandatory redo</td><td>WRc</td><td>Per finding</td></tr><tr><td>Report</td><td>Video + Written Report + Defect Code</td><td>Ashghal</td><td>Per section</td></tr><tr><td>Timing</td><td>After backfill, before handover</td><td>Ashghal</td><td>100%</td></tr></table></div><div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;"><tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Documentation</th></tr><tr><td>HP-01</td><td>Air Test: ≤25mm WG drop / 5min</td><td>Air Test Certificate</td></tr><tr><td>HP-02</td><td>CCTV 100% Grade ≤ 2 complete</td><td>CCTV Report + Video</td></tr><tr><td>HP-03</td><td>Manhole Levels ±5mm</td><td>Survey Certificate</td></tr></table></div>
 
-<h3 style="color:var(--gold);margin:16px 0 8px;">📷 جدول درجات العيوب — CCTV Survey (WRc Manual / QCS 2024)</h3>
+<h3 style="color:var(--gold);margin:16px 0 8px;">📷 Defect Grade Table — CCTV Survey (WRc Manual / QCS 2024)</h3>
 <div style="overflow-x:auto;">
 <table>
-<tr><th>Grade</th><th>وصف العيب</th><th>كود WRc</th><th>الإجراء المطلوب</th><th>الأولوية</th></tr>
-<tr><td style="color:#2ecc71;font-weight:700;">0</td><td>لا يوجد عيب — ممتاز</td><td>—</td><td>لا شيء</td><td>—</td></tr>
-<tr><td style="color:#3498db;font-weight:700;">1</td><td>عيوب طفيفة — خدوش سطحية</td><td>BAC / BCC</td><td>مراقبة فقط</td><td>منخفضة</td></tr>
-<tr><td style="color:#f39c12;font-weight:700;">2</td><td>عيوب متوسطة — شقوق بدون تشوه</td><td>BAD / BCE</td><td>إدراج في قائمة الصيانة</td><td>متوسطة</td></tr>
-<tr><td style="color:#e67e22;font-weight:700;">3</td><td>عيوب خطيرة — تشوه أو تسرب</td><td>BAE / BCS</td><td>إصلاح خلال 6 أشهر</td><td>عالية</td></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">4</td><td>فشل هيكلي — انهيار جزئي</td><td>BAF / BCX</td><td>إصلاح فوري</td><td>عاجل</td></tr>
-<tr><td style="color:#8e44ad;font-weight:700;">5</td><td>انهيار كامل</td><td>BAX</td><td>استبدال فوري</td><td>طارئ</td></tr>
+<tr><th>Grade</th><th>Defect Description</th><th>WRc Code</th><th>Required Action</th><th>Priority</th></tr>
+<tr><td style="color:#2ecc71;font-weight:700;">0</td><td>No defect — Excellent</td><td>—</td><td>None</td><td>—</td></tr>
+<tr><td style="color:#3498db;font-weight:700;">1</td><td>Minor defects — surface scratches</td><td>BAC / BCC</td><td>Monitor only</td><td>Low</td></tr>
+<tr><td style="color:#f39c12;font-weight:700;">2</td><td>Moderate defects — cracks without deformation</td><td>BAD / BCE</td><td>Add to maintenance schedule</td><td>Medium</td></tr>
+<tr><td style="color:#e67e22;font-weight:700;">3</td><td>Serious defects — deformation or leakage</td><td>BAE / BCS</td><td>Repair within 6 months</td><td>High</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">4</td><td>Structural failure — partial collapse</td><td>BAF / BCX</td><td>Immediate repair</td><td>Urgent</td></tr>
+<tr><td style="color:#8e44ad;font-weight:700;">5</td><td>Complete collapse</td><td>BAX</td><td>Immediate replacement</td><td>Emergency</td></tr>
 </table>
 </div>
 <div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:8px 0;">
-<strong style="color:#e74c3c;">⚠️ شرط القبول (QCS 2024 + Ashghal):</strong><br>
-• Grade ≤ 2 للقبول النهائي — أي Grade 3+ يستلزم إعادة العمل<br>
-• يجب تصوير <strong>100%</strong> من طول الشبكة بعد الإنشاء<br>
-• تسليم تقرير CCTV + DVD/USB مع الطرود النهائية للمشروع
+<strong style="color:#e74c3c;">⚠️ Acceptance Criteria (QCS 2024 + Ashghal):</strong><br>
+• Grade ≤ 2 for final acceptance — any Grade 3+ requires rework<br>
+• <strong>100%</strong> of network length must be surveyed after construction<br>
+• Submit CCTV report + DVD/USB with final project handover documents
 </div>
 
-<h3 style="color:var(--gold);margin:16px 0 8px;">💨 متطلبات اختبار الهواء — Air Test (QCS 2024 Sec 9.4.3)</h3>
+<h3 style="color:var(--gold);margin:16px 0 8px;">💨 Air Test Requirements (QCS 2024 Sec 9.4.3)</h3>
 <div style="overflow-x:auto;">
 <table>
-<tr><th>قطر الأنبوب (mm)</th><th>ضغط البداية (mbar)</th><th>ضغط الاختبار (mbar)</th><th>الحد المسموح بالسقوط</th><th>مدة الاختبار (دقيقة)</th></tr>
+<tr><th>Pipe Diameter (mm)</th><th>Start Pressure (mbar)</th><th>Test Pressure (mbar)</th><th>Allowable Drop</th><th>Test Duration (min)</th></tr>
 <tr><td>100 – 150</td><td>100</td><td>75</td><td>≤ 25 mbar</td><td>5</td></tr>
 <tr><td>200 – 250</td><td>100</td><td>75</td><td>≤ 25 mbar</td><td>5</td></tr>
 <tr><td>300 – 375</td><td>100</td><td>75</td><td>≤ 25 mbar</td><td>7.5</td></tr>
 <tr><td>400 – 450</td><td>100</td><td>75</td><td>≤ 25 mbar</td><td>10</td></tr>
 <tr><td>500 – 600</td><td>100</td><td>75</td><td>≤ 25 mbar</td><td>12.5</td></tr>
-<tr><td>&gt; 600 (Water Test)</td><td>—</td><td>1.0 bar ماء</td><td>≤ 0.1 bar / 30 min</td><td>30</td></tr>
+<tr><td>&gt; 600 (Water Test)</td><td>—</td><td>1.0 bar water</td><td>≤ 0.1 bar / 30 min</td><td>30</td></tr>
 </table>
 </div>
 <div style="background:rgba(201,168,76,0.08);border-radius:8px;padding:10px;margin:8px 0;">
-<strong style="color:var(--gold);">📋 خطوات اختبار الهواء:</strong><br>
-1. تسكير فتحتي الأنبوب بالبالون أو الكمبشة<br>
-2. ضخ هواء حتى 100 mbar والانتظار دقيقتين للاستقرار<br>
-3. خفض الضغط إلى 75 mbar وبدء توقيت الاختبار<br>
-4. قراءة الضغط بعد المدة المحددة — القبول: ≥ 50 mbar (أي لم يسقط أكثر من 25 mbar)<br>
-5. إذا فشل: فحص الوصلات بالرغوة + CCTV لتحديد موقع التسرب
+<strong style="color:var(--gold);">📋 Air Test Procedure:</strong><br>
+1. Seal both pipe ends with inflatable stoppers or end caps<br>
+2. Inflate air to 100 mbar and wait 2 minutes for stabilisation<br>
+3. Reduce pressure to 75 mbar and start the test timer<br>
+4. Read pressure after specified duration — Acceptance: ≥ 50 mbar (i.e. drop ≤ 25 mbar)<br>
+5. If failed: check joints with foam + CCTV to locate leakage point
 </div>
 </div>
 </div>
@@ -1310,7 +1310,7 @@
 
 <h3>🔴 6. Hold Points — Pipe Laying</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th><th>Documentation</th></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-04A</td><td>Gradient Survey Pass بعد تمديد كل Section</td><td>QC + Surveyor</td><td>Level Survey Record</td></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-04B</td><td>Rubber Ring Joints مكتملة — فحص بصري 100%</td><td>QC</td><td>Joint Inspection Sheet</td></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-04C</td><td>Outfall Apron / Rip-Rap اكتمل قبل التسليم</td><td>QC + Consultant</td><td>ITR-04C</td></tr>
@@ -1418,7 +1418,7 @@
 
 <h3>🔴 5. Hold Points — Gullies</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th><th>Documentation</th></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-05A</td><td>Gully Level (5–15mm أسفل الرصف) مُوثّق قبل الصب النهائي</td><td>QC + Surveyor</td><td>Level Survey Record</td></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-05B</td><td>Outlet Connection CCTV Pass قبل الردم</td><td>QC</td><td>CCTV Record</td></tr>
 </table></div>
@@ -1520,7 +1520,7 @@
 
 <h3>🔴 5. Hold Points</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th><th>Documentation</th></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-01</td><td>اعتماد Material Submittal — كل مواد الصرف السطحي</td><td>Consultant + Ashghal</td><td>Approved MAR</td></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-02</td><td>استلام + فحص المواد في الموقع</td><td>QC Engineer</td><td>Delivery Inspection Record</td></tr>
 </table></div>
@@ -1706,7 +1706,7 @@
 
 <h3>🔴 5. Hold Points — وضع المواسير</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th><th>Documentation</th></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-04A</td><td>فحص 100% ألوان المواسير بنفسجي قبل الدفن</td><td>QC</td><td>Colour Inspection Sheet</td></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-04B</td><td>Fusion Joints Records (Barcode/Photo) مكتملة</td><td>QC + Consultant</td><td>Welding/Fusion Log</td></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-04C</td><td>Thrust Blocks مكتملة — Concrete Cured قبل الاختبار</td><td>QC</td><td>Thrust Block ITR</td></tr>
@@ -1798,7 +1798,7 @@
 
 <h3>🔴 5. Hold Points</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th><th>Documentation</th></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-01</td><td>اعتماد Material Submittal — التحقق من اللون البنفسجي</td><td>Consultant + MME</td><td>Approved MAR</td></tr>
 <tr><td style="color:#e74c3c;font-weight:700;">HP-02</td><td>استلام + فحص اللون في الموقع</td><td>QC Engineer</td><td>Delivery Inspection Record</td></tr>
 </table></div>
@@ -1828,54 +1828,54 @@
 </div>
 </div>
 ` };
-  c["tw_survey"] = { title: '📐 المياه المعالجة — الدراسة والتصميم', content: `
+  c["tw_survey"] = { title: '📐 Treated Water — Study & Design', content: `
 <div class="lang-content-ar">
 <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 — Section 8 | MME Standards | Treated Water Pre-Construction</div>
 
-<h3>📐 1. متطلبات ما قبل التنفيذ — Treated Water</h3>
+<h3>📐 1. Pre-execution Requirements — Treated Water</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المتطلب</th><th>الجهة المعتمِدة</th><th>التوقيت</th></tr>
-<tr><td>مخططات التصميم</td><td>معتمدة من Ashghal + MME</td><td>Ashghal / MME</td><td>قبل أي تنفيذ</td></tr>
-<tr><td>Cross Connection Study</td><td>دراسة كاملة للفصل عن مياه الشرب — إلزامي</td><td>Consultant + MME</td><td>قبل التنفيذ</td></tr>
-<tr><td>Hydraulic Analysis</td><td>تحليل الضغط والتدفق — الحد الأدنى PN10</td><td>Consultant</td><td>قبل التصميم النهائي</td></tr>
-<tr><td>Separation Study</td><td>تحديد مسافات الفصل عن كل الشبكات</td><td>Consultant</td><td>قبل التنفيذ</td></tr>
-<tr><td>Material Submittal</td><td>مواسير بنفسجية + Fittings — شهادات المصنع</td><td>KAHRAMAA / MME</td><td>قبل التوريد</td></tr>
-<tr><td>Method Statement</td><td>يشمل إجراءات منع Cross Connection</td><td>Consultant</td><td>قبل الحفر</td></tr>
-<tr><td>Identification Plan</td><td>خطة تمييز شبكة المياه المعالجة (اللون، اللافتات)</td><td>MME</td><td>قبل التنفيذ</td></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Requirement</th><th>Approving Authority</th><th>Timing</th></tr>
+<tr><td>Design Drawings</td><td>Approved by Ashghal + MME</td><td>Ashghal / MME</td><td>Before any works</td></tr>
+<tr><td>Cross Connection Study</td><td>Full separation study from drinking water — mandatory</td><td>Consultant + MME</td><td>Before works</td></tr>
+<tr><td>Hydraulic Analysis</td><td>Pressure and flow analysis — min PN10</td><td>Consultant</td><td>Before final design</td></tr>
+<tr><td>Separation Study</td><td>Define separation distances from all networks</td><td>Consultant</td><td>Before works</td></tr>
+<tr><td>Material Submittal</td><td>Purple pipes + Fittings — manufacturer certificates</td><td>KAHRAMAA / MME</td><td>Before supply</td></tr>
+<tr><td>Method Statement</td><td>Must include cross connection prevention procedures</td><td>Consultant</td><td>Before excavation</td></tr>
+<tr><td>Identification Plan</td><td>Treated water network marking plan (colour, signs)</td><td>MME</td><td>Before works</td></tr>
 </table></div>
 
-<h3>📐 2. NOC إلزامي من الجهات</h3>
+<h3>📐 2. Mandatory NOC from Authorities</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>الجهة</th><th>سبب NOC</th><th>التوقيت</th></tr>
-<tr><td>KAHRAMAA</td><td>التحقق من عدم تأثير على شبكة مياه الشرب</td><td>قبل الحفر</td></tr>
-<tr><td>MME (Ministry of Municipality)</td><td>اعتماد مصدر المياه المعالجة وجودتها</td><td>قبل التشغيل</td></tr>
-<tr><td>Ashghal</td><td>الطرق والشبكات الموجودة</td><td>قبل الحفر</td></tr>
-<tr><td>Ooredoo / Infrastructure جهات</td><td>الاتصالات والخدمات المدفونة</td><td>قبل الحفر</td></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>Authority</th><th>Reason for NOC</th><th>Timing</th></tr>
+<tr><td>KAHRAMAA</td><td>Verify no impact on drinking water network</td><td>Before excavation</td></tr>
+<tr><td>MME (Ministry of Municipality)</td><td>Approve treated water source and quality</td><td>Before commissioning</td></tr>
+<tr><td>Ashghal</td><td>Roads and existing networks</td><td>Before excavation</td></tr>
+<tr><td>Ooredoo / Infrastructure Authorities</td><td>Telecommunications and buried services</td><td>Before excavation</td></tr>
 </table></div>
 
-<h3>⛔ 3. تحذيرات خاصة — Treated Water</h3>
+<h3>⛔ 3. Special Warnings — Treated Water</h3>
 <div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:12px;font-size:12px;">
-<strong style="color:#e74c3c;">⚠️ المياه المعالجة غير صالحة للشرب تحت أي ظرف</strong><br>
-• Cross Connection مع مياه الشرب = كارثة صحية + إيقاف المشروع + تحقيق جنائي<br>
-• اللون البنفسجي على كل المواسير والـ Fittings والـ Valves إلزامي بدون استثناء<br>
-• لافتات "TREATED WATER — NOT FOR DRINKING" عند كل نقطة ري<br>
-• فحص Cross Connection قبل التشغيل = Hold Point مطلق (MME Present)
+<strong style="color:#e74c3c;">⚠️ Treated water is NOT suitable for drinking under any circumstances</strong><br>
+• Cross Connection with drinking water = health disaster + project shutdown + criminal investigation<br>
+• Purple colour on all pipes, fittings and valves is mandatory without exception<br>
+• "TREATED WATER — NOT FOR DRINKING" signs at every irrigation point<br>
+• Cross Connection check before commissioning = Absolute Hold Point (MME Present)
 </div>
 
-<h3>📐 4. مسافات الفصل الإلزامية</h3>
+<h3>📐 4. Mandatory Separation Distances</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>الشبكة المجاورة</th><th>الفصل الأفقي الأدنى</th><th>الفصل الرأسي</th><th>ملاحظة</th></tr>
-<tr><td>مياه الشرب (Water Supply)</td><td>≥ 1000mm</td><td>مياه الشرب دائماً فوق</td><td>الأهم — مطلق</td></tr>
-<tr><td>Foul Sewer</td><td>≥ 500mm</td><td>Treated Water فوق أو جانبي</td><td>QCS S8</td></tr>
-<tr><td>Storm Water</td><td>≥ 300mm</td><td>أي وضع مقبول</td><td>QCS S8</td></tr>
-<tr><td>كابلات الكهرباء</td><td>≥ 300mm</td><td>—</td><td>KAHRAMAA</td></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>Adjacent Network</th><th>Min Horizontal Separation</th><th>Vertical Separation</th><th>Note</th></tr>
+<tr><td>Drinking Water (Water Supply)</td><td>≥ 1000mm</td><td>Water supply always above</td><td>Critical — absolute</td></tr>
+<tr><td>Foul Sewer</td><td>≥ 500mm</td><td>Treated Water above or side</td><td>QCS S8</td></tr>
+<tr><td>Storm Water</td><td>≥ 300mm</td><td>Any position acceptable</td><td>QCS S8</td></tr>
+<tr><td>Electricity Cables</td><td>≥ 300mm</td><td>—</td><td>KAHRAMAA</td></tr>
 </table></div>
 
-<h3>🔴 5. Hold Points — ما قبل التنفيذ</h3>
+<h3>🔴 5. Hold Points — Pre-execution</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">HP-01</td><td>Cross Connection Study معتمدة من MME قبل التنفيذ</td><td>MME + Consultant</td><td>Approved Cross Connection Study</td></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">HP-02</td><td>Material Approval — مواسير بنفسجية 100% من MME</td><td>MME</td><td>Approved Material Submittal</td></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th><th>Documentation</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-01</td><td>Cross Connection Study approved by MME before works</td><td>MME + Consultant</td><td>Approved Cross Connection Study</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-02</td><td>Material Approval — 100% purple pipes approved by MME</td><td>MME</td><td>Approved Material Submittal</td></tr>
 </table></div>
 </div>
 
@@ -1903,56 +1903,56 @@
 </div>
 </div>
 ` };
-  c["tw_handover"] = { title: '✅ المياه المعالجة — التسليم', content: `
+  c["tw_handover"] = { title: '✅ Treated Water — Handover', content: `
 <div class="lang-content-ar">
 <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:8px;margin:10px 0;font-size:11px;">📌 QCS 2024 — Section 8 | MME Standards | Treated Water Handover</div>
 
-<h3>📐 1. وثائق التسليم الإلزامية</h3>
+<h3>📐 1. Mandatory Handover Documents</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>الوثيقة</th><th>المحتوى المطلوب</th><th>النسخ</th><th>الجهة</th></tr>
-<tr><td>As-Built Drawings</td><td>Plan + Long Section + GPS Coordinates لكل Fitting + Valve<br>يُظهر اللون البنفسجي بوضوح</td><td>3 ورقي + 1 رقمي</td><td>Ashghal / MME</td></tr>
-<tr><td>Pressure Test Certificates</td><td>كل نتائج Hydrostatic Test — 1.5×PN / 2hr / Zero drop</td><td>أصلي + نسختان</td><td>QC / MME</td></tr>
-<tr><td>Cross Connection Test Report</td><td>Tracer Dye Test Report — صفر تلوث<br>MME Representative Signature إلزامي</td><td>أصلي</td><td>MME</td></tr>
-<tr><td>Water Quality Certificate</td><td>BOD / TSS / E.Coli / pH / Turbidity<br>نتائج MME Lab المعتمدة</td><td>أصلي</td><td>MME Lab</td></tr>
-<tr><td>Material Certificates</td><td>Mill Certs للمواسير + Fittings + Valves<br>تأكيد اللون البنفسجي</td><td>أصلي</td><td>Manufacturer</td></tr>
-<tr><td>ITP Signed Register</td><td>كل ITPs مغلقة — صفر NCR مفتوح</td><td>أصلي موقّع</td><td>QC + Consultant</td></tr>
-<tr><td>Valve Schedule</td><td>جدول كل الـ Valves: Location / Size / Type / Colour<br>GPS Coordinates لكل Valve</td><td>ورقي + رقمي</td><td>Ashghal / MME</td></tr>
-<tr><td>Warning Signs Record</td><td>صور توثيقية لكل لافتات "NOT FOR DRINKING"<br>موثقة بالـ GPS</td><td>رقمي</td><td>MME</td></tr>
-<tr><td>O&M Manual</td><td>دليل التشغيل والصيانة + Emergency Procedures<br>Contact Numbers للطوارئ</td><td>نسختان</td><td>للمشغّل</td></tr>
-<tr><td>CCTV Report (إن وجد)</td><td>للخطوط الرئيسية — Grade ≤ 2 كامل</td><td>رقمي + تقرير</td><td>Ashghal</td></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>Document</th><th>Required Content</th><th>Copies</th><th>Authority</th></tr>
+<tr><td>As-Built Drawings</td><td>Plan + Long Section + GPS Coordinates for each Fitting + Valve<br>Purple colour clearly shown</td><td>3 hard copy + 1 digital</td><td>Ashghal / MME</td></tr>
+<tr><td>Pressure Test Certificates</td><td>All Hydrostatic Test results — 1.5×PN / 2hr / Zero drop</td><td>Original + 2 copies</td><td>QC / MME</td></tr>
+<tr><td>Cross Connection Test Report</td><td>Tracer Dye Test Report — zero contamination<br>MME Representative Signature mandatory</td><td>Original</td><td>MME</td></tr>
+<tr><td>Water Quality Certificate</td><td>BOD / TSS / E.Coli / pH / Turbidity<br>Approved MME Lab results</td><td>Original</td><td>MME Lab</td></tr>
+<tr><td>Material Certificates</td><td>Mill Certs for pipes + Fittings + Valves<br>Purple colour confirmation</td><td>Original</td><td>Manufacturer</td></tr>
+<tr><td>ITP Signed Register</td><td>All ITPs closed — zero open NCRs</td><td>Original signed</td><td>QC + Consultant</td></tr>
+<tr><td>Valve Schedule</td><td>Schedule of all Valves: Location / Size / Type / Colour<br>GPS Coordinates for each Valve</td><td>Hard copy + digital</td><td>Ashghal / MME</td></tr>
+<tr><td>Warning Signs Record</td><td>Documentary photos of all "NOT FOR DRINKING" signs<br>GPS documented</td><td>Digital</td><td>MME</td></tr>
+<tr><td>O&M Manual</td><td>Operations & Maintenance Manual + Emergency Procedures<br>Emergency Contact Numbers</td><td>2 copies</td><td>Operator</td></tr>
+<tr><td>CCTV Report (if applicable)</td><td>For main lines — full Grade ≤ 2</td><td>Digital + report</td><td>Ashghal</td></tr>
 </table></div>
 
-<h3>📐 2. قائمة التحقق قبل التسليم النهائي</h3>
+<h3>📐 2. Pre-Handover Checklist</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>الشرط</th><th>الجهة</th><th>الحالة</th></tr>
-<tr><td>Pressure Test</td><td>100% Pass — كل Sections</td><td>QC</td><td>✅ قبل التسليم</td></tr>
-<tr><td>Cross Connection Test</td><td>MME Certified — صفر تلوث</td><td>MME</td><td>✅ إلزامي</td></tr>
-<tr><td>Water Quality</td><td>BOD ≤10 | TSS ≤10 | E.Coli ≤1 CFU</td><td>MME Lab</td><td>✅ إلزامي</td></tr>
-<tr><td>Colour Audit</td><td>100% بنفسجي — فحص ميداني نهائي</td><td>MME Inspector</td><td>✅ إلزامي</td></tr>
-<tr><td>Valve Operation</td><td>كل الـ Valves تُفتح وتُغلق بسلاسة</td><td>QC</td><td>✅ إلزامي</td></tr>
-<tr><td>Warning Signs</td><td>موجودة عند كل نقطة ري ومخرج</td><td>MME Inspector</td><td>✅ إلزامي</td></tr>
-<tr><td>NCR Log</td><td>صفر NCRs مفتوحة</td><td>QC</td><td>✅ إلزامي</td></tr>
-<tr><td>As-Built Submitted</td><td>مُسلَّمة ومعتمدة</td><td>Consultant</td><td>✅ إلزامي</td></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Condition</th><th>Authority</th><th>Status</th></tr>
+<tr><td>Pressure Test</td><td>100% Pass — all Sections</td><td>QC</td><td>✅ Before handover</td></tr>
+<tr><td>Cross Connection Test</td><td>MME Certified — zero contamination</td><td>MME</td><td>✅ Mandatory</td></tr>
+<tr><td>Water Quality</td><td>BOD ≤10 | TSS ≤10 | E.Coli ≤1 CFU</td><td>MME Lab</td><td>✅ Mandatory</td></tr>
+<tr><td>Colour Audit</td><td>100% purple — final field inspection</td><td>MME Inspector</td><td>✅ Mandatory</td></tr>
+<tr><td>Valve Operation</td><td>All valves open and close smoothly</td><td>QC</td><td>✅ Mandatory</td></tr>
+<tr><td>Warning Signs</td><td>Present at every irrigation point and outlet</td><td>MME Inspector</td><td>✅ Mandatory</td></tr>
+<tr><td>NCR Log</td><td>Zero open NCRs</td><td>QC</td><td>✅ Mandatory</td></tr>
+<tr><td>As-Built Submitted</td><td>Submitted and approved</td><td>Consultant</td><td>✅ Mandatory</td></tr>
 </table></div>
 
-<h3>🛡️ 3. فترة الضمان DLP — Defects Liability Period</h3>
+<h3>🛡️ 3. Defects Liability Period (DLP)</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>البند</th><th>المتطلب</th></tr>
-<tr><td>مدة DLP</td><td>12 شهر من تاريخ التسليم الرسمي (TOC)</td></tr>
-<tr><td>Water Quality Monitoring</td><td>كل 3 أشهر — نتائج لـ MME</td></tr>
-<tr><td>Cross Connection Re-check</td><td>عند نهاية DLP — قبل الإغلاق النهائي</td></tr>
-<tr><td>Irrigation Points Inspection</td><td>كل نقطة ري كل 6 أشهر</td></tr>
-<tr><td>Valve Operation Test</td><td>كل 6 أشهر — توثيق</td></tr>
-<tr><td>Leak Repair Response</td><td>خلال 24 hour من الإبلاغ</td></tr>
-<tr><td>Warning Signs Check</td><td>كل 3 أشهر — استبدال المتلفة فوراً</td></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>Item</th><th>Requirement</th></tr>
+<tr><td>DLP Duration</td><td>12 months from official handover date (TOC)</td></tr>
+<tr><td>Water Quality Monitoring</td><td>Every 3 months — results to MME</td></tr>
+<tr><td>Cross Connection Re-check</td><td>At end of DLP — before final closure</td></tr>
+<tr><td>Irrigation Points Inspection</td><td>Every irrigation point every 6 months</td></tr>
+<tr><td>Valve Operation Test</td><td>Every 6 months — documented</td></tr>
+<tr><td>Leak Repair Response</td><td>Within 24 hours of reporting</td></tr>
+<tr><td>Warning Signs Check</td><td>Every 3 months — replace damaged signs immediately</td></tr>
 </table></div>
 
-<h3>🔴 4. Hold Points النهائية</h3>
+<h3>🔴 4. Final Hold Points</h3>
 <div style="overflow-x:auto;"><table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>الشرط</th><th>الجهة</th><th>التوثيق</th></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">HP-08</td><td>Cross Connection Certificate من MME — مطلق قبل التسليم</td><td>MME Representative</td><td>MME Signed Certificate</td></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">HP-09</td><td>Water Quality Reports معتمدة + Colour Audit Pass</td><td>MME Lab + Inspector</td><td>Lab Reports + Inspection Record</td></tr>
-<tr><td style="color:#e74c3c;font-weight:700;">HP-10</td><td>موافقة Ashghal + MME الرسمية على التسليم النهائي</td><td>Ashghal + MME</td><td>TAC Certificate</td></tr>
+<tr style="background:rgba(122,21,21,0.85);"><th>HP</th><th>Condition</th><th>Authority</th><th>Documentation</th></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-08</td><td>Cross Connection Certificate from MME — absolute before handover</td><td>MME Representative</td><td>MME Signed Certificate</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-09</td><td>Approved Water Quality Reports + Colour Audit Pass</td><td>MME Lab + Inspector</td><td>Lab Reports + Inspection Record</td></tr>
+<tr><td style="color:#e74c3c;font-weight:700;">HP-10</td><td>Official Ashghal + MME approval for final handover</td><td>Ashghal + MME</td><td>TAC Certificate</td></tr>
 </table></div>
 </div>
 
