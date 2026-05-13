@@ -1514,34 +1514,71 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <div class="lang-content-en" style="display:none;">
 <div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Wearing Course — Final Surface Layer</span>
-<button onclick="document.getElementById('vid-wc-new').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Prime Coat — Execution & Testing</span>
+<button onclick="document.getElementById('vid-prime-new').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
 </div>
-<h3>🛢️ Prime Coat & Tack Coat — Complete Requirements</h3>
-<p style="font-size:12px;color:var(--text2);margin-bottom:12px;">Prime coat is applied to the finished granular roadbase before laying asphalt. Tack coat is applied between existing and new asphalt layers to ensure bonding.</p>
-<h4 style="color:var(--gold);margin-bottom:8px;">Prime Coat (Primer)</h4>
-<table class="dm-table">
-<tr><th>Property</th><th>Requirement</th><th>Reference</th></tr>
-<tr><td>Material</td><td>Medium curing cutback: MC-30 or MC-70<br>Or slow set emulsion: CSS-1</td><td>QCS S8 P3 T3.1</td></tr>
-<tr><td>Application Rate</td><td>0.5–1.5 L/m² (based on surface absorption)</td><td>QCS S8 P3</td></tr>
-<tr><td>Surface Condition</td><td>Dry, clean, finished to design level</td><td>QCS S8 P3</td></tr>
-<tr><td>Surface Temperature</td><td>≥10°C</td><td>QCS S8 P3</td></tr>
-<tr><td>Curing Period</td><td>Min 24 hours before asphalt laying</td><td>QCS S8 P3</td></tr>
-<tr><td>Acceptance Check</td><td>Fully absorbed — no shiny/wet patches</td><td>QCS S8 P3</td></tr>
-<tr><td>Coverage</td><td>Full, uniform — no bare patches</td><td>QCS S8 P3</td></tr>
-</table>
-<h4 style="color:var(--gold);margin-top:14px;margin-bottom:8px;">Tack Coat</h4>
-<table class="dm-table">
-<tr><th>Property</th><th>Requirement</th><th>Reference</th></tr>
-<tr><td>Material</td><td>Rapid break emulsion: CSS-1h or K1-70</td><td>QCS S8 P3 T3.2</td></tr>
-<tr><td>Application Rate</td><td>0.2–0.4 L/m² on existing asphalt<br>0.3–0.6 L/m² on concrete surface</td><td>QCS S8 P3</td></tr>
-<tr><td>Timing</td><td>Apply immediately before paving — must be broken/tacky</td><td>QCS S8 P3</td></tr>
-<tr><td>Surface Condition</td><td>Clean, dry, sound — sweep before application</td><td>QCS S8 P3</td></tr>
-<tr><td>Sprayer Calibration</td><td>Rate check before each day's work</td><td>QCS S8 P3</td></tr>
-</table>
-<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
-⚠️ Rejection criteria: Ponding, uncured areas, traffic contamination, or rate outside specification. Engineer must approve prime coat before paving commences.
+<input type="file" id="vid-prime-new" accept="video/*" style="display:none" data-player="vid-prime-new-p" data-ph="vid-prime-new-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
+<div id="vid-prime-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload video MP4/MOV — saved for the session</div>
+<div id="vid-prime-new-p" class="qs-vid-ph" data-maxh="260px"></div>
 </div>
+
+<h3>📐 Prime Coat Definition — QCS S6 P5 Cl. 5.3</h3>
+<p>Prime Coat is the application of diluted bitumen on the compacted Road Base surface before laying the first asphalt layer. Its purpose: binding Base Course surface particles, dust prevention, and providing adhesion between the granular layer and the asphalt layer. Executed using MC-30 or MC-70 (Medium Curing Cutback Bitumen). Asphalt laying is prohibited without an approved Prime Coat.</p>
+
+<h3>⚠️ Rejection Conditions — QCS S6 P5</h3>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;">
+<strong>Prime Coat is rejected in the following cases:</strong><br>
+• Spraying on wet Base or with standing water<br>
+• Spraying on unapproved Base (HP not accepted)<br>
+• Surface temperature &lt; 10°C or during rain<br>
+• Application rate below 0.8 L/m² or above 1.2 L/m²<br>
+• Bitumen penetration &lt; 5mm into surface<br>
+• Insufficient curing period (24–48 hours)<br>
+• Presence of pooling patches or bare spots<br>
+• Use of expired or non-conforming materials
+</div>
+
+<h3>📐 Material Specifications — MC-30 / MC-70</h3>
+<div style="overflow-x:auto;">
+<table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Property</th><th>MC-30</th><th>MC-70</th><th>Test Method</th></tr>
+<tr><td><strong>Kinematic Viscosity @ 60°C</strong></td><td>30–60 cSt</td><td>70–140 cSt</td><td>ASTM D2170</td></tr>
+<tr><td><strong>Flash Point (Tag Open Cup)</strong></td><td>≥ 27°C</td><td>≥ 38°C</td><td>ASTM D3143</td></tr>
+<tr><td><strong>Distillation — to 360°C</strong></td><td>≥ 50%</td><td>≥ 55%</td><td>ASTM D402</td></tr>
+<tr><td><strong>Residue from Distillation</strong></td><td>≥ 50%</td><td>≥ 55%</td><td>ASTM D402</td></tr>
+<tr><td><strong>Penetration of Residue @ 25°C</strong></td><td>120–300</td><td>120–300</td><td>ASTM D5</td></tr>
+<tr><td><strong>Water Content</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 0.2%</td><td style="color:#2ecc71;font-weight:700;">≤ 0.2%</td><td>ASTM D95</td></tr>
+</table></div>
+
+<h3>📐 Application Rates — QCS S6 P5</h3>
+<div style="overflow-x:auto;">
+<table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.9);"><th>Parameter</th><th>Specification</th><th>Note</th></tr>
+<tr><td><strong>Application Rate</strong></td><td style="color:#2ecc71;font-weight:700;font-size:14px;">0.8 – 1.2 L/m²</td><td>Determined from Trial Section</td></tr>
+<tr><td><strong>Spray Temperature</strong></td><td><strong>MC-30:</strong> 35–60°C<br><strong>MC-70:</strong> 50–80°C</td><td>Per Viscosity-Temperature Chart</td></tr>
+<tr><td><strong>Penetration Depth</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 5mm into Base surface</td><td>Visual + Core check</td></tr>
+<tr><td><strong>Curing Time</strong></td><td><strong>24 – 48 hours minimum</strong></td><td>Until surface dries and is non-tacky</td></tr>
+<tr><td><strong>Surface Condition</strong></td><td>Dry + clean + dust-free</td><td>Sweep + air-blow before spraying</td></tr>
+<tr><td><strong>Weather</strong></td><td>No rain + surface &gt; 10°C + wind &lt; 30 km/h</td><td>Stop immediately in case of rain</td></tr>
+</table></div>
+
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin:12px 0;font-size:12px;">
+<strong>🔵 Key Notes:</strong><br>
+• <strong>Trial Section</strong> is mandatory to determine the appropriate spray rate before actual work<br>
+• Equipment movement on Prime Coat is prohibited before complete drying<br>
+• Any pooling areas must be sanded and re-sprayed<br>
+• Bare spots must be manually re-sprayed at the same rate<br>
+• Rain within 24 hours of spraying = redo the work
+</div>
+
+<h3>🔴 Hold Points</h3>
+<table class="dm-table">
+<tr><th>HP</th><th>Condition</th><th>Documentation</th></tr>
+<tr><td>HP-01</td><td>Road Base approved and accepted</td><td>Base Approval Certificate</td></tr>
+<tr><td>HP-02</td><td>Prime Coat material approval (MC-30/70)</td><td>Material Certificate + Lab Test</td></tr>
+<tr><td>HP-03</td><td>Trial Section approved (rate + penetration)</td><td>Trial Section Report</td></tr>
+<tr><td>HP-04</td><td>Curing complete (24-48 hr) + dry surface</td><td>Visual Inspection + Photo Record</td></tr>
+</table>
 </div>
 ` };
   c["prime_tack_summary"] = { title: '🛢️ Prime Coat & Tack Coat — QCS S6 P5 Pages 30-31', content: `
