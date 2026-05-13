@@ -41,9 +41,30 @@ async function fetchQCSContext(keywords, limit, module) {
     const allChunks = [];
     const seen = new Set();
 
-    // ── استراتيجية 1: Full-Text Search (الأدق — يجد الـ chunks المقطوعة) ──
-    // FTS يبحث في نص كامل المستند ويجد chunk 819 حتى لو بدأ بـ "perature"
-    if (words.length > 0) {
+    // ── استراتيجية 0: بحث مباشر بمصطلحات محددة (أدق لـ chunks المعروفة) ──
+    // chunk 819 يحتوي "35" لكن يبدأ بـ "perature" — نستهدفه مباشرة
+    const DIRECT_TERMS = {
+      pour:  ['35', 'placing temperature', 'fresh concrete temperature'],
+      tests: ['compressive strength', 'cube test'],
+    };
+    if (DIRECT_TERMS[module]) {
+      for (const term of DIRECT_TERMS[module]) {
+        if (allChunks.length >= lim) break;
+        const r = await fetch(
+          `${url}/rest/v1/qcs_chunks?content=ilike.*${encodeURIComponent(term)}*${fileFilter}&select=id,content,source_file,section_name,page_num&limit=2&order=page_num.asc`,
+          { headers }
+        );
+        if (r.ok) {
+          const data = await r.json();
+          for (const c of (Array.isArray(data) ? data : [])) {
+            if (!seen.has(c.id)) { seen.add(c.id); allChunks.push(c); }
+          }
+        }
+      }
+    }
+
+    // ── استراتيجية 1: Full-Text Search (fallback عام) ──
+    if (words.length > 0 && allChunks.length < lim) {
       const ftsQuery = words.slice(0, 4).join(' ');
       const r = await fetch(
         `${url}/rest/v1/qcs_chunks?fts=phfts.${encodeURIComponent(ftsQuery)}${fileFilter}&select=id,content,source_file,section_name,page_num&limit=${lim}&order=page_num.asc`,
@@ -55,21 +76,17 @@ async function fetchQCSContext(keywords, limit, module) {
           if (!seen.has(c.id)) { seen.add(c.id); allChunks.push(c); }
         }
       }
-      // إذا وجد FTS chunks، أضف الـ chunk التالي مباشرة (لحل مشكلة النص المقطوع)
-      if (allChunks.length > 0) {
-        const lastChunk = allChunks[allChunks.length - 1];
-        const nextId = lastChunk.id + 1;
-        if (!seen.has(nextId)) {
-          const rNext = await fetch(
-            `${url}/rest/v1/qcs_chunks?id=eq.${nextId}&select=id,content,source_file,section_name,page_num`,
-            { headers }
-          );
-          if (rNext.ok) {
-            const nextData = await rNext.json();
-            if (Array.isArray(nextData) && nextData[0]) {
-              seen.add(nextId);
-              allChunks.push(nextData[0]); // أضف الـ continuation chunk
-            }
+      // أضف الـ chunk التالي لكل chunk (لحل النص المقطوع)
+      const toFetch = allChunks.map(c => c.id + 1).filter(id => !seen.has(id)).slice(0, 2);
+      for (const nextId of toFetch) {
+        const rNext = await fetch(
+          `${url}/rest/v1/qcs_chunks?id=eq.${nextId}&select=id,content,source_file,section_name,page_num`,
+          { headers }
+        );
+        if (rNext.ok) {
+          const nextData = await rNext.json();
+          if (Array.isArray(nextData) && nextData[0]) {
+            seen.add(nextId); allChunks.push(nextData[0]);
           }
         }
       }
