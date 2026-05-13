@@ -277,8 +277,15 @@ export default async function handler(req) {
     : question;
 
   // SYNC-WITH: api/vision-proxy.js model chain — نفس النماذج المؤكدة
-  // SYNC-WITH: api/vision-proxy.js model chain — نفس النماذج المؤكدة
-  const MODELS = ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-1.5-flash'];
+  // Gemini models — ordered by preference, fallback on failure
+  const MODELS = [
+    'gemini-2.5-flash',
+    'gemini-2.5-flash-preview-05-20',
+    'gemini-2.0-flash-001',
+    'gemini-2.0-flash',
+    'gemini-1.5-pro',
+    'gemini-1.5-flash-002',
+  ];
   // Method Statements تحتاج توكنز أكثر من الأسئلة القصيرة
   const maxTokens = (module === 'mos') ? 4096 : 1500;
 
@@ -310,6 +317,10 @@ export default async function handler(req) {
         const data = await geminiRes.json();
         text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
         if (text) break; // نجح — لا تحاول نموذج آخر
+        // لم يرجع نص — سجّل السبب
+        const finishReason = data?.candidates?.[0]?.finishReason || 'unknown';
+        const promptFeedback = data?.promptFeedback?.blockReason || '';
+        console.error(`[execution-ai] ${model} empty text — finishReason=${finishReason} block=${promptFeedback}`);
       } catch (modelErr) {
         lastErr = modelErr.message;
         console.error(`[execution-ai] ${model} exception:`, modelErr.message);
