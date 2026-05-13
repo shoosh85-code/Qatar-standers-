@@ -1278,7 +1278,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 📌 QCS 2024 — Section 6 Part 5 | Air Voids | Pages 16-19
 </div>
 <div class="lang-content-ar">
-<h3>📐 تعريف Air Voids — QCS S6 P5</h3>
+<h3>📐 Air Voids Definition — QCS S6 P5</h3>
 <p><strong>Air Voids (Va)</strong> هي نسبة الفراغات الهوائية الموجودة في الخليط الإسفلتي المدموك مقارنةً بالحجم الكلي للخليط. تُعبَّر عنها بنسبة مئوية وتؤثر مباشرةً على:</p>
 <ul style="margin:8px 0;padding-right:16px">
 <li><strong>إذا كانت Va عالية جداً (فوق 5%)</strong>: الخليط هش، يسمح بدخول الهواء والماء → تشقق مبكر</li>
@@ -1286,29 +1286,29 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <li><strong>النطاق المقبول</strong>: 3.0% - 5.0% وفق QCS 2024 S6 P5</li>
 </ul>
 <table class="dm-table">
-<tr><th>الحالة</th><th>Va%</th><th>التأثير</th><th>الإجراء</th></tr>
-<tr><td>مثالي</td><td>3-5%</td><td>أداء ممتاز</td><td>PASS</td></tr>
-<tr><td>عالٍ</td><td>> 5%</td><td>هشاشة + تشقق</td><td>FAIL → إعادة دمك أو رفض</td></tr>
-<tr><td>منخفض</td><td>< 3%</td><td>Rutting تحت الحرارة</td><td>FAIL → مراجعة Mix Design</td></tr>
+<tr><th>Condition</th><th>Va%</th><th>Effect</th><th>Action</th></tr>
+<tr><td>Ideal</td><td>3-5%</td><td>Excellent performance</td><td>PASS</td></tr>
+<tr><td>High</td><td>> 5%</td><td>Brittleness + cracking</td><td>FAIL → Re-compact or reject</td></tr>
+<tr><td>Low</td><td>< 3%</td><td>Rutting under heat</td><td>FAIL → Review Mix Design</td></tr>
 </table>
 
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 — Section 6 Part 5 | Pages 16-19
 </div>
 <div class="lang-content-ar">
-<h3>📐 جدول 5:9 — Air Voids قبل وبعد الفرش — QCS S6 P5 Page 16</h3>
+<h3>📐 Table 5:9 — Air Voids before & after laying — QCS S6 P5 Page 16</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>المرحلة</th><th>WC</th><th>BC-A</th><th>BC-B</th></tr>
-<tr><td>Air Voids في JMF (Lab Design)</td><td>4.0%</td><td>4.0%</td><td>4.0%</td></tr>
-<tr><td>Air Voids المقبولة في الموقع (Va)</td><td>3 - 5%</td><td>3 - 5%</td><td>3 - 5%</td></tr>
-<tr><td>Max Va في أي نموذج فردي</td><td>7%</td><td>7%</td><td>7%</td></tr>
-<tr><td>Minimum Va الموقع</td><td>2%</td><td>2%</td><td>2%</td></tr>
-<tr><td>TMD المستهدف (% Max Density)</td><td>≥ 97%</td><td>≥ 97%</td><td>≥ 97%</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Stage</th><th>WC</th><th>BC-A</th><th>BC-B</th></tr>
+<tr><td>Air Voids in JMF (Lab Design)</td><td>4.0%</td><td>4.0%</td><td>4.0%</td></tr>
+<tr><td>Acceptable Air Voids on site (Va)</td><td>3 - 5%</td><td>3 - 5%</td><td>3 - 5%</td></tr>
+<tr><td>Max Va in any single sample</td><td>7%</td><td>7%</td><td>7%</td></tr>
+<tr><td>Minimum Va on site</td><td>2%</td><td>2%</td><td>2%</td></tr>
+<tr><td>Target TMD (% Max Density)</td><td>≥ 97%</td><td>≥ 97%</td><td>≥ 97%</td></tr>
 </table>
 
-<h3>📐 جدول 5:10 — Tolerances الموقع (Mix vs JMF) — QCS S6 P5 Page 17</h3>
+<h3>📐 Table 5:10 — Site Tolerances (Mix vs JMF) — QCS S6 P5 Page 17</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>التفاوت المسموح</th></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Allowable Tolerance</th></tr>
 <tr><td>Bitumen Content (% of mix)</td><td>± 0.3%</td></tr>
 <tr><td>% Passing 0.075mm sieve</td><td>± 2.0%</td></tr>
 <tr><td>% Passing 2.36mm sieve</td><td>± 5.0%</td></tr>
@@ -1318,26 +1318,26 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>% Passing 19.0mm sieve</td><td>± 7.0%</td></tr>
 <tr><td>% Passing 25.0mm sieve</td><td>± 7.0%</td></tr>
 <tr><td>% Passing 37.5mm sieve</td><td>± 8.0%</td></tr>
-<tr><td>Mixing Temperature</td><td>± 10°C من JMF</td></tr>
+<tr><td>Mixing Temperature</td><td>± 10°C from JMF</td></tr>
 </table>
 
-<h3>📐 جدول 5:11 — Field Density Acceptance — QCS S6 P5 Pages 18-19</h3>
+<h3>📐 Table 5:11 — Field Density Acceptance — QCS S6 P5 Pages 18-19</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>طريقة القياس</th><th>المتطلب</th><th>التكرار</th></tr>
-<tr><td>Core Samples (TMD%)</td><td>≥97% TMD (كل نموذج)</td><td>كل 1000m² كحد أدنى</td></tr>
-<tr><td>Mean Core Density (عينة 5 كورات)</td><td>≥97% TMD</td><td>كل Lot (2000-3000m²)</td></tr>
-<tr><td>أي كور فردي</td><td>لا يقل عن 93% TMD</td><td>رفض فوري إذا &lt; 93%</td></tr>
-<tr><td>Nuclear Gauge (Field Check)</td><td>≥97% TMD</td><td>كل 200m² للمراقبة</td></tr>
-<tr><td>Air Voids من الكور</td><td>2 - 8%</td><td>كل كور</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Measurement Method</th><th>Requirement</th><th>Frequency</th></tr>
+<tr><td>Core Samples (TMD%)</td><td>≥97% TMD (each sample)</td><td>Every 1000m² minimum</td></tr>
+<tr><td>Mean Core Density (5 core sample)</td><td>≥97% TMD</td><td>Per Lot (2000-3000m²)</td></tr>
+<tr><td>Any individual core</td><td>Not less than 93% TMD</td><td>Immediate rejection if &lt; 93%</td></tr>
+<tr><td>Nuclear Gauge (Field Check)</td><td>≥97% TMD</td><td>Every 200m² for monitoring</td></tr>
+<tr><td>Air Voids from cores</td><td>2 - 8%</td><td>Each core</td></tr>
 </table>
 
 <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;">
-⚠️ <strong>إجراء الفشل:</strong> إذا كان المتوسط &lt; 97% TMD أو كور فردي &lt; 93% → NCR فوري + تحقيق + قرار بالقشط أو القبول بتخفيض.
+⚠️ <strong>إجراء الفشل:</strong> إذا كان المتوسط &lt; 97% TMD أو كور فردي &lt; 93% → Immediate NCR + investigation + decision to mill or accept with reduction.
 </div>
 
 <h3>📐 Layer Thickness Tolerance</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>الطبقة</th><th>السماكة التصميمية</th><th>التفاوت المسموح</th></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Layer</th><th>Design Thickness</th><th>Allowable Tolerance</th></tr>
 <tr><td>Wearing Course</td><td>40-55mm</td><td>-5mm / +10mm</td></tr>
 <tr><td>Base Course B</td><td>60-80mm</td><td>-10mm / +15mm</td></tr>
 <tr><td>Base Course A</td><td>80-100mm</td><td>-10mm / +15mm</td></tr>
@@ -1345,9 +1345,9 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </div>
 <h3>📐 Pavement Elevation Tolerances — QCS S6 P5</h3>
 <table class="dm-table">
-<tr><th>المستوى / Level</th><th>التفاوت المسموح / Tolerance</th><th>QCS</th></tr>
-<tr><td>Top of Wearing Course (منسوب السطح النهائي)</td><td>±6mm from design level</td><td>S6 P5 Page 19</td></tr>
-<tr><td>Crossfall (الميل العرضي)</td><td>2.5% ± 0.3%</td><td>S6 P2 + RDM</td></tr>
+<tr><th>Level</th><th>Allowable Tolerance</th><th>QCS</th></tr>
+<tr><td>Top of Wearing Course (final surface level)</td><td>±6mm from design level</td><td>S6 P5 Page 19</td></tr>
+<tr><td>Crossfall (transverse slope)</td><td>2.5% ± 0.3%</td><td>S6 P2 + RDM</td></tr>
 <tr><td>Longitudinal Profile</td><td>±6mm under 3m straight edge</td><td>S6 P5</td></tr>
 <tr><td>Edge of Carriageway</td><td>±25mm from design line</td><td>S6 P5</td></tr>
 </table>
@@ -1417,21 +1417,21 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 📌 QCS 2024 — Section 6 Part 5 | Marshall Mix Design | Pages 15-19
 </div>
 <div class="lang-content-ar">
-<h3>📐 تعريف Marshall Mix Design</h3>
-<p>طريقة تصميم الخلطة Asphaltية الأكثر استخداماً في قطر. تعتمد على ضغط العينات بـ 75 ضربة (طرق رئيسية) أو 50 ضربة (طرق ثانوية) ثم قياس الـ Stability والـ Flow عند 60°C.</p>
+<h3>📐 Marshall Mix Design Definition</h3>
+<p>The most widely used asphalt mix design method in Qatar. Based on compacting samples with 75 blows (major roads) or 50 blows (secondary roads) then measuring Stability and Flow at 60°C.</p>
 
-<h3>📐 تعريف طبقات Asphalt حسب QCS S6 P5</h3>
+<h3>📐 Asphalt Layer Definitions per QCS S6 P5</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>الطبقة</th><th>التعريف</th><th>NMAS</th></tr>
-<tr><td><strong>Base Course Class A (BC-A)</strong></td><td>طبقة بيس كورس سميكة للطرق ذات الأحمال العالية جداً. توضع مباشرة فوق الـ Subbase.</td><td>25mm أو 37.5mm</td></tr>
-<tr><td><strong>Base Course Class B (BC-B)</strong></td><td>طبقة بيس كورس للطرق العادية والثانوية. أقل سماكة وحجم ركام من BC-A.</td><td>19mm أو 25mm</td></tr>
-<tr><td><strong>Wearing Course (WC)</strong></td><td>الطبقة العلوية المتلامسة مع المرور. تُوفر الإحكام ومقاومة الانزلاق والاستواء. PSV ≥ 55 إلزامي.</td><td>9.5mm أو 12.5mm</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Layer</th><th>Definition</th><th>NMAS</th></tr>
+<tr><td><strong>Base Course Class A (BC-A)</strong></td><td>Thick base course layer for very high-load roads. Placed directly above the Subbase.</td><td>25mm أو 37.5mm</td></tr>
+<tr><td><strong>Base Course Class B (BC-B)</strong></td><td>Base course layer for normal and secondary roads. Less thickness and aggregate size than BC-A.</td><td>19mm أو 25mm</td></tr>
+<tr><td><strong>Wearing Course (WC)</strong></td><td>The top layer in contact with traffic. Provides impermeability, skid resistance and smoothness. PSV ≥ 55 mandatory.</td><td>9.5mm أو 12.5mm</td></tr>
 </table>
 
-<h3>📐 جدول 5:6 — Marshall Design Criteria — QCS S6 P5 Page 15</h3>
+<h3>📐 Table 5:6 — Marshall Design Criteria — QCS S6 P5 Page 15</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>الخاصية</th><th>Wearing Course</th><th>Base Course A</th><th>Base Course B</th></tr>
-<tr><td>عدد الضربات (Compaction Blows)</td><td>75 / وجه</td><td>75 / وجه</td><td>75 / وجه</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Property</th><th>Wearing Course</th><th>Base Course A</th><th>Base Course B</th></tr>
+<tr><td>Compaction Blows</td><td>75 / face</td><td>75 / face</td><td>75 / face</td></tr>
 <tr><td>Marshall Stability (kN)</td><td>≥ 9.0</td><td>≥ 9.0</td><td>≥ 8.0</td></tr>
 <tr><td>Marshall Flow (mm)</td><td>2 - 4</td><td>2 - 4</td><td>2 - 4</td></tr>
 <tr><td>Air Voids Va (%)</td><td>3 - 5</td><td>3 - 5</td><td>3 - 5</td></tr>
@@ -1441,22 +1441,22 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>Dust-to-Binder Ratio (P0.075/Pb)</td><td>0.6 - 1.2</td><td>0.6 - 1.2</td><td>0.6 - 1.2</td></tr>
 </table>
 
-<h3>📐 جدول 5:7 — Asphalt Mix Composition Limits — QCS S6 P5 Page 15</h3>
+<h3>📐 Table 5:7 — Asphalt Mix Composition Limits — QCS S6 P5 Page 15</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>WC</th><th>BC-A</th><th>BC-B</th></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>WC</th><th>BC-A</th><th>BC-B</th></tr>
 <tr><td>Bitumen Content % (by mix weight)</td><td>5.0 - 6.5</td><td>4.0 - 5.5</td><td>4.5 - 6.0</td></tr>
-<tr><td>Max Aggregate Size (NMAS)</td><td>9.5 أو 12.5mm</td><td>25 أو 37.5mm</td><td>19 أو 25mm</td></tr>
+<tr><td>Max Aggregate Size (NMAS)</td><td>9.5 or 12.5mm</td><td>25 or 37.5mm</td><td>19 or 25mm</td></tr>
 <tr><td>Film Thickness (avg microns)</td><td>≥ 8</td><td>≥ 8</td><td>≥ 8</td></tr>
 <tr><td>% Passing 0.075mm (Filler)</td><td>2 - 8</td><td>2 - 7</td><td>2 - 7</td></tr>
 </table>
 
-<h3>📐 جدول 5:8 — Compacted Layer Thickness — QCS S6 P5 Page 15</h3>
+<h3>📐 Table 5:8 — Compacted Layer Thickness — QCS S6 P5 Page 15</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>الطبقة</th><th>السماكة المضغوطة</th><th>الحد الأدنى</th><th>الحد الأقصى</th></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Layer</th><th>Compacted Thickness</th><th>Minimum</th><th>Maximum</th></tr>
 <tr><td>Wearing Course (WC)</td><td>40 - 55mm</td><td>40mm</td><td>55mm</td></tr>
 <tr><td>Base Course B (BC-B)</td><td>60 - 80mm</td><td>60mm</td><td>80mm</td></tr>
 <tr><td>Base Course A (BC-A)</td><td>80 - 100mm</td><td>80mm</td><td>100mm</td></tr>
-<tr><td>ملاحظة: إذا تجاوزت السماكة 100mm</td><td colspan="3">يُقسَّم لطبقتين — كل طبقة ≤ 100mm</td></tr>
+<tr><td>Note: If thickness exceeds 100mm</td><td colspan="3">Split into two layers — each layer ≤ 100mm</td></tr>
 </table>
 lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -1507,42 +1507,42 @@ lang-content-en" style="display:none;">
 📌 QCS 2024 — Section 6 Part 5 | Superpave Mix Design | Page 23 Table 5:17
 </div>
 <div class="lang-content-ar">
-<h3>📐 تعريف Superpave Mix Design</h3>
-<p>نظام تصميم إسفلتي أمريكي (SHRP/AASHTO) يعتمد على أداء Asphalt الفعلي تحت ظروف الطقس والحركة. يستخدم <strong>SGC (Superpave Gyratory Compactor)</strong> بدل المطرقة ويُصنِّف البيتومين بنظام <strong>PG Grade</strong>.</p>
+<h3>📐 Superpave Mix Design Definition</h3>
+<p>An American asphalt design system (SHRP/AASHTO) based on actual Asphalt performance under weather and traffic conditions. Uses <strong>SGC (Superpave Gyratory Compactor)</strong> instead of hammer and classifies bitumen using <strong>PG Grade</strong> system.</p>
 
-<h3>📐 الفرق بين Marshall و Superpave</h3>
+<h3>📐 Difference between Marshall and Superpave</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>Marshall</th><th>Superpave</th></tr>
-<tr><td>جهاز الضغط</td><td>Marshall Hammer (ضربات)</td><td>SGC Gyratory Compactor (دورات)</td></tr>
-<tr><td>عدد Compactions</td><td>50 أو 75 ضربة</td><td>Nini + Ndesign + Nmax حسب ESAL</td></tr>
-<tr><td>تصنيف البيتومين</td><td>Penetration Grade (60/70)</td><td>Performance Grade (PG64-xx إلى PG82-xx)</td></tr>
-<tr><td>اختبارات البيتومين</td><td>Penetration + Softening</td><td>DSR + BBR + RTFOT + PAV</td></tr>
-<tr><td>Fine Aggregate تعريف</td><td>مار من 2.36mm</td><td>مار من 4.75mm</td></tr>
-<tr><td>تصميم Air Voids</td><td>3-5% @ 75 blows</td><td>4.0% @ Ndesign</td></tr>
-<tr><td>الاستخدام في قطر</td><td>كل الطرق</td><td>PMB Wearing + طرق رئيسية ESAL &gt; 3×10⁶</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Marshall</th><th>Superpave</th></tr>
+<tr><td>Compaction Device</td><td>Marshall Hammer (ضربات)</td><td>SGC Gyratory Compactor (دورات)</td></tr>
+<tr><td>Number of Compactions</td><td>50 or 75 blows</td><td>Nini + Ndesign + Nmax حسب ESAL</td></tr>
+<tr><td>Bitumen Classification</td><td>Penetration Grade (60/70)</td><td>Performance Grade (PG64-xx إلى PG82-xx)</td></tr>
+<tr><td>Bitumen Tests</td><td>Penetration + Softening</td><td>DSR + BBR + RTFOT + PAV</td></tr>
+<tr><td>Fine Aggregate definition</td><td>Passing 2.36mm</td><td>Passing 4.75mm</td></tr>
+<tr><td>Air Voids Design</td><td>3-5% @ 75 blows</td><td>4.0% @ Ndesign</td></tr>
+<tr><td>Use in Qatar</td><td>All roads</td><td>PMB Wearing + major roads ESAL &gt; 3×10⁶</td></tr>
 </table>
 
-<h3>📐 Superpave Gyratory Compaction — عدد الدورات</h3>
+<h3>📐 Superpave Gyratory Compaction — Number of Gyrations</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>مستوى الحركة (ESAL × 10⁶)</th><th>Nini</th><th>Ndesign</th><th>Nmax</th><th>PG Grade</th></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Traffic Level (ESAL × 10⁶)</th><th>Nini</th><th>Ndesign</th><th>Nmax</th><th>PG Grade</th></tr>
 <tr><td>&lt; 0.3</td><td>6</td><td>50</td><td>75</td><td>PG64-10</td></tr>
 <tr><td>0.3 - &lt; 3</td><td>7</td><td>75</td><td>115</td><td>PG70-10</td></tr>
 <tr><td>3 - &lt; 10</td><td>8</td><td>100</td><td>160</td><td>PG76-10</td></tr>
-<tr><td>10 - &lt; 30</td><td>9</td><td>125</td><td>205</td><td>PG76-10 أو PG76E-10</td></tr>
-<tr><td>≥ 30 (طرق سريعة رئيسية)</td><td>9</td><td>125</td><td>205</td><td>PG82-10</td></tr>
+<tr><td>10 - &lt; 30</td><td>9</td><td>125</td><td>205</td><td>PG76-10 or PG76E-10</td></tr>
+<tr><td>≥ 30 (Major expressways)</td><td>9</td><td>125</td><td>205</td><td>PG82-10</td></tr>
 </table>
 
-<h3>📐 جدول 5:17 — Sampling Frequency للـ Superpave — QCS S6 P5 Page 23</h3>
+<h3>📐 Table 5:17 — Sampling Frequency for Superpave — QCS S6 P5 Page 23</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>الاختبار</th><th>المرحلة</th><th>التكرار</th><th>الاختبار المرجعي</th></tr>
-<tr><td>Bitumen PG Testing (DSR, BBR, RTFOT)</td><td>Material Approval</td><td>كل شحنة</td><td>AASHTO T315, T313</td></tr>
-<tr><td>Gradation + Bitumen Extraction</td><td>أثناء الإنتاج</td><td>كل 400t أو يومياً</td><td>ASTM D2172</td></tr>
-<tr><td>SGC Compaction + Va</td><td>أثناء الإنتاج</td><td>كل 400t</td><td>AASHTO T312</td></tr>
-<tr><td>Hamburg Wheel Track (Rutting)</td><td>JMF Approval</td><td>مرة عند التصميم</td><td>AASHTO T324</td></tr>
-<tr><td>Cantabro (Raveling — SMA)</td><td>JMF Approval</td><td>مرة عند التصميم</td><td>ASTM D7064</td></tr>
-<tr><td>TSR (Moisture Sensitivity)</td><td>JMF Approval</td><td>مرة عند التصميم</td><td>AASHTO T283</td></tr>
-<tr><td>Core Density TMD%</td><td>بعد الفرش</td><td>كل 1000m²</td><td>ASTM D6927</td></tr>
-<tr><td>IRI (Roughness)</td><td>بعد الفرش</td><td>كل Section 400m</td><td>PWA IAN 013</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Stage</th><th>Frequency</th><th>Reference Test</th></tr>
+<tr><td>Bitumen PG Testing (DSR, BBR, RTFOT)</td><td>Material Approval</td><td>Each shipment</td><td>AASHTO T315, T313</td></tr>
+<tr><td>Gradation + Bitumen Extraction</td><td>During production</td><td>Every 400t or daily</td><td>ASTM D2172</td></tr>
+<tr><td>SGC Compaction + Va</td><td>During production</td><td>Every 400t</td><td>AASHTO T312</td></tr>
+<tr><td>Hamburg Wheel Track (Rutting)</td><td>JMF Approval</td><td>Once at design</td><td>AASHTO T324</td></tr>
+<tr><td>Cantabro (Raveling — SMA)</td><td>JMF Approval</td><td>Once at design</td><td>ASTM D7064</td></tr>
+<tr><td>TSR (Moisture Sensitivity)</td><td>JMF Approval</td><td>Once at design</td><td>AASHTO T283</td></tr>
+<tr><td>Core Density TMD%</td><td>After laying</td><td>Every 1000m²</td><td>ASTM D6927</td></tr>
+<tr><td>IRI (Roughness)</td><td>After laying</td><td>Every 400m Section</td><td>PWA IAN 013</td></tr>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
@@ -1571,93 +1571,93 @@ lang-content-en" style="display:none;">
 </table>
 </div>
 ` };
-  c["bitumen_tests"] = { title: '🧪 Bitumen Tests — كل اختبارات البيتومين 60/70 وPMB', content: `
+  c["bitumen_tests"] = { title: '🧪 Bitumen Tests — All 60/70 and PMB Tests', content: `
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 S6 P5 | AASHTO | ASTM | EN | Full Bitumen Testing Programme
 </div>
 <div class="lang-content-ar">
 
-<h3>🧪 1. الاختبارات الأساسية — Bitumen 60/70 (Standard Tests)</h3>
+<h3>🧪 1. Standard Tests — Bitumen 60/70</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>الاختبار</th><th>الشرح</th><th>المعيار QCS</th><th>الاختبار</th></tr>
-<tr><td><strong>Penetration @ 25°C</strong></td><td>قياس عمق غرز إبرة قياسية في البيتومين = مؤشر صلابة</td><td>60-70 × 0.1mm</td><td>ASTM D5 / EN 1426</td></tr>
-<tr><td><strong>Softening Point R&B</strong></td><td>درجة حرارة تبدأ فيها عينة البيتومين بالتليين (Ring & Ball)</td><td>49 - 56°C</td><td>ASTM D36 / EN 1427</td></tr>
-<tr><td><strong>Ductility @ 25°C</strong></td><td>قياس قابلية التمدد قبل القطع — مؤشر المرونة</td><td>≥ 100 cm</td><td>ASTM D113</td></tr>
-<tr><td><strong>Flash Point (COC)</strong></td><td>أدنى درجة حرارة يشتعل فيها البيتومين — للسلامة</td><td>≥ 232°C</td><td>ASTM D92</td></tr>
-<tr><td><strong>Specific Gravity @ 25°C</strong></td><td>الكثافة النسبية للبيتومين</td><td>1.01 - 1.05</td><td>ASTM D70</td></tr>
-<tr><td><strong>Solubility in TCE</strong></td><td>ذوبان في Trichloroethylene — مؤشر نقاء البيتومين</td><td>≥ 99%</td><td>ASTM D2042</td></tr>
-<tr><td><strong>Wax Content</strong></td><td>نسبة الشمع — الشمع الزائد يضر بالأداء الحراري</td><td>≤ 2.2%</td><td>IP 336</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>QCS Standard</th><th>Method</th></tr>
+<tr><td><strong>Penetration @ 25°C</strong></td><td>Measures penetration depth of standard needle into bitumen = hardness indicator</td><td>60-70 × 0.1mm</td><td>ASTM D5 / EN 1426</td></tr>
+<tr><td><strong>Softening Point R&B</strong></td><td>Temperature at which bitumen sample begins to soften (Ring & Ball)</td><td>49 - 56°C</td><td>ASTM D36 / EN 1427</td></tr>
+<tr><td><strong>Ductility @ 25°C</strong></td><td>Measures extensibility before fracture — flexibility indicator</td><td>≥ 100 cm</td><td>ASTM D113</td></tr>
+<tr><td><strong>Flash Point (COC)</strong></td><td>Lowest temperature at which bitumen ignites — for safety</td><td>≥ 232°C</td><td>ASTM D92</td></tr>
+<tr><td><strong>Specific Gravity @ 25°C</strong></td><td>Relative density of bitumen</td><td>1.01 - 1.05</td><td>ASTM D70</td></tr>
+<tr><td><strong>Solubility in TCE</strong></td><td>Solubility in Trichloroethylene — bitumen purity indicator</td><td>≥ 99%</td><td>ASTM D2042</td></tr>
+<tr><td><strong>Wax Content</strong></td><td>Wax content — excess wax harms thermal performance</td><td>≤ 2.2%</td><td>IP 336</td></tr>
 </table>
 
-<h3>🧪 2. اختبارات التقادم — RTFOT + TFOT</h3>
+<h3>🧪 2. Aging Tests — RTFOT + TFOT</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>الاختبار</th><th>الشرح</th><th>المعيار QCS</th><th>الاختبار</th></tr>
-<tr><td><strong>RTFOT (Rolling Thin Film Oven Test)</strong></td><td>يحاكي تقادم البيتومين أثناء الخلط بالحرارة (163°C / 75 دقيقة). يقيس فقدان الكتلة وتغير الخصائص</td><td>Loss ≤ 0.8%</td><td>ASTM D2872 / EN 12607-1</td></tr>
-<tr><td><strong>TFOT (Thin Film Oven Test)</strong></td><td>بديل أقدم للـ RTFOT — نفس الهدف لكن أقل دقة</td><td>Loss ≤ 0.8%</td><td>ASTM D1754</td></tr>
-<tr><td><strong>Penetration after RTFOT</strong></td><td>قياس Penetration على العينة المُشاخة = مقارنة بالأصلي</td><td>≥ 50% of original</td><td>ASTM D5</td></tr>
-<tr><td><strong>Ductility after RTFOT @ 25°C</strong></td><td>قابلية التمدد بعد التقادم</td><td>≥ 50 cm</td><td>ASTM D113</td></tr>
-<tr><td><strong>Softening Point after RTFOT</strong></td><td>ارتفاع Softening Point بعد RTFOT — مؤشر تصلب</td><td>Increase ≤ 8°C</td><td>ASTM D36</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>QCS Standard</th><th>Method</th></tr>
+<tr><td><strong>RTFOT (Rolling Thin Film Oven Test)</strong></td><td>Simulates bitumen ageing during hot mixing (163°C / 75 min). Measures mass loss and property changes</td><td>Loss ≤ 0.8%</td><td>ASTM D2872 / EN 12607-1</td></tr>
+<tr><td><strong>TFOT (Thin Film Oven Test)</strong></td><td>Older alternative to RTFOT — same purpose but less precise</td><td>Loss ≤ 0.8%</td><td>ASTM D1754</td></tr>
+<tr><td><strong>Penetration after RTFOT</strong></td><td>Measures Penetration on aged sample = comparison with original</td><td>≥ 50% of original</td><td>ASTM D5</td></tr>
+<tr><td><strong>Ductility after RTFOT @ 25°C</strong></td><td>Extensibility after ageing</td><td>≥ 50 cm</td><td>ASTM D113</td></tr>
+<tr><td><strong>Softening Point after RTFOT</strong></td><td>Rise in Softening Point after RTFOT — hardening indicator</td><td>Increase ≤ 8°C</td><td>ASTM D36</td></tr>
 </table>
 
 <h3>🧪 3. PAV — Pressure Aging Vessel Residue</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>الاختبار</th><th>الشرح</th><th>المعيار</th></tr>
-<tr><td><strong>PAV (Pressure Aging Vessel)</strong></td><td>يحاكي تقادم البيتومين طويل الأمد أثناء خدمة الطريق (20+ سنة). العينة تُعالج في وعاء ضغط عند 100°C / 2.1 MPa لمدة 20 ساعة بعد RTFOT</td><td>AASHTO R28 / EN 14769</td></tr>
-<tr><td><strong>المدخل</strong></td><td>RTFOT Residue مُسخَّن أولاً</td><td>—</td></tr>
-<tr><td><strong>الشروط</strong></td><td>100°C أو 110°C (حسب المناخ) / 2.1 MPa / 20 hr</td><td>AASHTO R28</td></tr>
-<tr><td><strong>المخرجات</strong></td><td>PAV Residue يُستخدم في DSR Creep + DTT</td><td>—</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>Standard</th></tr>
+<tr><td><strong>PAV (Pressure Aging Vessel)</strong></td><td>Simulates long-term bitumen ageing during road service (20+ years). Sample processed in pressure vessel at 100°C / 2.1 MPa for 20 hrة بعد RTFOT</td><td>AASHTO R28 / EN 14769</td></tr>
+<tr><td><strong>Input</strong></td><td>RTFOT Residue pre-heated</td><td>—</td></tr>
+<tr><td><strong>Conditions</strong></td><td>100°C or 110°C (per climate) / 2.1 MPa / 20 hr</td><td>AASHTO R28</td></tr>
+<tr><td><strong>Outputs</strong></td><td>PAV Residue used in DSR Creep + DTT</td><td>—</td></tr>
 </table>
 
 <h3>🧪 4. DSR — Dynamic Shear Rheometer</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>الاختبار</th><th>الشرح</th><th>المعيار QCS (PMB)</th><th>المرجع</th></tr>
-<tr><td><strong>G*/sinδ (Unaged)</strong></td><td>قياس قساوة البيتومين عند درجات حرارة عالية (Summer Rutting). G* = Stiffness Module، δ = Phase Angle. كلما كان G*/sinδ أكبر = مقاومة Rutting أفضل</td><td>≥ 2.2 kPa @ 76°C (PMB)</td><td>AASHTO T315</td></tr>
-<tr><td><strong>G*/sinδ (RTFOT Residue)</strong></td><td>نفس الاختبار بعد RTFOT — مقاومة التشقق الحراري</td><td>≥ 4.4 kPa @ 76°C (PMB)</td><td>AASHTO T315</td></tr>
-<tr><td><strong>Phase Angle δ (PAV Residue)</strong></td><td>زاوية التأخر — مؤشر المرونة. δ صغير = أكثر مرونة</td><td>≤ 75° @ 25°C</td><td>AASHTO T315</td></tr>
-<tr><td><strong>G*×sinδ (PAV Residue)</strong></td><td>مقاومة التعب والتشقق عند درجات حرارة متوسطة</td><td>≤ 5000 kPa @ 25°C</td><td>AASHTO T315</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>QCS Standard (PMB)</th><th>Reference</th></tr>
+<tr><td><strong>G*/sinδ (Unaged)</strong></td><td>Measures bitumen stiffness at high temperatures (Summer Rutting). G* = Stiffness Module, δ = Phase Angle. Higher G*/sinδ = more resistantة Rutting أفضل</td><td>≥ 2.2 kPa @ 76°C (PMB)</td><td>AASHTO T315</td></tr>
+<tr><td><strong>G*/sinδ (RTFOT Residue)</strong></td><td>Same test after RTFOT — thermal cracking resistance</td><td>≥ 4.4 kPa @ 76°C (PMB)</td><td>AASHTO T315</td></tr>
+<tr><td><strong>Phase Angle δ (PAV Residue)</strong></td><td>Phase angle — flexibility indicator. Small δ = more flexible</td><td>≤ 75° @ 25°C</td><td>AASHTO T315</td></tr>
+<tr><td><strong>G*×sinδ (PAV Residue)</strong></td><td>Fatigue and cracking resistance at intermediate temperatures</td><td>≤ 5000 kPa @ 25°C</td><td>AASHTO T315</td></tr>
 </table>
 
 <h3>🧪 5. BBR — Bending Beam Rheometer (Creep Stiffness)</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>الاختبار</th><th>الشرح</th><th>المعيار QCS</th><th>المرجع</th></tr>
-<tr><td><strong>Creep Stiffness S</strong></td><td>قياس صلابة البيتومين عند درجات الحرارة المنخفضة (شتاء / ليل). عينة تُثنى عند -10°C لمدة 60 ثانية. S عالي = بيتومين صلب = تشقق حراري</td><td>S ≤ 300 MPa @ -10°C / 60s</td><td>AASHTO T313 / EN 14771</td></tr>
-<tr><td><strong>m-value (Rate of Relaxation)</strong></td><td>معدل تخفيف الإجهاد الحراري. m كبير = تخفيف أسرع = أقل تشققاً</td><td>m ≥ 0.300 @ -10°C</td><td>AASHTO T313</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>QCS Standard</th><th>Reference</th></tr>
+<tr><td><strong>Creep Stiffness S</strong></td><td>Measures bitumen stiffness at low temperatures (winter/night). Sample bent at -10°C for 60 seconds. High S = stiff bitumen = thermal crackingري</td><td>S ≤ 300 MPa @ -10°C / 60s</td><td>AASHTO T313 / EN 14771</td></tr>
+<tr><td><strong>m-value (Rate of Relaxation)</strong></td><td>Rate of thermal stress relaxation. Higher m = faster relaxation = less cracking</td><td>m ≥ 0.300 @ -10°C</td><td>AASHTO T313</td></tr>
 </table>
 
 <h3>🧪 6. Direct Tension Test (DTT)</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>الاختبار</th><th>الشرح</th><th>المعيار</th></tr>
-<tr><td><strong>Failure Strain</strong></td><td>قياس انزياع العينة عند الكسر بدرجات برودة. يكمل BBR لتقييم التشقق الحراري. يُستخدم عند m-value يكون قريباً من الحد (0.300)</td><td>AASHTO T314</td></tr>
-<tr><td><strong>شرط الاستخدام</strong></td><td>إذا كانت BBR Stiffness بين 300-600 MPa → يُجرى DTT</td><td>AASHTO MP1</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>Standard</th></tr>
+<tr><td><strong>Failure Strain</strong></td><td>Measures sample strain at fracture in cold temperatures. Complements BBR for thermal cracking evaluation. Used when m-value is close to the limit (0.300)</td><td>AASHTO T314</td></tr>
+<tr><td><strong>شرط الاستخدام</strong></td><td>If BBR Stiffness is between 300-600 MPa → DTT is performed</td><td>AASHTO MP1</td></tr>
 <tr><td><strong>معيار القبول</strong></td><td>Failure Strain ≥ 1.0%</td><td>AASHTO MP1</td></tr>
 </table>
 
 <h3>🧪 7. Rotational Viscosity (RV)</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>الاختبار</th><th>الشرح</th><th>المعيار</th></tr>
-<tr><td><strong>Rotational Viscosity @ 135°C</strong></td><td>قياس لزوجة البيتومين عند درجة حرارة الضخ والإنتاج. اللزوجة العالية = صعوبة في الضخ والخلط</td><td>AASHTO T316 / ASTM D4402</td></tr>
-<tr><td><strong>معيار القبول (للضخ)</strong></td><td>≤ 3 Pa·s @ 135°C</td><td>AASHTO MP1</td></tr>
-<tr><td><strong>معيار القبول (للخلط)</strong></td><td>0.17 ± 0.02 Pa·s → يحدد Mixing Temperature</td><td>AASHTO T316</td></tr>
-<tr><td><strong>درجات الحرارة القياسية</strong></td><td>135°C و 165°C (لتحديد Equiviscous Temp)</td><td>AASHTO T316</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>Standard</th></tr>
+<tr><td><strong>Rotational Viscosity @ 135°C</strong></td><td>Measures bitumen viscosity at pumping and production temperature. High viscosity = difficulty in pumping and mixing</td><td>AASHTO T316 / ASTM D4402</td></tr>
+<tr><td><strong>Acceptance Criterion (for pumping)</strong></td><td>≤ 3 Pa·s @ 135°C</td><td>AASHTO MP1</td></tr>
+<tr><td><strong>Acceptance Criterion (for mixing)</strong></td><td>0.17 ± 0.02 Pa·s → determines Mixing Temperature</td><td>AASHTO T316</td></tr>
+<tr><td><strong>Standard Temperatures</strong></td><td>135°C and 165°C (to determine Equiviscous Temp)</td><td>AASHTO T316</td></tr>
 </table>
 
-<h3>🧪 8. اختبارات PMB الإضافية (Polymer Modified Bitumen)</h3>
+<h3>🧪 8. Additional PMB Tests (Polymer Modified Bitumen)</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>الاختبار</th><th>الشرح</th><th>المعيار QCS</th><th>المرجع</th></tr>
-<tr><td><strong>Elastic Recovery @ 25°C</strong></td><td>قياس استرداد الشكل بعد الشد = مؤشر البوليمر. PMB الجيد يسترد شكله &gt; 70%</td><td>≥ 70%</td><td>ASTM D6084 / EN 13398</td></tr>
-<tr><td><strong>Force Ductility @ 4°C</strong></td><td>مقاومة التشقق البارد عند تمديد العينة بسرعة 5cm/min</td><td>≥ 2 N (at 200mm)</td><td>EN 13589</td></tr>
-<tr><td><strong>Toughness & Tenacity</strong></td><td>قياس الطاقة الكلية عند الكسر — Toughness ≥15J / Tenacity ≥5J</td><td>T ≥ 15J, t ≥ 5J</td><td>ASTM D5801</td></tr>
-<tr><td><strong>Storage Stability (ΔSoftening Point)</strong></td><td>الفرق في Softening Point بين أعلى وأسفل الـ Tube بعد 48hr @ 163°C. يكشف انفصال البوليمر عن البيتومين</td><td>ΔSP ≤ 5°C</td><td>EN 13399</td></tr>
-<tr><td><strong>FTIR (Polymer Identification)</strong></td><td>تحديد نوع البوليمر (SBS أو SBR) وتأكيد عدم التزوير</td><td>SBS أو SBR مؤكد</td><td>FTIR Spectroscopy</td></tr>
-<tr><td><strong>Separation Test @ 163°C</strong></td><td>اختبار الاستقرار الحراري — PMB يجب أن يبقى متجانساً</td><td>ΔSP ≤ 5°C</td><td>EN 13399</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Description</th><th>QCS Standard</th><th>Reference</th></tr>
+<tr><td><strong>Elastic Recovery @ 25°C</strong></td><td>Measures shape recovery after stretching = polymer indicator. Good PMB recovers &gt; 70% of shape</td><td>≥ 70%</td><td>ASTM D6084 / EN 13398</td></tr>
+<tr><td><strong>Force Ductility @ 4°C</strong></td><td>Cold cracking resistance when sample extended at 5cm/min</td><td>≥ 2 N (at 200mm)</td><td>EN 13589</td></tr>
+<tr><td><strong>Toughness & Tenacity</strong></td><td>Total energy measurement at fracture — Toughness ≥15J / Tenacity ≥5J</td><td>T ≥ 15J, t ≥ 5J</td><td>ASTM D5801</td></tr>
+<tr><td><strong>Storage Stability (ΔSoftening Point)</strong></td><td>Difference in Softening Point between top and bottom of Tube after 48hr @ 163°C. Reveals polymer separation from bitumen</td><td>ΔSP ≤ 5°C</td><td>EN 13399</td></tr>
+<tr><td><strong>FTIR (Polymer Identification)</strong></td><td>Identify polymer type (SBS or SBR) and confirm no adulteration</td><td>SBS أو SBR مؤكد</td><td>FTIR Spectroscopy</td></tr>
+<tr><td><strong>Separation Test @ 163°C</strong></td><td>Thermal stability test — PMB must remain homogeneous</td><td>ΔSP ≤ 5°C</td><td>EN 13399</td></tr>
 </table>
 
-<h3>📐 جدول PG Grade وترتيب الاختبارات</h3>
+<h3>📐 PG Grade Table and Test Sequence</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>المرحلة</th><th>العينة</th><th>الاختبارات</th><th>الهدف</th></tr>
-<tr><td>1 — أصلي (Unaged)</td><td>بيتومين خام</td><td>Penetration, Softening, Flash, Viscosity, DSR G*/sinδ</td><td>خصائص التصنيع</td></tr>
-<tr><td>2 — بعد RTFOT</td><td>Short-term Aged</td><td>Penetration Ratio, Ductility, DSR G*/sinδ (RTFOT)</td><td>تقادم الخلط</td></tr>
-<tr><td>3 — بعد PAV</td><td>Long-term Aged</td><td>DSR Phase Angle، G*×sinδ، BBR S + m-value، DTT</td><td>تقادم الخدمة</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Stage</th><th>Sample</th><th>Tests</th><th>Purpose</th></tr>
+<tr><td>1 — Original (Unaged)</td><td>Raw bitumen</td><td>Penetration, Softening, Flash, Viscosity, DSR G*/sinδ</td><td>Manufacturing properties</td></tr>
+<tr><td>2 — After RTFOT</td><td>Short-term Aged</td><td>Penetration Ratio, Ductility, DSR G*/sinδ (RTFOT)</td><td>Mixing ageing</td></tr>
+<tr><td>3 — After PAV</td><td>Long-term Aged</td><td>DSR Phase Angle، G*×sinδ، BBR S + m-value، DTT</td><td>Service ageing</td></tr>
 </table>
 </div>
 
@@ -1716,39 +1716,39 @@ lang-content-en" style="display:none;">
 📌 QCS 2024 — Section 6 Part 5 | Pavement Elevation & Asphalt Production | Page 34
 </div>
 <div class="lang-content-ar">
-<h3>📐 تقنيات ضبط Level الرصف — Page 34</h3>
+<h3>📐 Pavement Level Control Techniques — Page 34</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>التقنية</th><th>الوصف</th><th>الاستخدام</th></tr>
-<tr><td>String Line (خيط الLevel)</td><td>خيط أو سلك مشدود على الحدود المسحية لتوجيه الـ Paver Screed</td><td>الطبقة الأولى BC-A/B</td></tr>
-<tr><td>Ski (Averaging Beam)</td><td>عارضة متوسطة 4-10m مثبتة بالـ Paver تتتبع السطح الموجود وتحسب متوسطه</td><td>الطبقات العليا + WC</td></tr>
-<tr><td>Sonic Averaging Beam (SAB)</td><td>نسخة إلكترونية من الـ Ski — أجهزة Sonic Sensors ترصد المسافة وتضبط الـ Screed تلقائياً</td><td>WC بمتطلبات IRI عالية + PMB</td></tr>
-<tr><td>Slope Control</td><td>ضبط Crossfall تلقائياً عبر مستشعر الميل في الـ Paver</td><td>مع أي من الطرق الأخرى</td></tr>
-<tr><td>Total Station Control</td><td>مراقبة الLevel الفعلي بعد الفرش للتأكد من المطابقة</td><td>QC Survey — بعد كل طبقة</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Technique</th><th>Description</th><th>Application</th></tr>
+<tr><td>String Line (خيط الLevel)</td><td>String or wire stretched on survey boundaries to guide the Paver Screed</td><td>First layer BC-A/B</td></tr>
+<tr><td>Ski (Averaging Beam)</td><td>4-10m averaging beam attached to the Paver that follows existing surface and averages it</td><td>Upper layers + WC</td></tr>
+<tr><td>Sonic Averaging Beam (SAB)</td><td>Electronic version of Ski — Sonic Sensors measure distance and adjust Screed automatically</td><td>WC with high IRI requirements + PMB</td></tr>
+<tr><td>Slope Control</td><td>Automatic Crossfall control via slope sensor in the Paver</td><td>With any of the other methods</td></tr>
+<tr><td>Total Station Control</td><td>Monitoring actual level after laying to verify compliance</td><td>QC Survey — after each layer</td></tr>
 </table>
 
-<h3>⚠️ متطلبات IRI حسب الطريقة</h3>
+<h3>⚠️ IRI Requirements by Method</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>التقنية</th><th>IRI المتوقع (m/km)</th><th>للطبقة</th></tr>
-<tr><td>String Line فقط</td><td>2.0 - 3.0</td><td>BC فقط</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Technique</th><th>Expected IRI (m/km)</th><th>For Layer</th></tr>
+<tr><td>String Line only</td><td>2.0 - 3.0</td><td>BC only</td></tr>
 <tr><td>Mechanical Ski (3m)</td><td>1.5 - 2.5</td><td>WC Secondary Roads</td></tr>
 <tr><td>Sonic Averaging Beam (8-10m)</td><td>0.8 - 1.5</td><td>WC Major Roads</td></tr>
 <tr><td>Multi-Ski (SAB 12m+)</td><td>≤ 0.9</td><td>PMB WC Expressways</td></tr>
 </table>
 
-<h3>📐 Production of Asphalt Concrete — ملخص Page 34</h3>
+<h3>📐 Asphalt Concrete Production — Summary Page 34</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
-<tr><td>محطة Asphalt</td><td>مدرجة في Ashghal Prequalified Plants List</td></tr>
-<tr><td>معايرة المحطة</td><td>Calibration Report كامل قبل الإنتاج + بعد أي صيانة رئيسية</td></tr>
-<tr><td>Mixing Temperature (Non-PMB)</td><td>140 - 165°C (حسب Grade البيتومين)</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Requirement</th></tr>
+<tr><td>Asphalt Plant</td><td>مدرجة في Ashghal Prequalified Plants List</td></tr>
+<tr><td>Plant Calibration</td><td>Full Calibration Report before production + after any major maintenance</td></tr>
+<tr><td>Mixing Temperature (Non-PMB)</td><td>140 - 165°C (per bitumen Grade)</td></tr>
 <tr><td>Mixing Temperature (PMB)</td><td>150 - 175°C</td></tr>
-<tr><td>Max Storage في Silo</td><td>≤ 18 hour عند الـ Holding Temp (لا يُفضَّل التخزين)</td></tr>
-<tr><td>Delivery Temperature (Non-PMB)</td><td>≥ 135°C عند الموقع</td></tr>
-<tr><td>Delivery Temperature (PMB)</td><td>≥ 145°C عند الموقع</td></tr>
-<tr><td>Rejection Temperature</td><td>&lt; 135°C للـ Non-PMB / &lt; 145°C للـ PMB → رفض فوري</td></tr>
-<tr><td>وقت النقل الأقصى</td><td>≤ 90 دقيقة من الخلط (≤ 60 دقيقة صيفاً)</td></tr>
-<tr><td>حمولات الشاحنات</td><td>مغطاة بـ Tarpaulin في الصيف</td></tr>
-<tr><td>Contamination</td><td>شاحنة ملوثة = رفض الحمولة + تنظيف Truck Body</td></tr>
+<tr><td>Max Silo Storage</td><td>≤ 18 hours at Holding Temp (storage not preferred)</td></tr>
+<tr><td>Delivery Temperature (Non-PMB)</td><td>≥ 135°C at site</td></tr>
+<tr><td>Delivery Temperature (PMB)</td><td>≥ 145°C at site</td></tr>
+<tr><td>Rejection Temperature</td><td>&lt; 135°C for Non-PMB / &lt; 145°C for PMB → immediate rejection</td></tr>
+<tr><td>Max Transport Time</td><td>≤ 90 min from mixing (≤ 60 min in summer)</td></tr>
+<tr><td>Truck Loads</td><td>Covered with Tarpaulin in summer</td></tr>
+<tr><td>Contamination</td><td>Contaminated truck = reject load + clean Truck Body</td></tr>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
@@ -1795,39 +1795,39 @@ lang-content-en" style="display:none;">
 </table>
 </div>
 <div class="lang-content-ar">
-<h3>📐 تعريفات أساسية</h3>
+<h3>📐 Basic Definitions</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>المصطلح</th><th>التعريف</th><th>الوحدة</th></tr>
-<tr><td><strong>Standard Axle Load</strong></td><td>المحور المعياري = 80 kN (8.2 طن) — معيار التصميم العالمي</td><td>80 kN</td></tr>
-<tr><td><strong>Axle Load Factor (ALF)</strong></td><td>نسبة تأثير محور معين مقارنة بالمحور المعياري. محور 160kN = ALF 16 (= 16 محور معياري)</td><td>Dimensionless</td></tr>
-<tr><td><strong>ESAL</strong></td><td>Equivalent Standard Axle Load — مجموع كل المحاور محولة للمحور المعياري خلال عمر الطريق</td><td>× 10⁶</td></tr>
-<tr><td><strong>Traffic Designation</strong></td><td>تصنيف الطريق حسب حجم الحركة الثقيلة (ESAL) لاختيار سماكة الرصيف</td><td>T1-T6</td></tr>
-<tr><td><strong>Design Life</strong></td><td>العمر التصميمي للطريق = 20 سنة للطرق الرئيسية في قطر</td><td>Years</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Term</th><th>Definition</th><th>Unit</th></tr>
+<tr><td><strong>Standard Axle Load</strong></td><td>Standard axle = 80 kN (8.2 tonnes) — global design standard</td><td>80 kN</td></tr>
+<tr><td><strong>Axle Load Factor (ALF)</strong></td><td>Effect ratio of a given axle compared to the standard axle. 160kN axle = ALF 16 (= 16 standard axles)</td><td>Dimensionless</td></tr>
+<tr><td><strong>ESAL</strong></td><td>Equivalent Standard Axle Load — sum of all axles converted to standard axle over road design life</td><td>× 10⁶</td></tr>
+<tr><td><strong>Traffic Designation</strong></td><td>Road classification by heavy traffic volume (ESAL) to select pavement thickness</td><td>T1-T6</td></tr>
+<tr><td><strong>Design Life</strong></td><td>Road design life = 20 years for major roads in Qatar</td><td>Years</td></tr>
 </table>
 
-<h3>📐 جدول 1 — Traffic Designation — QCS S6 P2</h3>
+<h3>📐 Table 1 — Traffic Designation — QCS S6 P2</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>التصنيف</th><th>ESAL (× 10⁶)</th><th>نوع الطريق</th></tr>
-<tr><td>T1 — Light</td><td>&lt; 0.5</td><td>طرق محلية سكنية خفيفة</td></tr>
-<tr><td>T2 — Medium Light</td><td>0.5 - 1.5</td><td>طرق محلية وصغيرة</td></tr>
-<tr><td>T3 — Medium</td><td>1.5 - 5.0</td><td>طرق جامعة وخدمية</td></tr>
-<tr><td>T4 — Medium Heavy</td><td>5.0 - 15</td><td>طرق رئيسية شريانية</td></tr>
-<tr><td>T5 — Heavy</td><td>15 - 50</td><td>طرق سريعة رئيسية</td></tr>
-<tr><td>T6 — Very Heavy</td><td>&gt; 50</td><td>طرق سريعة + مناطق صناعية</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Classification</th><th>ESAL (× 10⁶)</th><th>Road Type</th></tr>
+<tr><td>T1 — Light</td><td>&lt; 0.5</td><td>Light local residential roads</td></tr>
+<tr><td>T2 — Medium Light</td><td>0.5 - 1.5</td><td>Local and minor roads</td></tr>
+<tr><td>T3 — Medium</td><td>1.5 - 5.0</td><td>Collector and service roads</td></tr>
+<tr><td>T4 — Medium Heavy</td><td>5.0 - 15</td><td>Major arterial roads</td></tr>
+<tr><td>T5 — Heavy</td><td>15 - 50</td><td>Major expressways</td></tr>
+<tr><td>T6 — Very Heavy</td><td>&gt; 50</td><td>Expressways + industrial areas</td></tr>
 </table>
 
-<h3>📐 جدول 2 — Pavement Type حسب Traffic — QCS S6 P2</h3>
+<h3>📐 Table 2 — Pavement Type per Traffic — QCS S6 P2</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>التصنيف</th><th>نوع الرصيف</th><th>طريقة التصميم</th></tr>
-<tr><td>T1 - T2</td><td>Flexible — Asphalt بسيط + Granular</td><td>Empirical (CBR Method)</td></tr>
-<tr><td>T3 - T4</td><td>Flexible — Asphalt معزز + Treated Base</td><td>Mechanistic-Empirical</td></tr>
-<tr><td>T5 - T6</td><td>Flexible PMB أو Semi-Rigid (CTB)</td><td>Mechanistic Full (AASHTO/Shell)</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Classification</th><th>Pavement Type</th><th>Design Method</th></tr>
+<tr><td>T1 - T2</td><td>Flexible — Simple Asphalt + Granular</td><td>Empirical (CBR Method)</td></tr>
+<tr><td>T3 - T4</td><td>Flexible — Reinforced Asphalt + Treated Base</td><td>Mechanistic-Empirical</td></tr>
+<tr><td>T5 - T6</td><td>Flexible PMB or Semi-Rigid (CTB)</td><td>Mechanistic Full (AASHTO/Shell)</td></tr>
 <tr><td>T5+ Heavy Industrial</td><td>Rigid — Concrete Pavement</td><td>PCA / AASHTO Rigid</td></tr>
 </table>
 
-<h3>📐 جدول 3 — Typical Pavement Structure حسب Traffic — QCS S6 P2</h3>
+<h3>📐 Table 3 — Typical Pavement Structure per Traffic — QCS S6 P2</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>التصنيف</th><th>WC</th><th>BC</th><th>Base</th><th>Subbase</th></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Classification</th><th>WC</th><th>BC</th><th>Base</th><th>Subbase</th></tr>
 <tr><td>T1 (&lt;0.5M)</td><td>40mm WC</td><td>—</td><td>150mm</td><td>150mm</td></tr>
 <tr><td>T2 (0.5-1.5M)</td><td>40mm WC</td><td>50mm BC-B</td><td>150mm</td><td>200mm</td></tr>
 <tr><td>T3 (1.5-5M)</td><td>50mm WC</td><td>70mm BC-B</td><td>200mm</td><td>250mm</td></tr>
@@ -1836,15 +1836,15 @@ lang-content-en" style="display:none;">
 <tr><td>T6 (&gt;50M)</td><td>50mm PMB WC</td><td>100mm BC-A</td><td>300mm</td><td>350mm</td></tr>
 </table>
 
-<h3>📐 جدول 5 — Pavement Design Thickness (Subgrade CBR) — QCS S6 P2</h3>
+<h3>📐 Table 5 — Pavement Design Thickness (Subgrade CBR) — QCS S6 P2</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>Subgrade CBR</th><th>T3 Total Asphalt</th><th>T4 Total Asphalt</th><th>T5 Total Asphalt</th></tr>
-<tr><td>CBR ≥ 8% (جيد)</td><td>120mm</td><td>130mm</td><td>140mm</td></tr>
-<tr><td>CBR 8-8% (متوسط / Sabkha)</td><td>130mm</td><td>145mm</td><td>160mm</td></tr>
-<tr><td>CBR 5-8% (ضعيف)</td><td>145mm</td><td>165mm</td><td>185mm</td></tr>
-<tr><td>CBR &lt; 5% (ضعيف جداً)</td><td colspan="3">معالجة إلزامية + استبدال قبل التصميم</td></tr>
+<tr><td>CBR ≥ 8% (Good)</td><td>120mm</td><td>130mm</td><td>140mm</td></tr>
+<tr><td>CBR 8-8% (Average / Sabkha)</td><td>130mm</td><td>145mm</td><td>160mm</td></tr>
+<tr><td>CBR 5-8% (Poor)</td><td>145mm</td><td>165mm</td><td>185mm</td></tr>
+<tr><td>CBR &lt; 5% (Very Poor)</td><td colspan="3">Mandatory treatment + replacement before design</td></tr>
 </table>
-<p style="font-size:11px;color:var(--text3);">ملاحظة: هذه أمثلة نموذجية — التصميم الفعلي يعتمد على تحليل ESAL الكامل + CBR الموقع + عمر التصميم.</p>
+<p style="font-size:11px;color:var(--text3);">Note: These are typical examples — actual design depends on full ESAL analysis + site CBR + design life.</p>
 </div>
 <div class="lang-content-en" style="display:none;">
 <h3>📐 Superpave Mix Design — Definition</h3>
@@ -1892,67 +1892,67 @@ lang-content-en" style="display:none;">
 📌 QCS 2024 — Section 6 Part 5 | Joints & Rolling | Pages 28-29
 </div>
 <div class="lang-content-ar">
-<h3>📐 تعريف الجوانت — Joints Definitions</h3>
-<p>الجوانت في الرصف الإسفلتي هي الواجهات بين القطع المتجاورة من الإسفلت. إدارتها الصحيحة أساسية لضمان استمرارية الرصف ومنع دخول المياه والتشقق.</p>
+<h3>📐 Joints Definitions</h3>
+<p>Joints in asphalt pavement are the interfaces between adjacent asphalt sections. Proper management is essential to ensure pavement continuity and prevent water ingress and cracking.</p>
 <table class="dm-table">
-<tr><th>النوع</th><th>التعريف</th><th>الاتجاه</th></tr>
-<tr><td><strong>Transverse Joint<br/>(جانت عرضي)</strong></td><td>الجانت الذي يمتد عمودياً على محور الطريق — يتشكّل عند بداية ونهاية كل يوم عمل أو عند توقف الـ Paver</td><td>⊥ عمودي على اتجاه السير</td></tr>
-<tr><td><strong>Longitudinal Joint<br/>(جانت طولي)</strong></td><td>الجانت الذي يمتد موازياً لمحور الطريق — يتشكّل بين حارتين مجاورتين أو Pass متجاورتين للـ Paver</td><td>// موازي لاتجاه السير</td></tr>
-<tr><td><strong>Pavement Elevation<br/>(منسوب الرصف)</strong></td><td>الفرق الرأسي بين سطح الطريق والعناصر المجاورة (Manholes/Kerbs). QCS S6 P5: ±6mm من التصميم. Manholes: flush ±5mm مع سطح الإسفلت</td><td>رأسي</td></tr>
+<tr><th>Type</th><th>Definition</th><th>Direction</th></tr>
+<tr><td><strong>Transverse Joint<br/>(جانت عرضي)</strong></td><td>Joint extending perpendicular to road axis — forms at start and end of each working day or when Paver stops</td><td>⊥ Perpendicular على اتجاه السير</td></tr>
+<tr><td><strong>Longitudinal Joint<br/>(جانت طولي)</strong></td><td>Joint extending parallel to road axis — forms between two adjacent lanes or adjacent Paver passes</td><td>// Parallel لاتجاه السير</td></tr>
+<tr><td><strong>Pavement Elevation<br/>(منسوب الرصف)</strong></td><td>Vertical difference between road surface and adjacent elements (Manholes/Kerbs). QCS S6 P5: ±6mm from design. Manholes: flush ±5mm مع سطح الإسفلت</td><td>رأسي</td></tr>
 </table>
 
-<h3>📐 Transverse Joints (الجوانت العرضية) — Page 28</h3>
+<h3>📐 Transverse Joints — Page 28</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
-<tr><td>طريقة الإنهاء</td><td>قطع عمودي نظيف (Saw Cut) للوجه القديم قبل الوصل</td></tr>
-<tr><td>طلاء الوجه</td><td>Tack Coat على الوجه العمودي قبل الفرش</td></tr>
-<tr><td>الإزاحة بين الطبقات</td><td>≥ 2.0m offset بين Transverse Joint في طبقة والطبقة التحتها</td></tr>
-<tr><td>الإزاحة بين المسارات</td><td>≥ 2.0m offset بين جوانت المسارات المتجاورة</td></tr>
-<tr><td>موقع WC Transverse Joint</td><td>تحت خط الممر إن أمكن — بعيداً عن الفرامل والتقاطعات</td></tr>
-<tr><td>Compaction عند الجوانت</td><td>Compaction مباشر بـ Vibratory Roller عمودياً على الجوينت</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Requirement</th></tr>
+<tr><td>Finishing Method</td><td>Clean vertical cut (Saw Cut) on old face before joining</td></tr>
+<tr><td>Face Coating</td><td>Tack Coat on vertical face before laying</td></tr>
+<tr><td>Offset between layers</td><td>≥ 2.0m offset between Transverse Joint in layer and layer below</td></tr>
+<tr><td>Offset between passes</td><td>≥ 2.0m offset between joints of adjacent passes</td></tr>
+<tr><td>WC Transverse Joint location</td><td>Under lane line if possible — away from braking zones and intersections</td></tr>
+<tr><td>Compaction at joints</td><td>Direct compaction with Vibratory Roller perpendicular to joint</td></tr>
 </table>
 
-<h3>📐 Longitudinal Joints (الجوانت الطولية) — Page 28</h3>
+<h3>📐 Longitudinal Joints — Page 28</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
-<tr><td>الطريقة المفضلة</td><td>Hot-on-Hot: فرش المسار المجاور قبل انخفاض الحرارة عن 90°C</td></tr>
-<tr><td>Cold Joint (لا مفر)</td><td>Saw Cut + Tack Coat على الوجه العمودي</td></tr>
-<tr><td>الإزاحة بين الطبقات</td><td>≥ 300mm offset بين Longitudinal Joint في WC و BC</td></tr>
-<tr><td>موقع WC Longitudinal Joint</td><td>تحت خط الممر (Lane Line) أو بجانبه</td></tr>
-<tr><td>الوجه القديم</td><td>مستقيم + عمودي — لا أوجه مائلة</td></tr>
-<tr><td>Overlap عند الفرش</td><td>Paver يتداخل 25-50mm مع الحافة القديمة</td></tr>
+<tr><td>Preferred Method</td><td>Hot-on-Hot: lay adjacent pass before temperature drops below 90°C</td></tr>
+<tr><td>Cold Joint (unavoidable)</td><td>Saw Cut + Tack Coat on vertical face</td></tr>
+<tr><td>Offset between layers</td><td>≥ 300mm offset between Longitudinal Joint in WC and BC</td></tr>
+<tr><td>WC Longitudinal Joint location</td><td>Under lane line or beside it</td></tr>
+<tr><td>Old face</td><td>Straight + vertical — no tapered faces</td></tr>
+<tr><td>Overlap at laying</td><td>Paver overlaps 25-50mm with old edge</td></tr>
 </table>
 
-<h3>📐 Paving Edges (حواف الرصف) — Page 28</h3>
+<h3>📐 Paving Edges — Page 28</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
-<tr><td>الحافة بجانب Kerb</td><td>فرش Paver لحد الـ Kerb مباشرة + Compaction بـ Small Roller</td></tr>
-<tr><td>الحافة الحرة (Free Edge)</td><td>Edge Compaction فوري بـ Pneumatic أو Small Drum قبل البرودة</td></tr>
-<tr><td>الميل الجانبي (Batter)</td><td>1:3 max (رأسي:أفقي) للحواف الحرة</td></tr>
-<tr><td>Compaction الحواف</td><td>Pedestrian Roller أو Plate Compactor للمناطق الضيقة</td></tr>
+<tr><td>Edge beside Kerb</td><td>Paver lays to Kerb directly + compact with Small Roller</td></tr>
+<tr><td>Free Edge</td><td>Immediate Edge Compaction with Pneumatic or Small Drum before cooling</td></tr>
+<tr><td>Batter slope</td><td>1:3 max (vertical:horizontal) for free edges</td></tr>
+<tr><td>Edge compaction</td><td>Pedestrian Roller or Plate Compactor for narrow areas</td></tr>
 </table>
 
-<h3>📐 Breakdown Rolling (الCompaction الابتدائي) — Page 28</h3>
+<h3>📐 Breakdown Rolling (Initial Compaction) — Page 28</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
-<tr><td>درجة الحرارة للبدء</td><td>≥ 120°C (Non-PMB) / ≥ 125°C (PMB)</td></tr>
-<tr><td>نوع الـ Roller</td><td>Vibratory Double Drum Steel 10-12t</td></tr>
-<tr><td>البداية</td><td>من الحافة المنخفضة للوسط (Low Side to Centre)</td></tr>
-<tr><td>Overlap بين Passes</td><td>300-500mm</td></tr>
-<tr><td>الـ Pass الأول</td><td>Static (بدون اهتزاز) لتثبيت المادة</td></tr>
-<tr><td>الـ Passes التالية</td><td>Vibratory لتحقيق الCompaction المطلوب</td></tr>
-<tr><td>سرعة الـ Roller</td><td>2.5 - 4.5 km/h عند الـ Vibratory</td></tr>
+<tr><td>Start Temperature</td><td>≥ 120°C (Non-PMB) / ≥ 125°C (PMB)</td></tr>
+<tr><td>Roller Type</td><td>Vibratory Double Drum Steel 10-12t</td></tr>
+<tr><td>Start</td><td>From low edge to centre (Low Side to Centre)</td></tr>
+<tr><td>Overlap between Passes</td><td>300-500mm</td></tr>
+<tr><td>First Pass</td><td>Static (no vibration) to set the material</td></tr>
+<tr><td>Subsequent Passes</td><td>Vibratory to achieve required Compaction</td></tr>
+<tr><td>Roller Speed</td><td>2.5 - 4.5 km/h at Vibratory</td></tr>
 </table>
 
 <h3>📐 Intermediate & Finish Rolling — Page 29</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>Intermediate</th><th>Finish Rolling</th></tr>
-<tr><td>نوع الـ Roller</td><td>Pneumatic Tyre Roller (PTR)</td><td>Tandem Steel Drum (Static)</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Intermediate</th><th>Finish Rolling</th></tr>
+<tr><td>Roller Type</td><td>Pneumatic Tyre Roller (PTR)</td><td>Tandem Steel Drum (Static)</td></tr>
 <tr><td>Temperature</td><td>80-120°C</td><td>≥ 60°C</td></tr>
-<tr><td>عدد الـ Passes</td><td>4-5 passes (2 PTR)</td><td>1-2 passes</td></tr>
-<tr><td>الهدف</td><td>تحسين Density + إغلاق السطح</td><td>إزالة آثار الـ PTR + تسوية السطح</td></tr>
-<tr><td>سرعة الـ PTR</td><td>4-8 km/h</td><td>3-6 km/h</td></tr>
-<tr><td>ضغط الإطارات PTR</td><td>400-600 kPa</td><td>—</td></tr>
+<tr><td>Number of Passes</td><td>4-5 passes (2 PTR)</td><td>1-2 passes</td></tr>
+<tr><td>Purpose</td><td>Improve Density + close surface</td><td>Remove PTR marks + smooth surface</td></tr>
+<tr><td>PTR Speed</td><td>4-8 km/h</td><td>3-6 km/h</td></tr>
+<tr><td>PTR Tyre Pressure</td><td>400-600 kPa</td><td>—</td></tr>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
@@ -2045,76 +2045,76 @@ lang-content-en" style="display:none;">
 📌 QCS 2024 — Section 6 Part 5 | Method Statement — Asphalt Works
 </div>
 <div class="lang-content-ar">
-<h3>📋 نطاق العمل</h3>
-<p>يغطي هذا الـ Method Statement أعمال Asphalt (PMB و Non-PMB) وفق QCS 2024 Part 6. يُطبَّق على جميع طبقات Asphalt في مشاريع الطرق القطرية.</p>
-<h3>1.3 المعدات والآليات</h3>
-<table class="dm-table"><tr><th>المعدة</th><th>الملاحظات</th></tr>
+<h3>📋 Scope of Work</h3>
+<p>This Method Statement covers Asphalt works (PMB and Non-PMB) per QCS 2024 Part 6. Applied to all Asphalt layers in Qatar road projects.</p>
+<h3>1.3 Equipment & Plant</h3>
+<table class="dm-table"><tr><th>Equipment</th><th>Notes</th></tr>
 <tr><td>Paver VOGELE 1900-2100</td><td>Self-propelled + Sonic Averaging Beam</td></tr>
 <tr><td>Double Drum Roller 10-12t</td><td>Initial + Intermediate Rolling</td></tr>
 <tr><td>Pneumatic Tyre Roller (PTR)</td><td>4-5 passes intermediate</td></tr>
-<tr><td>Shuttle Buggy</td><td>للـ PMB Asphalt إلزامي</td></tr>
-<tr><td>Bitumen Spray Tanker</td><td>Calibration Report مطلوب قبل البدء</td></tr>
-<tr><td>Thermometers + 3m Straight Edge</td><td>Calibration Report مطلوب</td></tr>
-<tr><td>Truck Mounted Attenuator (TMA)</td><td>TTM Equipment إلزامي</td></tr>
+<tr><td>Shuttle Buggy</td><td>Mandatory for PMB Asphalt</td></tr>
+<tr><td>Bitumen Spray Tanker</td><td>Calibration Report required before start</td></tr>
+<tr><td>Thermometers + 3m Straight Edge</td><td>Calibration Report required</td></tr>
+<tr><td>Truck Mounted Attenuator (TMA)</td><td>TTM Equipment mandatory</td></tr>
 </table>
-<h3>1.4 المواد</h3>
-<p>• جميع مواد Asphalt تُنتَج وفق JMF معتمد من المهندس<br>
-• محطة Asphalt يجب أن تكون مدرجة في Ashghal Approved List<br>
-• Prime Coat / Tack Coat: MAR معتمد قبل التطبيق</p>
-<h3>2.1 التحضير والتنسيق</h3>
-<p>• اعتماد RFIT لإخلاء المرافق وطبقات Subbase/Base قبل Asphalt<br>
-• Trial Section (50m) معتمد قبل الإنتاج الكامل — QCS 2024 S6 P5.7.3<br>
-• Paving Plan مُعدّ ومعتمد من المهندس قبل كل يوم فرش<br>
-• لا يبدأ الفرش بدون ITP Hold Point مكتمل</p>
-<h3>2.3 قبل الفرش مباشرة</h3>
+<h3>1.4 Materials</h3>
+<p>• All Asphalt materials produced per Engineer-approved JMF<br>
+• Asphalt plant must be listed in Ashghal Approved List<br>
+• Prime Coat / Tack Coat: approved MAR before application</p>
+<h3>2.1 Preparation & Coordination</h3>
+<p>• Approve RFIT for utility clearance and Subbase/Base layers before Asphalt<br>
+• Trial Section (50m) approved before full production — QCS 2024 S6 P5.7.3<br>
+• Paving Plan prepared and approved by Engineer before each paving day<br>
+• Laying must not start without completed ITP Hold Point</p>
+<h3>2.3 Immediately Before Laying</h3>
 <table class="dm-table"><tr><th>البند</th><th>المتطلب</th></tr>
-<tr><td>تنظيف السطح</td><td>Power Broom + Power Blower</td></tr>
-<tr><td>Prime/Tack Coat</td><td>مُطبَّق ومعالج قبل الفرش</td></tr>
-<tr><td>حركة الشاحنات</td><td>تقليل إلى أدنى حد على الـ Tack Coat</td></tr>
-<tr><td>Drive Lines</td><td>معيّنة ومعتمدة من الفورمان</td></tr>
-<tr><td>Joints</td><td>قطع نظيف + طلاء بيتومين</td></tr>
-<tr><td>Transverse Joints</td><td>Offset ≥ 2m من الجوينت تحته</td></tr>
+<tr><td>Surface Cleaning</td><td>Power Broom + Power Blower</td></tr>
+<tr><td>Prime/Tack Coat</td><td>Applied and cured before laying</td></tr>
+<tr><td>Truck movement</td><td>Minimise on Tack Coat</td></tr>
+<tr><td>Drive Lines</td><td>Designated and approved by foreman</td></tr>
+<tr><td>Joints</td><td>Clean cut + bitumen coating</td></tr>
+<tr><td>Transverse Joints</td><td>Offset ≥ 2m from joint below</td></tr>
 </table>
-<h3>2.4 الفرش — Non-PMB Asphalt</h3>
+<h3>2.4 Laying — Non-PMB Asphalt</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
-<tr><td>درجة الحرارة عند الوصول</td><td>≥ 135°C (Minimum Absolute)</td></tr>
-<tr><td>وقف الإنتاج</td><td>درجة حرارة محيط &lt; 8°C أو مطر أو غبار</td></tr>
-<tr><td>سماكة WC المفردة</td><td>45-55mm مضغوط</td></tr>
-<tr><td>سماكة BC-B</td><td>60-80mm مضغوط</td></tr>
-<tr><td>سماكة BC-A</td><td>80-100mm مضغوط</td></tr>
-<tr><td>المسافة بين Paver مجاورين</td><td>≤ 50m بدون rolling</td></tr>
-<tr><td>Hot-on-Hot Longitudinal Joint</td><td>قبل انخفاض الحرارة عن 90°C</td></tr>
+<tr><td>Temperature on arrival</td><td>≥ 135°C (Minimum Absolute)</td></tr>
+<tr><td>Stop production</td><td>Ambient temperature &lt; 8°C or rain or dust</td></tr>
+<tr><td>Single WC thickness</td><td>45-55mm compacted</td></tr>
+<tr><td>BC-B thickness</td><td>60-80mm compacted</td></tr>
+<tr><td>BC-A thickness</td><td>80-100mm compacted</td></tr>
+<tr><td>Distance between adjacent Pavers</td><td>≤ 50m without rolling</td></tr>
+<tr><td>Hot-on-Hot Longitudinal Joint</td><td>Before temperature drops below 90°C</td></tr>
 </table>
-<h3>2.4.1 نمط الCompaction — Non-PMB</h3>
+<h3>2.4.1 Compaction Pattern — Non-PMB</h3>
 <p>1️⃣ Pass Static — 10t Double Drum Roller<br>
 2️⃣ Passes Vibration — 10t Double Drum Roller<br>
 4️⃣ Passes — Pneumatic Tyre Roller (PTR)<br>
 1️⃣ Pass Static — 10t Double Drum Roller (Finishing)</p>
-<h3>2.5 الفرش — PMB Asphalt</h3>
+<h3>2.5 Laying — PMB Asphalt</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
-<tr><td>درجة حرارة الفرش (Minimum)</td><td>145°C عند الـ Paver</td></tr>
-<tr><td>نطاق درجة الحرارة</td><td>145-160°C</td></tr>
-<tr><td>Shuttle Buggy</td><td>إلزامي للـ PMB</td></tr>
-<tr><td>IRI للـ Wearing Course PMB</td><td>≤ 0.9 m/km (400m Section) — PWA IAN 013</td></tr>
-<tr><td>Straightedge 3m (PMB WC)</td><td>≤ 3mm Transverse (كل 20m)</td></tr>
+<tr><td>Laying Temperature (Minimum)</td><td>145°C عند الـ Paver</td></tr>
+<tr><td>Temperature Range</td><td>145-160°C</td></tr>
+<tr><td>Shuttle Buggy</td><td>Mandatory for PMB</td></tr>
+<tr><td>IRI for PMB Wearing Course</td><td>≤ 0.9 m/km (400m Section) — PWA IAN 013</td></tr>
+<tr><td>Straightedge 3m (PMB WC)</td><td>≤ 3mm Transverse (every 20m)</td></tr>
 </table>
-<h3>2.5.1 نمط الCompaction — PMB</h3>
+<h3>2.5.1 Compaction Pattern — PMB</h3>
 <p>1️⃣ Pass Static — 12t Double Drum Roller<br>
 2️⃣ Passes Vibration — 12t DDR (BC) / 3 Passes (WC)<br>
 4-5 Passes — PTR (2 Rollers)<br>
 1️⃣ Pass Static — 10t DDR (Finishing)</p>
-<h3>3.0 ضبط الجودة الميداني</h3>
-<table class="dm-table"><tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr>
+<h3>3.0 Field Quality Control</h3>
+<table class="dm-table"><tr><th>Test</th><th>Frequency</th><th>Standard</th></tr>
 <tr><td>Temperature</td><td>كل حمولة</td><td>≥ 135°C (Non-PMB) / ≥ 145°C (PMB)</td></tr>
-<tr><td>Marshall Test</td><td>كل 200 طن</td><td>≥ 8kN (≥9 للطرق الرئيسية)</td></tr>
-<tr><td>Bitumen Extraction</td><td>كل 200 طن</td><td>JMF ± 0.3%</td></tr>
-<tr><td>Core Samples</td><td>كل 1000m²</td><td>≥ 98% TMD</td></tr>
-<tr><td>Straightedge 3m</td><td>كل 100m</td><td>≤ 5mm (≤3mm للـ PMB WC)</td></tr>
-<tr><td>Level Survey</td><td>كل 25m</td><td>± 6mm WC</td></tr>
-<tr><td>IRI Measurement (PMB WC)</td><td>كل Section 400m</td><td>≤ 0.9 m/km</td></tr>
+<tr><td>Marshall Test</td><td>Every 200 tonnes</td><td>≥ 8kN (≥9 للطرق الرئيسية)</td></tr>
+<tr><td>Bitumen Extraction</td><td>Every 200 tonnes</td><td>JMF ± 0.3%</td></tr>
+<tr><td>Core Samples</td><td>Every 1000m²</td><td>≥ 98% TMD</td></tr>
+<tr><td>Straightedge 3m</td><td>Every 100m</td><td>≤ 5mm (≤3mm للـ PMB WC)</td></tr>
+<tr><td>Level Survey</td><td>Every 25m</td><td>± 6mm WC</td></tr>
+<tr><td>IRI Measurement (PMB WC)</td><td>Every 400m Section</td><td>≤ 0.9 m/km</td></tr>
 </table>
-<h3>2.8 معالجة عدم المطابقة</h3>
-<p>• قطع وإعادة رصف إذا خرجت عن التفاوتات<br>• Method Statement منفصل للأعمال التصحيحية<br>• أي إسفلت خارج المواصفة يُقشَط ويُعاد بموافقة المهندس</p>
+<h3>2.8 Non-Conformance Handling</h3>
+<p>• Mill and repave if outside tolerances<br>• Separate Method Statement for corrective works<br>• Any out-of-spec asphalt is milled and replaced with Engineer approval</p>
 </div>
 <div class="lang-content-en" style="display:none;">
 <h3>📋 Scope</h3>
@@ -2555,7 +2555,7 @@ lang-content-en" style="display:none;">
 
 <h3>🔧 فحص الجابرو عند الموقع</h3>
 <table class="dm-table">
-<tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th></tr>
+<tr><th>Test</th><th>Frequency</th><th>Standard</th></tr>
 <tr><td>Visual Inspection (اللون والنظافة)</td><td>كل تسليم</td><td>نظيف، بدون تلوث</td></tr>
 <tr><td>Grading Analysis</td><td>كل 500m³</td><td>ASTM C136</td></tr>
 <tr><td>LA Abrasion</td><td>كل 1000m³</td><td>ASTM C131</td></tr>
@@ -2621,7 +2621,7 @@ lang-content-en" style="display:none;">
 
 <h3>🔧 اختبارات الاستقبال</h3>
 <table class="dm-table">
-<tr><th>الاختبار</th><th>التكرار</th><th>المعيار</th><th>HP/W</th></tr>
+<tr><th>Test</th><th>Frequency</th><th>Standard</th><th>HP/W</th></tr>
 <tr><td>Mass Per Unit Area (وزن المتر)</td><td>Per roll batch</td><td>ISO 9864</td><td>W</td></tr>
 <tr><td>Tensile Strength</td><td>Per roll batch</td><td>ISO 10319</td><td>HP</td></tr>
 <tr><td>CBR Puncture</td><td>Per roll batch</td><td>ISO 12236</td><td>W</td></tr>
