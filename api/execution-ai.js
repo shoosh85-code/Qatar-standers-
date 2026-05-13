@@ -277,7 +277,12 @@ export default async function handler(req) {
     : question;
 
   // SYNC-WITH: api/vision-proxy.js model chain — نفس النماذج المؤكدة
-  const MODELS = ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-1.5-flash'];
+  // SYNC-WITH: Gemini API model names — updated May 2026
+  const MODELS = [
+    'gemini-2.5-flash-preview-05-20',  // أحدث flash
+    'gemini-2.0-flash',                 // مستقر
+    'gemini-1.5-flash-latest',          // fallback
+  ];
   // Method Statements تحتاج توكنز أكثر من الأسئلة القصيرة
   const maxTokens = (module === 'mos') ? 4096 : 1500;
 
