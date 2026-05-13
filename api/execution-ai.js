@@ -11,11 +11,15 @@ import { getSupabaseUrl, getSupabaseServiceKey } from '../lib/supabase.js';
 // ── جلب نصوص QCS حقيقية من Supabase ────────────────────────────────────
 // خريطة مصطلحات عربي → إنجليزي
 const AR_TO_EN = {
-  'درجة حرارة': 'maximum temperature fresh', 'الخرسانة': 'concrete placing',
+  'درجة حرارة': 'maximum temperature fresh', 'الخرسانة': 'concrete',
   'الحد الأقصى': 'maximum', 'عند الصب': 'fresh placing',
   'slump': 'slump', 'هبوط': 'slump', 'إسمنت': 'cement', 'سمنت': 'cement',
   'تسليح': 'reinforcement', 'حديد': 'reinforcement', 'تغطية': 'cover',
-  'ضغط': 'compressive', 'ماء': 'water', 'رمل': 'sand', 'حصى': 'aggregate',
+  'ضغط': 'compressive strength', 'مقاومة': 'compressive strength',
+  'تشققات': 'crack repair defect', 'تشقق': 'crack repair',
+  'رفض': 'rejection non conformance', 'مخالفة': 'non conformance defect',
+  'موافقة': 'approval material submittal', 'إسمنت': 'cement approval',
+  'ماء': 'water', 'رمل': 'sand', 'حصى': 'aggregate',
   'ركام': 'aggregate', 'أسفلت': 'asphalt', 'تربة': 'soil',
 };
 
@@ -45,7 +49,9 @@ async function fetchQCSContext(keywords, limit, module) {
     // chunk 819 يحتوي "35" لكن يبدأ بـ "perature" — نستهدفه مباشرة
     const DIRECT_TERMS = {
       pour:  ['35', 'placing temperature', 'fresh concrete temperature'],
-      tests: ['compressive strength', 'cube test'],
+      ncr:   ['crack', 'cracks repair', 'non conformance', 'defect rejection'],
+      tests: ['compressive strength', 'cube test', 'works cube'],
+      mar:   ['material approval', 'cement approval', 'submittal'],
     };
     if (DIRECT_TERMS[module]) {
       for (const term of DIRECT_TERMS[module]) {
@@ -252,7 +258,11 @@ export default async function handler(req) {
     .map(([, en]) => en)
     .join(' ');
 
-  const searchKeywords = questionKeywords || moduleKeywords[module] || question.slice(0, 60);
+  // ادمج كلمات السؤال + كلمات الـ module للحصول على أدق نتيجة
+  const baseKeywords = moduleKeywords[module] || '';
+  const searchKeywords = questionKeywords
+    ? (questionKeywords + ' ' + baseKeywords).trim()
+    : (baseKeywords || question.slice(0, 60));
   const qcsContext = await fetchQCSContext(searchKeywords, module === 'mos' ? 6 : 4, module);
 
   const systemPrompt = (PROMPTS[module] || PROMPTS.general) + qcsContext;
