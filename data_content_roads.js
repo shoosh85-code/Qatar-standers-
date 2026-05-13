@@ -3832,26 +3832,99 @@ c["concrete_pavement"] = {
 • <strong>HP-07:</strong> Joint Sealing بعد اكتمال المعالجة</p>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🏁 Pavement Finishing Requirements</h3>
-<p>The final quality of asphalt surface is defined by QCS 2024 Section 6 Part 5 criteria including:</p>
+<h3>📐 1. Types of Concrete Pavement</h3>
 <table class="dm-table">
-<tr><th>Criterion</th><th>Acceptance Limit</th><th>Measurement</th><th>QCS</th></tr>
-<tr><td>Surface Regularity (3m SE)</td><td>≤ 3mm</td><td>3m Straight Edge</td><td>S6 P5</td></tr>
-<tr><td>IRI (Ride Quality)</td><td>≤ 2.5 m/km</td><td>Profilometer</td><td>S6 P5</td></tr>
-<tr><td>Crossfall</td><td>2.5% ± 0.3%</td><td>Survey</td><td>S6 P2</td></tr>
-<tr><td>Elevation Tolerance</td><td>±6mm from design</td><td>Survey</td><td>S6 P5</td></tr>
-<tr><td>Skid Resistance (SFC)</td><td>≥ 0.45</td><td>SCRIM / Pendulum</td><td>S6 P5</td></tr>
-<tr><td>Texture Depth (Sand Patch)</td><td>≥ 0.7mm</td><td>Sand Patch Method</td><td>S6 P5</td></tr>
-<tr><td>Camber (1-way road)</td><td>2.0%</td><td>Survey</td><td>S6 P2</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Type</th><th>Description</th><th>Use in Qatar</th></tr>
+<tr><td><strong>JPCP</strong> (Jointed Plain Concrete)</td><td>Concrete slabs without rebar reinforcement + Transverse Joints</td><td>Airports + Ports + Industrial</td></tr>
+<tr><td><strong>JRCP</strong> (Jointed Reinforced)</td><td>Concrete slabs with light rebar reinforcement</td><td>Rarely used</td></tr>
+<tr><td><strong>CRCP</strong> (Continuously Reinforced)</td><td>Continuous rebar reinforcement — no Transverse Joints</td><td>Heavy-duty highways</td></tr>
+<tr><td><strong>Roller Compacted Concrete (RCC)</strong></td><td>Concrete compacted by Roller — very dry mix</td><td>Parking lots + Industrial warehouses</td></tr>
 </table>
-<h3>🎯 Final Acceptance Criteria</h3>
+
+<h3>📐 2. Concrete Specifications — QCS S6 P6</h3>
 <table class="dm-table">
-<tr><th>Item</th><th>PASS</th><th>FAIL — Action</th></tr>
-<tr><td>Surface Regularity</td><td>≤ 3mm</td><td>&gt; 3mm → Grinding or re-paving</td></tr>
-<tr><td>IRI</td><td>≤ 2.5 m/km</td><td>&gt; 2.5 → Identify cause + repair</td></tr>
-<tr><td>Thickness (Core)</td><td>Design ± 5mm</td><td>&gt; ±5mm → NCR + structural assessment</td></tr>
-<tr><td>Manholes</td><td>Flush ± 5mm</td><td>&gt; ±5mm → Immediate adjustment</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Specification</th><th>Reference</th></tr>
+<tr><td>Concrete Grade (fcu)</td><td>≥ C35 / fcu ≥ 35 N/mm²</td><td>QCS S6 P6</td></tr>
+<tr><td>Flexural Strength (MR)</td><td>≥ 4.5 MPa @ 28 days</td><td>QCS S6 P6</td></tr>
+<tr><td>w/c Ratio (maximum)</td><td>≤ 0.40</td><td>QCS S6 P6</td></tr>
+<tr><td>Cement Content (minimum)</td><td>≥ 380 kg/m³</td><td>QCS S6 P6</td></tr>
+<tr><td>Cement Type in Qatar</td><td>SRPC or OPC+GGBS (aggressive environment)</td><td>QCS S6 P6</td></tr>
+<tr><td>Air Content</td><td>4.5 ± 1.5% (Qatar climate)</td><td>QCS S6 P6</td></tr>
+<tr><td>Max Aggregate Size</td><td>≤ ⅓ slab thickness or 37.5mm</td><td>QCS S6 P6</td></tr>
+<tr><td>Slump (Slipform Paving)</td><td>20 - 60mm</td><td>QCS S6 P6</td></tr>
 </table>
+
+<h3>📐 3. Slab Dimensions &amp; Joints</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Specification</th></tr>
+<tr><td>Slab Thickness</td><td>200 - 300mm depending on Traffic Designation</td></tr>
+<tr><td>Slab Width</td><td>= traffic lane width (typically 3.65m)</td></tr>
+<tr><td>JPCP Slab Length (Transverse Joint Spacing)</td><td>4.5 - 6.0m</td></tr>
+<tr><td>Transverse Joint Width</td><td>6 - 10mm</td></tr>
+<tr><td>Transverse Joint Depth</td><td>⅓ slab thickness (sawn within 24-72hr)</td></tr>
+<tr><td>Longitudinal Joint</td><td>At slab centre if width &gt; 4.5m</td></tr>
+<tr><td>Expansion Joint</td><td>At Fixed Objects (Bridges + Buildings)</td></tr>
+</table>
+
+<h3>📐 4. Dowel Bars &amp; Tie Bars</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Dowel Bars (Transverse)</th><th>Tie Bars (Longitudinal)</th></tr>
+<tr><td>Function</td><td>Load transfer between slabs — allows movement</td><td>Tie adjacent slabs — no opening allowed</td></tr>
+<tr><td>Diameter</td><td>32mm or 38mm</td><td>16mm or 20mm</td></tr>
+<tr><td>Length</td><td>450mm</td><td>800mm</td></tr>
+<tr><td>Spacing</td><td>Every 300mm at slab mid-depth</td><td>Every 750-1000mm</td></tr>
+<tr><td>Lubrication</td><td>Half length lubricated (allows movement)</td><td>No lubrication</td></tr>
+<tr><td>Material</td><td>Steel Grade 250 or Epoxy Coated</td><td>Steel Grade 460</td></tr>
+</table>
+
+<h3>📐 5. Paving Methods</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Method</th><th>Description</th><th>Advantages</th></tr>
+<tr><td>Slipform Paving</td><td>Specialist paver — casts, forms and compacts in one continuous pass</td><td>Fast + high quality + less labour</td></tr>
+<tr><td>Fixed Form Paving</td><td>Fixed side forms + manual/pump casting</td><td>For complex shapes + Ramps</td></tr>
+</table>
+
+<h3>📐 6. Curing — QCS S6 P6</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Requirement</th></tr>
+<tr><td>Curing Compound</td><td>Apply immediately after surface finishing — Resin-Based Compound</td></tr>
+<tr><td>Curing Duration</td><td>≥ 7 days OPC / ≥ 10 days SRPC</td></tr>
+<tr><td>Hot Weather Protection</td><td>Polythene Sheet + Wet Hessian over Compound at temperatures &gt; 35°C</td></tr>
+<tr><td>Solar Radiation Protection</td><td>White Pigmented Compound to reflect heat</td></tr>
+<tr><td>Concrete Temperature at Placement</td><td>Concrete ≤ 32°C on site</td></tr>
+</table>
+
+<h3>📐 7. Joint Sealant</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Requirement</th></tr>
+<tr><td>Material Type</td><td>Hot-Applied Rubberized Bitumen or Polyurethane</td></tr>
+<tr><td>Application Time</td><td>After 24-72hr from sawing + after joint faces are dry</td></tr>
+<tr><td>Backer Rod Depth</td><td>Placed before Sealant at depth = joint width</td></tr>
+<tr><td>Sealant Level</td><td>5-10mm below slab surface</td></tr>
+<tr><td>Heat Resistance</td><td>Must withstand ≥ 70°C (essential in Qatar)</td></tr>
+</table>
+
+<h3>📐 8. Acceptance Tests</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Test</th><th>Criterion</th><th>Frequency</th></tr>
+<tr><td>Flexural Strength (Beam Test)</td><td>≥ 4.5 MPa @ 28 days</td><td>Every 50m³</td></tr>
+<tr><td>Cube Compressive Strength</td><td>≥ 35 N/mm² @ 28 days</td><td>Every 50m³</td></tr>
+<tr><td>Slab Thickness (Core)</td><td>Design ± 10mm</td><td>Every 1000m²</td></tr>
+<tr><td>Surface Evenness (3m Straightedge)</td><td>≤ 3mm under 3m Straight Edge</td><td>Every 25m</td></tr>
+<tr><td>Level Survey</td><td>± 10mm from design</td><td>Every 25m length</td></tr>
+<tr><td>Texture Depth (Sand Patch)</td><td>≥ 0.7mm (Skid Resistance)</td><td>Every 1000m²</td></tr>
+<tr><td>IRI</td><td>≤ 2.0 m/km</td><td>Per Section</td></tr>
+<tr><td>Dowel Bar Alignment</td><td>± 6mm from axis</td><td>100% Visual + Sampling</td></tr>
+</table>
+
+<h3>🔴 Hold Points</h3>
+<p>• <strong>HP-01:</strong> Mix Design Approval + JMF before production<br>
+• <strong>HP-02:</strong> Subbase + Grade inspection before pour<br>
+• <strong>HP-03:</strong> Dowel Bars + Tie Bars inspection before pour<br>
+• <strong>HP-04:</strong> Pour Card + Slipform Calibration before pour<br>
+• <strong>HP-05:</strong> Flexural Strength 7 days → to Consultant<br>
+• <strong>HP-06:</strong> Joint Cutting within 24-72hr from pour<br>
+• <strong>HP-07:</strong> Joint Sealing after curing is complete</p>
 </div>
 <h3>🛣️ Concrete Pavement — Complete QCS 2024 Requirements</h3>
 <p style="font-size:12px;color:var(--text2);margin-bottom:12px;">Rigid concrete pavements are used for high-load areas (container ports, airports, industrial roads). In Qatar, they are specified where flexible asphalt cannot withstand point loads or extreme temperatures.</p>
