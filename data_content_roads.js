@@ -732,7 +732,7 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <tr><td>HP3</td><td>All density + CBR results approved</td><td>Lab reports</td></tr>
 </table>
 </div>` };
-  c["subbase"] = { title: '🪨 Subbase — الطبقة الأساسية السفلية', content: `
+  c["subbase"] = { title: '🪨 Subbase — Sub-base Layer', content: `
 
 <div class="lang-content-ar">
 <div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
