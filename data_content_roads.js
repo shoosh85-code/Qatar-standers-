@@ -3045,21 +3045,52 @@ lang-content-en" style="display:none;">
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🪨 Gabbro Aggregate — QCS 2024 Specifications</h3>
+<h3>🪨 What is Gabbro?</h3>
+<p>Gabbro is a crystalline igneous rock extracted primarily from UAE and Fujairah quarries. It is the primary aggregate used in Qatar for all road layers and concrete due to its high hardness and resistance.</p>
+
+<h3>📐 Gabbro Specifications — Coarse Aggregate</h3>
 <table class="dm-table">
-<tr><th>Test</th><th>Acceptance</th><th>Standard</th></tr>
-<tr><td>LA Abrasion</td><td>≤30% wearing / ≤35% base</td><td>ASTM C131</td></tr>
-<tr><td>Flakiness Index</td><td>≤25% coarse / ≤35% combined</td><td>BS 812</td></tr>
-<tr><td>Elongation Index</td><td>≤25%</td><td>BS 812</td></tr>
-<tr><td>Sand Equivalent</td><td>≥50% fine agg</td><td>ASTM D2419</td></tr>
-<tr><td>Water Absorption</td><td>≤2.0%</td><td>BS 812</td></tr>
-<tr><td>Soundness (Na2SO4)</td><td>≤12% loss after 5 cycles</td><td>ASTM C88</td></tr>
-<tr><td>PSV (Polished Stone Value)</td><td>≥55 wearing course</td><td>BS 812-114</td></tr>
-<tr><td>Aggregate Crushing Value</td><td>≤30%</td><td>BS 812</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Property</th><th>Subbase</th><th>Base Course</th><th>Asphalt WC</th><th>Asphalt BC</th><th>Test</th></tr>
+<tr><td>LA Abrasion</td><td>≤ 40%</td><td>≤ 30%</td><td>≤ 25%</td><td>≤ 30%</td><td>ASTM C131</td></tr>
+<tr><td>Flakiness Index</td><td>≤ 40%</td><td>≤ 30%</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812 P105</td></tr>
+<tr><td>Elongation Index</td><td>≤ 40%</td><td>≤ 30%</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812 P105</td></tr>
+<tr><td>Fractured Faces (1+)</td><td>≥ 25%</td><td>≥ 75%</td><td>≥ 95%</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
+<tr><td>Fractured Faces (2+)</td><td>—</td><td>≥ 50%</td><td>≥ 90%</td><td>≥ 85%</td><td>ASTM D5821</td></tr>
+<tr><td>PSV (Polished Stone Value)</td><td>—</td><td>—</td><td>≥ 55</td><td>—</td><td>BS 812 P114</td></tr>
+<tr><td>Water Absorption</td><td>≤ 3%</td><td>≤ 2%</td><td>≤ 2%</td><td>≤ 2%</td><td>ASTM C127</td></tr>
+<tr><td>Soundness (MgSO4)</td><td>≤ 18%</td><td>≤ 12%</td><td>≤ 12%</td><td>≤ 12%</td><td>ASTM C88</td></tr>
+<tr><td>Specific Gravity SSD</td><td>≥ 2.4</td><td>≥ 2.5</td><td>≥ 2.5</td><td>≥ 2.5</td><td>ASTM C127</td></tr>
+<tr><td>Sulphate SO3</td><td>≤ 0.5%</td><td>≤ 0.5%</td><td>≤ 0.4%</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
+<tr><td>Chloride</td><td>≤ 0.6%</td><td>≤ 0.6%</td><td>≤ 0.04%</td><td>≤ 0.04%</td><td>BS 1377</td></tr>
+<tr><td>Alkali-Silica Reactivity</td><td>Non-reactive</td><td>Non-reactive</td><td>Non-reactive</td><td>Non-reactive</td><td>ASTM C1260</td></tr>
 </table>
-<div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;">
-ℹ️ Gabbro = primary Qatar road aggregate, imported from Oman. Pre-approval + source testing required before use.
-</div>
+
+<h3>📐 Common Sources in Qatar</h3>
+<table class="dm-table">
+<tr><th>Quarry</th><th>Location</th><th>Note</th></tr>
+<tr><td>QPMC (Qatar Primary Materials Company)</td><td>Doha — Warehouses</td><td>Main distributor in Qatar</td></tr>
+<tr><td>Al Hodaifi / Al Jaber</td><td>Fujairah — UAE</td><td>Gabbro Class A</td></tr>
+<tr><td>Fujairah Rocks &amp; Aggregates</td><td>Fujairah</td><td>Primary source for Qatar</td></tr>
+<tr><td>Doha Quarry</td><td>Doha</td><td>Local use</td></tr>
+</table>
+
+<h3>📐 Conformity Certificate</h3>
+<p>Each Gabbro consignment must include:<br>
+• <strong>Conformity Certificate</strong> from QGOS (Qatar General Organization for Standardization)<br>
+• Laboratory analysis confirming: LA Abrasion + Flakiness + Fractured Faces + Water Absorption + Sulphate<br>
+• Certificate validity ≤ 12 months from issue date<br>
+• MAR (Material Approval Request) approved by Engineer before use</p>
+
+<h3>🔧 Site Gabbro Testing</h3>
+<table class="dm-table">
+<tr><th>Test</th><th>Frequency</th><th>Standard</th></tr>
+<tr><td>Visual Inspection (colour and cleanliness)</td><td>Each delivery</td><td>Clean, no contamination</td></tr>
+<tr><td>Grading Analysis</td><td>Every 500m³</td><td>ASTM C136</td></tr>
+<tr><td>LA Abrasion</td><td>Every 1000m³</td><td>ASTM C131</td></tr>
+<tr><td>Flakiness Index</td><td>Every 500m³</td><td>BS 812</td></tr>
+<tr><td>Water Absorption</td><td>Every 500m³</td><td>ASTM C127</td></tr>
+<tr><td>Sulphate + Chloride</td><td>Every 1000m³</td><td>BS 1377</td></tr>
+</table>
 </div>
 <div class="lang-content-ar">
 <h3>🕸️ ما هو Geotextile؟</h3>
@@ -3110,51 +3141,51 @@ lang-content-en" style="display:none;">
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>🪨 What is Gabbro?</h3>
-<p>Gabbro is a crystalline igneous rock extracted primarily from UAE and Fujairah quarries. It is the primary aggregate used in Qatar for all road layers and concrete due to its high hardness and resistance.</p>
+<h3>🕸️ What is Geotextile?</h3>
+<p>Engineering textile materials made from polymer (PP or PET) used in road works, drainage, and reinforcement. Primary functions: separation between soil and aggregate layers, filtration, and reinforcement.</p>
 
-<h3>📐 Gabbro Specifications — Coarse Aggregate</h3>
+<h3>📐 Types of Geotextile</h3>
 <table class="dm-table">
-<tr style="background:rgba(122,21,21,0.7);"><th>Property</th><th>Subbase</th><th>Base Course</th><th>Asphalt WC</th><th>Asphalt BC</th><th>Test</th></tr>
-<tr><td>LA Abrasion</td><td>≤ 40%</td><td>≤ 30%</td><td>≤ 25%</td><td>≤ 30%</td><td>ASTM C131</td></tr>
-<tr><td>Flakiness Index</td><td>≤ 40%</td><td>≤ 30%</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812 P105</td></tr>
-<tr><td>Elongation Index</td><td>≤ 40%</td><td>≤ 30%</td><td>≤ 20%</td><td>≤ 25%</td><td>BS 812 P105</td></tr>
-<tr><td>Fractured Faces (1+)</td><td>≥ 25%</td><td>≥ 75%</td><td>≥ 95%</td><td>≥ 90%</td><td>ASTM D5821</td></tr>
-<tr><td>Fractured Faces (2+)</td><td>—</td><td>≥ 50%</td><td>≥ 90%</td><td>≥ 85%</td><td>ASTM D5821</td></tr>
-<tr><td>PSV (Polished Stone Value)</td><td>—</td><td>—</td><td>≥ 55</td><td>—</td><td>BS 812 P114</td></tr>
-<tr><td>Water Absorption</td><td>≤ 3%</td><td>≤ 2%</td><td>≤ 2%</td><td>≤ 2%</td><td>ASTM C127</td></tr>
-<tr><td>Soundness (MgSO4)</td><td>≤ 18%</td><td>≤ 12%</td><td>≤ 12%</td><td>≤ 12%</td><td>ASTM C88</td></tr>
-<tr><td>Specific Gravity SSD</td><td>≥ 2.4</td><td>≥ 2.5</td><td>≥ 2.5</td><td>≥ 2.5</td><td>ASTM C127</td></tr>
-<tr><td>Sulphate SO3</td><td>≤ 0.5%</td><td>≤ 0.5%</td><td>≤ 0.4%</td><td>≤ 0.4%</td><td>BS 1377</td></tr>
-<tr><td>Chloride</td><td>≤ 0.6%</td><td>≤ 0.6%</td><td>≤ 0.04%</td><td>≤ 0.04%</td><td>BS 1377</td></tr>
-<tr><td>Alkali-Silica Reactivity</td><td>Non-reactive</td><td>Non-reactive</td><td>Non-reactive</td><td>Non-reactive</td><td>ASTM C1260</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Type</th><th>Manufacturing</th><th>Primary Function</th><th>Use in Qatar</th></tr>
+<tr><td><strong>Woven</strong></td><td>Woven polymer threads</td><td>Separation + Reinforcement</td><td>Below Subbase over weak soil</td></tr>
+<tr><td><strong>Non-Woven</strong></td><td>Thermally bonded fibres</td><td>Filtration + Separation</td><td>Drainage + protection of Drainage layer</td></tr>
+<tr><td><strong>Geonet</strong></td><td>Plastic mesh</td><td>Drainage</td><td>Below Kerb + drainage barriers</td></tr>
+<tr><td><strong>Geogrid</strong></td><td>Large-aperture mesh</td><td>Reinforcement</td><td>Below Road Base for increased load capacity</td></tr>
 </table>
 
-<h3>📐 Common Sources in Qatar</h3>
+<h3>📐 Geotextile Specifications — QCS S6 P3</h3>
 <table class="dm-table">
-<tr><th>Quarry</th><th>Location</th><th>Note</th></tr>
-<tr><td>QPMC (Qatar Primary Materials Company)</td><td>Doha — Warehouses</td><td>Main distributor in Qatar</td></tr>
-<tr><td>Al Hodaifi / Al Jaber</td><td>Fujairah — UAE</td><td>Gabbro Class A</td></tr>
-<tr><td>Fujairah Rocks & Aggregates</td><td>Fujairah</td><td>Primary source for Qatar</td></tr>
-<tr><td>Doha Quarry</td><td>Doha</td><td>Local use</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Property</th><th>Minimum (Separation)</th><th>Minimum (Filtration)</th><th>Test</th></tr>
+<tr><td>Mass Per Unit Area</td><td>≥ 150 g/m²</td><td>≥ 200 g/m²</td><td>ISO 9864</td></tr>
+<tr><td>Tensile Strength (MD)</td><td>≥ 20 kN/m</td><td>≥ 12 kN/m</td><td>ISO 10319</td></tr>
+<tr><td>Tensile Strength (CMD)</td><td>≥ 20 kN/m</td><td>≥ 12 kN/m</td><td>ISO 10319</td></tr>
+<tr><td>Elongation at Break</td><td>≤ 50%</td><td>≥ 30%</td><td>ISO 10319</td></tr>
+<tr><td>CBR Puncture Resistance</td><td>≥ 2500 N</td><td>≥ 1500 N</td><td>ISO 12236</td></tr>
+<tr><td>Apparent Opening Size (O90)</td><td>≤ 0.20mm</td><td>0.075-0.30mm</td><td>ISO 12956</td></tr>
+<tr><td>Permeability (Kn)</td><td>N/A</td><td>≥ 10×Ksoil</td><td>ISO 11058</td></tr>
+<tr><td>UV Resistance</td><td>≥ 50% retention after 500hr UV</td><td>≥ 50% after 500hr</td><td>ASTM D4355</td></tr>
+<tr><td>Chemical Resistance</td><td>pH 2-13 stable</td><td>pH 2-13 stable</td><td>ISO 14030</td></tr>
 </table>
 
-<h3>📐 Conformity Certificate</h3>
-<p>Each Gabbro consignment must include:<br>
-• <strong>Conformity Certificate</strong> from QGOS (Qatar General Organization for Standardization)<br>
-• Laboratory analysis confirming: LA Abrasion + Flakiness + Fractured Faces + Water Absorption + Sulphate<br>
-• Certificate validity ≤ 12 months from issue date<br>
-• MAR (Material Approval Request) approved by Engineer before use</p>
-
-<h3>🔧 Site Gabbro Testing</h3>
+<h3>📐 Installation Requirements</h3>
 <table class="dm-table">
-<tr><th>Test</th><th>Frequency</th><th>Standard</th></tr>
-<tr><td>Visual Inspection (colour and cleanliness)</td><td>Each delivery</td><td>Clean, no contamination</td></tr>
-<tr><td>Grading Analysis</td><td>Every 500m³</td><td>ASTM C136</td></tr>
-<tr><td>LA Abrasion</td><td>Every 1000m³</td><td>ASTM C131</td></tr>
-<tr><td>Flakiness Index</td><td>Every 500m³</td><td>BS 812</td></tr>
-<tr><td>Water Absorption</td><td>Every 500m³</td><td>ASTM C127</td></tr>
-<tr><td>Sulphate + Chloride</td><td>Every 1000m³</td><td>BS 1377</td></tr>
+<tr><th>Item</th><th>Requirement</th></tr>
+<tr><td>Overlap</td><td>≥ 500mm in both directions</td></tr>
+<tr><td>Fixing</td><td>U-pins or sand placed directly on top</td></tr>
+<tr><td>UV Protection</td><td>Cover within 48hr of laying</td></tr>
+<tr><td>Laying on Slopes</td><td>Top to bottom</td></tr>
+<tr><td>Joining</td><td>Sewing or Overlap ≥ 1m</td></tr>
+<tr><td>Equipment Protection</td><td>No heavy machinery to drive directly on</td></tr>
+</table>
+
+<h3>🔧 Acceptance Tests</h3>
+<table class="dm-table">
+<tr><th>Test</th><th>Frequency</th><th>Standard</th><th>HP/W</th></tr>
+<tr><td>Mass Per Unit Area</td><td>Per roll batch</td><td>ISO 9864</td><td>W</td></tr>
+<tr><td>Tensile Strength</td><td>Per roll batch</td><td>ISO 10319</td><td>HP</td></tr>
+<tr><td>CBR Puncture</td><td>Per roll batch</td><td>ISO 12236</td><td>W</td></tr>
+<tr><td>Apparent Opening Size</td><td>Per roll batch</td><td>ISO 12956</td><td>W</td></tr>
+<tr><td>Visual Inspection</td><td>100% of rolls</td><td>No holes/tears</td><td>W</td></tr>
 </table>
 </div>
 ` };
