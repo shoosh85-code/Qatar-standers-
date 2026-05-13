@@ -1245,40 +1245,100 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
-📌 QCS 2024 — Section 8 | Wearing Course (AC14 Dense Graded / SMA / PMB)
+<div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+<div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Wearing Course — Final Surface Layer</span>
+<button onclick="document.getElementById('vid-wc-new').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 Upload Video</button>
 </div>
-<h3>🛣️ Wearing Course — Complete QCS 2024 Requirements</h3>
-<p style="font-size:12px;color:var(--text2);margin-bottom:12px;">The wearing course is the top asphalt layer in direct contact with traffic. It must provide skid resistance, waterproofing, and smoothness. All QC checks must be completed before opening to traffic.</p>
-<table class="dm-table">
-<tr><th>Parameter</th><th>Conventional AC14</th><th>PMB</th><th>Reference</th></tr>
-<tr><td>Material Type</td><td>AC14 Dense Graded</td><td>AC14 + PG76-10</td><td>QCS S8 P4</td></tr>
-<tr><td>Delivery Temperature</td><td>≥145°C at plant gate</td><td>≥155°C</td><td>QCS S8 P5 T5.1</td></tr>
-<tr><td>Lay Temperature at Paver</td><td>≥135°C</td><td>≥145°C</td><td>QCS S8 P5</td></tr>
-<tr><td>Compaction — Final Temp</td><td>≥125°C / stop at 80°C</td><td>≥130°C / stop at 85°C</td><td>QCS S8 P5</td></tr>
-<tr><td>Core Density (TMD)</td><td>≥97% TMD</td><td>≥98% TMD</td><td>QCS S8 P6 T6.1</td></tr>
-<tr><td>Marshall Stability</td><td>≥8.0 kN</td><td>≥10.0 kN</td><td>QCS S8 P4</td></tr>
-<tr><td>Air Voids (Va)</td><td>3–5%</td><td>3–4%</td><td>QCS S8 P4</td></tr>
-<tr><td>IRI Smoothness</td><td>≤2.5 m/km</td><td>≤0.9 m/km</td><td>QCS S8 P7</td></tr>
-<tr><td>Layer Thickness Tolerance</td><td>Design ±5mm</td><td>Design ±5mm</td><td>QCS S8 P6</td></tr>
-<tr><td>Straightedge (3m)</td><td>≤6mm gap</td><td>≤4mm gap</td><td>QCS S8 P7</td></tr>
-<tr><td>Crossfall</td><td>2.5% ±0.5%</td><td>2.5% ±0.3%</td><td>QCS S6 P5</td></tr>
-<tr><td>Tack Coat (before laying)</td><td>CSS-1h 0.2–0.4 L/m²</td><td>CSS-1h 0.3–0.5 L/m²</td><td>QCS S8 P3</td></tr>
-<tr><td>Core Frequency</td><td>1 core per 250m²</td><td>1 core per 200m²</td><td>QCS S8 P6</td></tr>
-</table>
-<h4 style="margin-top:14px;color:var(--gold);">🔴 Hold Points & Witness Points</h4>
-<table class="dm-table">
-<tr><th>Point</th><th>Activity</th><th>Type</th></tr>
-<tr><td>HP1</td><td>Mix design approval before production</td><td>H</td></tr>
-<tr><td>HP2</td><td>Trial section + core results approved</td><td>H</td></tr>
-<tr><td>HP3</td><td>Binder course cores passed before wearing</td><td>H</td></tr>
-<tr><td>HP4</td><td>IRI survey accepted before opening to traffic</td><td>H</td></tr>
-<tr><td>WP1</td><td>Tack coat application + break confirmation</td><td>W</td></tr>
-<tr><td>WP2</td><td>Delivery temperature — each truck</td><td>W</td></tr>
-</table>
-<div style="background:rgba(243,156,18,0.1);border:1px solid rgba(243,156,18,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;">
-⚠️ Qatar Hot Weather: Night paving mandatory when ambient temperature >40°C. Sun shading of hot boxes required. Rejected if truck delivery temp below 130°C.
+<input type="file" id="vid-wc-new" accept="video/*" style="display:none" data-player="vid-wc-new-p" data-ph="vid-wc-new-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
+<div id="vid-wc-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload video MP4/MOV</div>
+<div id="vid-wc-new-p" class="qs-vid-ph" data-maxh="260px"></div>
 </div>
+
+<h3>📐 Wearing Course Definition — QCS S6 P5</h3>
+<p>Wearing Course is the final surface layer of the asphalt pavement — the layer that directly contacts tyres, traffic loads and weather conditions. It requires the highest aggregate quality (PSV ≥ 55) and maximum resistance to wear. HMA mix with WC-A or WC-B gradation is used. Typical thickness 40mm–50mm. PMB (Polymer Modified) bitumen is mandatory on major roads.</p>
+
+<h3>⚠️ Unacceptable Materials</h3>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;">
+<strong>Rejected in Wearing Course:</strong><br>
+• Aggregate PSV &lt; 55 — causes tyre skidding (Safety Critical)<br>
+• Aggregate LA Abrasion &gt; 25%<br>
+• Soundness (MgSO₄) &gt; 12%<br>
+• Flakiness &gt; 20%<br>
+• Water Absorption &gt; 1.5%<br>
+• Chloride in aggregate &gt; 0.04%<br>
+• Bitumen 60/70 without PMB on T4+ roads (Expressways)<br>
+• Marshall Stability &lt; 10 kN (PMB) or &lt; 8 kN (Non-PMB)<br>
+• Delivery below &lt; 145°C (PMB) or &lt; 135°C (Non-PMB)<br>
+• IRI &gt; 2.0 m/km after laying
+</div>
+
+<h3>📐 Wearing Course Gradation — QCS S6 P5 Table 5:8</h3>
+<div style="overflow-x:auto;">
+<table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.9);"><th>Sieve</th><th>WC-A (19mm)</th><th>WC-B (12.5mm)</th></tr>
+<tr><td>19.0 mm</td><td>100</td><td>—</td></tr>
+<tr><td>12.5 mm</td><td>80 – 100</td><td>100</td></tr>
+<tr><td>9.5 mm</td><td>60 – 82</td><td>90 – 100</td></tr>
+<tr><td>4.75 mm</td><td>40 – 62</td><td>44 – 74</td></tr>
+<tr><td>2.36 mm</td><td>25 – 45</td><td>28 – 58</td></tr>
+<tr><td>0.3 mm</td><td>7 – 20</td><td>5 – 21</td></tr>
+<tr><td>0.075 mm</td><td style="color:#e74c3c;font-weight:700;">3 – 8</td><td style="color:#e74c3c;font-weight:700;">2 – 10</td></tr>
+</table></div>
+
+<h3>📐 Wearing Course Aggregate — Special Requirements</h3>
+<div style="overflow-x:auto;">
+<table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.9);"><th>Parameter</th><th>Wearing Course</th><th>Test</th></tr>
+<tr><td><strong>PSV (Polished Stone Value)</strong></td><td style="color:#2ecc71;font-weight:700;font-size:14px;">≥ 55</td><td>BS 812-114</td></tr>
+<tr><td><strong>AAV (Aggregate Abrasion)</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 12</td><td>BS 812-113</td></tr>
+<tr><td><strong>LA Abrasion</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 25%</td><td>ASTM C131</td></tr>
+<tr><td><strong>Flakiness</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 20%</td><td>BS 812-105</td></tr>
+<tr><td><strong>Soundness (MgSO₄)</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 12%</td><td>ASTM C88</td></tr>
+<tr><td><strong>Water Absorption</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 1.5%</td><td>BS 812-2</td></tr>
+<tr><td><strong>Chloride</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 0.04%</td><td>BS 1377-3</td></tr>
+</table></div>
+
+<h3>📐 Marshall Properties — Wearing Course</h3>
+<div style="overflow-x:auto;">
+<table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.9);"><th>Parameter</th><th>60/70 Pen</th><th>PMB</th><th>Test</th></tr>
+<tr><td><strong>Stability</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 8 kN</td><td style="color:#2ecc71;font-weight:700;font-size:14px;">≥ 10 kN</td><td>ASTM D6927</td></tr>
+<tr><td><strong>Flow</strong></td><td>2 – 4 mm</td><td>2 – 4.5 mm</td><td>ASTM D6927</td></tr>
+<tr><td><strong>Air Voids</strong></td><td style="color:#2ecc71;font-weight:700;">3 – 5%</td><td style="color:#2ecc71;font-weight:700;">3 – 5%</td><td>ASTM D3203</td></tr>
+<tr><td><strong>VMA</strong></td><td>≥ 14% (WC-A)<br>≥ 15% (WC-B)</td><td>≥ 14%</td><td>Calc</td></tr>
+<tr><td><strong>VFB</strong></td><td>65 – 75%</td><td>65 – 78%</td><td>Calc</td></tr>
+<tr><td><strong>Retained Stability</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 80%</td><td style="color:#2ecc71;font-weight:700;">≥ 85%</td><td>AASHTO T283</td></tr>
+</table></div>
+
+<h3>📐 Smoothness — IRI & Straightedge</h3>
+<div style="overflow-x:auto;">
+<table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.9);"><th>Parameter</th><th>Expressway</th><th>Urban Road</th><th>Reference</th></tr>
+<tr><td><strong>IRI (International Roughness Index)</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 0.9 m/km</td><td style="color:#2ecc71;font-weight:700;">≤ 1.5 m/km</td><td>PWA IAN 013</td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>🆕 IRI New Road — QCS 2024 S6</strong></td><td colspan="2" style="color:#2ecc71;font-weight:700;">≤ 2.0 m/km — final acceptance condition</td><td>QCS 2024 S6</td></tr>
+<tr><td><strong>3m Straightedge</strong></td><td>≤ 3mm</td><td>≤ 5mm</td><td>QCS S6 P5</td></tr>
+</table></div>
+
+<h3>📐 Field Compaction</h3>
+<div style="overflow-x:auto;">
+<table class="dm-table" style="font-size:11px;">
+<tr style="background:rgba(122,21,21,0.9);"><th>Parameter</th><th>Specification</th><th>Test</th><th>Frequency</th></tr>
+<tr style="background:rgba(46,204,113,0.1);"><td><strong>Field Compaction</strong></td><td style="color:#2ecc71;font-weight:700;font-size:14px;">≥ 97% TMD</td><td>Core — ASTM D2726</td><td>1 core per 500m lane</td></tr>
+<tr><td><strong>Thickness</strong></td><td>Design ± 5mm (40–50mm)</td><td>Core</td><td>1 per 500m lane</td></tr>
+<tr><td><strong>Delivery Temp</strong></td><td>≥ 135°C / ≥ 145°C (PMB)</td><td>IR Thermo</td><td>Every truck</td></tr>
+<tr><td><strong>Permeability</strong></td><td style="font-weight:700;">No ponding after 24hr rain</td><td>Visual</td><td>Post-rain check</td></tr>
+</table></div>
+
+<h3>🔴 Hold Points</h3>
+<table class="dm-table">
+<tr><th>HP</th><th>Condition</th><th>Documentation</th></tr>
+<tr><td>HP-01</td><td>Mix Design (Marshall/Superpave) + PSV ≥ 55 approved</td><td>Lab Report + PSV Certificate</td></tr>
+<tr><td>HP-02</td><td>Trial Section ≥ 200m approved</td><td>Trial Report + Cores + IRI</td></tr>
+<tr><td>HP-03</td><td>Tack Coat SS-1h approved (0.20–0.50 L/m²)</td><td>Tack Coat Approval</td></tr>
+<tr><td>HP-04</td><td>Cores ≥ 97% TMD + Thickness</td><td>Core Reports</td></tr>
+<tr><td>HP-05</td><td>IRI Final ≤ 0.9/1.5/2.0 m/km</td><td>IRI Survey Report</td></tr>
+</table>
 </div>
 ` };
   c["prime"] = { title: '🛢️ Prime Coat', content: `
