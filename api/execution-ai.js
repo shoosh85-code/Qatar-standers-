@@ -9,25 +9,48 @@ import { checkRateLimit, rateLimitResponse } from '../lib/rate-limit.js';
 import { getSupabaseUrl, getSupabaseServiceKey } from '../lib/supabase.js';
 
 // ── جلب نصوص QCS حقيقية من Supabase ────────────────────────────────────
+// خريطة مصطلحات عربي → إنجليزي للبحث في محتوى QCS الإنجليزي
+const AR_TO_EN = {
+  'درجة حرارة': 'temperature', 'الخرسانة': 'concrete', 'صب': 'placing',
+  'slump': 'slump', 'هبوط': 'slump', 'إسمنت': 'cement', 'سمنت': 'cement',
+  'تسليح': 'reinforcement', 'حديد': 'reinforcement', 'قطر': 'diameter',
+  'تغطية': 'cover', 'كثافة': 'density', 'ضغط': 'compressive', 'شد': 'tensile',
+  'ماء': 'water', 'رمل': 'sand', 'حصى': 'aggregate', 'ركام': 'aggregate',
+  'لحام': 'welding', 'أسفلت': 'asphalt', 'تربة': 'soil', 'ضغط حرارة': 'temperature placing',
+};
+
 async function fetchQCSContext(keywords, limit) {
   const url = getSupabaseUrl();
   const key = getSupabaseServiceKey();
   if (!url || !key) return '';
   try {
     const lim = limit || 4;
-    // استخدم كل كلمة منفردة للبحث بـ OR — أفضل من عبارة واحدة
-    const words = keywords.split(' ').filter(w => w.length > 3).slice(0, 4);
-    const ilikeFilter = words.map(w => `content.ilike.*${encodeURIComponent(w)}*`).join(',');
-    const orParam = `or=(${ilikeFilter})`;
-    const res = await fetch(
-      `${url}/rest/v1/qcs_chunks?${orParam}&select=content,source_file,section_name,page_num&limit=${lim}&order=char_count.desc`,
-      { headers: { 'apikey': key, 'Authorization': `Bearer ${key}` }, signal: AbortSignal.timeout(8000) }
-    );
-    if (!res.ok) return '';
-    const chunks = await res.json();
-    if (!Array.isArray(chunks) || chunks.length === 0) return '';
+    const headers = { 'apikey': key, 'Authorization': `Bearer ${key}` };
+    const sig = AbortSignal.timeout(8000);
+
+    // ابحث بكل كلمة على حدة — ILIKE البسيطة المضمونة
+    const words = keywords.split(' ').filter(w => w.length > 3).slice(0, 3);
+    const allChunks = [];
+    const seen = new Set();
+
+    for (const word of words) {
+      const r = await fetch(
+        `${url}/rest/v1/qcs_chunks?content=ilike.*${encodeURIComponent(word)}*&select=content,source_file,section_name,page_num&limit=2&order=char_count.desc`,
+        { headers, signal: sig }
+      );
+      if (!r.ok) continue;
+      const data = await r.json();
+      for (const c of (Array.isArray(data) ? data : [])) {
+        if (!seen.has(c.id)) { seen.add(c.id); allChunks.push(c); }
+      }
+      if (allChunks.length >= lim) break;
+    }
+
+    if (!allChunks.length) return '';
     return '\n\n── نصوص QCS 2024 حقيقية من قاعدة البيانات ──\n' +
-      chunks.map((c, i) => `[مصدر ${i+1}: ${(c.source_file||'').replace(/Copy of /g,'')} | ${c.section_name||''} | ص.${c.page_num||'?'}]\n${(c.content||'').slice(0, 600)}`).join('\n\n') +
+      allChunks.slice(0, lim).map((c, i) =>
+        `[مصدر ${i+1}: ${(c.source_file||'').replace(/Copy of /g,'')} | ${c.section_name||''} | ص.${c.page_num||'?'}]\n${(c.content||'').slice(0, 600)}`
+      ).join('\n\n') +
       '\n── استخدم النصوص أعلاه كمرجع أساسي. إذا المعلومة غير موجودة فيها، قل "غير موجود في المصادر المتاحة — راجع QCS المختص". ──';
   } catch { return ''; }
 }
@@ -143,9 +166,18 @@ export default async function handler(req) {
     mos:  question.slice(0, 60),
     general: question.slice(0, 60)
   };
-  const qcsContext = await fetchQCSContext(moduleKeywords[module] || question.slice(0, 40), module === 'mos' ? 6 : 4);
+  // استخرج كلمات إنجليزية من سؤال المستخدم العربي
+  const questionKeywords = Object.entries(AR_TO_EN)
+    .filter(([ar]) => question.includes(ar))
+    .map(([, en]) => en)
+    .join(' ');
+
+  const searchKeywords = questionKeywords || moduleKeywords[module] || question.slice(0, 60);
+  const qcsContext = await fetchQCSContext(searchKeywords, module === 'mos' ? 6 : 4);
 
   const systemPrompt = (PROMPTS[module] || PROMPTS.general) + qcsContext;
+  // للـ debugging — يظهر في Vercel logs
+  console.log(`[execution-ai] module=${module} keywords="${searchKeywords}" chunks=${qcsContext.length > 50 ? 'found' : 'empty'}`);
   const fullPrompt = context
     ? `السياق:\n${context}\n\nالسؤال: ${question}`
     : question;
