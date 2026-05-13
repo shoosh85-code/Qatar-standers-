@@ -1622,25 +1622,39 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
-<h3>Prime Coat Summary — Page 30</h3>
+<h3>📐 Definitions</h3>
 <table class="dm-table">
-<tr><th>Item</th><th>Requirement</th></tr>
-<tr><td>Material</td><td>Cutback MC-30 or MC-70 (ASTM D2028)</td></tr>
-<tr><td>Application Rate</td><td>0.8-1.2 L/m²</td></tr>
-<tr><td>Spray Temperature</td><td>50-80°C</td></tr>
-<tr><td>Surface Condition</td><td>Dry + clean + power broom + power blower</td></tr>
-<tr><td>Curing Time</td><td>Min 24 hours before asphalt</td></tr>
-<tr><td>Penetration Depth</td><td>10-15mm into base course</td></tr>
-<tr><td>Stop Work Conditions</td><td>Rain / dust / ambient &lt;10°C</td></tr>
+<tr><th>Term</th><th>Definition</th><th>QCS</th></tr>
+<tr><td><strong>Prime Coat</strong></td><td>A thin layer of liquid bitumen (MC-30 or emulsion) applied to non-asphalt Base Course before paving Binder Course. Purpose: stabilise surface, fill voids, and achieve bonding between layers</td><td>S6 P5 P.30</td></tr>
+<tr><td><strong>Tack Coat</strong></td><td>A thin layer of bituminous emulsion (CSS-1 or K1-60) applied between two asphalt layers (between Binder and Wearing or on existing surfaces). Ensures layer bonding and prevents inter-layer slippage</td><td>S6 P5 P.31</td></tr>
 </table>
-<h3>Tack Coat Summary — Page 31</h3>
+
+<h3>📐 Prime Coat — Summary Page 30</h3>
 <table class="dm-table">
-<tr><th>Item</th><th>On Binder</th><th>On Wearing</th></tr>
-<tr><td>Material</td><td colspan="2">SS-1h or CSS-1h Emulsion (ASTM D977)</td></tr>
-<tr><td>Residual Rate</td><td>0.15-0.35 L/m²</td><td>0.15-0.35 L/m²</td></tr>
-<tr><td>Temperature</td><td colspan="2">50-70°C</td></tr>
-<tr><td>Readiness Sign</td><td colspan="2">Emulsion turns black (full breakup)</td></tr>
-<tr><td>Excess Tack Risk</td><td colspan="2">Slippage between layers = NCR</td></tr>
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Requirement</th></tr>
+<tr><td>Material Type</td><td>Cutback Bitumen MC-30 or MC-70 (ASTM D2028)</td></tr>
+<tr><td>Application Rate</td><td>0.8 - 1.2 L/m²</td></tr>
+<tr><td>Spray Temperature</td><td>50 - 80°C (per Grade)</td></tr>
+<tr><td>Required Surface</td><td>Dry + clean + swept with Power Broom + blown with Power Blower</td></tr>
+<tr><td>Minimum Curing Time</td><td>24 hours before placing Asphalt</td></tr>
+<tr><td>Readiness Sign</td><td>Colour changes from brown to black + non-tacky</td></tr>
+<tr><td>Penetration Depth</td><td>10 - 15mm into Base Course</td></tr>
+<tr><td>Stop Work Conditions</td><td>Rain / dust / ambient temperature &lt; 10°C</td></tr>
+<tr><td>Edge Protection</td><td>Kerbs + Manholes covered before spraying</td></tr>
+<tr><td>Rate Test</td><td>Record Spray Tanker Calibration Report + Field Rate from quantity/area</td></tr>
+</table>
+
+<h3>📐 Tack Coat — Summary Page 31</h3>
+<table class="dm-table">
+<tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>On Binder Course</th><th>On Wearing Course</th></tr>
+<tr><td>Material Type</td><td colspan="2">Emulsified Bitumen SS-1h or CSS-1h (ASTM D977)</td></tr>
+<tr><td>Application Rate (Residual after Breakup)</td><td>0.30 - 0.50 L/m²</td><td>0.20 - 0.40 L/m²</td></tr>
+<tr><td>Application Rate (before Breakup — as material)</td><td>0.50 - 0.90 L/m²</td><td>0.35 - 0.70 L/m²</td></tr>
+<tr><td>Temperature</td><td colspan="2">50 - 70°C</td></tr>
+<tr><td>Readiness Sign</td><td colspan="2">Emulsion changes from brown to black (complete Breakup)</td></tr>
+<tr><td>Stop Work Conditions</td><td colspan="2">Rain / wet surface / ambient temperature &lt; 10°C</td></tr>
+<tr><td>Pedestrians &amp; Vehicles</td><td colspan="2">No movement permitted before complete Breakup</td></tr>
+<tr><td>Excess Tack Risk</td><td colspan="2">Excess Tack = Slippage between layers + Shoving = NCR</td></tr>
 </table>
 </div>
 ` };
