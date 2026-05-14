@@ -675,6 +675,12 @@ html[lang="en"] .card-bullets span { direction:ltr; text-align:left; }
 </style>
 <!-- loader.js moved to end of body — after QS + data_calcs are ready -->
 
+<!-- ═══ UX Enhancement Libraries — CSS ═══ -->
+<link rel="stylesheet" href="/lib/vendor/driver.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notyf/3.10.0/notyf.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/tippy.css">
+
 </head>
 <body>
 <!-- Skip Navigation — Accessibility -->
@@ -1651,6 +1657,18 @@ html[lang="en"] .card-bullets span { direction:ltr; text-align:left; }
 <script src="/js/load-calc.js" defer></script>
 <script src="/js/safety-bridge.js" defer></script>
 <script src="/js/signature-pad.js" defer></script>
+
+<!-- ═══ UX Enhancement Libraries — JS ═══ -->
+<!-- Self-hosted (not on cdnjs) -->
+<script src="/lib/vendor/driver.js.iife.js" defer></script>
+<script src="/lib/vendor/confetti.browser.js" defer></script>
+<!-- CDN (cdnjs.cloudflare.com — مسموح في CSP) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/notyf/3.10.0/notyf.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.14.5/sweetalert2.all.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/tippy-bundle.umd.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Fuse.js/7.0.0/fuse.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" defer></script>
 
 <!-- ═══ Priority 5: Analytics — async ═══ -->
 <script src="js/analytics.js?v=1100" async></script>
