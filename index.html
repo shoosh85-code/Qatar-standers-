@@ -78,6 +78,10 @@
 <link rel="preload" href="data_content_manifest.js?v=7" as="script">
 <link rel="preload" href="js/calcs/core.js?v=1" as="script">
 <link rel="preload" href="js/calcs/structural.js?v=1" as="script">
+<!-- Prefetch likely-needed data chunks (loaded on-demand by loader.js) -->
+<link rel="prefetch" href="data_content_extra.js">
+<link rel="prefetch" href="data_content_roads.js">
+<link rel="prefetch" href="data_content_utilities.js">
 <!-- Google Fonts with local fallback for offline support -->
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
@@ -1697,6 +1701,9 @@ html[lang="en"] .card-bullets span { direction:ltr; text-align:left; }
 
 <!-- ═══ Micro-Delights — Confetti + Animations + Loading States (PROMPT #8) ═══ -->
 <script src="/js/micro-delights.js" defer></script>
+
+<!-- ═══ Performance Monitor — Core Web Vitals + Resource Analysis (PROMPT #10) ═══ -->
+<script src="/js/performance-monitor.js" defer></script>
 
 </body>
 </html>
