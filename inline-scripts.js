@@ -59,41 +59,7 @@ window.onload = () => {
   // نافذة API Key تظهر فقط عند الضغط على بحث ذكي — لا تظهر تلقائياً
 };
 
-// ===== KEY MANAGEMENT =====
-function openKeyModal() {
-  // [SEC v4.0] لا يوجد API key في المتصفح — الاتصال عبر /api/ai-proxy
-  const isProxy = window.location.hostname !== 'localhost' &&
-                  window.location.hostname !== '127.0.0.1';
-  if (isProxy) {
-    showToast('✅ المفتاح مُفعَّل على السيرفر — لا حاجة للإدخال اليدوي');
-    updateKeyStatus(true);
-    return;
-  }
-  // Local dev only: لا نعرض المفتاح في الـ input
-  document.getElementById('keyModal').classList.add('open');
-}
-function closeKeyModal() { document.getElementById('keyModal').classList.remove('open'); }
-function saveKey() {
-  // [SEC v4.0] في الإنتاج: لا مفتاح في المتصفح — الاتصال عبر /api/ai-proxy
-  const isProxy = window.location.hostname !== 'localhost' &&
-                  window.location.hostname !== '127.0.0.1';
-  if (isProxy) {
-    showToast('⚠️ في الإنتاج: لا حاجة لمفتاح — الاتصال عبر السيرفر');
-    closeKeyModal();
-    return;
-  }
-  // Local dev only: مؤقت في الذاكرة فقط — لا localStorage
-  const k = document.getElementById('keyInput').value.trim();
-  if (!k || k.length < 20) { showToast('❌ المفتاح غير صحيح'); return; }
-  // لا نُخزِّن في متغير global — نستخدم closure محلي
-  updateKeyStatus(true);
-  closeKeyModal();
-  showToast('✅ تم تفعيل AI (جلسة مؤقتة — للتطوير فقط)');
-}
-function updateKeyStatus(active) {
-  document.getElementById('keyDot').className = 'key-dot' + (active ? ' active' : '');
-  document.getElementById('keyStatusText').textContent = active ? 'AI مفعّل ✓' : 'إعداد AI';
-}
+// openKeyModal + closeKeyModal + saveKey + updateKeyStatus → نُقلت إلى js/core/key-modal.js (A2 Refactor)
 
 // ===== FILE UPLOAD =====
 function handleFiles(e) { processFiles(Array.from(e.target.files)); }
@@ -4342,37 +4308,7 @@ window.QS = window.QS || {};
 
 // showSearchSkeleton → نُقلت إلى js/core/ui-utils.js (A1 Refactor)
 
-// ── Theme Management (Dark/Light/System) ──────────────────────
-(function initTheme() {
-  const saved = localStorage.getItem('qs_theme') || 'dark';
-  applyTheme(saved);
-})();
-
-function toggleTheme() {
-  const current = localStorage.getItem('qs_theme') || 'dark';
-  const next = current === 'dark' ? 'light' : current === 'light' ? 'system' : 'dark';
-  localStorage.setItem('qs_theme', next);
-  applyTheme(next);
-  const labels = {dark: '🌙 وضع ليلي', light: '☀️ وضع نهاري', system: '🖥️ وضع النظام'};
-  showToast(labels[next] || 'تم تغيير المظهر');
-}
-
-function applyTheme(theme) {
-  const root = document.documentElement;
-  if (theme === 'light') {
-    root.setAttribute('data-theme', 'light');
-  } else if (theme === 'system') {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    root.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-  } else {
-    root.setAttribute('data-theme', 'dark');
-  }
-}
-
-// Listen for system theme changes
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-  if (localStorage.getItem('qs_theme') === 'system') applyTheme('system');
-});
+// toggleTheme + applyTheme + initTheme + matchMedia → نُقلت إلى js/core/theme.js (A2 Refactor)
 
 
 // displayAIResponse → نُقلت إلى js/core/ui-utils.js (A1 Refactor)
