@@ -93,22 +93,31 @@ async function doSearch() {
     sourceEl.textContent = `QCS 2024 — Part ${partsLabel}`;
     setLoadingSteps(steps, 1);
 
-    // ── Real QCS 2024 data from Supabase ──
+    // ── Real QCS 2024 data from Supabase (Hybrid Search — B2) ──
     let qcsContext = '';
+    let qcsContextArr = []; // structured array للـ ai-proxy
+    const t0 = Date.now(); // قياس الأداء
     try {
       const qcsRes = await fetch('/api/qcs-search', {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json',
-        ...(getProToken() ? { 'Authorization': 'Bearer ' + getProToken() } : {})
+        ...(getProToken() ? { 'Authorization': 'Bearer ' + getProToken() } : {}),
       },
         body: JSON.stringify({ query: query, limit: 6 })
       });
       if (qcsRes.ok) {
           qsTrack('AI Search', { tier: getProToken() ? 'pro' : 'free' });
         const qcsData = await qcsRes.json();
+        const searchMs = Date.now() - t0;
         if (qcsData.results && qcsData.results.length > 0) {
           window._lastSearchMethod = qcsData.method || 'fts';
+          qcsContextArr = qcsData.results.slice(0, 4);
+
+          // ── عرض النتائج الفورية (نتائج فورية من QCS 2024) ──
+          _showInstantResults(qcsData.results, qcsData.method, searchMs);
+
+          // النص للـ system prompt (fallback للـ SSE)
           qcsContext = '\n\n=== نصوص من QCS 2024 الرسمي ===\n' +
             qcsData.results.map(function(r, i) {
               return '[' + (i+1) + '] ' + (r.source||'QCS 2024') + ' | ' + (r.section||'') + ' | صفحة ' + (r.page||'') + ':\n' + (r.content||'').slice(0, 450);
@@ -120,6 +129,7 @@ async function doSearch() {
     const response = await fetchGeminiAPI({
         model: 'gemini-2.0-flash',
         max_tokens: 2000,
+        qcs_context: qcsContextArr, // B2: structured vector results
         system: `أنت مرجع هندسي رسمي لـ Qatar Construction Specifications (QCS 2024) — المواصفات القطرية للإنشاءات الإصدار الرابع.
 
 هيكل QCS 2024:
@@ -225,5 +235,72 @@ function filterCards(query) {
 function clearCardFilter() {
   document.getElementById('cardFilterInput').value = '';
   filterCards('');
+}
+
+// ===== INSTANT RESULTS — نتائج فورية من QCS 2024 (B2) =====
+// تظهر فوراً (< 500ms) من Vector Search قبل إجابة الـ AI
+function _showInstantResults(results, method, searchMs) {
+  // ابحث عن container موجود أو أنشئه
+  let container = document.getElementById('qs-instant-results');
+  if (!container) {
+    const box = document.getElementById('aiAnswerBox');
+    if (!box) return;
+    container = document.createElement('div');
+    container.id = 'qs-instant-results';
+    container.style.cssText = 'margin-bottom:12px;border-bottom:1px solid rgba(201,168,76,0.15);padding-bottom:10px;';
+    box.insertBefore(container, box.firstChild);
+  }
+
+  if (!results || !results.length) {
+    container.style.display = 'none';
+    return;
+  }
+
+  const methodLabel = method === 'vector'
+    ? '<span style="color:#27ae60;font-size:10px;">🧠 Vector</span>'
+    : '<span style="color:#3498db;font-size:10px;">🔤 FTS</span>';
+
+  const html = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+      <span style="color:var(--gold);font-size:12px;font-weight:700;">📄 نتائج فورية من QCS 2024</span>
+      <span style="font-size:10px;color:var(--text3);">${methodLabel} ${searchMs}ms</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      ${results.slice(0, 3).map((r, i) => `
+        <div style="background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:6px;padding:8px;cursor:pointer;"
+             onclick="_expandInstantResult(this)"
+             data-content="${(r.content || '').replace(/"/g, '&quot;').slice(0, 800)}">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+            <span style="color:var(--gold);font-size:10px;font-weight:700;">[${i + 1}]</span>
+            <span style="color:var(--text2);font-size:11px;font-weight:600;">${r.section || r.part || 'QCS 2024'}</span>
+            ${r.similarity ? `<span style="color:#27ae60;font-size:9px;margin-right:auto;">${r.similarity}</span>` : ''}
+          </div>
+          <p style="color:var(--text3);font-size:11px;margin:0;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
+            ${(r.content || '').slice(0, 180).replace(/\n/g, ' ')}…
+          </p>
+        </div>
+      `).join('')}
+    </div>`;
+
+  container.innerHTML = html;
+  container.style.display = 'block';
+}
+
+// توسيع/طي نتيجة فورية بالضغط عليها
+function _expandInstantResult(el) {
+  const content = el.getAttribute('data-content') || '';
+  const p = el.querySelector('p');
+  if (!p) return;
+  if (el._expanded) {
+    p.style['-webkit-line-clamp'] = '2';
+    p.style.overflow = 'hidden';
+    p.textContent = content.slice(0, 180) + '…';
+    el._expanded = false;
+  } else {
+    p.style['-webkit-line-clamp'] = 'unset';
+    p.style.overflow = 'visible';
+    p.textContent = content;
+    el._expanded = true;
+  }
 }
 

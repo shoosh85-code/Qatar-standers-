@@ -535,7 +535,7 @@ Return ONLY the HTML content (no outer div wrapper). Use dm-table CSS class for 
   // ── SSE Streaming Path (v3.0) ──
   const acceptHeader = req.headers.get('accept') || '';
   if (acceptHeader.includes('text/event-stream')) {
-    const { messages: sseMessages, max_tokens: sseMT, system: sseSys } = body;
+    const { messages: sseMessages, max_tokens: sseMT, system: sseSys, qcs_context: sseCtx } = body;
     if (!sseMessages || !Array.isArray(sseMessages) || sseMessages.length === 0) {
       return new Response(JSON.stringify({ error: 'messages required' }), {
         status: 400, headers: { ...CORS, 'Content-Type': 'application/json' }
@@ -547,8 +547,19 @@ Return ONLY the HTML content (no outer div wrapper). Use dm-table CSS class for 
         status: 500, headers: { ...CORS, 'Content-Type': 'application/json' }
       });
     }
-    const finalSSEMessages = sseSys
-      ? [{ role: 'user', content: `[SYSTEM: ${sseSys}]\n\n${sseMessages[0]?.content || ''}` }, ...sseMessages.slice(1)]
+
+    // بناء الـ system prompt مع QCS context إذا متوفر (B2)
+    let sseSystem = sseSys || '';
+    if (sseCtx && Array.isArray(sseCtx) && sseCtx.length > 0) {
+      const ctxText = sseCtx.slice(0, 4)
+        .map((c, i) => `[مصدر ${i + 1}: ${c.section || c.part || 'QCS 2024'}]\n${c.content}`)
+        .join('\n\n---\n\n');
+      sseSystem = (sseSystem ? sseSystem + '\n\n' : '')
+        + `## نصوص QCS 2024 ذات الصلة:\n${ctxText}\n\nأجب بناءً على هذه النصوص واذكر المرجع الدقيق.`;
+    }
+
+    const finalSSEMessages = sseSystem
+      ? [{ role: 'user', content: `[SYSTEM: ${sseSystem}]\n\n${sseMessages[0]?.content || ''}` }, ...sseMessages.slice(1)]
       : sseMessages;
 
     try {
@@ -613,7 +624,7 @@ Return ONLY the HTML content (no outer div wrapper). Use dm-table CSS class for 
   }
 
   // ── Call AI (non-streaming) ──
-  const { messages, max_tokens, system } = body;
+  const { messages, max_tokens, system, qcs_context } = body;
 
   if (!messages || !Array.isArray(messages) || messages.length === 0) {
     return new Response(JSON.stringify({ error: 'messages array required' }), {
@@ -622,9 +633,20 @@ Return ONLY the HTML content (no outer div wrapper). Use dm-table CSS class for 
     });
   }
 
+  // بناء الـ system prompt مع QCS context إذا متوفر (Hybrid Search B2)
+  let finalSystem = system || '';
+  if (qcs_context && Array.isArray(qcs_context) && qcs_context.length > 0) {
+    const ctxText = qcs_context
+      .slice(0, 4) // أقصى 4 chunks
+      .map((c, i) => `[مصدر ${i + 1}: ${c.section || c.part || 'QCS 2024'}]\n${c.content}`)
+      .join('\n\n---\n\n');
+    finalSystem = (finalSystem ? finalSystem + '\n\n' : '')
+      + `## نصوص QCS 2024 ذات الصلة (من البحث الدلالي):\n${ctxText}\n\nأجب على السؤال بناءً على هذه النصوص بالدرجة الأولى، واذكر المرجع الدقيق.`;
+  }
+
   // Inject system prompt into first message if provided
-  const finalMessages = system
-    ? [{ role: 'user', content: `[SYSTEM: ${system}]\n\n${messages[0]?.content || ''}` }, ...messages.slice(1)]
+  const finalMessages = finalSystem
+    ? [{ role: 'user', content: `[SYSTEM: ${finalSystem}]\n\n${messages[0]?.content || ''}` }, ...messages.slice(1)]
     : messages;
 
   const tokenLimit = Math.min(max_tokens || 2500, 3000); // max 3000 tokens

@@ -75,10 +75,10 @@ export default async function handler(req) {
         if (embedRes.ok) {
           const emb = (await embedRes.json())?.embedding?.values;
           if (emb?.length) {
-            const vecRes = await fetch(`${SUPA_URL}/rest/v1/rpc/search_qcs`, {
+            const vecRes = await fetch(`${SUPA_URL}/rest/v1/rpc/match_qcs_chunks`, {
               method: 'POST',
               headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}`, 'Content-Type': 'application/json' },
-              body: JSON.stringify({ query_embedding: emb, match_count: limit, similarity_threshold: 0.4 }),
+              body: JSON.stringify({ query_embedding: emb, match_count: limit, match_threshold: 0.4 }),
               signal: AbortSignal.timeout(8000),
             });
             if (vecRes.ok) {
