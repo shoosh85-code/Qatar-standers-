@@ -210,12 +210,104 @@
     }
   }
 
+  // ═══ 6. استبدال window.alert بـ Notyf ═══
+  /**
+   * كل alert() في الكود (inline-scripts.js, payment.js, smart-search.js, إلخ)
+   * ستُحوَّل تلقائياً لـ toast مناسب بناءً على محتوى الرسالة.
+   * القاعدة: لا نحذف أي كود — نعيد توجيه alert() فقط.
+   */
+  function overrideNativeAlert() {
+    var _nativeAlert = window.alert;
+    window.alert = function (msg) {
+      if (!msg) return;
+      var m = String(msg);
+
+      // استنتاج النوع من المحتوى
+      if (m.startsWith('✅') || m.startsWith('🎉') || m.includes('بنجاح') || m.includes('تم')) {
+        window.QS.notify.success(m);
+      } else if (m.startsWith('❌') || m.includes('خطأ') || m.includes('فشل')) {
+        window.QS.notify.error(m);
+      } else if (m.startsWith('⚠️') || m.startsWith('📡') || m.includes('حذر') || m.includes('تجاوزت الحد')) {
+        window.QS.notify.warning(m);
+      } else if (m.includes('Pro') || m.includes('اشترك') || m.includes('ارقَ')) {
+        window.QS.notify.pro(m);
+      } else {
+        window.QS.notify.info(m);
+      }
+
+      // سجّل في console للـ debugging (لا نحذف)
+      console.log('[QS-alert→toast]', m);
+
+      // لا نستدعي _nativeAlert — الـ toast يكفي
+    };
+    console.log('[QS-Toast] window.alert overridden → Notyf ✅');
+  }
+
+  // ═══ 7. Rate Limit (429) Global Interceptor ═══
+  /**
+   * يعترض كل fetch responses بـ 429 ويعرض toast تحذيري
+   * بدون المساس بأي كود موجود
+   */
+  function installRateLimitInterceptor() {
+    var _origFetch = window.fetch;
+    window.fetch = function () {
+      return _origFetch.apply(this, arguments).then(function (response) {
+        if (response.status === 429) {
+          var retryAfter = response.headers.get('Retry-After');
+          var waitMsg = retryAfter
+            ? 'تجاوزت حد الطلبات — انتظر ' + retryAfter + ' ثانية'
+            : 'تجاوزت حد الطلبات — انتظر دقيقة وأعد المحاولة';
+          window.QS.notify.warning('⏳ ' + waitMsg);
+          console.warn('[QS-RateLimit] 429 detected', response.url);
+        }
+        return response;
+      });
+    };
+    console.log('[QS-Toast] Rate limit interceptor installed ✅');
+  }
+
+  // ═══ 8. اكتشاف الاتصال (Offline/Online) ═══
+  /**
+   * يضيف toast عند انقطاع/عودة الاتصال
+   * مكمّل لـ inline-scripts.js الذي يدير شريط الـ offline
+   */
+  function bindConnectivityEvents() {
+    window.addEventListener('offline', function () {
+      if (window.QS && window.QS.notify) {
+        window.QS.notify.warning('📡 انقطع الاتصال — التطبيق يعمل بشكل محدود offline');
+      }
+    });
+
+    window.addEventListener('online', function () {
+      if (window.QS && window.QS.notify) {
+        window.QS.notify.success('✅ عاد الاتصال بالإنترنت');
+      }
+    });
+
+    // تحقق من الحالة الحالية عند التحميل
+    if (!navigator.onLine) {
+      setTimeout(function () {
+        if (window.QS && window.QS.notify) {
+          window.QS.notify.warning('📡 لا يوجد اتصال — يعمل في وضع offline');
+        }
+      }, 2000); // تأخير حتى تكتمل تهيئة Notyf
+    }
+  }
+
   // ═══ تشغيل عند جاهزية DOM ═══
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initNotyf);
+    document.addEventListener('DOMContentLoaded', function () {
+      initNotyf();
+      overrideNativeAlert();
+      installRateLimitInterceptor();
+      bindConnectivityEvents();
+    });
   } else {
     // DOM جاهز بالفعل (defer)
     initNotyf();
+    overrideNativeAlert();
+    installRateLimitInterceptor();
+    bindConnectivityEvents();
   }
 
 })();
