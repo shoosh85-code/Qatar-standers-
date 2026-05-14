@@ -1321,108 +1321,13 @@ function closeDetailModal(e) {
   }
 }
 
-function showToast(msg, type, duration) {
-  const t = document.getElementById('toast');
-  if (!t) return;
-  // Determine type from message prefix if not specified
-  if (!type) {
-    if (msg.startsWith('✅') || msg.startsWith('🎉')) type = 'success';
-    else if (msg.startsWith('❌')) type = 'error';
-    else if (msg.startsWith('⚠️')) type = 'warning';
-    else type = 'info';
-  }
-  t.textContent = msg;
-  t.className = 'toast-base show toast-' + type;
-  if (t._toastTimer) clearTimeout(t._toastTimer);
-  t._toastTimer = setTimeout(() => {
-    t.className = 'toast-base';
-    t._toastTimer = null;
-  }, duration || (type === 'error' ? 4000 : 3000));
-}
+// showToast → نُقلت إلى js/core/ui-utils.js (A1 Refactor)
 
-// ─── Security: sanitize text before injecting into innerHTML ───
-/**
- * يحوّل نص المستخدم إلى نص آمن للإدراج في innerHTML
- * يستخدم textContent trick لتهريب < > & " ' تلقائياً
- * @param {string} str - النص الخام من المستخدم أو API
- * @returns {string} - HTML-escaped string آمن
- * مثال: sanitizeText('<'+'script>') → '&lt;script&gt;'
- */
-const ESCAPE_MAP = {
-  '&': '&amp;',
-  '<': '&lt;',
-  '>': '&gt;',
-  '"': '&quot;',
-  "'": '&#39;'
-};
+// ESCAPE_MAP + sanitizeText → نُقلتا إلى js/core/ui-utils.js (A1 Refactor)
 
-/**
- * sanitizeText — يحوّل نص المستخدم إلى نص آمن للإدراج في innerHTML
- * يستخدم regex-based escape (أسرع من textContent trick)
- * @param {string} str - النص الخام من المستخدم أو API
- * @returns {string} - HTML-escaped string آمن
- */
-function sanitizeText(str) {
-  return String(str).replace(/[&<>"']/g, c => ESCAPE_MAP[c]);
-}
+// renderMarkdownSafe → نُقلت إلى js/core/ui-utils.js (A1 Refactor)
 
-/**
- * renderMarkdownSafe — يُحوّل نص Markdown إلى HTML آمن تماماً
- * الخطوات بالترتيب:
- *   1. sanitizeText() — يُهرّب & < > " ' كلها (textContent trick)
- *   2. \n → <br>   — يحافظ على فواصل الأسطر
- *   3. **bold** → <strong> — بعد الـ escaping لضمان عدم XSS
- *   4. ### heading → <strong class="qs-heading">
- * ملاحظة: لا تستخدم هذه الدالة على HTML موثوق — للنصوص الخام فقط
- * @param {string} raw - نص خام من API أو مستخدم
- * @returns {string} - HTML آمن للإدراج في innerHTML
- */
-function renderMarkdownSafe(raw) {
-  // الخطوة 1: تهريب كامل لكل محارف HTML الخطرة
-  const escaped = sanitizeText(String(raw));
-  // الخطوة 2: فواصل أسطر → <br>
-  // الخطوة 3: **bold** → <strong> (بعد escaping — $ لا تحمل HTML)
-  // الخطوة 4: ### Heading → <strong class>
-  const html = escaped
-    .replace(/\n/g, '<br>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold2)">$1</strong>')
-    .replace(/^#{1,3}\s(.+)/gm, '<strong style="color:var(--gold2);font-size:15px">$1</strong>');
-  // الخطوة 5: DOMPurify — طبقة حماية نهائية إذا متاح
-  return (typeof DOMPurify !== 'undefined') ? DOMPurify.sanitize(html) : html;
-}
-
-// ─── safeRender: عرض آمن لـ markdown داخل عنصر DOM ───
-/**
- * safeRender — يعرض نص markdown بشكل آمن داخل container
- * يجمع بين renderMarkdownSafe() وإسناد innerHTML في خطوة واحدة
- * بديل آمن لـ: container.innerHTML = renderMarkdownSafe(text)
- * @param {Element} container - عنصر DOM للعرض فيه
- * @param {string} markdown - نص خام من API أو مستخدم
- */
-function safeRender(container, markdown) {
-  if (!container) return;
-  // DOM construction حقيقي — لا innerHTML، لا XSS ممكن
-  container.innerHTML = '';
-  const lines = String(markdown).split('\n');
-  lines.forEach(line => {
-    const p = document.createElement('p');
-    const parts = line.split(/(\*\*.*?\*\*)/g);
-    parts.forEach(part => {
-      if (part.startsWith('**') && part.endsWith('**')) {
-        const strong = document.createElement('strong');
-        strong.textContent = part.slice(2, -2);
-        p.appendChild(strong);
-      } else {
-        p.appendChild(document.createTextNode(part));
-      }
-    });
-    container.appendChild(p);
-  });
-  // طبقة حماية إضافية — DOMPurify ينظّف أي شيء فات
-  if (typeof DOMPurify !== 'undefined') {
-    container.innerHTML = DOMPurify.sanitize(container.innerHTML);
-  }
-}
+// safeRender → نُقلت إلى js/core/ui-utils.js (A1 Refactor)
 
 
 // ─── API Helper: server-side proxy (Vercel Edge Function) ───
@@ -2290,7 +2195,7 @@ X.writeFile(wb, 'ITP-' + (itpNum||'Export') + '-' + Date.now() + '.xlsx');
 showToast('✅ تم تصدير ITP Excel — 4 أوراق');
 }
 
-function gv(id,def){const el=document.getElementById(id);return el?(el.value||def||''):(def||'')}
+// gv → نُقلت إلى js/core/ui-utils.js (A1 Refactor)
 
 // ===== PHOTO HANDLER =====
 function handleSitePhoto(input){
@@ -4435,13 +4340,7 @@ window.QS = window.QS || {};
   }
 })();
 
-// ── Skeleton Loading for search ───────────────────────────────
-function showSearchSkeleton() {
-  const out = document.getElementById('aiOutput');
-  if (!out) return;
-  out.style.display = 'block';
-  out.innerHTML = '<div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text short" style="margin-top:16px"></div>';
-}
+// showSearchSkeleton → نُقلت إلى js/core/ui-utils.js (A1 Refactor)
 
 // ── Theme Management (Dark/Light/System) ──────────────────────
 (function initTheme() {
@@ -4476,39 +4375,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () 
 });
 
 
-// ── AI Response Renderer with Citation Badges ──────────────────
-function displayAIResponse(text, container) {
-  if (!container) {
-    container = document.getElementById('aiOutput');
-  }
-  if (!container) return;
-
-  var rendered;
-
-  // Enhanced: marked.js + DOMPurify إذا متاحين — fallback للكود القديم
-  if (typeof marked !== 'undefined' && typeof DOMPurify !== 'undefined') {
-    marked.setOptions({ breaks: true, gfm: true });
-    rendered = DOMPurify.sanitize(marked.parse(String(text)));
-  } else {
-    // Fallback — الكود القديم يعمل إذا CDN فشل
-    rendered = text
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/^#{1,3} (.+)/gm, '<h4 style="color:var(--gold);margin:10px 0 4px;font-size:13px">$1</h4>')
-      .replace(/^[-•] (.+)/gm, '<li style="margin:3px 0">$1</li>')
-      .replace(/\n\n/g, '</p><p style="margin:5px 0">')
-      .replace(/\n/g, '<br>');
-  }
-
-  // QCS/KAHRAMAA/Ashghal citation badges — تعمل مع أي renderer
-  rendered = rendered
-    .replace(/\[QCS ([^\]]+)\]/g, '<span style="background:rgba(201,168,76,0.15);color:var(--gold);padding:1px 6px;border-radius:4px;font-size:10px;font-weight:700;display:inline-block;margin:1px">📌 QCS $1</span>')
-    .replace(/\[KAHRAMAA ([^\]]+)\]/g, '<span style="background:rgba(52,152,219,0.15);color:#3498db;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:700;display:inline-block;margin:1px">⚡ KAHRAMAA $1</span>')
-    .replace(/\[Ashghal ([^\]]+)\]/g, '<span style="background:rgba(231,76,60,0.15);color:#e74c3c;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:700;display:inline-block;margin:1px">🏗️ Ashghal $1</span>');
-
-  container.innerHTML = '<p style="margin:0;line-height:1.7">' + rendered + '</p>';
-  container.style.display = 'block';
-}
+// displayAIResponse → نُقلت إلى js/core/ui-utils.js (A1 Refactor)
 
 // ═══════════════════════════════════════════════════
 // SECTION 5: Pro Activation + Back To Top + Dark Mode
