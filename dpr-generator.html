@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تقرير التقدم اليومي — QatarSpec Pro</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--qa:#8D1B3D;--qa2:#A82048;--bg:#F8F7F5;--sf:#FFF;--bd:#E2E0DC;--bd2:#CCC;--tx:#1A1916;--tx2:#5C5A56;--tx3:#9B9893;--gold:#C9A84C;--pass-bg:#EAF3DE;--pass-tx:#3B6D11;--info-bg:#E6F1FB;--info-tx:#185FA5;--warn-bg:#FAEEDA;--warn-tx:#854F0B;--r:8px;--rl:12px}
+@media(prefers-color-scheme:dark){:root{--bg:#1A1916;--sf:#242220;--bd:#363330;--bd2:#4A4743;--tx:#F0EEE9;--tx2:#A09D98;--tx3:#6B6865;--pass-bg:#17340A;--pass-tx:#97C459;--info-bg:#082030;--info-tx:#85B7EB;--warn-bg:#2A1E08;--warn-tx:#FAC775}}
+body{font-family:-apple-system,'Segoe UI','Noto Sans Arabic',Arial,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;font-size:14px;line-height:1.6}
+.hdr{background:var(--sf);border-bottom:1px solid var(--bd);padding:0 20px;display:flex;align-items:center;gap:12px;height:58px;position:sticky;top:0;z-index:100}
+.logo{width:34px;height:34px;background:var(--qa);border-radius:var(--r);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0}
+.htl{font-size:15px;font-weight:600}.hsu{font-size:11px;color:var(--tx3)}
+.back{margin-right:auto;background:var(--bg);border:1px solid var(--bd);color:var(--tx2);padding:6px 12px;border-radius:var(--r);font-size:12px;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:5px}
+.con{max-width:900px;margin:0 auto;padding:24px 16px}
+.hero{text-align:center;margin-bottom:28px}
+.hero h1{font-size:22px;font-weight:700;margin-bottom:6px}
+.hero p{font-size:13px;color:var(--tx2)}
+.refs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.ref{background:var(--info-bg);color:var(--info-tx);padding:3px 10px;border-radius:20px;font-size:11px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:20px;margin-bottom:16px}
+.clbl{font-size:13px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:var(--qa)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
+@media(max-width:580px){.g2,.g3,.g4{grid-template-columns:1fr 1fr}}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.fl{font-size:11px;font-weight:500;color:var(--tx2)}
+input,select,textarea{background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:8px 12px;font-size:13px;color:var(--tx);width:100%;outline:none;font-family:inherit;transition:.15s}
+input:focus,select:focus,textarea:focus{border-color:var(--qa);box-shadow:0 0 0 3px rgba(141,27,61,.08)}
+textarea{resize:vertical}
+/* Weather buttons */
+.wx-grid{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.wx-btn{padding:8px 12px;border:1px solid var(--bd);border-radius:var(--r);background:var(--bg);cursor:pointer;font-size:12px;transition:.15s}
+.wx-btn.on{border-color:var(--qa);background:rgba(141,27,61,.08);color:var(--qa);font-weight:600}
+/* Activities checkboxes */
+.act-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-bottom:12px}
+.act-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--bd);border-radius:var(--r);cursor:pointer;font-size:12px;transition:.15s}
+.act-item:hover{border-color:var(--bd2)}
+.act-item.on{border-color:var(--qa);background:rgba(141,27,61,.05);color:var(--qa)}
+.act-item input[type=checkbox]{width:14px;height:14px;accent-color:var(--qa);cursor:pointer}
+/* Manpower row */
+.mp-row{display:grid;grid-template-columns:2fr 1fr;gap:8px;align-items:center;margin-bottom:8px}
+.mp-lbl{font-size:12px;color:var(--tx2)}
+/* Generate */
+.gen-btn{width:100%;background:var(--qa);color:#fff;border:none;padding:13px;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.15s}
+.gen-btn:hover{background:var(--qa2)}.gen-btn:disabled{opacity:.5;cursor:not-allowed}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:sp .6s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+/* Output */
+.output{display:none;margin-top:20px}
+.output.show{display:block}
+.sec-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:18px;margin-bottom:12px}
+.sec-title{font-size:13px;font-weight:700;color:var(--qa);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--bd)}
+.sec-body{font-size:13px;line-height:1.8;white-space:pre-wrap}
+.out-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.act-btn2{background:var(--bg);border:1px solid var(--bd);color:var(--tx2);padding:8px 16px;border-radius:var(--r);font-size:12px;cursor:pointer}
+.act-btn2:hover{border-color:var(--qa);color:var(--qa)}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.info-item{background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:10px;font-size:12px}
+.info-item strong{display:block;font-size:11px;color:var(--tx3);margin-bottom:2px}
+.disclaimer{background:var(--warn-bg);color:var(--warn-tx);padding:10px;border-radius:var(--r);font-size:11px;margin-top:10px}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="logo">📊</div>
+  <div><div class="htl">تقرير التقدم اليومي</div><div class="hsu">Daily Progress Report · QCS 2024 · Ashghal RDM 2023</div></div>
+  <a href="index.html" class="back">← الرئيسية</a>
+</header>
+
+<div class="con">
+  <div class="hero">
+    <h1>مولّد تقرير التقدم اليومي</h1>
+    <p>Daily Progress Report (DPR) — موافق لنموذج Ashghal الرسمي + تحليل AI</p>
+    <div class="refs">
+      <span class="ref">QCS 2024</span>
+      <span class="ref">Ashghal RDM 2023</span>
+      <span class="ref">FIDIC</span>
+    </div>
+  </div>
+
+  <!-- بيانات أساسية -->
+  <div class="card">
+    <div class="clbl">📋 بيانات التقرير</div>
+    <div class="g2">
+      <div class="fg"><label class="fl">اسم المشروع</label><input id="dpr_proj" placeholder="Al Wakra Road Development"></div>
+      <div class="fg"><label class="fl">رقم العقد</label><input id="dpr_contract" placeholder="MOWH/2024/001"></div>
+    </div>
+    <div class="g3">
+      <div class="fg"><label class="fl">التاريخ</label><input type="date" id="dpr_date"></div>
+      <div class="fg"><label class="fl">رقم التقرير</label><input id="dpr_num" placeholder="DPR-0125"></div>
+      <div class="fg"><label class="fl">المهندس المشرف</label><input id="dpr_eng" placeholder="Eng. Mohammed Al-Dosari"></div>
+    </div>
+  </div>
+
+  <!-- الأحوال الجوية -->
+  <div class="card">
+    <div class="clbl">🌤 الأحوال الجوية</div>
+    <div class="wx-grid">
+      <button class="wx-btn" onclick="toggleWx(this)">مشمس ☀️</button>
+      <button class="wx-btn" onclick="toggleWx(this)">غائم جزئياً 🌤</button>
+      <button class="wx-btn" onclick="toggleWx(this)">رياح 💨</button>
+      <button class="wx-btn" onclick="toggleWx(this)">غبار 🌫</button>
+      <button class="wx-btn" onclick="toggleWx(this)">ممطر 🌧</button>
+      <button class="wx-btn" onclick="toggleWx(this)">حرارة شديدة 🌡</button>
+    </div>
+    <div class="g3">
+      <div class="fg"><label class="fl">درجة الحرارة القصوى (°C)</label><input type="number" id="wx_temp" placeholder="42" min="15" max="55"></div>
+      <div class="fg"><label class="fl">الرطوبة (%)</label><input type="number" id="wx_humidity" placeholder="65" min="10" max="100"></div>
+      <div class="fg"><label class="fl">سرعة الرياح (km/h)</label><input type="number" id="wx_wind" placeholder="20" min="0" max="120"></div>
+    </div>
+  </div>
+
+  <!-- الأعمال المنجزة -->
+  <div class="card">
+    <div class="clbl">🏗 الأعمال المنجزة</div>
+    <div class="act-grid" id="act-grid">
+      <label class="act-item"><input type="checkbox" value="أعمال خرسانة — Concrete"> أعمال خرسانة 🪣</label>
+      <label class="act-item"><input type="checkbox" value="أعمال تسليح — Rebar"> حديد تسليح 🔩</label>
+      <label class="act-item"><input type="checkbox" value="أعمال حفر — Excavation"> حفر وردم 🚧</label>
+      <label class="act-item"><input type="checkbox" value="أعمال أسفلت — Asphalt"> أسفلت 🛣</label>
+      <label class="act-item"><input type="checkbox" value="أعمال صرف — Drainage"> صرف صحي 💧</label>
+      <label class="act-item"><input type="checkbox" value="أعمال مرافق — Utilities"> مرافق ⚡</label>
+      <label class="act-item"><input type="checkbox" value="أعمال بناء — Masonry"> بناء وطابوق 🧱</label>
+      <label class="act-item"><input type="checkbox" value="أعمال تشطيب — Finishing"> تشطيبات 🎨</label>
+      <label class="act-item"><input type="checkbox" value="أعمال هيكل فولاذي — Steelwork"> هيكل فولاذي 🏗</label>
+      <label class="act-item"><input type="checkbox" value="أعمال فورمورك — Formwork"> فورمورك 🪵</label>
+    </div>
+    <div class="fg">
+      <label class="fl">تفاصيل الأعمال المنجزة — Additional Details</label>
+      <textarea id="act_details" rows="3" placeholder="مثال: صب 45m³ خرسانة C35 في القاعدة F-12 من الساعة 6 صباحاً حتى 10 صباحاً. درجة حرارة الخرسانة 33°C. Slump 120mm. أُخذت 3 مكعبات اختبار..."></textarea>
+    </div>
+  </div>
+
+  <!-- القوى العاملة -->
+  <div class="card">
+    <div class="clbl">👷 القوى العاملة</div>
+    <div class="g4">
+      <div class="fg"><label class="fl">مهندسون</label><input type="number" id="mp_eng" placeholder="3" min="0"></div>
+      <div class="fg"><label class="fl">مشرفون</label><input type="number" id="mp_sup" placeholder="5" min="0"></div>
+      <div class="fg"><label class="fl">عمال مهرة</label><input type="number" id="mp_skill" placeholder="20" min="0"></div>
+      <div class="fg"><label class="fl">عمال عاديون</label><input type="number" id="mp_labor" placeholder="40" min="0"></div>
+    </div>
+  </div>
+
+  <!-- مشاكل وملاحظات -->
+  <div class="card">
+    <div class="clbl">⚠️ مشاكل وعقبات</div>
+    <div class="fg">
+      <label class="fl">المشاكل والعقبات (إذا وُجدت)</label>
+      <textarea id="issues" rows="3" placeholder="مثال: توقف الصب لمدة 2 ساعة بسبب تأخر الخلاطة. نقص في حديد التسليح قطر 16mm. ..."></textarea>
+    </div>
+    <div class="fg">
+      <label class="fl">الاختبارات والفحوصات المنفذة</label>
+      <textarea id="tests" rows="2" placeholder="مثال: Sand replacement test على طبقة sub-base عند Chainage 1+200 نتيجة 97.5% MDD ✅ ..."></textarea>
+    </div>
+    <button class="gen-btn" id="gen-btn" onclick="generateDPR()">
+      📊 توليد تقرير DPR الكامل بـ AI
+    </button>
+  </div>
+
+  <!-- Output -->
+  <div class="output" id="dpr-output">
+    <div class="out-actions">
+      <button class="act-btn2" onclick="printDPR()">🖨 طباعة DPR</button>
+      <button class="act-btn2" onclick="copyDPR()">📋 نسخ</button>
+      <button class="act-btn2" onclick="resetDPR()">🔄 تقرير جديد</button>
+    </div>
+    <div id="dpr-info" class="info-grid"></div>
+    <div id="dpr-sections"></div>
+    <div class="disclaimer">⚠️ مولّد بالذكاء الاصطناعي للاسترشاد — راجع المشرف الميداني والبرنامج الزمني المعتمد قبل الرفع الرسمي.</div>
+  </div>
+</div>
+
+<script>
+'use strict';
+(function(){ document.getElementById('dpr_date').value = new Date().toISOString().split('T')[0]; })();
+
+function toggleWx(btn) { btn.classList.toggle('on'); }
+
+function getSelectedWx() {
+  return Array.from(document.querySelectorAll('.wx-btn.on')).map(b => b.textContent).join(' / ');
+}
+
+function getSelectedActs() {
+  return Array.from(document.querySelectorAll('#act-grid input:checked')).map(c => c.value).join('، ');
+}
+
+async function generateDPR() {
+  var proj     = document.getElementById('dpr_proj').value.trim() || 'غير محدد';
+  var contract = document.getElementById('dpr_contract').value.trim() || '—';
+  var date     = document.getElementById('dpr_date').value || new Date().toISOString().split('T')[0];
+  var dprNum   = document.getElementById('dpr_num').value.trim() || '—';
+  var eng      = document.getElementById('dpr_eng').value.trim() || '—';
+  var temp     = document.getElementById('wx_temp').value;
+  var humidity = document.getElementById('wx_humidity').value;
+  var wind     = document.getElementById('wx_wind').value;
+  var wx       = getSelectedWx();
+  var acts     = getSelectedActs();
+  var actDetails = document.getElementById('act_details').value.trim();
+  var issues   = document.getElementById('issues').value.trim();
+  var tests    = document.getElementById('tests').value.trim();
+  var mpEng    = document.getElementById('mp_eng').value || '0';
+  var mpSup    = document.getElementById('mp_sup').value || '0';
+  var mpSkill  = document.getElementById('mp_skill').value || '0';
+  var mpLabor  = document.getElementById('mp_labor').value || '0';
+
+  var activitiesSummary = [acts, actDetails, issues ? 'مشاكل: ' + issues : ''].filter(Boolean).join('\n');
+  if (!activitiesSummary.trim()) { alert('أدخل الأعمال المنجزة أولاً'); return; }
+
+  var btn = document.getElementById('gen-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span> جاري توليد التقرير...';
+  document.getElementById('dpr-output').classList.remove('show');
+
+  try {
+    var res = await fetch('/api/generate-document', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        template_type: 'dpr',
+        project_name: proj,
+        engineer_name: eng,
+        inputs: {
+          report_date: date,
+          activities_summary: activitiesSummary,
+          weather: wx + (temp ? ` | ${temp}°C` : '') + (humidity ? ` | رطوبة ${humidity}%` : ''),
+          issues: issues,
+          tests: tests
+        }
+      })
+    });
+    var data = await res.json();
+    if (!res.ok || !data.ok) throw new Error(data.error || 'خطأ في الخادم');
+
+    // Info cards
+    var totalMp = (+mpEng) + (+mpSup) + (+mpSkill) + (+mpLabor);
+    document.getElementById('dpr-info').innerHTML = `
+      <div class="info-item"><strong>المشروع</strong>${proj}</div>
+      <div class="info-item"><strong>التاريخ / Report #</strong>${date} / ${dprNum}</div>
+      <div class="info-item"><strong>العقد</strong>${contract}</div>
+      <div class="info-item"><strong>القوى العاملة</strong>${totalMp} شخص (مهندسون: ${mpEng} | مشرفون: ${mpSup} | مهرة: ${mpSkill} | عمال: ${mpLabor})</div>
+      <div class="info-item"><strong>الأحوال الجوية</strong>${wx || 'غير محدد'}${temp ? ' | ' + temp + '°C' : ''}${humidity ? ' | رطوبة ' + humidity + '%' : ''}</div>
+      <div class="info-item"><strong>الأعمال المنجزة</strong>${acts || actDetails || '—'}</div>
+    `;
+
+    // Sections
+    var secs = data.dpr_sections;
+    var labels = {
+      activities_narrative: '🏗 سرد الأعمال المنجزة — Activities Narrative',
+      issues_analysis:      '⚠️ تحليل المشاكل والحلول — Issues & Solutions',
+      next_day_plan:        '📅 خطة اليوم التالي — Next Day Plan'
+    };
+
+    var html = '';
+    if (acts || actDetails) html += `<div class="sec-card"><div class="sec-title">✅ الأعمال المنجزة</div><div class="sec-body">${escHtml(acts + (actDetails ? '\n' + actDetails : ''))}</div></div>`;
+    if (tests) html += `<div class="sec-card"><div class="sec-title">🔬 الاختبارات والفحوصات</div><div class="sec-body">${escHtml(tests)}</div></div>`;
+
+    for (var k of ['activities_narrative','issues_analysis','next_day_plan']) {
+      if (secs[k]) {
+        html += `<div class="sec-card"><div class="sec-title">${labels[k]}</div><div class="sec-body">${escHtml(secs[k])}</div></div>`;
+      }
+    }
+    document.getElementById('dpr-sections').innerHTML = html;
+    document.getElementById('dpr-output').classList.add('show');
+    document.getElementById('dpr-output').scrollIntoView({ behavior:'smooth' });
+  } catch(err) {
+    alert('❌ ' + (err.message || 'خطأ — حاول مرة أخرى'));
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '📊 توليد تقرير DPR الكامل بـ AI';
+  }
+}
+
+function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function copyDPR() {
+  var t = document.getElementById('dpr-info').innerText + '\n\n' + document.getElementById('dpr-sections').innerText;
+  navigator.clipboard.writeText(t).then(() => alert('✅ تم النسخ'));
+}
+
+function printDPR() {
+  var proj = document.getElementById('dpr_proj').value || 'غير محدد';
+  var date = document.getElementById('dpr_date').value;
+  var dprNum = document.getElementById('dpr_num').value || '—';
+  var info = document.getElementById('dpr-info').innerText;
+  var body = document.getElementById('dpr-sections').innerText;
+  var w = window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>DPR ${dprNum}</title>
+<style>body{font-family:Arial,'Noto Sans Arabic',sans-serif;padding:30px;font-size:12px;line-height:1.8}
+h1{font-size:16px;color:#8D1B3D;border-bottom:2px solid #8D1B3D;padding-bottom:8px}
+.info{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:12px 0;border:1px solid #ddd;padding:10px;border-radius:6px}
+.sec{border:1px solid #ddd;padding:12px;border-radius:6px;margin-bottom:12px}
+.sec-t{font-weight:700;color:#8D1B3D;margin-bottom:6px}
+.disc{background:#FAEEDA;color:#854F0B;padding:8px;border-radius:4px;font-size:10px}
+.ftr{text-align:center;font-size:10px;color:#888;margin-top:16px;border-top:1px solid #ddd;padding-top:8px}
+</style></head><body>
+<h1>📊 تقرير التقدم اليومي — DPR ${dprNum}</h1>
+<div class="info">${info.split('\n').filter(l=>l.trim()).map(l=>`<div>${l}</div>`).join('')}</div>
+<pre style="white-space:pre-wrap;font-family:inherit">${body}</pre>
+<div class="disc">⚠️ مولّد بالذكاء الاصطناعي — راجع المشرف قبل الرفع الرسمي</div>
+<div class="ftr">QatarSpec Pro · QCS 2024 · Ashghal RDM 2023 · ${new Date().toLocaleDateString('ar-QA')}</div>
+</body></html>`);
+  w.document.close(); setTimeout(() => w.print(), 400);
+}
+
+function resetDPR() {
+  ['dpr_proj','dpr_contract','dpr_num','dpr_eng','wx_temp','wx_humidity','wx_wind','act_details','issues','tests','mp_eng','mp_sup','mp_skill','mp_labor'].forEach(id => {
+    var el = document.getElementById(id); if(el) el.value = '';
+  });
+  document.getElementById('dpr_date').value = new Date().toISOString().split('T')[0];
+  document.querySelectorAll('.wx-btn.on').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('#act-grid input').forEach(c => c.checked = false);
+  document.getElementById('dpr-output').classList.remove('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

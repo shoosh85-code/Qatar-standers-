@@ -1,0 +1,31 @@
+{
+  "type": "method_statement", "version": "2024",
+  "title_ar": "خطة طريقة التنفيذ", "title_en": "Method Statement",
+  "reference": "QCS 2024 | Ashghal RDM 2023 | KAHRAMAA 2024 | FIDIC",
+  "sections": [
+    { "id": "scope",       "title_ar": "1. نطاق العمل",                   "title_en": "1. Scope of Work",               "ai_generate": true  },
+    { "id": "references",  "title_ar": "2. المراجع والمواصفات",           "title_en": "2. References & Standards",       "ai_generate": true  },
+    { "id": "materials",   "title_ar": "3. المواد والمعدات",              "title_en": "3. Materials & Equipment",        "ai_generate": true  },
+    { "id": "manpower",    "title_ar": "4. القوى العاملة",               "title_en": "4. Manpower",                     "ai_generate": true  },
+    { "id": "procedure",   "title_ar": "5. إجراءات التنفيذ التفصيلية",   "title_en": "5. Detailed Execution Procedure", "ai_generate": true  },
+    { "id": "safety",      "title_ar": "6. السلامة والصحة المهنية",       "title_en": "6. HSE",                          "ai_generate": true  },
+    { "id": "quality",     "title_ar": "7. ضبط الجودة",                   "title_en": "7. Quality Control",              "ai_generate": true  },
+    { "id": "testing",     "title_ar": "8. الاختبارات المطلوبة",          "title_en": "8. Required Tests",               "ai_generate": true  },
+    { "id": "hold_points", "title_ar": "9. نقاط التوقف والمراجعة",        "title_en": "9. Hold & Witness Points",        "ai_generate": true  },
+    { "id": "drawings",    "title_ar": "10. الرسومات والمراجع الهندسية", "title_en": "10. Drawings & References",       "ai_generate": false }
+  ],
+  "work_types": {
+    "concrete":      { "label_ar": "أعمال الخرسانة",        "label_en": "Concrete Works",        "qcs": "QCS 2024 Part 8" },
+    "earthworks":    { "label_ar": "أعمال الحفر والردم",     "label_en": "Earthworks & Backfill", "qcs": "QCS 2024 Part 6 + Ashghal RDM 2023" },
+    "asphalt":       { "label_ar": "أعمال الأسفلت",          "label_en": "Asphalt Paving",        "qcs": "QCS 2024 Sec.6 P5 + Ashghal RDM" },
+    "subbase":       { "label_ar": "Sub-base وBase Course",   "label_en": "Sub-base & Base Course","qcs": "Ashghal RDM 2023 Ch.4" },
+    "drainage":      { "label_ar": "أعمال الصرف الصحي",      "label_en": "Drainage Works",        "qcs": "QCS 2024 Part 10" },
+    "waterproofing": { "label_ar": "العزل المائي",            "label_en": "Waterproofing",         "qcs": "QCS 2024 Part 11" },
+    "rebar":         { "label_ar": "حديد التسليح",           "label_en": "Reinforcement Works",   "qcs": "QCS 2024 Part 8 §8.2" },
+    "utilities":     { "label_ar": "المرافق والشبكات",        "label_en": "Utilities Installation","qcs": "KAHRAMAA 2024 + QCS 2024 Part 9" },
+    "formwork":      { "label_ar": "الفورمورك والقوالب",      "label_en": "Formwork & Falsework",  "qcs": "QCS 2024 Part 8 §8.1" },
+    "masonry":       { "label_ar": "أعمال البناء",            "label_en": "Masonry Works",         "qcs": "QCS 2024 Part 7" },
+    "piling":        { "label_ar": "أعمال الأوتاد",          "label_en": "Piling Works",          "qcs": "QCS 2024 Part 5 §5.5" },
+    "painting":      { "label_ar": "الدهانات والطلاء",        "label_en": "Painting & Coating",    "qcs": "QCS 2024 Part 12" }
+  }
+}

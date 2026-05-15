@@ -1,0 +1,24 @@
+{
+  "type": "ncr", "version": "2024",
+  "title_ar": "تقرير عدم المطابقة", "title_en": "Non-Conformance Report (NCR)",
+  "reference": "QCS 2024 | ISO 9001:2015 Cl.10.2 | Ashghal QA/QC",
+  "classification": {
+    "major": { "label": "Major 🔴", "desc_ar": "مخالفة جوهرية تؤثر على السلامة أو متطلبات QCS الأساسية" },
+    "minor": { "label": "Minor 🟡", "desc_ar": "مخالفة بسيطة لا تؤثر على الوظيفة أو السلامة" },
+    "obs":   { "label": "Observation 🔵","desc_ar": "ملاحظة — قد تتطور إلى مخالفة إذا لم تُعالج" }
+  },
+  "sources": ["فحص ميداني","اختبارات معمل","مراجعة رسومات","تدقيق داخلي","تدقيق خارجي","شكوى عميل"],
+  "status": {
+    "open":     "Open 🔴",
+    "inprog":   "In Progress 🟡",
+    "accepted": "Closed — Accepted ✅",
+    "rejected": "Closed — Rejected ❌",
+    "pending":  "Pending Verification ⏳"
+  },
+  "ai_sections": [
+    { "id": "root_cause",      "title_ar": "تحليل السبب الجذري" },
+    { "id": "corrective",      "title_ar": "الإجراء التصحيحي المقترح" },
+    { "id": "preventive",      "title_ar": "الإجراء الوقائي المقترح" },
+    { "id": "qcs_ref",         "title_ar": "مرجع QCS 2024 ذو الصلة" }
+  ]
+}

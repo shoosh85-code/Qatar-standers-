@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مولّد NCR — QatarSpec Pro</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--qa:#8D1B3D;--qa2:#A82048;--bg:#F8F7F5;--sf:#FFF;--bd:#E2E0DC;--bd2:#CCC;--tx:#1A1916;--tx2:#5C5A56;--tx3:#9B9893;--gold:#C9A84C;--pass-bg:#EAF3DE;--pass-tx:#3B6D11;--info-bg:#E6F1FB;--info-tx:#185FA5;--warn-bg:#FAEEDA;--warn-tx:#854F0B;--fail-bg:#FDEEEE;--fail-tx:#9B1C1C;--r:8px;--rl:12px}
+@media(prefers-color-scheme:dark){:root{--bg:#1A1916;--sf:#242220;--bd:#363330;--bd2:#4A4743;--tx:#F0EEE9;--tx2:#A09D98;--tx3:#6B6865;--pass-bg:#17340A;--pass-tx:#97C459;--info-bg:#082030;--info-tx:#85B7EB;--warn-bg:#2A1E08;--warn-tx:#FAC775;--fail-bg:#2A0808;--fail-tx:#F87171}}
+body{font-family:-apple-system,'Segoe UI','Noto Sans Arabic',Arial,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;font-size:14px;line-height:1.6}
+.hdr{background:var(--sf);border-bottom:1px solid var(--bd);padding:0 20px;display:flex;align-items:center;gap:12px;height:58px;position:sticky;top:0;z-index:100}
+.logo{width:34px;height:34px;background:var(--qa);border-radius:var(--r);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0}
+.htl{font-size:15px;font-weight:600}.hsu{font-size:11px;color:var(--tx3)}
+.back{margin-right:auto;background:var(--bg);border:1px solid var(--bd);color:var(--tx2);padding:6px 12px;border-radius:var(--r);font-size:12px;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:5px}
+.con{max-width:900px;margin:0 auto;padding:24px 16px}
+.hero{text-align:center;margin-bottom:28px}
+.hero h1{font-size:22px;font-weight:700;margin-bottom:6px}
+.hero p{font-size:13px;color:var(--tx2)}
+.refs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.ref{background:var(--info-bg);color:var(--info-tx);padding:3px 10px;border-radius:20px;font-size:11px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:20px;margin-bottom:16px}
+.clbl{font-size:13px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:var(--qa)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:580px){.g2,.g3{grid-template-columns:1fr}}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.fl{font-size:11px;font-weight:500;color:var(--tx2)}
+input,select,textarea{background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:8px 12px;font-size:13px;color:var(--tx);width:100%;outline:none;font-family:inherit;transition:.15s}
+input:focus,select:focus,textarea:focus{border-color:var(--qa);box-shadow:0 0 0 3px rgba(141,27,61,.08)}
+textarea{resize:vertical}
+/* Classification badges */
+.cls-grid{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.cls-btn{padding:10px 18px;border:2px solid var(--bd);border-radius:var(--r);background:var(--bg);cursor:pointer;font-size:12px;font-weight:600;transition:.15s}
+.cls-btn.major{border-color:#E74C3C;color:#E74C3C}.cls-btn.major.on{background:#E74C3C;color:#fff}
+.cls-btn.minor{border-color:#F39C12;color:#F39C12}.cls-btn.minor.on{background:#F39C12;color:#fff}
+.cls-btn.obs{border-color:#3498DB;color:#3498DB}.cls-btn.obs.on{background:#3498DB;color:#fff}
+/* AI Button */
+.ai-btn{width:100%;background:var(--qa);color:#fff;border:none;padding:13px;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.15s;margin-top:4px}
+.ai-btn:hover{background:var(--qa2)}.ai-btn:disabled{opacity:.5;cursor:not-allowed}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:sp .6s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+/* Output */
+.output{display:none;margin-top:20px}
+.output.show{display:block}
+.sec-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:18px;margin-bottom:12px}
+.sec-title{font-size:13px;font-weight:700;color:var(--qa);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:6px}
+.sec-body{font-size:13px;line-height:1.8;color:var(--tx);white-space:pre-wrap}
+.out-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.act-btn2{background:var(--bg);border:1px solid var(--bd);color:var(--tx2);padding:8px 16px;border-radius:var(--r);font-size:12px;cursor:pointer;font-weight:500}
+.act-btn2:hover{border-color:var(--qa);color:var(--qa)}
+.ncr-header{background:var(--fail-bg);border:1px solid #fca5a5;border-radius:var(--rl);padding:16px;margin-bottom:16px}
+.ncr-badge{display:inline-block;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:700}
+.badge-major{background:#E74C3C;color:#fff}
+.badge-minor{background:#F39C12;color:#fff}
+.badge-obs{background:#3498DB;color:#fff}
+.disclaimer{background:var(--warn-bg);color:var(--warn-tx);padding:10px 14px;border-radius:var(--r);font-size:11px;margin-top:12px}
+.ncr-num{font-size:11px;color:var(--tx3);margin-top:4px}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="logo">⚠️</div>
+  <div><div class="htl">مولّد NCR</div><div class="hsu">Non-Conformance Report · QCS 2024 · ISO 9001:2015 · Ashghal</div></div>
+  <a href="index.html" class="back">← الرئيسية</a>
+</header>
+
+<div class="con">
+  <div class="hero">
+    <h1>مولّد تقرير عدم المطابقة</h1>
+    <p>Non-Conformance Report (NCR) — تحليل AI بمراجع QCS 2024 حقيقية</p>
+    <div class="refs">
+      <span class="ref">QCS 2024</span>
+      <span class="ref">ISO 9001:2015 Cl.10.2</span>
+      <span class="ref">Ashghal QA/QC</span>
+      <span class="ref">FIDIC</span>
+    </div>
+  </div>
+
+  <!-- بيانات المشروع -->
+  <div class="card">
+    <div class="clbl">📋 بيانات المشروع</div>
+    <div class="g2">
+      <div class="fg"><label class="fl">رقم NCR</label><input id="ncr_num" placeholder="NCR-2024-001"></div>
+      <div class="fg"><label class="fl">اسم المشروع</label><input id="proj" placeholder="Al Wakra Road Development"></div>
+    </div>
+    <div class="g3">
+      <div class="fg"><label class="fl">رقم العقد</label><input id="contract" placeholder="MOWH/2024/001"></div>
+      <div class="fg"><label class="fl">المقاول</label><input id="cont" placeholder="اسم الشركة"></div>
+      <div class="fg"><label class="fl">التاريخ</label><input type="date" id="ncr_date"></div>
+    </div>
+  </div>
+
+  <!-- تصنيف المخالفة -->
+  <div class="card">
+    <div class="clbl">🔴 تصنيف المخالفة</div>
+    <div class="cls-grid">
+      <button class="cls-btn major" onclick="setClass('major',this)">🔴 Major</button>
+      <button class="cls-btn minor" onclick="setClass('minor',this)">🟡 Minor</button>
+      <button class="cls-btn obs"   onclick="setClass('obs',this)">🔵 Observation</button>
+    </div>
+    <div class="g2">
+      <div class="fg"><label class="fl">الموقع / Location</label><input id="ncr_loc" placeholder="Chainage 2+500, Manhole MH-12"></div>
+      <div class="fg"><label class="fl">رقم الرسم / Drawing No.</label><input id="ncr_dwg" placeholder="C-ST-001 Rev.2"></div>
+    </div>
+    <div class="g2">
+      <div class="fg"><label class="fl">البند المخالف / QCS Clause</label><input id="ncr_clause" placeholder="QCS 2024 Part 8, §8.4.3"></div>
+      <div class="fg"><label class="fl">مصدر الكشف</label>
+        <select id="ncr_source">
+          <option>فحص ميداني</option>
+          <option>اختبارات معمل</option>
+          <option>مراجعة رسومات</option>
+          <option>تدقيق داخلي</option>
+          <option>تدقيق خارجي</option>
+          <option>شكوى عميل</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- وصف المخالفة -->
+  <div class="card">
+    <div class="clbl">📝 وصف المخالفة</div>
+    <div class="fg">
+      <label class="fl">وصف تفصيلي للمخالفة — Nonconformance Description</label>
+      <textarea id="ncr_desc" rows="4" placeholder="صف المخالفة بوضوح: ما الذي وُجد؟ كيف يختلف عن المتطلبات؟
+مثال: تم اكتشاف أن درجة حرارة الخرسانة عند الصب = 38°C وهو أعلى من الحد المسموح في QCS 2024 §8.4.2 (35°C كحد أقصى)..."></textarea>
+    </div>
+    <div class="fg">
+      <label class="fl">الكمية المتأثرة / Affected Quantity (اختياري)</label>
+      <input id="ncr_qty" placeholder="مثال: 45 m³ خرسانة طابق أرضي Block A">
+    </div>
+    <button class="ai-btn" id="ai-btn" onclick="generateNCR()">
+      🤖 توليد تحليل AI — Root Cause + Corrective Actions
+    </button>
+  </div>
+
+  <!-- Output -->
+  <div class="output" id="ncr-output">
+    <div class="ncr-header" id="ncr-header-box"></div>
+    <div class="out-actions">
+      <button class="act-btn2" onclick="printNCR()">🖨 طباعة NCR</button>
+      <button class="act-btn2" onclick="copyNCR()">📋 نسخ النص</button>
+      <button class="act-btn2" onclick="resetNCR()">🔄 جديد</button>
+    </div>
+    <div id="ncr-sections"></div>
+    <div class="disclaimer">⚠️ هذا التحليل مولّد بالذكاء الاصطناعي للاسترشاد فقط — تحقق من QCS 2024 الأصلي وراجع مهندس QA/QC المختص.</div>
+  </div>
+</div>
+
+<script>
+'use strict';
+var ncrClass = 'minor';
+(function(){ document.getElementById('ncr_date').value = new Date().toISOString().split('T')[0]; })();
+
+function setClass(cls, btn) {
+  ncrClass = cls;
+  document.querySelectorAll('.cls-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+async function generateNCR() {
+  var desc   = document.getElementById('ncr_desc').value.trim();
+  var clause = document.getElementById('ncr_clause').value.trim();
+  var loc    = document.getElementById('ncr_loc').value.trim();
+  var proj   = document.getElementById('proj').value.trim() || 'غير محدد';
+  var eng    = document.getElementById('cont').value.trim() || 'غير محدد';
+
+  if (!desc) { alert('أدخل وصف المخالفة أولاً'); return; }
+
+  var btn = document.getElementById('ai-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span> جاري التحليل بـ AI...';
+  document.getElementById('ncr-output').classList.remove('show');
+
+  try {
+    var res = await fetch('/api/generate-document', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        template_type: 'ncr',
+        project_name: proj,
+        engineer_name: eng,
+        inputs: {
+          ncr_desc: desc,
+          ncr_class: ncrClass,
+          ncr_clause: clause,
+          ncr_loc: loc
+        }
+      })
+    });
+    var data = await res.json();
+    if (!res.ok || !data.ok) throw new Error(data.error || 'خطأ في الخادم');
+
+    // Header
+    var clsLabel = { major:'Major 🔴', minor:'Minor 🟡', obs:'Observation 🔵' };
+    var clsBadge = { major:'badge-major', minor:'badge-minor', obs:'badge-obs' };
+    document.getElementById('ncr-header-box').innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div>
+          <strong>NCR #${document.getElementById('ncr_num').value || '—'}</strong>
+          <span class="ncr-badge ${clsBadge[ncrClass]}" style="margin-right:10px">${clsLabel[ncrClass]}</span>
+        </div>
+        <div style="font-size:11px;color:var(--tx3)">${document.getElementById('ncr_date').value}</div>
+      </div>
+      <div style="font-size:12px;color:var(--tx2)">
+        📍 ${loc || '—'} &nbsp;|&nbsp; 📋 ${clause || '—'} &nbsp;|&nbsp; 🏗 ${proj}
+      </div>
+      <div style="margin-top:8px;font-size:13px"><strong>المخالفة:</strong> ${desc}</div>
+    `;
+
+    // Sections
+    var secs = data.ai_sections;
+    var labels = {
+      root_cause: '🔍 تحليل السبب الجذري — Root Cause Analysis',
+      corrective: '🔧 الإجراء التصحيحي — Corrective Action',
+      preventive: '🛡 الإجراء الوقائي — Preventive Action',
+      qcs_ref:    '📖 مرجع QCS 2024 ذو الصلة'
+    };
+    var html = '';
+    for (var k of ['root_cause','corrective','preventive','qcs_ref']) {
+      if (secs[k]) {
+        html += `<div class="sec-card">
+          <div class="sec-title">${labels[k]}</div>
+          <div class="sec-body">${escHtml(secs[k])}</div>
+        </div>`;
+      }
+    }
+    document.getElementById('ncr-sections').innerHTML = html;
+    document.getElementById('ncr-output').classList.add('show');
+    document.getElementById('ncr-output').scrollIntoView({ behavior:'smooth' });
+  } catch(err) {
+    alert('❌ ' + (err.message || 'خطأ — حاول مرة أخرى'));
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '🤖 توليد تحليل AI — Root Cause + Corrective Actions';
+  }
+}
+
+function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function copyNCR() {
+  var t = document.getElementById('ncr-header-box').innerText + '\n\n' + document.getElementById('ncr-sections').innerText;
+  navigator.clipboard.writeText(t).then(() => alert('✅ تم النسخ'));
+}
+
+function printNCR() {
+  var title = 'NCR #' + (document.getElementById('ncr_num').value || '—');
+  var hdr = document.getElementById('ncr-header-box').innerText;
+  var body = document.getElementById('ncr-sections').innerText;
+  var w = window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>${title}</title>
+<style>body{font-family:Arial,'Noto Sans Arabic',sans-serif;padding:30px;font-size:12px;line-height:1.8}
+h1{font-size:16px;color:#8D1B3D;border-bottom:2px solid #8D1B3D;padding-bottom:8px}
+.hdr{background:#FFF5F5;border:1px solid #fca5a5;padding:12px;border-radius:6px;margin-bottom:16px}
+.sec{margin-bottom:16px;border:1px solid #ddd;padding:12px;border-radius:6px}
+.sec-t{font-weight:700;color:#8D1B3D;margin-bottom:8px}
+.disc{background:#FAEEDA;color:#854F0B;padding:8px;border-radius:4px;font-size:10px;margin-top:12px}
+.ftr{text-align:center;font-size:10px;color:#888;border-top:1px solid #ddd;margin-top:20px;padding-top:8px}
+</style></head><body>
+<h1>📋 ${title}</h1>
+<div class="hdr">${hdr.replace(/\n/g,'<br>')}</div>
+<pre style="white-space:pre-wrap;font-family:inherit">${body}</pre>
+<div class="disc">⚠️ مولّد بالذكاء الاصطناعي — تحقق من QCS 2024 قبل التنفيذ</div>
+<div class="ftr">QatarSpec Pro · QCS 2024 · ISO 9001:2015 · Ashghal QA/QC · ${new Date().toLocaleDateString('ar-QA')}</div>
+</body></html>`);
+  w.document.close(); setTimeout(() => w.print(), 400);
+}
+
+function resetNCR() {
+  ncrClass = 'minor';
+  document.querySelectorAll('.cls-btn').forEach(b => b.classList.remove('on'));
+  ['ncr_num','proj','contract','cont','ncr_loc','ncr_dwg','ncr_clause','ncr_desc','ncr_qty'].forEach(id => {
+    var el = document.getElementById(id); if(el) el.value = '';
+  });
+  document.getElementById('ncr_date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('ncr-output').classList.remove('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

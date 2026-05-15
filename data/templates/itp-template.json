@@ -1,0 +1,19 @@
+{
+  "type": "itp", "version": "2024",
+  "title_ar": "خطة الفحص والاختبار", "title_en": "Inspection & Test Plan",
+  "reference": "QCS 2024 | ISO 9001:2015 | Ashghal QA/QC Requirements",
+  "point_types": {
+    "H": { "label": "H — Hold Point",    "color": "#E74C3C", "desc_ar": "توقف إلزامي — لا يُتابع بدون موافقة" },
+    "W": { "label": "W — Witness Point", "color": "#F39C12", "desc_ar": "شاهد — الإخطار مطلوب مسبقاً" },
+    "R": { "label": "R — Review",        "color": "#3498DB", "desc_ar": "مراجعة — يراجع السجلات" },
+    "I": { "label": "I — Information",   "color": "#27AE60", "desc_ar": "إعلام فقط" }
+  },
+  "work_types": {
+    "concrete":   { "label_ar": "الخرسانة",      "qcs": "QCS 2024 Part 8",       "ai_generate": true },
+    "earthworks": { "label_ar": "الحفر والردم",   "qcs": "QCS 2024 Part 6",       "ai_generate": true },
+    "asphalt":    { "label_ar": "الأسفلت",        "qcs": "Ashghal RDM 2023 Ch.5", "ai_generate": true },
+    "piling":     { "label_ar": "الأوتاد",        "qcs": "QCS 2024 Part 5 §5.5",  "ai_generate": true },
+    "drainage":   { "label_ar": "الصرف الصحي",    "qcs": "QCS 2024 Part 10",      "ai_generate": true },
+    "utilities":  { "label_ar": "المرافق",        "qcs": "KAHRAMAA 2024",         "ai_generate": true }
+  }
+}

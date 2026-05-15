@@ -1,0 +1,23 @@
+{
+  "type": "dpr", "version": "2024",
+  "title_ar": "تقرير التقدم اليومي", "title_en": "Daily Progress Report (DPR)",
+  "reference": "QCS 2024 | Ashghal RDM 2023 | FIDIC",
+  "sections": [
+    { "id": "weather",      "title_ar": "الأحوال الجوية",        "ai_generate": false },
+    { "id": "manpower",     "title_ar": "القوى العاملة",         "ai_generate": false },
+    { "id": "equipment",    "title_ar": "المعدات",                "ai_generate": false },
+    { "id": "activities",   "title_ar": "الأعمال المنجزة",       "ai_generate": true  },
+    { "id": "materials",    "title_ar": "المواد المستلمة",        "ai_generate": false },
+    { "id": "tests",        "title_ar": "الاختبارات والفحوصات",  "ai_generate": false },
+    { "id": "issues",       "title_ar": "المشاكل والعقبات",      "ai_generate": true  },
+    { "id": "next_day",     "title_ar": "خطة اليوم التالي",      "ai_generate": true  }
+  ],
+  "weather_options": ["مشمس ☀️","غائم جزئياً 🌤","غيوم 🌥","رياح 💨","غبار 🌫","ممطر 🌧","حرارة شديدة 🌡"],
+  "work_categories": [
+    "أعمال خرسانة — Concrete","أعمال تسليح — Rebar",
+    "أعمال حفر — Excavation","أعمال ردم — Backfill",
+    "أعمال أسفلت — Asphalt","أعمال صرف — Drainage",
+    "أعمال مرافق — Utilities","أعمال بناء — Masonry",
+    "أعمال تشطيب — Finishing","أعمال هيكل فولاذي — Steelwork"
+  ]
+}

@@ -101,6 +101,9 @@
     },
     "api/execution-ai.js": {
       "maxDuration": 60
+    },
+    "api/generate-document.js": {
+      "maxDuration": 60
     }
   }
 }

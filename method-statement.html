@@ -180,6 +180,8 @@ textarea{resize:vertical}
         <button class="act-action" onclick="copyMS()">📋 نسخ</button>
         <button class="act-action" onclick="printMS()">🖨 طباعة</button>
         <button class="act-action" onclick="resetAll()">🔄 جديد</button>
+        <a class="act-action" href="ncr-generator.html" style="text-decoration:none;display:inline-flex;align-items:center">⚠️ إنشاء NCR</a>
+        <a class="act-action" href="dpr-generator.html" style="text-decoration:none;display:inline-flex;align-items:center">📊 تقرير يومي DPR</a>
       </div>
     </div>
     <div class="mos-body" id="ms-body"></div>
@@ -234,28 +236,35 @@ async function generateMS() {
   btn.innerHTML = '<span class="spin"></span> جاري التوليد...';
   document.getElementById('ms-output').classList.remove('show');
 
-  var question = `أنشئ Method Statement كاملاً لـ: ${label}
-المشروع: ${proj}
-رقم العقد: ${cnum}
-المقاول: ${cont}
-المهندس المشرف: ${engN}
-التاريخ: ${dt}
-${scope ? 'نطاق العمل: ' + scope : ''}
-${extra ? 'تفاصيل إضافية: ' + extra : ''}
-
-أنتج Method Statement كامل ومنظم بعناوين واضحة يشمل جميع الأقسام المطلوبة.`;
-
   try {
-    var res = await fetch('/api/execution-ai', {
+    // generate-document API — DDC_Skills system prompts (أدق من execution-ai)
+    var res = await fetch('/api/generate-document', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ question, module: 'mos', context: `النشاط: ${label} · المشروع: ${proj}` })
+      body: JSON.stringify({
+        template_type: 'method_statement',
+        work_type: selActivity,
+        project_name: proj,
+        engineer_name: engN,
+        inputs: { extra: extra, scope: scope }
+      })
     });
     var data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'خطأ في الخادم');
+    if (!res.ok || !data.ok) throw new Error(data.error || 'خطأ في الخادم');
 
-    document.getElementById('ms-title').textContent = 'Method Statement — ' + label;
-    document.getElementById('ms-body').textContent = data.answer;
+    // عرض مُنظَّم بالأقسام
+    document.getElementById('ms-title').textContent = 'Method Statement — ' + (data.work_label_ar || label);
+    var secs = data.sections || {};
+    var schemaSecs = data.schema_sections || [];
+    var bodyHtml = '';
+    for (var sec of schemaSecs) {
+      if (secs[sec.id]) {
+        bodyHtml += '<div class="section-hdr">' + sec.title_ar + ' / ' + sec.title_en + '</div>';
+        var txt = String(secs[sec.id]).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        bodyHtml += '<p style="white-space:pre-wrap;margin-bottom:12px">' + txt + '</p>';
+      }
+    }
+    document.getElementById('ms-body').innerHTML = bodyHtml || escHtml(JSON.stringify(secs));
     document.getElementById('ms-output').classList.add('show');
     document.getElementById('ms-output').scrollIntoView({behavior:'smooth'});
   } catch(err) {
@@ -266,6 +275,8 @@ ${extra ? 'تفاصيل إضافية: ' + extra : ''}
     btn.innerHTML = '⚡ توليد Method Statement';
   }
 }
+
+function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 function copyMS() {
   var t = document.getElementById('ms-body').textContent;
