@@ -138,6 +138,7 @@
           if (fi2) fi2.click();
           break;
         case 'navigate':          window.location.href = param; break;
+        case 'openDocGenerator':  if (window.QS && typeof QS.openDocGenerator === 'function') QS.openDocGenerator(); break;
         case 'setLang':           if (window.QS) QS.setLang(param); break;
         case 'toggleTheme':       if (typeof toggleTheme === 'function') toggleTheme(); break;
         default: break;
