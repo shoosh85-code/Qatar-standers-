@@ -52,7 +52,7 @@ export default async function handler(req, res) {
     return res.status(200).json({ message: 'All chunks already have embeddings!', processed: 0 });
   }
 
-  let processed = 0, failed = 0;
+  let processed = 0, failed = 0, firstError = null;
 
   for (const chunk of chunks) {
     try {
@@ -70,10 +70,16 @@ export default async function handler(req, res) {
         }
       );
 
-      if (!embedRes.ok) { failed++; continue; }
+      if (!embedRes.ok) { 
+        if (!firstError) firstError = `Gemini ${embedRes.status}: ${(await embedRes.text()).slice(0,200)}`;
+        failed++; continue; 
+      }
       const embedData = await embedRes.json();
       const embedding = embedData?.embedding?.values;
-      if (!embedding?.length) { failed++; continue; }
+      if (!embedding?.length) { 
+        if (!firstError) firstError = 'No embedding in response: ' + JSON.stringify(embedData).slice(0,200);
+        failed++; continue; 
+      }
 
       // Save to Supabase
       const updateRes = await fetch(
@@ -111,6 +117,7 @@ export default async function handler(req, res) {
   return res.status(200).json({
     processed,
     failed,
+    firstError: firstError || null,
     remaining: parseInt(remaining),
     next_offset: offset + batch_size,
     message: `Done. ${remaining} chunks still need embeddings.`

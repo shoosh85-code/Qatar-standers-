@@ -71,6 +71,7 @@ async function runBatch(secret, round) {
     }
     
     addLog('✅ تم: ' + data.processed + ' | فشل: ' + (data.failed||0) + ' | متبقي: ' + data.remaining, 'ok');
+    if (data.firstError) addLog('⚠️ سبب الفشل: ' + data.firstError, 'err');
     return {stop: false, remaining: data.remaining};
     
   } catch(e) {
