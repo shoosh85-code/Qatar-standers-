@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QatarSpec Admin — توليد Embeddings</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',Tahoma,sans-serif; background:#0a0a0a; color:#eee; min-height:100vh; display:flex; align-items:center; justify-content:center; }
+.box { background:#181818; border:1px solid #333; border-radius:16px; padding:32px; max-width:500px; width:90%; }
+h1 { color:#C9A84C; font-size:20px; margin-bottom:8px; }
+.sub { color:#888; font-size:13px; margin-bottom:24px; }
+label { color:#aaa; font-size:13px; display:block; margin-bottom:4px; }
+input { width:100%; padding:10px 12px; background:#222; border:1px solid #444; border-radius:8px; color:#eee; font-size:14px; margin-bottom:16px; }
+input:focus { outline:none; border-color:#C9A84C; }
+button { width:100%; padding:12px; background:linear-gradient(135deg,#7A1515,#9B2C2C); color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:700; cursor:pointer; }
+button:hover { opacity:0.9; }
+button:disabled { opacity:0.5; cursor:not-allowed; }
+#log { margin-top:20px; background:#111; border:1px solid #333; border-radius:8px; padding:12px; font-family:monospace; font-size:12px; max-height:300px; overflow-y:auto; display:none; }
+.ok { color:#2ecc71; } .err { color:#e74c3c; } .info { color:#C9A84C; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>🔐 توليد Embeddings</h1>
+  <p class="sub">هذه الصفحة تولّد embeddings للـ 182 chunk في Supabase.<br>شغّلها مرة واحدة فقط.</p>
+  
+  <label>ADMIN_SECRET (من Vercel Environment Variables)</label>
+  <input type="password" id="secret" placeholder="أدخل ADMIN_SECRET هنا">
+  
+  <button id="btn" onclick="startGeneration()">🚀 ابدأ التوليد</button>
+  
+  <div id="log"></div>
+</div>
+
+<script>
+var log = document.getElementById('log');
+var btn = document.getElementById('btn');
+
+function addLog(msg, cls) {
+  log.style.display = 'block';
+  log.innerHTML += '<div class="' + (cls||'') + '">' + msg + '</div>';
+  log.scrollTop = log.scrollHeight;
+}
+
+async function runBatch(secret, round) {
+  addLog('⏳ الدفعة ' + round + ' — جاري التوليد...', 'info');
+  
+  try {
+    var res = await fetch('/api/generate-embeddings', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({admin_secret: secret, batch_size: 40, offset: 0})
+    });
+    
+    var data = await res.json();
+    
+    if (res.status === 403) {
+      addLog('❌ ADMIN_SECRET غلط — تأكد من القيمة', 'err');
+      return {stop: true};
+    }
+    if (res.status === 429) {
+      addLog('⚠️ Rate limit — ننتظر 60 ثانية...', 'info');
+      await new Promise(function(r) { setTimeout(r, 60000); });
+      return {stop: false, remaining: -1};
+    }
+    
+    if (data.processed === 0 && data.remaining === 0) {
+      addLog('✅ اكتملت! كل الـ chunks فيها embeddings', 'ok');
+      return {stop: true, done: true};
+    }
+    
+    addLog('✅ تم: ' + data.processed + ' | فشل: ' + (data.failed||0) + ' | متبقي: ' + data.remaining, 'ok');
+    return {stop: false, remaining: data.remaining};
+    
+  } catch(e) {
+    addLog('❌ خطأ: ' + e.message, 'err');
+    return {stop: true};
+  }
+}
+
+async function startGeneration() {
+  var secret = document.getElementById('secret').value.trim();
+  if (!secret) { alert('أدخل ADMIN_SECRET'); return; }
+  
+  btn.disabled = true;
+  btn.textContent = '⏳ جاري التوليد...';
+  log.innerHTML = '';
+  
+  addLog('🚀 بدء توليد embeddings لـ 182 chunk...', 'info');
+  addLog('📡 يستخدم Gemini text-embedding-004 (768 بُعد)', 'info');
+  addLog('', '');
+  
+  for (var round = 1; round <= 10; round++) {
+    var result = await runBatch(secret, round);
+    
+    if (result.done) {
+      addLog('', '');
+      addLog('🎉 انتهى! البحث الدلالي جاهز الآن.', 'ok');
+      addLog('🔍 جرّب البحث في الصفحة الرئيسية.', 'ok');
+      btn.textContent = '✅ اكتمل!';
+      return;
+    }
+    
+    if (result.stop) {
+      btn.disabled = false;
+      btn.textContent = '🔄 حاول مرة أخرى';
+      return;
+    }
+    
+    // انتظر 3 ثوان بين الدفعات
+    addLog('⏳ انتظار 3 ثوان...', '');
+    await new Promise(function(r) { setTimeout(r, 3000); });
+  }
+  
+  addLog('⚠️ وصلنا 10 دفعات — اضغط الزر مرة ثانية لإكمال الباقي', 'info');
+  btn.disabled = false;
+  btn.textContent = '🔄 أكمل التوليد';
+}
+</script>
+</body>
+</html>
