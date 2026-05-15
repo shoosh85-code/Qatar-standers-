@@ -126,6 +126,23 @@ async function doSearch() {
       }
     } catch(e) { console.log('QCS search:', e.message); }
 
+    // ── Domain Detection — توجيه ذكي حسب مجال السؤال (D2: structural_llama inspired) ──
+    var domainHint = '';
+    var qLower = query.toLowerCase();
+    if (/خرسان|concrete|slump|cube|fc|rebar|تسليح|صب|pour|formwork|شدات|أساس|foundation|footing|عمود|column|عارض|beam/.test(qLower)) {
+      domainHint = '\n\n🎯 المجال المكتشف: إنشائي (Part 4+5) — ركّز على: QCS 2024 Part 4 (Concrete) + Part 5 (Structural) + ACI 318-19. اذكر حدود fc, cover, w/c ratio, curing requirements.';
+    } else if (/طريق|road|أسفلت|asphalt|marshall|cbr|رصف|pav|subbase|bitumen|esal/.test(qLower)) {
+      domainHint = '\n\n🎯 المجال المكتشف: طرق (Part 6) — ركّز على: QCS 2024 Part 6 (Roads) + AASHTO + Ashghal RDM 2023. اذكر سماكات الطبقات, Marshall criteria, compaction requirements.';
+    } else if (/مياه|water|أنبوب|pipe|ضغط|pressure|صرف|sewer|drainage|manhol|kahramaa|كهرماء/.test(qLower)) {
+      domainHint = '\n\n🎯 المجال المكتشف: مرافق (Part 7-9) — ركّز على: QCS 2024 Part 7/8/9 + KAHRAMAA Regulations 2024. اذكر مواصفات الأنابيب, اختبارات الضغط, الميول, chlorination.';
+    } else if (/تربة|soil|spt|حفر|excavat|ردم|backfill|جيوتقن|geotech|cbr.*geo|pile|خازوق/.test(qLower)) {
+      domainHint = '\n\n🎯 المجال المكتشف: جيوتقني (Part 3) — ركّز على: QCS 2024 Part 3 (Earthworks) + Part 4 (Foundations). اذكر compaction %, CBR limits, SPT correlation, bearing capacity.';
+    } else if (/كهرب|electric|cable|كابل|إضاء|light|mep|hvac|تكييف|حريق|fire|إنذار|alarm/.test(qLower)) {
+      domainHint = '\n\n🎯 المجال المكتشف: MEP/كهرباء (Part 9-12) — ركّز على: KAHRAMAA 2024 + QCS 2024 Part 9-12 + NFPA + QCDD. اذكر voltage standards, cable sizing, fire ratings.';
+    } else if (/فولاذ|steel|bolt|weld|لحام|connection|وصل/.test(qLower)) {
+      domainHint = '\n\n🎯 المجال المكتشف: فولاذي (Part 5) — ركّز على: QCS 2024 Part 5 (Steel) + AISC 360 + AWS D1.1. اذكر bolt grades, weld types, connection capacity.';
+    }
+
     const response = await fetchGeminiAPI({
         model: 'gemini-2.0-flash',
         max_tokens: 2000,
@@ -152,7 +169,7 @@ async function doSearch() {
 5. الأولوية للنصوص الواردة في سياق Supabase أدناه
 6. في نهاية كل إجابة أضف: **📌 المراجع:** ثم اذكر QCS Part + Section + Clause لكل معلومة
 7. استخدم هذا التنسيق للاستشهاد: [QCS S6 P5 — Cl.3.2] أو [KAHRAMAA WR-001]
-8. إذا وجدت تعارضاً بين مصدرين، نبّه المستخدم بوضوح` + qcsContext,
+8. إذا وجدت تعارضاً بين مصدرين، نبّه المستخدم بوضوح` + domainHint + qcsContext,
         messages: [{ role: 'user', content: query }]
     });
 
