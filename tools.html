@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أدوات AI للمهندسين — QatarSpec Pro</title>
+<meta name="description" content="مجموعة أدوات وبرامج مفتوحة المصدر للمهندسين — CAD, FEM, BIM, Python, AI/ML مع روابط المواصفات القطرية.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --maroon: #7A1515; --maroon2: #5A0F0F;
+  --gold: #C9A84C; --gold2: #E8C97A;
+  --dark: #0A0A0A; --dark2: #111; --dark3: #181818; --dark4: #222; --dark5: #2A2A2A;
+  --text: #EDE8DC; --text2: #B0A898; --text3: #6A6258;
+  --border: rgba(201,168,76,0.12); --border2: rgba(201,168,76,0.25);
+  --green: #0F6E56; --blue: #185FA5;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Tajawal',sans-serif; background:var(--dark); color:var(--text); min-height:100vh; }
+header { background:rgba(10,10,10,0.92); backdrop-filter:blur(24px); border-bottom:1px solid var(--border); padding:16px 28px; position:sticky; top:0; z-index:100; }
+.header-inner { max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; }
+.logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
+.logo-mark { width:40px; height:40px; background:linear-gradient(135deg,var(--maroon),var(--maroon2)); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; border:1px solid rgba(201,168,76,0.25); }
+.logo-name { font-family:'Cairo',sans-serif; font-size:16px; font-weight:700; color:var(--gold); }
+.back-btn { color:var(--gold); text-decoration:none; font-size:14px; padding:8px 16px; border:1px solid var(--border2); border-radius:8px; transition:all 0.2s; }
+.back-btn:hover { background:rgba(201,168,76,0.1); }
+main { max-width:1200px; margin:0 auto; padding:32px 20px; }
+h1 { font-family:'Cairo',sans-serif; font-size:28px; color:var(--gold); margin-bottom:8px; }
+.subtitle { color:var(--text2); font-size:15px; margin-bottom:32px; }
+.section { margin-bottom:40px; }
+.section-title { font-size:18px; font-weight:700; color:var(--gold); margin-bottom:16px; display:flex; align-items:center; gap:10px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+.tools-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:16px; }
+.tool-card { background:var(--dark3); border:1px solid var(--border); border-radius:12px; padding:16px 20px; transition:all 0.2s; }
+.tool-card:hover { border-color:var(--border2); transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.3); }
+.tool-name { font-size:16px; font-weight:700; color:var(--text); margin-bottom:4px; }
+.tool-name a { color:var(--gold2); text-decoration:none; }
+.tool-name a:hover { text-decoration:underline; }
+.tool-desc { font-size:13px; color:var(--text2); line-height:1.6; margin-bottom:8px; }
+.badge { display:inline-block; font-size:11px; padding:2px 8px; border-radius:4px; font-weight:700; }
+.badge-free { background:rgba(15,110,86,0.15); color:#1D9E75; border:1px solid rgba(15,110,86,0.3); }
+.badge-open { background:rgba(201,168,76,0.1); color:var(--gold); border:1px solid rgba(201,168,76,0.2); }
+.badge-official { background:rgba(122,21,21,0.15); color:#E8593C; border:1px solid rgba(122,21,21,0.3); }
+footer { text-align:center; padding:32px; color:var(--text3); font-size:13px; border-top:1px solid var(--border); margin-top:40px; }
+footer a { color:var(--gold); text-decoration:none; }
+@media(max-width:600px) { .tools-grid { grid-template-columns:1fr; } h1 { font-size:22px; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <div class="logo-mark">🏗️</div>
+      <div class="logo-name">QatarSpec Pro</div>
+    </a>
+    <a href="/" class="back-btn">→ العودة للرئيسية</a>
+  </div>
+</header>
+
+<main>
+  <h1>🤖 أدوات AI ومصادر مفتوحة للمهندسين</h1>
+  <p class="subtitle">مجموعة مختارة من البرامج والمكتبات المجانية — CAD, FEM, BIM, Python, وأدوات الذكاء الاصطناعي للهندسة المدنية</p>
+
+  <!-- ═══ القسم 1: التصميم ═══ -->
+  <div class="section">
+    <div class="section-title">📐 أدوات التصميم والرسم المجانية</div>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-name"><a href="https://www.freecad.org" target="_blank" rel="noopener">FreeCAD</a></div>
+        <div class="tool-desc">برنامج CAD ثلاثي الأبعاد مفتوح المصدر — يدعم BIM والتصميم الإنشائي والميكانيكي. بديل مجاني لـ AutoCAD.</div>
+        <span class="badge badge-free">مجاني</span> <span class="badge badge-open">مفتوح المصدر</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name"><a href="https://librecad.org" target="_blank" rel="noopener">LibreCAD</a></div>
+        <div class="tool-desc">برنامج CAD ثنائي الأبعاد — خفيف وسريع لرسم المخططات الإنشائية والمعمارية. يدعم DXF/DWG.</div>
+        <span class="badge badge-free">مجاني</span> <span class="badge badge-open">مفتوح المصدر</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name"><a href="https://www.openscad.org" target="_blank" rel="noopener">OpenSCAD</a></div>
+        <div class="tool-desc">نمذجة ثلاثية الأبعاد بالكود — مثالي للقطع الهندسية المعلمة (Parametric Modeling).</div>
+        <span class="badge badge-free">مجاني</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ القسم 2: التحليل ═══ -->
+  <div class="section">
+    <div class="section-title">🔬 أدوات التحليل الإنشائي (FEM/CFD)</div>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-name"><a href="http://www.calculix.de" target="_blank" rel="noopener">CalculiX</a></div>
+        <div class="tool-desc">تحليل عناصر محدودة (FEM) مجاني — يدعم التحليل الإنشائي الثابت والديناميكي والحراري. متوافق مع Abaqus.</div>
+        <span class="badge badge-free">مجاني</span> <span class="badge badge-open">مفتوح المصدر</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name"><a href="https://www.openfoam.com" target="_blank" rel="noopener">OpenFOAM</a></div>
+        <div class="tool-desc">محاكاة ديناميكا الموائع الحسابية (CFD) — تحليل تدفق الهواء والمياه والحرارة في المباني والمنشآت.</div>
+        <span class="badge badge-free">مجاني</span> <span class="badge badge-open">مفتوح المصدر</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name"><a href="https://code-aster.org" target="_blank" rel="noopener">Code_Aster</a></div>
+        <div class="tool-desc">تحليل إنشائي متقدم من EDF الفرنسية — يدعم التحليل غير الخطي، الزلازل، والتحليل الحراري.</div>
+        <span class="badge badge-free">مجاني</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ القسم 3: BIM ═══ -->
+  <div class="section">
+    <div class="section-title">🏢 أدوات BIM مفتوحة المصدر</div>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-name"><a href="https://blenderbim.org" target="_blank" rel="noopener">BlenderBIM</a></div>
+        <div class="tool-desc">إضافة BIM لبرنامج Blender — نمذجة معلومات البناء (IFC) مع تصميم ثلاثي الأبعاد احترافي.</div>
+        <span class="badge badge-free">مجاني</span> <span class="badge badge-open">مفتوح المصدر</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name"><a href="https://ifcopenshell.org" target="_blank" rel="noopener">IfcOpenShell</a></div>
+        <div class="tool-desc">مكتبة Python لقراءة وتحليل ملفات IFC — استخراج البيانات من نماذج BIM برمجياً.</div>
+        <span class="badge badge-free">مجاني</span> <span class="badge badge-open">مفتوح المصدر</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ القسم 4: Python ═══ -->
+  <div class="section">
+    <div class="section-title">🐍 مكتبات Python للهندسة</div>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-name"><a href="https://numpy.org" target="_blank" rel="noopener">NumPy</a></div>
+        <div class="tool-desc">الحساب العلمي — مصفوفات، جبر خطي، عمليات رياضية. أساس كل المكتبات الهندسية.</div>
+        <span class="badge badge-free">مجاني</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name"><a href="https://scipy.org" target="_blank" rel="noopener">SciPy</a></div>
+        <div class="tool-desc">حسابات علمية متقدمة — تكامل عددي، تحسين، معادلات تفاضلية، إحصاء.</div>
+        <span class="badge badge-free">مجاني</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name"><a href="https://pyvista.org" target="_blank" rel="noopener">PyVista</a></div>
+        <div class="tool-desc">تصوير ثلاثي الأبعاد — عرض نتائج FEM والشبكات الحسابية بطريقة تفاعلية.</div>
+        <span class="badge badge-free">مجاني</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name"><a href="https://matplotlib.org" target="_blank" rel="noopener">Matplotlib</a></div>
+        <div class="tool-desc">رسم بياني احترافي — مخططات هندسية، نتائج اختبارات، تحليل بيانات.</div>
+        <span class="badge badge-free">مجاني</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ القسم 5: AI/ML ═══ -->
+  <div class="section">
+    <div class="section-title">🧠 أدوات الذكاء الاصطناعي وتعلم الآلة</div>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-name"><a href="https://www.tensorflow.org" target="_blank" rel="noopener">TensorFlow</a></div>
+        <div class="tool-desc">إطار تعلم آلي من Google — يُستخدم في تحليل الصور، اكتشاف العيوب، التنبؤ بالأداء الإنشائي.</div>
+        <span class="badge badge-free">مجاني</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name"><a href="https://pytorch.org" target="_blank" rel="noopener">PyTorch</a></div>
+        <div class="tool-desc">إطار تعلم عميق — مرن وقوي لبناء نماذج AI مخصصة للهندسة.</div>
+        <span class="badge badge-free">مجاني</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name"><a href="https://scikit-learn.org" target="_blank" rel="noopener">scikit-learn</a></div>
+        <div class="tool-desc">تعلم آلي كلاسيكي — تصنيف، تجميع، انحدار. مثالي لتحليل بيانات الاختبارات الميدانية.</div>
+        <span class="badge badge-free">مجاني</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ القسم 6: المراجع القطرية ═══ -->
+  <div class="section">
+    <div class="section-title">🇶🇦 المراجع والمواصفات القطرية الرسمية</div>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-name"><a href="https://www.ashghal.gov.qa" target="_blank" rel="noopener">QCS 2024 — Ashghal</a></div>
+        <div class="tool-desc">المواصفات القطرية للإنشاءات — 18 جزء تغطي: الطرق، المرافق، الإنشائي، الجيوتقني، الميكانيكي والكهربائي.</div>
+        <span class="badge badge-official">رسمي</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name"><a href="https://www.km.qa" target="_blank" rel="noopener">KAHRAMAA</a></div>
+        <div class="tool-desc">هيئة الكهرباء والماء — مواصفات شبكات المياه والكهرباء والتوصيلات.</div>
+        <span class="badge badge-official">رسمي</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name"><a href="https://www.mmup.gov.qa" target="_blank" rel="noopener">MMUP</a></div>
+        <div class="tool-desc">وزارة البلدية — كود البناء القطري، تراخيص البناء، واشتراطات الدفاع المدني.</div>
+        <span class="badge badge-official">رسمي</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name"><a href="/" rel="noopener">QatarSpec Pro</a></div>
+        <div class="tool-desc">مرجعك الرقمي الشامل — بحث ذكي + 59 حاسبة + تصدير بتنسيق Ashghal + توليد تلقائي للمستندات.</div>
+        <span class="badge badge-official">أنت هنا</span>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>🏗️ <a href="/">QatarSpec Pro</a> — أدوات مجانية للمهندسين في قطر</p>
+  <p style="margin-top:4px">المصدر: <a href="https://github.com/010zx00x1/Awesome-Physical-Engineering-AI" target="_blank" rel="noopener">Awesome Physical Engineering AI</a></p>
+</footer>
+
+</body>
+</html>
