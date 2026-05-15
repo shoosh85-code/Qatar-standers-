@@ -273,7 +273,7 @@ function initCalcPanels() {
   if (roadsEl && !roadsEl.dataset.built) {
     roadsEl.dataset.built = '1';
     roadsEl.innerHTML =
-      _tabs('roads',[['comp-r','🔵 Compaction'],['cbr-r','🟤 CBR'],['att-r','📊 Atterberg'],['la-r','💪 LA Abrasion'],['fli-r','🔷 Flakiness'],['se-r','🟡 Sand Eq.'],['asp-r','🛣️ Asphalt'],['sb-r','🪨 Subbase']]) +
+      _tabs('roads',[['comp-r','🔵 Compaction'],['cbr-r','🟤 CBR'],['att-r','📊 Atterberg'],['la-r','💪 LA Abrasion'],['fli-r','🔷 Flakiness'],['se-r','🟡 Sand Eq.'],['asp-r','🛣️ Asphalt'],['sb-r','🪨 Subbase'],['aash-r','🛣️ AASHTO Design']]) +
       _section('comp-r','🔵 Compaction — ضغط الطبقة',
         _calcSelect('comp-layer','الطبقة / Layer',[['95','Subgrade (≥95% MDD)'],['98','Subbase (≥98% MDD)'],['98','Base Course (≥98% MDD)']]) +
         _calcField('comp-actual','الكثافة الحقلية (g/cm³)','e.g. 1.92','g/cm³') +
@@ -312,7 +312,14 @@ function initCalcPanels() {
         _calcField('sb-cbr','CBR (Soaked 4 days)','e.g. 35','%') +
         _calcField('sb-comp','Compaction (% BS Heavy)','e.g. 102','%') +
         _calcField('sb-pi','Plasticity Index (PI)','e.g. 4','') +
-        _calcBtn('calcSubbaseCheck()','فحص الـ Subbase 🪨') + _calcResult('sb-result'));
+        _calcBtn('calcSubbaseCheck()','فحص الـ Subbase 🪨') + _calcResult('sb-result')) +
+      _section('aash-r','🛣️ AASHTO 93 Pavement Design — تصميم سماكة الرصف | QCS 2024 Part 8',
+        _calcField('aash-esal','ESALs (عدد المحاور المكافئة)','e.g. 5000000','') +
+        _calcField('aash-Mr','معامل المرونة Mr','e.g. 60','MPa') +
+        _calcSelect('aash-R','موثوقية التصميم R',[['75','75% — طريق محلي'],['85','85% — طريق رئيسي'],['90','90% — طريق سريع (QCS 2024)'],['95','95% — طريق سريع مهم'],['99','99% — جسر / بنية حيوية']]) +
+        _calcField('aash-So','معامل الخطأ So','e.g. 0.45','(0.40–0.50)') +
+        _calcField('aash-DPSI','فقدان الخدمة ΔPSI','e.g. 1.7','(1.5–2.5)') +
+        _calcBtn('calcAASHTOPavement()','صمّم الرصف 🛣️') + _calcResult('aash-result'));
     // hide non-first sections
     roadsEl.querySelectorAll('.calc-section').forEach(function(s,i){ s.style.display = i===0?'block':'none'; });
   }
@@ -357,7 +364,7 @@ function initCalcPanels() {
   if (strEl && !strEl.dataset.built) {
     strEl.dataset.built = '1';
     strEl.innerHTML =
-      _tabs('structural',[['cube-s','🧱 Cube Strength'],['slump-s','💧 Slump'],['cover-s','📏 Cover Rebar'],['wc-s','⚗️ w/c Ratio'],['sul-s','🧪 Sulphate'],['bdef-s','📐 Beam Deflection'],['ftp-s','🏛️ Footing'],['rw-s','🧱 Retaining Wall']]) +
+      _tabs('structural',[['cube-s','🧱 Cube Strength'],['slump-s','💧 Slump'],['cover-s','📏 Cover Rebar'],['wc-s','⚗️ w/c Ratio'],['sul-s','🧪 Sulphate'],['bdef-s','📐 Beam Deflection'],['ftp-s','🏛️ Footing'],['rw-s','🧱 Retaining Wall'],['col-s','🏗️ Column'],['sc-s','🔩 Steel Conn.']]) +
       _section('cube-s','🧱 Concrete Cube Strength',
         _calcSelect('cube-grade','درجة الخرسانة',[['20','C20 (fcu=20 N/mm²)'],['25','C25 (fcu=25)'],['30','C30 (fcu=30)'],['35','C35 (fcu=35)'],['40','C40 (fcu=40)'],['45','C45 (fcu=45)'],['50','C50 (fcu=50)']]) +
         _calcSelect('cube-age','عمر العينة',[['7','7 يوم (≥70% fcu)'],['28','28 يوم (≥100% fcu)']]) +
@@ -410,7 +417,26 @@ function initCalcPanels() {
         _calcField('rw-qa','القدرة التحملية qa','e.g. 150','kPa') +
         _calcField('rw-surcharge','الحمل السطحي q','e.g. 10','kPa') +
         _calcField('rw-mu','معامل الاحتكاك μ','e.g. 0.45','') +
-        _calcBtn('calcRetainingWall()','احسب الاستقرار 🧱') + _calcResult('rw-result'));
+        _calcBtn('calcRetainingWall()','احسب الاستقرار 🧱') + _calcResult('rw-result')) +
+      _section('col-s','🏗️ Column Design — تصميم عمود | QCS 2024 Part 5 + ACI 318-19',
+        _calcField('col-Pu','الحمل المحوري Pu','e.g. 2500','kN') +
+        _calcField('col-Mu','العزم Mu (اختياري)','e.g. 0','kN.m') +
+        _calcField('col-b','عرض العمود b','e.g. 400','mm') +
+        _calcField('col-h','عمق العمود h','e.g. 400','mm') +
+        _calcField('col-fc','مقاومة الخرسانة fc\'','e.g. 30','MPa') +
+        _calcField('col-fy','مقاومة الحديد fy','e.g. 460','MPa') +
+        _calcField('col-cover','الغطاء الخرساني','e.g. 40','mm') +
+        _calcField('col-klu','kLu — الطول الفعال (اختياري)','e.g. 4','م') +
+        _calcBtn('calcColumnDesign()','صمّم العمود 🏗️') + _calcResult('col-result')) +
+      _section('sc-s','🔩 Steel Connection — وصلة فولاذية | QCS 2024 Part 6 + AISC 360',
+        _calcSelect('sc-grade','درجة البولت',[['4.6','Grade 4.6'],['8.8','Grade 8.8 (الأكثر استخداماً)'],['10.9','Grade 10.9 (عالي المقاومة)']]) +
+        _calcSelect('sc-load-type','نوع الحمل',[['shear','قص Shear'],['tension','شد Tension']]) +
+        _calcField('sc-d','قطر البولت d','e.g. 20','mm') +
+        _calcField('sc-n','عدد البولتات','e.g. 4','') +
+        _calcField('sc-t','سماكة اللوح','e.g. 12','mm') +
+        _calcField('sc-Fu','مقاومة الشد للوح Fu','e.g. 410','MPa') +
+        _calcField('sc-Vu','الحمل المطبق','e.g. 150','kN') +
+        _calcBtn('calcSteelConnection()','فحص الوصلة 🔩') + _calcResult('sc-result'));
     strEl.querySelectorAll('.calc-section').forEach(function(s,i){ s.style.display = i===0?'block':'none'; });
   }
 
@@ -419,7 +445,7 @@ function initCalcPanels() {
   if (geoEl && !geoEl.dataset.built) {
     geoEl.dataset.built = '1';
     geoEl.innerHTML =
-      _tabs('geotech_calc',[['spt-g','🔩 SPT N-Value'],['cbr-g','🟤 CBR Soil'],['pi-g','📊 PI Class'],['sul-g','🧪 Sulphate Class'],['bc-g','🏛️ Bearing Cap.']]) +
+      _tabs('geotech_calc',[['spt-g','🔩 SPT N-Value'],['cbr-g','🟤 CBR Soil'],['pi-g','📊 PI Class'],['sul-g','🧪 Sulphate Class'],['bc-g','🏛️ Bearing Cap.'],['pile-g','⚓ Pile Capacity']]) +
       _section('spt-g','🔩 SPT N-Value Classification',
         _calcSelect('spt-type','نوع التربة',[['sand','رمل / Sand'],['clay','طين / Clay']]) +
         _calcField('spt-val','N-Value من الحقل','e.g. 18','blows/300mm') +
@@ -439,7 +465,15 @@ function initCalcPanels() {
       _section('bc-g','🏛️ Bearing Capacity (Meyerhof-SPT)',
         _calcField('bc-n','N60 (SPT corrected)','e.g. 20','blow') +
         _calcField('bc-b','عرض الأساس B','e.g. 1.5','m') +
-        _calcBtn('calcBearingCap()','احسب القدرة التحملية') + _calcResult('bc-result'));
+        _calcBtn('calcBearingCap()','احسب القدرة التحملية') + _calcResult('bc-result')) +
+      _section('pile-g','⚓ Pile Capacity — قدرة تحمل الخازوق | QCS 2024 Part 5 § 5.5',
+        _calcField('pile-D','قطر الخازوق D','e.g. 600','mm') +
+        _calcField('pile-L','طول الخازوق L','e.g. 20','م') +
+        _calcSelect('pile-soil','نوع التربة',[['sand','رمل / Sand'],['clay','طين / Clay']]) +
+        _calcSelect('pile-type','نوع الخازوق',[['bored','Bored Pile (محفور)'],['driven','Driven Pile (مدقوق)']]) +
+        _calcField('pile-N','متوسط SPT N60','e.g. 25','blow/300mm') +
+        _calcField('pile-fc','مقاومة الخرسانة fc\'','e.g. 35','MPa') +
+        _calcBtn('calcPileCapacity()','احسب الخازوق ⚓') + _calcResult('pile-result'));
     geoEl.querySelectorAll('.calc-section').forEach(function(s,i){ s.style.display = i===0?'block':'none'; });
   }
 

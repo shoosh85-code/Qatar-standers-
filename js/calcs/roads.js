@@ -261,3 +261,80 @@ window.calcSubbaseCheck = function() {
     '📋 ' + action + '<br>' +
     '<span style="color:#999;">QCS 2024 S17 P4 Table 4.1 | Ashghal RDM 2023 Table 3.2</span></div></div>';
 };
+
+// ── calcAASHTOPavement — تصميم سماكة الرصف (AASHTO 93) ───────────────────
+// QCS 2024 Part 8 + AASHTO 1993 Guide for Design of Pavement Structures
+// الوحدات: ESAL(-), Mr(MPa), reliability(%), So(-), DPSI(-)
+function calcAASHTOPavement() {
+  'use strict';
+  const logESAL  = Math.log10(parseFloat(document.getElementById('aash-esal').value));
+  const Mr_MPa   = parseFloat(document.getElementById('aash-Mr').value);
+  const R        = parseFloat(document.getElementById('aash-R').value);
+  const So       = parseFloat(document.getElementById('aash-So').value) || 0.45;
+  const DPSI     = parseFloat(document.getElementById('aash-DPSI').value) || 1.7;
+
+  const ESAL_val = parseFloat(document.getElementById('aash-esal').value);
+  if (!ESAL_val || !Mr_MPa || !R) return showToast('❌ أدخل ESAL + Mr + Reliability', 'error');
+  if (ESAL_val < 1e4 || ESAL_val > 1e9) return showToast('❌ ESAL يجب 10,000–1,000,000,000', 'error');
+  if (Mr_MPa < 20 || Mr_MPa > 200)      return showToast('❌ Mr يجب 20–200 MPa', 'error');
+  if (R < 50 || R > 99.9)               return showToast('❌ Reliability يجب 50–99.9%', 'error');
+
+  // تحويل Mr من MPa → psi (AASHTO 93 uses psi)
+  const Mr_psi = Mr_MPa * 145.038;
+
+  // ZR حسب الموثوقية — Normal distribution
+  const ZR_table = { 50:-0.000, 60:-0.253, 70:-0.524, 75:-0.674, 80:-0.842, 85:-1.037, 90:-1.282, 92:-1.405, 94:-1.555, 95:-1.645, 96:-1.751, 97:-1.881, 98:-2.054, 99:-2.326, 99.9:-3.090 };
+  const ZR = ZR_table[R] || ZR_table[90];
+
+  // حل SN بالتكرار (Newton-Raphson) — AASHTO 93 Eq. 1.1
+  // W18 = logESAL
+  // f(SN) = ZR*So + 9.36*log(SN+1) - 0.20 + log(DPSI/(4.2-1.5))/(0.40+1094/(SN+1)^5.19) + 2.32*log(Mr_psi) - 8.07 - logESAL = 0
+  let SN = 3.0; // تخمين أولي
+  for (let i = 0; i < 50; i++) {
+    const f = ZR * So +
+              9.36 * Math.log10(SN + 1) - 0.20 +
+              Math.log10(DPSI / (4.2 - 1.5)) / (0.40 + 1094 / Math.pow(SN + 1, 5.19)) +
+              2.32 * Math.log10(Mr_psi) - 8.07 - logESAL;
+    const df = 9.36 / ((SN + 1) * Math.LN10) +
+               (-1094 * 5.19 * Math.pow(SN + 1, -6.19) * Math.log10(DPSI / (4.2 - 1.5))) /
+               Math.pow(0.40 + 1094 / Math.pow(SN + 1, 5.19), 2);
+    const SN_new = SN - f / df;
+    if (Math.abs(SN_new - SN) < 0.001) { SN = SN_new; break; }
+    SN = SN_new;
+    if (SN < 0.1) SN = 0.1;
+    if (SN > 15)  SN = 15;
+  }
+
+  // اقتراح سماكات الطبقات (Structural Coefficients — QCS 2024 Table 17.4)
+  const a1 = 0.44; // Wearing Course (Dense Graded Asphalt)
+  const a2 = 0.40; // Binder Course
+  const a3 = 0.14; // Subbase (m2 = 1.0 default)
+  const m2 = 1.0; const m3 = 0.8;
+
+  // حدود QCS 2024 الدنيا (mm)
+  const qcs_wc  = ESAL_val > 5e6 ? 60 : 50;
+  const qcs_bc  = ESAL_val > 5e6 ? 80 : 60;
+  const qcs_sb  = 150;
+
+  // احسب سماكة الـ Subbase المطلوبة
+  const SN_wc_bc = a1 * (qcs_wc/25.4) + a2 * m2 * (qcs_bc/25.4); // بـ inches
+  const SN_rem   = Math.max(SN - SN_wc_bc, 0);
+  const D3_in    = SN_rem / (a3 * m3);
+  const D3_mm    = Math.ceil(D3_in * 25.4 / 50) * 50; // أقرب 50mm للأعلى
+  const D3_final = Math.max(D3_mm, qcs_sb);
+
+  // SN المحقق
+  const SN_provided = a1*(qcs_wc/25.4) + a2*m2*(qcs_bc/25.4) + a3*m3*(D3_final/25.4);
+  const pass = SN_provided >= SN;
+
+  const detail = `SN المطلوب = ${SN.toFixed(2)} | SN المحقق = ${SN_provided.toFixed(2)} ${pass ? '✅' : '❌'}
+Wearing Course: ${qcs_wc} mm (a1=${a1})
+Binder Course: ${qcs_bc} mm (a2=${a2}, m2=${m2})
+Subbase: ${D3_final} mm (a3=${a3}, m3=${m3})
+إجمالي السماكة: ${qcs_wc + qcs_bc + D3_final} mm
+Mr = ${Mr_MPa} MPa (${Mr_psi.toFixed(0)} psi) | R = ${R}% | ZR = ${ZR.toFixed(3)}
+المرجع: QCS 2024 Part 8 Table 17.4 + AASHTO 93 Guide`;
+
+  showResult('aash-result', pass, SN_provided, SN, detail);
+}
+window.calcAASHTOPavement = calcAASHTOPavement;

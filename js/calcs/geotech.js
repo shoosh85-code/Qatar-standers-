@@ -83,3 +83,69 @@ function calcCBRGeo() {
   let req = use === 'foundation' ? 15 : 8;
   showResult('cbr-g-result', val >= req, val, req, 'CBR: ' + val + '% | المطلوب: ≥' + req + '% Soaked 4 days', 'Lime Stabilization أو استبدال التربة');
 }
+
+// ── calcPileCapacity — قدرة تحمل الخازوق ──────────────────────────────────
+// QCS 2024 Part 5, Section 5.5
+// الوحدات: D(mm), L(m), SPT_N(-), soil_type, fc(MPa)
+function calcPileCapacity() {
+  'use strict';
+  const D         = parseFloat(document.getElementById('pile-D').value);
+  const L         = parseFloat(document.getElementById('pile-L').value);
+  const soilType  = document.getElementById('pile-soil').value;
+  const N         = parseFloat(document.getElementById('pile-N').value);
+  const fc        = parseFloat(document.getElementById('pile-fc').value) || 30;
+  const pileType  = document.getElementById('pile-type').value; // 'bored' / 'driven'
+
+  if (!D || !L || !N) return showToast('❌ أدخل جميع البيانات', 'error');
+  if (D < 150 || D > 2000) return showToast('❌ قطر الخازوق 150–2000 mm', 'error');
+  if (L < 3 || L > 80)    return showToast('❌ طول الخازوق 3–80 م', 'error');
+  if (N < 1 || N > 100)   return showToast('❌ SPT N يجب 1–100', 'error');
+
+  const Ab = Math.PI * (D/1000) * (D/1000) / 4; // m²
+  const As = Math.PI * (D/1000) * L;             // m² (circumference × length)
+
+  let Qb, Qs, note;
+
+  if (soilType === 'sand') {
+    // رمل — Meyerhof SPT Method
+    // End bearing: Qb = 40*N*(L/D)*Ab ≤ 400*N*Ab (kN) — Meyerhof
+    const Nq   = Math.min(40 * N * (L / (D/1000)), 400 * N);
+    Qb = Nq * Ab;
+    // Skin friction: Qs = 2*N*As (kN) — Meyerhof for driven; 1*N*As for bored
+    const qs_factor = pileType === 'driven' ? 2.0 : 1.0;
+    Qs = qs_factor * N * As;
+    note = `Meyerhof-SPT: Nq factor = ${Nq.toFixed(1)} | qs = ${qs_factor}N/m²`;
+  } else {
+    // طين / Clay — α-method (Tomlinson)
+    // cu تقريبي من SPT N للطين: cu ≈ N/8 * 100 kPa (تقريبي)
+    const cu   = (N / 8) * 100; // kPa تقريبي
+    const Nc   = 9;              // للطين المشبع
+    Qb = cu * Nc * Ab * 1000;   // kN
+    const α    = cu > 75 ? 0.5 : cu > 25 ? 0.75 : 1.0; // Tomlinson α
+    Qs = α * cu * As * 1000;    // kN
+    note = `α-method: cu ≈ ${cu.toFixed(0)} kPa (من SPT) | α = ${α}`;
+  }
+
+  const Qu = Qb + Qs; // kN
+  const FS = 2.5;     // QCS 2024: FS = 2.5 للحمل الاستاتيكي
+  const Qa = Qu / FS; // kN
+
+  // القدرة الإنشائية للخازوق الخرساني
+  const Ag_pile  = Ab * 1e6; // mm²
+  const Ast_pile = 0.01 * Ag_pile; // 1% حد أدنى
+  const φPn_pile = 0.65 * 0.80 * (0.85 * fc * (Ag_pile - Ast_pile) + 500 * Ast_pile) / 1000; // kN
+
+  const Qa_governing = Math.min(Qa, φPn_pile);
+
+  const detail = `D = ${D}mm | L = ${L}m | SPT N = ${N} (${soilType === 'sand' ? 'رمل' : 'طين'})
+End Bearing Qb = ${Qb.toFixed(1)} kN
+Skin Friction Qs = ${Qs.toFixed(1)} kN
+Qu = Qb + Qs = ${Qu.toFixed(1)} kN | FS = ${FS} → Qa = ${Qa.toFixed(1)} kN
+القدرة الإنشائية φPn = ${φPn_pile.toFixed(1)} kN
+الحاكمة = ${Qa_governing.toFixed(1)} kN
+${note}
+المرجع: QCS 2024 Part 5 § 5.5 + Meyerhof SPT Method`;
+
+  showResult('pile-result', true, Qa_governing, 0, detail);
+}
+window.calcPileCapacity = calcPileCapacity;
