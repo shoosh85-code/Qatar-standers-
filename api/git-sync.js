@@ -1,6 +1,6 @@
-const https = require('https');
+import https from 'https';
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -21,7 +21,6 @@ module.exports = async (req, res) => {
     const path = `api/uploads/${filename}`;
     const b64  = Buffer.from(content).toString('base64');
 
-    // Check if file exists (to get SHA)
     let sha;
     try {
       const existing = await githubRequest('GET', `/repos/${owner}/${repo}/contents/${path}?ref=${branch}`, null, token);
@@ -36,7 +35,7 @@ module.exports = async (req, res) => {
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
-};
+}
 
 function githubRequest(method, path, body, token) {
   return new Promise((resolve, reject) => {
