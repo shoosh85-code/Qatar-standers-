@@ -141,3 +141,63 @@ function calcGullyLevel() {
   const diff = Math.abs(road - gully) * 1000;
   showResult('gul-result', diff <= 5, diff, 5, `الفرق: ${diff.toFixed(1)}mm | المسموح: ±5mm من مستوى الطريق`);
 }
+
+// ── calcManningFlow — تدفق مواسير المجاري (Manning) ─────────────────────
+// QCS 2024 Part 9 + KAHRAMAA Sewerage Standards
+// الوحدات: D(mm), slope(%), n(-), depth_ratio(0-1)
+function calcManningFlow() {
+  'use strict';
+  const D           = parseFloat(document.getElementById('mann-D').value);
+  const slope_pct   = parseFloat(document.getElementById('mann-slope').value);
+  const n           = parseFloat(document.getElementById('mann-n').value);
+  const depth_ratio = parseFloat(document.getElementById('mann-depth').value);
+
+  if (!D || !slope_pct || !n || isNaN(depth_ratio)) {
+    return showToast('❌ أدخل جميع البيانات', 'error');
+  }
+  if (D < 75 || D > 3000)          return showToast('❌ القطر يجب 75–3000 mm', 'error');
+  if (slope_pct <= 0 || slope_pct > 50) return showToast('❌ الميل يجب 0–50%', 'error');
+  if (n <= 0 || n > 0.05)          return showToast('❌ n يجب 0.005–0.05', 'error');
+  if (depth_ratio < 0.1 || depth_ratio > 1) return showToast('❌ نسبة العمق يجب 0.1–1.0', 'error');
+
+  const r     = D / 2;            // نصف القطر mm
+  const S     = slope_pct / 100; // ميل النسبة المئوية → عشري
+
+  // القطاع المائي للدائرة (Circular section)
+  const θ     = 2 * Math.acos(1 - 2 * depth_ratio); // زاوية مركزية (rad)
+  const A     = ((θ - Math.sin(θ)) * r * r) / 2;    // mm²
+  const P     = θ * r;                               // المحيط المبلل mm
+  const R     = A / P;                               // النصف قطر الهيدروليكي mm
+
+  // تحويل R من mm → m للمعادلة
+  const R_m   = R / 1000;
+  const A_m2  = A / 1e6;          // mm² → m²
+
+  // معادلة Manning
+  const V     = (1 / n) * Math.pow(R_m, 2/3) * Math.pow(S, 0.5); // m/s
+  const Q_m3s = V * A_m2;        // m³/s
+  const Q_Ls  = Q_m3s * 1000;   // L/s
+
+  // تدفق القسم الكامل (للمقارنة)
+  const A_full = Math.PI * r * r / 1e6;             // m²
+  const P_full = Math.PI * D / 1000;                // m
+  const R_full = (D / 1000) / 4;                   // m
+  const V_full = (1 / n) * Math.pow(R_full, 2/3) * Math.pow(S, 0.5);
+  const Q_full = V_full * A_full * 1000;            // L/s
+
+  // فحص السرعة الذاتية للتنظيف — QCS 2024 Part 9: V_min ≥ 0.6 m/s
+  const selfClean  = V >= 0.6;
+  // فحص السرعة القصوى (لمنع التآكل) — V_max ≤ 3.0 m/s
+  const maxVelOK   = V <= 3.0;
+  const pass       = selfClean && maxVelOK;
+
+  const detail = `θ = ${(θ*180/Math.PI).toFixed(1)}° | A = ${(A/1e6*1000).toFixed(1)} dm² | R = ${R_m.toFixed(4)} m
+السرعة V = ${V.toFixed(3)} m/s | التدفق Q = ${Q_Ls.toFixed(1)} L/s
+نسبة الملء = ${(depth_ratio*100).toFixed(0)}% | Q_full = ${Q_full.toFixed(1)} L/s
+فحص التنظيف الذاتي (V ≥ 0.6 m/s): ${selfClean ? '✅ يعمل' : '❌ سرعة منخفضة — احتمال ترسيب'}
+فحص السرعة القصوى (V ≤ 3.0 m/s): ${maxVelOK ? '✅ آمن' : '❌ سرعة عالية — خطر تآكل'}
+المرجع: QCS 2024 Part 9 + KAHRAMAA Sewerage Standards`;
+
+  showResult('mann-result', pass, V, 0.6, detail);
+}
+window.calcManningFlow = calcManningFlow;

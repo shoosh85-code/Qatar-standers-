@@ -2663,6 +2663,7 @@ window.calcRoadLayers = function calcRoadLayers() {
     'calcFreq','calcESAL','calcPipeSize','validateMixDesign',
     'calcSPT','calcConcrete','calcRebar','calcCover','calcLapLength',
     'calcGP','calcBlockwork','calcRoadLayers',
+    'calcBeamDeflection','calcIsolatedFooting','calcRetainingWall','calcManningFlow',
   ];
 
   document.addEventListener('DOMContentLoaded', function() {
@@ -2708,6 +2709,7 @@ window._QS_PUBLIC_FNS = [
   'calcFreq','calcESAL','calcPipeSize','validateMixDesign',
   'calcSPT','calcConcrete','calcRebar','calcCover','calcLapLength',
   'calcGP','calcBlockwork','calcRoadLayers',
+  'calcBeamDeflection','calcIsolatedFooting','calcRetainingWall','calcManningFlow',
 ];
 // Temporary stub so any code that references QS before data_calcs.js loads
 // doesn't throw. Will be replaced by the real QS at end of data_calcs.js.

@@ -322,7 +322,7 @@ function initCalcPanels() {
   if (utilEl && !utilEl.dataset.built) {
     utilEl.dataset.built = '1';
     utilEl.innerHTML =
-      _tabs('utilities',[['pres-u','💧 Pressure Test'],['air-u','💨 Air Test'],['cov-u','📏 Cover Depth'],['trench-u','⛏️ Trench Compact.']]) +
+      _tabs('utilities',[['pres-u','💧 Pressure Test'],['air-u','💨 Air Test'],['cov-u','📏 Cover Depth'],['trench-u','⛏️ Trench Compact.'],['mann-u','🌊 Manning Flow']]) +
       _section('pres-u','💧 Hydrostatic Pressure Test — مواسير المياه',
         _calcField('pres-pn','Pipe PN (Nominal Pressure)','e.g. 16','bar') +
         _calcField('pres-act','الضغط الفعلي المُطبَّق','e.g. 24','bar') +
@@ -342,7 +342,13 @@ function initCalcPanels() {
         _calcSelect('trench-zone','المنطقة',[['haunching','Haunching Zone (≥95% MDD)'],['initial','Initial Backfill (≥95% MDD)'],['final','Final Backfill (≥98% MDD)']]) +
         _calcField('trench-act','الكثافة الحقلية','e.g. 1.88','g/cm³') +
         _calcField('trench-mdd','MDD (Proctor)','e.g. 1.95','g/cm³') +
-        _calcBtn('calcTrenchCompact()','تحقق من الضغط') + _calcResult('trench-result'));
+        _calcBtn('calcTrenchCompact()','تحقق من الضغط') + _calcResult('trench-result')) +
+      _section('mann-u','🌊 Manning Pipe Flow — تدفق مواسير | QCS 2024 Part 9 + KAHRAMAA',
+        _calcField('mann-D','قطر الماسورة D','e.g. 300','mm') +
+        _calcField('mann-slope','الميل','e.g. 0.5','%') +
+        _calcSelect('mann-n','معامل Manning n',[['0.009','0.009 — PVC / HDPE (جيد جداً)'],['0.011','0.011 — Concrete (مصقول)'],['0.013','0.013 — Concrete (عادي)'],['0.015','0.015 — Clay / Brick'],['0.020','0.020 — Corrugated Steel']]) +
+        _calcField('mann-depth','نسبة العمق (0.1–1.0)','e.g. 0.75','') +
+        _calcBtn('calcManningFlow()','احسب التدفق 🌊') + _calcResult('mann-result'));
     utilEl.querySelectorAll('.calc-section').forEach(function(s,i){ s.style.display = i===0?'block':'none'; });
   }
 
@@ -351,7 +357,7 @@ function initCalcPanels() {
   if (strEl && !strEl.dataset.built) {
     strEl.dataset.built = '1';
     strEl.innerHTML =
-      _tabs('structural',[['cube-s','🧱 Cube Strength'],['slump-s','💧 Slump'],['cover-s','📏 Cover Rebar'],['wc-s','⚗️ w/c Ratio'],['sul-s','🧪 Sulphate']]) +
+      _tabs('structural',[['cube-s','🧱 Cube Strength'],['slump-s','💧 Slump'],['cover-s','📏 Cover Rebar'],['wc-s','⚗️ w/c Ratio'],['sul-s','🧪 Sulphate'],['bdef-s','📐 Beam Deflection'],['ftp-s','🏛️ Footing'],['rw-s','🧱 Retaining Wall']]) +
       _section('cube-s','🧱 Concrete Cube Strength',
         _calcSelect('cube-grade','درجة الخرسانة',[['20','C20 (fcu=20 N/mm²)'],['25','C25 (fcu=25)'],['30','C30 (fcu=30)'],['35','C35 (fcu=35)'],['40','C40 (fcu=40)'],['45','C45 (fcu=45)'],['50','C50 (fcu=50)']]) +
         _calcSelect('cube-age','عمر العينة',[['7','7 يوم (≥70% fcu)'],['28','28 يوم (≥100% fcu)']]) +
@@ -373,7 +379,38 @@ function initCalcPanels() {
       _section('sul-s','🧪 Sulphate Content',
         _calcSelect('sul-type-s','نوع العينة',[['soil','تربة — SO3 (≤0.5%)'],['water','مياه — SO4 (≤500 mg/L)'],['aggregate','ركام — SO3 (≤0.4%)']]) +
         _calcField('sul-val-s','نتيجة الاختبار','e.g. 0.3','') +
-        _calcBtn('calcSulphate()','تحقق من الكبريتات') + _calcResult('sul-result'));
+        _calcBtn('calcSulphate()','تحقق من الكبريتات') + _calcResult('sul-result')) +
+      _section('bdef-s','📐 Beam Deflection — انحراف العارضة | QCS 2024 Part 5 § 5.3',
+        _calcSelect('bdef-load-type','نوع الحمل',[['uniform','موزع Uniform (kN/m)'],['point','مركّز Point (kN)']]) +
+        _calcField('bdef-span','البحر L','e.g. 6','م') +
+        _calcField('bdef-load','الحمل','e.g. 25','kN/m أو kN') +
+        _calcField('bdef-b','عرض المقطع b','e.g. 300','mm') +
+        _calcField('bdef-h','ارتفاع المقطع h','e.g. 600','mm') +
+        _calcField('bdef-fc','مقاومة الخرسانة fc\'','e.g. 30','MPa') +
+        _calcBtn('calcBeamDeflection()','احسب الانحراف 📐') + _calcResult('bdef-result')) +
+      _section('ftp-s','🏛️ Isolated Footing — قاعدة منفردة | QCS 2024 Part 5 + ACI 318',
+        _calcField('ftp-P','الحمل المحوري P','e.g. 1200','kN') +
+        _calcField('ftp-Mx','العزم Mx','e.g. 0','kN.m') +
+        _calcField('ftp-My','العزم My','e.g. 0','kN.m') +
+        _calcField('ftp-qa','القدرة التحملية qa','e.g. 150','kPa') +
+        _calcField('ftp-fc','مقاومة الخرسانة fc\'','e.g. 30','MPa') +
+        _calcField('ftp-fy','مقاومة الحديد fy','e.g. 460','MPa') +
+        _calcField('ftp-colb','عرض العمود','e.g. 400','mm') +
+        _calcField('ftp-cold','عمق العمود','e.g. 400','mm') +
+        _calcField('ftp-cover','الغطاء الخرساني','e.g. 75','mm') +
+        _calcBtn('calcIsolatedFooting()','صمّم القاعدة 🏛️') + _calcResult('ftp-result')) +
+      _section('rw-s','🧱 Retaining Wall — جدار استنادي | QCS 2024 Part 5 § 5.5',
+        _calcField('rw-H','ارتفاع الجدار H','e.g. 4','م') +
+        _calcField('rw-bw','عرض القاعدة الكلي B','e.g. 2.4','م') +
+        _calcField('rw-toe','Toe إلى الأمام','e.g. 0.6','م') +
+        _calcField('rw-heel','Heel إلى الخلف','e.g. 1.5','م') +
+        _calcField('rw-gs','وزن التربة γs','e.g. 18','kN/m³') +
+        _calcField('rw-phi','زاوية احتكاك التربة φ','e.g. 30','°') +
+        _calcField('rw-gc','وزن الخرسانة γc','e.g. 24','kN/m³') +
+        _calcField('rw-qa','القدرة التحملية qa','e.g. 150','kPa') +
+        _calcField('rw-surcharge','الحمل السطحي q','e.g. 10','kPa') +
+        _calcField('rw-mu','معامل الاحتكاك μ','e.g. 0.45','') +
+        _calcBtn('calcRetainingWall()','احسب الاستقرار 🧱') + _calcResult('rw-result'));
     strEl.querySelectorAll('.calc-section').forEach(function(s,i){ s.style.display = i===0?'block':'none'; });
   }
 

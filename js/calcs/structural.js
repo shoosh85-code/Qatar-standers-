@@ -228,3 +228,211 @@ function calcLapLength() {
   const req = mult * dia;
   showResult('lap-result', actual >= req, actual, req, `الطول الفعلي: ${actual}mm | المطلوب: ${mult}d = ${req}mm (d=${dia}mm)`);
 }
+
+// ── calcBeamDeflection — انحراف العارضة ─────────────────────────────────
+// QCS 2024 Part 5, Section 5.3 + ACI 318-19 Ch.24
+// الوحدات: span(m), load(kN/m أو kN), b(mm), h(mm), fc(MPa)
+function calcBeamDeflection() {
+  'use strict';
+  const span     = parseFloat(document.getElementById('bdef-span').value);
+  const loadType = document.getElementById('bdef-load-type').value;
+  const loadVal  = parseFloat(document.getElementById('bdef-load').value);
+  const b        = parseFloat(document.getElementById('bdef-b').value);
+  const h        = parseFloat(document.getElementById('bdef-h').value);
+  const fc       = parseFloat(document.getElementById('bdef-fc').value);
+
+  if (!span || !loadVal || !b || !h || !fc) {
+    return showToast('❌ أدخل جميع البيانات', 'error');
+  }
+  if (span <= 0 || span > 50) return showToast('❌ البحر يجب أن يكون 0–50m', 'error');
+  if (fc < 20 || fc > 80)     return showToast('❌ fc يجب أن يكون 20–80 MPa', 'error');
+  if (b <= 0 || h <= 0)       return showToast('❌ أبعاد المقطع غير صحيحة', 'error');
+
+  // عزم القصور الذاتي — Moment of Inertia (mm⁴)
+  const I = (b * Math.pow(h, 3)) / 12;
+
+  // معامل مرونة الخرسانة — ACI 318-19 Eq. 19.2.2.1b
+  const Ec = 4700 * Math.sqrt(fc); // MPa
+
+  // تحويل الوحدات
+  const L_mm = span * 1000; // m → mm
+  const L_m  = span;
+
+  let delta_mm, steps;
+
+  if (loadType === 'uniform') {
+    // w kN/m → N/mm
+    const w = (loadVal * 1000) / 1000; // N/mm
+    delta_mm = (5 * w * Math.pow(L_mm, 4)) / (384 * Ec * I);
+    steps = `
+      w = ${loadVal} kN/m = ${w.toFixed(4)} N/mm
+      I = b×h³/12 = ${b}×${h}³/12 = ${(I/1e6).toFixed(2)} ×10⁶ mm⁴
+      Ec = 4700×√fc = 4700×√${fc} = ${Ec.toFixed(0)} MPa
+      δ = 5wL⁴ / (384 EcI) = ${delta_mm.toFixed(2)} mm`;
+  } else {
+    // P kN → N
+    const P = loadVal * 1000; // N
+    delta_mm = (P * Math.pow(L_mm, 3)) / (48 * Ec * I);
+    steps = `
+      P = ${loadVal} kN = ${P} N
+      I = ${(I/1e6).toFixed(2)} ×10⁶ mm⁴
+      Ec = ${Ec.toFixed(0)} MPa
+      δ = PL³ / (48 EcI) = ${delta_mm.toFixed(2)} mm`;
+  }
+
+  // حد الانحراف — QCS 2024 Part 5 Section 5.3: L/250
+  const delta_max = (L_m * 1000) / 250; // mm
+  const ratio     = delta_mm / delta_max;
+  const pass      = delta_mm <= delta_max;
+
+  const detail = `δ الحسابي = ${delta_mm.toFixed(2)} mm | الحد الأقصى = L/250 = ${delta_max.toFixed(1)} mm | نسبة الاستغلال = ${(ratio*100).toFixed(1)}%
+المرجع: QCS 2024 Part 5 § 5.3 + ACI 318-19 Ch.24
+${steps}`;
+
+  showResult('bdef-result', pass, delta_mm, delta_max, detail);
+}
+window.calcBeamDeflection = calcBeamDeflection;
+
+// ── calcIsolatedFooting — قاعدة منفردة ───────────────────────────────────
+// QCS 2024 Part 5 + ACI 318-19 Ch.13
+// الوحدات: P(kN), Mx/My(kN.m), qa(kPa), fc/fy(MPa), cover(mm), col_b/col_d(mm)
+function calcIsolatedFooting() {
+  'use strict';
+  const P      = parseFloat(document.getElementById('ftp-P').value);
+  const Mx     = parseFloat(document.getElementById('ftp-Mx').value) || 0;
+  const My     = parseFloat(document.getElementById('ftp-My').value) || 0;
+  const qa     = parseFloat(document.getElementById('ftp-qa').value);
+  const fc     = parseFloat(document.getElementById('ftp-fc').value);
+  const fy     = parseFloat(document.getElementById('ftp-fy').value);
+  const cover  = parseFloat(document.getElementById('ftp-cover').value) || 75;
+  const col_b  = parseFloat(document.getElementById('ftp-colb').value) || 400;
+  const col_d  = parseFloat(document.getElementById('ftp-cold').value) || 400;
+
+  if (!P || !qa || !fc || !fy) return showToast('❌ أدخل جميع البيانات المطلوبة', 'error');
+  if (P <= 0)   return showToast('❌ الحمل P يجب أن يكون > 0', 'error');
+  if (qa <= 50) return showToast('❌ qa يبدو منخفضاً جداً — هل الوحدة kPa؟', 'warning');
+
+  // مساحة القاعدة المطلوبة (m²)
+  const A_req = P / qa;
+  const B     = Math.ceil(Math.sqrt(A_req) * 10) / 10; // أقرب 0.1m للأعلى
+  const L     = B;
+
+  // التحقق من الإجهاد تحت القاعدة
+  const q_avg  = P / (B * L);
+  const q_max  = q_avg + (6 * Mx / (B * L * L)) + (6 * My / (B * B * L));
+  const q_min  = q_avg - (6 * Mx / (B * L * L)) - (6 * My / (B * B * L));
+  const bearCheck = q_max <= qa;
+
+  // سماكة القاعدة (Two-way punching shear — ACI 318-19 § 22.6)
+  // φVc = φ × 0.33 × √fc × bo × d  حيث bo = 4×(col+d)
+  // تحسب بالتكرار
+  let d_est = Math.max(200, B * 1000 / 10); // تخمين أولي mm
+  for (let i = 0; i < 10; i++) {
+    const bo   = 4 * (col_b + d_est); // mm
+    const Vu   = (P * 1000) * (1 - Math.pow((col_b + d_est) / (B * 1000), 2)); // N
+    d_est      = Vu / (0.85 * 0.33 * Math.sqrt(fc) * bo);
+    if (d_est < 150) { d_est = 150; break; }
+  }
+  const h_footing = Math.ceil((d_est + cover) / 50) * 50; // mm — أقرب 50mm للأعلى
+  const d_actual  = h_footing - cover;
+
+  // تسليح (Simple beam analogy — ACI 318-19 § 13.3.8.5)
+  const Mu  = (q_max * 1000) * B * Math.pow(((B - col_b / 1000) / 2), 2) / 2; // N.mm/m width
+  const a   = (fy * 1) / (0.85 * fc * 1000); // تقريبي — نسبة التسليح صغيرة
+  const As  = Mu / (0.9 * fy * (d_actual - a / 2)); // mm²/m
+  const As_min = Math.max(0.0018 * 1000 * h_footing, 300); // ACI 318 min
+  const As_design = Math.max(As, As_min);
+
+  const pass = bearCheck && q_min >= 0;
+  const detail = `الأبعاد: ${B.toFixed(1)} × ${L.toFixed(1)} م | السماكة: ${h_footing}mm | d: ${d_actual}mm
+q_max = ${q_max.toFixed(1)} kPa | qa = ${qa} kPa | ${bearCheck ? '✅ آمن' : '❌ تجاوز القدرة التحملية'}
+q_min = ${q_min.toFixed(1)} kPa ${q_min >= 0 ? '✅' : '❌ رفع — يجب تكبير القاعدة'}
+As = ${As_design.toFixed(0)} mm²/m في الاتجاهين
+المرجع: QCS 2024 Part 5 + ACI 318-19 Ch.13`;
+
+  showResult('ftp-result', pass, q_max, qa, detail);
+}
+window.calcIsolatedFooting = calcIsolatedFooting;
+
+// ── calcRetainingWall — جدار استنادي ─────────────────────────────────────
+// QCS 2024 Part 5 § 5.5 + QCS Part 4
+// الوحدات: H(m), bw(m), toe(m), heel(m), γs(kN/m³), φ(°), γc(kN/m³), q(kPa)
+function calcRetainingWall() {
+  'use strict';
+  const H    = parseFloat(document.getElementById('rw-H').value);
+  const bw   = parseFloat(document.getElementById('rw-bw').value);
+  const toe  = parseFloat(document.getElementById('rw-toe').value);
+  const heel = parseFloat(document.getElementById('rw-heel').value);
+  const γs   = parseFloat(document.getElementById('rw-gs').value) || 18;
+  const φ_deg= parseFloat(document.getElementById('rw-phi').value) || 30;
+  const γc   = parseFloat(document.getElementById('rw-gc').value) || 24;
+  const qa   = parseFloat(document.getElementById('rw-qa').value) || 150;
+  const q    = parseFloat(document.getElementById('rw-surcharge').value) || 0;
+  const μ    = parseFloat(document.getElementById('rw-mu').value) || 0.45; // معامل احتكاك أساس/تربة
+
+  if (!H || !bw || !toe || !heel) return showToast('❌ أدخل جميع الأبعاد', 'error');
+  if (Math.abs(bw - (toe + heel)) > 0.01) {
+    return showToast(`❌ عرض القاعدة (${bw}m) ≠ toe(${toe}) + heel(${heel}) m`, 'error');
+  }
+
+  const φ    = φ_deg * Math.PI / 180;
+  const Ka   = Math.pow(Math.tan(Math.PI/4 - φ/2), 2); // Rankine
+
+  // قوة ضغط التربة النشطة (Rankine)
+  const Pa   = 0.5 * Ka * γs * H * H + Ka * q * H; // kN/m عرض
+  const Pa1  = 0.5 * Ka * γs * H * H; // من التربة
+  const Pa2  = Ka * q * H;             // من الحمل السطحي
+  const ya   = (Pa1 * H/3 + Pa2 * H/2) / Pa; // نقطة تطبيق Pa من القاعدة
+
+  // الأوزان (per meter)
+  // الجدار نفسه — مُبسَّط كمستطيل (stem width ≈ H/12 + 0.2)
+  const tw   = Math.max(H / 12 + 0.2, 0.3); // سماكة stem (m)
+  const W_stem = γc * tw * H;
+  const x_stem = toe + tw / 2;
+
+  // لبشة الأساس
+  const t_base = Math.max(H / 12 + 0.15, 0.4); // سماكة Base (m)
+  const W_base = γc * bw * t_base;
+  const x_base = bw / 2;
+
+  // التربة فوق heel
+  const W_soil = γs * heel * H;
+  const x_soil = bw - heel / 2;
+
+  // الحمل السطحي فوق heel
+  const W_surcharge = q * heel;
+  const x_surcharge = bw - heel / 2;
+
+  const ΣV  = W_stem + W_base + W_soil + W_surcharge;
+  const ΣH  = Pa;
+
+  // عزوم مقاومة للإنقلاب حول الطرف الأمامي (toe)
+  const ΣMr = W_stem * x_stem + W_base * x_base + W_soil * x_soil + W_surcharge * x_surcharge;
+  const ΣMo = Pa * ya; // عزم انقلاب
+
+  // عوامل الأمان
+  const FS_OT = ΣMr / ΣMo;
+  const FS_SL = (μ * ΣV) / ΣH;
+
+  // ضغط القاعدة
+  const ΣM_net = ΣMr - ΣMo;
+  const x_R    = ΣM_net / ΣV; // بُعد محصلة الأحمال عن toe
+  const e      = bw / 2 - x_R; // الانحراف
+  const q_max_base = (ΣV / bw) * (1 + 6 * Math.abs(e) / bw);
+  const q_min_base = (ΣV / bw) * (1 - 6 * Math.abs(e) / bw);
+  const bearCheck  = q_max_base <= qa;
+
+  const passOT = FS_OT >= 2.0;
+  const passSL = FS_SL >= 1.5;
+  const pass   = passOT && passSL && bearCheck;
+
+  const detail = `Ka = tan²(45-φ/2) = ${Ka.toFixed(3)} | Pa = ${Pa.toFixed(2)} kN/m
+FS انقلاب = ${FS_OT.toFixed(2)} (مطلوب ≥ 2.0) ${passOT ? '✅' : '❌ غير كافٍ'}
+FS انزلاق = ${FS_SL.toFixed(2)} (مطلوب ≥ 1.5) ${passSL ? '✅' : '❌ غير كافٍ'}
+q_max = ${q_max_base.toFixed(1)} kPa | qa = ${qa} kPa ${bearCheck ? '✅' : '❌ تجاوز'}
+e = ${e.toFixed(3)} m | bw/6 = ${(bw/6).toFixed(3)} m ${Math.abs(e) <= bw/6 ? '✅ داخل Core' : '⚠️ خارج Core'}
+المرجع: QCS 2024 Part 5 § 5.5 + QCS Part 4`;
+
+  showResult('rw-result', pass, FS_OT, 2.0, detail);
+}
+window.calcRetainingWall = calcRetainingWall;
