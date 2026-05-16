@@ -3414,3 +3414,121 @@ c["buildings_towers"] = {
 };
 
 })();
+
+// ═══ Road Markings & Traffic Signs — Phase 6a ═══
+(function(){
+  var c = window.QS_CONTENT = window.QS_CONTENT || {};
+
+c["road_markings"] = {
+  title: '\u{1F6E3}\uFE0F علامات الطرق واللوحات المرورية — Road Markings & Traffic Signs',
+  content: '<div class="lang-content-ar">' +
+'<div class="ref-header" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:rgba(122,21,21,0.08);border:1px solid rgba(122,21,21,0.3);border-radius:10px;">' +
+'  <span class="ref-badge" style="background:rgba(122,21,21,0.2);color:#7A1515;border:1px solid rgba(122,21,21,0.4);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;">QCS 2024 §S6-P5</span>' +
+'  <span class="ref-section" style="color:var(--text2);font-size:12px;">علامات الطرق | اللوحات | المطبات | مواقف الباصات</span>' +
+'</div>' +
+
+'<h3>\u{1F3AF} علامات الطرق — Road Markings</h3>' +
+'<table class="dm-table">' +
+'<tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>' +
+'<tr><td><strong>Thermoplastic</strong></td><td>سُمك ≥ 2.5mm · عرض خط المنتصف 150mm · عرض حافة الطريق 100mm · لون أبيض أو أصفر</td><td>QCS 2024 §S6-P5-Cl.5.2</td></tr>' +
+'<tr><td><strong>Cold Paint</strong></td><td>سُمك جاف ≥ 0.4mm · يُستخدم في المناطق منخفضة السرعة · عمر أقل من Thermoplastic</td><td>QCS 2024 §S6-P5-Cl.5.3</td></tr>' +
+'<tr><td><strong>Retroreflectivity (انعكاسية)</strong></td><td>خطوط بيضاء ≥ 150 mcd/lux/m\u00B2 · خطوط صفراء ≥ 100 mcd/lux/m\u00B2 · قياس بعد 24 ساعة من التطبيق</td><td>QCS 2024 §S6-P5-Cl.5.4 | ASTM D6359</td></tr>' +
+'<tr><td><strong>Glass Beads</strong></td><td>حبيبات زجاجية للانعكاسية · معدل رش ≥ 250 g/m\u00B2 · حجم 850\u2013150 \u03BCm</td><td>BS EN 1424 | QCS 2024</td></tr>' +
+'<tr><td><strong>Anti-Skid</strong></td><td>أسطح مقاومة للانزلاق عند المنحنيات والتقاطعات · SRV ≥ 65</td><td>QCS 2024 §S6-P5</td></tr>' +
+'</table>' +
+
+'<h3>\u{1F68F} مواقف الباصات — Bus Stops</h3>' +
+'<table class="dm-table">' +
+'<tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>' +
+'<tr><td><strong>طول المحطة</strong></td><td>≥ 15m لباص واحد · ≥ 30m لباصين · جيب (bay) بعرض 3.0m</td><td>QHDM 2019 §7-4</td></tr>' +
+'<tr><td><strong>Shelter</strong></td><td>مظلة إلزامية · تكييف مُفضّل في قطر · إضاءة ليلية</td><td>Ashghal Standards</td></tr>' +
+'<tr><td><strong>Accessibility</strong></td><td>رصيف مرتفع 200mm · ممر ذوي الاحتياجات · Tactile paving</td><td>QCS 2024 §S6</td></tr>' +
+'</table>' +
+
+'<h3>\u{1F6A7} المطبات الصناعية — Speed Bumps</h3>' +
+'<table class="dm-table">' +
+'<tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>' +
+'<tr><td><strong>Speed Hump</strong></td><td>ارتفاع 75\u2013100mm · عرض 3.7m · سرعة تصميمية 30 km/h</td><td>QHDM 2019 §7-5</td></tr>' +
+'<tr><td><strong>Speed Table</strong></td><td>ارتفاع 75mm · سطح مسطح ≥ 6m · عند المعابر المشاة</td><td>QHDM 2019</td></tr>' +
+'<tr><td><strong>Warning Signs</strong></td><td>لوحة تحذير W5-1 قبل 30\u201350m · علامات أرضية مسبقة</td><td>MUTCD / Ashghal</td></tr>' +
+'</table>' +
+
+'<h3>\u{1F6C9} اللوحات المرورية — Traffic Signs</h3>' +
+'<table class="dm-table">' +
+'<tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>' +
+'<tr><td><strong>ارتفاع التركيب</strong></td><td>≥ 2.1m من أسفل اللوحة إلى الرصيف · ≥ 1.5m في الوسيط</td><td>QHDM 2019 §7-2</td></tr>' +
+'<tr><td><strong>Retroreflective Sheeting</strong></td><td>Type XI (DG\u00B3) للطرق السريعة · Type III للشوارع المحلية</td><td>ASTM D4956</td></tr>' +
+'<tr><td><strong>ثنائية اللغة</strong></td><td>عربي أعلى + إنجليزي أسفل · خط عربي واضح</td><td>Ashghal / MMUP</td></tr>' +
+'</table>' +
+
+'<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:10px;padding:12px;margin-top:16px;font-size:12px;">' +
+'\u26A0\uFE0F <strong>تنبيه:</strong> محتوى مرجعي. تحقق من أحدث إصدار QCS 2024 و QHDM و MUTCD Qatar.' +
+'</div></div>'
+};
+
+})();
+
+// ═══ House Connections — Phase 6b ═══
+(function(){
+  var c = window.QS_CONTENT = window.QS_CONTENT || {};
+
+c["house_connections"] = {
+  title: '\u{1F3E0} الوصلات المنزلية — House Connections',
+  content: '<div class="lang-content-ar">' +
+'<div class="ref-header" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:rgba(122,21,21,0.08);border:1px solid rgba(122,21,21,0.3);border-radius:10px;">' +
+'  <span class="ref-badge" style="background:rgba(122,21,21,0.2);color:#7A1515;border:1px solid rgba(122,21,21,0.4);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;">QCS 2024 §S20-P3</span>' +
+'  <span class="ref-section" style="color:var(--text2);font-size:12px;">وصلات مياه | صرف | منهولات | ردم | اختبارات</span>' +
+'</div>' +
+
+'<h3>\u{1F4A7} وصلات المياه المنزلية — Water House Connections</h3>' +
+'<table class="dm-table">' +
+'<tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>' +
+'<tr><td><strong>مادة الأنبوب</strong></td><td>HDPE PE100 PN16 · قُطر 25\u201363mm حسب الاستهلاك</td><td>KAHRAMAA 2024 §W3</td></tr>' +
+'<tr><td><strong>عمق التغطية</strong></td><td>≥ 600mm تحت الرصيف · ≥ 900mm تحت الطريق</td><td>QCS 2024 §S20-P2</td></tr>' +
+'<tr><td><strong>Ferrule (محبس الوصل)</strong></td><td>تُركّب على الخط الرئيسي بدون قطع المياه · Electrofusion أو Mechanical</td><td>KAHRAMAA</td></tr>' +
+'<tr><td><strong>Meter Box</strong></td><td>صندوق العداد عند حدود القطعة · يسهل الوصول للقراءة</td><td>KAHRAMAA 2024</td></tr>' +
+'<tr><td><strong>اختبار الضغط</strong></td><td>1.5\u00D7 PN لمدة 2 ساعة · لا انخفاض مسموح</td><td>QCS 2024 §S20-P2-Cl.2.5</td></tr>' +
+'</table>' +
+
+'<h3>\u{1F6BD} وصلات الصرف المنزلية — Sewer House Connections</h3>' +
+'<table class="dm-table">' +
+'<tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>' +
+'<tr><td><strong>مادة الأنبوب</strong></td><td>uPVC SN8 · قُطر ≥ 150mm للسكني · ≥ 200mm للتجاري</td><td>QCS 2024 §S20-P3-Cl.3.2</td></tr>' +
+'<tr><td><strong>الميل الأدنى</strong></td><td>≥ 1.0% (1:100) لأنبوب 150mm · ≥ 0.8% لأنبوب 200mm</td><td>QCS 2024 §S20-P3</td></tr>' +
+'<tr><td><strong>Y-Junction</strong></td><td>وصلة على الخط الرئيسي بزاوية 45\u00B0 باتجاه التدفق</td><td>QCS 2024 §S20-P3</td></tr>' +
+'<tr><td><strong>Inspection Chamber</strong></td><td>غرفة تفتيش عند حدود القطعة · عمق ≤ 1.2m · قاعدة خرسانية C20</td><td>QCS 2024 §S20-P3</td></tr>' +
+'<tr><td><strong>اختبار تسرب</strong></td><td>Air Test أو Water Test · ضغط هواء 100mm عمود ماء لمدة 5 دقائق</td><td>QCS 2024 §S20-P3-Cl.3.4</td></tr>' +
+'</table>' +
+
+'<h3>\u{1F573}\uFE0F المنهولات — Manholes</h3>' +
+'<table class="dm-table">' +
+'<tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>' +
+'<tr><td><strong>أنواع</strong></td><td>Type A (عمق ≤ 1.5m) · Type B (1.5\u20133m) · Type C (> 3m — خرسانة مسلحة)</td><td>QCS 2024 §S20-P3-Cl.3.6</td></tr>' +
+'<tr><td><strong>المسافة بين المنهولات</strong></td><td>≤ 60m لقُطر ≤ 300mm · ≤ 100m لقُطر > 300mm</td><td>QCS 2024 §S20-P3</td></tr>' +
+'<tr><td><strong>الغطاء</strong></td><td>D400 (40 طن) في الطرق · B125 في الأرصفة · Ductile Iron</td><td>BS EN 124</td></tr>' +
+'<tr><td><strong>Benching</strong></td><td>ميل القاعدة الداخلية ≥ 1:12 · قناة ناعمة (channel)</td><td>QCS 2024 §S20-P3</td></tr>' +
+'</table>' +
+
+'<h3>\u{1F3D7}\uFE0F طبقات التأسيس — Pipe Bedding</h3>' +
+'<table class="dm-table">' +
+'<tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>' +
+'<tr><td><strong>Class B Bedding</strong></td><td>الأكثر شيوعاً · رمل نظيف 100mm تحت + 150mm فوق الأنبوب</td><td>QCS 2024 §S20-P3-Cl.3.3</td></tr>' +
+'<tr><td><strong>Class S Bedding</strong></td><td>خرسانة C15 تحت + جوانب لأنبوب > 600mm أو أحمال ثقيلة</td><td>QCS 2024 §S20-P3</td></tr>' +
+'<tr><td><strong>Haunching</strong></td><td>ردم حول الأنبوب حتى منتصفه · دمك يدوي بطبقات 150mm</td><td>QCS 2024 §S20-P3</td></tr>' +
+'</table>' +
+
+'<h3>\u{1F4CF} متطلبات الردم — Backfill Requirements</h3>' +
+'<table class="dm-table">' +
+'<tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>' +
+'<tr><td><strong>مادة الردم</strong></td><td>رمل نظيف أو حبيبي · خالي من الحجارة > 75mm</td><td>QCS 2024 §S20-P3</td></tr>' +
+'<tr><td><strong>طبقات الدمك</strong></td><td>≤ 200mm لكل طبقة · دمك ≥ 95% Modified Proctor</td><td>QCS 2024 §S20-P3</td></tr>' +
+'<tr><td><strong>Warning Tape</strong></td><td>شريط تحذيري 300mm فوق الأنبوب · لون حسب الخدمة (أزرق=مياه، أخضر=صرف)</td><td>QCS 2024 §S20</td></tr>' +
+'<tr><td><strong>Reinstatement</strong></td><td>إعادة الأسفلت بنفس مواصفات الطريق القائم · لا فرق في المنسوب</td><td>QCS 2024 §S8</td></tr>' +
+'</table>' +
+
+'<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:10px;padding:12px;margin-top:16px;font-size:12px;">' +
+'\u26A0\uFE0F <strong>تنبيه:</strong> محتوى مرجعي. تحقق من أحدث QCS 2024 و KAHRAMAA لأي تحديثات.' +
+'</div></div>'
+};
+
+})();
