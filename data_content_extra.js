@@ -3532,3 +3532,80 @@ c["house_connections"] = {
 };
 
 })();
+
+// ═══ Payment Certificates Content — Phase 7 ═══
+(function(){
+  var c = window.QS_CONTENT = window.QS_CONTENT || {};
+
+c["payment_cert"] = {
+  title: '\u{1F4B0} شهادات الدفع والتدفق النقدي — Payment Certificates & Cash Flow',
+  content: '<div class="lang-content-ar">' +
+'<div class="ref-header" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:rgba(142,68,173,0.08);border:1px solid rgba(142,68,173,0.3);border-radius:10px;">' +
+'  <span class="ref-badge" style="background:rgba(142,68,173,0.2);color:#8e44ad;border:1px solid rgba(142,68,173,0.4);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;">FIDIC 2017 Cl.14</span>' +
+'  <span class="ref-section" style="color:var(--text2);font-size:12px;">IPC | Retention | Cash Flow | S-Curve</span>' +
+'</div>' +
+
+'<h3>\u{1F4CA} حاسبة شهادة الدفع المؤقتة — IPC Calculator</h3>' +
+'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">' +
+'  <div><label style="font-size:12px;color:var(--text2);">\u{1F4B5} قيمة العقد (QAR)</label>' +
+'    <input type="number" id="pc-contract" placeholder="10000000" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:8px;background:var(--dark3);color:var(--text1);font-size:14px;"></div>' +
+'  <div><label style="font-size:12px;color:var(--text2);">\u{1F4C5} المدة (أشهر)</label>' +
+'    <input type="number" id="pc-duration" placeholder="12" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:8px;background:var(--dark3);color:var(--text1);font-size:14px;"></div>' +
+'  <div><label style="font-size:12px;color:var(--text2);">\u{1F512} نسبة الاحتجاز %</label>' +
+'    <input type="number" id="pc-retention" value="10" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:8px;background:var(--dark3);color:var(--text1);font-size:14px;"></div>' +
+'  <div><label style="font-size:12px;color:var(--text2);">\u{1F4CA} توزيع الإنجاز</label>' +
+'    <select id="pc-distribution" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:8px;background:var(--dark3);color:var(--text1);font-size:14px;">' +
+'      <option value="linear">خطي (متساوي)</option>' +
+'      <option value="scurve" selected>S-Curve (واقعي)</option>' +
+'      <option value="frontload">تحميل أمامي</option>' +
+'    </select></div>' +
+'</div>' +
+'<button onclick="window._runPaymentCalc()" style="width:100%;padding:12px;background:linear-gradient(135deg,#c9a84c,#b8941e);border:none;border-radius:10px;color:#000;font-weight:700;font-size:14px;cursor:pointer;font-family:Tajawal,sans-serif;">' +
+'\u{1F4B0} احسب شهادات الدفع</button>' +
+'<div id="pc-result" style="margin-top:16px;"></div>' +
+'<canvas id="pc-scurve" style="margin-top:16px;max-height:300px;display:none;"></canvas>' +
+
+'<script>' +
+'window._runPaymentCalc = function() {' +
+'  var cv = parseFloat(document.getElementById("pc-contract").value);' +
+'  var dur = parseInt(document.getElementById("pc-duration").value);' +
+'  var ret = parseFloat(document.getElementById("pc-retention").value) || 10;' +
+'  var dist = document.getElementById("pc-distribution").value;' +
+'  if (!cv || !dur || cv <= 0 || dur <= 0) { ' +
+'    document.getElementById("pc-result").innerHTML = "<div style=\\"color:#dc3545;padding:10px;\\">\\u274C أدخل قيمة العقد والمدة</div>"; return; }' +
+'  var progress = [];' +
+'  for (var i = 0; i < dur; i++) {' +
+'    if (dist === "linear") { progress.push(100 / dur); }' +
+'    else if (dist === "scurve") {' +
+'      var t = (i + 0.5) / dur;' +
+'      var s = 1 / (1 + Math.exp(-10 * (t - 0.5)));' +
+'      var prev = i === 0 ? 0 : 1 / (1 + Math.exp(-10 * ((i - 0.5) / dur - 0.5)));' +
+'      progress.push((s - prev) * 100);' +
+'    } else { progress.push(i < dur * 0.3 ? (100 * 0.6) / (dur * 0.3) : (100 * 0.4) / (dur * 0.7)); }' +
+'  }' +
+'  if (window.QS && window.QS.paymentCert) {' +
+'    var result = window.QS.paymentCert.calculate(cv, dur, progress, ret);' +
+'    var lang = document.documentElement.lang || "ar";' +
+'    document.getElementById("pc-result").innerHTML = window.QS.paymentCert.renderTable(result, lang);' +
+'    var canvas = document.getElementById("pc-scurve");' +
+'    canvas.style.display = "block";' +
+'    window.QS.paymentCert.renderSCurve(result, "pc-scurve");' +
+'  }' +
+'};' +
+'<\/script>' +
+
+'<h3 style="margin-top:24px;">FIDIC 2017 — Clause 14 Reference</h3>' +
+'<table class="dm-table">' +
+'<tr><th>البند</th><th>الوصف</th><th>المرجع</th></tr>' +
+'<tr><td><strong>Cl.14.3</strong></td><td>Application for IPC — يقدم المقاول طلب دفع شهري مع تفاصيل الإنجاز</td><td>FIDIC 2017</td></tr>' +
+'<tr><td><strong>Cl.14.6</strong></td><td>Interim Payment — يصدر المهندس IPC خلال 28 يوم من الطلب</td><td>FIDIC 2017</td></tr>' +
+'<tr><td><strong>Cl.14.7</strong></td><td>Payment — يدفع صاحب العمل خلال 56 يوم من تقديم الطلب</td><td>FIDIC 2017</td></tr>' +
+'<tr><td><strong>Cl.14.9</strong></td><td>Retention — احتجاز 10% حتى 5% من قيمة العقد · إفراج 50% عند الاستلام المبدئي</td><td>FIDIC 2017</td></tr>' +
+'</table>' +
+
+'<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:10px;padding:12px;margin-top:16px;font-size:12px;">' +
+'\u26A0\uFE0F <strong>تنبيه:</strong> الحاسبة للتقدير فقط. الأرقام النهائية تعتمد على شروط العقد الفعلية. استشر مدير المشروع.' +
+'</div></div>'
+};
+
+})();
