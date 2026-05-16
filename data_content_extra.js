@@ -1395,7 +1395,33 @@ c["drawing_analyzer"] = {
 <tr><td>BOQ / Quantities</td><td>Item review, unit rates, completeness check</td></tr>
 <tr><td>Method Statement</td><td>Hold Points, sequence, safety, QCS alignment</td></tr>
 </table>
-</div>`
+</div>
+<div class="lang-content-en" style="display:none;">
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 | Ashghal RDM | KAHRAMAA | MMUP — AI-powered Engineering Document Analysis
+</div>
+<div style="border:2px dashed rgba(52,152,219,0.4);border-radius:12px;padding:24px;text-align:center;cursor:pointer;margin-bottom:12px;">
+  <div style="font-size:36px;margin-bottom:8px;">📐</div>
+  <div style="font-size:14px;font-weight:700;color:var(--text);">Drag Drawings or Documents Here</div>
+  <div style="font-size:12px;color:var(--text2);margin-top:4px;">Drawings / Specs / BOQ / Reports</div>
+  <div style="font-size:11px;color:var(--text3);margin-top:4px;">JPG / PNG / PDF (image) — up to 10MB</div>
+</div>
+<div style="margin-bottom:10px;">
+  <label style="font-size:11px;font-weight:700;color:var(--text2);display:block;margin-bottom:6px;">Analysis Type</label>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;" id="da-types-en">
+    <button onclick="daSetType('full')" style="padding:6px 12px;border-radius:20px;border:1px solid rgba(52,152,219,0.4);background:rgba(52,152,219,0.1);color:var(--text);font-size:11px;cursor:pointer;">🔍 Full Analysis</button>
+    <button onclick="daSetType('errors')" style="padding:6px 12px;border-radius:20px;border:1px solid rgba(231,76,60,0.4);background:rgba(231,76,60,0.1);color:var(--text);font-size:11px;cursor:pointer;">⚠️ Error Detection</button>
+    <button onclick="daSetType('exec')" style="padding:6px 12px;border-radius:20px;border:1px solid rgba(46,204,113,0.4);background:rgba(46,204,113,0.1);color:var(--text);font-size:11px;cursor:pointer;">🏗️ Execution Steps</button>
+    <button onclick="daSetType('qcs')" style="padding:6px 12px;border-radius:20px;border:1px solid rgba(201,168,76,0.4);background:rgba(201,168,76,0.1);color:var(--text);font-size:11px;cursor:pointer;">📋 QCS Compliance</button>
+  </div>
+</div>
+<textarea placeholder="Specific question or observation (optional)" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:10px;color:var(--text);font-size:12px;resize:vertical;min-height:60px;margin-bottom:10px;"></textarea>
+<button onclick="daAnalyze()" style="width:100%;background:linear-gradient(135deg,#3498db,#2980b9);border:none;border-radius:10px;padding:12px;color:#fff;font-weight:700;font-size:13px;cursor:pointer;">🧠 Analyse with AI (QCS 2024)</button>
+<div style="margin-top:14px;padding:10px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;font-size:11px;">
+<strong>⭐ Pro Features:</strong> Multi-page PDF analysis · Clash detection · BOQ extraction · Ashghal standard compliance check
+</div>
+</div>
+`
 };
 
 c["photo_analyzer"] = {
@@ -1642,7 +1668,35 @@ c["photo_analyzer"] = {
 <tr><td>Excavation & Shoring</td><td>QCS S1 + BS EN 1997 (safety, GWT)</td></tr>
 <tr><td>Buildings & Finishes</td><td>QCS S5 + MMUP regulations</td></tr>
 </table>
-</div>`
+</div>
+<div class="lang-content-en" style="display:none;">
+<div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+📌 QCS 2024 | Ashghal | KAHRAMAA | MMUP — AI Field Inspection via Photo Analysis
+</div>
+<div style="border:2px dashed rgba(46,204,113,0.4);border-radius:12px;padding:24px;text-align:center;cursor:pointer;margin-bottom:12px;">
+  <div style="font-size:36px;margin-bottom:8px;">📷</div>
+  <div style="font-size:14px;font-weight:700;color:var(--text);">Drag Site Photo Here</div>
+  <div style="font-size:12px;color:var(--text2);margin-top:4px;">or tap to capture / select from gallery</div>
+  <div style="font-size:11px;color:var(--text3);margin-top:4px;">JPG / PNG / HEIC — up to 10MB</div>
+</div>
+<div style="margin-bottom:10px;">
+  <label style="font-size:11px;font-weight:700;color:var(--text2);display:block;margin-bottom:6px;">Inspection Domain</label>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;">
+    <button style="padding:6px 10px;border-radius:16px;border:1px solid rgba(201,168,76,0.4);background:rgba(201,168,76,0.1);color:var(--text);font-size:11px;cursor:pointer;">🛣️ Roads</button>
+    <button style="padding:6px 10px;border-radius:16px;border:1px solid rgba(201,168,76,0.4);background:rgba(201,168,76,0.1);color:var(--text);font-size:11px;cursor:pointer;">🏗️ Structural</button>
+    <button style="padding:6px 10px;border-radius:16px;border:1px solid rgba(201,168,76,0.4);background:rgba(201,168,76,0.1);color:var(--text);font-size:11px;cursor:pointer;">💧 Utilities</button>
+    <button style="padding:6px 10px;border-radius:16px;border:1px solid rgba(201,168,76,0.4);background:rgba(201,168,76,0.1);color:var(--text);font-size:11px;cursor:pointer;">⛏️ Excavation</button>
+    <button style="padding:6px 10px;border-radius:16px;border:1px solid rgba(201,168,76,0.4);background:rgba(201,168,76,0.1);color:var(--text);font-size:11px;cursor:pointer;">🏢 Buildings</button>
+    <button style="padding:6px 10px;border-radius:16px;border:1px solid rgba(231,76,60,0.4);background:rgba(231,76,60,0.1);color:var(--text);font-size:11px;cursor:pointer;">🦺 Safety</button>
+  </div>
+</div>
+<textarea placeholder="Additional inspector instructions (optional)" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:10px;color:var(--text);font-size:12px;resize:vertical;min-height:50px;margin-bottom:10px;"></textarea>
+<button onclick="paAnalyze()" style="width:100%;background:linear-gradient(135deg,#2ecc71,#27ae60);border:none;border-radius:10px;padding:12px;color:#fff;font-weight:700;font-size:13px;cursor:pointer;">🤖 Start AI Inspection</button>
+<div style="margin-top:14px;padding:10px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;font-size:11px;">
+<strong>Inspection Output:</strong> NCR identification · QCS clause reference · Corrective action · Photo report generation (Pro)
+</div>
+</div>
+`
 };
 
 c["ncr_quick_logger"] = {
@@ -1665,6 +1719,26 @@ c["ncr_quick_logger"] = {
 <button onclick="exportQuickNCRs()" style="background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);border-radius:8px;padding:8px 16px;color:#2ecc71;font-family:Tajawal;cursor:pointer;font-size:12px">📥 تصدير الكل Excel</button>
 <button onclick="clearQuickNCRs()" style="background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.3);border-radius:8px;padding:8px 16px;color:#e74c3c;font-family:Tajawal;cursor:pointer;font-size:12px">🗑️ مسح</button>
 </div>
+<div class="lang-content-en" style="display:none;">
+<div class="qcs-ref-badge">NCR Quick Field Logger — saved in browser</div>
+<p style="font-size:12px;color:var(--text2);margin-bottom:12px">Log any NCR with 5 fields — auto-saved and exportable in bulk</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+<div><label style="font-size:10px;color:var(--text3)">Location</label><input id="ql-loc-en" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-size:12px" placeholder="CH 2+350, Grid D5"></div>
+<div><label style="font-size:10px;color:var(--text3)">QCS Clause</label><input id="ql-clause-en" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-size:12px" placeholder="S6 P5 S5.3"></div>
+</div>
+<div style="margin-bottom:10px"><label style="font-size:10px;color:var(--text3)">Description</label><input id="ql-desc-en" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-size:12px" placeholder="Core Density 94.8% < 97%"></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+<div><label style="font-size:10px;color:var(--text3)">Severity</label><select id="ql-sev-en" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-size:12px"><option>🔴 Critical</option><option selected>🟠 Major</option><option>🟡 Minor</option></select></div>
+<div><label style="font-size:10px;color:var(--text3)">Layer / Element</label><input id="ql-layer-en" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-size:12px" placeholder="Wearing Course"></div>
+</div>
+<button onclick="addQuickNCR()" style="width:100%;background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.4);border-radius:8px;padding:10px 0;color:#e74c3c;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:10px">🔴 Add NCR</button>
+<div id="ql-list-en" style="margin-bottom:10px;max-height:200px;overflow-y:auto"></div>
+<div style="display:flex;gap:8px">
+<button onclick="exportQuickNCRs()" style="flex:1;background:rgba(46,204,113,.1);border:1px solid rgba(46,204,113,.3);border-radius:8px;padding:8px 16px;color:#2ecc71;font-size:12px;cursor:pointer">📥 Export All Excel</button>
+<button onclick="clearQuickNCRs()" style="background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.3);border-radius:8px;padding:8px 16px;color:#e74c3c;font-size:12px;cursor:pointer">🗑️ Clear</button>
+</div>
+</div>
+
 `
 };
 
@@ -3410,6 +3484,52 @@ c["buildings_towers"] = {
 '<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:10px;padding:12px;margin-top:16px;font-size:12px;">' +
 '\u26A0\uFE0F <strong>تنبيه:</strong> محتوى مرجعي. تحقق من أحدث QCS 2024 و QCDD. استشر المهندس المصمم.' +
 '</div>' +
+'</div>' +
+'<div class="lang-content-en" style="display:none;">' +
+'<div class="ref-header" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:rgba(90,15,15,0.08);border:1px solid rgba(90,15,15,0.3);border-radius:10px;">' +
+'  <span class="ref-badge" style="background:rgba(90,15,15,0.2);color:#5A0F0F;border:1px solid rgba(90,15,15,0.4);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;">QCS 2024 §S5 + QCDD</span>' +
+'  <span class="ref-section" style="color:var(--text2);font-size:12px;">Buildings | Towers | MEP | Fire Safety</span>' +
+'</div>' +
+'<h4 style="font-size:13px;color:var(--gold);margin-bottom:10px;">🏗️ Concrete Pumping for Towers</h4>' +
+'<table class="dm-table"><tr><th>Item</th><th>Requirement</th><th>Reference</th></tr>' +
+'<tr><td><strong>Pump Pressure</strong></td><td>≥ 150 bar for buildings &gt;20 floors · calculated based on height + pipe length</td><td>QCS 2024 §S5-P4</td></tr>' +
+'<tr><td><strong>Slump at Pump</strong></td><td>100–180mm depending on height · measured at point of discharge</td><td>QCS 2024 §S5-P4-Cl.4.4</td></tr>' +
+'<tr><td><strong>Max Pour Time</strong></td><td>≤ 90 min from mixing at &gt;35°C · Retarder mandatory</td><td>QCS 2024 §S5-P4-Cl.4.3</td></tr>' +
+'<tr><td><strong>Cold Joint Prevention</strong></td><td>Max 30 min between layers · Vibrator mandatory</td><td>QCS 2024 §S5-P4-Cl.4.8</td></tr>' +
+'</table>' +
+'<h4 style="font-size:13px;color:var(--gold);margin:14px 0 10px;">🌡️ Curing at Height</h4>' +
+'<table class="dm-table"><tr><th>Item</th><th>Requirement</th><th>Reference</th></tr>' +
+'<tr><td><strong>Minimum Duration</strong></td><td>≥ 7 days standard · ≥ 10 days with GGBS/PFA</td><td>QCS 2024 §S5-P4-Cl.4.12</td></tr>' +
+'<tr><td><strong>Wind Protection</strong></td><td>Polyethylene sheeting at wind speed &gt;25 km/h</td><td>QCS 2024 §S5-P4</td></tr>' +
+'<tr><td><strong>Curing Compound</strong></td><td>Apply within 30 min of surface finishing</td><td>ASTM C309</td></tr>' +
+'</table>' +
+'<h4 style="font-size:13px;color:var(--gold);margin:14px 0 10px;">💨 Wind Loading</h4>' +
+'<table class="dm-table"><tr><th>Item</th><th>Requirement</th><th>Reference</th></tr>' +
+'<tr><td><strong>Design Wind Speed</strong></td><td>42 m/s (3-second gust) for Qatar</td><td>QCS 2024 §S5-P1</td></tr>' +
+'<tr><td><strong>Wind Tunnel Test</strong></td><td>Mandatory for buildings &gt;100m or irregular shapes</td><td>QCDD</td></tr>' +
+'</table>' +
+'<h4 style="font-size:13px;color:var(--gold);margin:14px 0 10px;">⚡ MEP Coordination</h4>' +
+'<table class="dm-table"><tr><th>Item</th><th>Requirement</th><th>Reference</th></tr>' +
+'<tr><td><strong>MEP Risers</strong></td><td>Sleeves reserved before pour · No breaking after</td><td>QCS 2024 §S5-P4</td></tr>' +
+'<tr><td><strong>Sleeve Sizes</strong></td><td>Sleeve diameter = pipe dia + 50mm · Fire Stop after installation</td><td>QCDD / BS 476</td></tr>' +
+'<tr><td><strong>BIM Coordination</strong></td><td>Mandatory for projects &gt;10,000 m²</td><td>Ashghal BIM</td></tr>' +
+'<tr><td><strong>Elevator Shafts</strong></td><td>Walls ≥ 200mm · Fire Rating ≥ 2hr · Smoke Pressurisation</td><td>QCDD + NFPA 72</td></tr>' +
+'</table>' +
+'<h4 style="font-size:13px;color:var(--gold);margin:14px 0 10px;">🔥 Fire Safety — QCDD</h4>' +
+'<table class="dm-table"><tr><th>Item</th><th>Requirement</th><th>Reference</th></tr>' +
+'<tr><td><strong>Fire Rating</strong></td><td>Separation walls ≥ 2hr · Staircases ≥ 2hr · Ceilings ≥ 1hr</td><td>QCDD 2015</td></tr>' +
+'<tr><td><strong>Sprinkler</strong></td><td>Mandatory for buildings &gt;3 floors or &gt;2000m²</td><td>QCDD / NFPA 13</td></tr>' +
+'<tr><td><strong>Smoke Detection</strong></td><td>All habitable floors · Central alarm panel</td><td>QCDD / NFPA 72</td></tr>' +
+'<tr><td><strong>Emergency Lighting</strong></td><td>All escape routes · 3-hour battery backup</td><td>QCDD / BS 5266</td></tr>' +
+'</table>' +
+'<h4 style="font-size:13px;color:var(--gold);margin:14px 0 10px;">🏗️ Structural Joints</h4>' +
+'<table class="dm-table"><tr><th>Joint Type</th><th>Treatment</th><th>Reference</th></tr>' +
+'<tr><td><strong>Construction Joint</strong></td><td>Roughened surface + Bonding Agent</td><td>QCS 2024 §S5-P4-Cl.4.8</td></tr>' +
+'<tr><td><strong>Movement Joint</strong></td><td>Sealant + Backer Rod</td><td>BS EN 1992-1-1</td></tr>' +
+'</table>' +
+'<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:10px;padding:12px;margin-top:16px;font-size:12px;">' +
+'⚠️ <strong>Note:</strong> Reference content. Verify against latest QCS 2024 & QCDD. Consult the design engineer.' +
+'</div>' +
 '</div>'
 };
 
@@ -3425,6 +3545,39 @@ c["road_markings"] = {
 '<div class="ref-header" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:rgba(122,21,21,0.08);border:1px solid rgba(122,21,21,0.3);border-radius:10px;">' +
 '  <span class="ref-badge" style="background:rgba(122,21,21,0.2);color:#7A1515;border:1px solid rgba(122,21,21,0.4);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;">QCS 2024 §S6-P5</span>' +
 '  <span class="ref-section" style="color:var(--text2);font-size:12px;">علامات الطرق | اللوحات | المطبات | مواقف الباصات</span>' +
+'</div>' +
+'<div class="lang-content-en" style="display:none;">' +
+'<div class="ref-header" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:rgba(52,73,94,0.08);border:1px solid rgba(52,73,94,0.3);border-radius:10px;">' +
+'  <span class="ref-badge" style="background:rgba(52,73,94,0.2);border:1px solid rgba(52,73,94,0.4);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;">QCS 2024 §S6-P5</span>' +
+'  <span style="color:var(--text2);font-size:12px;">Road Markings | Signs | Speed Humps | Bus Bays</span>' +
+'</div>' +
+'<h4 style="font-size:13px;color:var(--gold);margin-bottom:10px;">🎯 Road Markings</h4>' +
+'<table class="dm-table"><tr><th>Item</th><th>Requirement</th><th>Reference</th></tr>' +
+'<tr><td><strong>Thermoplastic</strong></td><td>Thickness ≥ 2.5mm · Centreline width 150mm · Edge line 100mm · White or Yellow</td><td>QCS 2024 §S6-P5-Cl.5.2</td></tr>' +
+'<tr><td><strong>Retroreflectivity</strong></td><td>≥ 150 mcd/m²/lux initial · ≥ 100 after 12 months</td><td>QCS 2024 §S6-P5</td></tr>' +
+'<tr><td><strong>Skip Line</strong></td><td>4.5m painted / 9m gap on arterials · 3m/6m on local roads</td><td>Ashghal RDM 2023</td></tr>' +
+'<tr><td><strong>Stop Line</strong></td><td>Width 300mm · White · Set back 1.5m from kerb</td><td>Ashghal TCD Manual</td></tr>' +
+'<tr><td><strong>Pedestrian Crossing</strong></td><td>Ladder/Zebra · Width ≥ 2.5m · 500mm white stripes</td><td>QCS 2024 §S6-P5</td></tr>' +
+'</table>' +
+'<h4 style="font-size:13px;color:var(--gold);margin:14px 0 10px;">🚦 Traffic Signs</h4>' +
+'<table class="dm-table"><tr><th>Sign Type</th><th>Requirement</th><th>Reference</th></tr>' +
+'<tr><td><strong>Regulatory Signs</strong></td><td>Red border · Retroreflective Class 2 · Pole height 2.2m min</td><td>Ashghal TCD Manual</td></tr>' +
+'<tr><td><strong>Warning Signs</strong></td><td>Yellow background · Black border · Diamond shape</td><td>Ashghal TCD Manual</td></tr>' +
+'<tr><td><strong>Variable Message Signs</strong></td><td>LED · Visibility ≥ 300m · Connected to TMC</td><td>Ashghal ITS Spec</td></tr>' +
+'<tr><td><strong>Street Name Signs</strong></td><td>Bilingual Arabic/English · Blue background · Reflective</td><td>Ashghal Standard</td></tr>' +
+'</table>' +
+'<h4 style="font-size:13px;color:var(--gold);margin:14px 0 10px;">🏎️ Speed Humps & Cushions</h4>' +
+'<table class="dm-table"><tr><th>Type</th><th>Dimensions</th><th>Max Speed</th><th>Reference</th></tr>' +
+'<tr><td>Speed Hump</td><td>Height 100mm · Width 3.7m</td><td>30 km/h zone</td><td>Ashghal RDM 2023</td></tr>' +
+'<tr><td>Speed Cushion</td><td>Height 75mm · Width 1.8m</td><td>40 km/h zone</td><td>Ashghal RDM 2023</td></tr>' +
+'<tr><td>Raised Table</td><td>Height 100mm · Min length 6m</td><td>Pedestrian priority</td><td>Ashghal TCD</td></tr>' +
+'</table>' +
+'<h4 style="font-size:13px;color:var(--gold);margin:14px 0 10px;">🚌 Bus Bays & Lay-bys</h4>' +
+'<table class="dm-table"><tr><th>Item</th><th>Requirement</th><th>Reference</th></tr>' +
+'<tr><td><strong>Bay Length</strong></td><td>Min 15m · 20m for articulated buses</td><td>Ashghal RDM 2023</td></tr>' +
+'<tr><td><strong>Shelter</strong></td><td>Min 5m × 1.5m · Accessible · Shaded</td><td>Ashghal Bus Shelter Std.</td></tr>' +
+'<tr><td><strong>Kerb Ramp</strong></td><td>Max 1:12 gradient · Tactile strip</td><td>Qatar Accessibility Code</td></tr>' +
+'</table>' +
 '</div>' +
 
 '<h3>\u{1F3AF} علامات الطرق — Road Markings</h3>' +
@@ -3478,6 +3631,42 @@ c["house_connections"] = {
 '<div class="ref-header" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:rgba(122,21,21,0.08);border:1px solid rgba(122,21,21,0.3);border-radius:10px;">' +
 '  <span class="ref-badge" style="background:rgba(122,21,21,0.2);color:#7A1515;border:1px solid rgba(122,21,21,0.4);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;">QCS 2024 §S20-P3</span>' +
 '  <span class="ref-section" style="color:var(--text2);font-size:12px;">وصلات مياه | صرف | منهولات | ردم | اختبارات</span>' +
+'</div>' +
+'<div class="lang-content-en" style="display:none;">' +
+'<div class="ref-header" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:rgba(41,128,185,0.08);border:1px solid rgba(41,128,185,0.3);border-radius:10px;">' +
+'  <span class="ref-badge" style="background:rgba(41,128,185,0.2);border:1px solid rgba(41,128,185,0.4);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;">QCS 2024 §S20-P3</span>' +
+'  <span style="color:var(--text2);font-size:12px;">Water | Sewer | Manholes | Backfill | Testing</span>' +
+'</div>' +
+'<h4 style="font-size:13px;color:var(--gold);margin-bottom:10px;">💧 Water House Connections</h4>' +
+'<table class="dm-table"><tr><th>Item</th><th>Requirement</th><th>Reference</th></tr>' +
+'<tr><td><strong>Pipe Material</strong></td><td>HDPE PE100 PN16 · DN 25–63mm per consumption</td><td>KAHRAMAA 2024 §W3</td></tr>' +
+'<tr><td><strong>Cover Depth</strong></td><td>≥ 600mm under footway · ≥ 900mm under roadway</td><td>KAHRAMAA 2024</td></tr>' +
+'<tr><td><strong>Valve Box</strong></td><td>Screwdown stop-cock + surface box · 200mm from boundary</td><td>KAHRAMAA 2024</td></tr>' +
+'<tr><td><strong>Meter Location</strong></td><td>Inside property boundary · Accessible for reading</td><td>KAHRAMAA Installation Std.</td></tr>' +
+'<tr><td><strong>Pressure Test</strong></td><td>1.5 × PN for 1 hour · Max drop 20 kPa</td><td>KAHRAMAA 2024 §W5</td></tr>' +
+'</table>' +
+'<h4 style="font-size:13px;color:var(--gold);margin:14px 0 10px;">🚽 Sewer House Connections</h4>' +
+'<table class="dm-table"><tr><th>Item</th><th>Requirement</th><th>Reference</th></tr>' +
+'<tr><td><strong>Pipe Material</strong></td><td>uPVC SDR34 SN8 · Min DN 100mm</td><td>QCS 2024 §S20-P3</td></tr>' +
+'<tr><td><strong>Min Gradient</strong></td><td>1:40 (2.5%) for DN 100 · 1:60 for DN 150</td><td>QCS 2024 §S8-P16</td></tr>' +
+'<tr><td><strong>Inspection Chamber</strong></td><td>At every change of direction · Max 12m spacing</td><td>QCS 2024 §S20</td></tr>' +
+'<tr><td><strong>Connection to Main</strong></td><td>45° oblique saddle · No benching reduction</td><td>QCS 2024 §S20-P3</td></tr>' +
+'<tr><td><strong>Air Test</strong></td><td>100mm WG for 5 minutes · Max drop 25mm WG</td><td>QCS 2024 §S20-P3</td></tr>' +
+'</table>' +
+'<h4 style="font-size:13px;color:var(--gold);margin:14px 0 10px;">🔲 Manholes</h4>' +
+'<table class="dm-table"><tr><th>Item</th><th>Requirement</th><th>Reference</th></tr>' +
+'<tr><td><strong>Max Spacing</strong></td><td>120m on straight · 60m on curves · At all junctions</td><td>QCS 2024 §S8-P16</td></tr>' +
+'<tr><td><strong>Internal Diameter</strong></td><td>Min 1.2m for depths &gt;1.5m · 0.9m for shallow</td><td>QCS 2024 §S8</td></tr>' +
+'<tr><td><strong>Frame &amp; Cover</strong></td><td>D400 (40T) in roadway · C250 in footway · Locking type</td><td>BS EN 124</td></tr>' +
+'<tr><td><strong>Precast Concrete</strong></td><td>C40/50 · Sulfate resistant cement (SRPC)</td><td>QCS 2024 §S20</td></tr>' +
+'</table>' +
+'<h4 style="font-size:13px;color:var(--gold);margin:14px 0 10px;">🪨 Backfill Requirements</h4>' +
+'<table class="dm-table"><tr><th>Zone</th><th>Material</th><th>Compaction</th><th>Reference</th></tr>' +
+'<tr><td>Pipe Bedding</td><td>Selected granular · Max 20mm</td><td>Not required</td><td>QCS 2024 §S20</td></tr>' +
+'<tr><td>Haunching</td><td>Selected granular</td><td>Hand compact</td><td>QCS 2024 §S20</td></tr>' +
+'<tr><td>Initial Backfill (to 300mm above pipe)</td><td>Selected excavated material</td><td>≥ 90% MDD</td><td>QCS 2024 §S20</td></tr>' +
+'<tr><td>General Backfill</td><td>Approved fill or 1:8 lean mix</td><td>≥ 95% MDD</td><td>Ashghal Standard</td></tr>' +
+'</table>' +
 '</div>' +
 
 '<h3>\u{1F4A7} وصلات المياه المنزلية — Water House Connections</h3>' +
@@ -3560,6 +3749,34 @@ c["payment_cert"] = {
 '      <option value="frontload">تحميل أمامي</option>' +
 '    </select></div>' +
 '</div>' +
+'<div class="lang-content-en" style="display:none;">' +
+'<div class="ref-header" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.3);border-radius:10px;">' +
+'  <span class="ref-badge" style="background:rgba(39,174,96,0.2);border:1px solid rgba(39,174,96,0.4);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;">FIDIC 2017 Cl.14</span>' +
+'  <span style="color:var(--text2);font-size:12px;">IPC | Retention | Cash Flow | S-Curve</span>' +
+'</div>' +
+'<h4 style="font-size:13px;color:var(--gold);margin-bottom:10px;">📊 Interim Payment Certificate (IPC) Calculator</h4>' +
+'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">' +
+'<div><label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">💵 Contract Value (QAR)</label><input id="pc-val-en" type="number" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-size:12px;" placeholder="10000000"></div>' +
+'<div><label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">📅 Duration (months)</label><input id="pc-dur-en" type="number" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-size:12px;" placeholder="24"></div>' +
+'<div><label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">🔒 Retention %</label><input id="pc-ret-en" type="number" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-size:12px;" placeholder="5"></div>' +
+'<div><label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">📊 Progress Distribution</label>' +
+'<select id="pc-dist-en" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-size:12px;">' +
+'<option value="linear">Linear (Equal monthly)</option>' +
+'<option value="scurve">S-Curve (Typical construction)</option>' +
+'<option value="frontend">Front-loaded</option>' +
+'</select></div>' +
+'<div><label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">📈 This Month Progress %</label><input id="pc-prog-en" type="number" style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-size:12px;" placeholder="65"></div>' +
+'</div>' +
+'<button onclick="calcPaymentCert()" style="width:100%;background:linear-gradient(135deg,#27ae60,#219a52);border:none;border-radius:10px;padding:12px;color:#fff;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:12px;">💰 Calculate IPC</button>' +
+'<div id="pc-result-en" style="display:none;"></div>' +
+'<table class="dm-table" style="margin-top:10px;"><tr><th>FIDIC Term</th><th>Clause</th><th>Description</th></tr>' +
+'<tr><td>Interim Payment Certificate</td><td>Cl.14.6</td><td>Within 28 days of statement submission</td></tr>' +
+'<tr><td>Retention Money</td><td>Cl.14.9</td><td>5% max · Released 50% at TOC + 50% at end of Defects Period</td></tr>' +
+'<tr><td>Advance Payment</td><td>Cl.14.2</td><td>Typically 10–15% · Bank Guarantee required</td></tr>' +
+'<tr><td>Final Payment Certificate</td><td>Cl.14.13</td><td>Within 56 days of Final Statement</td></tr>' +
+'<tr><td>Defects Notification Period</td><td>Cl.11</td><td>365 days (Qatar standard per Ashghal)</td></tr>' +
+'</table>' +
+'</div>' +
 '<button onclick="window._runPaymentCalc()" style="width:100%;padding:12px;background:linear-gradient(135deg,#c9a84c,#b8941e);border:none;border-radius:10px;color:#000;font-weight:700;font-size:14px;cursor:pointer;font-family:Tajawal,sans-serif;">' +
 '\u{1F4B0} احسب شهادات الدفع</button>' +
 '<div id="pc-result" style="margin-top:16px;"></div>' +
@@ -3620,6 +3837,28 @@ c["schedule_gen"] = {
 '<div class="ref-header" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:rgba(142,68,173,0.08);border:1px solid rgba(142,68,173,0.3);border-radius:10px;">' +
 '  <span class="ref-badge" style="background:rgba(142,68,173,0.2);color:#8e44ad;border:1px solid rgba(142,68,173,0.4);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;">CPM / Gantt</span>' +
 '  <span class="ref-section" style="color:var(--text2);font-size:12px;">الجدول الزمني | المسار الحرج | Gantt Chart</span>' +
+'</div>' +
+'<div class="lang-content-en" style="display:none;">' +
+'<div class="ref-header" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:rgba(142,68,173,0.08);border:1px solid rgba(142,68,173,0.3);border-radius:10px;">' +
+'  <span style="color:var(--text2);font-size:12px;">Programme | Critical Path | Gantt Chart</span>' +
+'</div>' +
+'<h4 style="font-size:13px;color:var(--gold);margin-bottom:6px;">📊 Project Schedule Generator</h4>' +
+'<p style="font-size:12px;color:var(--text2);margin-bottom:12px;">Enter activities and the Critical Path and float will be calculated automatically.</p>' +
+'<div id="sched-activities-en" style="margin-bottom:10px;max-height:250px;overflow-y:auto;"></div>' +
+'<div style="display:flex;gap:8px;margin-bottom:10px;">' +
+'<button onclick="addSchedActivity()" style="flex:1;background:rgba(52,152,219,.15);border:1px solid rgba(52,152,219,.4);border-radius:8px;padding:8px;color:#3498db;font-size:12px;cursor:pointer;">➕ Add Activity</button>' +
+'<button onclick="calcSchedule()" style="flex:1;background:linear-gradient(135deg,#8e44ad,#7d3c98);border:none;border-radius:8px;padding:8px;color:#fff;font-weight:700;font-size:12px;cursor:pointer;">📅 Calculate Schedule</button>' +
+'</div>' +
+'<div id="sched-gantt-en" style="display:none;overflow-x:auto;margin-top:10px;"></div>' +
+'<div id="sched-critical-en" style="display:none;margin-top:8px;padding:10px;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;font-size:11px;"></div>' +
+'<div style="margin-top:12px;padding:10px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;font-size:11px;">' +
+'<strong>Key Terms:</strong><br>' +
+'• <strong>Critical Path</strong> — Longest path; any delay = project delay<br>' +
+'• <strong>Float (Slack)</strong> — Activity delay without affecting completion<br>' +
+'• <strong>Early Start (ES)</strong> — Earliest activity can begin<br>' +
+'• <strong>Late Finish (LF)</strong> — Latest activity can finish without delay<br>' +
+'• <strong>Baseline Schedule</strong> — Approved schedule per FIDIC Cl.8.3' +
+'</div>' +
 '</div>' +
 
 '<h3>\u{1F4CA} مولّد البرنامج الزمني — Schedule Generator</h3>' +
