@@ -1,4 +1,10 @@
+import { withRateLimit } from './rate-limit.js';
+
 export default async function handler(req, res) {
+  // PROTOCOL 6: rate limit
+  const tier = req.headers['x-pro-token'] ? 'pro' : 'free';
+  if (!(await withRateLimit(req, res, tier))) return;
+
   const KEY = process.env.GEMINI_API_KEY;
   if (!KEY) return res.status(500).json({ error: 'No GEMINI_API_KEY' });
   

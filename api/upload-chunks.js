@@ -1,6 +1,7 @@
 // POST /api/upload-chunks { admin_secret, batch_start, batch_size }
 // Reads from data/qcs-chunks-full.json and uploads to Supabase qcs_chunks
 import { getSupabaseUrl, getSupabaseServiceKey } from '../lib/supabase.js';
+import { withRateLimit } from './rate-limit.js';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
@@ -19,6 +20,9 @@ function loadChunks() {
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
+
+  // PROTOCOL 6: rate limit — admin endpoint
+  if (!(await withRateLimit(req, res, 'pro'))) return;
 
   const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body || {};
   if (body.admin_secret !== process.env.ADMIN_SECRET) {

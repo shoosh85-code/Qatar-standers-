@@ -1,4 +1,5 @@
 import https from 'https';
+import { withRateLimit } from './rate-limit.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -6,6 +7,10 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  // PROTOCOL 6: rate limit — git-sync حساس جداً (free: 2/min, pro: 10/min)
+  const tier = req.headers['x-pro-token'] ? 'pro' : 'free';
+  if (!(await withRateLimit(req, res, tier))) return;
 
   try {
     const { filename, content, message } = req.body;
