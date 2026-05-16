@@ -165,5 +165,10 @@ window.QS_CONTENT_MAP = {
   "water_supply_stages_detail": "data_content_utilities.js",
   "sewer_stages_detail": "data_content_utilities.js",
   "storm_stages_detail": "data_content_utilities.js",
-  "treated_stages_detail": "data_content_utilities.js"
+  "treated_stages_detail": "data_content_utilities.js",
+  "buildings_towers": "data_content_extra.js",
+  "road_markings": "data_content_extra.js",
+  "house_connections": "data_content_extra.js",
+  "payment_cert": "data_content_extra.js",
+  "schedule_gen": "data_content_extra.js"
 };
