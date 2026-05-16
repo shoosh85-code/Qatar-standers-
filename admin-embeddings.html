@@ -28,13 +28,46 @@ button:disabled { opacity:0.5; cursor:not-allowed; }
   <label>ADMIN_SECRET (من Vercel Environment Variables)</label>
   <input type="password" id="secret" placeholder="أدخل ADMIN_SECRET هنا">
   
-  <button id="btn" onclick="startGeneration()">🚀 ابدأ التوليد</button>
+  <button id="btn" onclick="startGeneration()">🚀 ابدأ التوليد (Embeddings)</button>
+  <button onclick="uploadChunks()" style="width:100%;padding:10px;margin-top:8px;background:#0F6E56;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700;">📤 رفع 3,485 chunk إلى Supabase</button>
   <button onclick="checkModels()" style="width:100%;padding:10px;margin-top:8px;background:#333;color:#C9A84C;border:1px solid #555;border-radius:8px;cursor:pointer;font-size:13px;">🔍 اكتشف الموديلات المتاحة</button>
   
   <div id="log"></div>
 </div>
 
 <script>
+async function uploadChunks() {
+  var secret = document.getElementById('secret').value.trim();
+  if (!secret) { alert('أدخل ADMIN_SECRET أولاً'); return; }
+  log.style.display = 'block';
+  
+  addLog('🗑️ حذف البيانات القديمة...', 'info');
+  try {
+    var r = await fetch('/api/upload-chunks', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({admin_secret: secret, action: 'reset'})
+    });
+    var d = await r.json();
+    addLog('✅ ' + (d.message || JSON.stringify(d)), 'ok');
+  } catch(e) { addLog('❌ ' + e.message, 'err'); return; }
+  
+  addLog('📤 بدء رفع 3,485 chunk...', 'info');
+  var start = 0;
+  for (var round = 1; round <= 50; round++) {
+    try {
+      var r2 = await fetch('/api/upload-chunks', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({admin_secret: secret, batch_start: start, batch_size: 100})
+      });
+      var d2 = await r2.json();
+      if (d2.error) { addLog('❌ ' + d2.error, 'err'); return; }
+      addLog('✅ رفع ' + d2.uploaded + ' | متبقي: ' + d2.remaining, 'ok');
+      if (d2.remaining === 0) { addLog('🎉 اكتمل! كل الـ chunks مرفوعة', 'ok'); return; }
+      start = d2.next_start;
+    } catch(e) { addLog('❌ ' + e.message, 'err'); return; }
+  }
+}
+
 async function checkModels() {
   var secret = document.getElementById('secret').value.trim();
   if (!secret) { alert('أدخل ADMIN_SECRET أولاً'); return; }
