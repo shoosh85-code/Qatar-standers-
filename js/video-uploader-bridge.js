@@ -1,11 +1,46 @@
 /**
- * QatarSpec Pro — Video Uploader Bridge v1.0
- * يربط زر "إضافة فيديو" مع نظام js/core/video-system.js الموجود
- * يوفر QS.video.openUploader() المطلوب في الأقسام الفارغة
+ * QatarSpec Pro — Video Uploader Bridge v2.0
+ * الفيديوهات تشرح المحتوى الهندسي في كل قسم — ليس استخدام التطبيق
  */
 (function() {
   'use strict';
   window.QS = window.QS || {};
+
+  // وصف الفيديوهات لكل قسم — شرح المحتوى الهندسي
+  var sectionVideoContext = {
+    roads: {
+      ar: 'فيديوهات شرح طبقات الطرق: Subgrade، Subbase، Base Course، Prime Coat، DBM، Wearing Course',
+      en: 'Videos explaining road layers: Subgrade, Subbase, Base Course, Prime Coat, DBM, Wearing Course'
+    },
+    utilities: {
+      ar: 'فيديوهات شرح شبكات المرافق: تركيب HDPE، اختبار الضغط، CCTV، المنهولات',
+      en: 'Videos explaining utility networks: HDPE installation, pressure testing, CCTV, manholes'
+    },
+    structural: {
+      ar: 'فيديوهات شرح الخرسانة المسلحة: الصب، المعالجة، اختبارات المكعبات، وصلات التسليح',
+      en: 'Videos explaining reinforced concrete: pouring, curing, cube tests, rebar splices'
+    },
+    geotechnical: {
+      ar: 'فيديوهات شرح الجسات: حفر الجسات، اختبار SPT، أخذ عينات التربة',
+      en: 'Videos explaining geotechnical works: borehole drilling, SPT testing, soil sampling'
+    },
+    buildings: {
+      ar: 'فيديوهات شرح المباني: الهيكل الإنشائي، المصاعد، الواجهات، الحماية من الحريق',
+      en: 'Videos explaining buildings: structural system, elevators, facades, fire protection'
+    },
+    equipment: {
+      ar: 'فيديوهات شرح المعدات: الجريدر، الرولر، فارش الإسفلت، مضخة الخرسانة',
+      en: 'Videos explaining equipment: grader, roller, asphalt paver, concrete pump'
+    },
+    mep: {
+      ar: 'فيديوهات شرح MEP: التوصيلات الكهربائية، السباكة، الإطفاء، الصرف',
+      en: 'Videos explaining MEP: electrical wiring, plumbing, fire fighting, drainage'
+    },
+    calculators: {
+      ar: 'فيديوهات شرح الحاسبات: ESAL، Marshall، Pass/Fail',
+      en: 'Videos explaining calculators: ESAL, Marshall, Pass/Fail'
+    }
+  };
 
   var _counter = 0;
 
@@ -14,11 +49,14 @@
      * يفتح dialog لاختيار ملف فيديو أو لصق رابط YouTube
      * يُستدعى من onclick في .qs-video-upload-zone
      */
-    openUploader: function(zoneEl) {
+    openUploader: function(zoneEl, sectionId) {
       var lang = document.documentElement.lang || 'ar';
       var isAr = lang === 'ar';
 
-      // إنشاء modal بسيط
+      var ctx = sectionVideoContext[sectionId] || {};
+      var contextDesc = ctx[lang] || (isAr ? 'فيديو يشرح المحتوى الهندسي لهذا القسم' : 'Video explaining the engineering content of this section');
+
+      // إنشاء modal
       var overlay = document.createElement('div');
       overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:99999;display:flex;align-items:center;justify-content:center;';
 
@@ -27,7 +65,11 @@
 
       var title = document.createElement('h3');
       title.style.cssText = 'color:var(--gold,#c9a84c);margin:0 0 16px;font-family:Tajawal,sans-serif;';
-      title.textContent = isAr ? '🎬 إضافة فيديو توضيحي' : '🎬 Add Explanatory Video';
+      title.textContent = isAr ? '🎬 إضافة فيديو هندسي توضيحي' : '🎬 Add Engineering Explanation Video';
+
+      var ctxEl = document.createElement('div');
+      ctxEl.style.cssText = 'font-size:12px;color:var(--text2,#aaa);margin-bottom:16px;padding:8px;background:rgba(201,168,76,0.08);border-radius:8px;font-family:Tajawal,sans-serif;';
+      ctxEl.textContent = contextDesc;
 
       // زر اختيار ملف
       var fileBtn = document.createElement('button');
@@ -54,6 +96,7 @@
       cancelBtn.textContent = isAr ? 'إلغاء' : 'Cancel';
 
       modal.appendChild(title);
+      modal.appendChild(ctxEl);
       modal.appendChild(fileBtn);
       modal.appendChild(ytLabel);
       modal.appendChild(ytInput);
@@ -167,12 +210,16 @@
           !_dmContent.querySelector('iframe[src*="youtube"]')) {
         var lang = document.documentElement.lang || 'ar';
         var isAr = lang === 'ar';
+        // استخراج معرّف القسم من data-section أو class
+        var sectionId = (_dmContent.getAttribute('data-section') ||
+          (_dmContent.closest('[data-section]') || {}).getAttribute('data-section') || 'general');
         var zone = document.createElement('div');
         zone.className = 'qs-video-upload-zone';
-        zone.onclick = function() { window.QS.video.openUploader(zone); };
+        zone.setAttribute('data-section', sectionId);
+        zone.onclick = (function(s){ return function() { window.QS.video.openUploader(zone, s); }; })(sectionId);
         zone.style.cssText = 'border:2px dashed rgba(201,168,76,0.3);border-radius:12px;padding:40px;text-align:center;cursor:pointer;margin:20px 0;';
         zone.innerHTML = '<div style="font-size:40px;">🎬</div>' +
-          '<p style="color:var(--text2);font-family:Tajawal,sans-serif;">' + (isAr ? 'أضف فيديو توضيحي' : 'Add explanatory video') + '</p>' +
+          '<p style="color:var(--text2);font-family:Tajawal,sans-serif;">' + (isAr ? 'أضف فيديو هندسي توضيحي' : 'Add engineering explanation video') + '</p>' +
           '<p style="color:var(--text3);font-size:12px;">MP4, YouTube link</p>';
         _dmContent.appendChild(zone);
       }

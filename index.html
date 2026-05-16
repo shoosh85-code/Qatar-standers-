@@ -259,8 +259,8 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 .cat-badge.pro { background:linear-gradient(135deg,var(--maroon),var(--gold)); color:#fff; }
 .card-bullets { display:flex; flex-direction:column; gap:3px; margin:8px 0 6px; }
 .card-bullets span { font-size:11px; color:var(--text2); line-height:1.4; direction:ltr; text-align:left; }
-html[lang="ar"] .card-bullets span { direction:ltr; text-align:right; unicode-bidi:embed; }
-html[lang="en"] .card-bullets span { direction:ltr; text-align:left; }
+html[lang="ar"] .card-bullets span { direction:rtl; text-align:right; font-family:'Tajawal','Cairo',sans-serif; }
+html[lang="en"] .card-bullets span { direction:ltr; text-align:left; font-family:'Segoe UI',sans-serif; }
 .cat-card h3.cat-name { font-size:14px; margin:4px 0 2px; font-weight:700; color:var(--text); font-family:'Cairo',sans-serif; }
 
 .specs-section { margin-top:8px; }
