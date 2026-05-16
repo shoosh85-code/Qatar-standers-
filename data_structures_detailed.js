@@ -1019,7 +1019,7 @@
     
     details += '<div class="calc-result-action">' + (overallPass ? 
       '✅ يمكن المتابعة للطبقة التالية | QCS 2024 S3 P2' : 
-      '❌ ' + (!pass ? 'الدمك < 95% — أعد الدك' : 'الرطوبة خارج النطاق — اضبط MC') + '</div>';
+      '❌ ' + (!pass ? 'الدمك < 95% — أعد الدك' : 'الرطوبة خارج النطاق — اضبط MC')) + '</div>';
     
     detailsEl.innerHTML = details;
   };
