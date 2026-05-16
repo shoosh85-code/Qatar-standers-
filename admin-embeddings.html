@@ -29,11 +29,28 @@ button:disabled { opacity:0.5; cursor:not-allowed; }
   <input type="password" id="secret" placeholder="أدخل ADMIN_SECRET هنا">
   
   <button id="btn" onclick="startGeneration()">🚀 ابدأ التوليد</button>
+  <button onclick="checkModels()" style="width:100%;padding:10px;margin-top:8px;background:#333;color:#C9A84C;border:1px solid #555;border-radius:8px;cursor:pointer;font-size:13px;">🔍 اكتشف الموديلات المتاحة</button>
   
   <div id="log"></div>
 </div>
 
 <script>
+async function checkModels() {
+  var secret = document.getElementById('secret').value.trim();
+  if (!secret) { alert('أدخل ADMIN_SECRET أولاً'); return; }
+  log.style.display = 'block';
+  addLog('🔍 جاري البحث عن موديلات Embedding المتاحة...', 'info');
+  try {
+    var res = await fetch('/api/generate-embeddings', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({admin_secret: secret, action: 'list_models'})
+    });
+    var data = await res.json();
+    addLog('📋 الناتج: ' + JSON.stringify(data), 'ok');
+  } catch(e) { addLog('❌ ' + e.message, 'err'); }
+}
+
 var log = document.getElementById('log');
 var btn = document.getElementById('btn');
 

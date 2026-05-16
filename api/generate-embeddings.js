@@ -26,12 +26,25 @@ export default async function handler(req, res) {
   if (!adminSecret || bodyData.admin_secret !== adminSecret) {
     return res.status(403).json({ error: 'Forbidden — admin_secret required' });
   }
+  const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+
+  // List available models action
+  if (bodyData.action === 'list_models') {
+    try {
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${GEMINI_API_KEY}`);
+      const data = await r.json();
+      const embModels = (data.models || [])
+        .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('embedContent'))
+        .map(m => m.name);
+      return res.json({ embedding_models: embModels, total_models: data.models?.length || 0 });
+    } catch(e) { return res.status(500).json({ error: e.message }); }
+  }
+
   const batch_size = parseInt(bodyData.batch_size || 50);
   const offset = parseInt(bodyData.offset || 0);
 
   const SUPA_URL = getSupabaseUrl();
   const SUPA_KEY = getSupabaseServiceKey();
-  const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
   if (!SUPA_URL || !SUPA_KEY || !GEMINI_API_KEY) {
     return res.status(503).json({ error: 'Missing env vars' });
