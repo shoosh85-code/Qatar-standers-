@@ -3609,3 +3609,89 @@ c["payment_cert"] = {
 };
 
 })();
+
+// ═══ Schedule Generator Content — Phase 8 ═══
+(function(){
+  var c = window.QS_CONTENT = window.QS_CONTENT || {};
+
+c["schedule_gen"] = {
+  title: '\u{1F4C5} البرنامج الزمني للمشروع — Project Schedule Generator',
+  content: '<div class="lang-content-ar">' +
+'<div class="ref-header" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:rgba(142,68,173,0.08);border:1px solid rgba(142,68,173,0.3);border-radius:10px;">' +
+'  <span class="ref-badge" style="background:rgba(142,68,173,0.2);color:#8e44ad;border:1px solid rgba(142,68,173,0.4);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;">CPM / Gantt</span>' +
+'  <span class="ref-section" style="color:var(--text2);font-size:12px;">الجدول الزمني | المسار الحرج | Gantt Chart</span>' +
+'</div>' +
+
+'<h3>\u{1F4CA} مولّد البرنامج الزمني — Schedule Generator</h3>' +
+'<div style="margin-bottom:12px;font-size:12px;color:var(--text2);">أدخل الأنشطة وسيُحسب المسار الحرج والفائض تلقائياً</div>' +
+
+'<div id="sched-activities" style="margin-bottom:12px;"></div>' +
+'<button onclick="window._addSchedActivity()" style="padding:8px 16px;background:rgba(201,168,76,0.15);border:1px solid var(--gold);border-radius:8px;color:var(--gold);font-size:12px;cursor:pointer;margin-bottom:12px;font-family:Tajawal,sans-serif;">+ \u{2795} إضافة نشاط</button>' +
+
+'<button onclick="window._runSchedule()" style="width:100%;padding:12px;background:linear-gradient(135deg,#8e44ad,#6c3483);border:none;border-radius:10px;color:#fff;font-weight:700;font-size:14px;cursor:pointer;font-family:Tajawal,sans-serif;">\u{1F4C5} احسب البرنامج الزمني</button>' +
+
+'<div id="sched-gantt" style="margin-top:16px;"></div>' +
+'<div id="sched-table" style="margin-top:16px;"></div>' +
+
+'<script>' +
+'var _schedCount = 0;' +
+'window._addSchedActivity = function() {' +
+'  _schedCount++;' +
+'  var container = document.getElementById("sched-activities");' +
+'  var row = document.createElement("div");' +
+'  row.style.cssText = "display:grid;grid-template-columns:40px 1fr 60px 1fr;gap:6px;margin-bottom:6px;align-items:center;";' +
+'  row.id = "sched-row-" + _schedCount;' +
+'  row.innerHTML = ' +
+'    "<span style=\\"font-size:11px;color:var(--gold);font-weight:700;\\">A" + _schedCount + "</span>" +' +
+'    "<input type=\\"text\\" id=\\"sn-" + _schedCount + "\\" placeholder=\\"اسم النشاط\\" style=\\"padding:6px;border:1px solid var(--border);border-radius:6px;background:var(--dark3);color:var(--text1);font-size:12px;\\">" +' +
+'    "<input type=\\"number\\" id=\\"sd-" + _schedCount + "\\" placeholder=\\"أيام\\" min=\\"1\\" style=\\"padding:6px;border:1px solid var(--border);border-radius:6px;background:var(--dark3);color:var(--text1);font-size:12px;text-align:center;\\">" +' +
+'    "<input type=\\"text\\" id=\\"sp-" + _schedCount + "\\" placeholder=\\"سابق (مثل A1,A2)\\" style=\\"padding:6px;border:1px solid var(--border);border-radius:6px;background:var(--dark3);color:var(--text1);font-size:12px;\\">";' +
+'  container.appendChild(row);' +
+'};' +
+
+'window._runSchedule = function() {' +
+'  var activities = [];' +
+'  for (var i = 1; i <= _schedCount; i++) {' +
+'    var nameEl = document.getElementById("sn-" + i);' +
+'    var durEl = document.getElementById("sd-" + i);' +
+'    var predEl = document.getElementById("sp-" + i);' +
+'    if (!nameEl || !durEl) continue;' +
+'    var name = nameEl.value.trim() || ("Activity " + i);' +
+'    var dur = parseInt(durEl.value) || 0;' +
+'    if (dur <= 0) continue;' +
+'    var preds = predEl.value.trim() ? predEl.value.trim().split(",").map(function(s){return s.trim();}) : [];' +
+'    activities.push({id: "A" + i, name: name, duration: dur, predecessors: preds});' +
+'  }' +
+'  if (activities.length === 0) {' +
+'    document.getElementById("sched-gantt").innerHTML = "<div style=\\"color:#dc3545;padding:10px;\\">\\u274C أضف أنشطة أولاً</div>"; return;' +
+'  }' +
+'  if (window.QS && window.QS.schedule) {' +
+'    var result = window.QS.schedule.calculateCPM(activities);' +
+'    var lang = document.documentElement.lang || "ar";' +
+'    window.QS.schedule.renderGantt(result, "sched-gantt", lang);' +
+'    document.getElementById("sched-table").innerHTML = window.QS.schedule.renderCPMTable(result, lang);' +
+'  }' +
+'};' +
+
+'setTimeout(function(){' +
+'  for(var i=0;i<5;i++) window._addSchedActivity();' +
+'}, 300);' +
+'<\/script>' +
+
+'<h3 style="margin-top:24px;">CPM — Critical Path Method</h3>' +
+'<table class="dm-table">' +
+'<tr><th>المفهوم</th><th>الوصف</th></tr>' +
+'<tr><td><strong>ES (Early Start)</strong></td><td>أبكر وقت يمكن أن يبدأ فيه النشاط</td></tr>' +
+'<tr><td><strong>EF (Early Finish)</strong></td><td>أبكر وقت ينتهي فيه النشاط = ES + Duration</td></tr>' +
+'<tr><td><strong>LS (Late Start)</strong></td><td>آخر وقت يمكن أن يبدأ فيه النشاط بدون تأخير المشروع</td></tr>' +
+'<tr><td><strong>LF (Late Finish)</strong></td><td>آخر وقت ينتهي فيه النشاط = LS + Duration</td></tr>' +
+'<tr><td><strong>Total Float (TF)</strong></td><td>الفائض = LS - ES · إذا = 0 فالنشاط حرج</td></tr>' +
+'<tr><td><strong>Critical Path</strong></td><td>أطول مسار في الشبكة · أي تأخير فيه يؤخر المشروع كاملاً</td></tr>' +
+'</table>' +
+
+'<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:10px;padding:12px;margin-top:16px;font-size:12px;">' +
+'\u26A0\uFE0F <strong>تنبيه:</strong> هذه أداة تقدير مبسطة. للمشاريع الكبيرة استخدم Primavera P6 أو MS Project مع مراجعة المهندس.' +
+'</div></div>'
+};
+
+})();
