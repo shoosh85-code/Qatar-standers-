@@ -1445,70 +1445,70 @@ Passing 0.075mm: <strong>5 – 20%</strong>
 <div class="lang-content-ar">
 <div style="margin:12px 0;background:rgba(0,0,0,0.3);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
 <div style="padding:10px 12px;background:rgba(201,168,76,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 Prime Coat — Execution & Testing</span>
+<span style="color:var(--gold);font-weight:700;font-size:13px;">🎥 طلاء التمهيد (Prime Coat) — التنفيذ والاختبار</span>
 <button onclick="document.getElementById('vid-prime-new').click()" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;">📤 رفع فيديو</button>
 </div>
 <input type="file" id="vid-prime-new" accept="video/*" style="display:none" data-player="vid-prime-new-p" data-ph="vid-prime-new-ph" onchange="loadLocalVideo(this, this.getAttribute('data-player'), this.getAttribute('data-ph'))">
-<div id="vid-prime-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 Upload video MP4/MOV — saved for the session</div>
+<div id="vid-prime-new-ph" style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">📹 رفع فيديو MP4/MOV — محفوظ للجلسة الحالية</div>
 <div id="vid-prime-new-p" class="qs-vid-ph" data-maxh="260px"></div>
 </div>
 
-<h3>📐 Prime Coat Definition — QCS S6 P5 Cl. 5.3</h3>
-<p>Prime Coat is the application of diluted bitumen on the compacted Road Base surface before laying the first asphalt layer. Its purpose: binding Base Course surface particles, dust prevention, and providing adhesion between the granular layerة وطبقة الإسفلت. يُنفَّذ بمادة MC-30 أو MC-70 (Medium Curing Cutback Bitumen). يُمنع فرش الإسفلت بدون Prime Coat معتمد.</p>
+<h3>📐 تعريف طلاء التمهيد (Prime Coat) — QCS S6 P5 Cl. 5.3</h3>
+<p>طلاء التمهيد (Prime Coat) هو تطبيق طبقة رقيقة من البيتومين المخفف على سطح طبقة الأساس (Road Base) المدموكة والمعتمدة قبل فرش الطبقة الإسفلتية الأولى. أهدافه: ربط حبيبات سطح طبقة الأساس، منع الغبار، وتوفير التصاق جيد بين الطبقة الحبيبية وطبقة الإسفلت. يُنفَّذ بمادة MC-30 أو MC-70 (Medium Curing Cutback Bitumen). يُمنع فرش الإسفلت بدون طلاء تمهيد معتمد.</p>
 
-<h3>⚠️ Rejection Conditions — QCS S6 P5</h3>
+<h3>⚠️ حالات الرفض — QCS S6 P5</h3>
 <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin:10px 0;font-size:12px;">
-<strong>Prime Coat is rejected in the following cases:</strong><br>
-• Spraying on wet Base or with standing water<br>
-• Spraying on unapproved Base (HP not accepted)<br>
-• Surface temperature &lt; 10°C or during rain<br>
-• Application rate below 0.8 L/m² or above 1.2 L/m²<br>
-• Bitumen penetration < 5mm into surface<br>
-• Insufficient curing period (24–48 hours)<br>
-• Presence of pooling patches or bare spots<br>
-• Use of expired or non-conforming materials
+<strong>يُرفض طلاء التمهيد في الحالات التالية:</strong><br>
+• الرش على أساس رطب أو به مياه راكدة<br>
+• الرش على أساس غير معتمد (HP لم يُقبل)<br>
+• درجة حرارة السطح أقل من 10°C أو أثناء المطر<br>
+• معدل الرش أقل من 0.8 L/m² أو أكثر من 1.2 L/m²<br>
+• عمق اختراق البيتومين أقل من 5mm في السطح<br>
+• فترة تصلب غير كافية (أقل من 24–48 ساعة)<br>
+• وجود بقع تجمع أو مناطق بدون تغطية<br>
+• استخدام مواد منتهية الصلاحية أو غير مطابقة
 </div>
 
-<h3>📐 Material Specifications — MC-30 / MC-70</h3>
+<h3>📐 مواصفات المواد — MC-30 / MC-70</h3>
 <div style="overflow-x:auto;">
 <table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">Property</th><th>MC-30</th><th>MC-70</th><th>Test Method</th></tr>
-<tr><td><strong>Kinematic Viscosity @ 60°C</strong></td><td>30–60 cSt</td><td>70–140 cSt</td><td>ASTM D2170</td></tr>
-<tr><td><strong>Flash Point (Tag Open Cup)</strong></td><td>≥ 27°C</td><td>≥ 38°C</td><td>ASTM D3143</td></tr>
-<tr><td><strong>Distillation — to 360°C</strong></td><td>≥ 50%</td><td>≥ 55%</td><td>ASTM D402</td></tr>
-<tr><td><strong>Residue from Distillation</strong></td><td>≥ 50%</td><td>≥ 55%</td><td>ASTM D402</td></tr>
-<tr><td><strong>Penetration of Residue @ 25°C</strong></td><td>120–300</td><td>120–300</td><td>ASTM D5</td></tr>
-<tr><td><strong>Water Content</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 0.2%</td><td style="color:#2ecc71;font-weight:700;">≤ 0.2%</td><td>ASTM D95</td></tr>
+<tr style="background:rgba(122,21,21,0.9);"><th style="min-width:180px;">الخاصية</th><th>MC-30</th><th>MC-70</th><th>طريقة الاختبار</th></tr>
+<tr><td><strong>اللزوجة الحركية @ 60°C</strong></td><td>30–60 cSt</td><td>70–140 cSt</td><td>ASTM D2170</td></tr>
+<tr><td><strong>نقطة الاشتعال (Tag Open Cup)</strong></td><td>≥ 27°C</td><td>≥ 38°C</td><td>ASTM D3143</td></tr>
+<tr><td><strong>التقطير — حتى 360°C</strong></td><td>≥ 50%</td><td>≥ 55%</td><td>ASTM D402</td></tr>
+<tr><td><strong>المتبقي من التقطير</strong></td><td>≥ 50%</td><td>≥ 55%</td><td>ASTM D402</td></tr>
+<tr><td><strong>اختراق المتبقي @ 25°C</strong></td><td>120–300</td><td>120–300</td><td>ASTM D5</td></tr>
+<tr><td><strong>نسبة الماء</strong></td><td style="color:#2ecc71;font-weight:700;">≤ 0.2%</td><td style="color:#2ecc71;font-weight:700;">≤ 0.2%</td><td>ASTM D95</td></tr>
 </table></div>
 
-<h3>📐 Application Rates — QCS S6 P5</h3>
+<h3>📐 معدلات التطبيق — QCS S6 P5</h3>
 <div style="overflow-x:auto;">
 <table class="dm-table" style="font-size:11px;">
-<tr style="background:rgba(122,21,21,0.9);"><th>Parameter</th><th>Specification</th><th>Note</th></tr>
-<tr><td><strong>Application Rate</strong></td><td style="color:#2ecc71;font-weight:700;font-size:14px;">0.8 – 1.2 L/m²</td><td>Determined from Trial Section</td></tr>
-<tr><td><strong>Spray Temperature</strong></td><td><strong>MC-30:</strong> 35–60°C<br><strong>MC-70:</strong> 50–80°C</td><td>Per Viscosity-Temperature Chart</td></tr>
-<tr><td><strong>Penetration Depth</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 5mm into Base surface</td><td>Visual + Core check</td></tr>
-<tr><td><strong>Curing Time</strong></td><td><strong>24 – 48 hours minimum</strong></td><td>Until surface dries and is non-tacky</td></tr>
-<tr><td><strong>Surface Condition</strong></td><td>Dry + clean + dust-free</td><td>Sweep + air-blow before spraying</td></tr>
-<tr><td><strong>Weather</strong></td><td>No rain + surface &gt; 10°C + wind &lt; 30 km/h</td><td>Stop immediately in case of rain</td></tr>
+<tr style="background:rgba(122,21,21,0.9);"><th>المعامل</th><th>المواصفة</th><th>ملاحظة</th></tr>
+<tr><td><strong>معدل الرش</strong></td><td style="color:#2ecc71;font-weight:700;font-size:14px;">0.8 – 1.2 L/m²</td><td>يُحدَّد من القطاع التجريبي</td></tr>
+<tr><td><strong>درجة حرارة الرش</strong></td><td><strong>MC-30:</strong> 35–60°C<br><strong>MC-70:</strong> 50–80°C</td><td>حسب منحنى اللزوجة-الحرارة</td></tr>
+<tr><td><strong>عمق الاختراق</strong></td><td style="color:#2ecc71;font-weight:700;">≥ 5mm داخل سطح الأساس</td><td>فحص بصري + core</td></tr>
+<tr><td><strong>وقت التصلب</strong></td><td><strong>24 – 48 ساعة دنيا</strong></td><td>حتى يجف السطح ولا يلتصق</td></tr>
+<tr><td><strong>حالة السطح</strong></td><td>جاف + نظيف + خالٍ من الغبار</td><td>كنس + نفخ هواء قبل الرش</td></tr>
+<tr><td><strong>الطقس</strong></td><td>لا مطر + سطح &gt; 10°C + رياح &lt; 30 km/h</td><td>إيقاف فوري عند المطر</td></tr>
 </table></div>
 
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:8px;padding:10px;margin:12px 0;font-size:12px;">
-<strong>🔵 Key Notes:</strong><br>
-• <strong>Trial Section</strong> إلزامي لتحديد معدل الرش المناسب قبل العمل الفعلي<br>
-• Equipment movement on Prime Coat is prohibited before complete drying<br>
-• Any pooling areas must be sanded and re-sprayed<br>
-• Bare spots must be manually re-sprayed at the same rate<br>
-• Rain within 24 hours of spraying = redo the work
+<strong>🔵 ملاحظات مهمة:</strong><br>
+• <strong>القطاع التجريبي (Trial Section)</strong> إلزامي لتحديد معدل الرش المناسب قبل العمل الفعلي<br>
+• يُحظر تحريك المعدات على طلاء التمهيد قبل اكتمال التصلب<br>
+• مناطق التجمع يجب رملتها وإعادة رشها<br>
+• البقع الخالية يجب إعادة رشها يدوياً بنفس المعدل<br>
+• المطر خلال 24 ساعة من الرش = يجب إعادة العمل كاملاً
 </div>
 
-<h3>🔴 Hold Points</h3>
+<h3>🔴 نقاط الإيقاف الإلزامية (Hold Points)</h3>
 <table class="dm-table">
 <tr><th>HP</th><th>الشرط</th><th>التوثيق</th></tr>
-<tr><td>HP-01</td><td>Road Base approved and accepted</td><td>Base Approval Certificate</td></tr>
-<tr><td>HP-02</td><td>Prime Coat material approval (MC-30/70)</td><td>Material Certificate + Lab Test</td></tr>
-<tr><td>HP-03</td><td>Trial Section approved (rate + penetration)</td><td>Trial Section Report</td></tr>
-<tr><td>HP-04</td><td>Curing complete (24-48 hr) + dry surface</td><td>Visual Inspection + Photo Record</td></tr>
+<tr><td>HP-01</td><td>اعتماد وقبول طبقة الأساس (Road Base)</td><td>شهادة قبول الأساس</td></tr>
+<tr><td>HP-02</td><td>اعتماد مادة طلاء التمهيد (MC-30/70)</td><td>شهادة المواد + تقرير المختبر</td></tr>
+<tr><td>HP-03</td><td>اعتماد القطاع التجريبي (المعدل + الاختراق)</td><td>تقرير القطاع التجريبي</td></tr>
+<tr><td>HP-04</td><td>اكتمال التصلب (24-48 ساعة) + السطح جاف</td><td>فحص بصري + سجل صوري</td></tr>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
