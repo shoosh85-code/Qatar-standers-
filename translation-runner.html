@@ -1,239 +1,383 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head><meta charset="UTF-8"><title>QatarSpec — EN Translation Runner</title>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>QatarSpec — Arabic Translation Runner v2.0</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:monospace;background:#0a0a0a;color:#eee;padding:20px;font-size:13px}
-h1{color:#C9A84C;margin-bottom:16px;font-family:Arial}
-.card{background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:14px;margin-bottom:10px}
-button{background:#C9A84C;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:700;color:#111;font-size:13px;margin:4px}
+body{font-family:Arial,sans-serif;background:#0a0a0a;color:#eee;padding:20px;font-size:13px;direction:rtl}
+h1{color:#C9A84C;margin-bottom:16px;font-size:18px}
+.card{background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:16px;margin-bottom:12px}
+.card h3{color:#C9A84C;margin-bottom:10px;font-size:14px}
+button{background:#C9A84C;border:none;padding:10px 18px;border-radius:6px;cursor:pointer;font-weight:700;color:#111;font-size:13px;margin:4px}
 button:disabled{opacity:0.4;cursor:not-allowed}
-button.secondary{background:#333;color:#eee}
-progress{width:100%;height:16px;margin:8px 0;border-radius:4px}
-#log{height:300px;overflow-y:auto;background:#111;border:1px solid #333;border-radius:6px;padding:10px;margin-top:10px;font-size:11px}
-.ok{color:#2ecc71}.err{color:#e74c3c}.info{color:#3498db}.warn{color:#f39c12}
-textarea{width:100%;height:80px;background:#111;border:1px solid #444;color:#eee;padding:8px;border-radius:4px;font-size:11px;margin-top:6px;resize:vertical}
+button.sec{background:#333;color:#eee}
+button.grn{background:#2ecc71;color:#111}
+button.red{background:#e74c3c;color:#fff}
+progress{width:100%;height:14px;margin:8px 0;border-radius:4px;accent-color:#C9A84C}
+#log{height:250px;overflow-y:auto;background:#111;border:1px solid #2a2a2a;border-radius:6px;padding:10px;margin-top:10px;font-size:11px;font-family:monospace;direction:ltr}
+.ok{color:#2ecc71}.err{color:#e74c3c}.info{color:#3498db}.warn{color:#f39c12}.hdr{color:#9b59b6}
+input[type=text],input[type=password]{width:100%;padding:8px 10px;background:#111;border:1px solid #444;color:#eee;border-radius:4px;font-size:12px;font-family:monospace;direction:ltr}
+.stat-badge{display:inline-block;background:#222;border:1px solid #444;padding:4px 10px;border-radius:12px;font-size:12px;margin:3px}
+.stat-badge span{color:#C9A84C;font-weight:700}
+.files-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.file-item{background:#222;border:1px solid #333;border-radius:6px;padding:10px;text-align:center;cursor:pointer;transition:border-color 0.2s}
+.file-item:hover{border-color:#C9A84C}
+.file-item.selected{border-color:#C9A84C;background:rgba(201,168,76,0.1)}
+.file-item.done{border-color:#2ecc71;background:rgba(46,204,113,0.05)}
+.file-item .fname{font-size:11px;color:#C9A84C;font-weight:700}
+.file-item .fcount{font-size:10px;color:#888;margin-top:4px}
 </style>
 </head>
 <body>
-<h1>🌐 QatarSpec — Arabic→English Translation Runner</h1>
 
+<h1>🌐 QatarSpec Pro — Arabic Translation Runner v2.0</h1>
+<p style="color:#888;font-size:11px;margin-bottom:16px;">يُترجم lang-content-en إلى عربي ويضعه في lang-content-ar — QCS 2024 Engineering Terminology</p>
+
+<!-- API Key -->
 <div class="card">
-  <strong>Status:</strong> <span id="statusText">Ready</span><br><br>
+  <h3>🔑 Gemini API Key</h3>
+  <input type="password" id="apiKey" placeholder="AIza... (من aistudio.google.com/app/apikey)" />
+  <div style="color:#888;font-size:11px;margin-top:6px">المفتاح يبقى في المتصفح فقط — لا يُحفظ في أي مكان</div>
+</div>
+
+<!-- File Selection -->
+<div class="card">
+  <h3>📂 اختر الملفات للترجمة</h3>
+  <div class="files-grid" id="filesGrid">
+    <div class="file-item selected" data-file="data_content_roads.js" onclick="toggleFile(this)">
+      <div class="fname">🛣️ Roads</div>
+      <div class="fcount" id="cnt-roads">~28 قسم</div>
+    </div>
+    <div class="file-item selected" data-file="data_content_utilities.js" onclick="toggleFile(this)">
+      <div class="fname">🔧 Utilities</div>
+      <div class="fcount" id="cnt-utilities">~32 قسم</div>
+    </div>
+    <div class="file-item selected" data-file="data_content_structural.js" onclick="toggleFile(this)">
+      <div class="fname">🏗️ Structural</div>
+      <div class="fcount" id="cnt-structural">~35 قسم</div>
+    </div>
+    <div class="file-item selected" data-file="data_content_geotech.js" onclick="toggleFile(this)">
+      <div class="fname">🌍 Geotech</div>
+      <div class="fcount" id="cnt-geotech">~8 أقسام</div>
+    </div>
+    <div class="file-item selected" data-file="data_content_phase4.js" onclick="toggleFile(this)">
+      <div class="fname">⚡ Phase4</div>
+      <div class="fcount" id="cnt-phase4">~9 أقسام</div>
+    </div>
+    <div class="file-item selected" data-file="data_content_extra.js" onclick="toggleFile(this)">
+      <div class="fname">📊 Extra</div>
+      <div class="fcount" id="cnt-extra">~31 قسم</div>
+    </div>
+  </div>
+</div>
+
+<!-- Progress -->
+<div class="card">
+  <h3>📊 التقدم</h3>
+  <div>
+    <span class="stat-badge">الكلي: <span id="statTotal">0</span></span>
+    <span class="stat-badge">✅ تمت: <span id="statDone">0</span></span>
+    <span class="stat-badge">❌ فشل: <span id="statFail">0</span></span>
+    <span class="stat-badge">⏩ تخطى: <span id="statSkip">0</span></span>
+  </div>
   <progress id="prog" value="0" max="100"></progress>
-  <div id="statsText" style="color:#B0A898;font-size:12px;margin-top:4px;">0 / 0 sections</div>
+  <div id="statusText" style="color:#888;font-size:12px;">جاهز</div>
 </div>
 
+<!-- Controls -->
 <div class="card">
-  <button onclick="startTranslation()" id="startBtn">🚀 Start Full Translation</button>
-  <button onclick="downloadResult()" id="dlBtn" class="secondary" disabled>📥 Download data_content.js</button>
-  <button onclick="stopTranslation()" class="secondary">⏹ Stop</button>
+  <button onclick="startTranslation()" id="startBtn">🚀 بدء الترجمة</button>
+  <button onclick="stopTranslation()" class="red" id="stopBtn" disabled>⏹ إيقاف</button>
+  <button onclick="downloadAll()" class="grn" id="dlBtn" disabled>📥 تحميل الملفات المُترجَمة</button>
+  <button onclick="document.getElementById('log').innerHTML=''" class="sec">🗑️ مسح اللوج</button>
 </div>
 
+<!-- Log -->
 <div class="card">
-  <strong>Log:</strong>
+  <strong style="direction:ltr">Log:</strong>
   <div id="log"></div>
 </div>
 
 <script>
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
 let running = false;
-let resultContent = '';
-let translatedCount = 0;
-let totalSections = 0;
+let stats = { total: 0, done: 0, fail: 0, skip: 0 };
+let translatedFiles = {}; // filename -> new content
 
-function log(msg, cls='') {
+// ═══════════════════════════════════════════
+// UI HELPERS
+// ═══════════════════════════════════════════
+function log(msg, cls = '') {
   const d = document.getElementById('log');
-  const t = new Date().toLocaleTimeString();
+  const t = new Date().toLocaleTimeString('en');
   d.innerHTML += `<div class="${cls}">[${t}] ${msg}</div>`;
   d.scrollTop = d.scrollHeight;
 }
 
-function updateProgress(done, total) {
-  const pct = Math.round(done/Math.max(total,1)*100);
+function updateStats() {
+  document.getElementById('statTotal').textContent = stats.total;
+  document.getElementById('statDone').textContent = stats.done;
+  document.getElementById('statFail').textContent = stats.fail;
+  document.getElementById('statSkip').textContent = stats.skip;
+  const pct = stats.total > 0 ? Math.round((stats.done + stats.fail + stats.skip) / stats.total * 100) : 0;
   document.getElementById('prog').value = pct;
-  document.getElementById('statsText').textContent = `${done} / ${total} sections (${pct}%)`;
 }
 
-async function fetchDataContent() {
-  const r = await fetch('/data_content.js?v=' + Date.now());
-  return await r.text();
+function toggleFile(el) {
+  el.classList.toggle('selected');
 }
 
-function extractSections(jsContent) {
-  // Extract each section key and its full content
+function getSelectedFiles() {
+  return [...document.querySelectorAll('.file-item.selected')].map(el => el.dataset.file);
+}
+
+// ═══════════════════════════════════════════
+// CONTENT ANALYSIS
+// ═══════════════════════════════════════════
+function isEnglishDominant(html) {
+  const text = html.replace(/<[^>]+>/g, ' ');
+  const arabic = (text.match(/[\u0600-\u06FF]/g) || []).length;
+  const english = (text.match(/[a-zA-Z]/g) || []).length;
+  const total = arabic + english;
+  if (total < 30) return false;
+  return english / total > 0.4;
+}
+
+function extractSectionsNeedingTranslation(jsContent) {
   const sections = [];
-  // Matches: key: { title: 'text', content: `...` }
-  const regex = /\n  (\w+):\s*\{\s*title:\s*['`]([^'`]*)['`][,\s]*content:\s*`([\s\S]*?)`\s*\}/g;
+  
+  // Match c["key"] = { title: '...', content: `...` }
+  const secRe = /c\["([^"]+)"\]\s*=\s*\{\s*title:\s*['"]([^'"]*)['"]\s*,\s*content:\s*`([\s\S]*?)`\s*\}/g;
   let m;
-  while ((m = regex.exec(jsContent)) !== null) {
-    sections.push({
-      key: m[1],
-      title: m[2],
-      content: m[3]
-    });
+  
+  while ((m = secRe.exec(jsContent)) !== null) {
+    const key = m[1];
+    const title = m[2];
+    const sectionContent = m[3];
+    
+    // Find AR/EN block pairs
+    const pairRe = /(<div class="lang-content-ar">)([\s\S]*?)(<\/div>)\s*\n\s*(<div class="lang-content-en" style="display:none;">)([\s\S]*?)(<\/div>)/g;
+    let p;
+    
+    while ((p = pairRe.exec(sectionContent)) !== null) {
+      const arContent = p[2];
+      const enContent = p[5];
+      
+      if (isEnglishDominant(arContent) && enContent.trim().length > 50) {
+        sections.push({
+          key, title,
+          arContent, enContent,
+          fullMatch: p[0],
+          sectionStart: m.index,
+        });
+      }
+    }
   }
+  
   return sections;
 }
 
-function extractARBlock(content) {
-  const arStart = content.indexOf('class="lang-content-ar"');
-  if (arStart < 0) return '';
-  const arEnd = content.indexOf('class="lang-content-en"', arStart);
-  if (arEnd < 0) return content.slice(arStart);
-  return content.slice(arStart, arEnd);
+function applyTranslation(jsContent, originalMatch, arabicHtml) {
+  // Replace the AR block content within the full pair
+  const newBlock = originalMatch.replace(
+    /(<div class="lang-content-ar">)([\s\S]*?)(<\/div>)/,
+    `$1\n${arabicHtml}\n$3`
+  );
+  return jsContent.replace(originalMatch, newBlock);
 }
 
-function extractENBlock(content) {
-  const enStart = content.indexOf('class="lang-content-en"');
-  if (enStart < 0) return null;
-  return content.slice(enStart);
-}
+// ═══════════════════════════════════════════
+// GEMINI API
+// ═══════════════════════════════════════════
+const SYSTEM_PROMPT = `أنت مترجم هندسي متخصص في مواصفات قطر QCS 2024.
+مهمتك: ترجمة HTML هندسي من الإنجليزية إلى العربية الفصحى الهندسية.
 
-async function translateSection(key, title, arContent) {
-  const prompt = `You are a Qatar QCS 2024 engineering expert. 
-Translate this Arabic HTML engineering section to English.
-Rules:
-1. Keep EXACT same HTML structure, tables, cards, styling
-2. Keep all onclick="QS.openDetail(...)" exactly as-is
-3. Keep all CSS classes and inline styles exactly as-is  
-4. Keep all QCS references, numbers, and technical values
-5. Translate only the Arabic text to English
-6. Return ONLY the HTML content (no outer div.lang-content-en wrapper)
-7. Match the same level of detail and completeness
+قواعد صارمة:
+1. احتفظ بكل HTML tags كما هي تماماً (<h3>, <table>, <tr>, <td>, <th>, <div>, <p>, <strong>)
+2. احتفظ بكل attributes (style, class, onclick)
+3. احتفظ بالأرقام والوحدات: CBR, MPa, kN, m/km, %, mm, °C
+4. احتفظ بالمصطلحات الدولية: Marshall, Superpave, SGC, IRI, TMD, ESAL, PG Grade
+5. احتفظ بأكواد المواصفات: QCS 2024 §S8, AASHTO T315, ASTM D2172, KAHRAMAA
+6. احتفظ بالإيموجي
+7. احتفظ بـ onclick="QS.openDetail('...')" كما هي
 
-Arabic content to translate:
-${arContent.replace(/<[^>]+>/g, (tag) => tag).slice(0, 3000)}`;
+أسلوب الترجمة:
+- استخدم المصطلحات الهندسية العربية الدقيقة
+- أضف المصطلح الإنجليزي بين قوسين بعد العربي: (Compaction) → دمك (Compaction)
+- Tables: ترجم headers و cells
+- الجداول تبقى بنفس الهيكل تماماً
 
-  const r = await fetch('/api/ai-proxy', {
+أرجع HTML فقط — بدون markdown، بدون شرح، بدون backticks.`;
+
+async function callGemini(apiKey, enHtml, title) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+  
+  const body = {
+    system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+    contents: [{
+      role: 'user',
+      parts: [{ text: `سياق القسم: ${title}\n\nترجم HTML التالي إلى العربية:\n\n${enHtml}` }]
+    }],
+    generationConfig: { temperature: 0.1, maxOutputTokens: 8192 }
+  };
+  
+  const resp = await fetch(url, {
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ action: 'enhance', section_key: key, ar_content: arContent })
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
   });
   
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  const data = await r.json();
-  return data.enhanced || '';
-}
-
-function rebuildContent(originalContent, sections, translations) {
-  let result = 'window.QS_CONTENT = {\n';
-  
-  for (const s of sections) {
-    const newEN = translations[s.key];
-    let newContent = s.content;
-    
-    if (newEN) {
-      // Replace EN block
-      const enDivMarker = 'class="lang-content-en" style="display:none;">';
-      const enIdx = newContent.indexOf(enDivMarker);
-      
-      if (enIdx >= 0) {
-        const afterMarker = enIdx + enDivMarker.length;
-        // Find closing </div>
-        let closeIdx = newContent.indexOf('\n</div>', afterMarker);
-        if (closeIdx < 0) closeIdx = newContent.indexOf('</div>', afterMarker);
-        
-        if (closeIdx >= 0) {
-          newContent = newContent.slice(0, afterMarker) + '\n' + newEN.trim() + '\n' + newContent.slice(closeIdx);
-        }
-      } else {
-        // No EN block - add one after AR block
-        const arEndIdx = newContent.indexOf('</div>');
-        if (arEndIdx >= 0) {
-          const enBlock = `\n<div class="lang-content-en" style="display:none;">\n${newEN.trim()}\n</div>`;
-          newContent = newContent.slice(0, arEndIdx + 6) + enBlock + newContent.slice(arEndIdx + 6);
-        }
-      }
-    }
-    
-    result += `  ${s.key}: { title: \`${s.title}\`, content: \`${newContent}\` },\n`;
+  if (!resp.ok) {
+    const err = await resp.text();
+    throw new Error(`Gemini ${resp.status}: ${err.slice(0, 200)}`);
   }
   
-  result += '};\n';
-  return result;
+  const data = await resp.json();
+  let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  // Strip markdown wrapping if present
+  text = text.replace(/^```html?\n?/i, '').replace(/\n?```$/,'').trim();
+  return text;
 }
 
+// ═══════════════════════════════════════════
+// MAIN TRANSLATION LOOP
+// ═══════════════════════════════════════════
 async function startTranslation() {
-  running = true;
-  document.getElementById('startBtn').disabled = true;
-  document.getElementById('statusText').textContent = 'Loading data_content.js...';
-  log('Loading current data_content.js...', 'info');
+  const apiKey = document.getElementById('apiKey').value.trim();
+  if (!apiKey) { alert('أدخل Gemini API Key أولاً'); return; }
   
-  try {
-    const originalContent = await fetchDataContent();
-    log(`Loaded ${(originalContent.length/1024).toFixed(0)}KB`, 'ok');
+  const files = getSelectedFiles();
+  if (!files.length) { alert('اختر ملفاً واحداً على الأقل'); return; }
+  
+  running = true;
+  stats = { total: 0, done: 0, fail: 0, skip: 0 };
+  translatedFiles = {};
+  document.getElementById('startBtn').disabled = true;
+  document.getElementById('stopBtn').disabled = false;
+  document.getElementById('dlBtn').disabled = true;
+  
+  log(`=== بدء الترجمة: ${files.length} ملفات ===`, 'hdr');
+  
+  // Count total sections
+  for (const fname of files) {
+    try {
+      const resp = await fetch('/' + fname + '?v=' + Date.now());
+      if (!resp.ok) { log(`❌ فشل تحميل ${fname}: HTTP ${resp.status}`, 'err'); continue; }
+      const content = await resp.text();
+      const sections = extractSectionsNeedingTranslation(content);
+      stats.total += sections.length;
+      log(`📂 ${fname}: ${sections.length} قسم يحتاج ترجمة`, 'info');
+    } catch(e) {
+      log(`❌ خطأ في ${fname}: ${e.message}`, 'err');
+    }
+  }
+  
+  updateStats();
+  log(`إجمالي الأقسام: ${stats.total}`, 'info');
+  
+  // Translate each file
+  for (const fname of files) {
+    if (!running) break;
     
-    const sections = extractSections(originalContent);
-    totalSections = sections.length;
-    log(`Found ${sections.length} sections`, 'info');
+    log(`\n=== 📂 ${fname} ===`, 'hdr');
+    document.getElementById('statusText').textContent = `جارٍ معالجة: ${fname}`;
     
-    const translations = {};
-    let done = 0;
-    
-    for (const section of sections) {
-      if (!running) break;
-      
-      const arBlock = extractARBlock(section.content);
-      
-      if (!arBlock || arBlock.length < 100) {
-        log(`${section.key}: No AR content — skipping`, 'warn');
-        done++;
-        updateProgress(done, totalSections);
-        continue;
-      }
-      
-      document.getElementById('statusText').textContent = `Translating: ${section.key}...`;
-      log(`${section.key}: Translating (AR=${arBlock.length} chars)...`);
-      
-      try {
-        const enText = await translateSection(section.key, section.title, arBlock);
-        if (enText && enText.length > 100) {
-          translations[section.key] = enText;
-          log(`${section.key}: ✅ Done (${enText.length} chars)`, 'ok');
-        } else {
-          log(`${section.key}: ⚠️ Short result — keeping original`, 'warn');
-        }
-      } catch(e) {
-        log(`${section.key}: ❌ ${e.message}`, 'err');
-      }
-      
-      done++;
-      translatedCount = done;
-      updateProgress(done, totalSections);
-      
-      // Rate limit: wait 1.5s between requests
-      await new Promise(r => setTimeout(r, 1500));
+    let content;
+    try {
+      const resp = await fetch('/' + fname + '?v=' + Date.now());
+      content = await resp.text();
+    } catch(e) {
+      log(`❌ فشل تحميل ${fname}: ${e.message}`, 'err');
+      continue;
     }
     
-    // Rebuild the file
-    log('Rebuilding data_content.js...', 'info');
-    resultContent = rebuildContent(originalContent, sections, translations);
+    let modified = content;
+    const sections = extractSectionsNeedingTranslation(content);
+    let fileTranslated = 0;
     
-    log(`✅ Complete! ${Object.keys(translations).length}/${totalSections} sections translated`, 'ok');
+    for (const sec of sections) {
+      if (!running) break;
+      
+      document.getElementById('statusText').textContent = `${fname} → ${sec.key}`;
+      log(`[${sec.key}] ترجمة... (${sec.enContent.length} حرف)`, 'info');
+      
+      try {
+        const arabicHtml = await callGemini(apiKey, sec.enContent, sec.title);
+        
+        if (!arabicHtml || arabicHtml.length < 50) {
+          log(`[${sec.key}] ⚠️ ناتج قصير — تخطي`, 'warn');
+          stats.skip++;
+        } else {
+          modified = applyTranslation(modified, sec.fullMatch, arabicHtml);
+          stats.done++;
+          fileTranslated++;
+          log(`[${sec.key}] ✅ تمت (${arabicHtml.length} حرف عربي)`, 'ok');
+        }
+      } catch(e) {
+        log(`[${sec.key}] ❌ ${e.message}`, 'err');
+        stats.fail++;
+        await new Promise(r => setTimeout(r, 3000)); // Extra delay on error
+      }
+      
+      updateStats();
+      
+      // Rate limit delay (Gemini Flash: 15 req/min free tier)
+      await new Promise(r => setTimeout(r, 4200));
+    }
+    
+    if (fileTranslated > 0) {
+      translatedFiles[fname] = modified;
+      log(`💾 ${fname}: ${fileTranslated} ترجمة جاهزة للتحميل`, 'ok');
+      
+      // Mark file item as done
+      const el = document.querySelector(`[data-file="${fname}"]`);
+      if (el) el.classList.add('done');
+    }
+  }
+  
+  log(`\n=== ✅ انتهت الترجمة: ${stats.done} نجح، ${stats.fail} فشل، ${stats.skip} تخطى ===`, 'ok');
+  document.getElementById('statusText').textContent = `✅ اكتملت الترجمة — اضغط تحميل`;
+  
+  if (Object.keys(translatedFiles).length > 0) {
     document.getElementById('dlBtn').disabled = false;
-    document.getElementById('statusText').textContent = '✅ Done — Download ready!';
-    
-  } catch(e) {
-    log(`Fatal error: ${e.message}`, 'err');
   }
   
   running = false;
   document.getElementById('startBtn').disabled = false;
+  document.getElementById('stopBtn').disabled = true;
 }
 
 function stopTranslation() {
   running = false;
-  log('⏹ Stopped by user', 'warn');
+  log('⏹ تم الإيقاف من المستخدم', 'warn');
+  document.getElementById('stopBtn').disabled = true;
+  document.getElementById('startBtn').disabled = false;
 }
 
-function downloadResult() {
-  if (!resultContent) return;
-  const blob = new Blob([resultContent], {type: 'text/javascript'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'data_content.js';
-  a.click();
-  log('📥 Download started — send the file to Claude to deploy', 'ok');
+// ═══════════════════════════════════════════
+// DOWNLOAD
+// ═══════════════════════════════════════════
+function downloadAll() {
+  const files = Object.entries(translatedFiles);
+  if (!files.length) return;
+  
+  for (const [fname, content] of files) {
+    const blob = new Blob([content], { type: 'text/javascript' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = fname;
+    a.click();
+    log(`📥 تحميل: ${fname}`, 'ok');
+  }
+  
+  log('\n📋 الخطوة التالية:', 'hdr');
+  log('1. ضع الملفات المُحمَّلة في مجلد المشروع', 'info');
+  log('2. git add data_content_*.js', 'info');
+  log('3. git commit -m "feat: Arabic translation for lang-content-ar"', 'info');
+  log('4. git push origin main', 'info');
 }
 </script>
 </body>
