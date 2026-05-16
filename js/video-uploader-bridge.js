@@ -45,6 +45,42 @@
   var _counter = 0;
 
   window.QS.video = {
+
+    // ═══ وصف الفيديوهات لكل قسم — المحتوى الهندسي وليس شرح التطبيق ═══
+    sectionVideos: {
+      'roads': {
+        ar: 'فيديوهات شرح طبقات الطرق: Subgrade, Subbase, Base Course, Prime Coat, Tack Coat, DBM, Wearing Course',
+        en: 'Videos explaining road layers: Subgrade, Subbase, Base Course, Prime Coat, Tack Coat, DBM, Wearing Course'
+      },
+      'utilities': {
+        ar: 'فيديوهات شرح شبكات المرافق: تركيب HDPE, اختبار الضغط, CCTV, المنهولات',
+        en: 'Videos explaining utility networks: HDPE installation, pressure testing, CCTV, manholes'
+      },
+      'structural': {
+        ar: 'فيديوهات شرح الخرسانة المسلحة: الصب, المعالجة, اختبارات المكعبات, وصلات التسليح',
+        en: 'Videos explaining reinforced concrete: pouring, curing, cube tests, rebar splices'
+      },
+      'geotechnical': {
+        ar: 'فيديوهات شرح الجسات: حفر الجسات, اختبار SPT, عينات التربة',
+        en: 'Videos explaining geotechnical works: borehole drilling, SPT testing, soil sampling'
+      },
+      'buildings': {
+        ar: 'فيديوهات شرح المباني: الهيكل الإنشائي, المصاعد, الواجهات, الحماية من الحريق',
+        en: 'Videos explaining buildings: structural system, elevators, facades, fire protection'
+      },
+      'equipment': {
+        ar: 'فيديوهات شرح المعدات: الجريدر, الرولر, فارش الإسفلت, مضخة الخرسانة',
+        en: 'Videos explaining equipment: grader, roller, asphalt paver, concrete pump'
+      },
+      'mep': {
+        ar: 'فيديوهات شرح MEP: التوصيلات الكهربائية, السباكة, الإطفاء, الصرف',
+        en: 'Videos explaining MEP: electrical wiring, plumbing, fire fighting, drainage'
+      },
+      'calculators': {
+        ar: 'فيديوهات شرح الحاسبات: كيفية استخدام حاسبة ESAL, Marshall, Pass/Fail',
+        en: 'Videos explaining calculators: how to use ESAL, Marshall, Pass/Fail calculators'
+      }
+    },
     /**
      * يفتح dialog لاختيار ملف فيديو أو لصق رابط YouTube
      * يُستدعى من onclick في .qs-video-upload-zone
