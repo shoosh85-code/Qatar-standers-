@@ -222,6 +222,42 @@
 
         closeModal();
       };
+    },
+
+    /**
+     * إنشاء واجهة رفع الفيديو لقسم معيّن مع وصف هندسي
+     * @param {string} sectionId — مفتاح القسم (roads, utilities, etc.)
+     * @param {string} containerSelector — CSS selector للحاوية
+     */
+    createUploadUI: function(sectionId, containerSelector) {
+      var container = document.querySelector(containerSelector);
+      if (!container) return;
+
+      var lang = document.documentElement.lang || 'ar';
+      var isAr = lang === 'ar';
+      var context = this.sectionVideos[sectionId];
+      var description = context ? context[lang] : (isAr ? 'فيديوهات توضيحية للمحتوى الهندسي' : 'Engineering explanation videos');
+
+      var section = document.createElement('div');
+      section.className = 'qs-video-section';
+      section.style.cssText = 'margin:20px 0;padding:16px;background:var(--dark3);border:1px solid var(--border);border-radius:16px;';
+
+      var header = '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">' +
+        '<span style="font-size:24px">🎥</span>' +
+        '<div>' +
+        '<div style="font-family:Cairo;font-weight:700;color:var(--gold);">' + (isAr ? 'فيديوهات توضيحية' : 'Explanation Videos') + '</div>' +
+        '<div style="font-size:12px;color:var(--text3);margin-top:4px;">' + description + '</div>' +
+        '</div></div>';
+
+      var zone = '<div class="qs-video-upload-zone" style="border:2px dashed var(--border2,rgba(201,168,76,0.3));border-radius:12px;padding:20px;text-align:center;cursor:pointer;" ' +
+        'onclick="QS.video.openUploader(this,\'' + sectionId + '\')">' +
+        '<div style="font-size:28px;margin-bottom:8px;">📤</div>' +
+        '<div style="font-family:Tajawal;font-weight:600;color:var(--text1);margin-bottom:4px;">' + (isAr ? 'رفع فيديو توضيحي للمحتوى الهندسي' : 'Upload engineering explanation video') + '</div>' +
+        '<div style="font-size:11px;color:var(--text3);">MP4, WebM, YouTube — max 50MB</div>' +
+        '</div>';
+
+      section.innerHTML = header + zone;
+      container.appendChild(section);
     }
   };
 
