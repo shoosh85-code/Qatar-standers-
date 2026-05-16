@@ -676,6 +676,24 @@ html[lang="en"] .card-bullets span { direction:ltr; text-align:left; }
 .btn-hover-gold:hover  { border-color: var(--gold) !important; background: rgba(201,168,76,0.06) !important; }
 .link-hover-opacity    { opacity: 0.7; transition: opacity .2s; }
 .link-hover-opacity:hover { opacity: 1; }
+
+/* ═══ Bilingual: المصطلحات الفنية دائماً LTR ═══ */
+html[lang="ar"] .card-bullets span strong,
+html[lang="ar"] .cat-desc span strong {
+  direction: ltr;
+  unicode-bidi: embed;
+  color: var(--gold2);
+}
+html[lang="en"] .card-bullets span strong,
+html[lang="en"] .cat-desc span strong {
+  color: var(--gold2);
+}
+
+/* ═══ Video Upload Zone ═══ */
+.qs-video-upload-zone:hover {
+  border-color: var(--gold) !important;
+  background: rgba(201,168,76,0.05) !important;
+}
 </style>
 <!-- loader.js moved to end of body — after QS + data_calcs are ready -->
 
@@ -1729,6 +1747,9 @@ html[lang="en"] .card-bullets span { direction:ltr; text-align:left; }
 
 <!-- ═══ Fuzzy Search System (Fuse.js) ═══ -->
 <script src="/js/fuzzy-search.js" defer></script>
+
+<!-- ═══ BILINGUAL FIX — card-level data-ar/data-en enforcement ═══ -->
+<script src="/js/bilingual-fix.js" defer></script>
 
 <!-- ═══ BILINGUAL RADICAL FIX — auto-generates EN for all missing sections ═══ -->
 <script src="/js/bilingual-radical-fix.js" defer></script>
