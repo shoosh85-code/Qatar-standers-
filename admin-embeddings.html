@@ -142,7 +142,7 @@ async function startGeneration() {
   addLog('📡 يستخدم Gemini text-embedding-004 (768 بُعد)', 'info');
   addLog('', '');
   
-  for (var round = 1; round <= 10; round++) {
+  for (var round = 1; round <= 200; round++) {
     var result = await runBatch(secret, round);
     
     if (result.done) {
@@ -164,7 +164,7 @@ async function startGeneration() {
     await new Promise(function(r) { setTimeout(r, 5000); });
   }
   
-  addLog('⚠️ وصلنا 10 دفعات — اضغط الزر مرة ثانية لإكمال الباقي', 'info');
+  addLog('⚠️ وصلنا 200 دفعة — اضغط الزر مرة ثانية لإكمال الباقي', 'info');
   btn.disabled = false;
   btn.textContent = '🔄 أكمل التوليد';
 }
