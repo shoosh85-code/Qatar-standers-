@@ -3334,3 +3334,83 @@ window.clearDailyReport = function(){
 
 
 })();
+
+// ═══ Buildings & Towers Content — Phase 5 ═══
+(function(){
+  var c = window.QS_CONTENT = window.QS_CONTENT || {};
+
+c["buildings_towers"] = {
+  title: '\u{1F3D7}\uFE0F المباني والأبراج السكنية — Buildings & Towers',
+  content: '<div class="lang-content-ar">' +
+'<div class="ref-header" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:rgba(90,15,15,0.08);border:1px solid rgba(90,15,15,0.3);border-radius:10px;">' +
+'  <span class="ref-badge" style="background:rgba(90,15,15,0.2);color:#5A0F0F;border:1px solid rgba(90,15,15,0.4);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;">QCS 2024 §S5 + QCDD</span>' +
+'  <span class="ref-section" style="color:var(--text2);font-size:12px;">المباني | الأبراج | MEP | السلامة من الحريق</span>' +
+'</div>' +
+
+'<h3>\u{1F3D7}\uFE0F ضخ الخرسانة للأبراج — Concrete Pumping</h3>' +
+'<table class="dm-table">' +
+'<tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>' +
+'<tr><td><strong>ضغط المضخة</strong></td><td>≥ 150 bar للمباني > 20 طابق · يُحسب بناءً على الارتفاع + طول الأنبوب</td><td>QCS 2024 §S5-P4</td></tr>' +
+'<tr><td><strong>Slump عند المضخة</strong></td><td>100–180mm حسب الارتفاع · يُقاس عند نقطة الصب</td><td>QCS 2024 §S5-P4-Cl.4.4</td></tr>' +
+'<tr><td><strong>وقت الصب الأقصى</strong></td><td>≤ 90 دقيقة من الخلط عند > 35°C · Retarder إلزامي</td><td>QCS 2024 §S5-P4-Cl.4.3</td></tr>' +
+'<tr><td><strong>Cold Joint Prevention</strong></td><td>لا تتجاوز 30 دقيقة بين الطبقات · Vibrator إلزامي</td><td>QCS 2024 §S5-P4-Cl.4.8</td></tr>' +
+'</table>' +
+
+'<h3>\u{1F321}\uFE0F المعالجة على الارتفاع — Curing at Height</h3>' +
+'<table class="dm-table">' +
+'<tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>' +
+'<tr><td><strong>المدة الدنيا</strong></td><td>≥ 7 أيام عادي · ≥ 10 أيام مع GGBS/PFA</td><td>QCS 2024 §S5-P4-Cl.4.12</td></tr>' +
+'<tr><td><strong>حماية من الرياح</strong></td><td>بولي إيثيلين عند رياح > 25 km/h</td><td>QCS 2024 §S5-P4</td></tr>' +
+'<tr><td><strong>Curing Compound</strong></td><td>يُرش خلال 30 دقيقة من إنهاء السطح</td><td>ASTM C309</td></tr>' +
+'</table>' +
+
+'<h3>\u{1F4A8} أحمال الرياح — Wind Loading</h3>' +
+'<table class="dm-table">' +
+'<tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>' +
+'<tr><td><strong>سرعة الرياح</strong></td><td>42 m/s (3-second gust) لقطر</td><td>QCS 2024 §S5-P1</td></tr>' +
+'<tr><td><strong>Wind Tunnel Test</strong></td><td>إلزامي للمباني > 100m أو أشكال غير منتظمة</td><td>QCDD</td></tr>' +
+'</table>' +
+
+'<h3>\u26A1 تنسيق MEP — MEP Coordination</h3>' +
+'<table class="dm-table">' +
+'<tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>' +
+'<tr><td><strong>MEP Risers</strong></td><td>فتحات محجوزة قبل الصب · لا تكسير بعد الصب</td><td>QCS 2024 §S5-P4</td></tr>' +
+'<tr><td><strong>Sleeve Sizes</strong></td><td>قُطر الكم = قُطر الأنبوب + 50mm · Fire Stop بعد التركيب</td><td>QCDD / BS 476</td></tr>' +
+'<tr><td><strong>BIM Coordination</strong></td><td>إلزامي لمشاريع > 10,000 m²</td><td>Ashghal BIM</td></tr>' +
+'<tr><td><strong>Elevator Shafts</strong></td><td>جدران ≥ 200mm · Fire Rating ≥ 2hr · Smoke Pressurization</td><td>QCDD + NFPA 72</td></tr>' +
+'</table>' +
+
+'<h3>\u{1F525} السلامة من الحريق — QCDD Fire</h3>' +
+'<table class="dm-table">' +
+'<tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>' +
+'<tr><td><strong>Fire Rating</strong></td><td>جدران فصل ≥ 2hr · سلالم ≥ 2hr · أسقف ≥ 1hr</td><td>QCDD 2015</td></tr>' +
+'<tr><td><strong>Sprinkler</strong></td><td>إلزامي > 3 طوابق أو > 500 m²/طابق</td><td>NFPA 13</td></tr>' +
+'<tr><td><strong>مخارج الطوارئ</strong></td><td>≤ 45m بدون sprinkler · ≤ 60m مع sprinkler</td><td>NFPA 101</td></tr>' +
+'<tr><td><strong>Fire Stop</strong></td><td>إلزامي عند كل اختراق · UL Listed فقط</td><td>ASTM E814</td></tr>' +
+'<tr><td><strong>Smoke Control</strong></td><td>Pressurization سلالم ≥ 50 Pa</td><td>NFPA 92</td></tr>' +
+'</table>' +
+
+'<h3>\u{1F4A7} عزل الأقبية — Basement Waterproofing</h3>' +
+'<table class="dm-table">' +
+'<tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>' +
+'<tr><td><strong>نوع العزل</strong></td><td>Crystalline أو Membrane · حسب منسوب المياه الجوفية</td><td>QCS 2024 §S5-P9</td></tr>' +
+'<tr><td><strong>Protection Board</strong></td><td>≥ 6mm فوق العزل قبل الردم</td><td>QCS 2024 §S5-P9</td></tr>' +
+'<tr><td><strong>Waterstop</strong></td><td>PVC أو Bentonite في كل فواصل الصب · عرض ≥ 200mm</td><td>BS 8102</td></tr>' +
+'<tr><td><strong>Ponding Test</strong></td><td>48 ساعة · لا تسرب مسموح</td><td>QCS 2024 §S5-P9</td></tr>' +
+'</table>' +
+
+'<h3>\u{1F517} الفواصل الإنشائية — Structural Joints</h3>' +
+'<table class="dm-table">' +
+'<tr><th>البند</th><th>المتطلب</th><th>المرجع</th></tr>' +
+'<tr><td><strong>Expansion Joint</strong></td><td>كل 45m · عرض ≥ 25mm · مادة مرنة</td><td>QCS 2024 §S5-P4</td></tr>' +
+'<tr><td><strong>Construction Joint</strong></td><td>موقع من المهندس · سطح خشن + Bonding Agent</td><td>QCS 2024 §S5-P4-Cl.4.8</td></tr>' +
+'<tr><td><strong>Movement Joint</strong></td><td>Sealant + Backer Rod</td><td>BS EN 1992-1-1</td></tr>' +
+'</table>' +
+
+'<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:10px;padding:12px;margin-top:16px;font-size:12px;">' +
+'\u26A0\uFE0F <strong>تنبيه:</strong> محتوى مرجعي. تحقق من أحدث QCS 2024 و QCDD. استشر المهندس المصمم.' +
+'</div>' +
+'</div>'
+};
+
+})();
