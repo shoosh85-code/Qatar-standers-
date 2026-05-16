@@ -69,6 +69,9 @@ export default async function handler(req, res) {
 
   for (const chunk of chunks) {
     try {
+      // تأخير 1.5 ثانية بين كل طلب لتجنب 429
+      await new Promise(r => setTimeout(r, 1500));
+
       // Get embedding from Gemini
       const embedRes = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${GEMINI_API_KEY}`,
@@ -79,9 +82,16 @@ export default async function handler(req, res) {
             model: 'models/gemini-embedding-001',
             content: { parts: [{ text: chunk.content.slice(0, 2000) }] }
           }),
-          signal: AbortSignal.timeout(10000)
+          signal: AbortSignal.timeout(15000)
         }
       );
+
+      if (embedRes.status === 429) {
+        // Rate limited — انتظر 10 ثوان وحاول مرة ثانية
+        if (!firstError) firstError = 'Rate limited (429) — retrying after 10s';
+        await new Promise(r => setTimeout(r, 10000));
+        failed++; continue;
+      }
 
       if (!embedRes.ok) { 
         if (!firstError) firstError = `Gemini ${embedRes.status}: ${(await embedRes.text()).slice(0,200)}`;

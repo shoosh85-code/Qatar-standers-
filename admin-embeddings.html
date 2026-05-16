@@ -100,7 +100,7 @@ async function runBatch(secret, round) {
     var res = await fetch('/api/generate-embeddings', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({admin_secret: secret, batch_size: 40, offset: 0})
+      body: JSON.stringify({admin_secret: secret, batch_size: 5, offset: 0})
     });
     
     var data = await res.json();
@@ -160,8 +160,8 @@ async function startGeneration() {
     }
     
     // انتظر 3 ثوان بين الدفعات
-    addLog('⏳ انتظار 3 ثوان...', '');
-    await new Promise(function(r) { setTimeout(r, 3000); });
+    addLog('⏳ انتظار 5 ثوان...', '');
+    await new Promise(function(r) { setTimeout(r, 5000); });
   }
   
   addLog('⚠️ وصلنا 10 دفعات — اضغط الزر مرة ثانية لإكمال الباقي', 'info');

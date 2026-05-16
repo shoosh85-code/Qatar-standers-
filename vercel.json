@@ -104,6 +104,12 @@
     },
     "api/generate-document.js": {
       "maxDuration": 60
+    },
+    "api/generate-embeddings.js": {
+      "maxDuration": 60
+    },
+    "api/upload-chunks.js": {
+      "maxDuration": 60
     }
   }
 }
