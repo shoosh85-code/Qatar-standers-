@@ -494,7 +494,7 @@ c["mmup_road_design"] = {
 </div>
 <h3>🛣️ تصنيف الطرق — MMUP</h3>
 <table class="dm-table">
-<tr><th>التصنيف</th><th>حرم الطريق (ROW)</th><th>السرعة</th><th>الحارات</th><th>خدمة مشاة</th></tr>
+<tr><th>التصنيف</th><th>حرم الطريق (ROW)</th><th>السرعة</th><th>الحارات</th><th>خدمة المشاة</th></tr>
 <tr><td><strong>الطريق السريع</strong></td><td>100-120m</td><td>100-120 km/h</td><td>3-4 / اتجاه</td><td>لا (الدرجة Separated)</td></tr>
 <tr><td><strong>Arterial A</strong></td><td>60-80m</td><td>80-100 km/h</td><td>3 / اتجاه</td><td>جسور مشاة</td></tr>
 <tr><td><strong>Arterial B</strong></td><td>40-60m</td><td>60-80 km/h</td><td>2-3 / اتجاه</td><td>ممرات + إشارات</td></tr>
@@ -508,10 +508,10 @@ c["mmup_road_design"] = {
 <tr><td><strong>عرض الحارة</strong></td><td>3.0m محلي / 3.25m ثانوي / 3.5-3.65m رئيسي</td><td>QCS S6 P2 + RDM</td></tr>
 <tr><td><strong>الميل العرضي</strong></td><td>2.5% ± 0.3% (QCS 2024)</td><td>QCS S6 P2</td></tr>
 <tr><td><strong>Kerb النوع</strong></td><td>Normal 300×150mm / Mountable 150×300mm</td><td>Ashghal SD-KR</td></tr>
-<tr><td><strong>Footpath</strong></td><td>min 2.0m مع Tactile Paving عند التقاطعات</td><td>MMUP + Disability Law</td></tr>
-<tr><td><strong>Cycle Track</strong></td><td>2.5m أحادي / 4.0m مزدوج (أخضر)</td><td>Qatar Cycling Strategy</td></tr>
-<tr><td><strong>Street Lighting</strong></td><td>15 lux محلي / 20 lux ثانوي / 30 lux رئيسي</td><td>MMUP Lighting Std</td></tr>
-<tr><td><strong>Green Median</strong></td><td>min 4.0m مع ري تلقائي</td><td>MMUP Landscaping</td></tr>
+<tr><td><strong>مسار المشاة</strong></td><td>الحد الأدنى 2.0م مع بلاط تنبيهي عند التقاطعات</td><td>MMUP + قانون ذوي الإعاقة</td></tr>
+<tr><td><strong>مسار الدراجات</strong></td><td>2.5م أحادي / 4.0م مزدوج (أخضر)</td><td>Qatar استراتيجية قطر للدراجات</td></tr>
+<tr><td><strong>الإنارة</strong></td><td>15 lux محلي / 20 lux ثانوي / 30 lux رئيسي</td><td>معيار إنارة MMUP</td></tr>
+<tr><td><strong>الجزيرة الخضراء</strong></td><td>min 4.0m مع ري تلقائي</td><td>MMUP Landscaping</td></tr>
 </table>
 <h3>🚦 متطلبات التقاطعات</h3>
 <table class="dm-table">
@@ -620,8 +620,8 @@ c["mep_standards"] = {
 <tr><th>المتطلب</th><th>القيمة</th><th>المرجع</th></tr>
 <tr><td>ضغط عند الصنبور</td><td>min 1.0 bar (سكني) / 1.5 bar (تجاري)</td><td>KAHRAMAA WR + QCS S9</td></tr>
 <tr><td>سرعة المياه الساخنة</td><td>0.5-2.0 m/s</td><td>CIBSE G</td></tr>
-<tr><td>Legionella Prevention</td><td>Hot water ≥ 60°C / Cold ≤ 20°C</td><td>BS 8558</td></tr>
-<tr><td>Backflow Prevention</td><td>Double Check الصمام إلزامي</td><td>KAHRAMAA</td></tr>
+<tr><td>الوقاية من الليجيونيلا</td><td>مياه ساخنة ≥ 60°م / بارد ≤ 20°م</td><td>BS 8558</td></tr>
+<tr><td>منع الارتداد</td><td>صمام فحص مزدوج إلزامي</td><td>KAHRAMAA</td></tr>
 <tr><td>Drain الميل الطولي</td><td>min 1:40 (أفقي) / 1:80 (طويل)</td><td>BS EN 12056</td></tr>
 </table>
 <h3>❄️ HVAC — ASHRAE 90.1 + Qatar</h3>
@@ -646,11 +646,11 @@ c["mep_standards"] = {
 <h3>🔥 Fire Protection — NFPA + QCDD</h3>
 <table class="dm-table">
 <tr><th>النظام</th><th>المتطلب</th><th>المرجع</th></tr>
-<tr><td>Sprinklers</td><td>Ordinary Hazard: K=80 / 225 m² max</td><td>NFPA 13 + QCDD</td></tr>
-<tr><td>Fire Alarm</td><td>الصف / الفئة B Wiring / Addressable System</td><td>NFPA 72</td></tr>
-<tr><td>Smoke Detection</td><td>كل غرفة + ممرات + منتشفات</td><td>NFPA 72 + QCDD</td></tr>
-<tr><td>Emergency Lighting</td><td>min 1 lux على مسارات الإخلاء</td><td>BS EN 1838</td></tr>
-<tr><td>Fire Pump</td><td>Diesel Backup إلزامي للمباني &gt; 3 طوابق</td><td>NFPA 20 + QCDD</td></tr>
+<tr><td>رشاشات الإطفاء</td><td>خطر عادي: K=80 / 225م² أقصى</td><td>NFPA 13 + QCDD</td></tr>
+<tr><td>إنذار الحريق</td><td>نظام قابل للعنونة / تمديدات فئة B</td><td>NFPA 72</td></tr>
+<tr><td>كاشفات الدخان</td><td>في كل غرفة + الممرات + مناور التهوية</td><td>NFPA 72 + QCDD</td></tr>
+<tr><td>إنارة الطوارئ</td><td>الحد الأدنى 1 lux على مسارات الإخلاء</td><td>BS EN 1838</td></tr>
+<tr><td>مضخة الحريق</td><td>احتياطي ديزل إلزامي للمباني &gt; 3 طوابق</td><td>NFPA 20 + QCDD</td></tr>
 </table>
 <div class="dm-note">📌 كل تصاميم MEP تحتاج موافقة: KAHRAMAA + MMUP + الدفاع المدني QCDD + Ashghal — الترتيب التسلسلي إلزامي</div>
 </div>
@@ -2130,16 +2130,16 @@ c["shoring_itp"] = {
 <tr><td><strong>أثناء الحفر</strong></td><td>قياس انتفاخ الجانب</td><td>≤ 25mm أو حسب التصميم</td><td>W</td><td>BS EN 1997</td></tr>
 <tr><td><strong>فحص القاع</strong></td><td>Proof Rolling 10T</td><td>لا هبوط مرئي</td><td>H</td><td>QCS S6 P5</td></tr>
 <tr><td><strong>Plate Load</strong></td><td>تحمل الأساس</td><td>CBR ≥ 10% أو قيمة التصميم</td><td>H</td><td>QCS S6 P5</td></tr>
-<tr><td><strong>Anchor Test</strong></td><td>Proof Load Test</td><td>1.25 × Working Load</td><td>H</td><td>BS 8081</td></tr>
+<tr><td><strong>اختبار المرساة</strong></td><td>اختبار الحمل الإثباتي</td><td>1.25 × الحمل التشغيلي</td><td>H</td><td>BS 8081</td></tr>
 <tr><td><strong>Blinding</strong></td><td>سماكة وجودة</td><td>75mm C15 على قاع نظيف</td><td>W</td><td>QCS S5 P4</td></tr>
 </table>
 <h3>⚠️ متطلبات السلامة — QCS S1</h3>
 <table class="dm-table">
 <tr><th>المتطلب</th><th>التفصيل</th></tr>
-<tr><td>Excavation Permit</td><td>Work Permit لكل حفر > 1.2m</td></tr>
+<tr><td>تصريح الحفر</td><td>تصريح عمل لكل حفر يتجاوز 1.2م</td></tr>
 <tr><td>Rescue Plan</td><td>خطة إنقاذ مكتوبة قبل الحفر</td></tr>
 <tr><td>Shoring Min Depth</td><td>إلزامي > 1.2m (قد يختلف حسب التربة)</td></tr>
-<tr><td>Daily Inspection</td><td>Site Engineer يفحص يومياً</td></tr>
+<tr><td>الفحص اليومي</td><td>المهندس الموقعي يفحص يومياً</td></tr>
 <tr><td>Monitoring</td><td>قراءات يومية للـ inclinometers</td></tr>
 <tr><td>Emergency Stop</td><td>إيقاف فوري عند أي حركة غير متوقعة</td></tr>
 </table>
@@ -2172,22 +2172,22 @@ c["cctv_itp"] = {
   content: `
 <div class="lang-content-ar">
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
-📌 QCS 2024 S8 P14 + BS EN 13508 | WRc Sewer Inspection Manual | Ashghal CCTV Spec
+📌 QCS 2024 S8 P14 + BS EN 13508 | دليل WRc لفحص المجاري | مواصفات أشغال CCTV
 </div>
-<h3>📋 CCTV Inspection ITP</h3>
+<h3>📋 خطة الفحص والاختبار — فحص CCTV</h3>
 <table class="dm-table">
 <tr><th>البند</th><th>المتطلب</th><th>H/W/R</th><th>QCS/BS</th></tr>
 <tr><td><strong>قبل CCTV</strong></td><td>تنظيف بـ High Pressure Jetting ≥ 120 bar</td><td>R</td><td>QCS S8 P14</td></tr>
 <tr><td><strong>معدات CCTV</strong></td><td>كاميرا Pan+Tilt ملونة، ≥ 360° rotation</td><td>R</td><td>BS EN 13508</td></tr>
 <tr><td><strong>تغطية الفحص</strong></td><td>100% من المجاري الرئيسية قبل التسليم</td><td>H</td><td>Ashghal Spec</td></tr>
-<tr><td><strong>Grade A</strong></td><td>بدون عيوب — قبول مباشر</td><td>—</td><td>WRc Manual</td></tr>
-<tr><td><strong>Grade B</strong></td><td>عيوب بسيطة — مراقبة + إعادة فحص 12 شهر</td><td>W</td><td>WRc Manual</td></tr>
-<tr><td><strong>Grade C</strong></td><td>إصلاح مطلوب قبل التسليم</td><td>H</td><td>WRc Manual</td></tr>
-<tr><td><strong>Grade D/E</strong></td><td>انهيار — إصلاح فوري + إعادة CCTV</td><td>H</td><td>WRc Manual</td></tr>
+<tr><td><strong>الدرجة A</strong></td><td>بدون عيوب — قبول مباشر</td><td>—</td><td>دليل WRc</td></tr>
+<tr><td><strong>الدرجة B</strong></td><td>عيوب بسيطة — مراقبة + إعادة فحص 12 شهر</td><td>W</td><td>دليل WRc</td></tr>
+<tr><td><strong>الدرجة C</strong></td><td>إصلاح مطلوب قبل التسليم</td><td>H</td><td>دليل WRc</td></tr>
+<tr><td><strong>الدرجة D/E</strong></td><td>انهيار — إصلاح فوري + إعادة CCTV</td><td>H</td><td>دليل WRc</td></tr>
 <tr><td><strong>Infiltration</strong></td><td>≤ 0.08 L/s/km/mm diameter</td><td>H</td><td>QCS S8 P14</td></tr>
 <tr><td><strong>التقرير النهائي</strong></td><td>فيديو MP4 + PDF + WinCan report</td><td>H</td><td>BS EN 13508</td></tr>
 </table>
-<h3>🔍 أنواع العيوب — WRc Defect Codes</h3>
+<h3>🔍 أنواع العيوب — رموز WRc</h3>
 <table class="dm-table">
 <tr><th>الكود</th><th>وصف العيب</th><th>Grade</th><th>الإجراء</th></tr>
 <tr><td>B</td><td>Broken — كسر في المجرى</td><td>D-E</td><td>إصلاح فوري</td></tr>
@@ -2343,7 +2343,7 @@ c["road_design_criteria"] = {
 <tr><td><strong>Crossfall (Shoulder)</strong></td><td>4-6%</td><td>Ashghal RDM</td></tr>
 <tr><td><strong>Median Width</strong></td><td>min 2.0m (Collector) → 10m+ (Expressway)</td><td>RDM Table 3-3</td></tr>
 <tr><td><strong>Footpath</strong></td><td>min 2.0m في المناطق السكنية</td><td>MMUP + RDM</td></tr>
-<tr><td><strong>Cycle Track</strong></td><td>2.5m أحادي / 4.0m مزدوج</td><td>Qatar Cycling Strategy</td></tr>
+<tr><td><strong>Cycle Track</strong></td><td>2.5m أحادي / 4.0m مزدوج</td><td>Qatar استراتيجية قطر للدراجات</td></tr>
 <tr><td><strong>Clear Zone</strong></td><td>2.5m-9m حسب السرعة</td><td>RDM Safety</td></tr>
 </table>
 
@@ -2469,10 +2469,10 @@ c["survey_setting_out"] = {
 <h3>📍 نقاط الإسناد — Control Points</h3>
 <table class="dm-table">
 <tr><th>النوع</th><th>المتطلب</th><th>المرجع</th></tr>
-<tr><td><strong>Datum Benchmark</strong></td><td>QNHD (Qatar National Height Datum) — المرجع الرسمي في قطر</td><td>Ashghal Survey</td></tr>
-<tr><td><strong>Grid System</strong></td><td>Qatar National Grid (QND95) — Transverse Mercator</td><td>Ashghal Survey</td></tr>
-<tr><td><strong>Bench Marks</strong></td><td>كل 500m max على امتداد الطريق، ثابتة في Concrete</td><td>QCS S1 P5</td></tr>
-<tr><td><strong>Control Traverses</strong></td><td>Closed Traverse، Misclosure ≤ 1:10,000</td><td>BS 5606</td></tr>
+<tr><td><strong>نقطة الإسناد الارتفاعي</strong></td><td>QNHD (مرجع ارتفاعات قطر الوطني) — المرجع الرسمي في قطر</td><td>معايير مسح أشغال</td></tr>
+<tr><td><strong>نظام الشبكة</strong></td><td>الشبكة الوطنية لقطر (QND95) — إسقاط مركاتور المستعرض</td><td>معايير مسح أشغال</td></tr>
+<tr><td><strong>نقاط الارتفاع الثابتة</strong></td><td>كل 500م كحد أقصى على امتداد الطريق، مثبّتة في خرسانة</td><td>QCS S1 P5</td></tr>
+<tr><td><strong>المضلع المغلق</strong></td><td>مضلع مغلق، خطأ الإغلاق ≤ 1:10,000</td><td>BS 5606</td></tr>
 </table>
 
 <h3>📏 تفاوتات الضبط — Setting Out Tolerances</h3>
@@ -2618,8 +2618,8 @@ c["hot_weather_detailed"] = {
 <tr><td><strong>Max درجة حرارة الخليط</strong></td><td>35°C عند الصب</td><td>S5 P4</td></tr>
 <tr><td><strong>Max درجة حرارة الركام</strong></td><td>لا يتجاوز 60°C</td><td>S5 P4</td></tr>
 <tr><td><strong>Max درجة حرارة المياه</strong></td><td>استخدام ثلج للتبريد</td><td>S5 P4 + ACI 305</td></tr>
-<tr><td><strong>Max وقت النقل</strong></td><td>45 دقيقة صيفاً (بدلاً من 90)</td><td>Qatar Practice</td></tr>
-<tr><td><strong>Slump Loss</strong></td><td>≤ 50mm من المصنع للموقع</td><td>QCS S5 P4</td></tr>
+<tr><td><strong>أقصى وقت نقل</strong></td><td>45 دقيقة صيفاً (بدلاً من 90)</td><td>الممارسة القطرية</td></tr>
+<tr><td><strong>فقد الانسياب</strong></td><td>≤ 50مم من المصنع إلى الموقع</td><td>QCS S5 P4</td></tr>
 </table>
 <h3>❄️ إجراءات التبريد — Hot Weather Measures</h3>
 <table class="dm-table">
@@ -2627,8 +2627,8 @@ c["hot_weather_detailed"] = {
 <tr><td><strong>تبريد مياه الخلط</strong></td><td>استبدال 25% بثلج مجروش</td><td>خفض 5-8°C</td><td>S5 P4</td></tr>
 <tr><td><strong>تبريد الركام</strong></td><td>تغطية + رش مياه قبل الخلط</td><td>خفض 3-5°C</td><td>S5 P4</td></tr>
 <tr><td><strong>تبريد الخلاط</strong></td><td>رش مياه على Mixer Drum</td><td>خفض 2-3°C</td><td>ACI 305R</td></tr>
-<tr><td><strong>توقيت الصب</strong></td><td>بعد 4 عصراً أو قبل 7 صباحاً</td><td>تجنب ذروة الحرارة</td><td>Ashghal Practice</td></tr>
-<tr><td><strong>Retarder</strong></td><td>Type B أو D — يحتاج اعتماد</td><td>تمديد Workability</td><td>BS 5075</td></tr>
+<tr><td><strong>توقيت الصب</strong></td><td>بعد 4 عصراً أو قبل 7 صباحاً</td><td>تجنب ذروة الحرارة</td><td>ممارسة أشغال</td></tr>
+<tr><td><strong>مبطئ الشك</strong></td><td>النوع B أو D — يحتاج اعتماداً مسبقاً</td><td>تمديد قابلية التشغيل</td><td>BS 5075</td></tr>
 <tr><td><strong>تبريد القوالب</strong></td><td>رش قبل الصب</td><td>منع امتصاص الرطوبة</td><td>ACI 305R</td></tr>
 </table>
 <h3>💧 Curing في الجو الحار — QCS S5 P4</h3>
@@ -2639,14 +2639,14 @@ c["hot_weather_detailed"] = {
 <tr><td><strong>Shade + Hessian</strong></td><td>طوال فترة Curing</td><td>تجنب التعرض للشمس المباشر</td><td>ACI 305R</td></tr>
 <tr><td><strong>Plastic Sheet</strong></td><td>أثناء وبعد الصب</td><td>Vapor barrier — للأرضيات</td><td>ACI 308</td></tr>
 </table>
-<h3>⚠️ علامات الخرسانة المتضررة بالحرارة</h3>
+<h3>⚠️ علامات تلف الخرسانة بسبب الحرارة</h3>
 <table class="dm-table">
 <tr><th>العلامة</th><th>السبب</th><th>الإجراء</th></tr>
 <tr><td>تشقق مبكر (< 24h)</td><td>Plastic Shrinkage — جفاف سريع</td><td>رش ماء فوري + إصلاح</td></tr>
 <tr><td>Slump منخفض جداً</td><td>خسارة workability بالحرارة</td><td>رفض الخلطة — لا تضف ماء</td></tr>
 <tr><td>قوة منخفضة (7 day)</td><td>صب في حرارة مرتفعة</td><td>زيادة عدد مكعبات الاختبار</td></tr>
 </table>
-<div class="dm-note">📌 QCS S5 P4 — قطر: كل صب خرسانة صيفاً يحتاج Hot Weather Concreting Plan معتمداً من Consultant قبل الصب</div>
+<div class="dm-note">📌 QCS S5 P4 — قطر: كل صب خرسانة صيفاً يحتاج خطة الصب في الجو الحار معتمداً من Consultant قبل الصب</div>
 </div>
 <div class="lang-content-en" style="display:none">
 <h3>Hot Weather Concreting — QCS S5 P4</h3>
