@@ -166,9 +166,17 @@ window.QS_CONTENT_MAP = {
   "sewer_stages_detail": "data_content_utilities.js",
   "storm_stages_detail": "data_content_utilities.js",
   "treated_stages_detail": "data_content_utilities.js",
-  "buildings_towers": "data_content_extra.js",
+  "buildings_towers": "data_content_buildings.js",
   "road_markings": "data_content_extra.js",
   "house_connections": "data_content_extra.js",
   "payment_cert": "data_content_extra.js",
-  "schedule_gen": "data_content_extra.js"
+  "schedule_gen": "data_content_extra.js",
+  "bld_design": "data_content_buildings.js",
+  "bld_foundations": "data_content_buildings.js",
+  "bld_concrete": "data_content_buildings.js",
+  "bld_masonry": "data_content_buildings.js",
+  "bld_mep": "data_content_buildings.js",
+  "bld_finishes": "data_content_buildings.js",
+  "bld_handover": "data_content_buildings.js",
+  "bld_materials": "data_content_buildings.js"
 };
