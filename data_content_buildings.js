@@ -834,13 +834,13 @@ window.bldCopy=function(){
   var steel=(document.getElementById('s-steel')||{textContent:'—'}).textContent;
   var area =(document.getElementById('bldc-area')||{value:500}).value;
   var floors=(document.getElementById('bldc-floors')||{value:10}).value;
-  var txt='QatarSpec Pro — حاسبة المباني\n'+'='.repeat(35)+'\n'+
-    'مساحة الطابق: '+area+' م²\n'+
-    'عدد الطوابق: '+floors+'\n'+
-    'GFA الإجمالي: '+gfa+' م²\n'+
-    'إجمالي الخرسانة: '+conc+' م³\n'+
-    'إجمالي الحديد: '+steel+'\n'+
-    'المرجع: QCS 2024 §S5 | BS 4449\n'+
+  var txt='QatarSpec Pro — حاسبة المباني\\n'+'='.repeat(35)+'\\n'+
+    'مساحة الطابق: '+area+' م²\\n'+
+    'عدد الطوابق: '+floors+'\\n'+
+    'GFA الإجمالي: '+gfa+' م²\\n'+
+    'إجمالي الخرسانة: '+conc+' م³\\n'+
+    'إجمالي الحديد: '+steel+'\\n'+
+    'المرجع: QCS 2024 §S5 | BS 4449\\n'+
     'تاريخ: '+new Date().toLocaleDateString('ar-QA');
   if(navigator.clipboard){
     navigator.clipboard.writeText(txt).then(function(){
