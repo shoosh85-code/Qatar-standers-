@@ -17,21 +17,20 @@
 <div style="color:var(--text3);font-size:10px">GI ← تحقق ← GWT ← خوازيق/رافت</div></div>
 <div onclick="QS.openDetail('concrete_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center">
 <div style="font-size:18px">2️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px">الخرسانة</div>
-<div style="color:var(--text3);font-size:10px">Mix Design ← صب ← Curing</div></div>
+<div style="color:var(--text3);font-size:10px">تصميم الخلطة ← صب ← المعالجة / التصليد</div></div>
 <div onclick="QS.openDetail('rebar_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center">
 <div style="font-size:18px">3️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px">حديد التسليح</div>
-<div style="color:var(--text3);font-size:10px">Cover ← Spacing ← Lap Length</div></div>
+<div style="color:var(--text3);font-size:10px">الغطاء الخرساني ← التباعد ← Lap الطول</div></div>
 <div onclick="QS.openDetail('formwork_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center">
 <div style="font-size:18px">4️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px">الشدة والقوالب</div>
-<div style="color:var(--text3);font-size:10px">Formwork ← Pressure ← Stripping</div></div>
+<div style="color:var(--text3);font-size:10px">القالب / الشدة ← الضغط ← التقشر</div></div>
 <div onclick="QS.openDetail('concrete_phases')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center">
 <div style="font-size:18px">5️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px">مراحل الصب</div>
-<div style="color:var(--text3);font-size:10px">Sequence ← Hold Points ← Testing</div></div>
+<div style="color:var(--text3);font-size:10px">التسلسل ← نقاط توقف ← الاختبار</div></div>
 <div onclick="QS.openDetail('hot_weather_concreting')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center">
 <div style="font-size:18px">6️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px">الطقس الحار</div>
-<div style="color:var(--text3);font-size:10px">Max 35°C ← Ice ← Curing</div></div>
+<div style="color:var(--text3);font-size:10px">الحد الأقصى 35°C ← Ice ← المعالجة / التصليد</div></div>
 </div>
-
 <h3>📋 المواد والمواصفات</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0">
 <div onclick="QS.openDetail('structural_materials')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center">
@@ -41,151 +40,140 @@
 <div onclick="QS.openDetail('concrete_materials')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center">
 <div style="color:#3498db;font-weight:700;font-size:11px">مواد الخرسانة</div></div>
 </div>
-
 <h3>📋 الاختبارات وضبط الجودة</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0">
 <div onclick="QS.openDetail('itp_concrete')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center">
-<div style="color:#e74c3c;font-weight:700;font-size:11px">ITP — الخرسانة</div></div>
+<div style="color:#e74c3c;font-weight:700;font-size:11px">خطة الفحص والاختبار (ITP) — الخرسانة</div></div>
 <div onclick="QS.openDetail('itp_foundations')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center">
-<div style="color:#e74c3c;font-weight:700;font-size:11px">ITP — الأساسات</div></div>
+<div style="color:#e74c3c;font-weight:700;font-size:11px">خطة الفحص والاختبار (ITP) — الأساسات</div></div>
 <div onclick="QS.openDetail('rebar_itp')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center">
-<div style="color:#e74c3c;font-weight:700;font-size:11px">ITP — الحديد</div></div>
+<div style="color:#e74c3c;font-weight:700;font-size:11px">خطة الفحص والاختبار (ITP) — الحديد</div></div>
 </div>
-
 <h3>📊 ملخص متطلبات QCS 2024 — Section 5</h3>
 <table class="dm-table">
 <tr><th>الطبقة / العنصر</th><th>المتطلب الرئيسي</th><th>اختبار</th><th>QCS</th></tr>
-<tr><td><strong>Blinding Concrete</strong></td><td>C15 | 75mm min | نظيف وجاف</td><td>Visual</td><td>S5 P4</td></tr>
-<tr><td><strong>Raft / Foundation</strong></td><td>C35 min | w/c ≤ 0.40 | SRPC سبخة</td><td>Cube 7+28 day</td><td>S5 P4/P7</td></tr>
-<tr><td><strong>Columns / Walls</strong></td><td>C35-C50 | Cover 40mm external</td><td>Cube + Slump</td><td>S5 P3/P4</td></tr>
-<tr><td><strong>Beams / Slabs</strong></td><td>C30-C40 | Cover 25mm internal / 40mm external</td><td>Cube + Slump</td><td>S5 P3/P4</td></tr>
-<tr><td><strong>Rebar B460B</strong></td><td>Lap 40φ tension | Cover per exposure | Spacers</td><td>Pull-out test</td><td>S5 P3</td></tr>
-<tr><td><strong>Formwork</strong></td><td>Max lateral pressure 60 kN/m² | Plumb ±3mm</td><td>Survey</td><td>S5 P4</td></tr>
-<tr><td><strong>Curing</strong></td><td>7 days min water | 3 days compound | No direct sun</td><td>Visual daily</td><td>S5 P4</td></tr>
+<tr><td><strong>Blinding الخرسانة</strong></td><td>C15 | 75mm min | نظيف وجاف</td><td>Visual</td><td>S5 P4</td></tr>
+<tr><td><strong>Raft / الأساس</strong></td><td>C35 min | w/c ≤ 0.40 | SRPC سبخة</td><td>مكعب اختبار 7+28 day</td><td>S5 P4/P7</td></tr>
+<tr><td><strong>Columns / Walls</strong></td><td>C35-C50 | الغطاء الخرساني 40mm external</td><td>مكعب اختبار + الهبوط (Slump)</td><td>S5 P3/P4</td></tr>
+<tr><td><strong>Beams / Slabs</strong></td><td>C30-C40 | الغطاء الخرساني 25mm internal / 40mm external</td><td>مكعب اختبار + الهبوط (Slump)</td><td>S5 P3/P4</td></tr>
+<tr><td><strong>قضبان التسليح B460B</strong></td><td>Lap 40φ tension | الغطاء الخرساني per exposure | Spacers</td><td>Pull-out test</td><td>S5 P3</td></tr>
+<tr><td><strong>القالب / الشدة</strong></td><td>الحد الأقصى lateral pressure 60 kN/m² | Plumb ±3mm</td><td>المسح والرفع المساحي</td><td>S5 P4</td></tr>
+<tr><td><strong>المعالجة / التصليد</strong></td><td>7 days min water | 3 days compound | No direct sun</td><td>Visual daily</td><td>S5 P4</td></tr>
 </table>
-
-<h3>🔴 Hold Points الرئيسية — QCS S5 + Ashghal ITP</h3>
+<h3>🔴 نقاط توقف الرئيسية — QCS S5 + Ashghal خطة الفحص والاختبار (ITP)</h3>
 <table class="dm-table">
 <tr><th>HP</th><th>المرحلة</th><th>الشرط</th><th>التوثيق</th></tr>
-<tr><td>HP1</td><td>الأساسات</td><td>فحص قاع الحفر + GI تحقق + Dewatering</td><td>Survey + GI report</td></tr>
-<tr><td>HP2</td><td>حديد الأساسات</td><td>Cover ✓ Spacing ✓ Laps ✓ Spacers ✓</td><td>Rebar inspection sheet</td></tr>
-<tr><td>HP3</td><td>صب الأساسات</td><td>Blinding جاهز + Mix Design معتمد</td><td>Concrete delivery note</td></tr>
-<tr><td>HP4</td><td>حديد الأعمدة</td><td>Cover ✓ Stirrups ✓ Laps ✓</td><td>Rebar inspection</td></tr>
-<tr><td>HP5</td><td>قبل كل صبة</td><td>Mix Design ✓ Slump ✓ Temp ✓ Formwork ✓</td><td>Pre-pour checklist</td></tr>
-<tr><td>HP6</td><td>Post-pour</td><td>Cubes collected ✓ Curing started ✓</td><td>Cube test report</td></tr>
-<tr><td>HP7</td><td>Formwork stripping</td><td>Min strength achieved (70% fcu)</td><td>Cube results</td></tr>
+<tr><td>HP1</td><td>الأساسات</td><td>فحص قاع الحفر + GI تحقق + Dewatering</td><td>المسح والرفع المساحي + GI report</td></tr>
+<tr><td>HP2</td><td>حديد الأساسات</td><td>الغطاء الخرساني ✓ التباعد ✓ Laps ✓ Spacers ✓</td><td>قضبان التسليح inspection sheet</td></tr>
+<tr><td>HP3</td><td>صب الأساسات</td><td>Blinding جاهز + تصميم الخلطة معتمد</td><td>الخرسانة delivery note</td></tr>
+<tr><td>HP4</td><td>حديد الأعمدة</td><td>الغطاء الخرساني ✓ الكانات ✓ Laps ✓</td><td>قضبان التسليح inspection</td></tr>
+<tr><td>HP5</td><td>قبل كل صبة</td><td>تصميم الخلطة ✓ الهبوط (Slump) ✓ Temp ✓ القالب / الشدة ✓</td><td>قبل-pour checklist</td></tr>
+<tr><td>HP6</td><td>ما بعد الصب</td><td>Cubes collected ✓ المعالجة / التصليد started ✓</td><td>مكعب اختبار test report</td></tr>
+<tr><td>HP7</td><td>القالب / الشدة stripping</td><td>الحد الأدنى strength achieved (70% fcu)</td><td>مكعب اختبار results</td></tr>
 </table>
-</div>
+
 <div class="lang-content-en" style="display:none">
-<h3>Buildings & Towers — Execution Phases (QCS S5)</h3>
-<p>Select a phase for detailed content:</p>
+<h3>Buildings &amp; Towers — مراحل التنفيذ (QCS S5)</h3>
+<p>اختر a phase for detailed content:</p>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:12px 0">
 <div onclick="QS.openDetail('foundations_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:var(--gold);font-size:11px;font-weight:700">Foundations</div></div>
-<div onclick="QS.openDetail('concrete_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:var(--gold);font-size:11px;font-weight:700">Concrete</div></div>
-<div onclick="QS.openDetail('rebar_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:var(--gold);font-size:11px;font-weight:700">Rebar</div></div>
-<div onclick="QS.openDetail('formwork_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:var(--gold);font-size:11px;font-weight:700">Formwork</div></div>
+<div onclick="QS.openDetail('concrete_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:var(--gold);font-size:11px;font-weight:700">الخرسانة</div></div>
+<div onclick="QS.openDetail('rebar_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:var(--gold);font-size:11px;font-weight:700">قضبان التسليح</div></div>
+<div onclick="QS.openDetail('formwork_overview')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:var(--gold);font-size:11px;font-weight:700">القالب / الشدة</div></div>
 <div onclick="QS.openDetail('concrete_phases')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center">
 <div style="font-size:18px">5️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px">Pouring Phases</div>
-<div style="color:var(--text3);font-size:10px">Sequence ← Hold Points ← Testing</div></div>
+<div style="color:var(--text3);font-size:10px">التسلسل ← نقاط توقف ← الاختبار</div></div>
 <div onclick="QS.openDetail('hot_weather_concreting')" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center">
 <div style="font-size:18px">6️⃣</div><div style="color:var(--gold);font-weight:700;font-size:12px">Hot Weather</div>
-<div style="color:var(--text3);font-size:10px">Max 35°C ← Ice ← Curing</div></div>
+<div style="color:var(--text3);font-size:10px">الحد الأقصى 35°C ← Ice ← المعالجة / التصليد</div></div>
 </div>
-<h3>📋 Materials & Specifications</h3>
+<h3>📋 المواد &amp; Specifications</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0">
 <div onclick="QS.openDetail('structural_materials')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center">
-<div style="color:#3498db;font-weight:700;font-size:11px">Structural Materials</div></div>
+<div style="color:#3498db;font-weight:700;font-size:11px">Structural المواد</div></div>
 <div onclick="QS.openDetail('rebar_materials')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center">
-<div style="color:#3498db;font-weight:700;font-size:11px">Rebar Materials</div></div>
+<div style="color:#3498db;font-weight:700;font-size:11px">قضبان التسليح المواد</div></div>
 <div onclick="QS.openDetail('concrete_materials')" style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center">
-<div style="color:#3498db;font-weight:700;font-size:11px">Concrete Materials</div></div>
-<div onclick="QS.openDetail('itp_concrete')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:#e74c3c;font-size:11px;font-weight:700">ITP Concrete</div></div>
-<div onclick="QS.openDetail('itp_foundations')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:#e74c3c;font-size:11px;font-weight:700">ITP Foundations</div></div>
-<div onclick="QS.openDetail('rebar_itp')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:#e74c3c;font-size:11px;font-weight:700">ITP Rebar</div></div>
+<div style="color:#3498db;font-weight:700;font-size:11px">الخرسانة المواد</div></div>
+<div onclick="QS.openDetail('itp_concrete')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:#e74c3c;font-size:11px;font-weight:700">خطة الفحص والاختبار (ITP) الخرسانة</div></div>
+<div onclick="QS.openDetail('itp_foundations')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:#e74c3c;font-size:11px;font-weight:700">خطة الفحص والاختبار (ITP) Foundations</div></div>
+<div onclick="QS.openDetail('rebar_itp')" style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:8px;cursor:pointer;text-align:center"><div style="color:#e74c3c;font-size:11px;font-weight:700">خطة الفحص والاختبار (ITP) قضبان التسليح</div></div>
 </div>
 <table class="dm-table">
-<tr><th>Element</th><th>Key Requirement</th><th>QCS</th></tr>
-<tr><td>Raft Foundation</td><td>C35 min | w/c ≤ 0.40 | SRPC for sabkha</td><td>S5 P4/P7</td></tr>
-<tr><td>Columns</td><td>C35-C50 | Cover 40mm external | Stirrups @ 200mm max</td><td>S5 P3/P4</td></tr>
-<tr><td>Slabs/Beams</td><td>C30-C40 | Cover 25mm int / 40mm ext</td><td>S5 P3/P4</td></tr>
-<tr><td>Rebar B460B</td><td>Lap 40-bar-dia tension | Spacers mandatory</td><td>S5 P3</td></tr>
-<tr><td>Curing</td><td>7 days min water / 3 days compound</td><td>S5 P4</td></tr>
+<tr><th>Element</th><th>Key المتطلب</th><th>QCS</th></tr>
+<tr><td>الأساس اللبشة</td><td>C35 min | w/c ≤ 0.40 | SRPC for sabkha</td><td>S5 P4/P7</td></tr>
+<tr><td>Columns</td><td>C35-C50 | الغطاء الخرساني 40mm external | الكانات @ 200mm max</td><td>S5 P3/P4</td></tr>
+<tr><td>Slabs/Beams</td><td>C30-C40 | الغطاء الخرساني 25mm int / 40mm ext</td><td>S5 P3/P4</td></tr>
+<tr><td>قضبان التسليح B460B</td><td>Lap 40-bar-dia tension | Spacers mandatory</td><td>S5 P3</td></tr>
+<tr><td>المعالجة / التصليد</td><td>7 days min water / 3 days compound</td><td>S5 P4</td></tr>
 </table>
 </div>`
   };
   
   c["structural_materials"] = { title: '🧱 مواد الإنشاء — المواصفات والاختبارات',
-    titleEn: '🧱 Structural Materials', content: `
+    titleEn: '🧱 Structural المواد', content: `
 <div class="lang-content-ar">
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Structural Materials</div>
-
-<h3>1️⃣ الأسمنت (Cement)</h3>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Structural المواد</div>
+<h3>1️⃣ الأسمنت (الإسمنت)</h3>
 <table class="dm-table">
 <tr><th>النوع</th><th>المواصفة</th><th>الاختبار</th><th>التكرار</th></tr>
-<tr><td>OPC (CEM I)</td><td>BS EN 197-1</td><td>Fineness + Setting + Strength</td><td>كل دفعة</td></tr>
+<tr><td>OPC (CEM I)</td><td>BS EN 197-1</td><td>Fineness + Setting + المقاومة</td><td>كل دفعة</td></tr>
 <tr><td>SRPC (Sulphate Resisting)</td><td>BS 4027</td><td>C3A ≤ 3.5%</td><td>كل دفعة</td></tr>
 <tr><td>GGBS</td><td>BS EN 15167</td><td>حتى 50% من Binder</td><td>كل دفعة</td></tr>
 <tr><td>PFA (Fly Ash)</td><td>BS EN 450</td><td>حتى 30% من Binder</td><td>كل دفعة</td></tr>
 <tr><td>Sulphate في الأسمنت</td><td>≤ 3.5%</td><td>Chemical Analysis</td><td>كل دفعة</td></tr>
 </table>
-
-<h3>2️⃣ الركام (Aggregate)</h3>
+<h3>2️⃣ الركام (الركام)</h3>
 <table class="dm-table">
 <tr><th>الاختبار</th><th>المواصفة</th><th>المرجع</th><th>التكرار</th></tr>
 <tr><td>Sulphate SO3</td><td>≤ 0.4%</td><td>BS 1377</td><td>كل 500m³</td></tr>
 <tr><td>Chloride</td><td>≤ 0.04%</td><td>BS 1377</td><td>كل 500m³</td></tr>
-<tr><td>LA Abrasion (Coarse)</td><td>≤ 30%</td><td>ASTM C131</td><td>كل 1000m³</td></tr>
-<tr><td>Flakiness Index</td><td>≤ 35%</td><td>BS 812</td><td>كل 500m³</td></tr>
-<tr><td>Water Absorption</td><td>≤ 2%</td><td>ASTM C127</td><td>كل 1000m³</td></tr>
+<tr><td>LA Abrasion (الخشن)</td><td>≤ 30%</td><td>ASTM C131</td><td>كل 1000m³</td></tr>
+<tr><td>مؤشر الرقائقية (FI)</td><td>≤ 35%</td><td>BS 812</td><td>كل 500m³</td></tr>
+<tr><td>امتصاص الماء</td><td>≤ 2%</td><td>ASTM C127</td><td>كل 1000m³</td></tr>
 <tr><td>Alkali Silica Reaction</td><td>Non-reactive</td><td>ASTM C1260</td><td>كل مصدر</td></tr>
-<tr><td>Grading Analysis</td><td>حسب BS EN 12620</td><td>ASTM C136</td><td>كل 500m³</td></tr>
-<tr><td>Max Aggregate Size</td><td>20mm عادي / 10mm كثيف</td><td>QCS S5 P4</td><td>—</td></tr>
+<tr><td>التدرج Analysis</td><td>حسب BS EN 12620</td><td>ASTM C136</td><td>كل 500m³</td></tr>
+<tr><td>الحد الأقصى حجم الركام</td><td>20mm عادي / 10mm كثيف</td><td>QCS S5 P4</td><td>—</td></tr>
 </table>
-
 <h3>3️⃣ مياه الخلط (Mixing Water)</h3>
 <table class="dm-table">
 <tr><th>الاختبار</th><th>المعيار</th><th>المرجع</th></tr>
 <tr><td>Chloride</td><td>≤ 500 mg/L</td><td>BS EN 1008</td></tr>
 <tr><td>Sulphate SO4</td><td>≤ 2000 mg/L</td><td>BS EN 1008</td></tr>
-<tr><td>Total Dissolved Solids</td><td>≤ 2000 mg/L</td><td>BS EN 1008</td></tr>
+<tr><td>إجمالي Dissolved Solids</td><td>≤ 2000 mg/L</td><td>BS EN 1008</td></tr>
 <tr><td>pH</td><td>5 - 9</td><td>BS EN 1008</td></tr>
 </table>
-
-<h3>4️⃣ المضافات (Admixtures)</h3>
+<h3>4️⃣ المضافات (الإضافات)</h3>
 <table class="dm-table">
 <tr><th>النوع</th><th>الاستخدام</th><th>المواصفة</th></tr>
 <tr><td>Superplasticizer</td><td>زيادة workability بدون ماء</td><td>BS EN 934-2</td></tr>
 <tr><td>Retarder</td><td>تأخير التصلب — صيف قطر</td><td>BS EN 934-2</td></tr>
 <tr><td>Accelerator</td><td>تسريع التصلب — شتاء</td><td>BS EN 934-2</td></tr>
 <tr><td>Air Entraining</td><td>مقاومة التجمد</td><td>BS EN 934-2</td></tr>
-<tr><td>Crystalline Waterproofing</td><td>الConcrete المائية</td><td>ASTM C1202</td></tr>
+<tr><td>Crystalline العزل المائي</td><td>الConcrete المائية</td><td>ASTM C1202</td></tr>
 </table>
-
-<h3>5️⃣ Rebar التسليح (Reinforcement)</h3>
+<h3>5️⃣ قضبان التسليح التسليح (التسليح)</h3>
 <table class="dm-table">
 <tr><th>الاختبار</th><th>المعيار</th><th>المرجع</th><th>التكرار</th></tr>
-<tr><td>Yield Strength fy</td><td>≥ 500 N/mm²</td><td>BS 4449:2005</td><td>3 عينات/25t</td></tr>
-<tr><td>Ultimate Strength fu</td><td>≥ 600 N/mm²</td><td>BS 4449</td><td>3 عينات/25t</td></tr>
-<tr><td>fu/fy Ratio</td><td>≥ 1.15 و ≤ 1.35</td><td>BS 4449</td><td>3 عينات/25t</td></tr>
-<tr><td>Total Elongation</td><td>≥ 14%</td><td>BS 4449</td><td>3 عينات/25t</td></tr>
-<tr><td>Bend Test 180°</td><td>بدون تشقق</td><td>BS 4449</td><td>3 عينات/25t</td></tr>
-<tr><td>Re-bend Test</td><td>بدون تشقق</td><td>BS 4449</td><td>3 عينات/25t</td></tr>
+<tr><td>Yield المقاومة fy</td><td>≥ 500 N/mm²</td><td>BS 4449:2005</td><td>3 عينات/25t</td></tr>
+<tr><td>Ultimate المقاومة fu</td><td>≥ 600 N/mm²</td><td>BS 4449</td><td>3 عينات/25t</td></tr>
+<tr><td>fu/fy النسبة</td><td>≥ 1.15 و ≤ 1.35</td><td>BS 4449</td><td>3 عينات/25t</td></tr>
+<tr><td>إجمالي Elongation</td><td>≥ 14%</td><td>BS 4449</td><td>3 عينات/25t</td></tr>
+<tr><td>Bend الاختبار 180°</td><td>بدون تشقق</td><td>BS 4449</td><td>3 عينات/25t</td></tr>
+<tr><td>Re-bend الاختبار</td><td>بدون تشقق</td><td>BS 4449</td><td>3 عينات/25t</td></tr>
 <tr><td>Mass per Metre</td><td>± 4.5%</td><td>BS 4449</td><td>3 عينات/25t</td></tr>
-<tr><td>Mill Certificate</td><td>Grade 500B</td><td>—</td><td>كل دفعة</td></tr>
+<tr><td>Mill الشهادة</td><td>الدرجة 500B</td><td>—</td><td>كل دفعة</td></tr>
 </table>
-
 <h3>6️⃣ مواد العزل والحماية</h3>
 <table class="dm-table">
 <tr><th>المادة</th><th>الاستخدام</th><th>المواصفة</th></tr>
 <tr><td>Bituminous Sheet</td><td>عزل الأساسات</td><td>سماكة ≥ 3mm</td></tr>
 <tr><td>Crystalline Coating</td><td>Basement / Raft</td><td>ASTM C1202</td></tr>
 <tr><td>Epoxy Coating</td><td>حماية الRebar</td><td>ASTM A775</td></tr>
-<tr><td>Protection Board 50mm</td><td>فوق Waterproofing</td><td>—</td></tr>
-<tr><td>Waterstop (PVC)</td><td>Construction Joints</td><td>BS 3053</td></tr>
+<tr><td>Protection Board 50mm</td><td>فوق العزل المائي</td><td>—</td></tr>
+<tr><td>Waterstop (PVC)</td><td>الإنشاء الوصلات</td><td>BS 3053</td></tr>
 </table>
-
-</div>
+</div></div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
 📌 QCS 2024 — Section 5, 14 | Structural Works — Materials Specifications
@@ -213,61 +201,55 @@
   c["structural_qcp"] = { title: '📊 خطة ضبط الجودة — الإنشاء (QCP)',
     titleEn: '📋 Quality Control Plan', content: `
 <div class="lang-content-ar">
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Quality Control Plan — Structural</div>
-
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | خطة ضبط الجودة — Structural</div>
 <h3>1.0 — وثائق ما قبل التنفيذ</h3>
 <table class="dm-table">
 <tr><th>الوثيقة</th><th>المحتوى</th><th>الجهة</th></tr>
-<tr><td>Concrete Mix Design</td><td>JMF + Trial Mix نتائج 7 و 28 يوم</td><td>Lab + Consultant</td></tr>
-<tr><td>Material Submittals</td><td>Cement + Aggregate + Water + Admixtures + Rebar</td><td>Consultant</td></tr>
-<tr><td>Formwork Drawings</td><td>تفاصيل الشدات والدعائم</td><td>Consultant</td></tr>
-<tr><td>Rebar Shop Drawings</td><td>Bar Bending Schedule</td><td>Consultant</td></tr>
-<tr><td>Concrete Pour Plan</td><td>طريقة الصب + التسلسل</td><td>Consultant</td></tr>
-<tr><td>Thermal Analysis (Raft)</td><td>للسماكات &gt; 600mm</td><td>Consultant</td></tr>
-<tr><td>GI Report</td><td>توصيات التأسيس + تصنيف الكبريتات</td><td>Geotechnical Engineer</td></tr>
+<tr><td>الخرسانة تصميم الخلطة</td><td>صيغة الخلطة (JMF) + Trial الخلطة نتائج 7 و 28 يوم</td><td>المختبر + الاستشاري</td></tr>
+<tr><td>المادة Submittals</td><td>الإسمنت + الركام + Water + الإضافات + قضبان التسليح</td><td>الاستشاري</td></tr>
+<tr><td>القالب / الشدة Drawings</td><td>تفاصيل الشدات والدعائم</td><td>الاستشاري</td></tr>
+<tr><td>قضبان التسليح رسومات التصنيع</td><td>Bar Bending Schedule</td><td>الاستشاري</td></tr>
+<tr><td>صبة الخرسانة Plan</td><td>طريقة الصب + التسلسل</td><td>الاستشاري</td></tr>
+<tr><td>Thermal Analysis (Raft)</td><td>للسماكات &gt; 600mm</td><td>الاستشاري</td></tr>
+<tr><td>GI Report</td><td>توصيات التأسيس + تصنيف الكبريتات</td><td>جيوتقني المهندس</td></tr>
 </table>
-
-<h3>2.0 — Hold Points الإلزامية</h3>
+<h3>2.0 — نقاط توقف الإلزامية</h3>
 <table class="dm-table">
 <tr><th>HP</th><th>الشرط</th><th>الجهة</th></tr>
-<tr><td>HP-01</td><td>Founding Level — موافقة Geotechnical</td><td>Geotechnical + Consultant</td></tr>
-<tr><td>HP-02</td><td>Blinding + Waterproofing قبل الRebar</td><td>Consultant</td></tr>
-<tr><td>HP-03</td><td>Rebar + Cover + Spacers قبل الصب</td><td>Consultant</td></tr>
-<tr><td>HP-04</td><td>Formwork قبل الصب</td><td>Consultant</td></tr>
-<tr><td>HP-05</td><td>Pour Card موقع قبل الصب</td><td>Consultant</td></tr>
-<tr><td>HP-06</td><td>Cube Result 7 يوم → للاستشاري</td><td>Lab + Consultant</td></tr>
-<tr><td>HP-07</td><td>Cube Result 28 يوم → للقبول</td><td>Lab + Consultant</td></tr>
-<tr><td>HP-08</td><td>Formwork Striking — بعد Cube 7 يوم</td><td>Consultant</td></tr>
-<tr><td>HP-09 (Piles)</td><td>Base Cleanliness قبل Rebar</td><td>Consultant</td></tr>
-<tr><td>HP-10 (Piles)</td><td>PIT Test 100% قبل Pile Cap</td><td>Consultant + Client</td></tr>
+<tr><td>HP-01</td><td>Founding Level — موافقة جيوتقني</td><td>جيوتقني + الاستشاري</td></tr>
+<tr><td>HP-02</td><td>Blinding + العزل المائي قبل الRebar</td><td>الاستشاري</td></tr>
+<tr><td>HP-03</td><td>قضبان التسليح + الغطاء الخرساني + Spacers قبل الصب</td><td>الاستشاري</td></tr>
+<tr><td>HP-04</td><td>القالب / الشدة قبل الصب</td><td>الاستشاري</td></tr>
+<tr><td>HP-05</td><td>صب الخرسانة Card موقع قبل الصب</td><td>الاستشاري</td></tr>
+<tr><td>HP-06</td><td>مكعب اختبار النتيجة 7 يوم → للاستشاري</td><td>المختبر + الاستشاري</td></tr>
+<tr><td>HP-07</td><td>مكعب اختبار النتيجة 28 يوم → للقبول</td><td>المختبر + الاستشاري</td></tr>
+<tr><td>HP-08</td><td>القالب / الشدة Striking — بعد مكعب اختبار 7 يوم</td><td>الاستشاري</td></tr>
+<tr><td>HP-09 (الركائز)</td><td>Base Cleanliness قبل قضبان التسليح</td><td>الاستشاري</td></tr>
+<tr><td>HP-10 (الركائز)</td><td>PIT الاختبار 100% قبل قبعة الركيزة</td><td>الاستشاري + صاحب العمل</td></tr>
 </table>
-
 <h3>3.0 — الاختبارات الإلزامية</h3>
 <table class="dm-table">
 <tr><th>الاختبار</th><th>المعيار</th><th>التكرار</th><th>التوقيت</th></tr>
-<tr><td>Slump Test</td><td>حسب نوع الصب</td><td>كل حمولة</td><td>عند الوصول</td></tr>
-<tr><td>Temperature Check</td><td>≤ 32°C</td><td>كل حمولة</td><td>عند الوصول</td></tr>
-<tr><td>Cube Sampling</td><td>6 مكعبات / 50m³</td><td>كل 50m³</td><td>أثناء الصب</td></tr>
-<tr><td>Cube Result 7 day</td><td>≥ 70% fcu <strong style="color:#e67e22">(مراقبة — ليس قبول)</strong></td><td>كل عينة</td><td>بعد 7 أيام</td></tr>
-<tr><td>Cube Result 28 day</td><td>≥ 100% fcu <strong>(القبول الرسمي QCS S5)</strong></td><td>كل عينة</td><td>بعد 28 يوم</td></tr>
-<tr><td>Rebar Tensile</td><td>fy≥500 | fu≥600</td><td>3 عينات/25t</td><td>عند الاستلام</td></tr>
-<tr><td>Cover Meter</td><td>± 5mm من المطلوب</td><td>عشوائي بعد الصب</td><td>بعد الصب</td></tr>
+<tr><td>الهبوط (Slump) الاختبار</td><td>حسب نوع الصب</td><td>كل حمولة</td><td>عند الوصول</td></tr>
+<tr><td>درجة الحرارة Check</td><td>≤ 32°C</td><td>كل حمولة</td><td>عند الوصول</td></tr>
+<tr><td>مكعب اختبار أخذ العينات</td><td>6 مكعبات / 50m³</td><td>كل 50m³</td><td>أثناء الصب</td></tr>
+<tr><td>مكعب اختبار النتيجة 7 day</td><td>≥ 70% fcu <strong style="color:#e67e22">(مراقبة — ليس قبول)</strong></td><td>كل عينة</td><td>بعد 7 أيام</td></tr>
+<tr><td>مكعب اختبار النتيجة 28 day</td><td>≥ 100% fcu <strong>(القبول الرسمي QCS S5)</strong></td><td>كل عينة</td><td>بعد 28 يوم</td></tr>
+<tr><td>قضبان التسليح Tensile</td><td>fy≥500 | fu≥600</td><td>3 عينات/25t</td><td>عند الاستلام</td></tr>
+<tr><td>الغطاء الخرساني Meter</td><td>± 5mm من المطلوب</td><td>عشوائي بعد الصب</td><td>بعد الصب</td></tr>
 <tr><td>Thermal Monitor (Raft)</td><td>≤70°C | ΔT≤20°C</td><td>كل 4 ساعات</td><td>أثناء الصب</td></tr>
-<tr><td>PIT Test (Piles)</td><td>100% بدون عيوب</td><td>كل خازوق</td><td>بعد 7 أيام</td></tr>
+<tr><td>PIT الاختبار (الركائز)</td><td>100% بدون عيوب</td><td>كل خازوق</td><td>بعد 7 أيام</td></tr>
 </table>
-
 <h3>4.0 — بيئة قطر — متطلبات إضافية</h3>
 <table class="dm-table">
 <tr><th>الحالة</th><th>المتطلب الإضافي</th></tr>
-<tr><td>Sulphate Class 2+</td><td>SRPC إلزامي أو OPC+GGBS</td></tr>
-<tr><td>Sulphate Class 3+</td><td>SRPC + Protective Coating</td></tr>
+<tr><td>Sulphate الصف / الفئة 2+</td><td>SRPC إلزامي أو OPC+GGBS</td></tr>
+<tr><td>Sulphate الصف / الفئة 3+</td><td>SRPC + Protective Coating</td></tr>
 <tr><td>درجة حرارة &gt; 35°C</td><td>Hot Weather Concreting Plan + Ice + تبريد ركام</td></tr>
-<tr><td>Coastal/Marine</td><td>C40 + w/c≤0.40 + Cover≥50mm</td></tr>
-<tr><td>Bored Piles</td><td>SRPC C35 + Cover 75mm + PIT 100%</td></tr>
-<tr><td>Mass Concrete (Raft)</td><td>Thermal Analysis + GGBS + Thermocouples</td></tr>
+<tr><td>Coastal/Marine</td><td>C40 + w/c≤0.40 + الغطاء الخرساني≥50mm</td></tr>
+<tr><td>ركيزة محفورةs</td><td>SRPC C35 + الغطاء الخرساني 75mm + PIT 100%</td></tr>
+<tr><td>Mass الخرسانة (Raft)</td><td>Thermal Analysis + GGBS + Thermocouples</td></tr>
 </table>
-
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -298,32 +280,32 @@
 ` };
   c["concrete_overview"] = { title: '🏗️ الConcrete — نظرة عامة',
     titleEn: '🔵 Concrete — Overview', content: `<div class="lang-content-ar">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | Concrete Works</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | الخرسانة Works</div>
 <h3>📋 نظرة عامة</h3>
-<p>الConcrete هي المادة الأساسية في كل مشاريع البنية التحتية والإنشاء في قطر. جودة الConcrete تحدد عمر المنشأ. بيئة قطر الساحلية (كبريتات + كلوريدات + حرارة) تتطلب Concrete عالية المقاومة ومضافات خاصة.</p>
+<p>الConcrete هي المادة الأساسية في كل مشاريع البنية التحتية والإنشاء في قطر. جودة الConcrete تحدد عمر المنشأ. بيئة قطر الساحلية (كبريتات + كلوريدات + حرارة) تتطلب الخرسانة عالية المقاومة ومضافات خاصة.</p>
 <h3>📌 اختر المرحلة للتفاصيل الكاملة</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
-<div onclick="QS.openDetail('concrete_mix')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧪</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Mix Design</div><div style="color:var(--text3);font-size:11px;">تصميم الخلطة</div></div>
-<div onclick="QS.openDetail('concrete_materials')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔩</div><div style="color:var(--gold);font-weight:700;font-size:13px;" data-ar="المواد" data-en="Materials">المواد</div><div style="color:var(--text3);font-size:11px;">Cement + Aggregate</div></div>
-<div onclick="QS.openDetail('concrete_placing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🏗️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الصب والCompaction</div><div style="color:var(--text3);font-size:11px;">Placing & Compaction</div></div>
-<div onclick="QS.openDetail('concrete_curing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">💧</div><div style="color:var(--gold);font-weight:700;font-size:13px;" data-ar="المعالجة" data-en="Treatment">المعالجة</div><div style="color:var(--text3);font-size:11px;">Curing</div></div>
-<div onclick="QS.openDetail('concrete_testing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧪</div><div style="color:var(--gold);font-weight:700;font-size:13px;" data-ar="الاختبارات" data-en="Testing">الاختبارات</div><div style="color:var(--text3);font-size:11px;">Cube + Slump</div></div>
-<div onclick="QS.openDetail('concrete_joints')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">✂️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الفواصل</div><div style="color:var(--text3);font-size:11px;">Construction Joints</div></div>
+<div onclick="QS.openDetail('concrete_mix')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧪</div><div style="color:var(--gold);font-weight:700;font-size:13px;">تصميم الخلطة</div><div style="color:var(--text3);font-size:11px;">تصميم الخلطة</div></div>
+<div onclick="QS.openDetail('concrete_materials')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔩</div><div data-ar="المواد" data-en="Materials" style="color:var(--gold);font-weight:700;font-size:13px;">المواد</div><div style="color:var(--text3);font-size:11px;">الإسمنت + الركام</div></div>
+<div onclick="QS.openDetail('concrete_placing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🏗️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الصب والCompaction</div><div style="color:var(--text3);font-size:11px;">Placing &amp; الدمك</div></div>
+<div onclick="QS.openDetail('concrete_curing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">💧</div><div data-ar="المعالجة" data-en="Treatment" style="color:var(--gold);font-weight:700;font-size:13px;">المعالجة</div><div style="color:var(--text3);font-size:11px;">المعالجة / التصليد</div></div>
+<div onclick="QS.openDetail('concrete_testing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧪</div><div data-ar="الاختبارات" data-en="Testing" style="color:var(--gold);font-weight:700;font-size:13px;">الاختبارات</div><div style="color:var(--text3);font-size:11px;">مكعب اختبار + الهبوط (Slump)</div></div>
+<div onclick="QS.openDetail('concrete_joints')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">✂️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الفواصل</div><div style="color:var(--text3);font-size:11px;">الإنشاء الوصلات</div></div>
 </div>
-<div style="margin-top:12px;"><div onclick="QS.openDetail('itp_concrete')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;"><div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">ITP الConcrete الكامل</div></div></div>
+<div style="margin-top:12px;"><div onclick="QS.openDetail('itp_concrete')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;"><div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">خطة الفحص والاختبار (ITP) الConcrete الكامل</div></div></div>
 <h3>📐 المواصفات العامة</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th><th>المرجع</th></tr>
 <tr><td>درجة الConcrete الأدنى — Foundations</td><td>C30</td><td>QCS S5 P4</td></tr>
 <tr><td>درجة الConcrete — Columns/Walls</td><td>C35-C50</td><td>QCS S5 P4</td></tr>
 <tr><td>درجة الConcrete — Blinding</td><td>C15-C20</td><td>QCS S5 P4</td></tr>
-<tr><td>w/c Ratio الأقصى</td><td>0.45 (بيئة عدوانية)</td><td>QCS S5 P4</td></tr>
-<tr><td>Cement Content الأدنى</td><td>350 kg/m³</td><td>QCS S5 P4</td></tr>
-<tr><td>Slump — صب عادي</td><td>75-100mm</td><td>QCS S5 P4</td></tr>
-<tr><td>Slump — بمضخة</td><td>100-150mm</td><td>QCS S5 P4</td></tr>
-<tr><td>Cover — Foundation</td><td>75mm</td><td>QCS S5 P4</td></tr>
-<tr><td>Cover — Columns خارجي</td><td>40mm</td><td>QCS S5 P4</td></tr>
-<tr><td>Cover — Slabs داخلي</td><td>20mm</td><td>QCS S5 P4</td></tr>
-<tr><td>Max Aggregate Size</td><td>20mm (عادي) / 10mm (كثيف)</td><td>QCS S5 P4</td></tr>
+<tr><td>w/c النسبة الأقصى</td><td>0.45 (بيئة عدوانية)</td><td>QCS S5 P4</td></tr>
+<tr><td>الإسمنت Content الأدنى</td><td>350 kg/m³</td><td>QCS S5 P4</td></tr>
+<tr><td>الهبوط (Slump) — صب عادي</td><td>75-100mm</td><td>QCS S5 P4</td></tr>
+<tr><td>الهبوط (Slump) — بمضخة</td><td>100-150mm</td><td>QCS S5 P4</td></tr>
+<tr><td>الغطاء الخرساني — الأساس</td><td>75mm</td><td>QCS S5 P4</td></tr>
+<tr><td>الغطاء الخرساني — Columns خارجي</td><td>40mm</td><td>QCS S5 P4</td></tr>
+<tr><td>الغطاء الخرساني — Slabs داخلي</td><td>20mm</td><td>QCS S5 P4</td></tr>
+<tr><td>الحد الأقصى حجم الركام</td><td>20mm (عادي) / 10mm (كثيف)</td><td>QCS S5 P4</td></tr>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;"><h3>🏗️ Concrete Works Overview</h3>
@@ -352,71 +334,69 @@
   c["concrete_full"] = { title: '🧱 الConcrete — Concrete Works',
     titleEn: '🔵 Concrete — Full Detail', content: `
 <div class="lang-content-ar">
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3 | Concrete</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3 | الخرسانة</div>
 <h3>📋 نظرة عامة</h3>
-<p>الConcrete في قطر تواجه تحديات خاصة — حرارة شديدة، كبريتات عالية في التربة، ومياه جوفية مالحة. SRPC (Sulphate Resisting Portland Cement) إلزامي في معظم المشاريع.</p>
+<p>الConcrete في قطر تواجه تحديات خاصة — حرارة شديدة، كبريتات عالية في التربة، ومياه جوفية مالحة. SRPC (Sulphate Resisting Portland الإسمنت) إلزامي في معظم المشاريع.</p>
 <h3>📐 درجات الConcrete — QCS 2024</h3>
-<table class="dm-table"><tr><th>الدرجة</th><th>fcu (N/mm²)</th><th>w/c Max</th><th>الاستخدام</th></tr>
+<table class="dm-table"><tr><th>الدرجة</th><th>fcu (N/mm²)</th><th>w/c الحد الأقصى</th><th>الاستخدام</th></tr>
 <tr><td>C15</td><td>15</td><td>0.65</td><td>بياض (Blinding) فقط</td></tr>
 <tr><td>C25</td><td>25</td><td>0.55</td><td>أساسات بسيطة — تربة عادية</td></tr>
 <tr><td>C30</td><td>30</td><td>0.50</td><td>أعمدة وبلاطات — بيئة عادية</td></tr>
-<tr><td>C35</td><td>35</td><td>0.45</td><td>بيئة كبريتات — Manholes — Piles</td></tr>
+<tr><td>C35</td><td>35</td><td>0.45</td><td>بيئة كبريتات — Manholes — الركائز</td></tr>
 <tr><td>C40</td><td>40</td><td>0.40</td><td>مناطق بحرية — تعرض شديد</td></tr></table>
 <h3>📐 المواصفات العامة</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th><th>المرجع</th></tr>
 <tr><td>الأسمنت</td><td>SRPC إلزامي في قطر (معظم المشاريع)</td><td>BS EN 197-1</td></tr>
 <tr><td>نسبة الماء/الأسمنت</td><td>≤ 0.45 (بيئة قطر)</td><td>QCS S5 P3</td></tr>
-<tr><td>Slump — صب عادي</td><td>75-100mm</td><td>QCS S5 P3</td></tr>
-<tr><td>Slump — بمضخة</td><td>100-150mm</td><td>QCS S5 P3</td></tr>
+<tr><td>الهبوط (Slump) — صب عادي</td><td>75-100mm</td><td>QCS S5 P3</td></tr>
+<tr><td>الهبوط (Slump) — بمضخة</td><td>100-150mm</td><td>QCS S5 P3</td></tr>
 <tr><td>الكلوريد في الركام</td><td>≤ 0.04%</td><td>QCS S5 P3</td></tr>
 <tr><td>Sulphate في الركام</td><td>≤ 4% SO3</td><td>QCS S5 P3</td></tr>
 <tr><td>درجة حرارة التوريد</td><td>≤ 32°C (عند وصول العربة)</td><td>QCS S5 P3</td></tr>
 <tr style="background:rgba(46,204,113,0.08)"><td><strong>🆕 درجة حرارة الصب</strong></td><td><strong style="color:#2ecc71">≤ 35°C عند نقطة الصب</strong></td><td>QCS S5 P4</td></tr>
-<tr><td>الCompaction</td><td>Vibrator — كل 500mm طبقة</td><td>QCS S5 P3</td></tr></table>
+<tr><td>الCompaction</td><td>الهازة — كل 500mm طبقة</td><td>QCS S5 P3</td></tr></table>
 <h3>🔧 طريقة التنفيذ</h3>
-<p><strong>1. قبل الصب:</strong><br>
-• فحص الشدة والRebar — اعتماد المهندس (HP)<br>
-• تنظيف القالب من الغبار والمياه الراكدة<br>
-• رش Release Agent على الشدة<br>
-• فحص أماكن الـ Spacers والـ Cover<br>
-• اختبار Slump من أول حمولة</p>
-<p><strong>2. أثناء الصب:</strong><br>
-• Slump Test من كل مجموعة حمولات<br>
-• أخذ مكعبات (3 مكعبات / 50m³ كحد أدنى)<br>
-• Compaction بـ Vibrator كل 500mm — عدم الإفراط<br>
-• في الصيف: صب بعد الغروب أو بالليل<br>
+<p><strong>1. قبل الصب:</strong><br/>
+• فحص الشدة والRebar — اعتماد المهندس (HP)<br/>
+• تنظيف القالب من الغبار والمياه الراكدة<br/>
+• رش Release Agent على الشدة<br/>
+• فحص أماكن الـ Spacers والـ الغطاء الخرساني<br/>
+• اختبار الهبوط (Slump) من أول حمولة</p>
+<p><strong>2. أثناء الصب:</strong><br/>
+• الهبوط (Slump) الاختبار من كل مجموعة حمولات<br/>
+• أخذ مكعبات (3 مكعبات / 50m³ كحد أدنى)<br/>
+• الدمك بـ الهازة كل 500mm — عدم الإفراط<br/>
+• في الصيف: صب بعد الغروب أو بالليل<br/>
 • تبريد الركام والماء في الصيف</p>
-<p><strong>3. المعالجة (Curing) — حرجة جداً في قطر:</strong><br>
-• OPC: ≥ 7 أيام رطوبة مستمرة<br>
-• SRPC: ≥ 10 أيام<br>
-• بيئة عدوانية: ≥ 14 يوم<br>
-• Curing Compound بديل الرطوبة في المناطق الصعبة</p>
+<p><strong>3. المعالجة (المعالجة / التصليد) — حرجة جداً في قطر:</strong><br/>
+• OPC: ≥ 7 أيام رطوبة مستمرة<br/>
+• SRPC: ≥ 10 أيام<br/>
+• بيئة عدوانية: ≥ 14 يوم<br/>
+• المعالجة / التصليد Compound بديل الرطوبة في المناطق الصعبة</p>
 <h3>🧪 الاختبارات المطلوبة</h3>
 <table class="dm-table"><tr><th>الاختبار</th><th>المعيار</th><th>التكرار</th><th>التوقيت</th></tr>
-<tr><td>Slump Test</td><td>حسب نوع الصب</td><td>كل حمولة أولى + كل 50m³</td><td>أثناء الصب</td></tr>
-<tr><td>Cube Test — 7 يوم</td><td>≥ 70% fcu</td><td>3 مكعبات / 50m³</td><td>7 أيام بعد الصب</td></tr>
-<tr><td>Cube Test — 28 يوم</td><td>≥ 100% fcu</td><td>نفس المجموعة</td><td>28 يوم بعد الصب</td></tr>
+<tr><td>الهبوط (Slump) الاختبار</td><td>حسب نوع الصب</td><td>كل حمولة أولى + كل 50m³</td><td>أثناء الصب</td></tr>
+<tr><td>مكعب اختبار الاختبار — 7 يوم</td><td>≥ 70% fcu</td><td>3 مكعبات / 50m³</td><td>7 أيام بعد الصب</td></tr>
+<tr><td>مكعب اختبار الاختبار — 28 يوم</td><td>≥ 100% fcu</td><td>نفس المجموعة</td><td>28 يوم بعد الصب</td></tr>
 <tr><td>درجة حرارة الConcrete</td><td>≤ 32°C</td><td>كل حمولة (صيف)</td><td>أثناء الصب</td></tr>
-<tr><td>Mix Design Approval</td><td>قبل الإنتاج</td><td>مرة لكل Mix</td><td>قبل الصب</td></tr></table>
-<h3>📐 Cover الإلزامي</h3>
-<table class="dm-table"><tr><th>العنصر</th><th>Cover</th><th>الملاحظة</th></tr>
+<tr><td>تصميم الخلطة الاعتماد</td><td>قبل الإنتاج</td><td>مرة لكل الخلطة</td><td>قبل الصب</td></tr></table>
+<h3>📐 الغطاء الخرساني الإلزامي</h3>
+<table class="dm-table"><tr><th>العنصر</th><th>الغطاء الخرساني</th><th>الملاحظة</th></tr>
 <tr><td>أساسات</td><td>75mm</td><td>مباشر على التربة</td></tr>
 <tr><td>أعمدة خارجية</td><td>40mm</td><td>تعرض للجو</td></tr>
 <tr><td>أعمدة داخلية</td><td>25mm</td><td>محمية</td></tr>
 <tr><td>بلاطات خارجية</td><td>40mm</td><td>تعرض للجو</td></tr>
 <tr><td>بلاطات داخلية</td><td>20mm</td><td>محمية</td></tr>
 <tr><td>خوازيق</td><td>75mm</td><td>تربة مباشرة</td></tr></table>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-01:</strong> اعتماد Mix Design قبل الإنتاج<br>
-• <strong>HP-02:</strong> فحص الشدة والRebar والـ Cover قبل الصب<br>
+<h3>🔴 نقاط توقف</h3>
+<p>• <strong>HP-01:</strong> اعتماد تصميم الخلطة قبل الإنتاج<br/>
+• <strong>HP-02:</strong> فحص الشدة والRebar والـ الغطاء الخرساني قبل الصب<br/>
 • <strong>HP-03:</strong> نتائج مكعبات 28 يوم قبل فك الشدة أو تحميل العنصر</p>
 <h3>⚠️ تنبيهات خاصة بقطر</h3>
-<p>• <strong>SRPC إلزامي</strong> في معظم مناطق قطر (كبريتات عالية)<br>
-• <strong>Hot Weather Concreting:</strong> درجة حرارة الConcrete ≤ 32°C — اصعب حاجة في قطر<br>
-• <strong>Curing:</strong> الإهمال في قطر يسبب تشقق سريع بسبب التبخر<br>
-• <strong>Admixtures:</strong> Water Reducer + Retarder إلزامي في الصيف</p>
-
+<p>• <strong>SRPC إلزامي</strong> في معظم مناطق قطر (كبريتات عالية)<br/>
+• <strong>Hot Weather Concreting:</strong> درجة حرارة الConcrete ≤ 32°C — اصعب حاجة في قطر<br/>
+• <strong>المعالجة / التصليد:</strong> الإهمال في قطر يسبب تشقق سريع بسبب التبخر<br/>
+• <strong>الإضافات:</strong> Water Reducer + Retarder إلزامي في الصيف</p>
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -474,21 +454,21 @@ HP3: 28-day cube results — Engineer approval before loading
 ` };
   c["concrete_materials"] = { title: '🔩 الConcrete — المواد',
     titleEn: '⚗️ Concrete Materials', content: `<div class="lang-content-ar">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | Materials</div>
-<h3>📐 الأسمنت (Cement)</h3>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | المواد</div>
+<h3>📐 الأسمنت (الإسمنت)</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
 <tr><td>النوع المفضل في قطر</td><td>SRPC (Sulphate Resisting) أو OPC + GGBS</td></tr>
 <tr><td>المواصفة</td><td>BS EN 197-1</td></tr>
 <tr><td>C3A Content</td><td>≤ 3.5% للـ SRPC</td></tr>
 <tr><td>Sulphate Content في الأسمنت</td><td>≤ 3.5%</td></tr>
 </table>
-<h3>📐 الركام (Aggregate)</h3>
+<h3>📐 الركام (الركام)</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
 <tr><td>Sulphate Content</td><td>≤ 0.4%</td></tr>
 <tr><td>Chloride Content</td><td>≤ 0.04%</td></tr>
-<tr><td>LA Abrasion (Coarse)</td><td>≤ 30%</td></tr>
-<tr><td>Flakiness Index</td><td>≤ 35%</td></tr>
-<tr><td>Water Absorption</td><td>≤ 2%</td></tr>
+<tr><td>LA Abrasion (الخشن)</td><td>≤ 30%</td></tr>
+<tr><td>مؤشر الرقائقية (FI)</td><td>≤ 35%</td></tr>
+<tr><td>امتصاص الماء</td><td>≤ 2%</td></tr>
 <tr><td>Alkali Silica Reaction</td><td>فحص AAR إلزامي</td></tr>
 </table>
 <h3>📐 مياه الخلط (Mixing Water)</h3>
@@ -497,8 +477,8 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>Sulphate</td><td>≤ 2000 mg/L</td></tr>
 <tr><td>المياه المعالجة</td><td>مسموح بعد اعتماد KAHRAMAA</td></tr>
 </table>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-03:</strong> اعتماد كل المواد قبل التوريد<br>• <strong>HP-04:</strong> Sulphate + Chloride Test لكل دفعة ركام</p>
+<h3>🔴 نقاط توقف</h3>
+<p>• <strong>HP-03:</strong> اعتماد كل المواد قبل التوريد<br/>• <strong>HP-04:</strong> Sulphate + Chloride الاختبار لكل دفعة ركام</p>
 </div>
 <div class="lang-content-en" style="display:none;"><h3>Cement</h3>
 <table class="dm-table">
@@ -525,18 +505,18 @@ HP3: 28-day cube results — Engineer approval before loading
 ` };
   c["concrete_mix"] = { title: '🧪 الConcrete — Mix Design',
     titleEn: '🔬 Concrete Mix Design', content: `<div class="lang-content-ar">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | Mix Design</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | تصميم الخلطة</div>
 <h3>📐 متطلبات التصميم</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
-<tr><td>Target Mean Strength</td><td>fcu + 1.64 × SD (SD ≥ 4 N/mm²)</td></tr>
-<tr><td>w/c Ratio</td><td>≤ 0.45 للبيئة العدوانية</td></tr>
-<tr><td>Cement Content</td><td>≥ 350 kg/m³</td></tr>
+<tr><td>الهدف Mean المقاومة</td><td>fcu + 1.64 × SD (SD ≥ 4 N/mm²)</td></tr>
+<tr><td>w/c النسبة</td><td>≤ 0.45 للبيئة العدوانية</td></tr>
+<tr><td>الإسمنت Content</td><td>≥ 350 kg/m³</td></tr>
 <tr><td>GGBS أو PFA</td><td>مسموح حتى 50% GGBS / 30% PFA</td></tr>
 <tr><td>Silica Fume</td><td>5-10% للConcrete العالية المقاومة</td></tr>
-<tr><td>Admixtures</td><td>معتمدة + لا تتجاوز جرعة المصنع</td></tr>
+<tr><td>الإضافات</td><td>معتمدة + لا تتجاوز جرعة المصنع</td></tr>
 </table>
-<h3>🔧 Trial Mix — الخلطة التجريبية</h3>
-<p>• 3 خلطات تجريبية بنسب w/c مختلفة<br>• اختبار Slump + Air Content + Cube لكل خلطة<br>• اعتماد الـ JMF (Job Mix Formula) قبل الإنتاج<br>• التحقق عند 7 و 28 يوم</p>
+<h3>🔧 Trial الخلطة — الخلطة التجريبية</h3>
+<p>• 3 خلطات تجريبية بنسب w/c مختلفة<br/>• اختبار الهبوط (Slump) + Air Content + مكعب اختبار لكل خلطة<br/>• اعتماد الـ صيغة الخلطة (JMF) (صيغة الخلطة الإنتاجية) قبل الإنتاج<br/>• التحقق عند 7 و 28 يوم</p>
 <h3>⚠️ بيئة قطر — متطلبات خاصة</h3>
 <table class="dm-table"><tr><th>نوع التعرض</th><th>درجة الConcrete</th><th>w/c الأقصى</th></tr>
 <tr><td>داخلي محمي</td><td>C25</td><td>0.55</td></tr>
@@ -545,8 +525,8 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>بحري / Splash Zone</td><td>C40</td><td>0.40</td></tr>
 <tr><td>Submerged في مياه بحرية</td><td>C45</td><td>0.38</td></tr>
 </table>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-01:</strong> اعتماد JMF قبل أي إنتاج<br>• <strong>HP-02:</strong> اعتماد نتائج Trial Mix (7+28 يوم)</p>
+<h3>🔴 نقاط توقف</h3>
+<p>• <strong>HP-01:</strong> اعتماد صيغة الخلطة (JMF) قبل أي إنتاج<br/>• <strong>HP-02:</strong> اعتماد نتائج Trial الخلطة (7+28 يوم)</p>
 </div>
 <div class="lang-content-en" style="display:none;"><h3>Mix Design Requirements — QCS S5 P4</h3>
 <table class="dm-table">
@@ -569,29 +549,29 @@ HP3: 28-day cube results — Engineer approval before loading
 ` };
   c["concrete_placing"] = { title: '🏗️ الConcrete — الصب والCompaction',
     titleEn: '🏗️ Concrete Placing & Pouring', content: `<div class="lang-content-ar">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | Placing & Compaction</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | Placing &amp; الدمك</div>
 <h3>📐 متطلبات قبل الصب</h3>
-<p>• اعتماد الشدات والRebar (Hold Point)<br>• تنظيف القاع وإزالة المياه والمخلفات<br>• رش المياه على القاع (منع امتصاص المياه)<br>• تركيب Spacers للـ Cover<br>• اعتماد طلب الصب (Concrete Pour Card)</p>
+<p>• اعتماد الشدات والRebar (نقطة توقف)<br/>• تنظيف القاع وإزالة المياه والمخلفات<br/>• رش المياه على القاع (منع امتصاص المياه)<br/>• تركيب Spacers للـ الغطاء الخرساني<br/>• اعتماد طلب الصب (صبة الخرسانة Card)</p>
 <h3>🔧 أثناء الصب</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
 <tr><td>وقت النقل</td><td>≤ 90 دقيقة من الخلط</td></tr>
 <tr><td>ارتفاع الصب</td><td>≤ 500mm لكل طبقة</td></tr>
-<tr><td>أقصى وقت بين الطبقات</td><td>≤ Initial Set Time (عادة 2-3 hr)</td></tr>
+<tr><td>أقصى وقت بين الطبقات</td><td>≤ ابتدائي Set الوقت (عادة 2-3 hr)</td></tr>
 <tr><td>درجة حرارة الConcrete</td><td>≤ 32°C عند الصب</td></tr>
 <tr><td>Hot Weather Concreting</td><td>&gt; 35°C = تبريد المواد + Ice</td></tr>
 </table>
-<h3>🔧 الCompaction (Compaction)</h3>
+<h3>🔧 الCompaction (الدمك)</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
-<tr><td>نوع Vibrator</td><td>Internal (Poker) — قطر 50-75mm</td></tr>
+<tr><td>نوع الهازة</td><td>Internal (Poker) — قطر 50-75mm</td></tr>
 <tr><td>مسافة الإدخال</td><td>كل 450mm أفقياً</td></tr>
 <tr><td>عمق الإدخال</td><td>طول الطبقة + 150mm في الطبقة السابقة</td></tr>
 <tr><td>مدة الاهتزاز</td><td>5-15 ثانية</td></tr>
-<tr><td>سحب الـ Vibrator</td><td>ببطء — لا يترك فراغ</td></tr>
+<tr><td>سحب الـ الهازة</td><td>ببطء — لا يترك فراغ</td></tr>
 </table>
 <h3>⚠️ تنبيهات خاصة بقطر</h3>
-<p>• <strong>الصيف:</strong> تبريد الركام + الأسمنت + مياه الخلط بالثلج<br>• <strong>الصب الليلي:</strong> مفضل في الصيف (درجة حرارة أقل)<br>• <strong>Direct Sunlight:</strong> تغطية فورية بعد الصب<br>• <strong>Evaporation:</strong> استخدام Evaporation Retarder</p>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-05:</strong> اعتماد Rebar + Formwork + Cover قبل الصب<br>• <strong>HP-06:</strong> Pour Card موقع من الاستشاري قبل الصب</p>
+<p>• <strong>الصيف:</strong> تبريد الركام + الأسمنت + مياه الخلط بالثلج<br/>• <strong>الصب الليلي:</strong> مفضل في الصيف (درجة حرارة أقل)<br/>• <strong>Direct Sunlight:</strong> تغطية فورية بعد الصب<br/>• <strong>Evaporation:</strong> استخدام Evaporation Retarder</p>
+<h3>🔴 نقاط توقف</h3>
+<p>• <strong>HP-05:</strong> اعتماد قضبان التسليح + القالب / الشدة + الغطاء الخرساني قبل الصب<br/>• <strong>HP-06:</strong> صب الخرسانة Card موقع من الاستشاري قبل الصب</p>
 </div>
 <div class="lang-content-en" style="display:none;">
 <h3>🏗️ Concrete Placing & Compaction — QCS 2024</h3>
@@ -613,15 +593,15 @@ HP3: 28-day cube results — Engineer approval before loading
 ` };
   c["concrete_testing"] = { title: '🧪 الConcrete — الاختبارات',
     titleEn: '🧪 Concrete Testing', content: `<div class="lang-content-ar">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | Testing</div>
-<h3>1. Slump Test — في الموقع</h3>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | الاختبار</div>
+<h3>1. الهبوط (Slump) الاختبار — في الموقع</h3>
 <table class="dm-table"><tr><th>نوع الصب</th><th>المعيار</th></tr>
 <tr><td>صب عادي</td><td>75-100mm</td></tr>
 <tr><td>صب بمضخة</td><td>100-150mm</td></tr>
-<tr><td>Bored Piles</td><td>160-220mm</td></tr>
-<tr><td>Self Compacting</td><td>650-750mm (Flow)</td></tr>
+<tr><td>ركيزة محفورةs</td><td>160-220mm</td></tr>
+<tr><td>Self Compacting</td><td>650-750mm (التدفق)</td></tr>
 </table>
-<h3>2. Cube Sampling</h3>
+<h3>2. مكعب اختبار أخذ العينات</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
 <tr><td>التكرار</td><td>كل 50m³ أو كل صبة — أيهما أكثر</td></tr>
 <tr><td>عدد المكعبات لكل عينة</td><td>6 مكعبات (3 لـ 7 يوم + 3 لـ 28 يوم)</td></tr>
@@ -634,11 +614,11 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>Air Content</td><td>≤ 3%</td><td>كل عينة</td></tr>
 <tr><td>درجة الحرارة</td><td>≤ 32°C</td><td>كل حمولة</td></tr>
 <tr><td>Chloride (Hardened)</td><td>≤ 0.4% cement</td><td>كل 500m³</td></tr>
-<tr><td>Carbonation Depth</td><td>فحص دوري</td><td>بعد 28 يوم</td></tr>
-<tr><td>Core Test</td><td>≥ 0.85 fcu</td><td>عند الشك فقط</td></tr>
+<tr><td>Carbonation العمق</td><td>فحص دوري</td><td>بعد 28 يوم</td></tr>
+<tr><td>الأسطوانة المحفورة (Core) الاختبار</td><td>≥ 0.85 fcu</td><td>عند الشك فقط</td></tr>
 </table>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-09:</strong> نتائج 7 أيام ترسل للاستشاري فوراً<br>• <strong>HP-10:</strong> فشل 28 يوم = وقف العمل + تحقيق</p>
+<h3>🔴 نقاط توقف</h3>
+<p>• <strong>HP-09:</strong> نتائج 7 أيام ترسل للاستشاري فوراً<br/>• <strong>HP-10:</strong> فشل 28 يوم = وقف العمل + تحقيق</p>
 </div>
 <div class="lang-content-en" style="display:none;">
 <h3>🔬 Concrete Testing — QCS 2024</h3>
@@ -657,7 +637,7 @@ HP3: 28-day cube results — Engineer approval before loading
 ` };
   c["concrete_curing"] = { title: '💧 الConcrete — المعالجة (Curing)',
     titleEn: '💧 Concrete Curing', content: `<div class="lang-content-ar">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | Curing</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | المعالجة / التصليد</div>
 <h3>📐 متطلبات المعالجة</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
 <tr><td>بداية المعالجة</td><td>فور انتهاء الصب وبدء التصلب</td></tr>
@@ -667,11 +647,11 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>درجة حرارة السطح</td><td>≥ 10°C طول فترة المعالجة</td></tr>
 </table>
 <h3>🔧 طرق المعالجة المقبولة</h3>
-<p>• <strong>Wet Hessian:</strong> خيش مبلل مستمر — الأفضل<br>• <strong>Curing Compound:</strong> رش بعد الصب مباشرة — معتمد من المهندس<br>• <strong>Polythene Sheet:</strong> تغطية كاملة بدون فراغات<br>• <strong>Ponding:</strong> للأسطح الأفقية الكبيرة</p>
+<p>• <strong>Wet Hessian:</strong> خيش مبلل مستمر — الأفضل<br/>• <strong>المعالجة / التصليد Compound:</strong> رش بعد الصب مباشرة — معتمد من المهندس<br/>• <strong>Polythene Sheet:</strong> تغطية كاملة بدون فراغات<br/>• <strong>Ponding:</strong> للأسطح الأفقية الكبيرة</p>
 <h3>⚠️ في قطر — الصيف خطر</h3>
-<p>• تبخر سريع جداً = Plastic Cracking<br>• Curing Compound إلزامي في الصيف<br>• تبريد السطح بالرش قبل وضع الـ Hessian<br>• مراقبة كل 4 ساعات في درجات الحرارة العالية</p>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-07:</strong> تأكيد بدء المعالجة خلال hour من الصب<br>• <strong>HP-08:</strong> تسجيل يومي لإجراءات المعالجة</p>
+<p>• تبخر سريع جداً = Plastic Cracking<br/>• المعالجة / التصليد Compound إلزامي في الصيف<br/>• تبريد السطح بالرش قبل وضع الـ Hessian<br/>• مراقبة كل 4 ساعات في درجات الحرارة العالية</p>
+<h3>🔴 نقاط توقف</h3>
+<p>• <strong>HP-07:</strong> تأكيد بدء المعالجة خلال hour من الصب<br/>• <strong>HP-08:</strong> تسجيل يومي لإجراءات المعالجة</p>
 </div>
 <div class="lang-content-en" style="display:none;"><h3>Curing Requirements — QCS S5 P4</h3>
 <table class="dm-table">
@@ -689,20 +669,20 @@ HP3: 28-day cube results — Engineer approval before loading
 ` };
   c["concrete_joints"] = { title: '✂️ الConcrete — الفواصل',
     titleEn: '🔗 Structural Joints', content: `<div class="lang-content-ar">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | Construction Joints</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | الإنشاء الوصلات</div>
 <h3>📐 أنواع الفواصل</h3>
 <table class="dm-table"><tr><th>النوع</th><th>الوصف</th><th>المتطلب</th></tr>
-<tr><td>Construction Joint</td><td>فاصل تنفيذي بين صبتين</td><td>تنظيف + شيطان + Bonding Agent</td></tr>
-<tr><td>Expansion Joint</td><td>فاصل تمدد حراري</td><td>حسب التصميم — عادة كل 30-40m</td></tr>
-<tr><td>Contraction Joint</td><td>فاصل انكماش في الأسطح</td><td>قطع ≥ D/3 خلال 24hr</td></tr>
-<tr><td>Isolation Joint</td><td>فصل كامل بين عناصر</td><td>Compressible Filler</td></tr>
+<tr><td>الإنشاء الوصلة</td><td>فاصل تنفيذي بين صبتين</td><td>تنظيف + شيطان + Bonding Agent</td></tr>
+<tr><td>Expansion الوصلة</td><td>فاصل تمدد حراري</td><td>حسب التصميم — عادة كل 30-40m</td></tr>
+<tr><td>Contraction الوصلة</td><td>فاصل انكماش في الأسطح</td><td>قطع ≥ D/3 خلال 24hr</td></tr>
+<tr><td>Isolation الوصلة</td><td>فصل كامل بين عناصر</td><td>Compressible Filler</td></tr>
 </table>
-<h3>🔧 معالجة Construction Joint</h3>
-<p>1. إيقاف الصب عند خط أفقي أو رأسي محدد<br>2. بعد Initial Set: تنظيف السطح بـ Water Jetting أو Wire Brush<br>3. إزالة الطبقة السطحية الضعيفة (Laitance)<br>4. رش Bonding Agent (SBR أو Epoxy)<br>5. صب الطبقة التالية قبل جفاف الـ Bonding Agent</p>
+<h3>🔧 معالجة الإنشاء الوصلة</h3>
+<p>1. إيقاف الصب عند خط أفقي أو رأسي محدد<br/>2. بعد ابتدائي Set: تنظيف السطح بـ Water Jetting أو Wire Brush<br/>3. إزالة الطبقة السطحية الضعيفة (Laitance)<br/>4. رش Bonding Agent (SBR أو Epoxy)<br/>5. صب الطبقة التالية قبل جفاف الـ Bonding Agent</p>
 <h3>⚠️ تنبيهات مهمة</h3>
-<p>• موضع الفاصل يحدده المهندس الإنشائي — لا يُغير دون إذن<br>• Waterstop إلزامي في الجدران المائية<br>• في قطر: الفواصل مناطق ضعف أمام الكلوريدات — معالجة خاصة</p>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-11:</strong> اعتماد موضع الفاصل من المهندس الإنشائي<br>• <strong>HP-12:</strong> فحص تنظيف الفاصل قبل الصب التالي</p>
+<p>• موضع الفاصل يحدده المهندس الإنشائي — لا يُغير دون إذن<br/>• Waterstop إلزامي في الجدران المائية<br/>• في قطر: الفواصل مناطق ضعف أمام الكلوريدات — معالجة خاصة</p>
+<h3>🔴 نقاط توقف</h3>
+<p>• <strong>HP-11:</strong> اعتماد موضع الفاصل من المهندس الإنشائي<br/>• <strong>HP-12:</strong> فحص تنظيف الفاصل قبل الصب التالي</p>
 </div>
 <div class="lang-content-en" style="display:none;"><h3>Joint Types</h3>
 <table class="dm-table">
@@ -723,38 +703,35 @@ HP3: 28-day cube results — Engineer approval before loading
 <h3>📐 1. أنواع رصف الConcrete</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>النوع</th><th>الوصف</th><th>الاستخدام في قطر</th></tr>
-<tr><td><strong>JPCP</strong> (Jointed Plain Concrete)</td><td>ألواح خرسانية بدون Rebar تسليح + Transverse Joints</td><td>المطارات + الموانئ + الصناعي</td></tr>
+<tr><td><strong>JPCP</strong> (Jointed Plain الخرسانة)</td><td>ألواح خرسانية بدون قضبان التسليح تسليح + Transverse الوصلات</td><td>المطارات + الموانئ + الصناعي</td></tr>
 <tr><td><strong>JRCP</strong> (Jointed Reinforced)</td><td>ألواح خرسانية بRebar تسليح خفيف</td><td>نادر الاستخدام</td></tr>
-<tr><td><strong>CRCP</strong> (Continuously Reinforced)</td><td>Rebar تسليح مستمر — بدون Transverse Joints</td><td>الطرق السريعة الثقيلة</td></tr>
-<tr><td><strong>Roller Compacted Concrete (RCC)</strong></td><td>Concrete مدموكة بـ Roller — جافة جداً</td><td>مواقف + مستودعات صناعية</td></tr>
+<tr><td><strong>CRCP</strong> (Continuously Reinforced)</td><td>قضبان التسليح تسليح مستمر — بدون Transverse الوصلات</td><td>الطرق السريعة الثقيلة</td></tr>
+<tr><td><strong>Roller مدموك الخرسانة (RCC)</strong></td><td>الخرسانة مدموكة بـ Roller — جافة جداً</td><td>مواقف + مستودعات صناعية</td></tr>
 </table>
-
 <h3>📐 2. مواصفات الConcrete — QCS S6 P6</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المواصفة</th><th>المرجع</th></tr>
 <tr><td>درجة الConcrete (fcu)</td><td>≥ C35 / fcu ≥ 35 N/mm²</td><td>QCS S6 P6</td></tr>
-<tr><td>Flexural Strength (MR)</td><td>≥ 4.5 MPa @ 28 يوم</td><td>QCS S6 P6</td></tr>
-<tr><td>w/c Ratio (أقصى)</td><td>≤ 0.40</td><td>QCS S6 P6</td></tr>
-<tr><td>Cement Content (أدنى)</td><td>≥ 380 kg/m³</td><td>QCS S6 P6</td></tr>
+<tr><td>Flexural المقاومة (MR)</td><td>≥ 4.5 MPa @ 28 يوم</td><td>QCS S6 P6</td></tr>
+<tr><td>w/c النسبة (أقصى)</td><td>≤ 0.40</td><td>QCS S6 P6</td></tr>
+<tr><td>الإسمنت Content (أدنى)</td><td>≥ 380 kg/m³</td><td>QCS S6 P6</td></tr>
 <tr><td>نوع الأسمنت في قطر</td><td>SRPC أو OPC+GGBS (بيئة عدوانية)</td><td>QCS S6 P6</td></tr>
 <tr><td>Air Content</td><td>4.5 ± 1.5% (مناخ قطر)</td><td>QCS S6 P6</td></tr>
-<tr><td>Max Aggregate Size</td><td>≤ ⅓ سماكة اللوح أو 37.5mm</td><td>QCS S6 P6</td></tr>
-<tr><td>Slump (Slipform Paving)</td><td>20 - 60mm</td><td>QCS S6 P6</td></tr>
+<tr><td>الحد الأقصى حجم الركام</td><td>≤ ⅓ سماكة اللوح أو 37.5mm</td><td>QCS S6 P6</td></tr>
+<tr><td>الهبوط (Slump) (Slipform Paving)</td><td>20 - 60mm</td><td>QCS S6 P6</td></tr>
 </table>
-
 <h3>📐 3. أبعاد الألواح والمفاصل</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المواصفة</th></tr>
-<tr><td>سماكة اللوح (Slab Thickness)</td><td>200 - 300mm حسب Traffic Designation</td></tr>
-<tr><td>عرض اللوح (Slab Width)</td><td>= عرض مسار المرور (3.65m عادةً)</td></tr>
-<tr><td>طول لوح JPCP (Transverse Joint Spacing)</td><td>4.5 - 6.0m</td></tr>
-<tr><td>Transverse Joint Width</td><td>6 - 10mm</td></tr>
-<tr><td>Transverse Joint Depth</td><td>⅓ سماكة اللوح (قطع بعد 24-72hr)</td></tr>
-<tr><td>Longitudinal Joint</td><td>في منتصف اللوح إذا عرض &gt; 4.5m</td></tr>
-<tr><td>Expansion Joint</td><td>عند Fixed Objects (Bridges + Buildings)</td></tr>
+<tr><td>سماكة اللوح (البلاطة السماكة)</td><td>200 - 300mm حسب Traffic Designation</td></tr>
+<tr><td>عرض اللوح (البلاطة العرض)</td><td>= عرض مسار المرور (3.65m عادةً)</td></tr>
+<tr><td>طول لوح JPCP (Transverse الوصلة التباعد)</td><td>4.5 - 6.0m</td></tr>
+<tr><td>Transverse الوصلة العرض</td><td>6 - 10mm</td></tr>
+<tr><td>Transverse الوصلة العمق</td><td>⅓ سماكة اللوح (قطع بعد 24-72hr)</td></tr>
+<tr><td>Longitudinal الوصلة</td><td>في منتصف اللوح إذا عرض &gt; 4.5m</td></tr>
+<tr><td>Expansion الوصلة</td><td>عند Fixed Objects (Bridges + Buildings)</td></tr>
 </table>
-
-<h3>📐 4. Dowel Bars & Tie Bars</h3>
+<h3>📐 4. Dowel Bars &amp; Tie Bars</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>Dowel Bars (Transverse)</th><th>Tie Bars (Longitudinal)</th></tr>
 <tr><td>الوظيفة</td><td>نقل الأحمال بين الألواح — يسمح بالحركة</td><td>ربط الألواح الجانبية — لا يسمح بالفتح</td></tr>
@@ -762,57 +739,52 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>الطول</td><td>450mm</td><td>800mm</td></tr>
 <tr><td>التباعد</td><td>كل 300mm في وسط اللوح</td><td>كل 750-1000mm</td></tr>
 <tr><td>التشحيم</td><td>نصف الطول مشحّم (يسمح بالحركة)</td><td>لا تشحيم</td></tr>
-<tr><td>المادة</td><td>Steel Grade 250 أو Epoxy Coated</td><td>Steel Grade 460</td></tr>
+<tr><td>المادة</td><td>الفولاذ / الحديد الدرجة 250 أو Epoxy Coated</td><td>الفولاذ / الحديد الدرجة 460</td></tr>
 </table>
-
 <h3>📐 5. طرق الصب والفرش</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>الطريقة</th><th>الوصف</th><th>المزايا</th></tr>
 <tr><td>Slipform Paving</td><td>Paver متخصص يصب ويشكّل ويCompaction في حركة واحدة</td><td>سريع + جودة عالية + أقل عمالة</td></tr>
 <tr><td>Fixed Form Paving</td><td>قوالب جانبية ثابتة + صب يدوي/بمضخة</td><td>للأشكال المعقدة + Ramps</td></tr>
 </table>
-
-<h3>📐 6. المعالجة (Curing) — QCS S6 P6</h3>
+<h3>📐 6. المعالجة (المعالجة / التصليد) — QCS S6 P6</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
-<tr><td>Curing Compound</td><td>رش فوري بعد الانتهاء من التشطيب Surface — Resin-Based Compound</td></tr>
-<tr><td>Curing Duration</td><td>≥ 7 أيام OPC / ≥ 10 أيام SRPC</td></tr>
+<tr><td>المعالجة / التصليد Compound</td><td>رش فوري بعد الانتهاء من التشطيب Surface — Resin-Based Compound</td></tr>
+<tr><td>المعالجة / التصليد المدة</td><td>≥ 7 أيام OPC / ≥ 10 أيام SRPC</td></tr>
 <tr><td>Hot Weather Protection</td><td>Polythene Sheet + Wet Hessian فوق الـ Compound في درجات &gt; 35°C</td></tr>
 <tr><td>Solar Radiation Protection</td><td>White Pigmented Compound لعكس الحرارة</td></tr>
-<tr><td>درجة الحرارة أثناء الصب</td><td>Concrete ≤ 32°C في الموقع</td></tr>
+<tr><td>درجة الحرارة أثناء الصب</td><td>الخرسانة ≤ 32°C في الموقع</td></tr>
 </table>
-
-<h3>📐 7. Joint Sealant</h3>
+<h3>📐 7. الوصلة Sealant</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
-<tr><td>نوع المادة</td><td>Hot-Applied Rubberized Bitumen أو Polyurethane</td></tr>
+<tr><td>نوع المادة</td><td>Hot-Applied Rubberized البيتومين أو Polyurethane</td></tr>
 <tr><td>وقت التطبيق</td><td>بعد 24-72hr من القطع + بعد جفاف الجوانت</td></tr>
 <tr><td>عمق Backer Rod</td><td>يُوضع قبل الـ Sealant بعمق = عرض الجوينت</td></tr>
 <tr><td>مستوى الـ Sealant</td><td>5-10mm أقل من سطح اللوح</td></tr>
 <tr><td>مقاومة الحرارة</td><td>يتحمل ≥ 70°C (ضروري في قطر)</td></tr>
 </table>
-
 <h3>📐 8. اختبارات القبول</h3>
 <table class="dm-table">
 <tr style="background:rgba(122,21,21,0.7);"><th>الاختبار</th><th>المعيار</th><th>التكرار</th></tr>
-<tr><td>Flexural Strength (Beam Test)</td><td>≥ 4.5 MPa @ 28 يوم</td><td>كل 50m³</td></tr>
-<tr><td>Cube Compressive Strength</td><td>≥ 35 N/mm² @ 28 يوم</td><td>كل 50m³</td></tr>
-<tr><td>Slab Thickness (Core)</td><td>Design ± 10mm</td><td>كل 1000m²</td></tr>
+<tr><td>Flexural المقاومة (الكمرة / الجسر الاختبار)</td><td>≥ 4.5 MPa @ 28 يوم</td><td>كل 50m³</td></tr>
+<tr><td>مكعب اختبار مقاومة الضغط</td><td>≥ 35 N/mm² @ 28 يوم</td><td>كل 50m³</td></tr>
+<tr><td>البلاطة السماكة (الأسطوانة المحفورة (Core))</td><td>Design ± 10mm</td><td>كل 1000m²</td></tr>
 <tr><td>Surface Evenness (3m Straightedge)</td><td>≤ 3mm تحت الـ 3m Straight Edge</td><td>كل 25m</td></tr>
-<tr><td>Level Survey</td><td>± 10mm من التصميم</td><td>كل 25m طول</td></tr>
-<tr><td>Texture Depth (Sand Patch)</td><td>≥ 0.7mm (Skid Resistance)</td><td>كل 1000m²</td></tr>
-<tr><td>IRI</td><td>≤ 2.0 m/km</td><td>كل Section</td></tr>
-<tr><td>Dowel Bar Alignment</td><td>± 6mm من المحور</td><td>100% Visual + Sampling</td></tr>
+<tr><td>Level المسح والرفع المساحي</td><td>± 10mm من التصميم</td><td>كل 25m طول</td></tr>
+<tr><td>Texture العمق (Sand Patch)</td><td>≥ 0.7mm (مقاومة الانزلاق)</td><td>كل 1000m²</td></tr>
+<tr><td>مؤشر الخشونة الدولية (IRI)</td><td>≤ 2.0 m/km</td><td>كل Section</td></tr>
+<tr><td>Dowel Bar Alignment</td><td>± 6mm من المحور</td><td>100% Visual + أخذ العينات</td></tr>
 </table>
-
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-01:</strong> Mix Design Approval + JMF قبل الإنتاج<br>
-• <strong>HP-02:</strong> Subbase + Grade inspection قبل الصب<br>
-• <strong>HP-03:</strong> Dowel Bars + Tie Bars inspection قبل الصب<br>
-• <strong>HP-04:</strong> Pour Card + Slipform Calibration قبل الصب<br>
-• <strong>HP-05:</strong> Flexural Strength 7 يوم → للاستشاري<br>
-• <strong>HP-06:</strong> Joint Cutting within 24-72hr من الصب<br>
-• <strong>HP-07:</strong> Joint Sealing بعد اكتمال المعالجة</p>
+<h3>🔴 نقاط توقف</h3>
+<p>• <strong>HP-01:</strong> تصميم الخلطة الاعتماد + صيغة الخلطة (JMF) قبل الإنتاج<br/>
+• <strong>HP-02:</strong> طبقة الإسفلت الأساسية (Subbase) + الدرجة inspection قبل الصب<br/>
+• <strong>HP-03:</strong> Dowel Bars + Tie Bars inspection قبل الصب<br/>
+• <strong>HP-04:</strong> صب الخرسانة Card + Slipform Calibration قبل الصب<br/>
+• <strong>HP-05:</strong> Flexural المقاومة 7 يوم → للاستشاري<br/>
+• <strong>HP-06:</strong> الوصلة Cutting within 24-72hr من الصب<br/>
+• <strong>HP-07:</strong> الوصلة Sealing بعد اكتمال المعالجة</p>
 </div>
 <div class="lang-content-en" style="display:none;">
 <h3>📐 1. Concrete Pavement Types</h3>
@@ -917,33 +889,33 @@ HP3: 28-day cube results — Engineer approval before loading
 </div>
 <div class="lang-content-ar">
 <h3>1.0 النطاق والمواد</h3>
-<p>يغطي هذا الـ Method Statement أعمال الConcrete في قطر مع التركيز على Hot Weather Concreting والبيئة العدوانية (كبريتات + كلوريدات).</p>
+<p>يغطي هذا الـ بيان المنهجية أعمال الConcrete في قطر مع التركيز على Hot Weather Concreting والبيئة العدوانية (كبريتات + كلوريدات).</p>
 <h3>2.0 المعدات</h3>
 <table class="dm-table"><tr><th>المعدة</th><th>الملاحظة</th></tr>
-<tr><td>Concrete Mixer Truck (Agitator)</td><td>≤ 90 دقيقة من الخلط</td></tr>
-<tr><td>Concrete Pump</td><td>Slump 100-150mm للضخ</td></tr>
-<tr><td>Internal Vibrator (Poker 50-75mm)</td><td>كل 450mm أفقياً</td></tr>
+<tr><td>الخرسانة Mixer Truck (Agitator)</td><td>≤ 90 دقيقة من الخلط</td></tr>
+<tr><td>الخرسانة Pump</td><td>الهبوط (Slump) 100-150mm للضخ</td></tr>
+<tr><td>Internal الهازة (Poker 50-75mm)</td><td>كل 450mm أفقياً</td></tr>
 <tr><td>Thermometer</td><td>قياس حرارة الConcrete كل حمولة</td></tr>
-<tr><td>Thermocouple System</td><td>للـ Raft / Mass Concrete إلزامي</td></tr>
+<tr><td>Thermocouple System</td><td>للـ Raft / Mass الخرسانة إلزامي</td></tr>
 </table>
 <h3>3.0 التسلسل التنفيذي</h3>
-<p><strong>قبل الصب:</strong><br>
-• اعتماد JMF + نتائج Trial Mix (7+28 يوم)<br>
-• Pour Card موقع من الاستشاري<br>
-• فحص Formwork + Rebar + Cover (Hold Point)<br>
-• تبريد الشدات والRebar بالماء في الصيف<br>
+<p><strong>قبل الصب:</strong><br/>
+• اعتماد صيغة الخلطة (JMF) + نتائج Trial الخلطة (7+28 يوم)<br/>
+• صب الخرسانة Card موقع من الاستشاري<br/>
+• فحص القالب / الشدة + قضبان التسليح + الغطاء الخرساني (نقطة توقف)<br/>
+• تبريد الشدات والRebar بالماء في الصيف<br/>
 • التحقق من جاهزية معدات الCompaction والمعالجة</p>
-<p><strong>أثناء الصب:</strong><br>
-• قياس Slump كل حمولة<br>
-• قياس درجة الحرارة كل حمولة — رفض أي حمولة > 32°C<br>
-• أخذ Cube Samples: 6 مكعبات كل 50m³<br>
-• ردم بطبقات ≤ 500mm + Compaction فوري<br>
+<p><strong>أثناء الصب:</strong><br/>
+• قياس الهبوط (Slump) كل حمولة<br/>
+• قياس درجة الحرارة كل حمولة — رفض أي حمولة &gt; 32°C<br/>
+• أخذ مكعب اختبار Samples: 6 مكعبات كل 50m³<br/>
+• ردم بطبقات ≤ 500mm + الدمك فوري<br/>
 • لا تتوقف الصبة — استمرارية إلزامية</p>
-<p><strong>بعد الصب — المعالجة:</strong><br>
-• بدء المعالجة خلال hour من الصب<br>
-• Curing Compound فوري في الصيف<br>
-• Wet Hessian فوق الـ Compound<br>
-• ≥ 7 أيام OPC / ≥ 10 أيام SRPC/GGBS<br>
+<p><strong>بعد الصب — المعالجة:</strong><br/>
+• بدء المعالجة خلال hour من الصب<br/>
+• المعالجة / التصليد Compound فوري في الصيف<br/>
+• Wet Hessian فوق الـ Compound<br/>
+• ≥ 7 أيام OPC / ≥ 10 أيام SRPC/GGBS<br/>
 • مراقبة كل 4 ساعات في درجات الحرارة العالية</p>
 <h3>4.0 Hot Weather Concreting — قطر</h3>
 <table class="dm-table"><tr><th>الإجراء</th><th>المتطلب</th></tr>
@@ -951,18 +923,18 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>تبريد الركام</td><td>رش ماء + ظل</td></tr>
 <tr><td>وقت النقل</td><td>≤ 60 دقيقة في الصيف</td></tr>
 <tr><td>وقت الصب الليلي</td><td>مفضل للعناصر الكبيرة في الصيف</td></tr>
-<tr><td>Retarder Admixture</td><td>إلزامي في درجات > 35°C</td></tr>
+<tr><td>Retarder الإضافات</td><td>إلزامي في درجات &gt; 35°C</td></tr>
 <tr><td>GGBS Replacement</td><td>30-50% لتقليل الحرارة في الـ Raft</td></tr>
 </table>
-<h3>5.0 Hold Points الإلزامية</h3>
+<h3>5.0 نقاط توقف الإلزامية</h3>
 <table class="dm-table"><tr><th>HP</th><th>الشرط</th></tr>
-<tr><td>HP-01</td><td>JMF + Trial Mix Approval</td></tr>
-<tr><td>HP-02</td><td>Founding Level (Geotechnical Approval)</td></tr>
-<tr><td>HP-03</td><td>Rebar + Formwork + Cover Inspection</td></tr>
-<tr><td>HP-04</td><td>Pour Card Signed by Consultant</td></tr>
-<tr><td>HP-05</td><td>Cube Result 7 Day → to Consultant</td></tr>
-<tr><td>HP-06</td><td>Cube Result 28 Day → Final Acceptance</td></tr>
-<tr><td>HP-07</td><td>Formwork Striking After Cube 7 Day</td></tr>
+<tr><td>HP-01</td><td>صيغة الخلطة (JMF) + Trial الخلطة الاعتماد</td></tr>
+<tr><td>HP-02</td><td>Founding Level (جيوتقني الاعتماد)</td></tr>
+<tr><td>HP-03</td><td>قضبان التسليح + القالب / الشدة + الغطاء الخرساني الفحص</td></tr>
+<tr><td>HP-04</td><td>صب الخرسانة Card Signed by الاستشاري</td></tr>
+<tr><td>HP-05</td><td>مكعب اختبار النتيجة 7 Day → to الاستشاري</td></tr>
+<tr><td>HP-06</td><td>مكعب اختبار النتيجة 28 Day → نهائي معيار القبول</td></tr>
+<tr><td>HP-07</td><td>القالب / الشدة Striking بعد مكعب اختبار 7 Day</td></tr>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;">
@@ -985,25 +957,25 @@ HP3: 28-day cube results — Engineer approval before loading
 ` };
   c["rebar_overview"] = { title: '🔩 Rebar التسليح — نظرة عامة',
     titleEn: '🔩 Reinforcement — Overview', content: `<div class="lang-content-ar">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3 | Reinforcement</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3 | التسليح</div>
 <h3>📋 نظرة عامة</h3>
-<p>Rebar التسليح في قطر يجب أن يكون Grade 500B وفق BS 4449. بيئة قطر العدوانية تتطلب Cover كافٍ ومراقبة صارمة للـ Chloride.</p>
+<p>قضبان التسليح التسليح في قطر يجب أن يكون الدرجة 500B وفق BS 4449. بيئة قطر العدوانية تتطلب الغطاء الخرساني كافٍ ومراقبة صارمة للـ Chloride.</p>
 <h3>📌 اختر المرحلة</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
 <div onclick="QS.openDetail('rebar_materials')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔩</div><div style="color:var(--gold);font-weight:700;font-size:13px;">المواصفات</div></div>
 <div onclick="QS.openDetail('rebar_fixing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔧</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الربط والتوزيع</div></div>
-<div onclick="QS.openDetail('rebar_cover')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">📏</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Cover & Spacers</div></div>
-<div onclick="QS.openDetail('rebar_testing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧪</div><div style="color:var(--gold);font-weight:700;font-size:13px;" data-ar="الاختبارات" data-en="Testing">الاختبارات</div></div>
+<div onclick="QS.openDetail('rebar_cover')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">📏</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الغطاء الخرساني &amp; Spacers</div></div>
+<div onclick="QS.openDetail('rebar_testing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧪</div><div data-ar="الاختبارات" data-en="Testing" style="color:var(--gold);font-weight:700;font-size:13px;">الاختبارات</div></div>
 </div>
-<div style="margin-top:12px;"><div onclick="QS.openDetail('itp_rebar')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;"><div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">ITP Rebar التسليح</div></div></div>
+<div style="margin-top:12px;"><div onclick="QS.openDetail('itp_rebar')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;"><div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">خطة الفحص والاختبار (ITP) قضبان التسليح التسليح</div></div></div>
 <h3>📐 المواصفات العامة</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th><th>المرجع</th></tr>
-<tr><td>الدرجة</td><td>Grade 500B</td><td>BS 4449:2005</td></tr>
-<tr><td>Yield Strength fy</td><td>≥ 500 N/mm²</td><td>BS 4449</td></tr>
-<tr><td>Ultimate Strength fu</td><td>≥ 600 N/mm²</td><td>BS 4449</td></tr>
-<tr><td>fu/fy Ratio</td><td>≥ 1.15</td><td>BS 4449</td></tr>
+<tr><td>الدرجة</td><td>الدرجة 500B</td><td>BS 4449:2005</td></tr>
+<tr><td>Yield المقاومة fy</td><td>≥ 500 N/mm²</td><td>BS 4449</td></tr>
+<tr><td>Ultimate المقاومة fu</td><td>≥ 600 N/mm²</td><td>BS 4449</td></tr>
+<tr><td>fu/fy النسبة</td><td>≥ 1.15</td><td>BS 4449</td></tr>
 <tr><td>Elongation</td><td>≥ 14%</td><td>BS 4449</td></tr>
-<tr><td>Bend Test</td><td>بدون تشقق</td><td>BS 4449</td></tr>
+<tr><td>Bend الاختبار</td><td>بدون تشقق</td><td>BS 4449</td></tr>
 </table>
 </div>
 <div class="lang-content-en" style="display:none;"><h3>Reinforcement Overview — QCS 2024 Section 5 Part 3</h3>
@@ -1028,16 +1000,15 @@ HP3: 28-day cube results — Engineer approval before loading
   c["rebar_full"] = { title: '🔩 Rebar التسليح — Reinforcement',
     titleEn: '🔩 Reinforcement — Full Detail', content: `
 <div class="lang-content-ar">
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 2 | Reinforcement</div>
-<h3>📐 المواصفات الفنية — Grade 500B</h3>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 2 | التسليح</div>
+<h3>📐 المواصفات الفنية — الدرجة 500B</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th><th>المرجع</th></tr>
-<tr><td>الدرجة</td><td>Grade 500B</td><td>BS 4449</td></tr>
-<tr><td>Yield Strength (fy)</td><td>≥ 500 N/mm²</td><td>BS 4449</td></tr>
-<tr><td>Ultimate Strength (fu)</td><td>≥ 600 N/mm²</td><td>BS 4449</td></tr>
-<tr><td>fu/fy Ratio</td><td>≥ 1.15</td><td>BS 4449</td></tr>
+<tr><td>الدرجة</td><td>الدرجة 500B</td><td>BS 4449</td></tr>
+<tr><td>Yield المقاومة (fy)</td><td>≥ 500 N/mm²</td><td>BS 4449</td></tr>
+<tr><td>Ultimate المقاومة (fu)</td><td>≥ 600 N/mm²</td><td>BS 4449</td></tr>
+<tr><td>fu/fy النسبة</td><td>≥ 1.15</td><td>BS 4449</td></tr>
 <tr><td>Elongation</td><td>≥ 14%</td><td>BS 4449</td></tr>
-<tr><td>Bend Test</td><td>180° بدون تشقق</td><td>BS 4449</td></tr></table>
+<tr><td>Bend الاختبار</td><td>180° بدون تشقق</td><td>BS 4449</td></tr></table>
 <h3>📐 أطوال الوصلات — Lap Lengths</h3>
 <table class="dm-table"><tr><th>نوع الوصلة</th><th>الطول</th><th>الملاحظة</th></tr>
 <tr><td>Tension — عادي</td><td>40d</td><td>d = قطر الRebar</td></tr>
@@ -1048,30 +1019,29 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>≤ 16mm</td><td>≥ 3.5d</td></tr>
 <tr><td>&gt; 16mm</td><td>≥ 4d</td></tr></table>
 <h3>🔧 طريقة التنفيذ</h3>
-<p><strong>1. الاستلام:</strong><br>
-• فحص شهادة المصنع (Mill Certificate)<br>
-• التأكد من Grade 500B مكتوبة على القضبان<br>
-• Tensile Test لكل 50 طن / كل قطر</p>
-<p><strong>2. التخزين:</strong><br>
-• رفع عن الأرض ≥ 100mm (لمنع الصدأ)<br>
-• تغطية في الجو الرطب<br>
+<p><strong>1. الاستلام:</strong><br/>
+• فحص شهادة المصنع (Mill الشهادة)<br/>
+• التأكد من الدرجة 500B مكتوبة على القضبان<br/>
+• Tensile الاختبار لكل 50 طن / كل قطر</p>
+<p><strong>2. التخزين:</strong><br/>
+• رفع عن الأرض ≥ 100mm (لمنع الصدأ)<br/>
+• تغطية في الجو الرطب<br/>
 • فصل الأقطار المختلفة</p>
-<p><strong>3. التنفيذ:</strong><br>
-• Spacers بالأحجام الصح لضمان الـ Cover<br>
-• Tie Wire لربط التقاطعات<br>
-• فحص المسافات والـ Cover قبل الصب<br>
+<p><strong>3. التنفيذ:</strong><br/>
+• Spacers بالأحجام الصح لضمان الـ الغطاء الخرساني<br/>
+• Tie Wire لربط التقاطعات<br/>
+• فحص المسافات والـ الغطاء الخرساني قبل الصب<br/>
 • عدم ثني الRebar المدفون في الConcrete</p>
 <h3>🧪 الاختبارات</h3>
 <table class="dm-table"><tr><th>الاختبار</th><th>المعيار</th><th>التكرار</th></tr>
-<tr><td>Tensile Test</td><td>fy≥500 | fu≥600 | fu/fy≥1.15</td><td>كل 50 طن / قطر</td></tr>
-<tr><td>Bend Test</td><td>180° بدون تشقق</td><td>كل 50 طن / قطر</td></tr>
+<tr><td>Tensile الاختبار</td><td>fy≥500 | fu≥600 | fu/fy≥1.15</td><td>كل 50 طن / قطر</td></tr>
+<tr><td>Bend الاختبار</td><td>180° بدون تشقق</td><td>كل 50 طن / قطر</td></tr>
 <tr><td>Elongation</td><td>≥ 14%</td><td>من نفس عينة Tensile</td></tr>
-<tr><td>Mill Certificate</td><td>مطابقة BS 4449</td><td>كل دفعة</td></tr>
-<tr><td>Cover Check</td><td>حسب نوع العنصر</td><td>قبل كل صب</td></tr></table>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-01:</strong> اعتماد Mill Certificate قبل استخدام الRebar<br>
-• <strong>HP-02:</strong> فحص الRebar والـ Cover والـ Spacers قبل الصب</p>
-
+<tr><td>Mill الشهادة</td><td>مطابقة BS 4449</td><td>كل دفعة</td></tr>
+<tr><td>الغطاء الخرساني Check</td><td>حسب نوع العنصر</td><td>قبل كل صب</td></tr></table>
+<h3>🔴 نقاط توقف</h3>
+<p>• <strong>HP-01:</strong> اعتماد Mill الشهادة قبل استخدام الRebar<br/>
+• <strong>HP-02:</strong> فحص الRebar والـ الغطاء الخرساني والـ Spacers قبل الصب</p>
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -1134,30 +1104,30 @@ HP3: 28-day cube results — Engineer approval before loading
 ` };
   c["rebar_materials"] = { title: '🔩 Rebar التسليح — المواصفات',
     titleEn: '⚙️ Rebar Materials', content: `<div class="lang-content-ar">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3 | Rebar Materials</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3 | قضبان التسليح المواد</div>
 <h3>📐 المواصفات الفنية</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
-<tr><td>Grade</td><td>500B — High Yield Deformed Bars</td></tr>
+<tr><td>الدرجة</td><td>500B — High Yield Deformed Bars</td></tr>
 <tr><td>fy</td><td>≥ 500 N/mm²</td></tr>
 <tr><td>fu</td><td>≥ 600 N/mm²</td></tr>
 <tr><td>fu/fy</td><td>≥ 1.15 و ≤ 1.35</td></tr>
-<tr><td>Elongation at Max Force</td><td>≥ 7.5% (Agt)</td></tr>
-<tr><td>Total Elongation</td><td>≥ 14%</td></tr>
-<tr><td>Bend Test (180°)</td><td>بدون تشقق</td></tr>
-<tr><td>Re-bend Test</td><td>بدون تشقق</td></tr>
-<tr><td>Mass Tolerance</td><td>± 4.5% للأقطار الصغيرة</td></tr>
+<tr><td>Elongation at الحد الأقصى Force</td><td>≥ 7.5% (Agt)</td></tr>
+<tr><td>إجمالي Elongation</td><td>≥ 14%</td></tr>
+<tr><td>Bend الاختبار (180°)</td><td>بدون تشقق</td></tr>
+<tr><td>Re-bend الاختبار</td><td>بدون تشقق</td></tr>
+<tr><td>Mass المسموح به</td><td>± 4.5% للأقطار الصغيرة</td></tr>
 </table>
 <h3>🧪 اختبارات الاستلام</h3>
 <table class="dm-table"><tr><th>الاختبار</th><th>التكرار</th></tr>
-<tr><td>Tensile Test (fy + fu + Elong)</td><td>3 عينات كل 25 طن</td></tr>
-<tr><td>Bend + Re-bend Test</td><td>3 عينات كل 25 طن</td></tr>
+<tr><td>Tensile الاختبار (fy + fu + Elong)</td><td>3 عينات كل 25 طن</td></tr>
+<tr><td>Bend + Re-bend الاختبار</td><td>3 عينات كل 25 طن</td></tr>
 <tr><td>Mass per Metre</td><td>3 عينات كل 25 طن</td></tr>
-<tr><td>Chemical Analysis</td><td>Mill Certificate كل دفعة</td></tr>
+<tr><td>Chemical Analysis</td><td>Mill الشهادة كل دفعة</td></tr>
 </table>
 <h3>⚠️ تنبيهات</h3>
-<p>• Mill Certificate إلزامي لكل دفعة<br>• تخزين بعيد عن الماء والتربة (على Timber Sleepers)<br>• Rebar صدئ بشكل مفرط = رفض<br>• لا يُستخدم Rebar مجهول المصدر</p>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-01:</strong> اعتماد Mill Certificates قبل التوريد<br>• <strong>HP-02:</strong> اعتماد نتائج Tensile Test قبل الاستخدام</p>
+<p>• Mill الشهادة إلزامي لكل دفعة<br/>• تخزين بعيد عن الماء والتربة (على Timber Sleepers)<br/>• قضبان التسليح صدئ بشكل مفرط = رفض<br/>• لا يُستخدم قضبان التسليح مجهول المصدر</p>
+<h3>🔴 نقاط توقف</h3>
+<p>• <strong>HP-01:</strong> اعتماد Mill Certificates قبل التوريد<br/>• <strong>HP-02:</strong> اعتماد نتائج Tensile الاختبار قبل الاستخدام</p>
 </div>
 <div class="lang-content-en" style="display:none;"><h3>Rebar Specifications — Grade 500B</h3>
 <table class="dm-table">
@@ -1194,12 +1164,12 @@ HP3: 28-day cube results — Engineer approval before loading
 <h3>📐 Anchorage Lengths</h3>
 <table class="dm-table"><tr><th>الحالة</th><th>الطول</th></tr>
 <tr><td>Straight Bar — Tension</td><td>40d</td></tr>
-<tr><td>Standard Hook 90°</td><td>8d (الحد الأدنى)</td></tr>
-<tr><td>Standard Hook 180°</td><td>4d (الحد الأدنى)</td></tr>
+<tr><td>المعيار Hook 90°</td><td>8d (الحد الأدنى)</td></tr>
+<tr><td>المعيار Hook 180°</td><td>4d (الحد الأدنى)</td></tr>
 </table>
 <h3>🔧 متطلبات التركيب</h3>
-<p>• ربط كل التقاطعات بالسلك<br>• Staggering للوصلات — لا يُسمح بوصلات في نفس المقطع أكثر من 50%<br>• توزيع الأقطار حسب المخططات بدون تعديل<br>• عدم ثني الRebar في الموقع بالحرارة</p>
-<h3>🔴 Hold Points</h3>
+<p>• ربط كل التقاطعات بالسلك<br/>• Staggering للوصلات — لا يُسمح بوصلات في نفس المقطع أكثر من 50%<br/>• توزيع الأقطار حسب المخططات بدون تعديل<br/>• عدم ثني الRebar في الموقع بالحرارة</p>
+<h3>🔴 نقاط توقف</h3>
 <p>• <strong>HP-03:</strong> فحص الRebar (قطر + مسافات + lap) قبل الصب</p>
 </div>
 <div class="lang-content-en" style="display:none;"><h3>Lap Lengths</h3>
@@ -1240,27 +1210,27 @@ HP3: 28-day cube results — Engineer approval before loading
 ` };
   c["rebar_cover"] = { title: '📏 Rebar التسليح — Cover & Spacers',
     titleEn: '📏 Concrete Cover', content: `<div class="lang-content-ar">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3 | Cover</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3 | الغطاء الخرساني</div>
 <h3>📐 الغطاء الخرساني المطلوب</h3>
-<table class="dm-table"><tr><th>العنصر</th><th>Cover</th><th>الملاحظة</th></tr>
-<tr><td>Foundation — يلاصق التربة</td><td>75mm</td><td>بعد Blinding</td></tr>
+<table class="dm-table"><tr><th>العنصر</th><th>الغطاء الخرساني</th><th>الملاحظة</th></tr>
+<tr><td>الأساس — يلاصق التربة</td><td>75mm</td><td>بعد Blinding</td></tr>
 <tr><td>Columns — خارجي</td><td>40mm</td><td>بيئة عدوانية</td></tr>
 <tr><td>Columns — داخلي</td><td>25mm</td><td>محمي</td></tr>
 <tr><td>Beams — خارجي</td><td>40mm</td><td>—</td></tr>
 <tr><td>Slabs — خارجي</td><td>40mm</td><td>—</td></tr>
 <tr><td>Slabs — داخلي</td><td>20mm</td><td>—</td></tr>
-<tr><td>Retaining Walls — تربة</td><td>50mm</td><td>—</td></tr>
-<tr><td>Bored Piles</td><td>75mm</td><td>—</td></tr>
+<tr><td>جدار الاستنادs — تربة</td><td>50mm</td><td>—</td></tr>
+<tr><td>ركيزة محفورةs</td><td>75mm</td><td>—</td></tr>
 </table>
 <h3>🔧 Spacers المطلوبة</h3>
 <table class="dm-table"><tr><th>الموضع</th><th>المتطلب</th></tr>
-<tr><td>قاع البلاطات</td><td>Concrete/Plastic Chairs كل 800mm</td></tr>
+<tr><td>قاع البلاطات</td><td>الخرسانة/Plastic Chairs كل 800mm</td></tr>
 <tr><td>جانب الأعمدة</td><td>Plastic Circular كل 500mm</td></tr>
 <tr><td>الجدران</td><td>كل 600mm أفقياً وعمودياً</td></tr>
-<tr><td>Cover Block — في التربة</td><td>Concrete مسبوكة فقط — لا plastic</td></tr>
+<tr><td>الغطاء الخرساني Block — في التربة</td><td>الخرسانة مسبوكة فقط — لا plastic</td></tr>
 </table>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-04:</strong> فحص Cover بـ Cover Meter بعد الصب وقبل القبول النهائي</p>
+<h3>🔴 نقاط توقف</h3>
+<p>• <strong>HP-04:</strong> فحص الغطاء الخرساني بـ الغطاء الخرساني Meter بعد الصب وقبل القبول النهائي</p>
 </div>
 <div class="lang-content-en" style="display:none;"><h3>Concrete Cover Requirements — QCS S5 P3</h3>
 <table class="dm-table">
@@ -1285,21 +1255,21 @@ HP3: 28-day cube results — Engineer approval before loading
 ` };
   c["rebar_testing"] = { title: '🧪 Rebar التسليح — الاختبارات',
     titleEn: '🧪 Rebar Testing', content: `<div class="lang-content-ar">
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3 | Testing</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3 | الاختبار</div>
 <h3>📐 الاختبارات المطلوبة</h3>
 <table class="dm-table"><tr><th>الاختبار</th><th>المعيار</th><th>التكرار</th></tr>
-<tr><td>Tensile Test</td><td>fy≥500 | fu≥600 | fu/fy≥1.15</td><td>3 عينات / 25 طن</td></tr>
+<tr><td>Tensile الاختبار</td><td>fy≥500 | fu≥600 | fu/fy≥1.15</td><td>3 عينات / 25 طن</td></tr>
 <tr><td>Elongation</td><td>≥ 14%</td><td>مع Tensile</td></tr>
-<tr><td>Bend Test 180°</td><td>بدون تشقق</td><td>3 عينات / 25 طن</td></tr>
-<tr><td>Re-bend Test</td><td>بدون تشقق</td><td>3 عينات / 25 طن</td></tr>
+<tr><td>Bend الاختبار 180°</td><td>بدون تشقق</td><td>3 عينات / 25 طن</td></tr>
+<tr><td>Re-bend الاختبار</td><td>بدون تشقق</td><td>3 عينات / 25 طن</td></tr>
 <tr><td>Mass per Metre</td><td>± 4.5%</td><td>3 عينات / 25 طن</td></tr>
-<tr><td>Cover Meter</td><td>± 5mm من المطلوب</td><td>عينة عشوائية بعد الصب</td></tr>
+<tr><td>الغطاء الخرساني Meter</td><td>± 5mm من المطلوب</td><td>عينة عشوائية بعد الصب</td></tr>
 </table>
 <h3>📊 معايير القبول والرفض</h3>
 <table class="dm-table"><tr><th>الحالة</th><th>القرار</th><th>الإجراء</th></tr>
 <tr><td>fy &lt; 500 N/mm²</td><td style="color:#e74c3c;font-weight:700;">رفض</td><td>إرجاع الدفعة كاملة</td></tr>
-<tr><td>Bend Test يتشقق</td><td style="color:#e74c3c;font-weight:700;">رفض</td><td>إرجاع الدفعة كاملة</td></tr>
-<tr><td>Cover ناقص &gt; 5mm</td><td style="color:#f39c12;font-weight:700;">تحقيق</td><td>تقييم هندسي</td></tr>
+<tr><td>Bend الاختبار يتشقق</td><td style="color:#e74c3c;font-weight:700;">رفض</td><td>إرجاع الدفعة كاملة</td></tr>
+<tr><td>الغطاء الخرساني ناقص &gt; 5mm</td><td style="color:#f39c12;font-weight:700;">تحقيق</td><td>تقييم هندسي</td></tr>
 <tr><td>كل النتائج OK</td><td style="color:#2ecc71;font-weight:700;">قبول ✓</td><td>استخدام في المشروع</td></tr>
 </table>
 </div>
@@ -1325,11 +1295,10 @@ HP3: 28-day cube results — Engineer approval before loading
   c["formwork_overview"] = { title: '🪵 الشدات — Formwork',
     titleEn: '🏗️ Formwork & Falsework', content: `
 <div class="lang-content-ar">
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | Formwork</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 Part 4 | القالب / الشدة</div>
 <h3>📐 المواصفات</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
-<tr><td>التحميل التصميمي</td><td>وزن الConcrete + أحمال العمال + Vibration</td></tr>
+<tr><td>التحميل التصميمي</td><td>وزن الConcrete + أحمال العمال + الهزة / الاهتزاز</td></tr>
 <tr><td>انحراف الشدة</td><td>≤ L/500 أو 5mm أيهما أقل</td></tr>
 <tr><td>Release Agent</td><td>إلزامي + موافقة — لا يلوث الRebar</td></tr>
 <tr><td>فحص قبل الصب</td><td>إلزامي من الاستشاري</td></tr>
@@ -1343,10 +1312,9 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>دعائم الكمرات (span &gt; 6m)</td><td>21 يوم</td><td>28 يوم</td></tr>
 </table>
 <h3>⚠️ تنبيهات مهمة</h3>
-<p>• فك الشدة بعد اعتماد نتائج Cube 7 يوم<br>• عدم الفك في الجو البارد قبل الوقت المحدد<br>• في قطر الصيف — درجات الحرارة تسرع التصلب لكن لا تعجل الفك<br>• Reshoring إلزامي في البناء المتعدد الطوابق</p>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-01:</strong> فحص الشدة من الاستشاري قبل الصب<br>• <strong>HP-02:</strong> اعتماد Cube 7 يوم قبل فك الشدة</p>
-
+<p>• فك الشدة بعد اعتماد نتائج مكعب اختبار 7 يوم<br/>• عدم الفك في الجو البارد قبل الوقت المحدد<br/>• في قطر الصيف — درجات الحرارة تسرع التصلب لكن لا تعجل الفك<br/>• Reshoring إلزامي في البناء المتعدد الطوابق</p>
+<h3>🔴 نقاط توقف</h3>
+<p>• <strong>HP-01:</strong> فحص الشدة من الاستشاري قبل الصب<br/>• <strong>HP-02:</strong> اعتماد مكعب اختبار 7 يوم قبل فك الشدة</p>
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -1382,8 +1350,7 @@ HP3: 28-day cube results — Engineer approval before loading
   c["formwork_full"] = { title: '🪵 الشدات — Formwork',
     titleEn: '🏗️ Formwork — Full Detail', content: `
 <div class="lang-content-ar">
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Formwork</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | القالب / الشدة</div>
 <h3>📐 المواصفات</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
 <tr><td>مقاومة الشدة</td><td>تتحمل ضغط الConcrete + الأحمال الحية</td></tr>
@@ -1391,21 +1358,20 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>الاستقامة</td><td>Straightedge 3m ≤ 6mm</td></tr>
 <tr><td>Release Agent</td><td>إلزامي قبل الصب</td></tr>
 <tr><td>تنظيف الداخل</td><td>خالي من الغبار والخشب والمياه</td></tr></table>
-<h3>⏱️ أوقات فك الشدة — Stripping Times</h3>
+<h3>⏱️ أوقات فك الشدة — التقشر Times</h3>
 <table class="dm-table"><tr><th>العنصر</th><th>OPC</th><th>SRPC</th><th>الشرط</th></tr>
 <tr><td>جانبية الأعمدة والجدران</td><td>24 hour</td><td>36 hour</td><td>fcu ≥ 5 N/mm²</td></tr>
 <tr><td>جانبية الأسقف (Soffit)</td><td>4 أيام</td><td>6 أيام</td><td>fcu ≥ 10 N/mm²</td></tr>
 <tr><td>Props تحت الأسقف</td><td>10 أيام</td><td>14 يوم</td><td>fcu ≥ 70% fcu التصميمي</td></tr>
 <tr><td>Props تحت الكمرات</td><td>14 يوم</td><td>21 يوم</td><td>fcu ≥ 70% fcu التصميمي</td></tr></table>
 <h3>⚠️ تنبيهات مهمة</h3>
-<p>• <strong>لا فك شدة قبل نتائج مكعبات 7 أيام</strong><br>
-• في قطر: SRPC أبطأ في الشك — أوقات أطول<br>
-• Props لا تُزال إلا بموافقة المهندس الاستشاري<br>
+<p>• <strong>لا فك شدة قبل نتائج مكعبات 7 أيام</strong><br/>
+• في قطر: SRPC أبطأ في الشك — أوقات أطول<br/>
+• Props لا تُزال إلا بموافقة المهندس الاستشاري<br/>
 • Back Propping إلزامي للطوابق المتعددة</p>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-01:</strong> فحص الشدة قبل الصب<br>
+<h3>🔴 نقاط توقف</h3>
+<p>• <strong>HP-01:</strong> فحص الشدة قبل الصب<br/>
 • <strong>HP-02:</strong> موافقة المهندس قبل فك الـ Props</p>
-
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -1439,19 +1405,17 @@ HP3: 28-day cube results — Engineer approval before loading
   c["foundations_overview"] = { title: '🏛️ الأساسات — نظرة عامة',
     titleEn: '🏛️ Foundations — Overview', content: `
 <div class="lang-content-ar">
-
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Foundations</div>
 <h3>📋 نظرة عامة</h3>
 <p>الأساسات في قطر تواجه تحديات خاصة: تربة Sabkha، مياه جوفية عالية الكبريتات، وخطر التآكل. اختيار نوع الأساس يعتمد على تقرير الجسات.</p>
 <h3>📌 اختر النوع</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
 <div onclick="QS.openDetail('found_strip')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🏗️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Strip / Pad</div></div>
-<div onclick="QS.openDetail('found_raft')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">⬛</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Raft Foundation</div></div>
-<div onclick="QS.openDetail('found_piles')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🕳️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">Bored Piles</div></div>
+<div onclick="QS.openDetail('found_raft')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">⬛</div><div style="color:var(--gold);font-weight:700;font-size:13px;">الأساس اللبشة</div></div>
+<div onclick="QS.openDetail('found_piles')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🕳️</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ركيزة محفورةs</div></div>
 <div onclick="QS.openDetail('found_testing')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧪</div><div style="color:var(--gold);font-weight:700;font-size:13px;">اختبارات الأساسات</div></div>
 </div>
-<div style="margin-top:12px;"><div onclick="QS.openDetail('itp_foundations')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;"><div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">ITP الأساسات الكامل</div></div></div>
-
+<div style="margin-top:12px;"><div onclick="QS.openDetail('itp_foundations')" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;cursor:pointer;text-align:center;"><div style="font-size:24px">📋</div><div style="color:var(--gold);font-weight:700;font-size:15px;">خطة الفحص والاختبار (ITP) الأساسات الكامل</div></div></div>
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -1485,59 +1449,57 @@ HP3: 28-day cube results — Engineer approval before loading
   c["foundations_full"] = { title: '⚓ الأساسات — Foundations',
     titleEn: '🏛️ Foundations — Full Detail', content: `
 <div class="lang-content-ar">
-
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Foundations</div>
 <h3>📋 نظرة عامة</h3>
 <p>الأساسات في قطر تواجه تحدي الكبريتات العالية في التربة والمياه الجوفية. SRPC إلزامي وCover 75mm حد أدنى.</p>
 <h3>📐 أنواع الأساسات</h3>
 <table class="dm-table"><tr><th>النوع</th><th>الاستخدام</th><th>درجة الConcrete</th></tr>
-<tr><td>Pad Foundation</td><td>أعمدة منفردة — أحمال خفيفة</td><td>C30-C35</td></tr>
-<tr><td>Strip Foundation</td><td>جدران حاملة</td><td>C30-C35</td></tr>
-<tr><td>Raft Foundation</td><td>أحمال كبيرة — تربة ضعيفة</td><td>C35-C40</td></tr>
-<tr><td>Pile Cap</td><td>فوق الخوازيق</td><td>C35</td></tr></table>
+<tr><td>الأساس المفرد</td><td>أعمدة منفردة — أحمال خفيفة</td><td>C30-C35</td></tr>
+<tr><td>الأساس الشريطي</td><td>جدران حاملة</td><td>C30-C35</td></tr>
+<tr><td>الأساس اللبشة</td><td>أحمال كبيرة — تربة ضعيفة</td><td>C35-C40</td></tr>
+<tr><td>قبعة الركيزة</td><td>فوق الخوازيق</td><td>C35</td></tr></table>
 <h3>📐 المواصفات العامة</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
-<tr><td>Blinding Concrete</td><td>C15 — 75mm سماكة قبل الRebar</td></tr>
-<tr><td>Cover</td><td>75mm (مباشر على التربة)</td></tr>
+<tr><td>Blinding الخرسانة</td><td>C15 — 75mm سماكة قبل الRebar</td></tr>
+<tr><td>الغطاء الخرساني</td><td>75mm (مباشر على التربة)</td></tr>
 <tr><td>درجة الConcrete</td><td>C35 كحد أدنى في قطر (كبريتات)</td></tr>
 <tr><td>Dewatering</td><td>إلزامي قبل صب الأساسات</td></tr>
-<tr><td>Waterproofing</td><td>إلزامي للأساسات تحت Level المياه</td></tr>
+<tr><td>العزل المائي</td><td>إلزامي للأساسات تحت Level المياه</td></tr>
 <tr><td>Sulphate Attack</td><td>SRPC + w/c ≤ 0.45</td></tr></table>
 <h3>🔧 طريقة التنفيذ</h3>
-<p><strong>1. الحفر:</strong><br>
-• الحفر للعمق المطلوب + 75mm للـ Blinding<br>
-• Dewatering قبل أي صب<br>
-• فحص التربة بصرياً — لا تربة ضعيفة أو Sabkha<br>
+<p><strong>1. الحفر:</strong><br/>
+• الحفر للعمق المطلوب + 75mm للـ Blinding<br/>
+• Dewatering قبل أي صب<br/>
+• فحص التربة بصرياً — لا تربة ضعيفة أو Sabkha<br/>
 • موافقة المهندس الاستشاري على مستوى الحفر</p>
-<p><strong>2. Blinding:</strong><br>
-• صب C15 سماكة 75mm<br>
-• انتظار ≥ 24 hour<br>
+<p><strong>2. Blinding:</strong><br/>
+• صب C15 سماكة 75mm<br/>
+• انتظار ≥ 24 hour<br/>
 • نظيف ومستوٍ قبل وضع الRebar</p>
-<p><strong>3. الRebar والشدة:</strong><br>
-• Spacers 75mm لضمان الـ Cover<br>
+<p><strong>3. الRebar والشدة:</strong><br/>
+• Spacers 75mm لضمان الـ الغطاء الخرساني<br/>
 • فحص وتوثيق قبل الصب (HP)</p>
-<p><strong>4. الصب:</strong><br>
-• C35 SRPC كحد أدنى<br>
-• Slump Test من أول حمولة<br>
-• Cube Samples — 3 مكعبات / 50m³<br>
-• Curing ≥ 7 أيام رطوبة مستمرة</p>
+<p><strong>4. الصب:</strong><br/>
+• C35 SRPC كحد أدنى<br/>
+• الهبوط (Slump) الاختبار من أول حمولة<br/>
+• مكعب اختبار Samples — 3 مكعبات / 50m³<br/>
+• المعالجة / التصليد ≥ 7 أيام رطوبة مستمرة</p>
 <h3>🧪 الاختبارات</h3>
 <table class="dm-table"><tr><th>الاختبار</th><th>المعيار</th><th>التكرار</th></tr>
-<tr><td>Soil Bearing Capacity</td><td>حسب التصميم</td><td>قبل الصب</td></tr>
-<tr><td>Slump Test</td><td>حسب نوع الصب</td><td>كل حمولة أولى</td></tr>
-<tr><td>Cube Test 7 يوم</td><td>≥ 70% fcu</td><td>3/50m³</td></tr>
-<tr><td>Cube Test 28 يوم</td><td>≥ 100% fcu</td><td>3/50m³</td></tr>
-<tr><td>Cover Check</td><td>75mm</td><td>قبل كل صب</td></tr>
-<tr><td>Sulphate Test</td><td>≤ 0.5% في التربة</td><td>قبل الصب</td></tr></table>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-01:</strong> موافقة المهندس على مستوى الحفر<br>
-• <strong>HP-02:</strong> اعتماد الRebar والـ Cover قبل الصب<br>
+<tr><td>التربة قدرة تحمل التربة</td><td>حسب التصميم</td><td>قبل الصب</td></tr>
+<tr><td>الهبوط (Slump) الاختبار</td><td>حسب نوع الصب</td><td>كل حمولة أولى</td></tr>
+<tr><td>مكعب اختبار الاختبار 7 يوم</td><td>≥ 70% fcu</td><td>3/50m³</td></tr>
+<tr><td>مكعب اختبار الاختبار 28 يوم</td><td>≥ 100% fcu</td><td>3/50m³</td></tr>
+<tr><td>الغطاء الخرساني Check</td><td>75mm</td><td>قبل كل صب</td></tr>
+<tr><td>Sulphate الاختبار</td><td>≤ 0.5% في التربة</td><td>قبل الصب</td></tr></table>
+<h3>🔴 نقاط توقف</h3>
+<p>• <strong>HP-01:</strong> موافقة المهندس على مستوى الحفر<br/>
+• <strong>HP-02:</strong> اعتماد الRebar والـ الغطاء الخرساني قبل الصب<br/>
 • <strong>HP-03:</strong> نتائج مكعبات 28 يوم</p>
 <h3>⚠️ تنبيهات قطر</h3>
-<p>• Sabkha تحت الأساس = كارثة — فحص إلزامي<br>
-• المياه الجوفية المالحة تتطلب Waterproofing إضافي<br>
+<p>• Sabkha تحت الأساس = كارثة — فحص إلزامي<br/>
+• المياه الجوفية المالحة تتطلب العزل المائي إضافي<br/>
 • لا تصب على تربة جافة جداً — رش مياه أولاً</p>
-
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -1602,23 +1564,21 @@ HP3: 28-day cube results — Engineer approval before loading
   c["found_raft"] = { title: '⬛ Raft Foundation',
     titleEn: '🏛️ Raft Foundations', content: `
 <div class="lang-content-ar">
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Raft Foundation</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | الأساس اللبشة</div>
 <h3>📐 المواصفات</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
 <tr><td>درجة الConcrete</td><td>C35-C40 (بيئة عدوانية)</td></tr>
 <tr><td>Blinding</td><td>C15 — 100mm</td></tr>
-<tr><td>Cover قاع</td><td>75mm</td></tr>
-<tr><td>Cover جانب</td><td>50mm</td></tr>
-<tr><td>Waterproofing</td><td>Tanking System كامل</td></tr>
-<tr><td>Construction Joints</td><td>Waterstop إلزامي</td></tr>
-<tr><td>Max Pour Size</td><td>حسب Thermal Analysis</td></tr>
+<tr><td>الغطاء الخرساني قاع</td><td>75mm</td></tr>
+<tr><td>الغطاء الخرساني جانب</td><td>50mm</td></tr>
+<tr><td>العزل المائي</td><td>Tanking System كامل</td></tr>
+<tr><td>الإنشاء الوصلات</td><td>Waterstop إلزامي</td></tr>
+<tr><td>الحد الأقصى صب الخرسانة الحجم / المقاس</td><td>حسب Thermal Analysis</td></tr>
 </table>
-<h3>⚠️ Massive Concrete — قطر خاصة</h3>
-<p>• سماكات كبيرة = Thermal Cracking<br>• Thermal Analysis إلزامي قبل الصب<br>• درجة حرارة داخل الConcrete ≤ 70°C<br>• فرق الحرارة بين الداخل والسطح ≤ 20°C<br>• استخدام GGBS يقلل الحرارة المنبعثة<br>• مراقبة بـ Thermocouples أثناء الصب</p>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-01:</strong> اعتماد Thermal Analysis قبل الصب<br>• <strong>HP-02:</strong> موافقة على Waterstop قبل الصب<br>• <strong>HP-03:</strong> مراقبة درجات الحرارة كل 4hr</p>
-
+<h3>⚠️ Massive الخرسانة — قطر خاصة</h3>
+<p>• سماكات كبيرة = Thermal Cracking<br/>• Thermal Analysis إلزامي قبل الصب<br/>• درجة حرارة داخل الConcrete ≤ 70°C<br/>• فرق الحرارة بين الداخل والسطح ≤ 20°C<br/>• استخدام GGBS يقلل الحرارة المنبعثة<br/>• مراقبة بـ Thermocouples أثناء الصب</p>
+<h3>🔴 نقاط توقف</h3>
+<p>• <strong>HP-01:</strong> اعتماد Thermal Analysis قبل الصب<br/>• <strong>HP-02:</strong> موافقة على Waterstop قبل الصب<br/>• <strong>HP-03:</strong> مراقبة درجات الحرارة كل 4hr</p>
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -1652,30 +1612,28 @@ HP3: 28-day cube results — Engineer approval before loading
   c["found_piles"] = { title: '🕳️ Bored Piles',
     titleEn: '🔩 Piled Foundations', content: `
 <div class="lang-content-ar">
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Bored Piles</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | ركيزة محفورةs</div>
 <h3>📐 المواصفات</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
 <tr><td>درجة الConcrete</td><td>C35-C40</td></tr>
-<tr><td>Slump</td><td>160-220mm (Self Leveling)</td></tr>
-<tr style="background:rgba(46,204,113,0.08);"><td><strong>🆕 SCC Bored Piles — Slump Flow</strong></td><td><strong style="color:#2ecc71">600-750mm / Flow Time SF2 class</strong> — QCS 2024 S5</td></tr>
-<tr><td>Cover</td><td>75mm</td></tr>
+<tr><td>الهبوط (Slump)</td><td>160-220mm (Self Leveling)</td></tr>
+<tr style="background:rgba(46,204,113,0.08);"><td><strong>🆕 SCC ركيزة محفورةs — الهبوط (Slump) التدفق</strong></td><td><strong style="color:#2ecc71">600-750mm / التدفق الوقت SF2 class</strong> — QCS 2024 S5</td></tr>
+<tr><td>الغطاء الخرساني</td><td>75mm</td></tr>
 <tr><td>Casing</td><td>إلزامي في المناطق الرخوة</td></tr>
 <tr><td>Bentonite Slurry</td><td>في التربة غير المستقرة</td></tr>
-<tr><td>طريقة الصب</td><td>Tremie Pipe — من القاع لفوق</td></tr>
-<tr><td>Concrete Overcast</td><td>500mm فوق مستوى الـ Cut Off</td></tr>
+<tr><td>طريقة الصب</td><td>Tremie الأنبوب — من القاع لفوق</td></tr>
+<tr><td>الخرسانة Overcast</td><td>500mm فوق مستوى الـ Cut Off</td></tr>
 </table>
 <h3>🔧 خطوات التنفيذ</h3>
-<p>1. مسح المواقع وتحديد المحاور<br>2. Temporary Casing للعمق الأول<br>3. Boring بالحجم المطلوب<br>4. فحص القاع (Base Cleanliness Check)<br>5. تنزيل قفص الRebar<br>6. تنزيل Tremie Pipe<br>7. الصب من القاع باستمرار<br>8. سحب Casing أثناء الصب</p>
+<p>1. مسح المواقع وتحديد المحاور<br/>2. Temporary Casing للعمق الأول<br/>3. Boring بالحجم المطلوب<br/>4. فحص القاع (Base Cleanliness Check)<br/>5. تنزيل قفص الRebar<br/>6. تنزيل Tremie الأنبوب<br/>7. الصب من القاع باستمرار<br/>8. سحب Casing أثناء الصب</p>
 <h3>🧪 اختبارات الخوازيق</h3>
 <table class="dm-table"><tr><th>الاختبار</th><th>النسبة</th><th>المعيار</th></tr>
-<tr><td>PIT (Pile Integrity Test)</td><td>100%</td><td>بدون عيوب</td></tr>
-<tr><td>Static Load Test</td><td>1-2% من العدد</td><td>Settlement ≤ حسب التصميم</td></tr>
-<tr><td>Cube Test</td><td>كل خازوق</td><td>≥ fcu المصمم</td></tr>
+<tr><td>PIT (اختبار سلامة الركيزة)</td><td>100%</td><td>بدون عيوب</td></tr>
+<tr><td>اختبار الحمل الساكن</td><td>1-2% من العدد</td><td>الهبوط / الانضغاط ≤ حسب التصميم</td></tr>
+<tr><td>مكعب اختبار الاختبار</td><td>كل خازوق</td><td>≥ fcu المصمم</td></tr>
 </table>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-01:</strong> فحص قاع الخازوق قبل تنزيل الRebar<br>• <strong>HP-02:</strong> اعتماد PIT قبل صب Pile Cap<br>• <strong>HP-03:</strong> اعتماد Static Load Test</p>
-
+<h3>🔴 نقاط توقف</h3>
+<p>• <strong>HP-01:</strong> فحص قاع الخازوق قبل تنزيل الRebar<br/>• <strong>HP-02:</strong> اعتماد PIT قبل صب قبعة الركيزة<br/>• <strong>HP-03:</strong> اعتماد اختبار الحمل الساكن</p>
 </div>
 <div class="lang-content-en" style="display:none;">
 <h3>🔩 Piled Foundations — QCS 2024</h3>
@@ -1699,50 +1657,48 @@ HP3: 28-day cube results — Engineer approval before loading
   c["piles_full"] = { title: '🔧 الخوازيق — Bored Piles',
     titleEn: '🔩 Piles — Full Detail', content: `
 <div class="lang-content-ar">
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Bored Piles</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | ركيزة محفورةs</div>
 <h3>📐 المواصفات الفنية</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th><th>المرجع</th></tr>
 <tr><td>درجة الConcrete</td><td>C35 SRPC كحد أدنى</td><td>QCS S5</td></tr>
 <tr><td>w/c</td><td>≤ 0.45</td><td>QCS S5</td></tr>
-<tr><td>Slump</td><td>160-220mm (Self Compacting)</td><td>QCS S5</td></tr>
-<tr><td>Cover</td><td>75mm</td><td>QCS S5</td></tr>
+<tr><td>الهبوط (Slump)</td><td>160-220mm (Self Compacting)</td><td>QCS S5</td></tr>
+<tr><td>الغطاء الخرساني</td><td>75mm</td><td>QCS S5</td></tr>
 <tr><td>Verticality</td><td>≤ 1:75 انحراف</td><td>QCS S5</td></tr>
-<tr><td>Position Tolerance</td><td>≤ 75mm من المحور</td><td>QCS S5</td></tr>
+<tr><td>Position المسموح به</td><td>≤ 75mm من المحور</td><td>QCS S5</td></tr>
 <tr><td>Cut-off Level</td><td>حسب التصميم ± 25mm</td><td>QCS S5</td></tr></table>
 <h3>🔧 طريقة التنفيذ</h3>
-<p><strong>1. الحفر:</strong><br>
-• استخدام Temporary Casing في التربة الرخوة<br>
-• Bentonite Slurry لدعم جدران الحفر<br>
-• فحص عمق الحفر والتربة في القاع<br>
+<p><strong>1. الحفر:</strong><br/>
+• استخدام Temporary Casing في التربة الرخوة<br/>
+• Bentonite Slurry لدعم جدران الحفر<br/>
+• فحص عمق الحفر والتربة في القاع<br/>
 • Base Cleaning قبل وضع الRebar</p>
-<p><strong>2. الRebar:</strong><br>
-• Rebar Cage مجهز مسبقاً<br>
-• Spacers دائرية كل 2m لضمان Cover<br>
+<p><strong>2. الRebar:</strong><br/>
+• قضبان التسليح Cage مجهز مسبقاً<br/>
+• Spacers دائرية كل 2m لضمان الغطاء الخرساني<br/>
 • إنزال الـ Cage بعناية بدون تحريك الجدران</p>
-<p><strong>3. الصب:</strong><br>
-• Tremie Pipe من القاع للأعلى<br>
-• الصب المستمر بدون توقف<br>
-• مستوى الConcrete يعلو فوق Cut-off Level بـ 500mm<br>
+<p><strong>3. الصب:</strong><br/>
+• Tremie الأنبوب من القاع للأعلى<br/>
+• الصب المستمر بدون توقف<br/>
+• مستوى الConcrete يعلو فوق Cut-off Level بـ 500mm<br/>
 • كسر الرأس الزائد بعد التصلد</p>
 <h3>🧪 الاختبارات</h3>
 <table class="dm-table"><tr><th>الاختبار</th><th>المعيار</th><th>التكرار</th></tr>
-<tr><td>PIT (Pile Integrity Test)</td><td>100% كل الخوازيق</td><td>بعد التصلد</td></tr>
-<tr><td>Static Load Test</td><td>2x الحمل التصميمي</td><td>1-2% من العدد الكلي</td></tr>
+<tr><td>PIT (اختبار سلامة الركيزة)</td><td>100% كل الخوازيق</td><td>بعد التصلد</td></tr>
+<tr><td>اختبار الحمل الساكن</td><td>2x الحمل التصميمي</td><td>1-2% من العدد الكلي</td></tr>
 <tr><td>Verticality Check</td><td>≤ 1:75</td><td>أثناء الحفر</td></tr>
-<tr><td>Slump Test</td><td>160-220mm</td><td>كل حمولة</td></tr>
-<tr><td>Cube Test 28 يوم</td><td>≥ 35 N/mm²</td><td>3/50m³</td></tr>
+<tr><td>الهبوط (Slump) الاختبار</td><td>160-220mm</td><td>كل حمولة</td></tr>
+<tr><td>مكعب اختبار الاختبار 28 يوم</td><td>≥ 35 N/mm²</td><td>3/50m³</td></tr>
 <tr><td>Base Cleaning</td><td>بصري + فحص التربة</td><td>كل خازوق</td></tr></table>
-<h3>🔴 Hold Points</h3>
-<p>• <strong>HP-01:</strong> اعتماد عمق الحفر والتربة في القاع<br>
-• <strong>HP-02:</strong> فحص Rebar Cage والـ Cover قبل الصب<br>
-• <strong>HP-03:</strong> اعتماد PIT قبل صب Pile Cap<br>
-• <strong>HP-04:</strong> اعتماد Static Load Test</p>
+<h3>🔴 نقاط توقف</h3>
+<p>• <strong>HP-01:</strong> اعتماد عمق الحفر والتربة في القاع<br/>
+• <strong>HP-02:</strong> فحص قضبان التسليح Cage والـ الغطاء الخرساني قبل الصب<br/>
+• <strong>HP-03:</strong> اعتماد PIT قبل صب قبعة الركيزة<br/>
+• <strong>HP-04:</strong> اعتماد اختبار الحمل الساكن</p>
 <h3>⚠️ تنبيهات قطر</h3>
-<p>• Sabkha تغير خصائصها مع العمق — جسات كافية إلزامية<br>
-• المياه الجوفية المالحة تؤثر على Bentonite — مراقبة مستمرة<br>
+<p>• Sabkha تغير خصائصها مع العمق — جسات كافية إلزامية<br/>
+• المياه الجوفية المالحة تؤثر على Bentonite — مراقبة مستمرة<br/>
 • في الصيف: صب ليلاً لتجنب تسريع الشك</p>
-
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -1805,16 +1761,14 @@ HP3: 28-day cube results — Engineer approval before loading
   c["itp_structural"] = { title: '📋 ITPs الإنشاء — Structural ITPs',
     titleEn: '📋 ITP Structural', content: `
 <div class="lang-content-ar">
-
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 5 | Structural ITPs</div>
-<h3>📌 اختر الـ ITP</h3>
+<h3>📌 اختر الـ خطة الفحص والاختبار (ITP)</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
-<div onclick="QS.openDetail('itp_concrete')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧱</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP الConcrete</div></div>
-<div onclick="QS.openDetail('itp_rebar')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔩</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP الRebar</div></div>
-<div onclick="QS.openDetail('itp_foundations')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">⚓</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP الأساسات</div></div>
-<div onclick="QS.openDetail('itp_piles')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔧</div><div style="color:var(--gold);font-weight:700;font-size:13px;">ITP الخوازيق</div></div>
+<div onclick="QS.openDetail('itp_concrete')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🧱</div><div style="color:var(--gold);font-weight:700;font-size:13px;">خطة الفحص والاختبار (ITP) الConcrete</div></div>
+<div onclick="QS.openDetail('itp_rebar')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔩</div><div style="color:var(--gold);font-weight:700;font-size:13px;">خطة الفحص والاختبار (ITP) الRebar</div></div>
+<div onclick="QS.openDetail('itp_foundations')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">⚓</div><div style="color:var(--gold);font-weight:700;font-size:13px;">خطة الفحص والاختبار (ITP) الأساسات</div></div>
+<div onclick="QS.openDetail('itp_piles')" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:20px">🔧</div><div style="color:var(--gold);font-weight:700;font-size:13px;">خطة الفحص والاختبار (ITP) الخوازيق</div></div>
 </div>
-
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -1843,15 +1797,15 @@ HP3: 28-day cube results — Engineer approval before loading
   c["itp_foundations"] = { title: '📋 ITP — الأساسات | Foundations',
     titleEn: '📋 ITP Foundations', content: `<div class="lang-content-ar">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 QCS 2024 — Section 5 | Foundations</div>
-<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
-<tr><td>1.1</td><td>Excavation Level</td><td>Design Drawing</td><td>موافقة المهندس على التربة</td><td>كل أساس</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
+<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>ضبط الجودة</th><th>SC</th><th>السجل</th></tr>
+<tr><td>1.1</td><td>الحفر Level</td><td>Design Drawing</td><td>موافقة المهندس على التربة</td><td>كل أساس</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
 <tr><td>1.2</td><td>Dewatering</td><td>QCS S5</td><td>جاف قبل الصب</td><td>كل أساس</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR</td></tr>
-<tr><td>1.3</td><td>Blinding Concrete C15</td><td>QCS S5</td><td>75mm سماكة — مستوٍ</td><td>كل أساس</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Pour Record</td></tr>
-<tr><td>1.4</td><td>Rebar & Cover 75mm</td><td>QCS S5</td><td>Cover 75mm + Spacers</td><td>كل أساس</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
-<tr><td>1.5</td><td>Waterproofing</td><td>QCS S5</td><td>حسب التصميم — قبل الردم</td><td>كل أساس</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR</td></tr>
-<tr><td>1.6</td><td>Cube Test 28 يوم</td><td>QCS S5 P3</td><td>≥ 100% fcu</td><td>3/50m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Test Report</td></tr>
+<tr><td>1.3</td><td>Blinding الخرسانة C15</td><td>QCS S5</td><td>75mm سماكة — مستوٍ</td><td>كل أساس</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>صب الخرسانة Record</td></tr>
+<tr><td>1.4</td><td>قضبان التسليح &amp; الغطاء الخرساني 75mm</td><td>QCS S5</td><td>الغطاء الخرساني 75mm + Spacers</td><td>كل أساس</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
+<tr><td>1.5</td><td>العزل المائي</td><td>QCS S5</td><td>حسب التصميم — قبل الردم</td><td>كل أساس</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR</td></tr>
+<tr><td>1.6</td><td>مكعب اختبار الاختبار 28 يوم</td><td>QCS S5 P3</td><td>≥ 100% fcu</td><td>3/50m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>الاختبار Report</td></tr>
 </table>
-<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = نقطة توقف | <strong style="color:#f1c40f;">W</strong> = مراقبة | <strong style="color:#2ecc71;">R</strong> = مراجعة</div>
 </div>
 <div class="lang-content-en" style="display:none;">
 <h3>🏔️ Foundations — Full ITP</h3>
@@ -1894,43 +1848,38 @@ HP3: 28-day cube results — Engineer approval before loading
 <span style="color:var(--gold);font-weight:700;font-size:13px;">أعمال الخرسانة — صب ومعالجة</span>
 </div>
 <div style="position:relative;width:100%;padding-bottom:56.25%;height:0;">
-<iframe style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" 
-  src="https://www.youtube.com/embed/xNqGOJBhE84?rel=0&modestbranding=1" 
-  title="أعمال الخرسانة — صب ومعالجة" 
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-  allowfullscreen loading="lazy"></iframe>
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" loading="lazy" src="https://www.youtube.com/embed/xNqGOJBhE84?rel=0&amp;modestbranding=1" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" title="أعمال الخرسانة — صب ومعالجة"></iframe>
 </div>
-<div style="padding:8px 12px;font-size:11px;color:var(--text3);">📌 تحضير الخرسانة، اختبارات Slump والمكعبات، المعالجة في قطر</div>
+<div style="padding:8px 12px;font-size:11px;color:var(--text3);">📌 تحضير الخرسانة، اختبارات الهبوط (Slump) والمكعبات، المعالجة في قطر</div>
 </div>
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3 | Concrete</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;">📌 QCS 2024 — Section 5 Part 3 | الخرسانة</div>
 <h3>1.0 — وثائق ما قبل التنفيذ</h3>
-<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
-<tr><td>1.1</td><td>Mix Design Approval</td><td>QCS S5 P3</td><td>معتمد قبل الإنتاج</td><td>كل Mix</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Approved Mix Design</td></tr>
-<tr><td>1.2</td><td>Material Approval — Cement</td><td>BS EN 197-1</td><td>SRPC Certificate</td><td>كل دفعة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Certificate</td></tr>
-<tr><td>1.3</td><td>Aggregate Tests</td><td>QCS S5 P3</td><td>Chloride≤0.04% | SO3≤4%</td><td>كل مصدر</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Test Report</td></tr>
+<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>ضبط الجودة</th><th>SC</th><th>السجل</th></tr>
+<tr><td>1.1</td><td>تصميم الخلطة الاعتماد</td><td>QCS S5 P3</td><td>معتمد قبل الإنتاج</td><td>كل الخلطة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>معتمد تصميم الخلطة</td></tr>
+<tr><td>1.2</td><td>اعتماد المواد — الإسمنت</td><td>BS EN 197-1</td><td>SRPC الشهادة</td><td>كل دفعة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>الشهادة</td></tr>
+<tr><td>1.3</td><td>الركام Tests</td><td>QCS S5 P3</td><td>Chloride≤0.04% | SO3≤4%</td><td>كل مصدر</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>الاختبار Report</td></tr>
 </table>
 <h3>2.0 — قبل الصب</h3>
-<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
-<tr><td>2.1</td><td>Formwork Inspection</td><td>QCS S5</td><td>نظيف + محكم + Release Agent</td><td>كل صب</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR</td></tr>
-<tr><td>2.2</td><td>Rebar & Cover Check</td><td>QCS S5</td><td>Cover صح + Spacers موجودة</td><td>كل صب</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
-<tr><td>2.3</td><td>Pour Card Approval</td><td>QCS S5</td><td>موقعة قبل الصب</td><td>كل صب</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Pour Card</td></tr>
+<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>ضبط الجودة</th><th>SC</th><th>السجل</th></tr>
+<tr><td>2.1</td><td>القالب / الشدة الفحص</td><td>QCS S5</td><td>نظيف + محكم + Release Agent</td><td>كل صب</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td>IR</td></tr>
+<tr><td>2.2</td><td>قضبان التسليح &amp; الغطاء الخرساني Check</td><td>QCS S5</td><td>الغطاء الخرساني صح + Spacers موجودة</td><td>كل صب</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
+<tr><td>2.3</td><td>صب الخرسانة Card الاعتماد</td><td>QCS S5</td><td>موقعة قبل الصب</td><td>كل صب</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>صب الخرسانة Card</td></tr>
 </table>
 <h3>3.0 — أثناء الصب</h3>
-<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
-<tr><td>3.1</td><td>Slump Test</td><td>QCS S5 P3</td><td>حسب نوع الصب</td><td>كل حمولة أولى + كل 50m³</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Slump Record</td></tr>
-<tr><td>3.2</td><td>Cube Sampling</td><td>QCS S5 P3</td><td>3 مكعبات / 50m³</td><td>كل 50m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Cube Register</td></tr>
-<tr><td>3.3</td><td>Temperature Check</td><td>QCS S5 P3</td><td>≤ 32°C (صيف قطر)</td><td>كل حمولة (صيف)</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Temp Log</td></tr>
-<tr><td>3.4</td><td>Vibration Check</td><td>QCS S5 P3</td><td>كل 500mm طبقة</td><td>مستمر</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Pour Record</td></tr>
+<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>ضبط الجودة</th><th>SC</th><th>السجل</th></tr>
+<tr><td>3.1</td><td>الهبوط (Slump) الاختبار</td><td>QCS S5 P3</td><td>حسب نوع الصب</td><td>كل حمولة أولى + كل 50m³</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>الهبوط (Slump) Record</td></tr>
+<tr><td>3.2</td><td>مكعب اختبار أخذ العينات</td><td>QCS S5 P3</td><td>3 مكعبات / 50m³</td><td>كل 50m³</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>مكعب اختبار Register</td></tr>
+<tr><td>3.3</td><td>درجة الحرارة Check</td><td>QCS S5 P3</td><td>≤ 32°C (صيف قطر)</td><td>كل حمولة (صيف)</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Temp Log</td></tr>
+<tr><td>3.4</td><td>الهزة / الاهتزاز Check</td><td>QCS S5 P3</td><td>كل 500mm طبقة</td><td>مستمر</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>صب الخرسانة Record</td></tr>
 </table>
 <h3>4.0 — بعد الصب</h3>
-<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>QC</th><th>SC</th><th>السجل</th></tr>
-<tr><td>4.1</td><td>Cube Test — 7 يوم</td><td>QCS S5 P3</td><td>≥ 70% fcu</td><td>كل مجموعة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>Test Report</td></tr>
-<tr><td>4.2</td><td>Cube Test — 28 يوم</td><td>QCS S5 P3</td><td>≥ 100% fcu</td><td>كل مجموعة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>Test Report</td></tr>
-<tr><td>4.3</td><td>Curing Verification</td><td>QCS S5 P3</td><td>≥ 7 أيام رطوبة (SRPC: 10)</td><td>كل صب</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>Curing Log</td></tr>
-<tr><td>4.4</td><td>Stripping Approval</td><td>QCS S5</td><td>نتائج 7 أيام OK</td><td>قبل الفك</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
+<table class="dm-table"><tr><th>SN</th><th>النشاط</th><th>المرجع</th><th>معيار القبول</th><th>التكرار</th><th>LAB</th><th>ضبط الجودة</th><th>SC</th><th>السجل</th></tr>
+<tr><td>4.1</td><td>مكعب اختبار الاختبار — 7 يوم</td><td>QCS S5 P3</td><td>≥ 70% fcu</td><td>كل مجموعة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#f1c40f;font-weight:700;">W</td><td>الاختبار Report</td></tr>
+<tr><td>4.2</td><td>مكعب اختبار الاختبار — 28 يوم</td><td>QCS S5 P3</td><td>≥ 100% fcu</td><td>كل مجموعة</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>الاختبار Report</td></tr>
+<tr><td>4.3</td><td>المعالجة / التصليد Verification</td><td>QCS S5 P3</td><td>≥ 7 أيام رطوبة (SRPC: 10)</td><td>كل صب</td><td>—</td><td style="color:#f1c40f;font-weight:700;">W</td><td style="color:#2ecc71;font-weight:700;">R</td><td>المعالجة / التصليد Log</td></tr>
+<tr><td>4.4</td><td>التقشر الاعتماد</td><td>QCS S5</td><td>نتائج 7 أيام OK</td><td>قبل الفك</td><td>—</td><td style="color:#e74c3c;font-weight:700;">H</td><td style="color:#e74c3c;font-weight:700;">H</td><td>IR</td></tr>
 </table>
-<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = Hold Point | <strong style="color:#f1c40f;">W</strong> = Witness | <strong style="color:#2ecc71;">R</strong> = Review</div>
+<div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px;margin-top:12px;font-size:12px;"><strong style="color:#e74c3c;">H</strong> = نقطة توقف | <strong style="color:#f1c40f;">W</strong> = مراقبة | <strong style="color:#2ecc71;">R</strong> = مراجعة</div>
 </div>
 <div class="lang-content-en" style="display:none;">
 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">
@@ -1963,13 +1912,12 @@ HP3: 28-day cube results — Engineer approval before loading
   c["fire"] = { title: '🔥 الحريق والسلامة — QCDD',
     titleEn: '🔥 Fire Resistance', content: `
 <div class="lang-content-ar">
-
-<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 17 | Fire & Safety + QCDD Requirements</div>
+<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;">📌 QCS 2024 — Section 17 | Fire &amp; Safety + QCDD المتطلبات</div>
 <h3>📋 الجهة المختصة في قطر</h3>
 <p>كل متطلبات الحريق في قطر تخضع لموافقة <strong>QCDD (Qatar Civil Defence Department)</strong>. لا يُسمح بتشغيل أي مبنى بدون موافقة QCDD.</p>
 <h3>📐 أنظمة الإطفاء — Fire Suppression</h3>
 <table class="dm-table"><tr><th>النظام</th><th>الاستخدام</th><th>المواصفة</th></tr>
-<tr><td>Sprinkler System</td><td>جميع المباني التجارية والسكنية > 15m</td><td>NFPA 13</td></tr>
+<tr><td>Sprinkler System</td><td>جميع المباني التجارية والسكنية &gt; 15m</td><td>NFPA 13</td></tr>
 <tr><td>FM200 / Novec</td><td>غرف الخوادم والأرشيف</td><td>NFPA 2001</td></tr>
 <tr><td>Foam System</td><td>محطات الوقود والمستودعات</td><td>NFPA 11</td></tr>
 <tr><td>Dry Powder</td><td>المواد الكيميائية والمطابخ</td><td>QCDD Std</td></tr>
@@ -1978,7 +1926,7 @@ HP3: 28-day cube results — Engineer approval before loading
 <table class="dm-table"><tr><th>النوع</th><th>الاستخدام</th></tr>
 <tr><td>Smoke Detector (Optical)</td><td>المكاتب والغرف والممرات</td></tr>
 <tr><td>Heat Detector</td><td>المطابخ والمستودعات</td></tr>
-<tr><td>Beam Detector</td><td>المساحات المفتوحة الكبيرة</td></tr>
+<tr><td>الكمرة / الجسر Detector</td><td>المساحات المفتوحة الكبيرة</td></tr>
 <tr><td>Manual Call Point</td><td>عند كل مخرج — كل 30m</td></tr>
 <tr><td>Fire Alarm Panel</td><td>مركزي + مكرر عند مدخل المبنى</td></tr>
 </table>
@@ -1998,25 +1946,24 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>النوع</td><td>ABC Dry Powder للاستخدام العام</td></tr>
 <tr><td>الصيانة</td><td>فحص سنوي + شحن كل 5 سنوات</td></tr>
 </table>
-<h3>💧 نظام الإطفاء اليدوي — Hose Reel & Hydrant</h3>
+<h3>💧 نظام الإطفاء اليدوي — Hose Reel &amp; Hydrant</h3>
 <table class="dm-table"><tr><th>البند</th><th>المعيار</th></tr>
 <tr><td>Hose Reel</td><td>كل 30m — طول 30m</td></tr>
-<tr><td>Fire Hydrant خارجي</td><td>كل 60m على الطريق</td></tr>
+<tr><td>صنبور الحريق خارجي</td><td>كل 60m على الطريق</td></tr>
 <tr><td>Siamese Connection</td><td>عند مدخل كل مبنى</td></tr>
 <tr><td>ضغط التشغيل</td><td>≥ 2.5 bar عند أعلى نقطة</td></tr>
 <tr><td>خزان الاحتياطي</td><td>حسب QCDD — عادة 20-50m³</td></tr>
 </table>
 <h3>🔴 متطلبات QCDD القطرية</h3>
-<p>• موافقة QCDD على المخططات قبل التنفيذ<br>• فحص QCDD أثناء التنفيذ (Hold Point)<br>• اختبار شامل للأنظمة قبل الاستلام<br>• شهادة QCDD للإشغال إلزامية<br>• تجديد الترخيص سنوياً</p>
+<p>• موافقة QCDD على المخططات قبل التنفيذ<br/>• فحص QCDD أثناء التنفيذ (نقطة توقف)<br/>• اختبار شامل للأنظمة قبل الاستلام<br/>• شهادة QCDD للإشغال إلزامية<br/>• تجديد الترخيص سنوياً</p>
 <h3>🧪 الاختبارات قبل التسليم</h3>
 <table class="dm-table"><tr><th>الاختبار</th><th>المعيار</th></tr>
-<tr><td>Sprinkler Pressure Test</td><td>1.5x ضغط التشغيل / 2 hour</td></tr>
-<tr><td>Fire Alarm Full Test</td><td>100% الأجهزة تعمل</td></tr>
+<tr><td>Sprinkler الضغط الاختبار</td><td>1.5x ضغط التشغيل / 2 hour</td></tr>
+<tr><td>Fire Alarm Full الاختبار</td><td>100% الأجهزة تعمل</td></tr>
 <tr><td>Emergency Lighting</td><td>3 ساعات تشغيل مستمر</td></tr>
 <tr><td>Exit Signs</td><td>مرئية من 30m</td></tr>
 <tr><td>Smoke Evacuation</td><td>6 تبادل هواء/hour</td></tr>
 </table>
-
 </div>
 <div class="lang-content-en" style="display:none;">
 <h3>🔥 Fire Safety — QCS 2024 & QCDD Requirements</h3>
@@ -2040,36 +1987,33 @@ HP3: 28-day cube results — Engineer approval before loading
 <div class="lang-content-ar">
 <h3>📁 رفع وتحليل وثائق المشروع</h3>
 <p style="font-size:12px;color:var(--text3);">ارفع مواصفاتك ورسوماتك وجداول كمياتك — التطبيق يحللها ويساعدك في متطلبات الجودة والمطابقة</p>
-
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0;">
 <div onclick="document.getElementById('doc-upload-specs').click()" style="background:rgba(201,168,76,0.06);border:2px dashed rgba(201,168,76,0.4);border-radius:12px;padding:16px;cursor:pointer;text-align:center;">
 <div style="font-size:28px;margin-bottom:6px;">📋</div>
 <div style="color:var(--gold);font-weight:700;font-size:13px;">المواصفات الخاصة</div>
 <div style="color:var(--text3);font-size:11px;margin-top:4px;">Project Specifications PDF</div>
-<input type="file" id="doc-upload-specs" style="display:none" accept=".pdf,.docx" multiple onchange="handleDocUpload(this,'specs')">
+<input accept=".pdf,.docx" id="doc-upload-specs" multiple="" onchange="handleDocUpload(this,'specs')" style="display:none" type="file"/>
 </div>
 <div onclick="document.getElementById('doc-upload-dwg').click()" style="background:rgba(52,152,219,0.06);border:2px dashed rgba(52,152,219,0.4);border-radius:12px;padding:16px;cursor:pointer;text-align:center;">
 <div style="font-size:28px;margin-bottom:6px;">📐</div>
 <div style="color:#3498db;font-weight:700;font-size:13px;">الرسومات</div>
-<div style="color:var(--text3);font-size:11px;margin-top:4px;">IFC / Shop Drawings PDF</div>
-<input type="file" id="doc-upload-dwg" style="display:none" accept=".pdf" multiple onchange="handleDocUpload(this,'drawings')">
+<div style="color:var(--text3);font-size:11px;margin-top:4px;">IFC / رسومات التصنيع PDF</div>
+<input accept=".pdf" id="doc-upload-dwg" multiple="" onchange="handleDocUpload(this,'drawings')" style="display:none" type="file"/>
 </div>
 <div onclick="document.getElementById('doc-upload-boq').click()" style="background:rgba(46,204,113,0.06);border:2px dashed rgba(46,204,113,0.4);border-radius:12px;padding:16px;cursor:pointer;text-align:center;">
 <div style="font-size:28px;margin-bottom:6px;">📊</div>
 <div style="color:#2ecc71;font-weight:700;font-size:13px;">جدول الكميات</div>
 <div style="color:var(--text3);font-size:11px;margin-top:4px;">BOQ / Bill of Quantities</div>
-<input type="file" id="doc-upload-boq" style="display:none" accept=".pdf,.xlsx,.xls,.csv" onchange="handleDocUpload(this,'boq')">
+<input accept=".pdf,.xlsx,.xls,.csv" id="doc-upload-boq" onchange="handleDocUpload(this,'boq')" style="display:none" type="file"/>
 </div>
 <div onclick="document.getElementById('doc-upload-gi').click()" style="background:rgba(155,89,182,0.06);border:2px dashed rgba(155,89,182,0.4);border-radius:12px;padding:16px;cursor:pointer;text-align:center;">
 <div style="font-size:28px;margin-bottom:6px;">🔬</div>
 <div style="color:#9b59b6;font-weight:700;font-size:13px;">تقرير الجسات</div>
-<div style="color:var(--text3);font-size:11px;margin-top:4px;">Geotechnical Investigation Report</div>
-<input type="file" id="doc-upload-gi" style="display:none" accept=".pdf" onchange="handleDocUpload(this,'gi')">
+<div style="color:var(--text3);font-size:11px;margin-top:4px;">التحقيق الجيوتقني Report</div>
+<input accept=".pdf" id="doc-upload-gi" onchange="handleDocUpload(this,'gi')" style="display:none" type="file"/>
 </div>
 </div>
-
 <div id="doc-files-list" style="margin:10px 0;"></div>
-
 <div id="doc-analysis-panel" style="display:none;background:var(--dark4);border-radius:12px;padding:14px;margin-top:10px;">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
 <div style="color:var(--gold);font-weight:700;font-size:14px;">🤖 تحليل الوثائق</div>
@@ -2087,14 +2031,13 @@ HP3: 28-day cube results — Engineer approval before loading
 <div style="margin-bottom:10px;">
 <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px;">ما الذي تريد تحليله؟</label>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input type="checkbox" id="da-itp" checked> إنشاء ITP</label>
-<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input type="checkbox" id="da-tests"> متطلبات الاختبارات</label>
-<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input type="checkbox" id="da-ncr"> نقاط عدم المطابقة</label>
-<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input type="checkbox" id="da-qty"> تحليل الكميات</label>
+<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input checked="" id="da-itp" type="checkbox"/> إنشاء خطة الفحص والاختبار (ITP)</label>
+<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input id="da-tests" type="checkbox"/> متطلبات الاختبارات</label>
+<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input id="da-ncr" type="checkbox"/> نقاط عدم المطابقة</label>
+<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input id="da-qty" type="checkbox"/> تحليل الكميات</label>
 </div>
 </div>
 </div>
-
 <div id="doc-ai-result" style="margin-top:10px;"></div>
 </div>
 
@@ -2205,51 +2148,47 @@ HP3: 28-day cube results — Engineer approval before loading
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
 📌 QCS 2024 Section 5 | مراحل الصب وإجراءات الضبط
 </div>
-
-<h3>📋 مراحل الصب — Hold & Witness Points</h3>
+<h3>📋 مراحل الصب — Hold &amp; نقطة مراقبةs</h3>
 <table class="dm-table">
 <thead><tr><th>#</th><th>المرحلة</th><th>الإجراء</th><th>النوع</th><th>المسؤول</th><th>QCS</th></tr></thead>
 <tbody>
-<tr><td>1</td><td>فحص الحديد قبل الصب</td><td>Cover، Spacing، Ties، Laps — كاملة</td><td><span style="color:#e74c3c;font-weight:700;">HP</span></td><td>QC Inspector</td><td>S5 P3</td></tr>
-<tr><td>2</td><td>فحص الشدة والقوالب</td><td>تنظيف، تشحيم، إحكام الوصلات</td><td><span style="color:#f39c12;font-weight:700;">WP</span></td><td>Engineer</td><td>S5 P5</td></tr>
-<tr><td>3</td><td>فحص النظافة قبل الصب</td><td>إزالة المياه المتجمعة والمخلفات</td><td><span style="color:#e74c3c;font-weight:700;">HP</span></td><td>Engineer</td><td>S5 P4</td></tr>
-<tr><td>4</td><td>استلام شاحنة الخرسانة</td><td>Delivery Note، Slump، Temp قبل الصب</td><td><span style="color:#e74c3c;font-weight:700;">HP</span></td><td>QC Inspector</td><td>S5 P4</td></tr>
-<tr><td>5</td><td>الصب والدمك</td><td>Vibrator كل 300-450mm، عدم التأخير</td><td><span style="color:#f39c12;font-weight:700;">WP</span></td><td>Inspector</td><td>S5 P4</td></tr>
-<tr><td>6</td><td>أخذ العينات (Cubes)</td><td>1 Set / 50m³ — 3 مكعبات / Set</td><td><span style="color:#f39c12;font-weight:700;">WP</span></td><td>Lab Tech</td><td>S5 P4</td></tr>
-<tr><td>7</td><td>بدء المعالجة (Curing)</td><td>فور الانتهاء — مياه أو compound</td><td><span style="color:#e74c3c;font-weight:700;">HP</span></td><td>Contractor</td><td>S5 P4</td></tr>
-<tr><td>8</td><td>نتائج 7 أيام</td><td>≥ 70% fcu — Report للاستشاري</td><td><span style="color:#3498db;font-weight:700;">RP</span></td><td>Lab / QC</td><td>S5 P4</td></tr>
-<tr><td>9</td><td>نتائج 28 يوم</td><td>≥ 100% fcu — Release Certificate</td><td><span style="color:#e74c3c;font-weight:700;">HP</span></td><td>Engineer</td><td>S5 P4</td></tr>
-<tr><td>10</td><td>فك الشدة</td><td>حسب الجدول الزمني — بعد اعتماد Cubes</td><td><span style="color:#e74c3c;font-weight:700;">HP</span></td><td>Engineer</td><td>S5 P5</td></tr>
+<tr><td>1</td><td>فحص الحديد قبل الصب</td><td>الغطاء الخرساني، التباعد، Ties، Laps — كاملة</td><td><span style="color:#e74c3c;font-weight:700;">HP</span></td><td>ضبط الجودة المفتش</td><td>S5 P3</td></tr>
+<tr><td>2</td><td>فحص الشدة والقوالب</td><td>تنظيف، تشحيم، إحكام الوصلات</td><td><span style="color:#f39c12;font-weight:700;">WP</span></td><td>المهندس</td><td>S5 P5</td></tr>
+<tr><td>3</td><td>فحص النظافة قبل الصب</td><td>إزالة المياه المتجمعة والمخلفات</td><td><span style="color:#e74c3c;font-weight:700;">HP</span></td><td>المهندس</td><td>S5 P4</td></tr>
+<tr><td>4</td><td>استلام شاحنة الخرسانة</td><td>التسليم ملاحظة، الهبوط (Slump)، Temp قبل الصب</td><td><span style="color:#e74c3c;font-weight:700;">HP</span></td><td>ضبط الجودة المفتش</td><td>S5 P4</td></tr>
+<tr><td>5</td><td>الصب والدمك</td><td>الهازة كل 300-450mm، عدم التأخير</td><td><span style="color:#f39c12;font-weight:700;">WP</span></td><td>المفتش</td><td>S5 P4</td></tr>
+<tr><td>6</td><td>أخذ العينات (Cubes)</td><td>1 Set / 50m³ — 3 مكعبات / Set</td><td><span style="color:#f39c12;font-weight:700;">WP</span></td><td>المختبر Tech</td><td>S5 P4</td></tr>
+<tr><td>7</td><td>بدء المعالجة (المعالجة / التصليد)</td><td>فور الانتهاء — مياه أو compound</td><td><span style="color:#e74c3c;font-weight:700;">HP</span></td><td>المقاول</td><td>S5 P4</td></tr>
+<tr><td>8</td><td>نتائج 7 أيام</td><td>≥ 70% fcu — Report للاستشاري</td><td><span style="color:#3498db;font-weight:700;">RP</span></td><td>المختبر / ضبط الجودة</td><td>S5 P4</td></tr>
+<tr><td>9</td><td>نتائج 28 يوم</td><td>≥ 100% fcu — Release الشهادة</td><td><span style="color:#e74c3c;font-weight:700;">HP</span></td><td>المهندس</td><td>S5 P4</td></tr>
+<tr><td>10</td><td>فك الشدة</td><td>حسب الجدول الزمني — بعد اعتماد Cubes</td><td><span style="color:#e74c3c;font-weight:700;">HP</span></td><td>المهندس</td><td>S5 P5</td></tr>
 </tbody>
 </table>
-
 <h3>⏱️ جدول الحد الأدنى لفك الشدة — Striking Times</h3>
 <table class="dm-table">
-<thead><tr><th>العنصر</th><th>OPC عادي</th><th>درجة حرارة > 30°C</th><th>QCS</th></tr></thead>
+<thead><tr><th>العنصر</th><th>OPC عادي</th><th>درجة حرارة &gt; 30°C</th><th>QCS</th></tr></thead>
 <tbody>
 <tr><td>Sides of Beams / Columns</td><td>24-48 ساعة</td><td>16-24 ساعة</td><td>S5 P5</td></tr>
 <tr><td>Soffit of Slabs (Span ≤ 4.5m)</td><td>10 أيام</td><td>7 أيام</td><td>S5 P5</td></tr>
-<tr><td>Soffit of Slabs (Span > 4.5m)</td><td>14 أيام</td><td>10 أيام</td><td>S5 P5</td></tr>
+<tr><td>Soffit of Slabs (Span &gt; 4.5m)</td><td>14 أيام</td><td>10 أيام</td><td>S5 P5</td></tr>
 <tr><td>Soffit of Beams (Span ≤ 6m)</td><td>14 أيام</td><td>10 أيام</td><td>S5 P5</td></tr>
-<tr><td>Soffit of Beams (Span > 6m)</td><td>21 أيام</td><td>14 أيام</td><td>S5 P5</td></tr>
-<tr><td>Props under Slabs</td><td>حسب الحمل — لا يُفك قبل 7 أيام Cube</td><td>—</td><td>S5 P5</td></tr>
+<tr><td>Soffit of Beams (Span &gt; 6m)</td><td>21 أيام</td><td>14 أيام</td><td>S5 P5</td></tr>
+<tr><td>Props under Slabs</td><td>حسب الحمل — لا يُفك قبل 7 أيام مكعب اختبار</td><td>—</td><td>S5 P5</td></tr>
 </tbody>
 </table>
-
-<h3>🧪 حدود قبول الخرسانة — Acceptance Criteria</h3>
+<h3>🧪 حدود قبول الخرسانة — معايير القبول</h3>
 <table class="dm-table">
 <thead><tr><th>الاختبار</th><th>الحد المقبول</th><th>الرفض</th><th>QCS</th></tr></thead>
 <tbody>
-<tr><td>Slump Test</td><td>المستهدف ± 25mm</td><td>خارج ± 25mm → رفض الشاحنة</td><td>S5 P4</td></tr>
-<tr><td>Temperature عند الاستلام</td><td>≤ 35°C (Qatar)</td><td>> 35°C → رفض فوري</td><td>S5 P4</td></tr>
-<tr><td>وقت النقل</td><td>≤ 90 دقيقة</td><td>> 90 دقيقة → رفض</td><td>S5 P4</td></tr>
-<tr><td>7-Day Cube</td><td>≥ 70% fcu</td><td>< 70% → تحقيق فوري + Core Test</td><td>S5 P4</td></tr>
-<tr><td>28-Day Cube</td><td>≥ fcu المصمم</td><td>< fcu → Core Test → قد يستلزم هدم</td><td>S5 P4</td></tr>
-<tr><td>Core Test (إذا فشل Cube)</td><td>≥ 0.85 × fcu</td><td>< 0.85 → تقرير هندسي خاص</td><td>S5 P4</td></tr>
+<tr><td>الهبوط (Slump) الاختبار</td><td>المستهدف ± 25mm</td><td>خارج ± 25mm → رفض الشاحنة</td><td>S5 P4</td></tr>
+<tr><td>درجة الحرارة عند الاستلام</td><td>≤ 35°C (Qatar)</td><td>&gt; 35°C → رفض فوري</td><td>S5 P4</td></tr>
+<tr><td>وقت النقل</td><td>≤ 90 دقيقة</td><td>&gt; 90 دقيقة → رفض</td><td>S5 P4</td></tr>
+<tr><td>7-Day مكعب اختبار</td><td>≥ 70% fcu</td><td>&lt; 70% → تحقيق فوري + الأسطوانة المحفورة (Core) الاختبار</td><td>S5 P4</td></tr>
+<tr><td>28-Day مكعب اختبار</td><td>≥ fcu المصمم</td><td>&lt; fcu → الأسطوانة المحفورة (Core) الاختبار → قد يستلزم هدم</td><td>S5 P4</td></tr>
+<tr><td>الأسطوانة المحفورة (Core) الاختبار (إذا فشل مكعب اختبار)</td><td>≥ 0.85 × fcu</td><td>&lt; 0.85 → تقرير هندسي خاص</td><td>S5 P4</td></tr>
 </tbody>
 </table>
-
-<div class="dm-note">📌 HP = Hold Point (لا يمكن المتابعة بدون توقيع المفتش) | WP = Witness Point | RP = Review Point</div>
+<div class="dm-note">📌 HP = نقطة توقف (لا يمكن المتابعة بدون توقيع المفتش) | WP = نقطة مراقبة | RP = مراجعة Point</div>
 </div>
 
 <div class="lang-content-en" style="display:none;">
@@ -2304,28 +2243,26 @@ HP3: 28-day cube results — Engineer approval before loading
 <div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
 📌 QCS 2024 Section 5 Part 3 | BS 8110 | فحص حديد التسليح
 </div>
-
-<h3>📋 قائمة فحص الحديد — Rebar Checklist</h3>
+<h3>📋 قائمة فحص الحديد — قضبان التسليح قائمة المراجعة</h3>
 <table class="dm-table">
 <thead><tr><th>البند</th><th>المتطلب</th><th>الطريقة</th><th>القرار</th><th>QCS</th></tr></thead>
 <tbody>
-<tr><td><strong>نوع الحديد</strong></td><td>B460B / B500B — High Yield Deformed</td><td>Mill Certificate</td><td>قبول / رفض</td><td>S5 P3</td></tr>
+<tr><td><strong>نوع الحديد</strong></td><td>B460B / B500B — High Yield Deformed</td><td>Mill الشهادة</td><td>قبول / رفض</td><td>S5 P3</td></tr>
 <tr><td><strong>قطر الأسياخ</strong></td><td>حسب الرسومات ± 2mm</td><td>Vernier Caliper</td><td>قبول / رفض</td><td>S5 P3</td></tr>
-<tr><td><strong>Cover — داخلي</strong></td><td>25mm minimum</td><td>Cover Meter</td><td>< 20mm → رفض</td><td>S5 P3</td></tr>
-<tr><td><strong>Cover — خارجي عادي</strong></td><td>40mm minimum</td><td>Cover Meter</td><td>< 35mm → رفض</td><td>S5 P3</td></tr>
-<tr><td><strong>Cover — بيئة عدوانية</strong></td><td>50mm minimum</td><td>Cover Meter</td><td>< 45mm → رفض</td><td>S5 P3 Qatar</td></tr>
-<tr><td><strong>Cover — Sabkha</strong></td><td>60mm minimum</td><td>Cover Meter</td><td>< 55mm → رفض</td><td>IAN-006</td></tr>
-<tr><td><strong>Spacing — Main Bars</strong></td><td>حسب الرسومات ± 10mm</td><td>Tape Measure</td><td>قبول / رفض</td><td>S5 P3</td></tr>
-<tr><td><strong>Lap Length — Tension</strong></td><td>40φ minimum</td><td>Tape Measure</td><td>< 38φ → رفض</td><td>S5 P3</td></tr>
-<tr><td><strong>Lap Length — Compression</strong></td><td>32φ minimum</td><td>Tape Measure</td><td>< 30φ → رفض</td><td>S5 P3</td></tr>
-<tr><td><strong>Ties / Stirrups</strong></td><td>135° Hooks — مشدودة</td><td>Visual</td><td>90° → رفض</td><td>S5 P3</td></tr>
+<tr><td><strong>الغطاء الخرساني — داخلي</strong></td><td>25mm minimum</td><td>الغطاء الخرساني Meter</td><td>&lt; 20mm → رفض</td><td>S5 P3</td></tr>
+<tr><td><strong>الغطاء الخرساني — خارجي عادي</strong></td><td>40mm minimum</td><td>الغطاء الخرساني Meter</td><td>&lt; 35mm → رفض</td><td>S5 P3</td></tr>
+<tr><td><strong>الغطاء الخرساني — بيئة عدوانية</strong></td><td>50mm minimum</td><td>الغطاء الخرساني Meter</td><td>&lt; 45mm → رفض</td><td>S5 P3 Qatar</td></tr>
+<tr><td><strong>الغطاء الخرساني — Sabkha</strong></td><td>60mm minimum</td><td>الغطاء الخرساني Meter</td><td>&lt; 55mm → رفض</td><td>IAN-006</td></tr>
+<tr><td><strong>التباعد — Main Bars</strong></td><td>حسب الرسومات ± 10mm</td><td>Tape Measure</td><td>قبول / رفض</td><td>S5 P3</td></tr>
+<tr><td><strong>Lap الطول — Tension</strong></td><td>40φ minimum</td><td>Tape Measure</td><td>&lt; 38φ → رفض</td><td>S5 P3</td></tr>
+<tr><td><strong>Lap الطول — Compression</strong></td><td>32φ minimum</td><td>Tape Measure</td><td>&lt; 30φ → رفض</td><td>S5 P3</td></tr>
+<tr><td><strong>Ties / الكانات</strong></td><td>135° Hooks — مشدودة</td><td>Visual</td><td>90° → رفض</td><td>S5 P3</td></tr>
 <tr><td><strong>Spacers / Chairs</strong></td><td>Plastic — مناسبة للCover</td><td>Visual</td><td>خشب أو حجر → رفض</td><td>S5 P3</td></tr>
 <tr><td><strong>حالة الحديد</strong></td><td>بدون طين أو شحوم أو صدأ ثقيل</td><td>Visual</td><td>طين/شحوم → رفض</td><td>S5 P3</td></tr>
 <tr><td><strong>Continuity</strong></td><td>لا انقطاعات غير مسموحة</td><td>Visual + Drawings</td><td>قبول / رفض</td><td>S5 P3</td></tr>
 </tbody>
 </table>
-
-<h3>📏 Lap Length — جدول مرجعي</h3>
+<h3>📏 Lap الطول — جدول مرجعي</h3>
 <table class="dm-table">
 <thead><tr><th>قطر الحديد (φ)</th><th>Lap Tension (40φ)</th><th>Lap Compression (32φ)</th><th>الملاحظة</th></tr></thead>
 <tbody>
@@ -2337,18 +2274,16 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>T32 (32mm)</td><td>1280mm</td><td>1024mm</td><td>Heavy sections</td></tr>
 </tbody>
 </table>
-
-<h3>🔴 Hold Points — فحص الحديد</h3>
+<h3>🔴 نقاط توقف — فحص الحديد</h3>
 <table class="dm-table">
 <thead><tr><th>HP</th><th>الوصف</th><th>الشرط</th></tr></thead>
 <tbody>
 <tr><td><strong>HP-R01</strong></td><td>فحص شهادات المصنع (Mill Certs)</td><td>قبل التخزين في الموقع</td></tr>
-<tr><td><strong>HP-R02</strong></td><td>فحص التسليح قبل الصب (Rebar Inspection)</td><td>Cover + Spacing + Laps + Ties كاملة</td></tr>
-<tr><td><strong>HP-R03</strong></td><td>اختبار الشد (Tensile Test)</td><td>لكل 50 طن أو دفعة مصنع جديدة</td></tr>
+<tr><td><strong>HP-R02</strong></td><td>فحص التسليح قبل الصب (قضبان التسليح الفحص)</td><td>الغطاء الخرساني + التباعد + Laps + Ties كاملة</td></tr>
+<tr><td><strong>HP-R03</strong></td><td>اختبار الشد (Tensile الاختبار)</td><td>لكل 50 طن أو دفعة مصنع جديدة</td></tr>
 </tbody>
 </table>
-
-<div class="dm-note">📌 Cover Meter فحص غير مدمر يستخدم بعد الصب للتحقق من الغطاء الفعلي — يُوصى به في المشاريع الكبيرة</div>
+<div class="dm-note">📌 الغطاء الخرساني Meter فحص غير مدمر يستخدم بعد الصب للتحقق من الغطاء الفعلي — يُوصى به في المشاريع الكبيرة</div>
 </div>
 
 <div class="lang-content-en" style="display:none;">
@@ -2406,19 +2341,17 @@ HP3: 28-day cube results — Engineer approval before loading
 <div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
 ⚠️ QCS 2024 Section 5 Part 4 | Ashghal Practice | الصب في الجو الحار — قطر
 </div>
-
-<h3>🌡️ حدود درجات الحرارة — Temperature Limits</h3>
+<h3>🌡️ حدود درجات الحرارة — درجة الحرارة Limits</h3>
 <table class="dm-table">
 <thead><tr><th>المعيار</th><th>الحد</th><th>الإجراء عند التجاوز</th><th>QCS</th></tr></thead>
 <tbody>
-<tr><td><strong>Max temp الخرسانة عند الصب</strong></td><td>35°C</td><td>رفض الشاحنة — لا استثناء</td><td>S5 P4</td></tr>
-<tr><td><strong>Max temp بعد الخلط (بالمصنع)</strong></td><td>30°C</td><td>ثلج أو ماء بارد</td><td>S5 P4</td></tr>
-<tr><td><strong>Min temp للصب</strong></td><td>10°C</td><td>حماية حرارية + سخانات</td><td>S5 P4</td></tr>
-<tr><td><strong>Differential Temp (Mass Concrete)</strong></td><td>≤ 20°C</td><td>Thermal plan إلزامي</td><td>S5 P4</td></tr>
-<tr><td><strong>Max Ambient Temp للعمل</strong></td><td>40°C (Qatar)</td><td>تأجيل الصب</td><td>Ashghal</td></tr>
+<tr><td><strong>الحد الأقصى temp الخرسانة عند الصب</strong></td><td>35°C</td><td>رفض الشاحنة — لا استثناء</td><td>S5 P4</td></tr>
+<tr><td><strong>الحد الأقصى temp بعد الخلط (بالمصنع)</strong></td><td>30°C</td><td>ثلج أو ماء بارد</td><td>S5 P4</td></tr>
+<tr><td><strong>الحد الأدنى temp للصب</strong></td><td>10°C</td><td>حماية حرارية + سخانات</td><td>S5 P4</td></tr>
+<tr><td><strong>Differential Temp (Mass الخرسانة)</strong></td><td>≤ 20°C</td><td>Thermal plan إلزامي</td><td>S5 P4</td></tr>
+<tr><td><strong>الحد الأقصى Ambient Temp للعمل</strong></td><td>40°C (Qatar)</td><td>تأجيل الصب</td><td>Ashghal</td></tr>
 </tbody>
 </table>
-
 <h3>🧊 إجراءات التبريد — Cooling Procedures</h3>
 <table class="dm-table">
 <thead><tr><th>الإجراء</th><th>التفاصيل</th><th>الهدف</th><th>الفعالية</th></tr></thead>
@@ -2431,7 +2364,6 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td><strong>Anti-Evaporation Spray</strong></td><td>رش فوري بعد الصب — قبل الرياح</td><td>منع التشقق الناتج عن التبخر</td><td>⭐⭐⭐⭐</td></tr>
 </tbody>
 </table>
-
 <h3>⏰ توقيت الصب — Pouring Schedule (قطر)</h3>
 <table class="dm-table">
 <thead><tr><th>الفصل</th><th>الأشهر</th><th>وقت الصب الموصى به</th><th>الملاحظة</th></tr></thead>
@@ -2442,30 +2374,27 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>الخريف</td><td>أكتوبر</td><td>قبل 10 صباحاً أو بعد 5 عصراً</td><td>رطوبة عالية — انتبه</td></tr>
 </tbody>
 </table>
-
-<h3>💧 المعالجة في الجو الحار — Hot Weather Curing</h3>
+<h3>💧 المعالجة في الجو الحار — Hot Weather المعالجة / التصليد</h3>
 <table class="dm-table">
 <thead><tr><th>الطريقة</th><th>المدة</th><th>ملاحظات قطر</th><th>QCS</th></tr></thead>
 <tbody>
 <tr><td>Wet Burlap + Polythene</td><td>7 أيام min</td><td>الأفضل في درجات عالية</td><td>S5 P4</td></tr>
-<tr><td>Curing Compound</td><td>تطبيق فوري — طبقة واحدة</td><td>لا في الرياح الشديدة</td><td>S5 P4</td></tr>
+<tr><td>المعالجة / التصليد Compound</td><td>تطبيق فوري — طبقة واحدة</td><td>لا في الرياح الشديدة</td><td>S5 P4</td></tr>
 <tr><td>Water Spray / Ponding</td><td>7 أيام — 2-3 مرات/يوم</td><td>مياه عذبة فقط</td><td>S5 P4</td></tr>
-<tr><td>Steam Curing</td><td>Precast فقط — حسب الجدول</td><td>لا يُستخدم في الموقع</td><td>S5 P4</td></tr>
+<tr><td>Steam المعالجة / التصليد</td><td>Precast فقط — حسب الجدول</td><td>لا يُستخدم في الموقع</td><td>S5 P4</td></tr>
 </tbody>
 </table>
-
-<h3>📋 Thermal Control Plan — Mass Concrete</h3>
+<h3>📋 Thermal Control Plan — Mass الخرسانة</h3>
 <table class="dm-table">
 <thead><tr><th>البند</th><th>المتطلب</th><th>QCS</th></tr></thead>
 <tbody>
-<tr><td>تعريف Mass Concrete</td><td>سُمك ≥ 600mm أو كميات كبيرة تُولد حرارة إماهة عالية</td><td>S5 P4</td></tr>
-<tr><td>Max Core Temp</td><td>≤ 70°C (داخل العنصر)</td><td>S5 P4</td></tr>
-<tr><td>Max Differential Temp</td><td>≤ 20°C (Core vs Surface)</td><td>S5 P4</td></tr>
+<tr><td>تعريف Mass الخرسانة</td><td>سُمك ≥ 600mm أو كميات كبيرة تُولد حرارة إماهة عالية</td><td>S5 P4</td></tr>
+<tr><td>الحد الأقصى الأسطوانة المحفورة (Core) Temp</td><td>≤ 70°C (داخل العنصر)</td><td>S5 P4</td></tr>
+<tr><td>الحد الأقصى Differential Temp</td><td>≤ 20°C (الأسطوانة المحفورة (Core) vs Surface)</td><td>S5 P4</td></tr>
 <tr><td>Thermocouples</td><td>مدفونة في المركز والأطراف</td><td>S5 P4</td></tr>
 <tr><td>GGBS Replacement</td><td>50-70% لتقليل حرارة الإماهة</td><td>S5 P4</td></tr>
 </tbody>
 </table>
-
 <div class="dm-note">⚠️ في قطر: درجة الحرارة الصيفية تتجاوز 45°C — الصب الليلي مع الثلج وRetarder معتمد هو الممارسة الأساسية للمشاريع الكبرى</div>
 </div>
 
