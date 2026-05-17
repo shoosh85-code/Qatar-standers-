@@ -559,6 +559,12 @@
 
 <div id="bldc-results" style="background:rgba(0,0,0,0.2);border:1px solid #222;border-radius:8px;padding:10px;min-height:160px;"></div>
 
+<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
+  <button onclick="bldPrint()" style="flex:1;background:rgba(46,204,113,0.15);border:1px solid rgba(46,204,113,0.4);color:#2ecc71;padding:7px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:700;">🖨️ طباعة / PDF</button>
+  <button onclick="bldCopy()" style="flex:1;background:rgba(52,152,219,0.15);border:1px solid rgba(52,152,219,0.4);color:#3498db;padding:7px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:700;">📋 نسخ النتائج</button>
+  <button onclick="bldReset()" style="flex:1;background:rgba(231,76,60,0.10);border:1px solid rgba(231,76,60,0.3);color:#e74c3c;padding:7px 12px;border-radius:6px;cursor:pointer;font-size:11px;">↺ إعادة تعيين</button>
+</div>
+
 <div style="margin-top:8px;font-size:10px;color:var(--text3);border-top:1px solid #222;padding-top:6px;">
   ⚠️ كميات تقديرية مبنية على نسب QCS 2024 — لا تُستخدم للتوريد النهائي بدون دراسة هندسية معتمدة.
   الخرسانة: QCS 2024 §S5-P4 | الحديد: BS 4449 | الطابوق: QCS 2024 §S5-P9
@@ -771,6 +777,81 @@ window.bldCalc=function(){
 };
 
 setTimeout(function(){window.bldCalc();},100);
+
+window.bldPrint=function(){
+  var area  =(document.getElementById('bldc-area')||{value:500}).value;
+  var floors=(document.getElementById('bldc-floors')||{value:10}).value;
+  var type  =(document.getElementById('bldc-type')||{value:'res'}).value;
+  var typeLabel={'res':'سكني','com':'تجاري','mix':'مختلط'}[type]||type;
+  var gfa   =document.getElementById('s-gfa')||{textContent:'—'};
+  var conc  =document.getElementById('s-conc')||{textContent:'—'};
+  var steel =document.getElementById('s-steel')||{textContent:'—'};
+  var res   =document.getElementById('bldc-results')||{innerHTML:''};
+  var w=window.open('','_blank','width=800,height=600');
+  w.document.write('<html dir="rtl"><head><meta charset="utf-8"><title>QatarSpec Pro — حاسبة المباني</title>'+
+    '<style>body{font-family:Tajawal,Arial;direction:rtl;padding:20px;color:#111;}'+
+    'table{width:100%;border-collapse:collapse;margin:10px 0;}'+
+    'th{background:#5A0F0F;color:#fff;padding:6px 8px;font-size:12px;}'+
+    'td{padding:5px 8px;border:1px solid #ddd;font-size:11px;}'+
+    'h2{color:#5A0F0F;border-bottom:2px solid #C9A84C;padding-bottom:6px;}'+
+    'h3{color:#333;font-size:13px;margin-top:12px;}'+
+    '.header{background:#5A0F0F;color:#fff;padding:12px 16px;border-radius:6px;margin-bottom:16px;}'+
+    '.header h1{margin:0;font-size:16px;color:#C9A84C;}'+
+    '.header p{margin:4px 0 0;font-size:11px;opacity:0.8;}'+
+    '.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0;}'+
+    '.sum-box{background:#f5f5f5;border:1px solid #ddd;border-radius:4px;padding:8px;text-align:center;}'+
+    '.sum-val{font-size:16px;font-weight:700;color:#5A0F0F;}'+
+    '.sum-lbl{font-size:10px;color:#666;}'+
+    '.footer{margin-top:20px;font-size:10px;color:#888;border-top:1px solid #ddd;padding-top:8px;}'+
+    '@media print{button{display:none!important;}}'+
+    '</style></head><body>'+
+    '<div class="header"><h1>🧮 QatarSpec Pro — حاسبة المباني الشاملة</h1>'+
+    '<p>المشروع: '+typeLabel+' | مساحة الطابق: '+area+' م² | عدد الطوابق: '+floors+'</p></div>'+
+    '<div class="summary">'+
+    '<div class="sum-box"><div class="sum-val">'+gfa.textContent+'</div><div class="sum-lbl">GFA م²</div></div>'+
+    '<div class="sum-box"><div class="sum-val">'+conc.textContent+'</div><div class="sum-lbl">خرسانة م³</div></div>'+
+    '<div class="sum-box"><div class="sum-val">'+steel.textContent+'</div><div class="sum-lbl">حديد</div></div>'+
+    '<div class="sum-box"><div class="sum-val">QCS 2024</div><div class="sum-lbl">المرجع</div></div>'+
+    '</div>'+res.innerHTML+
+    '<div class="footer">⚠️ كميات تقديرية — QCS 2024 §S5 | BS 4449 | ASTM C90 | تاريخ الطباعة: '+new Date().toLocaleDateString('ar-QA')+'</div>'+
+    '<br><button onclick="window.print()" style="background:#5A0F0F;color:#fff;border:none;padding:8px 20px;border-radius:4px;cursor:pointer;font-size:13px;">🖨️ اطبع</button>'+
+    '</body></html>');
+  w.document.close();
+};
+
+window.bldCopy=function(){
+  var gfa  =(document.getElementById('s-gfa')||{textContent:'—'}).textContent;
+  var conc =(document.getElementById('s-conc')||{textContent:'—'}).textContent;
+  var steel=(document.getElementById('s-steel')||{textContent:'—'}).textContent;
+  var area =(document.getElementById('bldc-area')||{value:500}).value;
+  var floors=(document.getElementById('bldc-floors')||{value:10}).value;
+  var txt='QatarSpec Pro — حاسبة المباني\n'+'='.repeat(35)+'\n'+
+    'مساحة الطابق: '+area+' م²\n'+
+    'عدد الطوابق: '+floors+'\n'+
+    'GFA الإجمالي: '+gfa+' م²\n'+
+    'إجمالي الخرسانة: '+conc+' م³\n'+
+    'إجمالي الحديد: '+steel+'\n'+
+    'المرجع: QCS 2024 §S5 | BS 4449\n'+
+    'تاريخ: '+new Date().toLocaleDateString('ar-QA');
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(txt).then(function(){
+      var btn=event.target; btn.textContent='✅ تم النسخ!'; setTimeout(function(){btn.textContent='📋 نسخ النتائج';},2000);
+    });
+  }
+};
+
+window.bldReset=function(){
+  var defs={'bldc-area':500,'bldc-floors':10,'bldc-typ':8};
+  Object.keys(defs).forEach(function(id){
+    var el=document.getElementById(id); if(el) el.value=defs[id];
+  });
+  var sels={'bldc-type':'res','bldc-fh':'3.0','bldc-found':'raft','bldc-sys':'beam','bldc-slab':'200'};
+  Object.keys(sels).forEach(function(id){
+    var el=document.getElementById(id); if(el) el.value=sels[id];
+  });
+  bldCalc();
+};
+
 })();
 <\/script>
 </div>
