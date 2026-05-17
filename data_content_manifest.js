@@ -178,5 +178,6 @@ window.QS_CONTENT_MAP = {
   "bld_mep": "data_content_buildings.js",
   "bld_finishes": "data_content_buildings.js",
   "bld_handover": "data_content_buildings.js",
-  "bld_materials": "data_content_buildings.js"
+  "bld_materials": "data_content_buildings.js",
+  "bld_calculator": "data_content_buildings.js"
 };

@@ -19,6 +19,11 @@
 <div onclick="QS.openDetail('bld_handover')" style="background:rgba(90,15,15,0.06);border:1px solid rgba(90,15,15,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:18px;">7️⃣</div><div style="color:#5A0F0F;font-weight:700;font-size:13px;">التسليم والاختبارات</div><div style="color:var(--text3);font-size:11px;">Commissioning · Snag · As-Built</div></div>
 <div onclick="QS.openDetail('bld_materials')" style="background:rgba(90,15,15,0.06);border:1px solid rgba(90,15,15,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:18px;">8️⃣</div><div style="color:#5A0F0F;font-weight:700;font-size:13px;">مواد البناء</div><div style="color:var(--text3);font-size:11px;">Cement · Rebar · Glass · Aluminium</div></div>
 </div>
+<div onclick="QS.openDetail('bld_calculator')" style="background:linear-gradient(135deg,rgba(201,168,76,0.15),rgba(90,15,15,0.1));border:2px solid rgba(201,168,76,0.5);border-radius:10px;padding:14px;cursor:pointer;text-align:center;margin-top:8px;">
+  <div style="font-size:24px;">🧮</div>
+  <div style="color:#C9A84C;font-weight:700;font-size:14px;">حاسبة المباني الشاملة</div>
+  <div style="color:var(--text3);font-size:11px;margin-top:4px;">خرسانة · حديد · طابوق · تشطيبات · عزل — QCS 2024 §S5</div>
+</div>
 <h3>📚 المراجع الرئيسية</h3>
 <table class="dm-table"><tr style="background:rgba(90,15,15,0.08);"><th>المرجع</th><th>النطاق</th></tr>
 <tr><td>QCS 2024 §S5</td><td>أعمال المباني الإنشائية</td></tr>
@@ -44,6 +49,10 @@
 <div onclick="QS.openDetail('bld_handover')" style="background:rgba(90,15,15,0.06);border:1px solid rgba(90,15,15,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:18px;">7️⃣</div><div style="color:#5A0F0F;font-weight:700;font-size:13px;">Handover and Testing</div><div style="color:var(--text3);font-size:11px;">Commissioning · Snag · As-Built</div></div>
 <div onclick="QS.openDetail('bld_materials')" style="background:rgba(90,15,15,0.06);border:1px solid rgba(90,15,15,0.2);border-radius:8px;padding:10px;cursor:pointer;text-align:center;"><div style="font-size:18px;">8️⃣</div><div style="color:#5A0F0F;font-weight:700;font-size:13px;">Building Materials</div><div style="color:var(--text3);font-size:11px;">Cement · Rebar · Glass · Aluminium</div></div>
 </div>
+<div onclick="QS.openDetail('bld_calculator')" style="background:linear-gradient(135deg,rgba(201,168,76,0.15),rgba(90,15,15,0.1));border:2px solid rgba(201,168,76,0.5);border-radius:10px;padding:14px;cursor:pointer;text-align:center;margin-top:8px;">
+  <div style="font-size:24px;">🧮</div>
+  <div style="color:#C9A84C;font-weight:700;font-size:14px;">Building Calculator</div>
+  <div style="color:var(--text3);font-size:11px;margin-top:4px;">Concrete · Rebar · Masonry · Finishes · Waterproofing — QCS 2024 §S5</div>
 </div>
 ` };
 
