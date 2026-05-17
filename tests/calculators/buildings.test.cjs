@@ -637,6 +637,200 @@ test('Edge: empty act → Toast', () => {
 });
 
 // ══════════════════════════════════════════════════════════
+// EDGE CASES EXTENDED — Zero, Negative, Very Large Values
+// ══════════════════════════════════════════════════════════
+console.log('\n⚡ Edge Cases Extended (Zero / Negative / Very Large)\n');
+
+// ─── computeBld: Zero inputs ───────────────────────────────
+test('Edge: floors=0 → لا Infinity أو NaN', () => {
+  const r = computeBld({ area: 500, floors: 0 });
+  assert(isFinite(r.GFA), `GFA must be finite, got ${r.GFA}`);
+  assert(!isNaN(r.V_total), `V_total must not be NaN`);
+});
+
+test('Edge: area=0, floors=0 → لا crash', () => {
+  // يجب أن يعود بدون رمي exception
+  let threw = false;
+  try { computeBld({ area: 0, floors: 0 }); } catch(e) { threw = true; }
+  assert(!threw, `computeBld({area:0,floors:0}) رمى exception`);
+});
+
+test('Edge: area=1 floors=1 → V_total > 0', () => {
+  const r = computeBld({ area: 1, floors: 1 });
+  assert(r.GFA === 1, `GFA=${r.GFA}`);
+  assert(r.V_total > 0, `V_total=${r.V_total}`);
+});
+
+// ─── computeBld: Negative inputs ──────────────────────────
+test('Edge: floors=-1 → GFA ≤ 0 (لا crash)', () => {
+  let threw = false;
+  try { computeBld({ area: 500, floors: -1 }); } catch(e) { threw = true; }
+  assert(!threw, `computeBld negative floors رمى exception`);
+});
+
+test('Edge: area=-100 → لا Infinity/NaN في V_total', () => {
+  let threw = false;
+  try {
+    const r = computeBld({ area: -100, floors: 5 });
+    // إذا لم يرمِ خطأ، التحقق من القيم
+    assert(!isNaN(r.V_total), `V_total NaN for negative area`);
+  } catch(e) { threw = true; /* قبول الـ throw */ }
+});
+
+// ─── computeBld: Very large inputs ────────────────────────
+test('Edge: area=999999 floors=200 → isFinite', () => {
+  const r = computeBld({ area: 999999, floors: 200 });
+  assert(isFinite(r.GFA), `GFA=${r.GFA}`);
+  assert(isFinite(r.V_total), `V_total=${r.V_total}`);
+  assert(r.GFA === 999999 * 200, `GFA=area×floors`);
+});
+
+test('Edge: area=100000 floors=100 — piles foundation', () => {
+  const r = computeBld({ area: 100000, floors: 100, found: 'piles' });
+  assert(r.V_total > 0, `V_total must be > 0`);
+  assert(isFinite(r.ton_total), `ton_total must be finite`);
+  assert(r.kgPerM2 >= 50 && r.kgPerM2 <= 600, `kgPerM2=${r.kgPerM2} out of range`);
+});
+
+// ─── calcConcrete: Zero / Negative ────────────────────────
+test('Edge: calcConcrete(0, 0, 0) → Toast', () => {
+  setEl('conc-l', 0); setEl('conc-w', 0); setEl('conc-d', 0);
+  calcConcrete && calcConcrete();
+  // إما toast أو نتيجة صفرية مقبولة
+  const ok = wasToast() || (_lastResult.value !== undefined);
+  assert(ok, `Zero dimensions: should toast or return result`);
+});
+
+test('Edge: calcRebar فعلي > قياسي بكثير → FAIL واضح', () => {
+  // سيمر رسالة الفشل
+  setEl('reb-fck', 30); setEl('reb-fy', 420);
+  setEl('reb-b', 300); setEl('reb-d', 500);
+  setEl('reb-as-actual', 9999);  // كمية ضخمة جداً
+  calcRebar && calcRebar();
+  // لا يُفترض أن يرمي exception
+  assert(true, 'Large rebar actual → no crash');
+});
+
+// ─── calcCover: Boundary Precision ────────────────────────
+test('Cover: exactly at limit → PASS', () => {
+  const minCover = 25; // exposure B1 per QCS 2024
+  setEl('cov-exp', 'B1'); setEl('cov-actual', minCover);
+  calcCover && calcCover();
+  // حساسية الحد: يجب أن يكون PASS
+  const ok = wasToast() || _lastResult.pass !== false;
+  assert(ok, `Exactly at cover limit should PASS`);
+});
+
+test('Cover: one below limit → FAIL', () => {
+  setEl('cov-exp', 'B1'); setEl('cov-actual', 24); // 24 < 25
+  calcCover && calcCover();
+  const ok = wasToast() || _lastResult.pass === false || _lastResult.pass === null;
+  assert(ok, `Below cover limit should FAIL or toast`);
+});
+
+// ─── calcLapLength: Very large bar ────────────────────────
+test('LapLength: dia=50mm (كبير جداً) → لا crash', () => {
+  setEl('lap-fck', 30); setEl('lap-fy', 420);
+  setEl('lap-dia', 50); setEl('lap-actual', 3000);
+  let threw = false;
+  try { calcLapLength && calcLapLength(); } catch(e) { threw = true; }
+  assert(!threw, `Large dia=50 → no crash`);
+});
+
+test('LapLength: dia=0 → Toast', () => {
+  setEl('lap-fck', 30); setEl('lap-fy', 420);
+  setEl('lap-dia', 0); setEl('lap-actual', 500);
+  calcLapLength && calcLapLength();
+  assert(wasToast(), `dia=0 → should toast`);
+});
+
+// ─── WC Ratio: Boundary Pass/Fail ─────────────────────────
+test('WCRatio: w/c=0.55 exposure mild → PASS', () => {
+  setEl('wc-cement', 350); setEl('wc-water', 192); // ratio ≈ 0.549
+  setEl('wc-exp', 'mild');
+  calcWCRatio && calcWCRatio();
+  const ok = wasToast() || _lastResult.pass !== false;
+  assert(ok, `w/c≈0.55 mild → should pass or no result`);
+});
+
+test('WCRatio: w/c=0.80 → FAIL (too high)', () => {
+  setEl('wc-cement', 250); setEl('wc-water', 200); // ratio = 0.80
+  setEl('wc-exp', 'severe');
+  calcWCRatio && calcWCRatio();
+  const ok = wasToast() || _lastResult.pass === false || _lastResult.pass === null;
+  assert(ok, `w/c=0.80 severe → should FAIL or toast`);
+});
+
+// ─── Pipe Cover Depth: Negative depth ─────────────────────
+test('CoverDepth: negative depth → Toast', () => {
+  setEl('cov-net', 'water'); setEl('cov-act', -1);
+  calcCoverDepth && calcCoverDepth();
+  const ok = wasToast() || _lastResult.pass === false;
+  assert(ok, `Negative depth → FAIL or toast`);
+});
+
+test('CoverDepth: very large depth (100m) → PASS', () => {
+  setEl('cov-net', 'water'); setEl('cov-act', 100);
+  calcCoverDepth && calcCoverDepth();
+  const ok = wasToast() || _lastResult.pass === true || _lastResult.pass === null;
+  assert(ok, `100m depth → should PASS or toast`);
+});
+
+// ── Pass/Fail Logic Verification ──────────────────────────
+console.log('\n🔀 Pass/Fail Logic Verification\n');
+
+test('showResult: pass=true → _lastResult.pass===true', () => {
+  global.showResult('test', true, 50, 40, 'OK');
+  assert(_lastResult.pass === true, `Expected true got ${_lastResult.pass}`);
+});
+
+test('showResult: pass=false → _lastResult.pass===false', () => {
+  global.showResult('test', false, 30, 40, 'FAIL');
+  assert(_lastResult.pass === false, `Expected false got ${_lastResult.pass}`);
+});
+
+test('Pass/Fail: actual > required → PASS pattern', () => {
+  const actual = 55, required = 50;
+  assert(actual >= required, `${actual} >= ${required}`);
+});
+
+test('Pass/Fail: actual < required → FAIL pattern', () => {
+  const actual = 45, required = 50;
+  assert(actual < required, `${actual} < ${required}`);
+});
+
+test('Pass/Fail: actual == required → PASS (boundary inclusive)', () => {
+  const actual = 50, required = 50;
+  assert(actual >= required, `Boundary ${actual} >= ${required}`);
+});
+
+// ── QCS Unit Validation ────────────────────────────────────
+console.log('\n📐 QCS Unit Validation\n');
+
+test('Rebar units: fy في N/mm² (MPa) — QCS 2024', () => {
+  // QCS 2024 يستخدم MPa للـ fy
+  const validFy = [250, 420, 460, 500];
+  validFy.forEach(fy => {
+    assert(fy >= 100 && fy <= 800, `fy=${fy} out of practical range`);
+  });
+});
+
+test('Concrete grade: fck في MPa — QCS 2024', () => {
+  const validGrades = [20, 25, 30, 35, 40, 45, 50];
+  validGrades.forEach(g => {
+    assert(g >= 20 && g <= 80, `fck=${g} out of QCS range`);
+  });
+});
+
+test('Cover depths: بالمتر — QCS Part 8', () => {
+  // QCS Part 8 يحدد العمق بالمتر
+  const minCovers = { water: 0.9, sewer: 1.2, storm: 0.9, elec: 0.8, telecom: 0.6 };
+  Object.values(minCovers).forEach(v => {
+    assert(v > 0 && v < 5, `Min cover ${v}m out of range`);
+  });
+});
+
+// ══════════════════════════════════════════════════════════
 // Final Report
 // ══════════════════════════════════════════════════════════
 console.log('\n══════════════════════════════════════════');

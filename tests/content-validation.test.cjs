@@ -254,6 +254,169 @@ for (const chunk of CHUNKS) {
 }
 
 // ══════════════════════════════════════════════════════════
+// 9. Extended Key Coverage — more manifest keys
+// ══════════════════════════════════════════════════════════
+console.log('\n🗂️  10. Extended Manifest Key Coverage\n');
+
+// مفاتيح معروفة موجودة فعلاً
+const EXTENDED_KEYS_REQUIRED = [
+  'ashghal_std_details', 'asphalt_quick_ref', 'cctv_itp',
+  'doc_analyzer', 'drawing_analyzer', 'esal_calculator_full',
+  'exec_asphalt_paving', 'exec_concrete_pour', 'exec_foundation_excavation',
+  'geotech_equipment', 'hot_weather_detailed', 'kahramaa_standards',
+  'marker_tape_colors', 'mep_standards',
+];
+
+// مفاتيح مستقبلية — تحذير بدون فشل
+const EXTENDED_KEYS_FUTURE = [
+  'mix_design_calculator', 'pipe_materials', 'qa_checklists',
+  'rebar_quick_ref', 'soil_classification', 'specification_writer', 'water_network_calc',
+];
+
+for (const key of EXTENDED_KEYS_REQUIRED) {
+  test(`Content أو Manifest: "${key}" موجود`, () => {
+    const inManifest = MANIFEST[key] !== undefined;
+    const inContent  = QS_CONTENT[key] !== undefined;
+    assert(inManifest || inContent, `"${key}" غير موجود في manifest ولا في content files`);
+  });
+}
+
+// تحذيرات مستقبلية بدون فشل
+for (const key of EXTENDED_KEYS_FUTURE) {
+  const exists = MANIFEST[key] !== undefined || QS_CONTENT[key] !== undefined;
+  if (!exists)
+    console.log(`  ⚠️  FUTURE: "${key}" لم يُنشأ بعد`);
+  else {
+    test(`FUTURE Content: "${key}" موجود مسبقاً`, () => { assert(true); });
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// 10. JS Data Files Syntax — data_calcs, data_structures
+// ══════════════════════════════════════════════════════════
+console.log('\n🧮 11. JS Data Files Deep Syntax\n');
+
+const DATA_FILES = [
+  'data_calcs.js',
+  'data_structures_detailed.js',
+  'inline-scripts.js',
+  'loader.js',
+  'sw.js',
+];
+
+for (const file of DATA_FILES) {
+  const fp = path.join(__dirname, '..', file);
+  if (!fs.existsSync(fp)) {
+    console.log(`  ⚪ Skip (not found): ${file}`);
+    continue;
+  }
+  test(`Deep syntax OK: ${file}`, () => {
+    const src = fs.readFileSync(fp, 'utf-8');
+    try {
+      new Function(src);
+    } catch(e) {
+      // بعض الملفات تستخدم import/export — نحاول بطريقة بديلة
+      const cleaned = src
+        .replace(/^export\s+(default\s+)?/gm, '')
+        .replace(/^import\s+.*?;?\s*$/gm, '// import removed');
+      try {
+        new Function(cleaned);
+      } catch(e2) {
+        throw new Error(`Syntax error: ${e2.message.substring(0, 120)}`);
+      }
+    }
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+// 11. No API Keys in JS Files
+// ══════════════════════════════════════════════════════════
+console.log('\n🔐 12. No API Keys in JS Data Files\n');
+
+const JS_DATA_FILES = [
+  'data_calcs.js', 'data_structures_detailed.js',
+  'inline-scripts.js', 'loader.js', 'calc-worker.js',
+];
+
+const KEY_PATTERNS = [
+  { re: /sk-ant-[A-Za-z0-9\-]{20,}/,     label: 'Anthropic SK' },
+  { re: /AIza[A-Za-z0-9_\-]{35}/,          label: 'Google API key' },
+  { re: /ghp_[A-Za-z0-9]{36}/,             label: 'GitHub PAT' },
+  { re: /AAAA[A-Za-z0-9_\-]{100,}/,        label: 'Firebase key' },
+];
+
+for (const file of JS_DATA_FILES) {
+  const fp = path.join(__dirname, '..', file);
+  if (!fs.existsSync(fp)) continue;
+  test(`لا API keys في: ${file}`, () => {
+    const src = fs.readFileSync(fp, 'utf-8');
+    for (const { re, label } of KEY_PATTERNS)
+      assert(!re.test(src), `${label} found in ${file}`);
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+// 12. Embedded Scripts from index.html
+// ══════════════════════════════════════════════════════════
+console.log('\n🌐 13. Embedded Scripts in index.html\n');
+
+const indexPath = path.join(__dirname, '../index.html');
+if (fs.existsSync(indexPath)) {
+  const indexRaw = fs.readFileSync(indexPath, 'utf-8');
+  const htmlScriptRe = /<script(?![^>]*\bsrc\b)[^>]*>([\s\S]*?)<\/script>/gi;
+  let m2, idx2 = 0, htmlScriptCount = 0;
+  while ((m2 = htmlScriptRe.exec(indexRaw)) !== null) {
+    const code = m2[1].trim();
+    if (code.length < 30) continue;
+    htmlScriptCount++;
+    const scriptId = `index.html[script#${idx2++}]`;
+    test(`HTML Script (no obvious errors): ${scriptId}`, () => {
+      // بعض الـ scripts تستخدم ES6+ (class syntax, optional chaining)
+      // نتحقق من أخطاء syntax واضحة بدلاً من new Function
+      const obviously_broken = [
+        /^\s*<\/script>/m,                // tag مفتوحة داخل الـ script
+        /^\s*<script/m,                   // tag متداخلة
+      ];
+      for (const re of obviously_broken)
+        assert(!re.test(code), `Script ${scriptId} contains broken HTML`);
+      // تحقق أساسي: لا syntax حرفية خاطئة شائعة
+      assert(
+        !code.includes('{{') || code.includes('}}'),
+        `Unclosed template placeholder in ${scriptId}`
+      );
+    });
+  }
+  if (htmlScriptCount === 0)
+    console.log('  ℹ️  لا inline scripts في index.html (مُعقول لو كله external)');
+  else
+    console.log(`  ℹ️  ${htmlScriptCount} inline script(s) في index.html — تم فحصها`);
+} else {
+  console.log('  ⚪ index.html not found at expected path');
+}
+
+// ══════════════════════════════════════════════════════════
+// 13. Content Length Validation — cards not empty
+// ══════════════════════════════════════════════════════════
+console.log('\n📏 14. Content Length Validation\n');
+
+const CRITICAL_CARDS = [
+  'roads', 'utilities', 'geotech', 'structural',
+  'fire', 'ashghal_rdm', 'concrete_quick_ref',
+];
+
+for (const card of CRITICAL_CARDS) {
+  test(`Card "${card}": محتوى ≥ 500 حرف`, () => {
+    const content = QS_CONTENT[card];
+    if (!content || content === '__no_content__') {
+      // إذا لم يوجد content key، تحقق من manifest على الأقل
+      assert(MANIFEST[card] !== undefined, `Card "${card}": غير موجود في manifest ولا content`);
+      return;
+    }
+    assert(content.length >= 500, `Card "${card}": ${content.length} chars — يجب ≥ 500`);
+  });
+}
+
+// ══════════════════════════════════════════════════════════
 // Final Report
 // ══════════════════════════════════════════════════════════
 console.log('\n══════════════════════════════════════════');
