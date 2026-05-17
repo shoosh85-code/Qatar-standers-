@@ -792,7 +792,16 @@ function openDetail(key) {
   document.getElementById('appFooter').style.display='none';
   document.body.style.overflow='hidden';
   document.getElementById('dmTitle').textContent = d.title;
-  document.getElementById('dmContent').innerHTML = dedupeSectionContent(d.content, window.currentLang || 'ar');
+  var _dmEl = document.getElementById('dmContent');
+  if (_dmEl) {
+    _dmEl.innerHTML = dedupeSectionContent(d.content, window.currentLang || 'ar');
+    _dmEl.insertAdjacentHTML('beforeend',
+      '<div class="qcs-disclaimer" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.2);border-radius:6px;padding:8px;margin-top:14px;font-size:10px;color:#999;line-height:1.6;">' +
+      '\u26a0\ufe0f \u0647\u0630\u0627 \u0627\u0644\u0645\u062d\u062a\u0648\u0649 \u0645\u0631\u062c\u0639\u064a \u0641\u0642\u0637 \u2014 \u062a\u062d\u0642\u0642 \u062f\u0627\u0626\u0645\u0627\u064b \u0645\u0646 \u0627\u0644\u0645\u0648\u0627\u0635\u0641\u0629 \u0627\u0644\u0631\u0633\u0645\u064a\u0629 QCS 2024 \u0642\u0628\u0644 \u0627\u0644\u0627\u0639\u062a\u0645\u0627\u062f.<br>' +
+      'All content is for reference only \u2014 always verify against official QCS 2024 specifications.' +
+      '</div>'
+    );
+  }
   const backBtn = document.getElementById('dmBackBtn');
   if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
   modal.classList.add('open'); var mc=document.getElementById('dmContent'); if(mc) mc.scrollTop=0;
@@ -829,7 +838,16 @@ function goBack() {
   const modal = document.getElementById('detailModal');
   modal.dataset.currentKey = prevKey;
   document.getElementById('dmTitle').textContent = d.title;
-  document.getElementById('dmContent').innerHTML = dedupeSectionContent(d.content, window.currentLang || 'ar');
+  var _goBackEl = document.getElementById('dmContent');
+  if (_goBackEl) {
+    _goBackEl.innerHTML = dedupeSectionContent(d.content, window.currentLang || 'ar');
+    _goBackEl.insertAdjacentHTML('beforeend',
+      '<div class="qcs-disclaimer" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.2);border-radius:6px;padding:8px;margin-top:14px;font-size:10px;color:#999;line-height:1.6;">' +
+      '⚠️ هذا المحتوى مرجعي فقط — تحقق دائماً من المواصفة الرسمية QCS 2024 قبل الاعتماد.<br>' +
+      'All content is for reference only — always verify against official QCS 2024 specifications.' +
+      '</div>'
+    );
+  }
   // تنفيذ <script> داخل المحتوى المُحمَّل
   var mc2=document.getElementById('dmContent'); if(mc2){mc2.querySelectorAll('script').forEach(function(old){var s=document.createElement('script');s.textContent=old.textContent;old.parentNode.replaceChild(s,old);});}
   const backBtn = document.getElementById('dmBackBtn');
@@ -3000,10 +3018,14 @@ window.activateProSimple = window.activateProNow;
 // SECTION 6: Error Boundary + Analytics Events + Card Animation
 // ═══════════════════════════════════════════════════
 // ── Error Boundary: يمنع crash الصفحة ويُظهر toast للمستخدم ──
-window.onerror = function(msg, url, line, col, err) {
+window.onerror = function(msg, url, line, col, error) {
   const ignore = ['ResizeObserver', 'Script error', 'Non-Error promise'];
   if (ignore.some(function(i){ return String(msg).includes(i); })) return true;
   console.warn('[QatarSpec] Error:', msg, 'at', url, 'line', line);
+  // PROTOCOL 2.3: Error Tracking
+  if (window.QS && QS.track) {
+    QS.track('js_error', { message: msg, line: line, col: col, file: url });
+  }
   if (typeof showToast === 'function') {
     showToast('⚠️ حدث خطأ — يرجى تحديث الصفحة', 'error', 5000);
   }
