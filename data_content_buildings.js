@@ -482,4 +482,301 @@
 </div>
 ` };
 
+
+  c["bld_calculator"] = { title: '🧮 حاسبة المباني الشاملة — QCS 2024', content: `
+<div class="lang-content-ar">
+<div style="background:rgba(90,15,15,0.10);border:1px solid rgba(90,15,15,0.30);border-radius:10px;padding:10px;margin-bottom:12px;font-size:11px;">
+📌 QCS 2024 §S5 | BS EN 206 | BS 4449 | ASTM C90 | احسب كميات: خرسانة · حديد · طابوق · بلاستر · بلاط · عزل
+</div>
+
+<div id="bldc-wrap" style="font-size:12px;">
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+
+  <div style="background:rgba(0,0,0,0.15);border:1px solid rgba(90,15,15,0.25);border-radius:8px;padding:10px;">
+    <div style="color:#C9A84C;font-weight:700;margin-bottom:8px;">🏗️ بيانات المشروع</div>
+    <label style="display:block;color:var(--text3);font-size:11px;margin-bottom:2px;">نوع المبنى</label>
+    <select id="bldc-type" onchange="bldCalc()" style="width:100%;background:#111;border:1px solid #333;color:#eee;padding:5px;border-radius:4px;font-size:11px;margin-bottom:6px;">
+      <option value="res">🏠 سكني (Residential)</option>
+      <option value="com">🏢 تجاري (Commercial)</option>
+      <option value="mix">🏙️ مختلط (Mixed Use)</option>
+    </select>
+    <label style="display:block;color:var(--text3);font-size:11px;margin-bottom:2px;">مساحة الطابق الواحد (م²)</label>
+    <input id="bldc-area" type="number" value="500" min="50" max="10000" oninput="bldCalc()" style="width:100%;background:#111;border:1px solid #333;color:#eee;padding:5px;border-radius:4px;font-size:12px;margin-bottom:6px;">
+    <label style="display:block;color:var(--text3);font-size:11px;margin-bottom:2px;">عدد الطوابق (فوق الأرض)</label>
+    <input id="bldc-floors" type="number" value="10" min="1" max="80" oninput="bldCalc()" style="width:100%;background:#111;border:1px solid #333;color:#eee;padding:5px;border-radius:4px;font-size:12px;margin-bottom:6px;">
+    <label style="display:block;color:var(--text3);font-size:11px;margin-bottom:2px;">ارتفاع الطابق (م)</label>
+    <select id="bldc-fh" onchange="bldCalc()" style="width:100%;background:#111;border:1px solid #333;color:#eee;padding:5px;border-radius:4px;font-size:11px;">
+      <option value="2.8">2.8 م (سكني منخفض)</option>
+      <option value="3.0" selected>3.0 م (سكني قياسي)</option>
+      <option value="3.2">3.2 م (مختلط)</option>
+      <option value="3.5">3.5 م (تجاري)</option>
+      <option value="4.0">4.0 م (تجاري ضخم)</option>
+    </select>
+  </div>
+
+  <div style="background:rgba(0,0,0,0.15);border:1px solid rgba(90,15,15,0.25);border-radius:8px;padding:10px;">
+    <div style="color:#C9A84C;font-weight:700;margin-bottom:8px;">⚙️ النظام الإنشائي</div>
+    <label style="display:block;color:var(--text3);font-size:11px;margin-bottom:2px;">نوع الأساس</label>
+    <select id="bldc-found" onchange="bldCalc()" style="width:100%;background:#111;border:1px solid #333;color:#eee;padding:5px;border-radius:4px;font-size:11px;margin-bottom:6px;">
+      <option value="raft">لبشة (Raft Foundation)</option>
+      <option value="pad">مفرد (Pad Foundation)</option>
+      <option value="piles">خوازيق (Bored Piles)</option>
+      <option value="combined">مركّب (Raft + Piles)</option>
+    </select>
+    <label style="display:block;color:var(--text3);font-size:11px;margin-bottom:2px;">النظام الإنشائي</label>
+    <select id="bldc-sys" onchange="bldCalc()" style="width:100%;background:#111;border:1px solid #333;color:#eee;padding:5px;border-radius:4px;font-size:11px;margin-bottom:6px;">
+      <option value="beam">أعمدة + كمرات (Columns &amp; Beams)</option>
+      <option value="flat">بلاطة مسطحة (Flat Slab)</option>
+      <option value="shear">جدار قص (Shear Wall)</option>
+    </select>
+    <label style="display:block;color:var(--text3);font-size:11px;margin-bottom:2px;">سُمك البلاطة (مم)</label>
+    <select id="bldc-slab" onchange="bldCalc()" style="width:100%;background:#111;border:1px solid #333;color:#eee;padding:5px;border-radius:4px;font-size:11px;margin-bottom:6px;">
+      <option value="150">150 مم (خفيف)</option>
+      <option value="200" selected>200 مم (قياسي)</option>
+      <option value="250">250 مم (ثقيل)</option>
+      <option value="300">300 مم (أبراج)</option>
+    </select>
+    <label style="display:block;color:var(--text3);font-size:11px;margin-bottom:2px;">عدد الأدوار المتكررة</label>
+    <input id="bldc-typ" type="number" value="8" min="1" max="70" oninput="bldCalc()" style="width:100%;background:#111;border:1px solid #333;color:#eee;padding:5px;border-radius:4px;font-size:12px;">
+  </div>
+</div>
+
+<div id="bldc-summary" style="background:linear-gradient(135deg,rgba(90,15,15,0.3),rgba(50,10,10,0.4));border:1px solid rgba(90,15,15,0.4);border-radius:8px;padding:10px;margin-bottom:10px;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center;">
+  <div><div style="color:#C9A84C;font-size:15px;font-weight:700;" id="s-gfa">5,000</div><div style="color:var(--text3);font-size:10px;">GFA م²</div></div>
+  <div><div style="color:#C9A84C;font-size:15px;font-weight:700;" id="s-h">30.0</div><div style="color:var(--text3);font-size:10px;">الارتفاع الكلي م</div></div>
+  <div><div style="color:#2ecc71;font-size:15px;font-weight:700;" id="s-conc">0</div><div style="color:var(--text3);font-size:10px;">خرسانة م³</div></div>
+  <div><div style="color:#3498db;font-size:15px;font-weight:700;" id="s-steel">0</div><div style="color:var(--text3);font-size:10px;">حديد طن</div></div>
+</div>
+
+<div style="display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap;">
+  <button onclick="bldTab('conc')" id="tab-conc" style="background:rgba(90,15,15,0.6);border:1px solid rgba(90,15,15,0.8);color:#fff;padding:5px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700;">⚗️ الخرسانة</button>
+  <button onclick="bldTab('steel')" id="tab-steel" style="background:rgba(0,0,0,0.2);border:1px solid #333;color:#aaa;padding:5px 10px;border-radius:5px;cursor:pointer;font-size:11px;">🔩 الحديد</button>
+  <button onclick="bldTab('mason')" id="tab-mason" style="background:rgba(0,0,0,0.2);border:1px solid #333;color:#aaa;padding:5px 10px;border-radius:5px;cursor:pointer;font-size:11px;">🧱 طابوق</button>
+  <button onclick="bldTab('finish')" id="tab-finish" style="background:rgba(0,0,0,0.2);border:1px solid #333;color:#aaa;padding:5px 10px;border-radius:5px;cursor:pointer;font-size:11px;">🎨 التشطيبات</button>
+  <button onclick="bldTab('izol')" id="tab-izol" style="background:rgba(0,0,0,0.2);border:1px solid #333;color:#aaa;padding:5px 10px;border-radius:5px;cursor:pointer;font-size:11px;">💧 العزل</button>
+</div>
+
+<div id="bldc-results" style="background:rgba(0,0,0,0.2);border:1px solid #222;border-radius:8px;padding:10px;min-height:160px;"></div>
+
+<div style="margin-top:8px;font-size:10px;color:var(--text3);border-top:1px solid #222;padding-top:6px;">
+  ⚠️ كميات تقديرية مبنية على نسب QCS 2024 — لا تُستخدم للتوريد النهائي بدون دراسة هندسية معتمدة.
+  الخرسانة: QCS 2024 §S5-P4 | الحديد: BS 4449 | الطابوق: QCS 2024 §S5-P9
+</div>
+</div>
+
+<script>
+(function(){
+var _tab='conc';
+
+window.bldTab=function(t){
+  _tab=t;
+  ['conc','steel','mason','finish','izol'].forEach(function(id){
+    var el=document.getElementById('tab-'+id);
+    if(!el)return;
+    if(id===t){el.style.background='rgba(90,15,15,0.6)';el.style.borderColor='rgba(90,15,15,0.8)';el.style.color='#fff';}
+    else{el.style.background='rgba(0,0,0,0.2)';el.style.borderColor='#333';el.style.color='#aaa';}
+  });
+  bldCalc();
+};
+
+window.bldCalc=function(){
+  var type  =(document.getElementById('bldc-type')||{value:'res'}).value;
+  var area  =parseFloat((document.getElementById('bldc-area')||{value:500}).value)||500;
+  var floors=parseInt((document.getElementById('bldc-floors')||{value:10}).value)||10;
+  var fh    =parseFloat((document.getElementById('bldc-fh')||{value:3}).value)||3.0;
+  var found =(document.getElementById('bldc-found')||{value:'raft'}).value;
+  var sys   =(document.getElementById('bldc-sys')||{value:'beam'}).value;
+  var slabmm=parseInt((document.getElementById('bldc-slab')||{value:200}).value)||200;
+
+  var tMult  ={res:1.0,com:1.15,mix:1.08}[type]||1.0;
+  var openRat={res:0.28,com:0.40,mix:0.33}[type]||0.28;
+  var partRat={res:0.45,com:0.25,mix:0.35}[type]||0.45;
+
+  var GFA   =area*floors;
+  var totalH=floors*fh;
+  var W=Math.sqrt(area/1.5);var L=1.5*W;
+  var perim=2*(W+L);
+
+  // ── CONCRETE ─────────────────────────────────────────────
+  var foundRat={raft:0.45,pad:0.28,piles:0.22,combined:0.38}[found]||0.45;
+  var V_found=area*foundRat;
+  var colRat=0.050*tMult;
+  var beamRat=(sys==='beam')?0.090:(sys==='flat')?0.000:0.050;
+  var slabRat=slabmm/1000;
+  var wallRat=(sys==='shear'||floors>10)?0.045*tMult:0.0;
+  var V_col  =area*colRat*floors;
+  var V_beam =area*beamRat*floors;
+  var V_slab =area*slabRat*floors;
+  var V_wall =area*wallRat*floors;
+  var V_stair=area*0.015*floors;
+  var V_roof =area*slabRat;
+  var V_super=V_col+V_beam+V_slab+V_wall+V_stair+V_roof;
+  var V_total=V_found+V_super;
+  var foundGrade='C35';
+  var superGrade=(floors>20)?'C45/C50':'C35/C40';
+  var cubes=Math.ceil(V_total/50)*3;
+
+  // ── STEEL ─────────────────────────────────────────────────
+  var sfR={raft:135,pad:120,piles:140,combined:138}[found]||130;
+  var scR=(floors>20)?320:280;
+  var kg_found=V_found*sfR;
+  var kg_col  =V_col*scR;
+  var kg_beam =V_beam*210;
+  var kg_slab =(V_slab+V_roof)*((sys==='flat')?120:105);
+  var kg_wall =V_wall*155;
+  var kg_stair=V_stair*145;
+  var kg_total=kg_found+kg_col+kg_beam+kg_slab+kg_wall+kg_stair;
+  var ton_total=kg_total/1000;
+  var kgPerM2=kg_total/GFA;
+  var T12_kg=(kg_slab+kg_beam)*0.30;
+  var T16_kg=(kg_slab+kg_beam)*0.40+kg_stair;
+  var T20_kg=kg_col*0.50+kg_wall*0.40;
+  var T25_kg=kg_col*0.35+kg_found*0.50+kg_wall*0.40;
+  var T32_kg=kg_found*0.40+kg_col*0.15;
+
+  // ── MASONRY ───────────────────────────────────────────────
+  var extWall_total=perim*fh*(1-openRat)*floors;
+  var intPart_total=area*floors*partRat;
+  var extBlk200=Math.ceil(extWall_total*12.5*1.10);
+  var intBlk100=Math.ceil(intPart_total*12.5*1.10);
+  var mortar_total=extWall_total*0.025+intPart_total*0.018;
+
+  // ── FINISHES ──────────────────────────────────────────────
+  var int_plaster=(intPart_total*2+GFA)*1.05;
+  var ext_render =extWall_total*1.05;
+  var floor_tiles=GFA*1.05;
+  var wall_tiles =GFA*({res:0.12,com:0.06,mix:0.09}[type]||0.10)*2.5*1.10;
+  var gyp_ceil   =GFA*1.05;
+
+  // ── WATERPROOFING ─────────────────────────────────────────
+  var wp_found=area*1.15;
+  var wp_roof =area*1.15;
+  var wp_wet  =area*floors*({res:0.12,com:0.06,mix:0.09}[type]||0.10)*1.20;
+  var ins_wall=extWall_total;
+  var ins_roof=area*1.10;
+  var ins_slab=area*0.20;
+
+  // ── UPDATE SUMMARY ────────────────────────────────────────
+  function fmt(n,d){return n.toLocaleString('en-SA',{maximumFractionDigits:d||0});}
+  var el;
+  if((el=document.getElementById('s-gfa')))  el.textContent=fmt(GFA);
+  if((el=document.getElementById('s-h')))    el.textContent=totalH.toFixed(1);
+  if((el=document.getElementById('s-conc'))) el.textContent=fmt(V_total);
+  if((el=document.getElementById('s-steel')))el.textContent=fmt(ton_total,1)+' t';
+
+  // ── RENDER ────────────────────────────────────────────────
+  var R=document.getElementById('bldc-results');
+  if(!R)return;
+
+  function tbl(rows,headers){
+    var h='<tr style="background:rgba(90,15,15,0.15);">'+headers.map(function(x){return '<th style="padding:5px 7px;text-align:right;font-size:11px;color:#C9A84C;">'+x+'</th>';}).join('')+'</tr>';
+    var r=rows.map(function(row){return '<tr>'+row.map(function(x,i){return '<td style="padding:5px 7px;font-size:11px;border-top:1px solid rgba(255,255,255,0.04);'+(i===0?'color:#ddd;':'color:#C9A84C;font-weight:700;')+'">'+x+'</td>';}).join('')+'</tr>';}).join('');
+    return '<table style="width:100%;border-collapse:collapse;">'+h+r+'</table>';
+  }
+
+  var html='';
+
+  if(_tab==='conc'){
+    html+='<div style="color:#2ecc71;font-weight:700;margin-bottom:8px;font-size:12px;">⚗️ كميات الخرسانة التفصيلية</div>';
+    html+=tbl([
+      ['الأساسات ('+foundGrade+')',fmt(V_found)+' م³',Math.round(V_found/V_total*100)+'%'],
+      ['الأعمدة ('+superGrade+')',fmt(V_col)+' م³',Math.round(V_col/V_total*100)+'%'],
+      ['الكمرات',fmt(V_beam)+' م³',Math.round(V_beam/V_total*100)+'%'],
+      ['البلاطات ('+slabmm+' مم)',fmt(V_slab)+' م³',Math.round(V_slab/V_total*100)+'%'],
+      ['جدران القص / الشافت',fmt(V_wall)+' م³',Math.round(V_wall/V_total*100)+'%'],
+      ['السلالم',fmt(V_stair)+' م³',Math.round(V_stair/V_total*100)+'%'],
+      ['سقف الدور الأخير',fmt(V_roof)+' م³',Math.round(V_roof/V_total*100)+'%'],
+    ],['العنصر','الحجم','%']);
+    html+='<div style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);border-radius:6px;padding:8px;margin-top:8px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;text-align:center;">';
+    html+='<div><div style="color:#2ecc71;font-size:14px;font-weight:700;">'+fmt(V_total)+' م³</div><div style="color:var(--text3);font-size:10px;">إجمالي الخرسانة</div></div>';
+    html+='<div><div style="color:#f39c12;font-size:14px;font-weight:700;">'+fmt(cubes)+' مكعب</div><div style="color:var(--text3);font-size:10px;">عينات اختبار مطلوبة</div></div>';
+    html+='<div><div style="color:#3498db;font-size:14px;font-weight:700;">'+fmt(Math.round(V_total/GFA*100)/100)+' م³/م²</div><div style="color:var(--text3);font-size:10px;">المعدل لكل م²</div></div>';
+    html+='</div>';
+    html+='<div style="margin-top:8px;font-size:10px;color:#888;">درجة الخرسانة: أساسات '+foundGrade+' (w/c ≤ 0.45) | أعمدة/كمرات '+superGrade+' (w/c ≤ 0.40) | QCS 2024 §S5-P5</div>';
+  }
+  else if(_tab==='steel'){
+    html+='<div style="color:#3498db;font-weight:700;margin-bottom:8px;font-size:12px;">🔩 كميات حديد التسليح</div>';
+    html+=tbl([
+      ['الأساسات',fmt(kg_found,0)+' كغ',fmt(kg_found/1000,2)+' طن'],
+      ['الأعمدة',fmt(kg_col,0)+' كغ',fmt(kg_col/1000,2)+' طن'],
+      ['الكمرات',fmt(kg_beam,0)+' كغ',fmt(kg_beam/1000,2)+' طن'],
+      ['البلاطات',fmt(kg_slab,0)+' كغ',fmt(kg_slab/1000,2)+' طن'],
+      ['جدران القص',fmt(kg_wall,0)+' كغ',fmt(kg_wall/1000,2)+' طن'],
+      ['السلالم',fmt(kg_stair,0)+' كغ',fmt(kg_stair/1000,2)+' طن'],
+    ],['العنصر','كغ','طن']);
+    html+='<div style="background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:6px;padding:8px;margin-top:8px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;text-align:center;">';
+    html+='<div><div style="color:#3498db;font-size:14px;font-weight:700;">'+fmt(ton_total,1)+' طن</div><div style="color:var(--text3);font-size:10px;">إجمالي الحديد</div></div>';
+    html+='<div><div style="color:#f39c12;font-size:14px;font-weight:700;">'+fmt(Math.round(kgPerM2))+' كغ/م²</div><div style="color:var(--text3);font-size:10px;">لكل م² مساحة</div></div>';
+    html+='<div><div style="color:#2ecc71;font-size:14px;font-weight:700;">B500B</div><div style="color:var(--text3);font-size:10px;">درجة الحديد QCS 2024</div></div>';
+    html+='</div>';
+    html+='<div style="margin-top:8px;font-size:11px;color:#C9A84C;font-weight:700;margin-bottom:4px;">توزيع الأقطار التقديري:</div>';
+    html+=tbl([
+      ['T12 (φ12)',fmt(T12_kg/1000,2)+' طن',Math.round(T12_kg/kg_total*100)+'%'],
+      ['T16 (φ16)',fmt(T16_kg/1000,2)+' طن',Math.round(T16_kg/kg_total*100)+'%'],
+      ['T20 (φ20)',fmt(T20_kg/1000,2)+' طن',Math.round(T20_kg/kg_total*100)+'%'],
+      ['T25 (φ25)',fmt(T25_kg/1000,2)+' طن',Math.round(T25_kg/kg_total*100)+'%'],
+      ['T32 (φ32)',fmt(T32_kg/1000,2)+' طن',Math.round(T32_kg/kg_total*100)+'%'],
+    ],['القطر','الكمية','%']);
+    html+='<div style="margin-top:6px;font-size:10px;color:#888;">BS 4449 | B500B | fy ≥ 500 MPa | فحص شد كل 25 طن | شهادة مصنع لكل شحنة</div>';
+  }
+  else if(_tab==='mason'){
+    html+='<div style="color:#e67e22;font-weight:700;margin-bottom:8px;font-size:12px;">🧱 أعمال الطابوق والبلوك</div>';
+    html+=tbl([
+      ['جدران خارجية (200 مم)',fmt(extWall_total,0)+' م²',fmt(extBlk200,0)+' بلوكة','C20 / 7 MPa'],
+      ['فواصل داخلية (100 مم)',fmt(intPart_total,0)+' م²',fmt(intBlk100,0)+' بلوكة','C15 / 4 MPa'],
+    ],['النوع','المساحة','العدد','الدرجة']);
+    html+='<div style="background:rgba(230,126,34,0.08);border:1px solid rgba(230,126,34,0.25);border-radius:6px;padding:8px;margin-top:8px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;text-align:center;">';
+    html+='<div><div style="color:#e67e22;font-size:14px;font-weight:700;">'+fmt(extBlk200+intBlk100,0)+'</div><div style="color:var(--text3);font-size:10px;">إجمالي البلوكات</div></div>';
+    html+='<div><div style="color:#f39c12;font-size:14px;font-weight:700;">'+fmt(mortar_total,1)+' م³</div><div style="color:var(--text3);font-size:10px;">مونة (Mortar)</div></div>';
+    html+='<div><div style="color:#2ecc71;font-size:14px;font-weight:700;">'+fmt(extWall_total+intPart_total,0)+' م²</div><div style="color:var(--text3);font-size:10px;">إجمالي الجدران</div></div>';
+    html+='</div>';
+    html+=tbl([
+      ['خارجي (M10)','1 إسمنت : 3 رمل','QCS 2024 §S5-P9'],
+      ['داخلي (M5)','1 إسمنت : 5 رمل','QCS 2024 §S5-P9'],
+      ['سُمك الوصلات','10 مم ± 3 مم','BS EN 1996'],
+    ],['نوع الملاط','النسبة','المرجع']);
+  }
+  else if(_tab==='finish'){
+    html+='<div style="color:#9b59b6;font-weight:700;margin-bottom:8px;font-size:12px;">🎨 التشطيبات والأعمال الإنهائية</div>';
+    html+=tbl([
+      ['بياض داخلي (جبس رطب)',fmt(int_plaster,0)+' م²','12-15 مم','QCS 2024 §S5-P10'],
+      ['رندرة خارجية',fmt(ext_render,0)+' م²','20-25 مم','QCS 2024 §S5-P10'],
+      ['دهان داخلي (3 طبقات)',fmt(int_plaster,0)+' م²','Washable Emulsion','QCS 2024 §S5'],
+      ['دهان خارجي (Elastomeric)',fmt(ext_render,0)+' م²','UV مقاوم | 200μm','QCS 2024 §S5'],
+      ['بلاط أرضيات',fmt(floor_tiles,0)+' م²','+5% هدر','ASTM C648'],
+      ['بلاط جدران (حمامات)',fmt(wall_tiles,0)+' م²','R11 مقاومة انزلاق','DIN 51130'],
+      ['ألواح جبس (سقف معلق)',fmt(gyp_ceil,0)+' م²','Gypsum Board','QCS 2024 §S5'],
+    ],['البند','الكمية','المواصفة','المرجع']);
+    html+='<div style="margin-top:8px;font-size:10px;color:#888;">بلاط الأرضيات: لاصق Class C2 | بلاط الجدران: C2TE | استواء ±3مم/3م | BS 8204</div>';
+  }
+  else if(_tab==='izol'){
+    html+='<div style="color:#1abc9c;font-weight:700;margin-bottom:8px;font-size:12px;">💧 أنظمة العزل المائي والحراري</div>';
+    html+='<div style="color:#C9A84C;font-size:11px;font-weight:700;margin-bottom:4px;">💧 العزل المائي:</div>';
+    html+=tbl([
+      ['عزل الأساسات',fmt(wp_found,0)+' م²','Bituminous SBS 4مم','QCS 2024 §S5'],
+      ['عزل السطح',fmt(wp_roof,0)+' م²','PVC/TPO 1.5مم','QCS 2024 §S5'],
+      ['مناطق رطبة (حمامات)',fmt(wp_wet,0)+' م²','Liquid Membrane 1.5مم','QCS 2024 §S5'],
+    ],['البند','الكمية','النوع','المرجع']);
+    html+='<div style="color:#C9A84C;font-size:11px;font-weight:700;margin-top:8px;margin-bottom:4px;">🔥 العزل الحراري:</div>';
+    html+=tbl([
+      ['جدران خارجية',fmt(ins_wall,0)+' م²','XPS/Rockwool 50-75مم','GSAS | U≤0.35'],
+      ['السطح',fmt(ins_roof,0)+' م²','PIR/XPS 75-100مم','GSAS | U≤0.25'],
+      ['تحت البلاطة الأرضية',fmt(ins_slab,0)+' م²','XPS 30-50مم','QCS 2024 §S5'],
+    ],['البند','الكمية','النوع','المعيار']);
+    html+='<div style="margin-top:8px;font-size:10px;color:#888;">GSAS: جدران U≤0.35 W/m²K | سقف U≤0.25 W/m²K | نوافذ U≤2.0 W/m²K</div>';
+  }
+
+  R.innerHTML=html;
+};
+
+setTimeout(function(){window.bldCalc();},100);
+})();
+<\/script>
+</div>
+<div class="lang-content-en" style="display:none;">
+<p style="padding:20px;text-align:center;color:var(--text3);">Switch to Arabic mode for the full interactive building calculator.</p>
+</div>
+` };
+
 })();
