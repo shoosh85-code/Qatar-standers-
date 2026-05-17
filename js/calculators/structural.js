@@ -386,3 +386,78 @@ window._extStructuralCalcs = function() {
 };
 
 })();
+
+// ── حاسبة ضخ الخرسانة للأبراج — QCS 2024 §S5-P4 ─────────────────────────
+window.calcConcretePump = function calcConcretePump() {
+  var height  = parseFloat(document.getElementById('cp_height')  && document.getElementById('cp_height').value)  || 0;
+  var hpipe   = parseFloat(document.getElementById('cp_hpipe')   && document.getElementById('cp_hpipe').value)   || 0;
+  var temp    = parseFloat(document.getElementById('cp_temp')    && document.getElementById('cp_temp').value)    || 38;
+  var elbows  = parseInt(  document.getElementById('cp_elbows')  && document.getElementById('cp_elbows').value)  || 0;
+  var res     = document.getElementById('cp_result');
+  if (!res) return;
+
+  if (height <= 0) {
+    res.style.display = 'block';
+    res.innerHTML = '<div style="color:#e74c3c;padding:10px;border:1px solid #e74c3c;border-radius:8px;">⚠️ أدخل ارتفاع ضخ صحيح (أكبر من صفر)</div>';
+    return;
+  }
+
+  // الحساب — QCS 2024 §S5-P4
+  var pHydrostatic = height / 10;
+  var pFrictionV   = height * 0.08;
+  var pFrictionH   = hpipe  * 0.05;
+  var pElbows      = elbows * 0.8;
+  var pBase        = 10;
+  var pSafety      = 1.25;
+  var totalPressure = (pHydrostatic + pFrictionV + pFrictionH + pElbows + pBase) * pSafety;
+
+  var slumpRec, slumpNote;
+  if (height <= 30)      { slumpRec = '100–130mm'; slumpNote = 'ارتفاع منخفض — Slump عادي'; }
+  else if (height <= 80) { slumpRec = '130–160mm'; slumpNote = 'ارتفاع متوسط — Slump عالٍ مطلوب'; }
+  else                   { slumpRec = '160–180mm'; slumpNote = 'ارتفاع شاهق — SCC موصى به'; }
+
+  var maxPourMin, retarderRequired;
+  if (temp > 40)      { maxPourMin = 60;  retarderRequired = true;  }
+  else if (temp > 35) { maxPourMin = 75;  retarderRequired = true;  }
+  else if (temp > 30) { maxPourMin = 90;  retarderRequired = false; }
+  else                { maxPourMin = 120; retarderRequired = false; }
+
+  var pressureOK = totalPressure <= 200;
+  var verdict = pressureOK
+    ? '✅ ضمن نطاق المضخة القياسية'
+    : '⚠️ مضخة عالية الضغط مطلوبة (&gt;200 bar)';
+  var verdictColor = pressureOK ? '#2ecc71' : '#e67e22';
+
+  res.style.display = 'block';
+  res.innerHTML =
+    '<div style="background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:12px;">' +
+    '<div style="font-weight:700;color:var(--gold);margin-bottom:10px;font-size:13px;">📊 نتائج الحساب</div>' +
+    '<table style="width:100%;border-collapse:collapse;">' +
+    '<tr style="border-bottom:1px solid var(--border);">' +
+      '<td style="padding:5px 0;color:var(--text2);">الضغط الهيدروستاتيكي</td>' +
+      '<td style="padding:5px 0;font-weight:700;text-align:left;">' + pHydrostatic.toFixed(1) + ' bar</td></tr>' +
+    '<tr style="border-bottom:1px solid var(--border);">' +
+      '<td style="padding:5px 0;color:var(--text2);">احتكاك الأنابيب</td>' +
+      '<td style="padding:5px 0;font-weight:700;text-align:left;">' + (pFrictionV + pFrictionH).toFixed(1) + ' bar</td></tr>' +
+    '<tr style="border-bottom:1px solid var(--border);">' +
+      '<td style="padding:5px 0;color:var(--text2);">مقاومة الكُوَع (' + elbows + ' كوع)</td>' +
+      '<td style="padding:5px 0;font-weight:700;text-align:left;">' + pElbows.toFixed(1) + ' bar</td></tr>' +
+    '<tr style="border-bottom:2px solid var(--gold);">' +
+      '<td style="padding:8px 0;font-weight:700;">⚡ إجمالي الضغط المطلوب</td>' +
+      '<td style="padding:8px 0;font-weight:700;font-size:15px;color:var(--gold);text-align:left;">' + totalPressure.toFixed(1) + ' bar</td></tr>' +
+    '<tr style="border-bottom:1px solid var(--border);">' +
+      '<td style="padding:5px 0;color:var(--text2);">Slump الموصى به</td>' +
+      '<td style="padding:5px 0;font-weight:700;text-align:left;">' + slumpRec + '</td></tr>' +
+    '<tr style="border-bottom:1px solid var(--border);">' +
+      '<td style="padding:5px 0;color:var(--text2);">أقصى وقت للصب</td>' +
+      '<td style="padding:5px 0;font-weight:700;text-align:left;">' + maxPourMin + ' دقيقة</td></tr>' +
+    '<tr><td style="padding:5px 0;color:var(--text2);">Retarder</td>' +
+      '<td style="padding:5px 0;font-weight:700;text-align:left;">' + (retarderRequired ? '⚠️ إلزامي' : 'اختياري') + '</td></tr>' +
+    '</table>' +
+    '<div style="margin-top:10px;padding:8px;background:rgba(0,0,0,0.2);border-radius:6px;color:' + verdictColor + ';font-weight:700;">' + verdict + '</div>' +
+    '<div style="margin-top:6px;color:var(--text2);font-size:11px;">📌 ' + slumpNote + ' · QCS 2024 §S5-P4</div>' +
+    '<div style="margin-top:4px;color:var(--text2);font-size:10px;">⚠️ نتائج تقديرية — يجب مراجعة مورد المضخة وحسابات المهندس المصمم</div>' +
+    '</div>';
+};
+window.QS = window.QS || {};
+window.QS.calcConcretePump = window.calcConcretePump;
