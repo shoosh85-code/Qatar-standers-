@@ -3445,6 +3445,54 @@ c["buildings_towers"] = {
   </button>
   <div id="cp_result" style="margin-top:12px;display:none;"></div>
 </div>
+<script>
+(function(){
+  function _calcConcretePump() {
+    var height  = parseFloat(document.getElementById('cp_height') ? document.getElementById('cp_height').value : 0) || 0;
+    var hpipe   = parseFloat(document.getElementById('cp_hpipe')  ? document.getElementById('cp_hpipe').value  : 0) || 0;
+    var temp    = parseFloat(document.getElementById('cp_temp')   ? document.getElementById('cp_temp').value   : 38) || 38;
+    var elbows  = parseInt(  document.getElementById('cp_elbows') ? document.getElementById('cp_elbows').value : 0) || 0;
+    var res     = document.getElementById('cp_result');
+    if (!res) return;
+    if (height <= 0) {
+      res.style.display = 'block';
+      res.innerHTML = '<div style="color:#e74c3c;padding:10px;border:1px solid #e74c3c;border-radius:8px;">\u26A0\uFE0F أدخل ارتفاع ضخ صحيح</div>';
+      return;
+    }
+    var pH  = height / 10;
+    var pFV = height * 0.08;
+    var pFH = hpipe  * 0.05;
+    var pE  = elbows * 0.8;
+    var tot = (pH + pFV + pFH + pE + 10) * 1.25;
+    var slump = height <= 30 ? '100-130mm' : height <= 80 ? '130-160mm' : '160-180mm';
+    var note  = height <= 30 ? 'ارتفاع منخفض' : height <= 80 ? 'ارتفاع متوسط' : 'ارتفاع شاهق - SCC موصى به';
+    var mins  = temp > 40 ? 60 : temp > 35 ? 75 : temp > 30 ? 90 : 120;
+    var ret   = temp > 35;
+    var ok    = tot <= 200;
+    var col   = ok ? '#2ecc71' : '#e67e22';
+    var verd  = ok ? '\u2705 مضخة قياسية' : '\u26A0\uFE0F مضخة عالية الضغط مطلوبة (>200 bar)';
+    res.style.display = 'block';
+    res.innerHTML =
+      '<div style="background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:12px;">' +
+      '<div style="font-weight:700;color:var(--gold);margin-bottom:10px;">\ud83d\udcca نتائج الحساب</div>' +
+      '<table style="width:100%;border-collapse:collapse;">' +
+      '<tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 0;color:var(--text2);">\u0636\u063a\u0637 \u0647\u064a\u062f\u0631\u0648\u0633\u062a\u0627\u062a\u064a\u0643\u064a</td><td style="font-weight:700;padding:5px 4px;">' + pH.toFixed(1) + ' bar</td></tr>' +
+      '<tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 0;color:var(--text2);">\u0627\u062d\u062a\u0643\u0627\u0643 \u0627\u0644\u0623\u0646\u0627\u0628\u064a\u0628</td><td style="font-weight:700;padding:5px 4px;">' + (pFV+pFH).toFixed(1) + ' bar</td></tr>' +
+      '<tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 0;color:var(--text2);">\u0645\u0642\u0627\u0648\u0645\u0629 \u0627\u0644\u0643\u0648\u0639 (' + elbows + ')</td><td style="font-weight:700;padding:5px 4px;">' + pE.toFixed(1) + ' bar</td></tr>' +
+      '<tr style="border-bottom:2px solid var(--gold);"><td style="padding:8px 0;font-weight:700;">\u26a1 \u0625\u062c\u0645\u0627\u0644\u064a \u0627\u0644\u0636\u063a\u0637</td><td style="font-weight:700;font-size:15px;color:var(--gold);padding:8px 4px;">' + tot.toFixed(1) + ' bar</td></tr>' +
+      '<tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 0;color:var(--text2);">Slump</td><td style="font-weight:700;padding:5px 4px;">' + slump + '</td></tr>' +
+      '<tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 0;color:var(--text2);">\u0623\u0642\u0635\u0649 \u0648\u0642\u062a \u0635\u0628</td><td style="font-weight:700;padding:5px 4px;">' + mins + ' \u062f\u0642\u064a\u0642\u0629</td></tr>' +
+      '<tr><td style="padding:5px 0;color:var(--text2);">Retarder</td><td style="font-weight:700;padding:5px 4px;">' + (ret ? '\u26A0\uFE0F \u0625\u0644\u0632\u0627\u0645\u064a' : '\u0627\u062e\u062a\u064a\u0627\u0631\u064a') + '</td></tr>' +
+      '</table>' +
+      '<div style="margin-top:10px;padding:8px;background:rgba(0,0,0,0.2);border-radius:6px;color:' + col + ';font-weight:700;">' + verd + '</div>' +
+      '<div style="margin-top:5px;color:var(--text2);font-size:11px;">\ud83d\udccc ' + note + ' · QCS 2024 §S5-P4</div>' +
+      '</div>';
+  }
+  window.QS = window.QS || {};
+  window.QS.calcConcretePump = _calcConcretePump;
+  window.calcConcretePump    = _calcConcretePump;
+})();
+</script>
 
 <h3>\u{1F321}\uFE0F المعالجة على الارتفاع — Curing at Height</h3>
 <table class="dm-table">
