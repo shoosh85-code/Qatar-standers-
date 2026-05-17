@@ -752,8 +752,8 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr style="background:rgba(122,21,21,0.7);"><th>البند</th><th>المتطلب</th></tr>
 <tr><td>المعالجة / التصليد Compound</td><td>رش فوري بعد الانتهاء من التشطيب Surface — Resin-Based Compound</td></tr>
 <tr><td>المعالجة / التصليد المدة</td><td>≥ 7 أيام OPC / ≥ 10 أيام SRPC</td></tr>
-<tr><td>Hot Weather Protection</td><td>Polythene Sheet + Wet Hessian فوق الـ Compound في درجات &gt; 35°C</td></tr>
-<tr><td>Solar Radiation Protection</td><td>White Pigmented Compound لعكس الحرارة</td></tr>
+<tr><td>الحماية من الطقس الحار</td><td>Polythene Sheet + Wet Hessian فوق الـ Compound في درجات &gt; 35°C</td></tr>
+<tr><td>الحماية من الإشعاع الشمسي</td><td>White Pigmented Compound لعكس الحرارة</td></tr>
 <tr><td>درجة الحرارة أثناء الصب</td><td>الخرسانة ≤ 32°C في الموقع</td></tr>
 </table>
 <h3>📐 7. الوصلة Sealant</h3>
@@ -774,8 +774,8 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr><td>Surface Evenness (3m Straightedge)</td><td>≤ 3mm تحت الـ 3m Straight Edge</td><td>كل 25m</td></tr>
 <tr><td>Level المسح والرفع المساحي</td><td>± 10mm من التصميم</td><td>كل 25m طول</td></tr>
 <tr><td>Texture العمق (Sand Patch)</td><td>≥ 0.7mm (مقاومة الانزلاق)</td><td>كل 1000m²</td></tr>
-<tr><td>مؤشر الخشونة الدولية (IRI)</td><td>≤ 2.0 m/km</td><td>كل Section</td></tr>
-<tr><td>Dowel Bar Alignment</td><td>± 6mm من المحور</td><td>100% Visual + أخذ العينات</td></tr>
+<tr><td>مؤشر الخشونة الدولية (IRI)</td><td>≤ 2.0 m/km</td><td>كل قسم</td></tr>
+<tr><td>محاذاة Dowel Bars</td><td>± 6mm من المحور</td><td>100% Visual + أخذ العينات</td></tr>
 </table>
 <h3>🔴 نقاط توقف</h3>
 <p>• <strong>HP-01:</strong> تصميم الخلطة الاعتماد + صيغة الخلطة (JMF) قبل الإنتاج<br/>
@@ -833,7 +833,7 @@ HP3: 28-day cube results — Engineer approval before loading
 <tr style="background:rgba(122,21,21,0.7);"><th>Item</th><th>Requirement</th></tr>
 <tr><td>Curing Compound</td><td>Immediate spray after finishing — Resin-Based Compound</td></tr>
 <tr><td>Curing Duration</td><td>≥ 7 days OPC / ≥ 10 days SRPC</td></tr>
-<tr><td>Hot Weather Protection</td><td>Polythene Sheet + Wet Hessian when temperature &gt; 35°C</td></tr>
+<tr><td>الحماية من الطقس الحار</td><td>Polythene Sheet + Wet Hessian when temperature &gt; 35°C</td></tr>
 <tr><td>Concrete Temperature at Casting</td><td>Concrete ≤ 32°C at site</td></tr>
 </table>
 <h3>📐 6. Acceptance Tests</h3>
