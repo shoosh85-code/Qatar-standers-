@@ -111,5 +111,22 @@
     "api/upload-chunks.js": {
       "maxDuration": 60
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/admin-embeddings.html",
+      "destination": "/",
+      "statusCode": 302
+    },
+    {
+      "source": "/translation-runner.html",
+      "destination": "/",
+      "statusCode": 302
+    },
+    {
+      "source": "/admin-:path*",
+      "destination": "/",
+      "statusCode": 302
+    }
+  ]
 }

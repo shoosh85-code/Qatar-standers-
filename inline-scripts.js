@@ -867,11 +867,37 @@ function closeDetailModal(e) {
 
 // showToast → نُقلت إلى js/core/ui-utils.js (A1 Refactor)
 
-// ESCAPE_MAP + sanitizeText → نُقلتا إلى js/core/ui-utils.js (A1 Refactor)
+// ── XSS Sanitization Functions ──────────────────────────────────
+// تعريف هنا + في js/core/ui-utils.js (الأخير يُحمَّل أولاً ويُعيّن window.*)
+// هذه النسخة fallback إذا لم يُحمَّل ui-utils.js بعد
+var _ESC_MAP = {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'};
 
-// renderMarkdownSafe → نُقلت إلى js/core/ui-utils.js (A1 Refactor)
+function sanitizeText(str) {
+  return String(str).replace(/[&<>"']/g, function(c){ return _ESC_MAP[c]; });
+}
+if (!window.sanitizeText) window.sanitizeText = sanitizeText;
 
-// safeRender → نُقلت إلى js/core/ui-utils.js (A1 Refactor)
+function renderMarkdownSafe(raw) {
+  var escaped = sanitizeText(String(raw));
+  var html = escaped
+    .replace(/\n/g, '<br>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold2)">$1</strong>')
+    .replace(/^#{1,3}\s(.+)/gm, '<strong style="color:var(--gold2);font-size:15px">$1</strong>');
+  return (typeof DOMPurify !== 'undefined') ? DOMPurify.sanitize(html) : html;
+}
+if (!window.renderMarkdownSafe) window.renderMarkdownSafe = renderMarkdownSafe;
+
+function safeRender(container, markdown) {
+  if (!container) return;
+  container.innerHTML = '';
+  var lines = String(markdown).split('\n');
+  lines.forEach(function(line) {
+    var p = document.createElement('p');
+    p.textContent = line;
+    container.appendChild(p);
+  });
+}
+if (!window.safeRender) window.safeRender = safeRender;
 
 
 // ─── API Helper: server-side proxy (Vercel Edge Function) ───
