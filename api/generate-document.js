@@ -131,7 +131,7 @@ export default async function handler(req) {
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
   const authHeader = req.headers.get('authorization') || '';
   const isPro = authHeader.startsWith('Bearer qs_pro_') || authHeader.startsWith('Bearer pro_');
-  const rl = await checkRateLimit('/api/generate-document', ip, isPro);
+  const rl = await checkRateLimit(ip, '/api/generate-document', isPro); // FIX: ip أولاً
   if (!rl.allowed) return rateLimitResponse(rl);
 
   const apiKey = process.env.GEMINI_API_KEY;
