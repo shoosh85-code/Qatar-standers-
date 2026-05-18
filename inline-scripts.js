@@ -1259,25 +1259,29 @@ window.activateProSimple = window.activateProNow;
 // SECTION 6: Error Boundary + Analytics Events + Card Animation
 // ═══════════════════════════════════════════════════
 // ── Error Boundary: يمنع crash الصفحة ويُظهر toast للمستخدم ──
+var _lastErrorToast = 0;
 window.onerror = function(msg, url, line, col, error) {
-  const ignore = ['ResizeObserver', 'Script error', 'Non-Error promise'];
+  var ignore = ['ResizeObserver', 'Script error', 'Non-Error promise', 'load failed', 'Loading chunk'];
   if (ignore.some(function(i){ return String(msg).includes(i); })) return true;
   console.warn('[QatarSpec] Error:', msg, 'at', url, 'line', line);
-  // PROTOCOL 2.3: Error Tracking
   if (window.QS && QS.track) {
     QS.track('js_error', { message: msg, line: line, col: col, file: url });
   }
-  if (typeof showToast === 'function') {
+  var now = Date.now();
+  if (typeof showToast === 'function' && (now - _lastErrorToast) > 30000) {
+    _lastErrorToast = now;
     showToast('⚠️ حدث خطأ — يرجى تحديث الصفحة', 'error', 5000);
   }
-  return true; // منع ظهور رسالة المتصفح الافتراضية
+  return true;
 };
 
 // ── Unhandled Promise Rejections ──
 window.addEventListener('unhandledrejection', function(e) {
   console.warn('[QatarSpec] Unhandled Promise:', e.reason);
   if (e.reason && e.reason.name !== 'AbortError') {
-    if (typeof showToast === 'function') {
+    var now = Date.now();
+    if (typeof showToast === 'function' && (now - _lastErrorToast) > 30000) {
+      _lastErrorToast = now;
       showToast('⚠️ خطأ في الاتصال — تحقق من الإنترنت', 'warning', 4000);
     }
   }
