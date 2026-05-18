@@ -12,7 +12,6 @@ function qsTrack(event, props) {
 }
 
 // js/inline-scripts.js — QatarSpec Pro
-// نُقل من index.html لإزالة unsafe-inline من CSP
 // المحتوى الأصلي محفوظ — لا حذف
 
 // ═══════════════════════════════════════════════════
@@ -22,7 +21,6 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-QSPEC2026QA', { anonymize_ip: true });
-
 
 // ═══════════════════════════════════════════════════
 // SECTION 2: Main Init — window.onload + Key Management
@@ -59,24 +57,12 @@ window.onload = () => {
   // نافذة API Key تظهر فقط عند الضغط على بحث ذكي — لا تظهر تلقائياً
 };
 
-// openKeyModal + closeKeyModal + saveKey + updateKeyStatus → نُقلت إلى js/core/key-modal.js (A2 Refactor)
-
 // ===== FILE UPLOAD =====
-// handleFiles → moved to js/core/ (Phase 5)
-
 
 // ===== LOCAL VIDEO LOADER =====
-// VIDEO PERSISTENCE SYSTEM → نُقل إلى js/core/video-system.js (A2 Refactor)
 
 // ===== DOCUMENT ANALYZER =====
 const docUploaded = { specs: [], drawings: [], boq: [], gi: [] };
-
-// handleDocUpload → moved to js/core/ (Phase 5)
-
-// runDocAnalysis → moved to js/core/ (Phase 5)
-
-// getProjectAnalysis → moved to js/core/ (Phase 5)
-
 
 // ===== COMPLETE BILINGUAL SYSTEM =====
 let currentLang = localStorage.getItem('qsp_lang') || 'ar';
@@ -306,11 +292,8 @@ const TR = {
   }
 };
 
-// setLang → moved to js/core/ (Phase 5)
-
 // Auto-apply on load
 window.addEventListener('DOMContentLoaded', function(){ setLang(currentLang); });
-
 
 // ===== VERSION CHECK =====
 const APP_VERSION = '2.10.0';
@@ -330,7 +313,6 @@ async function checkForUpdates() {
 // ─── Central timer registry — prevents setTimeout stacking ───
 // safeTimeout is defined inline in index.html (needed before data_calcs.js loads)
 // Re-using the same stub — data_calcs.js internal calls go through window.safeTimeout
-// safeTimeout → moved to js/core/ (Phase 5)
 
 let navStack = [];
 
@@ -341,21 +323,12 @@ let navStack = [];
  * @param {string} lang - اللغة الحالية ('ar' أو 'en')
  * @returns {string} - HTML نظيف بلغة واحدة فقط
  */
-// dedupeSectionContent → moved to js/core/ (Phase 5)
 
 /**
  * يفتح الـ modal لعرض محتوى مفتاح معيّن من detailData
  * @param {string} key - مفتاح القسم (مثال: 'structural', 'roads', 'ws_laying')
  * يدير navStack للتنقل للخلف، ويستعيد الفيديوهات المحلية بعد rebuild
  */
-// openDetail → moved to js/core/ (Phase 5)
-
-// goBack → moved to js/core/ (Phase 5)
-
-// shareDetail → moved to js/core/ (Phase 5)
-// closeDetailModal → moved to js/core/ (Phase 5)
-
-// showToast → نُقلت إلى js/core/ui-utils.js (A1 Refactor)
 
 // ── XSS Sanitization Functions ──────────────────────────────────
 // تعريف هنا + في js/core/ui-utils.js (الأخير يُحمَّل أولاً ويُعيّن window.*)
@@ -389,7 +362,6 @@ function safeRender(container, markdown) {
 }
 if (!window.safeRender) window.safeRender = safeRender;
 
-
 // ─── API Helper: server-side proxy (Vercel Edge Function) ───
 /**
  * fetchGeminiAPI — يتصل بـ server-side proxy (آمن للإنتاج)
@@ -421,12 +393,6 @@ async function fetchGeminiAPI(body) {
   }
 }
 
-
-
-
-// printCurrentDetail → moved to js/core/export-pdf.js (Phase 5)
-
-
 // ===== GEOTECH CALCULATOR =====
 safeTimeout('checkUpdates', checkForUpdates, 3000);
 
@@ -434,16 +400,10 @@ safeTimeout('checkUpdates', checkForUpdates, 3000);
 // PHASE 6 — FORMS HELPERS
 // ═══════════════════════════════════════════════════════════════
 // --- Library loaders ---
-// loadJsPDF → moved to js/core/export-pdf.js (Phase 5)
 
 // --- PDF Export (jsPDF + html2canvas) ---
-// async exportToPDF → moved to js/core/export-pdf.js (Phase 5)
-
-// _pdfPageHeader → moved to js/core/export-pdf.js (Phase 5)
 
 // --- Word Export (HTML-in-docx via Blob) ---
-// async exportToWord → moved to js/core/export-pdf.js (Phase 5)
-
 
 // ITP bar handled in openDetail directly
 
@@ -603,23 +563,12 @@ const TRANSLATIONS = {
   }
 };
 
-// applyTranslations → moved to js/core/ (Phase 5)
-
-
-
-
 // ===== XLSX LOADER =====
-// loadXLSX → moved to js/core/ (Phase 5)
 // ===== RFI EXCEL EXPORT =====
-// exportRFIExcel → moved to js/core/ (Phase 5)
 
 // ===== NCR EXCEL EXPORT =====
-// exportNCRExcel → moved to js/core/ (Phase 5)
 
 // ===== ITP EXCEL EXPORT (MULTI-SHEET STRUCTURED) =====
-// exportITPExcel → moved to js/core/ (Phase 5)
-
-// gv → نُقلت إلى js/core/ui-utils.js (A1 Refactor)
 
 // ===== PHOTO HANDLER =====
 // المرحلة ٩ — Drawing Analyzer Functions
@@ -630,31 +579,21 @@ let _daImageData = null;
 let _daDrawingType = 'structural';
 
 // تحديد نوع المخطط المختار
-// selectDaType → moved to js/core/doc-analyzer.js (Phase 5)
 
 // معالجة رفع الصورة
-// handleDaUpload → moved to js/core/doc-analyzer.js (Phase 5)
 
 // Bridge functions — ربط الأسماء في HTML مع الدوال الفعلية
 window.daLoadFile = handleDaUpload;
-// daHandleDrop → moved to js/core/doc-analyzer.js (Phase 5)
 
 // بناء System Prompt حسب نوع المخطط
-// getDaSystemPrompt → moved to js/core/doc-analyzer.js (Phase 5)
 
 // تنسيق نتيجة التحليل في HTML جميل
-// formatDaResult → moved to js/core/doc-analyzer.js (Phase 5)
-
-// copyDaResult → moved to js/core/doc-analyzer.js (Phase 5)
 
 // دالة تحليل المخطط الرئيسية
-// runDrawingAnalysis → moved to js/core/ (Phase 5)
 
 // Fallback محلي حسب نوع المخطط
-// generateDaFallback → moved to js/core/doc-analyzer.js (Phase 5)
 
 // ===== آلية التنفيذ — Stepper Function =====
-// showExecStep → moved to js/core/doc-analyzer.js (Phase 5)
 
 // ================================================================
 // BREADCRUMB + SECTION NAVIGATION SYSTEM
@@ -738,27 +677,10 @@ const SECTION_MAP = {
 
 // Inject breadcrumb into detail modal when opened
 
-
-
 // ================================================================
 // المفتش الذكي — AI Site Inspector Engine
 // ================================================================
 let _inspectorImageData = null;
-
-// inspectorLoadImage → moved to js/core/doc-analyzer.js (Phase 5)
-
-// runInspector → moved to js/core/ (Phase 5)
-
-// generateLocalAnalysis → moved to js/core/doc-analyzer.js (Phase 5)
-
-// showInspectorResult → moved to js/core/doc-analyzer.js (Phase 5)
-
-// shareInspectorReport → moved to js/core/doc-analyzer.js (Phase 5)
-
-// inspectorToNCR → moved to js/core/doc-analyzer.js (Phase 5)
-
-// resetInspector → moved to js/core/ (Phase 5)
-
 
 // ================================================================
 // CLEAN BREADCRUMB + SECTION NAV — Overrides openDetail once
@@ -886,7 +808,6 @@ let _inspectorImageData = null;
 
 // ─── End PWA System ───
 
-
 // ═══════════════════════════════════════════════════════
 // QS Namespace — prevents global window pollution
 
@@ -997,21 +918,16 @@ document.addEventListener('DOMContentLoaded', function() {
 /**
  * calcGP — Grading & Plasticity Index Check (QCS 2024 S6 P3/P4/P5)
  */
-// calcGP → moved to js/core/extra-calcs.js
 
 /**
  * calcBlockwork — حاسبة كميات البلوك والمونة (QCS 2024 S5)
  */
-// calcBlockwork → moved to js/core/extra-calcs.js
 
 /**
  * calcRoadLayers — حاسبة حجم وكميات طبقات الطريق (QCS 2024 S6/S8)
  */
-// calcRoadLayers → moved to js/core/extra-calcs.js
 
 // ─── End Missing Calculators ───
-
-// ===== MONETIZATION SYSTEM → moved to js/core/pro-system.js =====
 
 // publicFns Integrity Checker — يكتشف الدوال المُعلَنة في QS لكنها غير موجودة
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -1119,7 +1035,6 @@ window.QS = window.QS || {};
     }
   });
 })();
-
 
 // ═══════════════════════════════════════════════════
 // SECTION 3: QS_CONTENT Chunk Loader
@@ -1260,13 +1175,6 @@ window.QS = window.QS || {};
     }, 3000);
   }
 })();
-
-// showSearchSkeleton → نُقلت إلى js/core/ui-utils.js (A1 Refactor)
-
-// toggleTheme + applyTheme + initTheme + matchMedia → نُقلت إلى js/core/theme.js (A2 Refactor)
-
-
-// displayAIResponse → نُقلت إلى js/core/ui-utils.js (A1 Refactor)
 
 // ═══════════════════════════════════════════════════
 // SECTION 5: Pro Activation + Back To Top + Dark Mode
