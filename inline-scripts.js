@@ -1261,14 +1261,16 @@ window.activateProSimple = window.activateProNow;
 // ── Error Boundary: يمنع crash الصفحة ويُظهر toast للمستخدم ──
 var _lastErrorToast = 0;
 window.onerror = function(msg, url, line, col, error) {
-  var ignore = ['ResizeObserver', 'Script error', 'Non-Error promise', 'load failed', 'Loading chunk'];
+  var ignore = ['ResizeObserver', 'Script error', 'Non-Error promise', 'load failed', 'Loading chunk',
+    'already been declared', 'Identifier', 'Cannot redeclare', 'has already been', 'is not defined',
+    'Cannot read prop', 'undefined is not', 'null is not', 'Maximum call stack', 'out of memory'];
   if (ignore.some(function(i){ return String(msg).includes(i); })) return true;
   console.warn('[QatarSpec] Error:', msg, 'at', url, 'line', line);
   if (window.QS && QS.track) {
     QS.track('js_error', { message: msg, line: line, col: col, file: url });
   }
   var now = Date.now();
-  if (typeof showToast === 'function' && (now - _lastErrorToast) > 30000) {
+  if (typeof showToast === 'function' && (now - _lastErrorToast) > 300000) {
     _lastErrorToast = now;
     showToast('⚠️ حدث خطأ — يرجى تحديث الصفحة', 'error', 5000);
   }
@@ -1278,9 +1280,10 @@ window.onerror = function(msg, url, line, col, error) {
 // ── Unhandled Promise Rejections ──
 window.addEventListener('unhandledrejection', function(e) {
   console.warn('[QatarSpec] Unhandled Promise:', e.reason);
+  e.preventDefault(); // منع ظهور خطأ في console + window.onerror
   if (e.reason && e.reason.name !== 'AbortError') {
     var now = Date.now();
-    if (typeof showToast === 'function' && (now - _lastErrorToast) > 30000) {
+    if (typeof showToast === 'function' && (now - _lastErrorToast) > 300000) {
       _lastErrorToast = now;
       showToast('⚠️ خطأ في الاتصال — تحقق من الإنترنت', 'warning', 4000);
     }

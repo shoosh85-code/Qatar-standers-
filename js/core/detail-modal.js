@@ -95,7 +95,7 @@ function openDetail(key) {
   if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
   modal.classList.add('open'); var mc=document.getElementById('dmContent'); if(mc) mc.scrollTop=0;
   // تنفيذ <script> داخل المحتوى المُحمَّل ديناميكياً
-  if (mc) { mc.querySelectorAll('script').forEach(function(old){ var s=document.createElement('script'); s.textContent=old.textContent; old.parentNode.replaceChild(s, old); }); }
+  if (mc) { mc.querySelectorAll('script').forEach(function(old){ try { var s=document.createElement('script'); s.textContent=old.textContent; old.parentNode.replaceChild(s, old); } catch(e) { console.warn('[QS] card script (silent):', e.message); } }); }
   // Re-inject stored videos after DOM rebuild
   safeTimeout('restoreVideo', _restoreVideosAfterDOMRebuild, 50);
   // Re-apply current language
@@ -139,7 +139,7 @@ function goBack() {
     );
   }
   // تنفيذ <script> داخل المحتوى المُحمَّل
-  var mc2=document.getElementById('dmContent'); if(mc2){mc2.querySelectorAll('script').forEach(function(old){var s=document.createElement('script');s.textContent=old.textContent;old.parentNode.replaceChild(s,old);});}
+  var mc2=document.getElementById('dmContent'); if(mc2){mc2.querySelectorAll('script').forEach(function(old){ try {var s=document.createElement('script');s.textContent=old.textContent;old.parentNode.replaceChild(s,old);} catch(e){console.warn('[QS] card script (silent):', e.message);}});}
   const backBtn = document.getElementById('dmBackBtn');
   if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
   // Re-inject stored videos after DOM rebuild

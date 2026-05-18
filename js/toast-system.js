@@ -64,6 +64,7 @@
     });
 
     window.QS.toast._initialized = true;
+    window.QS.toast._activeErrorToast = null; // تتبع الـ error toast النشطة
 
     // ─── Helper API ──────────────────────────────────────────
     /**
@@ -78,7 +79,12 @@
         return window.QS.toast.success(msg);
       },
       error: function (msg) {
-        return window.QS.toast.error(msg);
+        // مسح الـ error toast السابقة قبل عرض الجديدة (حد أقصى: 1 toast خطأ)
+        if (window.QS.toast._activeErrorToast) {
+          try { window.QS.toast.dismiss(window.QS.toast._activeErrorToast); } catch(e) {}
+        }
+        window.QS.toast._activeErrorToast = window.QS.toast.error(msg);
+        return window.QS.toast._activeErrorToast;
       },
       warning: function (msg) {
         return window.QS.toast.open({ type: 'warning', message: msg });
@@ -154,9 +160,11 @@
     var style = document.createElement('style');
     style.id = 'qs-toast-styles';
     style.textContent = [
-      /* RTL - من اليسار */
-      '.notyf { direction: rtl; font-family: inherit; }',
-      '.notyf__toast { font-size: 14px; border-radius: 10px; min-width: 240px; max-width: 340px; }',
+      /* ═══ FIX: إجبار الـ toasts على اليسار الفيزيائي في RTL ═══
+         السبب: في RTL، align-items:flex-start = يمين فيزيائي (عكس LTR)
+         الحل: direction:ltr على container + direction:rtl على النص فقط */
+      '.notyf { direction: ltr !important; font-family: inherit; left: 0 !important; right: auto !important; align-items: flex-start !important; }',
+      '.notyf__toast { font-size: 14px; border-radius: 10px; min-width: 240px; max-width: 340px; direction: rtl; }',
       '.notyf__message { font-weight: 500; line-height: 1.5; }',
 
       /* brand colors overrides */
