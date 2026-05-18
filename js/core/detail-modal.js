@@ -64,13 +64,36 @@ function dedupeSectionContent(contentHTML, lang) {
 
 
 function openDetail(key) {
+  // [FIX v4.2] Guard ضد infinite recursion — تتبع الـ key الجاري تحميله
+  if (openDetail._loading && openDetail._loading[key]) {
+    console.warn('[QS] openDetail: تجنّب infinite loop للـ key:', key);
+    return;
+  }
+
   // Load content chunk on demand if not yet loaded
   var _realKey = (window._CONTENT_ALIASES && window._CONTENT_ALIASES[key]) || key;
   if (typeof window._loadContentChunk === 'function' && !(window.QS_CONTENT && window.QS_CONTENT[_realKey])) {
-    window._loadContentChunk(key, function(){ openDetail(key); });
+    if (!openDetail._loading) openDetail._loading = {};
+    openDetail._loading[key] = true;
+    window._loadContentChunk(key, function(){
+      if (openDetail._loading) delete openDetail._loading[key];
+      openDetail(key);
+    });
     return;
   }
-  const d = detailData[key];
+  // إزالة guard بعد التحميل الناجح
+  if (openDetail._loading) delete openDetail._loading[key];
+
+  // [FIX v4.2] دمج QS_CONTENT مع detailData — chunk files تُحمَّل في QS_CONTENT
+  var _dd = window.detailData || {};
+  var _qsc = (window.QS_CONTENT && window.QS_CONTENT[_realKey]) ? window.QS_CONTENT[_realKey] : null;
+  if (_qsc && !_dd[key]) {
+    // نسخ المحتوى من QS_CONTENT إلى detailData تلقائياً
+    _dd[key] = _qsc;
+    window.detailData = _dd;
+  }
+
+  const d = _dd[key];
   if (!d) { console.warn('Key not found:', key); return; }
   const modal = document.getElementById('detailModal');
   if (modal.classList.contains('open')) {
@@ -123,7 +146,7 @@ function goBack() {
     return;
   }
   const prevKey = navStack.pop();
-  const d = detailData[prevKey];
+  const d = (window.detailData || {})[prevKey];
   if (!d) return;
   const modal = document.getElementById('detailModal');
   modal.dataset.currentKey = prevKey;

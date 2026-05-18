@@ -1059,7 +1059,9 @@ window.QS = window.QS || {};
     var chunk = map[realKey] || map[key];
     if(!chunk){
       console.warn('[QS] key not found in manifest:', realKey);
-      if(cb) cb();
+      // [FIX v4.2] لا تستدعي cb() — يسبب infinite recursion في openDetail
+      // openDetail تستدعي _loadContentChunk(key, ()=>openDetail(key))
+      // إذا استدعينا cb() فوراً → openDetail → _loadContentChunk → cb() → ∞
       return;
     }
     if(_loaded[chunk]){ if(cb) cb(); return; }
