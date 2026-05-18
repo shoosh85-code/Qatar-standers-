@@ -128,5 +128,6 @@
       "destination": "/",
       "statusCode": 302
     }
-  ]
+  ],
+  "buildCommand": "npm run build"
 }

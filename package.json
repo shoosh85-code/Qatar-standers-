@@ -11,7 +11,7 @@
     "@upstash/redis": "^1.34.3"
   },
   "scripts": {
-    "build": "mkdir -p dist && node_modules/.bin/terser inline-scripts.js -o dist/inline-scripts.min.js -c -m && node_modules/.bin/terser js/ui-handlers.js -o dist/ui-handlers.min.js -c -m && echo '✅ Build complete'",
+    "build": "node build.cjs",
     "test": "node tests/content-integrity.test.cjs && node tests/calculators/new-calcs.test.cjs && node tests/calculators/buildings.test.cjs && node tests/content-validation.test.cjs && node tests/integration/api.test.cjs && node tests/e2e/flow.test.cjs",
     "test:calcs": "node tests/calculators/new-calcs.test.cjs",
     "test:integrity": "node tests/content-integrity.test.cjs",
@@ -19,7 +19,7 @@
     "test:e2e": "node tests/e2e/flow.test.cjs",
     "test:all": "node tests/content-integrity.test.cjs && node tests/integration/api.test.cjs && node tests/e2e/flow.test.cjs",
     "integrity": "node tests/content-integrity.test.cjs",
-    "lint": "node -e \"const f=require('fs'); ['js/calculators','js/export','api'].forEach(d=>{ if(f.existsSync(d)) console.log('✅',d,'exists'); else { console.error('❌',d,'missing'); process.exit(1); } });\""
+    "lint": "node -e \"const f=require('fs'); ['js/calculators','js/export','api'].forEach(d=>{ if(f.existsSync(d)) console.log('\u2705',d,'exists'); else { console.error('\u274c',d,'missing'); process.exit(1); } });\""
   },
   "devDependencies": {
     "terser": "^5.47.1"
