@@ -20,6 +20,8 @@ const FILES_TO_MINIFY = [
   'js/core/video-system.js',
   'js/core/key-modal.js',
   'js/core/theme.js',
+  'js/core/doc-upload.js',
+  'js/core/translations.js',
   'js/ui-handlers.js',
   'loader.js',
 ];
