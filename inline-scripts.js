@@ -1258,36 +1258,35 @@ window.activateProSimple = window.activateProNow;
 // ═══════════════════════════════════════════════════
 // SECTION 6: Error Boundary + Analytics Events + Card Animation
 // ═══════════════════════════════════════════════════
-// ── Error Boundary: يمنع crash الصفحة ويُظهر toast للمستخدم ──
+// ── Error Boundary: يمنع crash الصفحة — بدون toast (كل API لها handler خاص) ──
 var _lastErrorToast = 0;
 window.onerror = function(msg, url, line, col, error) {
-  var ignore = ['ResizeObserver', 'Script error', 'Non-Error promise', 'load failed', 'Loading chunk',
-    'already been declared', 'Identifier', 'Cannot redeclare', 'has already been', 'is not defined',
-    'Cannot read prop', 'undefined is not', 'null is not', 'Maximum call stack', 'out of memory'];
-  if (ignore.some(function(i){ return String(msg).includes(i); })) return true;
+  // فقط console.warn — لا toast هنا لأن أخطاء البطاقات تُطلق هذا الحدث
+  // كل API (ai-proxy, qcs-search, إلخ) لها error toast خاص بها
   console.warn('[QatarSpec] Error:', msg, 'at', url, 'line', line);
   if (window.QS && QS.track) {
     QS.track('js_error', { message: msg, line: line, col: col, file: url });
   }
-  var now = Date.now();
-  if (typeof showToast === 'function' && (now - _lastErrorToast) > 300000) {
-    _lastErrorToast = now;
-    showToast('⚠️ حدث خطأ — يرجى تحديث الصفحة', 'error', 5000);
-  }
-  return true;
+  return true; // منع crash — بدون toast
 };
 
 // ── Unhandled Promise Rejections ──
 window.addEventListener('unhandledrejection', function(e) {
-  console.warn('[QatarSpec] Unhandled Promise:', e.reason);
-  e.preventDefault(); // منع ظهور خطأ في console + window.onerror
-  if (e.reason && e.reason.name !== 'AbortError') {
+  e.preventDefault(); // منع console error + window.onerror
+  var reason = e.reason;
+  if (!reason) return;
+  // فقط أخطاء الشبكة الحقيقية تستحق toast
+  var isNetworkError = reason.name === 'TypeError' &&
+    typeof reason.message === 'string' &&
+    (reason.message.includes('fetch') || reason.message.includes('network') || reason.message.includes('Failed to fetch'));
+  if (isNetworkError && !navigator.onLine) {
     var now = Date.now();
     if (typeof showToast === 'function' && (now - _lastErrorToast) > 300000) {
       _lastErrorToast = now;
-      showToast('⚠️ خطأ في الاتصال — تحقق من الإنترنت', 'warning', 4000);
+      showToast('📡 لا يوجد اتصال — تحقق من الإنترنت', 'warning', 4000);
     }
   }
+  console.warn('[QatarSpec] Promise:', reason && reason.message || reason);
 });
 
 // ── Analytics Events Helper — تتبع الأحداث الرئيسية ──
