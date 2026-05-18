@@ -63,9 +63,6 @@ window.onload = () => {
 
 // ===== FILE UPLOAD =====
 // handleFiles → moved to js/core/ (Phase 5)
-    return realKey in (window.QS_CONTENT || {});
-  }
-});
 
 
 // ===== LOCAL VIDEO LOADER =====
@@ -333,11 +330,7 @@ async function checkForUpdates() {
 // ─── Central timer registry — prevents setTimeout stacking ───
 // safeTimeout is defined inline in index.html (needed before data_calcs.js loads)
 // Re-using the same stub — data_calcs.js internal calls go through window.safeTimeout
-function safeTimeout(key, fn, delay) {
-  if (window._timers_stub && window._timers_stub[key]) clearTimeout(window._timers_stub[key]);
-  if (!window._timers_stub) window._timers_stub = {};
-  window._timers_stub[key] = setTimeout(function() { window._timers_stub[key] = null; fn(); }, delay);
-}
+// safeTimeout → moved to js/core/ (Phase 5)
 
 let navStack = [];
 
@@ -348,170 +341,19 @@ let navStack = [];
  * @param {string} lang - اللغة الحالية ('ar' أو 'en')
  * @returns {string} - HTML نظيف بلغة واحدة فقط
  */
-function dedupeSectionContent(contentHTML, lang) {
-  if (!contentHTML) return contentHTML;
-
-  // حفظ <script> قبل DOMParser لأنه يحذفها تلقائياً
-  var scripts = [];
-  var htmlNoScript = contentHTML.replace(/<script[\s\S]*?<\/script>/gi, function(match) {
-    scripts.push(match);
-    return '<!--SCRIPT_PLACEHOLDER_' + (scripts.length - 1) + '-->';
-  });
-
-  var parser = new DOMParser();
-  var doc = parser.parseFromString(htmlNoScript, 'text/html');
-  var otherLang = (lang === 'ar') ? 'en' : 'ar';
-
-  // [FIX v3.1] لا تحذف lang-content-* — فقط أخفِ/أظهر
-  // السبب: الحذف يمنع setLang من إظهار اللغة الثانية لاحقاً
-  var wrongLangs = doc.querySelectorAll('.lang-content-' + otherLang);
-  for (var i = 0; i < wrongLangs.length; i++) wrongLangs[i].style.display = 'none';
-
-  // إظهار حاويات اللغة الصحيحة
-  var rightLangs = doc.querySelectorAll('.lang-content-' + lang);
-  for (var i = 0; i < rightLangs.length; i++) rightLangs[i].style.display = 'block';
-
-  // تحديث data-ar/data-en spans داخل المحتوى المُحمَّل
-  var biSpans = doc.querySelectorAll('[data-ar][data-en]');
-  for (var i = 0; i < biSpans.length; i++) {
-    var sp = biSpans[i];
-    var val = (lang === 'en') ? sp.getAttribute('data-en') : sp.getAttribute('data-ar');
-    if (val) sp.innerHTML = val;
-  }
-
-  // حذف الكروت المكررة حسب نص العنوان (أول 50 حرف)
-  var seenCards = {};
-  var cards = doc.querySelectorAll('.cat-card, [class*="step"], [class*="phase"]');
-  for (var j = 0; j < cards.length; j++) {
-    var card = cards[j];
-    var titleEl = card.querySelector('.cat-name, h3, h4, strong');
-    var title = (titleEl ? titleEl.textContent : card.textContent)
-                  .trim().substring(0, 50);
-    if (seenCards[title]) card.remove();
-    else seenCards[title] = true;
-  }
-
-  // إعادة <script> بعد المعالجة
-  var result = doc.body.innerHTML;
-  for (var k = 0; k < scripts.length; k++) {
-    result = result.replace('<!--SCRIPT_PLACEHOLDER_' + k + '-->', scripts[k]);
-  }
-  return result;
-}
+// dedupeSectionContent → moved to js/core/ (Phase 5)
 
 /**
  * يفتح الـ modal لعرض محتوى مفتاح معيّن من detailData
  * @param {string} key - مفتاح القسم (مثال: 'structural', 'roads', 'ws_laying')
  * يدير navStack للتنقل للخلف، ويستعيد الفيديوهات المحلية بعد rebuild
  */
-function openDetail(key) {
-  // Load content chunk on demand if not yet loaded
-  var _realKey = (window._CONTENT_ALIASES && window._CONTENT_ALIASES[key]) || key;
-  if (typeof window._loadContentChunk === 'function' && !(window.QS_CONTENT && window.QS_CONTENT[_realKey])) {
-    window._loadContentChunk(key, function(){ openDetail(key); });
-    return;
-  }
-  const d = detailData[key];
-  if (!d) { console.warn('Key not found:', key); return; }
-  const modal = document.getElementById('detailModal');
-  if (modal.classList.contains('open')) {
-    const currentKey = modal.dataset.currentKey;
-    if (currentKey && currentKey !== key) navStack.push(currentKey);
-  } else { navStack = []; }
-  modal.dataset.currentKey = key;
-  document.getElementById('appFooter').style.display='none';
-  document.body.style.overflow='hidden';
-  document.getElementById('dmTitle').textContent = d.title;
-  var _dmEl = document.getElementById('dmContent');
-  if (_dmEl) {
-    _dmEl.innerHTML = dedupeSectionContent(d.content, window.currentLang || 'ar');
-    _dmEl.insertAdjacentHTML('beforeend',
-      '<div class="qcs-disclaimer" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.2);border-radius:6px;padding:8px;margin-top:14px;font-size:10px;color:#999;line-height:1.6;">' +
-      '\u26a0\ufe0f \u0647\u0630\u0627 \u0627\u0644\u0645\u062d\u062a\u0648\u0649 \u0645\u0631\u062c\u0639\u064a \u0641\u0642\u0637 \u2014 \u062a\u062d\u0642\u0642 \u062f\u0627\u0626\u0645\u0627\u064b \u0645\u0646 \u0627\u0644\u0645\u0648\u0627\u0635\u0641\u0629 \u0627\u0644\u0631\u0633\u0645\u064a\u0629 QCS 2024 \u0642\u0628\u0644 \u0627\u0644\u0627\u0639\u062a\u0645\u0627\u062f.<br>' +
-      'All content is for reference only \u2014 always verify against official QCS 2024 specifications.' +
-      '</div>'
-    );
-  }
-  const backBtn = document.getElementById('dmBackBtn');
-  if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
-  modal.classList.add('open'); var mc=document.getElementById('dmContent'); if(mc) mc.scrollTop=0;
-  // تنفيذ <script> داخل المحتوى المُحمَّل ديناميكياً
-  if (mc) { mc.querySelectorAll('script').forEach(function(old){ var s=document.createElement('script'); s.textContent=old.textContent; old.parentNode.replaceChild(s, old); }); }
-  // Re-inject stored videos after DOM rebuild
-  safeTimeout('restoreVideo', _restoreVideosAfterDOMRebuild, 50);
-  // Re-apply current language
-  if (typeof setLang === 'function') setLang(currentLang || 'ar');
-  // ITP bar
-  let bar = document.getElementById('itp-project-bar');
-  if (bar) bar.style.display = (key && key.startsWith('itp')) ? 'block' : 'none';
-  // Calculator panels
-  if (key === 'calculator') safeTimeout('initCalcPanels', initCalcPanels, 30);
-  // Forms: show RFI tab by default and auto-set today's date
-  if (key === 'ashghal_forms') safeTimeout('switchFormRfi', function() {
-    switchForm('rfi');
-    let d = document.getElementById('rfi-date');
-    if (d && !d.value) d.value = new Date().toISOString().split('T')[0];
-  }, 30);
-}
+// openDetail → moved to js/core/ (Phase 5)
 
-function goBack() {
-  // إذا كانت navStack فارغة، أغلق المودال بدلاً من لا شيء
-  if (navStack.length === 0) {
-    document.getElementById('detailModal').classList.remove('open');
-    document.getElementById('appFooter').style.display = '';
-    document.body.style.overflow = '';
-    return;
-  }
-  const prevKey = navStack.pop();
-  const d = detailData[prevKey];
-  if (!d) return;
-  const modal = document.getElementById('detailModal');
-  modal.dataset.currentKey = prevKey;
-  document.getElementById('dmTitle').textContent = d.title;
-  var _goBackEl = document.getElementById('dmContent');
-  if (_goBackEl) {
-    _goBackEl.innerHTML = dedupeSectionContent(d.content, window.currentLang || 'ar');
-    _goBackEl.insertAdjacentHTML('beforeend',
-      '<div class="qcs-disclaimer" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.2);border-radius:6px;padding:8px;margin-top:14px;font-size:10px;color:#999;line-height:1.6;">' +
-      '⚠️ هذا المحتوى مرجعي فقط — تحقق دائماً من المواصفة الرسمية QCS 2024 قبل الاعتماد.<br>' +
-      'All content is for reference only — always verify against official QCS 2024 specifications.' +
-      '</div>'
-    );
-  }
-  // تنفيذ <script> داخل المحتوى المُحمَّل
-  var mc2=document.getElementById('dmContent'); if(mc2){mc2.querySelectorAll('script').forEach(function(old){var s=document.createElement('script');s.textContent=old.textContent;old.parentNode.replaceChild(s,old);});}
-  const backBtn = document.getElementById('dmBackBtn');
-  if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
-  // Re-inject stored videos after DOM rebuild
-  safeTimeout('restoreVideo', _restoreVideosAfterDOMRebuild, 50);
-  // Re-apply current language  
-  if (typeof setLang === 'function') setLang(currentLang || 'ar');
-}
+// goBack → moved to js/core/ (Phase 5)
 
-function shareDetail() {
-  var modal = document.getElementById('detailModal');
-  var key = modal.dataset.currentKey || '';
-  var title = document.getElementById('dmTitle') ? document.getElementById('dmTitle').textContent : 'QatarSpec Pro';
-  var url = window.location.origin + window.location.pathname + (key ? '#' + key : '');
-  if (navigator.share) {
-    navigator.share({ title: title, url: url }).catch(function(){});
-  } else {
-    navigator.clipboard.writeText(url)
-      .then(function(){ showToast('✅ تم نسخ الرابط'); })
-      .catch(function(){ showToast('❌ تعذّر النسخ'); });
-  }
-}
-function closeDetailModal(e) {
-  if (e.target === document.getElementById('detailModal')) {
-    // Release any active video players from memory
-    document.querySelectorAll('.qs-vid-ph').forEach(function(el) {
-      if (typeof el._vidCleanup === 'function') el._vidCleanup();
-    });
-    document.getElementById('detailModal').classList.remove('open');
-    document.getElementById('appFooter').style.display='';
-    document.body.style.overflow='';
-  }
-}
+// shareDetail → moved to js/core/ (Phase 5)
+// closeDetailModal → moved to js/core/ (Phase 5)
 
 // showToast → نُقلت إلى js/core/ui-utils.js (A1 Refactor)
 
@@ -767,212 +609,15 @@ const TRANSLATIONS = {
 
 
 // ===== XLSX LOADER =====
-async function loadXLSX(){if(window.XLSX)return window.XLSX;return new Promise(function(r,j){let s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=function(){r(window.XLSX)};s.onerror=function(){j(new Error('XLSX load failed'))};document.head.appendChild(s)})}
-
+// loadXLSX → moved to js/core/ (Phase 5)
 // ===== RFI EXCEL EXPORT =====
-async function exportRFIExcel(){
-try{const X=await loadXLSX()}catch(e){showToast('❌ يحتاج إنترنت');return}
-let today = new Date().toLocaleDateString('ar-QA');
-let ws = X.utils.aoa_to_sheet([
-['\uFEFFQatarSpec Pro — Request for Inspection (RFI)','','',''],
-['المرجع: QCS 2024 | Ashghal QA/QC','','تاريخ الطباعة: '+today,''],
-['','','',''],
-['رقم RFI:',gv('rfi-num'),'رقم المشروع:',gv('rfi-proj')],
-['رقم العقد:',gv('rfi-contract'),'المقاول:',gv('rfi-contractor')],
-['Submitted By:',gv('rfi-from'),'Directed To:',gv('rfi-to')],
-['تاريخ الإرسال:',gv('rfi-date'),'Required By Date:',gv('rfi-reqby')],
-['','','',''],
-['★ بيانات الموقع','','',''],
-['الموقع:',gv('rfi-loc'),'Grid QNG:',gv('rfi-grid')],
-['Chainage:',gv('rfi-ch'),'Layer No.:',gv('rfi-layer')],
-['QCS Clause:',gv('rfi-clause'),'Drawing No.:',gv('rfi-dwg')],
-['','','',''],
-['النشاط:',gv('rfi-activity'),'نوع النقطة:',gv('rfi-point')],
-['','','',''],
-['موضوع RFI:',gv('rfi-subject'),'',''],
-['','','',''],
-['نتائج الاختبارات:',gv('rfi-results'),'',''],
-['','','',''],
-['المرفقات:',gv('rfi-attach'),'',''],
-['','','',''],
-['رد SC / Response:',gv('rfi-response'),'Status:',gv('rfi-status')],
-['','','',''],
-['توقيع مقدّم الطلب:','___________________','التاريخ:','___________'],
-['توقيع SC / Consultant:','___________________','التاريخ:','___________'],
-['قرار SC:','مقبول ☐    مرفوض ☐    Hold ☐','','']
-]);
-ws['!cols']=[{wch:22},{wch:42},{wch:20},{wch:32}];
-ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:3}},{s:{r:1,c:0},e:{r:1,c:1}},{s:{r:8,c:0},e:{r:8,c:3}},{s:{r:15,c:1},e:{r:15,c:3}},{s:{r:17,c:1},e:{r:17,c:3}},{s:{r:19,c:1},e:{r:19,c:3}},{s:{r:21,c:1},e:{r:21,c:3}}];
-const wb=X.utils.book_new();X.utils.book_append_sheet(wb,ws,'RFI');
-X.writeFile(wb,'RFI-'+gv('rfi-num','001')+'-'+Date.now()+'.xlsx');
-showToast('✅ تم تصدير RFI Excel بكامل الحقول');
-}
+// exportRFIExcel → moved to js/core/ (Phase 5)
 
 // ===== NCR EXCEL EXPORT =====
-async function exportNCRExcel(){
-try{const X=await loadXLSX()}catch(e){showToast('❌ يحتاج إنترنت');return}
-let today = new Date().toLocaleDateString('ar-QA');
-const classMap = {'major':'🔴 Major','minor':'🟡 Minor','obs':'🔵 Observation'};
-const statusMap = {'open':'🔴 Open','inprog':'🟡 In Progress','accepted':'🟢 Closed — Accepted','rejected':'🔴 Closed — Rejected','pending':'⏳ Pending'};
-const ncrClass = classMap[gv('ncr-class')]||gv('ncr-class');
-const ncrStatus = statusMap[gv('ncr-status')]||gv('ncr-status');
-let ws = X.utils.aoa_to_sheet([
-['\uFEFFQatarSpec Pro — Non-Conformance Report (NCR)','','','',''],
-['ISO 9001 Cl.10.2 + Ashghal QA/QC | تاريخ الطباعة: '+today,'','','',''],
-['','','','',''],
-['رقم NCR:',gv('ncr-num'),'المشروع:',gv('ncr-proj'),''],
-['رقم العقد:',gv('ncr-contract'),'المقاول:',gv('ncr-contractor'),''],
-['تصنيف NCR:',ncrClass,'مصدر الاكتشاف:',gv('ncr-source'),''],
-['تاريخ الاكتشاف:',gv('ncr-date'),'تاريخ الإغلاق المطلوب:',gv('ncr-target'),''],
-['تاريخ الإغلاق الفعلي:',gv('ncr-closed-date'),'الحالة:',ncrStatus,''],
-['','','','',''],
-['الموقع + Chainage:',gv('ncr-loc'),'Drawing No.:',gv('ncr-dwg'),''],
-['QCS Clause المُنتهك:',gv('ncr-clause'),'','',''],
-['','','','',''],
-['وصف عدم المطابقة:','','','',''],
-[gv('ncr-desc'),'','','',''],
-['','','','',''],
-['Root Cause Analysis:','','','',''],
-[gv('ncr-root'),'','','',''],
-['','','','',''],
-['الإجراء التصحيحي (Corrective):','','','',''],
-[gv('ncr-corrective'),'','','',''],
-['الإجراء الوقائي (Preventive):','','','',''],
-[gv('ncr-preventive'),'','','',''],
-['','','','',''],
-['نتيجة إعادة الاختبار:',gv('ncr-retest'),'','',''],
-['','','','',''],
-['QC Engineer:',gv('ncr-qc-eng'),'SC / Consultant:',gv('ncr-sc'),'Client:'],
-[gv('ncr-client'),'','','',''],
-['','','','',''],
-['التوقيع:','___________________','___________________','___________________','']
-]);
-ws['!cols']=[{wch:26},{wch:38},{wch:22},{wch:28},{wch:18}];
-ws['!merges']=[
-{s:{r:0,c:0},e:{r:0,c:4}},{s:{r:1,c:0},e:{r:1,c:4}},
-{s:{r:10,c:1},e:{r:10,c:4}},
-{s:{r:12,c:0},e:{r:12,c:4}},{s:{r:13,c:0},e:{r:13,c:4}},
-{s:{r:15,c:0},e:{r:15,c:4}},{s:{r:16,c:0},e:{r:16,c:4}},
-{s:{r:18,c:0},e:{r:18,c:4}},{s:{r:19,c:0},e:{r:19,c:4}},
-{s:{r:20,c:0},e:{r:20,c:4}},{s:{r:21,c:0},e:{r:21,c:4}}
-];
-const wb=X.utils.book_new();X.utils.book_append_sheet(wb,ws,'NCR');
-// Summary sheet
-let ws2 = X.utils.aoa_to_sheet([
-['NCR Register — Quick View','','','',''],
-['NCR No.','Classification','Location','Status','Target Close'],
-[gv('ncr-num'),ncrClass,gv('ncr-loc'),ncrStatus,gv('ncr-target')]
-]);
-ws2['!cols']=[{wch:18},{wch:16},{wch:36},{wch:20},{wch:14}];
-X.utils.book_append_sheet(wb,ws2,'NCR Register');
-X.writeFile(wb,'NCR-'+gv('ncr-num','001')+'-'+Date.now()+'.xlsx');
-showToast('✅ تم تصدير NCR Excel بكامل الحقول');
-}
+// exportNCRExcel → moved to js/core/ (Phase 5)
 
 // ===== ITP EXCEL EXPORT (MULTI-SHEET STRUCTURED) =====
-async function exportITPExcel(){
-try{const X=await loadXLSX()}catch(e){showToast('❌ يحتاج إنترنت');return}
-const today = new Date().toLocaleDateString('ar-QA');
-const projectName = (document.getElementById('itp-project-name')||{}).value || '';
-const itpNum = (document.getElementById('itp-number')||{}).value || '';
-const engineer = (document.getElementById('itp-engineer')||{}).value || '';
-const itpDate = (document.getElementById('itp-date')||{}).value || today;
-let title = (document.getElementById('dmTitle')||{}).textContent || 'ITP';
-
-// ── Collect ITP rows from table ──
-let rows = [];
-const hp_rows = [];
-const wp_rows = [];
-document.querySelectorAll('#print-area .dm-table tbody tr').forEach(function(tr){
-  const cells = tr.querySelectorAll('td');
-  if(cells.length >= 4){
-    const row = Array.from(cells).map(function(c){ return c.textContent.trim(); });
-    rows.push(row);
-    const pointType = (row[7] || row[5] || '').toUpperCase();
-    if(pointType.includes('H')) hp_rows.push(row);
-    else if(pointType.includes('W')) wp_rows.push(row);
-  }
-});
-if(!rows.length){ showToast('⚠️ لا بيانات ITP'); return; }
-
-// ── Sheet 1: ITP Main ──
-const headerRows = [
-  ['\uFEFFQatarSpec Pro — Inspection & Test Plan (ITP)', '', '', '', '', '', '', '', '', ''],
-  ['المشروع:', projectName, '', '', 'رقم ITP:', itpNum, '', '', '', ''],
-  ['التاريخ:', itpDate, '', '', 'المهندس:', engineer, '', '', '', ''],
-  ['المرجع:', 'QCS 2024', '', '', 'تاريخ الطباعة:', today, '', '', '', ''],
-  [], // blank
-  ['م', 'النشاط / Activity', 'مرجع QCS', 'معيار القبول', 'التكرار', 'طريقة الاختبار', 'Lab', 'QC', 'SC', 'النقطة']
-];
-const ws1 = X.utils.aoa_to_sheet(headerRows.concat(rows));
-ws1['!cols'] = [
-  {wch:5},  // م
-  {wch:42}, // Activity
-  {wch:18}, // QCS Ref
-  {wch:38}, // Acceptance
-  {wch:18}, // Frequency
-  {wch:18}, // Method
-  {wch:6},  // Lab
-  {wch:6},  // QC
-  {wch:6},  // SC
-  {wch:12}  // Point
-];
-ws1['!merges'] = [
-  {s:{r:0,c:0}, e:{r:0,c:9}}, // Title
-  {s:{r:1,c:0}, e:{r:1,c:3}},
-  {s:{r:1,c:4}, e:{r:1,c:9}},
-  {s:{r:2,c:0}, e:{r:2,c:3}},
-  {s:{r:2,c:4}, e:{r:2,c:9}},
-];
-
-// ── Sheet 2: Hold Points ──
-const ws2 = X.utils.aoa_to_sheet([
-  ['\uFEFFHold Points Summary — نقاط الإيقاق الإلزامية', '', '', ''],
-  ['المشروع:', projectName, 'ITP No:', itpNum],
-  [],
-  ['م', 'النشاط', 'معيار القبول', 'النوع']
-].concat(hp_rows.map(function(r){ return [r[0]||'', r[1]||'', r[3]||'', 'H']; })));
-ws2['!cols'] = [{wch:6},{wch:45},{wch:40},{wch:8}];
-ws2['!merges'] = [{s:{r:0,c:0},e:{r:0,c:3}}];
-
-// ── Sheet 3: Witness Points ──
-const ws3 = X.utils.aoa_to_sheet([
-  ['\uFEFFWitness Points Summary — نقاط الشهود', '', '', ''],
-  ['المشروع:', projectName, 'ITP No:', itpNum],
-  [],
-  ['م', 'النشاط', 'معيار القبول', 'النوع']
-].concat(wp_rows.map(function(r){ return [r[0]||'', r[1]||'', r[3]||'', 'W']; })));
-ws3['!cols'] = [{wch:6},{wch:45},{wch:40},{wch:8}];
-ws3['!merges'] = [{s:{r:0,c:0},e:{r:0,c:3}}];
-
-// ── Sheet 4: Summary Stats ──
-const ws4 = X.utils.aoa_to_sheet([
-  ['\uFEFFITP Statistics — إحصائيات خطة الفحص', ''],
-  [],
-  ['البيان', 'القيمة'],
-  ['إجمالي بنود ITP',       rows.length],
-  ['Hold Points (H)',       hp_rows.length],
-  ['Witness Points (W)',    wp_rows.length],
-  ['Review Points (R)',     rows.length - hp_rows.length - wp_rows.length],
-  [],
-  ['المشروع', projectName],
-  ['رقم ITP',  itpNum],
-  ['المهندس',  engineer],
-  ['تاريخ ITP', itpDate],
-  ['تاريخ التصدير', today],
-  ['المرجع',   'QCS 2024 — QatarSpec Pro']
-]);
-ws4['!cols'] = [{wch:28},{wch:36}];
-ws4['!merges'] = [{s:{r:0,c:0},e:{r:0,c:1}}];
-
-let wb = X.utils.book_new();
-X.utils.book_append_sheet(wb, ws1, 'ITP Main');
-X.utils.book_append_sheet(wb, ws2, 'Hold Points');
-X.utils.book_append_sheet(wb, ws3, 'Witness Points');
-X.utils.book_append_sheet(wb, ws4, 'Summary');
-X.writeFile(wb, 'ITP-' + (itpNum||'Export') + '-' + Date.now() + '.xlsx');
-showToast('✅ تم تصدير ITP Excel — 4 أوراق');
-}
+// exportITPExcel → moved to js/core/ (Phase 5)
 
 // gv → نُقلت إلى js/core/ui-utils.js (A1 Refactor)
 
@@ -1003,77 +648,7 @@ window.daLoadFile = handleDaUpload;
 // copyDaResult → moved to js/core/doc-analyzer.js (Phase 5)
 
 // دالة تحليل المخطط الرئيسية
-async function runDrawingAnalysis() {
-  // ── Free users: 3 analyses/day ──
-  if (!isProUser()) {
-    var daKey = 'qs_da_count_' + new Date().toISOString().slice(0,10);
-    var daCount = parseInt(sessionStorage.getItem(daKey) || '0');
-    if (daCount >= 3) {
-      showUpgradePrompt('drawing_analyzer','📐','وصلت الحد اليومي — 3 تحليلات/يوم','اشترك في Pro لتحليلات غير محدودة للمخططات.');
-      return;
-    }
-    sessionStorage.setItem(daKey, String(daCount + 1));
-  }
-  if (!_daImageData) { showToast('❌ ارفع مخططاً أولاً'); return; }
-
-  const notes = (document.getElementById('da-notes') || {}).value || '';
-  let loading = document.getElementById('da-loading');
-  let result = document.getElementById('da-result');
-  let btn = document.getElementById('da-analyze-btn');
-
-  loading.style.display = 'block';
-  result.innerHTML = '';
-  if (btn) { btn.style.opacity = '0.5'; btn.disabled = true; }
-
-  let systemPrompt = getDaSystemPrompt(_daDrawingType, notes);
-
-  try {
-    const isPdf = _daImageData.startsWith('data:application/pdf');
-    let messages;
-
-    // استخراج البيانات حسب النوع (PDF أو صورة)
-    let daBase64, daMimeType;
-    if (isPdf) {
-      daBase64 = _daImageData.split(',')[1];
-      daMimeType = 'application/pdf';
-    } else {
-      daBase64 = _daImageData.split(',')[1];
-      daMimeType = _daImageData.split(';')[0].split(':')[1];
-    }
-
-    // استخدام vision-proxy مباشرة (Gemini Vision API)
-    let response = await fetch('/api/vision-proxy', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          mode: 'analyzer',
-          image: daBase64,
-          mimeType: daMimeType || 'image/jpeg',
-          userMessage: systemPrompt
-        })
-    });
-
-    let data = await response.json();
-
-    if (data.result) {
-      result.innerHTML = formatDaResult(data.result, _daDrawingType);
-      qsTrack('Vision Analysis', { tier: typeof getProToken === 'function' && getProToken() ? 'pro' : 'free' });
-    } else if (data.error) {
-      result.innerHTML = generateDaFallback(_daDrawingType);
-      showToast('⚠️ تم استخدام التحليل المحلي');
-    } else {
-      result.innerHTML = generateDaFallback(_daDrawingType);
-    }
-  } catch(e) {
-    // Fallback محلي إذا لم يعمل الـ API
-    result.innerHTML = generateDaFallback(_daDrawingType);
-    showToast('⚠️ تحليل محلي — تحقق من الاتصال للتحليل الكامل');
-  }
-
-  loading.style.display = 'none';
-  if (btn) { btn.style.opacity = '1'; btn.disabled = false; }
-}
+// runDrawingAnalysis → moved to js/core/ (Phase 5)
 
 // Fallback محلي حسب نوع المخطط
 // generateDaFallback → moved to js/core/doc-analyzer.js (Phase 5)
@@ -1172,80 +747,7 @@ let _inspectorImageData = null;
 
 // inspectorLoadImage → moved to js/core/doc-analyzer.js (Phase 5)
 
-async function runInspector() {
-  // ── MONETIZATION: Pro Feature ──
-  if (!isProUser()) {
-    showUpgradePrompt('inspector','🔍','المفتش الذكي بالصور — Pro فقط','فحص الأعمال الميدانية بالصور ومطابقتها مع QCS 2024 متاح للمشتركين في Pro فقط.');
-    return;
-  }
-  let workType = document.getElementById('insp-work-type').value;
-  const phase = document.getElementById('insp-phase').value;
-  let specific = document.getElementById('insp-specific').value;
-  
-  if (!_inspectorImageData) { showToast('❌ ارفع صورة أولاً'); return; }
-  if (!workType) { showToast('❌ اختر نوع العمل'); return; }
-  
-  const loading = document.getElementById('inspector-loading');
-  const btn = document.getElementById('insp-analyze-btn');
-  loading.style.display = 'block';
-  btn.style.opacity = '0.5';
-  btn.disabled = true;
-  
-  let phaseNames = {before:'قبل التنفيذ',during:'أثناء التنفيذ',after:'بعد التنفيذ',defect:'عيب مكتشف'};
-  const workNames = {
-    roads_subgrade:'Subgrade',roads_subbase:'Subbase',roads_base:'Base Course',
-    roads_prime:'Prime Coat',roads_asphalt:'Asphalt',
-    struct_rebar:'تسليح',struct_formwork:'شدة',struct_concrete:'صب خرسانة',struct_curing:'معالجة',
-    util_excavation:'حفريات',util_pipe:'مواسير',util_backfill:'ردم',util_manhole:'غرف تفتيش',
-    geo_borehole:'جسات',geo_sabkha:'سبخة'
-  };
-  
-  const systemPrompt = 'أنت مهندس مدني متخصص في مراقبة الجودة بدولة قطر، خبير في QCS 2024.\n'
-    + 'نوع العمل: ' + (workNames[workType]||workType) + '\n'
-    + 'المرحلة: ' + (phaseNames[phase]||phase) + '\n'
-    + (specific ? 'الفحص المطلوب: ' + specific + '\n' : '')
-    + '\nافحص الصورة وقدم:\n'
-    + '١. تحديد ما تراه بدقة\n'
-    + '٢. تقييم المطابقة: Pass ✅ أو Fail ❌ أو Warning ⚠️ مع بند QCS\n'
-    + '٣. المشاكل + الإجراء التصحيحي + المرجع QCS 2024 Part/Clause\n'
-    + '٤. نقاط تحقق مرئي + ما يحتاج فحص إضافي\n'
-    + '٥. توصية نهائية: هل يمكن المتابعة؟\n'
-    + 'الرد بالعربية. كن دقيقاً — لا تخمن.';
-  
-  try {
-    // استخدام vision-proxy مباشرة (Gemini Vision API)
-    const base64 = _inspectorImageData.split(',')[1];
-    const mimeType = _inspectorImageData.split(';')[0].split(':')[1];
-    
-    const response = await fetch('/api/vision-proxy', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          mode: 'inspector',
-          image: base64,
-          mimeType: mimeType || 'image/jpeg',
-          userMessage: systemPrompt
-        })
-    });
-    
-    if (response.ok) {
-      const data = await response.json();
-      const answer = data.result || 'لم يتمكن من التحليل';
-      showInspectorResult(answer);
-    } else {
-      // Fallback: local analysis based on work type
-      showInspectorResult(generateLocalAnalysis(workType, phase, specific));
-    }
-  } catch(e) {
-    // Offline fallback
-    showInspectorResult(generateLocalAnalysis(workType, phase, specific));
-  }
-  
-  loading.style.display = 'none';
-  btn.style.opacity = '1';
-  btn.disabled = false;
-}
+// runInspector → moved to js/core/ (Phase 5)
 
 // generateLocalAnalysis → moved to js/core/doc-analyzer.js (Phase 5)
 
@@ -1255,17 +757,7 @@ async function runInspector() {
 
 // inspectorToNCR → moved to js/core/doc-analyzer.js (Phase 5)
 
-function resetInspector() {
-  _inspectorImageData = null;
-  document.getElementById('inspector-preview').style.display = 'none';
-  document.getElementById('inspector-form').style.display = 'none';
-  document.getElementById('inspector-result').style.display = 'none';
-  document.getElementById('inspector-img').src = '';
-  document.getElementById('insp-work-type').value = '';
-  document.getElementById('insp-specific').value = '';
-  document.getElementById('insp-location').value = '';
-  showToast('🔄 جاهز لفحص جديد');
-}
+// resetInspector → moved to js/core/ (Phase 5)
 
 
 // ================================================================
@@ -1505,103 +997,17 @@ document.addEventListener('DOMContentLoaded', function() {
 /**
  * calcGP — Grading & Plasticity Index Check (QCS 2024 S6 P3/P4/P5)
  */
-window.calcGP = function calcGP() {
-  var layer = (document.getElementById('gp-layer')  || {}).value || 'subbase';
-  var pi    = parseFloat((document.getElementById('gp-pi')   || {}).value);
-  var ll    = parseFloat((document.getElementById('gp-ll')   || {}).value);
-  var p200  = parseFloat((document.getElementById('gp-p200') || {}).value);
-  var p4    = parseFloat((document.getElementById('gp-p4')   || {}).value);
-  var p075  = parseFloat((document.getElementById('gp-p075') || {}).value);
-
-  if (isNaN(pi) && isNaN(ll) && isNaN(p200)) {
-    showToast('❌ أدخل قيمة واحدة على الأقل');
-    return;
-  }
-
-  var limits = {
-    subgrade: { pi: 10, ll: 35, p200: 35, ref: 'QCS 2024 S6 P3 Table 3:1' },
-    subbase:  { pi:  6, ll: 25, p200: 12, ref: 'QCS 2024 S6 P4 Table 4:1' },
-    base:     { pi:  4, ll: 20, p200:  8, ref: 'QCS 2024 S6 P5 Table 5:1' },
-  };
-  var L = limits[layer] || limits.subbase;
-  var lines = [], allPass = true;
-
-  if (!isNaN(pi))   { var ok = pi   <= L.pi;   if (!ok) allPass=false; lines.push('PI: '   + pi   + ' | الحد: ≤' + L.pi   + ' ' + (ok?'✅':'❌')); }
-  if (!isNaN(ll))   { var ok = ll   <= L.ll;   if (!ok) allPass=false; lines.push('LL: '   + ll   + '% | الحد: ≤' + L.ll  + '% ' + (ok?'✅':'❌')); }
-  if (!isNaN(p200)) { var ok = p200 <= L.p200; if (!ok) allPass=false; lines.push('% Passing #200: ' + p200 + '% | الحد: ≤' + L.p200 + '% ' + (ok?'✅':'❌')); }
-  if (!isNaN(p4))   lines.push('% Passing #4 (4.75mm): ' + p4 + '%');
-  if (!isNaN(p075)) lines.push('% Passing #200 (0.075mm): ' + p075 + '%');
-  lines.push('المرجع: ' + L.ref);
-
-  showResult('gp-result', allPass, null, null, lines.join('<br>'));
-};
+// calcGP → moved to js/core/extra-calcs.js
 
 /**
  * calcBlockwork — حاسبة كميات البلوك والمونة (QCS 2024 S5)
  */
-window.calcBlockwork = function calcBlockwork() {
-  var wallArea  = parseFloat((document.getElementById('bw-area')     || {}).value);
-  var blockType = (document.getElementById('bw-type')    || {}).value || '200';
-  var openings  = parseFloat((document.getElementById('bw-openings') || {}).value) || 0;
-
-  if (!wallArea || isNaN(wallArea)) { showToast('❌ أدخل مساحة الجدار (m²)'); return; }
-
-  var netArea = Math.max(0, wallArea - openings);
-  var sizes   = { '100':{t:100}, '150':{t:150}, '200':{t:200}, '250':{t:250} };
-  var bs      = sizes[blockType] || sizes['200'];
-
-  // Standard block face 390×190mm + 10mm joint
-  var faceArea   = (0.400) * (0.200);          // m²
-  var blockCount = Math.ceil(netArea / faceArea * 1.05);
-  var mortarVol  = +(netArea * (bs.t / 1000) * 0.33).toFixed(2);
-  var mortarBags = Math.ceil(mortarVol * 350 / 50);
-  var sandVol    = +(mortarVol * 1.1).toFixed(2);
-
-  showResult('bw-result', true, null, null, [
-    'مساحة الجدار الصافية: ' + netArea.toFixed(1) + ' m²',
-    'عدد البلوك ' + blockType + 'mm: <strong>' + blockCount.toLocaleString() + ' قطعة</strong>',
-    'مونة: ' + mortarVol + ' m³ | أسمنت: ' + mortarBags + ' كيس | رمل: ' + sandVol + ' m³',
-    'المرجع: QCS 2024 S5 — Masonry Works',
-  ].join('<br>'));
-};
+// calcBlockwork → moved to js/core/extra-calcs.js
 
 /**
  * calcRoadLayers — حاسبة حجم وكميات طبقات الطريق (QCS 2024 S6/S8)
  */
-window.calcRoadLayers = function calcRoadLayers() {
-  var length  = parseFloat((document.getElementById('rl-length')   || {}).value);
-  var width   = parseFloat((document.getElementById('rl-width')    || {}).value);
-  var tSubg   = parseFloat((document.getElementById('rl-subgrade') || {}).value) || 0;
-  var tSubb   = parseFloat((document.getElementById('rl-subbase')  || {}).value) || 0;
-  var tBase   = parseFloat((document.getElementById('rl-base')     || {}).value) || 0;
-  var tBinder = parseFloat((document.getElementById('rl-binder')   || {}).value) || 0;
-  var tWear   = parseFloat((document.getElementById('rl-wearing')  || {}).value) || 0;
-
-  if (!length || !width) { showToast('❌ أدخل الطول والعرض'); return; }
-
-  var area   = length * width;
-  var layers = [
-    { name:'Subgrade',      t:tSubg,   d:2.00, ref:'QCS S6 P3' },
-    { name:'Sub-base',      t:tSubb,   d:2.20, ref:'QCS S6 P4' },
-    { name:'Base Course',   t:tBase,   d:2.30, ref:'QCS S6 P5' },
-    { name:'Binder Course', t:tBinder, d:2.35, ref:'QCS S8 P5' },
-    { name:'Wearing Course',t:tWear,   d:2.40, ref:'QCS S8 P5' },
-  ].filter(function(l){ return l.t > 0; });
-
-  if (!layers.length) { showToast('❌ أدخل سماكة طبقة واحدة على الأقل (mm)'); return; }
-
-  var lines = ['المساحة: ' + area.toLocaleString() + ' m² (' + length + ' × ' + width + 'm)', ''];
-  var totVol = 0, totTon = 0;
-  layers.forEach(function(l) {
-    var vol = area * l.t / 1000;
-    var ton = vol * l.d;
-    totVol += vol; totTon += ton;
-    lines.push('<strong>' + l.name + '</strong> (' + l.ref + '): ' + l.t + 'mm → ' + vol.toFixed(0) + ' m³ / ' + ton.toFixed(0) + ' t');
-  });
-  lines.push('', '══ الإجمالي: <strong>' + totVol.toFixed(0) + ' m³ | ' + (totTon/1000).toFixed(1) + ' kt</strong>');
-
-  showResult('rl-result', true, null, null, lines.join('<br>'));
-};
+// calcRoadLayers → moved to js/core/extra-calcs.js
 
 // ─── End Missing Calculators ───
 

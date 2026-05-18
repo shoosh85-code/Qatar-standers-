@@ -22,6 +22,10 @@ const FILES_TO_MINIFY = [
   'js/core/theme.js',
   'js/core/doc-upload.js',
   'js/core/translations.js',
+  'js/core/extra-calcs.js',
+  'js/core/detail-modal.js',
+  'js/core/drawing-run.js',
+  'js/core/export-excel.js',
   'js/ui-handlers.js',
   'loader.js',
 ];
