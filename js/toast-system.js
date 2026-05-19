@@ -76,6 +76,7 @@
      */
     window.QS.notify = {
       success: function (msg) {
+        cleanupStuckToasts();
         return window.QS.toast.success(msg);
       },
       error: function (msg) {
@@ -83,16 +84,21 @@
         if (window.QS.toast._activeErrorToast) {
           try { window.QS.toast.dismiss(window.QS.toast._activeErrorToast); } catch(e) {}
         }
+        // [FIX v2] تنظيف كل toasts العالقة قبل إنشاء جديد
+        cleanupStuckToasts();
         window.QS.toast._activeErrorToast = window.QS.toast.error(msg);
         return window.QS.toast._activeErrorToast;
       },
       warning: function (msg) {
+        cleanupStuckToasts();
         return window.QS.toast.open({ type: 'warning', message: msg });
       },
       info: function (msg) {
+        cleanupStuckToasts();
         return window.QS.toast.open({ type: 'info', message: msg });
       },
       pro: function (msg) {
+        cleanupStuckToasts();
         return window.QS.toast.open({ type: 'pro', message: msg });
       }
     };
@@ -160,11 +166,38 @@
     var style = document.createElement('style');
     style.id = 'qs-toast-styles';
     style.textContent = [
-      /* ═══ FIX: إجبار الـ toasts على اليسار الفيزيائي في RTL ═══
-         السبب: في RTL، align-items:flex-start = يمين فيزيائي (عكس LTR)
-         الحل: direction:ltr على container + direction:rtl على النص فقط */
-      '.notyf { direction: ltr !important; font-family: inherit; left: 0 !important; right: auto !important; align-items: flex-start !important; }',
-      '.notyf__toast { font-size: 14px; border-radius: 10px; min-width: 240px; max-width: 340px; direction: rtl; }',
+      /* ═══ FIX v2: إجبار الـ toasts على اليسار الفيزيائي في RTL ═══
+         المشكلة: Notyf يستخدم flexbox + align-items. في RTL، flex-start = يمين فيزيائي.
+         direction:ltr وحدها لا تكفي لأن Notyf يطبّق inline styles.
+         الحل: نُعيد كتابة positioning كامل بـ !important عالي الخصوصية */
+      'html .notyf, html[dir="rtl"] .notyf, [dir="rtl"] .notyf, body .notyf {' +
+        'direction: ltr !important;' +
+        'position: fixed !important;' +
+        'bottom: 0 !important;' +
+        'left: 0 !important;' +
+        'right: auto !important;' +
+        'top: auto !important;' +
+        'width: auto !important;' +
+        'max-width: 380px !important;' +
+        'height: auto !important;' +
+        'display: flex !important;' +
+        'flex-direction: column !important;' +
+        'align-items: flex-start !important;' +
+        'justify-content: flex-end !important;' +
+        'padding: 12px !important;' +
+        'z-index: 9999 !important;' +
+        'pointer-events: none !important;' +
+        'font-family: inherit !important;' +
+      '}',
+      'html .notyf .notyf__toast, html[dir="rtl"] .notyf .notyf__toast {' +
+        'direction: rtl !important;' +
+        'font-size: 14px !important;' +
+        'border-radius: 10px !important;' +
+        'min-width: 240px !important;' +
+        'max-width: 340px !important;' +
+        'pointer-events: auto !important;' +
+        'margin-bottom: 8px !important;' +
+      '}',
       '.notyf__message { font-weight: 500; line-height: 1.5; }',
 
       /* brand colors overrides */
@@ -223,12 +256,28 @@
    * كل alert() في الكود (inline-scripts.js, payment.js, smart-search.js, إلخ)
    * ستُحوَّل تلقائياً لـ toast مناسب بناءً على محتوى الرسالة.
    * القاعدة: لا نحذف أي كود — نعيد توجيه alert() فقط.
+   * [FIX v2] Rate limiter: حد أقصى 3 toasts كل 5 ثوان — يمنع flooding
    */
+  var _alertHistory = []; // تاريخ آخر 5 ثوان
+  var _MAX_TOASTS_PER_5SEC = 3;
+
   function overrideNativeAlert() {
     var _nativeAlert = window.alert;
     window.alert = function (msg) {
       if (!msg) return;
       var m = String(msg);
+
+      // [FIX v2] Rate limiter — لا أكثر من 3 toasts كل 5 ثوان
+      var now = Date.now();
+      _alertHistory = _alertHistory.filter(function(t) { return now - t < 5000; });
+      if (_alertHistory.length >= _MAX_TOASTS_PER_5SEC) {
+        console.warn('[QS-alert→toast] Rate limited — suppressed:', m.substring(0, 60));
+        return;
+      }
+      _alertHistory.push(now);
+
+      // [FIX v2] إزالة toasts عالقة قبل إضافة جديد
+      cleanupStuckToasts();
 
       // استنتاج النوع من المحتوى
       if (m.startsWith('✅') || m.startsWith('🎉') || m.includes('بنجاح') || m.includes('تم')) {
@@ -250,6 +299,42 @@
     };
     console.log('[QS-Toast] window.alert overridden → Notyf ✅');
   }
+
+  // ═══ Stuck Toast Cleanup ═══
+  // [FIX v2] ينظّف toasts عالقة (بقيت أكثر من 10 ثوان)
+  function cleanupStuckToasts() {
+    var container = document.querySelector('.notyf');
+    if (!container) return;
+    var toasts = container.querySelectorAll('.notyf__toast');
+    // حد أقصى 3 toasts مرئية — أزل الأقدم
+    if (toasts.length > 3) {
+      for (var i = 0; i < toasts.length - 3; i++) {
+        try { toasts[i].remove(); } catch(e) {}
+      }
+    }
+  }
+
+  // تنظيف دوري كل 8 ثوان
+  setInterval(function() {
+    var container = document.querySelector('.notyf');
+    if (!container) return;
+    var toasts = container.querySelectorAll('.notyf__toast');
+    toasts.forEach(function(t) {
+      // إذا الـ toast ليس عنده animation running → عالق → أزله
+      var opacity = window.getComputedStyle(t).opacity;
+      // Notyf يُخفي toasts بـ opacity → 0 ثم يحذفها
+      // إذا opacity = 0 لكنه لسا في DOM → عالق
+      if (parseFloat(opacity) <= 0.01) {
+        try { t.remove(); } catch(e) {}
+      }
+    });
+    // حد أقصى مطلق: 5 toasts max
+    if (toasts.length > 5) {
+      for (var i = 0; i < toasts.length - 2; i++) {
+        try { toasts[i].remove(); } catch(e) {}
+      }
+    }
+  }, 8000);
 
   // ═══ 7. Rate Limit (429) Global Interceptor ═══
   /**
