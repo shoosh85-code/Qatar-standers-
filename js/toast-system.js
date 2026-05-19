@@ -38,6 +38,7 @@
   };
 
   var _timer = null;
+  var _maxTimer = null;
 
   function showToastV2(msg, type, duration) {
     if (!msg) return;
@@ -53,12 +54,21 @@
     el.style.background = _colors[type] || _colors.info;
     // أظهر
     clearTimeout(_timer);
+    clearTimeout(_maxTimer);
+    // تأكد من الإخفاء أولاً ثم الإظهار
+    el.style.transform = 'translateY(80px)';
+    el.style.opacity = '0';
     requestAnimationFrame(function() {
-      el.style.transform = 'translateY(0)';
-      el.style.opacity = '1';
+      requestAnimationFrame(function() {
+        el.style.transform = 'translateY(0)';
+        el.style.opacity = '1';
+      });
     });
     // أخفِ بعد المدة
-    _timer = setTimeout(function() { hideToast(el); }, duration || (type === 'error' ? 5000 : 3500));
+    var hideDelay = duration || (type === 'error' ? 5000 : 3500);
+    _timer = setTimeout(function() { hideToast(el); }, hideDelay);
+    // ضمان أقصى: إخفاء قسري بعد hideDelay + 2 ثانية
+    _maxTimer = setTimeout(function() { hideToast(el); }, hideDelay + 2000);
   }
 
   // ═══ 2. استبدال showToast العالمية ═══

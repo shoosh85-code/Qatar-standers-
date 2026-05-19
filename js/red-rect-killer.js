@@ -1,6 +1,6 @@
 /**
- * QatarSpec Pro — Red Rectangle Nuclear Killer v2.0
- * يراقب DOM بالكامل ويقتل أي عنصر مشبوه لحظة ظهوره
+ * QatarSpec Pro — Rectangle Nuclear Killer v3.0
+ * يراقب DOM بالكامل ويقتل أي عنصر مشبوه لحظة ظهوره (أحمر + أصفر + أزرق)
  */
 (function() {
   'use strict';
@@ -12,7 +12,6 @@
     var m = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
     if (!m) return false;
     var r = parseInt(m[1]), g = parseInt(m[2]), b = parseInt(m[3]);
-    // أي لون أحمر: R عالي، G و B منخفضين نسبياً
     return (r > 150 && g < 100 && b < 100);
   }
 
@@ -22,6 +21,15 @@
     if (!m) return false;
     var r = parseInt(m[1]), g = parseInt(m[2]), b = parseInt(m[3]);
     return (r > 150 && g > 80 && g < 200 && b < 80);
+  }
+
+  // كشف الأزرق — المشكلة الجديدة
+  function isBluish(bg) {
+    if (!bg || bg === 'transparent' || bg === 'rgba(0, 0, 0, 0)') return false;
+    var m = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    if (!m) return false;
+    var r = parseInt(m[1]), g = parseInt(m[2]), b = parseInt(m[3]);
+    return (b > 100 && b > r * 1.3 && b > g * 1.2);
   }
 
   // عناصر مسموح بها — لا تحذفها
@@ -50,15 +58,23 @@
       if (pos !== 'fixed' && pos !== 'absolute') return;
 
       var bg = style.backgroundColor;
-      if (!isReddish(bg) && !isYellowish(bg)) return;
+      var redOrYellow = isReddish(bg) || isYellowish(bg);
+      var blue = isBluish(bg);
+      if (!redOrYellow && !blue) return;
 
       if (isSafe(el)) return;
 
       var rect = el.getBoundingClientRect();
-      // فقط العناصر على يمين الشاشة (>50% من العرض)
-      if (rect.left < window.innerWidth * 0.5) return;
-      // فقط العناصر المرئية
       if (rect.width <= 0 || rect.height <= 0) return;
+
+      // الأحمر والأصفر: فقط على يمين الشاشة
+      if (redOrYellow && rect.left < window.innerWidth * 0.5) return;
+
+      // الأزرق: فقط الكبير (>120px عرض) في أعلى 70% الشاشة — يحمي الـ toasts
+      if (blue) {
+        if (rect.width < 120 || rect.height < 40) return;
+        if (rect.top > window.innerHeight * 0.7) return; // toasts في الأسفل = آمن
+      }
 
       var info = {
         tag: el.tagName,
@@ -132,6 +148,19 @@
   window.QS = window.QS || {};
   window.QS.killRedRects = fullScan;
   window.QS.killLog = function() { return KILL_LOG; };
+  // دالة طوارئ للأزرق
+  window.QS.nukeBlueRects = function() {
+    var killed = 0;
+    document.querySelectorAll('*').forEach(function(el) {
+      try {
+        var s = window.getComputedStyle(el);
+        if (s.position !== 'fixed' && s.position !== 'absolute') return;
+        if (isBluish(s.backgroundColor)) { el.remove(); killed++; }
+      } catch(e) {}
+    });
+    console.log('[QS-KILLER] nukeBlueRects: حذف ' + killed + ' عنصر');
+    return killed;
+  };
 
-  console.log('[QS-KILLER v2] 🔪 MutationObserver مُفعَّل — يقتل أي مستطيل أحمر/أصفر لحظة ظهوره');
+  console.log('[QS-KILLER v3] 🔪 مُفعَّل — يقتل الأحمر + الأصفر + الأزرق');
 })();
