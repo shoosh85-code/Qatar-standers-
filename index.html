@@ -713,12 +713,8 @@ html[lang="en"] .cat-desc span strong {
 
 <!-- ═══ UX Enhancement Libraries — CSS ═══ -->
 <link rel="stylesheet" href="/lib/vendor/driver.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notyf/3.10.0/notyf.min.css">
-<!-- ═══ Notyf RTL Fix — forces toasts to physical LEFT ═══ -->
-<style id="notyf-rtl-nuclear-fix">
-  .notyf { direction:ltr!important; left:0!important; right:auto!important; align-items:flex-start!important; justify-content:flex-end!important; }
-  .notyf__toast { direction:rtl!important; max-width:340px!important; }
-</style>
+<!-- Notyf REMOVED — caused persistent red rectangles in RTL -->
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notyf/3.10.0/notyf.min.css"> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/tippy.css">
 
@@ -1839,7 +1835,8 @@ html[lang="en"] .cat-desc span strong {
 <script src="/lib/vendor/driver.js.iife.js" defer></script>
 <script src="/lib/vendor/confetti.browser.js" defer></script>
 <!-- CDN (cdnjs.cloudflare.com — مسموح في CSP) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/notyf/3.10.0/notyf.min.js" defer></script>
+<!-- Notyf REMOVED — caused RTL red rectangle bug -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/notyf/3.10.0/notyf.min.js" defer></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.14.5/sweetalert2.all.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/tippy-bundle.umd.min.js" defer></script>
