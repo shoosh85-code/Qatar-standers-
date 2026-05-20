@@ -1,184 +1,122 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QatarSpec Pro — تسجيل الدخول</title>
-<link rel="icon" href="/icons/icon-192.png">
-<style>
-:root{--navy:#0D1B3E;--gold:#C8922A;--bg:#0a0a0a;--card:#111;--text:#e0e0e0;--text2:#aaa;--green:#1E8449;--red:#C0392B}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
-.logo{text-align:center;margin-bottom:24px}
-.logo h1{color:var(--gold);font-size:28px;margin-bottom:4px}
-.logo p{color:var(--text2);font-size:14px}
-.auth-card{background:var(--card);border:1px solid #222;border-radius:12px;padding:24px;width:100%;max-width:400px}
-.tabs{display:flex;gap:0;margin-bottom:20px;border-radius:8px;overflow:hidden;border:1px solid #333}
-.tab{flex:1;padding:10px;text-align:center;cursor:pointer;background:#1a1a1a;color:var(--text2);font-size:14px;font-weight:700;transition:all 0.2s}
-.tab.active{background:var(--gold);color:#fff}
-.form-group{margin-bottom:14px}
-.form-group label{display:block;color:var(--text2);font-size:13px;margin-bottom:4px}
-.form-group input{width:100%;padding:11px 14px;border:1px solid #333;border-radius:8px;background:#1a1a1a;color:var(--text);font-size:15px;outline:none;transition:border 0.2s}
-.form-group input:focus{border-color:var(--gold)}
-.btn{width:100%;padding:12px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:8px}
-.btn-gold{background:var(--gold);color:#fff}.btn-gold:hover{background:#a87720}
-.btn-gold:disabled{opacity:0.5;cursor:not-allowed}
-.msg{padding:10px;border-radius:8px;font-size:13px;margin-top:10px;display:none}
-.msg.ok{display:block;background:#0a1f0a;border:1px solid var(--green);color:#7DCEA0}
-.msg.err{display:block;background:#1f0a0a;border:1px solid var(--red);color:#F1948A}
-.back-link{margin-top:16px;text-align:center}
-.back-link a{color:var(--gold);text-decoration:none;font-size:13px}
-.divider{text-align:center;color:#444;font-size:12px;margin:16px 0;position:relative}
-.divider::before,.divider::after{content:'';position:absolute;top:50%;width:40%;height:1px;background:#333}
-.divider::before{right:0}.divider::after{left:0}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول — QatarSpec Pro</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root { --navy: #0D1B3E; --gold: #C8922A; --bg: #0a0a0a; --card: #111; --text: #eee; --muted: #888; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', Tahoma, sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .container { width: 100%; max-width: 420px; padding: 20px; }
+    .logo { text-align: center; margin-bottom: 30px; }
+    .logo h1 { color: var(--gold); font-size: 1.8rem; }
+    .logo p { color: var(--muted); font-size: 0.9rem; margin-top: 5px; }
+    .card { background: var(--card); border: 1px solid #222; border-radius: 12px; padding: 30px; }
+    .tabs { display: flex; margin-bottom: 25px; border-bottom: 1px solid #222; }
+    .tab { flex: 1; padding: 12px; text-align: center; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; transition: 0.3s; }
+    .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .form-group { margin-bottom: 18px; }
+    label { display: block; margin-bottom: 6px; font-size: 0.9rem; color: var(--muted); }
+    input { width: 100%; padding: 12px 14px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; color: var(--text); font-size: 1rem; }
+    input:focus { outline: none; border-color: var(--gold); }
+    .btn { width: 100%; padding: 14px; background: var(--gold); color: var(--navy); border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    .btn:hover { opacity: 0.9; }
+    .message { margin-top: 15px; padding: 12px; border-radius: 8px; text-align: center; font-size: 0.9rem; display: none; }
+    .message.error { background: #331111; color: #ff6666; display: block; }
+    .message.success { background: #113311; color: #66ff66; display: block; }
+    .loading { opacity: 0.6; pointer-events: none; }
+    .hint { text-align: center; margin-top: 15px; font-size: 0.8rem; color: var(--muted); }
+  </style>
 </head>
 <body>
-
-<div class="logo">
-  <h1>QatarSpec Pro</h1>
-  <p>لوحة إدارة المشاريع الهندسية</p>
-</div>
-
-<div class="auth-card">
-  <div class="tabs">
-    <div class="tab active" onclick="switchTab('login')" id="tab-login">تسجيل دخول</div>
-    <div class="tab" onclick="switchTab('register')" id="tab-register">حساب جديد</div>
+  <div class="container">
+    <div class="logo">
+      <h1>QatarSpec Pro</h1>
+      <p>نظام إدارة المشاريع</p>
+    </div>
+    <div class="card">
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('login')">تسجيل الدخول</div>
+        <div class="tab" onclick="switchTab('register')">حساب جديد</div>
+      </div>
+      <form id="authForm">
+        <div class="form-group">
+          <label>البريد الإلكتروني</label>
+          <input type="email" id="email" required placeholder="example@email.com">
+        </div>
+        <div class="form-group">
+          <label>كلمة المرور</label>
+          <input type="password" id="password" required placeholder="8 أحرف على الأقل" minlength="8">
+        </div>
+        <button type="submit" class="btn" id="submitBtn">تسجيل الدخول</button>
+        <div class="message" id="message"></div>
+      </form>
+      <p class="hint">كلمة المرور يجب أن تكون 8 أحرف على الأقل</p>
+    </div>
   </div>
 
-  <!-- Login Form -->
-  <div id="form-login">
-    <div class="form-group">
-      <label>البريد الإلكتروني</label>
-      <input type="email" id="login-email" placeholder="name@example.com" dir="ltr">
-    </div>
-    <div class="form-group">
-      <label>كلمة المرور</label>
-      <input type="password" id="login-password" placeholder="••••••••" dir="ltr">
-    </div>
-    <button class="btn btn-gold" onclick="doLogin()" id="btn-login">تسجيل الدخول</button>
-  </div>
+  <script>
+    let supabase = null;
 
-  <!-- Register Form -->
-  <div id="form-register" style="display:none">
-    <div class="form-group">
-      <label>الاسم الكامل</label>
-      <input type="text" id="reg-name" placeholder="مهندس أحمد محمد">
-    </div>
-    <div class="form-group">
-      <label>البريد الإلكتروني</label>
-      <input type="email" id="reg-email" placeholder="name@example.com" dir="ltr">
-    </div>
-    <div class="form-group">
-      <label>كلمة المرور (6 أحرف على الأقل)</label>
-      <input type="password" id="reg-password" placeholder="••••••••" dir="ltr">
-    </div>
-    <button class="btn btn-gold" onclick="doRegister()" id="btn-register">إنشاء حساب</button>
-  </div>
+    async function initSupabase() {
+      try {
+        const res = await fetch('/api/auth-config');
+        const config = await res.json();
+        supabase = window.supabase.createClient(config.url, config.key);
+      } catch (e) {
+        showMessage('خطأ في الاتصال بالخادم', 'error');
+      }
+    }
+    initSupabase();
 
-  <div class="msg" id="msg"></div>
-</div>
+    let currentTab = 'login';
 
-<div class="back-link">
-  <a href="/">← العودة للصفحة الرئيسية</a>
-</div>
+    function switchTab(tab) {
+      currentTab = tab;
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('submitBtn').textContent = tab === 'login' ? 'تسجيل الدخول' : 'إنشاء حساب';
+    }
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-// ── Supabase Init ──
-// الـ Anon Key آمن للاستخدام في الـ client (RLS يحمي البيانات)
-let _sb = null;
-async function getSB() {
-  if (_sb) return _sb;
-  try {
-    const r = await fetch('/api/auth-config');
-    const cfg = await r.json();
-    _sb = supabase.createClient(cfg.url, cfg.anonKey);
-    return _sb;
-  } catch(e) {
-    showMsg('خطأ في الاتصال بالسيرفر', true);
-    return null;
-  }
-}
+    function showMessage(text, type) {
+      const msg = document.getElementById('message');
+      msg.textContent = text;
+      msg.className = 'message ' + type;
+    }
 
-// ── Check if already logged in ──
-(async function() {
-  const sb = await getSB();
-  if (!sb) return;
-  const { data } = await sb.auth.getSession();
-  if (data?.session) {
-    window.location.href = '/projects.html';
-  }
-})();
+    document.getElementById('authForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!supabase) return showMessage('جاري التحميل...', 'error');
 
-function switchTab(tab) {
-  document.getElementById('form-login').style.display = tab === 'login' ? 'block' : 'none';
-  document.getElementById('form-register').style.display = tab === 'register' ? 'block' : 'none';
-  document.getElementById('tab-login').className = 'tab' + (tab === 'login' ? ' active' : '');
-  document.getElementById('tab-register').className = 'tab' + (tab === 'register' ? ' active' : '');
-  hideMsg();
-}
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const btn = document.getElementById('submitBtn');
+      btn.classList.add('loading');
 
-function showMsg(text, isErr) {
-  const el = document.getElementById('msg');
-  el.textContent = text;
-  el.className = 'msg ' + (isErr ? 'err' : 'ok');
-}
-function hideMsg() { document.getElementById('msg').className = 'msg'; }
+      try {
+        let result;
+        if (currentTab === 'login') {
+          result = await supabase.auth.signInWithPassword({ email, password });
+        } else {
+          result = await supabase.auth.signUp({ email, password });
+        }
 
-async function doLogin() {
-  const btn = document.getElementById('btn-login');
-  const email = document.getElementById('login-email').value.trim();
-  const password = document.getElementById('login-password').value;
-  if (!email || !password) return showMsg('أدخل البريد وكلمة المرور', true);
+        if (result.error) throw result.error;
 
-  btn.disabled = true; btn.textContent = '⏳ جاري الدخول...';
-  const sb = await getSB();
-  if (!sb) { btn.disabled = false; btn.textContent = 'تسجيل الدخول'; return; }
-
-  const { data, error } = await sb.auth.signInWithPassword({ email, password });
-  if (error) {
-    showMsg('فشل الدخول: ' + (error.message === 'Invalid login credentials' ? 'بريد أو كلمة مرور خاطئة' : error.message), true);
-    btn.disabled = false; btn.textContent = 'تسجيل الدخول';
-  } else {
-    showMsg('✅ تم الدخول — جاري التحويل...', false);
-    setTimeout(() => window.location.href = '/projects.html', 800);
-  }
-}
-
-async function doRegister() {
-  const btn = document.getElementById('btn-register');
-  const name = document.getElementById('reg-name').value.trim();
-  const email = document.getElementById('reg-email').value.trim();
-  const password = document.getElementById('reg-password').value;
-  if (!name || !email || !password) return showMsg('أكمل جميع الحقول', true);
-  if (password.length < 6) return showMsg('كلمة المرور يجب أن تكون 6 أحرف على الأقل', true);
-
-  btn.disabled = true; btn.textContent = '⏳ جاري التسجيل...';
-  const sb = await getSB();
-  if (!sb) { btn.disabled = false; btn.textContent = 'إنشاء حساب'; return; }
-
-  const { data, error } = await sb.auth.signUp({
-    email,
-    password,
-    options: { data: { full_name: name } }
-  });
-  if (error) {
-    showMsg('فشل التسجيل: ' + error.message, true);
-    btn.disabled = false; btn.textContent = 'إنشاء حساب';
-  } else {
-    showMsg('✅ تم التسجيل! تحقق من بريدك الإلكتروني لتفعيل الحساب.', false);
-    btn.disabled = false; btn.textContent = 'إنشاء حساب';
-  }
-}
-
-// Enter key
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter') {
-    if (document.getElementById('form-login').style.display !== 'none') doLogin();
-    else doRegister();
-  }
-});
-</script>
+        if (currentTab === 'register') {
+          showMessage('تم إنشاء الحساب! تحقق من بريدك.', 'success');
+        } else {
+          showMessage('تم الدخول بنجاح! جاري التوجيه...', 'success');
+          setTimeout(() => window.location.href = '/projects.html', 1500);
+        }
+      } catch (err) {
+        showMessage(err.message || 'خطأ غير معروف', 'error');
+      } finally {
+        btn.classList.remove('loading');
+      }
+    });
+  </script>
 </body>
 </html>
