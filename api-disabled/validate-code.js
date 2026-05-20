@@ -1,0 +1,115 @@
+// /api/validate-code.js — QatarSpec Pro
+// Server-side promo code validation
+// PRO_CODES stored ONLY here — never in client HTML
+// [SEC] Rate limiting: 5 محاولات/دقيقة لمنع brute-force على الأكواد
+
+
+export const config = { runtime: 'edge' };
+
+import { checkRateLimit, rateLimitResponse } from '../lib/rate-limit.js';
+// ── Security Headers (Inline — Edge functions لا تدعم imports خارجية) ────
+function applySecurityHeaders(res) {
+  const headers = {
+    'X-Content-Type-Options':            'nosniff',
+    'X-Frame-Options':                   'DENY',
+    'X-DNS-Prefetch-Control':            'off',
+    'X-Download-Options':                'noopen',
+    'X-Permitted-Cross-Domain-Policies': 'none',
+    'Strict-Transport-Security':         'max-age=63072000; includeSubDomains; preload',
+    'Referrer-Policy':                   'strict-origin-when-cross-origin',
+    'Cross-Origin-Opener-Policy':        'same-origin',
+    'Cross-Origin-Resource-Policy':      'same-origin',
+    'Origin-Agent-Cluster':              '?1',
+    'Access-Control-Allow-Origin':       'https://qatar-standers.vercel.app',
+    'Access-Control-Allow-Methods':      'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers':      'Content-Type, Authorization, X-User-Tier',
+    'Vary':                              'Origin',
+  };
+  for (const [k, v] of Object.entries(headers)) res.setHeader(k, v);
+}
+
+
+const CORS = {
+  'Access-Control-Allow-Origin': process.env.APP_URL || 'https://qatar-standers.vercel.app',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
+
+
+export default async function handler(req) {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: CORS });
+  }
+
+  if (req.method !== 'POST') {
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+      status: 405,
+      headers: { ...CORS, 'Content-Type': 'application/json' },
+    });
+  }
+
+  // ── Rate Limit Check (PROTOCOL 6 — Upstash Redis) ──────────────────────────
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '0.0.0.0';
+  const rl = await checkRateLimit(ip, '/api/verify-pro', false); // validate-code = free tier limits
+  if (!rl.allowed) return rateLimitResponse(rl, CORS);
+
+  let body;
+  try {
+    body = await req.json();
+  } catch {
+    return new Response(JSON.stringify({ valid: false, error: 'Invalid JSON' }), {
+      status: 400,
+      headers: { ...CORS, 'Content-Type': 'application/json' },
+    });
+  }
+
+  const code = (body.code || '').trim().toUpperCase();
+
+  if (!code) {
+    return new Response(JSON.stringify({ valid: false, error: 'No code provided' }), {
+      status: 400,
+      headers: { ...CORS, 'Content-Type': 'application/json' },
+    });
+  }
+
+  // ✅ Codes stored ONLY in env vars — never hardcoded in source
+  const VALID_CODES = (process.env.PROMO_CODES || '')
+    .split(',')
+    .map(c => c.trim().toUpperCase())
+    .filter(Boolean);
+
+  // إذا لم تُضبط PROMO_CODES في env → أعد خطأ واضح
+  if (!VALID_CODES.length) {
+    return new Response(
+      JSON.stringify({ error: 'Promo codes not configured — contact support' }),
+      { status: 503, headers: { ...CORS, 'Content-Type': 'application/json' } }
+    );
+  }
+
+  const isValid = VALID_CODES.includes(code);
+
+  if (isValid) {
+    // Expiry: 1 year from now
+    const expiry = new Date();
+    expiry.setFullYear(expiry.getFullYear() + 1);
+
+    return new Response(
+      JSON.stringify({
+        valid: true,
+        tier: 'pro',
+        expiry: expiry.toISOString(),
+        message: '🎉 تم تفعيل Pro بنجاح! صالح لسنة كاملة.',
+      }),
+      { status: 200, headers: { ...CORS, 'Content-Type': 'application/json' } }
+    );
+  } else {
+    return new Response(
+      JSON.stringify({
+        valid: false,
+        error: 'الكود غير صحيح — تحقق من الكود وأعد المحاولة',
+      }),
+      { status: 200, headers: { ...CORS, 'Content-Type': 'application/json' } }
+    );
+  }
+}
+
