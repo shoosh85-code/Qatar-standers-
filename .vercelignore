@@ -1,19 +1,48 @@
+# QatarSpec Pro — .vercelignore (merged)
+# يستبعد الملفات غير المطلوبة من Vercel deployment
+
+# ── API staging/test ──
 api/_staging/
 api/test-gemini.js
 api/test-supabase.js
+
+# ── Supabase migrations (dev only) ──
 supabase/
-data/
+
+# ── ملفات البيانات الضخمة (dev only) ──
+data/qcs-chunks-full.json
+data/qcs-chunks.json
+data/ashghal.json
+data/tools.json
+data/create-checkout.js
+data/roads-data.js
+data/utilities-data.js
+data/structural-data.js
+data/tools-data.js
+data/data_general.js
+data/detail-roads.js
+data/detail-structural.js
+data/detail-geotech.js
+data/detail-main.js
+data/detail-utilities-ss.js
+data/detail-utilities-sw-tw.js
+data/detail-utilities-ws.js
+data/detail-utilities-shared.js
+# ⚠️ data/templates/ يبقى — مطلوب لـ api/generate-document.js
+
+# ── أدوات التطوير ──
 docs/
 scripts/
 tests/
 worker/
+.github/
+
+# ── مستندات ──
 *.md
 audit_report*.json
 CHECKPOINT.json
-LAUNCH_CHECKLIST.md
-REFACTOR_PLAN.md
-ROADMAP_v1.md
-REPOS_STRATEGY.md
-ATTRIBUTIONS.md
-QATARSPEC_REPOS_ANALYSIS_AND_PROMPTS.md
-SECURITY_AUDIT.md
+
+# ── ملفات مؤقتة ──
+*.log
+*.tmp
+.DS_Store
