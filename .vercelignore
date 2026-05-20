@@ -6,6 +6,23 @@ api/_staging/
 api/test-gemini.js
 api/test-supabase.js
 
+# ── API dev/admin tools (not used in production) ──
+# حد Vercel Hobby = 12 serverless function
+# التطبيق يستخدم 11 فقط — الباقي أدوات تطوير
+api/admin-session.js
+api/auth-proxy.js
+api/auth.js
+api/daily-reports.js
+api/generate-embeddings.js
+api/git-sync.js
+api/health.js
+api/list-models.js
+api/projects.js
+api/setup-vectors.js
+api/supabase-proxy.js
+api/upload-chunks.js
+api/validate-code.js
+
 # ── Supabase migrations (dev only) ──
 supabase/
 
