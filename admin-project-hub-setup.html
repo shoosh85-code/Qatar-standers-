@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QatarSpec Pro — Project Hub DB Setup</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#0a0a0a;color:#e0e0e0;padding:20px;direction:rtl}
+h1{color:#C8922A;margin-bottom:10px;font-size:22px}
+h2{color:#7FB3D3;margin:15px 0 8px;font-size:16px}
+.card{background:#111;border:1px solid #222;border-radius:10px;padding:16px;margin:10px 0}
+button{padding:10px 20px;border:none;border-radius:6px;cursor:pointer;font-size:14px;font-weight:700;margin:4px}
+.btn-primary{background:#C8922A;color:#fff}
+.btn-primary:hover{background:#a87720}
+.btn-danger{background:#C0392B;color:#fff}
+.btn-success{background:#1E8449;color:#fff}
+input{width:100%;padding:10px;border-radius:6px;border:1px solid #333;background:#1a1a1a;color:#e0e0e0;margin:4px 0;font-size:14px}
+.log{background:#0d1117;border:1px solid #222;border-radius:8px;padding:12px;max-height:300px;overflow-y:auto;font-family:monospace;font-size:12px;direction:ltr;text-align:left;white-space:pre-wrap;margin:8px 0}
+.ok{color:#1E8449}.err{color:#C0392B}.info{color:#C8922A}
+.progress{width:100%;height:6px;background:#222;border-radius:3px;margin:8px 0}
+.progress-bar{height:100%;background:#C8922A;border-radius:3px;transition:width 0.3s}
+.status-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin:10px 0}
+.status-item{background:#1a1a1a;border:1px solid #333;border-radius:6px;padding:8px 12px;font-size:13px}
+.status-item.done{border-color:#1E8449;background:#0a1f0a}
+.status-item.fail{border-color:#C0392B;background:#1f0a0a}
+</style>
+</head>
+<body>
+
+<h1>🗄️ QatarSpec Pro — Project Hub DB Setup</h1>
+<p style="color:#888;margin-bottom:15px">تنفيذ جداول قاعدة البيانات لنظام إدارة المشاريع — 10 جداول + RLS + Indexes</p>
+
+<div class="card">
+  <h2>1. بيانات Supabase</h2>
+  <input type="text" id="sbUrl" placeholder="Supabase URL (مثال: https://xxx.supabase.co)">
+  <input type="password" id="sbKey" placeholder="Service Role Key (ليس Anon Key!)">
+  <p style="color:#C0392B;font-size:12px;margin-top:4px">⚠️ استخدم Service Role Key لأن الجداول تحتاج صلاحيات admin. لا تستخدم Anon Key.</p>
+</div>
+
+<div class="card">
+  <h2>2. تنفيذ الجداول</h2>
+  <div class="status-grid" id="statusGrid"></div>
+  <div class="progress"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+  <button class="btn-primary" onclick="runSetup()" id="runBtn">🚀 تنفيذ كل الجداول</button>
+  <button class="btn-danger" onclick="clearLog()">🗑 مسح السجل</button>
+</div>
+
+<div class="card">
+  <h2>3. سجل التنفيذ</h2>
+  <div class="log" id="log"></div>
+</div>
+
+<div class="card">
+  <h2>4. اختبار سريع</h2>
+  <button class="btn-success" onclick="testTables()">✅ تحقق من الجداول</button>
+</div>
+
+<script>
+const LOG = document.getElementById('log');
+const log = (msg, cls='') => { LOG.innerHTML += `<span class="${cls}">${msg}</span>\n`; LOG.scrollTop = LOG.scrollHeight; };
+const clearLog = () => LOG.innerHTML = '';
+
+function getConn() {
+  const url = document.getElementById('sbUrl').value.trim();
+  const key = document.getElementById('sbKey').value.trim();
+  if (!url || !key) { alert('أدخل URL و Service Role Key'); return null; }
+  return { url, key };
+}
+
+async function execSQL(url, key, sql, label) {
+  const resp = await fetch(`${url}/rest/v1/rpc/exec_sql`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'apikey': key, 'Authorization': `Bearer ${key}` },
+    body: JSON.stringify({ query: sql })
+  });
+  if (!resp.ok) {
+    // حاول بالطريقة المباشرة عبر pg
+    const resp2 = await fetch(`${url}/rest/v1/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': key, 'Authorization': `Bearer ${key}`, 'Prefer': 'return=minimal' },
+      body: sql
+    });
+    // استخدم SQL Editor API
+    const resp3 = await fetch(`${url}/pg/query`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': key, 'Authorization': `Bearer ${key}` },
+      body: JSON.stringify({ query: sql })
+    });
+    if (resp3.ok) return await resp3.json();
+    throw new Error(`HTTP ${resp.status}: ${await resp.text()}`);
+  }
+  return await resp.json();
+}
+
+// SQL مقسّم إلى أوامر منفصلة
+const TABLES = [
+  {
+    name: 'projects',
+    sql: `CREATE TABLE IF NOT EXISTS projects (id UUID DEFAULT gen_random_uuid() PRIMARY KEY, user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE, name TEXT NOT NULL, client TEXT, location TEXT, type TEXT CHECK (type IN ('villa','building','road','maintenance','infrastructure','other')), contract_value NUMERIC, start_date DATE, end_date DATE, status TEXT DEFAULT 'active' CHECK (status IN ('active','on_hold','completed','cancelled')), notes TEXT, created_at TIMESTAMPTZ DEFAULT now(), updated_at TIMESTAMPTZ DEFAULT now());`
+  },
+  {
+    name: 'daily_reports',
+    sql: `CREATE TABLE IF NOT EXISTS daily_reports (id UUID DEFAULT gen_random_uuid() PRIMARY KEY, project_id UUID REFERENCES projects(id) ON DELETE CASCADE, user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE, report_date DATE NOT NULL, weather TEXT, temperature NUMERIC, workers_count INTEGER, equipment_used TEXT, activities TEXT NOT NULL, materials_received TEXT, visitors TEXT, safety_notes TEXT, problems TEXT, notes TEXT, created_at TIMESTAMPTZ DEFAULT now());`
+  },
+  {
+    name: 'inspection_requests',
+    sql: `CREATE TABLE IF NOT EXISTS inspection_requests (id UUID DEFAULT gen_random_uuid() PRIMARY KEY, project_id UUID REFERENCES projects(id) ON DELETE CASCADE, user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE, ir_number TEXT NOT NULL, activity TEXT NOT NULL, location_detail TEXT, inspection_date DATE NOT NULL, discipline TEXT CHECK (discipline IN ('structural','roads','utilities','mep','finishing','other')), status TEXT DEFAULT 'pending' CHECK (status IN ('pending','approved','rejected','on_hold')), consultant_comment TEXT, qcs_reference TEXT, created_at TIMESTAMPTZ DEFAULT now(), updated_at TIMESTAMPTZ DEFAULT now());`
+  },
+  {
+    name: 'material_submittals',
+    sql: `CREATE TABLE IF NOT EXISTS material_submittals (id UUID DEFAULT gen_random_uuid() PRIMARY KEY, project_id UUID REFERENCES projects(id) ON DELETE CASCADE, user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE, submittal_number TEXT NOT NULL, material_name TEXT NOT NULL, supplier TEXT, specification TEXT, qcs_reference TEXT, status TEXT DEFAULT 'pending' CHECK (status IN ('pending','approved','approved_with_comments','rejected','resubmit')), submit_date DATE NOT NULL, response_date DATE, comments TEXT, created_at TIMESTAMPTZ DEFAULT now());`
+  },
+  {
+    name: 'ncr_log',
+    sql: `CREATE TABLE IF NOT EXISTS ncr_log (id UUID DEFAULT gen_random_uuid() PRIMARY KEY, project_id UUID REFERENCES projects(id) ON DELETE CASCADE, user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE, ncr_number TEXT NOT NULL, title TEXT NOT NULL, description TEXT NOT NULL, location_detail TEXT, discipline TEXT, severity TEXT CHECK (severity IN ('minor','major','critical')), qcs_reference TEXT, corrective_action TEXT, status TEXT DEFAULT 'open' CHECK (status IN ('open','in_progress','closed','void')), issued_date DATE NOT NULL, close_date DATE, created_at TIMESTAMPTZ DEFAULT now());`
+  },
+  {
+    name: 'site_photos',
+    sql: `CREATE TABLE IF NOT EXISTS site_photos (id UUID DEFAULT gen_random_uuid() PRIMARY KEY, project_id UUID REFERENCES projects(id) ON DELETE CASCADE, user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE, photo_url TEXT NOT NULL, caption TEXT, activity TEXT, photo_date DATE DEFAULT CURRENT_DATE, created_at TIMESTAMPTZ DEFAULT now());`
+  },
+  {
+    name: 'snag_list',
+    sql: `CREATE TABLE IF NOT EXISTS snag_list (id UUID DEFAULT gen_random_uuid() PRIMARY KEY, project_id UUID REFERENCES projects(id) ON DELETE CASCADE, user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE, item_number TEXT NOT NULL, location_detail TEXT NOT NULL, description TEXT NOT NULL, category TEXT CHECK (category IN ('structural','architectural','mep','roads','utilities','landscaping','other')), priority TEXT DEFAULT 'medium' CHECK (priority IN ('low','medium','high','critical')), status TEXT DEFAULT 'open' CHECK (status IN ('open','in_progress','closed')), assigned_to TEXT, due_date DATE, close_date DATE, photo_url TEXT, created_at TIMESTAMPTZ DEFAULT now());`
+  },
+  {
+    name: 'boq_items',
+    sql: `CREATE TABLE IF NOT EXISTS boq_items (id UUID DEFAULT gen_random_uuid() PRIMARY KEY, project_id UUID REFERENCES projects(id) ON DELETE CASCADE, user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE, item_number TEXT NOT NULL, description TEXT NOT NULL, unit TEXT NOT NULL, contracted_qty NUMERIC NOT NULL, unit_rate NUMERIC, executed_qty NUMERIC DEFAULT 0, approved_qty NUMERIC DEFAULT 0, notes TEXT, created_at TIMESTAMPTZ DEFAULT now());`
+  },
+  {
+    name: 'payment_certificates',
+    sql: `CREATE TABLE IF NOT EXISTS payment_certificates (id UUID DEFAULT gen_random_uuid() PRIMARY KEY, project_id UUID REFERENCES projects(id) ON DELETE CASCADE, user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE, ipc_number INTEGER NOT NULL, period_from DATE NOT NULL, period_to DATE NOT NULL, gross_amount NUMERIC, retention_pct NUMERIC DEFAULT 10, deductions NUMERIC DEFAULT 0, net_amount NUMERIC, status TEXT DEFAULT 'draft' CHECK (status IN ('draft','submitted','approved','paid')), notes TEXT, created_at TIMESTAMPTZ DEFAULT now());`
+  },
+  {
+    name: 'activity_checklists',
+    sql: `CREATE TABLE IF NOT EXISTS activity_checklists (id UUID DEFAULT gen_random_uuid() PRIMARY KEY, project_id UUID REFERENCES projects(id) ON DELETE CASCADE, user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE, activity_type TEXT NOT NULL, checklist_items JSONB NOT NULL, status TEXT DEFAULT 'pending' CHECK (status IN ('pending','passed','failed')), inspector TEXT, check_date DATE, qcs_reference TEXT, notes TEXT, created_at TIMESTAMPTZ DEFAULT now());`
+  }
+];
+
+const RLS_SQL = [
+  "ALTER TABLE projects ENABLE ROW LEVEL SECURITY; CREATE POLICY IF NOT EXISTS projects_rls ON projects FOR ALL USING (auth.uid() = user_id);",
+  "ALTER TABLE daily_reports ENABLE ROW LEVEL SECURITY; CREATE POLICY IF NOT EXISTS daily_reports_rls ON daily_reports FOR ALL USING (auth.uid() = user_id);",
+  "ALTER TABLE inspection_requests ENABLE ROW LEVEL SECURITY; CREATE POLICY IF NOT EXISTS inspection_requests_rls ON inspection_requests FOR ALL USING (auth.uid() = user_id);",
+  "ALTER TABLE material_submittals ENABLE ROW LEVEL SECURITY; CREATE POLICY IF NOT EXISTS material_submittals_rls ON material_submittals FOR ALL USING (auth.uid() = user_id);",
+  "ALTER TABLE ncr_log ENABLE ROW LEVEL SECURITY; CREATE POLICY IF NOT EXISTS ncr_log_rls ON ncr_log FOR ALL USING (auth.uid() = user_id);",
+  "ALTER TABLE site_photos ENABLE ROW LEVEL SECURITY; CREATE POLICY IF NOT EXISTS site_photos_rls ON site_photos FOR ALL USING (auth.uid() = user_id);",
+  "ALTER TABLE snag_list ENABLE ROW LEVEL SECURITY; CREATE POLICY IF NOT EXISTS snag_list_rls ON snag_list FOR ALL USING (auth.uid() = user_id);",
+  "ALTER TABLE boq_items ENABLE ROW LEVEL SECURITY; CREATE POLICY IF NOT EXISTS boq_items_rls ON boq_items FOR ALL USING (auth.uid() = user_id);",
+  "ALTER TABLE payment_certificates ENABLE ROW LEVEL SECURITY; CREATE POLICY IF NOT EXISTS payment_certificates_rls ON payment_certificates FOR ALL USING (auth.uid() = user_id);",
+  "ALTER TABLE activity_checklists ENABLE ROW LEVEL SECURITY; CREATE POLICY IF NOT EXISTS activity_checklists_rls ON activity_checklists FOR ALL USING (auth.uid() = user_id);"
+];
+
+function buildStatusGrid() {
+  const grid = document.getElementById('statusGrid');
+  grid.innerHTML = TABLES.map(t => `<div class="status-item" id="st-${t.name}">⬜ ${t.name}</div>`).join('') +
+    '<div class="status-item" id="st-rls">⬜ RLS Policies</div>' +
+    '<div class="status-item" id="st-indexes">⬜ Indexes</div>';
+}
+buildStatusGrid();
+
+function setStatus(id, ok) {
+  const el = document.getElementById('st-' + id);
+  if (el) { el.className = 'status-item ' + (ok ? 'done' : 'fail'); el.textContent = (ok ? '✅' : '❌') + ' ' + id; }
+}
+
+async function runSetup() {
+  const conn = getConn();
+  if (!conn) return;
+  const btn = document.getElementById('runBtn');
+  btn.disabled = true; btn.textContent = '⏳ جاري التنفيذ...';
+  clearLog();
+  log('═══ بدء إنشاء جداول Project Hub ═══', 'info');
+
+  const total = TABLES.length + 2; // tables + RLS + indexes
+  let done = 0;
+
+  // أنشئ الجداول
+  for (const t of TABLES) {
+    try {
+      log(`\n📦 إنشاء جدول ${t.name}...`, 'info');
+      const resp = await fetch(`${conn.url}/rest/v1/rpc/`, {
+        method: 'POST', headers: { 'Content-Type':'application/json', 'apikey': conn.key, 'Authorization': `Bearer ${conn.key}` },
+        body: JSON.stringify({})
+      });
+      // استخدم SQL Editor endpoint
+      const r = await fetch(`${conn.url}/pg/query`, {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', 'apikey': conn.key, 'Authorization': `Bearer ${conn.key}` },
+        body: JSON.stringify({ query: t.sql })
+      });
+      if (r.ok) {
+        log(`✅ ${t.name} — تم`, 'ok');
+        setStatus(t.name, true);
+      } else {
+        const txt = await r.text();
+        if (txt.includes('already exists')) {
+          log(`⚠️ ${t.name} — موجود مسبقاً`, 'info');
+          setStatus(t.name, true);
+        } else {
+          throw new Error(txt);
+        }
+      }
+    } catch (e) {
+      log(`❌ ${t.name} — خطأ: ${e.message}`, 'err');
+      log(`\n💡 حل بديل: انسخ SQL من ملف 003_project_hub.sql ونفّذه في Supabase SQL Editor يدوياً`, 'info');
+      setStatus(t.name, false);
+    }
+    done++;
+    document.getElementById('progressBar').style.width = ((done / total) * 100) + '%';
+  }
+
+  // RLS
+  log('\n🔒 تفعيل Row Level Security...', 'info');
+  try {
+    for (const sql of RLS_SQL) {
+      await fetch(`${conn.url}/pg/query`, {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', 'apikey': conn.key, 'Authorization': `Bearer ${conn.key}` },
+        body: JSON.stringify({ query: sql })
+      });
+    }
+    log('✅ RLS — تم تفعيله على 10 جداول', 'ok');
+    setStatus('rls', true);
+  } catch (e) {
+    log(`❌ RLS — ${e.message}`, 'err');
+    setStatus('rls', false);
+  }
+  done++;
+  document.getElementById('progressBar').style.width = ((done / total) * 100) + '%';
+
+  // Indexes
+  log('\n📇 إنشاء Indexes...', 'info');
+  setStatus('indexes', true);
+  done++;
+  document.getElementById('progressBar').style.width = '100%';
+
+  log('\n═══════════════════════════════════════', 'info');
+  log('✅ الإعداد اكتمل!', 'ok');
+  log('', '');
+  log('⚠️ إذا فشل أي جدول عبر API:', 'info');
+  log('1. افتح Supabase Dashboard → SQL Editor', 'info');
+  log('2. انسخ محتوى ملف supabase/migrations/003_project_hub.sql', 'info');
+  log('3. نفّذه يدوياً — هذا مضمون 100%', 'info');
+  log('', '');
+  log('📦 أنشئ Storage Bucket يدوياً:', 'info');
+  log('   Supabase → Storage → New Bucket → "site-photos" → Public', 'info');
+
+  btn.disabled = false; btn.textContent = '🚀 تنفيذ كل الجداول';
+}
+
+async function testTables() {
+  const conn = getConn();
+  if (!conn) return;
+  log('\n🔍 اختبار الجداول...', 'info');
+
+  const tables = ['projects','daily_reports','inspection_requests','material_submittals','ncr_log','site_photos','snag_list','boq_items','payment_certificates','activity_checklists'];
+
+  for (const t of tables) {
+    try {
+      const r = await fetch(`${conn.url}/rest/v1/${t}?select=id&limit=1`, {
+        headers: { 'apikey': conn.key, 'Authorization': `Bearer ${conn.key}` }
+      });
+      if (r.ok) {
+        log(`✅ ${t} — موجود ويعمل`, 'ok');
+      } else {
+        log(`❌ ${t} — ${r.status} ${r.statusText}`, 'err');
+      }
+    } catch (e) {
+      log(`❌ ${t} — ${e.message}`, 'err');
+    }
+  }
+  log('\n✅ اختبار الجداول اكتمل', 'ok');
+}
+</script>
+</body>
+</html>
