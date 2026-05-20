@@ -10,24 +10,41 @@
   ],
   "redirects": [
     { "source": "/admin-embeddings.html", "destination": "/", "statusCode": 302 },
-    { "source": "/translation-runner.html", "destination": "/", "statusCode": 302 },
-    { "source": "/admin-:path*", "destination": "/", "statusCode": 302 }
+    { "source": "/translation-runner.html", "destination": "/", "statusCode": 302 }
   ],
   "functions": {
-    "api/vision-proxy.js":        { "maxDuration": 60 },
     "api/ai-proxy.js":            { "maxDuration": 60 },
+    "api/vision-proxy.js":        { "maxDuration": 60 },
     "api/execution-ai.js":        { "maxDuration": 60 },
     "api/generate-document.js":   { "maxDuration": 60 },
     "api/generate-embeddings.js": { "maxDuration": 60 },
-    "api/upload-chunks.js":       { "maxDuration": 60 }
+    "api/upload-chunks.js":       { "maxDuration": 60 },
+    "api/auth.js":                { "maxDuration": 30 },
+    "api/auth-proxy.js":          { "maxDuration": 30 },
+    "api/auth-config.js":         { "maxDuration": 30 },
+    "api/projects.js":            { "maxDuration": 30 },
+    "api/daily-reports.js":       { "maxDuration": 30 },
+    "api/verify-pro.js":          { "maxDuration": 30 },
+    "api/qcs-search.js":          { "maxDuration": 30 },
+    "api/tap.js":                 { "maxDuration": 30 },
+    "api/tap-webhook.js":         { "maxDuration": 30 },
+    "api/export-pdf.js":          { "maxDuration": 30 },
+    "api/admin-session.js":       { "maxDuration": 30 },
+    "api/supabase-proxy.js":      { "maxDuration": 30 },
+    "api/validate-code.js":       { "maxDuration": 30 },
+    "api/setup-vectors.js":       { "maxDuration": 30 },
+    "api/rate-limit.js":          { "maxDuration": 10 },
+    "api/health.js":              { "maxDuration": 10 },
+    "api/list-models.js":         { "maxDuration": 10 },
+    "api/git-sync.js":            { "maxDuration": 10 }
   },
   "headers": [
     {
       "source": "/api/health",
       "headers": [
-        { "key": "Cache-Control",             "value": "no-store, no-cache, must-revalidate" },
+        { "key": "Cache-Control",              "value": "no-store, no-cache, must-revalidate" },
         { "key": "Access-Control-Allow-Origin","value": "*" },
-        { "key": "X-Health-Public",           "value": "true" }
+        { "key": "X-Health-Public",            "value": "true" }
       ]
     },
     {
@@ -40,17 +57,17 @@
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options",                "value": "nosniff" },
-        { "key": "X-Frame-Options",                       "value": "DENY" },
-        { "key": "X-DNS-Prefetch-Control",                "value": "off" },
-        { "key": "X-Download-Options",                    "value": "noopen" },
-        { "key": "X-Permitted-Cross-Domain-Policies",     "value": "none" },
-        { "key": "Strict-Transport-Security",             "value": "max-age=63072000; includeSubDomains; preload" },
-        { "key": "Referrer-Policy",                       "value": "strict-origin-when-cross-origin" },
-        { "key": "Cross-Origin-Opener-Policy",            "value": "same-origin" },
-        { "key": "Cross-Origin-Resource-Policy",          "value": "same-origin" },
-        { "key": "Origin-Agent-Cluster",                  "value": "?1" },
-        { "key": "Permissions-Policy",                    "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()" },
+        { "key": "X-Content-Type-Options",            "value": "nosniff" },
+        { "key": "X-Frame-Options",                   "value": "DENY" },
+        { "key": "X-DNS-Prefetch-Control",            "value": "off" },
+        { "key": "X-Download-Options",                "value": "noopen" },
+        { "key": "X-Permitted-Cross-Domain-Policies", "value": "none" },
+        { "key": "Strict-Transport-Security",         "value": "max-age=63072000; includeSubDomains; preload" },
+        { "key": "Referrer-Policy",                   "value": "strict-origin-when-cross-origin" },
+        { "key": "Cross-Origin-Opener-Policy",        "value": "same-origin" },
+        { "key": "Cross-Origin-Resource-Policy",      "value": "same-origin" },
+        { "key": "Origin-Agent-Cluster",              "value": "?1" },
+        { "key": "Permissions-Policy",                "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()" },
         {
           "key": "Content-Security-Policy",
           "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com https://plausible.io https://*.posthog.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://cdnjs.cloudflare.com https://www.google-analytics.com https://region1.google-analytics.com https://*.supabase.co https://*.upstash.io https://plausible.io https://app.posthog.com https://*.i.posthog.com https://*.ingest.sentry.io; img-src 'self' data: blob: https:; media-src 'self' blob:; worker-src 'self' blob: https://cdnjs.cloudflare.com; object-src 'none'; frame-src https://www.youtube-nocookie.com https://www.youtube.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests; manifest-src 'self' blob:"
