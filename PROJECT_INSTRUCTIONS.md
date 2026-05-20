@@ -33,14 +33,16 @@
 
 لا تقول "تم الرفع" إلا بعد:
 
-- □ 1. git status → لصق الناتج
-- □ 2. git add [ملفات] → لصق الناتج
-- □ 3. git diff --cached --stat → لصق الناتج
-- □ 4. git commit -m "[رسالة]" → لصق الناتج
-- □ 5. git log --oneline -3 → لصق الناتج
-- □ 6. git push → لصق الناتج كاملاً
-- □ 7. git ls-remote origin main → لصق hash الـ remote
-- □ 8. مقارنة local hash مع remote hash
+```
+□ 1. git status → لصق الناتج
+□ 2. git add [ملفات] → لصق الناتج
+□ 3. git diff --cached --stat → لصق الناتج
+□ 4. git commit -m "[رسالة]" → لصق الناتج
+□ 5. git log --oneline -3 → لصق الناتج
+□ 6. git push → لصق الناتج كاملاً
+□ 7. git ls-remote origin main → لصق hash الـ remote
+□ 8. مقارنة local hash مع remote hash
+```
 
 إذا لم يتطابقان:
 → ❌ STOP: git push فشل — الـ commit لم يصل
@@ -71,12 +73,7 @@
 ## PROTOCOL 4: صفر تضليل (ZERO HALLUCINATION)
 
 ممنوع تماماً:
-- "أعتقد"
-- "ربما"
-- "على الأرجح"
-- "يبدو"
-- "يجب أن"
-- "من المفترض"
+- "أعتقد" / "ربما" / "على الأرجح" / "يبدو" / "يجب أن" / "من المفترض"
 
 إلزامي:
 - "الناتج الفعلي: [لصق]"
@@ -143,11 +140,11 @@ echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-
 ```bash
 git clone https://github.com/shoosh85-code/Qatar-standers-.git
 cd Qatar-standers-
-git config user.email "qatarspec@deploy.app"
-git config user.name "QatarSpec Deploy"
+git config user.email "shoosh85@gmail.com"
+git config user.name "shoosh85-code"
 ```
 
-Push:
+**Push:**
 ```bash
 git remote set-url origin https://TOKEN@github.com/shoosh85-code/Qatar-standers-.git
 git push origin main

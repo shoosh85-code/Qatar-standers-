@@ -1,133 +1,60 @@
 {
   "version": 2,
   "outputDirectory": ".",
+  "buildCommand": "npm run build",
   "rewrites": [
     {
-      "source": "/((?!api/|login\\.html|admin-project-hub-setup\\.html|projects\\.html|project-detail\\.html|404\\.html|500\\.html|mos-itp\\.html|offline\\.html|embedding-runner\\.html|translation-runner\\.html).*)",
+      "source": "/((?!api/|login\\.html|admin-project-hub-setup\\.html|404\\.html|500\\.html|mos-itp\\.html|offline\\.html|embedding-runner\\.html|translation-runner\\.html).*)",
       "destination": "/index.html"
     }
   ],
+  "redirects": [
+    { "source": "/admin-embeddings.html", "destination": "/", "statusCode": 302 },
+    { "source": "/translation-runner.html", "destination": "/", "statusCode": 302 }
+  ],
+  "functions": {
+    "api/vision-proxy.js":        { "maxDuration": 60 },
+    "api/ai-proxy.js":            { "maxDuration": 60 },
+    "api/execution-ai.js":        { "maxDuration": 60 },
+    "api/generate-document.js":   { "maxDuration": 60 },
+    "api/generate-embeddings.js": { "maxDuration": 60 },
+    "api/upload-chunks.js":       { "maxDuration": 60 }
+  },
   "headers": [
     {
       "source": "/api/health",
       "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-store, no-cache, must-revalidate"
-        },
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
-          "key": "X-Health-Public",
-          "value": "true"
-        }
+        { "key": "Cache-Control",             "value": "no-store, no-cache, must-revalidate" },
+        { "key": "Access-Control-Allow-Origin","value": "*" },
+        { "key": "X-Health-Public",           "value": "true" }
       ]
     },
     {
       "source": "/sw.js",
       "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-cache, no-store, must-revalidate"
-        },
-        {
-          "key": "Service-Worker-Allowed",
-          "value": "/"
-        }
+        { "key": "Cache-Control",          "value": "no-cache, no-store, must-revalidate" },
+        { "key": "Service-Worker-Allowed", "value": "/" }
       ]
     },
     {
       "source": "/(.*)",
       "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-DNS-Prefetch-Control",
-          "value": "off"
-        },
-        {
-          "key": "X-Download-Options",
-          "value": "noopen"
-        },
-        {
-          "key": "X-Permitted-Cross-Domain-Policies",
-          "value": "none"
-        },
-        {
-          "key": "Strict-Transport-Security",
-          "value": "max-age=63072000; includeSubDomains; preload"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        },
-        {
-          "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), autoplay=(), encrypted-media=(), picture-in-picture=(), display-capture=(), fullscreen=(self), clipboard-read=(), clipboard-write=(self), bluetooth=(), serial=(), hid=(), idle-detection=(), screen-wake-lock=()"
-        },
-        {
-          "key": "Cross-Origin-Opener-Policy",
-          "value": "same-origin"
-        },
-        {
-          "key": "Cross-Origin-Resource-Policy",
-          "value": "same-origin"
-        },
-        {
-          "key": "Origin-Agent-Cluster",
-          "value": "?1"
-        },
+        { "key": "X-Content-Type-Options",                "value": "nosniff" },
+        { "key": "X-Frame-Options",                       "value": "DENY" },
+        { "key": "X-DNS-Prefetch-Control",                "value": "off" },
+        { "key": "X-Download-Options",                    "value": "noopen" },
+        { "key": "X-Permitted-Cross-Domain-Policies",     "value": "none" },
+        { "key": "Strict-Transport-Security",             "value": "max-age=63072000; includeSubDomains; preload" },
+        { "key": "Referrer-Policy",                       "value": "strict-origin-when-cross-origin" },
+        { "key": "Cross-Origin-Opener-Policy",            "value": "same-origin" },
+        { "key": "Cross-Origin-Resource-Policy",          "value": "same-origin" },
+        { "key": "Origin-Agent-Cluster",                  "value": "?1" },
+        { "key": "Permissions-Policy",                    "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()" },
         {
           "key": "Content-Security-Policy",
           "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com https://plausible.io https://*.posthog.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://cdnjs.cloudflare.com https://www.google-analytics.com https://region1.google-analytics.com https://*.supabase.co https://*.upstash.io https://plausible.io https://app.posthog.com https://*.i.posthog.com https://*.ingest.sentry.io; img-src 'self' data: blob: https:; media-src 'self' blob:; worker-src 'self' blob: https://cdnjs.cloudflare.com; object-src 'none'; frame-src https://www.youtube-nocookie.com https://www.youtube.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests; manifest-src 'self' blob:"
         }
       ]
     }
-  ],
-  "functions": {
-    "api/vision-proxy.js": {
-      "maxDuration": 60
-    },
-    "api/ai-proxy.js": {
-      "maxDuration": 60
-    },
-    "api/execution-ai.js": {
-      "maxDuration": 60
-    },
-    "api/generate-document.js": {
-      "maxDuration": 60
-    },
-    "api/generate-embeddings.js": {
-      "maxDuration": 60
-    },
-    "api/upload-chunks.js": {
-      "maxDuration": 60
-    }
-  },
-  "redirects": [
-    {
-      "source": "/admin-embeddings.html",
-      "destination": "/",
-      "statusCode": 302
-    },
-    {
-      "source": "/translation-runner.html",
-      "destination": "/",
-      "statusCode": 302
-    },
-    {
-      "source": "/admin-:path*",
-      "destination": "/",
-      "statusCode": 302
-    }
-  ],
-  "buildCommand": "npm run build"
+  ]
 }
