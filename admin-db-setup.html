@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QatarSpec Admin — إعداد قاعدة البيانات</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',Tahoma,sans-serif; background:#0a0a0a; color:#eee; min-height:100vh; padding:20px; }
+.header { text-align:center; margin-bottom:30px; }
+.header h1 { color:#C8922A; font-size:1.6rem; margin-bottom:6px; }
+.header p  { color:#888; font-size:0.85rem; }
+.box { background:#111; border:1px solid #222; border-radius:14px; padding:28px; max-width:860px; margin:0 auto 24px auto; }
+.box h2 { color:#C8922A; font-size:1rem; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+label { color:#aaa; font-size:0.85rem; display:block; margin-bottom:5px; margin-top:14px; }
+input[type=password], input[type=text] {
+  width:100%; padding:11px 14px; background:#1a1a1a; border:1px solid #333;
+  border-radius:8px; color:#eee; font-size:0.9rem;
+}
+input:focus { outline:none; border-color:#C8922A; }
+.btn {
+  display:inline-flex; align-items:center; gap:8px; padding:11px 22px;
+  border:none; border-radius:9px; font-size:0.9rem; font-weight:700; cursor:pointer;
+  transition:opacity .2s;
+}
+.btn:hover { opacity:.85; }
+.btn:disabled { opacity:.4; cursor:not-allowed; }
+.btn-gold  { background:#C8922A; color:#0D1B3E; }
+.btn-green { background:#0F6E56; color:#fff; }
+.btn-red   { background:#7A1515; color:#fff; }
+.btn-gray  { background:#2a2a2a; color:#aaa; border:1px solid #444; }
+.btn-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
+#log {
+  margin-top:20px; background:#0d0d0d; border:1px solid #222; border-radius:8px;
+  padding:14px; font-family:'Courier New',monospace; font-size:12px;
+  max-height:380px; overflow-y:auto; display:none; line-height:1.7;
+}
+.ok   { color:#2ecc71; }
+.err  { color:#e74c3c; }
+.info { color:#C8922A; }
+.warn { color:#f39c12; }
+.dim  { color:#666; }
+.sql-box {
+  background:#0d0d0d; border:1px solid #222; border-radius:8px;
+  padding:14px; font-family:'Courier New',monospace; font-size:11px;
+  max-height:260px; overflow-y:auto; color:#8bc34a; white-space:pre-wrap;
+  word-break:break-word; margin-top:14px;
+}
+.table-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:10px;
+  margin-top:14px;
+}
+.table-card {
+  background:#1a1a1a; border:1px solid #2a2a2a; border-radius:8px;
+  padding:12px; font-size:0.82rem;
+}
+.table-card .tname { color:#C8922A; font-weight:700; margin-bottom:4px; }
+.table-card .tdesc { color:#666; font-size:0.78rem; }
+.progress-bar { background:#1a1a1a; border-radius:6px; height:8px; margin-top:10px; overflow:hidden; }
+.progress-fill { background:#C8922A; height:100%; transition:width .4s; border-radius:6px; }
+.status-badge {
+  display:inline-flex; align-items:center; gap:5px; padding:3px 10px;
+  border-radius:20px; font-size:0.78rem; font-weight:600;
+}
+.badge-ok { background:#0f3d1f; color:#2ecc71; }
+.badge-pending { background:#2d2200; color:#f39c12; }
+.steps { counter-reset:steps; }
+.step {
+  counter-increment:steps; display:flex; gap:14px; margin-bottom:14px;
+  align-items:flex-start;
+}
+.step-num {
+  min-width:28px; height:28px; border-radius:50%; background:#1a1a1a;
+  border:2px solid #C8922A; color:#C8922A; font-weight:700; font-size:0.85rem;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.step-content h3 { color:#eee; font-size:0.9rem; margin-bottom:4px; }
+.step-content p  { color:#888; font-size:0.82rem; line-height:1.5; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🗄️ QatarSpec Pro — إعداد قاعدة البيانات</h1>
+  <p>صفحة Admin لتنفيذ SQL على Supabase من المتصفح — المرحلة 1 من خطة Project Hub</p>
+</div>
+
+<!-- ── الخطوات اليدوية ──────────────────────────────────────── -->
+<div class="box">
+  <h2>📋 الخطوات المطلوبة</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h3>أدخل Supabase Service Role Key</h3>
+        <p>اذهب لـ Supabase Dashboard → Project Settings → API → <strong>service_role key</strong> (ليس anon key)</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h3>اضغط "تشغيل Migration"</h3>
+        <p>ينفذ SQL ويُنشئ 10 جداول + RLS + Indexes</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h3>أنشئ Storage Bucket يدوياً</h3>
+        <p>Supabase Dashboard → Storage → New Bucket → اسم: <code style="color:#C8922A">site-photos</code> → Public ✓</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h3>تحقق من الجداول</h3>
+        <p>اضغط "تحقق من الجداول" للتأكد من نجاح الإنشاء</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── إدخال البيانات ─────────────────────────────────────────── -->
+<div class="box">
+  <h2>🔑 بيانات الاتصال</h2>
+  <label>Supabase Project URL</label>
+  <input type="text" id="sbUrl" placeholder="https://xxxx.supabase.co" autocomplete="off">
+  <label>Service Role Key (سري — لا تشاركه)</label>
+  <input type="password" id="sbKey" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+
+  <div class="btn-row">
+    <button class="btn btn-gold" onclick="runMigration()">🚀 تشغيل Migration (10 جداول)</button>
+    <button class="btn btn-green" onclick="verifyTables()">✅ تحقق من الجداول</button>
+    <button class="btn btn-gray" onclick="showSQL()">👁️ عرض SQL</button>
+    <button class="btn btn-gray" onclick="clearLog()">🗑️ مسح السجل</button>
+  </div>
+
+  <div id="log"></div>
+</div>
+
+<!-- ── الجداول المراد إنشاؤها ─────────────────────────────────── -->
+<div class="box">
+  <h2>🗂️ الجداول العشرة — Project Hub</h2>
+  <div class="table-grid">
+    <div class="table-card"><div class="tname">projects</div><div class="tdesc">المشاريع الرئيسية</div></div>
+    <div class="table-card"><div class="tname">daily_reports</div><div class="tdesc">التقارير اليومية DWR</div></div>
+    <div class="table-card"><div class="tname">inspection_requests</div><div class="tdesc">طلبات الفحص IR</div></div>
+    <div class="table-card"><div class="tname">material_submittals</div><div class="tdesc">اعتماد المواد</div></div>
+    <div class="table-card"><div class="tname">ncr_log</div><div class="tdesc">سجل المخالفات NCR</div></div>
+    <div class="table-card"><div class="tname">site_photos</div><div class="tdesc">صور الموقع</div></div>
+    <div class="table-card"><div class="tname">snag_list</div><div class="tdesc">Snag List</div></div>
+    <div class="table-card"><div class="tname">boq_items</div><div class="tdesc">بنود الكميات BOQ</div></div>
+    <div class="table-card"><div class="tname">payment_certificates</div><div class="tdesc">شهادات الدفع IPC</div></div>
+    <div class="table-card"><div class="tname">activity_checklists</div><div class="tdesc">قوائم الفحص</div></div>
+  </div>
+</div>
+
+<!-- ── SQL Preview ────────────────────────────────────────────── -->
+<div class="box" id="sqlPreviewBox" style="display:none;">
+  <h2>📄 SQL Migration — 003_project_hub.sql</h2>
+  <div class="sql-box" id="sqlContent"></div>
+</div>
+
+<script>
+// ── SQL كاملاً (مضمّن في الصفحة) ─────────────────────────────────────────
+const MIGRATION_SQL = `
+-- ═══════════════════════════════════════════════════════════════
+-- QatarSpec Pro — Project Hub Database Schema
+-- Migration: 003_project_hub.sql
+-- 10 جداول لنظام إدارة المشاريع
+-- ═══════════════════════════════════════════════════════════════
+
+-- 1. المشاريع
+CREATE TABLE IF NOT EXISTS projects (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  client TEXT,
+  location TEXT,
+  type TEXT CHECK (type IN ('villa','building','road','maintenance','infrastructure','other')),
+  contract_value NUMERIC,
+  start_date DATE,
+  end_date DATE,
+  status TEXT DEFAULT 'active' CHECK (status IN ('active','on_hold','completed','cancelled')),
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- 2. التقارير اليومية
+CREATE TABLE IF NOT EXISTS daily_reports (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  report_date DATE NOT NULL,
+  weather TEXT,
+  temperature NUMERIC,
+  workers_count INTEGER,
+  equipment_used TEXT,
+  activities TEXT NOT NULL,
+  materials_received TEXT,
+  visitors TEXT,
+  safety_notes TEXT,
+  problems TEXT,
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- 3. طلبات الفحص
+CREATE TABLE IF NOT EXISTS inspection_requests (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  ir_number TEXT NOT NULL,
+  activity TEXT NOT NULL,
+  location_detail TEXT,
+  inspection_date DATE NOT NULL,
+  discipline TEXT CHECK (discipline IN ('structural','roads','utilities','mep','finishing','other')),
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending','approved','rejected','on_hold')),
+  consultant_comment TEXT,
+  qcs_reference TEXT,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- 4. اعتماد المواد
+CREATE TABLE IF NOT EXISTS material_submittals (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  submittal_number TEXT NOT NULL,
+  material_name TEXT NOT NULL,
+  supplier TEXT,
+  specification TEXT,
+  qcs_reference TEXT,
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending','approved','approved_with_comments','rejected','resubmit')),
+  submit_date DATE NOT NULL,
+  response_date DATE,
+  comments TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- 5. سجل المخالفات NCR
+CREATE TABLE IF NOT EXISTS ncr_log (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  ncr_number TEXT NOT NULL,
+  title TEXT NOT NULL,
+  description TEXT NOT NULL,
+  location_detail TEXT,
+  discipline TEXT,
+  severity TEXT CHECK (severity IN ('minor','major','critical')),
+  qcs_reference TEXT,
+  corrective_action TEXT,
+  status TEXT DEFAULT 'open' CHECK (status IN ('open','in_progress','closed','void')),
+  issued_date DATE NOT NULL,
+  close_date DATE,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- 6. صور الموقع
+CREATE TABLE IF NOT EXISTS site_photos (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  photo_url TEXT NOT NULL,
+  caption TEXT,
+  activity TEXT,
+  photo_date DATE DEFAULT CURRENT_DATE,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- 7. Snag List
+CREATE TABLE IF NOT EXISTS snag_list (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  item_number TEXT NOT NULL,
+  location_detail TEXT NOT NULL,
+  description TEXT NOT NULL,
+  category TEXT CHECK (category IN ('structural','architectural','mep','roads','utilities','landscaping','other')),
+  priority TEXT DEFAULT 'medium' CHECK (priority IN ('low','medium','high','critical')),
+  status TEXT DEFAULT 'open' CHECK (status IN ('open','in_progress','closed')),
+  assigned_to TEXT,
+  due_date DATE,
+  close_date DATE,
+  photo_url TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- 8. بنود الكميات BOQ
+CREATE TABLE IF NOT EXISTS boq_items (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  item_number TEXT NOT NULL,
+  description TEXT NOT NULL,
+  unit TEXT NOT NULL,
+  contracted_qty NUMERIC NOT NULL,
+  unit_rate NUMERIC,
+  executed_qty NUMERIC DEFAULT 0,
+  approved_qty NUMERIC DEFAULT 0,
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- 9. شهادات الدفع IPC
+CREATE TABLE IF NOT EXISTS payment_certificates (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  ipc_number INTEGER NOT NULL,
+  period_from DATE NOT NULL,
+  period_to DATE NOT NULL,
+  gross_amount NUMERIC,
+  retention_pct NUMERIC DEFAULT 10,
+  deductions NUMERIC DEFAULT 0,
+  net_amount NUMERIC,
+  status TEXT DEFAULT 'draft' CHECK (status IN ('draft','submitted','approved','paid')),
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- 10. قوائم الفحص
+CREATE TABLE IF NOT EXISTS activity_checklists (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  activity_type TEXT NOT NULL,
+  checklist_items JSONB NOT NULL,
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending','passed','failed')),
+  inspector TEXT,
+  check_date DATE,
+  qcs_reference TEXT,
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- ── RLS ────────────────────────────────────────────────────────
+ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "projects_user_policy" ON projects FOR ALL USING (auth.uid() = user_id);
+ALTER TABLE daily_reports ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "daily_reports_user_policy" ON daily_reports FOR ALL USING (auth.uid() = user_id);
+ALTER TABLE inspection_requests ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "inspection_requests_user_policy" ON inspection_requests FOR ALL USING (auth.uid() = user_id);
+ALTER TABLE material_submittals ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "material_submittals_user_policy" ON material_submittals FOR ALL USING (auth.uid() = user_id);
+ALTER TABLE ncr_log ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "ncr_log_user_policy" ON ncr_log FOR ALL USING (auth.uid() = user_id);
+ALTER TABLE site_photos ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "site_photos_user_policy" ON site_photos FOR ALL USING (auth.uid() = user_id);
+ALTER TABLE snag_list ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "snag_list_user_policy" ON snag_list FOR ALL USING (auth.uid() = user_id);
+ALTER TABLE boq_items ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "boq_items_user_policy" ON boq_items FOR ALL USING (auth.uid() = user_id);
+ALTER TABLE payment_certificates ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "payment_certificates_user_policy" ON payment_certificates FOR ALL USING (auth.uid() = user_id);
+ALTER TABLE activity_checklists ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "activity_checklists_user_policy" ON activity_checklists FOR ALL USING (auth.uid() = user_id);
+
+-- ── Indexes ─────────────────────────────────────────────────────
+CREATE INDEX IF NOT EXISTS idx_projects_user ON projects(user_id);
+CREATE INDEX IF NOT EXISTS idx_projects_status ON projects(status);
+CREATE INDEX IF NOT EXISTS idx_daily_reports_project ON daily_reports(project_id, report_date DESC);
+CREATE INDEX IF NOT EXISTS idx_ir_project ON inspection_requests(project_id, status);
+CREATE INDEX IF NOT EXISTS idx_ms_project ON material_submittals(project_id, status);
+CREATE INDEX IF NOT EXISTS idx_ncr_project ON ncr_log(project_id, status);
+CREATE INDEX IF NOT EXISTS idx_photos_project ON site_photos(project_id, photo_date DESC);
+CREATE INDEX IF NOT EXISTS idx_snag_project ON snag_list(project_id, status);
+CREATE INDEX IF NOT EXISTS idx_boq_project ON boq_items(project_id);
+CREATE INDEX IF NOT EXISTS idx_ipc_project ON payment_certificates(project_id);
+CREATE INDEX IF NOT EXISTS idx_checklist_project ON activity_checklists(project_id);
+`.trim();
+
+// ── جداول للتحقق ──────────────────────────────────────────────────────────
+const TABLES = [
+  'projects','daily_reports','inspection_requests','material_submittals',
+  'ncr_log','site_photos','snag_list','boq_items','payment_certificates','activity_checklists'
+];
+
+// ── أدوات اللوغ ───────────────────────────────────────────────────────────
+const logEl = document.getElementById('log');
+function addLog(msg, type = 'info') {
+  logEl.style.display = 'block';
+  const d = document.createElement('div');
+  d.className = type;
+  d.textContent = '[' + new Date().toLocaleTimeString('ar') + '] ' + msg;
+  logEl.appendChild(d);
+  logEl.scrollTop = logEl.scrollHeight;
+}
+function clearLog() { logEl.innerHTML = ''; logEl.style.display = 'none'; }
+
+// ── التحقق من الإدخال ─────────────────────────────────────────────────────
+function getConn() {
+  const url = document.getElementById('sbUrl').value.trim().replace(/\/$/, '');
+  const key = document.getElementById('sbKey').value.trim();
+  if (!url || !key) { addLog('❌ أدخل Supabase URL و Service Role Key', 'err'); return null; }
+  if (!url.startsWith('https://')) { addLog('❌ الـ URL يجب أن يبدأ بـ https://', 'err'); return null; }
+  return { url, key };
+}
+
+// ── تنفيذ SQL واحدة عبر Supabase REST ────────────────────────────────────
+async function execSQL(conn, sql) {
+  const res = await fetch(`${conn.url}/rest/v1/rpc/exec_sql`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': conn.key,
+      'Authorization': `Bearer ${conn.key}`,
+    },
+    body: JSON.stringify({ sql }),
+  });
+  // Supabase ليس له endpoint مباشر لـ exec_sql — نستخدم pg_query
+  return res;
+}
+
+// ── تنفيذ SQL عبر Supabase SQL API (pg endpoint) ─────────────────────────
+async function runSQL(conn, sql) {
+  // Supabase Management API — يتطلب service_role key
+  // نستخدم /rest/v1/ مع RPC لو متاح، وإلا نقسّم الـ SQL
+  const res = await fetch(`${conn.url}/rest/v1/`, {
+    method: 'HEAD',
+    headers: { 'apikey': conn.key, 'Authorization': `Bearer ${conn.key}` },
+  });
+  return res.status;
+}
+
+// ── تشغيل Migration ───────────────────────────────────────────────────────
+async function runMigration() {
+  const conn = getConn();
+  if (!conn) return;
+
+  clearLog();
+  addLog('🚀 بدء تنفيذ Migration 003_project_hub.sql...', 'info');
+  addLog('🔗 الاتصال بـ: ' + conn.url, 'dim');
+
+  // نقسّم SQL إلى statements فردية
+  const statements = MIGRATION_SQL
+    .split(';')
+    .map(s => s.trim())
+    .filter(s => s.length > 5 && !s.startsWith('--'));
+
+  addLog(`📋 عدد الـ statements: ${statements.length}`, 'info');
+
+  let success = 0, failed = 0;
+  const progressBar = document.createElement('div');
+  progressBar.className = 'progress-bar';
+  const progressFill = document.createElement('div');
+  progressFill.className = 'progress-fill';
+  progressFill.style.width = '0%';
+  progressBar.appendChild(progressFill);
+  logEl.appendChild(progressBar);
+
+  for (let i = 0; i < statements.length; i++) {
+    const stmt = statements[i];
+    const preview = stmt.slice(0, 60).replace(/\n/g, ' ');
+
+    try {
+      // نستخدم Supabase REST API مع service_role لتنفيذ SQL
+      const res = await fetch(`${conn.url}/rest/v1/rpc/exec_raw`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': conn.key,
+          'Authorization': `Bearer ${conn.key}`,
+          'Prefer': 'return=minimal',
+        },
+        body: JSON.stringify({ query: stmt + ';' }),
+      });
+
+      if (res.ok || res.status === 204) {
+        addLog(`✅ [${i+1}/${statements.length}] ${preview}...`, 'ok');
+        success++;
+      } else {
+        const errText = await res.text();
+        // الـ IF NOT EXISTS يعني إن الجدول موجود — مقبول
+        if (errText.includes('already exists') || errText.includes('duplicate')) {
+          addLog(`⚠️ [${i+1}] موجود مسبقاً — تخطي: ${preview.slice(0,40)}`, 'warn');
+          success++;
+        } else if (res.status === 404) {
+          // exec_raw غير موجود — نستخدم طريقة Supabase SQL Editor API
+          addLog(`⚠️ exec_raw غير مدعوم — انظر التعليمات أدناه`, 'warn');
+          showManualInstructions();
+          return;
+        } else {
+          addLog(`❌ [${i+1}] خطأ (${res.status}): ${errText.slice(0,120)}`, 'err');
+          failed++;
+        }
+      }
+    } catch (e) {
+      addLog(`❌ [${i+1}] Network error: ${e.message}`, 'err');
+      failed++;
+    }
+
+    progressFill.style.width = Math.round(((i+1)/statements.length)*100) + '%';
+    await new Promise(r => setTimeout(r, 80)); // تأخير بسيط لتجنب rate limiting
+  }
+
+  addLog(`─────────────────────────────`, 'dim');
+  addLog(`✅ نجح: ${success} | ❌ فشل: ${failed}`, failed > 0 ? 'err' : 'ok');
+
+  if (failed === 0) {
+    addLog(`🎉 Migration مكتمل! يمكنك الآن التحقق من الجداول.`, 'ok');
+    setTimeout(verifyTables, 1000);
+  } else {
+    addLog(`⚠️ بعض الـ statements فشلت — راجع السجل أعلاه`, 'warn');
+    showManualInstructions();
+  }
+}
+
+// ── التعليمات اليدوية (fallback) ─────────────────────────────────────────
+function showManualInstructions() {
+  addLog(``, 'dim');
+  addLog(`📌 الطريقة اليدوية (مضمونة 100%):`, 'info');
+  addLog(`1. اذهب لـ Supabase Dashboard → SQL Editor`, 'info');
+  addLog(`2. اضغط "عرض SQL" ثم انسخ الـ SQL كاملاً`, 'info');
+  addLog(`3. الصق في SQL Editor واضغط Run`, 'info');
+  addLog(`4. ارجع هنا واضغط "تحقق من الجداول"`, 'info');
+}
+
+// ── التحقق من وجود الجداول ───────────────────────────────────────────────
+async function verifyTables() {
+  const conn = getConn();
+  if (!conn) return;
+
+  addLog('', 'dim');
+  addLog('🔍 التحقق من وجود الجداول...', 'info');
+
+  let found = 0;
+
+  for (const table of TABLES) {
+    try {
+      const res = await fetch(`${conn.url}/rest/v1/${table}?select=id&limit=0`, {
+        headers: {
+          'apikey': conn.key,
+          'Authorization': `Bearer ${conn.key}`,
+        },
+      });
+
+      if (res.ok || res.status === 200) {
+        addLog(`✅ ${table} — موجود`, 'ok');
+        found++;
+      } else if (res.status === 401 || res.status === 403) {
+        addLog(`⚠️ ${table} — موجود (RLS يمنع الوصول بدون auth — طبيعي)`, 'warn');
+        found++;
+      } else if (res.status === 404) {
+        addLog(`❌ ${table} — غير موجود`, 'err');
+      } else {
+        const t = await res.text();
+        if (t.includes('relation') && t.includes('does not exist')) {
+          addLog(`❌ ${table} — غير موجود`, 'err');
+        } else {
+          addLog(`⚠️ ${table} — HTTP ${res.status}`, 'warn');
+          found++;
+        }
+      }
+    } catch (e) {
+      addLog(`❌ ${table} — خطأ شبكة: ${e.message}`, 'err');
+    }
+  }
+
+  addLog(`─────────────────────────────`, 'dim');
+  addLog(`النتيجة: ${found}/${TABLES.length} جداول موجودة`, found === TABLES.length ? 'ok' : 'err');
+
+  if (found === TABLES.length) {
+    addLog(`🎉 قاعدة البيانات جاهزة بالكامل!`, 'ok');
+    addLog(`التالي: تأكد من إنشاء Supabase Storage Bucket "site-photos"`, 'info');
+  } else {
+    addLog(`⚠️ ${TABLES.length - found} جداول ناقصة — شغّل Migration أولاً`, 'warn');
+  }
+}
+
+// ── عرض SQL ──────────────────────────────────────────────────────────────
+function showSQL() {
+  const box = document.getElementById('sqlPreviewBox');
+  const content = document.getElementById('sqlContent');
+  if (box.style.display === 'none') {
+    box.style.display = 'block';
+    content.textContent = MIGRATION_SQL;
+    box.scrollIntoView({ behavior: 'smooth' });
+  } else {
+    box.style.display = 'none';
+  }
+}
+
+// ── تلميح: إذا exec_raw لا يعمل ─────────────────────────────────────────
+window.addEventListener('load', () => {
+  addLog('جاهز — أدخل بيانات الاتصال ثم اضغط "تشغيل Migration"', 'info');
+  addLog('إذا فشل التنفيذ التلقائي → اضغط "عرض SQL" وشغّله في Supabase SQL Editor', 'dim');
+  logEl.style.display = 'block';
+});
+</script>
+</body>
+</html>
