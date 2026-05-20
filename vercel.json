@@ -4,7 +4,7 @@
   "buildCommand": "npm run build",
   "rewrites": [
     {
-      "source": "/((?!api/|login\\.html|admin-project-hub-setup\\.html|admin-db-setup\\.html|404\\.html|500\\.html|mos-itp\\.html|offline\\.html|embedding-runner\\.html|translation-runner\\.html).*)",
+      "source": "/((?!api/|login\\.html|projects\\.html|project-detail\\.html|admin-project-hub-setup\\.html|admin-db-setup\\.html|404\\.html|500\\.html|mos-itp\\.html|offline\\.html|embedding-runner\\.html|translation-runner\\.html).*)",
       "destination": "/index.html"
     }
   ],
