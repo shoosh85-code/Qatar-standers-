@@ -1,0 +1,4 @@
+api/_staging/
+api/test-gemini.js
+api/test-supabase.js
+supabase/

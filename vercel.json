@@ -10,7 +10,8 @@
   ],
   "redirects": [
     { "source": "/admin-embeddings.html", "destination": "/", "statusCode": 302 },
-    { "source": "/translation-runner.html", "destination": "/", "statusCode": 302 }
+    { "source": "/translation-runner.html", "destination": "/", "statusCode": 302 },
+    { "source": "/admin-:path*", "destination": "/", "statusCode": 302 }
   ],
   "functions": {
     "api/vision-proxy.js":        { "maxDuration": 60 },
@@ -52,7 +53,7 @@
         { "key": "Permissions-Policy",                    "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()" },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com https://plausible.io https://*.posthog.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://cdnjs.cloudflare.com https://www.google-analytics.com https://region1.google-analytics.com https://*.supabase.co https://*.upstash.io https://plausible.io https://app.posthog.com https://*.i.posthog.com https://*.ingest.sentry.io; img-src 'self' data: blob: https:; media-src 'self' blob:; worker-src 'self' blob: https://cdnjs.cloudflare.com; object-src 'none'; frame-src https://www.youtube-nocookie.com https://www.youtube.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests; manifest-src 'self' blob:"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com https://plausible.io https://*.posthog.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://cdnjs.cloudflare.com https://www.google-analytics.com https://region1.google-analytics.com https://*.supabase.co https://*.upstash.io https://plausible.io https://app.posthog.com https://*.i.posthog.com https://*.ingest.sentry.io; img-src 'self' data: blob: https:; media-src 'self' blob:; worker-src 'self' blob: https://cdnjs.cloudflare.com; object-src 'none'; frame-src https://www.youtube-nocookie.com https://www.youtube.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests; manifest-src 'self' blob:"
         }
       ]
     }
