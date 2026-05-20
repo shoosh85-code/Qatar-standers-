@@ -33,10 +33,7 @@
     "api/supabase-proxy.js":      { "maxDuration": 30 },
     "api/validate-code.js":       { "maxDuration": 30 },
     "api/setup-vectors.js":       { "maxDuration": 30 },
-    "api/rate-limit.js":          { "maxDuration": 10 },
-    "api/health.js":              { "maxDuration": 10 },
-    "api/list-models.js":         { "maxDuration": 10 },
-    "api/git-sync.js":            { "maxDuration": 10 }
+    "api/health.js":              { "maxDuration": 10 }
   },
   "headers": [
     {
