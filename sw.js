@@ -130,6 +130,11 @@ self.addEventListener('fetch', (event) => {
 
   const url = event.request.url;
 
+  // ── تجاهل الطلبات الخارجية (CDN) — لا تُعالج بالـ SW ──
+  if (!url.startsWith(self.location.origin)) {
+    return; // let browser handle external requests directly
+  }
+
   // ── Network-First: API — لا تُكاش أبداً ──
   if (url.includes('/api/')) {
     event.respondWith(networkFirst(event.request));
