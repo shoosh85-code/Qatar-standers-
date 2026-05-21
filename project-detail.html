@@ -389,6 +389,7 @@ header {
     </div>
     <div class="header-actions">
       <span class="header-btn" id="userNameDisplay" style="font-size:11px;"></span>
+      <button onclick="exportFullProject()" class="header-btn" style="background:rgba(200,146,42,0.15);border-color:rgba(200,146,42,0.4);color:#C8922A;font-weight:600;">📥 تصدير المشروع</button>
       <a href="/projects.html" class="header-btn">📊 مشاريعي</a>
     </div>
   </div>
@@ -4125,5 +4126,293 @@ function sanitizeText(str) {
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
 <script src="/js/project-phase9.js" defer></script>
+
+<script>
+// ════════════════════════════════════════════════════════════════════════
+// تصدير المشروع الكامل — PDF شامل
+// ════════════════════════════════════════════════════════════════════════
+async function exportFullProject() {
+  const btn = document.querySelector('button[onclick="exportFullProject()"]');
+  if (btn) { btn.textContent = '⏳ جاري التصدير...'; btn.disabled = true; }
+
+  try {
+    const { jsPDF } = window.jspdf;
+    if (!jsPDF) throw new Error('jsPDF غير محمّل');
+
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const W = 210, M = 15;
+    let y = 20;
+
+    // ── ألوان ─────────────────────────────────────────────────────────
+    const GOLD   = [200, 146, 42];
+    const NAVY   = [13,  27,  62];
+    const WHITE  = [255, 255, 255];
+    const GRAY   = [150, 150, 150];
+    const GREEN  = [30,  132, 73];
+    const RED    = [192, 57,  43];
+
+    function newPage() {
+      doc.addPage();
+      y = 20;
+      // footer
+      doc.setFontSize(8); doc.setTextColor(...GRAY);
+      doc.text('QatarSpec Pro — qatar-standers.vercel.app', W/2, 290, { align:'center' });
+    }
+
+    function checkY(needed = 15) { if (y + needed > 275) newPage(); }
+
+    function sectionTitle(title) {
+      checkY(12);
+      doc.setFillColor(...NAVY);
+      doc.rect(M, y, W - M*2, 8, 'F');
+      doc.setFontSize(11); doc.setTextColor(...GOLD);
+      doc.setFont('Helvetica','bold');
+      doc.text(title, W - M - 2, y + 5.5, { align:'right' });
+      y += 12;
+    }
+
+    function row(label, value, color = null) {
+      checkY(8);
+      doc.setFontSize(9); doc.setFont('Helvetica','normal');
+      doc.setTextColor(...GRAY); doc.text(label + ':', M + 2, y);
+      doc.setTextColor(...(color || [220,220,220])); doc.text(String(value || '—'), M + 50, y);
+      y += 6;
+    }
+
+    function tableHeader(cols) {
+      checkY(8);
+      doc.setFillColor(...NAVY);
+      doc.rect(M, y, W - M*2, 7, 'F');
+      doc.setFontSize(8); doc.setTextColor(...GOLD); doc.setFont('Helvetica','bold');
+      let x = M + 2;
+      cols.forEach(c => { doc.text(c.label, x, y + 5); x += c.w; });
+      y += 8;
+    }
+
+    function tableRow(cells, cols, i) {
+      checkY(7);
+      doc.setFillColor(i % 2 === 0 ? 20 : 15, i % 2 === 0 ? 20 : 15, i % 2 === 0 ? 20 : 15);
+      doc.rect(M, y, W - M*2, 6, 'F');
+      doc.setFontSize(7.5); doc.setTextColor(200,200,200); doc.setFont('Helvetica','normal');
+      let x = M + 2;
+      cells.forEach((c, idx) => {
+        const maxW = cols[idx]?.w - 2 || 20;
+        const text = String(c || '—').substring(0, Math.floor(maxW * 1.5));
+        doc.text(text, x, y + 4.5);
+        x += cols[idx]?.w || 20;
+      });
+      y += 6.5;
+    }
+
+    function fmtNum(n) { return Number(n||0).toLocaleString('en-QA',{maximumFractionDigits:0}); }
+    function fmtDate(d) { return d ? d.substring(0,10) : '—'; }
+
+    // ═══════════════════════════════════════════════════════════════════
+    // الصفحة 1: غلاف المشروع
+    // ═══════════════════════════════════════════════════════════════════
+    doc.setFillColor(...NAVY);
+    doc.rect(0, 0, W, 60, 'F');
+    doc.setFillColor(...GOLD);
+    doc.rect(0, 58, W, 2, 'F');
+
+    doc.setFontSize(22); doc.setTextColor(...GOLD); doc.setFont('Helvetica','bold');
+    doc.text('QatarSpec Pro', W/2, 25, { align:'center' });
+    doc.setFontSize(13); doc.setTextColor(...WHITE);
+    doc.text('Project Report', W/2, 36, { align:'center' });
+    doc.setFontSize(9); doc.setTextColor(...GRAY);
+    doc.text('QCS 2024 | Ashghal | KAHRAMAA | MMUP', W/2, 46, { align:'center' });
+
+    y = 75;
+
+    // ─── معلومات المشروع ────────────────────────────────────────────
+    const p = window.QS?._currentProject || {};
+    const pName = p.name || document.getElementById('projectName')?.textContent || 'المشروع';
+
+    doc.setFontSize(16); doc.setTextColor(...GOLD); doc.setFont('Helvetica','bold');
+    doc.text(pName, W/2, y, { align:'center' }); y += 10;
+
+    doc.setFontSize(8); doc.setTextColor(...GRAY);
+    doc.text('تاريخ الإصدار: ' + new Date().toLocaleDateString('ar-QA'), W/2, y, { align:'center' });
+    y += 20;
+
+    sectionTitle('معلومات المشروع');
+    row('الاسم', p.name);
+    row('العميل', p.client);
+    row('الموقع', p.location);
+    row('النوع', p.type);
+    row('الحالة', p.status);
+    row('قيمة العقد', p.contract_value ? fmtNum(p.contract_value) + ' QAR' : null);
+    row('تاريخ البدء', fmtDate(p.start_date));
+    row('تاريخ الانتهاء', fmtDate(p.end_date));
+
+    // ─── جلب البيانات من الـ API ────────────────────────────────────
+    const token = (() => { try { return JSON.parse(sessionStorage.getItem('qsp_session')||'{}').access_token; } catch(e){return null;} })();
+    const projId = new URLSearchParams(location.search).get('id') || new URLSearchParams(location.search).get('project_id');
+
+    if (!token || !projId) throw new Error('غير مسجل الدخول');
+
+    async function api(resource, extra = {}) {
+      const params = new URLSearchParams({ resource, project_id: projId, ...extra });
+      const r = await fetch('/api/project-hub?' + params, {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      return r.ok ? (await r.json()) : { data: [] };
+    }
+
+    const [dwrR, irR, matR, ncrR, snagR, boqR, ipcR] = await Promise.all([
+      api('daily-reports'),
+      api('inspection-requests'),
+      api('material-submittals'),
+      api('ncr-log'),
+      api('snag-list'),
+      api('boq'),
+      api('payment-certificates'),
+    ]);
+
+    const dwrs  = dwrR.data  || [];
+    const irs   = irR.data   || [];
+    const mats  = matR.data  || [];
+    const ncrs  = ncrR.data  || [];
+    const snags = snagR.data || [];
+    const boqs  = boqR.data  || [];
+    const ipcs  = ipcR.data  || [];
+
+    // ═══════════════════════════════════════════════════════════════════
+    // ملخص إحصائي
+    // ═══════════════════════════════════════════════════════════════════
+    newPage();
+    sectionTitle('ملخص المشروع');
+
+    const stats = [
+      ['التقارير اليومية', dwrs.length, null],
+      ['طلبات الفحص — الإجمالي', irs.length, null],
+      ['طلبات الفحص — معتمدة', irs.filter(i=>i.status==='approved').length, GREEN],
+      ['طلبات الفحص — مرفوضة', irs.filter(i=>i.status==='rejected').length, RED],
+      ['اعتماد المواد — الإجمالي', mats.length, null],
+      ['اعتماد المواد — معتمدة', mats.filter(i=>i.status==='approved').length, GREEN],
+      ['سجل NCR — الإجمالي', ncrs.length, null],
+      ['NCR — مفتوحة', ncrs.filter(i=>i.status==='open').length, RED],
+      ['NCR — حرجة', ncrs.filter(i=>i.severity==='critical').length, RED],
+      ['Snag List — الإجمالي', snags.length, null],
+      ['Snag List — مفتوحة', snags.filter(i=>i.status==='open').length, RED],
+      ['بنود BOQ', boqs.length, null],
+      ['شهادات الدفع IPC', ipcs.length, null],
+      ['إجمالي معتمد (QAR)', fmtNum(ipcs.reduce((s,i)=>s+Number(i.net_amount||0),0)), GREEN],
+    ];
+    stats.forEach(([l,v,c]) => row(l, v, c));
+
+    // ═══════════════════════════════════════════════════════════════════
+    // التقارير اليومية
+    // ═══════════════════════════════════════════════════════════════════
+    if (dwrs.length) {
+      newPage();
+      sectionTitle('ملخص التقارير اليومية (' + dwrs.length + ')');
+      const cols = [{label:'التاريخ',w:28},{label:'الطقس',w:22},{label:'عمال',w:18},{label:'الأعمال',w:92}];
+      tableHeader(cols);
+      dwrs.slice(0,30).forEach((d,i) => tableRow([
+        fmtDate(d.report_date), d.weather||'—', d.workers_count||0,
+        (d.activities||'').substring(0,60)
+      ], cols, i));
+      if (dwrs.length > 30) { checkY(6); doc.setFontSize(8); doc.setTextColor(...GRAY); doc.text(`... و ${dwrs.length-30} تقارير أخرى`, M, y); y+=8; }
+    }
+
+    // ═══════════════════════════════════════════════════════════════════
+    // طلبات الفحص
+    // ═══════════════════════════════════════════════════════════════════
+    if (irs.length) {
+      newPage();
+      sectionTitle('سجل طلبات الفحص (' + irs.length + ')');
+      const cols = [{label:'الرقم',w:22},{label:'النشاط',w:55},{label:'التاريخ',w:25},{label:'الحالة',w:30},{label:'QCS',w:28}];
+      tableHeader(cols);
+      irs.forEach((r,i) => tableRow([r.ir_number||'—', (r.activity||'').substring(0,30), fmtDate(r.inspection_date), r.status||'—', r.qcs_reference||'—'], cols, i));
+    }
+
+    // ═══════════════════════════════════════════════════════════════════
+    // سجل NCR
+    // ═══════════════════════════════════════════════════════════════════
+    if (ncrs.length) {
+      newPage();
+      sectionTitle('سجل NCR (' + ncrs.length + ')');
+      const cols = [{label:'الرقم',w:20},{label:'العنوان',w:55},{label:'الخطورة',w:22},{label:'الحالة',w:22},{label:'التاريخ',w:25},{label:'QCS',w:16}];
+      tableHeader(cols);
+      ncrs.forEach((r,i) => tableRow([r.ncr_number||'—',(r.title||'').substring(0,30),r.severity||'—',r.status||'—',fmtDate(r.issued_date),r.qcs_reference||'—'], cols, i));
+    }
+
+    // ═══════════════════════════════════════════════════════════════════
+    // BOQ ملخص
+    // ═══════════════════════════════════════════════════════════════════
+    if (boqs.length) {
+      newPage();
+      sectionTitle('BOQ — ملخص الكميات');
+      const s = boqR.summary || {};
+      row('إجمالي البنود', s.total_items || boqs.length);
+      row('قيمة العقد', fmtNum(s.total_contracted) + ' QAR', GREEN);
+      row('القيمة المعتمدة', fmtNum(s.total_approved) + ' QAR', GREEN);
+      row('نسبة الإنجاز', (s.progress_pct||0) + '%', (s.progress_pct||0) >= 80 ? GREEN : RED);
+      y += 5;
+      const cols = [{label:'رقم',w:18},{label:'الوصف',w:65},{label:'وحدة',w:15},{label:'تعاقدي',w:22},{label:'معتمد',w:22},{label:'%',w:10}];
+      tableHeader(cols);
+      boqs.slice(0,25).forEach((b,i) => {
+        const pct = Number(b.contracted_qty)>0 ? Math.round(Number(b.approved_qty||0)/Number(b.contracted_qty)*100) : 0;
+        tableRow([b.item_number,(b.description||'').substring(0,35),b.unit,fmtNum(b.contracted_qty),fmtNum(b.approved_qty),pct+'%'], cols, i);
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════════════════
+    // شهادات الدفع IPC
+    // ═══════════════════════════════════════════════════════════════════
+    if (ipcs.length) {
+      newPage();
+      sectionTitle('شهادات الدفع IPC');
+      const cols = [{label:'IPC',w:16},{label:'من',w:25},{label:'إلى',w:25},{label:'Gross (QAR)',w:35},{label:'صافي (QAR)',w:35},{label:'الحالة',w:24}];
+      tableHeader(cols);
+      ipcs.forEach((r,i) => tableRow(['IPC-'+r.ipc_number,fmtDate(r.period_from),fmtDate(r.period_to),fmtNum(r.gross_amount),fmtNum(r.net_amount),r.status||'—'], cols, i));
+      y += 5;
+      const totalNet = ipcs.reduce((s,i)=>s+Number(i.net_amount||0),0);
+      const totalRet = ipcs.reduce((s,i)=>s+Number(i.retention_amount||0),0);
+      row('إجمالي صافي', fmtNum(totalNet) + ' QAR', GREEN);
+      row('إجمالي محتجز', fmtNum(totalRet) + ' QAR', RED);
+    }
+
+    // ═══════════════════════════════════════════════════════════════════
+    // توقيعات
+    // ═══════════════════════════════════════════════════════════════════
+    newPage();
+    sectionTitle('اعتماد وتوقيعات');
+    y += 10;
+    const sigCols = [
+      { label: 'المقاول', x: M },
+      { label: 'الاستشاري', x: M + 55 },
+      { label: 'المالك / صاحب العمل', x: M + 115 },
+    ];
+    sigCols.forEach(s => {
+      doc.setFontSize(9); doc.setTextColor(...GOLD); doc.setFont('Helvetica','bold');
+      doc.text(s.label, s.x, y);
+      doc.setDrawColor(...GRAY);
+      doc.line(s.x, y + 20, s.x + 50, y + 20);
+      doc.setFontSize(8); doc.setTextColor(...GRAY); doc.setFont('Helvetica','normal');
+      doc.text('الاسم والتوقيع والختم', s.x, y + 25);
+      doc.text('التاريخ: ___________', s.x, y + 32);
+    });
+
+    // ─── footer كل الصفحات ──────────────────────────────────────────
+    const totalPages = doc.internal.getNumberOfPages();
+    for (let pg = 1; pg <= totalPages; pg++) {
+      doc.setPage(pg);
+      doc.setFontSize(7); doc.setTextColor(...GRAY);
+      doc.text('QatarSpec Pro — QCS 2024', M, 290);
+      doc.text(`صفحة ${pg} من ${totalPages}`, W - M, 290, { align:'right' });
+    }
+
+    doc.save(`${pName.replace(/\s+/g,'-')}-Full-Report-${new Date().toISOString().slice(0,10)}.pdf`);
+
+  } catch(err) {
+    alert('خطأ في التصدير: ' + err.message);
+  } finally {
+    if (btn) { btn.textContent = '📥 تصدير المشروع'; btn.disabled = false; }
+  }
+}
+</script>
+
 </body>
 </html>

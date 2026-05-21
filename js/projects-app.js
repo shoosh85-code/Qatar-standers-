@@ -149,6 +149,36 @@
     });
 
     const json = await res.json();
+
+    // ── PRO GATE ─────────────────────────────────────────────────────────
+    if (res.status === 403 && json.error === 'PRO_GATE') {
+      const msg = `
+        <div style="text-align:center;padding:10px">
+          <div style="font-size:48px;margin-bottom:10px">🔒</div>
+          <h3 style="color:#C8922A;margin-bottom:8px">ميزة Pro</h3>
+          <p style="color:#aaa;margin-bottom:16px;font-size:14px">${json.message}</p>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <a href="${json.upgrade_url}" target="_blank"
+               style="background:#C8922A;color:#000;padding:10px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:14px">
+               ⭐ رقّي لـ Pro — 99 QAR/شهر
+            </a>
+            <button onclick="this.closest('.modal-overlay').style.display='none'"
+               style="background:#333;color:#fff;padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-size:14px">
+               إغلاق
+            </button>
+          </div>
+          <p style="color:#666;font-size:11px;margin-top:12px">
+            الحساب المجاني: ${json.current_count}/${json.free_limit} مشاريع
+          </p>
+        </div>`;
+      // عرض في modal الموجود
+      const modalBody = document.querySelector('#projectModal .modal-body') ||
+                        document.querySelector('.modal-body');
+      if (modalBody) { modalBody.innerHTML = msg; return null; }
+      throw new Error(json.message);
+    }
+    // ─────────────────────────────────────────────────────────────────────
+
     if (!res.ok) throw new Error(json.message || 'فشل إنشاء المشروع');
     return json.data;
   }

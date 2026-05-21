@@ -157,6 +157,27 @@ async function handleProjects(req, url, method, user, token, cors) {
   if (method === 'POST') {
     const body = await req.json().catch(() => ({}));
     if (!body.name?.trim()) return json({ error: 'اسم المشروع مطلوب' }, 400, cors);
+
+    // ── PRO GATE: Free = 2 projects max ──────────────────────────────────
+    const isPro = user.user_metadata?.pro === true || user.app_metadata?.pro === true;
+    if (!isPro) {
+      const countR = await sbQuery(
+        `projects?user_id=eq.${user.id}&status=neq.cancelled&select=id`,
+        'GET', null, token
+      );
+      const count = Array.isArray(countR.data) ? countR.data.length : 0;
+      if (count >= 2) {
+        return json({
+          error: 'PRO_GATE',
+          message: 'وصلت للحد الأقصى للحساب المجاني (2 مشاريع). رقّي لـ Pro للحصول على 10 مشاريع وميزات متقدمة.',
+          upgrade_url: 'https://qatar-standers.vercel.app/#pricing',
+          current_count: count,
+          free_limit: 2
+        }, 403, cors);
+      }
+    }
+    // ─────────────────────────────────────────────────────────────────────
+
     const payload = {
       user_id: user.id,
       name: body.name.trim(),
