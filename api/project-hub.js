@@ -113,7 +113,16 @@ export default async function handler(req) {
     if (resource === 'inspection-requests') {
       return await handleInspectionRequests(req, url, method, user, token, cors);
     }
-    return json({ error: 'Unknown resource. Use: projects | daily-reports | inspection-requests' }, 400, cors);
+    if (resource === 'boq') {
+      return await handleBOQ(req, url, method, user, token, cors);
+    }
+    if (resource === 'payment-certificates') {
+      return await handlePaymentCertificates(req, url, method, user, token, cors);
+    }
+    if (resource === 'stats') {
+      return await handleStats(req, url, method, user, token, cors);
+    }
+    return json({ error: 'Unknown resource. Use: projects|daily-reports|inspection-requests|boq|payment-certificates|stats' }, 400, cors);
   } catch (err) {
     console.error('[project-hub]', resource, err);
     return json({ error: 'Internal server error', detail: err.message }, 500, cors);
@@ -344,6 +353,123 @@ async function handleInspectionRequests(req, url, method, user, token, cors) {
   }
 
   return json({ error: 'Method not allowed' }, 405, cors);
+}
+
+
+
+async function handleBOQ(req, url, method, user, token, cors) {
+  const id = url.searchParams.get('id');
+  const projectId = url.searchParams.get('project_id');
+  if (method === 'GET') {
+    if (!projectId) return json({ error: 'project_id required' }, 400, cors);
+    const r = await sbQuery(`boq_items?project_id=eq.${projectId}&user_id=eq.${user.id}&select=*&order=item_number.asc`, 'GET', null, token);
+    if (!r.ok) return json({ error: 'Failed' }, r.status, cors);
+    const items = r.data || [];
+    const summary = { total_items: items.length, total_contracted: items.reduce((s,i) => s + (Number(i.contracted_qty)*Number(i.unit_rate||0)), 0), total_executed: items.reduce((s,i) => s + (Number(i.executed_qty||0)*Number(i.unit_rate||0)), 0), total_approved: items.reduce((s,i) => s + (Number(i.approved_qty||0)*Number(i.unit_rate||0)), 0), progress_pct: 0 };
+    if (summary.total_contracted > 0) summary.progress_pct = Math.round((summary.total_approved / summary.total_contracted) * 100);
+    return json({ data: items, summary }, 200, cors);
+  }
+  if (method === 'POST') {
+    const body = await req.json().catch(() => ({}));
+    if (!body.project_id) return json({ error: 'project_id required' }, 400, cors);
+    const items = Array.isArray(body.items) ? body.items : [body];
+    const results = [];
+    for (const item of items) {
+      if (!item.item_number || !item.description || !item.unit) { results.push({ error: 'missing fields' }); continue; }
+      const payload = { user_id: user.id, project_id: body.project_id, item_number: String(item.item_number).trim(), description: String(item.description).trim(), unit: String(item.unit).trim(), contracted_qty: Number(item.contracted_qty)||0, unit_rate: Number(item.unit_rate)||0, executed_qty: Number(item.executed_qty)||0, approved_qty: Number(item.approved_qty)||0, notes: item.notes||'' };
+      const r = await sbQuery('boq_items', 'POST', payload, token);
+      results.push(r.ok ? (Array.isArray(r.data)?r.data[0]:r.data) : { error: r.data });
+    }
+    return json({ data: results, count: results.length }, 201, cors);
+  }
+  if (method === 'PUT') {
+    if (!id) return json({ error: 'id required' }, 400, cors);
+    const body = await req.json().catch(() => ({}));
+    const own = await sbQuery(`boq_items?id=eq.${id}&user_id=eq.${user.id}&select=id`, 'GET', null, token);
+    if (!own.ok || !own.data?.length) return json({ error: 'Not found' }, 404, cors);
+    const allowed = ['item_number','description','unit','contracted_qty','unit_rate','executed_qty','approved_qty','notes'];
+    const updates = {}; allowed.forEach(k => { if (body[k] !== undefined) updates[k] = body[k]; });
+    const r = await sbQuery(`boq_items?id=eq.${id}&user_id=eq.${user.id}`, 'PATCH', updates, token);
+    return json({ data: Array.isArray(r.data)?r.data[0]:r.data }, r.ok?200:r.status, cors);
+  }
+  if (method === 'DELETE') {
+    if (!id) return json({ error: 'id required' }, 400, cors);
+    if (id==='all'&&projectId) { await sbQuery(`boq_items?project_id=eq.${projectId}&user_id=eq.${user.id}`,'DELETE',null,token); return json({success:true},200,cors); }
+    await sbQuery(`boq_items?id=eq.${id}&user_id=eq.${user.id}`,'DELETE',null,token);
+    return json({ success: true }, 200, cors);
+  }
+  return json({ error: 'Method not allowed' }, 405, cors);
+}
+
+async function handlePaymentCertificates(req, url, method, user, token, cors) {
+  const id = url.searchParams.get('id');
+  const projectId = url.searchParams.get('project_id');
+  if (method === 'GET') {
+    if (id) { const r = await sbQuery(`payment_certificates?id=eq.${id}&user_id=eq.${user.id}&select=*`,'GET',null,token); return json({data:r.data},r.ok?200:r.status,cors); }
+    if (!projectId) return json({ error: 'project_id required' }, 400, cors);
+    const r = await sbQuery(`payment_certificates?project_id=eq.${projectId}&user_id=eq.${user.id}&select=*&order=ipc_number.asc`,'GET',null,token);
+    const ipcs = r.data||[];
+    return json({ data: ipcs, summary: { count:ipcs.length, total_gross:ipcs.reduce((s,i)=>s+Number(i.gross_amount||0),0), total_net:ipcs.reduce((s,i)=>s+Number(i.net_amount||0),0), total_retention:ipcs.reduce((s,i)=>s+Number(i.retention_amount||0),0), total_deductions:ipcs.reduce((s,i)=>s+Number(i.deductions||0),0) } }, 200, cors);
+  }
+  if (method === 'POST') {
+    const body = await req.json().catch(() => ({}));
+    if (!body.project_id||!body.period_from||!body.period_to) return json({error:'project_id, period_from, period_to required'},400,cors);
+    const boqR = await sbQuery(`boq_items?project_id=eq.${body.project_id}&user_id=eq.${user.id}&select=*`,'GET',null,token);
+    const gross = Number(body.gross_amount) || (boqR.data||[]).reduce((s,i)=>s+(Number(i.approved_qty||0)*Number(i.unit_rate||0)),0);
+    const prevR = await sbQuery(`payment_certificates?project_id=eq.${body.project_id}&user_id=eq.${user.id}&select=net_amount,ipc_number&order=ipc_number.asc`,'GET',null,token);
+    const prev = prevR.data||[];
+    const prevTotal = prev.reduce((s,i)=>s+Number(i.net_amount||0),0);
+    const nextNum = prev.length>0 ? Math.max(...prev.map(i=>i.ipc_number))+1 : 1;
+    const retPct = Number(body.retention_pct)||10;
+    const retAmt = Math.round(gross*retPct/100*100)/100;
+    const ded = Number(body.deductions)||0;
+    const net = gross-retAmt-ded;
+    const payload = { user_id:user.id, project_id:body.project_id, ipc_number:body.ipc_number||nextNum, period_from:body.period_from, period_to:body.period_to, gross_amount:gross, retention_pct:retPct, retention_amount:retAmt, deductions:ded, net_amount:net, previous_total:prevTotal, this_certificate:Math.max(0,net-prevTotal), status:body.status||'draft', notes:body.notes||'' };
+    const r = await sbQuery('payment_certificates','POST',payload,token);
+    return json({ data: Array.isArray(r.data)?r.data[0]:r.data }, r.ok?201:r.status, cors);
+  }
+  if (method === 'PUT') {
+    if (!id) return json({error:'id required'},400,cors);
+    const body = await req.json().catch(() => ({}));
+    const allowed = ['status','notes','gross_amount','retention_pct','deductions'];
+    const updates = {}; allowed.forEach(k=>{if(body[k]!==undefined)updates[k]=body[k]});
+    await sbQuery(`payment_certificates?id=eq.${id}&user_id=eq.${user.id}`,'PATCH',updates,token);
+    return json({success:true},200,cors);
+  }
+  if (method === 'DELETE') {
+    if (!id) return json({error:'id required'},400,cors);
+    await sbQuery(`payment_certificates?id=eq.${id}&user_id=eq.${user.id}`,'DELETE',null,token);
+    return json({success:true},200,cors);
+  }
+  return json({error:'Method not allowed'},405,cors);
+}
+
+async function handleStats(req, url, method, user, token, cors) {
+  if (method !== 'GET') return json({error:'GET only'},405,cors);
+  const projectId = url.searchParams.get('project_id');
+  if (projectId) {
+    const [proj,dwr,ir,boq,ipc,ncr,snag] = await Promise.all([
+      sbQuery(`projects?id=eq.${projectId}&user_id=eq.${user.id}&select=*`,'GET',null,token),
+      sbQuery(`daily_reports?project_id=eq.${projectId}&user_id=eq.${user.id}&select=id`,'GET',null,token),
+      sbQuery(`inspection_requests?project_id=eq.${projectId}&user_id=eq.${user.id}&select=id,status`,'GET',null,token),
+      sbQuery(`boq_items?project_id=eq.${projectId}&user_id=eq.${user.id}&select=contracted_qty,unit_rate,approved_qty`,'GET',null,token),
+      sbQuery(`payment_certificates?project_id=eq.${projectId}&user_id=eq.${user.id}&select=ipc_number,net_amount,period_to,status`,'GET',null,token),
+      sbQuery(`ncr_log?project_id=eq.${projectId}&user_id=eq.${user.id}&select=id,status,severity`,'GET',null,token),
+      sbQuery(`snag_list?project_id=eq.${projectId}&user_id=eq.${user.id}&select=id,status`,'GET',null,token),
+    ]);
+    const iD=ir.data||[],bD=boq.data||[],pD=ipc.data||[],nD=ncr.data||[],sD=snag.data||[];
+    const tC=bD.reduce((s,i)=>s+(Number(i.contracted_qty)*Number(i.unit_rate||0)),0);
+    const tA=bD.reduce((s,i)=>s+(Number(i.approved_qty||0)*Number(i.unit_rate||0)),0);
+    return json({project:proj.data?.[0],stats:{dwr_count:(dwr.data||[]).length,ir:{total:iD.length,pending:iD.filter(i=>i.status==='pending').length},boq:{items:bD.length,contract_value:tC,approved_value:tA,progress_pct:tC>0?Math.round(tA/tC*100):0},ipc:{count:pD.length,total_certified:pD.reduce((s,i)=>s+Number(i.net_amount||0),0)},ncr:{total:nD.length,open:nD.filter(i=>i.status==='open').length,critical:nD.filter(i=>i.severity==='critical').length},snag:{total:sD.length,open:sD.filter(i=>i.status==='open').length},scurve:pD.map((it,idx)=>({ipc:it.ipc_number,date:it.period_to,cumulative_pct:tC>0?Math.round(pD.slice(0,idx+1).reduce((s,i)=>s+Number(i.net_amount||0),0)/tC*100):0}))}},200,cors);
+  }
+  const [projects,allNcr,allIr,allSnag] = await Promise.all([
+    sbQuery(`projects?user_id=eq.${user.id}&select=id,name,status,type,contract_value`,'GET',null,token),
+    sbQuery(`ncr_log?user_id=eq.${user.id}&select=id,status,severity`,'GET',null,token),
+    sbQuery(`inspection_requests?user_id=eq.${user.id}&select=id,status`,'GET',null,token),
+    sbQuery(`snag_list?user_id=eq.${user.id}&select=id,status`,'GET',null,token),
+  ]);
+  const pD=projects.data||[],nA=allNcr.data||[],iA=allIr.data||[],sA=allSnag.data||[];
+  return json({overview:{total_projects:pD.length,active:pD.filter(p=>p.status==='active').length,completed:pD.filter(p=>p.status==='completed').length,total_contract_value:pD.reduce((s,p)=>s+Number(p.contract_value||0),0),by_type:{villa:pD.filter(p=>p.type==='villa').length,building:pD.filter(p=>p.type==='building').length,road:pD.filter(p=>p.type==='road').length,maintenance:pD.filter(p=>p.type==='maintenance').length}},alerts:{open_ncr:nA.filter(n=>n.status==='open').length,critical_ncr:nA.filter(n=>n.severity==='critical'&&n.status==='open').length,pending_ir:iA.filter(i=>i.status==='pending').length,open_snags:sA.filter(s=>s.status==='open').length},projects:pD},200,cors);
 }
 
 export const config = { runtime: 'edge' };
