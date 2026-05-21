@@ -189,7 +189,6 @@ async function handleProjects(req, url, method, user, token, cors) {
       end_date: body.end_date || null,
       contract_value: body.contract_value ? Number(body.contract_value) : null,
       notes: body.notes?.trim() || null,   // fix: كان description (خطأ) — الجدول يحتوي notes
-      qcs_version: '2024',
     };
     const r = await sbQuery('projects', 'POST', payload, token);
     if (!r.ok) {
