@@ -449,6 +449,9 @@ header {
       <button class="tab-btn" data-tab="scurve" onclick="switchTab('scurve')">
         📈 S-Curve <span class="tab-badge">—</span>
       </button>
+      <button class="tab-btn" data-tab="site-forms" onclick="switchTab('site-forms')">
+        📄 نماذج الموقع <span class="tab-badge">14</span>
+      </button>
     </div>
   </div>
 
@@ -1400,6 +1403,17 @@ header {
         <h3>S-Curve</h3>
         <p>جاري التحميل...</p>
       </div>
+    </div>
+
+    <!-- ── Tab: نماذج الموقع ── -->
+    <div class="tab-panel" id="tab-site-forms">
+      <div class="section-header">
+        <div>
+          <div class="section-title">📄 نماذج الموقع</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:3px">14 نموذج معياري — عام بدون قيود — مناسب لجميع المهندسين</div>
+        </div>
+      </div>
+      <div id="sf-app" style="padding:0 0 40px"></div>
     </div>
 
   </div><!-- /main -->
@@ -4451,6 +4465,349 @@ async function exportFullProject() {
     if (btn) { btn.textContent = '📥 تصدير المشروع'; btn.disabled = false; }
   }
 }
+</script>
+
+<!-- ── Site Forms Module ── -->
+<script>
+(function() {
+  'use strict';
+
+  /* بيانات النماذج الـ 14 */
+  const SF_FORMS = [
+    { id:'IR', code:'IR', title:'Inspection Request', ar:'طلب فحص', icon:'🔍', color:'#0F6E56', bg:'rgba(14,110,86,0.12)', cat:'فحص', fields:[
+      {l:'Project / المشروع',k:'project',t:'text'},{l:'Location / الموقع',k:'location',t:'text'},
+      {l:'Subject / الموضوع',k:'subject',t:'text'},{l:'Client / العميل',k:'client',t:'text'},
+      {l:'Consultant / المستشار',k:'consultant',t:'text'},{l:'Contractor / المقاول',k:'contractor',t:'text'},
+      {l:'IR No. / رقم الطلب',k:'irNo',t:'text'},{l:'Package / الحزمة',k:'pkg',t:'sel',opts:['Architectural','Civil','Electrical','Mechanical']},
+      {l:'Area Name & Grid / المنطقة والشبكة',k:'area',t:'text'},{l:'Inspection Date & Time / تاريخ الفحص',k:'inspDate',t:'datetime-local'},
+      {l:'Issue Date / تاريخ الإصدار',k:'issueDate',t:'date'},{l:'Requested Response Date / الرد المطلوب',k:'respDate',t:'date'},
+      {l:'Notes / ملاحظات',k:'notes',t:'ta'},{l:'Engineer Name / اسم المهندس',k:'eng',t:'text'}],
+      status:['Approved','Approved with Comments','Rejected'] },
+    { id:'RFI', code:'RFI', title:'Request For Information', ar:'طلب معلومات', icon:'❓', color:'#185FA5', bg:'rgba(24,95,165,0.12)', cat:'توثيق', fields:[
+      {l:'Project / المشروع',k:'project',t:'text'},{l:'Location / الموقع',k:'location',t:'text'},
+      {l:'Subject / الموضوع',k:'subject',t:'text'},{l:'Client / العميل',k:'client',t:'text'},
+      {l:'Consultant / المستشار',k:'consultant',t:'text'},{l:'Contractor / المقاول',k:'contractor',t:'text'},
+      {l:'RFI No. / رقم الطلب',k:'rfiNo',t:'text'},{l:'Package / الحزمة',k:'pkg',t:'sel',opts:['Architectural','Civil','Electrical','Mechanical']},
+      {l:'Issue Date / تاريخ الإصدار',k:'issueDate',t:'date'},{l:'Requested Response Date / الرد المطلوب',k:'respDate',t:'date'},
+      {l:'Information Request / تفاصيل الطلب',k:'details',t:'ta'},{l:'Attachments / المرفقات',k:'attach',t:'text'}],
+      status:['Approved','Approved with Comments','Rejected'] },
+    { id:'NCR', code:'NCR', title:'Non Conformance Report', ar:'تقرير عدم المطابقة', icon:'⚠️', color:'#A32D2D', bg:'rgba(163,45,45,0.12)', cat:'توثيق', fields:[
+      {l:'Project / المشروع',k:'project',t:'text'},{l:'Location / الموقع',k:'location',t:'text'},
+      {l:'Subject / الموضوع',k:'subject',t:'text'},{l:'Contractor / المقاول',k:'contractor',t:'text'},
+      {l:'NCR No. / رقم التقرير',k:'ncrNo',t:'text'},{l:'Type / النوع',k:'type',t:'sel',opts:['Architectural','Civil','Electrical','Mechanical']},
+      {l:'NCR Description / وصف عدم المطابقة',k:'desc',t:'ta'},{l:'Occurrence Date / تاريخ الحدوث',k:'occDate',t:'date'},
+      {l:'Specification Ref. / مرجع المواصفة',k:'specRef',t:'text'},{l:'Drawings Ref. / مرجع الرسومات',k:'drawRef',t:'text'},
+      {l:'Payment Implication / أثر مالي',k:'payImp',t:'sel',opts:['Yes','No']},{l:'Amount (AED) / المبلغ',k:'amount',t:'text'},
+      {l:'Time Implication / أثر زمني',k:'timeImp',t:'sel',opts:['Yes','No']},{l:'Days / الأيام',k:'days',t:'text'},
+      {l:'Contractor Action / إجراء المقاول',k:'action',t:'ta'}],
+      status:['Closed','Closed as Noted','Rejected'] },
+    { id:'CRF', code:'CRF', title:'Change Request Form', ar:'طلب تغيير', icon:'🔄', color:'#534AB7', bg:'rgba(83,74,183,0.12)', cat:'توثيق', fields:[
+      {l:'Project / المشروع',k:'project',t:'text'},{l:'Location / الموقع',k:'location',t:'text'},
+      {l:'Subject / الموضوع',k:'subject',t:'text'},{l:'Client / العميل',k:'client',t:'text'},
+      {l:'Consultant / المستشار',k:'consultant',t:'text'},{l:'Contractor / المقاول',k:'contractor',t:'text'},
+      {l:'CRF No. / رقم الطلب',k:'crfNo',t:'text'},{l:'Package / الحزمة',k:'pkg',t:'sel',opts:['Architectural','Civil','Electrical','Mechanical']},
+      {l:'Issue Date / تاريخ الإصدار',k:'issueDate',t:'date'},{l:'Requested Response Date / الرد المطلوب',k:'respDate',t:'date'},
+      {l:'Change Request Justification / تبرير طلب التغيير',k:'notes',t:'ta'}],
+      status:['Approved','Approved with Comments','Rejected','Further Information Required'] },
+    { id:'ST', code:'ST', title:'Site Transmittal', ar:'مرسلة موقع', icon:'📤', color:'#3B6D11', bg:'rgba(59,109,17,0.12)', cat:'توثيق', fields:[
+      {l:'Project / المشروع',k:'project',t:'text'},{l:'Location / الموقع',k:'location',t:'text'},
+      {l:'Subject / الموضوع',k:'subject',t:'text'},{l:'Client / العميل',k:'client',t:'text'},
+      {l:'Consultant / المستشار',k:'consultant',t:'text'},{l:'Contractor / المقاول',k:'contractor',t:'text'},
+      {l:'ST No. / رقم المرسلة',k:'stNo',t:'text'},{l:'Package / الحزمة',k:'pkg',t:'sel',opts:['Architectural','Civil','Electrical','Mechanical']},
+      {l:'Issue Date / تاريخ الإصدار',k:'issueDate',t:'date'},{l:'Requested Response Date / الرد المطلوب',k:'respDate',t:'date'},
+      {l:'Notes / ملاحظات',k:'notes',t:'ta'}],
+      status:['Approved','Approved with Comments','Rejected'] },
+    { id:'TSI', code:'TSI', title:'Technical Site Instruction', ar:'تعليمات موقع فنية', icon:'🔧', color:'#854F0B', bg:'rgba(133,79,11,0.12)', cat:'توثيق', fields:[
+      {l:'Project / المشروع',k:'project',t:'text'},{l:'Location / الموقع',k:'location',t:'text'},
+      {l:'Subject / الموضوع',k:'subject',t:'text'},{l:'Consultant / المستشار',k:'consultant',t:'text'},
+      {l:'Contractor / المقاول',k:'contractor',t:'text'},{l:'TSI No. / رقم التعليمات',k:'tsiNo',t:'text'},
+      {l:'Instruction Details / تفاصيل التعليمات',k:'instr',t:'ta'},{l:'Date Received / تاريخ الاستلام',k:'dateRec',t:'date'},
+      {l:'Received By / استُلم بواسطة',k:'recBy',t:'text'},{l:'Contractor Response / رد المقاول',k:'resp',t:'ta'}],
+      status:['Acknowledged','Rejected'] },
+    { id:'RTCC', code:'RTCC', title:'Request To Cast Concrete', ar:'طلب صب خرسانة', icon:'🏗️', color:'#5F5E5A', bg:'rgba(95,94,90,0.12)', cat:'فحص', fields:[
+      {l:'Project / المشروع',k:'project',t:'text'},{l:'Location / الموقع',k:'location',t:'text'},
+      {l:'RTCC No. / رقم الطلب',k:'rtccNo',t:'text'},{l:'Between Grids / بين الشبكات',k:'grids',t:'text'},
+      {l:'Level / المستوى',k:'level',t:'text'},{l:'Concrete Grade / درجة الخرسانة',k:'grade',t:'text'},
+      {l:'Slump mm / الهبوط مم',k:'slump',t:'text'},{l:'Planned Cast Date & Time / وقت الصب',k:'castDate',t:'datetime-local'},
+      {l:'Works ready / الأعمال جاهزة',k:'ready',t:'sel',opts:['Yes','No']},
+      {l:'Safety measures in place / السلامة مطبقة',k:'safety',t:'sel',opts:['Yes','No']},
+      {l:'Pump confirmed / المضخة مؤكدة',k:'pump',t:'sel',opts:['Yes','No']},
+      {l:'No disposals on site / لا تصريف في الموقع',k:'disp',t:'sel',opts:['Confirmed','Not Confirmed']},
+      {l:'Notes / ملاحظات',k:'notes',t:'ta'}],
+      status:['Approved','Approved With Comments','Rejected'] },
+    { id:'MDN', code:'MDN', title:'Material Delivery Notice', ar:'إشعار تسليم مواد', icon:'🚛', color:'#0F6E56', bg:'rgba(14,110,86,0.12)', cat:'مواد', fields:[
+      {l:'Project / المشروع',k:'project',t:'text'},{l:'Location / الموقع',k:'location',t:'text'},
+      {l:'Subject / الموضوع',k:'subject',t:'text'},{l:'Contractor / المقاول',k:'contractor',t:'text'},
+      {l:'MDN No. / رقم الإشعار',k:'mdnNo',t:'text'},{l:'Package / الحزمة',k:'pkg',t:'sel',opts:['Architectural','Civil','Electrical','Mechanical']},
+      {l:'Delivery Date / تاريخ التسليم',k:'delDate',t:'date'},{l:'Quantity Delivered / الكمية المسلمة',k:'qty',t:'text'},
+      {l:'Material Approval Ref. / مرجع الموافقة',k:'approvalRef',t:'text'},{l:'Requested Inspection Date & Time / وقت الفحص المطلوب',k:'inspDate',t:'datetime-local'},
+      {l:'Materials compliant at arrival / المواد مطابقة عند الوصول',k:'comp',t:'sel',opts:['Confirmed','Not Confirmed']},
+      {l:'Storekeeper Name / اسم أمين المخزن',k:'storekeeper',t:'text'}],
+      status:['Approved','Approved With Comments','Rejected','Further Information Required'] },
+    { id:'MSF', code:'MSF', title:'Material Submission Form', ar:'نموذج تقديم مواد', icon:'📦', color:'#185FA5', bg:'rgba(24,95,165,0.12)', cat:'مواد', fields:[
+      {l:'Project / المشروع',k:'project',t:'text'},{l:'Location / الموقع',k:'location',t:'text'},
+      {l:'Subject / الموضوع',k:'subject',t:'text'},{l:'Contractor / المقاول',k:'contractor',t:'text'},
+      {l:'MSF No. / رقم النموذج',k:'msfNo',t:'text'},{l:'Package / الحزمة',k:'pkg',t:'sel',opts:['Architectural','Civil','Electrical','Mechanical']},
+      {l:'Reference in Specs / مرجع المواصفات',k:'specRef',t:'text'},{l:'Reference in BOQ / مرجع BOQ',k:'boqRef',t:'text'},
+      {l:'Issue Date / تاريخ الإصدار',k:'issueDate',t:'date'},{l:'Requested Response Date / الرد المطلوب',k:'respDate',t:'date'},
+      {l:'Notes / ملاحظات',k:'notes',t:'ta'}],
+      status:['Approved','Approved With Comments','Rejected','Further Information Required'] },
+    { id:'SDT', code:'SDT', title:'Shop Drawing Transmittal', ar:'مرسلة رسومات تنفيذية', icon:'📐', color:'#534AB7', bg:'rgba(83,74,183,0.12)', cat:'توثيق', fields:[
+      {l:'Project / المشروع',k:'project',t:'text'},{l:'Location / الموقع',k:'location',t:'text'},
+      {l:'Subject / الموضوع',k:'subject',t:'text'},{l:'Contractor / المقاول',k:'contractor',t:'text'},
+      {l:'SDT No. / رقم المرسلة',k:'sdtNo',t:'text'},{l:'Package / الحزمة',k:'pkg',t:'sel',opts:['Architectural','Civil','Electrical','Mechanical']},
+      {l:'Shop Drawing Ref. 1 / In ref. to / الرسم 1',k:'sd1',t:'text'},{l:'Shop Drawing Ref. 2 / الرسم 2',k:'sd2',t:'text'},
+      {l:'Shop Drawing Ref. 3 / الرسم 3',k:'sd3',t:'text'},{l:'Shop Drawing Ref. 4 / الرسم 4',k:'sd4',t:'text'},
+      {l:'Additional Drawing Refs / مراجع إضافية',k:'extra',t:'ta'},
+      {l:'Issue Date / تاريخ الإصدار',k:'issueDate',t:'date'},{l:'Requested Response Date / الرد المطلوب',k:'respDate',t:'date'}],
+      status:['Approved','Approved with comments','Rejected','Further Information Required'] },
+    { id:'SO', code:'SO', title:'Site Observation', ar:'ملاحظة موقع', icon:'👁️', color:'#3B6D11', bg:'rgba(59,109,17,0.12)', cat:'فحص', fields:[
+      {l:'Project / المشروع',k:'project',t:'text'},{l:'Location / الموقع',k:'location',t:'text'},
+      {l:'Subject / الموضوع',k:'subject',t:'text'},{l:'Contractor / المقاول',k:'contractor',t:'text'},
+      {l:'SO No. / رقم الملاحظة',k:'soNo',t:'text'},{l:'Package / الحزمة',k:'pkg',t:'sel',opts:['Architectural','Civil','Electrical','Mechanical']},
+      {l:'Severity / الخطورة',k:'sev',t:'sel',opts:['Extreme','High','Moderate','Low']},
+      {l:'Observation Comments / تعليقات الملاحظة',k:'comments',t:'ta'},{l:'Target Close-Out Date / تاريخ الإغلاق',k:'closeDate',t:'date'},
+      {l:'Required Action / الإجراء المطلوب',k:'action',t:'ta'}],
+      status:['Closed','Closed with Comments','Action Required','Observation Re-Issued'] },
+    { id:'SVN', code:'SVN', title:'Safety Violation Notice', ar:'إشعار مخالفة سلامة', icon:'🛑', color:'#A32D2D', bg:'rgba(163,45,45,0.12)', cat:'سلامة', fields:[
+      {l:'Project / المشروع',k:'project',t:'text'},{l:'Location / الموقع',k:'location',t:'text'},
+      {l:'Contractor / المقاول',k:'contractor',t:'text'},{l:'SVN No. / رقم الإشعار',k:'svnNo',t:'text'},
+      {l:'Type of Violation / نوع المخالفة',k:'vtype',t:'sel',opts:['Hazardous Situation','Safety/Fire Safety Equipment','Safety Wear/Protective Gear','Safety Signage','Debris Material','Access/Exit Set-up','Exposed/Loose Wiring','Temporary Platform/Pass','Inadequate Lighting','Hazardous Scaffolding/Excavation','Exposure to Hazardous Material','Unapproved Disposal of Chemicals','Other']},
+      {l:'Notice Date & Time / تاريخ ووقت الملاحظة',k:'noticeDate',t:'datetime-local'},
+      {l:'Issue Date & Time / تاريخ الإصدار',k:'issueDate',t:'datetime-local'},
+      {l:'Violation Description / وصف المخالفة',k:'desc',t:'ta'},{l:'Contractor Action / إجراء المقاول',k:'action',t:'ta'}],
+      status:['Closed','Closed as Noted','Rejected'] },
+    { id:'SSA', code:'SSA', title:'Subcontractor/Supplier Approval', ar:'موافقة مقاول/مورد', icon:'🏢', color:'#854F0B', bg:'rgba(133,79,11,0.12)', cat:'مواد', fields:[
+      {l:'Project / المشروع',k:'project',t:'text'},{l:'Location / الموقع',k:'location',t:'text'},
+      {l:'Subject / الموضوع',k:'subject',t:'text'},{l:'Contractor / المقاول',k:'contractor',t:'text'},
+      {l:'SSA No. / رقم النموذج',k:'ssaNo',t:'text'},{l:'Company Name / اسم الشركة',k:'co',t:'text'},
+      {l:'Classification / التصنيف',k:'class',t:'text'},{l:'BOQ Item / بند BOQ',k:'boq',t:'text'},
+      {l:'Works intended for award / الأعمال المزمع ترسيتها',k:'works',t:'text'},
+      {l:'Listed / Alternative / مدرج أو بديل',k:'listed',t:'sel',opts:['Listed in the approved list','Alternative/Equal/Proposed']},
+      {l:'Visit Needed / هل يلزم زيارة',k:'visit',t:'sel',opts:['Yes','No']},{l:'Planned Visit Date / تاريخ الزيارة',k:'visitDate',t:'date'},
+      {l:'Issue Date / تاريخ الإصدار',k:'issueDate',t:'date'},{l:'Requested Response Date / الرد المطلوب',k:'respDate',t:'date'}],
+      status:['Approved','Approved With Comments','Rejected','Further Information Required'] },
+    { id:'SR', code:'SR', title:'Substitution Request', ar:'طلب إحلال', icon:'🔁', color:'#993556', bg:'rgba(153,53,86,0.12)', cat:'مواد', fields:[
+      {l:'Project / المشروع',k:'project',t:'text'},{l:'Location / الموقع',k:'location',t:'text'},
+      {l:'Subject / الموضوع',k:'subject',t:'text'},{l:'Contractor / المقاول',k:'contractor',t:'text'},
+      {l:'SR No. / رقم الطلب',k:'srNo',t:'text'},{l:'Original Material / المادة الأصلية',k:'original',t:'text'},
+      {l:'Proposed Substitution / البديل المقترح',k:'proposed',t:'text'},{l:'Reason for Substitution / سبب الإحلال',k:'reason',t:'ta'},
+      {l:'Notes / ملاحظات',k:'notes',t:'ta'},{l:'Issue Date / تاريخ الإصدار',k:'issueDate',t:'date'},
+      {l:'Requested Response Date / الرد المطلوب',k:'respDate',t:'date'}],
+      status:['Approved','Approved With Comments','Rejected','Further Information Required'] },
+  ];
+
+  /* حالة الـ module */
+  const SF_STATE = { openId: null, vals: {}, statuses: {}, comments: {}, filter: 'الكل', search: '' };
+
+  /* إعادة الرسم */
+  function sfRender() {
+    const container = document.getElementById('sf-app');
+    if (!container) return;
+
+    const cats = ['الكل','فحص','توثيق','مواد','سلامة'];
+    const filtered = SF_FORMS.filter(f => {
+      const ms = f.title.toLowerCase().includes(SF_STATE.search.toLowerCase()) ||
+                 f.ar.includes(SF_STATE.search) ||
+                 f.code.toLowerCase().includes(SF_STATE.search.toLowerCase());
+      const mc = SF_STATE.filter === 'الكل' || f.cat === SF_STATE.filter;
+      return ms && mc;
+    });
+
+    /* الـ CSS المدمج */
+    let html = `
+    <style>
+      .sf-input,.sf-sel,.sf-ta{width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'Tajawal',sans-serif;font-size:13px;color:var(--text);outline:none;transition:.2s;box-sizing:border-box}
+      .sf-input:focus,.sf-sel:focus,.sf-ta:focus{border-color:var(--border2)}
+      .sf-ta{resize:vertical;min-height:72px}
+      .sf-sel{appearance:none;cursor:pointer;height:38px}
+      .sf-btn{display:flex;align-items:center;gap:6px;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:12px;color:var(--text2);cursor:pointer;font-family:'Tajawal',sans-serif;transition:.2s}
+      .sf-btn:hover{border-color:var(--border2);color:var(--text)}
+      .sf-card{background:var(--dark3);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:all .2s;text-align:right}
+      .sf-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+      .sf-card.active{border-color:var(--gold);background:var(--dark4)}
+      .sf-filter-btn{background:var(--dark3);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--text2);cursor:pointer;font-family:'Tajawal',sans-serif;transition:.2s}
+      .sf-filter-btn.active{border-color:var(--gold);color:var(--gold2);background:rgba(201,168,76,0.08)}
+      .sf-status-btn{background:var(--dark4);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--text2);cursor:pointer;font-family:'Tajawal',sans-serif;transition:.2s}
+      .sf-status-btn.active{color:#fff;border-color:currentColor}
+      label.sf-label{display:block;font-size:11px;color:var(--text3);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+    </style>
+
+    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center">
+      <input type="text" placeholder="🔍 ابحث عن نموذج..." value="${SF_STATE.search}"
+        oninput="SF_STATE.search=this.value;sfRender()"
+        class="sf-input" style="flex:1;min-width:180px;height:38px">
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        ${cats.map(c=>`<button class="sf-filter-btn ${SF_STATE.filter===c?'active':''}" onclick="SF_STATE.filter='${c}';sfRender()">${c}</button>`).join('')}
+      </div>
+    </div>`;
+
+    /* نموذج مفتوح */
+    if (SF_STATE.openId) {
+      const f = SF_FORMS.find(x => x.id === SF_STATE.openId);
+      if (f) {
+        const v = SF_STATE.vals[f.id] || {};
+        html += `
+        <div style="background:var(--dark2);border:1px solid var(--border2);border-radius:14px;overflow:hidden;margin-bottom:16px">
+          <div style="background:${f.bg};padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;border-bottom:1px solid var(--border)">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:38px;height:38px;border-radius:10px;background:var(--dark3);display:flex;align-items:center;justify-content:center;font-size:20px">${f.icon}</div>
+              <div>
+                <div style="font-weight:700;font-size:14px;color:var(--text)">${f.title}</div>
+                <div style="font-size:11px;color:var(--text3)">${f.ar}</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="sf-btn" onclick="sfPrint('${f.id}')" style="background:rgba(201,168,76,0.1);border-color:rgba(201,168,76,0.3);color:var(--gold2);font-weight:600">🖨️ طباعة / PDF</button>
+              <button class="sf-btn" onclick="SF_STATE.openId=null;sfRender()">✕ إغلاق</button>
+            </div>
+          </div>
+          <div style="padding:18px">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:16px">
+              ${f.fields.map(field => {
+                const val = v[field.k] || '';
+                const inputStyle = 'margin-top:5px';
+                if (field.t === 'ta') {
+                  return `<div style="grid-column:1/-1">
+                    <label class="sf-label">${field.l}</label>
+                    <textarea class="sf-ta" onchange="sfSetVal('${f.id}','${field.k}',this.value)">${val}</textarea>
+                  </div>`;
+                } else if (field.t === 'sel') {
+                  return `<div>
+                    <label class="sf-label">${field.l}</label>
+                    <select class="sf-sel" onchange="sfSetVal('${f.id}','${field.k}',this.value)">
+                      <option value="">— اختر —</option>
+                      ${field.opts.map(o=>`<option value="${o}" ${val===o?'selected':''}>${o}</option>`).join('')}
+                    </select>
+                  </div>`;
+                } else {
+                  return `<div>
+                    <label class="sf-label">${field.l}</label>
+                    <input type="${field.t}" class="sf-input" value="${val}" style="height:38px" onchange="sfSetVal('${f.id}','${field.k}',this.value)">
+                  </div>`;
+                }
+              }).join('')}
+            </div>
+            <div style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:14px">
+              <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:10px">رد المستشار / Consultant Response</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
+                ${f.status.map(s => {
+                  const active = SF_STATE.statuses[f.id] === s;
+                  return `<button class="sf-status-btn ${active?'active':''}"
+                    style="${active?'background:'+f.color+';border-color:'+f.color:''}"
+                    onclick="SF_STATE.statuses['${f.id}']='${s}';sfRender()">${s}</button>`;
+                }).join('')}
+              </div>
+              <textarea class="sf-ta" placeholder="تعليقات المستشار / Consultant comments..."
+                onchange="SF_STATE.comments['${f.id}']=this.value">${SF_STATE.comments[f.id]||''}</textarea>
+            </div>
+            <div style="margin-top:10px;font-size:10px;color:var(--text3);padding:6px 0">
+              * Approval does not relieve the contractor from contractual obligations. — QatarSpec Pro | نماذج عامة للاستخدام الهندسي — لا ارتباط بأي مستشار معين
+            </div>
+          </div>
+        </div>`;
+      }
+    }
+
+    /* شبكة الكروت */
+    html += `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px">`;
+    for (const f of filtered) {
+      const isOpen = SF_STATE.openId === f.id;
+      html += `
+      <div class="sf-card ${isOpen?'active':''}" onclick="SF_STATE.openId='${f.id}';sfRender()"
+           style="${isOpen?'border-color:'+f.color:''}">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <div style="width:34px;height:34px;border-radius:8px;background:${f.bg};display:flex;align-items:center;justify-content:center;font-size:18px">${f.icon}</div>
+          <span style="font-size:10px;font-weight:700;color:${f.color};background:${f.bg};padding:2px 8px;border-radius:8px">${f.code}</span>
+        </div>
+        <div style="font-weight:700;font-size:13px;color:var(--text);margin-bottom:3px;line-height:1.3">${f.title}</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px">${f.ar}</div>
+        <div style="font-size:10px;color:var(--text3)">${f.fields.length} حقل · ${f.cat}</div>
+      </div>`;
+    }
+    html += `</div>`;
+
+    if (!filtered.length) {
+      html += `<div style="text-align:center;padding:40px;color:var(--text3);font-size:14px">🔍 لا يوجد نموذج مطابق</div>`;
+    }
+
+    html += `
+    <div style="margin-top:16px;padding:10px 14px;background:var(--dark3);border-radius:8px;font-size:11px;color:var(--text3);border:1px solid var(--border)">
+      ℹ️ نماذج عامة غير مرتبطة بأي مستشار أو عميل — صالحة لجميع المشاريع الإنشائية | Generic site forms — no affiliation with any specific consultant.
+    </div>`;
+
+    container.innerHTML = html;
+  }
+
+  /* تحديث قيمة حقل */
+  window.sfSetVal = function(formId, key, val) {
+    if (!SF_STATE.vals[formId]) SF_STATE.vals[formId] = {};
+    SF_STATE.vals[formId][key] = val;
+  };
+
+  /* طباعة النموذج */
+  window.sfPrint = function(formId) {
+    const f = SF_FORMS.find(x => x.id === formId);
+    if (!f) return;
+    const v = SF_STATE.vals[formId] || {};
+    const today = new Date().toLocaleDateString('ar-QA');
+    const projectName = document.querySelector('h1')?.textContent?.trim() || 'المشروع';
+    const win = window.open('', '_blank');
+    const rows = f.fields.map(field =>
+      `<tr><th>${field.l}</th><td>${v[field.k] || '&nbsp;'}</td></tr>`
+    ).join('');
+    const statusRow = SF_STATE.statuses[formId]
+      ? `<div class="resp"><b>حالة الرد:</b> ${SF_STATE.statuses[formId]}<br><b>تعليقات:</b> ${SF_STATE.comments[formId] || '—'}</div>`
+      : '';
+    win.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>${f.title}</title>
+    <style>
+      body{font-family:Arial,sans-serif;font-size:11px;margin:24px;color:#111;direction:rtl}
+      h1{font-size:15px;border-bottom:2px solid #333;padding-bottom:6px;margin-bottom:4px}
+      .meta{font-size:10px;color:#666;margin-bottom:14px}
+      table{width:100%;border-collapse:collapse;margin-bottom:10px}
+      td,th{border:1px solid #ccc;padding:5px 8px;vertical-align:top;text-align:right}
+      th{background:#f5f5f5;font-weight:600;width:40%}
+      .resp{border:1px solid #333;padding:10px;margin-top:14px}
+      .sig{margin-top:28px;display:flex;gap:40px}
+      .sig div{flex:1;border-top:1px solid #333;padding-top:4px;font-size:10px}
+      .disc{font-size:9px;color:#999;margin-top:20px;border-top:1px solid #eee;padding-top:6px}
+      @media print{@page{size:A4;margin:20mm}}
+    </style></head><body>
+    <h1>${f.icon} ${f.title} (${f.code}) — ${f.ar}</h1>
+    <div class="meta">
+      المشروع: ${projectName} &nbsp;|&nbsp; QatarSpec Pro — نماذج الموقع &nbsp;|&nbsp; تاريخ الطباعة: ${today} &nbsp;|&nbsp; Ref: QSP-${f.code}
+    </div>
+    <table>${rows}</table>
+    ${statusRow}
+    <div class="sig">
+      <div>توقيع مهندس المقاول<br>Contractor's Engineer Signature</div>
+      <div>توقيع المستشار / RE<br>Consultant Signature</div>
+      <div>التاريخ والختم<br>Date & Stamp</div>
+    </div>
+    <div class="disc">
+      * Approval does not relieve the contractor from contractual obligations and responsibilities.
+      — QatarSpec Pro | نماذج موقع عامة — لا ارتباط بأي مستشار معين — Generic forms, no affiliation with any specific consultant or client.
+    </div>
+    </body></html>`);
+    win.document.close();
+    win.print();
+  };
+
+  /* تعريض State للـ HTML */
+  window.SF_STATE = SF_STATE;
+  window.sfRender  = sfRender;
+
+  /* تهيئة عند فتح التبويب */
+  const origSwitch = window.switchTab;
+  window.switchTab = function(tabId) {
+    if (origSwitch) origSwitch(tabId);
+    if (tabId === 'site-forms') {
+      /* تأخير بسيط لضمان ظهور العنصر */
+      setTimeout(sfRender, 50);
+    }
+  };
+
+})();
 </script>
 
 </body>
