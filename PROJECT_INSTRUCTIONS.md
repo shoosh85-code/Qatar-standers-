@@ -33,7 +33,6 @@
 
 لا تقول "تم الرفع" إلا بعد:
 
-```
 □ 1. git status → لصق الناتج
 □ 2. git add [ملفات] → لصق الناتج
 □ 3. git diff --cached --stat → لصق الناتج
@@ -42,7 +41,6 @@
 □ 6. git push → لصق الناتج كاملاً
 □ 7. git ls-remote origin main → لصق hash الـ remote
 □ 8. مقارنة local hash مع remote hash
-```
 
 إذا لم يتطابقان:
 → ❌ STOP: git push فشل — الـ commit لم يصل
@@ -54,14 +52,12 @@
 
 إذا ظهر أي خطأ:
 
-```
 ❌ STOP: Error [الرمز]
 الأمر: [الأمر]
 الخطأ: [نص الخطأ كاملاً]
 السبب: [تحليلك]
 الحل: [اقتراحك]
 هل أحاول الحل؟ (نعم/لا)
-```
 
 ممنوع:
 - تجاهل الخطأ والمتابعة
@@ -110,7 +106,6 @@
 | /api/verify-pro | 3/min | 10/min | 30/min/IP |
 | /api/qcs-search | 10/min | 100/min | 200/min/IP |
 | /api/vision-proxy | 3/min | 30/min | 50/min/IP |
-| /api/project-hub | 30/min | 120/min | 200/min/IP |
 
 ### Implementation:
 - استخدم Vercel KV للـ rate limiting
@@ -149,7 +144,7 @@ git config user.email "qatarspec@deploy.app"
 git config user.name "QatarSpec Deploy"
 ```
 
-Push:
+**Push:**
 ```bash
 git remote set-url origin https://TOKEN@github.com/shoosh85-code/Qatar-standers-.git
 git push origin main
@@ -158,27 +153,18 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 
 ---
 
-## VERCEL CONSTRAINTS (حرج)
-
-- **Hobby limit:** 12 Serverless Functions فقط
-- **Current functions (11):** ai-proxy, vision-proxy, execution-ai, generate-document, export-pdf, qcs-search, auth-config, verify-pro, tap, tap-webhook, project-hub
-- **Slot متبقي:** 1 فقط — استخدمه بحذر
-- **api-disabled/:** الملفات المعطلة مؤقتاً لحل حد الـ 12
-
----
-
 ## CODING RULES
 
-- Follow QCS 2024 always — accuracy over speed
-- Vanilla JS only (no frameworks)
-- RTL + Arabic + English in all UI
-- Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
-- Pro features: gentle prompt for free users
-- Never invent numbers — say "غير موجود في المستند"
-- `window.QS` namespace for all public functions
-- Sanitize ALL user input before innerHTML
-- `const`/`let` only (no `var`)
-- Arabic comments for complex logic
+1. Follow QCS 2024 always — accuracy over speed
+2. Vanilla JS only (no frameworks)
+3. RTL + Arabic + English in all UI
+4. Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
+5. Pro features: gentle prompt for free users
+6. Never invent numbers — say "غير موجود في المستند"
+7. `window.QS` namespace for all public functions
+8. Sanitize ALL user input before innerHTML
+9. `const`/`let` only (no `var`)
+10. Arabic comments for complex logic
 
 ---
 
@@ -187,7 +173,7 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 - **PDF:** QatarSpec Pro header + QCS 2024 reference + page numbers + watermark
 - **Excel:** Ashghal official format + multiple sheets + summary stats
 - **Word:** Professional header + editable fields + QCS clause references
-- All exports: Project name + Engineer name + Date + QatarSpec branding
+- **All exports:** Project name + Engineer name + Date + QatarSpec branding
 
 ---
 
