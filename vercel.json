@@ -67,6 +67,12 @@
     },
     "api/site-photos.js": {
       "maxDuration": 30
+    },
+    "api/snag-list.js": {
+      "maxDuration": 30
+    },
+    "api/checklists.js": {
+      "maxDuration": 30
     }
   },
   "headers": [
