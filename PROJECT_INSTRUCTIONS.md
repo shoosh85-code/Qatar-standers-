@@ -73,7 +73,12 @@
 ## PROTOCOL 4: صفر تضليل (ZERO HALLUCINATION)
 
 ممنوع تماماً:
-- "أعتقد" / "ربما" / "على الأرجح" / "يبدو" / "يجب أن" / "من المفترض"
+- "أعتقد"
+- "ربما"
+- "على الأرجح"
+- "يبدو"
+- "يجب أن"
+- "من المفترض"
 
 إلزامي:
 - "الناتج الفعلي: [لصق]"
@@ -99,13 +104,13 @@
 ## PROTOCOL 6: RATE LIMITING (إلزامي)
 
 ### API Endpoints Limits:
-
 | Endpoint | Free | Pro | Global |
 |----------|------|-----|--------|
 | /api/ai-proxy | 5/min | 60/min | 100/min/IP |
 | /api/verify-pro | 3/min | 10/min | 30/min/IP |
 | /api/qcs-search | 10/min | 100/min | 200/min/IP |
 | /api/vision-proxy | 3/min | 30/min | 50/min/IP |
+| /api/project-hub | 30/min | 120/min | 200/min/IP |
 
 ### Implementation:
 - استخدم Vercel KV للـ rate limiting
@@ -140,16 +145,25 @@ echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-
 ```bash
 git clone https://github.com/shoosh85-code/Qatar-standers-.git
 cd Qatar-standers-
-git config user.email "shoosh85@gmail.com"
-git config user.name "shoosh85-code"
+git config user.email "qatarspec@deploy.app"
+git config user.name "QatarSpec Deploy"
 ```
 
-**Push:**
+Push:
 ```bash
 git remote set-url origin https://TOKEN@github.com/shoosh85-code/Qatar-standers-.git
 git push origin main
 git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 ```
+
+---
+
+## VERCEL CONSTRAINTS (حرج)
+
+- **Hobby limit:** 12 Serverless Functions فقط
+- **Current functions (11):** ai-proxy, vision-proxy, execution-ai, generate-document, export-pdf, qcs-search, auth-config, verify-pro, tap, tap-webhook, project-hub
+- **Slot متبقي:** 1 فقط — استخدمه بحذر
+- **api-disabled/:** الملفات المعطلة مؤقتاً لحل حد الـ 12
 
 ---
 
@@ -173,7 +187,7 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 - **PDF:** QatarSpec Pro header + QCS 2024 reference + page numbers + watermark
 - **Excel:** Ashghal official format + multiple sheets + summary stats
 - **Word:** Professional header + editable fields + QCS clause references
-- **All exports:** Project name + Engineer name + Date + QatarSpec branding
+- All exports: Project name + Engineer name + Date + QatarSpec branding
 
 ---
 

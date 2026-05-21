@@ -479,12 +479,169 @@ header {
       </div>
     </div>
 
-    <!-- ── Tab: IR (Coming Soon) ── -->
+    <!-- ── Tab: IR — Inspection Requests (المرحلة 4) ── -->
     <div class="tab-panel" id="tab-ir">
-      <div class="coming-soon">
-        <div class="cs-icon">🔍</div>
-        <h3>طلبات الفحص</h3>
-        <p>قريباً — المرحلة 4 من خطة التطوير</p>
+
+      <!-- IR Header -->
+      <div class="section-header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+        <div>
+          <h2 style="font-family:Cairo,sans-serif;font-size:18px;font-weight:800;color:var(--text);margin:0;">طلبات الفحص <span id="badge-ir" style="background:var(--maroon);color:#fff;font-size:11px;padding:2px 8px;border-radius:20px;margin-right:8px;">0</span></h2>
+          <p style="font-size:12px;color:var(--text3);margin:4px 0 0;">Inspection Requests (IR) — وفق QCS 2024</p>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <select id="irFilter" onchange="filterIRs()" style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text2);font-size:13px;font-family:Tajawal,sans-serif;">
+            <option value="">كل الحالات</option>
+            <option value="pending">🟡 في الانتظار</option>
+            <option value="approved">🟢 موافق</option>
+            <option value="rejected">🔴 مرفوض</option>
+            <option value="conditional">🟠 مشروط</option>
+          </select>
+          <button onclick="openIRModal()" style="display:flex;align-items:center;gap:6px;background:var(--maroon);border:none;border-radius:8px;padding:8px 16px;color:#fff;font-size:13px;font-family:Tajawal,sans-serif;cursor:pointer;font-weight:700;">
+            <span>+</span> طلب فحص جديد
+          </button>
+        </div>
+      </div>
+
+      <!-- IR Loading -->
+      <div id="irLoading" style="text-align:center;padding:40px;display:none;">
+        <div style="font-size:28px;margin-bottom:8px;">⏳</div>
+        <p style="color:var(--text3);font-size:14px;">جارٍ تحميل طلبات الفحص...</p>
+      </div>
+
+      <!-- IR Empty -->
+      <div id="irEmpty" style="text-align:center;padding:60px 20px;display:none;">
+        <div style="font-size:48px;margin-bottom:16px;">🔍</div>
+        <h3 style="font-family:Cairo,sans-serif;font-size:18px;color:var(--text2);margin-bottom:8px;">لا توجد طلبات فحص بعد</h3>
+        <p style="color:var(--text3);font-size:14px;margin-bottom:20px;">ابدأ بإنشاء أول طلب فحص للمشروع</p>
+        <button onclick="openIRModal()" style="background:var(--maroon);border:none;border-radius:8px;padding:10px 24px;color:#fff;font-family:Tajawal,sans-serif;cursor:pointer;font-size:14px;font-weight:700;">+ طلب فحص جديد</button>
+      </div>
+
+      <!-- IR Table -->
+      <div id="irTableWrap" style="display:none;overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--border2);">
+              <th style="text-align:right;padding:10px 12px;color:var(--gold);font-family:Cairo,sans-serif;font-weight:700;white-space:nowrap;">رقم IR</th>
+              <th style="text-align:right;padding:10px 12px;color:var(--gold);font-family:Cairo,sans-serif;font-weight:700;">نوع الفحص</th>
+              <th style="text-align:right;padding:10px 12px;color:var(--gold);font-family:Cairo,sans-serif;font-weight:700;">الموقع / العنصر</th>
+              <th style="text-align:right;padding:10px 12px;color:var(--gold);font-family:Cairo,sans-serif;font-weight:700;white-space:nowrap;">تاريخ الطلب</th>
+              <th style="text-align:right;padding:10px 12px;color:var(--gold);font-family:Cairo,sans-serif;font-weight:700;">مرجع QCS</th>
+              <th style="text-align:center;padding:10px 12px;color:var(--gold);font-family:Cairo,sans-serif;font-weight:700;">الحالة</th>
+              <th style="text-align:center;padding:10px 12px;color:var(--gold);font-family:Cairo,sans-serif;font-weight:700;">الأولوية</th>
+              <th style="text-align:center;padding:10px 12px;color:var(--gold);font-family:Cairo,sans-serif;font-weight:700;">إجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="irTableBody"></tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- ── Modal: إنشاء/تعديل IR ── -->
+    <div class="modal-overlay" id="irModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;align-items:center;justify-content:center;">
+      <div class="modal" style="background:var(--dark2);border:1px solid var(--border2);border-radius:16px;padding:28px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;position:relative;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+          <h3 id="irModalTitle" style="font-family:Cairo,sans-serif;font-size:18px;font-weight:800;color:var(--text);margin:0;">طلب فحص جديد</h3>
+          <button onclick="closeIRModal()" style="background:none;border:none;color:var(--text3);font-size:22px;cursor:pointer;line-height:1;">×</button>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+
+          <div style="grid-column:1/-1;">
+            <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">رقم IR (اختياري)</label>
+            <input id="ir_number" type="text" placeholder="مثال: IR-001" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+          </div>
+
+          <div>
+            <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">نوع الفحص *</label>
+            <select id="ir_inspection_type" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+              <option value="">-- اختر نوع الفحص --</option>
+              <option value="concrete">خرسانة — Concrete Inspection</option>
+              <option value="reinforcement">حديد تسليح — Rebar Inspection</option>
+              <option value="formwork">قوالب — Formwork Inspection</option>
+              <option value="excavation">حفر — Excavation Inspection</option>
+              <option value="backfill">ردم — Backfill Inspection</option>
+              <option value="waterproofing">عزل مائي — Waterproofing</option>
+              <option value="masonry">بناء — Masonry Inspection</option>
+              <option value="finishing">تشطيبات — Finishing Inspection</option>
+              <option value="electrical">كهرباء — Electrical Inspection</option>
+              <option value="mechanical">ميكانيكا — Mechanical Inspection</option>
+              <option value="plumbing">سباكة — Plumbing Inspection</option>
+              <option value="roofing">أسطح — Roofing Inspection</option>
+              <option value="structural">إنشائي — Structural Inspection</option>
+              <option value="other">أخرى — Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">الأولوية</label>
+            <select id="ir_priority" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+              <option value="normal">عادية</option>
+              <option value="urgent">عاجلة</option>
+              <option value="critical">حرجة</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">الموقع</label>
+            <input id="ir_location" type="text" placeholder="مثال: الطابق 3 — Grid C-D" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+          </div>
+
+          <div>
+            <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">العنصر المراد فحصه</label>
+            <input id="ir_element" type="text" placeholder="مثال: أساسات — Column C3" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+          </div>
+
+          <div>
+            <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">تاريخ الفحص المطلوب *</label>
+            <input id="ir_requested_date" type="date" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+          </div>
+
+          <div>
+            <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">الوقت المطلوب</label>
+            <input id="ir_requested_time" type="time" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+          </div>
+
+          <div style="grid-column:1/-1;">
+            <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">مرجع QCS 2024</label>
+            <input id="ir_qcs_reference" type="text" placeholder="مثال: QCS 2024 — Part 4, Section 2, Clause 4.2.3" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+          </div>
+
+          <div style="grid-column:1/-1;">
+            <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">وصف / ملاحظات</label>
+            <textarea id="ir_description" rows="3" placeholder="تفاصيل إضافية..." style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;resize:vertical;"></textarea>
+          </div>
+
+          <!-- نتيجة الفحص (تظهر عند التعديل فقط) -->
+          <div id="irResultSection" style="grid-column:1/-1;display:none;border-top:1px solid var(--border);padding-top:14px;margin-top:4px;">
+            <p style="font-size:12px;color:var(--gold);margin-bottom:12px;font-family:Cairo,sans-serif;font-weight:700;">نتيجة الفحص</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+              <div>
+                <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">الحالة</label>
+                <select id="ir_status" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+                  <option value="pending">🟡 في الانتظار</option>
+                  <option value="approved">🟢 موافق</option>
+                  <option value="rejected">🔴 مرفوض</option>
+                  <option value="conditional">🟠 مشروط</option>
+                </select>
+              </div>
+              <div>
+                <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">تاريخ النتيجة</label>
+                <input id="ir_result_date" type="date" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+              </div>
+              <div style="grid-column:1/-1;">
+                <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">ملاحظات النتيجة</label>
+                <textarea id="ir_remarks" rows="2" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;resize:vertical;"></textarea>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /grid -->
+
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+          <button onclick="closeIRModal()" style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 20px;color:var(--text2);font-family:Tajawal,sans-serif;cursor:pointer;font-size:14px;">إلغاء</button>
+          <button id="irSubmitBtn" onclick="submitIR()" style="background:var(--maroon);border:none;border-radius:8px;padding:10px 24px;color:#fff;font-family:Tajawal,sans-serif;cursor:pointer;font-size:14px;font-weight:700;">حفظ الطلب</button>
+        </div>
       </div>
     </div>
 
@@ -735,7 +892,7 @@ function switchTab(tabId) {
 // ── تحميل بيانات المشروع ──────────────────────────────────────────────────
 async function loadProject() {
   try {
-    const res = await fetch(`/api/projects?id=${state.projectId}`, {
+    const res = await fetch(`/api/project-hub?resource=projects&id=${state.projectId}`, {
       headers: { 'Authorization': 'Bearer ' + state.token }
     });
 
@@ -780,7 +937,7 @@ function renderProjectHeader(p) {
 async function loadReports() {
   showDWRLoading(true);
   try {
-    const res = await fetch(`/api/daily-reports?project_id=${state.projectId}`, {
+    const res = await fetch(`/api/project-hub?resource=daily-reports&project_id=${state.projectId}`, {
       headers: { 'Authorization': 'Bearer ' + state.token }
     });
 
@@ -904,7 +1061,7 @@ async function deleteReport(id, e) {
   if (!confirm('هل أنت متأكد من حذف هذا التقرير؟')) return;
 
   try {
-    const res = await fetch(`/api/daily-reports?id=${id}`, {
+    const res = await fetch(`/api/project-hub?resource=daily-reports&id=${id}`, {
       method: 'DELETE',
       headers: { 'Authorization': 'Bearer ' + state.token }
     });
@@ -955,7 +1112,7 @@ async function saveDWR() {
 
     if (state.editingReportId) {
       // تعديل
-      res = await fetch(`/api/daily-reports?id=${state.editingReportId}`, {
+      res = await fetch(`/api/project-hub?resource=daily-reports&id=${state.editingReportId}`, {
         method: 'PUT',
         headers: {
           'Authorization': 'Bearer ' + state.token,
@@ -965,7 +1122,7 @@ async function saveDWR() {
       });
     } else {
       // إنشاء
-      res = await fetch('/api/daily-reports', {
+      res = await fetch('/api/project-hub?resource=daily-reports', {
         method: 'POST',
         headers: {
           'Authorization': 'Bearer ' + state.token,
@@ -1206,6 +1363,241 @@ document.getElementById('dwrModal').addEventListener('click', function(e) {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeDWRModal();
 });
+
+// ════════════════════════════════════════════════════════════════════
+// INSPECTION REQUESTS (IR) — المرحلة 4
+// ════════════════════════════════════════════════════════════════════
+
+state.irs = [];
+state.editingIrId = null;
+
+// تحميل IRs عند التبديل لـ tab ir
+const origSwitchTab = window.switchTab || null;
+document.querySelector('.tab-btn[data-tab="ir"]')?.addEventListener('click', () => {
+  if (!state.irsLoaded) loadIRs();
+});
+state.irsLoaded = false;
+
+async function loadIRs() {
+  showIRLoading(true);
+  try {
+    const res = await fetch(
+      `/api/project-hub?resource=inspection-requests&project_id=${state.projectId}`,
+      { headers: { 'Authorization': 'Bearer ' + state.token } }
+    );
+    if (res.status === 401) { showLoginRequired(); return; }
+    if (!res.ok) throw new Error('فشل تحميل طلبات الفحص');
+    const data = await res.json();
+    state.irs = data.data || [];
+    state.irsLoaded = true;
+    renderIRs(state.irs);
+    const badge = document.getElementById('badge-ir');
+    if (badge) badge.textContent = state.irs.length;
+  } catch (err) {
+    showToast('خطأ: ' + err.message, 'error');
+  } finally {
+    showIRLoading(false);
+  }
+}
+
+function showIRLoading(show) {
+  const el = document.getElementById('irLoading');
+  if (el) el.style.display = show ? 'block' : 'none';
+}
+
+function filterIRs() {
+  const val = document.getElementById('irFilter')?.value || '';
+  const filtered = val ? state.irs.filter(ir => ir.status === val) : state.irs;
+  renderIRs(filtered);
+}
+
+function renderIRs(list) {
+  const empty = document.getElementById('irEmpty');
+  const wrap  = document.getElementById('irTableWrap');
+  const tbody = document.getElementById('irTableBody');
+  if (!tbody) return;
+
+  if (!list.length) {
+    if (empty) empty.style.display = 'block';
+    if (wrap)  wrap.style.display  = 'none';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+  if (wrap)  wrap.style.display  = 'block';
+
+  const statusMap = {
+    pending:     '<span style="background:rgba(234,179,8,0.15);color:#eab308;padding:3px 10px;border-radius:20px;font-size:11px;white-space:nowrap;">🟡 في الانتظار</span>',
+    approved:    '<span style="background:rgba(34,197,94,0.15);color:#22c55e;padding:3px 10px;border-radius:20px;font-size:11px;white-space:nowrap;">🟢 موافق</span>',
+    rejected:    '<span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:3px 10px;border-radius:20px;font-size:11px;white-space:nowrap;">🔴 مرفوض</span>',
+    conditional: '<span style="background:rgba(249,115,22,0.15);color:#f97316;padding:3px 10px;border-radius:20px;font-size:11px;white-space:nowrap;">🟠 مشروط</span>',
+  };
+  const priorityMap = {
+    normal:   '<span style="color:var(--text3);font-size:11px;">عادية</span>',
+    urgent:   '<span style="color:#eab308;font-size:11px;font-weight:700;">⚡ عاجلة</span>',
+    critical: '<span style="color:#ef4444;font-size:11px;font-weight:700;">🔴 حرجة</span>',
+  };
+
+  tbody.innerHTML = list.map(ir => `
+    <tr style="border-bottom:1px solid var(--border);transition:.15s;" onmouseover="this.style.background='rgba(201,168,76,0.04)'" onmouseout="this.style.background=''">
+      <td style="padding:12px;color:var(--gold);font-weight:700;font-size:12px;">${QS.safe(ir.ir_number || '—')}</td>
+      <td style="padding:12px;color:var(--text);">${QS.safe(irTypeLabel(ir.inspection_type))}</td>
+      <td style="padding:12px;color:var(--text2);font-size:12px;">${QS.safe(ir.location || '')}${ir.element ? ' / ' + QS.safe(ir.element) : ''}</td>
+      <td style="padding:12px;color:var(--text2);font-size:12px;white-space:nowrap;">${formatDate(ir.requested_date)}</td>
+      <td style="padding:12px;color:var(--text3);font-size:11px;">${QS.safe(ir.qcs_reference || '—')}</td>
+      <td style="padding:12px;text-align:center;">${statusMap[ir.status] || ir.status}</td>
+      <td style="padding:12px;text-align:center;">${priorityMap[ir.priority] || ir.priority}</td>
+      <td style="padding:12px;text-align:center;">
+        <div style="display:flex;gap:6px;justify-content:center;">
+          <button onclick="editIR('${ir.id}')" style="background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:5px 10px;color:var(--text2);cursor:pointer;font-size:11px;">✏️ تعديل</button>
+          <button onclick="deleteIR('${ir.id}')" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:6px;padding:5px 10px;color:#ef4444;cursor:pointer;font-size:11px;">🗑️</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function irTypeLabel(type) {
+  const map = {
+    concrete:'خرسانة',reinforcement:'حديد تسليح',formwork:'قوالب',
+    excavation:'حفر',backfill:'ردم',waterproofing:'عزل مائي',
+    masonry:'بناء',finishing:'تشطيبات',electrical:'كهرباء',
+    mechanical:'ميكانيكا',plumbing:'سباكة',roofing:'أسطح',
+    structural:'إنشائي',other:'أخرى'
+  };
+  return map[type] || type || '—';
+}
+
+function openIRModal(irData = null) {
+  state.editingIrId = irData?.id || null;
+  const modal = document.getElementById('irModal');
+  const title = document.getElementById('irModalTitle');
+  const resultSection = document.getElementById('irResultSection');
+
+  if (irData) {
+    title.textContent = 'تعديل طلب الفحص';
+    document.getElementById('ir_number').value = irData.ir_number || '';
+    document.getElementById('ir_inspection_type').value = irData.inspection_type || '';
+    document.getElementById('ir_priority').value = irData.priority || 'normal';
+    document.getElementById('ir_location').value = irData.location || '';
+    document.getElementById('ir_element').value = irData.element || '';
+    document.getElementById('ir_requested_date').value = irData.requested_date || '';
+    document.getElementById('ir_requested_time').value = irData.requested_time || '';
+    document.getElementById('ir_qcs_reference').value = irData.qcs_reference || '';
+    document.getElementById('ir_description').value = irData.description || '';
+    document.getElementById('ir_status').value = irData.status || 'pending';
+    document.getElementById('ir_result_date').value = irData.result_date || '';
+    document.getElementById('ir_remarks').value = irData.remarks || '';
+    if (resultSection) resultSection.style.display = 'block';
+  } else {
+    title.textContent = 'طلب فحص جديد';
+    ['ir_number','ir_location','ir_element','ir_requested_time','ir_qcs_reference','ir_description','ir_result_date','ir_remarks'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    document.getElementById('ir_inspection_type').value = '';
+    document.getElementById('ir_priority').value = 'normal';
+    document.getElementById('ir_status').value = 'pending';
+    document.getElementById('ir_requested_date').value = new Date().toISOString().split('T')[0];
+    if (resultSection) resultSection.style.display = 'none';
+  }
+
+  modal.style.display = 'flex';
+}
+
+function closeIRModal() {
+  document.getElementById('irModal').style.display = 'none';
+  state.editingIrId = null;
+}
+
+function editIR(id) {
+  const ir = state.irs.find(r => r.id === id);
+  if (ir) openIRModal(ir);
+}
+
+async function submitIR() {
+  const btn = document.getElementById('irSubmitBtn');
+  const type = document.getElementById('ir_inspection_type').value;
+  const date = document.getElementById('ir_requested_date').value;
+
+  if (!type) { showToast('اختر نوع الفحص', 'error'); return; }
+  if (!date)  { showToast('أدخل تاريخ الفحص', 'error'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'جارٍ الحفظ...';
+
+  const payload = {
+    project_id: state.projectId,
+    ir_number: document.getElementById('ir_number').value.trim() || null,
+    inspection_type: type,
+    priority: document.getElementById('ir_priority').value,
+    location: document.getElementById('ir_location').value.trim(),
+    element: document.getElementById('ir_element').value.trim(),
+    requested_date: date,
+    requested_time: document.getElementById('ir_requested_time').value || null,
+    qcs_reference: document.getElementById('ir_qcs_reference').value.trim(),
+    description: document.getElementById('ir_description').value.trim(),
+    status: document.getElementById('ir_status').value,
+    result_date: document.getElementById('ir_result_date').value || null,
+    remarks: document.getElementById('ir_remarks').value.trim(),
+  };
+
+  try {
+    const isEdit = !!state.editingIrId;
+    const url = isEdit
+      ? `/api/project-hub?resource=inspection-requests&id=${state.editingIrId}`
+      : '/api/project-hub?resource=inspection-requests';
+    const res = await fetch(url, {
+      method: isEdit ? 'PUT' : 'POST',
+      headers: { 'Authorization': 'Bearer ' + state.token, 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || 'فشل الحفظ');
+    }
+    const data = await res.json();
+    const saved = data.data;
+
+    if (isEdit) {
+      const idx = state.irs.findIndex(r => r.id === state.editingIrId);
+      if (idx !== -1) state.irs[idx] = saved;
+    } else {
+      state.irs.unshift(saved);
+    }
+
+    const badge = document.getElementById('badge-ir');
+    if (badge) badge.textContent = state.irs.length;
+
+    filterIRs();
+    closeIRModal();
+    showToast(isEdit ? 'تم تحديث طلب الفحص ✅' : 'تم إنشاء طلب الفحص ✅', 'success');
+  } catch (err) {
+    showToast('خطأ: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'حفظ الطلب';
+  }
+}
+
+async function deleteIR(id) {
+  if (!confirm('هل تريد حذف طلب الفحص هذا؟')) return;
+  try {
+    const res = await fetch(`/api/project-hub?resource=inspection-requests&id=${id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': 'Bearer ' + state.token }
+    });
+    if (!res.ok) throw new Error('فشل الحذف');
+    state.irs = state.irs.filter(r => r.id !== id);
+    const badge = document.getElementById('badge-ir');
+    if (badge) badge.textContent = state.irs.length;
+    filterIRs();
+    showToast('تم حذف طلب الفحص', 'success');
+  } catch (err) {
+    showToast('خطأ: ' + err.message, 'error');
+  }
+}
+// ════════════════════════════════════════════════════════════════════
 </script>
 </body>
 </html>
