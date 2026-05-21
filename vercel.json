@@ -58,6 +58,9 @@
     },
     "api/project-hub.js": {
       "maxDuration": 30
+    },
+    "api/material-submittals.js": {
+      "maxDuration": 30
     }
   },
   "headers": [

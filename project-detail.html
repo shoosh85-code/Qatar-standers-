@@ -645,12 +645,163 @@ header {
       </div>
     </div>
 
-    <!-- ── Tab: Materials (Coming Soon) ── -->
+    <!-- ── Tab: Materials (المرحلة 5 — مكتمل) ── -->
     <div class="tab-panel" id="tab-materials">
-      <div class="coming-soon">
-        <div class="cs-icon">📦</div>
-        <h3>اعتماد المواد</h3>
-        <p>قريباً — المرحلة 5 من خطة التطوير</p>
+
+      <!-- Header + إحصائيات -->
+      <div style="margin-bottom:20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+          <div>
+            <h2 style="font-family:Cairo,sans-serif;font-size:18px;font-weight:800;color:var(--text);margin:0;">
+              اعتماد المواد <span id="badge-ms" style="background:var(--maroon);color:#fff;font-size:11px;padding:2px 8px;border-radius:20px;margin-right:8px;">0</span>
+            </h2>
+            <p style="font-size:12px;color:var(--text3);margin:4px 0 0;">Material Submittals — وفق QCS 2024</p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+            <input id="msSearch" type="text" placeholder="🔍 بحث باسم المادة أو المورد..." oninput="filterMS()" style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:13px;font-family:Tajawal,sans-serif;width:200px;">
+            <select id="msFilter" onchange="filterMS()" style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text2);font-size:13px;font-family:Tajawal,sans-serif;">
+              <option value="">كل الحالات</option>
+              <option value="pending">🟡 في الانتظار</option>
+              <option value="approved">🟢 موافق</option>
+              <option value="approved_with_comments">🟠 موافق بتعليقات</option>
+              <option value="rejected">🔴 مرفوض</option>
+              <option value="resubmit">🔁 إعادة تقديم</option>
+            </select>
+            <button onclick="exportMSLog()" style="display:flex;align-items:center;gap:6px;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px 14px;color:var(--text2);font-size:13px;font-family:Tajawal,sans-serif;cursor:pointer;" title="تصدير Log كاملاً PDF">
+              📄 تصدير Log
+            </button>
+            <button onclick="openMSModal()" style="display:flex;align-items:center;gap:6px;background:var(--maroon);border:none;border-radius:8px;padding:8px 16px;color:#fff;font-size:13px;font-family:Tajawal,sans-serif;cursor:pointer;font-weight:700;">
+              <span>+</span> اعتماد جديد
+            </button>
+          </div>
+        </div>
+
+        <!-- إحصائيات سريعة -->
+        <div id="msStats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin-bottom:16px;">
+          <div class="ms-stat-card" id="msStat-total" style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;">
+            <div style="font-size:22px;font-weight:800;font-family:Cairo,sans-serif;color:var(--text);">0</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px;">الإجمالي</div>
+          </div>
+          <div class="ms-stat-card" style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;">
+            <div id="msStat-pending" style="font-size:22px;font-weight:800;font-family:Cairo,sans-serif;color:var(--yellow);">0</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px;">في الانتظار</div>
+          </div>
+          <div class="ms-stat-card" style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;">
+            <div id="msStat-approved" style="font-size:22px;font-weight:800;font-family:Cairo,sans-serif;color:var(--green);">0</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px;">موافق</div>
+          </div>
+          <div class="ms-stat-card" style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;">
+            <div id="msStat-rejected" style="font-size:22px;font-weight:800;font-family:Cairo,sans-serif;color:var(--red);">0</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px;">مرفوض</div>
+          </div>
+          <div class="ms-stat-card" style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;">
+            <div id="msStat-resubmit" style="font-size:22px;font-weight:800;font-family:Cairo,sans-serif;color:var(--blue);">0</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px;">إعادة تقديم</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div id="msLoading" style="text-align:center;padding:40px;display:none;">
+        <div style="font-size:28px;margin-bottom:8px;">⏳</div>
+        <p style="color:var(--text3);font-size:14px;">جارٍ تحميل اعتمادات المواد...</p>
+      </div>
+
+      <!-- Empty -->
+      <div id="msEmpty" style="text-align:center;padding:60px 20px;display:none;">
+        <div style="font-size:48px;margin-bottom:16px;">📦</div>
+        <h3 style="font-family:Cairo,sans-serif;font-size:18px;color:var(--text2);margin-bottom:8px;">لا توجد اعتمادات مواد بعد</h3>
+        <p style="color:var(--text3);font-size:14px;margin-bottom:20px;">ابدأ بتقديم أول اعتماد مادة للمشروع</p>
+        <button onclick="openMSModal()" style="background:var(--maroon);border:none;border-radius:8px;padding:10px 24px;color:#fff;font-family:Tajawal,sans-serif;cursor:pointer;font-size:14px;font-weight:700;">+ اعتماد مادة جديد</button>
+      </div>
+
+      <!-- الجدول -->
+      <div id="msTableWrap" style="display:none;overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--border2);">
+              <th style="text-align:right;padding:10px 12px;color:var(--gold);font-family:Cairo,sans-serif;font-weight:700;white-space:nowrap;">رقم MS</th>
+              <th style="text-align:right;padding:10px 12px;color:var(--gold);font-family:Cairo,sans-serif;font-weight:700;">اسم المادة</th>
+              <th style="text-align:right;padding:10px 12px;color:var(--gold);font-family:Cairo,sans-serif;font-weight:700;">المورد</th>
+              <th style="text-align:right;padding:10px 12px;color:var(--gold);font-family:Cairo,sans-serif;font-weight:700;white-space:nowrap;">تاريخ التقديم</th>
+              <th style="text-align:right;padding:10px 12px;color:var(--gold);font-family:Cairo,sans-serif;font-weight:700;">مرجع QCS</th>
+              <th style="text-align:center;padding:10px 12px;color:var(--gold);font-family:Cairo,sans-serif;font-weight:700;">الحالة</th>
+              <th style="text-align:center;padding:10px 12px;color:var(--gold);font-family:Cairo,sans-serif;font-weight:700;">إجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="msTableBody"></tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- ── Modal: إنشاء/تعديل اعتماد مادة ── -->
+    <div class="modal-overlay" id="msModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;">
+      <div class="modal" style="background:var(--dark2);border:1px solid var(--border2);border-radius:16px;padding:28px;width:100%;max-width:620px;max-height:90vh;overflow-y:auto;position:relative;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+          <h3 id="msModalTitle" style="font-family:Cairo,sans-serif;font-size:18px;font-weight:800;color:var(--text);margin:0;">اعتماد مادة جديد</h3>
+          <button onclick="closeMSModal()" style="background:none;border:none;color:var(--text3);font-size:22px;cursor:pointer;line-height:1;">×</button>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+
+          <div>
+            <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">رقم الاعتماد (اختياري — يتولّد تلقائياً)</label>
+            <input id="ms_number" type="text" placeholder="مثال: MS-001" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+          </div>
+
+          <div>
+            <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">تاريخ التقديم *</label>
+            <input id="ms_submit_date" type="date" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+          </div>
+
+          <div style="grid-column:1/-1;">
+            <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">اسم المادة *</label>
+            <input id="ms_material_name" type="text" placeholder="مثال: خرسانة جاهزة C30 — Ready Mix Concrete" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+          </div>
+
+          <div>
+            <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">المورد / Supplier</label>
+            <input id="ms_supplier" type="text" placeholder="اسم شركة التوريد" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+          </div>
+
+          <div>
+            <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">الحالة</label>
+            <select id="ms_status" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+              <option value="pending">🟡 في الانتظار — Pending</option>
+              <option value="approved">🟢 موافق — Approved</option>
+              <option value="approved_with_comments">🟠 موافق بتعليقات</option>
+              <option value="rejected">🔴 مرفوض — Rejected</option>
+              <option value="resubmit">🔁 إعادة تقديم — Resubmit</option>
+            </select>
+          </div>
+
+          <div style="grid-column:1/-1;">
+            <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">المواصفة المطلوبة / Specification</label>
+            <input id="ms_specification" type="text" placeholder="مثال: ASTM C150 / BS 8500 / QCS 2024 Part 5" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+          </div>
+
+          <div>
+            <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">مرجع QCS 2024</label>
+            <input id="ms_qcs_reference" type="text" placeholder="مثال: QCS 2024 — Part 5, Section 3" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+          </div>
+
+          <div>
+            <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">تاريخ الرد / Response Date</label>
+            <input id="ms_response_date" type="date" style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+          </div>
+
+          <div style="grid-column:1/-1;">
+            <label style="display:block;font-size:12px;color:var(--text3);margin-bottom:6px;">تعليقات / Comments</label>
+            <textarea id="ms_comments" rows="3" placeholder="ملاحظات الاستشاري أو تعليقات إضافية..." style="width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;resize:vertical;"></textarea>
+          </div>
+
+        </div><!-- /grid -->
+
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+          <button onclick="closeMSModal()" style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 20px;color:var(--text2);font-family:Tajawal,sans-serif;cursor:pointer;font-size:14px;">إلغاء</button>
+          <button id="msSubmitBtn" onclick="submitMS()" style="background:var(--maroon);border:none;border-radius:8px;padding:10px 24px;color:#fff;font-family:Tajawal,sans-serif;cursor:pointer;font-size:14px;font-weight:700;">حفظ الاعتماد</button>
+        </div>
       </div>
     </div>
 
@@ -1696,6 +1847,316 @@ function exportIRPDF(id) {
   showToast('📄 تم تصدير طلب الفحص كـ PDF', 'success');
 }
 // ════════════════════════════════════════════════════════════════════
+// ── MATERIAL SUBMITTALS (المرحلة 5) ─────────────────────────────────
+// ════════════════════════════════════════════════════════════════════
+
+let msData = [];
+let msFiltered = [];
+let msEditId = null;
+
+async function loadMS() {
+  if (!window.projectId) return;
+  showMSLoading(true);
+  try {
+    const token = window.authToken || '';
+    const r = await fetch(`/api/material-submittals?project_id=${window.projectId}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || 'خطأ في الجلب');
+    msData = data.submittals || [];
+    updateMSStats(data.stats || {});
+    filterMS();
+  } catch (err) {
+    showToast('خطأ في تحميل اعتمادات المواد: ' + err.message, 'error');
+  } finally {
+    showMSLoading(false);
+  }
+}
+
+function updateMSStats(stats) {
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val ?? 0; };
+  set('msStat-total',    stats.total   ?? msData.length);
+  set('msStat-pending',  stats.pending ?? 0);
+  set('msStat-approved', (stats.approved ?? 0) + (stats.approved_with_comments ?? 0));
+  set('msStat-rejected', stats.rejected ?? 0);
+  set('msStat-resubmit', stats.resubmit ?? 0);
+  const badge = document.getElementById('badge-ms');
+  if (badge) badge.textContent = stats.total ?? msData.length;
+}
+
+function filterMS() {
+  const statusVal = (document.getElementById('msFilter')?.value || '').toLowerCase();
+  const searchVal = (document.getElementById('msSearch')?.value || '').toLowerCase().trim();
+  msFiltered = msData.filter(m => {
+    const matchStatus = !statusVal || m.status === statusVal;
+    const matchSearch = !searchVal || (
+      (m.material_name || '').toLowerCase().includes(searchVal) ||
+      (m.supplier || '').toLowerCase().includes(searchVal) ||
+      (m.submittal_number || '').toLowerCase().includes(searchVal)
+    );
+    return matchStatus && matchSearch;
+  });
+  renderMS(msFiltered);
+}
+
+function renderMS(list) {
+  const wrap  = document.getElementById('msTableWrap');
+  const empty = document.getElementById('msEmpty');
+  const tbody = document.getElementById('msTableBody');
+  if (!wrap || !empty || !tbody) return;
+  if (!list || list.length === 0) {
+    wrap.style.display  = 'none';
+    empty.style.display = 'block';
+    return;
+  }
+  wrap.style.display  = 'block';
+  empty.style.display = 'none';
+  tbody.innerHTML = list.map(m => {
+    const { label, color, bg } = msStatusBadge(m.status);
+    return `<tr style="border-bottom:1px solid var(--border);transition:background 0.15s;" onmouseover="this.style.background='rgba(201,168,76,0.04)'" onmouseout="this.style.background='transparent'">
+        <td style="padding:10px 12px;color:var(--gold);font-weight:700;font-family:Cairo,sans-serif;white-space:nowrap;">${msSanitize(m.submittal_number||'—')}</td>
+        <td style="padding:10px 12px;color:var(--text);max-width:200px;">
+          <div style="font-weight:600;">${msSanitize(m.material_name||'—')}</div>
+          ${m.specification?`<div style="font-size:11px;color:var(--text3);margin-top:2px;">${msSanitize(m.specification)}</div>`:''}
+        </td>
+        <td style="padding:10px 12px;color:var(--text2);">${msSanitize(m.supplier||'—')}</td>
+        <td style="padding:10px 12px;color:var(--text2);white-space:nowrap;">${formatDate(m.submit_date)}</td>
+        <td style="padding:10px 12px;color:var(--text3);font-size:12px;">${msSanitize(m.qcs_reference||'—')}</td>
+        <td style="padding:10px 12px;text-align:center;">
+          <span style="background:${bg};color:${color};border:1px solid ${color}40;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;white-space:nowrap;">${label}</span>
+        </td>
+        <td style="padding:10px 12px;text-align:center;">
+          <div style="display:flex;gap:6px;justify-content:center;">
+            <button onclick="editMS('${m.id}')" title="تعديل" style="background:var(--dark3);border:1px solid var(--border);border-radius:6px;padding:5px 10px;color:var(--text2);cursor:pointer;font-size:12px;">✏️</button>
+            <button onclick="exportMSPDF('${m.id}')" title="تصدير PDF" style="background:var(--dark3);border:1px solid var(--border);border-radius:6px;padding:5px 10px;color:var(--text2);cursor:pointer;font-size:12px;">📄</button>
+            <button onclick="deleteMS('${m.id}',event)" title="حذف" style="background:var(--dark3);border:1px solid var(--border);border-radius:6px;padding:5px 10px;color:var(--red);cursor:pointer;font-size:12px;">🗑</button>
+          </div>
+        </td>
+      </tr>`;
+  }).join('');
+}
+
+function msStatusBadge(status) {
+  const map = {
+    pending:                { label:'🟡 في الانتظار',      color:'#eab308', bg:'rgba(234,179,8,0.12)' },
+    approved:               { label:'🟢 موافق',             color:'#22c55e', bg:'rgba(34,197,94,0.12)' },
+    approved_with_comments: { label:'🟠 موافق / تعليقات',  color:'#f97316', bg:'rgba(249,115,22,0.12)' },
+    rejected:               { label:'🔴 مرفوض',             color:'#ef4444', bg:'rgba(239,68,68,0.12)' },
+    resubmit:               { label:'🔁 إعادة تقديم',       color:'#3b82f6', bg:'rgba(59,130,246,0.12)' },
+  };
+  return map[status] || { label: status||'—', color:'var(--text3)', bg:'var(--dark3)' };
+}
+
+function msSanitize(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function openMSModal(obj = null) {
+  msEditId = obj ? obj.id : null;
+  const title = document.getElementById('msModalTitle');
+  const btn   = document.getElementById('msSubmitBtn');
+  if (title) title.textContent = msEditId ? 'تعديل اعتماد المادة' : 'اعتماد مادة جديد';
+  if (btn)   btn.textContent   = msEditId ? 'حفظ التعديلات'       : 'حفظ الاعتماد';
+  const f = obj || {};
+  const sv = (id, v) => { const el=document.getElementById(id); if(el) el.value=v; };
+  sv('ms_number',        f.submittal_number||'');
+  sv('ms_material_name', f.material_name||'');
+  sv('ms_supplier',      f.supplier||'');
+  sv('ms_specification', f.specification||'');
+  sv('ms_qcs_reference', f.qcs_reference||'');
+  sv('ms_status',        f.status||'pending');
+  sv('ms_submit_date',   f.submit_date||new Date().toISOString().slice(0,10));
+  sv('ms_response_date', f.response_date||'');
+  sv('ms_comments',      f.comments||'');
+  const modal = document.getElementById('msModal');
+  if (modal) { modal.style.display='flex'; document.body.style.overflow='hidden'; }
+}
+
+function closeMSModal() {
+  const modal = document.getElementById('msModal');
+  if (modal) { modal.style.display='none'; document.body.style.overflow=''; }
+  msEditId = null;
+}
+
+function editMS(id) {
+  const m = msData.find(x => x.id === id);
+  if (m) openMSModal(m);
+}
+
+async function submitMS() {
+  const matName    = document.getElementById('ms_material_name')?.value?.trim();
+  const submitDate = document.getElementById('ms_submit_date')?.value;
+  if (!matName)    { showToast('اسم المادة مطلوب', 'error'); return; }
+  if (!submitDate) { showToast('تاريخ التقديم مطلوب', 'error'); return; }
+
+  const payload = {
+    project_id:       window.projectId,
+    submittal_number: document.getElementById('ms_number')?.value?.trim() || undefined,
+    material_name:    matName,
+    supplier:         document.getElementById('ms_supplier')?.value?.trim() || null,
+    specification:    document.getElementById('ms_specification')?.value?.trim() || null,
+    qcs_reference:    document.getElementById('ms_qcs_reference')?.value?.trim() || null,
+    status:           document.getElementById('ms_status')?.value || 'pending',
+    submit_date:      submitDate,
+    response_date:    document.getElementById('ms_response_date')?.value || null,
+    comments:         document.getElementById('ms_comments')?.value?.trim() || null,
+  };
+
+  const btn = document.getElementById('msSubmitBtn');
+  if (btn) { btn.disabled=true; btn.textContent='⏳ جارٍ الحفظ...'; }
+  try {
+    const token = window.authToken || '';
+    const isEdit = !!msEditId;
+    const url = isEdit ? `/api/material-submittals?id=${msEditId}` : '/api/material-submittals';
+    const r = await fetch(url, {
+      method: isEdit ? 'PUT' : 'POST',
+      headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${token}` },
+      body: JSON.stringify(payload)
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || 'فشل الحفظ');
+    closeMSModal();
+    showToast(data.message || 'تم الحفظ بنجاح', 'success');
+    await loadMS();
+  } catch (err) {
+    showToast('خطأ: ' + err.message, 'error');
+  } finally {
+    if (btn) { btn.disabled=false; btn.textContent=msEditId?'حفظ التعديلات':'حفظ الاعتماد'; }
+  }
+}
+
+async function deleteMS(id, e) {
+  e?.stopPropagation();
+  const m = msData.find(x => x.id === id);
+  if (!confirm(`هل تريد حذف "${m?.material_name||'الاعتماد'}"؟`)) return;
+  try {
+    const token = window.authToken || '';
+    const r = await fetch(`/api/material-submittals?id=${id}`, {
+      method:'DELETE', headers:{'Authorization':`Bearer ${token}`}
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || 'فشل الحذف');
+    showToast('تم الحذف بنجاح', 'success');
+    await loadMS();
+  } catch (err) {
+    showToast('خطأ في الحذف: ' + err.message, 'error');
+  }
+}
+
+function exportMSPDF(id) {
+  const m = msData.find(x => x.id === id);
+  if (!m) { showToast('الاعتماد غير موجود', 'error'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+  doc.setFillColor(122,21,21); doc.rect(0,0,210,28,'F');
+  doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(14);
+  doc.text('QATARSPEC PRO — MATERIAL SUBMITTAL', 105, 12, {align:'center'});
+  doc.setFontSize(9); doc.setFont('helvetica','normal');
+  doc.text('QCS 2024 Compliant | qatar-standers.vercel.app', 105, 21, {align:'center'});
+  doc.setTextColor(30,30,30); doc.setFont('helvetica','bold'); doc.setFontSize(11);
+  doc.text(`Project: ${window.projectName||'—'}`, 14, 38);
+  doc.setFont('helvetica','normal'); doc.setFontSize(9);
+  doc.text(`Submittal: ${m.submittal_number||'—'}  |  Date: ${formatDate(m.submit_date)}  |  Status: ${msStatusBadge(m.status).label.replace(/[^\x00-\x7F]/g,'')}`, 14, 46);
+  doc.autoTable({
+    startY: 54,
+    head: [['Field','Details']],
+    body: [
+      ['Material Name',   m.material_name||'—'],
+      ['Supplier',        m.supplier||'—'],
+      ['Specification',   m.specification||'—'],
+      ['QCS Reference',   m.qcs_reference||'—'],
+      ['Submit Date',     formatDate(m.submit_date)],
+      ['Response Date',   m.response_date?formatDate(m.response_date):'—'],
+      ['Status',          msStatusBadge(m.status).label.replace(/[^\x00-\x7F]/g,'').trim()],
+      ['Comments',        m.comments||'—'],
+    ],
+    styles: {font:'helvetica',fontSize:10,cellPadding:5},
+    headStyles: {fillColor:[122,21,21],textColor:[255,255,255],fontStyle:'bold'},
+    columnStyles: {0:{fontStyle:'bold',cellWidth:55}},
+    alternateRowStyles: {fillColor:[248,245,240]},
+  });
+  const sigY = doc.lastAutoTable.finalY + 20;
+  if (sigY < 252) {
+    ['Submitted by (Contractor)','Reviewed by (Consultant)','Approved by (Client)'].forEach((lbl,i) => {
+      const x = 14 + i*65;
+      doc.setDrawColor(200,168,76); doc.setLineWidth(0.5);
+      doc.line(x, sigY+20, x+55, sigY+20);
+      doc.setFontSize(8); doc.setTextColor(100,100,100);
+      doc.text(lbl, x, sigY+26);
+    });
+  }
+  doc.setFillColor(30,30,30); doc.rect(0,282,210,15,'F');
+  doc.setTextColor(180,180,180); doc.setFontSize(7);
+  doc.text(`Generated by QatarSpec Pro | ${new Date().toLocaleDateString('en-GB')} | QCS 2024`, 105,291,{align:'center'});
+  doc.save(`MS_${(m.submittal_number||'submittal').replace(/[^a-zA-Z0-9-]/g,'_')}_${m.submit_date||'draft'}.pdf`);
+  showToast('📄 تم تصدير الاعتماد كـ PDF','success');
+}
+
+function exportMSLog() {
+  if (!msData || msData.length === 0) { showToast('لا توجد اعتمادات للتصدير','error'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+  doc.setFillColor(122,21,21); doc.rect(0,0,297,22,'F');
+  doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(13);
+  doc.text('MATERIAL SUBMITTALS LOG — QATARSPEC PRO', 148,10,{align:'center'});
+  doc.setFont('helvetica','normal'); doc.setFontSize(8);
+  doc.text(`Project: ${window.projectName||'—'}  |  Generated: ${new Date().toLocaleDateString('en-GB')}  |  QCS 2024`, 148,18,{align:'center'});
+  const total=msData.length, pending=msData.filter(m=>m.status==='pending').length,
+        approved=msData.filter(m=>m.status==='approved'||m.status==='approved_with_comments').length,
+        rejected=msData.filter(m=>m.status==='rejected').length;
+  doc.setTextColor(30,30,30); doc.setFontSize(9);
+  doc.text(`Total: ${total}   Pending: ${pending}   Approved: ${approved}   Rejected: ${rejected}`, 14, 30);
+  doc.autoTable({
+    startY: 35,
+    head: [['MS No.','Material Name','Supplier','Specification','QCS Ref.','Submit Date','Response Date','Status','Comments']],
+    body: msData.map(m => [
+      m.submittal_number||'—', m.material_name||'—', m.supplier||'—',
+      m.specification||'—', m.qcs_reference||'—',
+      formatDate(m.submit_date), m.response_date?formatDate(m.response_date):'—',
+      msStatusBadge(m.status).label.replace(/[^\x00-\x7F]/g,'').trim(),
+      m.comments?(m.comments.length>35?m.comments.substring(0,35)+'...':m.comments):'—',
+    ]),
+    styles: {font:'helvetica',fontSize:7.5,cellPadding:3},
+    headStyles: {fillColor:[122,21,21],textColor:[255,255,255],fontStyle:'bold',fontSize:8},
+    alternateRowStyles: {fillColor:[248,245,240]},
+    didParseCell: (d) => {
+      if (d.section==='body' && d.column.index===7) {
+        const s = msData[d.row.index]?.status;
+        if (s==='approved'||s==='approved_with_comments') d.cell.styles.textColor=[34,197,94];
+        else if (s==='rejected') d.cell.styles.textColor=[239,68,68];
+        else if (s==='pending')  d.cell.styles.textColor=[234,179,8];
+        else if (s==='resubmit') d.cell.styles.textColor=[59,130,246];
+      }
+    }
+  });
+  const pages = doc.internal.getNumberOfPages();
+  for (let i=1;i<=pages;i++) {
+    doc.setPage(i);
+    doc.setFillColor(30,30,30); doc.rect(0,198,297,12,'F');
+    doc.setTextColor(180,180,180); doc.setFontSize(7);
+    doc.text(`QatarSpec Pro | Page ${i} of ${pages} | QCS 2024 Compliant`, 148,206,{align:'center'});
+  }
+  doc.save(`MS_Log_${(window.projectName||'project').replace(/\s/g,'_')}_${new Date().toISOString().slice(0,10)}.pdf`);
+  showToast('📄 تم تصدير Submittal Log كاملاً كـ PDF','success');
+}
+
+function showMSLoading(show) {
+  const el = document.getElementById('msLoading');
+  if (el) el.style.display = show ? 'block' : 'none';
+}
+
+// ربط تحميل المواد عند فتح Tab
+(function() {
+  const orig = window.switchTab;
+  if (typeof orig === 'function') {
+    window.switchTab = function(tab) {
+      orig(tab);
+      if (tab === 'materials' && msData.length === 0) loadMS();
+    };
+  }
+})();
 </script>
 </body>
 </html>
