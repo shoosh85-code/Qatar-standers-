@@ -1524,6 +1524,9 @@ function showLoginRequired() {
 
 // ── تبديل التبويبات ────────────────────────────────────────────────────────
 function switchTab(tabId) {
+    if(tab==='boq'&&window.QS_Phase9)QS_Phase9.initBOQTab(document.getElementById('tab-boq'));
+    if(tab==='ipc'&&window.QS_Phase9)QS_Phase9.initIPCTab(document.getElementById('tab-ipc'));
+    if(tab==='scurve'&&window.QS_Phase9)QS_Phase9.initSCurveTab(document.getElementById('tab-scurve'));
   // تحديث URL
   const url = new URL(window.location.href);
   url.searchParams.set('tab', tabId);
@@ -4108,5 +4111,7 @@ function sanitizeText(str) {
     .replace(/'/g, '&#39;');
 }
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
+<script src="/js/project-phase9.js" defer></script>
 </body>
 </html>
