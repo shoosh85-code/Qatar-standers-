@@ -64,6 +64,9 @@
     },
     "api/ncr-log.js": {
       "maxDuration": 30
+    },
+    "api/site-photos.js": {
+      "maxDuration": 30
     }
   },
   "headers": [

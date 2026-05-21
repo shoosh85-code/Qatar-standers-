@@ -993,13 +993,132 @@ header {
       </div>
     </div>
 
-    <!-- ── Tab: Photos (Coming Soon) ── -->
+    <!-- ── Tab: Photos ── -->
     <div class="tab-panel" id="tab-photos">
-      <div class="coming-soon">
-        <div class="cs-icon">📸</div>
-        <h3>صور الموقع</h3>
-        <p>قريباً — المرحلة 7 من خطة التطوير</p>
+
+      <!-- ── Toolbar ── -->
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <select id="photoFilterActivity" onchange="filterPhotos()" style="background:var(--dark3);border:1px solid var(--border2);border-radius:8px;padding:8px 14px;color:var(--text);font-family:Tajawal,sans-serif;font-size:13px;">
+            <option value="">كل الأنشطة</option>
+            <option value="concrete">صب خرسانة</option>
+            <option value="rebar">تسليح</option>
+            <option value="formwork">Formwork</option>
+            <option value="backfill">ردم</option>
+            <option value="road">أعمال طرق</option>
+            <option value="mep">MEP</option>
+            <option value="finishing">تشطيبات</option>
+            <option value="inspection">فحص</option>
+            <option value="general">عام</option>
+          </select>
+          <input type="date" id="photoFilterDate" onchange="filterPhotos()" style="background:var(--dark3);border:1px solid var(--border2);border-radius:8px;padding:8px 14px;color:var(--text);font-family:Tajawal,sans-serif;font-size:13px;">
+          <button onclick="clearPhotoFilters()" style="background:transparent;border:1px solid var(--border);border-radius:8px;padding:8px 14px;color:var(--text2);font-family:Tajawal,sans-serif;cursor:pointer;font-size:13px;">&#x2715; مسح الفلتر</button>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button onclick="exportPhotoReport()" style="background:var(--dark3);border:1px solid var(--gold);border-radius:8px;padding:10px 16px;color:var(--gold);font-family:Tajawal,sans-serif;cursor:pointer;font-size:13px;">&#x1F4C4; تصدير Photo Report</button>
+          <label for="photoInput" style="background:var(--gold);border:none;border-radius:8px;padding:10px 20px;color:#000;font-family:Tajawal,sans-serif;cursor:pointer;font-size:14px;font-weight:700;display:inline-flex;align-items:center;gap:6px;">
+            &#x1F4F8; أضف صورة
+          </label>
+          <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" multiple style="display:none;" onchange="handlePhotoFiles(this.files)">
+        </div>
       </div>
+
+      <!-- ── Upload Progress ── -->
+      <div id="photoUploadProgress" style="display:none;background:var(--dark3);border:1px solid var(--border2);border-radius:12px;padding:16px;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <span id="photoUploadLabel" style="font-size:13px;color:var(--text2);">جار الرفع...</span>
+          <span id="photoUploadPct" style="font-size:13px;color:var(--gold);font-weight:700;">0%</span>
+        </div>
+        <div style="background:var(--dark4);border-radius:4px;height:6px;overflow:hidden;">
+          <div id="photoUploadBar" style="background:var(--gold);height:100%;width:0%;transition:width 0.3s;border-radius:4px;"></div>
+        </div>
+      </div>
+
+      <!-- ── Upload Modal ── -->
+      <div id="photoModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;">
+        <div style="background:var(--dark2);border:1px solid var(--border2);border-radius:16px;padding:28px;width:min(480px,95vw);max-height:90vh;overflow-y:auto;">
+          <h3 style="color:var(--gold);margin-bottom:20px;font-family:Cairo,sans-serif;">&#x1F4F8; تفاصيل الصورة</h3>
+          <img id="photoPreviewImg" src="" alt="" style="width:100%;border-radius:8px;margin-bottom:16px;max-height:250px;object-fit:cover;">
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div>
+              <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:5px;">وصف الصورة</label>
+              <input id="photoCaption" type="text" placeholder="مثال: صب سقف الطابق الثالث" maxlength="200"
+                style="width:100%;background:var(--dark3);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+            </div>
+            <div>
+              <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:5px;">النشاط</label>
+              <select id="photoActivity" style="width:100%;background:var(--dark3);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+                <option value="general">عام</option>
+                <option value="concrete">صب خرسانة</option>
+                <option value="rebar">تسليح</option>
+                <option value="formwork">Formwork</option>
+                <option value="backfill">ردم</option>
+                <option value="road">أعمال طرق</option>
+                <option value="mep">MEP</option>
+                <option value="finishing">تشطيبات</option>
+                <option value="inspection">فحص</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:5px;">تاريخ الصورة</label>
+              <input id="photoDate" type="date" style="width:100%;background:var(--dark3);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;color:var(--text);font-family:Tajawal,sans-serif;font-size:14px;">
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:20px;justify-content:flex-end;">
+            <button onclick="closePhotoModal()" style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 20px;color:var(--text2);font-family:Tajawal,sans-serif;cursor:pointer;font-size:14px;">إلغاء</button>
+            <button onclick="confirmPhotoUpload()" style="background:var(--gold);border:none;border-radius:8px;padding:10px 24px;color:#000;font-family:Tajawal,sans-serif;cursor:pointer;font-size:14px;font-weight:700;">رفع الصورة</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Loading ── -->
+      <div id="photosLoading" style="display:none;text-align:center;padding:40px;color:var(--text2);">
+        <div style="font-size:32px;margin-bottom:12px;animation:spin 1s linear infinite;display:inline-block;">&#x27F3;</div>
+        <div>جار تحميل الصور...</div>
+      </div>
+
+      <!-- ── Empty ── -->
+      <div id="photosEmpty" style="display:none;text-align:center;padding:60px 20px;">
+        <div style="font-size:64px;margin-bottom:16px;opacity:0.4;">&#x1F4F8;</div>
+        <h3 style="color:var(--text2);margin-bottom:8px;">لا توجد صور بعد</h3>
+        <p style="color:var(--text3);font-size:14px;">اضغط "أضف صورة" لرفع أول صورة من الموقع</p>
+      </div>
+
+      <!-- ── Photo Stats ── -->
+      <div id="photosStats" style="display:none;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
+        <div style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:12px 18px;display:flex;align-items:center;gap:10px;">
+          <span style="font-size:20px;">&#x1F4F8;</span>
+          <div>
+            <div id="photoCountTotal" style="font-size:20px;font-weight:700;color:var(--gold);line-height:1;">0</div>
+            <div style="font-size:11px;color:var(--text3);">إجمالي الصور</div>
+          </div>
+        </div>
+        <div style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:12px 18px;display:flex;align-items:center;gap:10px;">
+          <span style="font-size:20px;">&#x1F4C5;</span>
+          <div>
+            <div id="photoCountToday" style="font-size:20px;font-weight:700;color:var(--green);line-height:1;">0</div>
+            <div style="font-size:11px;color:var(--text3);">اليوم</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Gallery Grid ── -->
+      <div id="photoGallery" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;"></div>
+
+      <!-- ── Lightbox ── -->
+      <div id="photoLightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:2000;align-items:center;justify-content:center;flex-direction:column;" onclick="closeLightbox(event)">
+        <button onclick="closeLightbox()" style="position:absolute;top:20px;left:20px;background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:44px;height:44px;font-size:20px;color:#fff;cursor:pointer;">&#x2715;</button>
+        <button id="lbPrev" onclick="lightboxNav(-1);event.stopPropagation();" style="position:absolute;right:20px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:44px;height:44px;font-size:22px;color:#fff;cursor:pointer;">&#x203A;</button>
+        <button id="lbNext" onclick="lightboxNav(1);event.stopPropagation();" style="position:absolute;left:20px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:44px;height:44px;font-size:22px;color:#fff;cursor:pointer;">&#x2039;</button>
+        <img id="lbImage" src="" alt="" style="max-width:90vw;max-height:80vh;object-fit:contain;border-radius:8px;">
+        <div id="lbCaption" style="margin-top:14px;text-align:center;color:#ddd;font-family:Tajawal,sans-serif;font-size:14px;max-width:600px;padding:0 20px;"></div>
+        <div id="lbMeta" style="margin-top:6px;text-align:center;color:#888;font-family:Tajawal,sans-serif;font-size:12px;"></div>
+        <div style="margin-top:12px;display:flex;gap:10px;">
+          <button id="lbDeleteBtn" onclick="deleteCurrentPhoto();event.stopPropagation();" style="background:rgba(239,68,68,0.15);border:1px solid #ef4444;border-radius:8px;padding:8px 18px;color:#ef4444;font-family:Tajawal,sans-serif;cursor:pointer;font-size:13px;">&#x1F5D1; حذف</button>
+          <a id="lbDownloadBtn" href="#" download style="background:rgba(201,168,76,0.15);border:1px solid var(--gold);border-radius:8px;padding:8px 18px;color:var(--gold);font-family:Tajawal,sans-serif;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;">&#x2B07; تحميل</a>
+        </div>
+      </div>
+
     </div>
 
     <!-- ── Tab: Snag (Coming Soon) ── -->
@@ -2864,6 +2983,455 @@ document.addEventListener('DOMContentLoaded', () => {
   const sevSel = document.getElementById('ncr_severity');
   if (sevSel) sevSel.addEventListener('change', toggleCriticalWarning);
 });
+
+// ══════════════════════════════════════════════════════════════════
+// ── PHOTOS MODULE — المرحلة 7 ─────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════
+
+const photosState = {
+  photos: [],
+  filtered: [],
+  loaded: false,
+  pendingFiles: [],
+  pendingIndex: 0,
+  lightboxIndex: 0
+};
+
+// نشاطات بالعربية
+const ACTIVITY_LABELS = {
+  concrete: 'صب خرسانة', rebar: 'تسليح', formwork: 'Formwork',
+  backfill: 'ردم', road: 'أعمال طرق', mep: 'MEP',
+  finishing: 'تشطيبات', inspection: 'فحص', general: 'عام'
+};
+
+// ── تحميل الصور عند فتح الـ Tab ──────────────────────────────────
+document.querySelector('.tab-btn[data-tab="photos"]')?.addEventListener('click', () => {
+  if (!photosState.loaded) loadPhotos();
+});
+
+async function loadPhotos() {
+  showPhotoEl('photosLoading', true);
+  hidePhotoEl('photosEmpty');
+  try {
+    const res = await fetch(
+      `/api/site-photos?project_id=${state.projectId}`,
+      { headers: { 'Authorization': 'Bearer ' + state.token } }
+    );
+    if (res.status === 401) { showLoginRequired(); return; }
+    if (!res.ok) throw new Error('فشل تحميل الصور');
+    const data = await res.json();
+    photosState.photos = data.data || [];
+    photosState.loaded = true;
+    renderPhotos(photosState.photos);
+    updatePhotoStats(photosState.photos);
+    // تحديث badge في tab
+    const badge = document.getElementById('badge-photos');
+    if (badge) badge.textContent = photosState.photos.length;
+  } catch (err) {
+    showToast('خطأ في تحميل الصور: ' + err.message, 'error');
+  } finally {
+    showPhotoEl('photosLoading', false);
+  }
+}
+
+function showPhotoEl(id, show) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = show ? 'block' : 'none';
+}
+function hidePhotoEl(id) { showPhotoEl(id, false); }
+
+// ── عرض الإحصائيات ───────────────────────────────────────────────
+function updatePhotoStats(photos) {
+  const statsEl = document.getElementById('photosStats');
+  if (statsEl) statsEl.style.display = photos.length ? 'flex' : 'none';
+  const today = new Date().toISOString().split('T')[0];
+  const todayCount = photos.filter(p => p.photo_date === today).length;
+  const totalEl = document.getElementById('photoCountTotal');
+  const todayEl = document.getElementById('photoCountToday');
+  if (totalEl) totalEl.textContent = photos.length;
+  if (todayEl) todayEl.textContent = todayCount;
+}
+
+// ── عرض Gallery ──────────────────────────────────────────────────
+function renderPhotos(list) {
+  const gallery = document.getElementById('photoGallery');
+  const emptyEl = document.getElementById('photosEmpty');
+  if (!gallery) return;
+
+  if (!list.length) {
+    gallery.innerHTML = '';
+    if (emptyEl) emptyEl.style.display = 'block';
+    return;
+  }
+  if (emptyEl) emptyEl.style.display = 'none';
+
+  gallery.innerHTML = list.map((photo, idx) => `
+    <div onclick="openLightbox(${idx})" style="
+      position:relative;border-radius:12px;overflow:hidden;
+      aspect-ratio:4/3;cursor:pointer;background:var(--dark3);
+      border:1px solid var(--border);
+      transition:transform 0.2s,box-shadow 0.2s;
+    " onmouseover="this.style.transform='scale(1.03)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.5)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none'">
+      <img src="${QS.safe(photo.photo_url)}" alt="${QS.safe(photo.caption||'')}"
+        style="width:100%;height:100%;object-fit:cover;" loading="lazy"
+        onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'%3E%3Crect fill=\'%23222\'/%3E%3Ctext x=\'50\' y=\'55\' text-anchor=\'middle\' fill=\'%23666\' font-size=\'30\'%3E📸%3C/text%3E%3C/svg%3E'">
+      <div style="
+        position:absolute;bottom:0;left:0;right:0;
+        background:linear-gradient(transparent,rgba(0,0,0,0.85));
+        padding:24px 10px 10px;
+      ">
+        ${photo.caption ? `<div style="font-size:12px;color:#fff;font-family:Tajawal,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${QS.safe(photo.caption)}</div>` : ''}
+        <div style="font-size:11px;color:#aaa;font-family:Tajawal,sans-serif;margin-top:2px;">
+          ${photo.activity ? `<span style="background:rgba(201,168,76,0.2);color:var(--gold);padding:1px 7px;border-radius:20px;font-size:10px;">${ACTIVITY_LABELS[photo.activity]||photo.activity}</span> ` : ''}
+          ${photo.photo_date || ''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  photosState.filtered = list;
+}
+
+// ── فلترة الصور ──────────────────────────────────────────────────
+function filterPhotos() {
+  const actFilter = document.getElementById('photoFilterActivity')?.value || '';
+  const dateFilter = document.getElementById('photoFilterDate')?.value || '';
+  let list = [...photosState.photos];
+  if (actFilter) list = list.filter(p => p.activity === actFilter);
+  if (dateFilter) list = list.filter(p => p.photo_date === dateFilter);
+  renderPhotos(list);
+}
+
+function clearPhotoFilters() {
+  const actEl = document.getElementById('photoFilterActivity');
+  const dateEl = document.getElementById('photoFilterDate');
+  if (actEl) actEl.value = '';
+  if (dateEl) dateEl.value = '';
+  renderPhotos(photosState.photos);
+}
+
+// ── Lightbox ─────────────────────────────────────────────────────
+function openLightbox(idx) {
+  photosState.lightboxIndex = idx;
+  updateLightbox();
+  const lb = document.getElementById('photoLightbox');
+  if (lb) { lb.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+}
+
+function updateLightbox() {
+  const list = photosState.filtered.length ? photosState.filtered : photosState.photos;
+  const photo = list[photosState.lightboxIndex];
+  if (!photo) return;
+  const imgEl = document.getElementById('lbImage');
+  const capEl = document.getElementById('lbCaption');
+  const metaEl = document.getElementById('lbMeta');
+  const dlBtn = document.getElementById('lbDownloadBtn');
+  if (imgEl) imgEl.src = photo.photo_url;
+  if (capEl) capEl.textContent = photo.caption || '';
+  if (metaEl) metaEl.textContent = [
+    ACTIVITY_LABELS[photo.activity] || photo.activity || '',
+    photo.photo_date || ''
+  ].filter(Boolean).join(' · ');
+  if (dlBtn) { dlBtn.href = photo.photo_url; dlBtn.download = (photo.caption || 'photo') + '.jpg'; }
+}
+
+function lightboxNav(dir) {
+  const list = photosState.filtered.length ? photosState.filtered : photosState.photos;
+  photosState.lightboxIndex = (photosState.lightboxIndex + dir + list.length) % list.length;
+  updateLightbox();
+}
+
+function closeLightbox(e) {
+  if (e && e.target !== document.getElementById('photoLightbox')) return;
+  const lb = document.getElementById('photoLightbox');
+  if (lb) { lb.style.display = 'none'; document.body.style.overflow = ''; }
+}
+
+// مفاتيح لوحة المفاتيح للـ Lightbox
+document.addEventListener('keydown', (e) => {
+  const lb = document.getElementById('photoLightbox');
+  if (!lb || lb.style.display === 'none') return;
+  if (e.key === 'Escape') { lb.style.display = 'none'; document.body.style.overflow = ''; }
+  if (e.key === 'ArrowRight') lightboxNav(-1);
+  if (e.key === 'ArrowLeft') lightboxNav(1);
+});
+
+// ── حذف الصورة الحالية ───────────────────────────────────────────
+async function deleteCurrentPhoto() {
+  const list = photosState.filtered.length ? photosState.filtered : photosState.photos;
+  const photo = list[photosState.lightboxIndex];
+  if (!photo) return;
+  if (!confirm('هل تريد حذف هذه الصورة نهائياً؟')) return;
+
+  try {
+    const res = await fetch(`/api/site-photos?id=${photo.id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': 'Bearer ' + state.token }
+    });
+    if (!res.ok) throw new Error('فشل الحذف');
+    showToast('تم حذف الصورة', 'success');
+    // إغلاق Lightbox وإعادة التحميل
+    const lb = document.getElementById('photoLightbox');
+    if (lb) { lb.style.display = 'none'; document.body.style.overflow = ''; }
+    photosState.loaded = false;
+    loadPhotos();
+  } catch (err) {
+    showToast('خطأ في الحذف: ' + err.message, 'error');
+  }
+}
+
+// ── معالجة رفع الصور ─────────────────────────────────────────────
+function handlePhotoFiles(files) {
+  if (!files?.length) return;
+  const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+  const validFiles = Array.from(files).filter(f => allowedTypes.includes(f.type));
+  if (!validFiles.length) { showToast('نوع الملف غير مدعوم — jpg/png/webp فقط', 'error'); return; }
+  photosState.pendingFiles = validFiles;
+  photosState.pendingIndex = 0;
+  // فتح Modal للملف الأول
+  openPhotoModal(validFiles[0]);
+  // reset input
+  const inp = document.getElementById('photoInput');
+  if (inp) inp.value = '';
+}
+
+function openPhotoModal(file) {
+  const modal = document.getElementById('photoModal');
+  const previewImg = document.getElementById('photoPreviewImg');
+  const dateInp = document.getElementById('photoDate');
+  if (dateInp) dateInp.value = new Date().toISOString().split('T')[0];
+  const captionInp = document.getElementById('photoCaption');
+  if (captionInp) captionInp.value = '';
+  const actSel = document.getElementById('photoActivity');
+  if (actSel) actSel.value = 'general';
+  // Preview
+  if (previewImg && file) {
+    const reader = new FileReader();
+    reader.onload = (e) => { previewImg.src = e.target.result; };
+    reader.readAsDataURL(file);
+  }
+  if (modal) modal.style.display = 'flex';
+}
+
+function closePhotoModal() {
+  const modal = document.getElementById('photoModal');
+  if (modal) modal.style.display = 'none';
+  photosState.pendingFiles = [];
+  photosState.pendingIndex = 0;
+}
+
+async function confirmPhotoUpload() {
+  const file = photosState.pendingFiles[photosState.pendingIndex];
+  if (!file) return;
+  const caption = document.getElementById('photoCaption')?.value?.trim() || '';
+  const activity = document.getElementById('photoActivity')?.value || 'general';
+  const photoDate = document.getElementById('photoDate')?.value || new Date().toISOString().split('T')[0];
+
+  // إغلاق Modal
+  const modal = document.getElementById('photoModal');
+  if (modal) modal.style.display = 'none';
+
+  // ضغط الصورة
+  setUploadProgress(0, 'جار ضغط الصورة...');
+  showPhotoEl('photoUploadProgress', true);
+  try {
+    const compressed = await compressImage(file, 1200, 0.82);
+    setUploadProgress(30, 'جار رفع الصورة...');
+    await uploadPhoto(compressed, file.name, file.type, caption, activity, photoDate);
+    setUploadProgress(100, 'تم الرفع!');
+    setTimeout(() => hidePhotoEl('photoUploadProgress'), 1200);
+    showToast('تم رفع الصورة بنجاح', 'success');
+    photosState.loaded = false;
+    loadPhotos();
+  } catch (err) {
+    hidePhotoEl('photoUploadProgress');
+    showToast('خطأ في الرفع: ' + err.message, 'error');
+  }
+}
+
+function setUploadProgress(pct, label) {
+  const bar = document.getElementById('photoUploadBar');
+  const pctEl = document.getElementById('photoUploadPct');
+  const labelEl = document.getElementById('photoUploadLabel');
+  if (bar) bar.style.width = pct + '%';
+  if (pctEl) pctEl.textContent = pct + '%';
+  if (labelEl) labelEl.textContent = label;
+}
+
+// ── ضغط الصورة بـ Canvas ──────────────────────────────────────────
+function compressImage(file, maxWidth, quality) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const canvas = document.createElement('canvas');
+      let w = img.width, h = img.height;
+      if (w > maxWidth) { h = Math.round(h * maxWidth / w); w = maxWidth; }
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      canvas.toBlob((blob) => {
+        if (!blob) { reject(new Error('فشل ضغط الصورة')); return; }
+        // تحويل Blob → File
+        const compressedFile = new File([blob], file.name, { type: 'image/jpeg' });
+        resolve(compressedFile);
+      }, 'image/jpeg', quality);
+    };
+    img.onerror = () => reject(new Error('فشل قراءة الصورة'));
+    img.src = url;
+  });
+}
+
+// ── رفع الصورة للـ API ────────────────────────────────────────────
+async function uploadPhoto(file, fileName, originalType, caption, activity, photoDate) {
+  // تحويل File → base64
+  const base64 = await fileToBase64(file);
+  setUploadProgress(60, 'جار الإرسال...');
+  const res = await fetch('/api/site-photos', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + state.token
+    },
+    body: JSON.stringify({
+      project_id: state.projectId,
+      photo_base64: base64,
+      content_type: 'image/jpeg', // دائماً jpeg بعد الضغط
+      file_name: fileName,
+      caption,
+      activity,
+      photo_date: photoDate
+    })
+  });
+  setUploadProgress(90, 'جار الحفظ...');
+  if (res.status === 401) { showLoginRequired(); throw new Error('غير مصادق'); }
+  if (res.status === 429) { throw new Error('Rate limit — انتظر دقيقة وأعد المحاولة'); }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || 'فشل الرفع');
+  }
+  return await res.json();
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => resolve(e.target.result.split(',')[1]);
+    reader.onerror = () => reject(new Error('فشل قراءة الملف'));
+    reader.readAsDataURL(file);
+  });
+}
+
+// ── تصدير Photo Report PDF ────────────────────────────────────────
+function exportPhotoReport() {
+  const photos = photosState.filtered.length ? photosState.filtered : photosState.photos;
+  if (!photos.length) { showToast('لا توجد صور للتصدير', 'error'); return; }
+
+  const { jsPDF } = window.jspdf || window;
+  if (!jsPDF) { showToast('مكتبة PDF غير محملة', 'error'); return; }
+
+  const projectName = document.getElementById('projectName')?.textContent || 'Project';
+  const dateStr = new Date().toLocaleDateString('en-GB');
+  const filterDate = document.getElementById('photoFilterDate')?.value || '';
+  const title = filterDate ? `Photo Report — ${filterDate}` : 'Photo Report';
+
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const pageW = 210, pageH = 297;
+
+  // Header
+  doc.setFillColor(13, 27, 62);
+  doc.rect(0, 0, pageW, 25, 'F');
+  doc.setTextColor(200, 146, 42);
+  doc.setFontSize(14); doc.setFont('helvetica', 'bold');
+  doc.text('QatarSpec Pro — ' + title, pageW / 2, 11, { align: 'center' });
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(10); doc.setFont('helvetica', 'normal');
+  doc.text(projectName + ' — ' + dateStr, pageW / 2, 20, { align: 'center' });
+
+  let y = 30;
+  const imgW = 85, imgH = 60;
+  const cols = 2, gap = 10, marginX = 15;
+
+  // تحميل الصور وإضافتها
+  let loaded = 0;
+  const total = photos.length;
+  const tryRender = () => {
+    loaded++;
+    if (loaded === total) {
+      renderPdfPhotos();
+    }
+  };
+
+  const imgData = [];
+  photos.forEach((photo, i) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const c = document.createElement('canvas');
+      c.width = img.width; c.height = img.height;
+      const ctx = c.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      imgData[i] = c.toDataURL('image/jpeg', 0.7);
+      tryRender();
+    };
+    img.onerror = () => { imgData[i] = null; tryRender(); };
+    img.src = photo.photo_url;
+  });
+
+  function renderPdfPhotos() {
+    photos.forEach((photo, i) => {
+      const col = i % cols;
+      const x = marginX + col * (imgW + gap);
+      if (col === 0 && i > 0) y += imgH + 20;
+      // صفحة جديدة
+      if (y + imgH + 20 > pageH - 15) {
+        doc.addPage();
+        // header صفحة جديدة
+        doc.setFillColor(13, 27, 62);
+        doc.rect(0, 0, pageW, 12, 'F');
+        doc.setTextColor(200, 146, 42);
+        doc.setFontSize(9);
+        doc.text('QatarSpec Pro — ' + projectName, pageW / 2, 8, { align: 'center' });
+        y = 18;
+      }
+      if (imgData[i]) {
+        doc.addImage(imgData[i], 'JPEG', x, y, imgW, imgH);
+        doc.setDrawColor(50, 50, 80);
+        doc.rect(x, y, imgW, imgH);
+      } else {
+        doc.setFillColor(30, 30, 30);
+        doc.rect(x, y, imgW, imgH, 'F');
+        doc.setTextColor(100); doc.setFontSize(20);
+        doc.text('?', x + imgW / 2, y + imgH / 2, { align: 'center' });
+      }
+      // Caption
+      doc.setTextColor(220, 220, 220);
+      doc.setFontSize(8); doc.setFont('helvetica', 'normal');
+      const cap = (photo.caption || '') + (photo.photo_date ? ' · ' + photo.photo_date : '');
+      doc.text(cap.substring(0, 50), x + imgW / 2, y + imgH + 5, { align: 'center' });
+      if (photo.activity) {
+        doc.setTextColor(200, 146, 42);
+        doc.setFontSize(7);
+        doc.text(ACTIVITY_LABELS[photo.activity] || photo.activity, x + imgW / 2, y + imgH + 10, { align: 'center' });
+      }
+    });
+
+    // Footer
+    const pageCount = doc.getNumberOfPages();
+    for (let p = 1; p <= pageCount; p++) {
+      doc.setPage(p);
+      doc.setFillColor(13, 27, 62);
+      doc.rect(0, pageH - 12, pageW, 12, 'F');
+      doc.setTextColor(180, 180, 180);
+      doc.setFontSize(8);
+      doc.text(`Generated by QatarSpec Pro — ${dateStr} — Total: ${total} photos — Page ${p}/${pageCount}`, pageW / 2, pageH - 5, { align: 'center' });
+    }
+
+    doc.save(`Photo-Report-${projectName.replace(/\s+/g, '-')}-${dateStr}.pdf`);
+    showToast('تم تصدير Photo Report', 'success');
+  }
+}
 </script>
 </body>
 </html>
