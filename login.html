@@ -106,10 +106,17 @@
         if (result.error) throw result.error;
 
         if (currentTab === 'register') {
-          showMessage('تم إنشاء الحساب! تحقق من بريدك.', 'success');
+          showMessage('تم إنشاء الحساب! يمكنك الدخول الآن.', 'success');
         } else {
+          // حفظ الـ token في sessionStorage حتى تجده projects-app.js
+          const token = result.data?.session?.access_token;
+          if (token) {
+            sessionStorage.setItem('qs_session_token', token);
+          }
           showMessage('تم الدخول بنجاح! جاري التوجيه...', 'success');
-          setTimeout(() => window.location.href = '/projects.html', 1500);
+          const params = new URLSearchParams(window.location.search);
+          const redirect = params.get('redirect') || 'projects.html';
+          setTimeout(() => window.location.href = '/' + redirect, 1000);
         }
       } catch (err) {
         showMessage(err.message || 'خطأ غير معروف', 'error');

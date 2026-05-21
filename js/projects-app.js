@@ -15,15 +15,29 @@
     editingId: null,   // ID المشروع قيد التعديل
   };
 
-  // ── إعداد Supabase ────────────────────────────────────────────────────────
-  const SUPABASE_URL = window.__SUPABASE_URL__ ||
+  // ── إعداد Supabase — يُجلب من /api/auth-config ────────────────────────────
+  let SUPABASE_URL = window.__SUPABASE_URL__ ||
     document.querySelector('meta[name="supabase-url"]')?.content || '';
-  const SUPABASE_ANON = window.__SUPABASE_ANON__ ||
+  let SUPABASE_ANON = window.__SUPABASE_ANON__ ||
     document.querySelector('meta[name="supabase-anon"]')?.content || '';
+
+  async function loadSupabaseConfig() {
+    if (SUPABASE_URL && SUPABASE_ANON) return; // مكتفٍ
+    try {
+      const r = await fetch('/api/auth-config');
+      if (!r.ok) return;
+      const c = await r.json();
+      if (c.url) SUPABASE_URL = c.url;
+      if (c.key) SUPABASE_ANON = c.key;
+    } catch (e) { console.warn('auth-config fetch failed:', e); }
+  }
 
   // ── تهيئة التطبيق ─────────────────────────────────────────────────────────
   async function init() {
-    // جلب الـ session من Supabase
+    // أولاً: جلب إعدادات Supabase
+    await loadSupabaseConfig();
+
+    // ثانياً: التحقق من الجلسة
     await checkSession();
 
     if (STATE.token && STATE.user) {
