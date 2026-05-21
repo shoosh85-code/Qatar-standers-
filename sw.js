@@ -26,7 +26,13 @@ const STATIC_ASSETS = [
   '/offline.html',
   '/api/health',
   '/404.html',
-  '/500.html'
+  '/500.html',
+  '/projects.html',
+  '/project-detail.html',
+  '/login.html',
+  '/js/projects-app.js',
+  '/js/project-phase9.js',
+  '/js/payment-certificates.js'
 ];
 
 // INSTALL: مسح كل الكاش القديم فوراً
