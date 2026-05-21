@@ -1537,9 +1537,9 @@ function showLoginRequired() {
 
 // ── تبديل التبويبات ────────────────────────────────────────────────────────
 function switchTab(tabId) {
-    if(tab==='boq'&&window.QS_Phase9)QS_Phase9.initBOQTab(document.getElementById('tab-boq'));
-    if(tab==='ipc'&&window.QS_Phase9)QS_Phase9.initIPCTab(document.getElementById('tab-ipc'));
-    if(tab==='scurve'&&window.QS_Phase9)QS_Phase9.initSCurveTab(document.getElementById('tab-scurve'));
+    if(tabId==='boq'&&window.QS_Phase9)QS_Phase9.initBOQTab(document.getElementById('tab-boq'));
+    if(tabId==='ipc'&&window.QS_Phase9)QS_Phase9.initIPCTab(document.getElementById('tab-ipc'));
+    if(tabId==='scurve'&&window.QS_Phase9)QS_Phase9.initSCurveTab(document.getElementById('tab-scurve'));
   // تحديث URL
   const url = new URL(window.location.href);
   url.searchParams.set('tab', tabId);
