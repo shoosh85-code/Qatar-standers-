@@ -54,36 +54,32 @@
   async function checkSession() {
     if (!SUPABASE_URL || !SUPABASE_ANON) return;
 
+    // اقرأ الـ token من sessionStorage فقط (يُمسح عند إغلاق المتصفح)
+    const savedToken = sessionStorage.getItem('qs_session_token');
+    if (!savedToken) return;
+
     try {
-      // محاولة استرداد الجلسة من Supabase
-      const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+      // تحقق من صلاحية الـ token مع Supabase
+      const userRes = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
         headers: {
           'apikey': SUPABASE_ANON,
-          'Authorization': `Bearer ${SUPABASE_ANON}`
+          'Authorization': `Bearer ${savedToken}`
         }
       });
 
-      // إذا كان هناك session محفوظ في sessionStorage (مؤقت للجلسة فقط)
-      const savedToken = sessionStorage.getItem('qs_session_token');
-      if (savedToken) {
-        const userRes = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
-          headers: {
-            'apikey': SUPABASE_ANON,
-            'Authorization': `Bearer ${savedToken}`
-          }
-        });
-        if (userRes.ok) {
-          const userData = await userRes.json();
-          if (userData?.id) {
-            STATE.token = savedToken;
-            STATE.user = userData;
-            return;
-          }
+      if (userRes.ok) {
+        const userData = await userRes.json();
+        if (userData?.id) {
+          STATE.token = savedToken;
+          STATE.user = userData;
+          return;
         }
-        sessionStorage.removeItem('qs_session_token');
       }
+      // Token منتهي الصلاحية — امسحه
+      sessionStorage.removeItem('qs_session_token');
     } catch (e) {
       console.warn('checkSession error:', e);
+      sessionStorage.removeItem('qs_session_token');
     }
   }
 
@@ -122,7 +118,14 @@
         return;
       }
 
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        if (errData.code === 'TABLE_MISSING') {
+          showError('قاعدة البيانات غير مُهيأة. يرجى فتح <a href="/admin-project-hub-setup.html" style="color:var(--gold)">صفحة الإعداد</a> وتشغيل السكريبت.');
+          return;
+        }
+        throw new Error(`HTTP ${res.status}: ${errData.error || ''}`);
+      }
 
       const json = await res.json();
       // تصفية المشاريع المحذوفة (cancelled)
@@ -131,7 +134,7 @@
       renderStats();
     } catch (err) {
       console.error('loadProjects error:', err);
-      showError('فشل تحميل المشاريع. يرجى المحاولة مرة أخرى.');
+      showError(`فشل تحميل المشاريع: ${err.message || 'خطأ غير معروف'}`);
     } finally {
       setState({ loading: false });
     }
@@ -179,7 +182,12 @@
     }
     // ─────────────────────────────────────────────────────────────────────
 
-    if (!res.ok) throw new Error(json.message || 'فشل إنشاء المشروع');
+    if (!res.ok) {
+      if (json.code === 'TABLE_MISSING') {
+        throw new Error('قاعدة البيانات غير مُهيأة — افتح /admin-project-hub-setup.html وشغّل الإعداد أولاً');
+      }
+      throw new Error(json.error || json.message || 'فشل إنشاء المشروع');
+    }
     return json.data;
   }
 

@@ -188,11 +188,19 @@ async function handleProjects(req, url, method, user, token, cors) {
       start_date: body.start_date || null,
       end_date: body.end_date || null,
       contract_value: body.contract_value ? Number(body.contract_value) : null,
-      description: body.description?.trim() || null,
+      notes: body.notes?.trim() || null,   // fix: كان description (خطأ) — الجدول يحتوي notes
       qcs_version: '2024',
     };
     const r = await sbQuery('projects', 'POST', payload, token);
-    if (!r.ok) return json({ error: 'Failed to create project', detail: r.data }, r.status, cors);
+    if (!r.ok) {
+      // تفاصيل الخطأ للـ debugging
+      const detail = r.data?.message || r.data?.hint || r.data?.details || JSON.stringify(r.data);
+      const isTableMissing = detail?.includes('relation') || detail?.includes('does not exist');
+      const errMsg = isTableMissing
+        ? 'جدول المشاريع غير موجود في قاعدة البيانات. يرجى تشغيل الإعداد من /admin-project-hub-setup.html'
+        : `فشل إنشاء المشروع: ${detail}`;
+      return json({ error: errMsg, detail: r.data, code: isTableMissing ? 'TABLE_MISSING' : 'DB_ERROR' }, r.status, cors);
+    }
     return json({ data: Array.isArray(r.data) ? r.data[0] : r.data }, 201, cors);
   }
 
