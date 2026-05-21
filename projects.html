@@ -209,7 +209,7 @@
 </header>
 
 <!-- Login Wall -->
-<div id="loginWall">
+<div id="loginRequired">
   <div class="login-card">
     <div class="login-icon">🔐</div>
     <h2 id="authTitle">تسجيل الدخول</h2>
@@ -241,7 +241,7 @@
 </div>
 
 <!-- App Content -->
-<div id="appContent">
+<div id="dashboardContent">
 
   <!-- Alert bar -->
   <div id="alertBar"></div>
@@ -289,19 +289,19 @@
       <div class="modal-grid">
         <div class="full">
           <label>اسم المشروع *</label>
-          <input id="fName" type="text" placeholder="مثال: فيلا الدوحة — بلوك 22">
+          <input id="f_name" type="text" placeholder="مثال: فيلا الدوحة — بلوك 22">
         </div>
         <div>
           <label>العميل</label>
-          <input id="fClient" type="text" placeholder="اسم العميل">
+          <input id="f_client" type="text" placeholder="اسم العميل">
         </div>
         <div>
           <label>الموقع</label>
-          <input id="fLocation" type="text" placeholder="المنطقة، قطر">
+          <input id="f_location" type="text" placeholder="المنطقة، قطر">
         </div>
         <div>
           <label>نوع المشروع</label>
-          <select id="fType">
+          <select id="f_type">
             <option value="villa">🏠 فيلا</option>
             <option value="building">🏢 مبنى</option>
             <option value="road">🛣 طريق</option>
@@ -312,19 +312,19 @@
         </div>
         <div>
           <label>قيمة العقد (QAR)</label>
-          <input id="fValue" type="number" placeholder="0">
+          <input id="f_contract_value" type="number" placeholder="0">
         </div>
         <div>
           <label>تاريخ البدء</label>
-          <input id="fStart" type="date">
+          <input id="f_start_date" type="date">
         </div>
         <div>
           <label>تاريخ الانتهاء</label>
-          <input id="fEnd" type="date">
+          <input id="f_end_date" type="date">
         </div>
         <div>
           <label>الحالة</label>
-          <select id="fStatus">
+          <select id="f_status">
             <option value="active">✅ نشط</option>
             <option value="on_hold">⏸ متوقف</option>
             <option value="completed">🏁 مكتمل</option>
@@ -332,13 +332,13 @@
         </div>
         <div class="full">
           <label>ملاحظات</label>
-          <textarea id="fNotes" rows="3" placeholder="ملاحظات إضافية..."></textarea>
+          <textarea id="f_notes" rows="3" placeholder="ملاحظات إضافية..."></textarea>
         </div>
       </div>
     </div>
     <div class="modal-foot">
       <button class="btn-sm btn-ghost" onclick="APP.closeModal()">إلغاء</button>
-      <button class="btn-sm btn-gold" id="saveBtn" onclick="APP.saveProject()">حفظ المشروع</button>
+      <button class="btn-sm btn-gold" id="submitBtn" onclick="APP.saveProject()">حفظ المشروع</button>
     </div>
   </div>
 </div>
@@ -349,14 +349,113 @@
 <script src="/js/projects-app.js"></script>
 <script src="/js/project-phase9.js" defer></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  setTimeout(function() {
-    if (window.QS_Phase9) {
-      const el = document.getElementById('dashboard-stats');
-      if (el) QS_Phase9.initDashboardStats(el);
+/* ── window.APP bridge — يربط HTML مع QS_Projects + QS_Projects_UI ── */
+(function() {
+  'use strict';
+
+  let _isSignup = false;
+
+  window.APP = {
+    logout() {
+      if (!confirm('هل تريد تسجيل الخروج؟')) return;
+      if (window.QS_Projects) window.QS_Projects.logout();
+    },
+    openModal() {
+      if (window.QS_Projects_UI) window.QS_Projects_UI.openModal();
+    },
+    closeModal() {
+      if (window.QS_Projects_UI) window.QS_Projects_UI.closeModal();
+    },
+    saveProject() {
+      // يُطلق handleFormSubmit عبر submit event
+      const form = document.getElementById('projectForm');
+      if (form) { form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })); return; }
+      // fallback: استدعاء مباشر
+      if (window.QS_Projects_UI) window.QS_Projects_UI.saveProject?.();
+    },
+    filter(val, el) {
+      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+      if (el) el.classList.add('active');
+      if (window.QS_Projects_UI) window.QS_Projects_UI.setFilter?.(val);
+      else {
+        // fallback direct render
+        const grid = document.getElementById('projectsGrid');
+        if (!grid) return;
+      }
+    },
+    search(q) {
+      const grid = document.getElementById('projectsGrid');
+      if (!grid) return;
+      const cards = grid.querySelectorAll('.project-card');
+      cards.forEach(c => {
+        const txt = c.textContent.toLowerCase();
+        c.style.display = txt.includes(q.toLowerCase()) ? '' : 'none';
+      });
+    },
+    toggleAuth() {
+      _isSignup = !_isSignup;
+      const sf = document.getElementById('signupFields');
+      const title = document.getElementById('authTitle');
+      const sub = document.getElementById('authSubtitle');
+      const btnTxt = document.getElementById('authBtnText');
+      const toggleTxt = document.getElementById('authToggleText');
+      const toggleLink = document.getElementById('authToggleLink');
+      if (_isSignup) {
+        if (sf) sf.style.display = 'block';
+        if (title) title.textContent = 'إنشاء حساب جديد';
+        if (sub) sub.textContent = 'أنشئ حسابك للبدء';
+        if (btnTxt) btnTxt.textContent = 'إنشاء الحساب';
+        if (toggleTxt) toggleTxt.textContent = 'لديك حساب؟';
+        if (toggleLink) toggleLink.textContent = 'تسجيل الدخول';
+      } else {
+        if (sf) sf.style.display = 'none';
+        if (title) title.textContent = 'تسجيل الدخول';
+        if (sub) sub.textContent = 'ادخل لحسابك للوصول لمشاريعك';
+        if (btnTxt) btnTxt.textContent = 'تسجيل الدخول';
+        if (toggleTxt) toggleTxt.textContent = 'ليس لديك حساب؟';
+        if (toggleLink) toggleLink.textContent = 'إنشاء حساب';
+      }
+    },
+    async submitAuth() {
+      const email = document.getElementById('authEmail')?.value?.trim();
+      const pass  = document.getElementById('authPass')?.value?.trim();
+      const name  = document.getElementById('authName')?.value?.trim();
+      const errEl = document.getElementById('authError');
+      const sucEl = document.getElementById('authSuccess');
+      const btn   = document.getElementById('authBtnText');
+
+      if (!email || !pass) { if (errEl) errEl.textContent = 'البريد وكلمة المرور مطلوبان'; return; }
+      if (errEl) errEl.textContent = '';
+      if (btn) btn.textContent = 'جاري...';
+
+      try {
+        const body = _isSignup ? { email, password: pass, name, action: 'signup' }
+                                : { email, password: pass, action: 'login' };
+        const res = await fetch('/api/auth', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'فشل المصادقة');
+        if (sucEl) sucEl.textContent = _isSignup ? 'تم إنشاء الحساب — يرجى تسجيل الدخول' : '';
+        if (data.token && window.QS_Projects) {
+          window.QS_Projects.setSession(data.token, data.user || { email });
+        }
+      } catch (err) {
+        if (errEl) errEl.textContent = err.message || 'خطأ في المصادقة';
+      } finally {
+        if (btn) btn.textContent = _isSignup ? 'إنشاء الحساب' : 'تسجيل الدخول';
+      }
     }
-  }, 2000);
-});
+  };
+
+  // تهيئة phase9 dashboard stats
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+      if (window.QS_Phase9) {
+        const el = document.getElementById('dashboard-stats');
+        if (el) QS_Phase9.initDashboardStats(el);
+      }
+    }, 2000);
+  });
+})();
 </script>
 </body>
 </html>
