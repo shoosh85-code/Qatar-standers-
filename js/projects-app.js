@@ -99,7 +99,7 @@
     renderLoadingSkeletons();
 
     try {
-      const res = await fetch('/api/projects', {
+      const res = await fetch('/api/project-hub?resource=projects', {
         headers: { 'Authorization': `Bearer ${STATE.token}` }
       });
 
@@ -125,7 +125,7 @@
 
   // ── إنشاء مشروع جديد ─────────────────────────────────────────────────────
   async function createProject(data) {
-    const res = await fetch('/api/projects', {
+    const res = await fetch('/api/project-hub?resource=projects', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -141,7 +141,7 @@
 
   // ── تعديل مشروع ──────────────────────────────────────────────────────────
   async function updateProject(id, data) {
-    const res = await fetch(`/api/projects?id=${id}`, {
+    const res = await fetch(`/api/project-hub?resource=projects&id=${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -157,7 +157,7 @@
 
   // ── حذف مشروع (soft delete) ───────────────────────────────────────────────
   async function deleteProject(id) {
-    const res = await fetch(`/api/projects?id=${id}`, {
+    const res = await fetch(`/api/project-hub?resource=projects&id=${id}`, {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${STATE.token}` }
     });
