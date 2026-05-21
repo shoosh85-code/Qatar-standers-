@@ -228,7 +228,7 @@ function renderSection(no) {
   const sec = BOQ_TEMPLATE.find(s => s.no === no);
   if(!sec) return;
   const subtotal = getSectionTotal(no);
-  const filled = sec.items.filter(it => getRate(no,it.no) > 0).length;
+  const filled = sec.items.filter(it => (state[`${no}-${it.no}`]?.rate||0) > 0).length;
 
   document.getElementById('boqBody').innerHTML = `
     <div class="section-header">
