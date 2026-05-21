@@ -1,6 +1,8 @@
 (function(){'use strict';
 const API='/api/project-hub';let _t=null,_p=null,_ch=null;
-function T(){if(_t)return _t;try{const s=JSON.parse(sessionStorage.getItem('qsp_session')||'{}');if(s.access_token){_t=s.access_token}}catch(e){}return _t}
+function T(){if(_t)return _t;try{// يدعم كلا المفتاحين للتوافقية
+const raw=sessionStorage.getItem('qs_session_token');if(raw&&!raw.startsWith('{'))return(_t=raw);
+const s=JSON.parse(sessionStorage.getItem('qsp_session')||'{}');if(s.access_token)return(_t=s.access_token);}catch(e){}return _t}
 function P(){if(_p)return _p;const u=new URLSearchParams(location.search);_p=u.get('id')||u.get('project_id');return _p}
 async function A(r,m='GET',b=null,x={}){const t=T();if(!t)throw new Error('Not logged in');const p=new URLSearchParams({resource:r,...x});const o={method:m,headers:{'Authorization':'Bearer '+t,'Content-Type':'application/json'}};if(b)o.body=JSON.stringify(b);const res=await fetch(API+'?'+p,o);const d=await res.json();if(!res.ok)throw new Error(d.error||'HTTP '+res.status);return d}
 const F=n=>Number(n||0).toLocaleString('en-QA',{maximumFractionDigits:0});
