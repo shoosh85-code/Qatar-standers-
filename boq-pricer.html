@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOQ Pricer — Qatar Residential Villa | QatarSpec Pro</title>
+<style>
+:root {
+  --navy:#0D1B3E; --gold:#C8922A; --gold2:#E8B84B;
+  --bg:#080c18; --bg2:#0f1729; --bg3:#162040;
+  --text:#e8eaf0; --text2:#a8b0c8; --text3:#606880;
+  --green:#1E8449; --red:#C0392B; --blue:#1A5276;
+  --border:rgba(200,146,42,0.15); --border2:rgba(200,146,42,0.3);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;font-size:13px;min-height:100vh;}
+
+/* ── HEADER ── */
+.header{background:linear-gradient(135deg,var(--navy) 0%,#0a1428 100%);border-bottom:1px solid var(--border2);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:100;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-icon{width:34px;height:34px;background:var(--gold);border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#000;font-size:14px;}
+.logo-text h1{font-size:15px;font-weight:700;color:var(--gold2);}
+.logo-text p{font-size:10px;color:var(--text3);}
+.header-actions{display:flex;gap:8px;align-items:center;}
+.btn{padding:7px 14px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:600;transition:all .2s;}
+.btn-gold{background:var(--gold);color:#000;}
+.btn-gold:hover{background:var(--gold2);}
+.btn-outline{background:transparent;border:1px solid var(--border2);color:var(--gold2);}
+.btn-outline:hover{background:rgba(200,146,42,0.1);}
+.btn-green{background:var(--green);color:#fff;}
+.btn-green:hover{filter:brightness(1.1);}
+.btn-red{background:var(--red);color:#fff;font-size:11px;padding:5px 10px;}
+
+/* ── PROJECT INFO BAR ── */
+.project-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+.project-field{display:flex;flex-direction:column;gap:2px;}
+.project-field label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;}
+.project-field input,.project-field select{background:var(--bg3);border:1px solid var(--border);border-radius:5px;color:var(--text);padding:5px 9px;font-size:12px;outline:none;min-width:130px;}
+.project-field input:focus,.project-field select:focus{border-color:var(--gold);}
+
+/* ── SUMMARY CARDS ── */
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;padding:14px 20px;background:var(--bg);}
+.s-card{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:12px;text-align:center;}
+.s-card .val{font-size:18px;font-weight:700;color:var(--gold2);}
+.s-card .lbl{font-size:10px;color:var(--text3);margin-top:2px;}
+.s-card.warn .val{color:#E67E22;}
+.s-card.good .val{color:var(--green);}
+
+/* ── SECTIONS TABS ── */
+.sections-nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 20px;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;}
+.sections-nav::-webkit-scrollbar{display:none;}
+.sec-tab{padding:10px 14px;cursor:pointer;font-size:11px;font-weight:600;color:var(--text3);white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s;}
+.sec-tab:hover{color:var(--text2);}
+.sec-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.sec-tab .count{font-size:9px;background:rgba(200,146,42,0.15);color:var(--gold2);padding:1px 5px;border-radius:10px;margin-left:5px;}
+
+/* ── BOQ TABLE ── */
+.boq-wrapper{padding:16px 20px;}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;}
+.section-title{font-size:14px;font-weight:700;color:var(--gold2);}
+.section-subtotal{font-size:13px;font-weight:700;color:var(--green);}
+
+table{width:100%;border-collapse:collapse;}
+thead tr{background:var(--navy);}
+th{padding:8px 10px;text-align:left;font-size:11px;font-weight:600;color:var(--gold);border-bottom:1px solid var(--border2);white-space:nowrap;}
+th.r{text-align:right;}
+td{padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle;}
+tr:hover td{background:rgba(200,146,42,0.04);}
+tr.section-row td{background:rgba(13,27,62,0.8);color:var(--gold2);font-weight:700;font-size:12px;}
+
+.td-no{color:var(--text3);font-size:11px;width:60px;}
+.td-desc{color:var(--text);line-height:1.4;}
+.td-unit{color:var(--text3);text-align:center;width:55px;}
+.td-num{text-align:right;}
+input.qty-input,input.rate-input{
+  width:80px;background:var(--bg3);border:1px solid var(--border);
+  border-radius:4px;color:var(--text);padding:4px 7px;font-size:12px;
+  text-align:right;outline:none;
+}
+input.qty-input:focus,input.rate-input:focus{border-color:var(--gold);background:rgba(200,146,42,0.05);}
+input.rate-input{width:100px;}
+.total-cell{font-weight:700;color:var(--gold2);text-align:right;}
+.zero{color:var(--text3);}
+
+/* ── SECTION TOTALS ROW ── */
+.subtotal-row td{background:rgba(13,27,62,0.6);font-weight:700;font-size:12px;border-top:1px solid var(--border);}
+
+/* ── GRAND TOTAL ── */
+.grand-total{background:var(--navy);border:1px solid var(--gold);border-radius:10px;padding:16px 20px;margin:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.grand-total .gt-label{font-size:13px;color:var(--text2);}
+.grand-total .gt-val{font-size:24px;font-weight:900;color:var(--gold2);}
+.grand-total .gt-sub{font-size:11px;color:var(--text3);margin-top:3px;}
+
+/* ── RATE HINTS ── */
+.rate-hint{font-size:9px;color:var(--text3);text-align:right;display:block;margin-top:1px;}
+
+/* ── PRINT / EXPORT ── */
+@media print{
+  .header-actions,.sections-nav,.project-bar .btn,.btn{display:none!important;}
+  body{background:#fff;color:#000;}
+  .s-card{border:1px solid #ddd;}
+  th{background:#0D1B3E;color:#C8922A;}
+  input{border:none!important;background:transparent!important;color:#000!important;}
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:700px){
+  th.hide-sm,td.hide-sm{display:none;}
+  input.rate-input{width:80px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo">
+    <div class="logo-icon">QS</div>
+    <div class="logo-text">
+      <h1>BOQ Pricer — Qatar Residential Villa</h1>
+      <p>Template: National Housing Loans · 12 Sections · 259 Items</p>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-outline" onclick="fillSampleRates()">📊 Sample Rates</button>
+    <button class="btn btn-outline" onclick="clearAll()">🗑 Clear</button>
+    <button class="btn btn-outline" onclick="saveLocal()">💾 Save</button>
+    <button class="btn btn-green" onclick="exportPDF()">📄 Export PDF</button>
+    <button class="btn btn-gold" onclick="window.print()">🖨 Print BOQ</button>
+  </div>
+</div>
+
+<!-- PROJECT INFO -->
+<div class="project-bar">
+  <div class="project-field">
+    <label>Project Name</label>
+    <input type="text" id="proj-name" placeholder="Private Residential Villa" value="Private Residential Villa">
+  </div>
+  <div class="project-field">
+    <label>Project No.</label>
+    <input type="text" id="proj-no" placeholder="2232" style="min-width:80px;">
+  </div>
+  <div class="project-field">
+    <label>Location</label>
+    <input type="text" id="proj-loc" placeholder="Khalifa City, Qatar" value="Khalifa City, Qatar">
+  </div>
+  <div class="project-field">
+    <label>Date</label>
+    <input type="date" id="proj-date">
+  </div>
+  <div class="project-field">
+    <label>Prepared by</label>
+    <input type="text" id="proj-eng" placeholder="Engineer Name">
+  </div>
+  <div class="project-field">
+    <label>Contingency %</label>
+    <input type="number" id="contingency" value="5" min="0" max="30" style="min-width:70px;" oninput="recalcAll()">
+  </div>
+</div>
+
+<!-- SUMMARY CARDS -->
+<div class="summary">
+  <div class="s-card"><div class="val" id="s-sections">12</div><div class="lbl">Sections</div></div>
+  <div class="s-card"><div class="val" id="s-items">259</div><div class="lbl">Total Items</div></div>
+  <div class="s-card good"><div class="val" id="s-filled">0</div><div class="lbl">Priced Items</div></div>
+  <div class="s-card warn"><div class="val" id="s-missing">259</div><div class="lbl">Unpriced</div></div>
+  <div class="s-card"><div class="val" id="s-subtotal">0 QAR</div><div class="lbl">Subtotal</div></div>
+  <div class="s-card"><div class="val" id="s-contingency">0 QAR</div><div class="lbl">Contingency</div></div>
+  <div class="s-card good"><div class="val" id="s-grand">0 QAR</div><div class="lbl">Grand Total</div></div>
+</div>
+
+<!-- SECTION TABS -->
+<div class="sections-nav" id="secTabs"></div>
+
+<!-- BOQ TABLE CONTAINER -->
+<div class="boq-wrapper" id="boqBody"></div>
+
+<!-- GRAND TOTAL -->
+<div class="grand-total">
+  <div>
+    <div class="gt-label">Project Grand Total (incl. Contingency)</div>
+    <div class="gt-sub" id="gt-breakdown">Subtotal: 0 QAR + Contingency (5%): 0 QAR</div>
+  </div>
+  <div class="gt-val" id="gt-val">0 QAR</div>
+</div>
+
+<script>
+// ── BOQ TEMPLATE DATA (from actual BOQ file — owner/bank info removed) ──
+const BOQ_TEMPLATE = [{"no":"1","title":"PRELIMINARIES","items":[{"no":"1.01","description":"Building permits & clearances","unit":"L S","default_qty":1},{"no":"1.02","description":"Temporary Hoarding (Site Fencing)","unit":"L S","default_qty":1},{"no":"1.03","description":"Project Sign Board","unit":"L S","default_qty":1},{"no":"1.04","description":"Removal of Existing Structures (if any)","unit":"L S","default_qty":1},{"no":"1.05","description":"Site Offices as Specified","unit":"L S","default_qty":1},{"no":"1.06","description":"Establishment and Maintenance of Temporary Site Offices","unit":"L S","default_qty":1},{"no":"1.07","description":"Site running costs during performance of Works","unit":"L S","default_qty":1},{"no":"1.08","description":"Equipment and temporary offices/stores","unit":"L S","default_qty":1},{"no":"1.09","description":"Temporary Services (Electricity, Water, etc.)","unit":"L S","default_qty":1},{"no":"1.10","description":"Soil Investigation and Soil Report (3 boreholes × 20m depth)","unit":"L S","default_qty":1},{"no":"1.11","description":"Testing as Specified (Work, Material, etc.)","unit":"L S","default_qty":1},{"no":"1.12","description":"Shop Drawings (MEP, etc.)","unit":"L S","default_qty":1},{"no":"1.13","description":"Pre-construction and progress meetings, Schedule & Reports","unit":"L S","default_qty":1},{"no":"1.14","description":"Site Clearing and Cleanup","unit":"L S","default_qty":1},{"no":"1.15","description":"As-Built Drawings","unit":"L S","default_qty":1},{"no":"1.16","description":"Any missing items (Provisional)","unit":"ITEM","default_qty":1}]},{"no":"2","title":"EXCAVATION & SUBSTRUCTURE WORK","items":[{"no":"2.01","description":"Excavation","unit":"M3","default_qty":633},{"no":"2.02","description":"Back Filling using approved supplied material","unit":"L S","default_qty":1},{"no":"2.03","description":"Dewatering system (temporary)","unit":"L S","default_qty":1},{"no":"2.04","description":"Remove surplus excavated material from site","unit":"L S","default_qty":1},{"no":"2.05","description":"Approved compacted granular fill","unit":"L S","default_qty":1},{"no":"2.06","description":"Pest control","unit":"M2","default_qty":399},{"no":"2.07","description":"Blinding 10cm under pile caps","unit":"M2","default_qty":33},{"no":"2.08","description":"Blinding 10cm under plinth wall","unit":"M2","default_qty":34},{"no":"2.09","description":"Blinding 10cm under tie beams","unit":"M2","default_qty":59},{"no":"2.10","description":"Blinding 10cm under entrance stairs","unit":"M2","default_qty":5},{"no":"2.11","description":"Suspended slab on grade 18cm thick","unit":"M3","default_qty":49},{"no":"2.12","description":"RCC in pile caps","unit":"M3","default_qty":27},{"no":"2.13","description":"RCC in plinth wall","unit":"M3","default_qty":24},{"no":"2.14","description":"RCC in tie beams","unit":"M3","default_qty":28},{"no":"2.15","description":"RCC in ground beams","unit":"M3","default_qty":12},{"no":"2.16","description":"RCC in column neck","unit":"M3","default_qty":4},{"no":"2.17","description":"RCC in entrance stairs","unit":"M3","default_qty":3},{"no":"2.18","description":"Other Obligations (piling zone)","unit":"L S","default_qty":1},{"no":"2.19","description":"Complete piling design (all requirements)","unit":"L S","default_qty":1},{"no":"2.20","description":"Complete piling work","unit":"L S","default_qty":1},{"no":"2.21","description":"Cast in-situ 500mm bore piles","unit":"No.","default_qty":24},{"no":"2.22","description":"Pile proof test (loaded pile)","unit":"No.","default_qty":2},{"no":"2.23","description":"Echo sonic integrity test (all piles)","unit":"No.","default_qty":24},{"no":"2.24","description":"Reinforcement for substructure works","unit":"Ton","default_qty":35},{"no":"2.25","description":"Waterproof admixture for substructure concrete","unit":"L S","default_qty":1},{"no":"2.26","description":"Other substructure obligations","unit":"L S","default_qty":1}]},{"no":"3","title":"SUPERSTRUCTURE WORK","items":[{"no":"3.01","description":"RCC for columns","unit":"M3","default_qty":24},{"no":"3.02","description":"RCC for flat slab including all drop beams","unit":"M3","default_qty":182},{"no":"3.03","description":"RCC for staircase","unit":"M3","default_qty":6},{"no":"3.04","description":"RCC for parapet walls","unit":"M3","default_qty":8},{"no":"3.05","description":"Reinforcement for superstructure","unit":"Ton","default_qty":45},{"no":"3.06","description":"Formwork and falsework (complete)","unit":"L S","default_qty":1}]},{"no":"4","title":"BLOCKS WORK","items":[{"no":"4.01","description":"20cm Hollow Blocks for internal walls","unit":"M2","default_qty":502},{"no":"4.02","description":"10cm Hollow Blocks for internal walls","unit":"M2","default_qty":113},{"no":"4.03","description":"25cm Thermal block for external walls","unit":"M2","default_qty":645},{"no":"4.04","description":"Plastering (internal & external)","unit":"M2","default_qty":2000},{"no":"4.05","description":"Miscellaneous blockwork (shafts, cills, etc.)","unit":"L S","default_qty":1}]},{"no":"5","title":"WATER PROOFING WORK","items":[{"no":"5.01","description":"2-coat cold bitumen to pile caps, tie beams, plinth wall & column neck","unit":"L S","default_qty":1},{"no":"5.02","description":"1000 gauge polyethylene sheet over bitumen (foundation)","unit":"L S","default_qty":1},{"no":"5.03","description":"1000 gauge polyethylene vapour barrier membrane","unit":"L S","default_qty":1},{"no":"5.04","description":"Waterproofing to roof slabs (torch-on membrane)","unit":"M2","default_qty":380},{"no":"5.05","description":"Waterproofing to bathroom & wet areas","unit":"M2","default_qty":160},{"no":"5.06","description":"Waterproofing to balconies & terraces","unit":"M2","default_qty":90},{"no":"5.07","description":"Waterproofing to external planters","unit":"M2","default_qty":40},{"no":"5.08","description":"Protection screed over waterproofing (50mm)","unit":"M2","default_qty":380},{"no":"5.09","description":"Expansion joints (complete)","unit":"L M","default_qty":80},{"no":"5.10","description":"Drainage layer and filter fabric","unit":"M2","default_qty":380},{"no":"5.11","description":"Edge protection & flashings","unit":"L M","default_qty":120},{"no":"5.12","description":"Cementitious waterproofing to water tanks & pools","unit":"M2","default_qty":60},{"no":"5.13","description":"Any missing waterproofing items","unit":"L S","default_qty":1}]},{"no":"6","title":"FINISHING WORK","items":[{"no":"6.01","description":"Granite tiles 40×40×2cm — entrance floor (F1)","unit":"M2","default_qty":64},{"no":"6.02","description":"Granite tiles 3cm thread & 2cm riser — entrance stairs","unit":"L M","default_qty":73},{"no":"6.03","description":"Porcelain tiles 60×60cm — living & dining (F2)","unit":"M2","default_qty":280},{"no":"6.04","description":"Porcelain tiles 30×30cm — bathrooms & toilets","unit":"M2","default_qty":195},{"no":"6.05","description":"Ceramic wall tiles — bathrooms (F4)","unit":"M2","default_qty":410},{"no":"6.06","description":"Marble or granite — master bedroom (F5)","unit":"M2","default_qty":48},{"no":"6.07","description":"Porcelain tiles — kitchen floor","unit":"M2","default_qty":55},{"no":"6.08","description":"Ceramic wall tiles — kitchen","unit":"M2","default_qty":85},{"no":"6.09","description":"Screed and levelling to all floors","unit":"M2","default_qty":650},{"no":"6.10","description":"Paint to internal walls (2 coats emulsion)","unit":"M2","default_qty":2800},{"no":"6.11","description":"Paint to ceilings (2 coats emulsion)","unit":"M2","default_qty":700},{"no":"6.12","description":"Paint to external facades","unit":"M2","default_qty":1200},{"no":"6.13","description":"Gypsum board false ceiling — living areas","unit":"M2","default_qty":180},{"no":"6.14","description":"Gypsum board false ceiling — bedrooms","unit":"M2","default_qty":220},{"no":"6.15","description":"Gypsum board false ceiling — bathrooms","unit":"M2","default_qty":95},{"no":"6.16","description":"Cornices and decorative plasterwork","unit":"L M","default_qty":420},{"no":"6.17","description":"Marble window cills (internal)","unit":"L M","default_qty":95},{"no":"6.18","description":"Skirting tiles (matching floor)","unit":"L M","default_qty":380},{"no":"6.19","description":"External cladding (stone or render)","unit":"M2","default_qty":320},{"no":"6.20","description":"Thermal insulation to external walls","unit":"M2","default_qty":645},{"no":"6.21","description":"Roof insulation","unit":"M2","default_qty":380},{"no":"6.22","description":"Epoxy floor coating — service areas","unit":"M2","default_qty":55},{"no":"6.23","description":"Marble feature wall — majlis","unit":"M2","default_qty":24},{"no":"6.24","description":"Tiling to pool surround","unit":"M2","default_qty":35},{"no":"6.25","description":"Mosaic tiles to pool interior","unit":"M2","default_qty":65},{"no":"6.26","description":"Balustrade and handrail (stainless or glass)","unit":"L M","default_qty":48},{"no":"6.27","description":"External render and paint (boundary wall)","unit":"M2","default_qty":440},{"no":"6.28","description":"Miscellaneous finishing items","unit":"L S","default_qty":1},{"no":"6.29","description":"Any missing finishing items","unit":"L S","default_qty":1}]},{"no":"7","title":"JOINERY & IRONMONGERY WORK","items":[{"no":"7.01","description":"Allow for priming (all joinery)","unit":"L S","default_qty":1},{"no":"7.02","description":"Weather-stripping at all exterior doors","unit":"L S","default_qty":1},{"no":"7.03","description":"Main entrance door D01 (double — solid wood/steel)","unit":"No.","default_qty":2},{"no":"7.04","description":"Internal door D02 (solid core, painted)","unit":"No.","default_qty":12},{"no":"7.05","description":"Internal door D03 (hollow core, painted)","unit":"No.","default_qty":8},{"no":"7.06","description":"Bathroom door D04 (moisture resistant)","unit":"No.","default_qty":10},{"no":"7.07","description":"Kitchen door D05","unit":"No.","default_qty":2},{"no":"7.08","description":"Service/utility door D06","unit":"No.","default_qty":4},{"no":"7.09","description":"Sliding door D07 (balcony)","unit":"No.","default_qty":3},{"no":"7.10","description":"Fire-rated door FD01 (60-min)","unit":"No.","default_qty":2},{"no":"7.11","description":"Built-in wardrobes — master bedroom","unit":"L M","default_qty":6},{"no":"7.12","description":"Built-in wardrobes — other bedrooms","unit":"L M","default_qty":14},{"no":"7.13","description":"Kitchen cabinets — upper units","unit":"L M","default_qty":8},{"no":"7.14","description":"Kitchen cabinets — lower units","unit":"L M","default_qty":8},{"no":"7.15","description":"Kitchen countertop (granite/quartz)","unit":"L M","default_qty":8},{"no":"7.16","description":"Vanity units — bathrooms","unit":"No.","default_qty":8},{"no":"7.17","description":"Linen cupboards","unit":"No.","default_qty":3},{"no":"7.18","description":"Ironmongery — door hardware set","unit":"Set","default_qty":28},{"no":"7.19","description":"Ironmongery — bathroom hardware set","unit":"Set","default_qty":10},{"no":"7.20","description":"Access hatches (MEP)","unit":"No.","default_qty":6},{"no":"7.21","description":"Roller shutters — service areas","unit":"No.","default_qty":2},{"no":"7.22","description":"Laundry room fitout (complete)","unit":"L S","default_qty":1},{"no":"7.23","description":"Any missing joinery items","unit":"L S","default_qty":1}]},{"no":"8","title":"ALUMINUM & GLASS WORK","items":[{"no":"8.01","description":"Aluminium window Type W01 (double-glazed)","unit":"No.","default_qty":21},{"no":"8.02","description":"Aluminium window Type W02","unit":"No.","default_qty":6},{"no":"8.03","description":"Aluminium window Type W03 (fixed)","unit":"No.","default_qty":1},{"no":"8.04","description":"Aluminium sliding door Type SD01","unit":"No.","default_qty":4},{"no":"8.05","description":"Aluminium curtain wall / glazing facade","unit":"M2","default_qty":45},{"no":"8.06","description":"Aluminium louvres / screens","unit":"M2","default_qty":18},{"no":"8.07","description":"Aluminium skylight","unit":"M2","default_qty":8},{"no":"8.08","description":"Any missing aluminium & glass items","unit":"L S","default_qty":1}]},{"no":"9","title":"ELECTRICAL WORK","items":[{"no":"9.01","description":"Service Connection Fees (Electricity incl. metering)","unit":"L S","default_qty":1},{"no":"9.02","description":"Junction boxes, chasing and conduits","unit":"L S","default_qty":1},{"no":"9.03","description":"Wiring and cables (complete)","unit":"L S","default_qty":1},{"no":"9.04","description":"Main distribution board (MDB)","unit":"No.","default_qty":1},{"no":"9.05","description":"Sub-distribution boards (SDB)","unit":"No.","default_qty":3},{"no":"9.06","description":"Single power socket 13A (complete)","unit":"No.","default_qty":85},{"no":"9.07","description":"Double power socket 13A (complete)","unit":"No.","default_qty":42},{"no":"9.08","description":"20A power outlet (kitchen appliances)","unit":"No.","default_qty":8},{"no":"9.09","description":"Light point — ceiling (complete)","unit":"No.","default_qty":120},{"no":"9.10","description":"Down lights (recessed)","unit":"No.","default_qty":80},{"no":"9.11","description":"Wall light point","unit":"No.","default_qty":28},{"no":"9.12","description":"Switch — single 1-way","unit":"No.","default_qty":45},{"no":"9.13","description":"Switch — double 1-way","unit":"No.","default_qty":22},{"no":"9.14","description":"Switch — 2-way (corridor/stair)","unit":"No.","default_qty":18},{"no":"9.15","description":"Fan speed controller","unit":"No.","default_qty":12},{"no":"9.16","description":"Telephone outlet","unit":"No.","default_qty":18},{"no":"9.17","description":"TV/SAT outlet","unit":"No.","default_qty":22},{"no":"9.18","description":"Data/LAN outlet (Cat6)","unit":"No.","default_qty":24},{"no":"9.19","description":"Doorbell system (complete)","unit":"No.","default_qty":1},{"no":"9.20","description":"Video intercom system","unit":"L S","default_qty":1},{"no":"9.21","description":"Security alarm system (complete)","unit":"L S","default_qty":1},{"no":"9.22","description":"CCTV system (cameras, DVR, cabling)","unit":"L S","default_qty":1},{"no":"9.23","description":"Home automation system (basic)","unit":"L S","default_qty":1},{"no":"9.24","description":"External security lighting","unit":"No.","default_qty":18},{"no":"9.25","description":"Garden / landscape lighting","unit":"No.","default_qty":24},{"no":"9.26","description":"Emergency lighting (exit signs, emergencies)","unit":"No.","default_qty":8},{"no":"9.27","description":"Earthing and lightning protection system","unit":"L S","default_qty":1},{"no":"9.28","description":"UPS for critical loads","unit":"No.","default_qty":1},{"no":"9.29","description":"Generator connection provision","unit":"L S","default_qty":1},{"no":"9.30","description":"Testing and commissioning (electrical)","unit":"L S","default_qty":1}]},{"no":"10","title":"A/C WORK","items":[{"no":"10.01","description":"Drain and gas piping (complete)","unit":"L S","default_qty":1},{"no":"10.02","description":"Split Duct Unit 36,000 BTU","unit":"No.","default_qty":1},{"no":"10.03","description":"Split Duct Unit 30,000 BTU","unit":"No.","default_qty":2},{"no":"10.04","description":"Split Duct Unit 24,000 BTU","unit":"No.","default_qty":3},{"no":"10.05","description":"Split Duct Unit 18,000 BTU","unit":"No.","default_qty":5},{"no":"10.06","description":"Split Duct Unit 12,000 BTU","unit":"No.","default_qty":4},{"no":"10.07","description":"Cassette unit 24,000 BTU","unit":"No.","default_qty":2},{"no":"10.08","description":"Exhaust fan — bathrooms","unit":"No.","default_qty":10},{"no":"10.09","description":"Exhaust fan — kitchen","unit":"No.","default_qty":1},{"no":"10.10","description":"Kitchen hood / extractor","unit":"No.","default_qty":1},{"no":"10.11","description":"Fresh air supply unit","unit":"No.","default_qty":1},{"no":"10.12","description":"Ductwork (GI sheet complete)","unit":"L S","default_qty":1},{"no":"10.13","description":"Grilles and diffusers","unit":"No.","default_qty":45},{"no":"10.14","description":"Insulated flexible ductwork","unit":"L M","default_qty":120},{"no":"10.15","description":"Thermostat and controls (per unit)","unit":"No.","default_qty":16},{"no":"10.16","description":"AC condensate drainage (complete)","unit":"L S","default_qty":1},{"no":"10.17","description":"Refrigerant piping (complete)","unit":"L S","default_qty":1},{"no":"10.18","description":"Electrical supply to AC units","unit":"L S","default_qty":1},{"no":"10.19","description":"Testing and commissioning (AC)","unit":"L S","default_qty":1},{"no":"10.20","description":"Maintenance contract (1 year)","unit":"L S","default_qty":1}]},{"no":"11","title":"SANITARY WORK","items":[{"no":"11.01","description":"External drainage pipes & fittings","unit":"L S","default_qty":1},{"no":"11.02","description":"Internal drainage pipes & fittings","unit":"L S","default_qty":1},{"no":"11.03","description":"Water supply pipes (hot & cold, complete)","unit":"L S","default_qty":1},{"no":"11.04","description":"Water booster pump","unit":"No.","default_qty":1},{"no":"11.05","description":"Overhead water tank (GRP)","unit":"No.","default_qty":1},{"no":"11.06","description":"Underground water cistern","unit":"No.","default_qty":1},{"no":"11.07","description":"Sanitary fixtures — bathrooms & toilets (28 pieces)","unit":"No.","default_qty":28},{"no":"11.08","description":"Manholes (complete with covers)","unit":"No.","default_qty":12},{"no":"11.09","description":"Gully traps","unit":"No.","default_qty":5},{"no":"11.10","description":"Grease trap","unit":"No.","default_qty":1},{"no":"11.11","description":"Floor traps","unit":"No.","default_qty":12},{"no":"11.12","description":"Roof water outlets (RWO)","unit":"No.","default_qty":5},{"no":"11.13","description":"Service connection fees (drainage)","unit":"L S","default_qty":1},{"no":"11.14","description":"Gas installation (complete)","unit":"L S","default_qty":1},{"no":"11.15","description":"Solar water heater (complete)","unit":"No.","default_qty":1},{"no":"11.16","description":"Electric water heater (backup)","unit":"No.","default_qty":3},{"no":"11.17","description":"Irrigation system — garden","unit":"L S","default_qty":1},{"no":"11.18","description":"Swimming pool plumbing (pumps, filters, pipework)","unit":"L S","default_qty":1},{"no":"11.19","description":"Pool water treatment system","unit":"L S","default_qty":1},{"no":"11.20","description":"Testing and commissioning (plumbing)","unit":"L S","default_qty":1}]},{"no":"12","title":"EXTERNAL WORK","items":[{"no":"12.01","description":"Concrete pavers 8cm thick (base+complete)","unit":"M2","default_qty":238},{"no":"12.02","description":"Interlocking pavers 6cm thick","unit":"M2","default_qty":179},{"no":"12.03","description":"Grass/turf area","unit":"M2","default_qty":2130},{"no":"12.04","description":"Kerbstone (complete with paint)","unit":"L M","default_qty":186},{"no":"12.05","description":"Boundary wall (complete)","unit":"L M","default_qty":218},{"no":"12.06","description":"External double iron gate (main)","unit":"No.","default_qty":1},{"no":"12.07","description":"External single iron gate (service)","unit":"No.","default_qty":1},{"no":"12.08","description":"Car shade as per drawings","unit":"L S","default_qty":1},{"no":"12.09","description":"External kitchen block (civil + MEP + finish)","unit":"M2","default_qty":48},{"no":"12.10","description":"External electrical room (civil + MEP + finish)","unit":"M2","default_qty":9},{"no":"12.11","description":"External driver room (civil + MEP + finish)","unit":"M2","default_qty":22},{"no":"12.12","description":"External waste storage room","unit":"M2","default_qty":5},{"no":"12.13","description":"Any missing external works","unit":"L S","default_qty":1}]}];
+
+// ── SUGGESTED RATE HINTS (Qatar 2024 market rates, QAR) ──
+const RATE_HINTS = {
+  'M3': '120–350',  'M2': '25–180',  'L M': '20–250',
+  'Ton': '2200–3500', 'No.': '—', 'L S': '—', 'Set': '—', 'ITEM': '—'
+};
+
+// ── STATE ──
+let state = {}; // { 'sectionNo-itemNo': { qty, rate } }
+let activeSection = '1';
+
+// ── INIT ──
+document.getElementById('proj-date').value = new Date().toISOString().slice(0,10);
+
+function init() {
+  // load saved state
+  try { const s = localStorage.getItem('qsp_boq'); if(s) state = JSON.parse(s); } catch(e){}
+  renderTabs();
+  renderSection(activeSection);
+  recalcAll();
+}
+
+function renderTabs() {
+  const nav = document.getElementById('secTabs');
+  nav.innerHTML = BOQ_TEMPLATE.map(s => `
+    <div class="sec-tab${s.no===activeSection?' active':''}" onclick="switchSection('${s.no}')">
+      ${s.no}. ${s.title.split(' ').slice(0,3).join(' ')}
+      <span class="count">${s.items.length}</span>
+    </div>`).join('');
+}
+
+function switchSection(no) {
+  activeSection = no;
+  renderTabs();
+  renderSection(no);
+}
+
+function renderSection(no) {
+  const sec = BOQ_TEMPLATE.find(s => s.no === no);
+  if(!sec) return;
+  const subtotal = getSectionTotal(no);
+  const filled = sec.items.filter(it => getRate(no,it.no) > 0).length;
+
+  document.getElementById('boqBody').innerHTML = `
+    <div class="section-header">
+      <div class="section-title">Section ${sec.no}: ${sec.title}</div>
+      <div class="section-subtotal">Section Total: ${fmt(subtotal)} QAR (${filled}/${sec.items.length} priced)</div>
+    </div>
+    <table>
+      <thead><tr>
+        <th style="width:55px">No.</th>
+        <th>Description</th>
+        <th style="width:55px;text-align:center">Unit</th>
+        <th style="width:90px;text-align:right">Quantity</th>
+        <th style="width:110px;text-align:right">Rate (QAR)</th>
+        <th style="width:120px;text-align:right" class="r">Total (QAR)</th>
+      </tr></thead>
+      <tbody>
+        ${sec.items.map(it => renderItem(no, it)).join('')}
+        <tr class="subtotal-row">
+          <td colspan="5" style="text-align:right;color:var(--text2);padding:8px 10px;">Section ${no} Subtotal</td>
+          <td style="text-align:right;color:var(--gold2);padding:8px 10px;">${fmt(subtotal)} QAR</td>
+        </tr>
+      </tbody>
+    </table>`;
+}
+
+function renderItem(secNo, it) {
+  const key = `${secNo}-${it.no}`;
+  const qty = state[key]?.qty ?? (it.default_qty ?? '');
+  const rate = state[key]?.rate ?? '';
+  const total = (parseFloat(qty)||0) * (parseFloat(rate)||0);
+  const hint = RATE_HINTS[it.unit] || '—';
+  return `
+    <tr>
+      <td class="td-no">${it.no}</td>
+      <td class="td-desc">${it.description}</td>
+      <td class="td-unit">${it.unit}</td>
+      <td class="td-num">
+        <input class="qty-input" type="number" min="0" step="any"
+          value="${qty}" placeholder="qty"
+          onchange="setVal('${secNo}','${it.no}','qty',this.value)"
+          oninput="setVal('${secNo}','${it.no}','qty',this.value)">
+      </td>
+      <td class="td-num">
+        <input class="rate-input" type="number" min="0" step="any"
+          value="${rate}" placeholder="${hint}"
+          onchange="setVal('${secNo}','${it.no}','rate',this.value)"
+          oninput="setVal('${secNo}','${it.no}','rate',this.value)">
+        ${hint!=='—'?`<span class="rate-hint">hint: ${hint}</span>`:''}
+      </td>
+      <td class="total-cell ${total===0?'zero':''}">${total>0?fmt(total):'—'}</td>
+    </tr>`;
+}
+
+function setVal(secNo, itemNo, field, val) {
+  const key = `${secNo}-${itemNo}`;
+  if(!state[key]) state[key] = {};
+  state[key][field] = parseFloat(val) || 0;
+  // update only total cell without full re-render
+  const qty = state[key].qty ?? 0;
+  const rate = state[key].rate ?? 0;
+  const total = qty * rate;
+  // find total cell — re-render section totals and summary
+  recalcAll();
+  // re-render total cell in current row
+  const rows = document.querySelectorAll('#boqBody tbody tr:not(.subtotal-row)');
+  const sec = BOQ_TEMPLATE.find(s => s.no === secNo);
+  if(sec) {
+    const idx = sec.items.findIndex(it => it.no === itemNo);
+    if(rows[idx]) {
+      const tc = rows[idx].querySelector('.total-cell');
+      if(tc){ tc.textContent = total>0?fmt(total):'—'; tc.className='total-cell'+(total===0?' zero':''); }
+    }
+    // update subtotal row
+    const subRow = document.querySelector('.subtotal-row td:last-child');
+    if(subRow) subRow.textContent = fmt(getSectionTotal(secNo))+' QAR';
+    // update section header
+    const sh = document.querySelector('.section-subtotal');
+    const filled = sec.items.filter(it => (state[`${secNo}-${it.no}`]?.rate||0) > 0).length;
+    if(sh) sh.textContent = `Section Total: ${fmt(getSectionTotal(secNo))} QAR (${filled}/${sec.items.length} priced)`;
+  }
+}
+
+function getSectionTotal(secNo) {
+  const sec = BOQ_TEMPLATE.find(s => s.no === secNo);
+  if(!sec) return 0;
+  return sec.items.reduce((sum, it) => {
+    const key = `${secNo}-${it.no}`;
+    const qty = state[key]?.qty ?? (it.default_qty ?? 0);
+    const rate = state[key]?.rate ?? 0;
+    return sum + (parseFloat(qty)||0) * (parseFloat(rate)||0);
+  }, 0);
+}
+
+function recalcAll() {
+  const subtotal = BOQ_TEMPLATE.reduce((s,sec) => s + getSectionTotal(sec.no), 0);
+  const pct = parseFloat(document.getElementById('contingency').value)||0;
+  const cont = subtotal * pct / 100;
+  const grand = subtotal + cont;
+
+  let filled=0, total=0;
+  BOQ_TEMPLATE.forEach(sec => {
+    sec.items.forEach(it => {
+      total++;
+      if((state[`${sec.no}-${it.no}`]?.rate||0) > 0) filled++;
+    });
+  });
+
+  document.getElementById('s-filled').textContent = filled;
+  document.getElementById('s-missing').textContent = total - filled;
+  document.getElementById('s-subtotal').textContent = fmtK(subtotal);
+  document.getElementById('s-contingency').textContent = fmtK(cont);
+  document.getElementById('s-grand').textContent = fmtK(grand);
+  document.getElementById('gt-val').textContent = fmt(grand) + ' QAR';
+  document.getElementById('gt-breakdown').textContent =
+    `Subtotal: ${fmt(subtotal)} QAR  +  Contingency (${pct}%): ${fmt(cont)} QAR`;
+
+  saveLocal();
+}
+
+function fmt(n) { return Math.round(n).toLocaleString('en-QA'); }
+function fmtK(n) { return n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':Math.round(n).toString(); }
+
+function saveLocal() {
+  try { localStorage.setItem('qsp_boq', JSON.stringify(state)); } catch(e){}
+}
+
+function clearAll() {
+  if(!confirm('Clear all rates and quantities?')) return;
+  state = {};
+  localStorage.removeItem('qsp_boq');
+  renderSection(activeSection);
+  recalcAll();
+}
+
+// Sample rates for Qatar 2024 (approximate market rates)
+const SAMPLE_RATES = {
+  '1':{'1.01':8000,'1.02':3500,'1.03':1500,'1.04':5000,'1.05':12000,'1.06':8000,'1.07':15000,'1.08':6000,'1.09':4000,'1.10':18000,'1.11':5000,'1.12':8000,'1.13':5000,'1.14':3500,'1.15':6000,'1.16':5000},
+  '2':{'2.01':45,'2.02':18000,'2.03':12000,'2.04':8000,'2.05':15000,'2.06':12,'2.07':35,'2.08':35,'2.09':35,'2.10':35,'2.11':550,'2.12':600,'2.13':580,'2.14':590,'2.15':600,'2.16':620,'2.17':650,'2.18':5000,'2.19':15000,'2.20':8000,'2.21':3200,'2.22':4500,'2.23':650,'2.24':2800,'2.25':8000,'2.26':5000},
+  '3':{'3.01':680,'3.02':650,'3.03':700,'3.04':620,'3.05':2900,'3.06':25000},
+  '4':{'4.01':55,'4.02':45,'4.03':75,'4.04':22,'4.05':8000},
+  '5':{'5.01':12000,'5.02':4000,'5.03':3500,'5.04':85,'5.05':75,'5.06':70,'5.07':80,'5.08':28,'5.09':45,'5.10':35,'5.11':38,'5.12':90,'5.13':5000},
+  '6':{'6.01':180,'6.02':95,'6.03':95,'6.04':65,'6.05':55,'6.06':220,'6.07':75,'6.08':55,'6.09':18,'6.10':8,'6.11':8,'6.12':12,'6.13':65,'6.14':58,'6.15':55,'6.16':25,'6.17':55,'6.18':18,'6.19':145,'6.20':45,'6.21':55,'6.22':35,'6.23':350,'6.24':180,'6.25':220,'6.26':280,'6.27':22,'6.28':5000,'6.29':5000},
+  '7':{'7.01':3000,'7.02':2500,'7.03':8500,'7.04':1800,'7.05':1200,'7.06':1400,'7.07':1600,'7.08':1100,'7.09':2800,'7.10':3500,'7.11':1800,'7.12':1400,'7.13':2200,'7.14':1900,'7.15':850,'7.16':2500,'7.17':1600,'7.18':450,'7.19':350,'7.20':600,'7.21':2800,'7.22':18000,'7.23':5000},
+  '8':{'8.01':2800,'8.02':2400,'8.03':1800,'8.04':4500,'8.05':380,'8.06':220,'8.07':650,'8.08':8000},
+  '9':{'9.01':12000,'9.02':18000,'9.03':22000,'9.04':4500,'9.05':2200,'9.06':185,'9.07':240,'9.08':280,'9.09':145,'9.10':180,'9.11':160,'9.12':85,'9.13':110,'9.14':120,'9.15':95,'9.16':180,'9.17':180,'9.18':220,'9.19':2500,'9.20':8500,'9.21':6500,'9.22':12000,'9.23':18000,'9.24':280,'9.25':180,'9.26':320,'9.27':8000,'9.28':3500,'9.29':2500,'9.30':5000},
+  '10':{'10.01':8000,'10.02':4200,'10.03':3600,'10.04':2800,'10.05':2200,'10.06':1800,'10.07':3200,'10.08':380,'10.09':420,'10.10':1800,'10.11':3500,'10.12':12000,'10.13':280,'10.14':55,'10.15':380,'10.16':3500,'10.17':6000,'10.18':4000,'10.19':4500,'10.20':8000},
+  '11':{'11.01':18000,'11.02':15000,'11.03':22000,'11.04':3500,'11.05':2800,'11.06':4500,'11.07':1200,'11.08':1800,'11.09':450,'11.10':3500,'11.11':320,'11.12':380,'11.13':5000,'11.14':8000,'11.15':6500,'11.16':1200,'11.17':8500,'11.18':22000,'11.19':8000,'11.20':4500},
+  '12':{'12.01':85,'12.02':95,'12.03':25,'12.04':35,'12.05':280,'12.06':8500,'12.07':4500,'12.08':22000,'12.09':750,'12.10':750,'12.11':750,'12.12':750,'12.13':8000}
+};
+
+function fillSampleRates() {
+  if(!confirm('Fill all items with 2024 Qatar market sample rates?\n\nThese are approximate rates only — adjust to your actual project conditions.')) return;
+  BOQ_TEMPLATE.forEach(sec => {
+    sec.items.forEach(it => {
+      const key = `${sec.no}-${it.no}`;
+      if(!state[key]) state[key] = {};
+      state[key].qty = it.default_qty ?? 1;
+      const r = SAMPLE_RATES[sec.no]?.[it.no];
+      if(r) state[key].rate = r;
+    });
+  });
+  renderSection(activeSection);
+  recalcAll();
+}
+
+function exportPDF() {
+  alert('Use the Print button (🖨) and choose "Save as PDF" in your print dialog.\n\nAll sections and totals will print with QatarSpec Pro header.');
+}
+
+init();
+</script>
+</body>
+</html>
