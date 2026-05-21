@@ -1338,399 +1338,49 @@ header {
 
     <!-- ── Tab: BOQ (Coming Soon) ── -->
     <div class="tab-panel" id="tab-boq">
-      <!-- ── BOQ Pricer: Qatar Residential Villa ─────────────────────── -->
+      <!-- ── BOQ Pricer Full — Qatar Residential Villa ── -->
       <style>
-        .boq-wrap{padding:0 4px}
-        .boq-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:18px}
-        .boq-header h3{font-size:16px;font-weight:800;color:var(--gold);margin:0}
-        .boq-ref{font-size:11px;color:var(--text3);background:rgba(200,146,42,.08);border:1px solid rgba(200,146,42,.2);border-radius:6px;padding:4px 10px}
-        .boq-actions{display:flex;gap:8px;flex-wrap:wrap}
-        .boq-btn{padding:7px 14px;border-radius:8px;font-size:12px;font-family:inherit;font-weight:700;cursor:pointer;border:none;transition:.2s}
-        .boq-btn-gold{background:linear-gradient(135deg,#C8922A,#a06820);color:#000}
-        .boq-btn-blue{background:rgba(21,101,192,.15);color:#60a5fa;border:1px solid rgba(21,101,192,.3)}
-        .boq-btn-green{background:rgba(29,185,84,.12);color:#1db954;border:1px solid rgba(29,185,84,.25)}
-        .boq-btn-red{background:rgba(229,57,53,.1);color:#ef5350;border:1px solid rgba(229,57,53,.2)}
-        .boq-btn:hover{filter:brightness(1.15);transform:translateY(-1px)}
-
-        /* Summary cards */
-        .boq-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
-        .boq-sum-card{background:#0d1220;border:1px solid #1e2d4a;border-radius:10px;padding:12px;text-align:center}
-        .boq-sum-val{font-size:16px;font-weight:900;color:#C8922A;line-height:1.2}
-        .boq-sum-lbl{font-size:10px;color:#6b7a99;margin-top:3px}
-
-        /* Mode tabs */
-        .boq-mode-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
-        .boq-mode-tab{padding:6px 14px;border-radius:20px;font-size:12px;font-family:inherit;cursor:pointer;border:1px solid #1e2d4a;background:transparent;color:#6b7a99;transition:.2s}
-        .boq-mode-tab.active{background:rgba(200,146,42,.15);border-color:#C8922A;color:#C8922A}
-
-        /* Table */
-        .boq-table-wrap{overflow-x:auto;border-radius:10px;border:1px solid #1e2d4a}
-        .boq-table{width:100%;border-collapse:collapse;font-size:12px}
-        .boq-table th{background:#0f2347;color:#C8922A;padding:8px 10px;text-align:right;font-weight:700;white-space:nowrap;border-bottom:1px solid #1e2d4a}
-        .boq-table td{padding:7px 10px;border-bottom:1px solid rgba(30,45,74,.5);color:#b0b8cc;vertical-align:middle}
-        .boq-table tr:last-child td{border-bottom:none}
-        .boq-table tr:hover td{background:rgba(200,146,42,.04)}
-        .boq-table input[type=number]{width:80px;background:#111827;border:1px solid #1e2d4a;border-radius:5px;color:#e8eaf0;padding:4px 6px;font-size:12px;text-align:center;font-family:inherit;outline:none}
-        .boq-table input:focus{border-color:#C8922A}
-        .boq-cat-row td{background:rgba(200,146,42,.06);color:#C8922A;font-weight:800;font-size:11px}
-        .boq-total-row td{background:#0f2347;color:#e8eaf0;font-weight:800}
-        .progress-cell{width:80px}
-        .mini-bar{height:4px;background:#1e2d4a;border-radius:4px;overflow:hidden}
-        .mini-fill{height:100%;background:linear-gradient(90deg,#C8922A,#e0a83a);border-radius:4px;transition:.4s}
-        .badge-ref{font-size:10px;color:#6b7a99;background:#0d1220;border:1px solid #1e2d4a;border-radius:4px;padding:1px 5px;display:inline-block}
-        .tag-cat{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;display:inline-block}
-        .tag-civil{background:rgba(21,101,192,.12);color:#60a5fa}
-        .tag-arch{background:rgba(155,89,182,.12);color:#c084fc}
-        .tag-mep{background:rgba(29,185,84,.1);color:#1db954}
-        .tag-ext{background:rgba(245,124,0,.1);color:#fb923c}
-
-        /* Export/import bar */
-        .boq-toolbar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
-        .boq-search{padding:7px 12px;background:#0d1220;border:1px solid #1e2d4a;border-radius:8px;color:#e8eaf0;font-size:12px;font-family:inherit;outline:none;width:180px}
-        .boq-search:focus{border-color:#C8922A}
-
-        /* Pro gate */
-        .boq-pro-gate{background:rgba(200,146,42,.06);border:1px solid rgba(200,146,42,.2);border-radius:12px;padding:20px;text-align:center;margin-top:12px}
-        .boq-pro-gate p{font-size:13px;color:#b0b8cc;margin-bottom:12px}
-        .boq-disclaimer{font-size:11px;color:#6b7a99;margin-top:14px;background:#0d1220;border:1px solid #1e2d4a;border-radius:8px;padding:8px 12px}
-        @media(max-width:600px){.boq-table{font-size:11px}.boq-table th,.boq-table td{padding:5px 6px}}
+        #boqFrame{width:100%;border:none;border-radius:12px;background:#080c18;
+          transition:height .3s;min-height:600px;}
+        .boq-frame-wrap{position:relative;}
+        .boq-open-btn{position:absolute;top:10px;left:10px;z-index:10;
+          padding:6px 12px;background:rgba(200,146,42,.15);border:1px solid rgba(200,146,42,.3);
+          border-radius:8px;font-size:11px;color:#C8922A;cursor:pointer;font-family:inherit;
+          text-decoration:none;display:inline-flex;align-items:center;gap:5px;}
+        .boq-open-btn:hover{background:rgba(200,146,42,.25)}
       </style>
-
-      <div class="boq-wrap">
-        <div class="boq-header">
-          <div>
-            <h3>📊 BOQ Pricer — فيلا سكنية قطر</h3>
-            <span class="boq-ref">📌 QCS 2024 · Ashghal RDM 2023 · أسعار السوق 2024</span>
-          </div>
-          <div class="boq-actions">
-            <button class="boq-btn boq-btn-blue" onclick="BOQ.exportCSV()">📥 CSV</button>
-            <button class="boq-btn boq-btn-green" onclick="BOQ.exportPDF()">📄 PDF</button>
-            <button class="boq-btn boq-btn-red" onclick="BOQ.reset()">↺ إعادة تعيين</button>
-          </div>
-        </div>
-
-        <!-- Summary -->
-        <div class="boq-summary" id="boqSummary">
-          <div class="boq-sum-card"><div class="boq-sum-val" id="bTotal">0</div><div class="boq-sum-lbl">إجمالي التكلفة (QAR)</div></div>
-          <div class="boq-sum-card"><div class="boq-sum-val" id="bCivil" style="color:#60a5fa">0</div><div class="boq-sum-lbl">أعمال مدنية</div></div>
-          <div class="boq-sum-card"><div class="boq-sum-val" id="bArch" style="color:#c084fc">0</div><div class="boq-sum-lbl">أعمال معمارية</div></div>
-          <div class="boq-sum-card"><div class="boq-sum-val" id="bMEP" style="color:#1db954">0</div><div class="boq-sum-lbl">MEP</div></div>
-          <div class="boq-sum-card"><div class="boq-sum-val" id="bExt" style="color:#fb923c">0</div><div class="boq-sum-lbl">أعمال خارجية</div></div>
-          <div class="boq-sum-card"><div class="boq-sum-val" id="bPSM" style="color:#facc15">0</div><div class="boq-sum-lbl">QAR/م² (تقريبي)</div></div>
-        </div>
-
-        <!-- Mode + area input -->
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap">
-          <div class="boq-mode-tabs">
-            <button class="boq-mode-tab active" onclick="BOQ.setMode('standard',this)">فيلا 300م²</button>
-            <button class="boq-mode-tab" onclick="BOQ.setMode('large',this)">فيلا 500م²</button>
-            <button class="boq-mode-tab" onclick="BOQ.setMode('custom',this)">مساحة مخصصة</button>
-          </div>
-          <div id="customAreaWrap" style="display:none;align-items:center;gap:6px">
-            <label style="font-size:12px;color:#6b7a99">مساحة البناء (م²):</label>
-            <input type="number" id="customArea" value="300" min="50" max="2000"
-              style="width:90px;background:#0d1220;border:1px solid #1e2d4a;border-radius:6px;color:#e8eaf0;padding:5px 8px;font-size:13px;font-family:inherit;outline:none"
-              oninput="BOQ.applyArea(this.value)">
-          </div>
-        </div>
-
-        <!-- Toolbar -->
-        <div class="boq-toolbar">
-          <input class="boq-search" id="boqSearch" type="search" placeholder="🔍 بحث في البنود..." oninput="BOQ.search(this.value)">
-          <select onchange="BOQ.filterCat(this.value)"
-            style="padding:7px 10px;background:#0d1220;border:1px solid #1e2d4a;border-radius:8px;color:#b0b8cc;font-family:inherit;font-size:12px;outline:none">
-            <option value="all">جميع التصنيفات</option>
-            <option value="civil">أعمال مدنية</option>
-            <option value="arch">أعمال معمارية</option>
-            <option value="mep">MEP</option>
-            <option value="ext">أعمال خارجية</option>
-          </select>
-          <span style="font-size:11px;color:#6b7a99;margin-right:auto">عدّل الكميات حسب مشروعك</span>
-        </div>
-
-        <!-- BOQ Table -->
-        <div class="boq-table-wrap">
-          <table class="boq-table" id="boqTable">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>البند</th>
-                <th>وحدة</th>
-                <th>الكمية</th>
-                <th>السعر (QAR)</th>
-                <th>الإجمالي</th>
-                <th>المرجع</th>
-              </tr>
-            </thead>
-            <tbody id="boqBody"></tbody>
-          </table>
-        </div>
-
-        <div class="boq-disclaimer">
-          ⚠️ <strong>تنبيه:</strong> الأسعار تقديرية مبنية على متوسط سوق قطر 2024. يُنصح بطلب 3 عروض أسعار قبل الالتزام. الأسعار الفعلية تختلف حسب الموقع والمقاول والمواصفات.
-          المرجع: QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024
-        </div>
+      <div class="boq-frame-wrap">
+        <a href="/boq-pricer.html" target="_blank" class="boq-open-btn" title="فتح في نافذة كاملة">
+          ↗ فتح في نافذة كاملة
+        </a>
+        <iframe id="boqFrame" src="/boq-pricer.html" scrolling="yes"
+          onload="resizeBOQFrame(this)" title="BOQ Pricer — Qatar Residential Villa"></iframe>
       </div>
-
       <script>
-      (function(){
-        // ── بيانات البنود ────────────────────────────────────────────────
-        const ITEMS = [
-          // ── أعمال مدنية ──────────────────────────────────────────────
-          {id:'C01',cat:'civil',name:'أعمال الحفر والردم',unit:'م³',baseQty:280,rate:35,ref:'QCS §S6'},
-          {id:'C02',cat:'civil',name:'رمل دك تحت الأساسات',unit:'م³',baseQty:45,rate:55,ref:'QCS §S6'},
-          {id:'C03',cat:'civil',name:'خرسانة عادية (أساسات) C15',unit:'م³',baseQty:30,rate:380,ref:'QCS §S5'},
-          {id:'C04',cat:'civil',name:'خرسانة مسلحة أساسات C30',unit:'م³',baseQty:80,rate:450,ref:'QCS §S5-P4'},
-          {id:'C05',cat:'civil',name:'خرسانة مسلحة أعمدة C35',unit:'م³',baseQty:45,rate:480,ref:'QCS §S5-P4'},
-          {id:'C06',cat:'civil',name:'خرسانة مسلحة كمرات C30',unit:'م³',baseQty:55,rate:450,ref:'QCS §S5-P4'},
-          {id:'C07',cat:'civil',name:'خرسانة مسلحة بلاطات C30',unit:'م³',baseQty:90,rate:440,ref:'QCS §S5-P4'},
-          {id:'C08',cat:'civil',name:'حديد تسليح B500B Ø10-25',unit:'طن',baseQty:22,rate:2500,ref:'QCS §S5-P5'},
-          {id:'C09',cat:'civil',name:'عزل مائي أساسات SBS 4mm',unit:'م²',baseQty:180,rate:20,ref:'QCS §S5-P10'},
-          {id:'C10',cat:'civil',name:'فورمورك خشبي (أساسات وأعمدة)',unit:'م²',baseQty:350,rate:45,ref:'QCS §S5'},
-          {id:'C11',cat:'civil',name:'درجات خرسانة (سلم)',unit:'درجة',baseQty:24,rate:220,ref:'QCS §S5'},
-          {id:'C12',cat:'civil',name:'بلاطة سطح + عزل XPS 50mm',unit:'م²',baseQty:160,rate:95,ref:'QCS §S5-P10'},
-
-          // ── أعمال معمارية ────────────────────────────────────────────
-          {id:'A01',cat:'arch',name:'بلوك خرساني 200mm كثيف',unit:'م²',baseQty:420,rate:65,ref:'QCS §S9-P2'},
-          {id:'A02',cat:'arch',name:'بلوك خرساني 100mm (حواجز)',unit:'م²',baseQty:180,rate:45,ref:'QCS §S9-P2'},
-          {id:'A03',cat:'arch',name:'لياسة داخلية (جبس)',unit:'م²',baseQty:1200,rate:22,ref:'QCS §S9'},
-          {id:'A04',cat:'arch',name:'لياسة خارجية (أسمنت)',unit:'م²',baseQty:480,rate:28,ref:'QCS §S9'},
-          {id:'A05',cat:'arch',name:'بلاط أرضيات سيراميك',unit:'م²',baseQty:280,rate:120,ref:'QCS §S9-P4'},
-          {id:'A06',cat:'arch',name:'بلاط أرضيات بورسلان (صالة)',unit:'م²',baseQty:120,rate:180,ref:'QCS §S9-P4'},
-          {id:'A07',cat:'arch',name:'تغليف جدران سيراميك (حمامات)',unit:'م²',baseQty:160,rate:130,ref:'QCS §S9-P4'},
-          {id:'A08',cat:'arch',name:'دهان داخلي (مسطح+دهر)',unit:'م²',baseQty:1400,rate:18,ref:'QCS §S9-P3'},
-          {id:'A09',cat:'arch',name:'دهان خارجي (مقاوم للحرارة)',unit:'م²',baseQty:480,rate:32,ref:'QCS §S9-P3'},
-          {id:'A10',cat:'arch',name:'نوافذ ألمنيوم دبل جلازد',unit:'م²',baseQty:80,rate:850,ref:'QCS §S5-P10'},
-          {id:'A11',cat:'arch',name:'أبواب خشب داخلي (غرف)',unit:'باب',baseQty:14,rate:1800,ref:'QCS §S9'},
-          {id:'A12',cat:'arch',name:'أبواب رئيسية (ألمنيوم/حديد)',unit:'باب',baseQty:3,rate:6500,ref:'QCS §S9'},
-          {id:'A13',cat:'arch',name:'أسقف جبسية (تيل+تشطيب)',unit:'م²',baseQty:280,rate:95,ref:'QCS §S9'},
-          {id:'A14',cat:'arch',name:'عزل حراري جدران خارجية',unit:'م²',baseQty:480,rate:35,ref:'GSAS/QCS'},
-          {id:'A15',cat:'arch',name:'درابزين حديد (سلالم+شرفات)',unit:'م.ط',baseQty:35,rate:450,ref:'QCS §S9'},
-          {id:'A16',cat:'arch',name:'سراميك أسطح (مقاوم UV)',unit:'م²',baseQty:160,rate:90,ref:'QCS §S9-P4'},
-
-          // ── MEP ──────────────────────────────────────────────────────
-          {id:'M01',cat:'mep',name:'تمديدات كهرباء (لوحات+كابلات)',unit:'م²',baseQty:300,rate:120,ref:'KAHRAMAA 2024'},
-          {id:'M02',cat:'mep',name:'لوحة كهرباء رئيسية (80A-3P)',unit:'عدد',baseQty:1,rate:8500,ref:'KAHRAMAA §E-3'},
-          {id:'M03',cat:'mep',name:'تمديدات سباكة مياه PPR',unit:'م.ط',baseQty:180,rate:65,ref:'QCS §S21-P2'},
-          {id:'M04',cat:'mep',name:'أعمال صرف صحي uPVC',unit:'م.ط',baseQty:120,rate:55,ref:'QCS §S21-P3'},
-          {id:'M05',cat:'mep',name:'أجهزة صحية (مراحيض+أحواض)',unit:'مجموعة',baseQty:4,rate:3500,ref:'QCS §S21-P2'},
-          {id:'M06',cat:'mep',name:'سخان مياه كهربائي 80L',unit:'عدد',baseQty:2,rate:1200,ref:'KAHRAMAA'},
-          {id:'M07',cat:'mep',name:'تكييف مركزي مقسّم (split)',unit:'حصان',baseQty:20,rate:1800,ref:'QCS §S21-P4'},
-          {id:'M08',cat:'mep',name:'تمديدات مجاري هواء',unit:'م²',baseQty:300,rate:85,ref:'SMACNA'},
-          {id:'M09',cat:'mep',name:'طفايات حريق ABC',unit:'عدد',baseQty:8,rate:280,ref:'QCDD'},
-          {id:'M10',cat:'mep',name:'نظام إنذار حريق',unit:'نقطة',baseQty:20,rate:650,ref:'NFPA 72/QCDD'},
-          {id:'M11',cat:'mep',name:'تمديدات إنترنت وهاتف',unit:'نقطة',baseQty:18,rate:180,ref:'KAHRAMAA'},
-          {id:'M12',cat:'mep',name:'اختبارات وتشغيل MEP',unit:'مقطوعية',baseQty:1,rate:8000,ref:'QCS §S21'},
-
-          // ── أعمال خارجية ────────────────────────────────────────────
-          {id:'E01',cat:'ext',name:'سور حدودي (خرسانة+بلوك)',unit:'م.ط',baseQty:55,rate:850,ref:'QCS §S5'},
-          {id:'E02',cat:'ext',name:'بوابة رئيسية ألمنيوم/حديد',unit:'عدد',baseQty:1,rate:9000,ref:'QCS §S9'},
-          {id:'E03',cat:'ext',name:'تبليط خارجي (مشاية+مواقف)',unit:'م²',baseQty:220,rate:110,ref:'QCS §S6'},
-          {id:'E04',cat:'ext',name:'تجهيز حديقة (تربة+نباتات)',unit:'م²',baseQty:180,rate:85,ref:'Ashghal'},
-          {id:'E05',cat:'ext',name:'شبكة ري حديقة (drip)',unit:'م²',baseQty:180,rate:45,ref:'Ashghal'},
-          {id:'E06',cat:'ext',name:'إنارة خارجية (حديقة+مداخل)',unit:'نقطة',baseQty:20,rate:650,ref:'KAHRAMAA'},
-          {id:'E07',cat:'ext',name:'صرف أمطار خارجي',unit:'م.ط',baseQty:45,rate:280,ref:'Ashghal RDM'},
-          {id:'E08',cat:'ext',name:'مستوى أرضي وخرسانة مسلحة مداخل',unit:'م²',baseQty:60,rate:350,ref:'QCS §S5'},
-        ];
-
-        // أوزان المساحة: حجم كل فئة حسب مساحة البناء
-        const AREA_FACTORS = {
-          civil:{base:300,factor:0.85},
-          arch:{base:300,factor:1.1},
-          mep:{base:300,factor:0.9},
-          ext:{base:300,factor:0.6}
-        };
-
-        let state = {items:[], filter:'all', search:'', areaFactor:1};
-
-        function init(){
-          state.items = ITEMS.map(it=>({...it, qty:it.baseQty}));
-          render();
-        }
-
-        function F(n){
-          if(!n&&n!==0)return'—';
-          return Number(n).toLocaleString('ar-QA',{maximumFractionDigits:0});
-        }
-
-        function applyAreaScale(area){
-          const scale = area/300;
-          state.items = state.items.map(it=>{
-            const af = AREA_FACTORS[it.cat];
-            let factor = 1;
-            if(it.cat==='civil') factor = Math.pow(scale, 0.85);
-            else if(it.cat==='arch') factor = scale * 1.0;
-            else if(it.cat==='mep') factor = Math.pow(scale, 0.9);
-            else factor = Math.pow(scale, 0.6);
-            return {...it, qty: Math.round(it.baseQty * factor)};
-          });
-        }
-
-        function render(){
-          const body = document.getElementById('boqBody');
-          if(!body) return;
-
-          let filtered = state.items;
-          if(state.filter!=='all') filtered = filtered.filter(i=>i.cat===state.filter);
-          if(state.search) filtered = filtered.filter(i=>i.name.includes(state.search)||i.id.includes(state.search));
-
-          const cats = [{k:'civil',lbl:'أعمال مدنية 🏗️',cls:'tag-civil'},{k:'arch',lbl:'أعمال معمارية 🏠',cls:'tag-arch'},{k:'mep',lbl:'MEP ⚡',cls:'tag-mep'},{k:'ext',lbl:'أعمال خارجية 🌿',cls:'tag-ext'}];
-          let html='', row=0;
-          let totals={civil:0,arch:0,mep:0,ext:0};
-
-          cats.forEach(cat=>{
-            const rows = filtered.filter(i=>i.cat===cat.k);
-            if(!rows.length) return;
-            const catTotal = rows.reduce((s,i)=>s+(i.qty*i.rate),0);
-            totals[cat.k] = (totals[cat.k]||0) + catTotal;
-            html += `<tr class="boq-cat-row"><td colspan="7"><span class="tag-cat ${cat.cls}">${cat.lbl}</span></td></tr>`;
-            rows.forEach(it=>{
-              const total = it.qty * it.rate;
-              row++;
-              html += `<tr>
-                <td style="color:#6b7a99;font-size:10px">${it.id}</td>
-                <td>${it.name}</td>
-                <td style="text-align:center;color:#6b7a99">${it.unit}</td>
-                <td style="text-align:center">
-                  <input type="number" value="${it.qty}" min="0" data-id="${it.id}"
-                    onchange="BOQ.updateQty('${it.id}',this.value)" oninput="BOQ.updateQty('${it.id}',this.value)">
-                </td>
-                <td style="text-align:center;color:#b0b8cc">${F(it.rate)}</td>
-                <td style="text-align:center;font-weight:700;color:${total>500000?'#ef5350':total>100000?'#C8922A':'#b0b8cc'}">${F(total)}</td>
-                <td><span class="badge-ref">${it.ref}</span></td>
-              </tr>`;
-            });
-            html += `<tr class="boq-total-row"><td colspan="5" style="text-align:left;padding-right:12px">مجموع ${cat.lbl}</td><td style="text-align:center;color:#C8922A">${F(catTotal)}</td><td></td></tr>`;
-          });
-
-          const grandTotal = Object.values(totals).reduce((a,b)=>a+b,0);
-          if(state.filter==='all'){
-            html += `<tr style="background:#0f2347;border-top:2px solid #C8922A">
-              <td colspan="5" style="text-align:left;color:#C8922A;font-weight:800;font-size:13px;padding:10px 12px">🏆 الإجمالي الكلي (QAR)</td>
-              <td style="text-align:center;color:#C8922A;font-weight:900;font-size:15px">${F(grandTotal)}</td>
-              <td></td>
-            </tr>`;
+        function resizeBOQFrame(iframe) {
+          try {
+            const h = iframe.contentWindow.document.body.scrollHeight;
+            iframe.style.height = Math.max(600, h) + 'px';
+          } catch(e) {
+            iframe.style.height = '800px';
           }
-          body.innerHTML = html;
-          updateSummary(totals, grandTotal);
-        }
-
-        function updateSummary(totals, grand){
-          const area = getCurrentArea();
-          document.getElementById('bTotal').textContent = F(grand);
-          document.getElementById('bCivil').textContent = F(totals.civil||0);
-          document.getElementById('bArch').textContent = F(totals.arch||0);
-          document.getElementById('bMEP').textContent = F(totals.mep||0);
-          document.getElementById('bExt').textContent = F(totals.ext||0);
-          document.getElementById('bPSM').textContent = area>0?F(Math.round(grand/area)):'—';
-        }
-
-        function getCurrentArea(){
-          const m = document.querySelector('.boq-mode-tab.active');
-          if(!m) return 300;
-          if(m.textContent.includes('300')) return 300;
-          if(m.textContent.includes('500')) return 500;
-          const inp = document.getElementById('customArea');
-          return inp ? Number(inp.value)||300 : 300;
-        }
-
-        window.BOQ = {
-          updateQty(id, val){
-            const it = state.items.find(i=>i.id===id);
-            if(it) it.qty = Number(val)||0;
-            render();
-          },
-          setMode(mode, btn){
-            document.querySelectorAll('.boq-mode-tab').forEach(b=>b.classList.remove('active'));
-            btn.classList.add('active');
-            const wrap = document.getElementById('customAreaWrap');
-            if(mode==='standard'){wrap.style.display='none'; applyAreaScale(300);}
-            else if(mode==='large'){wrap.style.display='none'; applyAreaScale(500);}
-            else{wrap.style.display='flex';}
-            render();
-          },
-          applyArea(v){
-            const area = Math.max(50, Math.min(2000, Number(v)||300));
-            applyAreaScale(area);
-            render();
-          },
-          filterCat(v){ state.filter=v; render(); },
-          search(v){ state.search=v; render(); },
-          reset(){
-            if(!confirm('إعادة تعيين جميع الكميات للقيم الافتراضية؟')) return;
-            state.items = ITEMS.map(it=>({...it,qty:it.baseQty}));
-            render();
-          },
-          exportCSV(){
-            let csv = 'ID,البند,الوحدة,الكمية,السعر (QAR),الإجمالي,المرجع\n';
-            state.items.forEach(it=>{
-              csv += `${it.id},"${it.name}",${it.unit},${it.qty},${it.rate},${it.qty*it.rate},${it.ref}\n`;
-            });
-            const total = state.items.reduce((s,i)=>s+(i.qty*i.rate),0);
-            csv += `,,,,,"الإجمالي: ${total} QAR",`;
-            const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'BOQ-Qatar-Villa-' + new Date().toISOString().slice(0,10) + '.csv';
-            a.click();
-          },
-          exportPDF(){
-            const total = state.items.reduce((s,i)=>s+(i.qty*i.rate),0);
-            const proj = document.getElementById('projectName')?.textContent || 'مشروع فيلا';
-            let rows = state.items.map(it=>`
-              <tr>
-                <td>${it.id}</td><td>${it.name}</td><td>${it.unit}</td>
-                <td style="text-align:center">${it.qty.toLocaleString()}</td>
-                <td style="text-align:center">${it.rate.toLocaleString()}</td>
-                <td style="text-align:center;font-weight:700">${(it.qty*it.rate).toLocaleString()}</td>
-                <td style="font-size:10px">${it.ref}</td>
-              </tr>`).join('');
-            const w = window.open('','_blank');
-            w.document.write(`<!DOCTYPE html><html dir="rtl"><head>
-              <meta charset="UTF-8"><title>BOQ — ${proj}</title>
-              <style>
-                body{font-family:Arial,sans-serif;padding:20px;font-size:12px;color:#111}
-                .logo{color:#C8922A;font-size:16px;font-weight:900;margin-bottom:4px}
-                .ref{font-size:10px;color:#666;margin-bottom:16px}
-                h2{margin:0 0 4px;font-size:14px}
-                table{width:100%;border-collapse:collapse;margin-top:10px}
-                th{background:#0D1B3E;color:#C8922A;padding:6px;font-size:11px}
-                td{padding:5px 6px;border-bottom:1px solid #eee;font-size:11px}
-                tr:nth-child(even)td{background:#f9f9f9}
-                .total-row{background:#0D1B3E!important;color:#C8922A;font-weight:900;font-size:13px}
-                @media print{@page{margin:10mm}body{padding:0}}
-              </style></head><body>
-              <div class="logo">🏗️ QatarSpec Pro</div>
-              <h2>${proj} — جدول الكميات والأسعار</h2>
-              <div class="ref">📌 QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 | التاريخ: ${new Date().toLocaleDateString('ar-QA')}</div>
-              <table><thead><tr><th>ID</th><th>البند</th><th>الوحدة</th><th>الكمية</th><th>السعر</th><th>الإجمالي (QAR)</th><th>المرجع</th></tr></thead>
-              <tbody>${rows}</tbody>
-              <tfoot><tr class="total-row"><td colspan="5" style="padding:8px">🏆 الإجمالي الكلي</td><td style="text-align:center;font-size:14px">${total.toLocaleString()} QAR</td><td></td></tr></tfoot></table>
-              <p style="margin-top:16px;font-size:10px;color:#999">تنبيه: الأسعار تقديرية مبنية على متوسط سوق قطر 2024. الأرقام الفعلية تختلف حسب الموقع والمقاول.</p>
-              <script>window.print()<\/script></body></html>`);
-            w.document.close();
+          // تمرير اسم المشروع للـ iframe
+          const projName = document.getElementById('projectName')?.textContent;
+          if(projName) {
+            try {
+              iframe.contentWindow.document.getElementById('proj-name').value = projName;
+            } catch(e){}
           }
-        };
-
-        // Initialize on tab click
-        const observer = new MutationObserver(()=>{
-          const tab = document.getElementById('tab-boq');
-          if(tab && !tab.classList.contains('active')===false && !state.items.length){
-            init(); observer.disconnect();
+        }
+        // إعادة ضبط الارتفاع عند تغيير الـ tab
+        document.addEventListener('click', function(e) {
+          if(e.target.dataset?.tab === 'boq' || e.target.closest('[data-tab="boq"]')) {
+            setTimeout(function() {
+              const f = document.getElementById('boqFrame');
+              if(f) resizeBOQFrame(f);
+            }, 200);
           }
         });
-        const boqTab = document.getElementById('tab-boq');
-        if(boqTab) { init(); } else { observer.observe(document.body,{childList:true,subtree:true}); }
-
-        // Also init when tab button is clicked
-        document.addEventListener('click',function(e){
-          if(e.target.dataset?.tab==='boq' || e.target.closest('[data-tab="boq"]')){
-            if(!state.items.length) init(); else render();
-          }
-        });
-
-        init();
-      })();
       </script>
     </div>
 
