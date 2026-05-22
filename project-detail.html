@@ -14,6 +14,10 @@
 <!-- jsPDF لتصدير PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<!-- SheetJS لتصدير Excel -->
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<!-- docx.js لتصدير Word -->
+<script src="https://unpkg.com/docx@8.5.0/build/index.js"></script>
 
 <style>
 /* ── CSS Variables (مطابق للتطبيق الرئيسي) ── */
@@ -4472,7 +4476,6 @@ async function exportFullProject() {
 (function() {
   'use strict';
 
-  /* بيانات النماذج الـ 14 */
   const SF_FORMS = [
     { id:'IR', code:'IR', title:'Inspection Request', ar:'طلب فحص', icon:'🔍', color:'#0F6E56', bg:'rgba(14,110,86,0.12)', cat:'فحص', fields:[
       {l:'Project / المشروع',k:'project',t:'text'},{l:'Location / الموقع',k:'location',t:'text'},
@@ -4507,7 +4510,7 @@ async function exportFullProject() {
       {l:'Consultant / المستشار',k:'consultant',t:'text'},{l:'Contractor / المقاول',k:'contractor',t:'text'},
       {l:'CRF No. / رقم الطلب',k:'crfNo',t:'text'},{l:'Package / الحزمة',k:'pkg',t:'sel',opts:['Architectural','Civil','Electrical','Mechanical']},
       {l:'Issue Date / تاريخ الإصدار',k:'issueDate',t:'date'},{l:'Requested Response Date / الرد المطلوب',k:'respDate',t:'date'},
-      {l:'Change Request Justification / تبرير طلب التغيير',k:'notes',t:'ta'}],
+      {l:'Change Request Justification / تبرير التغيير',k:'notes',t:'ta'}],
       status:['Approved','Approved with Comments','Rejected','Further Information Required'] },
     { id:'ST', code:'ST', title:'Site Transmittal', ar:'مرسلة موقع', icon:'📤', color:'#3B6D11', bg:'rgba(59,109,17,0.12)', cat:'توثيق', fields:[
       {l:'Project / المشروع',k:'project',t:'text'},{l:'Location / الموقع',k:'location',t:'text'},
@@ -4540,7 +4543,7 @@ async function exportFullProject() {
       {l:'Subject / الموضوع',k:'subject',t:'text'},{l:'Contractor / المقاول',k:'contractor',t:'text'},
       {l:'MDN No. / رقم الإشعار',k:'mdnNo',t:'text'},{l:'Package / الحزمة',k:'pkg',t:'sel',opts:['Architectural','Civil','Electrical','Mechanical']},
       {l:'Delivery Date / تاريخ التسليم',k:'delDate',t:'date'},{l:'Quantity Delivered / الكمية المسلمة',k:'qty',t:'text'},
-      {l:'Material Approval Ref. / مرجع الموافقة',k:'approvalRef',t:'text'},{l:'Requested Inspection Date & Time / وقت الفحص المطلوب',k:'inspDate',t:'datetime-local'},
+      {l:'Material Approval Ref. / مرجع الموافقة',k:'approvalRef',t:'text'},{l:'Requested Inspection Date & Time / وقت الفحص',k:'inspDate',t:'datetime-local'},
       {l:'Materials compliant at arrival / المواد مطابقة عند الوصول',k:'comp',t:'sel',opts:['Confirmed','Not Confirmed']},
       {l:'Storekeeper Name / اسم أمين المخزن',k:'storekeeper',t:'text'}],
       status:['Approved','Approved With Comments','Rejected','Further Information Required'] },
@@ -4556,7 +4559,7 @@ async function exportFullProject() {
       {l:'Project / المشروع',k:'project',t:'text'},{l:'Location / الموقع',k:'location',t:'text'},
       {l:'Subject / الموضوع',k:'subject',t:'text'},{l:'Contractor / المقاول',k:'contractor',t:'text'},
       {l:'SDT No. / رقم المرسلة',k:'sdtNo',t:'text'},{l:'Package / الحزمة',k:'pkg',t:'sel',opts:['Architectural','Civil','Electrical','Mechanical']},
-      {l:'Shop Drawing Ref. 1 / In ref. to / الرسم 1',k:'sd1',t:'text'},{l:'Shop Drawing Ref. 2 / الرسم 2',k:'sd2',t:'text'},
+      {l:'Shop Drawing Ref. 1 / الرسم 1',k:'sd1',t:'text'},{l:'Shop Drawing Ref. 2 / الرسم 2',k:'sd2',t:'text'},
       {l:'Shop Drawing Ref. 3 / الرسم 3',k:'sd3',t:'text'},{l:'Shop Drawing Ref. 4 / الرسم 4',k:'sd4',t:'text'},
       {l:'Additional Drawing Refs / مراجع إضافية',k:'extra',t:'ta'},
       {l:'Issue Date / تاريخ الإصدار',k:'issueDate',t:'date'},{l:'Requested Response Date / الرد المطلوب',k:'respDate',t:'date'}],
@@ -4573,7 +4576,7 @@ async function exportFullProject() {
       {l:'Project / المشروع',k:'project',t:'text'},{l:'Location / الموقع',k:'location',t:'text'},
       {l:'Contractor / المقاول',k:'contractor',t:'text'},{l:'SVN No. / رقم الإشعار',k:'svnNo',t:'text'},
       {l:'Type of Violation / نوع المخالفة',k:'vtype',t:'sel',opts:['Hazardous Situation','Safety/Fire Safety Equipment','Safety Wear/Protective Gear','Safety Signage','Debris Material','Access/Exit Set-up','Exposed/Loose Wiring','Temporary Platform/Pass','Inadequate Lighting','Hazardous Scaffolding/Excavation','Exposure to Hazardous Material','Unapproved Disposal of Chemicals','Other']},
-      {l:'Notice Date & Time / تاريخ ووقت الملاحظة',k:'noticeDate',t:'datetime-local'},
+      {l:'Notice Date & Time / تاريخ الملاحظة',k:'noticeDate',t:'datetime-local'},
       {l:'Issue Date & Time / تاريخ الإصدار',k:'issueDate',t:'datetime-local'},
       {l:'Violation Description / وصف المخالفة',k:'desc',t:'ta'},{l:'Contractor Action / إجراء المقاول',k:'action',t:'ta'}],
       status:['Closed','Closed as Noted','Rejected'] },
@@ -4597,10 +4600,250 @@ async function exportFullProject() {
       status:['Approved','Approved With Comments','Rejected','Further Information Required'] },
   ];
 
-  /* حالة الـ module */
   const SF_STATE = { openId: null, vals: {}, statuses: {}, comments: {}, filter: 'الكل', search: '' };
 
-  /* إعادة الرسم */
+  /* ── PDF Export (jsPDF + autotable — A4 مُنسَّق كالأصل) ── */
+  window.sfExportPDF = function(formId) {
+    const f = SF_FORMS.find(x => x.id === formId);
+    if (!f) return;
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const v = SF_STATE.vals[formId] || {};
+    const today = new Date().toLocaleDateString('en-GB');
+    const projectName = document.querySelector('.project-name, h1')?.textContent?.trim() || 'Project';
+    const W = 210, M = 14;
+
+    // ─ Header bar ─
+    doc.setFillColor(15, 30, 60);
+    doc.rect(0, 0, W, 18, 'F');
+    doc.setTextColor(201, 168, 76);
+    doc.setFontSize(12); doc.setFont('helvetica', 'bold');
+    doc.text('QatarSpec Pro  —  Site Forms', M, 7);
+    doc.setFontSize(8); doc.setFont('helvetica', 'normal');
+    doc.setTextColor(180, 180, 180);
+    doc.text('Generic Engineering Forms | نماذج هندسية عامة', M, 12);
+    doc.text(`Ref: QSP-${f.code} | ${today}`, W - M, 12, { align: 'right' });
+
+    // ─ Form title block ─
+    doc.setFillColor(240, 242, 248);
+    doc.rect(M, 22, W - 2 * M, 14, 'F');
+    doc.setTextColor(15, 30, 60);
+    doc.setFontSize(14); doc.setFont('helvetica', 'bold');
+    doc.text(`${f.title}  (${f.code})`, M + 3, 30);
+    doc.setFontSize(9); doc.setFont('helvetica', 'normal'); doc.setTextColor(100);
+    doc.text(f.ar, M + 3, 35);
+    doc.setFontSize(8); doc.setTextColor(80);
+    doc.text(`Project: ${projectName}`, W - M, 30, { align: 'right' });
+
+    // ─ Fields table ─
+    const rows = f.fields.map(field => [field.l.split(' / ')[0], v[field.k] || '']);
+    doc.autoTable({
+      startY: 40,
+      head: [['Field / الحقل', 'Value / القيمة']],
+      body: rows,
+      margin: { left: M, right: M },
+      styles: { font: 'helvetica', fontSize: 9, cellPadding: 3, valign: 'middle' },
+      headStyles: { fillColor: [15, 30, 60], textColor: [201, 168, 76], fontStyle: 'bold', fontSize: 9 },
+      alternateRowStyles: { fillColor: [248, 249, 252] },
+      columnStyles: { 0: { cellWidth: 60, fontStyle: 'bold', textColor: [40, 40, 80] }, 1: { cellWidth: 'auto' } },
+    });
+
+    // ─ Consultant response ─
+    const statusY = doc.lastAutoTable.finalY + 6;
+    doc.setFillColor(248, 248, 248);
+    doc.rect(M, statusY, W - 2 * M, 28, 'F');
+    doc.setDrawColor(200); doc.rect(M, statusY, W - 2 * M, 28, 'S');
+    doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.setTextColor(15, 30, 60);
+    doc.text('Consultant Response / رد المستشار', M + 3, statusY + 6);
+    // Checkboxes
+    const opts = f.status;
+    const boxW = (W - 2 * M - 6) / opts.length;
+    opts.forEach((s, i) => {
+      const bx = M + 3 + i * boxW;
+      const by = statusY + 10;
+      const checked = SF_STATE.statuses[formId] === s;
+      doc.setDrawColor(100); doc.setFillColor(checked ? 15 : 255, checked ? 30 : 255, checked ? 60 : 255);
+      doc.rect(bx, by, 4, 4, checked ? 'FD' : 'S');
+      if (checked) { doc.setTextColor(255); doc.setFontSize(6); doc.text('✓', bx + 0.8, by + 3.2); }
+      doc.setTextColor(40); doc.setFontSize(8); doc.setFont('helvetica', 'normal');
+      doc.text(s, bx + 6, by + 3.2);
+    });
+    doc.setFontSize(8); doc.setTextColor(60);
+    doc.text('Comments: ' + (SF_STATE.comments[formId] || '—'), M + 3, statusY + 22, { maxWidth: W - 2 * M - 6 });
+
+    // ─ Signature lines ─
+    const sigY = doc.lastAutoTable.finalY + 42;
+    const safeSigY = Math.min(sigY, 260);
+    ['Contractor\'s Engineer', 'Consultant / RE', 'Date & Stamp'].forEach((label, i) => {
+      const sx = M + i * ((W - 2 * M) / 3);
+      doc.setDrawColor(120); doc.line(sx, safeSigY, sx + 55, safeSigY);
+      doc.setFontSize(7); doc.setTextColor(100);
+      doc.text(label, sx, safeSigY + 4);
+    });
+
+    // ─ Footer ─
+    const pages = doc.internal.getNumberOfPages();
+    for (let p = 1; p <= pages; p++) {
+      doc.setPage(p);
+      doc.setFontSize(7); doc.setTextColor(150);
+      doc.text('* Approval does not relieve the contractor from contractual obligations. QatarSpec Pro — Generic forms, no affiliation with any consultant.', M, 290, { maxWidth: W - 2 * M });
+    }
+
+    doc.save(`QSP-${f.code}-${(v.project || 'Form').replace(/\s+/g, '-')}-${today.replace(/\//g, '-')}.pdf`);
+  };
+
+  /* ── Word Export (.docx) ── */
+  window.sfExportWord = async function(formId) {
+    const f = SF_FORMS.find(x => x.id === formId);
+    if (!f) { alert('Form not found'); return; }
+    if (!window.docx) { alert('docx.js not loaded yet — please try again in a moment'); return; }
+    const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell,
+            BorderStyle, WidthType, ShadingType, AlignmentType, HeadingLevel,
+            VerticalAlign, Header } = window.docx;
+    const v = SF_STATE.vals[formId] || {};
+    const today = new Date().toLocaleDateString('en-GB');
+    const projectName = document.querySelector('.project-name, h1')?.textContent?.trim() || 'Project';
+
+    const border = { style: BorderStyle.SINGLE, size: 1, color: 'CCCCCC' };
+    const borders = { top: border, bottom: border, left: border, right: border };
+    const cw = [3600, 5400]; // column widths DXA
+
+    // Header row
+    const makeHeaderRow = () => new TableRow({
+      children: [
+        new TableCell({ borders, width: { size: cw[0], type: WidthType.DXA },
+          shading: { fill: '0F1E3C', type: ShadingType.CLEAR },
+          margins: { top: 80, bottom: 80, left: 120, right: 120 },
+          children: [new Paragraph({ children: [new TextRun({ text: 'Field', bold: true, color: 'C9A84C', size: 18 })] })] }),
+        new TableCell({ borders, width: { size: cw[1], type: WidthType.DXA },
+          shading: { fill: '0F1E3C', type: ShadingType.CLEAR },
+          margins: { top: 80, bottom: 80, left: 120, right: 120 },
+          children: [new Paragraph({ children: [new TextRun({ text: 'Value', bold: true, color: 'C9A84C', size: 18 })] })] }),
+      ]
+    });
+
+    // Data rows
+    const dataRows = f.fields.map((field, i) => new TableRow({
+      children: [
+        new TableCell({ borders, width: { size: cw[0], type: WidthType.DXA },
+          shading: { fill: i % 2 === 0 ? 'F0F2F8' : 'FFFFFF', type: ShadingType.CLEAR },
+          margins: { top: 60, bottom: 60, left: 120, right: 120 },
+          children: [new Paragraph({ children: [new TextRun({ text: field.l.split(' / ')[0], bold: true, size: 18 })] })] }),
+        new TableCell({ borders, width: { size: cw[1], type: WidthType.DXA },
+          shading: { fill: i % 2 === 0 ? 'F0F2F8' : 'FFFFFF', type: ShadingType.CLEAR },
+          margins: { top: 60, bottom: 60, left: 120, right: 120 },
+          children: [new Paragraph({ children: [new TextRun({ text: v[field.k] || '', size: 18 })] })] }),
+      ]
+    }));
+
+    // Status row
+    const statusRow = new TableRow({
+      children: [
+        new TableCell({ borders, columnSpan: 2, width: { size: cw[0] + cw[1], type: WidthType.DXA },
+          shading: { fill: 'EEF0FA', type: ShadingType.CLEAR },
+          margins: { top: 80, bottom: 80, left: 120, right: 120 },
+          children: [
+            new Paragraph({ children: [new TextRun({ text: 'Consultant Response: ', bold: true, size: 18 }), new TextRun({ text: SF_STATE.statuses[formId] || '[ ]', size: 18 })] }),
+            new Paragraph({ children: [new TextRun({ text: 'Comments: ' + (SF_STATE.comments[formId] || '—'), size: 18 })] }),
+          ] }),
+      ]
+    });
+
+    // Signature row
+    const sigRow = new TableRow({
+      children: ['Contractor\'s Engineer Signature', 'Consultant / RE Signature', 'Date & Stamp'].map(label =>
+        new TableCell({ borders, width: { size: 3000, type: WidthType.DXA },
+          margins: { top: 400, bottom: 80, left: 120, right: 120 },
+          children: [new Paragraph({ children: [new TextRun({ text: label, size: 16, color: '666666' })] })] })
+      )
+    });
+
+    const doc = new Document({
+      sections: [{
+        properties: { page: { size: { width: 11906, height: 16838 }, margin: { top: 1000, right: 1000, bottom: 1000, left: 1000 } } },
+        headers: { default: new Header({ children: [
+          new Paragraph({ children: [
+            new TextRun({ text: 'QatarSpec Pro  —  Site Forms  |  ', bold: true, color: '0F1E3C', size: 20 }),
+            new TextRun({ text: `${f.title} (${f.code})  |  Project: ${projectName}  |  ${today}`, size: 18, color: '666666' })
+          ], border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: '0F1E3C', space: 1 } } })
+        ] }) },
+        children: [
+          new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun({ text: `${f.title}  (${f.code})`, color: '0F1E3C', bold: true, size: 28 })] }),
+          new Paragraph({ children: [new TextRun({ text: f.ar, color: '888888', size: 20 })] }),
+          new Paragraph({ children: [new TextRun({ text: '' })] }),
+          new Table({ width: { size: cw[0] + cw[1], type: WidthType.DXA }, columnWidths: cw, rows: [makeHeaderRow(), ...dataRows, statusRow] }),
+          new Paragraph({ children: [new TextRun({ text: '' })] }),
+          new Table({ width: { size: 9000, type: WidthType.DXA }, columnWidths: [3000, 3000, 3000], rows: [sigRow] }),
+          new Paragraph({ children: [new TextRun({ text: '' })] }),
+          new Paragraph({ children: [new TextRun({ text: '* Approval does not relieve the contractor from contractual obligations. QatarSpec Pro — Generic forms, no affiliation with any specific consultant or client.', size: 14, color: '999999', italics: true })] }),
+        ]
+      }]
+    });
+
+    const blob = await Packer.toBlob(doc);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url;
+    a.download = `QSP-${f.code}-${(v.project || 'Form').replace(/\s+/g, '-')}-${today.replace(/\//g, '-')}.docx`;
+    a.click(); URL.revokeObjectURL(url);
+  };
+
+  /* ── Excel Export (.xlsx) ── */
+  window.sfExportExcel = function(formId) {
+    const f = SF_FORMS.find(x => x.id === formId);
+    if (!f) return;
+    if (!window.XLSX) { alert('SheetJS not loaded yet — please try again in a moment'); return; }
+    const v = SF_STATE.vals[formId] || {};
+    const today = new Date().toLocaleDateString('en-GB');
+    const projectName = document.querySelector('.project-name, h1')?.textContent?.trim() || 'Project';
+
+    const wb = XLSX.utils.book_new();
+
+    // ── Sheet 1: Form Data ──
+    const wsData = [
+      ['QatarSpec Pro — Site Forms | نماذج الموقع', '', ''],
+      [`Form: ${f.title} (${f.code})`, '', `Date: ${today}`],
+      [`Arabic: ${f.ar}`, '', `Project: ${projectName}`],
+      ['', '', ''],
+      ['Field', 'Arabic', 'Value'],
+      ...f.fields.map(field => [field.l.split(' / ')[0], field.l.split(' / ')[1] || '', v[field.k] || '']),
+      ['', '', ''],
+      ['CONSULTANT RESPONSE', '', ''],
+      ['Status', SF_STATE.statuses[formId] || '—', ''],
+      ['Comments', SF_STATE.comments[formId] || '—', ''],
+      ['', '', ''],
+      ['Contractor Signature', 'Consultant / RE Signature', 'Date & Stamp'],
+      ['', '', ''],
+      ['* Approval does not relieve the contractor from contractual obligations.', '', ''],
+      ['QatarSpec Pro — Generic forms, no affiliation with any specific consultant.', '', ''],
+    ];
+
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+
+    // Column widths
+    ws['!cols'] = [{ wch: 40 }, { wch: 30 }, { wch: 40 }];
+
+    // Merge title row
+    ws['!merges'] = [
+      { s: { r: 0, c: 0 }, e: { r: 0, c: 2 } },
+      { s: { r: 7, c: 0 }, e: { r: 7, c: 2 } },
+    ];
+
+    XLSX.utils.book_append_sheet(wb, ws, f.code);
+
+    // ── Sheet 2: Summary Log ──
+    const logData = [
+      ['QatarSpec Pro — Form Log', '', '', '', ''],
+      ['Form', 'Code', 'Project', 'Status', 'Date'],
+      [f.title, f.code, v.project || projectName, SF_STATE.statuses[formId] || 'Draft', today],
+    ];
+    const wsLog = XLSX.utils.aoa_to_sheet(logData);
+    wsLog['!cols'] = [{ wch: 35 }, { wch: 8 }, { wch: 30 }, { wch: 20 }, { wch: 15 }];
+    XLSX.utils.book_append_sheet(wb, wsLog, 'Summary');
+
+    XLSX.writeFile(wb, `QSP-${f.code}-${(v.project || 'Form').replace(/\s+/g, '-')}-${today.replace(/\//g, '-')}.xlsx`);
+  };
+
+  /* ── Render ── */
   function sfRender() {
     const container = document.getElementById('sf-app');
     if (!container) return;
@@ -4608,28 +4851,29 @@ async function exportFullProject() {
     const cats = ['الكل','فحص','توثيق','مواد','سلامة'];
     const filtered = SF_FORMS.filter(f => {
       const ms = f.title.toLowerCase().includes(SF_STATE.search.toLowerCase()) ||
-                 f.ar.includes(SF_STATE.search) ||
-                 f.code.toLowerCase().includes(SF_STATE.search.toLowerCase());
+                 f.ar.includes(SF_STATE.search) || f.code.toLowerCase().includes(SF_STATE.search.toLowerCase());
       const mc = SF_STATE.filter === 'الكل' || f.cat === SF_STATE.filter;
       return ms && mc;
     });
 
-    /* الـ CSS المدمج */
     let html = `
     <style>
       .sf-input,.sf-sel,.sf-ta{width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'Tajawal',sans-serif;font-size:13px;color:var(--text);outline:none;transition:.2s;box-sizing:border-box}
       .sf-input:focus,.sf-sel:focus,.sf-ta:focus{border-color:var(--border2)}
       .sf-ta{resize:vertical;min-height:72px}
       .sf-sel{appearance:none;cursor:pointer;height:38px}
-      .sf-btn{display:flex;align-items:center;gap:6px;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:12px;color:var(--text2);cursor:pointer;font-family:'Tajawal',sans-serif;transition:.2s}
+      .sf-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:12px;color:var(--text2);cursor:pointer;font-family:'Tajawal',sans-serif;transition:.2s;background:var(--dark3)}
       .sf-btn:hover{border-color:var(--border2);color:var(--text)}
+      .sf-btn-pdf{background:rgba(163,45,45,0.15);border-color:rgba(163,45,45,0.4);color:#e07070}
+      .sf-btn-word{background:rgba(24,95,165,0.15);border-color:rgba(24,95,165,0.4);color:#70a8e0}
+      .sf-btn-excel{background:rgba(14,110,86,0.15);border-color:rgba(14,110,86,0.4);color:#70d4b0}
       .sf-card{background:var(--dark3);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:all .2s;text-align:right}
       .sf-card:hover{border-color:var(--border2);transform:translateY(-2px)}
-      .sf-card.active{border-color:var(--gold);background:var(--dark4)}
+      .sf-card.active{border-width:2px}
       .sf-filter-btn{background:var(--dark3);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--text2);cursor:pointer;font-family:'Tajawal',sans-serif;transition:.2s}
       .sf-filter-btn.active{border-color:var(--gold);color:var(--gold2);background:rgba(201,168,76,0.08)}
       .sf-status-btn{background:var(--dark4);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--text2);cursor:pointer;font-family:'Tajawal',sans-serif;transition:.2s}
-      .sf-status-btn.active{color:#fff;border-color:currentColor}
+      .sf-status-btn.active{color:#fff}
       label.sf-label{display:block;font-size:11px;color:var(--text3);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
     </style>
 
@@ -4642,14 +4886,13 @@ async function exportFullProject() {
       </div>
     </div>`;
 
-    /* نموذج مفتوح */
     if (SF_STATE.openId) {
       const f = SF_FORMS.find(x => x.id === SF_STATE.openId);
       if (f) {
         const v = SF_STATE.vals[f.id] || {};
         html += `
-        <div style="background:var(--dark2);border:1px solid var(--border2);border-radius:14px;overflow:hidden;margin-bottom:16px">
-          <div style="background:${f.bg};padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;border-bottom:1px solid var(--border)">
+        <div style="background:var(--dark2);border:2px solid ${f.color};border-radius:14px;overflow:hidden;margin-bottom:16px">
+          <div style="background:${f.bg};padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;border-bottom:1px solid var(--border)">
             <div style="display:flex;align-items:center;gap:10px">
               <div style="width:38px;height:38px;border-radius:10px;background:var(--dark3);display:flex;align-items:center;justify-content:center;font-size:20px">${f.icon}</div>
               <div>
@@ -4657,8 +4900,10 @@ async function exportFullProject() {
                 <div style="font-size:11px;color:var(--text3)">${f.ar}</div>
               </div>
             </div>
-            <div style="display:flex;gap:8px">
-              <button class="sf-btn" onclick="sfPrint('${f.id}')" style="background:rgba(201,168,76,0.1);border-color:rgba(201,168,76,0.3);color:var(--gold2);font-weight:600">🖨️ طباعة / PDF</button>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="sf-btn sf-btn-pdf" onclick="sfExportPDF('${f.id}')">📄 PDF</button>
+              <button class="sf-btn sf-btn-word" onclick="sfExportWord('${f.id}')">📝 Word</button>
+              <button class="sf-btn sf-btn-excel" onclick="sfExportExcel('${f.id}')">📊 Excel</button>
               <button class="sf-btn" onclick="SF_STATE.openId=null;sfRender()">✕ إغلاق</button>
             </div>
           </div>
@@ -4666,29 +4911,22 @@ async function exportFullProject() {
             <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:16px">
               ${f.fields.map(field => {
                 const val = v[field.k] || '';
-                const inputStyle = 'margin-top:5px';
                 if (field.t === 'ta') {
-                  return `<div style="grid-column:1/-1">
-                    <label class="sf-label">${field.l}</label>
-                    <textarea class="sf-ta" onchange="sfSetVal('${f.id}','${field.k}',this.value)">${val}</textarea>
-                  </div>`;
+                  return `<div style="grid-column:1/-1"><label class="sf-label">${field.l}</label>
+                    <textarea class="sf-ta" onchange="sfSetVal('${f.id}','${field.k}',this.value)">${val}</textarea></div>`;
                 } else if (field.t === 'sel') {
-                  return `<div>
-                    <label class="sf-label">${field.l}</label>
+                  return `<div><label class="sf-label">${field.l}</label>
                     <select class="sf-sel" onchange="sfSetVal('${f.id}','${field.k}',this.value)">
                       <option value="">— اختر —</option>
                       ${field.opts.map(o=>`<option value="${o}" ${val===o?'selected':''}>${o}</option>`).join('')}
-                    </select>
-                  </div>`;
+                    </select></div>`;
                 } else {
-                  return `<div>
-                    <label class="sf-label">${field.l}</label>
-                    <input type="${field.t}" class="sf-input" value="${val}" style="height:38px" onchange="sfSetVal('${f.id}','${field.k}',this.value)">
-                  </div>`;
+                  return `<div><label class="sf-label">${field.l}</label>
+                    <input type="${field.t}" class="sf-input" value="${val}" style="height:38px" onchange="sfSetVal('${f.id}','${field.k}',this.value)"></div>`;
                 }
               }).join('')}
             </div>
-            <div style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:14px">
+            <div style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px">
               <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:10px">رد المستشار / Consultant Response</div>
               <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
                 ${f.status.map(s => {
@@ -4701,15 +4939,20 @@ async function exportFullProject() {
               <textarea class="sf-ta" placeholder="تعليقات المستشار / Consultant comments..."
                 onchange="SF_STATE.comments['${f.id}']=this.value">${SF_STATE.comments[f.id]||''}</textarea>
             </div>
-            <div style="margin-top:10px;font-size:10px;color:var(--text3);padding:6px 0">
-              * Approval does not relieve the contractor from contractual obligations. — QatarSpec Pro | نماذج عامة للاستخدام الهندسي — لا ارتباط بأي مستشار معين
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 0 4px">
+              <span style="font-size:12px;color:var(--text3)">تصدير النموذج:</span>
+              <button class="sf-btn sf-btn-pdf" onclick="sfExportPDF('${f.id}')">📄 تحميل PDF</button>
+              <button class="sf-btn sf-btn-word" onclick="sfExportWord('${f.id}')">📝 تحميل Word</button>
+              <button class="sf-btn sf-btn-excel" onclick="sfExportExcel('${f.id}')">📊 تحميل Excel</button>
+            </div>
+            <div style="margin-top:8px;font-size:10px;color:var(--text3)">
+              * Approval does not relieve the contractor from contractual obligations. — نماذج عامة للاستخدام الهندسي
             </div>
           </div>
         </div>`;
       }
     }
 
-    /* شبكة الكروت */
     html += `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px">`;
     for (const f of filtered) {
       const isOpen = SF_STATE.openId === f.id;
@@ -4720,91 +4963,32 @@ async function exportFullProject() {
           <div style="width:34px;height:34px;border-radius:8px;background:${f.bg};display:flex;align-items:center;justify-content:center;font-size:18px">${f.icon}</div>
           <span style="font-size:10px;font-weight:700;color:${f.color};background:${f.bg};padding:2px 8px;border-radius:8px">${f.code}</span>
         </div>
-        <div style="font-weight:700;font-size:13px;color:var(--text);margin-bottom:3px;line-height:1.3">${f.title}</div>
-        <div style="font-size:11px;color:var(--text3);margin-bottom:8px">${f.ar}</div>
+        <div style="font-weight:700;font-size:12px;color:var(--text);margin-bottom:3px;line-height:1.3">${f.title}</div>
+        <div style="font-size:10px;color:var(--text3);margin-bottom:8px">${f.ar}</div>
         <div style="font-size:10px;color:var(--text3)">${f.fields.length} حقل · ${f.cat}</div>
       </div>`;
     }
     html += `</div>`;
-
-    if (!filtered.length) {
-      html += `<div style="text-align:center;padding:40px;color:var(--text3);font-size:14px">🔍 لا يوجد نموذج مطابق</div>`;
-    }
-
-    html += `
-    <div style="margin-top:16px;padding:10px 14px;background:var(--dark3);border-radius:8px;font-size:11px;color:var(--text3);border:1px solid var(--border)">
-      ℹ️ نماذج عامة غير مرتبطة بأي مستشار أو عميل — صالحة لجميع المشاريع الإنشائية | Generic site forms — no affiliation with any specific consultant.
+    if (!filtered.length) html += `<div style="text-align:center;padding:40px;color:var(--text3);font-size:14px">🔍 لا يوجد نموذج مطابق</div>`;
+    html += `<div style="margin-top:16px;padding:10px 14px;background:var(--dark3);border-radius:8px;font-size:11px;color:var(--text3);border:1px solid var(--border)">
+      ℹ️ نماذج عامة — PDF + Word + Excel | Generic site forms, no affiliation. تصدير بثلاث صيغ مهنية.
     </div>`;
 
     container.innerHTML = html;
   }
 
-  /* تحديث قيمة حقل */
   window.sfSetVal = function(formId, key, val) {
     if (!SF_STATE.vals[formId]) SF_STATE.vals[formId] = {};
     SF_STATE.vals[formId][key] = val;
   };
 
-  /* طباعة النموذج */
-  window.sfPrint = function(formId) {
-    const f = SF_FORMS.find(x => x.id === formId);
-    if (!f) return;
-    const v = SF_STATE.vals[formId] || {};
-    const today = new Date().toLocaleDateString('ar-QA');
-    const projectName = document.querySelector('h1')?.textContent?.trim() || 'المشروع';
-    const win = window.open('', '_blank');
-    const rows = f.fields.map(field =>
-      `<tr><th>${field.l}</th><td>${v[field.k] || '&nbsp;'}</td></tr>`
-    ).join('');
-    const statusRow = SF_STATE.statuses[formId]
-      ? `<div class="resp"><b>حالة الرد:</b> ${SF_STATE.statuses[formId]}<br><b>تعليقات:</b> ${SF_STATE.comments[formId] || '—'}</div>`
-      : '';
-    win.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>${f.title}</title>
-    <style>
-      body{font-family:Arial,sans-serif;font-size:11px;margin:24px;color:#111;direction:rtl}
-      h1{font-size:15px;border-bottom:2px solid #333;padding-bottom:6px;margin-bottom:4px}
-      .meta{font-size:10px;color:#666;margin-bottom:14px}
-      table{width:100%;border-collapse:collapse;margin-bottom:10px}
-      td,th{border:1px solid #ccc;padding:5px 8px;vertical-align:top;text-align:right}
-      th{background:#f5f5f5;font-weight:600;width:40%}
-      .resp{border:1px solid #333;padding:10px;margin-top:14px}
-      .sig{margin-top:28px;display:flex;gap:40px}
-      .sig div{flex:1;border-top:1px solid #333;padding-top:4px;font-size:10px}
-      .disc{font-size:9px;color:#999;margin-top:20px;border-top:1px solid #eee;padding-top:6px}
-      @media print{@page{size:A4;margin:20mm}}
-    </style></head><body>
-    <h1>${f.icon} ${f.title} (${f.code}) — ${f.ar}</h1>
-    <div class="meta">
-      المشروع: ${projectName} &nbsp;|&nbsp; QatarSpec Pro — نماذج الموقع &nbsp;|&nbsp; تاريخ الطباعة: ${today} &nbsp;|&nbsp; Ref: QSP-${f.code}
-    </div>
-    <table>${rows}</table>
-    ${statusRow}
-    <div class="sig">
-      <div>توقيع مهندس المقاول<br>Contractor's Engineer Signature</div>
-      <div>توقيع المستشار / RE<br>Consultant Signature</div>
-      <div>التاريخ والختم<br>Date & Stamp</div>
-    </div>
-    <div class="disc">
-      * Approval does not relieve the contractor from contractual obligations and responsibilities.
-      — QatarSpec Pro | نماذج موقع عامة — لا ارتباط بأي مستشار معين — Generic forms, no affiliation with any specific consultant or client.
-    </div>
-    </body></html>`);
-    win.document.close();
-    win.print();
-  };
-
-  /* تعريض State للـ HTML */
   window.SF_STATE = SF_STATE;
   window.sfRender  = sfRender;
 
-  /* تهيئة عند فتح التبويب */
   const origSwitch = window.switchTab;
   window.switchTab = function(tabId) {
     if (origSwitch) origSwitch(tabId);
-    if (tabId === 'site-forms') {
-      /* تأخير بسيط لضمان ظهور العنصر */
-      setTimeout(sfRender, 50);
-    }
+    if (tabId === 'site-forms') setTimeout(sfRender, 50);
   };
 
 })();
