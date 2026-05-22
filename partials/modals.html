@@ -1,0 +1,216 @@
+<!-- ═══════════════════════════════════════════════
+     partials/modals.html — QatarSpec Pro v3.0
+     Phase 3: Shell + Loader + Modals
+     يحتوي: keyModal + detailModal + toast + proModal + upgradeOverlay
+     مُحمَّل ديناميكياً عبر js/partials-loader.js
+     ═══════════════════════════════════════════════ -->
+
+<!-- KEY MODAL — إعداد AI -->
+<div class="modal-bg" id="keyModal" role="dialog" aria-modal="true" aria-labelledby="keyModalTitle">
+  <div class="modal-box">
+    <div class="modal-title" id="keyModalTitle">🔑 إعداد AI</div>
+    <div class="modal-desc">التطبيق يعمل عبر server proxy آمن — لا حاجة لمفتاح شخصي. للاستخدام المحلي فقط أدخل Gemini API Key.</div>
+    <div style="background:rgba(39,174,96,0.1);border:1px solid rgba(39,174,96,0.3);border-radius:8px;padding:10px;margin-bottom:12px;font-size:12px;color:#27ae60;line-height:1.6;">
+      ✅ <strong>الإنتاج:</strong> يعمل تلقائياً عبر /api/ai-proxy و /api/vision-proxy — لا حاجة لأي مفتاح. المفتاح هنا للتطوير المحلي فقط.
+    </div>
+    <input type="password" class="modal-input" id="keyInput" aria-label="مفتاح Gemini API للتطوير المحلي" placeholder="AIza... (Gemini — للتطوير المحلي فقط)" />
+    <div class="modal-actions">
+      <button class="modal-save" data-action="saveKey">✅ حفظ وتفعيل</button>
+      <button class="modal-cancel" data-action="closeKeyModal">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL — عرض التفاصيل -->
+<div class="detail-modal-bg" id="detailModal" data-action="closeDetailModal">
+  <div class="detail-modal">
+    <div id="itp-project-bar" style="display:none;background:rgba(201,168,76,0.06);border-bottom:1px solid var(--border);padding:8px 16px;">
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+    <input id="itp-project-name" aria-label="اسم المشروع" placeholder="اسم المشروع" style="background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--text);width:160px;outline:none;">
+    <input id="itp-number" aria-label="رقم ITP" placeholder="رقم ITP" style="background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--text);width:100px;outline:none;">
+    <input id="itp-engineer" aria-label="اسم المهندس" placeholder="المهندس" style="background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--text);width:120px;outline:none;">
+    <input id="itp-date" type="date" aria-label="تاريخ ITP" style="background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--text);outline:none;">
+    <span style="font-size:10px;color:var(--text3);">للتصدير الرسمي</span>
+    <button data-action="toggleSigSection" style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:6px;padding:4px 10px;font-family:Tajawal,sans-serif;font-size:12px;color:var(--gold);cursor:pointer;">✍️ توقيع</button>
+  </div>
+  <!-- Digital Signature Section — ITP -->
+  <div id="itpSigSection" style="display:none;flex-direction:column;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
+    <span style="font-size:11px;color:var(--text3);">التوقيع الرقمي — QC Engineer</span>
+    <canvas id="signaturePad" width="300" height="100" style="border:1px solid var(--border);border-radius:8px;background:var(--dark4);cursor:crosshair;touch-action:none;"></canvas>
+    <div style="display:flex;gap:6px;">
+      <button data-action="clearSignature" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.3);border-radius:6px;padding:4px 12px;font-family:Tajawal,sans-serif;font-size:12px;color:#e74c3c;cursor:pointer;">مسح</button>
+      <button data-action="saveSignature" style="background:rgba(46,204,113,0.12);border:1px solid rgba(46,204,113,0.3);border-radius:6px;padding:4px 12px;font-family:Tajawal,sans-serif;font-size:12px;color:#2ecc71;cursor:pointer;">✅ حفظ التوقيع</button>
+      <span id="sigSavedMsg" style="font-size:11px;color:#2ecc71;align-self:center;display:none;">✅ تم الحفظ</span>
+    </div>
+  </div>
+</div>
+<div class="dm-header">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div id="dmBackBtn" data-action="goBack" style="display:none;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:var(--gold);">←</div>
+        <div class="modal-title" id="dmTitle"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="display:flex;gap:6px;">
+        <div data-action="exportPDF" title="تصدير PDF احترافي (Server-Side)" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.3);border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;color:#e74c3c;">PDF</div>
+        <div data-action="exportWord" title="تصدير Word" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(52,152,219,0.12);border:1px solid rgba(52,152,219,0.3);border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;color:#3498db;">DOC</div>
+        <div data-action="printDetail" title="طباعة" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:var(--gold);">🖨️</div>
+      </div>
+        <div data-action="shareDetail" title="مشاركة / نسخ الرابط" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(46,204,113,0.12);border:1px solid rgba(46,204,113,0.3);border-radius:8px;cursor:pointer;font-size:16px;color:#2ecc71;">🔗</div>
+        <div class="dm-close" data-action="closeDetail">✕</div>
+      </div>
+    </div>
+    <div class="dm-content" id="dmContent"><div id="print-area"></div>
+  </div>
+</div>
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div class="toast" id="toast">✅ تم!</div>
+
+<!-- ═══ APP FOOTER ═══ -->
+<div id="appFooter" style="background:linear-gradient(135deg,#111,#0A0A0A);border-top:1px solid rgba(201,168,76,0.2);padding:16px 20px;text-align:center;margin-top:24px;position:relative;z-index:1;">
+  <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:8px;">
+    <span style="color:var(--gold);font-family:'Cairo',sans-serif;font-weight:700;font-size:13px;">QatarSpec Pro</span>
+    <span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:2px 10px;font-size:10px;color:var(--gold);letter-spacing:1px;">v3.2.0</span>
+    <span style="color:rgba(255,255,255,0.3);font-size:10px;">|</span>
+    <span style="color:var(--text3);font-size:11px;">آخر تحديث للمواصفات: <strong style="color:var(--text2);">أبريل 2026 — QCS 2024</strong></span>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
+    <span style="font-size:10px;color:var(--text3);">مرجع المواصفات القطرية | Qatar Construction Specifications</span>
+    <span style="font-size:10px;color:var(--text3);">للاستخدام المهني فقط — Not for Design Purposes</span>
+  </div>
+  <div style="margin-top:8px;font-size:10px;color:var(--text3);opacity:0.6;">Reviewed April 2026 | QCS 2024 · Ashghal · KAHRAMAA · MMUP · QCDD</div>
+  <div style="margin-top:10px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;">
+    <a href="/legal/terms.html" style="font-size:10px;color:var(--gold);opacity:0.7;text-decoration:none;" class="link-hover-opacity">الشروط والأحكام</a>
+    <span style="color:rgba(255,255,255,0.2);font-size:10px;">|</span>
+    <a href="/legal/privacy.html" style="font-size:10px;color:var(--gold);opacity:0.7;text-decoration:none;" class="link-hover-opacity">سياسة الخصوصية</a>
+    <span style="color:rgba(255,255,255,0.2);font-size:10px;">|</span>
+    <span style="font-size:10px;color:var(--text3);opacity:0.6;">© 2026 QatarSpec Pro. All rights reserved.</span>
+  </div>
+  <!-- LEGAL DISCLAIMER — inside footer -->
+  <div id="legalDisclaimer" style="background:rgba(0,0,0,0.3);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:16px 20px;margin-top:16px;width:100%;box-sizing:border-box;text-align:right;">
+    <div style="color:var(--gold);font-family:'Cairo',sans-serif;font-weight:700;font-size:13px;margin-bottom:8px;">⚖️ إخلاء المسؤولية القانونية</div>
+    <div style="font-size:11px;color:var(--text3);line-height:1.8;">
+      <p><strong>QatarSpec Pro</strong> هو مرجع معرفي عام (General Knowledge Reference) للمهندسين والمقاولين في دولة قطر.</p>
+      <p>🔹 جميع المعلومات مبنية على <strong>QCS 2024</strong> و <strong>Ashghal Standards</strong> و <strong>KAHRAMAA Regulations</strong> المتاحة للعامة.</p>
+      <p>🔹 هذا التطبيق <strong>لا يُعتمد</strong> كمرجع تصميمي رسمي — يجب مراجعة الوثائق الأصلية المعتمدة من الجهات المختصة قبل أي قرار هندسي.</p>
+      <p>🔹 لا تتحمل QatarSpec Pro مسؤولية أي أخطاء في التطبيق أو سوء استخدام المعلومات.</p>
+      <p>🔹 للاستخدام المهني التعليمي فقط — <strong>Not for Construction Design Purposes</strong>.</p>
+      <p style="margin-top:8px;color:var(--gold);">📧 للاستفسارات: info@qatarspec.com | 🇶🇦 صُمم لمهندسي قطر</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     PRO MODAL — خطط الاشتراك
+     ═══════════════════════════════════════════════ -->
+<div class="pro-modal-bg" id="proModal" role="dialog" aria-modal="true" aria-labelledby="proModalTitle">
+  <div class="pro-modal-box">
+    <div class="pro-modal-close" data-action="closeProModal" role="button" tabindex="0" aria-label="إغلاق نافذة الاشتراك">✕</div>
+
+    <div class="pro-modal-title" id="proModalTitle">🏆 QatarSpec Pro</div>
+    <div class="pro-modal-sub">الأداة الاحترافية الأولى للمواصفات القطرية — اختر الخطة المناسبة</div>
+
+    <div class="plans-grid">
+      <!-- FREE PLAN -->
+      <div class="plan-card">
+        <div class="plan-name" style="color:var(--text2)">🆓 المجاني</div>
+        <div class="plan-price">0 <span>QAR</span></div>
+        <div class="plan-period">للأبد — بدون بطاقة</div>
+        <ul class="plan-features">
+          <li>5 بحث ذكي يومياً</li>
+          <li>كل المحتوى الثابت (100+ قسم)</li>
+          <li>الحاسبات الأساسية</li>
+          <li class="no">تصدير PDF / Word</li>
+          <li class="no">محلل المستندات الذكي</li>
+          <li class="no">محلل المخططات</li>
+          <li class="no">المفتش الذكي بالصور</li>
+          <li class="no">بحث غير محدود</li>
+        </ul>
+        <button class="plan-btn secondary" data-action="closeProModal">الخطة الحالية</button>
+      </div>
+
+      <!-- PRO PLAN -->
+      <div class="plan-card featured">
+        <div class="plan-badge-top">🔥 الأكثر شيوعاً</div>
+        <div class="plan-name" style="color:var(--gold)">⭐ Pro</div>
+        <div style="display:flex;gap:12px;align-items:flex-end;margin-bottom:2px;">
+          <div>
+            <div class="plan-price">99 <span>QAR</span></div>
+            <div class="plan-period">شهرياً</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:15px;font-weight:800;color:var(--gold2);">799 QAR</div>
+            <div style="font-size:10px;color:#2ecc71;font-weight:700;">سنوياً — وفر 33%</div>
+          </div>
+        </div>
+        <ul class="plan-features">
+          <li>بحث ذكي غير محدود</li>
+          <li>كل المحتوى الثابت (100+ قسم)</li>
+          <li>جميع الحاسبات</li>
+          <li>تصدير PDF + Word احترافي</li>
+          <li>محلل المستندات بالذكاء الاصطناعي</li>
+          <li>محلل المخططات (Structural/Road)</li>
+          <li>المفتش الذكي بالصور</li>
+          <li>دعم فني أولوية</li>
+        </ul>
+        <button class="plan-btn primary" data-action="tapMonthly" style="margin-bottom:6px;">🚀 اشترك شهرياً — 99 QAR</button>
+        <button class="plan-btn" data-action="tapYearly" style="background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;border:none;width:100%;padding:10px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">💎 اشترك سنوياً — 799 QAR <span style="font-size:10px;opacity:0.9;">(وفر 33%)</span></button>
+      </div>
+    </div>
+
+    <!-- PROMO CODE -->
+    <div class="promo-section">
+      <div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:4px;">🎁 لديك كود خصم أو ترقية؟</div>
+      <div style="font-size:11px;color:var(--text3);">أدخل الكود لتفعيل النسخة Pro فوراً</div>
+      <div class="promo-input-wrap">
+        <input type="text" id="promoCodeInput" class="promo-input" aria-label="كود الترويج للباقة الاحترافية" placeholder="QATAR-PRO-XXXX" maxlength="20"
+          data-enter-action="activatePromo">
+        <button class="promo-btn" data-action="activatePromo" aria-label="تفعيل كود الترويج">✅ تفعيل</button>
+      </div>
+      <div id="promoMsg" style="margin-top:6px;font-size:12px;display:none;"></div>
+    </div>
+
+    <!-- CONTACT FOR PAYMENT -->
+    <div id="paymentContact" style="display:none;background:linear-gradient(135deg,rgba(46,204,113,0.1),rgba(46,204,113,0.03));border:1px solid rgba(46,204,113,0.3);border-radius:12px;padding:16px;margin-bottom:16px;">
+      <div style="font-size:13px;font-weight:700;color:#2ecc71;margin-bottom:10px;">📱 للاشتراك — تواصل معنا مباشرةً</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <a href="https://wa.me/974XXXXXXXX?text=أريد الاشتراك في QatarSpec Pro" target="_blank"
+          style="display:flex;align-items:center;gap:10px;background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.3);border-radius:10px;padding:12px;text-decoration:none;color:var(--text);font-size:13px;">
+          <span style="font-size:20px;">💬</span>
+          <div><div style="font-weight:700;color:#25d366;">WhatsApp</div><div style="font-size:11px;color:var(--text3);">رد خلال ساعة — دفع آمن</div></div>
+        </a>
+        <a href="mailto:pro@qatarspec.com?subject=QatarSpec Pro Subscription"
+          style="display:flex;align-items:center;gap:10px;background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.25);border-radius:10px;padding:12px;text-decoration:none;color:var(--text);font-size:13px;">
+          <span style="font-size:20px;">📧</span>
+          <div><div style="font-weight:700;color:#3498db;">البريد الإلكتروني</div><div style="font-size:11px;color:var(--text3);">pro@qatarspec.com</div></div>
+        </a>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--text3);text-align:center;">
+        💳 نقبل: بطاقات ائتمان · تحويل بنكي · Ooredoo Pay · QNB
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div style="text-align:center;font-size:11px;color:var(--text3);">
+      ✅ ضمان استرداد 7 أيام &nbsp;|&nbsp; 🔒 دفع آمن &nbsp;|&nbsp; 🇶🇦 مصمم لمهندسي قطر
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     UPGRADE OVERLAY — contextual gate
+     ═══════════════════════════════════════════════ -->
+<div class="upgrade-overlay" id="upgradeOverlay" role="dialog" aria-modal="true" aria-labelledby="upgradeTitle">
+  <div class="upgrade-box">
+    <div class="upgrade-icon" id="upgradeIcon" aria-hidden="true">🔒</div>
+    <div class="upgrade-title" id="upgradeTitle">ميزة Pro</div>
+    <div class="upgrade-desc" id="upgradeDesc">هذه الميزة متاحة للمشتركين في النسخة Pro فقط.</div>
+    <div class="upgrade-actions">
+      <button class="upgrade-cta" data-action="closeUpgradeOpenPro">
+        🚀 ارقَ إلى Pro الآن
+      </button>
+      <button class="upgrade-dismiss" data-action="closeUpgrade">ليس الآن</button>
+    </div>
+  </div>
+</div>

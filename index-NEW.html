@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<!-- QatarSpec Pro v3.0 — Shell (Phase 3 Refactor) — see CHANGELOG.md -->
+<!-- المحتوى محمّل ديناميكياً عبر js/partials-loader.js -->
+
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<!-- ═══ Resource Hints — Performance ═══ -->
+<link rel="preconnect" href="https://generativelanguage.googleapis.com">
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+<link rel="preload" href="/inline-scripts.min.js" as="script">
+<!-- ═══ Google Analytics 4 ═══ -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QSPEC2026QA"></script>
+<!-- ═══ Plausible Analytics — بدون cookies ═══ -->
+<script defer data-domain="qatar-standers.vercel.app" src="https://plausible.io/js/script.tagged-events.outbound-links.js"></script>
+<script src="/js/security-cleanup.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ═══════════ SEO ═══════════ -->
+<title>QatarSpec Pro — دليل المواصفات القطرية الرسمي | QCS 2024 + Ashghal + KAHRAMAA</title>
+<meta name="description" content="أكبر مرجع رقمي للمواصفات الهندسية القطرية — QCS 2024، Ashghal RDM، KAHRAMAA، MMUP. بحث ذكي بالذكاء الاصطناعي، حاسبات Pass/Fail، ITPs، نماذج RFI/NCR. مجاني للمهندسين في قطر.">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="https://qatar-standers.vercel.app/">
+<meta name="geo.region" content="QA">
+
+<!-- ═══ CSS ═══ -->
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- ═══ PWA ═══ -->
+<meta name="theme-color" content="#7A1515">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+
+<!-- ══════════════════════════════════════════════
+     SHELL PLACEHOLDERS — محمّلة عبر partials-loader.js
+     كل div له id مطابق لمصفوفة PARTIALS في loader
+     ══════════════════════════════════════════════ -->
+
+<!-- NAV + HEADER -->
+<div id="partial-head" data-partial-pending="true"></div>
+
+<main id="main-content" role="main">
+
+  <!-- SEARCH HUB -->
+  <div id="partial-search-hub" data-partial-pending="true"></div>
+
+  <!-- CONTENT GROUPS -->
+  <div id="partial-group-infra"      data-partial-pending="true"></div>
+  <div id="partial-group-structural" data-partial-pending="true"></div>
+  <div id="partial-group-calc"       data-partial-pending="true"></div>
+  <div id="partial-group-tools"      data-partial-pending="true"></div>
+
+  <!-- MODALS + FOOTER + OVERLAYS -->
+  <div id="partial-modals" data-partial-pending="true"></div>
+
+</main>
+
+<!-- Back to Top Button -->
+<button id="backToTopBtn" data-action="scrollTop" title="عودة للأعلى" aria-label="العودة إلى أعلى الصفحة">↑</button>
+
+<!-- ═══════════════════════════════════════════════════
+     SCRIPTS — Priority Order (QatarSpec Pro v3.0)
+     ═══════════════════════════════════════════════════ -->
+
+<!-- ═══ Priority 1: Partials Loader — يحمّل كل المحتوى ═══ -->
+<script src="/js/partials-loader.js"></script>
+
+<!-- ═══ Priority 2: Core Functionality — defer ═══ -->
+<script src="/js/core/theme.min.js" defer></script>
+<script src="/js/core/video-system.min.js" defer></script>
+<script src="/js/video-uploader-bridge.js" defer></script>
+<script src="/js/video-youtube-config.js" defer></script>
+<script src="/js/core/video-youtube.js" defer></script>
+<script src="/js/core/key-modal.min.js" defer></script>
+<script src="/js/core/ui-utils.min.js" defer></script>
+<script src="/js/core/pro-system.min.js" defer></script>
+<script src="/js/core/search-system.min.js" defer></script>
+<script src="/js/core/calculators-ui.min.js" defer></script>
+<script src="/js/core/forms.min.js" defer></script>
+<script src="/js/core/doc-analyzer.min.js" defer></script>
+<script src="/js/core/export-pdf.min.js" defer></script>
+<script src="/js/core/doc-upload.min.js" defer></script>
+<script src="/js/core/translations.min.js" defer></script>
+<script src="/js/core/export-excel.min.js" defer></script>
+<script src="/js/core/drawing-run.min.js" defer></script>
+<script src="/js/core/detail-modal.min.js" defer></script>
+<script src="/js/core/extra-calcs.min.js" defer></script>
+<script src="/inline-scripts.min.js" defer></script>
+<script src="/js/doc-generator.js" defer></script>
+<script src="loader.js?v=3" defer></script>
+<script src="/js/xss-utils.js" defer></script>
+<script src="/js/payment.js" defer></script>
+<script src="/js/ui-handlers.min.js" defer></script>
+<script src="/js/smart-search.js" defer></script>
+<script src="/js/card-functions.js" defer></script>
+<script src="/js/payment-certificates.js" defer></script>
+<script src="/js/schedule-generator.js" defer></script>
+<script src="/js/content-aliases.js" defer></script>
+<script src="/js/auth.js" defer></script>
+
+<!-- ═══ Priority 3: Calculators — lazy loaded ═══ -->
+<script src="/js/calc-lazy-loader.js" defer></script>
+<script src="js/calcs/core.js?v=1" defer></script>
+
+<!-- ═══ Priority 4: Features ═══ -->
+<script src="js/vision-features.js?v=1" defer></script>
+<script src="js/export/pdf.js?v=1000" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs" type="module"></script>
+<script type="module">
+  if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs';
+  }
+</script>
+<script src="/js/pdf-viewer.js" defer></script>
+<script src="js/export/word.js?v=700" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.umd.min.js" defer></script>
+<script src="js/export/word-pro.js?v=100" defer></script>
+<script src="js/export/excel.js?v=700" defer></script>
+<script src="data_structures_detailed.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
+<script src="js/calcs/chart-addon.js?v=100" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.4.2/purify.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.6/Sortable.min.js" defer></script>
+<script src="/stepper.js" defer></script>
+<script src="/js/stepper-init.js" defer></script>
+<script src="/js/load-calc.js" defer></script>
+<script src="/js/safety-bridge.js" defer></script>
+<script src="/js/signature-pad.js" defer></script>
+<script src="/lib/vendor/driver.js.iife.js" defer></script>
+<script src="/lib/vendor/confetti.browser.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.14.5/sweetalert2.all.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/tippy-bundle.umd.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Fuse.js/7.0.0/fuse.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" defer></script>
+
+<!-- ═══ Priority 5: Analytics — async ═══ -->
+<script src="js/analytics.js?v=1100" async></script>
+
+<!-- ═══ UX Systems ═══ -->
+<script src="/js/toast-system.js" defer></script>
+<script src="/js/red-rect-killer.js" defer></script>
+<script src="/js/sweet-dialogs.js" defer></script>
+<script src="/js/scroll-animations.js" defer></script>
+<script src="/js/tooltip-system.js" defer></script>
+<script src="/js/fuzzy-search.js" defer></script>
+<script src="/js/bilingual-fix.js" defer></script>
+<script src="/js/bilingual-radical-fix.js" defer></script>
+<script src="/js/card-health-check.js" defer></script>
+<script src="/js/posthog-analytics.js" defer></script>
+<script src="/js/micro-delights.js" defer></script>
+<script src="/js/performance-monitor.js" defer></script>
+<script src="/js/guided-tour.js" defer></script>
+
+</body>
+</html>
