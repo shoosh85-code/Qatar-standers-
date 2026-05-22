@@ -39,7 +39,7 @@
     border:1px solid var(--border);border-radius:20px;padding:4px 12px}
 
   /* ── Login wall ── */
-  #loginWall{display:none;flex-direction:column;align-items:center;justify-content:center;
+  #loginRequired{display:none;flex-direction:column;align-items:center;justify-content:center;
     min-height:80vh;text-align:center;padding:40px 20px}
   .login-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;
     padding:40px;max-width:400px;width:100%}
@@ -59,7 +59,7 @@
   #authSuccess{color:var(--green);font-size:12px;margin-top:8px;display:none}
 
   /* ── Main content ── */
-  #appContent{display:none;padding:24px 20px;max-width:1400px;margin:0 auto}
+  #dashboardContent{display:none;padding:24px 20px;max-width:1400px;margin:0 auto}
 
   /* ── Stats bar ── */
   .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:28px}
@@ -286,7 +286,7 @@
       <button class="modal-close" onclick="APP.closeModal()">✕</button>
     </div>
     <div class="modal-body">
-      <div class="modal-grid">
+      <div class="modal-grid" id="projectForm">
         <div class="full">
           <label>اسم المشروع *</label>
           <input id="f_name" type="text" placeholder="مثال: فيلا الدوحة — بلوك 22">

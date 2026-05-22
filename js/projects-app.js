@@ -444,7 +444,11 @@
     openModal() {
       STATE.editingId = null;
       document.getElementById('modalTitle').textContent = 'مشروع جديد';
-      document.getElementById('projectForm').reset();
+      // مسح الحقول يدوياً (modal-grid هو div وليس form)
+      const ids = ['f_name','f_client','f_location','f_contract_value','f_start_date','f_end_date','f_notes'];
+      ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+      const typeEl = document.getElementById('f_type'); if (typeEl) typeEl.value = 'villa';
+      const statusEl = document.getElementById('f_status'); if (statusEl) statusEl.value = 'active';
       document.getElementById('projectModal').style.display = 'flex';
       setTimeout(() => document.getElementById('projectModal').classList.add('open'), 10);
     },
