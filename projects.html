@@ -426,18 +426,49 @@
 
       if (!email || !pass) { if (errEl) errEl.textContent = 'البريد وكلمة المرور مطلوبان'; return; }
       if (errEl) errEl.textContent = '';
+      if (sucEl) sucEl.textContent = '';
       if (btn) btn.textContent = 'جاري...';
 
       try {
-        const body = _isSignup ? { email, password: pass, name, action: 'signup' }
-                                : { email, password: pass, action: 'login' };
-        const res = await fetch('/api/auth', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'فشل المصادقة');
-        if (sucEl) sucEl.textContent = _isSignup ? 'تم إنشاء الحساب — يرجى تسجيل الدخول' : '';
-        if (data.token && window.QS_Projects) {
-          window.QS_Projects.setSession(data.token, data.user || { email });
+        // 1. اجلب Supabase config من auth-config
+        let sbUrl = window.__SUPABASE_URL__ || document.querySelector('meta[name="supabase-url"]')?.content;
+        let sbKey = window.__SUPABASE_ANON__ || document.querySelector('meta[name="supabase-anon"]')?.content;
+
+        if (!sbUrl || !sbKey) {
+          const cfg = await fetch('/api/auth-config').then(r => r.json());
+          sbUrl = cfg.url; sbKey = cfg.key;
         }
+        if (!sbUrl || !sbKey) throw new Error('Supabase غير مهيأ — تحقق من إعدادات البيئة');
+
+        // 2. استدعاء Supabase Auth مباشرة
+        const endpoint = _isSignup ? 'signup' : 'token?grant_type=password';
+        const body = _isSignup
+          ? { email, password: pass, data: { full_name: name || '' } }
+          : { email, password: pass };
+
+        const res = await fetch(`${sbUrl}/auth/v1/${endpoint}`, {
+          method: 'POST',
+          headers: { 'apikey': sbKey, 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          const msg = data?.error_description || data?.msg || data?.error || 'فشل المصادقة';
+          throw new Error(msg);
+        }
+
+        if (_isSignup) {
+          if (sucEl) sucEl.textContent = '✅ تم إنشاء الحساب — يرجى تسجيل الدخول الآن';
+          APP.toggleAuth(); // الرجوع لشاشة الدخول
+        } else {
+          const token = data.access_token;
+          const user  = data.user || { email };
+          // حفظ في sessionStorage وتهيئة الـ app
+          sessionStorage.setItem('qs_session_token', token);
+          if (window.QS_Projects) window.QS_Projects.setSession(token, user);
+        }
+
       } catch (err) {
         if (errEl) errEl.textContent = err.message || 'خطأ في المصادقة';
       } finally {
