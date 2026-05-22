@@ -34,6 +34,9 @@
 
   // ── تهيئة التطبيق ─────────────────────────────────────────────────────────
   async function init() {
+    // إخفاء login أثناء التحقق
+    const loginEl = document.getElementById('loginRequired');
+
     // أولاً: جلب إعدادات Supabase
     await loadSupabaseConfig();
 
@@ -44,7 +47,7 @@
       showDashboard();
       await loadProjects();
     } else {
-      showLoginPrompt();
+      showLoginPrompt(); // يُظهر login form
     }
 
     bindEvents();
@@ -618,10 +621,21 @@
   }
 
   // ── تشغيل التطبيق ─────────────────────────────────────────────────────────
+  async function safeInit() {
+    try {
+      await init();
+    } catch (e) {
+      console.error('init failed:', e);
+      // Fallback: show login form
+      const loginEl = document.getElementById('loginRequired');
+      if (loginEl) loginEl.style.display = 'flex';
+    }
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', safeInit);
   } else {
-    init();
+    safeInit();
   }
 
 })();
