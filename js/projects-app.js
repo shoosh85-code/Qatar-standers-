@@ -93,6 +93,7 @@
       STATE.user = user;
       // حفظ مؤقت في sessionStorage (يُمسح عند إغلاق المتصفح)
       sessionStorage.setItem('qs_session_token', token);
+      sessionStorage.setItem('qs_session_user', JSON.stringify(user || {}));
       showDashboard();
       loadProjects();
     },
@@ -100,7 +101,7 @@
       STATE.token = null;
       STATE.user = null;
       sessionStorage.removeItem('qs_session_token');
-      showLoginPrompt();
+      sessionStorage.removeItem('qs_session_user');
     }
   };
 

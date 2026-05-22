@@ -1550,8 +1550,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // تحميل التوكن من sessionStorage (مؤقت — أفضل من localStorage)
-  state.token = sessionStorage.getItem('qs_token');
-  const userStr = sessionStorage.getItem('qs_user');
+  state.token = sessionStorage.getItem('qs_session_token');
+  const userStr = sessionStorage.getItem('qs_session_user');
   if (userStr) {
     try { state.user = JSON.parse(userStr); } catch(e) {}
   }
