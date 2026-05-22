@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QatarSpec Pro — استلام الأعمال</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ===== CSS VARIABLES ===== */
+:root {
+  --primary: #1a3a5c;
+  --primary-light: #2a5a8c;
+  --accent: #c8a84b;
+  --accent-light: #e8c87b;
+  --success: #2ecc71;
+  --danger: #e74c3c;
+  --warning: #f39c12;
+  --info: #3498db;
+  --bg: #f5f7fa;
+  --bg-card: #ffffff;
+  --text: #2c3e50;
+  --text-light: #7f8c8d;
+  --border: #dde3ea;
+  --shadow: 0 2px 12px rgba(26,58,92,0.10);
+  --shadow-hover: 0 6px 24px rgba(26,58,92,0.18);
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: 'Cairo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  direction: rtl;
+  min-height: 100vh;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ===== HEADER ===== */
+.header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: #fff;
+  padding: 0;
+  box-shadow: 0 2px 16px rgba(26,58,92,0.25);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--accent);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--primary);
+}
+.logo-text h1 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+.logo-text p {
+  font-size: 0.72rem;
+  opacity: 0.8;
+  font-weight: 400;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.btn-back {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  padding: 7px 16px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background 0.2s;
+  display: none;
+}
+.btn-back:hover { background: rgba(255,255,255,0.25); }
+.btn-back.visible { display: flex; align-items: center; gap: 6px; }
+
+/* ===== PROJECT INFO BAR ===== */
+.project-bar {
+  background: var(--accent);
+  padding: 8px 24px;
+}
+.project-bar-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.project-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--primary);
+  font-weight: 600;
+}
+.project-field label {
+  opacity: 0.75;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.project-field input {
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(26,58,92,0.2);
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.82rem;
+  color: var(--primary);
+  font-weight: 600;
+  min-width: 130px;
+}
+.project-field input:focus {
+  outline: none;
+  background: rgba(255,255,255,0.9);
+}
+
+/* ===== MAIN LAYOUT ===== */
+.main-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: calc(100vh - 120px);
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  background: var(--bg-card);
+  border-left: 1px solid var(--border);
+  padding: 20px 0;
+  position: sticky;
+  top: 120px;
+  height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+.sidebar-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0 16px 12px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+  border-radius: 0;
+  transition: background 0.15s, color 0.15s;
+  border-right: 3px solid transparent;
+  position: relative;
+}
+.sidebar-item:hover { background: var(--bg); }
+.sidebar-item.active {
+  background: #eef3f9;
+  border-right-color: var(--primary);
+  color: var(--primary);
+}
+.sidebar-item .item-icon { font-size: 1.3rem; flex-shrink: 0; }
+.sidebar-item .item-info { flex: 1; min-width: 0; }
+.sidebar-item .item-name-ar {
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sidebar-item .item-name-en {
+  font-size: 0.68rem;
+  color: var(--text-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sidebar-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+}
+.progress-pct {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+.progress-mini {
+  width: 40px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-mini-fill {
+  height: 100%;
+  background: var(--success);
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+
+/* ===== CONTENT AREA ===== */
+.content-area {
+  padding: 24px;
+}
+
+/* ===== SELECTION GRID (13 cards) ===== */
+.selection-header {
+  margin-bottom: 24px;
+}
+.selection-header h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+.selection-header p {
+  font-size: 0.88rem;
+  color: var(--text-light);
+}
+.selection-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* ===== WORK CARD ===== */
+.work-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+.work-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--primary);
+  transform: scaleY(0);
+  transition: transform 0.2s;
+  transform-origin: bottom;
+}
+.work-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+.work-card:hover::before { transform: scaleY(1); }
+.work-card.started { border-color: var(--accent); }
+.work-card.started::before { background: var(--accent); transform: scaleY(1); }
+.work-card.completed { border-color: var(--success); }
+.work-card.completed::before { background: var(--success); transform: scaleY(1); }
+
+.card-icon { font-size: 2.4rem; margin-bottom: 10px; display: block; }
+.card-names { margin-bottom: 8px; }
+.card-name-ar { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+.card-name-en { font-size: 0.75rem; color: var(--text-light); font-weight: 400; }
+.card-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+.card-qcs { font-size: 0.65rem; color: var(--primary); background: #eef3f9; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+.card-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: var(--primary);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.card-progress { display: none; }
+.card-progress.visible { display: block; }
+.card-progress-bar {
+  height: 5px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 3px;
+}
+.card-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--success), #27ae60);
+  border-radius: 3px;
+  transition: width 0.4s;
+}
+.card-progress-label { font-size: 0.65rem; color: var(--text-light); text-align: left; direction: ltr; }
+
+/* ===== CHECKLIST VIEW ===== */
+.checklist-view { display: none; }
+.checklist-view.active { display: block; }
+
+.work-header {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.work-header-info { display: flex; align-items: center; gap: 14px; }
+.work-header-icon { font-size: 2.5rem; }
+.work-header-text h2 { font-size: 1.2rem; font-weight: 800; color: var(--primary); }
+.work-header-text p { font-size: 0.8rem; color: var(--text-light); margin-top: 2px; }
+.work-header-stats { display: flex; gap: 16px; }
+.stat-box {
+  text-align: center;
+  min-width: 60px;
+}
+.stat-num { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+.stat-num.green { color: var(--success); }
+.stat-num.orange { color: var(--warning); }
+.stat-label { font-size: 0.65rem; color: var(--text-light); font-weight: 600; }
+
+/* ===== PROGRESS BAR MAIN ===== */
+.main-progress-section {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+.main-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.main-progress-header span:first-child { font-size: 0.85rem; font-weight: 700; color: var(--text); }
+.main-progress-pct { font-size: 1.2rem; font-weight: 800; color: var(--primary); }
+.main-progress-bar {
+  height: 10px;
+  background: var(--border);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.main-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--success), #27ae60);
+  border-radius: 5px;
+  transition: width 0.5s;
+}
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 0.72rem;
+  color: var(--text-light);
+}
+
+/* ===== PHASE SECTION ===== */
+.phase-section {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.phase-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  cursor: pointer;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--border);
+  user-select: none;
+}
+.phase-header:hover { background: #eef3f9; }
+.phase-header h3 { font-size: 0.9rem; font-weight: 700; color: var(--primary); }
+.phase-toggle { font-size: 0.75rem; color: var(--text-light); display: flex; align-items: center; gap: 8px; }
+.phase-toggle-icon { transition: transform 0.2s; font-size: 0.8rem; }
+.phase-section.collapsed .phase-toggle-icon { transform: rotate(-90deg); }
+.phase-items { padding: 8px 0; }
+.phase-section.collapsed .phase-items { display: none; }
+
+/* ===== CHECKLIST ITEM ===== */
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 20px;
+  border-bottom: 1px solid #f0f2f5;
+  transition: background 0.15s;
+}
+.checklist-item:last-child { border-bottom: none; }
+.checklist-item:hover { background: #fafbfc; }
+
+.item-checkbox {
+  position: relative;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.item-checkbox input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.item-checkbox input[type="checkbox"]:checked {
+  background: var(--success);
+  border-color: var(--success);
+}
+.item-checkbox input[type="checkbox"]:checked::after {
+  content: '✓';
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.item-checkbox input[type="checkbox"].failed {
+  background: var(--danger);
+  border-color: var(--danger);
+}
+.item-checkbox input[type="checkbox"].failed::after {
+  content: '✕';
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.item-content { flex: 1; min-width: 0; }
+.item-ar { font-size: 0.85rem; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.item-en { font-size: 0.75rem; color: var(--text-light); margin-bottom: 5px; }
+.item-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.item-qcs {
+  font-size: 0.65rem;
+  color: var(--primary);
+  background: #eef3f9;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+.item-tolerance {
+  font-size: 0.65rem;
+  color: var(--warning);
+  background: #fff8ec;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+.item-required {
+  font-size: 0.6rem;
+  color: var(--danger);
+  background: #fdf0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 700;
+}
+
+.item-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+  align-items: center;
+}
+.btn-pass, .btn-fail, .btn-na {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  transition: opacity 0.2s, transform 0.1s;
+  white-space: nowrap;
+}
+.btn-pass { background: var(--success); color: #fff; }
+.btn-fail { background: var(--danger); color: #fff; }
+.btn-na { background: var(--border); color: var(--text-light); }
+.btn-pass:hover, .btn-fail:hover, .btn-na:hover { opacity: 0.85; transform: scale(1.03); }
+
+.item-status-badge {
+  display: none;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.item-status-badge.pass { display: inline-block; background: #e8f8f0; color: var(--success); }
+.item-status-badge.fail { display: inline-block; background: #fdf0f0; color: var(--danger); }
+.item-status-badge.na { display: inline-block; background: var(--bg); color: var(--text-light); }
+
+/* ===== RESULT SECTION ===== */
+.result-section {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-top: 20px;
+  box-shadow: var(--shadow);
+}
+.result-section h3 { font-size: 1rem; font-weight: 800; color: var(--primary); margin-bottom: 16px; }
+.result-status {
+  text-align: center;
+  padding: 20px;
+  border-radius: var(--radius-sm);
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+.result-status.pass { background: #e8f8f0; color: var(--success); border: 2px solid var(--success); }
+.result-status.fail { background: #fdf0f0; color: var(--danger); border: 2px solid var(--danger); }
+.result-status.pending { background: #eef3f9; color: var(--primary); border: 2px solid var(--primary); }
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.result-item {
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  text-align: center;
+}
+.result-item-num { font-size: 1.4rem; font-weight: 800; }
+.result-item-num.green { color: var(--success); }
+.result-item-num.red { color: var(--danger); }
+.result-item-num.blue { color: var(--primary); }
+.result-item-num.orange { color: var(--warning); }
+.result-item-label { font-size: 0.72rem; color: var(--text-light); font-weight: 600; margin-top: 2px; }
+
+/* ===== FAILED ITEMS LIST ===== */
+.failed-items-list {
+  border: 1px solid #fde8e8;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.failed-item-row {
+  padding: 8px 14px;
+  border-bottom: 1px solid #fde8e8;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+}
+.failed-item-row:last-child { border-bottom: none; }
+.failed-item-row::before { content: '✕'; color: var(--danger); font-weight: 700; font-size: 0.75rem; flex-shrink: 0; }
+.failed-header {
+  background: #fdf0f0;
+  padding: 8px 14px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--danger);
+  border-bottom: 1px solid #fde8e8;
+}
+
+/* ===== BUTTONS ROW ===== */
+.action-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 20px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-primary:hover { background: var(--primary-light); }
+.btn-secondary {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 20px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-secondary:hover { background: var(--border); }
+
+/* ===== MOBILE SIDEBAR TOGGLE ===== */
+.sidebar-toggle-btn {
+  display: none;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 200;
+  box-shadow: var(--shadow-hover);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .selection-grid { grid-template-columns: repeat(2, 1fr); }
+  .main-layout { grid-template-columns: 240px 1fr; }
+}
+
+@media (max-width: 768px) {
+  .selection-grid { grid-template-columns: 1fr 1fr; }
+  .main-layout { grid-template-columns: 1fr; }
+  .sidebar {
+    position: fixed;
+    right: -280px;
+    top: 0;
+    height: 100vh;
+    width: 280px;
+    z-index: 150;
+    transition: right 0.3s;
+    box-shadow: var(--shadow-hover);
+  }
+  .sidebar.open { right: 0; }
+  .sidebar-toggle-btn { display: flex; align-items: center; justify-content: center; }
+  .result-grid { grid-template-columns: repeat(2, 1fr); }
+  .header-inner { padding: 12px 16px; }
+  .project-bar-inner { gap: 12px; }
+  .content-area { padding: 16px; }
+}
+
+@media (max-width: 480px) {
+  .selection-grid { grid-template-columns: 1fr; }
+  .work-header { flex-direction: column; align-items: flex-start; }
+}
+
+/* ===== OVERLAY ===== */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 140;
+}
+.sidebar-overlay.active { display: block; }
+
+/* ===== PRINT ===== */
+@media print {
+  .header-actions, .sidebar-toggle-btn, .sidebar-overlay,
+  .btn-pass, .btn-fail, .btn-na, .action-row { display: none !important; }
+  .main-layout { grid-template-columns: 1fr; }
+  .sidebar { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="header-inner">
+    <div class="header-logo">
+      <div class="logo-icon">QS</div>
+      <div class="logo-text">
+        <h1>QatarSpec Pro</h1>
+        <p>نظام استلام الأعمال الهندسية — QCS 2024</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-back" id="btnBack" onclick="window.QS.goBack()">
+        ← العودة للقائمة
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== PROJECT BAR ===== -->
+<div class="project-bar">
+  <div class="project-bar-inner">
+    <div class="project-field">
+      <label>المشروع:</label>
+      <input type="text" id="projectName" placeholder="اسم المشروع" value="">
+    </div>
+    <div class="project-field">
+      <label>المهندس:</label>
+      <input type="text" id="engineerName" placeholder="اسم المهندس" value="">
+    </div>
+    <div class="project-field">
+      <label>التاريخ:</label>
+      <input type="date" id="inspectionDate" value="">
+    </div>
+    <div class="project-field">
+      <label>المرحلة:</label>
+      <input type="text" id="projectPhase" placeholder="رقم المرحلة" value="">
+    </div>
+  </div>
+</div>
+
+<!-- ===== SIDEBAR OVERLAY ===== -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="window.QS.closeSidebar()"></div>
+
+<!-- ===== MAIN LAYOUT ===== -->
+<div class="main-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-title">قائمة الأعمال (13 عمل)</div>
+    <div id="sidebarList"></div>
+  </aside>
+
+  <!-- CONTENT AREA -->
+  <main class="content-area">
+
+    <!-- SELECTION VIEW -->
+    <div id="selectionView">
+      <div class="selection-header">
+        <h2>🏗️ اختر العمل المراد استلامه</h2>
+        <p>13 عملاً هندسياً — مرجع QCS 2024 — كل بند مرتبط بمواصفة قطرية دقيقة</p>
+      </div>
+      <div class="selection-grid" id="selectionGrid"></div>
+    </div>
+
+    <!-- CHECKLIST VIEW -->
+    <div id="checklistView" class="checklist-view">
+      <div class="work-header" id="workHeader"></div>
+      <div class="main-progress-section" id="mainProgress"></div>
+      <div id="phaseList"></div>
+      <div class="result-section" id="resultSection"></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- SIDEBAR TOGGLE BTN (mobile) -->
+<button class="sidebar-toggle-btn" onclick="window.QS.toggleSidebar()">☰</button>
+
+<script>
+// =====================================================================
+// WORK ACCEPTANCE DATA — QCS 2024
+// =====================================================================
+const WORK_ACCEPTANCE_DATA = {
+  foundations: {
+    id: 'foundations', icon: '🏛️',
+    name_ar: 'الأساسات', name_en: 'Foundations',
+    qcs_ref: 'QCS 2024 — Section 5, Part 2',
+    description_ar: 'استلام أعمال الحفر والأساسات والخرسانة المسلحة',
+    phases: [
+      {
+        id: 'pre_excavation', name_ar: 'ما قبل الحفر',
+        items: [
+          { id: 'f1', ar: 'مطابقة مناسيب الحفر للمخطط', en: 'Excavation levels match drawings', tolerance: '±50mm', qcs: 'QCS S5 Cl.2.1', required: true },
+          { id: 'f2', ar: 'التربة تحت الأساس مدكوكة وخالية من الفضلات', en: 'Subgrade compacted and free of debris', tolerance: '95% MDD', qcs: 'QCS S5 Cl.2.2', required: true },
+          { id: 'f3', ar: 'Blinding Concrete مصبوب ومستوٍ (50mm)', en: 'Blinding concrete poured and level', tolerance: '±10mm', qcs: 'QCS S5 Cl.2.3', required: true },
+          { id: 'f4', ar: 'العزل المائي تحت الأساس (Damp Proof)', en: 'Damp proof membrane installed', qcs: 'QCS S5 Cl.2.4', required: true },
+          { id: 'f5', ar: 'IR معتمد من الاستشاري قبل صب الخرسانة', en: 'IR approved before concrete pour', required: true }
+        ]
+      },
+      {
+        id: 'rebar_check', name_ar: 'فحص التسليح',
+        items: [
+          { id: 'f6', ar: 'أقطار حديد الأساس مطابقة للمخطط', en: 'Foundation rebar diameters match drawings', qcs: 'QCS S5 Cl.3.1 / BS4449', required: true },
+          { id: 'f7', ar: 'Cover صحيح — 50mm للأساسات', en: 'Cover correct — 50mm for foundations', tolerance: '50mm ±5mm', required: true },
+          { id: 'f8', ar: 'Lap Length ≥ 40d', en: 'Lap length ≥ 40d', required: true },
+          { id: 'f9', ar: 'Spacers / Chair Bars موجودة', en: 'Spacers / Chair Bars present', required: true }
+        ]
+      },
+      {
+        id: 'concrete_pour', name_ar: 'صب الخرسانة',
+        items: [
+          { id: 'f10', ar: 'قوة الخرسانة C25 أو أعلى حسب التصميم', en: 'Concrete grade C25 min or per design', qcs: 'QCS S5 Cl.4.2', required: true },
+          { id: 'f11', ar: 'Slump Test داخل المدى (100±25mm)', en: 'Slump test within range', tolerance: '100±25mm', required: true },
+          { id: 'f12', ar: 'عدد Cubes (6 مكعبات على الأقل لكل 50m³)', en: 'Min 6 cubes per 50m³', required: true },
+          { id: 'f13', ar: 'Curing مطبّق لمدة 7 أيام على الأقل', en: 'Curing applied for minimum 7 days', required: true },
+          { id: 'f14', ar: 'نتائج الضغط (28 يوم) ≥ القوة التصميمية', en: '28-day cube results ≥ design strength', required: true }
+        ]
+      }
+    ]
+  },
+  rebar_formwork: {
+    id: 'rebar_formwork', icon: '🔩',
+    name_ar: 'أعمال الحديد والنجارة', name_en: 'Rebar & Formwork',
+    qcs_ref: 'QCS 2024 — Section 5, Part 2 Cl.5.2.4 + BS4449',
+    description_ar: 'فحص تسليح الحديد وأعمال القوالب الخشبية',
+    phases: [
+      {
+        id: 'rebar', name_ar: 'الحديد',
+        items: [
+          { id: 'rf1', ar: 'أقطار + مسافات + طول التشابك مطابقة للمخطط', en: 'Diameters, spacing, and lap length match drawings', qcs: 'QCS S5 Cl.5.2.4', required: true },
+          { id: 'rf2', ar: 'Cover Spacers: سقف 25mm، جدران 35mm، أساسات 50mm', en: 'Cover spacers: slab 25mm, walls 35mm, foundations 50mm', required: true },
+          { id: 'rf3', ar: 'لا يوجد صدأ مؤثر (No pitting rust)، لا شحوم', en: 'No pitting rust, no grease', required: true },
+          { id: 'rf4', ar: 'Stirrups وLinks: القطر والخطاف (135° hooks) صحيح', en: 'Stirrups and links: correct diameter and 135° hooks', required: true },
+          { id: 'rf5', ar: 'شهادات Material Certificates معتمدة', en: 'Approved material certificates present', required: true }
+        ]
+      },
+      {
+        id: 'formwork', name_ar: 'النجارة (Formwork)',
+        items: [
+          { id: 'rf6', ar: 'الأبعاد مطابقة ±5mm (طول/عرض/ارتفاع)', en: 'Dimensions ±5mm (length/width/height)', tolerance: '±5mm', required: true },
+          { id: 'rf7', ar: 'Props ثابتة، متباعدة صحيح، Kickers موجودة', en: 'Props stable, correctly spaced, kickers present', required: true },
+          { id: 'rf8', ar: 'Release Agent مطبّق، لا فجوات (Grout Tight)', en: 'Release agent applied, no gaps (grout tight)', required: true },
+          { id: 'rf9', ar: 'الدعامات (Bracing) كافية لضغط الخرسانة', en: 'Bracing sufficient for concrete pressure', required: true }
+        ]
+      }
+    ]
+  },
+  columns_slabs: {
+    id: 'columns_slabs', icon: '🏗️',
+    name_ar: 'أعمال الأعمدة والأسقف', name_en: 'Columns & Slabs',
+    qcs_ref: 'QCS 2024 — Section 5, Part 3 + ACI 318',
+    description_ar: 'استلام أعمال الأعمدة والأسقف الخرسانية',
+    phases: [
+      {
+        id: 'columns', name_ar: 'الأعمدة',
+        items: [
+          { id: 'cs1', ar: 'أبعاد القالب مطابقة ±5mm', en: 'Formwork dimensions ±5mm', tolerance: '±5mm', required: true },
+          { id: 'cs2', ar: 'Plumb (شاقولية) ≤ L/300 أو 20mm max', en: 'Plumb ≤ L/300 or 20mm max', tolerance: 'L/300 or 20mm', required: true },
+          { id: 'cs3', ar: 'Cover 35mm للأعمدة الداخلية، 50mm للخارجية', en: 'Cover 35mm internal, 50mm external columns', required: true },
+          { id: 'cs4', ar: 'Grade خرسانة ≥ C30 للأعمدة', en: 'Concrete grade ≥ C30 for columns', required: true }
+        ]
+      },
+      {
+        id: 'slabs', name_ar: 'الأسقف',
+        items: [
+          { id: 'cs5', ar: 'Slab Thickness مطابقة ±5mm', en: 'Slab thickness ±5mm', tolerance: '±5mm', required: true },
+          { id: 'cs6', ar: 'Top & Bottom Cover صحيح (25mm top، 20mm bottom)', en: 'Top & bottom cover correct (25mm/20mm)', required: true },
+          { id: 'cs7', ar: 'Opening Sizes ومواقع الـ Ducts مطابقة للمخطط', en: 'Opening sizes and duct locations match drawings', required: true },
+          { id: 'cs8', ar: 'Deflection بعد فك القوالب ≤ L/250', en: 'Post-stripping deflection ≤ L/250', required: false }
+        ]
+      }
+    ]
+  },
+  blockwork: {
+    id: 'blockwork', icon: '🧱',
+    name_ar: 'أعمال الطابوق', name_en: 'Blockwork / Masonry',
+    qcs_ref: 'QCS 2024 — Section 5, Part 7 + BS5628',
+    description_ar: 'استلام أعمال البناء بالطابوق والبلوك الخرساني',
+    phases: [
+      {
+        id: 'blockwork_check', name_ar: 'فحص الطابوق',
+        items: [
+          { id: 'bw1', ar: 'مطابقة أنواع الطابوق للمواصفات (Block Test Certificates)', en: 'Block type matches spec (test certificates)', required: true },
+          { id: 'bw2', ar: 'Mortar Mix صحيح (1:4 or per spec)', en: 'Mortar mix correct (1:4 or per spec)', required: true },
+          { id: 'bw3', ar: 'Coursing Level: ±5mm per 1m ارتفاع', en: 'Coursing level ±5mm per 1m height', tolerance: '±5mm/1m', required: true },
+          { id: 'bw4', ar: 'Plumb (شاقولية): ≤ 5mm per 3m ارتفاع', en: 'Plumb ≤ 5mm per 3m height', tolerance: '5mm/3m', required: true },
+          { id: 'bw5', ar: 'Bond Pattern صحيح (Running Bond أو حسب المخطط)', en: 'Correct bond pattern (running or per drawing)', required: true },
+          { id: 'bw6', ar: 'Joints Filled بالكامل (لا فراغات)', en: 'Joints fully filled, no voids', required: true },
+          { id: 'bw7', ar: 'Lintel فوق الفتحات بـ Bearing ≥ 200mm', en: 'Lintel above openings, bearing ≥ 200mm', required: true },
+          { id: 'bw8', ar: 'Control Joints في المواقع المحددة', en: 'Control joints at designated locations', required: true },
+          { id: 'bw9', ar: 'لا تشقق في الطابوق أو الـ Mortar', en: 'No cracking in blocks or mortar', required: true },
+          { id: 'bw10', ar: 'حماية من الأمطار خلال 24 ساعة من البناء', en: 'Protected from rain within 24hr of laying', required: false }
+        ]
+      }
+    ]
+  },
+  plaster_paint: {
+    id: 'plaster_paint', icon: '🖌️',
+    name_ar: 'أعمال البلاستر والدهانات', name_en: 'Plaster & Paint',
+    qcs_ref: 'QCS 2024 — Section 5, Part 9 + BS EN 13914',
+    description_ar: 'استلام أعمال اللياسة والدهانات الداخلية والخارجية',
+    phases: [
+      {
+        id: 'plaster', name_ar: 'البلاستر',
+        items: [
+          { id: 'pp1', ar: 'السطح نظيف، جاف، خالٍ من الشحوم', en: 'Surface clean, dry, and grease-free', required: true },
+          { id: 'pp2', ar: 'Scratch Coat: 8-10mm، خشن السطح', en: 'Scratch coat 8-10mm, keyed surface', tolerance: '8-10mm', required: true },
+          { id: 'pp3', ar: 'Finish Coat: 6-8mm', en: 'Finish coat 6-8mm', tolerance: '6-8mm', required: true },
+          { id: 'pp4', ar: 'إجمالي السماكة ≤ 20mm (داخلي)، ≤ 25mm (خارجي)', en: 'Total thickness ≤ 20mm internal, ≤ 25mm external', required: true },
+          { id: 'pp5', ar: 'Straightedge Test: ≤ 4mm under 3m straight edge', en: 'Straightedge tolerance ≤ 4mm under 3m', tolerance: '4mm/3m', required: true },
+          { id: 'pp6', ar: 'Plumb ≤ 5mm per 3m ارتفاع', en: 'Plumb ≤ 5mm per 3m height', required: true },
+          { id: 'pp7', ar: 'لا تشقق (Hair Cracks أو Delamination)', en: 'No hair cracks or delamination', required: true },
+          { id: 'pp8', ar: 'Curing: رش مياه 24-48 ساعة', en: 'Curing: water spray 24-48 hours', required: false }
+        ]
+      },
+      {
+        id: 'paint', name_ar: 'الدهانات',
+        items: [
+          { id: 'pp9', ar: 'السطح ناعم، خالٍ من التشقق، معالج بـ Putty', en: 'Surface smooth, crack-free, putty applied', required: true },
+          { id: 'pp10', ar: 'عدد الطبقات: Primer + 2 Coats (minimum)', en: 'Coats: Primer + minimum 2 finish coats', required: true },
+          { id: 'pp11', ar: 'Opacity (إخفاء الطبقة السابقة): 100%', en: 'Opacity: 100% hiding of previous layer', required: true },
+          { id: 'pp12', ar: 'Coverage Rate وفق مواصفات المصنّع', en: 'Coverage rate per manufacturer spec', required: true },
+          { id: 'pp13', ar: 'لا أثر الفرشاة (Brush Marks) أو تقطير', en: 'No brush marks or drips', required: true },
+          { id: 'pp14', ar: 'Adhesion Test: Crosshatch — لا نزع', en: 'Adhesion test: crosshatch — no peeling', required: true }
+        ]
+      }
+    ]
+  },
+  electrical: {
+    id: 'electrical', icon: '⚡',
+    name_ar: 'أعمال الكهرباء', name_en: 'Electrical Works',
+    qcs_ref: 'QCS 2024 — Section 21 + KAHRAMAA 2024 + IEC 60364',
+    description_ar: 'استلام أعمال الكهرباء من الconduits إلى لوحات الطاقة',
+    phases: [
+      {
+        id: 'concealed', name_ar: 'ما تحت الإنشاء (Concealed)',
+        items: [
+          { id: 'el1', ar: 'مسار Conduits مطابق للمخطط', en: 'Conduit routing matches layout drawing', required: true },
+          { id: 'el2', ar: 'حجم Conduit مناسب (لا يتجاوز 40% تعبئة)', en: 'Conduit fill ≤ 40%', required: true },
+          { id: 'el3', ar: 'Draw Strings موجودة في كل Conduit', en: 'Draw strings present in all conduits', required: true },
+          { id: 'el4', ar: 'Conduit مربوط ومدعوم كل 1.2m', en: 'Conduit supported every 1.2m', required: true },
+          { id: 'el5', ar: 'لا انكسار أو تحميل زائد في الزوايا', en: 'No kinking or overloading at bends', required: true }
+        ]
+      },
+      {
+        id: 'wiring', name_ar: 'الأسلاك',
+        items: [
+          { id: 'el6', ar: 'مواصفات الكابل مطابقة (IEC 60502)', en: 'Cable spec compliant with IEC 60502', required: true },
+          { id: 'el7', ar: 'Color Code صحيح (Brown/Blue/Green-Yellow)', en: 'Correct color code (Brown/Blue/Green-Yellow)', required: true },
+          { id: 'el8', ar: 'Conductor Size وفق Load Calculation', en: 'Conductor size per load calculation', required: true },
+          { id: 'el9', ar: 'Terminal Connections محكمة (Torque Wrench)', en: 'Terminal connections torqued correctly', required: true },
+          { id: 'el10', ar: 'Meggering: Insulation Resistance ≥ 1 MΩ', en: 'Insulation resistance ≥ 1 MΩ', tolerance: '≥ 1 MΩ', required: true }
+        ]
+      },
+      {
+        id: 'panels', name_ar: 'لوحات الكهرباء (DB/MDB)',
+        items: [
+          { id: 'el11', ar: 'Rating الـ Breakers وفق التصميم', en: 'Breaker ratings per design', required: true },
+          { id: 'el12', ar: 'Labelling واضح وكامل', en: 'Clear and complete labelling', required: true },
+          { id: 'el13', ar: 'Earth Fault: مقاومة التأريض ≤ 1Ω', en: 'Earth resistance ≤ 1Ω', tolerance: '≤ 1Ω', required: true },
+          { id: 'el14', ar: 'ELCB/RCD موجودة وتعمل (Test Button)', en: 'ELCB/RCD present and functional', required: true },
+          { id: 'el15', ar: 'Loop Impedance Test مطابق', en: 'Loop impedance test passed', required: true }
+        ]
+      },
+      {
+        id: 'final_el', name_ar: 'الاستلام النهائي',
+        items: [
+          { id: 'el16', ar: 'Insulation Test (Megger) لكل دائرة', en: 'Megger test for every circuit', required: true },
+          { id: 'el17', ar: 'Continuity Test لكل موصل', en: 'Continuity test for all conductors', required: true },
+          { id: 'el18', ar: 'Polarity Test صحيح', en: 'Polarity test correct', required: true },
+          { id: 'el19', ar: 'Earth Continuity ≤ 0.5Ω', en: 'Earth continuity ≤ 0.5Ω', tolerance: '≤ 0.5Ω', required: true },
+          { id: 'el20', ar: 'شهادة KAHRAMAA للتوصيل', en: 'KAHRAMAA connection certificate', required: true }
+        ]
+      }
+    ]
+  },
+  plumbing: {
+    id: 'plumbing', icon: '🔧',
+    name_ar: 'الأعمال الصحية', name_en: 'Plumbing & Sanitary',
+    qcs_ref: 'QCS 2024 — Section 22 + KAHRAMAA Water Regulations',
+    description_ar: 'استلام أعمال السباكة والصرف الصحي والتركيبات',
+    phases: [
+      {
+        id: 'cold_hot_water', name_ar: 'مياه الشرب (Cold/Hot Water)',
+        items: [
+          { id: 'pl1', ar: 'مواصفات المواسير مطابقة (UPVC Class E / PPR PN20)', en: 'Pipe spec: UPVC Class E or PPR PN20', required: true },
+          { id: 'pl2', ar: 'Pressure Test: 1.5× الضغط التشغيلي لمدة ساعتين', en: 'Pressure test: 1.5× working pressure for 2 hours', required: true },
+          { id: 'pl3', ar: 'لا تسريب في جميع الوصلات', en: 'No leakage at all joints', required: true },
+          { id: 'pl4', ar: 'Slope صحيح للتصريف: ≥ 1:40', en: 'Correct drainage slope ≥ 1:40', required: true },
+          { id: 'pl5', ar: 'Thermal Insulation على مواسير الماء الساخن', en: 'Thermal insulation on hot water pipes', required: true }
+        ]
+      },
+      {
+        id: 'drainage', name_ar: 'الصرف الصحي',
+        items: [
+          { id: 'pl6', ar: 'Fall صحيح: Horizontal 1:40 → 1:60', en: 'Correct fall: horizontal 1:40 to 1:60', required: true },
+          { id: 'pl7', ar: 'Rodding Points في المواضع المطلوبة', en: 'Rodding points at required locations', required: true },
+          { id: 'pl8', ar: 'Air Test أو Water Test للـ Soil Pipes', en: 'Air or water test on soil pipes', required: true },
+          { id: 'pl9', ar: 'P-Traps وU-Bends موجودة لكل وصلة', en: 'P-traps and U-bends at every fixture', required: true },
+          { id: 'pl10', ar: 'Vent Pipes مربوطة وعالية الارتفاع', en: 'Vent pipes connected and adequately high', required: true }
+        ]
+      },
+      {
+        id: 'fixtures', name_ar: 'التركيبات الصحية',
+        items: [
+          { id: 'pl11', ar: 'إحكام تثبيت WC، Basin، Shower Tray', en: 'WC, basin, shower tray firmly fixed', required: true },
+          { id: 'pl12', ar: 'Sealant بين التركيبات والجدار (لا فراغات)', en: 'Sealant between fixtures and wall, no gaps', required: true },
+          { id: 'pl13', ar: 'Flush يعمل صحيح، لا تسريب في صمامات', en: 'Flush works correctly, no valve leaks', required: true },
+          { id: 'pl14', ar: 'مناسيب التركيبات مطابقة للمخطط', en: 'Fixture levels match drawing', required: true }
+        ]
+      }
+    ]
+  },
+  hvac: {
+    id: 'hvac', icon: '❄️',
+    name_ar: 'أعمال التكييف', name_en: 'HVAC & AC',
+    qcs_ref: 'QCS 2024 — Section 23 + ASHRAE Standards',
+    description_ar: 'استلام أعمال التكييف والتهوية والتبريد',
+    phases: [
+      {
+        id: 'ductwork', name_ar: 'Ductwork',
+        items: [
+          { id: 'hv1', ar: 'مقاسات الـ Duct مطابقة للـ Drawing', en: 'Duct sizes match drawings', required: true },
+          { id: 'hv2', ar: 'Duct Supports كل 2m أفقي و 1.5m عمودي', en: 'Duct supports every 2m horizontal, 1.5m vertical', required: true },
+          { id: 'hv3', ar: 'Duct Leakage Test: Class B (≤ 6% leakage)', en: 'Duct leakage test: Class B ≤ 6%', tolerance: '≤ 6%', required: true },
+          { id: 'hv4', ar: 'Insulation مطبّق بشكل صحيح (25mm min)', en: 'Insulation applied correctly (25mm min)', required: true },
+          { id: 'hv5', ar: 'Access Doors عند الـ Dampers والـ Coils', en: 'Access doors at dampers and coils', required: true }
+        ]
+      },
+      {
+        id: 'equipment', name_ar: 'FCU / AHU',
+        items: [
+          { id: 'hv6', ar: 'تثبيت الوحدات مستوٍ (Plumb & Level)', en: 'Units installed plumb and level', required: true },
+          { id: 'hv7', ar: 'Refrigerant Line Sizes وفق المواصفات', en: 'Refrigerant line sizes per spec', required: true },
+          { id: 'hv8', ar: 'Drain Pan غير مسدود، Drain Line بـ Slope', en: 'Drain pan clear, drain line has slope', required: true },
+          { id: 'hv9', ar: 'Air Balancing: ±10% من التصميم', en: 'Air balancing ±10% of design', tolerance: '±10%', required: true },
+          { id: 'hv10', ar: 'Noise Level ≤ NC35 (داخلي)', en: 'Noise level ≤ NC35 (indoor)', tolerance: '≤ NC35', required: false }
+        ]
+      },
+      {
+        id: 'commissioning_hvac', name_ar: 'الاستلام النهائي',
+        items: [
+          { id: 'hv11', ar: 'System Commissioning Report', en: 'System commissioning report submitted', required: true },
+          { id: 'hv12', ar: 'Capacity Test: ≥ 95% من التصميم', en: 'Capacity test ≥ 95% of design', tolerance: '≥ 95%', required: true },
+          { id: 'hv13', ar: 'BAS/BMS Integration يعمل', en: 'BAS/BMS integration functional', required: false },
+          { id: 'hv14', ar: 'Operation Manuals مسلّمة', en: 'Operation manuals submitted', required: true }
+        ]
+      }
+    ]
+  },
+  fire_fighting: {
+    id: 'fire_fighting', icon: '🔥',
+    name_ar: 'نظام مكافحة الحريق', name_en: 'Fire Fighting',
+    qcs_ref: 'QCS 2024 — Section 26 + QCDD Regulations + NFPA 13',
+    description_ar: 'استلام نظام مكافحة الحريق والإنذار المبكر',
+    phases: [
+      {
+        id: 'sprinkler', name_ar: 'Sprinkler System',
+        items: [
+          { id: 'ff1', ar: 'مواقع الـ Sprinklers مطابقة للمخطط المعتمد من QCDD', en: 'Sprinkler locations match QCDD-approved drawing', required: true },
+          { id: 'ff2', ar: 'مسافات الـ Sprinklers: ≤ 4.6m بين Sprinkler وآخر', en: 'Sprinkler spacing ≤ 4.6m', tolerance: '≤ 4.6m', required: true },
+          { id: 'ff3', ar: 'Working Pressure: 0.7 - 12 bar', en: 'Working pressure: 0.7–12 bar', required: true },
+          { id: 'ff4', ar: 'Hydraulic Test: 200 kPa فوق الضغط التشغيلي لساعتين', en: 'Hydraulic test: 200 kPa above working pressure for 2 hours', required: true },
+          { id: 'ff5', ar: 'Sprinkler Clearance 450mm من أي عائق', en: 'Sprinkler clearance 450mm from any obstruction', required: true }
+        ]
+      },
+      {
+        id: 'hose_reels', name_ar: 'Fire Hose Reels',
+        items: [
+          { id: 'ff6', ar: 'تثبيت على ارتفاع 1.35m من الأرض (Center)', en: 'Mounted at 1.35m from floor (center)', required: true },
+          { id: 'ff7', ar: 'Hose Reel Coverage: 30m Hose + 6m Jet', en: 'Coverage: 30m hose + 6m jet', required: true },
+          { id: 'ff8', ar: 'Pressure Test: 1.5× الضغط التشغيلي', en: 'Pressure test: 1.5× working pressure', required: true },
+          { id: 'ff9', ar: 'Signage واضح بالعربي والإنجليزي', en: 'Signage clear in Arabic and English', required: true }
+        ]
+      },
+      {
+        id: 'detection', name_ar: 'Fire Detection & Alarm',
+        items: [
+          { id: 'ff10', ar: 'Detector Spacing وفق مساحة الغرفة (BS 5839)', en: 'Detector spacing per room area (BS 5839)', required: true },
+          { id: 'ff11', ar: 'Control Panel موقعه صحيح ويعمل', en: 'Control panel location correct and functional', required: true },
+          { id: 'ff12', ar: 'Alarm Test: Zone by Zone', en: 'Alarm test: zone by zone', required: true },
+          { id: 'ff13', ar: 'Emergency Exit Lighting: 3 ساعة Backup minimum', en: 'Emergency exit lighting: 3-hour backup minimum', required: true }
+        ]
+      },
+      {
+        id: 'qcdd', name_ar: 'اشتراطات QCDD',
+        items: [
+          { id: 'ff14', ar: 'شهادة اعتماد QCDD قبل التشغيل', en: 'QCDD approval certificate before commissioning', required: true },
+          { id: 'ff15', ar: 'As-Built Drawings معتمدة من QCDD', en: 'As-built drawings approved by QCDD', required: true },
+          { id: 'ff16', ar: 'O&M Manual مع جدول الصيانة', en: 'O&M manual with maintenance schedule', required: true }
+        ]
+      }
+    ]
+  },
+  ceramic: {
+    id: 'ceramic', icon: '🟫',
+    name_ar: 'أعمال السيراميك', name_en: 'Ceramic Tiles',
+    qcs_ref: 'QCS 2024 — Section 5, Part 10 + BS EN ISO 10545',
+    description_ar: 'استلام أعمال تركيب بلاط السيراميك الداخلي والخارجي',
+    phases: [
+      {
+        id: 'pre_ceramic', name_ar: 'ما قبل التركيب',
+        items: [
+          { id: 'ce1', ar: 'السطح مستوٍ (Screed Level): ±3mm under 3m', en: 'Screed level ±3mm under 3m', tolerance: '±3mm/3m', required: true },
+          { id: 'ce2', ar: 'السطح جاف (Moisture Content ≤ 75% RH)', en: 'Surface dry (moisture ≤ 75% RH)', required: true },
+          { id: 'ce3', ar: 'Adhesive Compatibility مع نوع السيراميك', en: 'Adhesive compatible with ceramic type', required: true },
+          { id: 'ce4', ar: 'Layout Marked: محور التمركز من منتصف الغرفة', en: 'Layout centered from room midpoint', required: true },
+          { id: 'ce5', ar: 'قياسات السيراميك مطابقة للـ Approved Sample', en: 'Ceramic dimensions match approved sample', required: true }
+        ]
+      },
+      {
+        id: 'during_ceramic', name_ar: 'خلال التركيب',
+        items: [
+          { id: 'ce6', ar: 'Adhesive Coverage: ≥ 80% Back Coverage', en: 'Adhesive coverage ≥ 80% on back', tolerance: '≥ 80%', required: true },
+          { id: 'ce7', ar: 'Joint Width Uniform: 2-3mm (Ceramic) / 3-5mm (Floor)', en: 'Joint width: 2-3mm ceramic, 3-5mm floor', required: true },
+          { id: 'ce8', ar: 'Lippage: ≤ 2mm بين بلاطتين', en: 'Lippage ≤ 2mm between tiles', tolerance: '≤ 2mm', required: true },
+          { id: 'ce9', ar: 'Hollow Areas: ≤ 5% من مساحة البلاطة', en: 'Hollow areas ≤ 5% of tile area', tolerance: '≤ 5%', required: true },
+          { id: 'ce10', ar: 'Grout Color وفق الـ Approved Sample', en: 'Grout color matches approved sample', required: true },
+          { id: 'ce11', ar: 'Expansion Joints عند الزوايا والأعمدة', en: 'Expansion joints at corners and columns', required: true }
+        ]
+      },
+      {
+        id: 'final_ceramic', name_ar: 'الاستلام النهائي',
+        items: [
+          { id: 'ce12', ar: 'Tapping Test: لا صوت فراغ (0% Hollow)', en: 'Tapping test: no hollow sound', required: true },
+          { id: 'ce13', ar: 'Surface Level: ±3mm under 3m straightedge', en: 'Surface level ±3mm under 3m straightedge', required: true },
+          { id: 'ce14', ar: 'لا كسر، تشقق، أو تلون', en: 'No breakage, cracking, or staining', required: true },
+          { id: 'ce15', ar: 'Grout Cleaned، Surface Polished', en: 'Grout cleaned, surface polished', required: false }
+        ]
+      }
+    ]
+  },
+  marble: {
+    id: 'marble', icon: '💎',
+    name_ar: 'أعمال الرخام', name_en: 'Marble (Natural & Engineered)',
+    qcs_ref: 'QCS 2024 — Section 5, Part 10 + BS EN 14617',
+    description_ar: 'استلام أعمال الرخام الطبيعي والصناعي',
+    phases: [
+      {
+        id: 'natural_marble', name_ar: 'الرخام الطبيعي',
+        items: [
+          { id: 'mb1', ar: 'Source & Origin Certificate موجودة', en: 'Source and origin certificate present', required: true },
+          { id: 'mb2', ar: 'Thickness Uniform: ±2mm (min 18mm للأرضيات)', en: 'Thickness uniform ±2mm (min 18mm for floors)', tolerance: '±2mm', required: true },
+          { id: 'mb3', ar: 'Water Absorption ≤ 0.5% (BS EN 1925)', en: 'Water absorption ≤ 0.5%', tolerance: '≤ 0.5%', required: true },
+          { id: 'mb4', ar: 'Slip Resistance: ≥ 36 PTV (أرضيات رطبة)', en: 'Slip resistance ≥ 36 PTV (wet floors)', required: true },
+          { id: 'mb5', ar: 'Epoxy Adhesive (Structural): 100% Back Coverage', en: 'Structural epoxy: 100% back coverage', required: true },
+          { id: 'mb6', ar: 'Joints: ≤ 1mm عرض، Matching Pattern', en: 'Joints ≤ 1mm, matching pattern', tolerance: '≤ 1mm', required: true },
+          { id: 'mb7', ar: 'Lippage: ≤ 1.5mm', en: 'Lippage ≤ 1.5mm', tolerance: '≤ 1.5mm', required: true },
+          { id: 'mb8', ar: 'Polish Level مطابق للـ Approved Sample', en: 'Polish level matches approved sample', required: true }
+        ]
+      },
+      {
+        id: 'engineered_marble', name_ar: 'الرخام الصناعي (Engineered/Quartz)',
+        items: [
+          { id: 'mb9', ar: 'Brand + Model مطابق للـ Approval', en: 'Brand and model match approved submittal', required: true },
+          { id: 'mb10', ar: 'Thickness وفق المواصفات (20mm min)', en: 'Thickness per spec (20mm min)', required: true },
+          { id: 'mb11', ar: 'قراءات Mohs Hardness ≥ 6', en: 'Mohs hardness readings ≥ 6', tolerance: '≥ 6', required: false },
+          { id: 'mb12', ar: 'Sealer مطبّق بعد التركيب', en: 'Sealer applied after installation', required: true }
+        ]
+      }
+    ]
+  },
+  porcelain: {
+    id: 'porcelain', icon: '⬜',
+    name_ar: 'أعمال البورسلين', name_en: 'Porcelain Tiles',
+    qcs_ref: 'QCS 2024 — Section 5, Part 10 + BS EN 14411 Group BIa',
+    description_ar: 'استلام أعمال تركيب بلاط البورسلين',
+    phases: [
+      {
+        id: 'porcelain_material', name_ar: 'مواصفات المادة',
+        items: [
+          { id: 'po1', ar: 'Water Absorption ≤ 0.5% (Full Vitrified)', en: 'Water absorption ≤ 0.5% (fully vitrified)', tolerance: '≤ 0.5%', required: true },
+          { id: 'po2', ar: 'Breaking Strength ≥ 1300N (للأرضيات)', en: 'Breaking strength ≥ 1300N (floors)', tolerance: '≥ 1300N', required: true },
+          { id: 'po3', ar: 'Slip Resistance R10-R13 (حسب الموقع)', en: 'Slip resistance R10–R13 per location', required: true },
+          { id: 'po4', ar: 'PEI Rating: III-V (حركة)', en: 'PEI rating III–V for traffic areas', required: true }
+        ]
+      },
+      {
+        id: 'porcelain_install', name_ar: 'التركيب',
+        items: [
+          { id: 'po5', ar: 'Adhesive: Flexible Cement-Based (C2S1 or C2S2)', en: 'Adhesive: flexible cement-based C2S1 or C2S2', required: true },
+          { id: 'po6', ar: 'Back Butter ضروري للبلاطات ≥ 60×60cm', en: 'Back buttering required for tiles ≥ 60×60cm', required: true },
+          { id: 'po7', ar: 'Joint Width: 2-3mm داخلي، 5mm خارجي', en: 'Joint width: 2-3mm indoor, 5mm outdoor', required: true },
+          { id: 'po8', ar: 'Lippage: ≤ 1.5mm (Rectified Tiles)', en: 'Lippage ≤ 1.5mm for rectified tiles', tolerance: '≤ 1.5mm', required: true },
+          { id: 'po9', ar: 'Grout: Flexible Epoxy Grout للمناطق الرطبة', en: 'Flexible epoxy grout for wet areas', required: true }
+        ]
+      }
+    ]
+  },
+  external_stone: {
+    id: 'external_stone', icon: '🪨',
+    name_ar: 'أعمال الحجر الخارجي', name_en: 'External Stone Cladding',
+    qcs_ref: 'QCS 2024 — Section 5, Part 10 + CWCT Guidelines',
+    description_ar: 'استلام أعمال الكسوة الحجرية الخارجية',
+    phases: [
+      {
+        id: 'stone_material', name_ar: 'أنواع الحجر',
+        items: [
+          { id: 'es1', ar: 'Certificate of Origin: Limestone/Sandstone/Granite', en: 'Certificate of origin for stone type', required: true },
+          { id: 'es2', ar: 'Thickness: ≥ 30mm مع Mechanical Anchors', en: 'Thickness ≥ 30mm with mechanical anchors', required: true },
+          { id: 'es3', ar: 'Thickness: ≥ 20mm إذا adhesive فقط (≤ 3.5m)', en: 'Min 20mm if adhesive only (height ≤ 3.5m)', required: true }
+        ]
+      },
+      {
+        id: 'fixing_system', name_ar: 'نظام التثبيت',
+        items: [
+          { id: 'es4', ar: 'Mechanical Anchors (SS316): 4 pins per Stone', en: 'SS316 mechanical anchors: 4 pins per stone', required: true },
+          { id: 'es5', ar: 'Anchor Pull-Out Test: ≥ 3× التحميل التصميمي', en: 'Anchor pull-out test ≥ 3× design load', required: true },
+          { id: 'es6', ar: 'Cavity Width: 40-80mm للتهوية', en: 'Cavity width 40–80mm for ventilation', required: true },
+          { id: 'es7', ar: 'Weepholes كل 600mm أفقياً', en: 'Weepholes every 600mm horizontally', required: true },
+          { id: 'es8', ar: 'Expansion Joints كل 6m أفقياً وعمودياً', en: 'Expansion joints every 6m horizontal and vertical', required: true }
+        ]
+      },
+      {
+        id: 'final_stone', name_ar: 'الاستلام النهائي',
+        items: [
+          { id: 'es9', ar: 'Plumb & Level: ≤ 5mm per 3m ارتفاع', en: 'Plumb & level ≤ 5mm per 3m height', tolerance: '5mm/3m', required: true },
+          { id: 'es10', ar: 'Joint Uniformity: ±2mm', en: 'Joint uniformity ±2mm', tolerance: '±2mm', required: true },
+          { id: 'es11', ar: 'Sealant: نوع وحركة مطابقة للمواصفات', en: 'Sealant type and movement per spec', required: true },
+          { id: 'es12', ar: 'Water Penetration Test: لا تسريب بعد 15 دقيقة رش', en: 'Water penetration test: no leakage after 15 min spray', required: true },
+          { id: 'es13', ar: 'Colour Matching مع الـ Approved Sample', en: 'Colour matching with approved sample', required: true }
+        ]
+      }
+    ]
+  }
+};
+
+// =====================================================================
+// STATE MANAGEMENT
+// =====================================================================
+const state = {
+  currentWork: null,
+  itemStatuses: {}, // { workId: { itemId: 'pass'|'fail'|'na'|null } }
+  collapsePhases: {}
+};
+
+// =====================================================================
+// HELPERS
+// =====================================================================
+function countItems(workId) {
+  const work = WORK_ACCEPTANCE_DATA[workId];
+  let total = 0;
+  work.phases.forEach(p => total += p.items.length);
+  return total;
+}
+
+function getWorkStats(workId) {
+  const work = WORK_ACCEPTANCE_DATA[workId];
+  const statuses = state.itemStatuses[workId] || {};
+  let total = 0, passed = 0, failed = 0, na = 0;
+  work.phases.forEach(p => p.items.forEach(item => {
+    total++;
+    const s = statuses[item.id];
+    if (s === 'pass') passed++;
+    else if (s === 'fail') failed++;
+    else if (s === 'na') na++;
+  }));
+  const checked = passed + failed + na;
+  const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+  return { total, passed, failed, na, checked, pct };
+}
+
+function getWorkResult(workId) {
+  const work = WORK_ACCEPTANCE_DATA[workId];
+  const statuses = state.itemStatuses[workId] || {};
+  const { total, failed, checked } = getWorkStats(workId);
+  if (checked < total) return 'pending';
+  // Check if any REQUIRED item failed
+  let reqFailed = false;
+  work.phases.forEach(p => p.items.forEach(item => {
+    if (item.required && statuses[item.id] === 'fail') reqFailed = true;
+  }));
+  if (reqFailed || failed > 0) return 'fail';
+  return 'pass';
+}
+
+function sanitize(str) {
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML;
+}
+
+// =====================================================================
+// RENDER SIDEBAR
+// =====================================================================
+function renderSidebar() {
+  const list = document.getElementById('sidebarList');
+  list.innerHTML = '';
+  Object.values(WORK_ACCEPTANCE_DATA).forEach(work => {
+    const stats = getWorkStats(work.id);
+    const item = document.createElement('div');
+    item.className = 'sidebar-item' + (state.currentWork === work.id ? ' active' : '');
+    item.onclick = () => openWork(work.id);
+    item.innerHTML = `
+      <span class="item-icon">${work.icon}</span>
+      <div class="item-info">
+        <div class="item-name-ar">${sanitize(work.name_ar)}</div>
+        <div class="item-name-en">${sanitize(work.name_en)}</div>
+      </div>
+      <div class="sidebar-progress">
+        <span class="progress-pct">${stats.pct}%</span>
+        <div class="progress-mini"><div class="progress-mini-fill" style="width:${stats.pct}%"></div></div>
+      </div>`;
+    list.appendChild(item);
+  });
+}
+
+// =====================================================================
+// RENDER SELECTION GRID
+// =====================================================================
+function renderSelectionGrid() {
+  const grid = document.getElementById('selectionGrid');
+  grid.innerHTML = '';
+  Object.values(WORK_ACCEPTANCE_DATA).forEach(work => {
+    const stats = getWorkStats(work.id);
+    const result = getWorkResult(work.id);
+    let cardClass = 'work-card';
+    if (stats.checked > 0 && result === 'pass') cardClass += ' completed';
+    else if (stats.checked > 0) cardClass += ' started';
+
+    const card = document.createElement('div');
+    card.className = cardClass;
+    card.onclick = () => openWork(work.id);
+    card.innerHTML = `
+      <span class="card-icon">${work.icon}</span>
+      <div class="card-names">
+        <div class="card-name-ar">${sanitize(work.name_ar)}</div>
+        <div class="card-name-en">${sanitize(work.name_en)}</div>
+      </div>
+      <div class="card-meta">
+        <span class="card-qcs">${sanitize(work.qcs_ref.split(' — ')[0])}</span>
+        <span class="card-badge">${countItems(work.id)} بند</span>
+      </div>
+      <div class="card-progress ${stats.checked > 0 ? 'visible' : ''}">
+        <div class="card-progress-bar">
+          <div class="card-progress-fill" style="width:${stats.pct}%"></div>
+        </div>
+        <div class="card-progress-label">${stats.checked}/${stats.total} — ${stats.pct}%</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+// =====================================================================
+// OPEN WORK (CHECKLIST VIEW)
+// =====================================================================
+function openWork(workId) {
+  state.currentWork = workId;
+  const work = WORK_ACCEPTANCE_DATA[workId];
+  if (!state.itemStatuses[workId]) state.itemStatuses[workId] = {};
+
+  // Show checklist view, hide selection
+  document.getElementById('selectionView').style.display = 'none';
+  const cv = document.getElementById('checklistView');
+  cv.classList.add('active');
+
+  // Show back button
+  document.getElementById('btnBack').classList.add('visible');
+
+  renderWorkHeader(work);
+  renderMainProgress(workId);
+  renderPhases(work);
+  renderResult(workId);
+  renderSidebar();
+}
+
+// ===== WORK HEADER =====
+function renderWorkHeader(work) {
+  const stats = getWorkStats(work.id);
+  const header = document.getElementById('workHeader');
+  header.innerHTML = `
+    <div class="work-header-info">
+      <span class="work-header-icon">${work.icon}</span>
+      <div class="work-header-text">
+        <h2>${sanitize(work.name_ar)} — ${sanitize(work.name_en)}</h2>
+        <p>${sanitize(work.qcs_ref)} | ${sanitize(work.description_ar)}</p>
+      </div>
+    </div>
+    <div class="work-header-stats">
+      <div class="stat-box">
+        <div class="stat-num">${stats.total}</div>
+        <div class="stat-label">إجمالي البنود</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num green">${stats.passed}</div>
+        <div class="stat-label">اجتازت</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num orange">${stats.failed}</div>
+        <div class="stat-label">فشلت</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">${stats.total - stats.checked}</div>
+        <div class="stat-label">لم تُفحص</div>
+      </div>
+    </div>`;
+}
+
+// ===== MAIN PROGRESS =====
+function renderMainProgress(workId) {
+  const stats = getWorkStats(workId);
+  const section = document.getElementById('mainProgress');
+  section.innerHTML = `
+    <div class="main-progress-header">
+      <span>تقدم الفحص</span>
+      <span class="main-progress-pct">${stats.pct}%</span>
+    </div>
+    <div class="main-progress-bar">
+      <div class="main-progress-fill" style="width:${stats.pct}%"></div>
+    </div>
+    <div class="progress-labels">
+      <span>${stats.checked} بند تم فحصه</span>
+      <span>${stats.total - stats.checked} بند متبقٍ</span>
+    </div>`;
+}
+
+// ===== PHASES =====
+function renderPhases(work) {
+  const list = document.getElementById('phaseList');
+  list.innerHTML = '';
+  work.phases.forEach(phase => {
+    const collapsed = state.collapsePhases[phase.id] ? 'collapsed' : '';
+    const section = document.createElement('div');
+    section.className = `phase-section ${collapsed}`;
+    section.id = `phase-${phase.id}`;
+
+    const completedItems = phase.items.filter(i => {
+      const s = (state.itemStatuses[work.id] || {})[i.id];
+      return s === 'pass' || s === 'fail' || s === 'na';
+    }).length;
+
+    section.innerHTML = `
+      <div class="phase-header" onclick="window.QS.togglePhase('${phase.id}')">
+        <h3>${sanitize(phase.name_ar)}</h3>
+        <div class="phase-toggle">
+          <span>${completedItems}/${phase.items.length} بند</span>
+          <span class="phase-toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="phase-items" id="phase-items-${phase.id}"></div>`;
+    list.appendChild(section);
+
+    const itemsContainer = section.querySelector(`#phase-items-${phase.id}`);
+    phase.items.forEach(item => {
+      itemsContainer.appendChild(renderItem(work.id, item));
+    });
+  });
+}
+
+// ===== SINGLE ITEM =====
+function renderItem(workId, item) {
+  const statuses = state.itemStatuses[workId] || {};
+  const status = statuses[item.id] || null;
+  const row = document.createElement('div');
+  row.className = 'checklist-item';
+  row.id = `item-row-${item.id}`;
+
+  const passActive = status === 'pass' ? 'style="outline:2px solid var(--success)"' : '';
+  const failActive = status === 'fail' ? 'style="outline:2px solid var(--danger)"' : '';
+  const naActive = status === 'na' ? 'style="outline:2px solid var(--text-light)"' : '';
+
+  const badgeHtml = status
+    ? `<span class="item-status-badge ${status}">${status === 'pass' ? '✓ مطابق' : status === 'fail' ? '✕ مرفوض' : '— N/A'}</span>`
+    : '';
+
+  row.innerHTML = `
+    <div class="item-checkbox">
+      <input type="checkbox" id="cb-${item.id}" ${status === 'pass' ? 'checked' : ''} 
+        class="${status === 'fail' ? 'failed' : ''}" readonly>
+    </div>
+    <div class="item-content">
+      <div class="item-ar">${sanitize(item.ar)}</div>
+      <div class="item-en">${sanitize(item.en)}</div>
+      <div class="item-meta">
+        ${item.qcs ? `<span class="item-qcs">${sanitize(item.qcs)}</span>` : ''}
+        ${item.tolerance ? `<span class="item-tolerance">⚡ ${sanitize(item.tolerance)}</span>` : ''}
+        ${item.required ? '<span class="item-required">إلزامي</span>' : ''}
+        ${badgeHtml}
+      </div>
+    </div>
+    <div class="item-actions">
+      <button class="btn-pass" ${passActive} onclick="window.QS.setItemStatus('${workId}','${item.id}','pass')">✓ مطابق</button>
+      <button class="btn-fail" ${failActive} onclick="window.QS.setItemStatus('${workId}','${item.id}','fail')">✕ مرفوض</button>
+      <button class="btn-na" ${naActive} onclick="window.QS.setItemStatus('${workId}','${item.id}','na')">N/A</button>
+    </div>`;
+  return row;
+}
+
+// ===== RESULT SECTION =====
+function renderResult(workId) {
+  const work = WORK_ACCEPTANCE_DATA[workId];
+  const statuses = state.itemStatuses[workId] || {};
+  const stats = getWorkStats(workId);
+  const result = getWorkResult(workId);
+
+  const resultLabels = {
+    pass: '✅ مقبول — جميع البنود مطابقة لـ QCS 2024',
+    fail: '❌ مرفوض — يوجد بنود غير مطابقة تستوجب المعالجة',
+    pending: '⏳ قيد الفحص — لم يكتمل الفحص بعد'
+  };
+
+  // Collect failed items
+  const failedItems = [];
+  work.phases.forEach(p => p.items.forEach(item => {
+    if (statuses[item.id] === 'fail') failedItems.push(item);
+  }));
+
+  const section = document.getElementById('resultSection');
+  section.innerHTML = `
+    <h3>نتيجة الاستلام</h3>
+    <div class="result-status ${result}">${resultLabels[result]}</div>
+    <div class="result-grid">
+      <div class="result-item">
+        <div class="result-item-num blue">${stats.total}</div>
+        <div class="result-item-label">إجمالي البنود</div>
+      </div>
+      <div class="result-item">
+        <div class="result-item-num green">${stats.passed}</div>
+        <div class="result-item-label">بند اجتاز</div>
+      </div>
+      <div class="result-item">
+        <div class="result-item-num red">${stats.failed}</div>
+        <div class="result-item-label">بند فشل</div>
+      </div>
+      <div class="result-item">
+        <div class="result-item-num orange">${stats.total - stats.checked}</div>
+        <div class="result-item-label">لم يُفحص</div>
+      </div>
+    </div>
+    ${failedItems.length > 0 ? `
+      <div class="failed-items-list">
+        <div class="failed-header">⚠️ البنود المرفوضة (${failedItems.length} بند)</div>
+        ${failedItems.map(i => `<div class="failed-item-row">${sanitize(i.ar)}</div>`).join('')}
+      </div>` : ''}
+    <div class="action-row">
+      <button class="btn-primary" onclick="window.QS.resetWork('${workId}')">🔄 إعادة تعيين</button>
+      <button class="btn-secondary" onclick="window.print()">🖨️ طباعة</button>
+    </div>`;
+}
+
+// =====================================================================
+// PUBLIC API — window.QS
+// =====================================================================
+window.QS = {
+  setItemStatus(workId, itemId, status) {
+    if (!state.itemStatuses[workId]) state.itemStatuses[workId] = {};
+    // Toggle if same status clicked
+    if (state.itemStatuses[workId][itemId] === status) {
+      delete state.itemStatuses[workId][itemId];
+    } else {
+      state.itemStatuses[workId][itemId] = status;
+    }
+    // Re-render item row
+    const work = WORK_ACCEPTANCE_DATA[workId];
+    let foundItem = null;
+    work.phases.forEach(p => p.items.forEach(i => { if (i.id === itemId) foundItem = i; }));
+    if (foundItem) {
+      const oldRow = document.getElementById(`item-row-${itemId}`);
+      if (oldRow) oldRow.replaceWith(renderItem(workId, foundItem));
+    }
+    renderWorkHeader(work);
+    renderMainProgress(workId);
+    renderResult(workId);
+    renderSidebar();
+    renderSelectionGrid();
+    // Update phase header counter
+    work.phases.forEach(phase => {
+      const items = phase.items;
+      if (!items.find(i => i.id === itemId)) return;
+      const completedItems = items.filter(i => {
+        const s = (state.itemStatuses[workId] || {})[i.id];
+        return s === 'pass' || s === 'fail' || s === 'na';
+      }).length;
+      const toggle = document.querySelector(`#phase-${phase.id} .phase-toggle span`);
+      if (toggle) toggle.textContent = `${completedItems}/${items.length} بند`;
+    });
+  },
+
+  togglePhase(phaseId) {
+    state.collapsePhases[phaseId] = !state.collapsePhases[phaseId];
+    const section = document.getElementById(`phase-${phaseId}`);
+    if (section) section.classList.toggle('collapsed');
+  },
+
+  goBack() {
+    state.currentWork = null;
+    document.getElementById('selectionView').style.display = '';
+    document.getElementById('checklistView').classList.remove('active');
+    document.getElementById('btnBack').classList.remove('visible');
+    renderSidebar();
+    renderSelectionGrid();
+  },
+
+  resetWork(workId) {
+    if (!confirm('هل تريد مسح جميع نتائج هذا العمل؟')) return;
+    state.itemStatuses[workId] = {};
+    openWork(workId);
+  },
+
+  toggleSidebar() {
+    const sb = document.getElementById('sidebar');
+    const ov = document.getElementById('sidebarOverlay');
+    sb.classList.toggle('open');
+    ov.classList.toggle('active');
+  },
+
+  closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('active');
+  }
+};
+
+// =====================================================================
+// INIT
+// =====================================================================
+(function init() {
+  // Set today's date
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('inspectionDate').value = today;
+
+  renderSidebar();
+  renderSelectionGrid();
+})();
+</script>
+</body>
+</html>
