@@ -883,7 +883,48 @@ body {
   .verdict-banner { break-inside: avoid; }
   .item-note { display: none !important; }
 }
+
+/* ===== PHASE 3: Export Button Styles ===== */
+.btn-pdf {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 18px; border-radius: var(--radius); border: none;
+  font-family: var(--font); font-size: 0.82rem; font-weight: 700;
+  cursor: pointer; transition: all .2s;
+  background: rgba(231,76,60,0.10); color: #c0392b;
+  border: 1.5px solid rgba(231,76,60,0.3);
+}
+.btn-pdf:hover { background: #c0392b; color: #fff; border-color: #c0392b; }
+
+.btn-word {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 18px; border-radius: var(--radius); border: none;
+  font-family: var(--font); font-size: 0.82rem; font-weight: 700;
+  cursor: pointer; transition: all .2s;
+  background: rgba(52,152,219,0.10); color: #2980b9;
+  border: 1.5px solid rgba(52,152,219,0.3);
+}
+.btn-word:hover { background: #2980b9; color: #fff; border-color: #2980b9; }
+
+.export-spinner {
+  display: inline-block; width: 13px; height: 13px;
+  border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff;
+  border-radius: 50%; animation: _spin .7s linear infinite;
+}
+@keyframes _spin { to { transform: rotate(360deg); } }
+
+@media print {
+  .btn-pdf, .btn-word { display: none !important; }
+  .verdict-banner { border: 2px solid #333 !important; break-inside: avoid; }
+  .phase-container { page-break-inside: avoid; }
+  .item-row { page-break-inside: avoid; }
+  @page { margin: 15mm; }
+}
 </style>
+<!-- ===== PHASE 3: Export Libraries ===== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script src="https://unpkg.com/docx@8.5.0/build/index.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 </head>
 <body>
 
@@ -1889,6 +1930,8 @@ function renderResult(workId) {
       <button class="btn-save" onclick="window.QS.saveProgress()">💾 حفظ مؤقت</button>
       ${ev.verdict === 'ACCEPTED' || ev.verdict === 'CONDITIONAL' ?
         `<button class="btn-approve" onclick="window.QS.approveAcceptance('${workId}')">✅ اعتماد الاستلام</button>` : ''}
+      <button class="btn-pdf"  id="btn-export-pdf"  onclick="window.QS.exportPDF('${workId}')">📄 تصدير PDF</button>
+      <button class="btn-word" id="btn-export-word" onclick="window.QS.exportWord('${workId}')">📝 تصدير Word</button>
       <button class="btn-secondary" onclick="window.print()">🖨️ طباعة</button>
     </div>`;
 }
@@ -1983,6 +2026,362 @@ window.QS = {
       showToast(`✅ تم اعتماد استلام ${work.name_ar} بنجاح`);
     }
   },
+
+  // ============================================================
+  // PHASE 3 — exportPDF
+  // ============================================================
+  exportPDF(workId) {
+    const btnPDF = document.getElementById('btn-export-pdf');
+    if (btnPDF) { btnPDF.innerHTML = '<span class="export-spinner"></span> جاري...'; btnPDF.disabled = true; }
+    setTimeout(() => {
+      try {
+        const { jsPDF } = window.jspdf;
+        if (!jsPDF) { showToast('⚠️ مكتبة jsPDF لم تُحمَّل — تحقق من الاتصال'); return; }
+
+        const work     = WORK_ACCEPTANCE_DATA[workId];
+        const statuses = state.itemStatuses[workId] || {};
+        const notes    = state.itemNotes[workId]    || {};
+        const proj     = document.getElementById('projectName').value    || '—';
+        const eng      = document.getElementById('engineerName').value   || '—';
+        const dt       = document.getElementById('inspectionDate').value || new Date().toISOString().slice(0,10);
+        const phaseVal = document.getElementById('projectPhase').value   || '—';
+        const ev       = evaluateAcceptance(workId);
+
+        const allItems = [];
+        work.phases.forEach(p => p.items.forEach(i => allItems.push({ ...i, phase_ar: p.name_ar })));
+
+        const passCount  = allItems.filter(i => statuses[i.id] === 'pass').length;
+        const failCount  = allItems.filter(i => statuses[i.id] === 'fail').length;
+        const naCount    = allItems.filter(i => !statuses[i.id] || statuses[i.id] === 'na').length;
+        const failedItems = allItems.filter(i => statuses[i.id] === 'fail');
+
+        const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+        // ── Header ──────────────────────────────────────────
+        doc.setFillColor(15, 37, 64);
+        doc.rect(0, 0, 210, 32, 'F');
+        doc.setDrawColor(200, 168, 75);
+        doc.setLineWidth(1.2);
+        doc.line(0, 32, 210, 32);
+        doc.setTextColor(200, 168, 75);
+        doc.setFontSize(17);
+        doc.setFont('helvetica', 'bold');
+        doc.text('QatarSpec Pro', 105, 13, { align: 'center' });
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'normal');
+        doc.text('Work Acceptance Certificate  |  \u0634\u0647\u0627\u062f\u0629 \u0627\u0633\u062a\u0644\u0627\u0645 \u0627\u0644\u0623\u0639\u0645\u0627\u0644', 105, 23, { align: 'center' });
+        doc.setTextColor(170, 195, 215);
+        doc.setFontSize(8);
+        doc.text('qatar-standers.vercel.app  |  QCS 2024  |  KAHRAMAA 2024  |  Ashghal RDM 2023', 105, 29, { align: 'center' });
+
+        // ── Work Type Banner ─────────────────────────────────
+        const vColor = ev.verdict === 'ACCEPTED' ? [46,204,113] : ev.verdict === 'CONDITIONAL' ? [243,156,18] : [231,76,60];
+        doc.setFillColor(...vColor);
+        doc.roundedRect(10, 36, 190, 18, 3, 3, 'F');
+        doc.setTextColor(255,255,255);
+        doc.setFontSize(13);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`${work.name_ar}   |   ${work.name_en}`, 105, 44, { align: 'center' });
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        doc.text(work.qcs_ref, 105, 51, { align: 'center' });
+
+        // ── Project Info Table ───────────────────────────────
+        doc.autoTable({
+          startY: 58,
+          head: [['\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062a', '\u0627\u0644\u0642\u064a\u0645\u0629', 'Field', 'Value']],
+          body: [
+            ['\u0627\u0644\u0645\u0634\u0631\u0648\u0639', proj, 'Project', proj],
+            ['\u0645\u0647\u0646\u062f\u0633 \u0627\u0644\u062c\u0648\u062f\u0629', eng, 'QC Engineer', eng],
+            ['\u0627\u0644\u062a\u0627\u0631\u064a\u062e', dt, 'Date', dt],
+            ['\u0627\u0644\u0645\u0631\u062d\u0644\u0629 / \u0627\u0644\u0645\u0648\u0642\u0639', phaseVal, 'Phase / Location', phaseVal],
+            ['\u0646\u0648\u0639 \u0627\u0644\u0639\u0645\u0644', work.name_ar, 'Work Type', work.name_en],
+          ],
+          styles: { font: 'helvetica', fontSize: 9, halign: 'right', cellPadding: 3.5 },
+          headStyles: { fillColor: [26,58,92], textColor: [255,255,255], fontStyle: 'bold' },
+          columnStyles: { 0:{fontStyle:'bold',cellWidth:35,fillColor:[240,244,248]}, 1:{cellWidth:60}, 2:{fontStyle:'bold',cellWidth:35,fillColor:[240,244,248]}, 3:{cellWidth:60} },
+          alternateRowStyles: { fillColor: [248,250,252] },
+          margin: { left:10, right:10 },
+        });
+
+        // ── Verdict Summary ──────────────────────────────────
+        const sumY = doc.lastAutoTable.finalY + 6;
+        doc.setFillColor(...vColor);
+        doc.roundedRect(10, sumY, 190, 22, 4, 4, 'F');
+        doc.setTextColor(255,255,255);
+        doc.setFontSize(13);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`${ev.icon || ''} ${ev.verdict_ar} — ${ev.verdict}`, 105, sumY + 8, { align: 'center' });
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`\u0646\u0633\u0628\u0629 \u0627\u0644\u0627\u0645\u062a\u062b\u0627\u0644: ${ev.compliance}%   |   \u2705 ${passCount}   |   \u274c ${failCount}   |   \u26aa ${naCount}`, 105, sumY + 17, { align: 'center' });
+
+        // ── Checklist Table ──────────────────────────────────
+        const tableBody = allItems.map((item, idx) => {
+          const s   = statuses[item.id];
+          const res = s === 'pass' ? '\u2705 \u0645\u0637\u0627\u0628\u0642' : s === 'fail' ? '\u274c \u063a\u064a\u0631 \u0645\u0637\u0627\u0628\u0642' : '\u26aa —';
+          return [ String(idx+1), item.phase_ar, item.ar, item.qcs||'', item.tolerance||'', res, notes[item.id]||'' ];
+        });
+
+        doc.autoTable({
+          startY: sumY + 28,
+          head: [['#','\u0627\u0644\u0645\u0631\u062d\u0644\u0629','\u0627\u0644\u0628\u0646\u062f','\u0627\u0644\u0645\u0631\u062c\u0639','\u0627\u0644\u062a\u0633\u0627\u0645\u062d','\u0627\u0644\u0646\u062a\u064a\u062c\u0629','\u0627\u0644\u0645\u0644\u0627\u062d\u0638\u0629']],
+          body: tableBody,
+          styles: { font: 'helvetica', fontSize: 7.5, halign: 'right', cellPadding: 2.5, overflow: 'linebreak' },
+          headStyles: { fillColor: [26,58,92], textColor: [255,255,255], fontStyle: 'bold', fontSize: 8 },
+          columnStyles: { 0:{cellWidth:7,halign:'center'}, 1:{cellWidth:24}, 2:{cellWidth:54}, 3:{cellWidth:22}, 4:{cellWidth:18}, 5:{cellWidth:22,halign:'center',fontStyle:'bold'}, 6:{cellWidth:33} },
+          alternateRowStyles: { fillColor: [248,250,252] },
+          margin: { left:10, right:10 },
+          didParseCell(data) {
+            if (data.column.index === 5 && data.section === 'body') {
+              const t = data.cell.raw || '';
+              if (t.includes('\u2705')) data.cell.styles.textColor = [39,174,96];
+              else if (t.includes('\u274c')) data.cell.styles.textColor = [192,57,43];
+            }
+            if (data.section === 'body') {
+              const item = allItems[data.row.index];
+              if (item && item.required && statuses[item.id] === 'fail') data.cell.styles.fillColor = [255,240,240];
+            }
+          }
+        });
+
+        // ── Non-Conformances Section ─────────────────────────
+        if (failedItems.length > 0) {
+          let ncY = doc.lastAutoTable.finalY + 8;
+          if (ncY > 252) { doc.addPage(); ncY = 15; }
+          doc.setFillColor(192, 57, 43);
+          doc.roundedRect(10, ncY, 190, 8, 2, 2, 'F');
+          doc.setTextColor(255,255,255);
+          doc.setFontSize(9.5);
+          doc.setFont('helvetica', 'bold');
+          doc.text(`\u0628\u0646\u0648\u062f \u063a\u064a\u0631 \u0645\u0637\u0627\u0628\u0642\u0629 — Non-Conformances (${failedItems.length})`, 105, ncY + 5.5, { align: 'center' });
+          doc.autoTable({
+            startY: ncY + 10,
+            head: [['#','\u0627\u0644\u0628\u0646\u062f','\u0627\u0644\u0645\u0631\u062c\u0639','\u0625\u0644\u0632\u0627\u0645\u064a','\u0627\u0644\u0645\u0644\u0627\u062d\u0638\u0629']],
+            body: failedItems.map((item, idx) => [
+              String(idx+1), item.ar, item.qcs||'',
+              item.required ? '\u2022 \u0645\u0637\u0644\u0648\u0628' : '\u0627\u062e\u062a\u064a\u0627\u0631\u064a',
+              notes[item.id]||'\u0644\u0627 \u0645\u0644\u0627\u062d\u0638\u0627\u062a'
+            ]),
+            styles: { font: 'helvetica', fontSize: 8.5, halign: 'right', cellPadding: 3 },
+            headStyles: { fillColor: [169,50,38], textColor: [255,255,255], fontStyle: 'bold' },
+            columnStyles: { 0:{cellWidth:8,halign:'center'}, 1:{cellWidth:68}, 2:{cellWidth:30}, 3:{cellWidth:20,halign:'center'}, 4:{cellWidth:54} },
+            alternateRowStyles: { fillColor: [255,248,248] },
+            margin: { left:10, right:10 },
+          });
+        }
+
+        // ── Signature Section ────────────────────────────────
+        let sigY = (doc.lastAutoTable ? doc.lastAutoTable.finalY : 220) + 14;
+        if (sigY > 258) { doc.addPage(); sigY = 20; }
+        doc.setDrawColor(180,180,180);
+        doc.setLineWidth(0.5);
+        doc.line(15, sigY, 92, sigY);
+        doc.line(118, sigY, 195, sigY);
+        doc.setTextColor(100,100,100);
+        doc.setFontSize(8.5);
+        doc.setFont('helvetica', 'normal');
+        doc.text('\u0645\u0647\u0646\u062f\u0633 \u0627\u0644\u062c\u0648\u062f\u0629 / QC Engineer', 53, sigY + 5, { align: 'center' });
+        doc.text('\u0627\u0644\u0627\u0633\u062a\u0634\u0627\u0631\u064a / Consultant', 156, sigY + 5, { align: 'center' });
+        doc.text(eng, 53, sigY + 10, { align: 'center' });
+
+        // ── Footer + Watermark ───────────────────────────────
+        const totalPages = doc.internal.getNumberOfPages();
+        for (let p = 1; p <= totalPages; p++) {
+          doc.setPage(p);
+          if (p === 1) {
+            doc.setTextColor(220, 228, 235);
+            doc.setFontSize(40);
+            doc.setFont('helvetica', 'bold');
+            doc.text('OFFICIAL INSPECTION RECORD', 105, 165, { align: 'center', angle: 35 });
+          }
+          doc.setFillColor(15, 37, 64);
+          doc.rect(0, 285, 210, 12, 'F');
+          doc.setDrawColor(200,168,75);
+          doc.setLineWidth(0.6);
+          doc.line(0, 285, 210, 285);
+          doc.setTextColor(200,168,75);
+          doc.setFontSize(7.5);
+          doc.setFont('helvetica', 'bold');
+          doc.text('QatarSpec Pro', 14, 291);
+          doc.setTextColor(200,200,200);
+          doc.setFont('helvetica', 'normal');
+          doc.text('qatar-standers.vercel.app  |  QCS 2024  |  KAHRAMAA 2024  |  Ashghal RDM 2023', 105, 291, { align: 'center' });
+          doc.setTextColor(150,170,190);
+          doc.text(`\u0635\u0641\u062d\u0629 ${p} / ${totalPages}`, 196, 291, { align: 'right' });
+        }
+
+        doc.save(`WA_${workId}_${dt}.pdf`);
+        showToast(`📄 PDF جاهز: WA_${workId}_${dt}.pdf`);
+
+      } catch (err) {
+        console.error('PDF Error:', err);
+        showToast('⚠️ خطأ PDF: ' + err.message);
+      } finally {
+        if (btnPDF) { btnPDF.innerHTML = '📄 تصدير PDF'; btnPDF.disabled = false; }
+      }
+    }, 50);
+  },
+
+  // ============================================================
+  // PHASE 3 — exportWord
+  // ============================================================
+  async exportWord(workId) {
+    const btnWord = document.getElementById('btn-export-word');
+    if (btnWord) { btnWord.innerHTML = '<span class="export-spinner"></span> جاري...'; btnWord.disabled = true; }
+    try {
+      if (!window.docx) { showToast('⚠️ مكتبة docx لم تُحمَّل — تحقق من الاتصال'); return; }
+
+      const { Document, Packer, Paragraph, Table, TableRow, TableCell,
+              TextRun, AlignmentType, WidthType, HeadingLevel, ShadingType, VerticalAlign } = window.docx;
+
+      const work     = WORK_ACCEPTANCE_DATA[workId];
+      const statuses = state.itemStatuses[workId] || {};
+      const notes    = state.itemNotes[workId]    || {};
+      const proj     = document.getElementById('projectName').value    || '—';
+      const eng      = document.getElementById('engineerName').value   || '—';
+      const dt       = document.getElementById('inspectionDate').value || new Date().toISOString().slice(0,10);
+      const phaseVal = document.getElementById('projectPhase').value   || '—';
+      const ev       = evaluateAcceptance(workId);
+
+      const allItems = [];
+      work.phases.forEach(p => p.items.forEach(i => allItems.push({ ...i, phase_ar: p.name_ar })));
+
+      const passCount  = allItems.filter(i => statuses[i.id] === 'pass').length;
+      const failCount  = allItems.filter(i => statuses[i.id] === 'fail').length;
+      const failedItems = allItems.filter(i => statuses[i.id] === 'fail');
+
+      const vHex = ev.verdict === 'ACCEPTED' ? '27AE60' : ev.verdict === 'CONDITIONAL' ? 'F39C12' : 'E74C3C';
+
+      // Helper: make a table cell
+      const mkCell = (text, { bold=false, color='222222', bg=null, width=null, center=false, size=18 } = {}) => {
+        const p = new Paragraph({
+          alignment: center ? AlignmentType.CENTER : AlignmentType.RIGHT,
+          children: [new TextRun({ text: String(text||'—'), bold, color, size, font: 'Arial' })]
+        });
+        const opts = { children: [p], verticalAlign: VerticalAlign.CENTER, margins: { top:60, bottom:60, left:80, right:80 } };
+        if (width) opts.width = { size: width, type: WidthType.DXA };
+        if (bg) opts.shading = { fill: bg, type: ShadingType.CLEAR, color: 'auto' };
+        return new TableCell(opts);
+      };
+
+      // Header row factory
+      const hdrRow = (cols) => new TableRow({
+        tableHeader: true,
+        children: cols.map(([t,w]) => mkCell(t, { bold:true, color:'FFFFFF', bg:'1A3A5C', width:w, center:true }))
+      });
+
+      // Info rows
+      const infoRowsData = [
+        ['\u0627\u0644\u0645\u0634\u0631\u0648\u0639 / Project', proj],
+        ['\u0645\u0647\u0646\u062f\u0633 \u0627\u0644\u062c\u0648\u062f\u0629 / QC Engineer', eng],
+        ['\u0627\u0644\u062a\u0627\u0631\u064a\u062e / Date', dt],
+        ['\u0627\u0644\u0645\u0631\u062d\u0644\u0629 / Phase', phaseVal],
+        ['\u0646\u0648\u0639 \u0627\u0644\u0639\u0645\u0644 / Work Type', `${work.name_ar} — ${work.name_en}`],
+        ['\u0645\u0631\u062c\u0639 QCS', work.qcs_ref],
+      ];
+      const infoRows = infoRowsData.map(([label, val]) => new TableRow({ children: [
+        mkCell(label, { bold:true, bg:'F0F4F8', width:3200 }),
+        mkCell(val, { width:5200 })
+      ]}));
+
+      // Checklist rows
+      const checkRows = allItems.map((item, idx) => {
+        const s   = statuses[item.id];
+        const res = s === 'pass' ? '\u0645\u0637\u0627\u0628\u0642' : s === 'fail' ? '\u063a\u064a\u0631 \u0645\u0637\u0627\u0628\u0642' : '\u0644\u0645 \u064a\u064f\u0641\u062d\u0635';
+        const rColor = s === 'pass' ? '27AE60' : s === 'fail' ? 'C0392B' : '888888';
+        const bg = idx % 2 === 0 ? null : 'F8FAFC';
+        return new TableRow({ children: [
+          mkCell(String(idx+1), { bg, width:400, center:true, size:16 }),
+          mkCell(item.phase_ar, { bg, width:1500, size:16 }),
+          mkCell(item.ar, { bg, width:3600, bold:item.required }),
+          mkCell(item.qcs||'', { bg, width:1400, size:15 }),
+          mkCell(item.tolerance||'', { bg, width:900, size:15 }),
+          mkCell(res, { bg, color:rColor, bold:true, width:900, center:true, size:16 }),
+          mkCell(notes[item.id]||'', { bg, width:1800, size:15 }),
+        ]});
+      });
+
+      // NCR rows
+      const ncrRows = failedItems.map((item, idx) => new TableRow({ children: [
+        mkCell(String(idx+1), { width:400, center:true }),
+        mkCell(item.ar, { width:4500, bold:true }),
+        mkCell(item.qcs||'', { width:1400 }),
+        mkCell(item.required ? '\u0625\u0644\u0632\u0627\u0645\u064a' : '\u0627\u062e\u062a\u064a\u0627\u0631\u064a', { width:900, color:item.required?'C0392B':'888888', center:true }),
+        mkCell(notes[item.id]||'\u0644\u0627 \u0645\u0644\u0627\u062d\u0638\u0627\u062a', { width:3100 }),
+      ]}));
+
+      const docObj = new Document({
+        sections: [{
+          properties: { page: { margin: { top:1134, bottom:1134, left:1134, right:1134 } } },
+          children: [
+            // Title block
+            new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text:'QatarSpec Pro', bold:true, size:40, color:'1A3A5C', font:'Arial' })] }),
+            new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text:'\u0634\u0647\u0627\u062f\u0629 \u0627\u0633\u062a\u0644\u0627\u0645 \u0627\u0644\u0623\u0639\u0645\u0627\u0644  —  Work Acceptance Certificate', size:24, color:'444444', font:'Arial' })] }),
+            new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text:`${work.name_ar}  |  ${work.name_en}`, bold:true, size:28, color:'1A3A5C', font:'Arial' })] }),
+            new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text:work.qcs_ref, size:18, color:'888888', font:'Arial' })] }),
+            new Paragraph({ children:[new TextRun({ text:'' })] }),
+            // Verdict
+            new Paragraph({
+              alignment: AlignmentType.CENTER,
+              shading: { fill: vHex, type: ShadingType.CLEAR, color:'auto' },
+              children: [new TextRun({ text:`${ev.verdict_ar}  —  ${ev.verdict}  |  \u0646\u0633\u0628\u0629 \u0627\u0644\u0627\u0645\u062a\u062b\u0627\u0644: ${ev.compliance}%  |  \u2705 ${passCount}  |  \u274c ${failCount}`, bold:true, size:26, color:'FFFFFF', font:'Arial' })]
+            }),
+            new Paragraph({ children:[new TextRun({ text:'' })] }),
+            // Info table
+            new Paragraph({ children:[new TextRun({ text:'\u0645\u0639\u0644\u0648\u0645\u0627\u062a \u0627\u0644\u0645\u0634\u0631\u0648\u0639 — Project Information', bold:true, size:22, color:'1A3A5C', font:'Arial' })] }),
+            new Table({ width:{ size:100, type:WidthType.PERCENTAGE }, rows:[ hdrRow([['\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062a',3200],['\u0627\u0644\u0642\u064a\u0645\u0629',5200]]), ...infoRows ] }),
+            new Paragraph({ children:[new TextRun({ text:'' })] }),
+            // Checklist table
+            new Paragraph({ children:[new TextRun({ text:'\u0642\u0627\u0626\u0645\u0629 \u0627\u0644\u0641\u062d\u0635 \u0627\u0644\u062a\u0641\u0635\u064a\u0644\u064a\u0629 — Detailed Checklist', bold:true, size:22, color:'1A3A5C', font:'Arial' })] }),
+            new Table({ width:{ size:100, type:WidthType.PERCENTAGE }, rows:[
+              hdrRow([['#',400],['\u0627\u0644\u0645\u0631\u062d\u0644\u0629',1500],['\u0627\u0644\u0628\u0646\u062f',3600],['\u0627\u0644\u0645\u0631\u062c\u0639',1400],['\u0627\u0644\u062a\u0633\u0627\u0645\u062d',900],['\u0627\u0644\u0646\u062a\u064a\u062c\u0629',900],['\u0627\u0644\u0645\u0644\u0627\u062d\u0638\u0629',1800]]),
+              ...checkRows
+            ]}),
+            new Paragraph({ children:[new TextRun({ text:'' })] }),
+            // NCR table
+            ...(failedItems.length > 0 ? [
+              new Paragraph({ children:[new TextRun({ text:`\u0627\u0644\u0628\u0646\u0648\u062f \u063a\u064a\u0631 \u0627\u0644\u0645\u0637\u0627\u0628\u0642\u0629 — Non-Conformances (${failedItems.length})`, bold:true, size:22, color:'C0392B', font:'Arial' })] }),
+              new Table({ width:{ size:100, type:WidthType.PERCENTAGE }, rows:[
+                hdrRow([['#',400],['\u0627\u0644\u0628\u0646\u062f',4500],['\u0627\u0644\u0645\u0631\u062c\u0639',1400],['\u0627\u0644\u0646\u0648\u0639',900],['\u0627\u0644\u0645\u0644\u0627\u062d\u0638\u0629',3100]]),
+                ...ncrRows
+              ]}),
+              new Paragraph({ children:[new TextRun({ text:'' })] }),
+            ] : []),
+            // Signatures
+            new Paragraph({ children:[new TextRun({ text:'\u0627\u0644\u062a\u0648\u0642\u064a\u0639\u0627\u062a — Signatures', bold:true, size:22, color:'1A3A5C', font:'Arial' })] }),
+            new Table({ width:{ size:100, type:WidthType.PERCENTAGE }, rows:[
+              new TableRow({ children:[
+                mkCell('\u0645\u0647\u0646\u062f\u0633 \u0627\u0644\u062c\u0648\u062f\u0629 / QC Engineer', { bold:true, bg:'F0F4F8', width:4300 }),
+                mkCell('\u0627\u0644\u0627\u0633\u062a\u0634\u0627\u0631\u064a / Consultant', { bold:true, bg:'F0F4F8', width:4300 })
+              ]}),
+              new TableRow({ children:[
+                mkCell(`\u0627\u0644\u0627\u0633\u0645: ${eng}\n\u0627\u0644\u062a\u0648\u0642\u064a\u0639: _______________________`, { width:4300 }),
+                mkCell('\u0627\u0644\u0627\u0633\u0645: __________________\n\u0627\u0644\u062a\u0648\u0642\u064a\u0639: _______________________', { width:4300 })
+              ]})
+            ]}),
+            new Paragraph({ children:[new TextRun({ text:'' })] }),
+            new Paragraph({ alignment:AlignmentType.CENTER, children:[new TextRun({ text:'QatarSpec Pro  |  qatar-standers.vercel.app  |  QCS 2024  |  KAHRAMAA 2024', size:14, color:'888888', font:'Arial' })] }),
+          ]
+        }]
+      });
+
+      const blob = await Packer.toBlob(docObj);
+      saveAs(blob, `WA_${workId}_${dt}.docx`);
+      showToast(`📝 Word \u062c\u0627\u0647\u0632: WA_${workId}_${dt}.docx`);
+
+    } catch (err) {
+      console.error('Word Error:', err);
+      showToast('\u26a0\ufe0f \u062e\u0637\u0623 Word: ' + err.message);
+    } finally {
+      if (btnWord) { btnWord.innerHTML = '\ud83d\udcdd \u062a\u0635\u062f\u064a\u0631 Word'; btnWord.disabled = false; }
+    }
+  },
+
+  // ============================================================
+  // END PHASE 3
+  // ============================================================
 
   goBack() {
     state.currentWork = null;
