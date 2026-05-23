@@ -713,6 +713,176 @@ body {
   .main-layout { grid-template-columns: 1fr; }
   .sidebar { display: none !important; }
 }
+
+/* ===== PHASE 2 ADDITIONS ===== */
+
+/* Verdict Banner */
+.verdict-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  border: 2px solid;
+  transition: background 0.3s, border-color 0.3s;
+  box-shadow: var(--shadow);
+}
+.verdict-banner.hidden { display: none; }
+.verdict-banner.accepted { background: #e8f8f0; border-color: var(--success); }
+.verdict-banner.conditional { background: #fff8ec; border-color: var(--warning); }
+.verdict-banner.rejected { background: #fdf0f0; border-color: var(--danger); }
+.verdict-banner.pending { background: #eef3f9; border-color: var(--primary); }
+.verdict-icon { font-size: 2rem; flex-shrink: 0; }
+.verdict-content { flex: 1; }
+.verdict-title { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
+.verdict-title.accepted { color: var(--success); }
+.verdict-title.conditional { color: var(--warning); }
+.verdict-title.rejected { color: var(--danger); }
+.verdict-title.pending { color: var(--primary); }
+.verdict-subtitle { font-size: 0.78rem; color: var(--text-light); }
+.verdict-compliance {
+  font-size: 1.6rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  min-width: 64px;
+  text-align: center;
+}
+.verdict-compliance.accepted { color: var(--success); }
+.verdict-compliance.conditional { color: var(--warning); }
+.verdict-compliance.rejected { color: var(--danger); }
+
+/* Note Textarea */
+.item-note {
+  margin-top: 8px;
+  grid-column: 1 / -1;
+}
+.item-note.hidden { display: none; }
+.item-note textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #fde8e8;
+  border-radius: var(--radius-sm);
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.8rem;
+  color: var(--text);
+  background: #fff8f8;
+  resize: vertical;
+  min-height: 60px;
+  direction: rtl;
+}
+.item-note textarea:focus {
+  outline: none;
+  border-color: var(--danger);
+  background: #fff;
+}
+.item-note textarea::placeholder { color: var(--text-light); }
+
+/* NCR tag on item */
+.item-ncr-badge {
+  font-size: 0.6rem;
+  font-weight: 700;
+  background: #fdf0f0;
+  color: var(--danger);
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid #fde8e8;
+}
+
+/* Compliance Badge in Sidebar */
+.sidebar-verdict {
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.sidebar-verdict.accepted { background: #e8f8f0; color: var(--success); }
+.sidebar-verdict.conditional { background: #fff8ec; color: var(--warning); }
+.sidebar-verdict.rejected { background: #fdf0f0; color: var(--danger); }
+
+/* Toast */
+.qs-toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 24px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  z-index: 9999;
+  box-shadow: var(--shadow-hover);
+  opacity: 0;
+  transition: opacity 0.25s, transform 0.25s;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.qs-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Approve button */
+.btn-approve {
+  background: linear-gradient(135deg, var(--success), #27ae60);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 20px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-approve:hover { opacity: 0.88; }
+.btn-save {
+  background: var(--accent);
+  color: var(--primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 20px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-save:hover { opacity: 0.85; }
+
+/* Auto-save indicator */
+.autosave-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--success);
+  border-radius: 50%;
+  margin-right: 6px;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* checklist item layout tweak for note */
+.checklist-item { flex-wrap: wrap; }
+.item-note { width: 100%; padding: 0 20px 10px; }
+
+@media print {
+  .verdict-banner { break-inside: avoid; }
+  .item-note { display: none !important; }
+}
 </style>
 </head>
 <body>
@@ -783,6 +953,15 @@ body {
 
     <!-- CHECKLIST VIEW -->
     <div id="checklistView" class="checklist-view">
+      <!-- VERDICT BANNER (phase 2) -->
+      <div id="verdictBanner" class="verdict-banner hidden pending">
+        <div class="verdict-icon" id="verdictIcon">⏳</div>
+        <div class="verdict-content">
+          <div class="verdict-title pending" id="verdictTitle">قيد الفحص</div>
+          <div class="verdict-subtitle" id="verdictSubtitle">لم يكتمل الفحص بعد</div>
+        </div>
+        <div class="verdict-compliance pending" id="verdictCompliance">0%</div>
+      </div>
       <div class="work-header" id="workHeader"></div>
       <div class="main-progress-section" id="mainProgress"></div>
       <div id="phaseList"></div>
@@ -1250,6 +1429,7 @@ const WORK_ACCEPTANCE_DATA = {
 const state = {
   currentWork: null,
   itemStatuses: {}, // { workId: { itemId: 'pass'|'fail'|'na'|null } }
+  itemNotes: {},    // { workId: { itemId: 'note text' } }  — Phase 2
   collapsePhases: {}
 };
 
@@ -1279,24 +1459,156 @@ function getWorkStats(workId) {
   return { total, passed, failed, na, checked, pct };
 }
 
-function getWorkResult(workId) {
+// ===== PHASE 2: Full compliance-based evaluation =====
+function evaluateAcceptance(workId) {
   const work = WORK_ACCEPTANCE_DATA[workId];
   const statuses = state.itemStatuses[workId] || {};
-  const { total, failed, checked } = getWorkStats(workId);
-  if (checked < total) return 'pending';
-  // Check if any REQUIRED item failed
-  let reqFailed = false;
-  work.phases.forEach(p => p.items.forEach(item => {
-    if (item.required && statuses[item.id] === 'fail') reqFailed = true;
-  }));
-  if (reqFailed || failed > 0) return 'fail';
-  return 'pass';
+  const allItems = [];
+  work.phases.forEach(phase => phase.items.forEach(item => allItems.push(item)));
+
+  const required = allItems.filter(i => i.required);
+  const failedRequired = required.filter(i => statuses[i.id] === 'fail');
+  const inspected = allItems.filter(i => statuses[i.id] && statuses[i.id] !== 'na');
+  const passed = inspected.filter(i => statuses[i.id] === 'pass');
+  const compliance = inspected.length > 0
+    ? Math.round((passed.length / inspected.length) * 100) : 0;
+  const checkedCount = allItems.filter(i => statuses[i.id]).length;
+
+  if (checkedCount === 0) return {
+    verdict: 'PENDING', verdict_ar: 'قيد الفحص', cls: 'pending',
+    icon: '⏳', color: '#1a3a5c', compliance: 0,
+    subtitle: 'لم يبدأ الفحص بعد',
+    failedRequired: []
+  };
+  if (failedRequired.length > 0) return {
+    verdict: 'REJECTED', verdict_ar: 'مرفوض', cls: 'rejected',
+    icon: '❌', color: '#e74c3c', compliance,
+    subtitle: `${failedRequired.length} بند إلزامي غير مطابق — Non-Conformance مطلوب`,
+    failedRequired
+  };
+  if (compliance >= 95) return {
+    verdict: 'ACCEPTED', verdict_ar: 'مقبول', cls: 'accepted',
+    icon: '✅', color: '#2ecc71', compliance,
+    subtitle: `امتثال ${compliance}% — مطابق لـ QCS 2024`,
+    failedRequired: []
+  };
+  if (compliance >= 80) return {
+    verdict: 'CONDITIONAL', verdict_ar: 'مشروط', cls: 'conditional',
+    icon: '🟠', color: '#f39c12', compliance,
+    subtitle: `امتثال ${compliance}% — يتطلب معالجة البنود المرفوضة`,
+    failedRequired: []
+  };
+  return {
+    verdict: 'REJECTED', verdict_ar: 'مرفوض', cls: 'rejected',
+    icon: '❌', color: '#e74c3c', compliance,
+    subtitle: `امتثال ${compliance}% (< 80%) — مرفوض`,
+    failedRequired: []
+  };
+}
+
+// Keep getWorkResult for backward compat (used by selection grid)
+function getWorkResult(workId) {
+  const ev = evaluateAcceptance(workId);
+  if (ev.verdict === 'ACCEPTED') return 'pass';
+  if (ev.verdict === 'PENDING') return 'pending';
+  return 'fail';
 }
 
 function sanitize(str) {
   const d = document.createElement('div');
   d.textContent = str || '';
   return d.innerHTML;
+}
+
+// =====================================================================
+// PHASE 2: LOCALSTORAGE + TOAST + VERDICT BANNER FUNCTIONS
+// =====================================================================
+
+function getDateStr() {
+  return new Date().toISOString().split('T')[0];
+}
+
+function getLsKey(workId) {
+  return `qs_acceptance_${workId}_${getDateStr()}`;
+}
+
+function saveToLocalStorage(workId) {
+  try {
+    const key = getLsKey(workId);
+    const data = {
+      projectInfo: {
+        name: document.getElementById('projectName').value || '',
+        engineer: document.getElementById('engineerName').value || '',
+        date: document.getElementById('inspectionDate').value || '',
+        phase: document.getElementById('projectPhase').value || ''
+      },
+      workId,
+      results: Object.assign({}, state.itemStatuses[workId] || {}),
+      notes: Object.assign({}, state.itemNotes[workId] || {}),
+      savedAt: Date.now()
+    };
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch(e) {
+    // localStorage not available — no-op
+  }
+}
+
+function loadFromLocalStorage(workId) {
+  try {
+    const key = getLsKey(workId);
+    const raw = localStorage.getItem(key);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    // Restore results
+    if (data.results) state.itemStatuses[workId] = data.results;
+    // Restore notes
+    if (data.notes) state.itemNotes[workId] = data.notes;
+    // Restore project info fields
+    if (data.projectInfo) {
+      const pi = data.projectInfo;
+      if (pi.name) document.getElementById('projectName').value = pi.name;
+      if (pi.engineer) document.getElementById('engineerName').value = pi.engineer;
+      if (pi.date) document.getElementById('inspectionDate').value = pi.date;
+      if (pi.phase) document.getElementById('projectPhase').value = pi.phase;
+    }
+  } catch(e) { /* no-op */ }
+}
+
+function showToast(msg) {
+  let toast = document.getElementById('qsToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'qsToast';
+    toast.className = 'qs-toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+function renderVerdictBanner(workId) {
+  const ev = evaluateAcceptance(workId);
+  const banner = document.getElementById('verdictBanner');
+  if (!banner) return;
+
+  // Always show once any item touched
+  const stats = getWorkStats(workId);
+  if (stats.checked === 0) {
+    banner.className = 'verdict-banner hidden pending';
+    return;
+  }
+
+  banner.className = `verdict-banner ${ev.cls}`;
+  document.getElementById('verdictIcon').textContent = ev.icon;
+  const titleEl = document.getElementById('verdictTitle');
+  titleEl.className = `verdict-title ${ev.cls}`;
+  titleEl.textContent = `${ev.verdict_ar} — ${ev.verdict}`;
+  document.getElementById('verdictSubtitle').textContent = ev.subtitle;
+  const compEl = document.getElementById('verdictCompliance');
+  compEl.className = `verdict-compliance ${ev.cls}`;
+  compEl.textContent = `${ev.compliance}%`;
 }
 
 // =====================================================================
@@ -1367,6 +1679,10 @@ function openWork(workId) {
   state.currentWork = workId;
   const work = WORK_ACCEPTANCE_DATA[workId];
   if (!state.itemStatuses[workId]) state.itemStatuses[workId] = {};
+  if (!state.itemNotes[workId]) state.itemNotes[workId] = {};
+
+  // Phase 2: load saved progress from localStorage
+  loadFromLocalStorage(workId);
 
   // Show checklist view, hide selection
   document.getElementById('selectionView').style.display = 'none';
@@ -1379,6 +1695,7 @@ function openWork(workId) {
   renderWorkHeader(work);
   renderMainProgress(workId);
   renderPhases(work);
+  renderVerdictBanner(workId);   // Phase 2
   renderResult(workId);
   renderSidebar();
 }
@@ -1481,6 +1798,7 @@ function renderItem(workId, item) {
   const badgeHtml = status
     ? `<span class="item-status-badge ${status}">${status === 'pass' ? '✓ مطابق' : status === 'fail' ? '✕ مرفوض' : '— N/A'}</span>`
     : '';
+  const savedNote = (state.itemNotes[workId] || {})[item.id] || '';
 
   row.innerHTML = `
     <div class="item-checkbox">
@@ -1495,12 +1813,17 @@ function renderItem(workId, item) {
         ${item.tolerance ? `<span class="item-tolerance">⚡ ${sanitize(item.tolerance)}</span>` : ''}
         ${item.required ? '<span class="item-required">إلزامي</span>' : ''}
         ${badgeHtml}
+        ${savedNote ? '<span class="item-ncr-badge">📝 NCR</span>' : ''}
       </div>
     </div>
     <div class="item-actions">
       <button class="btn-pass" ${passActive} onclick="window.QS.setItemStatus('${workId}','${item.id}','pass')">✓ مطابق</button>
       <button class="btn-fail" ${failActive} onclick="window.QS.setItemStatus('${workId}','${item.id}','fail')">✕ مرفوض</button>
       <button class="btn-na" ${naActive} onclick="window.QS.setItemStatus('${workId}','${item.id}','na')">N/A</button>
+    </div>
+    <div class="item-note ${status === 'fail' ? '' : 'hidden'}" id="note-${item.id}">
+      <textarea placeholder="ملاحظات / Non-Conformance Description..."
+        onchange="window.QS.saveNote('${workId}','${item.id}',this.value)">${sanitize(savedNote)}</textarea>
     </div>`;
   return row;
 }
@@ -1510,13 +1833,17 @@ function renderResult(workId) {
   const work = WORK_ACCEPTANCE_DATA[workId];
   const statuses = state.itemStatuses[workId] || {};
   const stats = getWorkStats(workId);
-  const result = getWorkResult(workId);
+  const ev = evaluateAcceptance(workId);
 
-  const resultLabels = {
-    pass: '✅ مقبول — جميع البنود مطابقة لـ QCS 2024',
-    fail: '❌ مرفوض — يوجد بنود غير مطابقة تستوجب المعالجة',
-    pending: '⏳ قيد الفحص — لم يكتمل الفحص بعد'
-  };
+  // Verdict display mapping
+  const resultCls = { ACCEPTED: 'pass', CONDITIONAL: 'pending', REJECTED: 'fail', PENDING: 'pending' };
+  const resultLabel = ev.verdict === 'ACCEPTED'
+    ? `✅ مقبول — امتثال ${ev.compliance}%`
+    : ev.verdict === 'CONDITIONAL'
+    ? `🟠 مشروط — امتثال ${ev.compliance}% — يتطلب معالجة`
+    : ev.verdict === 'REJECTED'
+    ? `❌ مرفوض — ${ev.subtitle}`
+    : `⏳ قيد الفحص — لم يكتمل الفحص بعد`;
 
   // Collect failed items
   const failedItems = [];
@@ -1527,7 +1854,7 @@ function renderResult(workId) {
   const section = document.getElementById('resultSection');
   section.innerHTML = `
     <h3>نتيجة الاستلام</h3>
-    <div class="result-status ${result}">${resultLabels[result]}</div>
+    <div class="result-status ${resultCls[ev.verdict]}">${resultLabel}</div>
     <div class="result-grid">
       <div class="result-item">
         <div class="result-item-num blue">${stats.total}</div>
@@ -1549,10 +1876,19 @@ function renderResult(workId) {
     ${failedItems.length > 0 ? `
       <div class="failed-items-list">
         <div class="failed-header">⚠️ البنود المرفوضة (${failedItems.length} بند)</div>
-        ${failedItems.map(i => `<div class="failed-item-row">${sanitize(i.ar)}</div>`).join('')}
+        ${failedItems.map(i => {
+          const note = (state.itemNotes[workId] || {})[i.id] || '';
+          return `<div class="failed-item-row">
+            <span>${sanitize(i.ar)}</span>
+            ${note ? `<span style="font-size:0.7rem;color:var(--text-light);margin-right:8px">— ${sanitize(note)}</span>` : ''}
+          </div>`;
+        }).join('')}
       </div>` : ''}
     <div class="action-row">
       <button class="btn-primary" onclick="window.QS.resetWork('${workId}')">🔄 إعادة تعيين</button>
+      <button class="btn-save" onclick="window.QS.saveProgress()">💾 حفظ مؤقت</button>
+      ${ev.verdict === 'ACCEPTED' || ev.verdict === 'CONDITIONAL' ?
+        `<button class="btn-approve" onclick="window.QS.approveAcceptance('${workId}')">✅ اعتماد الاستلام</button>` : ''}
       <button class="btn-secondary" onclick="window.print()">🖨️ طباعة</button>
     </div>`;
 }
@@ -1579,6 +1915,7 @@ window.QS = {
     }
     renderWorkHeader(work);
     renderMainProgress(workId);
+    renderVerdictBanner(workId);   // Phase 2
     renderResult(workId);
     renderSidebar();
     renderSelectionGrid();
@@ -1593,12 +1930,58 @@ window.QS = {
       const toggle = document.querySelector(`#phase-${phase.id} .phase-toggle span`);
       if (toggle) toggle.textContent = `${completedItems}/${items.length} بند`;
     });
+    // Phase 2: auto-save to localStorage
+    saveToLocalStorage(workId);
+    showToast(`<span class="autosave-dot"></span> حُفظ تلقائياً`);
   },
 
   togglePhase(phaseId) {
     state.collapsePhases[phaseId] = !state.collapsePhases[phaseId];
     const section = document.getElementById(`phase-${phaseId}`);
     if (section) section.classList.toggle('collapsed');
+  },
+
+  saveNote(workId, itemId, text) {
+    if (!state.itemNotes[workId]) state.itemNotes[workId] = {};
+    if (text.trim()) {
+      state.itemNotes[workId][itemId] = text;
+    } else {
+      delete state.itemNotes[workId][itemId];
+    }
+    saveToLocalStorage(workId);
+  },
+
+  saveProgress() {
+    const workId = state.currentWork;
+    if (!workId) return;
+    saveToLocalStorage(workId);
+    showToast('💾 تم الحفظ المؤقت بنجاح');
+  },
+
+  approveAcceptance(workId) {
+    const ev = evaluateAcceptance(workId);
+    if (ev.verdict === 'REJECTED' || ev.verdict === 'PENDING') {
+      showToast('⚠️ لا يمكن الاعتماد — الفحص غير مكتمل أو مرفوض');
+      return;
+    }
+    const work = WORK_ACCEPTANCE_DATA[workId];
+    const eng = document.getElementById('engineerName').value || 'غير محدد';
+    const proj = document.getElementById('projectName').value || 'غير محدد';
+    const dt = document.getElementById('inspectionDate').value || getDateStr();
+    const msg = `✅ اعتماد الاستلام\n\nالعمل: ${work.name_ar}\nالمشروع: ${proj}\nالمهندس: ${eng}\nالتاريخ: ${dt}\nالحكم: ${ev.verdict_ar} (${ev.verdict})\nنسبة الامتثال: ${ev.compliance}%\n\nهل تريد اعتماد هذا الاستلام رسمياً؟`;
+    if (confirm(msg)) {
+      // حفظ سجل الاعتماد
+      try {
+        const approvalKey = `qs_approved_${workId}_${dt}_${Date.now()}`;
+        localStorage.setItem(approvalKey, JSON.stringify({
+          workId, proj, eng, dt,
+          verdict: ev.verdict, verdict_ar: ev.verdict_ar,
+          compliance: ev.compliance,
+          approvedAt: new Date().toISOString()
+        }));
+      } catch(e) {}
+      showToast(`✅ تم اعتماد استلام ${work.name_ar} بنجاح`);
+    }
   },
 
   goBack() {
@@ -1613,7 +1996,11 @@ window.QS = {
   resetWork(workId) {
     if (!confirm('هل تريد مسح جميع نتائج هذا العمل؟')) return;
     state.itemStatuses[workId] = {};
+    state.itemNotes[workId] = {};
+    // Phase 2: clear localStorage entry
+    try { localStorage.removeItem(getLsKey(workId)); } catch(e) {}
     openWork(workId);
+    showToast('🔄 تم إعادة التعيين');
   },
 
   toggleSidebar() {
@@ -1636,6 +2023,19 @@ window.QS = {
   // Set today's date
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('inspectionDate').value = today;
+
+  // Phase 2: pre-load all saved works from localStorage
+  try {
+    Object.keys(WORK_ACCEPTANCE_DATA).forEach(workId => {
+      const key = getLsKey(workId);
+      const raw = localStorage.getItem(key);
+      if (raw) {
+        const data = JSON.parse(raw);
+        if (data.results) state.itemStatuses[workId] = data.results;
+        if (data.notes) state.itemNotes[workId] = data.notes;
+      }
+    });
+  } catch(e) { /* localStorage not available */ }
 
   renderSidebar();
   renderSelectionGrid();
