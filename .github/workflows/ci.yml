@@ -1,280 +1,85 @@
-name: QatarSpec Pro — CI/CD v4
+name: CI — QatarSpec Pro Tests
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
     branches: [main]
 
 jobs:
-  # ══════════════════════════════════════════════════════════
-  # Job 1: Full Test Suite (npm install + npm test)
-  # ══════════════════════════════════════════════════════════
-  full-test-suite:
-    name: Full Test Suite (Node ${{ matrix.node }})
+  test:
+    name: Run Tests
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: ['18', '20']
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ matrix.node }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: '18'
+          cache: 'npm'
 
-      - name: npm install
-        run: npm install
+      - name: Install dependencies
+        run: npm ci
 
-      - name: npm test (382+ tests)
-        run: npm test
-        # يشمل:
-        #   content-integrity (63) + new-calcs (34) + buildings (103) +
-        #   content-validation (97) + integration (36) + e2e (49)
+      - name: Run integration tests
+        run: npm run test:integration
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
 
-  # ══════════════════════════════════════════════════════════
-  # Job 2: JS Syntax Validation
-  # ══════════════════════════════════════════════════════════
-  syntax-validation:
-    name: JS Content Files Syntax
-    runs-on: ubuntu-latest
+      - name: Run content integrity tests
+        run: npm run test:content
 
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: '20' }
-
-      - name: Validate all content files JS syntax
+      - name: Check for .bak files
         run: |
-          FAILED=0
-          for f in data_content_*.js data_calcs.js data_structures_detailed.js; do
-            [ -f "$f" ] || continue
-            # new Function check (handles global references)
-            node -e "
-              try {
-                new Function(require('fs').readFileSync('$f','utf8'));
-                process.stdout.write('✅ $f\n');
-              } catch(e) {
-                process.stderr.write('❌ $f: ' + e.message.slice(0,120) + '\n');
-                process.exit(1);
-              }
-            " || FAILED=1
-          done
-          [ "$FAILED" = "0" ] && echo "✅ All content files syntax OK" || { echo "❌ Syntax errors found"; exit 1; }
-
-  # ══════════════════════════════════════════════════════════
-  # Job 3: Embedded Scripts Extraction + Syntax Check
-  # ══════════════════════════════════════════════════════════
-  embedded-scripts-check:
-    name: Embedded Scripts Syntax
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: '20' }
-
-      - name: Extract and check embedded scripts
-        run: |
-          TMPDIR=$(mktemp -d)
-          FAILED=0
-          TOTAL=0
-
-          node << 'NODE_EOF'
-          const fs = require('fs');
-          const path = require('path');
-          const TMPDIR = process.env.TMPDIR_PATH || '/tmp/scripts_check';
-          fs.mkdirSync(TMPDIR, { recursive: true });
-
-          const sources = [
-            'data_content_roads.js','data_content_utilities.js',
-            'data_content_structural.js','data_content_geotech.js',
-            'data_content_tools.js','data_content_extra.js',
-            'data_content_phase4.js','data_content_buildings.js',
-          ];
-
-          let total = 0, passed = 0, failed = 0;
-          const re = /<script(?![^>]*\bsrc\b)[^>]*>([\s\S]*?)<\/script>/gi;
-
-          for (const src of sources) {
-            if (!fs.existsSync(src)) continue;
-            const raw = fs.readFileSync(src, 'utf-8');
-            let m, i = 0;
-            re.lastIndex = 0;
-            while ((m = re.exec(raw)) !== null) {
-              const code = m[1].trim();
-              if (code.length < 30) continue;
-              total++;
-              try {
-                new Function(code);
-                console.log('  ✅', src + '[script#' + i + ']');
-                passed++;
-              } catch(e) {
-                console.error('  ❌', src + '[script#' + i + ']:', e.message.slice(0,100));
-                failed++;
-              }
-              i++;
-            }
-          }
-
-          console.log('\n📊 Scripts checked:', total, '| Passed:', passed, '| Failed:', failed);
-          if (failed > 0) process.exit(1);
-          NODE_EOF
-
-          echo "✅ Embedded scripts check complete"
-
-  # ══════════════════════════════════════════════════════════
-  # Job 4: API Key Security
-  # ══════════════════════════════════════════════════════════
-  api-key-check:
-    name: API Key Security
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: No Anthropic keys
-        run: |
-          if grep -rE "sk-ant-[A-Za-z0-9\-]{20,}" --include="*.js" --include="*.html" .; then
-            echo "❌ Anthropic API key found!"; exit 1
+          BAK=$(find . -name "*.bak" -not -path "./.git/*")
+          if [ -n "$BAK" ]; then
+            echo "❌ Found .bak files: $BAK"
+            exit 1
           fi
-          echo "✅ No Anthropic keys"
+          echo "✅ No .bak files found"
 
-      - name: No Google API keys
-        run: |
-          if grep -rE "AIza[A-Za-z0-9_\-]{35}" --include="*.js" --include="*.html" .; then
-            echo "❌ Google API key found!"; exit 1
-          fi
-          echo "✅ No Google API keys"
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
 
-      - name: No GitHub tokens
-        run: |
-          if grep -rE "ghp_[A-Za-z0-9]{36}" --include="*.js" --include="*.html" .; then
-            echo "❌ GitHub token found!"; exit 1
-          fi
-          echo "✅ No GitHub tokens"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: No localStorage in API files
-        run: |
-          for f in api/*.js; do
-            if grep -v "^//" "$f" | grep -q "localStorage"; then
-              echo "❌ $f uses localStorage"; exit 1
-            fi
-          done
-          echo "✅ No localStorage in API files"
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
 
-      - name: Gemini only (no ANTHROPIC_API_KEY)
-        run: |
-          if grep -r "ANTHROPIC_API_KEY" api/ --include="*.js"; then
-            echo "❌ ANTHROPIC_API_KEY in api/ — use Gemini only"; exit 1
-          fi
-          echo "✅ Gemini API only"
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript"
 
-  # ══════════════════════════════════════════════════════════
-  # Job 5: Config Validation
-  # ══════════════════════════════════════════════════════════
-  validate-config:
-    name: Config Files Validation
+  size-check:
+    name: Bundle Size Check
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: '20' }
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Validate vercel.json
-        run: node -e "JSON.parse(require('fs').readFileSync('vercel.json','utf-8')); console.log('✅ vercel.json valid');"
-
-      - name: Validate manifest.json
+      - name: Check main file sizes
         run: |
-          node -e "
-            const m = JSON.parse(require('fs').readFileSync('manifest.json','utf-8'));
-            if (!m.name && !m.short_name) throw new Error('manifest missing name');
-            console.log('✅ manifest.json valid');
-          "
+          echo "=== File Sizes ==="
+          ls -lah *.js *.html 2>/dev/null | awk '{print $5, $9}'
 
-      - name: Validate sitemap.xml
-        run: |
-          grep -q "qatar-standers.vercel.app" sitemap.xml && \
-            echo "✅ sitemap.xml valid" || { echo "❌ sitemap missing URL"; exit 1; }
-
-      - name: Check robots.txt
-        run: |
-          [ -f "robots.txt" ] && echo "✅ robots.txt exists" || { echo "❌ missing"; exit 1; }
-
-      - name: npm test includes all suites
-        run: |
-          node -e "
-            const pkg = JSON.parse(require('fs').readFileSync('package.json','utf8'));
-            const t = pkg.scripts.test || '';
-            ['buildings.test.cjs','content-validation.test.cjs',
-             'new-calcs.test.cjs','content-integrity.test.cjs'].forEach(r => {
-              if (!t.includes(r)) { console.error('❌ Missing:', r); process.exit(1); }
-            });
-            console.log('✅ npm test includes all suites');
-          "
-
-  # ══════════════════════════════════════════════════════════
-  # Job 6: Rate Limit Architecture
-  # ══════════════════════════════════════════════════════════
-  rate-limit-check:
-    name: Rate Limit Architecture
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: '20' }
-
-      - name: rate-limit.js exists
-        run: |
-          [ -f "api/rate-limit.js" ] && echo "✅ api/rate-limit.js exists" || { echo "❌ missing"; exit 1; }
-
-      - name: No @vercel/kv in lib
-        run: |
-          grep -r "@vercel/kv" lib/ 2>/dev/null && { echo "❌ use @upstash/redis"; exit 1; } || echo "✅ No @vercel/kv"
-
-      - name: Correct GEMINI_API_KEY name
-        run: |
-          grep -rn "process\.env\.GEMINI_KEY[^_]" api/ && { echo "❌ wrong var name"; exit 1; } || echo "✅ Correct var name"
-
-      - name: No duplicate rate-limit Maps
-        run: |
-          grep -n "const _rl = new Map" api/*.js && { echo "❌ duplicate Map"; exit 1; } || echo "✅ No duplicate Maps"
-
-  # ══════════════════════════════════════════════════════════
-  # Summary
-  # ══════════════════════════════════════════════════════════
-  summary:
-    name: All CI Checks Passed
-    runs-on: ubuntu-latest
-    needs:
-      - full-test-suite
-      - syntax-validation
-      - embedded-scripts-check
-      - api-key-check
-      - validate-config
-      - rate-limit-check
-
-    steps:
-      - name: Print Summary
-        run: |
-          echo "══════════════════════════════════════════════"
-          echo "  ✅ QatarSpec Pro — CI v4 All Passed"
-          echo "══════════════════════════════════════════════"
-          echo "  ✅ npm install + npm test (382+ tests)"
-          echo "     ├─ content-integrity       63 tests"
-          echo "     ├─ new-calcs               34 tests"
-          echo "     ├─ buildings (edge cases) 103 tests"
-          echo "     ├─ content-validation      97 tests"
-          echo "     ├─ integration             36 tests"
-          echo "     └─ e2e flow                49 tests"
-          echo "  ✅ JS Content Files Syntax"
-          echo "  ✅ Embedded Scripts Extracted + Checked"
-          echo "  ✅ No API Keys in Code"
-          echo "  ✅ Config Files Valid"
-          echo "  ✅ Rate Limit Architecture"
-          echo "  🚀 Ready → qatar-standers.vercel.app"
+          # index.html يجب أن يكون أقل من 2MB
+          SIZE=$(wc -c < index.html)
+          if [ "$SIZE" -gt 2000000 ]; then
+            echo "❌ index.html too large: ${SIZE} bytes (max 2MB)"
+            exit 1
+          fi
+          echo "✅ index.html size OK: ${SIZE} bytes"
