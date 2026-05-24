@@ -104,7 +104,7 @@ window.QS_CONTENT_MAP = {
   "drawing_analyzer": "data_content_extra.js",
   "photo_analyzer": "data_content_extra.js",
   "qcs_changes_2014_2024": "data_content_extra.js",
-  "top20_ncr": "data_content_extra.js",
+  "top20_ncr": "data_ncr_comprehensive.js",
   "prequalification_checklist": "data_content_extra.js",
   "roads_equipment": "data_content_extra.js",
   "utilities_equipment": "data_content_extra.js",
