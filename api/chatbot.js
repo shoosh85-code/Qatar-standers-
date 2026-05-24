@@ -158,23 +158,38 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'messages array required' });
   }
 
-  // === LOCAL FAQ — instant answers without API ===
+  // === SERVER FAQ — 3 tiers: specific(1 key) → generic(2+ keys) → greetings ===
   const lastMsg = (messages[messages.length - 1]?.content || '').toLowerCase();
-  const FAQ = [
-    { keys: ['free', 'pro', 'فرق', 'مجاني', 'مدفوع', 'اشتراك', 'سعر', 'price'],
-      reply: '🆓 **Free (مجاني للأبد):**\n• 5 بحث ذكي يومياً\n• كل المحتوى الثابت (111+ قسم)\n• الحاسبات الأساسية\n• نماذج RFI/NCR/DPR\n\n⭐ **Pro (99 QAR/شهر):**\n• بحث ذكي غير محدود\n• تصدير PDF + Word احترافي\n• محلل المستندات بالذكاء الاصطناعي\n• محلل المخططات\n• المفتش الذكي بالصور\n• مولّد المستندات الشامل\n• دعم فني أولوية\n\n💡 الباقة المجانية مفيدة جداً — Pro توفر لك أكثر من ساعتين أسبوعياً!' },
-    { keys: ['كيف', 'استخدم', 'how', 'use', 'بحث', 'search'],
-      reply: '🔍 **طريقة الاستخدام:**\n1. اكتب سؤالك في شريط البحث الذكي\n2. أو تصفح الكروت حسب التخصص\n3. استخدم الحاسبات لنتائج Pass/Fail فورية\n4. ارفع PDF لتحليله بالذكاء الاصطناعي\n\n💡 جرّب: "ما هي متطلبات الغطاء الخرساني؟"' },
-    { keys: ['qcs', '2024', 'مواصفات', 'كود'],
-      reply: '📖 **QCS 2024** هو الكود القطري للبناء والتشييد — يغطي:\n• §S5 الخرسانة والإنشاء\n• §S8 الطرق والأرصفة\n• §S20 شبكات المرافق\n• §S21 أنظمة MEP\n\nQatarSpec Pro يحتوي على 111+ قسم مرجعي من QCS 2024 + Ashghal + KAHRAMAA + MMUP.' },
-    { keys: ['ncr', 'مخالفة', 'عدم مطابقة'],
-      reply: '🔴 **NCR (Non-Conformance Report):**\nلدينا قاعدة بيانات شاملة بـ 1500+ تقرير NCR عبر 9 تخصصات:\nصرف · مياه شرب · TSE · حفر · خرسانة · تشطيبات · سباكة · كهرباء\n\nافتح كرت "قاعدة بيانات NCR الشاملة" من الصفحة الرئيسية!' }
-  ];
   
-  const faqMatch = FAQ.find(f => f.keys.some(k => lastMsg.includes(k)));
-  if (faqMatch) {
-    return res.status(200).json({ reply: faqMatch.reply });
-  }
+  // TIER 1: Specific features
+  const SPECIFIC = [
+    { k: ['مفتش','inspector','فحص صور'], r: '🔍 **المفتش الذكي (AI Site Inspector) — Pro:**\n\nأداة AI تحلل صور الموقع وتكشف مخالفات QCS 2024.\n\n**الخطوات:**\n1. افتح كرت "المفتش الذكي"\n2. التقط/ارفع صورة\n3. AI يكشف: تشققات، تعشيش، نزيف، هبوط\n4. تقرير فوري بالعربي + مرجع QCS\n\n⚠️ Pro فقط (99 QAR/شهر)' },
+    { k: ['itp','خطة فحص','inspection test'], r: '📋 **إنشاء ITP:**\n\n1. **مولّد المستندات** (Pro) → اختر ITP → Wizard 5 خطوات\n2. **مولّد MOS/ITP** (Pro) → 9 مراحل QCS 2024\n3. **نماذج Ashghal** (مجاني) → تاب ITP → تعبئة وتصدير\n\nكل ITP يحتوي Hold/Witness Points حسب QCS 2024.' },
+    { k: ['مولد','generator','method statement','طريقة تنفيذ'], r: '📋 **مولّد المستندات:** Method Statement / ITP / NCR / DPR — Wizard 5 خطوات بمراجع QCS 2024.\n\nافتح "مولّد المستندات الشامل" من الصفحة الرئيسية.' },
+    { k: ['محلل','analyzer','وثائق','document'], r: '📄 **محلل الوثائق (Pro):** ارفع PDF → AI يستخرج البنود ويقارنها مع QCS 2024.' },
+    { k: ['حاسبة','calculator','حساب'], r: '🧮 **الحاسبات:** Pass/Fail · مباني · ESAL · Mix Design · Pipe Sizing · Rebar Cover · Superpave · Marshall' },
+    { k: ['ncr','مخالفة','عدم مطابقة'], r: '🔴 **NCR Database:** 1500+ تقرير عبر 9 تخصصات. افتح "قاعدة بيانات NCR الشاملة"!' },
+    { k: ['مشروع','project','مشاريع'], r: '📊 **لوحة المشاريع:** تقارير · فحص · مواد · NCR · BOQ. اضغط "📊 مشاريعي" في الأعلى.' },
+    { k: ['تصدير','export','pdf','word'], r: '📥 **التصدير (Pro):** PDF/Word/Excel بتنسيق Ashghal. اضغط أيقونات PDF/DOC في أعلى أي قسم.' },
+    { k: ['مخطط','drawing','رسومات'], r: '📐 **محلل المخططات (Pro):** ارفع رسومات → مراجعة QCS 2024 تلقائية.' }
+  ];
+  const specMatch = SPECIFIC.find(f => f.k.some(k => lastMsg.includes(k)));
+  if (specMatch) return res.status(200).json({ reply: specMatch.r });
+
+  // TIER 2: Generic (2+ keyword matches)
+  const GENERIC = [
+    { k: ['free','pro','فرق','مجاني','مدفوع','اشتراك','سعر','price','باقة'], r: '🆓 **Free:** 5 بحث/يوم · 111+ قسم · حاسبات · نماذج\n\n⭐ **Pro (99 QAR/شهر):** بحث غير محدود · تصدير PDF/Word · المفتش الذكي · محلل المستندات · مولّد المستندات' },
+    { k: ['كيف','استخدم','how','use','ابدأ','start'], r: '🔍 **الاستخدام:**\n1. البحث الذكي — اكتب سؤالك\n2. الكروت — تصفح حسب التخصص\n3. الحاسبات — Pass/Fail فوري\n4. رفع PDF — تحليل بـ AI\n\nهل تسأل عن ميزة محددة؟ اذكر اسمها!' },
+    { k: ['qcs','2024','مواصفات','كود'], r: '📖 **QCS 2024:** §S5 خرسانة · §S8 طرق · §S20 مرافق · §S21 MEP — 111+ قسم مرجعي.' }
+  ];
+  const genMatch = GENERIC.find(f => f.k.filter(k => lastMsg.includes(k)).length >= 2);
+  if (genMatch) return res.status(200).json({ reply: genMatch.r });
+
+  // TIER 3: Greetings
+  if (['شكرا','thanks','ممتاز','رائع'].some(k => lastMsg.includes(k)))
+    return res.status(200).json({ reply: '😊 العفو! لا تتردد بالسؤال.' });
+  if (['مرحبا','hello','hi','هلا','السلام','اهلا'].some(k => lastMsg.includes(k)))
+    return res.status(200).json({ reply: 'مرحباً! 👋 كيف يمكنني مساعدتك اليوم؟' });
 
   // Build Gemini request
   const geminiMessages = messages.map(m => ({
