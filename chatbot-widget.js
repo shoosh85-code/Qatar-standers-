@@ -584,6 +584,32 @@
     isTyping = true;
     if (sendBtn) sendBtn.disabled = true;
 
+    // === CLIENT-SIDE FAQ — instant response, no server call ===
+    var _q = text.toLowerCase();
+    var _localFAQ = [
+      { k: ['free','pro','فرق','مجاني','مدفوع','اشتراك','سعر','price','باقة','خطة'],
+        r: '🆓 **Free (مجاني للأبد):**\n• 5 بحث ذكي يومياً\n• كل المحتوى الثابت (111+ قسم)\n• الحاسبات الأساسية\n• نماذج RFI/NCR/DPR\n\n⭐ **Pro (99 QAR/شهر):**\n• بحث ذكي غير محدود\n• تصدير PDF + Word احترافي\n• محلل المستندات + المخططات + المفتش الذكي\n• مولّد المستندات الشامل\n\n💡 الباقة المجانية مفيدة جداً — Pro توفر أكثر من ساعتين أسبوعياً!' },
+      { k: ['كيف','استخدم','how','use','بحث','search','ابدأ','start'],
+        r: '🔍 **طريقة الاستخدام:**\n1. اكتب سؤالك في شريط البحث الذكي\n2. أو تصفح الكروت حسب التخصص\n3. استخدم الحاسبات لنتائج Pass/Fail\n4. ارفع PDF لتحليله بالذكاء الاصطناعي\n\n💡 جرّب: "ما هي متطلبات الغطاء الخرساني؟"' },
+      { k: ['qcs','2024','مواصفات','كود','قطر'],
+        r: '📖 **QCS 2024** — الكود القطري للبناء:\n• §S5 الخرسانة والإنشاء\n• §S8 الطرق والأرصفة\n• §S20 شبكات المرافق\n• §S21 أنظمة MEP\n\nالتطبيق يحتوي 111+ قسم من QCS + Ashghal + KAHRAMAA + MMUP.' },
+      { k: ['ncr','مخالفة','عدم مطابقة','non conformance'],
+        r: '🔴 **NCR Database:**\n1500+ تقرير عبر 9 تخصصات — افتح كرت "قاعدة بيانات NCR الشاملة" من الصفحة الرئيسية!' },
+      { k: ['شكرا','thanks','thank','ممتاز','رائع','great','good'],
+        r: '😊 العفو! سعيد بمساعدتك. لا تتردد بالسؤال في أي وقت!' },
+      { k: ['مرحبا','hello','hi','هلا','السلام','اهلا'],
+        r: 'مرحباً! 👋 كيف يمكنني مساعدتك في QatarSpec Pro اليوم؟' }
+    ];
+    var _faq = _localFAQ.find(function(f){ return f.k.some(function(k){ return _q.includes(k); }); });
+    if (_faq) {
+      addMessage(_faq.r, 'bot');
+      messageHistory.push({ role: 'assistant', content: _faq.r });
+      isTyping = false;
+      if (sendBtn) sendBtn.disabled = false;
+      if (input) input.focus();
+      return;
+    }
+
     setTimeout(showTyping, CFG.typingDelay);
 
     try {
