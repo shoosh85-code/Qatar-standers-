@@ -1,8 +1,8 @@
-// sw.js — QatarSpec Pro v3.7.0
+// sw.js — QatarSpec Pro v3.7.1
 // هدف: استراتيجيات كاش متعددة حسب نوع الملف
 // [PERF] Cache-First لـ data/ | Network-First لـ api/ | Stale-While-Revalidate لـ js/
 
-const CACHE_NAME = 'qatarspec-v3-7-0';
+const CACHE_NAME = 'qatarspec-v3-7-1';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
