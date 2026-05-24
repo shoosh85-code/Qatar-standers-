@@ -4,7 +4,7 @@
   "buildCommand": "npm run build",
   "rewrites": [
     {
-      "source": "/((?!api/|404\\.html|500\\.html|mos-itp\\.html|offline\\.html|embedding-runner\\.html|translation-runner\\.html|projects\\.html|project-detail\\.html|login\\.html|tools\\.html|dpr-generator\\.html|ncr-generator\\.html|method-statement\\.html|execution-hub\\.html).*)",
+      "source": "/((?!api/|legal/|subscribe\\.html|boq-pricer\\.html|404\\.html|500\\.html|mos-itp\\.html|offline\\.html|embedding-runner\\.html|translation-runner\\.html|projects\\.html|project-detail\\.html|login\\.html|tools\\.html|dpr-generator\\.html|ncr-generator\\.html|method-statement\\.html|execution-hub\\.html).*)",
       "destination": "/index.html"
     }
   ],
