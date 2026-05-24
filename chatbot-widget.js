@@ -584,26 +584,52 @@
     isTyping = true;
     if (sendBtn) sendBtn.disabled = true;
 
-    // === CLIENT-SIDE FAQ — instant response, no server call ===
+    // === CLIENT-SIDE FAQ — 3 tiers: specific → generic (2+ keys) → greetings ===
     var _q = text.toLowerCase();
-    var _localFAQ = [
-      { k: ['free','pro','فرق','مجاني','مدفوع','اشتراك','سعر','price','باقة','خطة'],
-        r: '🆓 **Free (مجاني للأبد):**\n• 5 بحث ذكي يومياً\n• كل المحتوى الثابت (111+ قسم)\n• الحاسبات الأساسية\n• نماذج RFI/NCR/DPR\n\n⭐ **Pro (99 QAR/شهر):**\n• بحث ذكي غير محدود\n• تصدير PDF + Word احترافي\n• محلل المستندات + المخططات + المفتش الذكي\n• مولّد المستندات الشامل\n\n💡 الباقة المجانية مفيدة جداً — Pro توفر أكثر من ساعتين أسبوعياً!' },
-      { k: ['كيف','استخدم','how','use','بحث','search','ابدأ','start'],
-        r: '🔍 **طريقة الاستخدام:**\n1. اكتب سؤالك في شريط البحث الذكي\n2. أو تصفح الكروت حسب التخصص\n3. استخدم الحاسبات لنتائج Pass/Fail\n4. ارفع PDF لتحليله بالذكاء الاصطناعي\n\n💡 جرّب: "ما هي متطلبات الغطاء الخرساني؟"' },
-      { k: ['qcs','2024','مواصفات','كود','قطر'],
-        r: '📖 **QCS 2024** — الكود القطري للبناء:\n• §S5 الخرسانة والإنشاء\n• §S8 الطرق والأرصفة\n• §S20 شبكات المرافق\n• §S21 أنظمة MEP\n\nالتطبيق يحتوي 111+ قسم من QCS + Ashghal + KAHRAMAA + MMUP.' },
-      { k: ['ncr','مخالفة','عدم مطابقة','non conformance'],
-        r: '🔴 **NCR Database:**\n1500+ تقرير عبر 9 تخصصات — افتح كرت "قاعدة بيانات NCR الشاملة" من الصفحة الرئيسية!' },
-      { k: ['شكرا','thanks','thank','ممتاز','رائع','great','good'],
-        r: '😊 العفو! سعيد بمساعدتك. لا تتردد بالسؤال في أي وقت!' },
-      { k: ['مرحبا','hello','hi','هلا','السلام','اهلا'],
-        r: 'مرحباً! 👋 كيف يمكنني مساعدتك في QatarSpec Pro اليوم؟' }
+    var _faqReply = null;
+    // TIER 1: Specific features (1 keyword match)
+    var _t1 = [
+      { k: ['مفتش','inspector','فحص صور'],
+        r: '🔍 **المفتش الذكي (AI Site Inspector) — Pro:**\n\n**ما هو؟** أداة AI تحلل صور الموقع وتكشف مخالفات QCS 2024.\n\n**كيف تستخدمه:**\n1. افتح كرت "المفتش الذكي" من الأدوات الذكية\n2. التقط صورة من الموقع أو ارفع صورة\n3. AI يكشف: تشققات، تعشيش، نزيف إسفلتي، هبوط\n4. تقرير فوري بالعربي مع مرجع QCS\n\n⚠️ متاح لمشتركي Pro (99 QAR/شهر)' },
+      { k: ['محلل','analyzer','وثائق','مستندات','document'],
+        r: '📄 **محلل الوثائق (AI Analyzer) — Pro:**\nارفع عقد أو مواصفة PDF → AI يستخرج البنود ويقارنها مع QCS 2024.\n\nافتح "محلل الوثائق الذكي" من الأدوات.' },
+      { k: ['مولد','generator','method statement','طريقة تنفيذ'],
+        r: '📋 **مولّد المستندات:**\nMethod Statement / ITP / NCR / DPR — Wizard 5 خطوات بمراجع QCS 2024.\n\nافتح "مولّد المستندات الشامل" من الصفحة الرئيسية.' },
+      { k: ['حاسبة','calculator','حساب'],
+        r: '🧮 **الحاسبات:** مواصفات Pass/Fail · مباني · ESAL · Mix Design · Pipe Sizing · Rebar Cover · Superpave · Marshall\n\nافتح "مركز الحاسبات" من الصفحة الرئيسية.' },
+      { k: ['ncr','مخالفة','عدم مطابقة'],
+        r: '🔴 **NCR Database:** 1500+ تقرير عبر 9 تخصصات.\nافتح "قاعدة بيانات NCR الشاملة" من الصفحة الرئيسية!' },
+      { k: ['مشروع','project','مشاريع'],
+        r: '📊 **لوحة المشاريع:** تقارير يومية · فحص · اعتماد مواد · NCR · BOQ.\nاضغط "📊 مشاريعي" في الأعلى.' },
+      { k: ['مخطط','drawing','رسومات','shop drawing'],
+        r: '📐 **محلل المخططات (AI Drawing Analyzer) — Pro:**\nارفع رسومات إنشائية أو مقاطع طرق → مراجعة QCS 2024 تلقائية.\n\nافتح "محلل المخططات الذكي" من الأدوات.' },
+      { k: ['تصدير','export','pdf','word','excel'],
+        r: '📥 **التصدير (Pro):**\n• PDF احترافي بهيدر QatarSpec + QCS\n• Word قابل للتعديل\n• Excel بتنسيق Ashghal\n\nاضغط أيقونات PDF/DOC في أعلى أي قسم مفتوح.' }
     ];
-    var _faq = _localFAQ.find(function(f){ return f.k.some(function(k){ return _q.includes(k); }); });
-    if (_faq) {
-      addMessage(_faq.r, 'bot');
-      messageHistory.push({ role: 'assistant', content: _faq.r });
+    _faqReply = _t1.find(function(f){ return f.k.some(function(k){ return _q.includes(k); }); });
+    // TIER 2: Generic (needs 2+ keyword matches)
+    if (!_faqReply) {
+      var _t2 = [
+        { k: ['free','pro','فرق','مجاني','مدفوع','اشتراك','سعر','price','باقة'],
+          r: '🆓 **Free:** 5 بحث/يوم · 111+ قسم · حاسبات · نماذج\n\n⭐ **Pro (99 QAR/شهر):** بحث غير محدود · تصدير PDF/Word · المفتش الذكي · محلل المستندات · مولّد المستندات\n\n💡 Pro توفر أكثر من ساعتين أسبوعياً!' },
+        { k: ['كيف','استخدم','how','use','ابدأ','start'],
+          r: '🔍 **الاستخدام:**\n1. البحث الذكي — اكتب سؤالك\n2. الكروت — تصفح حسب التخصص\n3. الحاسبات — Pass/Fail فوري\n4. رفع PDF — تحليل بـ AI\n\nهل تسأل عن ميزة محددة؟ اذكر اسمها!' },
+        { k: ['qcs','2024','مواصفات','كود'],
+          r: '📖 **QCS 2024:** §S5 خرسانة · §S8 طرق · §S20 مرافق · §S21 MEP\n111+ قسم من QCS + Ashghal + KAHRAMAA + MMUP.' }
+      ];
+      _faqReply = _t2.find(function(f){ return f.k.filter(function(k){ return _q.includes(k); }).length >= 2; });
+    }
+    // TIER 3: Greetings (1 keyword)
+    if (!_faqReply) {
+      var _t3 = [
+        { k: ['شكرا','thanks','ممتاز','رائع'], r: '😊 العفو! لا تتردد بالسؤال في أي وقت!' },
+        { k: ['مرحبا','hello','hi','هلا','السلام','اهلا'], r: 'مرحباً! 👋 كيف يمكنني مساعدتك اليوم؟' }
+      ];
+      _faqReply = _t3.find(function(f){ return f.k.some(function(k){ return _q.includes(k); }); });
+    }
+    if (_faqReply) {
+      addMessage(_faqReply.r, 'bot');
+      messageHistory.push({ role: 'assistant', content: _faqReply.r });
       isTyping = false;
       if (sendBtn) sendBtn.disabled = false;
       if (input) input.focus();
