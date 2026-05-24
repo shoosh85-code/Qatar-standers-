@@ -248,8 +248,9 @@ export default async function handler(req, res) {
       console.error('Chatbot Gemini error:', response.status, errBody.substring(0, 200));
       
       if (response.status === 429) {
+        // Smart fallback — suggest KB topics instead of generic error
         return res.status(200).json({
-          reply: '⏳ الخادم مشغول حالياً بسبب كثرة الطلبات. حاول مرة أخرى بعد دقيقة.\n\nفي الأثناء، يمكنك تصفح الأقسام والحاسبات مباشرة من الصفحة الرئيسية — كلها تعمل بدون AI! 🚀'
+          reply: '🤖 **AI مشغول حالياً.** لكن يمكنني مساعدتك فوراً!\n\n**جرّب أسأل عن:**\n• "المفتش الذكي" — فحص صور الموقع\n• "ITP" — إنشاء خطة فحص\n• "الحاسبات" — 8 حاسبات Pass/Fail\n• "NCR" — قاعدة بيانات 1500+ مخالفة\n• "الخرسانة" — مواصفات QCS\n• "الطرق" — طبقات وسماكات\n• "Free vs Pro" — مقارنة الباقات\n• "نماذج" — RFI/NCR/DPR/ITP\n• "تصدير" — PDF/Word/Excel\n\n💡 هذه الأسئلة تُجاوب **فوراً** بدون AI!'
         });
       }
       throw new Error(`Gemini API error: ${response.status}`);
@@ -264,7 +265,7 @@ export default async function handler(req, res) {
     console.error('Chatbot error:', err.message || err);
     return res.status(500).json({
       error: 'server_error',
-      reply: 'عذراً، حدث خطأ مؤقت. يرجى المحاولة مرة أخرى.'
+      reply: '⚠️ خطأ مؤقت في AI. جرّب أسأل عن ميزة محددة مثل: "ITP" أو "الحاسبات" أو "NCR" أو "المفتش الذكي" — سأجيبك فوراً!'
     });
   }
 }
