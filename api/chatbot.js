@@ -123,43 +123,13 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  // Rate limiting — 20 messages per IP per hour
-  const ip = req.headers['x-forwarded-for']?.split(',')[0] || 'unknown';
-  const now = Date.now();
-  const windowMs = 60 * 60 * 1000; // 1 hour
-  const maxRequests = 20;
-
-  if (!RATE_LIMIT.has(ip)) {
-    RATE_LIMIT.set(ip, { count: 1, resetAt: now + windowMs });
-  } else {
-    const limit = RATE_LIMIT.get(ip);
-    if (now > limit.resetAt) {
-      RATE_LIMIT.set(ip, { count: 1, resetAt: now + windowMs });
-    } else if (limit.count >= maxRequests) {
-      return res.status(429).json({
-        error: 'rate_limit',
-        message: 'لقد تجاوزت الحد المسموح. حاول مرة أخرى بعد ساعة.',
-        messageEn: 'Rate limit exceeded. Please try again in an hour.'
-      });
-    } else {
-      limit.count++;
-    }
-  }
-
-  // Cleanup old entries every 100 requests
-  if (RATE_LIMIT.size > 1000) {
-    for (const [key, val] of RATE_LIMIT.entries()) {
-      if (now > val.resetAt) RATE_LIMIT.delete(key);
-    }
-  }
-
   const { messages } = req.body;
   if (!messages || !Array.isArray(messages)) {
     return res.status(400).json({ error: 'messages array required' });
   }
 
   // ═══════════════════════════════════════════════════════════
-  // SERVER KNOWLEDGE ENGINE — mirrors client-side KB
+  // SERVER KNOWLEDGE ENGINE — runs FIRST, NO rate limit
   // ═══════════════════════════════════════════════════════════
   const lastMsg = (messages[messages.length - 1]?.content || '').toLowerCase();
   const KB = [
@@ -214,6 +184,31 @@ export default async function handler(req, res) {
     }
   }
   if (bestMatch) return res.status(200).json({ reply: bestMatch.r });
+
+  // ── Rate limit ONLY for Gemini API calls (KB responses are unlimited) ──
+  const ip = req.headers['x-forwarded-for']?.split(',')[0] || 'unknown';
+  const now = Date.now();
+  const windowMs = 60 * 60 * 1000;
+  const maxRequests = 30;
+  if (!RATE_LIMIT.has(ip)) {
+    RATE_LIMIT.set(ip, { count: 1, resetAt: now + windowMs });
+  } else {
+    const limit = RATE_LIMIT.get(ip);
+    if (now > limit.resetAt) {
+      RATE_LIMIT.set(ip, { count: 1, resetAt: now + windowMs });
+    } else if (limit.count >= maxRequests) {
+      return res.status(200).json({
+        reply: '⏳ وصلت الحد الأقصى من أسئلة AI المتقدمة (30/ساعة).\n\nيمكنك السؤال عن أي ميزة في التطبيق وسأجيبك فوراً!\n\nجرّب: "المفتش الذكي" أو "ITP" أو "الحاسبات" أو "Free vs Pro"'
+      });
+    } else {
+      limit.count++;
+    }
+  }
+  if (RATE_LIMIT.size > 500) {
+    for (const [key, val] of RATE_LIMIT.entries()) {
+      if (now > val.resetAt) RATE_LIMIT.delete(key);
+    }
+  }
 
   // Build Gemini request
   const geminiMessages = messages.map(m => ({
