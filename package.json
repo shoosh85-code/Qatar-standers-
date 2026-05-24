@@ -20,6 +20,6 @@
     "lint": "node -e \"const f=require('fs'); ['js/calculators','js/export','api'].forEach(d=>{ if(f.existsSync(d)) console.log('✅',d,'exists'); else { console.error('❌',d,'missing'); process.exit(1); } });\""
   },
   "devDependencies": {
-    "terser": "^5.47.1"
+    "terser": "^5.48.0"
   }
 }
