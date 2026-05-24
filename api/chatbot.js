@@ -167,8 +167,8 @@ export default async function handler(req, res) {
     { k: ['itp','خطة فحص','inspection test'], r: '📋 **إنشاء ITP:**\n\n1. **مولّد المستندات** (Pro) → اختر ITP → Wizard 5 خطوات\n2. **مولّد MOS/ITP** (Pro) → 9 مراحل QCS 2024\n3. **نماذج Ashghal** (مجاني) → تاب ITP → تعبئة وتصدير\n\nكل ITP يحتوي Hold/Witness Points حسب QCS 2024.' },
     { k: ['مولد','generator','method statement','طريقة تنفيذ'], r: '📋 **مولّد المستندات:** Method Statement / ITP / NCR / DPR — Wizard 5 خطوات بمراجع QCS 2024.\n\nافتح "مولّد المستندات الشامل" من الصفحة الرئيسية.' },
     { k: ['محلل','analyzer','وثائق','document'], r: '📄 **محلل الوثائق (Pro):** ارفع PDF → AI يستخرج البنود ويقارنها مع QCS 2024.' },
-    { k: ['حاسبة','calculator','حساب'], r: '🧮 **الحاسبات:** Pass/Fail · مباني · ESAL · Mix Design · Pipe Sizing · Rebar Cover · Superpave · Marshall' },
-    { k: ['ncr','مخالفة','عدم مطابقة'], r: '🔴 **NCR Database:** 1500+ تقرير عبر 9 تخصصات. افتح "قاعدة بيانات NCR الشاملة"!' },
+    { k: ['حاسب','حاسبات','calculator','calc'], r: '🧮 **الحاسبات:** Pass/Fail · مباني · ESAL · Mix Design · Pipe Sizing · Rebar Cover · Superpave · Marshall' },
+    { k: ['ncr','مخالف','عدم مطابقة'], r: '🔴 **NCR Database:** 1500+ تقرير عبر 9 تخصصات. افتح "قاعدة بيانات NCR الشاملة"!' },
     { k: ['مشروع','project','مشاريع'], r: '📊 **لوحة المشاريع:** تقارير · فحص · مواد · NCR · BOQ. اضغط "📊 مشاريعي" في الأعلى.' },
     { k: ['تصدير','export','pdf','word'], r: '📥 **التصدير (Pro):** PDF/Word/Excel بتنسيق Ashghal. اضغط أيقونات PDF/DOC في أعلى أي قسم.' },
     { k: ['مخطط','drawing','رسومات'], r: '📐 **محلل المخططات (Pro):** ارفع رسومات → مراجعة QCS 2024 تلقائية.' }
