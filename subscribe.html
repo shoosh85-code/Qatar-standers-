@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>اشترك في QatarSpec Pro — 99 QAR/شهر</title>
+  <meta name="description" content="اشترك في QatarSpec Pro — بحث غير محدود في QCS 2024 + تصدير PDF/Word + AI Inspector">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/favicon.svg">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; background: #f8f8f8; color: #222; min-height: 100vh; }
+    .header { background: #7A1515; color: #fff; padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; }
+    .header strong { font-size: 1.1rem; }
+    .plan-card {
+      background: #fff; border-radius: 12px; padding: 2rem;
+      max-width: 480px; margin: 2rem auto;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.1);
+    }
+    .price { font-size: 2.5rem; font-weight: 700; color: #7A1515; margin: 1rem 0; }
+    .price span { font-size: 1rem; color: #666; font-weight: 400; }
+    .features { list-style: none; margin: 1.5rem 0; }
+    .features li { padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+    .features li::before { content: "✓"; color: #0a7a0a; font-weight: bold; flex-shrink: 0; }
+    .btn-primary {
+      width: 100%; background: #7A1515; color: #fff; border: none;
+      padding: 14px; border-radius: 8px; font-size: 16px;
+      cursor: pointer; margin-top: 1rem; transition: background 0.2s;
+      font-family: inherit;
+    }
+    .btn-primary:hover:not(:disabled) { background: #5a0f0f; }
+    .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
+    .security-note { font-size: 12px; color: #888; text-align: center; margin-top: 12px; }
+    .annual-option {
+      background: #f0f8f0; border: 2px solid #0a7a0a; border-radius: 8px;
+      padding: 1rem; margin-bottom: 1rem; cursor: pointer;
+      transition: border-color 0.2s; position: relative;
+    }
+    .annual-option.inactive { border-color: #ddd; background: #fafafa; }
+    .annual-badge {
+      background: #0a7a0a; color: #fff; font-size: 11px;
+      padding: 2px 8px; border-radius: 4px;
+      position: absolute; top: -10px; right: 12px;
+    }
+    .monthly-option {
+      border: 2px solid #ddd; border-radius: 8px; padding: 1rem;
+      margin-bottom: 1rem; cursor: pointer; transition: border-color 0.2s;
+    }
+    .monthly-option.active { border-color: #7A1515; background: #fff5f5; }
+    .email-input {
+      width: 100%; padding: 10px 12px; border: 1px solid #ddd;
+      border-radius: 6px; font-size: 14px; direction: ltr;
+      margin-bottom: 8px; font-family: inherit; outline: none;
+    }
+    .email-input:focus { border-color: #7A1515; }
+    #payment-message { color: #c0392b; font-size: 13px; margin-top: 8px; min-height: 20px; }
+    .divider { border: none; border-top: 1px solid #eee; margin: 1.5rem 0; }
+    .plan-label { font-size: 12px; color: #888; margin-bottom: 6px; }
+    .back-link { color: #7A1515; text-decoration: none; font-size: 13px; }
+    .back-link:hover { text-decoration: underline; }
+    .trust-badges { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
+    .badge { font-size: 11px; color: #555; background: #f5f5f5; padding: 4px 10px; border-radius: 20px; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <strong>QatarSpec Pro</strong>
+  <span style="font-size:13px;opacity:0.8">الاشتراك الاحترافي</span>
+</div>
+
+<div class="plan-card">
+  <h1 style="font-size:1.3rem;margin-bottom:0.5rem">ارقَ لـ Pro اليوم</h1>
+  <p style="font-size:13px;color:#666;margin-bottom:1.5rem">بحث غير محدود + تصدير PDF/Word + AI Inspector</p>
+
+  <div class="plan-label">اختر خطتك:</div>
+
+  <!-- خيار سنوي -->
+  <div class="annual-option" id="annual-opt" onclick="selectPlan('annual')">
+    <span class="annual-badge">وفّر 33%</span>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <strong style="font-size:15px">799 QAR / سنوياً</strong>
+      <span style="font-size:12px;color:#0a7a0a;font-weight:700">≈ 66 QAR/شهر</span>
+    </div>
+    <div style="font-size:12px;color:#555;margin-top:4px">12 شهراً + شهر مجاني</div>
+  </div>
+
+  <!-- خيار شهري -->
+  <div class="monthly-option active" id="monthly-opt" onclick="selectPlan('monthly')">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <strong style="font-size:15px">99 QAR / شهرياً</strong>
+      <span style="font-size:12px;color:#888">الأكثر مرونة</span>
+    </div>
+    <div style="font-size:12px;color:#555;margin-top:4px">إلغاء في أي وقت</div>
+  </div>
+
+  <div class="price" id="price-display">99 <span>QAR/شهر</span></div>
+
+  <ul class="features">
+    <li>بحث ذكي <strong>غير محدود</strong> في QCS 2024</li>
+    <li>تصدير PDF/Word/Excel بتنسيق Ashghal</li>
+    <li>AI Inspector — فحص الموقع بالصور</li>
+    <li>محلل المخططات الهندسية</li>
+    <li>محلل الوثائق والعقود</li>
+    <li>1500+ NCR database كاملة</li>
+    <li>دعم فني أولوية (رد خلال 24h)</li>
+  </ul>
+
+  <hr class="divider">
+
+  <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px">
+    البريد الإلكتروني للحساب
+  </label>
+  <input
+    type="email"
+    id="user-email"
+    class="email-input"
+    placeholder="engineer@example.com"
+    autocomplete="email"
+    inputmode="email"
+  >
+
+  <button class="btn-primary" id="submit-btn" onclick="handleCheckout()">
+    🔒 اشترك الآن — ادفع بأمان
+  </button>
+
+  <div id="payment-message"></div>
+
+  <div class="trust-badges">
+    <span class="badge">🔒 Stripe Secured</span>
+    <span class="badge">↩️ استرداد 7 أيام</span>
+    <span class="badge">❌ إلغاء فوري</span>
+  </div>
+
+  <p class="security-note" style="margin-top:12px">
+    💳 Visa · Mastercard · QNB · Ooredoo Pay · Apple Pay
+  </p>
+</div>
+
+<div style="text-align:center;padding:1rem 2rem 2rem;font-size:12px;color:#888;display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+  <a href="/" class="back-link">← رجوع للموقع</a>
+  <a href="/legal/terms.html" class="back-link">الشروط والأحكام</a>
+  <a href="/legal/privacy.html" class="back-link">سياسة الخصوصية</a>
+</div>
+
+<script>
+window.selectedPlan = 'monthly';
+
+function selectPlan(plan) {
+  window.selectedPlan = plan;
+  const annualOpt   = document.getElementById('annual-opt');
+  const monthlyOpt  = document.getElementById('monthly-opt');
+  const priceEl     = document.getElementById('price-display');
+
+  if (plan === 'annual') {
+    annualOpt.classList.remove('inactive');
+    annualOpt.style.borderColor = '#0a7a0a';
+    monthlyOpt.classList.remove('active');
+    priceEl.innerHTML = '799 <span>QAR/سنة</span>';
+  } else {
+    annualOpt.classList.add('inactive');
+    annualOpt.style.borderColor = '#ddd';
+    monthlyOpt.classList.add('active');
+    priceEl.innerHTML = '99 <span>QAR/شهر</span>';
+  }
+}
+
+async function handleCheckout() {
+  const email = document.getElementById('user-email').value.trim();
+  const msgEl = document.getElementById('payment-message');
+  const btn   = document.getElementById('submit-btn');
+
+  msgEl.textContent = '';
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    msgEl.textContent = 'الرجاء إدخال بريد إلكتروني صحيح';
+    return;
+  }
+
+  btn.textContent = '⏳ جاري التحويل لبوابة الدفع...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, plan: window.selectedPlan })
+    });
+
+    const data = await res.json();
+
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      throw new Error(data.error || 'خطأ في إنشاء جلسة الدفع');
+    }
+  } catch (err) {
+    msgEl.textContent = err.message;
+    btn.textContent = '🔒 اشترك الآن — ادفع بأمان';
+    btn.disabled = false;
+  }
+}
+
+// Enter key on email field
+document.getElementById('user-email').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') handleCheckout();
+});
+</script>
+</body>
+</html>
