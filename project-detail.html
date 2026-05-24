@@ -456,7 +456,6 @@ header {
       <button class="tab-btn" data-tab="site-forms" onclick="switchTab('site-forms')">
         📄 نماذج الموقع <span class="tab-badge">14</span>
       </button>
-      <!-- Work Acceptance Tab — QatarSpec Pro Phase 4 -->
       <button class="tab-btn" data-tab="acceptance" onclick="switchTab('acceptance')">
         ✅ استلام الأعمال <span class="tab-badge">13</span>
       </button>
@@ -1424,71 +1423,140 @@ header {
       <div id="sf-app" style="padding:0 0 40px"></div>
     </div>
 
-    <!-- Work Acceptance Tab Panel — QatarSpec Pro Phase 4 -->
+    <!-- ── Tab: استلام الأعمال ── -->
     <div class="tab-panel" id="tab-acceptance">
       <div class="section-header">
         <div>
-          <div class="section-title">📋 استلام الأعمال الإنشائية — Work Acceptance</div>
-          <div style="font-size:12px;color:var(--text3);margin-top:3px">13 نوع عمل · Pass/Fail · QCS 2024 · حكم تلقائي مقبول / مشروط / مرفوض</div>
+          <div class="section-title">✅ استلام الأعمال الإنشائية</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:3px">13 نوع عمل — Checklists تفصيلية وفق QCS 2024 | شهادات استلام PDF + Word</div>
         </div>
       </div>
-      <div style="padding:24px 0;">
-        <!-- Quick Stats Grid -->
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:24px;">
-          <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">
-            <div style="font-size:1.8rem;font-weight:800;color:var(--gold);">13</div>
-            <div style="font-size:0.72rem;color:var(--text3);font-weight:600;">نوع عمل إنشائي</div>
-          </div>
-          <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">
-            <div style="font-size:1.8rem;font-weight:800;color:#2ecc71;">QCS</div>
-            <div style="font-size:0.72rem;color:var(--text3);font-weight:600;">مرجع 2024</div>
-          </div>
-          <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">
-            <div style="font-size:1.8rem;font-weight:800;color:#3498db;">Auto</div>
-            <div style="font-size:0.72rem;color:var(--text3);font-weight:600;">حكم تلقائي</div>
-          </div>
-          <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">
-            <div style="font-size:1.8rem;font-weight:800;color:#e74c3c;">PDF</div>
-            <div style="font-size:0.72rem;color:var(--text3);font-weight:600;">تصدير احترافي</div>
+      <div style="padding: 20px 0 40px;">
+
+        <!-- Info Banner -->
+        <div style="background:linear-gradient(135deg,rgba(26,58,92,0.06),rgba(200,168,75,0.06));border:1px solid rgba(200,168,75,0.25);border-radius:12px;padding:18px 22px;margin-bottom:20px;display:flex;align-items:center;gap:16px;">
+          <div style="font-size:36px;">📋</div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:var(--navy,#1a3a5c);margin-bottom:4px;">وحدة استلام الأعمال الإنشائية — Work Acceptance Module</div>
+            <div style="font-size:12px;color:var(--text3,#888);line-height:1.6;">
+              تغطي <strong>13 نوع عمل</strong>: الأساسات، الحديد والنجارة، الأعمدة والأسقف، الطابوق، البلاستر والدهانات، الكهرباء، الصحي، التكييف، الحريق، السيراميك، الرخام، البورسلين، الحجر الخارجي
+            </div>
           </div>
         </div>
-        <!-- Works List Preview -->
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:20px;">
-          <div style="font-size:0.82rem;font-weight:700;color:var(--text2);margin-bottom:12px;">الأعمال المتاحة للاستلام:</div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;">
-            ${[
-              ['🏛️','الأساسات','Foundations'],
-              ['🔩','حديد ونجارة','Rebar & Formwork'],
-              ['🏗️','أعمدة وأسقف','Columns & Slabs'],
-              ['🧱','الطابوق','Blockwork'],
-              ['🖌️','بلاستر ودهانات','Plaster & Paint'],
-              ['⚡','الكهرباء','Electrical'],
-              ['🔧','الأعمال الصحية','Plumbing'],
-              ['❄️','التكييف','HVAC'],
-              ['🔥','مكافحة الحريق','Fire Fighting'],
-              ['🟫','السيراميك','Ceramic Tiles'],
-              ['💎','الرخام','Marble'],
-              ['⬜','البورسلين','Porcelain'],
-              ['🪨','حجر خارجي','External Stone']
-            ].map(([icon,ar,en]) => `
-              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg);border-radius:8px;border:1px solid var(--border);">
-                <span style="font-size:1.1rem;">${icon}</span>
-                <div>
-                  <div style="font-size:0.78rem;font-weight:700;color:var(--text2);">${ar}</div>
-                  <div style="font-size:0.65rem;color:var(--text3);">${en}</div>
-                </div>
-              </div>`).join('')}
-          </div>
-        </div>
-        <!-- Open Button -->
-        <div style="text-align:center;">
-          <a href="/work-acceptance.html" target="_blank"
-             style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#1a3a5c,#2a5a8c);color:#fff;padding:14px 32px;border-radius:10px;font-family:Cairo,sans-serif;font-size:0.95rem;font-weight:700;text-decoration:none;box-shadow:0 4px 16px rgba(26,58,92,0.25);transition:opacity 0.2s;"
-             onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
-            📋 فتح وحدة استلام الأعمال — Work Acceptance
+
+        <!-- 13 Work Type Quick Links Grid -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:24px;">
+          <a href="work-acceptance.html" target="_blank" style="text-decoration:none;">
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;" onmouseover="this.style.borderColor='#c8a84b';this.style.boxShadow='0 4px 12px rgba(200,168,75,0.15)'" onmouseout="this.style.borderColor='#e2e8f0';this.style.boxShadow='none'">
+              <span style="font-size:22px;">🏛️</span>
+              <div><div style="font-size:13px;font-weight:700;color:#1a3a5c;">الأساسات</div><div style="font-size:10px;color:#888;">Foundations</div></div>
+            </div>
           </a>
-          <p style="font-size:0.72rem;color:var(--text3);margin-top:8px;">تفتح في تبويب جديد · تحفظ تلقائياً في المتصفح</p>
+          <a href="work-acceptance.html" target="_blank" style="text-decoration:none;">
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;" onmouseover="this.style.borderColor='#c8a84b';this.style.boxShadow='0 4px 12px rgba(200,168,75,0.15)'" onmouseout="this.style.borderColor='#e2e8f0';this.style.boxShadow='none'">
+              <span style="font-size:22px;">🔩</span>
+              <div><div style="font-size:13px;font-weight:700;color:#1a3a5c;">الحديد والنجارة</div><div style="font-size:10px;color:#888;">Rebar & Formwork</div></div>
+            </div>
+          </a>
+          <a href="work-acceptance.html" target="_blank" style="text-decoration:none;">
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;" onmouseover="this.style.borderColor='#c8a84b';this.style.boxShadow='0 4px 12px rgba(200,168,75,0.15)'" onmouseout="this.style.borderColor='#e2e8f0';this.style.boxShadow='none'">
+              <span style="font-size:22px;">🏗️</span>
+              <div><div style="font-size:13px;font-weight:700;color:#1a3a5c;">الأعمدة والأسقف</div><div style="font-size:10px;color:#888;">Columns & Slabs</div></div>
+            </div>
+          </a>
+          <a href="work-acceptance.html" target="_blank" style="text-decoration:none;">
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;" onmouseover="this.style.borderColor='#c8a84b';this.style.boxShadow='0 4px 12px rgba(200,168,75,0.15)'" onmouseout="this.style.borderColor='#e2e8f0';this.style.boxShadow='none'">
+              <span style="font-size:22px;">🧱</span>
+              <div><div style="font-size:13px;font-weight:700;color:#1a3a5c;">أعمال الطابوق</div><div style="font-size:10px;color:#888;">Blockwork</div></div>
+            </div>
+          </a>
+          <a href="work-acceptance.html" target="_blank" style="text-decoration:none;">
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;" onmouseover="this.style.borderColor='#c8a84b';this.style.boxShadow='0 4px 12px rgba(200,168,75,0.15)'" onmouseout="this.style.borderColor='#e2e8f0';this.style.boxShadow='none'">
+              <span style="font-size:22px;">🖌️</span>
+              <div><div style="font-size:13px;font-weight:700;color:#1a3a5c;">البلاستر والدهانات</div><div style="font-size:10px;color:#888;">Plaster & Paint</div></div>
+            </div>
+          </a>
+          <a href="work-acceptance.html" target="_blank" style="text-decoration:none;">
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;" onmouseover="this.style.borderColor='#c8a84b';this.style.boxShadow='0 4px 12px rgba(200,168,75,0.15)'" onmouseout="this.style.borderColor='#e2e8f0';this.style.boxShadow='none'">
+              <span style="font-size:22px;">⚡</span>
+              <div><div style="font-size:13px;font-weight:700;color:#1a3a5c;">أعمال الكهرباء</div><div style="font-size:10px;color:#888;">Electrical</div></div>
+            </div>
+          </a>
+          <a href="work-acceptance.html" target="_blank" style="text-decoration:none;">
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;" onmouseover="this.style.borderColor='#c8a84b';this.style.boxShadow='0 4px 12px rgba(200,168,75,0.15)'" onmouseout="this.style.borderColor='#e2e8f0';this.style.boxShadow='none'">
+              <span style="font-size:22px;">🔧</span>
+              <div><div style="font-size:13px;font-weight:700;color:#1a3a5c;">الأعمال الصحية</div><div style="font-size:10px;color:#888;">Plumbing</div></div>
+            </div>
+          </a>
+          <a href="work-acceptance.html" target="_blank" style="text-decoration:none;">
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;" onmouseover="this.style.borderColor='#c8a84b';this.style.boxShadow='0 4px 12px rgba(200,168,75,0.15)'" onmouseout="this.style.borderColor='#e2e8f0';this.style.boxShadow='none'">
+              <span style="font-size:22px;">❄️</span>
+              <div><div style="font-size:13px;font-weight:700;color:#1a3a5c;">أعمال التكييف</div><div style="font-size:10px;color:#888;">HVAC & AC</div></div>
+            </div>
+          </a>
+          <a href="work-acceptance.html" target="_blank" style="text-decoration:none;">
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;" onmouseover="this.style.borderColor='#c8a84b';this.style.boxShadow='0 4px 12px rgba(200,168,75,0.15)'" onmouseout="this.style.borderColor='#e2e8f0';this.style.boxShadow='none'">
+              <span style="font-size:22px;">🔥</span>
+              <div><div style="font-size:13px;font-weight:700;color:#1a3a5c;">مكافحة الحريق</div><div style="font-size:10px;color:#888;">Fire Fighting</div></div>
+            </div>
+          </a>
+          <a href="work-acceptance.html" target="_blank" style="text-decoration:none;">
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;" onmouseover="this.style.borderColor='#c8a84b';this.style.boxShadow='0 4px 12px rgba(200,168,75,0.15)'" onmouseout="this.style.borderColor='#e2e8f0';this.style.boxShadow='none'">
+              <span style="font-size:22px;">🟫</span>
+              <div><div style="font-size:13px;font-weight:700;color:#1a3a5c;">أعمال السيراميك</div><div style="font-size:10px;color:#888;">Ceramic Tiles</div></div>
+            </div>
+          </a>
+          <a href="work-acceptance.html" target="_blank" style="text-decoration:none;">
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;" onmouseover="this.style.borderColor='#c8a84b';this.style.boxShadow='0 4px 12px rgba(200,168,75,0.15)'" onmouseout="this.style.borderColor='#e2e8f0';this.style.boxShadow='none'">
+              <span style="font-size:22px;">💎</span>
+              <div><div style="font-size:13px;font-weight:700;color:#1a3a5c;">أعمال الرخام</div><div style="font-size:10px;color:#888;">Marble</div></div>
+            </div>
+          </a>
+          <a href="work-acceptance.html" target="_blank" style="text-decoration:none;">
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;" onmouseover="this.style.borderColor='#c8a84b';this.style.boxShadow='0 4px 12px rgba(200,168,75,0.15)'" onmouseout="this.style.borderColor='#e2e8f0';this.style.boxShadow='none'">
+              <span style="font-size:22px;">⬜</span>
+              <div><div style="font-size:13px;font-weight:700;color:#1a3a5c;">أعمال البورسلين</div><div style="font-size:10px;color:#888;">Porcelain Tiles</div></div>
+            </div>
+          </a>
+          <a href="work-acceptance.html" target="_blank" style="text-decoration:none;">
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;" onmouseover="this.style.borderColor='#c8a84b';this.style.boxShadow='0 4px 12px rgba(200,168,75,0.15)'" onmouseout="this.style.borderColor='#e2e8f0';this.style.boxShadow='none'">
+              <span style="font-size:22px;">🪨</span>
+              <div><div style="font-size:13px;font-weight:700;color:#1a3a5c;">الحجر الخارجي</div><div style="font-size:10px;color:#888;">External Stone</div></div>
+            </div>
+          </a>
         </div>
+
+        <!-- CTA Button -->
+        <div style="text-align:center;">
+          <a href="work-acceptance.html" target="_blank"
+             style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#1a3a5c,#2a5a8c);color:#c8a84b;padding:14px 32px;border-radius:10px;text-decoration:none;font-size:15px;font-weight:800;box-shadow:0 4px 16px rgba(26,58,92,0.25);transition:all .2s;"
+             onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(26,58,92,0.35)'"
+             onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 16px rgba(26,58,92,0.25)'">
+            📋 فتح وحدة استلام الأعمال الكاملة
+            <span style="font-size:12px;color:rgba(200,168,75,0.7);">Work Acceptance →</span>
+          </a>
+        </div>
+
+        <!-- Features Grid -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:24px;">
+          <div style="background:rgba(46,204,113,0.06);border:1px solid rgba(46,204,113,0.2);border-radius:8px;padding:12px 14px;">
+            <div style="font-size:13px;font-weight:700;color:#27ae60;margin-bottom:4px;">✅ Pass / Fail / NA</div>
+            <div style="font-size:11px;color:var(--text3,#888);">تقييم كل بند بشكل مستقل مع ملاحظات للبنود الفاشلة</div>
+          </div>
+          <div style="background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:12px 14px;">
+            <div style="font-size:13px;font-weight:700;color:#c0392b;margin-bottom:4px;">📄 تصدير PDF</div>
+            <div style="font-size:11px;color:var(--text3,#888);">شهادة استلام احترافية مع Watermark + توقيعات</div>
+          </div>
+          <div style="background:rgba(52,152,219,0.06);border:1px solid rgba(52,152,219,0.2);border-radius:8px;padding:12px 14px;">
+            <div style="font-size:13px;font-weight:700;color:#2980b9;margin-bottom:4px;">📝 تصدير Word</div>
+            <div style="font-size:11px;color:var(--text3,#888);">ملف .docx قابل للتعديل بتنسيق رسمي</div>
+          </div>
+          <div style="background:rgba(200,168,75,0.06);border:1px solid rgba(200,168,75,0.2);border-radius:8px;padding:12px 14px;">
+            <div style="font-size:13px;font-weight:700;color:#c8a84b;margin-bottom:4px;">💾 حفظ تلقائي</div>
+            <div style="font-size:11px;color:var(--text3,#888);">يحفظ في localStorage — لا تفقد بياناتك</div>
+          </div>
+        </div>
+
       </div>
     </div>
 
