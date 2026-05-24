@@ -1,255 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Homepage -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://qatar-standers.vercel.app/</loc>
-    <lastmod>2026-05-04</lastmod>
+    <lastmod>2026-05-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-  </url>
-
-  <!-- Main Sections -->
-  <url>
-    <loc>https://qatar-standers.vercel.app/#group-infra</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://qatar-standers.vercel.app/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://qatar-standers.vercel.app/?lang=en"/>
   </url>
   <url>
-    <loc>https://qatar-standers.vercel.app/#group-structural</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#group-calc</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#group-tools</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- Infrastructure & Roads -->
-  <url>
-    <loc>https://qatar-standers.vercel.app/#roads</loc>
-    <lastmod>2026-05-04</lastmod>
+    <loc>https://qatar-standers.vercel.app/projects.html</loc>
+    <lastmod>2026-05-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://qatar-standers.vercel.app/#utilities</loc>
-    <lastmod>2026-05-04</lastmod>
+    <loc>https://qatar-standers.vercel.app/boq-pricer.html</loc>
+    <lastmod>2026-05-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://qatar-standers.vercel.app/#road_design_criteria</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://qatar-standers.vercel.app/legal/terms.html</loc>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://qatar-standers.vercel.app/#mmup_road_design</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://qatar-standers.vercel.app/legal/privacy.html</loc>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#ashghal_rdm</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#ashghal_forms</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#mep_standards</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- Structural -->
-  <url>
-    <loc>https://qatar-standers.vercel.app/#structural</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#concrete_quick_ref</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#foundations_full</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#pile_load_testing</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#marshall_mix</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#superpave_mix</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#mix_design_validator</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#top20_ncr</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#qcs_changes_2014_2024</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- Calculators -->
-  <url>
-    <loc>https://qatar-standers.vercel.app/#calculator</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#rebar_cover_calc</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#pipe_sizing_calc</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#esal_calculator_full</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- Equipment -->
-  <url>
-    <loc>https://qatar-standers.vercel.app/#equipment</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#roads_equipment</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#structural_equipment</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#utilities_equipment</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#geotech_equipment</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <!-- AI Tools -->
-  <url>
-    <loc>https://qatar-standers.vercel.app/#doc_analyzer</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#drawing_analyzer</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#photo_analyzer</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://qatar-standers.vercel.app/#survey_setting_out</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- QCS Sections (query-string navigation) -->
-  <url><loc>https://qatar-standers.vercel.app/?section=roads</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?section=structural</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?section=utilities</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?section=geotech</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?section=materials</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?section=drainage</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?section=electrical</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?section=landscaping</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?section=ashghal</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?section=kahramaa</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?section=mmup</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-
-  <!-- QCS References -->
-  <url><loc>https://qatar-standers.vercel.app/?ref=qcs-section-1</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?ref=qcs-section-2</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?ref=qcs-section-4</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?ref=qcs-section-6</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?ref=qcs-section-8</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?ref=ashghal-rdm-2023</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?ref=kahramaa-2024</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-
-  <!-- Tools (query-string) -->
-  <url><loc>https://qatar-standers.vercel.app/?tool=concrete-calculator</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?tool=rebar-calculator</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?tool=pipe-calculator</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?tool=asphalt-calculator</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?tool=mix-design</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?tool=compaction-calculator</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?tool=batch-calculator</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?tool=unit-converter</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?tool=itp-generator</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?tool=photo-inspector</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://qatar-standers.vercel.app/?tool=test-frequency</loc><lastmod>2026-05-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>
