@@ -165,8 +165,17 @@ export default async function handler(req, res) {
   }));
 
   try {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      console.error('Chatbot error: GEMINI_API_KEY not set');
+      return res.status(500).json({
+        error: 'config_error',
+        reply: 'عذراً، إعداد الخادم غير مكتمل. يرجى التواصل مع الدعم.'
+      });
+    }
+
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -183,6 +192,8 @@ export default async function handler(req, res) {
     );
 
     if (!response.ok) {
+      const errBody = await response.text().catch(() => 'no body');
+      console.error('Chatbot Gemini error:', response.status, errBody.substring(0, 200));
       throw new Error(`Gemini API error: ${response.status}`);
     }
 
@@ -192,7 +203,7 @@ export default async function handler(req, res) {
     return res.status(200).json({ reply: text });
 
   } catch (err) {
-    console.error('Chatbot error:', err);
+    console.error('Chatbot error:', err.message || err);
     return res.status(500).json({
       error: 'server_error',
       reply: 'عذراً، حدث خطأ مؤقت. يرجى المحاولة مرة أخرى.'
