@@ -1838,6 +1838,9 @@
   h += '</style>';
 
   // Override the existing top20_ncr content
-  c["top20_ncr"] = h;
+  c["top20_ncr"] = {
+    title: '📋 قاعدة بيانات NCR الشاملة — ' + totalCount + ' تقرير | NCR Comprehensive Database',
+    content: h
+  };
 
 })();
