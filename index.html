@@ -278,12 +278,7 @@
 <link rel="preload" href="data_content_manifest.js?v=7" as="script">
 <link rel="preload" href="js/calcs/core.js?v=1" as="script">
 <link rel="prefetch" href="js/calcs/structural.js?v=1" as="script">
-<!-- Prefetch likely-needed data chunks (loaded on-demand by loader.js) -->
-<link rel="prefetch" href="data_content_extra.js">
-<link rel="prefetch" href="data_content_roads.js">
-<link rel="prefetch" href="data_content_utilities.js">
-<link rel="prefetch" href="data_content_buildings.js">
-<link rel="prefetch" href="data_ncr_comprehensive.js">
+<!-- Prefetch handled dynamically by loader.js v5.0 after page load -->
 <!-- Google Fonts with local fallback for offline support -->
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/main.css">
@@ -1435,7 +1430,7 @@
 <script src="/js/core/extra-calcs.min.js" defer></script>
 <script src="/inline-scripts.min.js" defer></script>
 <script src="/js/doc-generator.js" defer></script>
-<script src="loader.js?v=3" defer></script>
+<script src="loader.js?v=5" defer></script>
 <script src="/js/xss-utils.js" defer></script>
 <script src="/js/payment.js" defer></script>
 <script src="/js/ui-handlers.min.js" defer></script><!-- BUILD: /dist/ui-handlers.min.js -->
@@ -1468,7 +1463,7 @@
 <script src="js/export/word-pro.js?v=100" defer></script>
 <!-- Excel Export -->
 <script src="js/export/excel.js?v=700" defer></script>
-<script src="data_structures_detailed.js" defer></script>
+<!-- data_structures_detailed.js — lazy loaded via manifest (was 65KB eager) -->
 <!-- Chart.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
 <script src="js/calcs/chart-addon.js?v=100" defer></script>
