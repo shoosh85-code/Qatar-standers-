@@ -1,0 +1,38 @@
+name: Weekly Link Check
+
+on:
+  schedule:
+    - cron: '0 8 * * 0'  # كل أحد الساعة 8 صباحاً
+  workflow_dispatch:
+
+jobs:
+  links:
+    name: Check for Broken Links
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v1
+        with:
+          args: >
+            --verbose
+            --no-progress
+            --exclude 'wa\.me'
+            --exclude 'localhost'
+            --exclude 'github\.com/login'
+            --exclude 'fonts\.googleapis\.com'
+            '*.html'
+            '*.md'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create issue on failure
+        if: failure()
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "🔗 Broken Links Detected — $(date +'%Y-%m-%d')"
+          content-filepath: ./lychee/out.md
+          labels: maintenance
