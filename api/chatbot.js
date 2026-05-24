@@ -158,38 +158,62 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'messages array required' });
   }
 
-  // === SERVER FAQ — 3 tiers: specific(1 key) → generic(2+ keys) → greetings ===
+  // ═══════════════════════════════════════════════════════════
+  // SERVER KNOWLEDGE ENGINE — mirrors client-side KB
+  // ═══════════════════════════════════════════════════════════
   const lastMsg = (messages[messages.length - 1]?.content || '').toLowerCase();
+  const KB = [
+    { k: ['مفتش','inspector','فحص صور','defect','كشف عيوب'], w: 5, r: '🔍 **المفتش الذكي (AI Site Inspector) — Pro:**\n\nأداة AI تحلل صور الموقع وتكشف مخالفات QCS 2024.\n\n1. افتح كرت "المفتش الذكي"\n2. التقط/ارفع صورة\n3. AI يكشف: تشققات، تعشيش، نزيف، هبوط\n4. تقرير فوري + مرجع QCS\n\n⚠️ Pro فقط (99 QAR/شهر)' },
+    { k: ['itp','خطة فحص','inspection test','hold point','witness'], w: 5, r: '📋 **إنشاء ITP:**\n\n1. **مولّد المستندات** (Pro) → Wizard 5 خطوات\n2. **مولّد MOS/ITP** (Pro) → 9 مراحل QCS 2024\n3. **نماذج Ashghal** (مجاني) → تاب ITP\n\nH=Hold Point · W=Witness · R=Review · M=Monitor' },
+    { k: ['محلل وثائق','محلل مستند','analyzer','تحليل عقد','document analy'], w: 5, r: '📄 **محلل الوثائق (Pro):** ارفع PDF (عقد/مواصفة) → AI يستخرج البنود ويقارنها مع QCS 2024.' },
+    { k: ['محلل مخطط','drawing analy','تحليل رسم','رسومات','shop drawing'], w: 5, r: '📐 **محلل المخططات (Pro):** ارفع مخطط → AI يراجع أبعاد وتفاصيل حسب QCS 2024.' },
+    { k: ['مولد مستند','doc generator','wizard','توليد'], w: 5, r: '📝 **مولّد المستندات (Pro):** Method Statement / ITP / NCR / DPR — Wizard 5 خطوات بمراجع QCS.' },
+    { k: ['method statement','طريقة تنفيذ','طريقة عمل','mos','منهجية'], w: 5, r: '📋 **مولّد طريقة التنفيذ (مجاني):**\n12 نوع نشاط · النطاق · المعدات · الجودة · السلامة · مرجع QCS.\nافتح كرت "مولّد طريقة التنفيذ"' },
+    { k: ['rfi','طلب معلومات','request for info'], w: 5, r: '📨 **RFI:** افتح "نماذج Ashghal" → تاب RFI → ترقيم تلقائي + واتساب + PDF' },
+    { k: ['dpr','تقرير يومي','daily progress','daily report'], w: 5, r: '📊 **DPR:** افتح "نماذج Ashghal" → تاب DPR → عمالة + معدات + إنجاز + ملاحظات' },
+    { k: ['ncr','مخالف','عدم مطابق','non conform'], w: 5, r: '🔴 **NCR:**\n• نموذج: "نماذج Ashghal" → تاب NCR\n• قاعدة بيانات: 1500+ تقرير عبر 9 تخصصات\nافتح "قاعدة بيانات NCR الشاملة"' },
+    { k: ['نماذج','forms','نموذج','ashghal form'], w: 4, r: '📋 **نماذج Ashghal (مجاني):** RFI + NCR + DPR + ITP — ترقيم تلقائي + واتساب + PDF' },
+    { k: ['حاسب','حاسبات','calculator','calc'], w: 4, r: '🧮 **8 حاسبات:** مواصفات Pass/Fail · مباني · ESAL · Mix Design · Pipe Sizing · Rebar Cover · Superpave · Marshall\nافتح "مركز الحاسبات"' },
+    { k: ['مشروع','project','مشاريع','project hub'], w: 4, r: '📊 **لوحة المشاريع:** اضغط "📊 مشاريعي" — تقارير · فحص · مواد · NCR · BOQ · صور · IPC' },
+    { k: ['boq','تسعير','كميات','bill of quantities'], w: 5, r: '💰 **BOQ:** افتح "💰 تسعير BOQ" — بنود + أسعار + إجمالي + تصدير Excel' },
+    { k: ['تصدير','export','طباعة','print','تحميل'], w: 4, r: '📥 **التصدير:** PDF/Word/Excel من أي قسم. اضغط أيقونات PDF/DOC بالأعلى. (Pro للتصدير · الطباعة مجانية)' },
+    { k: ['بحث','search','بحث ذكي','ai search'], w: 4, r: '🔍 **البحث الذكي:** اكتب سؤالك بالعربي أو الإنجليزي → AI يبحث في QCS 2024 الفعلي.\nFree: 5/يوم · Pro: غير محدود' },
+    { k: ['معدات','equipment','آليات','grader','roller','paver','excavator'], w: 4, r: '🚜 **66 معدة:** طرق (8) · مرافق (16) · إنشاء (14) · جسات (19). كل معدة بالمواصفات + QCS/ASTM' },
+    { k: ['execution hub','تنفيذ ميداني','pour card','بطاقة صب','mar','اعتماد مواد'], w: 5, r: '🏗️ **لوحة التنفيذ:** Pour Card + MAR + NCR + Pass/Fail + DWR + مساعد AI ميداني' },
+    { k: ['work acceptance','استلام أعمال','قبول أعمال'], w: 5, r: '✅ **استلام الأعمال:** 13 نوع عمل × Checklist تفاعلي → Pass/Fail → PDF/Word' },
+    { k: ['payment','دفع شهاد','ipc','retention','cash flow','s-curve'], w: 5, r: '💰 **IPC + Cash Flow (Pro):** FIDIC Cl.14 · Retention 10% · منحنى S · تدفق نقدي شهري' },
+    { k: ['schedule','جدول زمني','gantt','برنامج زمني','critical path'], w: 5, r: '📅 **البرنامج الزمني (Pro):** Gantt + CPM + Float + منحنى S + تصدير Primavera' },
+    // Content
+    { k: ['طرق','road','asphalt','اسفلت','رصف','pavement','subgrade','subbase'], w: 4, r: '🛣️ **الطرق §S8:** Subgrade ≥95% · Subbase ≥95% · Base ≥98% · WC ≥98% Gmm. افتح كرت "أعمال الطرق"' },
+    { k: ['مرافق','utilit','مياه','sewer','صرف','pipe','أنابيب','kahramaa'], w: 4, r: '🔧 **المرافق §S20:** مياه HDPE PN16 · صرف uPVC SN8 · أمطار RCP III · TSE بنفسجي. افتح كرت "شبكات المرافق"' },
+    { k: ['خرسان','concrete','صب','cover','غطاء','curing','معالج','slump','cube','مكعب'], w: 4, r: '🏗️ **الخرسانة §S5:** C25 أساسات · C32 أعمدة · غطاء 25-50mm · معالجة ≥7 أيام · مكعب كل 50m³' },
+    { k: ['تسليح','rebar','حديد','وصل','lap','stirrup','كان'], w: 4, r: '🔩 **التسليح §S5:** Lap شدّ ≥40φ · ضغط ≥30φ · كانات مغلقة 135° · BS 4449' },
+    { k: ['أساس','foundation','خازوق','pile','raft','لبشة'], w: 4, r: '⚓ **الأساسات §S5-P7:** معزول/شريطي/لبشة/خوازيق. غطاء ≥50mm. PIT 100% عند الشك.' },
+    { k: ['mep','كهرباء','electric','ميكانيك','حريق','fire','تكييف','سباك'], w: 4, r: '⚡ **MEP §S21:** كهرباء LV 415/240V · سباكة HDPE/PPR · إطفاء NFPA 13/72 · KAHRAMAA + QCDD' },
+    { k: ['mmup','setback','coverage','نسبة بناء','far','parking','مواقف'], w: 4, r: '🏢 **MMUP:** Setback أمامي ≥6m · Coverage سكني ≤60% · FAR 1.5-3.0 · مواقف 1/وحدة سكنية' },
+    { k: ['compaction','دمك','mdd','cbr','proctor','density','كثاف'], w: 4, r: '🔨 **الدمك §S8:** Subgrade ≥95% CBR≥8 · Subbase ≥95% CBR≥30 · Base ≥98% CBR≥80. NDG كل 500m²' },
+    { k: ['test','فحص','اختبار ضغط','pressure test','تعقيم','disinfect','chlorin'], w: 3, r: '🧪 **اختبارات:** ضغط مياه 1.5×PN/2hr · تسرب صرف Air/Water · تعقيم ≥50ppm · CCTV إلزامي' },
+    // Business
+    { k: ['free','pro','فرق','مجاني','مدفوع','اشتراك','سعر','price','باقة','ترقي','كم','تكلف'], w: 3, r: '🆓 **Free:** 5 بحث/يوم · 111+ قسم · حاسبات · نماذج · مولّد MOS\n\n⭐ **Pro (99 QAR/شهر):** بحث غير محدود · تصدير · مفتش ذكي · محلل وثائق/مخططات · مولّد مستندات · IPC · Gantt\n\n✅ ضمان 7 أيام' },
+    { k: ['ما هو','what is','عن التطبيق','about','تعريف'], w: 3, r: '🏗️ **QatarSpec Pro:** أكبر مرجع رقمي للمواصفات في قطر. 111+ قسم QCS + Ashghal + KAHRAMAA + MMUP + 8 حاسبات + AI + نماذج.' },
+    { k: ['offline','بدون انترنت','pwa','تثبيت','install'], w: 4, r: '📲 **Offline:** المحتوى الثابت يعمل بدون إنترنت بعد أول زيارة. البحث الذكي يحتاج إنترنت. ثبّت من قائمة المتصفح.' },
+    { k: ['لغة','language','english','عربي','تبديل'], w: 4, r: '🌐 اضغط "عربي / EN" أعلى يمين الصفحة — كل المحتوى ثنائي اللغة.' },
+    { k: ['مشكل','خطأ','error','لا يعمل','مساعد','help','دعم','support'], w: 3, r: '🛠️ **دعم:** أعد تحميل الصفحة · جرّب Incognito · تأكد من الإنترنت.\nتواصل: info@qatarspec.com أو WhatsApp' },
+    // Greetings
+    { k: ['شكرا','thanks','ممتاز','رائع','عظيم','حلو','جميل','bravo','nice','good'], w: 2, r: '😊 العفو! لا تتردد بالسؤال في أي وقت — أنا هنا 24/7! 💪' },
+    { k: ['مرحبا','hello','hi','هلا','السلام','اهلا','صباح','مساء','سلام','hey'], w: 2, r: 'مرحباً! 👋 أنا QS Assistant. يمكنني مساعدتك في: شرح الميزات · إنشاء ITP/NCR · معلومات QCS · الفرق بين الباقات · حل مشاكل. اسأل أي شيء! 🚀' },
+    { k: ['باي','bye','مع السلامة','وداع','see you'], w: 2, r: 'مع السلامة! 👋 ارجع في أي وقت. بالتوفيق في مشروعك! 🇶🇦' }
+  ];
   
-  // TIER 1: Specific features
-  const SPECIFIC = [
-    { k: ['مفتش','inspector','فحص صور'], r: '🔍 **المفتش الذكي (AI Site Inspector) — Pro:**\n\nأداة AI تحلل صور الموقع وتكشف مخالفات QCS 2024.\n\n**الخطوات:**\n1. افتح كرت "المفتش الذكي"\n2. التقط/ارفع صورة\n3. AI يكشف: تشققات، تعشيش، نزيف، هبوط\n4. تقرير فوري بالعربي + مرجع QCS\n\n⚠️ Pro فقط (99 QAR/شهر)' },
-    { k: ['itp','خطة فحص','inspection test'], r: '📋 **إنشاء ITP:**\n\n1. **مولّد المستندات** (Pro) → اختر ITP → Wizard 5 خطوات\n2. **مولّد MOS/ITP** (Pro) → 9 مراحل QCS 2024\n3. **نماذج Ashghal** (مجاني) → تاب ITP → تعبئة وتصدير\n\nكل ITP يحتوي Hold/Witness Points حسب QCS 2024.' },
-    { k: ['مولد','generator','method statement','طريقة تنفيذ'], r: '📋 **مولّد المستندات:** Method Statement / ITP / NCR / DPR — Wizard 5 خطوات بمراجع QCS 2024.\n\nافتح "مولّد المستندات الشامل" من الصفحة الرئيسية.' },
-    { k: ['محلل','analyzer','وثائق','document'], r: '📄 **محلل الوثائق (Pro):** ارفع PDF → AI يستخرج البنود ويقارنها مع QCS 2024.' },
-    { k: ['حاسب','حاسبات','calculator','calc'], r: '🧮 **الحاسبات:** Pass/Fail · مباني · ESAL · Mix Design · Pipe Sizing · Rebar Cover · Superpave · Marshall' },
-    { k: ['ncr','مخالف','عدم مطابقة'], r: '🔴 **NCR Database:** 1500+ تقرير عبر 9 تخصصات. افتح "قاعدة بيانات NCR الشاملة"!' },
-    { k: ['مشروع','project','مشاريع'], r: '📊 **لوحة المشاريع:** تقارير · فحص · مواد · NCR · BOQ. اضغط "📊 مشاريعي" في الأعلى.' },
-    { k: ['تصدير','export','pdf','word'], r: '📥 **التصدير (Pro):** PDF/Word/Excel بتنسيق Ashghal. اضغط أيقونات PDF/DOC في أعلى أي قسم.' },
-    { k: ['مخطط','drawing','رسومات'], r: '📐 **محلل المخططات (Pro):** ارفع رسومات → مراجعة QCS 2024 تلقائية.' }
-  ];
-  const specMatch = SPECIFIC.find(f => f.k.some(k => lastMsg.includes(k)));
-  if (specMatch) return res.status(200).json({ reply: specMatch.r });
-
-  // TIER 2: Generic (2+ keyword matches)
-  const GENERIC = [
-    { k: ['free','pro','فرق','مجاني','مدفوع','اشتراك','سعر','price','باقة'], r: '🆓 **Free:** 5 بحث/يوم · 111+ قسم · حاسبات · نماذج\n\n⭐ **Pro (99 QAR/شهر):** بحث غير محدود · تصدير PDF/Word · المفتش الذكي · محلل المستندات · مولّد المستندات' },
-    { k: ['كيف','استخدم','how','use','ابدأ','start'], r: '🔍 **الاستخدام:**\n1. البحث الذكي — اكتب سؤالك\n2. الكروت — تصفح حسب التخصص\n3. الحاسبات — Pass/Fail فوري\n4. رفع PDF — تحليل بـ AI\n\nهل تسأل عن ميزة محددة؟ اذكر اسمها!' },
-    { k: ['qcs','2024','مواصفات','كود'], r: '📖 **QCS 2024:** §S5 خرسانة · §S8 طرق · §S20 مرافق · §S21 MEP — 111+ قسم مرجعي.' }
-  ];
-  const genMatch = GENERIC.find(f => f.k.filter(k => lastMsg.includes(k)).length >= 2);
-  if (genMatch) return res.status(200).json({ reply: genMatch.r });
-
-  // TIER 3: Greetings
-  if (['شكرا','thanks','ممتاز','رائع'].some(k => lastMsg.includes(k)))
-    return res.status(200).json({ reply: '😊 العفو! لا تتردد بالسؤال.' });
-  if (['مرحبا','hello','hi','هلا','السلام','اهلا'].some(k => lastMsg.includes(k)))
-    return res.status(200).json({ reply: 'مرحباً! 👋 كيف يمكنني مساعدتك اليوم؟' });
+  let bestMatch = null, bestScore = 0;
+  for (const entry of KB) {
+    const hits = entry.k.filter(k => lastMsg.includes(k)).length;
+    if (hits > 0) {
+      const score = hits * (entry.w || 1);
+      if (score > bestScore) { bestScore = score; bestMatch = entry; }
+    }
+  }
+  if (bestMatch) return res.status(200).json({ reply: bestMatch.r });
 
   // Build Gemini request
   const geminiMessages = messages.map(m => ({
