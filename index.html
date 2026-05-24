@@ -1428,6 +1428,103 @@
 <script src="/js/guided-tour.js" defer></script>
 
 <script src="/chatbot-widget.js?v=5"></script>
+
+<!-- ═══ ONBOARDING MODAL — PROMPT-06 — يظهر مرة واحدة للزائر الجديد ═══ -->
+<div id="onboarding-modal" role="dialog" aria-modal="true" aria-labelledby="onboard-title">
+  <div class="onboard-card">
+    <div class="onboard-progress">
+      <div class="onboard-dot" id="ob-dot-0"></div>
+      <div class="onboard-dot" id="ob-dot-1"></div>
+      <div class="onboard-dot" id="ob-dot-2"></div>
+    </div>
+    <div id="onboard-icon" class="onboard-icon">🇶🇦</div>
+    <h2 id="onboard-title" class="onboard-title">أهلاً في QatarSpec Pro</h2>
+    <div id="onboard-body" class="onboard-body"></div>
+    <button class="onboard-btn" id="onboard-next">التالي ←</button>
+    <button class="onboard-skip" id="onboard-skip">تخطّ — سأستكشف بنفسي</button>
+  </div>
+</div>
+
+<script>
+/* ═══ Onboarding System — PROMPT-06 ═══
+   يظهر مرة واحدة فقط للمستخدم الجديد
+   لا يُحذف أي محتوى موجود — إضافة فقط */
+(function initOnboarding() {
+  'use strict';
+  /* إذا شاهد المستخدم الـ onboarding من قبل — لا تُظهره */
+  if (localStorage.getItem('qs_onboarded_v1')) return;
+
+  const STEPS = [
+    {
+      icon: '🇶🇦',
+      title: 'أهلاً في QatarSpec Pro',
+      body: 'المرجع الأول للمواصفات الهندسية القطرية.<br><br>ابحث في <strong>QCS 2024</strong> بالعربية أو الإنجليزية واحصل على إجابة فورية مع المرجع الدقيق.'
+    },
+    {
+      icon: '🧮',
+      title: 'الحاسبات الهندسية',
+      body: '50+ حاسبة تعطيك <strong>Pass ✅ أو Fail ❌</strong> فوراً.<br><br>من اختبار الضغط لـ CBR لـ Slump Test — كل نتيجة مع مرجع QCS الدقيق.'
+    },
+    {
+      icon: '🆓',
+      title: 'مجاني ويكفي!',
+      body: '<strong>5 بحثات ذكية يومياً</strong> مجاناً.<br>111+ قسم مرجعي بدون حد.<br>جميع الحاسبات مجانية.<br><br>للبحث غير المحدود وتصدير PDF → <strong>Pro بـ 99 QAR/شهر</strong>'
+    }
+  ];
+
+  let current = 0;
+  const modal   = document.getElementById('onboarding-modal');
+  const icon    = document.getElementById('onboard-icon');
+  const title   = document.getElementById('onboard-title');
+  const body    = document.getElementById('onboard-body');
+  const nextBtn = document.getElementById('onboard-next');
+  const skipBtn = document.getElementById('onboard-skip');
+  if (!modal) return;
+
+  function renderStep(i) {
+    const s = STEPS[i];
+    icon.textContent  = s.icon;
+    title.textContent = s.title;
+    body.innerHTML    = s.body;
+    /* تحديث الـ dots */
+    for (let d = 0; d < STEPS.length; d++) {
+      const dot = document.getElementById('ob-dot-' + d);
+      if (dot) dot.classList.toggle('done', d <= i);
+    }
+    nextBtn.textContent = (i === STEPS.length - 1) ? '🚀 ابدأ الاستخدام' : 'التالي ←';
+  }
+
+  function close() {
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+    localStorage.setItem('qs_onboarded_v1', '1');
+  }
+
+  nextBtn.addEventListener('click', function () {
+    if (current === STEPS.length - 1) { close(); return; }
+    current++;
+    renderStep(current);
+  });
+  skipBtn.addEventListener('click', close);
+
+  /* أغلق عند الضغط خارج الـ card */
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal) close();
+  });
+  /* أغلق بـ Escape */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modal.classList.contains('show')) close();
+  });
+
+  /* أظهر بعد 1.5 ثانية */
+  setTimeout(function () {
+    renderStep(0);
+    modal.classList.add('show');
+    modal.removeAttribute('aria-hidden');
+  }, 1500);
+})();
+</script>
+
 </body>
 </html>
 <!-- redeploy 20260524113926 -->
