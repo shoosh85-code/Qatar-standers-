@@ -158,6 +158,24 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'messages array required' });
   }
 
+  // === LOCAL FAQ — instant answers without API ===
+  const lastMsg = (messages[messages.length - 1]?.content || '').toLowerCase();
+  const FAQ = [
+    { keys: ['free', 'pro', 'فرق', 'مجاني', 'مدفوع', 'اشتراك', 'سعر', 'price'],
+      reply: '🆓 **Free (مجاني للأبد):**\n• 5 بحث ذكي يومياً\n• كل المحتوى الثابت (111+ قسم)\n• الحاسبات الأساسية\n• نماذج RFI/NCR/DPR\n\n⭐ **Pro (99 QAR/شهر):**\n• بحث ذكي غير محدود\n• تصدير PDF + Word احترافي\n• محلل المستندات بالذكاء الاصطناعي\n• محلل المخططات\n• المفتش الذكي بالصور\n• مولّد المستندات الشامل\n• دعم فني أولوية\n\n💡 الباقة المجانية مفيدة جداً — Pro توفر لك أكثر من ساعتين أسبوعياً!' },
+    { keys: ['كيف', 'استخدم', 'how', 'use', 'بحث', 'search'],
+      reply: '🔍 **طريقة الاستخدام:**\n1. اكتب سؤالك في شريط البحث الذكي\n2. أو تصفح الكروت حسب التخصص\n3. استخدم الحاسبات لنتائج Pass/Fail فورية\n4. ارفع PDF لتحليله بالذكاء الاصطناعي\n\n💡 جرّب: "ما هي متطلبات الغطاء الخرساني؟"' },
+    { keys: ['qcs', '2024', 'مواصفات', 'كود'],
+      reply: '📖 **QCS 2024** هو الكود القطري للبناء والتشييد — يغطي:\n• §S5 الخرسانة والإنشاء\n• §S8 الطرق والأرصفة\n• §S20 شبكات المرافق\n• §S21 أنظمة MEP\n\nQatarSpec Pro يحتوي على 111+ قسم مرجعي من QCS 2024 + Ashghal + KAHRAMAA + MMUP.' },
+    { keys: ['ncr', 'مخالفة', 'عدم مطابقة'],
+      reply: '🔴 **NCR (Non-Conformance Report):**\nلدينا قاعدة بيانات شاملة بـ 1500+ تقرير NCR عبر 9 تخصصات:\nصرف · مياه شرب · TSE · حفر · خرسانة · تشطيبات · سباكة · كهرباء\n\nافتح كرت "قاعدة بيانات NCR الشاملة" من الصفحة الرئيسية!' }
+  ];
+  
+  const faqMatch = FAQ.find(f => f.keys.some(k => lastMsg.includes(k)));
+  if (faqMatch) {
+    return res.status(200).json({ reply: faqMatch.reply });
+  }
+
   // Build Gemini request
   const geminiMessages = messages.map(m => ({
     role: m.role === 'assistant' ? 'model' : 'user',
@@ -194,6 +212,12 @@ export default async function handler(req, res) {
     if (!response.ok) {
       const errBody = await response.text().catch(() => 'no body');
       console.error('Chatbot Gemini error:', response.status, errBody.substring(0, 200));
+      
+      if (response.status === 429) {
+        return res.status(200).json({
+          reply: '⏳ الخادم مشغول حالياً بسبب كثرة الطلبات. حاول مرة أخرى بعد دقيقة.\n\nفي الأثناء، يمكنك تصفح الأقسام والحاسبات مباشرة من الصفحة الرئيسية — كلها تعمل بدون AI! 🚀'
+        });
+      }
       throw new Error(`Gemini API error: ${response.status}`);
     }
 
