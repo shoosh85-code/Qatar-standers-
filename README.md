@@ -1,4 +1,12 @@
 # QatarSpec Pro 🏗️
+[![Live App](https://img.shields.io/badge/Live-qatar--standers.vercel.app-7A1515?style=flat-square&logo=vercel)](https://qatar-standers.vercel.app)
+[![PWA Ready](https://img.shields.io/badge/PWA-Ready-blue?style=flat-square)](https://qatar-standers.vercel.app)
+[![Rate Limited](https://img.shields.io/badge/Rate_Limit-Protected-orange?style=flat-square)](https://qatar-standers.vercel.app)
+[![Arabic RTL](https://img.shields.io/badge/Arabic-RTL_Support-brightgreen?style=flat-square)](https://qatar-standers.vercel.app)
+[![QCS 2024](https://img.shields.io/badge/QCS-2024_Official-7A1515?style=flat-square)](https://qatar-standers.vercel.app)
+[![License](https://img.shields.io/badge/License-Proprietary-red?style=flat-square)](legal/terms.html)
+
+
 
 > **مرجع المواصفات القطرية — Qatar Construction Specifications Reference**  
 > منصة هندسية متخصصة مدعومة بالذكاء الاصطناعي | AI-Powered Engineering SaaS for Qatar
