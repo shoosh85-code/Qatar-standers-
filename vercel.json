@@ -4,7 +4,7 @@
   "buildCommand": "npm run build",
   "rewrites": [
     {
-      "source": "/((?!api/|legal/|subscribe\\.html|success\\.html|work-acceptance\\.html|boq-pricer\\.html|404\\.html|500\\.html|mos-itp\\.html|offline\\.html|embedding-runner\\.html|translation-runner\\.html|projects\\.html|project-detail\\.html|login\\.html|tools\\.html|dpr-generator\\.html|ncr-generator\\.html|method-statement\\.html|execution-hub\\.html).*)",
+      "source": "/((?!api/|legal/|subscribe\\.html|success\\.html|work-acceptance\\.html|boq-pricer\\.html|404\\.html|500\\.html|mos-itp\\.html|offline\\.html|embedding-runner\\.html|translation-runner\\.html|projects\\.html|project-detail\\.html|login\\.html|tools\\.html|dpr-generator\\.html|ncr-generator\\.html|method-statement\\.html|execution-hub\\.html|3d-scanner\\.html).*)",
       "destination": "/index.html"
     }
   ],
@@ -26,6 +26,9 @@
     }
   ],
   "functions": {
+    "api/scan-export.js": {
+      "maxDuration": 30
+    },
     "api/ai-proxy.js": {
       "maxDuration": 60
     },
@@ -122,7 +125,7 @@
         },
         {
           "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), autoplay=(), encrypted-media=(), picture-in-picture=(), display-capture=(), fullscreen=(self), clipboard-read=(), clipboard-write=(self), bluetooth=(), serial=(), hid=(), idle-detection=(), screen-wake-lock=()"
+          "value": "camera=(self), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), autoplay=(), encrypted-media=(), picture-in-picture=(), display-capture=(), fullscreen=(self), clipboard-read=(), clipboard-write=(self), bluetooth=(), serial=(), hid=(), idle-detection=(), screen-wake-lock=()"
         },
         {
           "key": "Cross-Origin-Opener-Policy",
