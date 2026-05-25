@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QatarSpec 3D Vision Scanner</title>
+  <link rel="stylesheet" href="../css/scanner.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- Header -->
+  <div class="qs-header">
+    <div class="qs-logo">QatarSpec <span class="pro">PRO</span></div>
+    <div class="qs-title">3D Vision Scanner</div>
+    <div id="scanBadge" class="badge badge-idle">جاهز</div>
+  </div>
+
+  <!-- Step indicator -->
+  <div class="steps">
+    <div class="step active" id="step1">1 — التصوير</div>
+    <div class="step" id="step2">2 — التحليل</div>
+    <div class="step" id="step3">3 — المجسم</div>
+    <div class="step" id="step4">4 — التصدير</div>
+  </div>
+
+  <!-- Panel 1: Camera -->
+  <div class="panel active" id="panelCamera">
+    <div class="cam-wrap">
+      <video id="video" autoplay muted playsinline></video>
+      <canvas id="overlayCanvas"></canvas>
+      <div id="camPlaceholder">
+        <div class="cam-icon">📷</div>
+        <p>اضغط "تشغيل الكاميرا" للبدء</p>
+        <p class="hint">أو استخدم "بيانات تجريبية" للعرض الفوري</p>
+      </div>
+    </div>
+
+    <div class="ref-bar" id="refBar" style="display:none">
+      <label>مرجع القياس:</label>
+      <select id="refObject">
+        <option value="2.1">ارتفاع الباب = 2.1م</option>
+        <option value="0.9">عرض الباب = 0.9م</option>
+        <option value="1.0">متر واحد (شريط قياس)</option>
+        <option value="custom">إدخال يدوي</option>
+      </select>
+      <input type="number" id="refCustom" placeholder="القيمة بالمتر" style="display:none" step="0.01" min="0.1" max="10">
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btnCamera" onclick="window.QS3D.camera.start()">
+        ▶ تشغيل الكاميرا
+      </button>
+      <button class="btn" id="btnScan" onclick="window.QS3D.camera.toggleScan()" disabled>
+        ⬛ بدء المسح
+      </button>
+      <button class="btn" id="btnCapture" onclick="window.QS3D.camera.captureFrame()" disabled>
+        📸 تصوير
+      </button>
+      <button class="btn btn-demo" onclick="window.QS3D.loadDemo()">
+        ✨ بيانات تجريبية
+      </button>
+    </div>
+
+    <div class="log-bar" id="logBar">⬅ اضغط "بيانات تجريبية" للبدء الفوري بدون كاميرا</div>
+
+    <div class="rooms-counter" id="roomsCounter" style="display:none">
+      <span id="roomCount">0</span> غرفة مُحللة
+      <button class="btn-sm" onclick="window.QS3D.goStep(3)">عرض المجسم ←</button>
+    </div>
+  </div>
+
+  <!-- Panel 2: Analysis Progress -->
+  <div class="panel" id="panelAnalysis">
+    <div class="analysis-list" id="analysisList"></div>
+    <button class="btn" onclick="window.QS3D.goStep(3)">عرض المجسم 3D ←</button>
+  </div>
+
+  <!-- Panel 3: 3D Model -->
+  <div class="panel" id="panelModel">
+    <div class="model-controls">
+      <button class="btn-sm" onclick="window.QS3D.model.toggleWireframe()" id="wfBtn">Wireframe</button>
+      <button class="btn-sm" onclick="window.QS3D.model.resetCamera()">↺ إعادة ضبط</button>
+      <button class="btn-sm" onclick="window.QS3D.model.toggleAutoRotate()" id="rotBtn">▶ دوران</button>
+      <button class="btn-sm" onclick="window.QS3D.model.toggleFloorPlan()">📐 مسقط</button>
+    </div>
+    <canvas id="threeCanvas"></canvas>
+    <div class="model-hint">اسحب للتدوير • عجلة الماوس للتكبير • اضغط مزدوج لإعادة الضبط</div>
+
+    <div class="dims-grid" id="dimsGrid"></div>
+
+    <button class="btn btn-primary" onclick="window.QS3D.goStep(4)" style="margin-top:12px">
+      التصدير والتقرير ←
+    </button>
+  </div>
+
+  <!-- Panel 4: Export -->
+  <div class="panel" id="panelExport">
+    <div class="export-info" id="exportInfo"></div>
+    <div class="export-btns">
+      <button class="btn btn-export" onclick="window.QS3D.export.pdf()">
+        📄 تصدير PDF — تنسيق QatarSpec Pro
+      </button>
+      <button class="btn btn-export" onclick="window.QS3D.export.excel()">
+        📊 تصدير Excel — تنسيق Ashghal
+      </button>
+      <button class="btn btn-export" onclick="window.QS3D.export.json()">
+        { } تصدير JSON — بيانات BIM
+      </button>
+    </div>
+    <div class="export-log" id="exportLog"></div>
+    <div class="qcs-disclaimer">
+      ⚠️ تنبيه: الأبعاد المستخرجة بالكاميرا تقريبية (±10-15سم). يجب التحقق اليدوي قبل التسليم الرسمي.
+      مرجع: QCS 2024 — Part 3, Section 4.2 — Measurement of Works
+    </div>
+  </div>
+
+</div>
+
+<!-- Three.js -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<!-- SheetJS -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<!-- App Scripts -->
+<script src="../js/scanner-camera.js"></script>
+<script src="../js/scanner-gemini.js"></script>
+<script src="../js/scanner-3d.js"></script>
+<script src="../js/scanner-export.js"></script>
+<script>
+  // Initialize
+  window.QS3D = {
+    rooms: [],
+    camera: window.ScannerCamera,
+    gemini: window.ScannerGemini,
+    model:  window.Scanner3D,
+    export: window.ScannerExport,
+
+    goStep: function(n) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById('panel' + ['Camera','Analysis','Model','Export'][n-1]).classList.add('active');
+      document.getElementById('step' + n).classList.add('active');
+      if (n === 3) window.Scanner3D.init();
+    },
+
+    loadDemo: function() {
+      this.rooms = [
+        {name:'غرفة المعيشة',    length:6.2, width:4.8, height:2.9, doors:[{w:0.9,h:2.1}], windows:[{w:1.5,h:1.2},{w:1.5,h:1.2}], confidence:0.85, qcs_min_area:20},
+        {name:'غرفة النوم الرئيسية', length:4.5, width:3.8, height:2.9, doors:[{w:0.9,h:2.1}], windows:[{w:1.2,h:1.2}], confidence:0.82, qcs_min_area:12},
+        {name:'المطبخ',           length:3.5, width:2.8, height:2.7, doors:[{w:0.8,h:2.1}], windows:[{w:0.8,h:0.8}], confidence:0.79, qcs_min_area:8},
+        {name:'الحمام',           length:2.2, width:1.8, height:2.6, doors:[{w:0.7,h:2.1}], windows:[],             confidence:0.88, qcs_min_area:3.5},
+        {name:'الردهة',           length:3.0, width:1.5, height:2.9, doors:[{w:0.9,h:2.1}], windows:[],             confidence:0.91, qcs_min_area:0}
+      ];
+      this.goStep(3);
+      document.getElementById('logBar').textContent = '✅ فيلا تجريبية — 5 غرف محللة';
+      window.Scanner3D.build(this.rooms);
+      this.updateRoomsCounter();
+    },
+
+    updateRoomsCounter: function() {
+      const c = document.getElementById('roomsCounter');
+      c.style.display = 'flex';
+      document.getElementById('roomCount').textContent = this.rooms.length;
+    },
+
+    log: function(msg) {
+      document.getElementById('logBar').textContent = msg;
+    }
+  };
+</script>
+</body>
+</html>
