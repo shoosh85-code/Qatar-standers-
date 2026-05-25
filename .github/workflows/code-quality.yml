@@ -1,0 +1,103 @@
+name: Code Quality — ESLint + axe + Bundle Size + Auto-Label
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  eslint:
+    name: ESLint — JS Quality Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      - run: npm ci
+      - name: Run ESLint
+        run: |
+          npx eslint api/*.js js/**/*.js supabase-search.js \
+            --format github \
+            --max-warnings 30 \
+            --no-error-on-unmatched-pattern || true
+        continue-on-error: true
+
+  accessibility:
+    name: axe — Accessibility Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install axe-cli
+        run: npm install -g @axe-core/cli
+      - name: Run axe on live site
+        run: |
+          axe https://qatar-standers.vercel.app \
+            --exit --reporter json --stdout > axe-results.json 2>&1 || true
+          node -e "
+            try {
+              const r = require('./axe-results.json');
+              const v = (r.violations || []);
+              const c = (r.incomplete || []).length;
+              console.log('Violations:', v.length, '| Incomplete:', c);
+              v.slice(0,5).forEach(x => console.log('  ❌', x.id + ':', x.help));
+              if (v.length === 0) console.log('✅ No accessibility violations');
+            } catch(e) { console.log('Could not parse axe results'); }
+          "
+          echo '## axe Accessibility Results' >> \$GITHUB_STEP_SUMMARY
+          node -e "
+            try {
+              const r = require('./axe-results.json');
+              const v = (r.violations || []).length;
+              console.log(v === 0 ? '✅ No violations' : '⚠️ ' + v + ' violations found');
+            } catch(e) { console.log('Results unavailable'); }
+          " >> \$GITHUB_STEP_SUMMARY
+        continue-on-error: true
+
+  bundle-size:
+    name: Bundle Size Report
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check file sizes
+        run: |
+          echo '## Bundle Size Report' >> $GITHUB_STEP_SUMMARY
+          echo '| File | Size |' >> $GITHUB_STEP_SUMMARY
+          echo '|------|------|' >> $GITHUB_STEP_SUMMARY
+          for f in index.html loader.js calc-worker.js inline-scripts.js subscribe.html; do
+            if [ -f "$f" ]; then
+              SIZE=$(wc -c < "$f")
+              SIZE_KB=$(echo "scale=1; $SIZE/1024" | bc)
+              echo "| $f | ${SIZE_KB} KB |" >> $GITHUB_STEP_SUMMARY
+            fi
+          done
+          TOTAL=0
+          for f in data_content*.js data_calcs.js data_structures*.js data_ncr*.js; do
+            [ -f "$f" ] && TOTAL=$((TOTAL + $(wc -c < "$f")))
+          done
+          TOTAL_MB=$(echo "scale=2; $TOTAL/1048576" | bc)
+          echo "| data files total | ${TOTAL_MB} MB |" >> $GITHUB_STEP_SUMMARY
+          INDEX_SIZE=$(wc -c < index.html)
+          if [ "$INDEX_SIZE" -gt 3000000 ]; then
+            echo "⚠️ index.html > 3MB — consider further optimization" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ index.html size OK" >> $GITHUB_STEP_SUMMARY
+          fi
+
+  auto-label:
+    name: Auto-Label Pull Requests
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/labeler@v5
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
