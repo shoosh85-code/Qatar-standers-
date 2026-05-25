@@ -26,6 +26,7 @@ api/validate-code.js
 # ── Supabase migrations (dev only) ──
 supabase/
 
+api/scan-export.js
 # ── ملفات البيانات الضخمة (dev only) ──
 data/qcs-chunks-full.json
 data/qcs-chunks.json

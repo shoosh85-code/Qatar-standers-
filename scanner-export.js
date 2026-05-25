@@ -1,22 +1,65 @@
 window.ScannerExport = (function() {
   'use strict';
 
-  // ── PDF ───────────────────────────────────────────────────
-  async function pdf() {
+  // ── PDF (HTML report — client-side, no API needed) ────────
+  function pdf() {
     const rooms = window.QS3D.rooms;
     if (!rooms.length) { log('⚠️ لا توجد بيانات — قم بالمسح أولاً'); return; }
-    log('⏳ جاري توليد تقرير PDF...');
+    log('⏳ جاري توليد تقرير...');
 
-    const res = await fetch('/api/scan-export', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ rooms, format: 'pdf', project: getProjectMeta() })
-    });
+    const total = rooms.reduce((s,r) => s + r.length * r.width, 0).toFixed(1);
+    const date  = new Date().toLocaleDateString('ar-QA');
 
-    if (!res.ok) { log('❌ خطأ في التصدير: ' + res.status); return; }
-    const blob = await res.blob();
-    download(blob, 'qatarspec-3d-scan.pdf', 'application/pdf');
-    log('✅ تم تحميل التقرير PDF');
+    const html = `<!DOCTYPE html><html dir="rtl" lang="ar">
+<head><meta charset="UTF-8"><title>QatarSpec 3D Report</title>
+<style>
+  body { font-family: Arial; padding: 40px; direction: rtl; }
+  .header { background: #534ab7; color: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+  .header h1 { margin: 0; font-size: 22px; }
+  .header p  { margin: 5px 0 0; opacity: 0.85; font-size: 13px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+  th { background: #534ab7; color: white; padding: 10px; text-align: right; font-size: 13px; }
+  td { padding: 9px 10px; border-bottom: 1px solid #eee; font-size: 13px; }
+  tr:nth-child(even) td { background: #f8f8f8; }
+  .pass { color: #27500a; font-weight: bold; }
+  .fail { color: #791f1f; font-weight: bold; }
+  .footer { margin-top: 30px; padding: 14px; background: #faeeda; border-radius: 8px; font-size: 11px; color: #633806; line-height: 1.6; }
+  .total { background: #eeedfe; font-weight: bold; }
+  @media print { .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style></head><body>
+<div class="header">
+  <h1>QatarSpec Pro — تقرير المسح الثلاثي الأبعاد</h1>
+  <p>التاريخ: ${date} | المرجع: QCS 2024 — Part 3, Section 4.2 | الموقع: qatar-standers.vercel.app</p>
+</div>
+<table>
+  <tr>
+    <th>الغرفة</th><th>الطول م</th><th>العرض م</th><th>الارتفاع م</th>
+    <th>المساحة م²</th><th>أبواب</th><th>شبابيك</th><th>توافق QCS</th>
+  </tr>
+  ${rooms.map(r => {
+    const area = (r.length * r.width).toFixed(1);
+    const ok   = parseFloat(area) >= (r.qcs_min_area || 0);
+    return `<tr>
+      <td>${r.name}</td><td>${r.length}</td><td>${r.width}</td><td>${r.height}</td>
+      <td><b>${area}</b></td><td>${r.doors.length}</td><td>${r.windows.length}</td>
+      <td class="${ok ? 'pass' : 'fail'}">${ok ? '✓ محقق' : '✗ دون الحد'}</td>
+    </tr>`;
+  }).join('')}
+  <tr class="total">
+    <td colspan="4"><b>الإجمالي</b></td>
+    <td><b>${total} م²</b></td>
+    <td colspan="3">${rooms.length} غرفة</td>
+  </tr>
+</table>
+<div class="footer">
+  ⚠️ تنبيه: الأبعاد المستخرجة بتحليل الصور تقريبية (±10-15سم). يجب التحقق اليدوي من جميع القياسات قبل التسليم الرسمي لأي جهة حكومية أو مقاول. هذا التقرير للاستخدام الاسترشادي فقط.
+  <br>QatarSpec Pro | QCS 2024 | Ashghal RDM 2023 | KAHRAMAA 2024
+</div>
+</body></html>`;
+
+    const blob = new Blob([html], { type: 'text/html; charset=utf-8' });
+    download(blob, 'qatarspec-3d-scan.html', 'text/html');
+    log('✅ تم تحميل التقرير — افتح الملف واطبعه كـ PDF');
   }
 
   // ── Excel (Ashghal Format) ─────────────────────────────────
@@ -27,7 +70,6 @@ window.ScannerExport = (function() {
 
     const wb = XLSX.utils.book_new();
 
-    // Sheet 1: ملخص
     const summary = [
       ['QatarSpec Pro — تقرير المسح الثلاثي الأبعاد'],
       ['المشروع:', 'فيلا سكنية', 'التاريخ:', new Date().toLocaleDateString('ar-QA')],
@@ -45,10 +87,8 @@ window.ScannerExport = (function() {
         parseFloat(area) >= (r.qcs_min_area || 0) ? 'محقق' : 'دون الحد'
       ]);
     });
-
     XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(summary), 'الملخص');
 
-    // Sheet 2: التفاصيل
     const details = [['الغرفة', 'النوع', 'القياس', 'القيمة (م)', 'المرجع QCS']];
     rooms.forEach(r => {
       details.push([r.name, 'طول', 'length', r.length, r.qcs_ref || 'QCS 2024']);
