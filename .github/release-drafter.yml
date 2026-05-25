@@ -1,0 +1,26 @@
+name-template: 'QatarSpec Pro v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+categories:
+  - title: '✨ New Features'
+    labels: [enhancement, feature]
+  - title: '🐛 Bug Fixes'
+    labels: [bug]
+  - title: '🔐 Security'
+    labels: [security]
+  - title: '📋 QCS Data Corrections'
+    labels: [qcs-correction, accuracy]
+  - title: '⚡ Performance'
+    labels: [performance]
+  - title: '🔧 Maintenance'
+    labels: [maintenance, dependencies, chore]
+  - title: '📖 Documentation'
+    labels: [documentation]
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&'
+template: |
+  ## What Changed
+  $CHANGES
+
+  ---
+  **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/blob/main/CHANGELOG.md
+  **Live Site**: https://qatar-standers.vercel.app

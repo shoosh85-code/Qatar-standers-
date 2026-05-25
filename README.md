@@ -1,10 +1,16 @@
 # QatarSpec Pro 🏗️
+
 [![Live App](https://img.shields.io/badge/Live-qatar--standers.vercel.app-7A1515?style=flat-square&logo=vercel)](https://qatar-standers.vercel.app)
 [![PWA Ready](https://img.shields.io/badge/PWA-Ready-blue?style=flat-square)](https://qatar-standers.vercel.app)
 [![Rate Limited](https://img.shields.io/badge/Rate_Limit-Protected-orange?style=flat-square)](https://qatar-standers.vercel.app)
 [![Arabic RTL](https://img.shields.io/badge/Arabic-RTL_Support-brightgreen?style=flat-square)](https://qatar-standers.vercel.app)
 [![QCS 2024](https://img.shields.io/badge/QCS-2024_Official-7A1515?style=flat-square)](https://qatar-standers.vercel.app)
 [![License](https://img.shields.io/badge/License-Proprietary-red?style=flat-square)](legal/terms.html)
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=shoosh85-code_Qatar-standers-&metric=alert_status)](https://sonarcloud.io/project/overview?id=shoosh85-code_Qatar-standers-)
+[![Coverage](https://codecov.io/gh/shoosh85-code/Qatar-standers-/branch/main/graph/badge.svg)](https://codecov.io/gh/shoosh85-code/Qatar-standers-)
+[![Known Vulnerabilities](https://snyk.io/test/github/shoosh85-code/Qatar-standers-/badge.svg)](https://snyk.io/test/github/shoosh85-code/Qatar-standers-)
+[![DeepSource](https://app.deepsource.com/gh/shoosh85-code/Qatar-standers-.svg/?label=active+issues&show_trend=true)](https://app.deepsource.com/gh/shoosh85-code/Qatar-standers-/)
 
 
 

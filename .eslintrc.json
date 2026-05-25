@@ -1,0 +1,35 @@
+{
+  "env": {
+    "browser": true,
+    "es2022": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-var": "error",
+    "prefer-const": "warn",
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-unused-vars": "warn",
+    "eqeqeq": ["error", "always"],
+    "no-console": "warn",
+    "no-debugger": "error",
+    "no-alert": "warn",
+    "no-duplicate-imports": "error",
+    "no-empty": "warn",
+    "curly": "warn"
+  },
+  "ignorePatterns": [
+    "node_modules/",
+    "data_content*.js",
+    "data_calcs.js",
+    "data_structures*.js",
+    "data_ncr*.js",
+    "*.min.js",
+    "lib/",
+    "tests/"
+  ]
+}

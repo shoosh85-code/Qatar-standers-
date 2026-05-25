@@ -1,0 +1,20 @@
+version = 1
+
+[[analyzers]]
+name = "javascript"
+enabled = true
+
+  [analyzers.meta]
+  environment = ["browser", "node"]
+  module_system = "esm"
+
+[[analyzers]]
+name = "secrets"
+enabled = true
+
+[[transformers]]
+name = "prettier"
+enabled = false
+
+[test_patterns]
+patterns = ["tests/**/*.js", "tests/**/*.test.js"]

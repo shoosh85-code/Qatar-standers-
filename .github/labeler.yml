@@ -1,0 +1,59 @@
+api:
+  - changed-files:
+    - any-glob-to-any-file: 'api/**'
+
+frontend:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '*.html'
+      - 'js/**'
+      - 'css/**'
+      - 'partials/**'
+
+data:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'data_content*.js'
+      - 'data_calcs.js'
+      - 'data_structures*.js'
+      - 'data_ncr*.js'
+
+ci:
+  - changed-files:
+    - any-glob-to-any-file: '.github/**'
+
+documentation:
+  - changed-files:
+    - any-glob-to-any-file: '*.md'
+
+legal:
+  - changed-files:
+    - any-glob-to-any-file: 'legal/**'
+
+security:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'api/rate-limit.js'
+      - 'lib/rate-limit.js'
+      - 'SECURITY.md'
+
+performance:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'loader.js'
+      - 'sw.js'
+      - '*.min.js'
+
+dependencies:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'package.json'
+      - 'package-lock.json'
+
+payment:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'subscribe.html'
+      - 'api/create-checkout.js'
+      - 'api/webhook.js'
+      - 'api/tap*.js'
