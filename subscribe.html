@@ -6,205 +6,507 @@
   <title>اشترك في QatarSpec Pro — 99 QAR/شهر</title>
   <meta name="description" content="اشترك في QatarSpec Pro — بحث غير محدود في QCS 2024 + تصدير PDF/Word + AI Inspector">
   <meta name="robots" content="noindex">
-  <link rel="icon" href="/favicon.svg">
+  <link rel="icon" href="/favicon.ico">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; background: #f8f8f8; color: #222; min-height: 100vh; }
-    .header { background: #7A1515; color: #fff; padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; }
-    .header strong { font-size: 1.1rem; }
-    .plan-card {
-      background: #fff; border-radius: 12px; padding: 2rem;
-      max-width: 480px; margin: 2rem auto;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.1);
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+      background: linear-gradient(135deg, #0d0d0d 0%, #1a0a0a 100%);
+      color: #eee;
+      min-height: 100vh;
+      direction: rtl;
     }
-    .price { font-size: 2.5rem; font-weight: 700; color: #7A1515; margin: 1rem 0; }
-    .price span { font-size: 1rem; color: #666; font-weight: 400; }
-    .features { list-style: none; margin: 1.5rem 0; }
-    .features li { padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; display: flex; align-items: center; gap: 8px; }
-    .features li::before { content: "✓"; color: #0a7a0a; font-weight: bold; flex-shrink: 0; }
-    .btn-primary {
-      width: 100%; background: #7A1515; color: #fff; border: none;
-      padding: 14px; border-radius: 8px; font-size: 16px;
-      cursor: pointer; margin-top: 1rem; transition: background 0.2s;
+
+    .header {
+      background: rgba(122,21,21,0.95);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(201,168,76,0.3);
+    }
+    .header-logo { font-size: 1.1rem; font-weight: 700; color: #c9a84c; }
+    .header a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s;
+    }
+    .header a:hover { color: #c9a84c; }
+
+    .container {
+      max-width: 960px;
+      margin: 2.5rem auto;
+      padding: 0 1.25rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (max-width: 700px) {
+      .container { grid-template-columns: 1fr; }
+    }
+
+    /* ── Features Panel ── */
+    .features-panel { padding: 1rem 0; }
+    .features-panel h1 {
+      font-size: 1.5rem;
+      color: #c9a84c;
+      margin-bottom: 0.4rem;
+    }
+    .features-panel .tagline {
+      font-size: 13px;
+      color: #aaa;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 0.9rem;
+    }
+    .feature-check {
+      width: 20px;
+      height: 20px;
+      background: #7A1515;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .feature-text strong { font-size: 14px; color: #e8e0d0; display: block; }
+    .feature-text span  { font-size: 12px; color: #888; }
+
+    .testimonial {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 1.5rem;
+      font-size: 13px;
+      color: #bbb;
+      line-height: 1.65;
+    }
+    .testimonial cite {
+      display: block;
+      margin-top: 0.5rem;
+      color: #c9a84c;
+      font-style: normal;
+      font-size: 12px;
+    }
+
+    /* ── Payment Card ── */
+    .pay-card {
+      background: #161616;
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 16px;
+      padding: 1.75rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    .plan-toggle {
+      display: flex;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 1.25rem;
+      gap: 4px;
+    }
+    .plan-btn {
+      flex: 1;
+      padding: 8px 6px;
+      border: none;
+      border-radius: 7px;
+      font-size: 13px;
+      cursor: pointer;
+      background: transparent;
+      color: #888;
       font-family: inherit;
+      transition: all 0.25s;
+      position: relative;
     }
-    .btn-primary:hover:not(:disabled) { background: #5a0f0f; }
-    .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
-    .security-note { font-size: 12px; color: #888; text-align: center; margin-top: 12px; }
-    .annual-option {
-      background: #f0f8f0; border: 2px solid #0a7a0a; border-radius: 8px;
-      padding: 1rem; margin-bottom: 1rem; cursor: pointer;
-      transition: border-color 0.2s; position: relative;
+    .plan-btn.active {
+      background: #7A1515;
+      color: #fff;
+      font-weight: 600;
     }
-    .annual-option.inactive { border-color: #ddd; background: #fafafa; }
-    .annual-badge {
-      background: #0a7a0a; color: #fff; font-size: 11px;
-      padding: 2px 8px; border-radius: 4px;
-      position: absolute; top: -10px; right: 12px;
+    .save-badge {
+      position: absolute;
+      top: -8px;
+      left: 6px;
+      background: #c9a84c;
+      color: #000;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 5px;
+      border-radius: 4px;
     }
-    .monthly-option {
-      border: 2px solid #ddd; border-radius: 8px; padding: 1rem;
-      margin-bottom: 1rem; cursor: pointer; transition: border-color 0.2s;
+
+    .price-display {
+      text-align: center;
+      margin-bottom: 1.25rem;
     }
-    .monthly-option.active { border-color: #7A1515; background: #fff5f5; }
-    .email-input {
-      width: 100%; padding: 10px 12px; border: 1px solid #ddd;
-      border-radius: 6px; font-size: 14px; direction: ltr;
-      margin-bottom: 8px; font-family: inherit; outline: none;
+    .price-amount {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #c9a84c;
+      line-height: 1;
     }
-    .email-input:focus { border-color: #7A1515; }
-    #payment-message { color: #c0392b; font-size: 13px; margin-top: 8px; min-height: 20px; }
-    .divider { border: none; border-top: 1px solid #eee; margin: 1.5rem 0; }
-    .plan-label { font-size: 12px; color: #888; margin-bottom: 6px; }
-    .back-link { color: #7A1515; text-decoration: none; font-size: 13px; }
-    .back-link:hover { text-decoration: underline; }
-    .trust-badges { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
-    .badge { font-size: 11px; color: #555; background: #f5f5f5; padding: 4px 10px; border-radius: 20px; }
+    .price-period { font-size: 13px; color: #777; margin-top: 4px; }
+    .price-equiv  { font-size: 11px; color: #555; margin-top: 2px; }
+
+    .form-group { margin-bottom: 0.85rem; }
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 4px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: #eee;
+      font-size: 14px;
+      font-family: inherit;
+      direction: ltr;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-group input:focus { border-color: #7A1515; }
+    .form-group input::placeholder { color: #555; }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #7A1515, #5a0f0f);
+      color: #fff;
+      border: none;
+      padding: 13px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: opacity 0.2s, transform 0.15s;
+      font-family: inherit;
+      letter-spacing: 0.3px;
+    }
+    .submit-btn:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .security-note {
+      font-size: 11px;
+      color: #555;
+      text-align: center;
+      margin-top: 0.75rem;
+      line-height: 1.6;
+    }
+
+    .payment-methods {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .pm-badge {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 5px;
+      padding: 3px 8px;
+      font-size: 11px;
+      color: #777;
+    }
+
+    #pay-message {
+      font-size: 13px;
+      color: #e05555;
+      text-align: center;
+      margin-top: 8px;
+      min-height: 18px;
+    }
+    #pay-message.success { color: #55c055; }
+
+    .divider {
+      text-align: center;
+      color: #444;
+      font-size: 12px;
+      margin: 1rem 0;
+      position: relative;
+    }
+    .divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+    }
+    .divider span {
+      background: #161616;
+      padding: 0 8px;
+      position: relative;
+    }
+
+    .stripe-btn {
+      width: 100%;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #888;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .stripe-btn:hover { border-color: #7A1515; color: #eee; }
+
+    .footer-links {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 12px;
+      color: #555;
+    }
+    .footer-links a { color: #7A1515; text-decoration: none; margin: 0 6px; }
+    .footer-links a:hover { color: #c9a84c; }
   </style>
 </head>
 <body>
 
 <div class="header">
-  <strong>QatarSpec Pro</strong>
-  <span style="font-size:13px;opacity:0.8">الاشتراك الاحترافي</span>
+  <span class="header-logo">QatarSpec Pro</span>
+  <a href="/">← رجوع للموقع</a>
 </div>
 
-<div class="plan-card">
-  <h1 style="font-size:1.3rem;margin-bottom:0.5rem">ارقَ لـ Pro اليوم</h1>
-  <p style="font-size:13px;color:#666;margin-bottom:1.5rem">بحث غير محدود + تصدير PDF/Word + AI Inspector</p>
+<div class="container">
 
-  <div class="plan-label">اختر خطتك:</div>
+  <!-- ── Features Panel ── -->
+  <div class="features-panel">
+    <h1>ارقَ لـ Pro</h1>
+    <p class="tagline">كل ما يحتاجه المهندس في قطر — في مكان واحد</p>
 
-  <!-- خيار سنوي -->
-  <div class="annual-option" id="annual-opt" onclick="selectPlan('annual')">
-    <span class="annual-badge">وفّر 33%</span>
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <strong style="font-size:15px">799 QAR / سنوياً</strong>
-      <span style="font-size:12px;color:#0a7a0a;font-weight:700">≈ 66 QAR/شهر</span>
+    <div class="feature-item">
+      <div class="feature-check">✓</div>
+      <div class="feature-text">
+        <strong>بحث ذكي غير محدود في QCS 2024</strong>
+        <span>نتائج فورية مع المرجع الدقيق (Part/Section/Clause)</span>
+      </div>
     </div>
-    <div style="font-size:12px;color:#555;margin-top:4px">12 شهراً + شهر مجاني</div>
-  </div>
-
-  <!-- خيار شهري -->
-  <div class="monthly-option active" id="monthly-opt" onclick="selectPlan('monthly')">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <strong style="font-size:15px">99 QAR / شهرياً</strong>
-      <span style="font-size:12px;color:#888">الأكثر مرونة</span>
+    <div class="feature-item">
+      <div class="feature-check">✓</div>
+      <div class="feature-text">
+        <strong>تصدير PDF/Word/Excel — تنسيق Ashghal الرسمي</strong>
+        <span>تقارير جاهزة للتسليم مع اسمك ورقم المشروع</span>
+      </div>
     </div>
-    <div style="font-size:12px;color:#555;margin-top:4px">إلغاء في أي وقت</div>
+    <div class="feature-item">
+      <div class="feature-check">✓</div>
+      <div class="feature-text">
+        <strong>AI Inspector — فحص الموقع بالصور</strong>
+        <span>ارفع صورة → احصل على تقييم QCS فوري</span>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-check">✓</div>
+      <div class="feature-text">
+        <strong>محلل المخططات والوثائق بالذكاء الاصطناعي</strong>
+        <span>رفع PDF → استخراج بنود QCS + نقاط عدم المطابقة</span>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-check">✓</div>
+      <div class="feature-text">
+        <strong>BOQ Pricer — 259 بنداً للفيلا القطرية</strong>
+        <span>تسعير تلقائي مع ربط QCS + تصدير Excel</span>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-check">✓</div>
+      <div class="feature-text">
+        <strong>دعم فني أولوية + تحديثات QCS فورية</strong>
+        <span>رد خلال 24 ساعة + تنبيه عند صدور مراسيم جديدة</span>
+      </div>
+    </div>
+
+    <div class="testimonial">
+      "وفّرت 3 ساعات في إعداد تقرير NCR واحد — الآن أُنجزه في 20 دقيقة."
+      <cite>— مهندس مدني، مشروع طريق Dukhan</cite>
+    </div>
   </div>
 
-  <div class="price" id="price-display">99 <span>QAR/شهر</span></div>
+  <!-- ── Payment Card ── -->
+  <div class="pay-card">
 
-  <ul class="features">
-    <li>بحث ذكي <strong>غير محدود</strong> في QCS 2024</li>
-    <li>تصدير PDF/Word/Excel بتنسيق Ashghal</li>
-    <li>AI Inspector — فحص الموقع بالصور</li>
-    <li>محلل المخططات الهندسية</li>
-    <li>محلل الوثائق والعقود</li>
-    <li>1500+ NCR database كاملة</li>
-    <li>دعم فني أولوية (رد خلال 24h)</li>
-  </ul>
+    <div class="plan-toggle">
+      <button class="plan-btn" id="btn-monthly" onclick="selectPlan('monthly')">شهري</button>
+      <button class="plan-btn active" id="btn-annual" onclick="selectPlan('annual')">
+        سنوي
+        <span class="save-badge">وفّر 33%</span>
+      </button>
+    </div>
 
-  <hr class="divider">
+    <div class="price-display">
+      <div class="price-amount" id="price-num">799</div>
+      <div class="price-period" id="price-period">QAR / سنة</div>
+      <div class="price-equiv" id="price-equiv">= 66 QAR شهرياً فقط</div>
+    </div>
 
-  <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px">
-    البريد الإلكتروني للحساب
-  </label>
-  <input
-    type="email"
-    id="user-email"
-    class="email-input"
-    placeholder="engineer@example.com"
-    autocomplete="email"
-    inputmode="email"
-  >
+    <div class="form-group">
+      <label>البريد الإلكتروني</label>
+      <input type="email" id="pay-email" placeholder="engineer@company.com" autocomplete="email">
+    </div>
 
-  <button class="btn-primary" id="submit-btn" onclick="handleCheckout()">
-    🔒 اشترك الآن — ادفع بأمان
-  </button>
+    <div class="form-group">
+      <label>الاسم (للفاتورة)</label>
+      <input type="text" id="pay-name" placeholder="اسمك الكامل" dir="auto">
+    </div>
 
-  <div id="payment-message"></div>
+    <button class="submit-btn" id="pay-btn" onclick="handleTapCheckout()">
+      ادفع بأمان — TAP Payments
+    </button>
 
-  <div class="trust-badges">
-    <span class="badge">🔒 Stripe Secured</span>
-    <span class="badge">↩️ استرداد 7 أيام</span>
-    <span class="badge">❌ إلغاء فوري</span>
+    <div class="security-note">
+      🔒 دفع آمن عبر TAP Payments | إلغاء في أي وقت | ضمان استرداد 7 أيام
+    </div>
+
+    <div class="payment-methods">
+      <span class="pm-badge">Visa</span>
+      <span class="pm-badge">Mastercard</span>
+      <span class="pm-badge">QNB</span>
+      <span class="pm-badge">QPAY</span>
+      <span class="pm-badge">Mada</span>
+    </div>
+
+    <div id="pay-message"></div>
+
+    <div class="divider"><span>أو ادفع دولياً</span></div>
+
+    <button class="stripe-btn" onclick="handleStripeCheckout()">
+      💳 Stripe — بطاقات دولية
+    </button>
+
   </div>
-
-  <p class="security-note" style="margin-top:12px">
-    💳 Visa · Mastercard · QNB · Ooredoo Pay · Apple Pay
-  </p>
 </div>
 
-<div style="text-align:center;padding:1rem 2rem 2rem;font-size:12px;color:#888;display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
-  <a href="/" class="back-link">← رجوع للموقع</a>
-  <a href="/legal/terms.html" class="back-link">الشروط والأحكام</a>
-  <a href="/legal/privacy.html" class="back-link">سياسة الخصوصية</a>
+<div class="footer-links">
+  <a href="/">الرئيسية</a>
+  <a href="/legal/terms.html">الشروط والأحكام</a>
+  <a href="/legal/privacy.html">الخصوصية</a>
+  <span>© 2026 QatarSpec Pro</span>
 </div>
 
 <script>
-window.selectedPlan = 'monthly';
+/* ═══ Subscribe Page Logic ═══ */
+var _plan = 'annual';
 
 function selectPlan(plan) {
-  window.selectedPlan = plan;
-  const annualOpt   = document.getElementById('annual-opt');
-  const monthlyOpt  = document.getElementById('monthly-opt');
-  const priceEl     = document.getElementById('price-display');
+  _plan = plan;
+  document.getElementById('btn-monthly').classList.toggle('active', plan === 'monthly');
+  document.getElementById('btn-annual').classList.toggle('active', plan === 'annual');
 
   if (plan === 'annual') {
-    annualOpt.classList.remove('inactive');
-    annualOpt.style.borderColor = '#0a7a0a';
-    monthlyOpt.classList.remove('active');
-    priceEl.innerHTML = '799 <span>QAR/سنة</span>';
+    document.getElementById('price-num').textContent    = '799';
+    document.getElementById('price-period').textContent = 'QAR / سنة';
+    document.getElementById('price-equiv').textContent  = '= 66 QAR شهرياً فقط';
+    document.getElementById('pay-btn').textContent      = 'ادفع بأمان — TAP Payments';
   } else {
-    annualOpt.classList.add('inactive');
-    annualOpt.style.borderColor = '#ddd';
-    monthlyOpt.classList.add('active');
-    priceEl.innerHTML = '99 <span>QAR/شهر</span>';
+    document.getElementById('price-num').textContent    = '99';
+    document.getElementById('price-period').textContent = 'QAR / شهر';
+    document.getElementById('price-equiv').textContent  = 'إلغاء في أي وقت';
+    document.getElementById('pay-btn').textContent      = 'ادفع بأمان — TAP Payments';
   }
+  setMsg('', false);
 }
 
-async function handleCheckout() {
-  const email = document.getElementById('user-email').value.trim();
-  const msgEl = document.getElementById('payment-message');
-  const btn   = document.getElementById('submit-btn');
+function setMsg(msg, isError) {
+  var el = document.getElementById('pay-message');
+  el.textContent = msg;
+  el.className   = isError === false && msg ? 'success' : '';
+}
 
-  msgEl.textContent = '';
+function getFields() {
+  var email = document.getElementById('pay-email').value.trim();
+  var name  = document.getElementById('pay-name').value.trim();
+  if (!email || !email.includes('@')) { setMsg('الرجاء إدخال بريد إلكتروني صحيح', true); return null; }
+  return { email: email, name: name || 'QatarSpec User' };
+}
 
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    msgEl.textContent = 'الرجاء إدخال بريد إلكتروني صحيح';
-    return;
-  }
+/* ── TAP Checkout (النظام الأساسي للقطريين) ── */
+async function handleTapCheckout() {
+  var fields = getFields();
+  if (!fields) return;
 
-  btn.textContent = '⏳ جاري التحويل لبوابة الدفع...';
+  var btn = document.getElementById('pay-btn');
   btn.disabled = true;
+  btn.textContent = 'جاري التحويل...';
+  setMsg('', false);
 
   try {
-    const res = await fetch('/api/create-checkout', {
+    var res = await fetch('/api/tap?action=checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, plan: window.selectedPlan })
+      body: JSON.stringify({ email: fields.email, name: fields.name, plan: _plan })
     });
-
-    const data = await res.json();
-
-    if (data.url) {
-      window.location.href = data.url;
+    var data = await res.json();
+    if (data.url || data.redirect_url || data.transaction?.url) {
+      var url = data.url || data.redirect_url || data.transaction.url;
+      setMsg('✅ جاري التحويل لبوابة الدفع...', false);
+      setTimeout(function () { window.location.href = url; }, 600);
     } else {
-      throw new Error(data.error || 'خطأ في إنشاء جلسة الدفع');
+      throw new Error(data.error || data.message || 'خطأ في بوابة الدفع');
     }
   } catch (err) {
-    msgEl.textContent = err.message;
-    btn.textContent = '🔒 اشترك الآن — ادفع بأمان';
+    setMsg(err.message, true);
     btn.disabled = false;
+    btn.textContent = 'ادفع بأمان — TAP Payments';
   }
 }
 
-// Enter key on email field
-document.getElementById('user-email').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') handleCheckout();
-});
+/* ── Stripe Checkout (بديل دولي) ── */
+async function handleStripeCheckout() {
+  var fields = getFields();
+  if (!fields) return;
+
+  var btn = document.querySelector('.stripe-btn');
+  btn.disabled = true;
+  btn.textContent = 'جاري التحويل...';
+  setMsg('', false);
+
+  try {
+    var res = await fetch('/api/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: fields.email, plan: _plan })
+    });
+    var data = await res.json();
+    if (data.url) {
+      setMsg('✅ جاري التحويل لـ Stripe...', false);
+      setTimeout(function () { window.location.href = data.url; }, 600);
+    } else {
+      throw new Error(data.error || 'خطأ في Stripe');
+    }
+  } catch (err) {
+    setMsg(err.message, true);
+    btn.disabled = false;
+    btn.textContent = '💳 Stripe — بطاقات دولية';
+  }
+}
+
+/* ── URL params: prefill plan ── */
+(function () {
+  var p = new URLSearchParams(location.search).get('plan');
+  if (p === 'monthly') selectPlan('monthly');
+})();
 </script>
+
 </body>
 </html>
