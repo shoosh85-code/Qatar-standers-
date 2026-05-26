@@ -26,9 +26,6 @@
     }
   ],
   "functions": {
-    "api/scan-export.js": {
-      "maxDuration": 30
-    },
     "api/ai-proxy.js": {
       "maxDuration": 60
     },
