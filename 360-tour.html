@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QatarSpec Pro — جولة 360° + مجسم ثلاثي | 360° Tour & 3D Viewer</title>
+  <meta name="description" content="جولة تفاعلية 360° لمواقع البناء في قطر مع Hotspots مربوطة بمعايير QCS 2024 + عارض مجسمات GLB">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <!-- Pannellum CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css">
+  <!-- Tour CSS -->
+  <link rel="stylesheet" href="css/tour.css">
+  <!-- Pannellum Hotspot custom style -->
+  <style>
+    .qs-hotspot { background: rgba(83,74,183,0.85); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-family: -apple-system, Arial, sans-serif; direction: rtl; white-space: nowrap; max-width: 250px; overflow: hidden; text-overflow: ellipsis; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    .qs-hotspot:hover { background: rgba(83,74,183,1); }
+    .pnlm-hotspot-base { top: -12px !important; }
+  </style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- Header -->
+  <div class="qs-header">
+    <div class="qs-logo">QatarSpec <span class="pro">PRO</span></div>
+    <div class="qs-title">جولة 360° + مجسم ثلاثي</div>
+    <a href="index.html" class="qs-back">← الرئيسية</a>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" data-tab="pano">🌐 بانوراما 360°</button>
+    <button class="tab" data-tab="model">📦 مجسم GLB/GLTF</button>
+    <button class="tab" data-tab="scenes">📂 المشاهد المحفوظة</button>
+  </div>
+
+  <!-- ═══ Panel 1: 360° Panorama ═══ -->
+  <div class="panel active" id="panel-pano">
+
+    <!-- Upload Zone -->
+    <div class="upload-zone" id="panoUploadZone">
+      <span class="upload-icon">🌐</span>
+      <div class="upload-text">اسحب صورة 360° هنا أو اضغط للاختيار</div>
+      <div class="upload-hint">JPEG أو PNG — equirectangular (نسبة 2:1) — حتى 30MB</div>
+      <div class="upload-hint" style="margin-top:8px;color:#534ab7">
+        💡 صوّر بتطبيق Google Street View أو Samsung 360° أو أي تطبيق كاميرا بانورامية
+      </div>
+      <input type="file" accept="image/jpeg,image/png,image/webp" class="upload-input" id="panoInput">
+      <div style="margin-top:14px">
+        <button class="btn btn-success" onclick="window.QSTour.loadDemo()">✨ بيانات تجريبية</button>
+      </div>
+    </div>
+
+    <!-- Pannellum Viewer -->
+    <div id="panoViewer" style="display:none">
+      <div class="viewer-container viewer-container--pano">
+        <div id="panorama"></div>
+      </div>
+
+      <!-- Hotspot Controls -->
+      <div class="btn-row" id="panoControls" style="display:none">
+        <button class="btn" id="btnHotspotMode" onclick="window.QSTour.toggleHotspotMode()">📍 إضافة Hotspot</button>
+        <span class="hotspot-mode-indicator" id="hotspotModeIndicator">🔴 وضع الإضافة — اضغط على البانوراما</span>
+        <button class="btn btn-danger" onclick="window.QSTour.resetPano()">🗑️ مسح</button>
+        <button class="btn" onclick="window.QSTour.exportTourJSON()">📥 تصدير JSON</button>
+      </div>
+
+      <!-- Hotspot List -->
+      <div class="section-title">Hotspots — نقاط التفتيش</div>
+      <div id="hotspotList">
+        <div class="empty-state"><div class="empty-icon">📍</div><p>لا توجد Hotspots — اضغط "إضافة Hotspot" ثم انقر على البانوراما</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Panel 2: 3D Model Viewer ═══ -->
+  <div class="panel" id="panel-model">
+
+    <!-- Upload Zone -->
+    <div class="upload-zone" id="modelUploadZone">
+      <span class="upload-icon">📦</span>
+      <div class="upload-text">اسحب ملف GLB أو GLTF هنا أو اضغط للاختيار</div>
+      <div class="upload-hint">ملفات ثلاثية الأبعاد من Polycam أو LiDAR أو أي مصدر — حتى 100MB</div>
+      <div class="upload-hint" style="margin-top:8px;color:#534ab7">
+        💡 iPhone 12 Pro+ : استخدم Polycam → Export as GLB → ارفع هنا
+      </div>
+      <input type="file" accept=".glb,.gltf" class="upload-input" id="modelInput">
+    </div>
+
+    <!-- Model Viewer -->
+    <div id="modelViewerSection" style="display:none">
+      <div class="viewer-container viewer-container--model" id="modelViewerWrap">
+        <!-- model-viewer element يُنشأ ديناميكياً -->
+      </div>
+
+      <div class="btn-row" id="modelControls" style="display:none">
+        <button class="btn btn-danger" onclick="window.QSTour.resetModel()">🗑️ مسح</button>
+        <button class="btn" onclick="window.QSTour.exportTourJSON()">📥 تصدير JSON</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Panel 3: Saved Scenes ═══ -->
+  <div class="panel" id="panel-scenes">
+    <div class="section-title">المشاهد المحفوظة</div>
+    <div id="sceneList">
+      <div class="empty-state"><div class="empty-icon">📂</div><p>لا توجد مشاهد — ارفع صورة 360° أو ملف GLB</p></div>
+    </div>
+  </div>
+
+  <!-- Log Bar -->
+  <div class="log-bar" id="logBar">⬅ ارفع صورة 360° بانورامية أو ملف GLB — أو جرب "بيانات تجريبية"</div>
+
+  <!-- QCS Disclaimer -->
+  <div class="qcs-disclaimer">
+    ⚠️ تنبيه: الجولات التفاعلية والمجسمات الثلاثية الأبعاد للاستخدام الاسترشادي فقط.
+    يجب التحقق اليدوي من جميع الملاحظات والقياسات قبل التسليم الرسمي لأي جهة حكومية أو مقاول.
+    <br>QatarSpec Pro | QCS 2024 | Ashghal RDM 2023 | KAHRAMAA 2024 | MMUP
+  </div>
+
+</div>
+
+<!-- ═══ Hotspot Modal ═══ -->
+<div class="modal-overlay" id="hotspotModal">
+  <div class="modal">
+    <h3>📍 إضافة Hotspot</h3>
+
+    <label for="hsTitle">العنوان *</label>
+    <input type="text" id="hsTitle" placeholder="مثال: نقطة فحص الخرسانة" maxlength="100">
+
+    <label for="hsDesc">الوصف (اختياري)</label>
+    <textarea id="hsDesc" placeholder="ملاحظات إضافية..." maxlength="500"></textarea>
+
+    <label for="hsQcsRef">مرجع QCS 2024</label>
+    <select id="hsQcsRef">
+      <option value="">— بدون مرجع —</option>
+    </select>
+    <input type="text" id="hsCustomRef" placeholder="أدخل المرجع يدوياً..." style="display:none;margin-top:6px" maxlength="200">
+
+    <div class="modal-actions">
+      <button class="btn" onclick="document.getElementById('hotspotModal').classList.remove('active')">إلغاء</button>
+      <button class="btn btn-primary" onclick="window.QSTour.saveHotspot()">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Scripts ═══ -->
+<!-- Pannellum JS -->
+<script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+<!-- Google model-viewer (for GLB/GLTF) -->
+<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@3.3.0/dist/model-viewer.min.js"></script>
+<!-- Tour App -->
+<script src="tour-app.js"></script>
+
+</body>
+</html>
