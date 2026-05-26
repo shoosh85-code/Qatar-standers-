@@ -32,7 +32,19 @@
   <div class="tabs">
     <button class="tab active" data-tab="pano">🌐 بانوراما 360°</button>
     <button class="tab" data-tab="model">📦 مجسم GLB/GLTF</button>
+    <button class="tab" data-tab="gaussian">🔮 Gaussian Splatting</button>
     <button class="tab" data-tab="scenes">📂 المشاهد المحفوظة</button>
+  </div>
+
+  <!-- Project Selector -->
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:8px 12px;background:#fff;border-radius:8px;border:1px solid #e5e5e5;flex-wrap:wrap">
+    <span style="font-size:13px;color:#555;white-space:nowrap">📁 المشروع:</span>
+    <select id="projectSelector" onchange="window.QSTour.selectProject(this.value)" style="flex:1;min-width:140px;padding:6px 10px;border:1px solid #ddd;border-radius:6px;font-size:13px;font-family:inherit;direction:rtl">
+      <option value="">— بدون مشروع (سجّل الدخول) —</option>
+    </select>
+    <button class="btn-sm" onclick="window.QSTour.saveTourToCloud()" title="حفظ في السيرفر">☁️ حفظ</button>
+    <button class="btn-sm" onclick="window.QSTour.loadToursFromCloud()" title="تحميل من السيرفر">📥 تحميل</button>
+    <button class="btn-sm" onclick="window.QSTour.saveLocal()" title="حفظ محلي مؤقت">💾 محلي</button>
   </div>
 
   <!-- ═══ Panel 1: 360° Panorama ═══ -->
@@ -101,7 +113,46 @@
     </div>
   </div>
 
-  <!-- ═══ Panel 3: Saved Scenes ═══ -->
+  <!-- ═══ Panel 3: Gaussian Splatting (Phase 2) ═══ -->
+  <div class="panel" id="panel-gaussian">
+    <div style="text-align:center;padding:40px 20px">
+      <div style="font-size:48px;margin-bottom:16px">🔮</div>
+      <h3 style="font-size:18px;margin-bottom:10px;color:#534ab7">Gaussian Splatting — مجسم واقعي من صور عادية</h3>
+      <p style="font-size:14px;color:#555;max-width:500px;margin:0 auto 20px;line-height:1.8">
+        التقط 20-50 صورة عادية بهاتفك من زوايا مختلفة ← المعالجة على الخادم ← مجسم واقعي 100% في المتصفح عبر WebGL
+      </p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;max-width:600px;margin:0 auto 24px;text-align:right">
+        <div style="background:#f9f9f9;padding:12px;border-radius:8px;border-right:3px solid #534ab7">
+          <div style="font-weight:600;font-size:13px;margin-bottom:4px">📸 الالتقاط</div>
+          <div style="font-size:12px;color:#666">20-50 صورة بأي هاتف — التفّ حول الموقع ببطء</div>
+        </div>
+        <div style="background:#f9f9f9;padding:12px;border-radius:8px;border-right:3px solid #1d9e75">
+          <div style="font-weight:600;font-size:13px;margin-bottom:4px">⚙️ المعالجة</div>
+          <div style="font-size:12px;color:#666">COLMAP + Gaussian Training على GPU — 30-60 دقيقة</div>
+        </div>
+        <div style="background:#f9f9f9;padding:12px;border-radius:8px;border-right:3px solid #d85a30">
+          <div style="font-weight:600;font-size:13px;margin-bottom:4px">🌐 العرض</div>
+          <div style="font-size:12px;color:#666">WebGL Viewer في المتصفح — تدوير + تكبير + تصدير</div>
+        </div>
+      </div>
+
+      <div style="background:#faeeda;padding:14px;border-radius:8px;max-width:500px;margin:0 auto">
+        <div style="font-weight:600;font-size:13px;color:#633806;margin-bottom:6px">🚧 قيد التطوير — Phase 2</div>
+        <div style="font-size:12px;color:#854f0b;line-height:1.6">
+          هذه الميزة تتطلب خادم GPU للمعالجة (Replicate API أو RunPod).
+          سيتم تفعيلها عند وصول عدد كافٍ من مشتركي Pro لتغطية تكلفة الخادم.
+          <br><strong>الحالة:</strong> API جاهز — البنية التحتية قيد الإعداد
+        </div>
+      </div>
+
+      <div style="margin-top:20px">
+        <button class="btn" disabled style="opacity:0.5">📤 رفع الصور (قريباً)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Panel 4: Saved Scenes ═══ -->
   <div class="panel" id="panel-scenes">
     <div class="section-title">المشاهد المحفوظة</div>
     <div id="sceneList">

@@ -122,7 +122,13 @@ export default async function handler(req) {
     if (resource === 'stats') {
       return await handleStats(req, url, method, user, token, cors);
     }
-    return json({ error: 'Unknown resource. Use: projects|daily-reports|inspection-requests|boq|payment-certificates|stats' }, 400, cors);
+    if (resource === 'tours') {
+      return await handleTours(req, url, method, user, token, cors);
+    }
+    if (resource === 'tour-hotspots') {
+      return await handleTourHotspots(req, url, method, user, token, cors);
+    }
+    return json({ error: 'Unknown resource. Use: projects|daily-reports|inspection-requests|boq|payment-certificates|stats|tours|tour-hotspots' }, 400, cors);
   } catch (err) {
     console.error('[project-hub]', resource, err);
     return json({ error: 'Internal server error', detail: err.message }, 500, cors);
@@ -498,6 +504,124 @@ async function handleStats(req, url, method, user, token, cors) {
   ]);
   const pD=projects.data||[],nA=allNcr.data||[],iA=allIr.data||[],sA=allSnag.data||[];
   return json({overview:{total_projects:pD.length,active:pD.filter(p=>p.status==='active').length,completed:pD.filter(p=>p.status==='completed').length,total_contract_value:pD.reduce((s,p)=>s+Number(p.contract_value||0),0),by_type:{villa:pD.filter(p=>p.type==='villa').length,building:pD.filter(p=>p.type==='building').length,road:pD.filter(p=>p.type==='road').length,maintenance:pD.filter(p=>p.type==='maintenance').length}},alerts:{open_ncr:nA.filter(n=>n.status==='open').length,critical_ncr:nA.filter(n=>n.severity==='critical'&&n.status==='open').length,pending_ir:iA.filter(i=>i.status==='pending').length,open_snags:sA.filter(s=>s.status==='open').length},projects:pD},200,cors);
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// RESOURCE: tours — جولات 360° ومجسمات ثلاثية الأبعاد
+// ════════════════════════════════════════════════════════════════════════
+async function handleTours(req, url, method, user, token, cors) {
+  const id = url.searchParams.get('id');
+  const projectId = url.searchParams.get('project_id');
+
+  if (method === 'GET') {
+    if (id) {
+      // جولة واحدة مع hotspots
+      const [tour, hotspots] = await Promise.all([
+        sbQuery(`site_tours?id=eq.${id}&user_id=eq.${user.id}&select=*`, 'GET', null, token),
+        sbQuery(`tour_hotspots?tour_id=eq.${id}&user_id=eq.${user.id}&select=*&order=created_at.asc`, 'GET', null, token)
+      ]);
+      if (!tour.ok) return json({ error: 'فشل تحميل الجولة' }, tour.status, cors);
+      const t = tour.data?.[0];
+      if (!t) return json({ error: 'الجولة غير موجودة' }, 404, cors);
+      t.hotspots = hotspots.data || [];
+      return json({ data: t }, 200, cors);
+    }
+    // كل جولات المشروع أو المستخدم
+    let path = `site_tours?user_id=eq.${user.id}&select=*&order=created_at.desc`;
+    if (projectId) path = `site_tours?project_id=eq.${projectId}&user_id=eq.${user.id}&select=*&order=created_at.desc`;
+    const r = await sbQuery(path, 'GET', null, token);
+    if (!r.ok) return json({ error: 'فشل تحميل الجولات' }, r.status, cors);
+    return json({ data: r.data }, 200, cors);
+  }
+
+  if (method === 'POST') {
+    const body = await req.json().catch(() => ({}));
+    if (!body.name?.trim()) return json({ error: 'اسم الجولة مطلوب' }, 400, cors);
+    if (!['pano', 'model', 'gaussian'].includes(body.type)) return json({ error: 'نوع غير صالح: pano|model|gaussian' }, 400, cors);
+
+    const row = {
+      user_id: user.id,
+      project_id: body.project_id || null,
+      name: body.name.trim(),
+      type: body.type,
+      description: body.description || null,
+      file_url: body.file_url || null,
+      file_size: body.file_size || null,
+      metadata: body.metadata || {}
+    };
+    const r = await sbQuery('site_tours', 'POST', row, token);
+    if (!r.ok) return json({ error: 'فشل إنشاء الجولة', detail: r.data }, r.status, cors);
+    return json({ data: r.data?.[0] }, 201, cors);
+  }
+
+  if (method === 'PATCH') {
+    if (!id) return json({ error: 'id مطلوب' }, 400, cors);
+    const body = await req.json().catch(() => ({}));
+    const allowed = ['name', 'description', 'file_url', 'file_size', 'metadata', 'status', 'project_id'];
+    const update = {};
+    allowed.forEach(k => { if (body[k] !== undefined) update[k] = body[k]; });
+    if (!Object.keys(update).length) return json({ error: 'لا توجد حقول للتحديث' }, 400, cors);
+
+    const r = await sbQuery(`site_tours?id=eq.${id}&user_id=eq.${user.id}`, 'PATCH', update, token);
+    if (!r.ok) return json({ error: 'فشل التحديث' }, r.status, cors);
+    return json({ data: r.data?.[0] }, 200, cors);
+  }
+
+  if (method === 'DELETE') {
+    if (!id) return json({ error: 'id مطلوب' }, 400, cors);
+    const r = await sbQuery(`site_tours?id=eq.${id}&user_id=eq.${user.id}`, 'DELETE', null, token);
+    if (!r.ok) return json({ error: 'فشل الحذف' }, r.status, cors);
+    return json({ message: 'تم حذف الجولة' }, 200, cors);
+  }
+
+  return json({ error: 'Method not allowed' }, 405, cors);
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// RESOURCE: tour-hotspots — نقاط التفتيش
+// ════════════════════════════════════════════════════════════════════════
+async function handleTourHotspots(req, url, method, user, token, cors) {
+  const id = url.searchParams.get('id');
+  const tourId = url.searchParams.get('tour_id');
+
+  if (method === 'GET') {
+    if (!tourId) return json({ error: 'tour_id مطلوب' }, 400, cors);
+    const r = await sbQuery(`tour_hotspots?tour_id=eq.${tourId}&user_id=eq.${user.id}&select=*&order=created_at.asc`, 'GET', null, token);
+    if (!r.ok) return json({ error: 'فشل تحميل النقاط' }, r.status, cors);
+    return json({ data: r.data }, 200, cors);
+  }
+
+  if (method === 'POST') {
+    const body = await req.json().catch(() => ({}));
+    if (!body.tour_id) return json({ error: 'tour_id مطلوب' }, 400, cors);
+    if (!body.title?.trim()) return json({ error: 'عنوان النقطة مطلوب' }, 400, cors);
+
+    const row = {
+      tour_id: body.tour_id,
+      user_id: user.id,
+      title: body.title.trim(),
+      description: body.description || null,
+      pitch: body.pitch || null,
+      yaw: body.yaw || null,
+      position_x: body.position_x || null,
+      position_y: body.position_y || null,
+      position_z: body.position_z || null,
+      qcs_reference: body.qcs_reference || null,
+      hotspot_type: body.hotspot_type || 'info'
+    };
+    const r = await sbQuery('tour_hotspots', 'POST', row, token);
+    if (!r.ok) return json({ error: 'فشل إنشاء النقطة', detail: r.data }, r.status, cors);
+    return json({ data: r.data?.[0] }, 201, cors);
+  }
+
+  if (method === 'DELETE') {
+    if (!id) return json({ error: 'id مطلوب' }, 400, cors);
+    const r = await sbQuery(`tour_hotspots?id=eq.${id}&user_id=eq.${user.id}`, 'DELETE', null, token);
+    if (!r.ok) return json({ error: 'فشل الحذف' }, r.status, cors);
+    return json({ message: 'تم حذف النقطة' }, 200, cors);
+  }
+
+  return json({ error: 'Method not allowed' }, 405, cors);
 }
 
 export const config = { runtime: 'edge' };

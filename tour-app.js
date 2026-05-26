@@ -12,8 +12,14 @@
     activeScene: null,
     hotspotMode: false,
     viewer: null,        // Pannellum instance
-    pendingHotspot: null // {pitch, yaw} awaiting modal save
+    pendingHotspot: null, // {pitch, yaw} awaiting modal save
+    projectId: null,     // UUID المشروع المرتبط
+    projects: [],        // قائمة مشاريع المستخدم
+    authToken: null      // JWT token
   };
+
+  // API base
+  const API_BASE = '/api/project-hub';
 
   // مراجع QCS 2024 الشائعة للـ hotspots
   const QCS_REFS = [
@@ -34,7 +40,13 @@
     bindTabs();
     bindUploads();
     bindHotspotModal();
-    log('✅ جاهز — ارفع صورة 360° أو ملف GLB');
+    // محاولة تحميل المشاريع (إن كان مسجلاً)
+    if (getAuthToken()) {
+      loadProjects();
+      log('✅ جاهز — مسجّل الدخول. ارفع صورة 360° أو ملف GLB');
+    } else {
+      log('✅ جاهز — ارفع صورة 360° أو ملف GLB. سجّل دخولك لحفظ الجولات في السيرفر');
+    }
   }
 
   // ═══ Tab Switching ══════════════════════════════════════════
@@ -627,6 +639,221 @@
     return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   }
 
+  // ═══ API Integration — حفظ وتحميل من Supabase ══════════════
+  function getAuthToken() {
+    // محاولة من cookie أولاً، ثم من window.QS.auth
+    if (state.authToken) return state.authToken;
+    if (window.QS && window.QS.auth && window.QS.auth.token) {
+      state.authToken = window.QS.auth.token;
+      return state.authToken;
+    }
+    // محاولة من Supabase session
+    try {
+      var sb = window.supabase;
+      if (sb) {
+        var session = sb.auth.session && sb.auth.session();
+        if (session && session.access_token) {
+          state.authToken = session.access_token;
+          return state.authToken;
+        }
+      }
+    } catch(e) { /* تجاهل */ }
+    return null;
+  }
+
+  async function apiCall(resource, method, params, body) {
+    var token = getAuthToken();
+    if (!token) {
+      log('⚠️ يجب تسجيل الدخول لحفظ الجولات — استخدم الحفظ المحلي');
+      return null;
+    }
+    var url = API_BASE + '?resource=' + resource;
+    if (params) {
+      Object.keys(params).forEach(function(k) {
+        if (params[k]) url += '&' + k + '=' + encodeURIComponent(params[k]);
+      });
+    }
+    try {
+      var opts = {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        }
+      };
+      if (body) opts.body = JSON.stringify(body);
+      var res = await fetch(url, opts);
+      if (res.status === 429) {
+        log('⏳ Rate limit — انتظر 60 ثانية');
+        return null;
+      }
+      if (res.status === 401) {
+        state.authToken = null;
+        log('⚠️ انتهت الجلسة — أعد تسجيل الدخول');
+        return null;
+      }
+      var data = await res.json();
+      return data;
+    } catch(err) {
+      log('❌ خطأ في الاتصال: ' + err.message);
+      return null;
+    }
+  }
+
+  // تحميل مشاريع المستخدم للربط
+  async function loadProjects() {
+    var result = await apiCall('projects', 'GET', {});
+    if (result && result.data) {
+      state.projects = result.data;
+      renderProjectSelector();
+    }
+  }
+
+  function renderProjectSelector() {
+    var select = document.getElementById('projectSelector');
+    if (!select) return;
+    select.innerHTML = '<option value="">— بدون مشروع —</option>';
+    state.projects.forEach(function(p) {
+      var opt = document.createElement('option');
+      opt.value = p.id;
+      opt.textContent = p.name + (p.status === 'active' ? '' : ' (' + p.status + ')');
+      if (state.projectId && state.projectId === p.id) opt.selected = true;
+      select.appendChild(opt);
+    });
+  }
+
+  function selectProject(id) {
+    state.projectId = id || null;
+    log(id ? '📁 تم ربط الجولة بمشروع' : '📁 جولة مستقلة بدون مشروع');
+  }
+
+  // حفظ الجولة في السيرفر
+  async function saveTourToCloud() {
+    if (!state.activeScene) { log('⚠️ لا توجد جولة نشطة للحفظ'); return; }
+
+    var scene = state.activeScene;
+    log('⏳ جاري الحفظ في السيرفر...');
+
+    // حفظ الجولة
+    var tourData = {
+      name: scene.name,
+      type: scene.type,
+      project_id: state.projectId,
+      description: scene.name + ' — QatarSpec Pro Tour',
+      metadata: { width: scene.width, height: scene.height }
+    };
+
+    var result;
+    if (scene.cloudId) {
+      // تحديث
+      result = await apiCall('tours', 'PATCH', { id: scene.cloudId }, tourData);
+    } else {
+      // إنشاء جديد
+      result = await apiCall('tours', 'POST', {}, tourData);
+    }
+
+    if (!result || !result.data) {
+      log('❌ فشل الحفظ — جرب الحفظ المحلي بدلاً');
+      return;
+    }
+
+    var savedTour = result.data;
+    scene.cloudId = savedTour.id;
+
+    // حفظ الـ hotspots
+    var savedCount = 0;
+    for (var i = 0; i < scene.hotspots.length; i++) {
+      var h = scene.hotspots[i];
+      if (h.cloudSaved) continue; // لا تحفظ مرتين
+
+      var hsData = {
+        tour_id: savedTour.id,
+        title: h.title,
+        description: h.description,
+        pitch: h.pitch,
+        yaw: h.yaw,
+        qcs_reference: h.qcsRef,
+        hotspot_type: 'info'
+      };
+      var hsResult = await apiCall('tour-hotspots', 'POST', {}, hsData);
+      if (hsResult && hsResult.data) {
+        h.cloudSaved = true;
+        h.cloudId = hsResult.data.id;
+        savedCount++;
+      }
+    }
+
+    log('✅ تم الحفظ في السيرفر — ' + savedCount + ' hotspot جديد');
+  }
+
+  // تحميل جولات المشروع من السيرفر
+  async function loadToursFromCloud() {
+    log('⏳ جاري التحميل من السيرفر...');
+    var params = {};
+    if (state.projectId) params.project_id = state.projectId;
+    var result = await apiCall('tours', 'GET', params);
+
+    if (!result || !result.data) {
+      log('⚠️ لا توجد جولات محفوظة أو فشل التحميل');
+      return;
+    }
+
+    var cloudTours = result.data;
+    if (!cloudTours.length) {
+      log('📂 لا توجد جولات محفوظة لهذا المشروع');
+      return;
+    }
+
+    // دمج مع المشاهد المحلية (بدون تكرار)
+    cloudTours.forEach(function(ct) {
+      var exists = state.scenes.find(function(s) { return s.cloudId === ct.id; });
+      if (!exists) {
+        state.scenes.push({
+          id: 'cloud_' + ct.id,
+          cloudId: ct.id,
+          name: ct.name,
+          type: ct.type,
+          url: ct.file_url || '',
+          hotspots: (ct.hotspots || []).map(function(h) {
+            return {
+              id: h.id,
+              cloudId: h.id,
+              cloudSaved: true,
+              pitch: h.pitch,
+              yaw: h.yaw,
+              title: h.title,
+              description: h.description,
+              qcsRef: h.qcs_reference
+            };
+          }),
+          width: ct.metadata && ct.metadata.width,
+          height: ct.metadata && ct.metadata.height
+        });
+      }
+    });
+
+    renderSceneList();
+    log('✅ تم تحميل ' + cloudTours.length + ' جولة من السيرفر');
+  }
+
+  // حفظ محلي (localStorage fallback)
+  function saveLocal() {
+    if (!state.scenes.length) { log('⚠️ لا توجد مشاهد للحفظ'); return; }
+    try {
+      var data = state.scenes.map(function(s) {
+        return {
+          id: s.id, name: s.name, type: s.type,
+          hotspots: s.hotspots, cloudId: s.cloudId
+        };
+      });
+      // حفظ بيانات الجولة فقط (بدون الصور — كبيرة)
+      sessionStorage.setItem('qs_tours', JSON.stringify(data));
+      log('✅ تم الحفظ محلياً — ' + state.scenes.length + ' مشهد (ملاحظة: الصور لا تُحفظ محلياً)');
+    } catch(e) {
+      log('❌ فشل الحفظ المحلي: ' + e.message);
+    }
+  }
+
   // ═══ Public API ═════════════════════════════════════════════
   window.QSTour = {
     init: init,
@@ -637,7 +864,13 @@
     exportTourJSON: exportTourJSON,
     resetPano: resetPano,
     resetModel: resetModel,
-    loadDemo: loadDemo
+    loadDemo: loadDemo,
+    // API integration
+    selectProject: selectProject,
+    saveTourToCloud: saveTourToCloud,
+    loadToursFromCloud: loadToursFromCloud,
+    saveLocal: saveLocal,
+    loadProjects: loadProjects
   };
 
   // تهيئة عند تحميل الصفحة
