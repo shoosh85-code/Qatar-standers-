@@ -384,20 +384,24 @@
 
       <div class="report-card">
         <h3>📋 فحص مطابقة QCS 2024</h3>
+        <!-- إضافة Hotspot -->
+        <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;">
+          <select id="spec-select" style="flex:1;min-width:160px;padding:6px 8px;background:#1e1e3a;color:#e2e8f0;border:1px solid #3d3d6b;border-radius:6px;font-size:12px;">
+            <option value="">— اختر مواصفة QCS —</option>
+          </select>
+          <input id="spec-val" type="number" placeholder="القيمة (mm)" style="width:110px;padding:6px 8px;background:#1e1e3a;color:#e2e8f0;border:1px solid #3d3d6b;border-radius:6px;font-size:12px;" />
+          <button id="btn-add-hotspot" style="padding:6px 12px;background:#c8961a;color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;">➕ إضافة</button>
+        </div>
         <ul class="qcs-list" id="qcs-list">
-          <li class="qcs-item">
-            <span>غطاء خرساني للأعمدة</span>
-            <span class="badge na">—</span>
-          </li>
-          <li class="qcs-item">
-            <span>ارتفاع الدرج ≤ 175mm</span>
-            <span class="badge na">—</span>
-          </li>
-          <li class="qcs-item">
-            <span>عرض الممر ≥ 1200mm</span>
-            <span class="badge na">—</span>
-          </li>
+          <li class="qcs-item"><span>لم تُضف بنود بعد</span><span class="badge na">—</span></li>
         </ul>
+      </div>
+
+      <!-- حقول التقرير -->
+      <div class="report-card" style="display:flex;gap:8px;flex-direction:column;">
+        <h3>👤 بيانات التقرير</h3>
+        <input id="project-name-input" type="text" placeholder="اسم المشروع" style="padding:8px;background:#1e1e3a;color:#e2e8f0;border:1px solid #3d3d6b;border-radius:6px;font-size:13px;" />
+        <input id="engineer-name-input" type="text" placeholder="اسم المهندس" style="padding:8px;background:#1e1e3a;color:#e2e8f0;border:1px solid #3d3d6b;border-radius:6px;font-size:13px;" />
       </div>
 
       <button class="btn-export" id="btn-export-pdf">
@@ -414,10 +418,18 @@
 <script src="js/scanner/upload-queue.js"></script>
 <script src="js/scanner/capture.js"></script>
 <script src="js/viewer/scene.js"></script>
+<script src="js/scanner/qcs-hotspots.js"></script>
 
 <script>
 // ===== التهيئة الرئيسية =====
 (async function init() {
+  // تتبع القياسات والـ Hotspots للتقرير
+  const _reportData = {
+    dimensions: {},
+    measurements: [],
+    hotspots: [],
+    screenshotB64: null,
+  };
 
   // ----- Tabs -----
   document.querySelectorAll('.tab').forEach(tab => {
@@ -530,20 +542,24 @@
       document.getElementById('dim-w').textContent = res.dimensions.width;
       document.getElementById('dim-h').textContent = res.dimensions.height;
       document.getElementById('dim-d').textContent = res.dimensions.depth;
+      // حفظ الأبعاد للتقرير
+      _reportData.dimensions = res.dimensions;
 
       toast('✅ تم تحميل النموذج: ' + file.name);
 
-      // إضافة Hotspots تجريبية
-      QS.Viewer.addHotspot(
-        { x: 0.5, y: 0.5, z: 0 },
-        { part: '6', section: '3', clause: '6.3.4.2',
-          title: 'غطاء خرساني الأعمدة', limit: 50, unit: 'mm', status: 'pass' }
-      );
-      QS.Viewer.addHotspot(
-        { x: -0.5, y: 0.3, z: 0.2 },
-        { part: '9', section: '1', clause: '9.1.3.1',
-          title: 'عرض الممر', limit: 1200, unit: 'mm', status: 'fail' }
-      );
+      // إضافة Hotspots تجريبية من QCS Engine
+      if (QS.HotspotEngine) {
+        const demo = QS.HotspotEngine.PRESET_SCENARIOS.concrete_structure;
+        demo.forEach((item, i) => {
+          const pos = { x: (i - 1) * 0.5, y: 0.4 + i * 0.1, z: 0 };
+          const hotspot = QS.HotspotEngine.createHotspot(pos, item.specId, item.defaultMeasured);
+          if (hotspot) {
+            QS.Viewer.addHotspot(hotspot.position, hotspot.qcsData);
+            _reportData.hotspots.push(hotspot.qcsData);
+          }
+        });
+        _updateQCSList();
+      }
 
     } catch (err) {
       overlay.classList.add('hidden');
@@ -600,13 +616,19 @@
     QS.Viewer.clearClipping();
   });
 
-  // حدث القياس
+      // حدث القياس — تخزين للتقرير
   document.addEventListener('qs:measure', (e) => {
     const d = e.detail;
     const el = document.getElementById('measure-result');
     el.textContent = `المسافة: ${d.distanceM} م (${d.distanceMm} مم)`;
     el.classList.add('show');
     setTimeout(() => el.classList.remove('show'), 5000);
+    // تخزين للتقرير
+    _reportData.measurements.push({
+      label: `قياس ${_reportData.measurements.length + 1}`,
+      distanceCm: d.distanceCm,
+      distanceMm: d.distanceMm,
+    });
   });
 
   // حدث Hotspot
@@ -615,20 +637,114 @@
     const tip = document.getElementById('hotspot-tip');
     document.getElementById('ht-title').textContent = d.title;
     document.getElementById('ht-qcs').textContent =
-      `QCS 2024 — الجزء ${d.part} / القسم ${d.section} / البند ${d.clause}`;
+      `${d.part} / ${d.clause}`;
     const statusEl = document.getElementById('ht-status');
     statusEl.className = 'ht-' + d.status;
     statusEl.textContent = d.status === 'pass'
       ? `✅ مطابق (الحد: ${d.limit} ${d.unit})`
+      : d.status === 'warning'
+      ? `⚠️ تحذير (الحد: ${d.limit} ${d.unit})`
       : `❌ غير مطابق (الحد: ${d.limit} ${d.unit})`;
     tip.classList.add('show');
     clearTimeout(tip._timer);
     tip._timer = setTimeout(() => tip.classList.remove('show'), 3000);
   });
 
-  // PDF Export (placeholder)
-  document.getElementById('btn-export-pdf').addEventListener('click', () => {
-    toast('📄 جارٍ إنشاء التقرير... (يتطلب jsPDF)');
+  // ===== إضافة Hotspot من القائمة =====
+  const specSelect  = document.getElementById('spec-select');
+  const specVal     = document.getElementById('spec-val');
+  const btnAddHot   = document.getElementById('btn-add-hotspot');
+
+  // تعبئة قائمة المواصفات
+  if (specSelect && QS.HotspotEngine) {
+    const specs = QS.HotspotEngine.getSpecsList();
+    specs.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s.id;
+      opt.textContent = `${s.title} (≥${s.limit} ${s.unit})`;
+      specSelect.appendChild(opt);
+    });
+  }
+
+  if (btnAddHot) {
+    btnAddHot.addEventListener('click', () => {
+      const specId   = specSelect?.value;
+      const measured = parseFloat(specVal?.value);
+      if (!specId || isNaN(measured)) {
+        toast('⚠️ اختر مواصفة وأدخل القيمة المقاسة');
+        return;
+      }
+      // ضع الـ Hotspot في مركز النموذج (المستخدم يمكنه تحريكه لاحقاً)
+      const pos = { x: (Math.random() - 0.5), y: 0.5 + Math.random() * 0.5, z: (Math.random() - 0.5) };
+      const hotspotData = QS.HotspotEngine.createHotspot(pos, specId, measured);
+      if (!hotspotData) { toast('❌ خطأ في إنشاء الـ Hotspot'); return; }
+
+      QS.Viewer.addHotspot(pos, hotspotData.qcsData);
+      _reportData.hotspots.push(hotspotData.qcsData);
+
+      // تحديث قائمة QCS في التقرير
+      _updateQCSList();
+      toast(`✅ تم إضافة: ${hotspotData.qcsData.title} — ${hotspotData.qcsData.status === 'pass' ? 'مطابق' : 'غير مطابق'}`);
+    });
+  }
+
+  // ===== تحديث قائمة QCS في تبويب التقرير =====
+  function _updateQCSList() {
+    const list = document.getElementById('qcs-list');
+    if (!list) return;
+    list.innerHTML = '';
+    _reportData.hotspots.forEach(h => {
+      const li = document.createElement('li');
+      li.className = 'qcs-item';
+      const statusText = h.status === 'pass' ? '✅ مطابق' : h.status === 'warning' ? '⚠️ تحذير' : '❌ غير مطابق';
+      const badgeClass = h.status === 'pass' ? 'pass' : h.status === 'warning' ? 'warn' : 'fail';
+      li.innerHTML = `<span>${h.title}</span><span class="badge ${badgeClass}">${statusText}</span>`;
+      list.appendChild(li);
+    });
+    if (_reportData.hotspots.length === 0) {
+      list.innerHTML = '<li class="qcs-item"><span>لم تُضف بنود بعد</span><span class="badge na">—</span></li>';
+    }
+  }
+
+  // ===== PDF Export الحقيقي =====
+  document.getElementById('btn-export-pdf').addEventListener('click', async () => {
+    toast('📄 جارٍ إنشاء التقرير...');
+
+    // التقاط لقطة الشاشة
+    try { _reportData.screenshotB64 = QS.Viewer.takeScreenshot(); } catch (_) {}
+
+    const projectName = document.getElementById('project-name-input')?.value || 'موقع قطري';
+    const engineer    = document.getElementById('engineer-name-input')?.value || 'مهندس';
+
+    try {
+      const res = await fetch('/api/export-scan-pdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          projectName,
+          engineer,
+          scanDate: new Date().toLocaleDateString('ar-QA'),
+          dimensions:   _reportData.dimensions,
+          measurements: _reportData.measurements,
+          hotspots:     _reportData.hotspots,
+          screenshotB64: _reportData.screenshotB64,
+        }),
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const html  = await res.text();
+      const blob  = new Blob([html], { type: 'text/html;charset=utf-8' });
+      const url   = URL.createObjectURL(blob);
+      const win   = window.open(url, '_blank');
+      if (win) {
+        setTimeout(() => { win.print(); }, 800);
+      }
+      toast('✅ تم فتح التقرير — استخدم Ctrl+P للطباعة أو حفظ PDF');
+
+    } catch (err) {
+      toast('❌ خطأ في التقرير: ' + err.message);
+    }
   });
 
 })();
