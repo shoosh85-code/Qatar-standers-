@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     return res.status(429).json({ error: 'Rate limit exceeded', retry_after: 60 });
   }
 
-  const { image, prompt } = req.body;
+  const { image, prompt, maxTokens, mimeType, jsonMode } = req.body;
   if (!image || !prompt) {
     return res.status(400).json({ error: 'image و prompt مطلوبان' });
   }
@@ -55,17 +55,20 @@ export default async function handler(req, res) {
   }
 
   try {
+    const genConfig = { temperature: 0.1, maxOutputTokens: Math.min(maxTokens || 512, 8192) };
+    if (jsonMode) genConfig.responseMimeType = 'application/json';
+
     const geminiRes = await fetch(`${GEMINI_URL}?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: [{
           parts: [
-            { inline_data: { mime_type: 'image/jpeg', data: image } },
+            { inline_data: { mime_type: mimeType || 'image/jpeg', data: image } },
             { text: prompt }
           ]
         }],
-        generationConfig: { temperature: 0.1, maxOutputTokens: 512 }
+        generationConfig: genConfig
       })
     });
 
