@@ -121,7 +121,7 @@ function buildResponse(limited, status, data) {
   };
   if (limited) headers['Retry-After'] = String(data.retryAfter || 60);
 
-  return { limited, status, headers, body: limited ? data : null };
+  return { limited, allowed: !limited, status, headers, body: limited ? data : null };
 }
 
 // ===== Middleware Wrapper لـ Vercel API Routes =====
@@ -144,7 +144,7 @@ export function withRateLimit(handler, endpoint) {
   };
 }
 
-// ===== Backward-compatible exports (used by project-hub.js) =====
+// ===== Backward-compatible exports (used by project-hub, checklists, ncr-log, etc.) =====
 export function getIp(req) {
   return (
     req.headers?.['x-forwarded-for']?.split(',')[0]?.trim() ||
@@ -153,11 +153,28 @@ export function getIp(req) {
   );
 }
 
-export async function checkRateLimit(ip, endpoint, isPro = false) {
-  const tier = isPro ? 'pro' : 'free';
-  const key = `rl:${endpoint}:${ip}`;
+// checkRateLimit(ip|req, tier|endpoint, endpoint|isPro)
+// Supports two call patterns:
+//   checkRateLimit(ip, endpoint, isPro)    — project-hub style
+//   checkRateLimit(req, tier, endpoint)    — tap.js style
+export async function checkRateLimit(ipOrReq, tierOrEndpoint, endpointOrIsPro) {
+  let ip, endpoint, tier;
+
+  if (ipOrReq && typeof ipOrReq === 'object') {
+    // tap.js style: checkRateLimit(req, tier, endpoint)
+    ip = getIp(ipOrReq);
+    tier = tierOrEndpoint || 'free';
+    endpoint = String(endpointOrIsPro || '').replace(/^\/api\//, '');
+  } else {
+    // project-hub style: checkRateLimit(ip, endpoint, isPro)
+    ip = ipOrReq || 'unknown';
+    endpoint = String(tierOrEndpoint || '').replace(/^\/api\//, '');
+    tier = endpointOrIsPro ? 'pro' : 'free';
+  }
+
   const limits = ENDPOINT_LIMITS[`/api/${endpoint}`] || { free: 30, pro: 120, global: 200 };
-  const limit = limits[tier];
+  const limit = limits[tier] || 30;
+  const key = `rl:${endpoint}:${ip}`;
 
   const now = Date.now();
   const windowSlot = Math.floor(now / WINDOW_MS);
@@ -174,13 +191,39 @@ export async function checkRateLimit(ip, endpoint, isPro = false) {
   }
 
   const limited = count > limit;
+  const retryAfter = limited ? Math.ceil((resetAt - now) / 1000) : 0;
   return {
     limited,
     allowed: !limited,
     remaining: Math.max(0, limit - count),
     resetAt,
-    retryAfter: limited ? Math.ceil((resetAt - now) / 1000) : 0,
+    retryAfter,
+    // headers for direct use
+    'X-RateLimit-Limit': String(limit),
+    'X-RateLimit-Remaining': String(Math.max(0, limit - count)),
+    'X-RateLimit-Reset': String(Math.ceil(resetAt / 1000)),
   };
+}
+
+// rateLimitHeaders(rl) — returns headers object for tap.js
+export function rateLimitHeaders(rl) {
+  return {
+    'X-RateLimit-Limit': rl['X-RateLimit-Limit'] || '30',
+    'X-RateLimit-Remaining': rl['X-RateLimit-Remaining'] || '0',
+    'X-RateLimit-Reset': rl['X-RateLimit-Reset'] || '0',
+    ...(rl.limited ? { 'Retry-After': String(rl.retryAfter || 60) } : {}),
+  };
+}
+
+// applyRateLimitHeaders(res, rl) — for export-pdf.js
+export function applyRateLimitHeaders(res, rl) {
+  if (!res || !rl) return;
+  const headers = rateLimitHeaders(rl);
+  if (typeof res.set === 'function') {
+    Object.entries(headers).forEach(([k, v]) => res.set(k, v));
+  } else if (typeof res.setHeader === 'function') {
+    Object.entries(headers).forEach(([k, v]) => res.setHeader(k, v));
+  }
 }
 
 // ===== مثال استخدام =====
