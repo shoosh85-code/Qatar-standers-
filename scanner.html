@@ -8,6 +8,14 @@
 
   <!-- Three.js + Addons -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Three.js Exporters (GLTFExporter + PLYExporter) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/exporters/GLTFExporter.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/exporters/PLYExporter.js"></script>
+  <!-- OrbitControls + GLTFLoader -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <!-- Gaussian Splats 3D — دعم .ply/.splat/.ksplat -->
+  <script src="https://cdn.jsdelivr.net/npm/gaussian-splats-3d@latest/build/gaussian-splats-3d.umd.min.js"></script>
   <script>
     // GLTFLoader + DRACOLoader + OrbitControls — loaded from CDN at runtime
     // In production: bundle via esbuild
@@ -300,6 +308,7 @@
   <div class="tabs">
     <div class="tab active" data-panel="capture">📷 المسح</div>
     <div class="tab" data-panel="viewer">🧊 العارض</div>
+    <div class="tab" data-panel="compare">↔️ مقارنة</div>
     <div class="tab" data-panel="report">📋 التقرير</div>
   </div>
 
@@ -341,11 +350,15 @@
     <div class="panel" id="panel-viewer">
       <div class="viewer-toolbar">
         <button class="vtb-btn" id="btn-load-glb">📂 فتح GLB</button>
+        <button class="vtb-btn" id="btn-load-splat">🌀 فتح Splat</button>
         <button class="vtb-btn" id="btn-measure">📏 قياس</button>
         <button class="vtb-btn" id="btn-clear-meas">🗑 مسح القياسات</button>
         <button class="vtb-btn" id="btn-xray">🔍 X-Ray</button>
         <button class="vtb-btn" id="btn-screenshot">📷 لقطة</button>
+        <button class="vtb-btn" id="btn-export-glb">⬇️ GLB</button>
+        <button class="vtb-btn" id="btn-export-ply">⬇️ PLY</button>
         <input type="file" id="file-glb" accept=".glb,.gltf" style="display:none">
+        <input type="file" id="file-splat" accept=".ply,.splat,.ksplat,.spz" style="display:none">
       </div>
 
       <div id="three-container" style="flex:1;position:relative;min-height:0;">
@@ -368,6 +381,44 @@
         <input type="range" id="clip-slider" min="0" max="100" value="100">
         <span class="clip-val" id="clip-val">100%</span>
         <button class="vtb-btn" id="btn-clip-reset">↺</button>
+      </div>
+    </div>
+
+    <!-- ===== COMPARE ===== -->
+    <div class="panel" id="panel-compare">
+      <div style="padding:12px;display:flex;flex-direction:column;gap:12px;height:100%;">
+        <div style="font-size:14px;color:#aaa;text-align:center;">
+          قارن النموذج الممسوح مع النموذج المرجعي (Design Model)
+        </div>
+        <!-- عارضان جانب لجانب -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:1;min-height:300px;">
+          <div style="position:relative;border:1px solid #333;border-radius:8px;overflow:hidden;">
+            <div style="position:absolute;top:8px;right:8px;background:#1a1a2e99;color:#00e5ff;font-size:11px;padding:2px 8px;border-radius:4px;z-index:2;">النموذج الممسوح</div>
+            <div id="viewer-actual" style="width:100%;height:100%;"></div>
+          </div>
+          <div style="position:relative;border:1px solid #333;border-radius:8px;overflow:hidden;">
+            <div style="position:absolute;top:8px;right:8px;background:#1a1a2e99;color:#ffd700;font-size:11px;padding:2px 8px;border-radius:4px;z-index:2;">النموذج المرجعي</div>
+            <div id="viewer-design" style="width:100%;height:100%;"></div>
+          </div>
+        </div>
+        <!-- أدوات المقارنة -->
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <label style="font-size:12px;color:#aaa;">مزج المشهدين:</label>
+          <input type="range" id="compare-slider" min="0" max="100" value="50"
+            style="width:100%;accent-color:#00e5ff;">
+          <!-- تحميل النموذج المرجعي -->
+          <div style="display:flex;gap:8px;">
+            <button class="vtb-btn" id="btn-load-design-glb" style="flex:1;">📂 تحميل نموذج مرجعي (GLB)</button>
+            <input type="file" id="file-design-glb" accept=".glb,.gltf" style="display:none">
+          </div>
+          <!-- إحصائيات الانحراف -->
+          <div id="deviation-stats" style="background:#0d0d1a;border-radius:8px;padding:12px;min-height:60px;font-size:12px;color:#aaa;">
+            <div style="color:#555;">حمّل النموذجين لعرض إحصائيات الانحراف...</div>
+          </div>
+          <button class="vtb-btn" id="btn-init-compare" style="background:#1e3a5f;">
+            🔗 تزامن الكاميرتين
+          </button>
+        </div>
       </div>
     </div>
 
@@ -596,6 +647,96 @@
     a.href = url;
     a.download = `QatarSpec_Scan_${Date.now()}.png`;
     a.click();
+  });
+
+  // ── Gaussian Splat Loader ──
+  document.getElementById('btn-load-splat').addEventListener('click', () => {
+    document.getElementById('file-splat').click();
+  });
+
+  document.getElementById('file-splat').addEventListener('change', async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const overlay = document.getElementById('load-overlay');
+    const pctEl = document.getElementById('load-pct');
+    const msgEl = document.getElementById('load-msg');
+    overlay.style.display = 'flex';
+    msgEl.textContent = 'جارٍ تحميل Gaussian Splat...';
+
+    try {
+      const url = URL.createObjectURL(file);
+      const result = await QS.Viewer.loadGaussianSplat(url, (pct) => {
+        pctEl.textContent = `${pct}%`;
+      });
+      overlay.style.display = 'none';
+
+      // عرض الأبعاد
+      if (result?.dimensions) {
+        const d = result.dimensions;
+        _reportData.dimensions = d;
+        document.getElementById('scan-width').textContent = d.width;
+        document.getElementById('scan-height').textContent = d.height;
+        document.getElementById('scan-depth').textContent = d.depth;
+      }
+    } catch (err) {
+      overlay.style.display = 'none';
+      alert(`❌ فشل تحميل Splat: ${err.message}`);
+    }
+    e.target.value = '';
+  });
+
+  // ── تصدير GLB ──
+  document.getElementById('btn-export-glb').addEventListener('click', async () => {
+    try {
+      const name = await QS.Viewer.exportGLB();
+      console.log(`[scanner] تم تصدير ${name}`);
+    } catch (err) {
+      alert(`❌ فشل التصدير: ${err.message}`);
+    }
+  });
+
+  // ── تصدير PLY ──
+  document.getElementById('btn-export-ply').addEventListener('click', async () => {
+    try {
+      const name = await QS.Viewer.exportPLY();
+      console.log(`[scanner] تم تصدير ${name}`);
+    } catch (err) {
+      alert(`❌ فشل التصدير: ${err.message}`);
+    }
+  });
+
+  // ── Compare Mode: تحميل نموذج مرجعي ──
+  document.getElementById('btn-load-design-glb').addEventListener('click', () => {
+    document.getElementById('file-design-glb').click();
+  });
+
+  document.getElementById('file-design-glb').addEventListener('change', async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    // ملاحظة: العارض الثاني يحمل في containerId2 'viewer-design'
+    alert('الميزة قيد التطوير — سيعمل العارضان بالتزامن بعد التهيئة');
+    e.target.value = '';
+  });
+
+  // ── تزامن الكاميرتين ──
+  document.getElementById('btn-init-compare').addEventListener('click', () => {
+    const ok = QS.Viewer.initCompareMode('viewer-actual', 'viewer-design');
+    if (ok) {
+      document.getElementById('deviation-stats').innerHTML =
+        '<div style="color:#00e5ff;">✅ الكاميرتان مرتبطتان — تحرك أي منهما لتتزامن الأخرى</div>';
+    } else {
+      alert('❌ لم يتم تهيئة Compare Mode — تأكد من تحميل النموذج أولاً');
+    }
+  });
+
+  // ── شريط المزج ──
+  document.getElementById('compare-slider').addEventListener('input', (e) => {
+    const val = e.target.value;
+    // val: 0 = النموذج الممسوح كاملاً | 100 = المرجعي كاملاً
+    const actual = document.getElementById('viewer-actual');
+    const design = document.getElementById('viewer-design');
+    if (actual) actual.style.opacity = (100 - val) / 100;
+    if (design) design.style.opacity = val / 100;
   });
 
   // Clip Slider

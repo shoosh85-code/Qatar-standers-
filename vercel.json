@@ -73,6 +73,21 @@
     },
     "api/checklists.js": {
       "maxDuration": 30
+    },
+    "api/scan-upload.js": {
+      "maxDuration": 60
+    },
+    "api/scan-status.js": {
+      "maxDuration": 30
+    },
+    "api/export-scan-pdf.js": {
+      "maxDuration": 60
+    },
+    "api/health.js": {
+      "maxDuration": 10
+    },
+    "api/scan-gemini-fallback.js": {
+      "maxDuration": 60
     }
   },
   "headers": [

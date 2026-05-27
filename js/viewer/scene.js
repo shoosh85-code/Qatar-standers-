@@ -294,6 +294,205 @@ QS.Viewer = (() => {
     return renderer.domElement.toDataURL('image/png');
   }
 
+  // ===== Gaussian Splat Loader (مكتبة gaussian-splats-3d) =====
+  // يدعم: .ply | .splat | .ksplat | .spz
+  let splatViewer = null;
+  let currentModelType = 'glb'; // 'glb' | 'splat'
+
+  async function loadGaussianSplat(url, onProgress) {
+    // تنظيف النموذج السابق
+    if (currentModel) {
+      scene.remove(currentModel);
+      currentModel = null;
+    }
+    if (splatViewer) {
+      try { splatViewer.dispose(); } catch (_) {}
+      splatViewer = null;
+    }
+
+    // اكتشاف نوع الملف من الامتداد
+    const ext = url.split('?')[0].split('.').pop().toLowerCase();
+    const isSPZ = ext === 'spz';
+
+    // تحقق من وجود المكتبة
+    if (typeof GaussianSplats3D === 'undefined') {
+      throw new Error('مكتبة GaussianSplats3D غير محملة — أضف CDN في HTML');
+    }
+
+    try {
+      if (onProgress) onProgress(10);
+
+      // إنشاء viewer داخل الـ scene الموجودة
+      splatViewer = new GaussianSplats3D.Viewer({
+        selfDrivenMode: false,           // نتحكم بالـ render loop بنفسنا
+        renderer: renderer,
+        camera: camera,
+        useBuiltInControls: false,       // نستخدم OrbitControls الموجودة
+        ignoreDevicePixelRatio: false,
+        gpuAcceleratedSort: true,
+        sharedMemoryForWorkers: typeof SharedArrayBuffer !== 'undefined',
+      });
+
+      if (onProgress) onProgress(30);
+
+      await splatViewer.loadFile(url, {
+        streamView: true,
+        onProgress: (pct) => {
+          if (onProgress) onProgress(30 + Math.round(pct * 0.6));
+        },
+      });
+
+      if (onProgress) onProgress(95);
+
+      // أضف Splat Scene للـ Three.js scene
+      const splatMesh = splatViewer.getSplatMesh();
+      scene.add(splatMesh);
+      currentModel = splatMesh;
+      currentModelType = 'splat';
+
+      // تقدير الأبعاد من بيانات Splat
+      const box = new THREE.Box3().setFromObject(splatMesh);
+      const size = new THREE.Vector3();
+      box.getSize(size);
+
+      // توجيه الكاميرا
+      const center = new THREE.Vector3();
+      box.getCenter(center);
+      controls?.target?.copy(center);
+      camera.position.copy(center).add(new THREE.Vector3(0, size.y, size.z * 2));
+      controls?.update?.();
+
+      if (onProgress) onProgress(100);
+
+      return {
+        model: splatMesh,
+        type: 'splat',
+        format: ext,
+        dimensions: {
+          width: parseFloat(size.x.toFixed(2)),
+          height: parseFloat(size.y.toFixed(2)),
+          depth: parseFloat(size.z.toFixed(2)),
+          unit: 'm',
+        },
+      };
+
+    } catch (err) {
+      console.error('[scene.js] Gaussian Splat error:', err);
+      throw err;
+    }
+  }
+
+  // تحديث render loop ليشمل Splat
+  function _renderFrame() {
+    controls?.update();
+    if (splatViewer && currentModelType === 'splat') {
+      splatViewer.update();      // ترتيب Splats
+      splatViewer.render();      // رسم Splats
+    } else {
+      renderer?.render(scene, camera);
+    }
+  }
+
+  // ===== تصدير GLB =====
+  function exportGLB() {
+    return new Promise((resolve, reject) => {
+      if (!currentModel) return reject(new Error('لا يوجد نموذج محمل'));
+      if (currentModelType === 'splat') {
+        return reject(new Error('استخدم exportPLY للـ Gaussian Splat'));
+      }
+
+      if (typeof THREE.GLTFExporter === 'undefined') {
+        return reject(new Error('THREE.GLTFExporter غير محمل'));
+      }
+
+      const exporter = new THREE.GLTFExporter();
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+      const filename = `QatarSpec_Scan_${timestamp}.glb`;
+
+      exporter.parse(
+        currentModel,
+        (result) => {
+          const blob = new Blob([result], { type: 'model/gltf-binary' });
+          _downloadBlob(blob, filename);
+          resolve(filename);
+        },
+        (err) => reject(err),
+        { binary: true }
+      );
+    });
+  }
+
+  // ===== تصدير PLY =====
+  function exportPLY() {
+    return new Promise((resolve, reject) => {
+      if (!currentModel) return reject(new Error('لا يوجد نموذج محمل'));
+
+      if (typeof THREE.PLYExporter === 'undefined') {
+        return reject(new Error('THREE.PLYExporter غير محمل'));
+      }
+
+      const exporter = new THREE.PLYExporter();
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+      const filename = `QatarSpec_Scan_${timestamp}.ply`;
+
+      exporter.parse(
+        currentModel,
+        (result) => {
+          const blob = new Blob([result], { type: 'application/octet-stream' });
+          _downloadBlob(blob, filename);
+          resolve(filename);
+        },
+        { binary: true }
+      );
+    });
+  }
+
+  // مساعد تنزيل Blob
+  function _downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  }
+
+  // ===== Compare Mode — تشغيل viewerين متزامنين =====
+  let compareViewer2 = null;
+  let compareCamera2 = null;
+  let compareRenderer2 = null;
+  let isCompareMode = false;
+
+  function initCompareMode(containerId1, containerId2) {
+    const container2 = document.getElementById(containerId2);
+    if (!container2) return false;
+
+    // إنشاء renderer ثانٍ
+    compareRenderer2 = new THREE.WebGLRenderer({ antialias: true });
+    compareRenderer2.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    compareRenderer2.setSize(container2.clientWidth, container2.clientHeight);
+    compareRenderer2.outputColorSpace = THREE.SRGBColorSpace;
+    container2.appendChild(compareRenderer2.domElement);
+
+    // كاميرا ثانية مرتبطة بالأولى
+    compareCamera2 = camera.clone();
+
+    isCompareMode = true;
+    console.log('[scene.js] Compare mode initialized — cameras linked');
+    return true;
+  }
+
+  function renderCompareFrame() {
+    if (!isCompareMode || !compareRenderer2 || !compareCamera2) return;
+    // مزامنة الكاميرا الثانية مع الأولى
+    compareCamera2.position.copy(camera.position);
+    compareCamera2.quaternion.copy(camera.quaternion);
+    compareCamera2.updateProjectionMatrix();
+    compareRenderer2.render(scene, compareCamera2);
+  }
+
   // ===== Resize =====
   function _onResize() {
     const container = document.getElementById(containerId);
@@ -303,22 +502,28 @@ QS.Viewer = (() => {
     renderer.setSize(container.clientWidth, container.clientHeight);
   }
 
-  // ===== Animation Loop =====
+  // ===== Animation Loop (محدَّث) =====
   function _animate() {
     requestAnimationFrame(_animate);
-    controls?.update();
-    renderer?.render(scene, camera);
+    _renderFrame();
+    renderCompareFrame();
   }
 
   // ===== Dispose =====
   function dispose() {
+    if (splatViewer) { try { splatViewer.dispose(); } catch (_) {} }
     renderer?.dispose();
+    compareRenderer2?.dispose();
     window.removeEventListener('resize', _onResize);
   }
 
   return {
     init,
     loadGLB,
+    loadGaussianSplat,
+    exportGLB,
+    exportPLY,
+    initCompareMode,
     toggleMeasureMode,
     clearMeasurements,
     addHotspot,
