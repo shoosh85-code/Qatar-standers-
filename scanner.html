@@ -447,6 +447,14 @@
           "></span>
         </div>
 
+        <!-- Backend Status Badge — يظهر أي محرك AI نشط -->
+        <div id="backend-badge" style="
+          position:absolute;bottom:48px;left:8px;z-index:10;
+          display:none;background:#1a1a2e99;color:#aaa;
+          font-size:10px;padding:2px 8px;border-radius:4px;
+          font-family:monospace;letter-spacing:.5px;
+        "></div>
+
         <div class="measure-result" id="measure-result"></div>
         <div class="hotspot-tip" id="hotspot-tip">
           <div class="ht-title" id="ht-title"></div>
@@ -676,6 +684,21 @@
     });
   }
 
+  // ===== Backend Status Badge =====
+  function _showBackendBadge(backend, accuracy) {
+    const el = document.getElementById('backend-badge');
+    if (!el) return;
+    const labels = {
+      'gemini-fallback':  { icon: '🤖', label: 'Gemini AI', color: '#ffd700' },
+      'kiri':             { icon: '🌐', label: 'KIRI Engine', color: '#00e5ff' },
+      'colmap-gsplat':    { icon: '⚡', label: 'COLMAP+Splat', color: '#69ff47' },
+    };
+    const b = labels[backend] || { icon: '⚙️', label: backend, color: '#aaa' };
+    el.style.color = b.color;
+    el.textContent = `${b.icon} ${b.label}${accuracy ? ' · ' + accuracy : ''}`;
+    el.style.display = 'block';
+  }
+
   // ----- Capture Panel -----
   const video       = document.getElementById('camera-video');
   const btnCapture  = document.getElementById('btn-capture');
@@ -801,6 +824,9 @@
       }, scaleInfo);
 
       // نتيجة قد تكون: glbUrl (Gemini/KIRI) أو jobId (colmap-gsplat polling)
+      // عرض Backend Badge
+      if (result.backend) _showBackendBadge(result.backend, result.scale_info?.accuracy_estimate);
+
       if (result.glbUrl) {
         window._pendingGLB  = result.glbUrl;
         window._pendingSPZ  = null;
