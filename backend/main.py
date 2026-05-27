@@ -12,6 +12,8 @@ import tempfile
 from pathlib import Path
 from typing import Dict, Any, Optional
 
+import time
+import shutil
 from fastapi import FastAPI, File, UploadFile, HTTPException, Header, BackgroundTasks
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -108,6 +110,7 @@ async def process(
         "job_dir":    str(job_dir),
         "scale_info": scale_info,
         "error":      None,
+        "createdAt":  time.time(),
     }
 
     logger.info(f"[main] Job {job_id} queued — {saved} images — scale: {scale_method}")
@@ -138,6 +141,50 @@ async def status(
         "file_size_mb": job.get("file_size_mb"),
         "error":        job.get("error"),
     }
+
+
+# ===== DELETE /job/{job_id} — حذف job + ملفاته المؤقتة =====
+@app.delete("/job/{job_id}")
+async def delete_job(
+    job_id: str,
+    x_backend_secret: Optional[str] = Header(default=None),
+):
+    """حذف job + ملفاته المؤقتة بعد التنزيل"""
+    _verify_secret(x_backend_secret)
+    job = jobs_db.get(job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Job غير موجود")
+
+    # حذف الملفات المؤقتة
+    job_dir = Path(job.get("job_dir", ""))
+    if job_dir.exists():
+        shutil.rmtree(job_dir, ignore_errors=True)
+
+    del jobs_db[job_id]
+    logger.info(f"[delete] Job {job_id} حُذف")
+    return {"deleted": True, "job_id": job_id}
+
+
+# ===== Startup: تنظيف تلقائي للـ jobs القديمة =====
+@app.on_event("startup")
+async def start_cleanup():
+    asyncio.create_task(_periodic_cleanup())
+
+
+async def _periodic_cleanup():
+    while True:
+        await asyncio.sleep(3600)  # كل ساعة
+        cutoff = time.time() - 7200  # 2 ساعة
+        stale = [jid for jid, j in list(jobs_db.items())
+                 if j.get("createdAt", 0) < cutoff]
+        for jid in stale:
+            # حذف الملفات أيضاً
+            job_dir = Path(jobs_db[jid].get("job_dir", ""))
+            if job_dir.exists():
+                shutil.rmtree(job_dir, ignore_errors=True)
+            jobs_db.pop(jid, None)
+        if stale:
+            logger.info(f"[cleanup] حُذف {len(stale)} job قديم")
 
 
 # ===== GET /health =====

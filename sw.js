@@ -32,7 +32,14 @@ const STATIC_ASSETS = [
   '/login.html',
   '/js/projects-app.js',
   '/js/project-phase9.js',
-  '/js/payment-certificates.js'
+  '/js/payment-certificates.js',
+  // Scanner 3D — PWA offline support
+  '/scanner.html',
+  '/js/viewer/scene.js',
+  '/js/scanner/capture.js',
+  '/js/scanner/upload-queue.js',
+  '/js/scanner/qcs-hotspots.js',
+  '/css/scanner.css'
 ];
 
 // INSTALL: مسح كل الكاش القديم فوراً

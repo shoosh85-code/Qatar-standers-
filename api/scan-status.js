@@ -23,6 +23,13 @@ async function handler(req, res) {
     return res.status(404).json({ error: 'Job غير موجود أو انتهت صلاحيته' });
   }
 
+  // إذا كان job مكتملاً ومر عليه 2 ساعة → احذفه
+  const TWO_HOURS = 2 * 60 * 60 * 1000;
+  if (job.status === 'completed' && job.completedAt && Date.now() - job.completedAt > TWO_HOURS) {
+    jobs.delete(jobId);
+    return res.status(410).json({ error: 'Job expired — please re-upload' });
+  }
+
   // إضافة CORS headers
   res.setHeader('Cache-Control', 'no-store');
 
