@@ -24,7 +24,28 @@ async function handler(req, res) {
     measurements  = [],
     hotspots      = [],
     screenshotB64 = null,
+    scale_info    = null,
   } = body || {};
+
+  // ===== فصل أنواع القياسات =====
+  // دعم كلا الصيغتين: المصفوفة القديمة (distances فقط) والجديدة (object مع أنواع)
+  let distances = [], areas = [], volumes = [], angles = [];
+
+  if (Array.isArray(measurements)) {
+    // صيغة قديمة: مصفوفة تحتوي على عناصر بنوع type مختلط أو distances فقط
+    for (const m of measurements) {
+      if (!m.type || m.type === 'distance') distances.push(m);
+      else if (m.type === 'area')   areas.push(m);
+      else if (m.type === 'volume') volumes.push(m);
+      else if (m.type === 'angle')  angles.push(m);
+    }
+  } else if (measurements && typeof measurements === 'object') {
+    // صيغة جديدة: { distances, areas, volumes, angles }
+    distances = measurements.distances || [];
+    areas     = measurements.areas     || [];
+    volumes   = measurements.volumes   || [];
+    angles    = measurements.angles    || [];
+  }
 
   // بناء محتوى HTML للـ PDF
   const passCount = hotspots.filter(h => h.status === 'pass').length;
@@ -43,14 +64,60 @@ async function handler(req, res) {
     </tr>
   `).join('');
 
-  const measureRows = measurements.map((m, i) => `
+  const measureRows = distances.map((m, i) => `
     <tr>
       <td>${i + 1}</td>
-      <td>${m.label || `قياس ${i + 1}`}</td>
-      <td>${m.distanceCm} سم</td>
-      <td>${m.distanceMm} مم</td>
+      <td>${m.label || `مسافة ${i + 1}`}</td>
+      <td>${m.distanceCm ?? (m.distanceM ? +(m.distanceM * 100).toFixed(1) : '—')} سم</td>
+      <td>${m.distanceMm ?? (m.distanceM ? +(m.distanceM * 1000).toFixed(0) : '—')} مم</td>
     </tr>
   `).join('');
+
+  const areaRows = areas.map((m, i) => `
+    <tr>
+      <td>${i + 1}</td>
+      <td>${m.label || `مساحة ${i + 1}`}</td>
+      <td>${m.area_m2 ?? '—'} م²</td>
+      <td>${m.area_cm2 ?? '—'} سم²</td>
+      <td>${m.perimeter_m ?? '—'} م</td>
+    </tr>
+  `).join('');
+
+  const volumeRows = volumes.map((m, i) => `
+    <tr>
+      <td>${i + 1}</td>
+      <td>${m.label || `حجم ${i + 1}`}</td>
+      <td>${m.volume_m3 ?? '—'} م³</td>
+      <td>${m.volume_liters ?? '—'} لتر</td>
+      <td>${m.dimensions ? `${m.dimensions.width_mm}×${m.dimensions.height_mm}×${m.dimensions.depth_mm} مم` : '—'}</td>
+    </tr>
+  `).join('');
+
+  const angleRows = angles.map((m, i) => `
+    <tr>
+      <td>${i + 1}</td>
+      <td>${m.label || `زاوية ${i + 1}`}</td>
+      <td>${m.degrees ?? '—'}°</td>
+      <td>${m.supplement ?? '—'}°</td>
+    </tr>
+  `).join('');
+
+  // معلومات معايرة المقياس
+  const scaleInfoHtml = scale_info ? (() => {
+    const methodLabels = {
+      'a4_paper': '📄 ورقة A4 (210×297mm)',
+      'manual':   `📐 مسافة يدوية: ${scale_info.distance_mm ?? '—'}mm${scale_info.label ? ` (${scale_info.label})` : ''}`,
+      'gps':      `📍 GPS ±${scale_info.coordinates?.accuracy_m?.toFixed?.(0) ?? '?'}م`,
+      'none':     '⚠️ بدون معايرة — تقديري فقط',
+    };
+    return `
+      <div class="info-card" style="grid-column:span 3;">
+        <label>طريقة المعايرة</label>
+        <span style="font-size:13px;">${methodLabels[scale_info.type] || scale_info.type}</span>
+        <div style="font-size:11px;color:#64748b;margin-top:4px;">دقة تقديرية: ${scale_info.accuracy_estimate || '—'}</div>
+      </div>
+    `;
+  })() : '';
 
   const screenshotHtml = screenshotB64
     ? `<img src="${screenshotB64}" style="width:100%;max-height:300px;object-fit:contain;border:1px solid #ddd;border-radius:8px;" />`
@@ -173,10 +240,18 @@ async function handler(req, res) {
   </div>
   ` : ''}
 
-  <!-- جدول القياسات -->
-  ${measurements.length > 0 ? `
+  <!-- معايرة المقياس -->
+  ${scale_info ? `
   <div class="section">
-    <div class="section-title">📏 القياسات الميدانية</div>
+    <div class="section-title">📏 معايرة المقياس</div>
+    <div class="info-grid">${scaleInfoHtml}</div>
+  </div>
+  ` : ''}
+
+  <!-- جدول المسافات -->
+  ${distances.length > 0 ? `
+  <div class="section">
+    <div class="section-title">📏 قياسات المسافة</div>
     <table>
       <thead>
         <tr><th>#</th><th>الوصف</th><th>المسافة (سم)</th><th>المسافة (مم)</th></tr>
@@ -186,9 +261,49 @@ async function handler(req, res) {
   </div>
   ` : ''}
 
+  <!-- جدول المساحات -->
+  ${areas.length > 0 ? `
+  <div class="section">
+    <div class="section-title">📐 قياسات المساحة</div>
+    <table>
+      <thead>
+        <tr><th>#</th><th>الوصف</th><th>المساحة (م²)</th><th>المساحة (سم²)</th><th>المحيط (م)</th></tr>
+      </thead>
+      <tbody>${areaRows}</tbody>
+    </table>
+  </div>
+  ` : ''}
+
+  <!-- جدول الأحجام -->
+  ${volumes.length > 0 ? `
+  <div class="section">
+    <div class="section-title">📦 قياسات الحجم</div>
+    <table>
+      <thead>
+        <tr><th>#</th><th>الوصف</th><th>الحجم (م³)</th><th>الحجم (لتر)</th><th>الأبعاد (مم)</th></tr>
+      </thead>
+      <tbody>${volumeRows}</tbody>
+    </table>
+  </div>
+  ` : ''}
+
+  <!-- جدول الزوايا -->
+  ${angles.length > 0 ? `
+  <div class="section">
+    <div class="section-title">📐 قياسات الزاوية</div>
+    <table>
+      <thead>
+        <tr><th>#</th><th>الوصف</th><th>الزاوية</th><th>الزاوية المكملة</th></tr>
+      </thead>
+      <tbody>${angleRows}</tbody>
+    </table>
+  </div>
+  ` : ''}
+
   <!-- إخلاء مسؤولية -->
   <div class="disclaimer">
-    ⚠️ <strong>إخلاء مسؤولية:</strong> هذا التقرير مبني على مسح رقمي بالهاتف. للقرارات الهندسية الرسمية يجب الاستعانة بمساح معتمد وفق متطلبات Ashghal / MMUP القطرية. دقة القياس: ±2-5 سم.
+    ⚠️ <strong>إخلاء مسؤولية:</strong> هذا التقرير مبني على مسح رقمي بالهاتف. للقرارات الهندسية الرسمية يجب الاستعانة بمساح معتمد وفق متطلبات Ashghal / MMUP القطرية.
+    دقة القياس: ${scale_info?.accuracy_estimate || '±2-5 سم'}.
     <br>مرجع: QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP
   </div>
 

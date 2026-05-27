@@ -121,14 +121,15 @@ QS.Scanner = (() => {
   }
 
   // ===== رفع الصور وبدء المعالجة =====
-  async function submitScan(onProgress) {
+  async function submitScan(onProgress, scaleInfo = null) {
     if (capturedCount < REQUIRED_MIN) {
       throw new Error(`يجب التقاط ${REQUIRED_MIN} صورة على الأقل — لديك ${capturedCount}`);
     }
 
     onProgress?.({ stage: 'uploading', pct: 0 });
 
-    const result = await QS.UploadQueue.flushPending(sessionId);
+    // تمرير scale_info لـ UploadQueue إذا كانت متوفرة
+    const result = await QS.UploadQueue.flushPending(sessionId, scaleInfo);
 
     onProgress?.({ stage: 'processing', pct: 10, jobId: result.jobId });
 

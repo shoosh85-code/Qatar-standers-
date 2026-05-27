@@ -342,6 +342,65 @@
         </div>
 
         <button class="btn-capture" id="btn-capture" title="التقاط صورة">📸</button>
+
+        <!-- ===== معايرة المقياس ===== -->
+        <div id="scale-calibration" style="
+          display:none;
+          background:#1e1e3a;
+          border:1px solid #3d3d6b;
+          border-radius:10px;
+          padding:14px;
+          margin-top:12px;
+          direction:rtl;
+        ">
+          <div style="font-size:13px;font-weight:bold;color:#c8961a;margin-bottom:10px;">
+            📏 معايرة المقياس (اختياري — يُحسّن الدقة)
+          </div>
+
+          <!-- الخيار 1: ورقة A4 -->
+          <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:#e2e8f0;margin-bottom:10px;cursor:pointer;">
+            <input type="checkbox" id="use-a4" style="width:16px;height:16px;accent-color:#c8961a;">
+            وضعت ورقة <strong>A4</strong> (210×297mm) في المشهد أثناء التصوير
+          </label>
+
+          <!-- الخيار 2: مسافة معروفة -->
+          <div style="margin-bottom:10px;">
+            <label style="font-size:12px;color:#aaa;display:block;margin-bottom:4px;">مسافة مرجعية معروفة (اختياري):</label>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <input type="number"
+                     id="known-distance"
+                     placeholder="0"
+                     min="100"
+                     max="10000"
+                     style="width:100px;padding:6px 8px;background:#0d0d1a;color:#e2e8f0;border:1px solid #3d3d6b;border-radius:6px;font-size:13px;">
+              <span style="color:#aaa;font-size:12px;">mm</span>
+              <input type="text"
+                     id="known-distance-label"
+                     placeholder="وصف (مثال: عرض باب)"
+                     style="flex:1;padding:6px 8px;background:#0d0d1a;color:#e2e8f0;border:1px solid #3d3d6b;border-radius:6px;font-size:12px;">
+            </div>
+          </div>
+
+          <!-- الخيار 3: GPS للمساحات الكبيرة -->
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button id="btn-use-gps"
+                    style="padding:6px 14px;background:#1e3a5f;color:#00e5ff;border:1px solid #00e5ff44;border-radius:6px;font-size:12px;cursor:pointer;">
+              📍 استخدم GPS
+            </button>
+            <span id="gps-status" style="font-size:11px;color:#555;">للمساحات الكبيرة فقط</span>
+          </div>
+
+          <div id="scale-summary" style="
+            margin-top:10px;
+            font-size:11px;
+            color:#00e5ff;
+            background:#00e5ff11;
+            border-radius:6px;
+            padding:6px 10px;
+            display:none;
+          "></div>
+        </div>
+
         <button class="btn-submit" id="btn-submit">رفع ومعالجة ▶</button>
       </div>
     </div>
@@ -531,6 +590,8 @@
 
     if (res.isMin) {
       btnSubmit.classList.add('visible');
+      // إظهار قسم معايرة المقياس
+      document.getElementById('scale-calibration').style.display = 'block';
       guideTxt.textContent = `✅ ${res.count} صورة — يمكنك المعالجة أو الاستمرار`;
     } else {
       guideTxt.textContent = `${res.remaining} صورة متبقية للحد الأدنى`;
@@ -544,14 +605,85 @@
     setTimeout(() => { btnCapture.disabled = false; }, 400);
   });
 
+  // ===== معايرة المقياس =====
+  // GPS
+  document.getElementById('btn-use-gps').addEventListener('click', () => {
+    const statusEl = document.getElementById('gps-status');
+    if (!navigator.geolocation) {
+      statusEl.textContent = '❌ GPS غير مدعوم';
+      statusEl.style.color = '#ef4444';
+      return;
+    }
+    statusEl.textContent = '⏳ جارٍ تحديد الموقع...';
+    statusEl.style.color = '#f59e0b';
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        window._gpsCoords = {
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+          accuracy_m: pos.coords.accuracy,
+        };
+        statusEl.textContent = `✅ دقة: ±${pos.coords.accuracy.toFixed(0)}م`;
+        statusEl.style.color = '#22c55e';
+        _updateScaleSummary();
+      },
+      (err) => {
+        statusEl.textContent = '❌ ' + err.message;
+        statusEl.style.color = '#ef4444';
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  });
+
+  // A4 checkbox
+  document.getElementById('use-a4').addEventListener('change', _updateScaleSummary);
+  document.getElementById('known-distance').addEventListener('input', _updateScaleSummary);
+
+  function _updateScaleSummary() {
+    const summaryEl = document.getElementById('scale-summary');
+    const parts = [];
+    if (document.getElementById('use-a4').checked) parts.push('📄 ورقة A4 (210×297mm)');
+    const dist = parseFloat(document.getElementById('known-distance').value);
+    const lbl  = document.getElementById('known-distance-label').value.trim();
+    if (dist >= 100) parts.push(`📐 مسافة مرجعية: ${dist}mm${lbl ? ` (${lbl})` : ''}`);
+    if (window._gpsCoords) parts.push(`📍 GPS: ±${window._gpsCoords.accuracy_m.toFixed(0)}م`);
+
+    if (parts.length === 0) {
+      summaryEl.style.display = 'none';
+    } else {
+      summaryEl.style.display = 'block';
+      summaryEl.innerHTML = '✅ معايرة محددة: ' + parts.join(' · ');
+    }
+  }
+
+  // جمع scale_info عند الإرسال
+  function _getScaleInfo() {
+    const useA4 = document.getElementById('use-a4').checked;
+    const dist  = parseFloat(document.getElementById('known-distance').value);
+    const lbl   = document.getElementById('known-distance-label').value.trim();
+    const gps   = window._gpsCoords || null;
+
+    if (useA4) {
+      return { type: 'a4_paper', width_mm: 210, height_mm: 297, accuracy_estimate: '±2mm' };
+    }
+    if (dist >= 100) {
+      return { type: 'manual', distance_mm: dist, label: lbl || 'مسافة مرجعية', accuracy_estimate: '±5mm' };
+    }
+    if (gps) {
+      return { type: 'gps', coordinates: gps, accuracy_estimate: `±${gps.accuracy_m.toFixed(0)}م` };
+    }
+    return { type: 'none', accuracy_estimate: '±15%' };
+  }
+
   // رفع ومعالجة
   btnSubmit.addEventListener('click', async () => {
     btnSubmit.disabled = true;
     toast('⬆️ جارٍ رفع الصور...');
     try {
+      const scaleInfo = _getScaleInfo();
       const result = await QS.Scanner.submitScan((p) => {
         toast(`${p.stage === 'uploading' ? '⬆️ رفع' : '⚙️ معالجة'} ${p.pct}%`);
-      });
+      }, scaleInfo);
       toast('✅ النموذج جاهز — انتقل للعارض');
 
       // تحميل النموذج تلقائياً في الـ Viewer

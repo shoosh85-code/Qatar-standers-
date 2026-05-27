@@ -81,7 +81,7 @@ QS.UploadQueue = (() => {
   }
 
   // رفع كل الصور المعلقة
-  async function flushPending(sessionId) {
+  async function flushPending(sessionId, scaleInfo = null) {
     const pending = await getPending(sessionId);
     if (pending.length === 0) return { uploaded: 0 };
 
@@ -94,6 +94,11 @@ QS.UploadQueue = (() => {
     }
 
     formData.append('sessionId', sessionId);
+
+    // إرفاق معلومات معايرة المقياس إذا كانت متوفرة
+    if (scaleInfo) {
+      formData.append('scale_info', JSON.stringify(scaleInfo));
+    }
 
     try {
       const res = await fetch('/api/scan-upload', {
