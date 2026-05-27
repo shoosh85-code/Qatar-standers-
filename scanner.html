@@ -351,7 +351,10 @@
       <div class="viewer-toolbar">
         <button class="vtb-btn" id="btn-load-glb">📂 فتح GLB</button>
         <button class="vtb-btn" id="btn-load-splat">🌀 فتح Splat</button>
-        <button class="vtb-btn" id="btn-measure">📏 قياس</button>
+        <button class="vtb-btn" id="btn-measure">📏 مسافة</button>
+        <button class="vtb-btn" id="btn-measure-area">📐 مساحة</button>
+        <button class="vtb-btn" id="btn-measure-volume">📦 حجم</button>
+        <button class="vtb-btn" id="btn-measure-angle">📐 زاوية</button>
         <button class="vtb-btn" id="btn-clear-meas">🗑 مسح القياسات</button>
         <button class="vtb-btn" id="btn-xray">🔍 X-Ray</button>
         <button class="vtb-btn" id="btn-screenshot">📷 لقطة</button>
@@ -618,17 +621,66 @@
     }
   });
 
-  // وضع القياس
-  let measureActive = false;
+  // ===== أوضاع القياس (مسافة | مساحة | حجم | زاوية) =====
+  let activeMeasureBtn = null;
+
+  // دالة مشتركة لتفعيل/إلغاء وضع القياس
+  function _setMeasureMode(type, btnId) {
+    const btn = document.getElementById(btnId);
+    const isAlreadyActive = btn.classList.contains('active');
+
+    // إلغاء الزر النشط السابق
+    if (activeMeasureBtn && activeMeasureBtn !== btn) {
+      activeMeasureBtn.classList.remove('active');
+    }
+
+    if (isAlreadyActive) {
+      // إيقاف الوضع الحالي
+      QS.Viewer.toggleMeasureMode(false, type);
+      btn.classList.remove('active');
+      activeMeasureBtn = null;
+      toast('تم إيقاف وضع القياس');
+    } else {
+      // تفعيل الوضع الجديد
+      QS.Viewer.toggleMeasureMode(true, type);
+      btn.classList.add('active');
+      activeMeasureBtn = btn;
+
+      const hints = {
+        distance: '📏 انقر على نقطتين لقياس المسافة',
+        area:     '📐 انقر 3+ نقاط ثم قرب النقطة الأولى للإغلاق',
+        angle:    '📐 انقر 3 نقاط: بداية → رأس الزاوية → نهاية',
+      };
+      toast(hints[type] || 'وضع القياس نشط');
+    }
+  }
+
   document.getElementById('btn-measure').addEventListener('click', () => {
-    measureActive = !measureActive;
-    QS.Viewer.toggleMeasureMode(measureActive);
-    document.getElementById('btn-measure').classList.toggle('active', measureActive);
-    toast(measureActive ? '📏 انقر مرتين على النموذج لقياس المسافة' : 'تم إيقاف وضع القياس');
+    _setMeasureMode('distance', 'btn-measure');
+  });
+
+  document.getElementById('btn-measure-area').addEventListener('click', () => {
+    _setMeasureMode('area', 'btn-measure-area');
+  });
+
+  document.getElementById('btn-measure-angle').addEventListener('click', () => {
+    _setMeasureMode('angle', 'btn-measure-angle');
+  });
+
+  // زر الحجم — مباشر (لا يحتاج نقر في المشهد)
+  document.getElementById('btn-measure-volume').addEventListener('click', () => {
+    const result = QS.Viewer.triggerVolumeMeasure();
+    if (!result) {
+      toast('⚠️ لا يوجد نموذج محمل');
+    }
   });
 
   document.getElementById('btn-clear-meas').addEventListener('click', () => {
     QS.Viewer.clearMeasurements();
+    if (activeMeasureBtn) {
+      activeMeasureBtn.classList.remove('active');
+      activeMeasureBtn = null;
+    }
     document.getElementById('measure-result').classList.remove('show');
   });
 
@@ -757,19 +809,61 @@
     QS.Viewer.clearClipping();
   });
 
-      // حدث القياس — تخزين للتقرير
+      // حدث القياس — يعرض النتيجة حسب النوع ويخزّن للتقرير
   document.addEventListener('qs:measure', (e) => {
-    const d = e.detail;
+    const d  = e.detail;
     const el = document.getElementById('measure-result');
-    el.textContent = `المسافة: ${d.distanceM} م (${d.distanceMm} مم)`;
+    let msg  = '';
+
+    if (d.type === 'distance') {
+      msg = `📏 المسافة: ${d.distanceM} م (${d.distanceMm} مم)`;
+      _reportData.measurements.push({
+        label: `مسافة ${_reportData.measurements.length + 1}`,
+        type: 'distance',
+        distanceCm: d.distanceCm,
+        distanceMm: d.distanceMm,
+      });
+    } else if (d.type === 'area') {
+      msg = `📐 المساحة: ${d.area_m2} م² | المحيط: ${d.perimeter_m} م`;
+      _reportData.measurements.push({
+        label: `مساحة ${_reportData.measurements.length + 1}`,
+        type: 'area',
+        area_m2: d.area_m2,
+        area_cm2: d.area_cm2,
+        perimeter_m: d.perimeter_m,
+      });
+    } else if (d.type === 'volume') {
+      const dim = d.dimensions;
+      msg = `📦 الحجم: ${d.volume_m3} م³ (${d.volume_liters} لتر) | أبعاد: ${dim.width_mm}×${dim.height_mm}×${dim.depth_mm} مم`;
+      _reportData.measurements.push({
+        label: 'حجم النموذج',
+        type: 'volume',
+        volume_m3: d.volume_m3,
+        volume_liters: d.volume_liters,
+        dimensions: dim,
+      });
+    } else if (d.type === 'angle') {
+      msg = `📐 الزاوية: ${d.degrees}° | التكميلية: ${d.complement}° | الإضافية: ${d.supplement}°`;
+      _reportData.measurements.push({
+        label: `زاوية ${_reportData.measurements.length + 1}`,
+        type: 'angle',
+        degrees: d.degrees,
+        complement: d.complement,
+        supplement: d.supplement,
+      });
+    }
+
+    el.textContent = msg;
     el.classList.add('show');
-    setTimeout(() => el.classList.remove('show'), 5000);
-    // تخزين للتقرير
-    _reportData.measurements.push({
-      label: `قياس ${_reportData.measurements.length + 1}`,
-      distanceCm: d.distanceCm,
-      distanceMm: d.distanceMm,
-    });
+    setTimeout(() => el.classList.remove('show'), 6000);
+  });
+
+  // حدث تقدم القياس (area / angle) — إشعار التعليمات
+  document.addEventListener('qs:measure-progress', (e) => {
+    const d  = e.detail;
+    const el = document.getElementById('measure-result');
+    el.textContent = `💡 ${d.hint}`;
+    el.classList.add('show');
   });
 
   // حدث Hotspot

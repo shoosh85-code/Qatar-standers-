@@ -10,13 +10,18 @@ QS.Viewer = (() => {
   let measurePoints   = [];
   let measureSpheres  = [];
   let measureLines    = [];
+  let measureLabels   = [];   // عناصر HTML للنصوص
   let hotspots        = [];
   let clippingPlane   = null;
   let isClipping      = false;
   const raycaster     = new THREE.Raycaster();
   const mouse         = new THREE.Vector2();
   let measureMode     = false;
+  // وضع القياس: 'distance' | 'area' | 'volume' | 'angle'
+  let measureModeType = 'distance';
   let containerId     = null;
+  // نتائج القياسات المتراكمة للتصدير
+  const _measureResults = { distances: [], areas: [], volumes: [], angles: [] };
 
   // ===== تهيئة المشهد =====
   function init(id) {
@@ -153,13 +158,109 @@ QS.Viewer = (() => {
     });
   }
 
-  // ===== وضع القياس =====
-  function toggleMeasureMode(enabled) {
-    measureMode = enabled;
+  // ===== أوضاع القياس (distance | area | volume | angle) =====
+  function toggleMeasureMode(enabled, type = 'distance') {
+    measureMode     = enabled;
+    measureModeType = type;
     renderer.domElement.style.cursor = enabled ? 'crosshair' : 'default';
     if (!enabled) clearMeasurements();
+    console.log(`[scene.js] measureMode=${enabled} type=${type}`);
   }
 
+  // إنشاء نقطة مرئية في المشهد
+  function _addMeasureSphere(point, color = 0xff3344) {
+    const sphere = new THREE.Mesh(
+      new THREE.SphereGeometry(0.015),
+      new THREE.MeshBasicMaterial({ color, depthTest: false })
+    );
+    sphere.position.copy(point);
+    sphere.renderOrder = 999;
+    scene.add(sphere);
+    measureSpheres.push(sphere);
+    return sphere;
+  }
+
+  // رسم خط بين نقطتين
+  function _addMeasureLine(p1, p2, color = 0xffdd00) {
+    const geo = new THREE.BufferGeometry().setFromPoints([p1, p2]);
+    const mat = new THREE.LineBasicMaterial({ color, depthTest: false });
+    const line = new THREE.Line(geo, mat);
+    line.renderOrder = 999;
+    scene.add(line);
+    measureLines.push(line);
+    return line;
+  }
+
+  // حساب مساحة مضلع ثلاثي الأبعاد (Shoelace على مستوى Newell)
+  function measureArea(points) {
+    if (points.length < 3) return null;
+    // حساب المعيار (Normal) للمستوى الأفضل — طريقة Newell
+    const n = new THREE.Vector3();
+    for (let i = 0; i < points.length; i++) {
+      const cur  = points[i];
+      const next = points[(i + 1) % points.length];
+      n.x += (cur.y - next.y) * (cur.z + next.z);
+      n.y += (cur.z - next.z) * (cur.x + next.x);
+      n.z += (cur.x - next.x) * (cur.y + next.y);
+    }
+    const area_m2 = n.length() / 2;
+
+    // محيط المضلع
+    let perimeter_m = 0;
+    for (let i = 0; i < points.length; i++) {
+      perimeter_m += points[i].distanceTo(points[(i + 1) % points.length]);
+    }
+
+    return {
+      area_m2:      +area_m2.toFixed(4),
+      area_cm2:     +(area_m2 * 10000).toFixed(1),
+      perimeter_m:  +perimeter_m.toFixed(3),
+      perimeter_mm: +(perimeter_m * 1000).toFixed(0),
+      points:       points.map(p => ({ x: +p.x.toFixed(3), y: +p.y.toFixed(3), z: +p.z.toFixed(3) })),
+    };
+  }
+
+  // حساب حجم Bounding Box للنموذج أو منطقة محددة
+  function measureVolume(object) {
+    const target = object || currentModel;
+    if (!target) return null;
+    const box  = new THREE.Box3().setFromObject(target);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    const volume_m3 = size.x * size.y * size.z;
+
+    return {
+      volume_m3:     +volume_m3.toFixed(4),
+      volume_liters: +(volume_m3 * 1000).toFixed(1),
+      dimensions: {
+        width_m:   +size.x.toFixed(3),
+        height_m:  +size.y.toFixed(3),
+        depth_m:   +size.z.toFixed(3),
+        width_mm:  +(size.x * 1000).toFixed(0),
+        height_mm: +(size.y * 1000).toFixed(0),
+        depth_mm:  +(size.z * 1000).toFixed(0),
+      },
+    };
+  }
+
+  // حساب الزاوية بين 3 نقاط (p1 → vertex → p2)
+  function measureAngle(p1, vertex, p2) {
+    const v1 = new THREE.Vector3().subVectors(p1, vertex).normalize();
+    const v2 = new THREE.Vector3().subVectors(p2, vertex).normalize();
+    const cosAngle = Math.max(-1, Math.min(1, v1.dot(v2)));
+    const degrees  = (Math.acos(cosAngle) * 180) / Math.PI;
+    return {
+      degrees:    +degrees.toFixed(2),
+      radians:    +(Math.acos(cosAngle)).toFixed(4),
+      complement: +(90 - degrees).toFixed(2),
+      supplement: +(180 - degrees).toFixed(2),
+      p1:     { x: +p1.x.toFixed(3),     y: +p1.y.toFixed(3),     z: +p1.z.toFixed(3) },
+      vertex: { x: +vertex.x.toFixed(3), y: +vertex.y.toFixed(3), z: +vertex.z.toFixed(3) },
+      p2:     { x: +p2.x.toFixed(3),     y: +p2.y.toFixed(3),     z: +p2.z.toFixed(3) },
+    };
+  }
+
+  // معالج النقر — يتصرف بناءً على وضع القياس الحالي
   function _onMeasureClick(event) {
     if (!measureMode || !currentModel) return;
 
@@ -172,43 +273,121 @@ QS.Viewer = (() => {
     if (hits.length === 0) return;
 
     const point = hits[0].point.clone();
-    measurePoints.push(point);
 
-    // نقطة مرئية حمراء
-    const sphere = new THREE.Mesh(
-      new THREE.SphereGeometry(0.015),
-      new THREE.MeshBasicMaterial({ color: 0xff3344, depthTest: false })
-    );
-    sphere.position.copy(point);
-    sphere.renderOrder = 999;
-    scene.add(sphere);
-    measureSpheres.push(sphere);
+    if (measureModeType === 'distance') {
+      _handleDistanceClick(point);
+    } else if (measureModeType === 'area') {
+      _handleAreaClick(point);
+    } else if (measureModeType === 'angle') {
+      _handleAngleClick(point);
+    }
+  }
+
+  // --- وضع المسافة (نقطتان) ---
+  function _handleDistanceClick(point) {
+    measurePoints.push(point);
+    _addMeasureSphere(point, 0xff3344);
 
     if (measurePoints.length === 2) {
       const [p1, p2] = measurePoints;
       const distM = p1.distanceTo(p2);
+      _addMeasureLine(p1, p2, 0xffdd00);
 
-      // خط القياس
-      const geo = new THREE.BufferGeometry().setFromPoints([p1, p2]);
-      const mat = new THREE.LineBasicMaterial({ color: 0xffdd00, depthTest: false });
-      const line = new THREE.Line(geo, mat);
-      line.renderOrder = 999;
-      scene.add(line);
-      measureLines.push(line);
-
-      document.dispatchEvent(new CustomEvent('qs:measure', {
-        detail: {
-          distanceM:  +distM.toFixed(4),
-          distanceCm: +(distM * 100).toFixed(1),
-          distanceMm: +(distM * 1000).toFixed(0),
-          p1: { x: +p1.x.toFixed(3), y: +p1.y.toFixed(3), z: +p1.z.toFixed(3) },
-          p2: { x: +p2.x.toFixed(3), y: +p2.y.toFixed(3), z: +p2.z.toFixed(3) },
-        },
-      }));
-
-      // إعادة تهيئة للقياس التالي
+      const result = {
+        type:       'distance',
+        distanceM:  +distM.toFixed(4),
+        distanceCm: +(distM * 100).toFixed(1),
+        distanceMm: +(distM * 1000).toFixed(0),
+        p1: { x: +p1.x.toFixed(3), y: +p1.y.toFixed(3), z: +p1.z.toFixed(3) },
+        p2: { x: +p2.x.toFixed(3), y: +p2.y.toFixed(3), z: +p2.z.toFixed(3) },
+      };
+      _measureResults.distances.push(result);
+      document.dispatchEvent(new CustomEvent('qs:measure', { detail: result }));
       measurePoints = [];
     }
+  }
+
+  // --- وضع المساحة (3+ نقاط، إغلاق بنقر قريب من النقطة الأولى) ---
+  function _handleAreaClick(point) {
+    const color = 0x00ccff;
+
+    // إذا كانت هناك 3+ نقاط وضغط قريب من النقطة الأولى → إغلاق المضلع
+    if (measurePoints.length >= 3) {
+      const firstPoint = measurePoints[0];
+      if (firstPoint.distanceTo(point) < 0.1) {
+        _addMeasureLine(measurePoints[measurePoints.length - 1], firstPoint, color);
+        const result = measureArea(measurePoints);
+        if (result) {
+          result.type = 'area';
+          _measureResults.areas.push(result);
+          document.dispatchEvent(new CustomEvent('qs:measure', { detail: result }));
+        }
+        measurePoints = [];
+        return;
+      }
+    }
+
+    measurePoints.push(point);
+    _addMeasureSphere(point, color);
+
+    if (measurePoints.length >= 2) {
+      _addMeasureLine(measurePoints[measurePoints.length - 2], point, color);
+    }
+
+    document.dispatchEvent(new CustomEvent('qs:measure-progress', {
+      detail: {
+        type: 'area',
+        pointsCount: measurePoints.length,
+        hint: measurePoints.length < 3
+          ? 'انقر لإضافة نقطة (3+ نقاط)'
+          : 'انقر قرب النقطة الأولى للإغلاق',
+      },
+    }));
+  }
+
+  // --- وضع الزاوية (3 نقاط: p1 → vertex → p2) ---
+  function _handleAngleClick(point) {
+    const colors  = [0xff9900, 0xffffff, 0xff9900];
+    const colorIdx = Math.min(measurePoints.length, 2);
+    _addMeasureSphere(point, colors[colorIdx]);
+    measurePoints.push(point);
+
+    const hints = ['حدد النقطة الأولى ✓', 'حدد رأس الزاوية ✓', 'حدد النقطة الثانية ✓'];
+    document.dispatchEvent(new CustomEvent('qs:measure-progress', {
+      detail: { type: 'angle', pointsCount: measurePoints.length,
+                hint: hints[measurePoints.length - 1] },
+    }));
+
+    if (measurePoints.length === 2) {
+      _addMeasureLine(measurePoints[0], measurePoints[1], 0xff9900);
+    } else if (measurePoints.length === 3) {
+      const [p1, vertex, p2] = measurePoints;
+      _addMeasureLine(vertex, p2, 0xff9900);
+
+      const result = measureAngle(p1, vertex, p2);
+      result.type = 'angle';
+      _measureResults.angles.push(result);
+      document.dispatchEvent(new CustomEvent('qs:measure', { detail: result }));
+      measurePoints = [];
+    }
+  }
+
+  // قياس حجم النموذج الكامل (مباشرة بدون نقر)
+  function triggerVolumeMeasure() {
+    if (!currentModel) return null;
+    const result = measureVolume(currentModel);
+    if (result) {
+      result.type  = 'volume';
+      result.label = 'حجم النموذج الكامل';
+      _measureResults.volumes.push(result);
+      document.dispatchEvent(new CustomEvent('qs:measure', { detail: result }));
+    }
+    return result;
+  }
+
+  // إرجاع كل نتائج القياسات للتصدير
+  function getMeasureResults() {
+    return JSON.parse(JSON.stringify(_measureResults));
   }
 
   function clearMeasurements() {
@@ -216,6 +395,7 @@ QS.Viewer = (() => {
     measureSpheres = [];
     measureLines   = [];
     measurePoints  = [];
+    measureLabels  = [];
   }
 
   // ===== QCS Hotspots =====
@@ -526,6 +706,11 @@ QS.Viewer = (() => {
     initCompareMode,
     toggleMeasureMode,
     clearMeasurements,
+    measureArea,
+    measureVolume,
+    measureAngle,
+    triggerVolumeMeasure,
+    getMeasureResults,
     addHotspot,
     clearHotspots,
     setClippingHeight,
