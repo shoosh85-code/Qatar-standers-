@@ -1,7 +1,10 @@
 // api/scan-export.js
 // يولد PDF احترافي بتنسيق QatarSpec Pro
+// PROTOCOL 6: Rate limited | Free: 2/min | Pro: 20/min
 
-export default async function handler(req, res) {
+import { withRateLimit } from './rate-limit.js';
+
+async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
   const { rooms, project } = req.body;
   if (!rooms?.length) return res.status(400).json({ error: 'لا توجد بيانات' });
@@ -59,3 +62,5 @@ export default async function handler(req, res) {
   res.setHeader('Content-Disposition', 'attachment; filename="qatarspec-3d-scan.html"');
   res.status(200).send(html);
 }
+
+export default withRateLimit(handler, '/api/scan-export');

@@ -88,6 +88,12 @@
     },
     "api/scan-gemini-fallback.js": {
       "maxDuration": 60
+    },
+    "api/scan-export.js": {
+      "maxDuration": 30
+    },
+    "api/kiri-verify.js": {
+      "maxDuration": 10
     }
   },
   "headers": [

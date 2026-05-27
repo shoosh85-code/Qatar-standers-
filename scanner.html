@@ -430,6 +430,23 @@
           <div class="load-msg" id="load-msg">جارٍ التحميل...</div>
         </div>
 
+        <!-- GPU Tier Badge -->
+        <div id="gpu-badge" style="
+          position:absolute;top:8px;left:8px;z-index:10;
+          display:none;flex-direction:column;gap:4px;
+        ">
+          <span id="gpu-tier-label" style="
+            background:#1a1a2e99;color:#00e5ff;
+            font-size:10px;padding:2px 8px;border-radius:4px;
+            font-family:monospace;letter-spacing:.5px;
+          "></span>
+          <span id="gpu-quality-label" style="
+            background:#1a1a2e99;color:#ffd700;
+            font-size:10px;padding:2px 8px;border-radius:4px;
+            font-family:monospace;
+          "></span>
+        </div>
+
         <div class="measure-result" id="measure-result"></div>
         <div class="hotspot-tip" id="hotspot-tip">
           <div class="ht-title" id="ht-title"></div>
@@ -555,11 +572,109 @@
       // تهيئة الـ Viewer عند أول فتح
       if (panelId === 'panel-viewer' && !window._viewerReady) {
         window._viewerReady = true;
-        QS.Viewer.init('three-container');
-        document.getElementById('load-overlay').classList.add('hidden');
+        // init أصبح async بعد إضافة WebGPU
+        Promise.resolve(QS.Viewer.init('three-container')).then(() => {
+          document.getElementById('load-overlay').classList.add('hidden');
+          _initGpuBadge();
+          // تحميل نموذج معلّق تلقائياً
+          _autoLoadPendingModel();
+        });
+      } else if (panelId === 'panel-viewer' && window._viewerReady) {
+        // Viewer جاهز — فقط تحميل إذا يوجد نموذج معلّق جديد
+        _autoLoadPendingModel();
       }
     });
   });
+
+  // ===== Auto-Load Pending Model =====
+  async function _autoLoadPendingModel() {
+    const spzUrl = window._pendingSPZ;
+    const glbUrl = window._pendingGLB;
+
+    if (!spzUrl && !glbUrl) return;
+
+    const overlay = document.getElementById('load-overlay');
+    const pctEl   = document.getElementById('load-pct');
+    const msgEl   = document.getElementById('load-msg');
+
+    if (spzUrl) {
+      window._pendingSPZ = null;
+      overlay.classList.remove('hidden');
+      msgEl.textContent = 'جارٍ تحميل Gaussian Splat...';
+      try {
+        await QS.Viewer.loadGaussianSplat(spzUrl, (pct) => {
+          pctEl.textContent = pct + '%';
+        });
+        overlay.classList.add('hidden');
+        toast('✅ Gaussian Splat محمّل من GPU Backend');
+      } catch (err) {
+        overlay.classList.add('hidden');
+        toast('❌ خطأ في تحميل الـ Splat: ' + err.message);
+      }
+    } else if (glbUrl) {
+      window._pendingGLB = null;
+      overlay.classList.remove('hidden');
+      msgEl.textContent = 'جارٍ تحميل النموذج...';
+      try {
+        const res = await QS.Viewer.loadGLB(glbUrl, (pct) => {
+          pctEl.textContent = pct + '%';
+        });
+        overlay.classList.add('hidden');
+        if (res?.dimensions) {
+          document.getElementById('dim-w').textContent = res.dimensions.width;
+          document.getElementById('dim-h').textContent = res.dimensions.height;
+          document.getElementById('dim-d').textContent = res.dimensions.depth;
+          _reportData.dimensions = res.dimensions;
+        }
+        toast('✅ النموذج محمّل تلقائياً');
+      } catch (err) {
+        overlay.classList.add('hidden');
+        toast('❌ خطأ في التحميل: ' + err.message);
+      }
+    }
+  }
+
+  // ===== GPU Tier Badge =====
+  function _initGpuBadge() {
+    const badge   = document.getElementById('gpu-badge');
+    const tierLbl = document.getElementById('gpu-tier-label');
+    const qualLbl = document.getElementById('gpu-quality-label');
+
+    // عرض الـ badge مباشرة من getGpuInfo
+    function _updateBadge() {
+      if (!QS.Viewer.getGpuInfo) return;
+      const { tier, quality } = QS.Viewer.getGpuInfo();
+      const tierColors = { webgpu: '#00e5ff', webgl2: '#69ff47', webgl1: '#ff9100' };
+      const tierNames  = { webgpu: '⚡ WebGPU', webgl2: '🔷 WebGL2', webgl1: '🔶 WebGL1' };
+      tierLbl.textContent = tierNames[tier] || tier;
+      tierLbl.style.color = tierColors[tier] || '#aaa';
+      const qPct = Math.round(quality * 100);
+      qualLbl.textContent = `جودة ${qPct}%`;
+      qualLbl.style.color = quality >= 1 ? '#69ff47' : quality >= 0.5 ? '#ffd700' : '#ff6b6b';
+      badge.style.display = 'flex';
+    }
+
+    // تحديث فوري
+    setTimeout(_updateBadge, 500);
+
+    // تحديث عند تغيير الجودة التلقائي
+    document.addEventListener('qs:splat-quality', (e) => {
+      const { quality, fps } = e.detail;
+      const qPct = Math.round(quality * 100);
+      qualLbl.textContent = `جودة ${qPct}% (${fps.toFixed(0)}fps)`;
+      qualLbl.style.color = quality >= 1 ? '#69ff47' : quality >= 0.5 ? '#ffd700' : '#ff6b6b';
+      badge.style.display = 'flex';
+    });
+
+    // تحديث عند تغيير الـ GPU tier
+    document.addEventListener('qs:gpu-tier', (e) => {
+      const tierColors = { webgpu: '#00e5ff', webgl2: '#69ff47', webgl1: '#ff9100' };
+      const tierNames  = { webgpu: '⚡ WebGPU', webgl2: '🔷 WebGL2', webgl1: '🔶 WebGL1' };
+      tierLbl.textContent = tierNames[e.detail.tier] || e.detail.tier;
+      tierLbl.style.color = tierColors[e.detail.tier] || '#aaa';
+      badge.style.display = 'flex';
+    });
+  }
 
   // ----- Capture Panel -----
   const video       = document.getElementById('camera-video');
@@ -684,17 +799,75 @@
       const result = await QS.Scanner.submitScan((p) => {
         toast(`${p.stage === 'uploading' ? '⬆️ رفع' : '⚙️ معالجة'} ${p.pct}%`);
       }, scaleInfo);
-      toast('✅ النموذج جاهز — انتقل للعارض');
 
-      // تحميل النموذج تلقائياً في الـ Viewer
+      // نتيجة قد تكون: glbUrl (Gemini/KIRI) أو jobId (colmap-gsplat polling)
       if (result.glbUrl) {
-        window._pendingGLB = result.glbUrl;
+        window._pendingGLB  = result.glbUrl;
+        window._pendingSPZ  = null;
+        toast('✅ النموذج جاهز — انتقل للعارض');
+
+      } else if (result.jobId) {
+        // colmap-gsplat → polling حتى اكتمال
+        toast('⚙️ معالجة GPU — سيستغرق 5-10 دقائق...');
+        _pollBackendJob(result.jobId);
+
+      } else {
+        toast('✅ اكتملت المعالجة — انتقل للعارض');
       }
+
     } catch (err) {
       toast('❌ ' + err.message);
       btnSubmit.disabled = false;
     }
   });
+
+  // polling لـ colmap-gsplat backend
+  function _pollBackendJob(jobId) {
+    const MAX_POLLS = 120; // 10 دقائق × 5 ثوانٍ
+    let   polls     = 0;
+
+    const interval = setInterval(async () => {
+      polls++;
+      if (polls > MAX_POLLS) {
+        clearInterval(interval);
+        toast('❌ انتهت مهلة المعالجة (10 دقائق)');
+        btnSubmit.disabled = false;
+        return;
+      }
+
+      try {
+        const r = await fetch(`/api/scan-status?jobId=${encodeURIComponent(jobId)}`);
+        if (!r.ok) return;
+        const data = await r.json();
+
+        const pct = data.progress || 0;
+        toast(`⚙️ GPU Pipeline: ${pct}%`);
+
+        if (data.status === 'completed') {
+          clearInterval(interval);
+          const url = data.download_url || data.spz_url || data.glb_url;
+          if (url) {
+            // تحديد نوع الملف
+            if (url.endsWith('.spz') || url.endsWith('.ply') || url.endsWith('.splat')) {
+              window._pendingSPZ = url;
+              window._pendingGLB = null;
+            } else {
+              window._pendingGLB = url;
+              window._pendingSPZ = null;
+            }
+          }
+          toast('✅ النموذج ثلاثي الأبعاد جاهز — انتقل للعارض');
+          btnSubmit.disabled = false;
+
+        } else if (data.status === 'failed') {
+          clearInterval(interval);
+          toast('❌ فشل GPU Pipeline: ' + (data.error || 'خطأ غير معروف'));
+          btnSubmit.disabled = false;
+        }
+      } catch (_) {}
+
+    }, 5000);
+  }
 
   // ----- Viewer Panel -----
   // تحميل ملف GLB محلي

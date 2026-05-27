@@ -30,9 +30,13 @@ async function handler(req, res) {
     job_id:       jobId,
     status:       job.status,       // uploading | processing | completed | failed
     progress:     job.progress || 0,
-    glb_url:      job.glb_url || null,
+    backend:      job.backend || 'gemini-fallback',
+    glb_url:      job.glb_url      || null,
+    download_url: job.download_url || job.glb_url || null,  // colmap-gsplat → SPZ
+    spz_url:      job.download_url || null,
     file_size_mb: job.file_size_mb || null,
-    error:        job.error || null,
+    eta_seconds:  job.eta_seconds  || null,
+    error:        job.error        || null,
   });
 }
 
