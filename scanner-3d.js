@@ -300,26 +300,70 @@ window.Scanner3D = (function() {
     ctx.closePath();
   }
 
-  // ── تخطيط الغرف ────────────────────────────────────────────
+  // ── تخطيط الغرف (ذكي + يدوي) ─────────────────────────────
   function computeLayout(rooms) {
     var layout = [];
-    var ox = 0, oz = 0;
-    var row = 0;
+    var hasGrid = rooms.some(function(r) { return r.grid_x !== undefined; });
 
-    rooms.forEach(function(r, i) {
-      var L = r.length || 4;
-      var W = r.width || 3;
+    if (hasGrid) {
+      // ترتيب من AI — استخدام grid_x, grid_y
+      var maxGX = 0, maxGY = 0;
+      rooms.forEach(function(r) {
+        if ((r.grid_x || 0) > maxGX) maxGX = r.grid_x;
+        if ((r.grid_y || 0) > maxGY) maxGY = r.grid_y;
+      });
 
-      // تخطيط L-shape: كل 3 غرف ننزل صف
-      if (i > 0 && i % 3 === 0) {
-        ox = 0;
-        oz += (rooms[i-1].width || 3) + 0.3;
-        row++;
+      // حساب مواقع بناءً على grid + أبعاد فعلية
+      var colWidths = [];
+      var rowHeights = [];
+      for (var c = 0; c <= maxGX; c++) colWidths.push(0);
+      for (var rr = 0; rr <= maxGY; rr++) rowHeights.push(0);
+
+      rooms.forEach(function(r) {
+        var gx = r.grid_x || 0;
+        var gy = r.grid_y || 0;
+        if (r.length > colWidths[gx]) colWidths[gx] = r.length;
+        if (r.width > rowHeights[gy]) rowHeights[gy] = r.width;
+      });
+
+      // مواقع تراكمية
+      var colX = [0];
+      for (var ci = 1; ci <= maxGX; ci++) {
+        colX.push(colX[ci-1] + colWidths[ci-1] + 0.3);
+      }
+      var rowZ = [0];
+      for (var ri = 1; ri <= maxGY; ri++) {
+        rowZ.push(rowZ[ri-1] + rowHeights[ri-1] + 0.3);
       }
 
-      layout.push({ room: r, x: ox, z: oz, row: row });
-      ox += L + 0.3; // مسافة بين الغرف
-    });
+      rooms.forEach(function(r, i) {
+        var gx = r.grid_x || 0;
+        var gy = r.grid_y || 0;
+        layout.push({
+          room: r,
+          x: colX[gx] + colWidths[gx] / 2,
+          z: rowZ[gy] + rowHeights[gy] / 2,
+          row: gy
+        });
+      });
+    } else if (rooms[0] && rooms[0]._manualX !== undefined) {
+      // ترتيب يدوي
+      rooms.forEach(function(r) {
+        layout.push({ room: r, x: r._manualX || 0, z: r._manualZ || 0, row: 0 });
+      });
+    } else {
+      // ترتيب افتراضي — L-shape
+      var ox = 0, oz = 0, row = 0;
+      rooms.forEach(function(r, i) {
+        if (i > 0 && i % 3 === 0) {
+          ox = 0;
+          oz += (rooms[i-1].width || 3) + 0.3;
+          row++;
+        }
+        layout.push({ room: r, x: ox, z: oz, row: row });
+        ox += (r.length || 4) + 0.3;
+      });
+    }
 
     // تمركز
     var minX = Infinity, maxX = -Infinity, minZ = Infinity, maxZ = -Infinity;
@@ -350,13 +394,13 @@ window.Scanner3D = (function() {
     return { maxDim: maxD };
   }
 
-  // ── مسقط أفقي (Floor Plan) ────────────────────────────────
+  // ── مسقط أفقي تفاعلي (Floor Plan) مع سحب يدوي ─────────────
   function renderFloorPlan(rooms, layout) {
     var fpDiv = document.getElementById('floorPlan');
     if (!fpDiv) return;
 
-    var scale = 30; // px per meter
-    var padding = 20;
+    var scale = 30;
+    var padding = 40;
 
     var bounds = { minX: Infinity, maxX: -Infinity, minZ: Infinity, maxZ: -Infinity };
     layout.forEach(function(item) {
@@ -370,30 +414,151 @@ window.Scanner3D = (function() {
     var svgW = (bounds.maxX - bounds.minX) * scale + padding * 2;
     var svgH = (bounds.maxZ - bounds.minZ) * scale + padding * 2;
 
-    var svg = '<svg width="100%" viewBox="0 0 ' + svgW + ' ' + svgH + '" style="background:#1a1e2e;border-radius:8px">';
+    var svg = '<svg id="fpSvg" width="100%" viewBox="0 0 ' + svgW + ' ' + svgH + '" style="background:#1a1e2e;border-radius:8px;cursor:default">';
 
+    // خطوط الاتصال بين الغرف
+    layout.forEach(function(item) {
+      var r = item.room;
+      if (!r.connects_to) return;
+      var cx1 = (item.x - bounds.minX) * scale + padding;
+      var cy1 = (item.z - bounds.minZ) * scale + padding;
+      r.connects_to.forEach(function(targetName) {
+        var target = layout.find(function(l) { return l.room.name === targetName; });
+        if (!target) return;
+        var cx2 = (target.x - bounds.minX) * scale + padding;
+        var cy2 = (target.z - bounds.minZ) * scale + padding;
+        svg += '<line x1="' + cx1 + '" y1="' + cy1 + '" x2="' + cx2 + '" y2="' + cy2 + '" stroke="#534ab7" stroke-width="2" stroke-dasharray="4 4" opacity="0.5"/>';
+      });
+    });
+
+    // الغرف
+    var colors = ['#534ab7','#1d9e75','#d85a30','#378add','#d4537e'];
     layout.forEach(function(item, idx) {
       var r = item.room;
       var x = (item.x - r.length/2 - bounds.minX) * scale + padding;
       var y = (item.z - r.width/2 - bounds.minZ) * scale + padding;
       var w = r.length * scale;
       var h = r.width * scale;
-      var colors = ['#534ab7','#1d9e75','#d85a30','#378add','#d4537e'];
       var c = colors[idx % colors.length];
-
-      svg += '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="' + c + '" fill-opacity="0.15" stroke="' + c + '" stroke-width="2" rx="2"/>';
-      // اسم الغرفة
-      svg += '<text x="' + (x + w/2) + '" y="' + (y + h/2 - 6) + '" fill="#fff" font-size="11" text-anchor="middle" font-family="Arial">' + (r.name || '') + '</text>';
-      // الأبعاد
-      svg += '<text x="' + (x + w/2) + '" y="' + (y + h/2 + 10) + '" fill="#888" font-size="10" text-anchor="middle" font-family="monospace">' + r.length + '×' + r.width + 'م</text>';
-      // المساحة
       var area = (r.length * r.width).toFixed(1);
-      svg += '<text x="' + (x + w/2) + '" y="' + (y + h/2 + 22) + '" fill="#00ff88" font-size="9" text-anchor="middle" font-family="monospace">' + area + ' م²</text>';
+      var qcsOk = parseFloat(area) >= (r.qcs_min_area || 0);
+
+      svg += '<g class="fp-room" data-idx="' + idx + '" style="cursor:grab">';
+      svg += '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="' + c + '" fill-opacity="0.2" stroke="' + c + '" stroke-width="2" rx="3"/>';
+
+      // أبواب
+      (r.doors || []).forEach(function(d) {
+        var dw = (d.w || 0.9) * scale;
+        svg += '<rect x="' + (x + w/2 - dw/2) + '" y="' + y + '" width="' + dw + '" height="4" fill="#8B6914" rx="1"/>';
+      });
+
+      // شبابيك
+      (r.windows || []).forEach(function(win, wi) {
+        var ww = (win.w || 1.2) * scale;
+        var wy = y + 8 + wi * (ww + 4);
+        svg += '<rect x="' + (x + w - 3) + '" y="' + wy + '" width="4" height="' + ww + '" fill="#85b7eb" rx="1"/>';
+      });
+
+      svg += '<text x="' + (x + w/2) + '" y="' + (y + h/2 - 8) + '" fill="#fff" font-size="11" text-anchor="middle" font-family="Arial">' + (r.name || '') + '</text>';
+      svg += '<text x="' + (x + w/2) + '" y="' + (y + h/2 + 6) + '" fill="#aaa" font-size="10" text-anchor="middle" font-family="monospace">' + r.length + '×' + r.width + 'م</text>';
+      svg += '<text x="' + (x + w/2) + '" y="' + (y + h/2 + 19) + '" fill="' + (qcsOk ? '#00ff88' : '#ff6666') + '" font-size="9" text-anchor="middle" font-family="monospace">' + area + ' م² ' + (qcsOk ? '✓' : '✗') + '</text>';
+      svg += '</g>';
+
+      // خطوط الأبعاد الخارجية
+      // عرض (أفقي فوق)
+      svg += '<line x1="' + x + '" y1="' + (y - 8) + '" x2="' + (x + w) + '" y2="' + (y - 8) + '" stroke="#666" stroke-width="0.5"/>';
+      svg += '<text x="' + (x + w/2) + '" y="' + (y - 12) + '" fill="#888" font-size="9" text-anchor="middle" font-family="monospace">' + r.length + 'م</text>';
+      // طول (عمودي يسار)
+      svg += '<line x1="' + (x - 8) + '" y1="' + y + '" x2="' + (x - 8) + '" y2="' + (y + h) + '" stroke="#666" stroke-width="0.5"/>';
+      svg += '<text x="' + (x - 12) + '" y="' + (y + h/2) + '" fill="#888" font-size="9" text-anchor="middle" font-family="monospace" transform="rotate(-90,' + (x - 12) + ',' + (y + h/2) + ')">' + r.width + 'م</text>';
     });
 
+    // إجمالي
+    var totalArea = rooms.reduce(function(s, r) { return s + r.length * r.width; }, 0).toFixed(1);
+    svg += '<text x="' + (svgW/2) + '" y="' + (svgH - 8) + '" fill="#888" font-size="11" text-anchor="middle" font-family="Arial">إجمالي: ' + totalArea + ' م² — ' + rooms.length + ' غرفة</text>';
+
     svg += '</svg>';
-    fpDiv.innerHTML = svg;
+
+    // زر إعادة الترتيب
+    var editBar = '<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">' +
+      '<button class="btn-sm" onclick="window.Scanner3D.rearrangeAI()">🤖 ترتيب ذكي</button>' +
+      '<button class="btn-sm" onclick="window.Scanner3D.resetLayout()">↺ إعادة ضبط</button>' +
+      '<span style="font-size:11px;color:#666;padding:4px">💡 اسحب الغرف لتعديل التخطيط يدوياً</span>' +
+    '</div>';
+
+    fpDiv.innerHTML = '<div class="fp-title">📐 المسقط الأفقي — Floor Plan</div>' + svg + editBar;
     fpDiv.style.display = 'block';
+
+    // تفعيل السحب
+    initFloorPlanDrag(layout, bounds, scale, padding);
+  }
+
+  // ── سحب الغرف في المسقط الأفقي ────────────────────────────
+  function initFloorPlanDrag(layout, bounds, scale, padding) {
+    var svgEl = document.getElementById('fpSvg');
+    if (!svgEl) return;
+
+    var dragging = null;
+    var startX, startY, origRX, origRZ;
+
+    svgEl.addEventListener('mousedown', function(e) {
+      var room = e.target.closest('.fp-room');
+      if (!room) return;
+      var idx = parseInt(room.getAttribute('data-idx'));
+      if (isNaN(idx)) return;
+      dragging = { idx: idx, item: layout[idx] };
+      startX = e.clientX;
+      startY = e.clientY;
+      origRX = dragging.item.x;
+      origRZ = dragging.item.z;
+      svgEl.style.cursor = 'grabbing';
+      e.preventDefault();
+    });
+
+    window.addEventListener('mousemove', function(e) {
+      if (!dragging) return;
+      var dx = (e.clientX - startX) / scale * (svgEl.viewBox.baseVal.width / svgEl.clientWidth);
+      var dy = (e.clientY - startY) / scale * (svgEl.viewBox.baseVal.height / svgEl.clientHeight);
+      dragging.item.room._manualX = origRX + dx;
+      dragging.item.room._manualZ = origRZ + dy;
+    });
+
+    window.addEventListener('mouseup', function() {
+      if (!dragging) return;
+      dragging = null;
+      svgEl.style.cursor = 'default';
+      // إعادة بناء المجسم بالمواقع الجديدة
+      if (window.QS3D && window.QS3D.rooms.length) {
+        build(window.QS3D.rooms);
+      }
+    });
+  }
+
+  // ── إعادة ترتيب بالذكاء الاصطناعي ─────────────────────────
+  async function rearrangeAI() {
+    if (!window.QS3D || !window.QS3D.rooms.length) return;
+    window.QS3D.log('🤖 جاري إعادة ترتيب الغرف معمارياً...');
+    // مسح الترتيب اليدوي
+    window.QS3D.rooms.forEach(function(r) {
+      delete r._manualX;
+      delete r._manualZ;
+      delete r.grid_x;
+      delete r.grid_y;
+    });
+    await window.ScannerGemini.arrangeRoomsArchitecturally(window.QS3D.rooms);
+    build(window.QS3D.rooms);
+  }
+
+  function resetLayout() {
+    if (!window.QS3D || !window.QS3D.rooms.length) return;
+    window.QS3D.rooms.forEach(function(r) {
+      delete r._manualX;
+      delete r._manualZ;
+      delete r.grid_x;
+      delete r.grid_y;
+    });
+    build(window.QS3D.rooms);
+    window.QS3D.log('↺ تم إعادة ضبط التخطيط');
   }
 
   // ── المتبقي من الكود القديم (محفوظ + محسّن) ────────────────
@@ -498,6 +663,7 @@ window.Scanner3D = (function() {
   return {
     init: init, build: build, resetCamera: resetCamera,
     toggleWireframe: toggleWireframe, toggleAutoRotate: toggleAutoRotate,
-    toggleFloorPlan: toggleFloorPlan, toggleDimLabels: toggleDimLabels
+    toggleFloorPlan: toggleFloorPlan, toggleDimLabels: toggleDimLabels,
+    rearrangeAI: rearrangeAI, resetLayout: resetLayout
   };
 })();

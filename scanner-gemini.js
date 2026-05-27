@@ -125,9 +125,9 @@ window.ScannerGemini = (function() {
     return results;
   }
 
-  // ── استخراج frames من فيديو ─────────────────────────────────
+  // ── استخراج frames ذكي (scene-change detection) ──────────────
   async function extractVideoFrames(videoFile, maxFrames) {
-    maxFrames = maxFrames || 8;
+    maxFrames = maxFrames || 10;
     return new Promise(function(resolve, reject) {
       var video = document.createElement('video');
       video.muted = true;
@@ -135,26 +135,48 @@ window.ScannerGemini = (function() {
 
       video.onloadedmetadata = function() {
         var duration = video.duration;
-        var interval = duration / (maxFrames + 1);
-        var frames = [];
-        var currentFrame = 0;
+        // نأخذ ضعف العدد المطلوب ثم نختار الأكثر اختلافاً
+        var sampleCount = Math.min(maxFrames * 3, Math.floor(duration * 2));
+        if (sampleCount < maxFrames) sampleCount = maxFrames;
+        var interval = duration / (sampleCount + 1);
+        var allFrames = []; // {blob, time, pixels}
+        var currentSample = 0;
 
         video.onseeked = function() {
           var canvas = document.createElement('canvas');
-          canvas.width = Math.min(video.videoWidth, 1280);
-          canvas.height = Math.min(video.videoHeight, 720);
+          canvas.width = 320; // صغير للمقارنة السريعة
+          canvas.height = 180;
           var ctx = canvas.getContext('2d');
-          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          ctx.drawImage(video, 0, 0, 320, 180);
 
-          canvas.toBlob(function(blob) {
-            frames.push(new File([blob], 'frame_' + currentFrame + '.jpg', { type: 'image/jpeg' }));
-            currentFrame++;
+          // بصمة الإطار (متوسط بكسلات كل ربع)
+          var imgData = ctx.getImageData(0, 0, 320, 180).data;
+          var fingerprint = getFrameFingerprint(imgData, 320, 180);
 
-            if (currentFrame >= maxFrames) {
+          // إطار بجودة عالية للتحليل
+          var hqCanvas = document.createElement('canvas');
+          hqCanvas.width = Math.min(video.videoWidth, 1280);
+          hqCanvas.height = Math.min(video.videoHeight, 720);
+          hqCanvas.getContext('2d').drawImage(video, 0, 0, hqCanvas.width, hqCanvas.height);
+
+          hqCanvas.toBlob(function(blob) {
+            allFrames.push({
+              blob: blob,
+              time: video.currentTime,
+              fingerprint: fingerprint
+            });
+            currentSample++;
+
+            if (currentSample >= sampleCount) {
+              // اختيار أفضل frames بناءً على الاختلاف
+              var selected = selectBestFrames(allFrames, maxFrames);
+              var files = selected.map(function(f, i) {
+                return new File([f.blob], 'frame_' + i + '_t' + Math.round(f.time) + 's.jpg', { type: 'image/jpeg' });
+              });
               URL.revokeObjectURL(video.src);
-              resolve(frames);
+              resolve(files);
             } else {
-              video.currentTime = interval * (currentFrame + 1);
+              video.currentTime = interval * (currentSample + 1);
             }
           }, 'image/jpeg', 0.85);
         };
@@ -162,12 +184,118 @@ window.ScannerGemini = (function() {
         video.currentTime = interval;
       };
 
-      video.onerror = function() {
-        reject(new Error('فشل قراءة الفيديو'));
-      };
-
+      video.onerror = function() { reject(new Error('فشل قراءة الفيديو')); };
       video.src = URL.createObjectURL(videoFile);
     });
+  }
+
+  // بصمة الإطار — 16 قيمة (4×4 grid من متوسطات الألوان)
+  function getFrameFingerprint(data, w, h) {
+    var grid = [];
+    var cellW = Math.floor(w / 4);
+    var cellH = Math.floor(h / 4);
+    for (var gy = 0; gy < 4; gy++) {
+      for (var gx = 0; gx < 4; gx++) {
+        var sum = 0, count = 0;
+        for (var y = gy * cellH; y < (gy + 1) * cellH; y += 4) {
+          for (var x = gx * cellW; x < (gx + 1) * cellW; x += 4) {
+            var idx = (y * w + x) * 4;
+            sum += data[idx] * 0.3 + data[idx+1] * 0.59 + data[idx+2] * 0.11;
+            count++;
+          }
+        }
+        grid.push(count > 0 ? sum / count : 0);
+      }
+    }
+    return grid;
+  }
+
+  // مقارنة بصمتين — الفرق من 0 (متطابق) لـ 255 (مختلف تماماً)
+  function frameDiff(fp1, fp2) {
+    var total = 0;
+    for (var i = 0; i < fp1.length; i++) {
+      total += Math.abs(fp1[i] - fp2[i]);
+    }
+    return total / fp1.length;
+  }
+
+  // اختيار الإطارات الأكثر اختلافاً
+  function selectBestFrames(allFrames, maxFrames) {
+    if (allFrames.length <= maxFrames) return allFrames;
+
+    // حساب الفرق بين كل إطار والسابق
+    var diffs = [{ frame: allFrames[0], diff: 999 }]; // الإطار الأول دائماً
+    for (var i = 1; i < allFrames.length; i++) {
+      diffs.push({
+        frame: allFrames[i],
+        diff: frameDiff(allFrames[i].fingerprint, allFrames[i-1].fingerprint)
+      });
+    }
+
+    // ترتيب بأكبر اختلاف
+    diffs.sort(function(a, b) { return b.diff - a.diff; });
+
+    // أخذ أفضل maxFrames وترتيبهم زمنياً
+    var selected = diffs.slice(0, maxFrames);
+    selected.sort(function(a, b) { return a.frame.time - b.frame.time; });
+    return selected.map(function(d) { return d.frame; });
+  }
+
+  // ── ترتيب الغرف معمارياً (Room Linking) ─────────────────────
+  async function arrangeRoomsArchitecturally(rooms) {
+    if (rooms.length < 2) return rooms;
+
+    var roomList = rooms.map(function(r) {
+      return r.name + ' (' + r.length + '×' + r.width + 'م)';
+    }).join('\n');
+
+    var arrangePrompt = 'أنت مهندس معماري. لديك هذه الغرف في شقة/فيلا واحدة:\n' +
+      roomList + '\n\n' +
+      'رتّب هذه الغرف حسب المنطق المعماري القطري (QCS 2024).\n' +
+      'أعد JSON فقط — مصفوفة بنفس ترتيب الإدخال لكن مع إضافة:\n' +
+      '- "grid_x": رقم العمود (0,1,2,...)\n' +
+      '- "grid_y": رقم الصف (0,1,2,...)\n' +
+      '- "connects_to": مصفوفة أسماء الغرف المتصلة بها\n\n' +
+      'قواعد التوزيع:\n' +
+      '- المجلس والمدخل عند المدخل الرئيسي (y=0)\n' +
+      '- المطبخ قريب من المعيشة\n' +
+      '- الحمامات قريبة من غرف النوم\n' +
+      '- الردهة/الممر في المنتصف\n' +
+      '- غرف النوم متجمعة\n\n' +
+      'مثال الناتج:\n[{"name":"المجلس","grid_x":0,"grid_y":0,"connects_to":["الردهة"]},...]';
+
+    try {
+      var res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: arrangePrompt })
+      });
+
+      if (!res.ok) return rooms;
+      var data = await res.json();
+      var text = (data.text || '').replace(/```json|```/g, '').trim();
+      var arrangement = JSON.parse(text);
+
+      if (!Array.isArray(arrangement)) return rooms;
+
+      // دمج بيانات الترتيب مع الغرف
+      rooms.forEach(function(room) {
+        var match = arrangement.find(function(a) {
+          return a.name === room.name;
+        });
+        if (match) {
+          room.grid_x = match.grid_x || 0;
+          room.grid_y = match.grid_y || 0;
+          room.connects_to = match.connects_to || [];
+        }
+      });
+
+      window.QS3D.log('✅ تم ترتيب الغرف معمارياً بالذكاء الاصطناعي');
+      return rooms;
+    } catch (e) {
+      window.QS3D.log('⚠️ فشل الترتيب الذكي — استخدام الترتيب الافتراضي');
+      return rooms;
+    }
   }
 
   // ── helpers ────────────────────────────────────────────────
@@ -190,5 +318,5 @@ window.ScannerGemini = (function() {
     return limits[roomName] || 0;
   }
 
-  return { analyze: analyze, analyzeBatch: analyzeBatch, extractVideoFrames: extractVideoFrames, getQCSMinArea: getQCSMinArea };
+  return { analyze: analyze, analyzeBatch: analyzeBatch, extractVideoFrames: extractVideoFrames, getQCSMinArea: getQCSMinArea, arrangeRoomsArchitecturally: arrangeRoomsArchitecturally };
 })();

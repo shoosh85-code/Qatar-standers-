@@ -37,6 +37,12 @@ window.ScannerCamera = (function() {
         showProgress(pct, 'تحليل إطار ' + current + '/' + total);
       });
 
+      // ترتيب الغرف معمارياً بالذكاء الاصطناعي
+      if (results.length >= 2) {
+        showProgress(92, 'ترتيب الغرف معمارياً...');
+        results = await window.ScannerGemini.arrangeRoomsArchitecturally(results);
+      }
+
       // إضافة النتائج
       results.forEach(function(r) {
         window.QS3D.rooms.push(r);
@@ -82,6 +88,12 @@ window.ScannerCamera = (function() {
       var pct = 10 + Math.round((current / total) * 80);
       showProgress(pct, 'تحليل صورة ' + current + '/' + total);
     });
+
+    // ترتيب الغرف معمارياً
+    if (results.length >= 2) {
+      showProgress(92, 'ترتيب الغرف معمارياً...');
+      results = await window.ScannerGemini.arrangeRoomsArchitecturally(results);
+    }
 
     results.forEach(function(r) {
       window.QS3D.rooms.push(r);
