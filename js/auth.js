@@ -54,7 +54,7 @@
   // [SEC v4.1] Check Pro status via server httpOnly cookie — no localStorage
   async function getAuthStatus() {
     try {
-      const res = await fetch('/api/verify-pro', {
+      const res = await fetch('/api/auth?action=verify-pro', {
         method: 'GET',
         credentials: 'include', // يرسل httpOnly cookie تلقائياً
       });

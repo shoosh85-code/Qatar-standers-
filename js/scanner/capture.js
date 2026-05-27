@@ -146,7 +146,7 @@ QS.Scanner = (() => {
     while (Date.now() - startTime < MAX_WAIT) {
       await new Promise(r => setTimeout(r, POLL_INTERVAL));
 
-      const res = await fetch(`/api/scan-status?jobId=${encodeURIComponent(jobId)}`);
+      const res = await fetch(`/api/scanner?action=status&jobId=${encodeURIComponent(jobId)}`);
       if (!res.ok) continue;
 
       const data = await res.json();

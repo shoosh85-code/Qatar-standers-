@@ -24,7 +24,7 @@
   async function loadSupabaseConfig() {
     if (SUPABASE_URL && SUPABASE_ANON) return; // مكتفٍ
     try {
-      const r = await fetch('/api/auth-config');
+      const r = await fetch('/api/auth?action=config');
       if (!r.ok) return;
       const c = await r.json();
       if (c.url) SUPABASE_URL = c.url;

@@ -29,26 +29,17 @@
     "api/ai-proxy.js": {
       "maxDuration": 60
     },
-    "api/vision-proxy.js": {
-      "maxDuration": 60
-    },
-    "api/execution-ai.js": {
-      "maxDuration": 60
-    },
-    "api/generate-document.js": {
-      "maxDuration": 60
-    },
-    "api/export-pdf.js": {
-      "maxDuration": 60
-    },
     "api/qcs-search.js": {
       "maxDuration": 30
     },
-    "api/auth-config.js": {
-      "maxDuration": 10
+    "api/vision-proxy.js": {
+      "maxDuration": 60
     },
-    "api/verify-pro.js": {
-      "maxDuration": 10
+    "api/chatbot.js": {
+      "maxDuration": 60
+    },
+    "api/project-hub.js": {
+      "maxDuration": 30
     },
     "api/tap.js": {
       "maxDuration": 30
@@ -56,47 +47,20 @@
     "api/tap-webhook.js": {
       "maxDuration": 30
     },
-    "api/project-hub.js": {
-      "maxDuration": 30
-    },
-    "api/material-submittals.js": {
-      "maxDuration": 30
-    },
-    "api/ncr-log.js": {
-      "maxDuration": 30
-    },
-    "api/site-photos.js": {
-      "maxDuration": 30
-    },
-    "api/snag-list.js": {
-      "maxDuration": 30
-    },
-    "api/checklists.js": {
-      "maxDuration": 30
-    },
-    "api/scan-upload.js": {
-      "maxDuration": 60
-    },
-    "api/scan-status.js": {
-      "maxDuration": 30
-    },
-    "api/export-scan-pdf.js": {
-      "maxDuration": 60
-    },
-    "api/scan-gemini-fallback.js": {
-      "maxDuration": 60
-    },
-    "api/kiri-verify.js": {
-      "maxDuration": 10
-    },
     "api/create-checkout.js": {
       "maxDuration": 30
     },
-    "api/chatbot.js": {
+    "api/export-pdf.js": {
       "maxDuration": 60
     },
-    "api/backend-info.js": {
-      "maxDuration": 5
+    "api/auth.js": {
+      "maxDuration": 30
+    },
+    "api/scanner.js": {
+      "maxDuration": 60
+    },
+    "api/hub-extended.js": {
+      "maxDuration": 60
     }
   },
   "headers": [

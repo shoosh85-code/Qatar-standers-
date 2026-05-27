@@ -128,7 +128,7 @@ var PRO_CODES = []; // codes verified server-side only
 
     _verifyInProgress = true;
     try {
-      var r = await fetch('/api/verify-pro?action=status', {
+      var r = await fetch('/api/auth?action=verify-pro-status', {
         method: 'GET',
         credentials: 'include',
         cache: 'no-store',
@@ -200,7 +200,7 @@ async function setProToken(token) {
   // Token stored in httpOnly cookie by server — not localStorage
   // This function now calls the server to exchange/validate a token
   try {
-    const r = await fetch('/api/verify-pro', {
+    const r = await fetch('/api/auth?action=verify-pro', {
       method: 'POST',
       credentials: 'include',
       headers: {'Content-Type':'application/json'},
@@ -405,7 +405,7 @@ async function activatePro(code) {
   const tid = setTimeout(() => controller.abort(), 10000);
 
   try {
-    const res = await fetch('/api/verify-pro', {
+    const res = await fetch('/api/auth?action=verify-pro', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },

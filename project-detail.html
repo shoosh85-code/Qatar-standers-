@@ -2572,7 +2572,7 @@ async function loadMS() {
   showMSLoading(true);
   try {
     const token = window.authToken || '';
-    const r = await fetch(`/api/material-submittals?project_id=${window.projectId}`, {
+    const r = await fetch(`/api/hub-extended?resource=material-submittals&project_id=${window.projectId}`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     const data = await r.json();
@@ -2722,7 +2722,7 @@ async function submitMS() {
   try {
     const token = window.authToken || '';
     const isEdit = !!msEditId;
-    const url = isEdit ? `/api/material-submittals?id=${msEditId}` : '/api/material-submittals';
+    const url = isEdit ? `/api/hub-extended?resource=material-submittals&id=${msEditId}` : '/api/hub-extended?resource=material-submittals';
     const r = await fetch(url, {
       method: isEdit ? 'PUT' : 'POST',
       headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${token}` },
@@ -2746,7 +2746,7 @@ async function deleteMS(id, e) {
   if (!confirm(`هل تريد حذف "${m?.material_name||'الاعتماد'}"؟`)) return;
   try {
     const token = window.authToken || '';
-    const r = await fetch(`/api/material-submittals?id=${id}`, {
+    const r = await fetch(`/api/hub-extended?resource=material-submittals&id=${id}`, {
       method:'DELETE', headers:{'Authorization':`Bearer ${token}`}
     });
     const data = await r.json();
@@ -2904,7 +2904,7 @@ const NCR_DISCIPLINE_LABELS = {
 // ── تهيئة: تحميل NCR الشائعة ─────────────────────────────────────
 async function initNcr() {
   try {
-    const r = await fetch('/api/ncr-log?common=true');
+    const r = await fetch('/api/hub-extended?resource=ncr-log&common=true');
     if (r.ok) {
       const d = await r.json();
       ncrCommonList = d.common_ncrs || [];
@@ -2933,7 +2933,7 @@ async function loadNcrData() {
   const severityFilter = document.getElementById('ncrFilterSeverity')?.value || '';
   const disciplineFilter = document.getElementById('ncrFilterDiscipline')?.value || '';
 
-  let url = `/api/ncr-log?project_id=${projectId}`;
+  let url = `/api/hub-extended?resource=ncr-log&project_id=${projectId}`;
   if (statusFilter) url += `&status=${statusFilter}`;
   if (severityFilter) url += `&severity=${severityFilter}`;
   if (disciplineFilter) url += `&discipline=${disciplineFilter}`;
@@ -3120,7 +3120,7 @@ async function submitNcr() {
   };
 
   try {
-    const r = await fetch('/api/ncr-log', {
+    const r = await fetch('/api/hub-extended?resource=ncr-log', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
       body: JSON.stringify(body)
@@ -3215,7 +3215,7 @@ async function updateNcrStatus() {
   if (corrective) body.corrective_action = corrective;
 
   try {
-    const r = await fetch(`/api/ncr-log?id=${currentNcrId}`, {
+    const r = await fetch(`/api/hub-extended?resource=ncr-log&id=${currentNcrId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
       body: JSON.stringify(body)
@@ -3429,7 +3429,7 @@ async function loadPhotos() {
   hidePhotoEl('photosEmpty');
   try {
     const res = await fetch(
-      `/api/site-photos?project_id=${state.projectId}`,
+      `/api/hub-extended?resource=site-photos&project_id=${state.projectId}`,
       { headers: { 'Authorization': 'Bearer ' + state.token } }
     );
     if (res.status === 401) { showLoginRequired(); return; }
@@ -3579,7 +3579,7 @@ async function deleteCurrentPhoto() {
   if (!confirm('هل تريد حذف هذه الصورة نهائياً؟')) return;
 
   try {
-    const res = await fetch(`/api/site-photos?id=${photo.id}`, {
+    const res = await fetch(`/api/hub-extended?resource=site-photos&id=${photo.id}`, {
       method: 'DELETE',
       headers: { 'Authorization': 'Bearer ' + state.token }
     });
@@ -3703,7 +3703,7 @@ async function uploadPhoto(file, fileName, originalType, caption, activity, phot
   // تحويل File → base64
   const base64 = await fileToBase64(file);
   setUploadProgress(60, 'جار الإرسال...');
-  const res = await fetch('/api/site-photos', {
+  const res = await fetch('/api/hub-extended?resource=site-photos', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -3889,7 +3889,7 @@ async function loadSnagList() {
   const statusFilter = document.getElementById('snagFilterStatus')?.value || '';
   const priorityFilter = document.getElementById('snagFilterPriority')?.value || '';
 
-  let url = `/api/snag-list?project_id=${pid}`;
+  let url = `/api/hub-extended?resource=snag-list&project_id=${pid}`;
   if (statusFilter) url += `&status=${statusFilter}`;
   if (priorityFilter) url += `&priority=${priorityFilter}`;
 
@@ -3996,7 +3996,7 @@ async function saveSnag() {
     body.status = document.getElementById('snag_status').value;
   }
 
-  const url = editId ? `/api/snag-list?id=${editId}` : '/api/snag-list';
+  const url = editId ? `/api/hub-extended?resource=snag-list&id=${editId}` : '/api/hub-extended?resource=snag-list';
   const method = editId ? 'PUT' : 'POST';
 
   try {
@@ -4021,7 +4021,7 @@ async function deleteSnag(id, num) {
   if (!confirm(`تأكيد حذف ${num}؟`)) return;
   const token = window._authToken;
   try {
-    const res = await fetch(`/api/snag-list?id=${id}`, {
+    const res = await fetch(`/api/hub-extended?resource=snag-list&id=${id}`, {
       method: 'DELETE',
       headers: token ? { 'Authorization': `Bearer ${token}` } : {}
     });
@@ -4050,7 +4050,7 @@ async function exportSnagPDF() {
 
   const pid = window._projectId;
   const token = window._authToken;
-  const res = await fetch(`/api/snag-list?project_id=${pid}`, {
+  const res = await fetch(`/api/hub-extended?resource=snag-list&project_id=${pid}`, {
     headers: token ? { 'Authorization': `Bearer ${token}` } : {}
   });
   const data = await res.json();
@@ -4125,7 +4125,7 @@ async function loadChecklistTemplates() {
   if (!container) return;
 
   try {
-    const res = await fetch('/api/checklists?templates=true');
+    const res = await fetch('/api/hub-extended?resource=checklists&templates=true');
     const data = await res.json();
     const templates = data.templates || [];
 
@@ -4224,7 +4224,7 @@ async function saveChecklist() {
   };
 
   try {
-    const res = await fetch('/api/checklists', {
+    const res = await fetch('/api/hub-extended?resource=checklists', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
       body: JSON.stringify(body)
@@ -4249,7 +4249,7 @@ async function loadSavedChecklists() {
   if (!pid) return;
 
   try {
-    const res = await fetch(`/api/checklists?project_id=${pid}`, {
+    const res = await fetch(`/api/hub-extended?resource=checklists&project_id=${pid}`, {
       headers: token ? { 'Authorization': `Bearer ${token}` } : {}
     });
     const data = await res.json();
@@ -4290,7 +4290,7 @@ async function deleteChecklist(id) {
   if (!confirm('تأكيد حذف Checklist؟')) return;
   const token = window._authToken;
   try {
-    const res = await fetch(`/api/checklists?id=${id}`, {
+    const res = await fetch(`/api/hub-extended?resource=checklists&id=${id}`, {
       method: 'DELETE',
       headers: token ? { 'Authorization': `Bearer ${token}` } : {}
     });

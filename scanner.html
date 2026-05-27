@@ -750,7 +750,7 @@
 
   // بدء الكاميرا
   // استعلام عن الـ Backend النشط
-  fetch('/api/backend-info')
+  fetch('/api/scanner?action=backend-info')
     .then(r => r.json())
     .then(info => {
       const el = document.getElementById('backend-info-label');
@@ -917,7 +917,7 @@
       }
 
       try {
-        const r = await fetch(`/api/scan-status?jobId=${encodeURIComponent(jobId)}`);
+        const r = await fetch(`/api/scanner?action=status&jobId=${encodeURIComponent(jobId)}`);
         if (!r.ok) return;
         const data = await r.json();
 
@@ -1339,7 +1339,7 @@
     const engineer    = document.getElementById('engineer-name-input')?.value || 'مهندس';
 
     try {
-      const res = await fetch('/api/export-scan-pdf', {
+      const res = await fetch('/api/scanner?action=export-pdf', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

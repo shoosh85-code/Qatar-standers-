@@ -39,7 +39,7 @@ window.onload = () => {
 // Pro status via httpOnly cookie (secure v3.0)
   // [SEC v4.1] يستخدم verifyProWithServer() — window._qs_pro_confirmed محمية الآن
   (typeof window.verifyProWithServer === 'function' ? window.verifyProWithServer(true) :
-    fetch('/api/verify-pro?action=status', { credentials: 'include' })
+    fetch('/api/auth?action=verify-pro-status', { credentials: 'include' })
       .then(r => r.json())
       .then(d => { window._qsSetProFromServer(d.pro === true); renderProStatus(); })
       .catch(() => { window._qsSetProFromServer(false); renderProStatus(); })
@@ -1201,7 +1201,7 @@ window.activateProNow = function(codeArg) {
   var ctrl = new AbortController();
   var tid = setTimeout(function() { ctrl.abort(); }, 10000);
 
-  fetch('/api/verify-pro', {
+  fetch('/api/auth?action=verify-pro', {
     method: 'POST',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
@@ -1466,7 +1466,7 @@ window.addEventListener('unhandledrejection', function(e) {
   showToast('⏳ جاري تفعيل الاشتراك...');
 
   // أرسل الـ JWT لـ /api/verify-pro لإصدار httpOnly cookie
-  fetch('/api/verify-pro', {
+  fetch('/api/auth?action=verify-pro', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include', // مهم: يستقبل httpOnly cookie

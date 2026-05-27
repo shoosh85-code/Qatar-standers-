@@ -1,81 +1,42 @@
-# QatarSpec Pro — .vercelignore (merged)
-# يستبعد الملفات غير المطلوبة من Vercel deployment
+# QatarSpec Pro — .vercelignore (post-merger v3.0)
+# 12 API functions only — everything else excluded
 
 # ── API staging/test ──
 api/_staging/
-api/test-gemini.js
-api/test-supabase.js
 
-# ── API dev/admin tools (not used in production) ──
-api/admin-session.js
-api/auth-proxy.js
-api/daily-reports.js
-api/generate-embeddings.js
-api/git-sync.js
-api/list-models.js
-api/projects.js
-api/setup-vectors.js
-api/supabase-proxy.js
-api/upload-chunks.js
-api/validate-code.js
+# ── API dev/admin tools (moved to api-disabled/) ──
+api-disabled/
 
-# ── API functions فوق حد Hobby (12 max) ──
-api/auth-config.js
+# ── Old individual files now merged into scanner.js ──
+api/scan-upload.js
+api/scan-status.js
+api/scan-gemini-fallback.js
 api/backend-info.js
-api/checklists.js
-api/execution-ai.js
-api/export-scan-pdf.js
-api/generate-document.js
-api/health.js
 api/kiri-verify.js
+api/export-scan-pdf.js
+api/scan-export.js
+
+# ── Old individual files now merged into hub-extended.js ──
 api/material-submittals.js
 api/ncr-log.js
-api/scan-export.js
-api/scan-gemini-fallback.js
-api/scan-status.js
-api/scan-upload.js
 api/site-photos.js
 api/snag-list.js
-api/tap-webhook.js
-api/tap.js
+api/checklists.js
+api/execution-ai.js
+api/generate-document.js
 
-# ── Supabase migrations (dev only) ──
-supabase/
+# ── Old individual files now merged into auth.js ──
+api/auth-config.js
+api/verify-pro.js
 
-# ── ملفات البيانات الضخمة (dev only) ──
+# ── Health check (not needed in production) ──
+api/health.js
+
+# ── Rate limit is a helper module, not a standalone function ──
+# api/rate-limit.js stays — imported by scanner.js and hub-extended.js
+
+# ── Large data files ──
 data/qcs-chunks-full.json
-data/qcs-chunks.json
-data/ashghal.json
-data/tools.json
-data/create-checkout.js
-data/roads-data.js
-data/utilities-data.js
-data/structural-data.js
-data/tools-data.js
-data/data_general.js
-data/detail-roads.js
-data/detail-structural.js
-data/detail-geotech.js
-data/detail-main.js
-data/detail-utilities-ss.js
-data/detail-utilities-sw-tw.js
-data/detail-utilities-ws.js
-data/detail-utilities-shared.js
-# ⚠️ data/templates/ يبقى — مطلوب لـ api/generate-document.js
 
-# ── أدوات التطوير ──
-docs/
-scripts/
-tests/
-worker/
-.github/
-
-# ── مستندات ──
-*.md
-audit_report*.json
-CHECKPOINT.json
-
-# ── ملفات مؤقتة ──
-*.log
-*.tmp
-.DS_Store
+# ── Backup files ──
+api/auth.js.bak

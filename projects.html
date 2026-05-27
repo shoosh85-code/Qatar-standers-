@@ -435,7 +435,7 @@
         let sbKey = window.__SUPABASE_ANON__ || document.querySelector('meta[name="supabase-anon"]')?.content;
 
         if (!sbUrl || !sbKey) {
-          const cfg = await fetch('/api/auth-config').then(r => r.json());
+          const cfg = await fetch('/api/auth?action=config').then(r => r.json());
           sbUrl = cfg.url; sbKey = cfg.key;
         }
         if (!sbUrl || !sbKey) throw new Error('Supabase غير مهيأ — تحقق من إعدادات البيئة');

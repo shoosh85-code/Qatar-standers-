@@ -516,7 +516,7 @@ async function askAI() {
   const context = document.getElementById('ai-ctx-display')?.textContent || '';
 
   try {
-    const res = await fetch('/api/execution-ai', {
+    const res = await fetch('/api/hub-extended?resource=execution-ai', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ question: q, module: currentModule, context: context }),

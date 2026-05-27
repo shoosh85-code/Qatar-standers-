@@ -551,7 +551,7 @@
         inputs.activities_summary = inputs.activities_summary || '';
       }
 
-      const res = await fetch('/api/generate-document', {
+      const res = await fetch('/api/hub-extended?resource=generate-document', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

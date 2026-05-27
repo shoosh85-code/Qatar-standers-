@@ -97,7 +97,7 @@
       if (tokenMatch) {
         const token = tokenMatch[1];
         // إرسال التوكن لـ verify-pro لإصدار httpOnly cookie
-        fetch('/api/verify-pro', {
+        fetch('/api/auth?action=verify-pro', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',

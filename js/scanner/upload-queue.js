@@ -101,7 +101,7 @@ QS.UploadQueue = (() => {
     }
 
     try {
-      const res = await fetch('/api/scan-upload', {
+      const res = await fetch('/api/scanner?action=upload', {
         method: 'POST',
         body: formData,
       });

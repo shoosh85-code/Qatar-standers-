@@ -238,7 +238,7 @@ async function generateMS() {
 
   try {
     // generate-document API — DDC_Skills system prompts (أدق من execution-ai)
-    var res = await fetch('/api/generate-document', {
+    var res = await fetch('/api/hub-extended?resource=generate-document', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
