@@ -144,6 +144,45 @@ export function withRateLimit(handler, endpoint) {
   };
 }
 
+// ===== Backward-compatible exports (used by project-hub.js) =====
+export function getIp(req) {
+  return (
+    req.headers?.['x-forwarded-for']?.split(',')[0]?.trim() ||
+    req.headers?.['x-real-ip'] ||
+    'unknown'
+  );
+}
+
+export async function checkRateLimit(ip, endpoint, isPro = false) {
+  const tier = isPro ? 'pro' : 'free';
+  const key = `rl:${endpoint}:${ip}`;
+  const limits = ENDPOINT_LIMITS[`/api/${endpoint}`] || { free: 30, pro: 120, global: 200 };
+  const limit = limits[tier];
+
+  const now = Date.now();
+  const windowSlot = Math.floor(now / WINDOW_MS);
+  const fullKey = `${key}:${windowSlot}`;
+  const resetAt = (windowSlot + 1) * WINDOW_MS;
+
+  let count = 1;
+  const entry = memoryStore.get(fullKey);
+  if (entry && now <= entry.resetAt) {
+    entry.count++;
+    count = entry.count;
+  } else {
+    memoryStore.set(fullKey, { count: 1, resetAt });
+  }
+
+  const limited = count > limit;
+  return {
+    limited,
+    allowed: !limited,
+    remaining: Math.max(0, limit - count),
+    resetAt,
+    retryAfter: limited ? Math.ceil((resetAt - now) / 1000) : 0,
+  };
+}
+
 // ===== مثال استخدام =====
 /*
 // في api/ai-proxy.js:
