@@ -1,0 +1,15 @@
+# backend/requirements.txt — QatarSpec Pro GPU Backend
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+python-multipart==0.0.9
+boto3==1.35.0
+botocore==1.35.0
+
+# GPU / 3D
+# torch>=2.3.0          # uncomment لـ CUDA GPU
+# gsplat>=1.3.0         # uncomment بعد تنصيب torch
+# open3d>=0.18.0        # للقراءة المتقدمة للـ PLY
+
+# Optional helpers
+aiofiles==24.1.0
+httpx==0.27.2

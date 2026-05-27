@@ -6,6 +6,13 @@ const QS = window.QS || {};
 QS.Viewer = (() => {
   // ===== المتغيرات الأساسية =====
   let scene, camera, renderer, controls;
+  // WebGPU / Adaptive Quality
+  let _gpuTier = 'unknown'; // 'webgpu' | 'webgl2' | 'webgl1'
+  let _fpsHistory = [];
+  let _lastFpsTime = 0;
+  let _frameCount = 0;
+  let _splatQuality = 1.0; // 0.25 | 0.5 | 1.0
+  let _adaptiveTimer = null;
   let currentModel = null;
   let measurePoints   = [];
   let measureSpheres  = [];
@@ -24,7 +31,7 @@ QS.Viewer = (() => {
   const _measureResults = { distances: [], areas: [], volumes: [], angles: [] };
 
   // ===== تهيئة المشهد =====
-  function init(id) {
+  async function init(id) {
     containerId = id;
     const container = document.getElementById(id);
     if (!container) return false;
@@ -43,11 +50,8 @@ QS.Viewer = (() => {
     );
     camera.position.set(0, 2, 5);
 
-    // Renderer
-    renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      powerPreference: 'high-performance',
-    });
+    // ===== Renderer: WebGPU → WebGL2 → WebGL1 fallback =====
+    renderer = await _initRenderer(container);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -76,6 +80,85 @@ QS.Viewer = (() => {
 
     _animate();
     return true;
+  }
+
+  // ===== WebGPU → WebGL2 → WebGL1 Renderer Init =====
+  async function _initRenderer(container) {
+    // محاولة WebGPU (Chrome 113+)
+    if (navigator.gpu) {
+      try {
+        const adapter = await navigator.gpu.requestAdapter({ powerPreference: 'high-performance' });
+        if (adapter) {
+          const device = await adapter.requestDevice();
+          // THREE.WebGPURenderer متاح فقط إذا كانت three-webgpu مُضمّنة
+          if (typeof THREE.WebGPURenderer !== 'undefined') {
+            const r = new THREE.WebGPURenderer({ antialias: true });
+            await r.init();
+            _gpuTier = 'webgpu';
+            console.log('[QS] Renderer: WebGPU ✅');
+            _dispatchGpuTier('webgpu');
+            return r;
+          }
+        }
+      } catch (e) {
+        console.warn('[QS] WebGPU failed, falling back:', e.message);
+      }
+    }
+
+    // WebGL2
+    const canvas2 = document.createElement('canvas');
+    const ctx2 = canvas2.getContext('webgl2');
+    if (ctx2) {
+      const r = new THREE.WebGLRenderer({
+        antialias: true,
+        powerPreference: 'high-performance',
+        context: ctx2,
+        canvas: canvas2,
+      });
+      _gpuTier = 'webgl2';
+      console.log('[QS] Renderer: WebGL2 ✅');
+      _dispatchGpuTier('webgl2');
+      _startAdaptiveSplatQuality(); // Adaptive فقط مع WebGL2
+      return r;
+    }
+
+    // WebGL1 fallback
+    const r = new THREE.WebGLRenderer({ antialias: false });
+    _gpuTier = 'webgl1';
+    console.warn('[QS] Renderer: WebGL1 (degraded)');
+    _dispatchGpuTier('webgl1');
+    _splatQuality = 0.5; // جودة مخفّضة تلقائياً
+    return r;
+  }
+
+  function _dispatchGpuTier(tier) {
+    document.dispatchEvent(new CustomEvent('qs:gpu-tier', { detail: { tier } }));
+  }
+
+  // ===== Adaptive Splat Quality بناءً على FPS =====
+  function _startAdaptiveSplatQuality() {
+    // يُشغَّل كل 3 ثوانٍ — يضبط _splatQuality حسب الـ FPS
+    _adaptiveTimer = setInterval(() => {
+      if (_fpsHistory.length < 3) return;
+      const avgFps = _fpsHistory.reduce((a, b) => a + b, 0) / _fpsHistory.length;
+      _fpsHistory = [];
+
+      let newQuality = _splatQuality;
+      if (avgFps < 20 && _splatQuality > 0.25)      newQuality = 0.25;
+      else if (avgFps < 35 && _splatQuality > 0.5)  newQuality = 0.5;
+      else if (avgFps >= 55 && _splatQuality < 1.0) newQuality = 1.0;
+      else if (avgFps >= 40 && _splatQuality < 0.5) newQuality = 0.5;
+
+      if (newQuality !== _splatQuality) {
+        _splatQuality = newQuality;
+        console.log(`[QS] Adaptive quality → ${_splatQuality} (avg FPS: ${avgFps.toFixed(1)})`);
+        document.dispatchEvent(new CustomEvent('qs:splat-quality', {
+          detail: { quality: _splatQuality, fps: avgFps },
+        }));
+        // تحديث PixelRatio لتقليل العبء
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2) * _splatQuality);
+      }
+    }, 3000);
   }
 
   function _setupLighting() {
@@ -685,6 +768,16 @@ QS.Viewer = (() => {
   // ===== Animation Loop (محدَّث) =====
   function _animate() {
     requestAnimationFrame(_animate);
+    // قياس الـ FPS للـ Adaptive Quality
+    _frameCount++;
+    const now = performance.now();
+    if (now - _lastFpsTime >= 1000) {
+      const fps = (_frameCount * 1000) / (now - _lastFpsTime);
+      _fpsHistory.push(fps);
+      if (_fpsHistory.length > 10) _fpsHistory.shift();
+      _frameCount = 0;
+      _lastFpsTime = now;
+    }
     _renderFrame();
     renderCompareFrame();
   }
@@ -718,6 +811,7 @@ QS.Viewer = (() => {
     setXRayMode,
     takeScreenshot,
     dispose,
+    getGpuInfo: () => ({ tier: _gpuTier, quality: _splatQuality }),
   };
 })();
 

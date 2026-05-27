@@ -1,0 +1,40 @@
+# backend/docker-compose.yml — QatarSpec Pro
+# التشغيل: docker compose up -d
+
+version: "3.9"
+
+services:
+  qs-backend:
+    build: .
+    image: qatarspec-backend:latest
+    container_name: qs-gpu-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - SCAN_BACKEND=colmap-gsplat
+      - UPLOAD_DIR=/tmp/qs-uploads
+      - GSPLAT_ITERATIONS=30000
+      - BACKEND_SECRET=${BACKEND_SECRET}
+      - R2_ENDPOINT=${R2_ENDPOINT}
+      - R2_BUCKET=${R2_BUCKET:-qatarspec-scans}
+      - R2_ACCESS_KEY=${R2_ACCESS_KEY}
+      - R2_SECRET_KEY=${R2_SECRET_KEY}
+      - R2_PUBLIC_URL=${R2_PUBLIC_URL}
+    volumes:
+      - qs-uploads:/tmp/qs-uploads
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  qs-uploads:
