@@ -7,15 +7,11 @@ api/test-gemini.js
 api/test-supabase.js
 
 # ── API dev/admin tools (not used in production) ──
-# حد Vercel Hobby = 12 serverless function
-# التطبيق يستخدم 11 فقط — الباقي أدوات تطوير
 api/admin-session.js
 api/auth-proxy.js
-api/auth.js
 api/daily-reports.js
 api/generate-embeddings.js
 api/git-sync.js
-api/health.js
 api/list-models.js
 api/projects.js
 api/setup-vectors.js
@@ -23,10 +19,29 @@ api/supabase-proxy.js
 api/upload-chunks.js
 api/validate-code.js
 
+# ── API functions فوق حد Hobby (12 max) ──
+api/auth-config.js
+api/backend-info.js
+api/checklists.js
+api/execution-ai.js
+api/export-scan-pdf.js
+api/generate-document.js
+api/health.js
+api/kiri-verify.js
+api/material-submittals.js
+api/ncr-log.js
+api/scan-export.js
+api/scan-gemini-fallback.js
+api/scan-status.js
+api/scan-upload.js
+api/site-photos.js
+api/snag-list.js
+api/tap-webhook.js
+api/tap.js
+
 # ── Supabase migrations (dev only) ──
 supabase/
 
-api/scan-export.js
 # ── ملفات البيانات الضخمة (dev only) ──
 data/qcs-chunks-full.json
 data/qcs-chunks.json
