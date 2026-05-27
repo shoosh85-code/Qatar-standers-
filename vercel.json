@@ -83,14 +83,8 @@
     "api/export-scan-pdf.js": {
       "maxDuration": 60
     },
-    "api/health.js": {
-      "maxDuration": 10
-    },
     "api/scan-gemini-fallback.js": {
       "maxDuration": 60
-    },
-    "api/scan-export.js": {
-      "maxDuration": 30
     },
     "api/kiri-verify.js": {
       "maxDuration": 10
@@ -100,9 +94,6 @@
     },
     "api/chatbot.js": {
       "maxDuration": 60
-    },
-    "api/auth.js": {
-      "maxDuration": 10
     },
     "api/backend-info.js": {
       "maxDuration": 5
