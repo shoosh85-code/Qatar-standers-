@@ -1,8 +1,11 @@
 // api/create-checkout.js — QatarSpec Pro v3.2.0
 // Stripe Checkout Session Creator
 // Env vars required: STRIPE_SECRET_KEY, STRIPE_PRICE_MONTHLY, STRIPE_PRICE_ANNUAL
+// PROTOCOL 6: Rate limited — 3 محاولات/دقيقة/IP (منع هجمات الدفع المتكررة)
 
-export default async function handler(req, res) {
+import { withRateLimit } from './rate-limit.js';
+
+async function handler(req, res) {
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', 'https://qatar-standers.vercel.app');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -91,3 +94,6 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Payment service unavailable. Please try again.' });
   }
 }
+
+// 3 محاولات/دقيقة لمنع هجمات الدفع المتكررة
+export default withRateLimit(handler, '/api/create-checkout', { free: 3, pro: 3, global: 10 });
