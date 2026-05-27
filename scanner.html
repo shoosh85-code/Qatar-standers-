@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="theme-color" content="#1a1a2e" />
+  <title>مسح الموقع ثلاثي الأبعاد — QatarSpec Pro</title>
+
+  <!-- Three.js + Addons -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    // GLTFLoader + DRACOLoader + OrbitControls — loaded from CDN at runtime
+    // In production: bundle via esbuild
+  </script>
+
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --c-bg:       #0d0d1a;
+      --c-surface:  #1a1a2e;
+      --c-card:     #16213e;
+      --c-accent:   #8b5cf6;
+      --c-accent2:  #06b6d4;
+      --c-gold:     #f59e0b;
+      --c-pass:     #10b981;
+      --c-fail:     #ef4444;
+      --c-text:     #e2e8f0;
+      --c-muted:    #64748b;
+      --c-border:   #2d2d4e;
+      --r:          12px;
+      --font:       'Segoe UI', 'Cairo', system-ui, sans-serif;
+    }
+    html, body {
+      height: 100%;
+      background: var(--c-bg);
+      color: var(--c-text);
+      font-family: var(--font);
+      overflow: hidden;
+    }
+
+    /* ===== Layout ===== */
+    .app { display: flex; flex-direction: column; height: 100vh; }
+
+    /* Header */
+    .header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px;
+      background: var(--c-surface);
+      border-bottom: 1px solid var(--c-border);
+      flex-shrink: 0;
+    }
+    .header-logo { font-size: 1rem; font-weight: 700; color: var(--c-accent); }
+    .header-logo span { color: var(--c-gold); }
+    .header-title { font-size: 0.85rem; color: var(--c-muted); }
+
+    /* Tab Bar */
+    .tabs {
+      display: flex;
+      background: var(--c-surface);
+      border-bottom: 1px solid var(--c-border);
+      flex-shrink: 0;
+    }
+    .tab {
+      flex: 1; padding: 10px 8px;
+      text-align: center; font-size: 0.82rem;
+      cursor: pointer; color: var(--c-muted);
+      border-bottom: 2px solid transparent;
+      transition: all .2s;
+    }
+    .tab.active { color: var(--c-accent); border-color: var(--c-accent); }
+
+    /* Panels */
+    .panels { flex: 1; overflow: hidden; position: relative; }
+    .panel { display: none; height: 100%; overflow-y: auto; }
+    .panel.active { display: flex; flex-direction: column; }
+
+    /* ===== CAPTURE PANEL ===== */
+    #panel-capture { gap: 0; }
+
+    .camera-wrap {
+      position: relative;
+      flex: 1;
+      background: #000;
+      overflow: hidden;
+      min-height: 0;
+    }
+    #camera-video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+
+    /* Overlay guides */
+    .cam-overlay {
+      position: absolute; inset: 0;
+      pointer-events: none;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    .cam-guide-box {
+      width: 80%; aspect-ratio: 4/3;
+      border: 2px dashed rgba(139,92,246,0.7);
+      border-radius: 8px;
+    }
+    .cam-guide-text {
+      position: absolute; bottom: 80px;
+      left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,.6);
+      color: #fff; font-size: 0.85rem;
+      padding: 6px 14px; border-radius: 20px;
+      white-space: nowrap;
+      text-align: center;
+    }
+    .cam-overlap-badge {
+      position: absolute; top: 12px; right: 12px;
+      padding: 4px 10px; border-radius: 16px;
+      font-size: 0.75rem; font-weight: 600;
+    }
+    .cam-overlap-badge.ok   { background: rgba(16,185,129,.2); color: #10b981; border:1px solid #10b981; }
+    .cam-overlap-badge.fast { background: rgba(239,68,68,.2);  color: #ef4444; border:1px solid #ef4444; }
+    .cam-overlap-badge.still{ background: rgba(245,158,11,.2); color: #f59e0b; border:1px solid #f59e0b; }
+
+    /* Capture bar */
+    .capture-bar {
+      padding: 12px 16px;
+      background: var(--c-surface);
+      display: flex; align-items: center; gap: 12px;
+      flex-shrink: 0;
+    }
+    .capture-progress-wrap { flex: 1; }
+    .capture-count {
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--c-accent);
+    }
+    .capture-count span { font-size: 0.75rem; color: var(--c-muted); font-weight: 400; }
+    .progress-bar {
+      height: 5px; background: var(--c-border);
+      border-radius: 3px; margin-top: 5px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; background: linear-gradient(90deg, var(--c-accent), var(--c-accent2));
+      border-radius: 3px; transition: width .3s;
+      width: 0%;
+    }
+    .btn-capture {
+      width: 62px; height: 62px; border-radius: 50%;
+      background: var(--c-accent);
+      border: 4px solid rgba(139,92,246,.3);
+      cursor: pointer; transition: transform .1s, background .2s;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+    }
+    .btn-capture:active { transform: scale(.9); }
+    .btn-capture:disabled { background: var(--c-muted); cursor: not-allowed; }
+
+    .btn-submit {
+      padding: 10px 20px; border-radius: 8px;
+      background: var(--c-pass); color: #fff;
+      border: none; cursor: pointer; font-size: 0.88rem; font-weight: 600;
+      display: none;
+    }
+    .btn-submit.visible { display: block; }
+
+    /* ===== VIEWER PANEL ===== */
+    #panel-viewer { padding: 0; }
+
+    #three-container {
+      flex: 1;
+      background: var(--c-bg);
+      position: relative;
+      min-height: 0;
+    }
+
+    .viewer-toolbar {
+      display: flex; gap: 8px; padding: 8px 12px;
+      background: var(--c-surface);
+      border-bottom: 1px solid var(--c-border);
+      flex-wrap: wrap; flex-shrink: 0;
+    }
+    .vtb-btn {
+      padding: 6px 12px; border-radius: 6px;
+      background: var(--c-card); border: 1px solid var(--c-border);
+      color: var(--c-text); font-size: 0.78rem; cursor: pointer;
+      transition: background .2s;
+    }
+    .vtb-btn:hover  { background: var(--c-border); }
+    .vtb-btn.active { background: var(--c-accent); border-color: var(--c-accent); color: #fff; }
+
+    /* Measure result */
+    .measure-result {
+      position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,.85);
+      border: 1px solid var(--c-accent);
+      color: var(--c-text);
+      padding: 8px 18px; border-radius: 8px;
+      font-size: 0.88rem; text-align: center;
+      pointer-events: none; opacity: 0;
+      transition: opacity .3s;
+    }
+    .measure-result.show { opacity: 1; }
+
+    /* Loading overlay */
+    .load-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,.8);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 12px;
+    }
+    .load-overlay.hidden { display: none; }
+    .load-spinner {
+      width: 42px; height: 42px;
+      border: 3px solid var(--c-border);
+      border-top-color: var(--c-accent);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .load-pct { font-size: 1.4rem; font-weight: 700; color: var(--c-accent); }
+    .load-msg { font-size: 0.82rem; color: var(--c-muted); }
+
+    /* Hotspot tooltip */
+    .hotspot-tip {
+      position: absolute; top: 12px; right: 12px;
+      background: var(--c-card); border: 1px solid var(--c-border);
+      padding: 10px 14px; border-radius: 8px;
+      font-size: 0.8rem; max-width: 240px;
+      opacity: 0; pointer-events: none; transition: opacity .2s;
+    }
+    .hotspot-tip.show { opacity: 1; }
+    .hotspot-tip .ht-title { font-weight: 700; margin-bottom: 4px; }
+    .hotspot-tip .ht-qcs   { color: var(--c-muted); font-size: 0.72rem; }
+    .hotspot-tip .ht-pass  { color: var(--c-pass); }
+    .hotspot-tip .ht-fail  { color: var(--c-fail); }
+
+    /* Clip slider */
+    .clip-row {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 12px; background: var(--c-surface);
+      border-top: 1px solid var(--c-border);
+      flex-shrink: 0;
+    }
+    .clip-row label { font-size: 0.78rem; color: var(--c-muted); white-space: nowrap; }
+    .clip-row input[type=range] { flex: 1; accent-color: var(--c-accent); }
+    .clip-row .clip-val { font-size: 0.78rem; width: 36px; text-align: center; }
+
+    /* ===== REPORT PANEL ===== */
+    #panel-report { padding: 16px; gap: 12px; }
+    .report-card {
+      background: var(--c-card); border: 1px solid var(--c-border);
+      border-radius: var(--r); padding: 14px;
+    }
+    .report-card h3 { font-size: 0.9rem; margin-bottom: 8px; color: var(--c-accent); }
+    .dim-grid {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px; text-align: center;
+    }
+    .dim-item .val { font-size: 1.2rem; font-weight: 700; }
+    .dim-item .lbl { font-size: 0.7rem; color: var(--c-muted); }
+    .qcs-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .qcs-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 6px 10px; border-radius: 6px;
+      background: var(--c-surface); font-size: 0.8rem;
+    }
+    .badge {
+      padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; font-weight: 600;
+    }
+    .badge.pass { background: rgba(16,185,129,.2); color: var(--c-pass); }
+    .badge.fail { background: rgba(239,68,68,.2); color: var(--c-fail); }
+    .badge.na   { background: rgba(100,116,139,.2); color: var(--c-muted); }
+    .btn-export {
+      padding: 12px; border-radius: 8px; border: none;
+      background: linear-gradient(135deg, var(--c-accent), var(--c-accent2));
+      color: #fff; font-size: 0.9rem; font-weight: 600; cursor: pointer;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: var(--c-card); border: 1px solid var(--c-border);
+      padding: 10px 20px; border-radius: 8px; font-size: 0.84rem;
+      opacity: 0; transition: opacity .3s; pointer-events: none;
+      z-index: 9999; white-space: nowrap;
+    }
+    .toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-logo">Qatar<span>Spec</span> Pro</div>
+    <div class="header-title">مسح الموقع ثلاثي الأبعاد</div>
+    <div style="font-size:0.72rem;color:var(--c-muted)">QCS 2024</div>
+  </header>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" data-panel="capture">📷 المسح</div>
+    <div class="tab" data-panel="viewer">🧊 العارض</div>
+    <div class="tab" data-panel="report">📋 التقرير</div>
+  </div>
+
+  <!-- Panels -->
+  <div class="panels">
+
+    <!-- ===== CAPTURE ===== -->
+    <div class="panel active" id="panel-capture">
+      <div class="camera-wrap">
+        <video id="camera-video" playsinline autoplay muted></video>
+
+        <div class="cam-overlay">
+          <div class="cam-guide-box"></div>
+          <div class="cam-guide-text" id="guide-text">
+            التقط الهدف من زوايا مختلفة بتداخل 65%+
+          </div>
+        </div>
+
+        <div class="cam-overlap-badge ok" id="overlap-badge">✅ ممتاز</div>
+      </div>
+
+      <div class="capture-bar">
+        <div class="capture-progress-wrap">
+          <div class="capture-count">
+            <span id="shot-count">0</span> / <span id="shot-ideal">45</span>
+            <span>صورة</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="shot-progress"></div>
+          </div>
+        </div>
+
+        <button class="btn-capture" id="btn-capture" title="التقاط صورة">📸</button>
+        <button class="btn-submit" id="btn-submit">رفع ومعالجة ▶</button>
+      </div>
+    </div>
+
+    <!-- ===== VIEWER ===== -->
+    <div class="panel" id="panel-viewer">
+      <div class="viewer-toolbar">
+        <button class="vtb-btn" id="btn-load-glb">📂 فتح GLB</button>
+        <button class="vtb-btn" id="btn-measure">📏 قياس</button>
+        <button class="vtb-btn" id="btn-clear-meas">🗑 مسح القياسات</button>
+        <button class="vtb-btn" id="btn-xray">🔍 X-Ray</button>
+        <button class="vtb-btn" id="btn-screenshot">📷 لقطة</button>
+        <input type="file" id="file-glb" accept=".glb,.gltf" style="display:none">
+      </div>
+
+      <div id="three-container" style="flex:1;position:relative;min-height:0;">
+        <div class="load-overlay" id="load-overlay">
+          <div class="load-spinner"></div>
+          <div class="load-pct" id="load-pct">0%</div>
+          <div class="load-msg" id="load-msg">جارٍ التحميل...</div>
+        </div>
+
+        <div class="measure-result" id="measure-result"></div>
+        <div class="hotspot-tip" id="hotspot-tip">
+          <div class="ht-title" id="ht-title"></div>
+          <div class="ht-qcs"  id="ht-qcs"></div>
+          <div id="ht-status"></div>
+        </div>
+      </div>
+
+      <div class="clip-row">
+        <label>✂️ قطع عرضي:</label>
+        <input type="range" id="clip-slider" min="0" max="100" value="100">
+        <span class="clip-val" id="clip-val">100%</span>
+        <button class="vtb-btn" id="btn-clip-reset">↺</button>
+      </div>
+    </div>
+
+    <!-- ===== REPORT ===== -->
+    <div class="panel" id="panel-report">
+      <div class="report-card">
+        <h3>📐 أبعاد الموقع</h3>
+        <div class="dim-grid" id="dim-grid">
+          <div class="dim-item"><div class="val" id="dim-w">—</div><div class="lbl">العرض (م)</div></div>
+          <div class="dim-item"><div class="val" id="dim-h">—</div><div class="lbl">الارتفاع (م)</div></div>
+          <div class="dim-item"><div class="val" id="dim-d">—</div><div class="lbl">العمق (م)</div></div>
+        </div>
+      </div>
+
+      <div class="report-card">
+        <h3>📋 فحص مطابقة QCS 2024</h3>
+        <ul class="qcs-list" id="qcs-list">
+          <li class="qcs-item">
+            <span>غطاء خرساني للأعمدة</span>
+            <span class="badge na">—</span>
+          </li>
+          <li class="qcs-item">
+            <span>ارتفاع الدرج ≤ 175mm</span>
+            <span class="badge na">—</span>
+          </li>
+          <li class="qcs-item">
+            <span>عرض الممر ≥ 1200mm</span>
+            <span class="badge na">—</span>
+          </li>
+        </ul>
+      </div>
+
+      <button class="btn-export" id="btn-export-pdf">
+        ⬇️ تصدير تقرير PDF (Ashghal Format)
+      </button>
+    </div>
+
+  </div><!-- /panels -->
+</div><!-- /app -->
+
+<div class="toast" id="toast"></div>
+
+<!-- Scripts -->
+<script src="js/scanner/upload-queue.js"></script>
+<script src="js/scanner/capture.js"></script>
+<script src="js/viewer/scene.js"></script>
+
+<script>
+// ===== التهيئة الرئيسية =====
+(async function init() {
+
+  // ----- Tabs -----
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const panelId = 'panel-' + tab.dataset.panel;
+      document.querySelectorAll('.tab, .panel').forEach(el => el.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(panelId).classList.add('active');
+
+      // تهيئة الـ Viewer عند أول فتح
+      if (panelId === 'panel-viewer' && !window._viewerReady) {
+        window._viewerReady = true;
+        QS.Viewer.init('three-container');
+        document.getElementById('load-overlay').classList.add('hidden');
+      }
+    });
+  });
+
+  // ----- Capture Panel -----
+  const video       = document.getElementById('camera-video');
+  const btnCapture  = document.getElementById('btn-capture');
+  const btnSubmit   = document.getElementById('btn-submit');
+  const shotCount   = document.getElementById('shot-count');
+  const shotProg    = document.getElementById('shot-progress');
+  const guideTxt    = document.getElementById('guide-text');
+  const overlapBadg = document.getElementById('overlap-badge');
+
+  // بدء الكاميرا
+  const camResult = await QS.Scanner.initCamera(video);
+  if (!camResult.ok) {
+    toast('⚠️ تعذّر تشغيل الكاميرا: ' + camResult.error);
+    btnCapture.disabled = true;
+  }
+
+  QS.Scanner.startSession();
+
+  // التقاط صورة
+  btnCapture.addEventListener('click', async () => {
+    btnCapture.disabled = true;
+    const res = await QS.Scanner.captureFrame(video);
+    if (!res) { btnCapture.disabled = false; return; }
+
+    shotCount.textContent = res.count;
+    shotProg.style.width  = res.progress + '%';
+
+    if (res.isMin) {
+      btnSubmit.classList.add('visible');
+      guideTxt.textContent = `✅ ${res.count} صورة — يمكنك المعالجة أو الاستمرار`;
+    } else {
+      guideTxt.textContent = `${res.remaining} صورة متبقية للحد الأدنى`;
+    }
+
+    // مؤشر التداخل
+    const ov = QS.Scanner.getOverlapGuide();
+    overlapBadg.textContent = ov.ar;
+    overlapBadg.className   = 'cam-overlap-badge ' + ov.status;
+
+    setTimeout(() => { btnCapture.disabled = false; }, 400);
+  });
+
+  // رفع ومعالجة
+  btnSubmit.addEventListener('click', async () => {
+    btnSubmit.disabled = true;
+    toast('⬆️ جارٍ رفع الصور...');
+    try {
+      const result = await QS.Scanner.submitScan((p) => {
+        toast(`${p.stage === 'uploading' ? '⬆️ رفع' : '⚙️ معالجة'} ${p.pct}%`);
+      });
+      toast('✅ النموذج جاهز — انتقل للعارض');
+
+      // تحميل النموذج تلقائياً في الـ Viewer
+      if (result.glbUrl) {
+        window._pendingGLB = result.glbUrl;
+      }
+    } catch (err) {
+      toast('❌ ' + err.message);
+      btnSubmit.disabled = false;
+    }
+  });
+
+  // ----- Viewer Panel -----
+  // تحميل ملف GLB محلي
+  document.getElementById('btn-load-glb').addEventListener('click', () => {
+    document.getElementById('file-glb').click();
+  });
+
+  document.getElementById('file-glb').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (!window._viewerReady) {
+      QS.Viewer.init('three-container');
+      window._viewerReady = true;
+    }
+
+    const overlay = document.getElementById('load-overlay');
+    const pctEl   = document.getElementById('load-pct');
+    const msgEl   = document.getElementById('load-msg');
+    overlay.classList.remove('hidden');
+
+    try {
+      const url = URL.createObjectURL(file);
+      const res = await QS.Viewer.loadGLB(url, (pct) => {
+        pctEl.textContent = pct + '%';
+      });
+
+      overlay.classList.add('hidden');
+
+      // تحديث التقرير
+      document.getElementById('dim-w').textContent = res.dimensions.width;
+      document.getElementById('dim-h').textContent = res.dimensions.height;
+      document.getElementById('dim-d').textContent = res.dimensions.depth;
+
+      toast('✅ تم تحميل النموذج: ' + file.name);
+
+      // إضافة Hotspots تجريبية
+      QS.Viewer.addHotspot(
+        { x: 0.5, y: 0.5, z: 0 },
+        { part: '6', section: '3', clause: '6.3.4.2',
+          title: 'غطاء خرساني الأعمدة', limit: 50, unit: 'mm', status: 'pass' }
+      );
+      QS.Viewer.addHotspot(
+        { x: -0.5, y: 0.3, z: 0.2 },
+        { part: '9', section: '1', clause: '9.1.3.1',
+          title: 'عرض الممر', limit: 1200, unit: 'mm', status: 'fail' }
+      );
+
+    } catch (err) {
+      overlay.classList.add('hidden');
+      toast('❌ خطأ في التحميل: ' + err.message);
+    }
+  });
+
+  // وضع القياس
+  let measureActive = false;
+  document.getElementById('btn-measure').addEventListener('click', () => {
+    measureActive = !measureActive;
+    QS.Viewer.toggleMeasureMode(measureActive);
+    document.getElementById('btn-measure').classList.toggle('active', measureActive);
+    toast(measureActive ? '📏 انقر مرتين على النموذج لقياس المسافة' : 'تم إيقاف وضع القياس');
+  });
+
+  document.getElementById('btn-clear-meas').addEventListener('click', () => {
+    QS.Viewer.clearMeasurements();
+    document.getElementById('measure-result').classList.remove('show');
+  });
+
+  // X-Ray
+  let xrayActive = false;
+  document.getElementById('btn-xray').addEventListener('click', () => {
+    xrayActive = !xrayActive;
+    QS.Viewer.setXRayMode(xrayActive);
+    document.getElementById('btn-xray').classList.toggle('active', xrayActive);
+  });
+
+  // Screenshot
+  document.getElementById('btn-screenshot').addEventListener('click', () => {
+    const url = QS.Viewer.takeScreenshot();
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `QatarSpec_Scan_${Date.now()}.png`;
+    a.click();
+  });
+
+  // Clip Slider
+  const clipSlider = document.getElementById('clip-slider');
+  const clipVal    = document.getElementById('clip-val');
+  clipSlider.addEventListener('input', () => {
+    const v = parseInt(clipSlider.value);
+    clipVal.textContent = v + '%';
+    if (v < 100) {
+      QS.Viewer.setClippingHeight(v / 100);
+    } else {
+      QS.Viewer.clearClipping();
+    }
+  });
+  document.getElementById('btn-clip-reset').addEventListener('click', () => {
+    clipSlider.value = 100;
+    clipVal.textContent = '100%';
+    QS.Viewer.clearClipping();
+  });
+
+  // حدث القياس
+  document.addEventListener('qs:measure', (e) => {
+    const d = e.detail;
+    const el = document.getElementById('measure-result');
+    el.textContent = `المسافة: ${d.distanceM} م (${d.distanceMm} مم)`;
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 5000);
+  });
+
+  // حدث Hotspot
+  document.addEventListener('qs:hotspot-hover', (e) => {
+    const d = e.detail;
+    const tip = document.getElementById('hotspot-tip');
+    document.getElementById('ht-title').textContent = d.title;
+    document.getElementById('ht-qcs').textContent =
+      `QCS 2024 — الجزء ${d.part} / القسم ${d.section} / البند ${d.clause}`;
+    const statusEl = document.getElementById('ht-status');
+    statusEl.className = 'ht-' + d.status;
+    statusEl.textContent = d.status === 'pass'
+      ? `✅ مطابق (الحد: ${d.limit} ${d.unit})`
+      : `❌ غير مطابق (الحد: ${d.limit} ${d.unit})`;
+    tip.classList.add('show');
+    clearTimeout(tip._timer);
+    tip._timer = setTimeout(() => tip.classList.remove('show'), 3000);
+  });
+
+  // PDF Export (placeholder)
+  document.getElementById('btn-export-pdf').addEventListener('click', () => {
+    toast('📄 جارٍ إنشاء التقرير... (يتطلب jsPDF)');
+  });
+
+})();
+
+// ===== Toast Helper =====
+function toast(msg, duration = 3000) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), duration);
+}
+</script>
+</body>
+</html>
