@@ -8,25 +8,25 @@
   'use strict';
   window.QS = window.QS || {};
 
-  // ── ألوان معمارية احترافية ─────────────────────────────────
+  // ── ألوان معمارية احترافية — Dark Pro Theme ────────────────
   const COLORS = {
     extWall:    0xE8DCC8, // بيج رملي قطري — جدار خارجي
     intWall:    0xF5F0E8, // أبيض دافئ — جدار داخلي
     floor:      0xD4C4A8, // بلاط رملي
-    ceiling:    0xFFFFFF, // أبيض
-    door:       0x8B6914, // خشب
-    doorFrame:  0x5C4A1E, // إطار خشبي غامق
+    ceiling:    0x6080A0, // سقف wireframe أزرق
+    door:       0xA07850, // خشب فاتح
+    doorFrame:  0x8B6940, // إطار خشبي
     glass:      0x87CEEB, // زجاج سماوي
     windowFrame:0xA0A0A0, // ألومنيوم
-    column:     0xC0C0C0, // خرساني
+    column:     0xC0B8A8, // خرساني
     label:      0xFFFFFF, // نص أبيض
     dimLine:    0xFF6B35, // خط قياس برتقالي
     highlight:  0xFFD700, // تمييز ذهبي
     passGreen:  0x22C55E,
     failRed:    0xEF4444,
     warnOrange: 0xF59E0B,
-    ground:     0x2A2A2A, // أرضية محيطة
-    sky:        0xE8F4F8, // سماء فاتحة
+    ground:     0x2A2A3E, // أرضية محيطة داكنة
+    sky:        0x1A1A2E, // خلفية داكنة احترافية
   };
 
   // ── مساعدات ────────────────────────────────────────────────
@@ -303,12 +303,15 @@
     // ── الإضاءة ──────────────────────────────────────────────
 
     _addLighting() {
+      // ضباب خفيف للعمق
+      this._scene.fog = new THREE.FogExp2(COLORS.sky, 0.012);
+
       // إضاءة محيطة
-      const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+      const ambient = new THREE.AmbientLight(0xC0C8E0, 0.5);
       this._scene.add(ambient);
 
-      // إضاءة اتجاهية (شمس)
-      const sun = new THREE.DirectionalLight(0xffffff, 0.8);
+      // إضاءة اتجاهية (شمس) — ظلال عالية الجودة
+      const sun = new THREE.DirectionalLight(0xFFF5E6, 1.0);
       sun.position.set(20, 30, 15);
       sun.castShadow = true;
       sun.shadow.camera.near = 0.5;
@@ -319,15 +322,16 @@
       sun.shadow.camera.bottom = -30;
       sun.shadow.mapSize.width = 2048;
       sun.shadow.mapSize.height = 2048;
+      sun.shadow.bias = -0.001;
       this._scene.add(sun);
 
-      // إضاءة تعبئة خفيفة من الأسفل
-      const fill = new THREE.DirectionalLight(0xffffff, 0.3);
+      // إضاءة تعبئة خفيفة — لون أزرق بارد
+      const fill = new THREE.DirectionalLight(0x6090C0, 0.25);
       fill.position.set(-10, 5, -10);
       this._scene.add(fill);
 
-      // نصف كروي (سماء/أرض)
-      const hemi = new THREE.HemisphereLight(0xB1E1FF, 0xB97A20, 0.3);
+      // نصف كروي (سماء/أرض) — جو واقعي
+      const hemi = new THREE.HemisphereLight(0x87CEEB, 0x8B7355, 0.35);
       this._scene.add(hemi);
     }
 
@@ -340,7 +344,7 @@
       const d = bounds.maxY - bounds.minY + 0.4;
 
       const geo = new THREE.PlaneGeometry(w, d);
-      const material = mat(COLORS.floor, { roughness: 0.6 });
+      const material = mat(COLORS.floor, { roughness: 0.55, metalness: 0.05 });
       const mesh = new THREE.Mesh(geo, material);
       mesh.rotation.x = -Math.PI / 2;
       mesh.position.set(
@@ -352,18 +356,18 @@
       mesh.name = 'floor';
       this._groups.floor.add(mesh);
 
-      // شبكة بلاط (خطوط)
-      const tileSize = 0.6; // 60cm بلاط
+      // شبكة بلاط — ألوان داكنة تناسب الخلفية
+      const tileSize = 0.6;
       const gridHelper = new THREE.GridHelper(
         Math.max(w, d) + 2, Math.ceil(Math.max(w, d) / tileSize),
-        0xCCBB99, 0xDDCCAA
+        0x333355, 0x252540
       );
       gridHelper.position.set(
         (bounds.minX + bounds.maxX) / 2,
         0.002,
         (bounds.minY + bounds.maxY) / 2
       );
-      gridHelper.material.opacity = 0.3;
+      gridHelper.material.opacity = 0.4;
       gridHelper.material.transparent = true;
       this._groups.floor.add(gridHelper);
     }
@@ -376,7 +380,9 @@
       const d = bounds.maxY - bounds.minY + 0.4;
 
       const geo = new THREE.PlaneGeometry(w, d);
-      const material = mat(COLORS.ceiling, { opacity: 0.15, side: THREE.DoubleSide });
+      const material = new THREE.MeshBasicMaterial({
+        color: COLORS.ceiling, wireframe: true, transparent: true, opacity: 0.3
+      });
       const mesh = new THREE.Mesh(geo, material);
       mesh.rotation.x = -Math.PI / 2;
       mesh.position.set(
@@ -557,9 +563,9 @@
         frame.name = door.id + '_frame';
         this._groups.doors.add(frame);
 
-        // ورقة الباب (مفتوحة 30 درجة)
+        // ورقة الباب (مفتوحة 30 درجة — شفافة قليلاً)
         const leafGeo = new THREE.BoxGeometry(dW - 0.04, dH - 0.04, 0.04);
-        const leaf = new THREE.Mesh(leafGeo, mat(COLORS.door, { roughness: 0.6 }));
+        const leaf = new THREE.Mesh(leafGeo, mat(COLORS.door, { roughness: 0.5, opacity: 0.75, transparent: true }));
         // pivot من الحافة
         leafGeo.translate(dW / 2 - 0.02, 0, 0);
         leaf.position.set(

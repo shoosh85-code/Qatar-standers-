@@ -65,13 +65,16 @@
       this._camera.position.set(15, 20, 15);
       this._camera.lookAt(0, 0, 0);
 
-      // Renderer
+      // Renderer — جودة احترافية مطابقة للمثال
       this._renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       this._renderer.setSize(w, h);
       this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       this._renderer.shadowMap.enabled = true;
       this._renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       this._renderer.localClippingEnabled = true;
+      this._renderer.outputEncoding = THREE.sRGBEncoding;
+      this._renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      this._renderer.toneMappingExposure = 1.15;
       this._container.appendChild(this._renderer.domElement);
 
       // Controls
