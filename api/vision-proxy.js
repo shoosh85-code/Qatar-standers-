@@ -101,7 +101,8 @@ export default async function handler(req, res) {
   }
 
   const genConfig = { temperature: 0.1, maxOutputTokens: maxTokens };
-  if (jsonMode) genConfig.responseMimeType = 'application/json';
+  // ملاحظة: responseMimeType غير مدعوم في بعض إصدارات Gemini preview
+  // نعتمد على التعليمات في prompt بدلاً منه ("Return ONLY valid JSON")
 
   const requestBody = {
     contents: [{
@@ -135,16 +136,15 @@ export default async function handler(req, res) {
         console.error(`[vision-proxy] ${errEntry}`);
 
         // API key خاطئ — لا فائدة من تجربة موديلات أخرى
-        if (geminiRes.status === 400 || geminiRes.status === 403) {
-          return res.status(geminiRes.status).json({
+        if (geminiRes.status === 403) {
+          return res.status(403).json({
             error: lastError,
             model: `${api}/${model}`,
             allErrors: errors,
-            hint: geminiRes.status === 403
-              ? 'تحقق من صلاحية GEMINI_API_KEY في Vercel Environment Variables'
-              : `طلب غير صالح (${api}/${model}) — تحقق من حجم الصورة ونوعها`
+            hint: 'تحقق من صلاحية GEMINI_API_KEY في Vercel Environment Variables'
           });
         }
+        // 400/404/other — جرّب الموديل التالي
         continue;
       }
 
