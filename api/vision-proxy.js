@@ -11,9 +11,11 @@ export const config = {
 };
 
 const GEMINI_MODELS = [
-  'gemini-2.0-flash',
-  'gemini-1.5-flash',
-  'gemini-1.5-pro',
+  { model: 'gemini-2.0-flash',     api: 'v1beta' },
+  { model: 'gemini-1.5-flash',     api: 'v1beta' },
+  { model: 'gemini-2.0-flash',     api: 'v1'     },
+  { model: 'gemini-1.5-flash',     api: 'v1'     },
+  { model: 'gemini-pro-vision',    api: 'v1beta' },
 ];
 
 // In-memory rate limiter
@@ -110,9 +112,9 @@ export default async function handler(req, res) {
 
   let lastError = '';
 
-  for (const model of GEMINI_MODELS) {
+  for (const { model, api } of GEMINI_MODELS) {
     try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+      const url = `https://generativelanguage.googleapis.com/${api}/models/${model}:generateContent?key=${apiKey}`;
 
       const geminiRes = await fetch(url, {
         method: 'POST',
@@ -124,16 +126,16 @@ export default async function handler(req, res) {
 
       if (!geminiRes.ok) {
         lastError = extractErrorText(data);
-        console.error(`[vision-proxy] ${model} HTTP ${geminiRes.status}: ${lastError}`);
+        console.error(`[vision-proxy] ${api}/${model} HTTP ${geminiRes.status}: ${lastError}`);
 
         // API key خاطئ — لا فائدة من تجربة موديلات أخرى
         if (geminiRes.status === 400 || geminiRes.status === 403) {
           return res.status(geminiRes.status).json({
             error: lastError,
-            model,
+            model: `${api}/${model}`,
             hint: geminiRes.status === 403
               ? 'تحقق من صلاحية GEMINI_API_KEY في Vercel Environment Variables'
-              : 'طلب غير صالح — تحقق من حجم الصورة ونوعها'
+              : `طلب غير صالح (${api}/${model}) — تحقق من حجم الصورة ونوعها`
           });
         }
         continue;
@@ -142,25 +144,25 @@ export default async function handler(req, res) {
       // فحص safety blocks
       const candidate = data.candidates?.[0];
       if (!candidate) {
-        lastError = `${model}: لا يوجد candidates في الرد`;
+        lastError = `${api}/${model}: لا يوجد candidates في الرد`;
         continue;
       }
       if (candidate.finishReason === 'SAFETY') {
-        lastError = `${model}: محتوى محجوب بسبب فلتر الأمان`;
+        lastError = `${api}/${model}: محتوى محجوب بسبب فلتر الأمان`;
         continue;
       }
 
       const text = candidate.content?.parts?.[0]?.text || '';
       if (!text) {
-        lastError = `${model}: رد فارغ من Gemini`;
+        lastError = `${api}/${model}: رد فارغ من Gemini`;
         continue;
       }
 
       // [FIX] يرجع {result} لأن كل الكود يقرأ data.result
-      return res.status(200).json({ result: text, model });
+      return res.status(200).json({ result: text, model: `${api}/${model}` });
 
     } catch (err) {
-      lastError = `${model}: ${extractErrorText(err)}`;
+      lastError = `${api}/${model}: ${extractErrorText(err)}`;
       console.error(`[vision-proxy] fetch error: ${lastError}`);
     }
   }
