@@ -457,8 +457,8 @@ async function handleTapCheckout() {
       body: JSON.stringify({ email: fields.email, name: fields.name, plan: _plan })
     });
     var data = await res.json();
-    if (data.url || data.redirect_url || data.transaction?.url) {
-      var url = data.url || data.redirect_url || data.transaction.url;
+    if (data.checkout_url || data.url || data.redirect_url || data.transaction?.url) {
+      var url = data.checkout_url || data.url || data.redirect_url || data.transaction?.url;
       setMsg('✅ جاري التحويل لبوابة الدفع...', false);
       setTimeout(function () { window.location.href = url; }, 600);
     } else {
