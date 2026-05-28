@@ -11,11 +11,15 @@ export const config = {
 };
 
 const GEMINI_MODELS = [
-  { model: 'gemini-2.0-flash',     api: 'v1beta' },
-  { model: 'gemini-1.5-flash',     api: 'v1beta' },
-  { model: 'gemini-2.0-flash',     api: 'v1'     },
-  { model: 'gemini-1.5-flash',     api: 'v1'     },
-  { model: 'gemini-pro-vision',    api: 'v1beta' },
+  // Priority: newest multimodal models first (v1beta preferred)
+  { model: 'gemini-2.5-flash',              api: 'v1beta' },
+  { model: 'gemini-2.5-flash-preview-05-20',api: 'v1beta' },
+  { model: 'gemini-2.5-pro',                api: 'v1beta' },
+  { model: 'gemini-2.0-flash',              api: 'v1beta' },
+  { model: 'gemini-2.0-flash',              api: 'v1'     },
+  { model: 'gemini-1.5-flash',              api: 'v1beta' },
+  { model: 'gemini-1.5-flash',              api: 'v1'     },
+  // gemini-pro-vision: deprecated April 2024 — removed
 ];
 
 // In-memory rate limiter
@@ -110,6 +114,7 @@ export default async function handler(req, res) {
     generationConfig: genConfig
   };
 
+  const errors = []; // collect ALL model errors for diagnostics
   let lastError = '';
 
   for (const { model, api } of GEMINI_MODELS) {
@@ -126,13 +131,16 @@ export default async function handler(req, res) {
 
       if (!geminiRes.ok) {
         lastError = extractErrorText(data);
-        console.error(`[vision-proxy] ${api}/${model} HTTP ${geminiRes.status}: ${lastError}`);
+        const errEntry = `${api}/${model} → HTTP ${geminiRes.status}: ${lastError}`;
+        errors.push(errEntry);
+        console.error(`[vision-proxy] ${errEntry}`);
 
         // API key خاطئ — لا فائدة من تجربة موديلات أخرى
         if (geminiRes.status === 400 || geminiRes.status === 403) {
           return res.status(geminiRes.status).json({
             error: lastError,
             model: `${api}/${model}`,
+            allErrors: errors,
             hint: geminiRes.status === 403
               ? 'تحقق من صلاحية GEMINI_API_KEY في Vercel Environment Variables'
               : `طلب غير صالح (${api}/${model}) — تحقق من حجم الصورة ونوعها`
@@ -163,12 +171,14 @@ export default async function handler(req, res) {
 
     } catch (err) {
       lastError = `${api}/${model}: ${extractErrorText(err)}`;
+      errors.push(lastError);
       console.error(`[vision-proxy] fetch error: ${lastError}`);
     }
   }
 
   return res.status(502).json({
     error: lastError || 'جميع موديلات Gemini فشلت',
+    allErrors: errors,
     hint: 'تحقق من صلاحية GEMINI_API_KEY في Vercel Environment Variables'
   });
 }
