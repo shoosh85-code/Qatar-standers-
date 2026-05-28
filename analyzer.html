@@ -849,8 +849,7 @@ async function analyzeFloorplan(file) {
 🏠 غرف: ${(f.rooms || []).map(r => r.name).join('، ') || 'لا يوجد'}
 📊 ثقة التحليل: ${schema.source?.confidence || '?'}`;
       debugEl.querySelector('.schema-summary').textContent = summary;
-      debugEl.querySelector('.schema-json').textContent = JSON.stringify(schema.floors?.[0]?.walls?.slice(0,5), null, 2) + '
-... و ' + ((f.walls?.length||0)-5) + ' جدار إضافي';
+      debugEl.querySelector('.schema-json').textContent = JSON.stringify(schema.floors?.[0]?.walls?.slice(0,5), null, 2) + '\n... و ' + ((f.walls?.length||0)-5) + ' جدار إضافي';
       document.getElementById('schema-debug').style.display = 'block';
     }
 
