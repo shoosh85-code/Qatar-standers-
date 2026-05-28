@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3D Viewer Test | QatarSpec Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Tajawal',sans-serif;background:#0d0d1a;color:#e0e0f0;overflow:hidden;height:100vh;}
+#topbar{background:#1a1a2e;border-bottom:1px solid #2a2a4e;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;}
+#topbar h1{color:#c8961a;font-size:18px;}
+#topbar h1 span{color:#e0e0f0;font-weight:300;}
+.btns{display:flex;gap:8px;}
+.btns button{padding:8px 16px;border:1px solid #3a3a5a;border-radius:8px;background:#1a1a2e;color:#e0e0f0;cursor:pointer;font-family:inherit;font-size:13px;transition:all .15s;}
+.btns button:hover,.btns button.active{background:#3060a0;border-color:#5080c0;}
+#viewer{width:100%;height:calc(100vh - 52px);}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <h1>🏗 <span>QatarSpec Pro</span> — اختبار المجسم ثلاثي الأبعاد</h1>
+  <div class="btns">
+    <button class="active" onclick="loadSample('villa',this)">🏠 فيلا</button>
+    <button onclick="loadSample('apartment',this)">🏢 شقة</button>
+    <button onclick="loadSample('office',this)">💼 مكتب</button>
+  </div>
+</div>
+
+<div id="viewer"></div>
+
+<script src="js/analyzer/viewer-pro.js"></script>
+<script>
+// ═══ نماذج جاهزة ═══
+const SAMPLES = {
+  villa: {
+    version:'1.0',
+    source:{type:'floorplan',confidence:'high',plan_type:'villa'},
+    floors:[{
+      level:0, label:'فيلا قطرية — الدور الأرضي', height_m:3.2,
+      walls:[
+        {id:'W1',start:[0,0],end:[15,0],height_m:3.2,thickness_m:0.2,is_external:true},
+        {id:'W2',start:[15,0],end:[15,12],height_m:3.2,thickness_m:0.2,is_external:true},
+        {id:'W3',start:[15,12],end:[0,12],height_m:3.2,thickness_m:0.2,is_external:true},
+        {id:'W4',start:[0,12],end:[0,0],height_m:3.2,thickness_m:0.2,is_external:true},
+        {id:'W5',start:[6,0],end:[6,6],height_m:3.2,thickness_m:0.15,is_external:false},
+        {id:'W6',start:[0,6],end:[15,6],height_m:3.2,thickness_m:0.15,is_external:false},
+        {id:'W7',start:[10,6],end:[10,12],height_m:3.2,thickness_m:0.15,is_external:false},
+        {id:'W8',start:[6,6],end:[6,9],height_m:3.2,thickness_m:0.15,is_external:false},
+        {id:'W9',start:[0,9],end:[6,9],height_m:3.2,thickness_m:0.15,is_external:false},
+      ],
+      doors:[
+        {id:'D1',wall_id:'W1',position_ratio:0.3,width_m:1.2,height_m:2.4,type:'double'},
+        {id:'D2',wall_id:'W5',position_ratio:0.4,width_m:0.9,height_m:2.1,type:'single'},
+        {id:'D3',wall_id:'W6',position_ratio:0.2,width_m:0.9,height_m:2.1,type:'single'},
+        {id:'D4',wall_id:'W6',position_ratio:0.55,width_m:0.9,height_m:2.1,type:'single'},
+        {id:'D5',wall_id:'W7',position_ratio:0.5,width_m:0.9,height_m:2.1,type:'single'},
+        {id:'D6',wall_id:'W8',position_ratio:0.5,width_m:0.8,height_m:2.1,type:'single'},
+        {id:'D7',wall_id:'W9',position_ratio:0.5,width_m:0.9,height_m:2.1,type:'single'},
+      ],
+      windows:[
+        {id:'WN1',wall_id:'W1',position_ratio:0.7,width_m:1.8,height_m:1.5,sill_height_m:0.9},
+        {id:'WN2',wall_id:'W2',position_ratio:0.25,width_m:1.2,height_m:1.5,sill_height_m:0.9},
+        {id:'WN3',wall_id:'W2',position_ratio:0.75,width_m:1.5,height_m:1.5,sill_height_m:0.9},
+        {id:'WN4',wall_id:'W3',position_ratio:0.3,width_m:1.2,height_m:1.5,sill_height_m:0.9},
+        {id:'WN5',wall_id:'W3',position_ratio:0.7,width_m:1.2,height_m:1.5,sill_height_m:0.9},
+        {id:'WN6',wall_id:'W4',position_ratio:0.3,width_m:1.5,height_m:1.5,sill_height_m:0.9},
+        {id:'WN7',wall_id:'W4',position_ratio:0.7,width_m:1.2,height_m:1.5,sill_height_m:0.9},
+      ],
+      columns:[
+        {id:'C1',position:[6,6],width_m:0.4,depth_m:0.4,type:'rectangular'},
+        {id:'C2',position:[10,6],width_m:0.4,depth_m:0.4,type:'rectangular'},
+      ],
+      rooms:[
+        {id:'R1',name:'مجلس',name_en:'Majlis',area_m2:36,polygon:[[0,0],[6,0],[6,6],[0,6]]},
+        {id:'R2',name:'صالة',name_en:'Living Room',area_m2:54,polygon:[[6,0],[15,0],[15,6],[6,6]]},
+        {id:'R3',name:'غرفة نوم رئيسية',name_en:'Master Bedroom',area_m2:30,polygon:[[10,6],[15,6],[15,12],[10,12]]},
+        {id:'R4',name:'غرفة نوم',name_en:'Bedroom',area_m2:24,polygon:[[0,6],[6,6],[6,9],[0,9]]},
+        {id:'R5',name:'مطبخ',name_en:'Kitchen',area_m2:18,polygon:[[0,9],[6,9],[6,12],[0,12]]},
+        {id:'R6',name:'حمام',name_en:'Bathroom',area_m2:12,polygon:[[6,6],[10,6],[10,9],[6,9]]},
+      ],
+      stairs:[]
+    }],
+    dimensions:{total_width_m:15,total_depth_m:12,total_area_m2:180,unit:'m'},
+    notes:[]
+  },
+  apartment: {
+    version:'1.0',
+    source:{type:'floorplan',confidence:'high',plan_type:'apartment'},
+    floors:[{
+      level:0, label:'شقة — الدور الخامس', height_m:2.8,
+      walls:[
+        {id:'W1',start:[0,0],end:[10,0],height_m:2.8,thickness_m:0.2,is_external:true},
+        {id:'W2',start:[10,0],end:[10,8],height_m:2.8,thickness_m:0.2,is_external:true},
+        {id:'W3',start:[10,8],end:[0,8],height_m:2.8,thickness_m:0.2,is_external:true},
+        {id:'W4',start:[0,8],end:[0,0],height_m:2.8,thickness_m:0.2,is_external:true},
+        {id:'W5',start:[0,5],end:[6,5],height_m:2.8,thickness_m:0.12,is_external:false},
+        {id:'W6',start:[6,0],end:[6,5],height_m:2.8,thickness_m:0.12,is_external:false},
+        {id:'W7',start:[6,5],end:[6,8],height_m:2.8,thickness_m:0.12,is_external:false},
+        {id:'W8',start:[3,5],end:[3,8],height_m:2.8,thickness_m:0.12,is_external:false},
+      ],
+      doors:[
+        {id:'D1',wall_id:'W4',position_ratio:0.35,width_m:1.0,height_m:2.1},
+        {id:'D2',wall_id:'W5',position_ratio:0.3,width_m:0.9,height_m:2.1},
+        {id:'D3',wall_id:'W6',position_ratio:0.5,width_m:0.9,height_m:2.1},
+        {id:'D4',wall_id:'W7',position_ratio:0.5,width_m:0.8,height_m:2.1},
+        {id:'D5',wall_id:'W8',position_ratio:0.5,width_m:0.9,height_m:2.1},
+      ],
+      windows:[
+        {id:'WN1',wall_id:'W1',position_ratio:0.3,width_m:1.5,height_m:1.4,sill_height_m:0.9},
+        {id:'WN2',wall_id:'W1',position_ratio:0.7,width_m:1.2,height_m:1.4,sill_height_m:0.9},
+        {id:'WN3',wall_id:'W2',position_ratio:0.5,width_m:1.5,height_m:1.4,sill_height_m:0.9},
+        {id:'WN4',wall_id:'W3',position_ratio:0.5,width_m:1.8,height_m:1.4,sill_height_m:0.9},
+      ],
+      columns:[],
+      rooms:[
+        {id:'R1',name:'صالة',name_en:'Living Room',area_m2:30,polygon:[[0,0],[6,0],[6,5],[0,5]]},
+        {id:'R2',name:'غرفة نوم',name_en:'Bedroom',area_m2:20,polygon:[[6,0],[10,0],[10,5],[6,5]]},
+        {id:'R3',name:'غرفة نوم رئيسية',name_en:'Master Bedroom',area_m2:9,polygon:[[0,5],[3,5],[3,8],[0,8]]},
+        {id:'R4',name:'مطبخ',name_en:'Kitchen',area_m2:9,polygon:[[3,5],[6,5],[6,8],[3,8]]},
+        {id:'R5',name:'حمام',name_en:'Bathroom',area_m2:12,polygon:[[6,5],[10,5],[10,8],[6,8]]},
+      ],
+      stairs:[]
+    }],
+    dimensions:{total_width_m:10,total_depth_m:8,total_area_m2:80,unit:'m'},
+    notes:[]
+  },
+  office: {
+    version:'1.0',
+    source:{type:'floorplan',confidence:'high',plan_type:'office'},
+    floors:[{
+      level:0, label:'مكتب — الدور الثالث', height_m:3.0,
+      walls:[
+        {id:'W1',start:[0,0],end:[20,0],height_m:3.0,thickness_m:0.2,is_external:true},
+        {id:'W2',start:[20,0],end:[20,10],height_m:3.0,thickness_m:0.2,is_external:true},
+        {id:'W3',start:[20,10],end:[0,10],height_m:3.0,thickness_m:0.2,is_external:true},
+        {id:'W4',start:[0,10],end:[0,0],height_m:3.0,thickness_m:0.2,is_external:true},
+        {id:'W5',start:[0,3],end:[12,3],height_m:3.0,thickness_m:0.12,is_external:false},
+        {id:'W6',start:[6,0],end:[6,3],height_m:3.0,thickness_m:0.12,is_external:false},
+        {id:'W7',start:[12,0],end:[12,10],height_m:3.0,thickness_m:0.12,is_external:false},
+        {id:'W8',start:[12,5],end:[20,5],height_m:3.0,thickness_m:0.12,is_external:false},
+        {id:'W9',start:[16,5],end:[16,10],height_m:3.0,thickness_m:0.12,is_external:false},
+      ],
+      doors:[
+        {id:'D1',wall_id:'W4',position_ratio:0.15,width_m:1.2,height_m:2.1},
+        {id:'D2',wall_id:'W6',position_ratio:0.5,width_m:0.9,height_m:2.1},
+        {id:'D3',wall_id:'W5',position_ratio:0.7,width_m:0.9,height_m:2.1},
+        {id:'D4',wall_id:'W7',position_ratio:0.3,width_m:0.9,height_m:2.1},
+        {id:'D5',wall_id:'W7',position_ratio:0.7,width_m:0.9,height_m:2.1},
+        {id:'D6',wall_id:'W8',position_ratio:0.5,width_m:0.9,height_m:2.1},
+      ],
+      windows:[
+        {id:'WN1',wall_id:'W1',position_ratio:0.2,width_m:2.0,height_m:1.8,sill_height_m:0.7},
+        {id:'WN2',wall_id:'W1',position_ratio:0.6,width_m:2.0,height_m:1.8,sill_height_m:0.7},
+        {id:'WN3',wall_id:'W2',position_ratio:0.3,width_m:2.0,height_m:1.8,sill_height_m:0.7},
+        {id:'WN4',wall_id:'W3',position_ratio:0.3,width_m:2.0,height_m:1.8,sill_height_m:0.7},
+        {id:'WN5',wall_id:'W3',position_ratio:0.7,width_m:2.0,height_m:1.8,sill_height_m:0.7},
+      ],
+      columns:[
+        {id:'C1',position:[6,3],width_m:0.4,depth_m:0.4,type:'rectangular'},
+        {id:'C2',position:[12,3],width_m:0.4,depth_m:0.4,type:'rectangular'},
+      ],
+      rooms:[
+        {id:'R1',name:'استقبال',name_en:'Reception',area_m2:18,polygon:[[0,0],[6,0],[6,3],[0,3]]},
+        {id:'R2',name:'مكتب المدير',name_en:'Manager Office',area_m2:18,polygon:[[6,0],[12,0],[12,3],[6,3]]},
+        {id:'R3',name:'منطقة عمل',name_en:'Open Workspace',area_m2:84,polygon:[[0,3],[12,3],[12,10],[0,10]]},
+        {id:'R4',name:'قاعة اجتماعات',name_en:'Meeting Room',area_m2:40,polygon:[[12,0],[20,0],[20,5],[12,5]]},
+        {id:'R5',name:'سيرفر',name_en:'Server Room',area_m2:20,polygon:[[12,5],[16,5],[16,10],[12,10]]},
+        {id:'R6',name:'مطبخ صغير',name_en:'Kitchenette',area_m2:20,polygon:[[16,5],[20,5],[20,10],[16,10]]},
+      ],
+      stairs:[]
+    }],
+    dimensions:{total_width_m:20,total_depth_m:10,total_area_m2:200,unit:'m'},
+    notes:[]
+  }
+};
+
+let viewer = null;
+
+function loadSample(type, btn) {
+  // تبديل الأزرار
+  document.querySelectorAll('.btns button').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  // تحميل
+  if (viewer) viewer.dispose();
+  viewer = new window.QS.ViewerPro('viewer');
+  viewer.buildAndRender(SAMPLES[type]);
+}
+
+// تحميل تلقائي
+window.addEventListener('DOMContentLoaded', () => loadSample('villa'));
+</script>
+</body>
+</html>
