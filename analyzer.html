@@ -226,10 +226,14 @@ main { padding: 20px; max-width: 1400px; margin: 0 auto; }
   flex: 6;
   background: #080814;
   position: relative;
+  overflow: hidden;
+}
+/* Three.js renderer canvas */
+#viewer-container canvas {
+  display: block;
 }
 #viewer-3d-canvas {
-  width: 100%;
-  height: 100%;
+  display: none !important; /* لا يُستخدم — Viewer3D يُنشئ canvas خاصه */
 }
 .viewer-placeholder {
   display: flex;
@@ -550,6 +554,9 @@ main { padding: 20px; max-width: 1400px; margin: 0 auto; }
         <div class="viewer-placeholder" id="viewer-placeholder">
           <span>🏗</span>
           <p>سيظهر المجسم هنا بعد التحليل</p>
+          <button onclick="testLoad3D()" style="margin-top:12px;padding:8px 18px;background:#7c3aed;color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-size:14px;">
+            🧪 اختبار مجسم تجريبي
+          </button>
         </div>
         <canvas id="viewer-3d-canvas" style="display:none;"></canvas>
       </div>
@@ -791,14 +798,15 @@ async function analyzeFloorplan(file) {
     await runCompliance();
     setProgress(75);
 
+    // إظهار القسم أولاً — لازم يكون مرئياً قبل التهيئة حتى clientWidth != 0
+    showSection('viewer-section');
+
     await build3DModel(schema);
     setProgress(90);
 
     buildRoomList();
     showResults();
     setProgress(100);
-
-    showSection('viewer-section');
     showSection('results-section');
     showSection('export-section');
 
@@ -814,6 +822,18 @@ async function analyzeFloorplan(file) {
 /* ══════════════════════════════════════
    بناء المجسم 3D
 ══════════════════════════════════════ */
+// اختبار المجسم مباشرة بدون رفع صورة
+function testLoad3D() {
+  const section = document.getElementById('viewer-section');
+  if (section) section.style.display = 'block';
+  const schema = window.QS?.FloorplanAnalyzer?.getSampleVilla?.();
+  if (!schema) {
+    alert('FloorplanAnalyzer غير محمل بعد');
+    return;
+  }
+  build3DModel(schema);
+}
+
 async function build3DModel(schema) {
   try {
     if (!window.QS?.ModelBuilder || !window.QS?.Viewer3D) {
@@ -821,9 +841,8 @@ async function build3DModel(schema) {
       return;
     }
 
-    // إخفاء placeholder وإظهار canvas
+    // إخفاء placeholder فقط — Viewer3D يُنشئ canvas خاصه
     document.getElementById('viewer-placeholder').style.display = 'none';
-    document.getElementById('viewer-3d-canvas').style.display = 'block';
 
     // بناء المشهد
     if (!APP.modelBuilder) {
@@ -838,6 +857,10 @@ async function build3DModel(schema) {
     }
     APP.viewer = new window.QS.Viewer3D('viewer-container', { controls: true });
     APP.viewer.loadScene(APP.modelBuilder.getScene());
+
+    // force resize مرتين — مرة بعد 100ms ومرة بعد 500ms (ضمان اكتمال العرض)
+    setTimeout(() => { if (APP.viewer?._onResize) APP.viewer._onResize(); }, 100);
+    setTimeout(() => { if (APP.viewer?._onResize) APP.viewer._onResize(); }, 500);
 
   } catch (err) {
     console.warn('[3D] تحذير بناء المجسم:', err.message);
