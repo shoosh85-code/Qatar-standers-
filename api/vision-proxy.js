@@ -13,7 +13,7 @@ export const config = {
 const GEMINI_MODELS = [
   'gemini-2.0-flash',
   'gemini-1.5-flash',
-  'gemini-1.5-flash-8b',
+  'gemini-1.5-pro',
 ];
 
 // In-memory rate limiter
@@ -167,6 +167,6 @@ export default async function handler(req, res) {
 
   return res.status(502).json({
     error: lastError || 'جميع موديلات Gemini فشلت',
-    hint: 'تحقق من GEMINI_API_KEY وحجم الصورة'
+    hint: 'تحقق من صلاحية GEMINI_API_KEY في Vercel Environment Variables'
   });
 }
