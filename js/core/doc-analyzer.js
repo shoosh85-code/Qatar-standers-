@@ -3,13 +3,20 @@
 (function() {
   'use strict';
 
-let _daImageData = null;
-let _daDrawingType = 'structural';
+// [FIX v3.1] متغيرات مشتركة — يجب أن تكون على window
+// لأن doc-analyzer.js و drawing-run.js كل منهما IIFE scope منفصل
+window._daImageData   = null;
+window._daDrawingType = 'structural';
+
+// اختصارات محلية — تقرأ/تكتب على window مباشرة
+let _daImageData    = null;
+let _daDrawingType  = 'structural';
 
   // ── Drawing Analyzer ──────────────────────────────────
 
 function selectDaType(type, el) {
-  _daDrawingType = type;
+  // [FIX] نكتب على window._daDrawingType حتى يقرأها drawing-run.js
+  _daDrawingType = window._daDrawingType = type;
   // إزالة التحديد من كل الأزرار
   document.querySelectorAll('.da-type-btn').forEach(function(btn) {
     btn.style.border = '2px dashed rgba(201,168,76,.2)';
@@ -36,7 +43,8 @@ function handleDaUpload(input) {
   let reader = new FileReader();
   reader.onload = function(e) {
     // للـ PDF نحفظ كـ data URL ونعرض أيقونة بديلاً
-    _daImageData = e.target.result;
+    // [FIX] نكتب على window._daImageData حتى يقرأها drawing-run.js من IIFE منفصل
+    _daImageData = window._daImageData = e.target.result;
     let isPdf = file.type === 'application/pdf';
     const previewWrap = document.getElementById('da-preview-wrap');
     const previewImg = document.getElementById('da-preview-img');

@@ -14,6 +14,11 @@ async function runDrawingAnalysis() {
     }
     sessionStorage.setItem(daKey, String(daCount + 1));
   }
+
+  // [FIX v3.1] قراءة من window._daImageData (مشترك مع doc-analyzer.js IIFE)
+  const _daImageData   = window._daImageData;
+  const _daDrawingType = window._daDrawingType || 'structural';
+
   if (!_daImageData) { showToast('❌ ارفع مخططاً أولاً'); return; }
 
   const notes = (document.getElementById('da-notes') || {}).value || '';
