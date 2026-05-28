@@ -578,9 +578,17 @@ main { padding: 20px; max-width: 1400px; margin: 0 auto; }
         <div class="viewer-placeholder" id="viewer-placeholder">
           <span>🏗</span>
           <p>سيظهر المجسم هنا بعد التحليل</p>
-          <button onclick="testLoad3D()" style="margin-top:12px;padding:8px 18px;background:#7c3aed;color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-size:14px;">
-            🧪 اختبار مجسم تجريبي
-          </button>
+          <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;justify-content:center;">
+            <button onclick="testLoad3D('villa')" style="padding:8px 14px;background:#7c3aed;color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px;">
+              🏠 فيلا تجريبية
+            </button>
+            <button onclick="testLoad3D('apartment')" style="padding:8px 14px;background:#2563eb;color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px;">
+              🏢 شقة تجريبية
+            </button>
+            <button onclick="testLoad3D('office')" style="padding:8px 14px;background:#059669;color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px;">
+              💼 مكتب تجريبي
+            </button>
+          </div>
         </div>
         <canvas id="viewer-3d-canvas" style="display:none;"></canvas>
       </div>
@@ -891,10 +899,10 @@ async function analyzeFloorplan(file) {
    بناء المجسم 3D
 ══════════════════════════════════════ */
 // اختبار المجسم مباشرة بدون رفع صورة
-function testLoad3D() {
+function testLoad3D(type) {
   const section = document.getElementById('viewer-section');
   if (section) section.style.display = 'block';
-  const schema = window.QS?.FloorplanAnalyzer?.getSampleVilla?.();
+  const schema = window.QS?.FloorplanAnalyzer?.getSample?.(type || 'villa');
   if (!schema) {
     alert('FloorplanAnalyzer غير محمل بعد');
     return;

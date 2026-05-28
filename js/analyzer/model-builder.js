@@ -87,6 +87,9 @@
         throw new Error('JSON Schema غير صالح — floors مفقود');
       }
 
+      // ═══ إصلاح تلقائي للبيانات ═══
+      this._autoRepairSchema(schemaJSON);
+
       // مشهد جديد
       this._scene = new THREE.Scene();
       this._scene.background = new THREE.Color(COLORS.sky);
@@ -104,7 +107,14 @@
       const floor = schemaJSON.floors[0];
       const h = floor.height_m || 3.0;
 
+      // ═══ FALLBACK: توليد جدران من الغرف إذا لم تُحدد ═══
+      if ((!floor.walls || floor.walls.length === 0) && floor.rooms && floor.rooms.length > 0) {
+        console.info('[ModelBuilder] لا جدران — توليد تلقائي من الغرف');
+        floor.walls = this._generateWallsFromRooms(floor.rooms, h);
+      }
+
       // ── بناء العناصر ──
+      this._buildRoomFloors(floor);  // أرضيات ملونة لكل غرفة
       this._buildFloor(floor);
       this._buildCeiling(floor, h);
       this._buildWalls(floor, h);
@@ -118,7 +128,176 @@
       // السقف مخفي افتراضياً
       this._groups.ceiling.visible = this._ceilingVisible;
 
+      // ═══ إحصائيات للتصحيح ═══
+      const stats = {
+        walls: (floor.walls || []).length,
+        doors: (floor.doors || []).length,
+        windows: (floor.windows || []).length,
+        rooms: (floor.rooms || []).length,
+        columns: (floor.columns || []).length,
+      };
+      console.info('[ModelBuilder] بناء مكتمل:', stats);
+
       return this._scene;
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // ██ إصلاح تلقائي — يُصلح المشاكل الشائعة من Gemini
+    // ═══════════════════════════════════════════════════════════
+
+    _autoRepairSchema(schema) {
+      for (const floor of (schema.floors || [])) {
+        // إصلاح الجدران
+        floor.walls = (floor.walls || []).filter(w => {
+          if (!Array.isArray(w.start) || !Array.isArray(w.end)) return false;
+          if (w.start.some(v => isNaN(v)) || w.end.some(v => isNaN(v))) return false;
+          if (wallLength(w.start, w.end) < 0.05) return false;
+          return true;
+        });
+
+        // إصلاح الأبواب — حذف التي wall_id غير موجود
+        const wallIds = new Set((floor.walls || []).map(w => w.id));
+        floor.doors = (floor.doors || []).filter(d => wallIds.has(d.wall_id));
+        floor.windows = (floor.windows || []).filter(w => wallIds.has(w.wall_id));
+
+        // إصلاح الغرف — polygon يجب >= 3 نقاط
+        floor.rooms = (floor.rooms || []).filter(r =>
+          Array.isArray(r.polygon) && r.polygon.length >= 3 &&
+          r.polygon.every(p => Array.isArray(p) && p.length >= 2 && !isNaN(p[0]) && !isNaN(p[1]))
+        );
+
+        // إصلاح الأعمدة
+        floor.columns = (floor.columns || []).filter(c =>
+          Array.isArray(c.position) && c.position.length >= 2 &&
+          !isNaN(c.position[0]) && !isNaN(c.position[1])
+        );
+
+        // إعطاء IDs إذا مفقودة
+        floor.walls.forEach((w, i) => { if (!w.id) w.id = 'W' + (i + 1); });
+        floor.doors.forEach((d, i) => { if (!d.id) d.id = 'D' + (i + 1); });
+        floor.windows.forEach((w, i) => { if (!w.id) w.id = 'WN' + (i + 1); });
+        floor.rooms.forEach((r, i) => { if (!r.id) r.id = 'R' + (i + 1); });
+        floor.columns.forEach((c, i) => { if (!c.id) c.id = 'C' + (i + 1); });
+      }
+
+      // إصلاح dimensions
+      if (!schema.dimensions) {
+        const f = schema.floors[0];
+        const b = this._calcBoundsFromAll(f);
+        schema.dimensions = {
+          total_width_m: b.maxX - b.minX,
+          total_depth_m: b.maxY - b.minY,
+          total_area_m2: (b.maxX - b.minX) * (b.maxY - b.minY),
+          unit: 'm'
+        };
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // ██ FALLBACK: توليد جدران من حدود الغرف
+    // ═══════════════════════════════════════════════════════════
+
+    _generateWallsFromRooms(rooms, height) {
+      const wallMap = new Map(); // منع التكرار
+      const walls = [];
+      let wIdx = 1;
+
+      for (const room of rooms) {
+        const poly = room.polygon;
+        if (!poly || poly.length < 3) continue;
+
+        for (let i = 0; i < poly.length; i++) {
+          const start = poly[i];
+          const end = poly[(i + 1) % poly.length];
+
+          // مفتاح فريد (مُرتّب لمنع التكرار)
+          const key = this._wallKey(start, end);
+          if (wallMap.has(key)) {
+            // جدار مشترك = داخلي
+            const existing = wallMap.get(key);
+            existing.is_external = false;
+            existing.thickness_m = 0.15;
+            continue;
+          }
+
+          const wall = {
+            id: 'WG' + wIdx++,
+            start: [start[0], start[1]],
+            end: [end[0], end[1]],
+            height_m: height,
+            thickness_m: 0.2,
+            material: 'block',
+            is_external: true, // افتراض خارجي حتى يثبت العكس
+          };
+          wallMap.set(key, wall);
+          walls.push(wall);
+        }
+      }
+
+      console.info('[ModelBuilder] تم توليد', walls.length, 'جدار من', rooms.length, 'غرفة');
+      return walls;
+    }
+
+    /** مفتاح فريد لجدار (مرتب) */
+    _wallKey(a, b) {
+      const ax = a[0].toFixed(2), ay = a[1].toFixed(2);
+      const bx = b[0].toFixed(2), by = b[1].toFixed(2);
+      return ax + ',' + ay < bx + ',' + by
+        ? ax + ',' + ay + '→' + bx + ',' + by
+        : bx + ',' + by + '→' + ax + ',' + ay;
+    }
+
+    /** حساب حدود من كل العناصر (جدران + غرف) */
+    _calcBoundsFromAll(floor) {
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+      for (const w of (floor.walls || [])) {
+        if (Array.isArray(w.start)) { minX = Math.min(minX, w.start[0]); maxX = Math.max(maxX, w.start[0]); minY = Math.min(minY, w.start[1]); maxY = Math.max(maxY, w.start[1]); }
+        if (Array.isArray(w.end))   { minX = Math.min(minX, w.end[0]); maxX = Math.max(maxX, w.end[0]); minY = Math.min(minY, w.end[1]); maxY = Math.max(maxY, w.end[1]); }
+      }
+      for (const r of (floor.rooms || [])) {
+        for (const p of (r.polygon || [])) {
+          minX = Math.min(minX, p[0]); maxX = Math.max(maxX, p[0]);
+          minY = Math.min(minY, p[1]); maxY = Math.max(maxY, p[1]);
+        }
+      }
+      if (!isFinite(minX)) { minX = 0; maxX = 10; minY = 0; maxY = 10; }
+      return { minX, maxX, minY, maxY };
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // ██ أرضيات ملونة لكل غرفة (حسب النوع)
+    // ═══════════════════════════════════════════════════════════
+
+    _buildRoomFloors(floor) {
+      // ألوان حسب نوع الغرفة
+      const typeColors = {
+        'مجلس': 0xE8D8B8, 'صالة': 0xD8C8A8, 'غرفة نوم': 0xC8D8E0, 'غرفة نوم رئيسية': 0xB8C8D8,
+        'مطبخ': 0xD4C4A0, 'حمام': 0xA8C8D4, 'ممر': 0xD8D0C8, 'مدخل': 0xD0C8B8,
+        'شرفة': 0xC0D8B8, 'مخزن': 0xB8B0A0, 'غرفة خادمة': 0xC8C0B0, 'مغسلة': 0xB0C0C8,
+        'مكتب': 0xC8C8D8, 'غرفة اجتماعات': 0xC0C8D0, 'استقبال': 0xD0C8B0,
+        'غرفة طعام': 0xD8D0B8, 'مجلس نساء': 0xD8C8C8, 'مرآب': 0xA8A8A0,
+        'default': 0xD4C4A8,
+      };
+
+      for (const room of (floor.rooms || [])) {
+        if (!Array.isArray(room.polygon) || room.polygon.length < 3) continue;
+
+        const shape = new THREE.Shape();
+        shape.moveTo(room.polygon[0][0], room.polygon[0][1]);
+        for (let i = 1; i < room.polygon.length; i++) {
+          shape.lineTo(room.polygon[i][0], room.polygon[i][1]);
+        }
+        shape.closePath();
+
+        const roomColor = typeColors[room.name] || typeColors['default'];
+        const geo = new THREE.ShapeGeometry(shape);
+        const mesh = new THREE.Mesh(geo, mat(roomColor, { roughness: 0.55, side: THREE.DoubleSide }));
+        mesh.rotation.x = -Math.PI / 2;
+        mesh.position.y = 0.003;
+        mesh.receiveShadow = true;
+        mesh.name = room.id + '_roomfloor';
+        this._groups.floor.add(mesh);
+      }
     }
 
     // ── الإضاءة ──────────────────────────────────────────────
@@ -764,6 +943,6 @@
   // ── تصدير ──────────────────────────────────────────────────
   window.QS.ModelBuilder = ModelBuilder;
 
-  console.info('[QS] ModelBuilder v1.0 loaded');
+  console.info('[QS] ModelBuilder v1.1 loaded — auto-repair + fallback walls');
 
 })();

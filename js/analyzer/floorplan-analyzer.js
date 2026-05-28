@@ -17,43 +17,58 @@
   const RETRY_DELAY_MS = 2000;
   const MAX_TOKENS = 16000; // زيادة لاستيعاب مخططات كبيرة ومعقدة
 
-  // ── Gemini Prompt الهندسي ──────────────────────────────────
-  const ANALYSIS_PROMPT = `You are a professional architectural engineer specializing in Qatari floor plans and engineering drawings.
+  // ── Gemini Prompt الهندسي — يعمل مع جميع أنواع المخططات ────
+  const ANALYSIS_PROMPT = `You are an expert architectural engineer analyzing floor plans from Qatar, GCC, and international projects.
+You can analyze ANY type of architectural drawing: villa, apartment, office, warehouse, commercial, educational, hospital, or mixed-use.
 
-## STEP 1 — UNDERSTAND SCALE:
-Look carefully at dimension annotations in the drawing (numbers like "5000", "3.5m", "15'", etc.).
-- If you see dimension lines, use them to calculate the real scale
-- If no dimensions are visible, estimate based on standard room sizes (bedroom ~12-16m², living room ~20-30m²)
-- Convert ALL measurements to METERS
+## YOUR TASK:
+Convert the uploaded floor plan image into a precise JSON 3D model schema.
 
-## STEP 2 — IDENTIFY ALL WALLS:
-Trace EVERY wall line you see — both external (perimeter) and internal (partitions).
-For each wall give: start coordinate [x,y] and end coordinate [x,y] in meters from top-left origin (0,0).
-Be very precise — walls that share corners must have EXACTLY matching coordinates.
+## STEP 1 — DETECT PLAN TYPE & SCALE:
+- Identify: villa / apartment / office / commercial / warehouse / site layout / other
+- Look for dimension annotations (numbers like "5000", "3.5m", "15'", arrows between lines)
+- If dimensions exist: use them for accurate scale
+- If not: estimate using standard sizes (bedroom ~12-16m², living ~20-30m², office ~9-15m², corridor width ~1.5-2m)
+- Convert ALL to METERS
+
+## STEP 2 — TRACE ALL WALLS (CRITICAL — most common failure point):
+CAREFULLY trace EVERY visible line that represents a wall:
+- External walls (perimeter): thicker lines, typically 200-250mm
+- Internal partition walls: thinner lines, typically 100-150mm
+- Ensure corners MATCH exactly: if wall W1 ends at [8,0] and wall W2 starts at that corner, use EXACTLY [8,0]
+- For L-shaped or complex buildings: trace the full perimeter, then internal divisions
+- MINIMUM: you must return at least 4 walls (the perimeter rectangle). If you see rooms, there MUST be walls between them.
 
 ## STEP 3 — IDENTIFY ALL ROOMS:
-For each enclosed space, identify: Arabic name, English name, approximate area, and polygon corners.
+Each enclosed area = one room. Provide:
+- Arabic name + English name
+- Area in m²
+- Polygon corners (closed shape matching wall coordinates)
+- Common Qatari names: مجلس، صالة، غرفة نوم، غرفة نوم رئيسية، مطبخ، حمام، ممر، مدخل، مجلس نساء، غرفة طعام، مخزن، غرفة خادمة، مغسلة، شرفة، مكتب، غرفة اجتماعات، استقبال، مرآب
+- For offices: مكتب، قاعة اجتماعات، استقبال، مطبخ صغير، حمام، ممر، سيرفر روم
+- For commercial: محل، مستودع، مكتب إداري، حمام عمومي
 
 ## STEP 4 — IDENTIFY OPENINGS:
-Every door opening and window you can see — note which wall it is on and where along that wall.
+- Doors: arc symbols or breaks in walls. Note wall_id + position_ratio (0-1 along wall)
+- Windows: parallel lines on external walls. Note sill height
 
 ## COORDINATE SYSTEM:
-- Origin (0,0) = top-left of the building footprint
-- X positive = right
-- Y positive = downward
+- Origin (0,0) = top-left of building footprint
+- X positive → right, Y positive → downward
 - All units: METERS
 
 ## CRITICAL RULES:
-- DO NOT invent elements you cannot see
-- If a dimension is unclear, estimate conservatively and mark "estimated": true
-- Walls that meet at corners must have MATCHING endpoints
-- Return ONLY valid JSON — no text before or after
-- Use standard Qatari room names: مجلس، صالة، غرفة نوم، غرفة نوم رئيسية، مطبخ، حمام، ممر، مدخل، مجلس نساء، غرفة طعام، مخزن، غرفة خادمة، مغسلة، شرفة
+1. DO NOT invent rooms/walls you cannot see — mark unclear items as "estimated": true
+2. WALLS ARE MANDATORY — even if you can only identify the perimeter, return those 4 walls minimum
+3. Room polygons must use the SAME coordinates as wall endpoints
+4. Return ONLY valid JSON — no markdown, no text before/after, no \`\`\` fences
+5. Every wall needs: id, start, end, height_m, thickness_m, is_external
+6. Every room needs: id, name, name_en, area_m2, polygon
 
-Return JSON matching EXACTLY this schema:
+## JSON SCHEMA:
 {
   "version": "1.0",
-  "source": { "type": "floorplan", "file_count": 1, "confidence": "high|medium|low" },
+  "source": { "type": "floorplan", "file_count": 1, "confidence": "high|medium|low", "plan_type": "villa|apartment|office|commercial|warehouse|mixed" },
   "floors": [{
     "level": 0,
     "label": "الدور الأرضي",
@@ -306,6 +321,50 @@ Return JSON matching EXACTLY this schema:
         floor.rooms = Array.isArray(floor.rooms) ? floor.rooms : [];
         floor.stairs = Array.isArray(floor.stairs) ? floor.stairs : [];
 
+        // ═══ إصلاح: إحداثيات start/end كـ object بدل array ═══
+        floor.walls = floor.walls.map(w => {
+          if (w.start && !Array.isArray(w.start) && typeof w.start === 'object') {
+            w.start = [w.start.x || 0, w.start.y || 0];
+          }
+          if (w.end && !Array.isArray(w.end) && typeof w.end === 'object') {
+            w.end = [w.end.x || 0, w.end.y || 0];
+          }
+          return w;
+        });
+
+        // ═══ CRITICAL FIX: توليد جدران من الغرف إذا لم يرسل Gemini جدران ═══
+        if (floor.walls.length === 0 && floor.rooms.length > 0) {
+          console.info('[normalizeResult] لا جدران — توليد تلقائي من', floor.rooms.length, 'غرفة');
+          const wallMap = new Map();
+          let wIdx = 1;
+          for (const room of floor.rooms) {
+            const poly = room.polygon;
+            if (!Array.isArray(poly) || poly.length < 3) continue;
+            for (let i = 0; i < poly.length; i++) {
+              const s = poly[i], e = poly[(i + 1) % poly.length];
+              if (!Array.isArray(s) || !Array.isArray(e)) continue;
+              // مفتاح فريد (مرتب)
+              const sk = s[0].toFixed(2) + ',' + s[1].toFixed(2);
+              const ek = e[0].toFixed(2) + ',' + e[1].toFixed(2);
+              const key = sk < ek ? sk + '→' + ek : ek + '→' + sk;
+              if (wallMap.has(key)) {
+                wallMap.get(key).is_external = false;
+                wallMap.get(key).thickness_m = 0.15;
+              } else {
+                const wall = {
+                  id: 'WG' + wIdx++,
+                  start: [s[0], s[1]], end: [e[0], e[1]],
+                  height_m: floor.height_m, thickness_m: 0.2,
+                  material: 'block', is_external: true,
+                };
+                wallMap.set(key, wall);
+                floor.walls.push(wall);
+              }
+            }
+          }
+          json.notes.push('تم توليد الجدران تلقائياً من حدود الغرف — قد تحتاج تعديل يدوي');
+        }
+
         // أضف IDs مفقودة
         floor.walls.forEach((w, i) => { if (!w.id) w.id = `W${i + 1}`; });
         floor.doors.forEach((d, i) => { if (!d.id) d.id = `D${i + 1}`; });
@@ -314,8 +373,8 @@ Return JSON matching EXACTLY this schema:
         floor.rooms.forEach((r, i) => { if (!r.id) r.id = `R${i + 1}`; });
         floor.stairs.forEach((s, i) => { if (!s.id) s.id = `S${i + 1}`; });
 
-        // حسابات الأبعاد الكلية من الجدران
-        if (floor.walls.length > 0 && (!json.dimensions.total_width_m || json.dimensions.total_width_m === 0)) {
+        // حسابات الأبعاد الكلية من الجدران + الغرف
+        if ((!json.dimensions.total_width_m || json.dimensions.total_width_m === 0)) {
           let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
           for (const w of floor.walls) {
             if (Array.isArray(w.start) && Array.isArray(w.end)) {
@@ -323,6 +382,15 @@ Return JSON matching EXACTLY this schema:
               maxX = Math.max(maxX, w.start[0], w.end[0]);
               minY = Math.min(minY, w.start[1], w.end[1]);
               maxY = Math.max(maxY, w.start[1], w.end[1]);
+            }
+          }
+          // أيضاً من الغرف
+          for (const r of floor.rooms) {
+            for (const p of (r.polygon || [])) {
+              if (Array.isArray(p)) {
+                minX = Math.min(minX, p[0]); maxX = Math.max(maxX, p[0]);
+                minY = Math.min(minY, p[1]); maxY = Math.max(maxY, p[1]);
+              }
             }
           }
           if (isFinite(minX)) {
@@ -338,7 +406,7 @@ Return JSON matching EXACTLY this schema:
     json.metadata = {
       generated_by: 'QatarSpec Pro',
       analyzer: 'floorplan-analyzer',
-      version: '1.0',
+      version: '1.1',
       timestamp: new Date().toISOString(),
     };
 
@@ -654,17 +722,130 @@ Return JSON matching EXACTLY this schema:
         metadata: {
           generated_by: 'QatarSpec Pro',
           analyzer: 'floorplan-analyzer',
-          version: '1.0',
+          version: '1.1',
           timestamp: new Date().toISOString(),
           sample: true,
         },
       };
+    }
+
+    /** نموذج شقة — apartment */
+    static getSampleApartment() {
+      return {
+        version: '1.0',
+        source: { type: 'floorplan', file_count: 1, confidence: 'high', plan_type: 'apartment' },
+        floors: [{
+          level: 0,
+          label: 'شقة — الدور الخامس',
+          height_m: 2.8,
+          walls: [
+            { id: 'W1', start: [0,0], end: [10,0], height_m: 2.8, thickness_m: 0.2, is_external: true },
+            { id: 'W2', start: [10,0], end: [10,8], height_m: 2.8, thickness_m: 0.2, is_external: true },
+            { id: 'W3', start: [10,8], end: [0,8], height_m: 2.8, thickness_m: 0.2, is_external: true },
+            { id: 'W4', start: [0,8], end: [0,0], height_m: 2.8, thickness_m: 0.2, is_external: true },
+            { id: 'W5', start: [0,5], end: [6,5], height_m: 2.8, thickness_m: 0.12, is_external: false },
+            { id: 'W6', start: [6,0], end: [6,5], height_m: 2.8, thickness_m: 0.12, is_external: false },
+            { id: 'W7', start: [6,5], end: [6,8], height_m: 2.8, thickness_m: 0.12, is_external: false },
+            { id: 'W8', start: [3,5], end: [3,8], height_m: 2.8, thickness_m: 0.12, is_external: false },
+          ],
+          doors: [
+            { id: 'D1', wall_id: 'W4', position_ratio: 0.35, width_m: 1.0, height_m: 2.1, type: 'single' },
+            { id: 'D2', wall_id: 'W5', position_ratio: 0.3, width_m: 0.9, height_m: 2.1, type: 'single' },
+            { id: 'D3', wall_id: 'W6', position_ratio: 0.5, width_m: 0.9, height_m: 2.1, type: 'single' },
+            { id: 'D4', wall_id: 'W7', position_ratio: 0.5, width_m: 0.8, height_m: 2.1, type: 'single' },
+            { id: 'D5', wall_id: 'W8', position_ratio: 0.5, width_m: 0.9, height_m: 2.1, type: 'single' },
+          ],
+          windows: [
+            { id: 'WN1', wall_id: 'W1', position_ratio: 0.3, width_m: 1.5, height_m: 1.4, sill_height_m: 0.9 },
+            { id: 'WN2', wall_id: 'W1', position_ratio: 0.7, width_m: 1.2, height_m: 1.4, sill_height_m: 0.9 },
+            { id: 'WN3', wall_id: 'W2', position_ratio: 0.5, width_m: 1.5, height_m: 1.4, sill_height_m: 0.9 },
+            { id: 'WN4', wall_id: 'W3', position_ratio: 0.5, width_m: 1.8, height_m: 1.4, sill_height_m: 0.9 },
+          ],
+          columns: [],
+          rooms: [
+            { id: 'R1', name: 'صالة', name_en: 'Living Room', area_m2: 30, polygon: [[0,0],[6,0],[6,5],[0,5]] },
+            { id: 'R2', name: 'غرفة نوم', name_en: 'Bedroom', area_m2: 16, polygon: [[6,0],[10,0],[10,5],[6,5]] },  // يسار فوق - تعديل
+            { id: 'R3', name: 'غرفة نوم رئيسية', name_en: 'Master Bedroom', area_m2: 18, polygon: [[0,5],[3,5],[3,8],[0,8]] },
+            { id: 'R4', name: 'مطبخ', name_en: 'Kitchen', area_m2: 9, polygon: [[3,5],[6,5],[6,8],[3,8]] },
+            { id: 'R5', name: 'حمام', name_en: 'Bathroom', area_m2: 12, polygon: [[6,5],[10,5],[10,8],[6,8]] },
+          ],
+          stairs: [],
+        }],
+        dimensions: { total_width_m: 10, total_depth_m: 8, total_area_m2: 80, unit: 'm' },
+        notes: ['شقة نموذجية في برج سكني قطري'],
+        metadata: { generated_by: 'QatarSpec Pro', analyzer: 'floorplan-analyzer', version: '1.1', timestamp: new Date().toISOString(), sample: true },
+      };
+    }
+
+    /** نموذج مكتب — office */
+    static getSampleOffice() {
+      return {
+        version: '1.0',
+        source: { type: 'floorplan', file_count: 1, confidence: 'high', plan_type: 'office' },
+        floors: [{
+          level: 0,
+          label: 'مكتب — الدور الثالث',
+          height_m: 3.0,
+          walls: [
+            { id: 'W1', start: [0,0], end: [20,0], height_m: 3.0, thickness_m: 0.2, is_external: true },
+            { id: 'W2', start: [20,0], end: [20,10], height_m: 3.0, thickness_m: 0.2, is_external: true },
+            { id: 'W3', start: [20,10], end: [0,10], height_m: 3.0, thickness_m: 0.2, is_external: true },
+            { id: 'W4', start: [0,10], end: [0,0], height_m: 3.0, thickness_m: 0.2, is_external: true },
+            { id: 'W5', start: [0,3], end: [12,3], height_m: 3.0, thickness_m: 0.12, is_external: false },
+            { id: 'W6', start: [6,0], end: [6,3], height_m: 3.0, thickness_m: 0.12, is_external: false },
+            { id: 'W7', start: [12,0], end: [12,10], height_m: 3.0, thickness_m: 0.12, is_external: false },
+            { id: 'W8', start: [12,5], end: [20,5], height_m: 3.0, thickness_m: 0.12, is_external: false },
+            { id: 'W9', start: [16,5], end: [16,10], height_m: 3.0, thickness_m: 0.12, is_external: false },
+          ],
+          doors: [
+            { id: 'D1', wall_id: 'W4', position_ratio: 0.15, width_m: 1.2, height_m: 2.1, type: 'double' },
+            { id: 'D2', wall_id: 'W6', position_ratio: 0.5, width_m: 0.9, height_m: 2.1, type: 'single' },
+            { id: 'D3', wall_id: 'W5', position_ratio: 0.7, width_m: 0.9, height_m: 2.1, type: 'single' },
+            { id: 'D4', wall_id: 'W7', position_ratio: 0.3, width_m: 0.9, height_m: 2.1, type: 'single' },
+            { id: 'D5', wall_id: 'W7', position_ratio: 0.7, width_m: 0.9, height_m: 2.1, type: 'single' },
+            { id: 'D6', wall_id: 'W8', position_ratio: 0.5, width_m: 0.9, height_m: 2.1, type: 'single' },
+          ],
+          windows: [
+            { id: 'WN1', wall_id: 'W1', position_ratio: 0.2, width_m: 2.0, height_m: 1.8, sill_height_m: 0.7 },
+            { id: 'WN2', wall_id: 'W1', position_ratio: 0.6, width_m: 2.0, height_m: 1.8, sill_height_m: 0.7 },
+            { id: 'WN3', wall_id: 'W2', position_ratio: 0.3, width_m: 2.0, height_m: 1.8, sill_height_m: 0.7 },
+            { id: 'WN4', wall_id: 'W3', position_ratio: 0.3, width_m: 2.0, height_m: 1.8, sill_height_m: 0.7 },
+            { id: 'WN5', wall_id: 'W3', position_ratio: 0.7, width_m: 2.0, height_m: 1.8, sill_height_m: 0.7 },
+          ],
+          columns: [
+            { id: 'C1', position: [6,3], width_m: 0.4, depth_m: 0.4, type: 'rectangular' },
+            { id: 'C2', position: [12,3], width_m: 0.4, depth_m: 0.4, type: 'rectangular' },
+          ],
+          rooms: [
+            { id: 'R1', name: 'استقبال', name_en: 'Reception', area_m2: 18, polygon: [[0,0],[6,0],[6,3],[0,3]] },
+            { id: 'R2', name: 'مكتب المدير', name_en: 'Manager Office', area_m2: 18, polygon: [[6,0],[12,0],[12,3],[6,3]] },
+            { id: 'R3', name: 'منطقة عمل مفتوحة', name_en: 'Open Workspace', area_m2: 84, polygon: [[0,3],[12,3],[12,10],[0,10]] },
+            { id: 'R4', name: 'قاعة اجتماعات', name_en: 'Meeting Room', area_m2: 40, polygon: [[12,0],[20,0],[20,5],[12,5]] },
+            { id: 'R5', name: 'سيرفر + حمام', name_en: 'Server + WC', area_m2: 20, polygon: [[12,5],[16,5],[16,10],[12,10]] },
+            { id: 'R6', name: 'مطبخ صغير', name_en: 'Kitchenette', area_m2: 20, polygon: [[16,5],[20,5],[20,10],[16,10]] },
+          ],
+          stairs: [],
+        }],
+        dimensions: { total_width_m: 20, total_depth_m: 10, total_area_m2: 200, unit: 'm' },
+        notes: ['مكتب إداري نموذجي — برج تجاري في قطر'],
+        metadata: { generated_by: 'QatarSpec Pro', analyzer: 'floorplan-analyzer', version: '1.1', timestamp: new Date().toISOString(), sample: true },
+      };
+    }
+
+    /** اختيار نموذج حسب النوع */
+    static getSample(type) {
+      const samples = {
+        villa: FloorplanAnalyzer.getSampleVilla,
+        apartment: FloorplanAnalyzer.getSampleApartment,
+        office: FloorplanAnalyzer.getSampleOffice,
+      };
+      return (samples[type] || samples.villa)();
     }
   }
 
   // ── تصدير ──────────────────────────────────────────────────
   window.QS.FloorplanAnalyzer = FloorplanAnalyzer;
 
-  console.info('[QS] FloorplanAnalyzer v1.0 loaded');
+  console.info('[QS] FloorplanAnalyzer v1.1 loaded — universal plan support');
 
 })();
