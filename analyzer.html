@@ -23,6 +23,7 @@
 <script src="js/analyzer/qcs-compliance.js"></script>
 <script src="js/analyzer/report-generator.js"></script>
 <script src="js/analyzer/smart-capture.js"></script>
+<script src="js/export/excel.js"></script>
 
 <style>
 /* ══════════════════════════════════════
@@ -787,7 +788,10 @@ async function analyzeFloorplan(file) {
     setProgress(60);
 
     await runCompliance();
-    setProgress(80);
+    setProgress(75);
+
+    await build3DModel(schema);
+    setProgress(90);
 
     buildRoomList();
     showResults();
@@ -803,6 +807,42 @@ async function analyzeFloorplan(file) {
     toast('❌ ' + err.message, 'error');
   } finally {
     hideLoading();
+  }
+}
+
+/* ══════════════════════════════════════
+   بناء المجسم 3D
+══════════════════════════════════════ */
+async function build3DModel(schema) {
+  try {
+    if (!window.QS?.ModelBuilder || !window.QS?.Viewer3D) {
+      console.warn('[3D] وحدات ModelBuilder/Viewer3D غير محملة');
+      return;
+    }
+
+    // إخفاء placeholder وإظهار canvas
+    document.getElementById('viewer-placeholder').style.display = 'none';
+    document.getElementById('viewer-3d-canvas').style.display = 'block';
+
+    // بناء المشهد
+    if (!APP.modelBuilder) {
+      APP.modelBuilder = new window.QS.ModelBuilder('viewer-container');
+    }
+    APP.modelBuilder.buildFromJSON(schema);
+
+    // تهيئة العارض
+    if (APP.viewer) {
+      APP.viewer.dispose();
+      APP.viewer = null;
+    }
+    APP.viewer = new window.QS.Viewer3D('viewer-container', { controls: true });
+    APP.viewer.loadScene(APP.modelBuilder.getScene());
+
+  } catch (err) {
+    console.warn('[3D] تحذير بناء المجسم:', err.message);
+    // عدم إيقاف الباقي — 3D اختياري
+    document.getElementById('viewer-placeholder').innerHTML =
+      `<span>⚠</span><p style="font-size:12px">تعذّر بناء المجسم: ${err.message}</p>`;
   }
 }
 
@@ -843,7 +883,16 @@ function showPhotosPreview(files) {
 async function runCompliance() {
   if (!APP.schema || !window.QS?.QCSCompliance) return;
 
-  const checker = new window.QS.QCSCompliance();
+  // حماية: إذا لم يكن هناك floors في الـ schema
+  if (!APP.schema.floors || !APP.schema.floors[0]) {
+    APP.schema.floors = [{
+      level: 0, label: 'الدور الأرضي', height_m: 3.0,
+      walls: [], doors: [], windows: [], columns: [], rooms: [], stairs: []
+    }];
+  }
+
+  try {
+    const checker = new window.QS.QCSCompliance();
   APP.compliance = checker.checkAll(APP.schema);
 
   const summary = {
@@ -872,6 +921,10 @@ async function runCompliance() {
   }
 
   renderResultsTable(APP.compliance);
+  } catch(err) {
+    console.error('[QCS Compliance]', err);
+    toast('⚠ تعذّر تشغيل فحص QCS: ' + err.message);
+  }
 }
 
 function renderResultsTable(items) {
@@ -1067,8 +1120,8 @@ function exportExcel() {
   // استخدام دالة excel.js المحسّنة إن كانت متاحة
   if (window.QS && window.QS.exportQCSCompliance) {
     const projInfo = {
-      name:     document.getElementById('proj-name')?.value || 'مشروع QatarSpec',
-      engineer: document.getElementById('eng-name')?.value  || ''
+      name:     document.getElementById('project-name')?.value || 'مشروع QatarSpec',
+      engineer: document.getElementById('engineer-name')?.value || ''
     };
     window.QS.exportQCSCompliance(APP.compliance, projInfo);
     return;
@@ -1105,7 +1158,7 @@ function openNCRFromFails() {
 
   // نفتح ncr-generator مع أول بند فاشل عبر URL params
   const f = fails[0];
-  const proj    = encodeURIComponent(document.getElementById('proj-name')?.value || '');
+  const proj    = encodeURIComponent(document.getElementById('project-name')?.value || '');
   const clause  = encodeURIComponent(f.clause || '');
   const item    = encodeURIComponent(f.name_ar || f.name || '');
   const measured = encodeURIComponent(f.measured !== undefined ? f.measured : '');
@@ -1130,13 +1183,20 @@ function resetAll() {
   APP.schema = null;
   APP.compliance = [];
   APP.screenshots = [];
+  if (APP.viewer) { APP.viewer.dispose?.(); APP.viewer = null; }
+  if (APP.modelBuilder) { APP.modelBuilder = null; }
   document.getElementById('results-tbody').innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:30px;">قم برفع مخطط لعرض نتائج الفحص</td></tr>';
   document.getElementById('stat-score').textContent = '—';
   ['stat-pass','stat-fail','stat-warn'].forEach(id => document.getElementById(id).textContent = '0');
+  document.getElementById('viewer-placeholder').style.display = 'flex';
+  document.getElementById('viewer-placeholder').innerHTML = '<span>🏗</span><p>سيظهر المجسم هنا بعد التحليل</p>';
+  document.getElementById('viewer-3d-canvas').style.display = 'none';
   hideSection('viewer-section');
   hideSection('results-section');
-  hideSection('export-section');
+  showSection('export-section');
   document.getElementById('room-list').innerHTML = '<div style="color:var(--muted);font-size:12px;padding:8px;">ستظهر الغرف بعد التحليل</div>';
+  const ncrBtn = document.getElementById('btn-ncr');
+  if (ncrBtn) ncrBtn.style.display = 'none';
   toast('🔄 تم إعادة التعيين');
 }
 
@@ -1180,9 +1240,11 @@ function toast(msg, type = 'info') {
 }
 
 function formatLimit(item) {
-  if (item.min !== undefined && item.max !== undefined) return `${item.min}–${item.max} ${item.unit||''}`;
-  if (item.min !== undefined) return `≥${item.min} ${item.unit||''}`;
-  if (item.max !== undefined) return `≤${item.max} ${item.unit||''}`;
+  const mn = item.required_min !== undefined ? item.required_min : item.min;
+  const mx = item.required_max !== undefined ? item.required_max : item.max;
+  if (mn !== undefined && mx !== undefined) return `${mn}–${mx} ${item.unit||''}`;
+  if (mn !== undefined) return `≥${mn} ${item.unit||''}`;
+  if (mx !== undefined) return `≤${mx} ${item.unit||''}`;
   return '—';
 }
 
@@ -1194,14 +1256,10 @@ function statusLabel(s) {
    تهيئة
 ══════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
-  // إخفاء الأقسام في البداية
   hideSection('viewer-section');
   hideSection('results-section');
-  // عرض قسم التصدير دائماً (بدون بيانات يعطي رسالة)
   showSection('export-section');
-
-  // منع النقر على export إذا لم يكن هناك بيانات
-  console.log('[QatarSpec] محلل المخططات — v3.0 جاهز');
+  console.log('[QatarSpec] محلل المخططات — v3.1 جاهز');
 });
 </script>
 </body>
