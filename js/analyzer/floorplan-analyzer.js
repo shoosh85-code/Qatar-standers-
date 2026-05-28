@@ -193,33 +193,94 @@ Return JSON matching EXACTLY this schema:
       throw new Error('Gemini لم يُرجع نصاً');
     }
 
-    // إزالة markdown fences
+    // ── الخطوة 1: تنظيف markdown fences ──────────────────────
     let cleaned = rawText
-      .replace(/^```json\s*/i, '')
-      .replace(/^```\s*/i, '')
-      .replace(/\s*```$/i, '')
+      .replace(/^```json\s*/im, '')
+      .replace(/^```\s*/im, '')
+      .replace(/\s*```\s*$/im, '')
       .trim();
 
-    // محاولة إيجاد أول { وآخر }
+    // ── الخطوة 2: استخراج JSON block (أول { ... آخر }) ───────
     const firstBrace = cleaned.indexOf('{');
-    const lastBrace = cleaned.lastIndexOf('}');
+    const lastBrace  = cleaned.lastIndexOf('}');
     if (firstBrace === -1 || lastBrace === -1 || lastBrace <= firstBrace) {
-      throw new Error('لا يوجد JSON صالح في الرد: ' + rawText.slice(0, 200));
+      throw new Error('لا يوجد JSON في الرد: ' + rawText.slice(0, 300));
     }
     cleaned = cleaned.slice(firstBrace, lastBrace + 1);
 
-    try {
-      return JSON.parse(cleaned);
-    } catch (e) {
-      // محاولة إصلاح JSON شائع: trailing commas
-      const fixed = cleaned
+    // ── الخطوة 3: محاولة مباشرة ───────────────────────────────
+    try { return JSON.parse(cleaned); } catch (_) {}
+
+    // ── الخطوة 4: إصلاحات متتالية ────────────────────────────
+    function repair(s) {
+      return s
+        // حذف تعليقات JS (// و /* */)
+        .replace(/\/\/[^\n\r"]*/g, '')
+        .replace(/\/\*[\s\S]*?\*\//g, '')
+        // trailing commas قبل ] أو }
         .replace(/,\s*([\]}])/g, '$1')
-        .replace(/([{,]\s*)(\w+)\s*:/g, '$1"$2":'); // مفاتيح بدون quotes
-      try {
-        return JSON.parse(fixed);
-      } catch {
-        throw new Error('فشل تحليل JSON: ' + e.message);
-      }
+        // مفاتيح بدون quotes: { key: → { "key":
+        .replace(/([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*:/g, '$1"$2":')
+        // single quotes → double quotes (مع تجنب apostrophes)
+        .replace(/'([^'\\]*(\\.[^'\\]*)*)'/g, '"$1"')
+        // newlines داخل strings → \n
+        .replace(/"([^"\\]*)(\n)([^"\\]*)"/g, '"$1\\n$3"')
+        // أرقام مع وحدات: 5000mm → 5000
+        .replace(/:\s*(\d+(?:\.\d+)?)\s*(?:mm|cm|m|ft|in|px)\b/g, ': $1')
+        // undefined/NaN → null
+        .replace(/:\s*undefined\b/g, ': null')
+        .replace(/:\s*NaN\b/g, ': null')
+        // trailing comma في آخر array/object
+        .replace(/,(\s*[\]}])/g, '$1');
+    }
+
+    const fixed = repair(cleaned);
+    try { return JSON.parse(fixed); } catch (_) {}
+
+    // ── الخطوة 5: إصلاح الـ arrays المكسورة ──────────────────
+    // المشكلة: "Expected ',' or ']' after array element"
+    // السبب: إحداثيات مثل [0, 0\n3] أو قيم نصية غير منتهية
+    function repairArrays(s) {
+      // إصلاح arrays كمختصر: ابحث عن ] أو [ مع فواصل مكسورة
+      return s
+        // newline بين أرقام داخل array → فاصلة
+        .replace(/(\d)\s*\n\s*(\d)/g, '$1, $2')
+        // مسافات زائدة قبل closing bracket
+        .replace(/\[\s+\]/g, '[]')
+        // فاصلة مضاعفة
+        .replace(/,\s*,/g, ',')
+        // array element بدون فاصلة: ] [
+        .replace(/\]\s*\[/g, '], [');
+    }
+
+    const fixed2 = repairArrays(repair(cleaned));
+    try { return JSON.parse(fixed2); } catch (_) {}
+
+    // ── الخطوة 6: استخراج partial JSON بدون strict parsing ───
+    // بناء JSON آمن بمسح الـ values المشكوك فيها
+    function aggressiveRepair(s) {
+      // استبدال أي قيمة غير صالحة بـ null أو string آمن
+      return s
+        // أي شيء بعد : وقبل , أو } أو ] وليس number/string/bool/null/array/object
+        .replace(/:\s*([^,}\]\n"{\[0-9tfn\-][^,}\]\n]*)/g, ': null')
+        // مفاتيح مكررة — أبق الأول فقط (لا يمكن إصلاحها هنا)
+        .replace(/,\s*([\]}])/g, '$1')
+        .replace(/([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*:/g, '$1"$2":');
+    }
+
+    const fixed3 = aggressiveRepair(repair(cleaned));
+    try { return JSON.parse(fixed3); } catch (finalErr) {
+      // آخر محاولة: إعادة البناء من الأجزاء الصالحة
+      // نُرجع schema فارغ بدلاً من الفشل الكامل
+      console.warn('[parseGeminiJSON] كل محاولات الإصلاح فشلت — إرجاع schema أساسي. الخطأ:', finalErr.message);
+      return {
+        version: '1.0',
+        source: { type: 'floorplan', file_count: 1, confidence: 'low', parse_failed: true },
+        floors: [{ level: 0, label: 'الدور الأرضي', height_m: 3.0,
+          walls: [], doors: [], windows: [], columns: [], rooms: [], stairs: [] }],
+        dimensions: { total_width_m: 10, total_depth_m: 10, total_area_m2: 100, unit: 'm' },
+        notes: ['تعذّر تحليل رد الذكاء الاصطناعي بدقة — يرجى إعادة المحاولة أو استخدام صورة بدقة أعلى']
+      };
     }
   }
 

@@ -844,13 +844,12 @@ async function analyzeFloorplan(file) {
     const debugEl = document.getElementById('schema-debug-content');
     if (debugEl) {
       const f = schema.floors?.[0] || {};
-      const summary = `📐 الأبعاد: ${schema.dimensions?.total_width_m || '?'}m × ${schema.dimensions?.total_depth_m || '?'}m
-🧱 جدران: ${f.walls?.length || 0} | 🚪 أبواب: ${f.doors?.length || 0} | 🪟 شبابيك: ${f.windows?.length || 0}
-🏠 غرف: ${(f.rooms || []).map(r => r.name).join('، ') || 'لا يوجد'}
-📊 ثقة التحليل: ${schema.source?.confidence || '?'}`;
+      const parseFailed = schema.source?.parse_failed ? '\n⚠️ تعذّر تحليل رد AI — النتائج تقريبية' : '';
+      const summary = `📐 الأبعاد: ${schema.dimensions?.total_width_m || '?'}m × ${schema.dimensions?.total_depth_m || '?'}m\n🧱 جدران: ${f.walls?.length || 0} | 🚪 أبواب: ${f.doors?.length || 0} | 🪟 شبابيك: ${f.windows?.length || 0}\n🏠 غرف: ${(f.rooms || []).map(r => r.name).join('، ') || 'لا يوجد'}\n📊 ثقة التحليل: ${schema.source?.confidence || '?'}${parseFailed}`;
       debugEl.querySelector('.schema-summary').textContent = summary;
-      debugEl.querySelector('.schema-json').textContent = JSON.stringify(schema.floors?.[0]?.walls?.slice(0,5), null, 2) + '\n... و ' + ((f.walls?.length||0)-5) + ' جدار إضافي';
+      debugEl.querySelector('.schema-json').textContent = JSON.stringify(schema.floors?.[0]?.walls?.slice(0,5), null, 2) + '\\n... و ' + ((f.walls?.length||0)-5) + ' جدار إضافي';
       document.getElementById('schema-debug').style.display = 'block';
+      if (schema.source?.parse_failed) toast('⚠️ تم التحليل جزئياً — جرب صورة بدقة أعلى', 'error');
     }
 
     await runCompliance();
