@@ -15,52 +15,66 @@
   const MAX_FILE_SIZE_MB = 10;
   const MAX_RETRIES = 3;
   const RETRY_DELAY_MS = 2000;
-  const MAX_TOKENS = 8192;
+  const MAX_TOKENS = 16000; // زيادة لاستيعاب مخططات كبيرة ومعقدة
 
   // ── Gemini Prompt الهندسي ──────────────────────────────────
-  const ANALYSIS_PROMPT = `أنت مهندس معماري خبير متخصص في المخططات القطرية. حلل هذا المخطط المعماري واستخرج كل العناصر بدقة.
+  const ANALYSIS_PROMPT = `You are a professional architectural engineer specializing in Qatari floor plans and engineering drawings.
 
-## القواعد الصارمة:
-- كل الأبعاد بالمتر (m)
-- نظام الإحداثيات: X موجب لليمين، Y موجب للأسفل
-- نقطة الأصل (0,0) = أعلى يسار المخطط
-- إذا لم يظهر بُعد بوضوح، قدّره واكتب "estimated": true
-- الجدران: استخرج نقاط البداية والنهاية + السماكة
-- الأبواب: حدد الجدار + الموقع النسبي (0-1) + العرض
-- الشبابيك: حدد الجدار + الموقع + الأبعاد + ارتفاع sill
-- الغرف: اسم عربي + إنجليزي + مساحة + polygon
+## STEP 1 — UNDERSTAND SCALE:
+Look carefully at dimension annotations in the drawing (numbers like "5000", "3.5m", "15'", etc.).
+- If you see dimension lines, use them to calculate the real scale
+- If no dimensions are visible, estimate based on standard room sizes (bedroom ~12-16m², living room ~20-30m²)
+- Convert ALL measurements to METERS
 
-## أنواع الغرف القياسية:
-مجلس=Majlis | صالة=Living | مطبخ=Kitchen | غرفة نوم=Bedroom | غرفة نوم رئيسية=Master Bedroom | حمام=Bathroom | مخزن=Storage | ممر=Corridor | درج=Staircase | مدخل=Entrance | غرفة خادمة=Maid Room | مغسلة=Laundry | شرفة=Balcony | مجلس نساء=Ladies Majlis | غرفة طعام=Dining
+## STEP 2 — IDENTIFY ALL WALLS:
+Trace EVERY wall line you see — both external (perimeter) and internal (partitions).
+For each wall give: start coordinate [x,y] and end coordinate [x,y] in meters from top-left origin (0,0).
+Be very precise — walls that share corners must have EXACTLY matching coordinates.
 
-## أبعاد قياسية (إذا لم تظهر بوضوح):
-- باب عادي: 0.9m عرض × 2.1m ارتفاع
-- باب مزدوج: 1.8m عرض
-- باب منزلق: 1.2-2.4m
-- شباك قياسي: 1.2m عرض × 1.5m ارتفاع
-- sill height: 0.9m
-- ارتفاع الدور: 3.0m
-- سماكة جدار خارجي: 0.2m
-- سماكة جدار داخلي: 0.15m
-- عمود قياسي: 0.4m × 0.4m
+## STEP 3 — IDENTIFY ALL ROOMS:
+For each enclosed space, identify: Arabic name, English name, approximate area, and polygon corners.
 
-أجب بـ JSON فقط (بدون أي نص قبله أو بعده) يطابق هذا الـ Schema:
+## STEP 4 — IDENTIFY OPENINGS:
+Every door opening and window you can see — note which wall it is on and where along that wall.
+
+## COORDINATE SYSTEM:
+- Origin (0,0) = top-left of the building footprint
+- X positive = right
+- Y positive = downward
+- All units: METERS
+
+## CRITICAL RULES:
+- DO NOT invent elements you cannot see
+- If a dimension is unclear, estimate conservatively and mark "estimated": true
+- Walls that meet at corners must have MATCHING endpoints
+- Return ONLY valid JSON — no text before or after
+- Use standard Qatari room names: مجلس، صالة، غرفة نوم، غرفة نوم رئيسية، مطبخ، حمام، ممر، مدخل، مجلس نساء، غرفة طعام، مخزن، غرفة خادمة، مغسلة، شرفة
+
+Return JSON matching EXACTLY this schema:
 {
   "version": "1.0",
   "source": { "type": "floorplan", "file_count": 1, "confidence": "high|medium|low" },
   "floors": [{
     "level": 0,
     "label": "الدور الأرضي",
-    "height_m": 3.0,
-    "walls": [{ "id": "W1", "start": [x,y], "end": [x2,y2], "height_m": 3.0, "thickness_m": 0.2, "material": "block", "is_external": true, "estimated": false }],
-    "doors": [{ "id": "D1", "wall_id": "W1", "position_ratio": 0.5, "width_m": 0.9, "height_m": 2.1, "type": "single|double|sliding", "estimated": false }],
-    "windows": [{ "id": "WN1", "wall_id": "W2", "position_ratio": 0.5, "width_m": 1.2, "height_m": 1.5, "sill_height_m": 0.9, "estimated": false }],
-    "columns": [{ "id": "C1", "position": [x,y], "width_m": 0.4, "depth_m": 0.4, "type": "rectangular|circular" }],
-    "rooms": [{ "id": "R1", "name": "مجلس", "name_en": "Majlis", "area_m2": 25, "polygon": [[x1,y1],[x2,y2],[x3,y3],[x4,y4]], "wall_ids": ["W1","W2","W3","W4"] }],
-    "stairs": [{ "id": "S1", "position": [x,y], "width_m": 1.2, "direction": "up|down" }]
+    "height_m": 3.2,
+    "walls": [
+      { "id": "W1", "start": [0,0], "end": [12,0], "height_m": 3.2, "thickness_m": 0.25, "material": "block", "is_external": true, "estimated": false }
+    ],
+    "doors": [
+      { "id": "D1", "wall_id": "W1", "position_ratio": 0.5, "width_m": 0.9, "height_m": 2.1, "type": "single", "swing": "inward", "estimated": false }
+    ],
+    "windows": [
+      { "id": "WN1", "wall_id": "W2", "position_ratio": 0.3, "width_m": 1.5, "height_m": 1.4, "sill_height_m": 0.9, "estimated": false }
+    ],
+    "columns": [],
+    "rooms": [
+      { "id": "R1", "name": "مجلس", "name_en": "Majlis", "area_m2": 28, "polygon": [[0,0],[6,0],[6,5],[0,5]], "wall_ids": ["W1","W5","W3","W4"] }
+    ],
+    "stairs": []
   }],
-  "dimensions": { "total_width_m": 15, "total_depth_m": 12, "total_area_m2": 180, "unit": "m" },
-  "notes": ["ملاحظة 1", "ملاحظة 2"]
+  "dimensions": { "total_width_m": 12, "total_depth_m": 10, "total_area_m2": 120, "unit": "m" },
+  "notes": []
 }`;
 
   // ── مساعدات ────────────────────────────────────────────────

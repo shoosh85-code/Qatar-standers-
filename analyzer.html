@@ -542,6 +542,23 @@ main { padding: 20px; max-width: 1400px; margin: 0 auto; }
     </div>
   </div>
 
+  <!-- Debug Panel: JSON المُستخرج -->
+  <div id="schema-debug" class="section-card" style="display:none;margin-bottom:16px;">
+    <div class="section-hdr" style="cursor:pointer;user-select:none;" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+      🔍 نتيجة التحليل (للمراجعة) <span style="font-size:12px;opacity:.6">▼ اضغط للتوسيع</span>
+    </div>
+    <div id="schema-debug-content" style="padding:12px;display:block;">
+      <pre class="schema-summary" style="background:var(--bg);padding:12px;border-radius:8px;font-family:monospace;font-size:13px;white-space:pre-wrap;margin:0 0 8px;color:var(--text)"></pre>
+      <details>
+        <summary style="cursor:pointer;color:var(--accent);font-size:12px;">عرض أول 5 جدران (JSON)</summary>
+        <pre class="schema-json" style="background:var(--bg);padding:12px;border-radius:8px;font-size:11px;overflow:auto;max-height:200px;color:#a8e6cf;margin:8px 0 0"></pre>
+      </details>
+      <button onclick="if(APP.schema){build3DModel(APP.schema)}" style="margin-top:10px;padding:6px 14px;background:#7c3aed;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px;">
+        🔄 إعادة بناء المجسم
+      </button>
+    </div>
+  </div>
+
   <!-- ══════════════════════════════════════
        قسم 2: العارض 3D
   ══════════════════════════════════════ -->
@@ -794,6 +811,20 @@ async function analyzeFloorplan(file) {
 
     APP.schema = schema;
     setProgress(60);
+
+    // عرض JSON المُستخرج لمراجعة الدقة
+    const debugEl = document.getElementById('schema-debug-content');
+    if (debugEl) {
+      const f = schema.floors?.[0] || {};
+      const summary = `📐 الأبعاد: ${schema.dimensions?.total_width_m || '?'}m × ${schema.dimensions?.total_depth_m || '?'}m
+🧱 جدران: ${f.walls?.length || 0} | 🚪 أبواب: ${f.doors?.length || 0} | 🪟 شبابيك: ${f.windows?.length || 0}
+🏠 غرف: ${(f.rooms || []).map(r => r.name).join('، ') || 'لا يوجد'}
+📊 ثقة التحليل: ${schema.source?.confidence || '?'}`;
+      debugEl.querySelector('.schema-summary').textContent = summary;
+      debugEl.querySelector('.schema-json').textContent = JSON.stringify(schema.floors?.[0]?.walls?.slice(0,5), null, 2) + '
+... و ' + ((f.walls?.length||0)-5) + ' جدار إضافي';
+      document.getElementById('schema-debug').style.display = 'block';
+    }
 
     await runCompliance();
     setProgress(75);
