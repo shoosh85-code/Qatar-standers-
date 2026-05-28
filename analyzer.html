@@ -506,9 +506,14 @@ main { padding: 20px; max-width: 1400px; margin: 0 auto; }
         <div class="icon">📐</div>
         <h3>اسحب المخطط هنا</h3>
         <p>PNG · JPG · PDF</p>
-        <label class="upload-btn">اختر ملفاً</label>
+        <label class="upload-btn" for="file-fp" onclick="event.stopPropagation()">اختر ملفاً</label>
         <input id="file-fp" type="file" accept=".png,.jpg,.jpeg,.pdf" style="display:none"
           onchange="handleFileInput(this,'floorplan')">
+      </div>
+      <!-- preview المخطط المرفوع -->
+      <div id="fp-preview-wrap" style="display:none;padding:10px 0;text-align:center;">
+        <img id="fp-preview-img" style="max-height:160px;max-width:100%;border-radius:8px;border:2px solid var(--accent);object-fit:contain;" />
+        <div id="fp-preview-name" style="font-size:12px;color:var(--muted);margin-top:4px;"></div>
       </div>
     </div>
 
@@ -522,7 +527,7 @@ main { padding: 20px; max-width: 1400px; margin: 0 auto; }
         <div class="icon">📷</div>
         <h3>اسحب صور المبنى هنا</h3>
         <p>4 – 50 صورة · PNG · JPG</p>
-        <label class="upload-btn">اختر صوراً</label>
+        <label class="upload-btn" for="file-ph" onclick="event.stopPropagation()">اختر صوراً</label>
         <input id="file-ph" type="file" accept=".png,.jpg,.jpeg" multiple style="display:none"
           onchange="handleFileInput(this,'photos')">
       </div>
@@ -784,6 +789,26 @@ async function processFiles(files, type) {
   if (!files.length) return;
 
   if (type === 'floorplan') {
+    // إخفاء خطأ سابق
+    const errDiv = document.getElementById('upload-error');
+    if (errDiv) errDiv.style.display = 'none';
+
+    // preview فوري قبل التحليل
+    const file = files[0];
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const wrap = document.getElementById('fp-preview-wrap');
+        const img  = document.getElementById('fp-preview-img');
+        const name = document.getElementById('fp-preview-name');
+        if (wrap && img) {
+          img.src = e.target.result;
+          if (name) name.textContent = `${file.name} (${(file.size/1024).toFixed(0)} KB)`;
+          wrap.style.display = 'block';
+        }
+      };
+      reader.readAsDataURL(file);
+    }
     await analyzeFloorplan(files[0]);
   } else if (type === 'photos') {
     showPhotosPreview(files);
@@ -799,9 +824,10 @@ async function analyzeFloorplan(file) {
 
   try {
     APP.analyzer = APP.analyzer || new window.QS.FloorplanAnalyzer();
-    APP.analyzer.onProgress = (msg) => {
-      document.getElementById('loading-msg').textContent = msg;
-      setProgress(33);
+    // الطريقة الصحيحة لتحديث _onProgress (constructor option بدل property مباشر)
+    APP.analyzer._onProgress = ({ message, percent }) => {
+      document.getElementById('loading-msg').textContent = message || '';
+      if (percent) setProgress(Math.min(percent, 90));
     };
 
     const schema = await APP.analyzer.analyze(file);
@@ -843,8 +869,19 @@ async function analyzeFloorplan(file) {
 
     toast('✅ تم تحليل المخطط بنجاح');
   } catch (err) {
-    console.error(err);
-    toast('❌ ' + err.message, 'error');
+    console.error('[analyzeFloorplan]', err);
+    const msg = err.message || String(err);
+    // إظهار الخطأ بشكل واضح لا يختفي
+    const errDiv = document.getElementById('upload-error') || (() => {
+      const d = document.createElement('div');
+      d.id = 'upload-error';
+      d.style.cssText = 'background:#f87171;color:#fff;padding:14px 18px;border-radius:10px;margin:12px 0;font-size:14px;';
+      document.getElementById('upload-section').appendChild(d);
+      return d;
+    })();
+    errDiv.textContent = '❌ ' + msg;
+    errDiv.style.display = 'block';
+    toast('❌ ' + msg, 'error');
   } finally {
     hideLoading();
   }
