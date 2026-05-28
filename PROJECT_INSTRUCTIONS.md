@@ -163,9 +163,9 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 - Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
 - Pro features: gentle prompt for free users
 - Never invent numbers — say "غير موجود في المستند"
-- `window.QS` namespace for all public functions
+- window.QS namespace for all public functions
 - Sanitize ALL user input before innerHTML
-- `const`/`let` only (no `var`)
+- const/let only (no var)
 - Arabic comments for complex logic
 
 ---
@@ -175,7 +175,7 @@ git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
 - **PDF:** QatarSpec Pro header + QCS 2024 reference + page numbers + watermark
 - **Excel:** Ashghal official format + multiple sheets + summary stats
 - **Word:** Professional header + editable fields + QCS clause references
-- All exports: Project name + Engineer name + Date + QatarSpec branding
+- **All exports:** Project name + Engineer name + Date + QatarSpec branding
 
 ---
 
