@@ -501,11 +501,13 @@ main { padding: 20px; max-width: 1400px; margin: 0 auto; }
       <div class="drop-zone" id="drop-zone-fp"
         ondragover="event.preventDefault();this.classList.add('dragover')"
         ondragleave="this.classList.remove('dragover')"
-        ondrop="handleDrop(event,'floorplan')">
+        ondrop="handleDrop(event,'floorplan')"
+        onclick="if(!event.target.closest('.upload-btn'))document.getElementById('file-fp').click()"
+        style="cursor:pointer">
         <div class="icon">📐</div>
-        <h3>اسحب المخطط هنا</h3>
+        <h3>اسحب المخطط هنا أو انقر للاختيار</h3>
         <p>PNG · JPG · PDF</p>
-        <label class="upload-btn" for="file-fp" style="cursor:pointer">اختر ملفاً</label>
+        <span class="upload-btn" onclick="event.stopPropagation();document.getElementById('file-fp').click()">اختر ملفاً</span>
         <input id="file-fp" type="file" accept=".png,.jpg,.jpeg,.pdf" style="display:none"
           onchange="handleFileInput(this,'floorplan')">
       </div>
@@ -521,11 +523,13 @@ main { padding: 20px; max-width: 1400px; margin: 0 auto; }
       <div class="drop-zone" id="drop-zone-ph"
         ondragover="event.preventDefault();this.classList.add('dragover')"
         ondragleave="this.classList.remove('dragover')"
-        ondrop="handleDrop(event,'photos')">
+        ondrop="handleDrop(event,'photos')"
+        onclick="if(!event.target.closest('.upload-btn'))document.getElementById('file-ph').click()"
+        style="cursor:pointer">
         <div class="icon">📷</div>
-        <h3>اسحب صور المبنى هنا</h3>
+        <h3>اسحب صور المبنى هنا أو انقر للاختيار</h3>
         <p>4 – 50 صورة · PNG · JPG</p>
-        <label class="upload-btn" for="file-ph" style="cursor:pointer">اختر صوراً</label>
+        <span class="upload-btn" onclick="event.stopPropagation();document.getElementById('file-ph').click()">اختر صوراً</span>
         <input id="file-ph" type="file" accept=".png,.jpg,.jpeg" multiple style="display:none"
           onchange="handleFileInput(this,'photos')">
       </div>
