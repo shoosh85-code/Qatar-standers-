@@ -354,7 +354,7 @@ Return JSON matching EXACTLY this schema:
             }
 
             const data = await response.json();
-            rawResult = data.text || JSON.stringify(data);
+            rawResult = data.result || data.text || JSON.stringify(data);
             break;
 
           } catch (err) {
@@ -445,7 +445,7 @@ Return JSON matching EXACTLY this schema:
             }
 
             const data = await response.json();
-            rawResult = data.text || JSON.stringify(data);
+            rawResult = data.result || data.text || JSON.stringify(data);
             break;
           } catch (err) {
             lastError = err;
