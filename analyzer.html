@@ -20,6 +20,7 @@
 <script src="js/export/dxf-exporter.js"></script>
 <script src="js/export/ifc-exporter.js"></script>
 <script src="js/analyzer/viewer-3d.js"></script>
+<script src="js/analyzer/viewer-pro.js"></script>
 <script src="js/analyzer/facade-analyzer.js"></script>
 <script src="js/analyzer/qcs-compliance.js"></script>
 <script src="js/analyzer/report-generator.js"></script>
@@ -912,35 +913,41 @@ function testLoad3D(type) {
 
 async function build3DModel(schema) {
   try {
-    if (!window.QS?.ModelBuilder || !window.QS?.Viewer3D) {
-      console.warn('[3D] وحدات ModelBuilder/Viewer3D غير محملة');
+    // ═══ ViewerPro — المحرك البصري الجديد ═══
+    if (window.QS?.ViewerPro) {
+      document.getElementById('viewer-placeholder').style.display = 'none';
+
+      if (APP.viewerPro) {
+        APP.viewerPro.dispose();
+        APP.viewerPro = null;
+      }
+      APP.viewerPro = new window.QS.ViewerPro('viewer-container');
+      APP.viewerPro.buildAndRender(schema);
       return;
     }
 
-    // إخفاء placeholder فقط — Viewer3D يُنشئ canvas خاصه
+    // ═══ Fallback: المحرك القديم ═══
+    if (!window.QS?.ModelBuilder || !window.QS?.Viewer3D) {
+      console.warn('[3D] لا يوجد محرك 3D محمّل');
+      return;
+    }
+
     document.getElementById('viewer-placeholder').style.display = 'none';
 
-    // بناء المشهد
     if (!APP.modelBuilder) {
       APP.modelBuilder = new window.QS.ModelBuilder('viewer-container');
     }
     APP.modelBuilder.buildFromJSON(schema);
 
-    // تهيئة العارض
-    if (APP.viewer) {
-      APP.viewer.dispose();
-      APP.viewer = null;
-    }
+    if (APP.viewer) { APP.viewer.dispose(); APP.viewer = null; }
     APP.viewer = new window.QS.Viewer3D('viewer-container', { controls: true });
     APP.viewer.loadScene(APP.modelBuilder.getScene());
 
-    // force resize مرتين — مرة بعد 100ms ومرة بعد 500ms (ضمان اكتمال العرض)
     setTimeout(() => { if (APP.viewer?._onResize) APP.viewer._onResize(); }, 100);
     setTimeout(() => { if (APP.viewer?._onResize) APP.viewer._onResize(); }, 500);
 
   } catch (err) {
     console.warn('[3D] تحذير بناء المجسم:', err.message);
-    // عدم إيقاف الباقي — 3D اختياري
     document.getElementById('viewer-placeholder').innerHTML =
       `<span>⚠</span><p style="font-size:12px">تعذّر بناء المجسم: ${err.message}</p>`;
   }
