@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="تحليل المخططات المعمارية وفق QCS 2024 — QatarSpec Pro">
+<title>محلل المخططات | QatarSpec Pro</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<!-- Three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<!-- QatarSpec Analyzer Modules -->
+<script src="js/analyzer/floorplan-analyzer.js"></script>
+<script src="js/analyzer/model-builder.js"></script>
+<script src="js/export/dxf-exporter.js"></script>
+<script src="js/export/ifc-exporter.js"></script>
+<script src="js/analyzer/viewer-3d.js"></script>
+<script src="js/analyzer/facade-analyzer.js"></script>
+<script src="js/analyzer/qcs-compliance.js"></script>
+<script src="js/analyzer/report-generator.js"></script>
+<script src="js/analyzer/smart-capture.js"></script>
+
+<style>
+/* ══════════════════════════════════════
+   متغيرات اللون — QatarSpec Pro
+══════════════════════════════════════ */
+:root {
+  --bg-deep:   #0d0d1a;
+  --bg-card:   #1a1a2e;
+  --bg-hover:  #242440;
+  --border:    #2a2a4e;
+  --gold:      #c8961a;
+  --gold-dim:  #8a6010;
+  --pass:      #22c55e;
+  --fail:      #ef4444;
+  --warn:      #f59e0b;
+  --text:      #e0e0f0;
+  --muted:     #7878a0;
+  --radius:    10px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Tajawal', Arial, sans-serif;
+  background: var(--bg-deep);
+  color: var(--text);
+  direction: rtl;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ══════════════════════════════════════
+   شريط علوي
+══════════════════════════════════════ */
+#topbar {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+#topbar .logo {
+  color: var(--gold);
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+#topbar .logo span { color: var(--text); font-weight: 300; }
+.project-inputs {
+  display: flex;
+  gap: 10px;
+  flex: 1;
+}
+.project-inputs input {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 14px;
+  min-width: 0;
+  flex: 1;
+}
+.project-inputs input:focus { outline: none; border-color: var(--gold); }
+#new-project-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 6px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  white-space: nowrap;
+}
+#new-project-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ══════════════════════════════════════
+   المحتوى الرئيسي
+══════════════════════════════════════ */
+main { padding: 20px; max-width: 1400px; margin: 0 auto; }
+
+/* ══════════════════════════════════════
+   قسم الرفع
+══════════════════════════════════════ */
+.section-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.section-card .section-hdr {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* تبويبات الرفع */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+.tab {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+.tab.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+  background: rgba(200,150,26,0.05);
+}
+.tab-panel { display: none; padding: 20px; }
+.tab-panel.active { display: block; }
+
+/* منطقة Drop */
+.drop-zone {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 40px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.drop-zone:hover, .drop-zone.dragover {
+  border-color: var(--gold);
+  background: rgba(200,150,26,0.05);
+}
+.drop-zone .icon { font-size: 48px; margin-bottom: 12px; }
+.drop-zone h3 { font-size: 18px; margin-bottom: 6px; }
+.drop-zone p { color: var(--muted); font-size: 14px; }
+.upload-btn {
+  display: inline-block;
+  margin-top: 14px;
+  background: var(--gold);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+}
+.upload-btn:hover { background: var(--gold-dim); }
+
+/* شريط التقدم */
+#progress-bar-wrap {
+  display: none;
+  padding: 0 20px 16px;
+}
+#progress-bar-track {
+  background: var(--bg-deep);
+  border-radius: 6px;
+  height: 8px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+#progress-bar-fill {
+  height: 100%;
+  background: var(--gold);
+  width: 0%;
+  transition: width 0.4s;
+  border-radius: 6px;
+}
+#progress-msg { color: var(--muted); font-size: 13px; text-align: center; }
+
+/* ══════════════════════════════════════
+   قسم العارض 3D
+══════════════════════════════════════ */
+#viewer-section { display: none; }
+
+.viewer-layout {
+  display: flex;
+  gap: 0;
+  height: 500px;
+}
+#viewer-container {
+  flex: 6;
+  background: #080814;
+  position: relative;
+}
+#viewer-3d-canvas {
+  width: 100%;
+  height: 100%;
+}
+.viewer-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--muted);
+  font-size: 48px;
+  flex-direction: column;
+  gap: 12px;
+}
+.viewer-placeholder p { font-size: 14px; color: var(--muted); }
+
+/* لوحة التحكم */
+#control-panel {
+  flex: 4;
+  background: var(--bg-card);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 16px;
+}
+.ctrl-group { margin-bottom: 16px; }
+.ctrl-group-title {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+.btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.ctrl-btn {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 8px 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  text-align: center;
+  transition: all 0.15s;
+}
+.ctrl-btn:hover { border-color: var(--gold); color: var(--gold); }
+.ctrl-btn.active { background: var(--gold); color: #fff; border-color: var(--gold); }
+
+/* قائمة الغرف */
+.room-list { display: flex; flex-direction: column; gap: 4px; }
+.room-item {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  transition: all 0.15s;
+}
+.room-item:hover { border-color: var(--gold); }
+.room-area { color: var(--gold); font-size: 11px; }
+
+/* clipping */
+#clip-slider {
+  width: 100%;
+  accent-color: var(--gold);
+  margin-top: 6px;
+}
+
+/* ══════════════════════════════════════
+   نتائج QCS
+══════════════════════════════════════ */
+#results-section { display: none; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding: 16px;
+}
+.stat-card {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+}
+.stat-num { font-size: 32px; font-weight: 700; }
+.stat-label { color: var(--muted); font-size: 12px; margin-top: 4px; }
+
+/* فلاتر */
+.filter-bar {
+  padding: 12px 16px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+}
+.filter-btn {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 20px;
+  padding: 4px 14px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+}
+.filter-btn.active { background: var(--gold); color: #fff; border-color: var(--gold); }
+
+/* جدول النتائج */
+.results-table-wrap { overflow-x: auto; padding: 12px 16px; }
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.results-table th {
+  background: var(--bg-deep);
+  padding: 10px 12px;
+  text-align: right;
+  color: var(--muted);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+}
+.results-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.results-table tr:hover { background: var(--bg-hover); cursor: pointer; }
+.badge {
+  display: inline-block;
+  border-radius: 4px;
+  padding: 2px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+}
+.badge-pass { background: var(--pass); }
+.badge-fail { background: var(--fail); }
+.badge-warning { background: var(--warn); }
+.badge-na { background: var(--muted); }
+
+/* ══════════════════════════════════════
+   قسم التصدير
+══════════════════════════════════════ */
+.export-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  padding: 20px;
+}
+.export-btn {
+  background: var(--bg-deep);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 12px;
+  text-align: center;
+  cursor: pointer;
+  color: var(--text);
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.export-btn:hover {
+  border-color: var(--gold);
+  background: rgba(200,150,26,0.06);
+  transform: translateY(-2px);
+}
+.export-btn .icon { font-size: 32px; margin-bottom: 8px; }
+.export-btn .title { font-size: 14px; font-weight: 600; color: var(--gold); }
+.export-btn .sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+/* ══════════════════════════════════════
+   Loading overlay
+══════════════════════════════════════ */
+#loading-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+}
+#loading-overlay.show { display: flex; }
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--border);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+#loading-msg { color: var(--gold); font-size: 16px; }
+
+/* Toast */
+#toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  z-index: 9999;
+  transition: transform 0.3s;
+  pointer-events: none;
+}
+#toast.show { transform: translateX(-50%) translateY(0); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .viewer-layout { flex-direction: column; height: auto; }
+  #viewer-container { height: 300px; }
+  .stats-grid, .export-grid { grid-template-columns: repeat(2, 1fr); }
+  .project-inputs { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- شريط علوي -->
+<header id="topbar">
+  <a href="index.html" class="logo">Qatar<span>Spec</span> <span style="color:var(--gold)">PRO</span></a>
+  <div class="project-inputs">
+    <input id="project-name" type="text" placeholder="اسم المشروع..." value="مشروع قطري جديد">
+    <input id="engineer-name" type="text" placeholder="اسم المهندس..." value="">
+  </div>
+  <button id="new-project-btn" onclick="resetAll()">🔄 مشروع جديد</button>
+</header>
+
+<!-- Loading overlay -->
+<div id="loading-overlay">
+  <div class="spinner"></div>
+  <div id="loading-msg">جاري التحليل...</div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<main>
+
+  <!-- ══════════════════════════════════════
+       قسم 1: الرفع
+  ══════════════════════════════════════ -->
+  <div class="section-card" id="upload-section">
+    <div class="section-hdr">📂 رفع المخطط أو الصور</div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('floorplan')">📐 مخطط معماري</button>
+      <button class="tab" onclick="switchTab('photos')">📷 صور المبنى</button>
+      <button class="tab" onclick="switchTab('camera')">📱 كاميرا مباشرة</button>
+    </div>
+
+    <!-- تبويب المخطط -->
+    <div id="tab-floorplan" class="tab-panel active">
+      <div class="drop-zone" id="drop-zone-fp"
+        ondragover="event.preventDefault();this.classList.add('dragover')"
+        ondragleave="this.classList.remove('dragover')"
+        ondrop="handleDrop(event,'floorplan')"
+        onclick="document.getElementById('file-fp').click()">
+        <div class="icon">📐</div>
+        <h3>اسحب المخطط هنا</h3>
+        <p>PNG · JPG · PDF</p>
+        <label class="upload-btn">اختر ملفاً</label>
+        <input id="file-fp" type="file" accept=".png,.jpg,.jpeg,.pdf" style="display:none"
+          onchange="handleFileInput(this,'floorplan')">
+      </div>
+    </div>
+
+    <!-- تبويب الصور -->
+    <div id="tab-photos" class="tab-panel">
+      <div class="drop-zone" id="drop-zone-ph"
+        ondragover="event.preventDefault();this.classList.add('dragover')"
+        ondragleave="this.classList.remove('dragover')"
+        ondrop="handleDrop(event,'photos')"
+        onclick="document.getElementById('file-ph').click()">
+        <div class="icon">📷</div>
+        <h3>اسحب صور المبنى هنا</h3>
+        <p>4 – 50 صورة · PNG · JPG</p>
+        <label class="upload-btn">اختر صوراً</label>
+        <input id="file-ph" type="file" accept=".png,.jpg,.jpeg" multiple style="display:none"
+          onchange="handleFileInput(this,'photos')">
+      </div>
+      <div id="photos-preview" style="display:flex;gap:8px;flex-wrap:wrap;padding:12px 0;"></div>
+    </div>
+
+    <!-- تبويب الكاميرا -->
+    <div id="tab-camera" class="tab-panel">
+      <div id="camera-container" style="height:400px;border-radius:8px;overflow:hidden;"></div>
+      <button class="upload-btn" style="margin-top:12px;" onclick="startCamera()">🎥 تشغيل الكاميرا</button>
+    </div>
+
+    <!-- شريط التقدم -->
+    <div id="progress-bar-wrap">
+      <div id="progress-bar-track"><div id="progress-bar-fill"></div></div>
+      <div id="progress-msg">جاري التحليل...</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       قسم 2: العارض 3D
+  ══════════════════════════════════════ -->
+  <div class="section-card" id="viewer-section">
+    <div class="section-hdr">🏗 العارض ثلاثي الأبعاد</div>
+
+    <div class="viewer-layout">
+      <!-- عارض 3D -->
+      <div id="viewer-container">
+        <div class="viewer-placeholder" id="viewer-placeholder">
+          <span>🏗</span>
+          <p>سيظهر المجسم هنا بعد التحليل</p>
+        </div>
+        <canvas id="viewer-3d-canvas" style="display:none;"></canvas>
+      </div>
+
+      <!-- لوحة التحكم -->
+      <div id="control-panel">
+
+        <!-- أوضاع العرض -->
+        <div class="ctrl-group">
+          <div class="ctrl-group-title">وضع العرض</div>
+          <div class="btn-grid">
+            <button class="ctrl-btn active" onclick="setViewMode('realistic',this)">🌟 واقعي</button>
+            <button class="ctrl-btn" onclick="setViewMode('wireframe',this)">🔲 هيكل</button>
+            <button class="ctrl-btn" onclick="setViewMode('xray',this)">🔍 شفاف</button>
+            <button class="ctrl-btn" onclick="setViewMode('floorplan',this)">📐 مسقط</button>
+            <button class="ctrl-btn" onclick="setViewMode('section',this)">✂ مقطع</button>
+            <button class="ctrl-btn" onclick="goHome()">🏠 إعادة</button>
+          </div>
+        </div>
+
+        <!-- أدوات القياس -->
+        <div class="ctrl-group">
+          <div class="ctrl-group-title">القياس</div>
+          <div class="btn-grid">
+            <button class="ctrl-btn" onclick="startMeasure('distance',this)">📏 مسافة</button>
+            <button class="ctrl-btn" onclick="startMeasure('area',this)">⬜ مساحة</button>
+            <button class="ctrl-btn" onclick="startMeasure('angle',this)">📐 زاوية</button>
+            <button class="ctrl-btn" onclick="clearMeasurements()">🗑 مسح</button>
+          </div>
+        </div>
+
+        <!-- Clipping -->
+        <div class="ctrl-group">
+          <div class="ctrl-group-title">شريحة القطع</div>
+          <input id="clip-slider" type="range" min="0" max="100" value="100"
+            oninput="setClipping(this.value)">
+          <div style="display:flex;gap:6px;margin-top:6px;">
+            <button class="ctrl-btn" onclick="setClipAxis('y')" style="flex:1;">أفقي</button>
+            <button class="ctrl-btn" onclick="setClipAxis('x')" style="flex:1;">عمودي</button>
+          </div>
+        </div>
+
+        <!-- قائمة الغرف -->
+        <div class="ctrl-group">
+          <div class="ctrl-group-title">الغرف</div>
+          <div class="room-list" id="room-list">
+            <div style="color:var(--muted);font-size:12px;padding:8px;">ستظهر الغرف بعد التحليل</div>
+          </div>
+        </div>
+
+        <!-- خيارات العرض -->
+        <div class="ctrl-group">
+          <div class="ctrl-group-title">خيارات</div>
+          <div class="btn-grid">
+            <button class="ctrl-btn" onclick="toggleCeiling(this)">🔝 سقف</button>
+            <button class="ctrl-btn" onclick="toggleLabels(this)">🏷 أسماء</button>
+            <button class="ctrl-btn" onclick="toggleDims(this)">📏 أبعاد</button>
+            <button class="ctrl-btn" onclick="captureScreenshot()">📸 لقطة</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       قسم 3: نتائج QCS
+  ══════════════════════════════════════ -->
+  <div class="section-card" id="results-section">
+    <div class="section-hdr">✅ نتائج فحص QCS 2024</div>
+
+    <!-- إحصائيات -->
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num" id="stat-score" style="color:var(--gold)">—</div>
+        <div class="stat-label">نسبة المطابقة</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-pass" style="color:var(--pass)">0</div>
+        <div class="stat-label">بند مطابق</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-fail" style="color:var(--fail)">0</div>
+        <div class="stat-label">بند فاشل</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-warn" style="color:var(--warn)">0</div>
+        <div class="stat-label">تحذير</div>
+      </div>
+    </div>
+
+    <!-- فلاتر -->
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterResults('all',this)">الكل</button>
+      <button class="filter-btn" onclick="filterResults('fail',this)">فاشل فقط</button>
+      <button class="filter-btn" onclick="filterResults('pass',this)">مطابق</button>
+      <button class="filter-btn" onclick="filterResults('warning',this)">تحذيرات</button>
+      <button class="filter-btn" onclick="filterResults('structural',this)">إنشائي</button>
+      <button class="filter-btn" onclick="filterResults('architectural',this)">معماري</button>
+      <button class="filter-btn" onclick="filterResults('mep',this)">MEP</button>
+    </div>
+
+    <!-- جدول النتائج -->
+    <div class="results-table-wrap">
+      <table class="results-table" id="results-table">
+        <thead>
+          <tr>
+            <th>البند</th>
+            <th>المرجع QCS</th>
+            <th>المطلوب</th>
+            <th>المقاس</th>
+            <th>النتيجة</th>
+          </tr>
+        </thead>
+        <tbody id="results-tbody">
+          <tr><td colspan="5" style="text-align:center;color:var(--muted);padding:30px;">
+            قم برفع مخطط لعرض نتائج الفحص
+          </td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       قسم 4: التصدير
+  ══════════════════════════════════════ -->
+  <div class="section-card" id="export-section">
+    <div class="section-hdr">📤 التصدير</div>
+    <div class="export-grid">
+      <button class="export-btn" onclick="exportPDF()">
+        <div class="icon">📄</div>
+        <div class="title">تقرير PDF</div>
+        <div class="sub">هندسي احترافي</div>
+      </button>
+      <button class="export-btn" onclick="exportDXF()">
+        <div class="icon">📐</div>
+        <div class="title">DXF</div>
+        <div class="sub">AutoCAD / DraftSight</div>
+      </button>
+      <button class="export-btn" onclick="exportIFC()">
+        <div class="icon">🏗</div>
+        <div class="title">IFC</div>
+        <div class="sub">Revit / BIM Vision</div>
+      </button>
+      <button class="export-btn" onclick="exportGLB()">
+        <div class="icon">🔲</div>
+        <div class="title">GLB</div>
+        <div class="sub">نموذج ثلاثي الأبعاد</div>
+      </button>
+      <button class="export-btn" onclick="exportExcel()">
+        <div class="icon">📊</div>
+        <div class="title">Excel</div>
+        <div class="sub">جدول البنود</div>
+      </button>
+    </div>
+  </div>
+
+</main>
+
+<script>
+/* ══════════════════════════════════════
+   الحالة العامة
+══════════════════════════════════════ */
+const APP = {
+  schema: null,
+  compliance: [],
+  analyzer: null,
+  viewer: null,
+  modelBuilder: null,
+  screenshots: [],
+  activeFilter: 'all',
+  clipAxis: 'y'
+};
+
+/* ══════════════════════════════════════
+   تبديل التبويبات
+══════════════════════════════════════ */
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    const ids = ['floorplan', 'photos', 'camera'];
+    t.classList.toggle('active', ids[i] === id);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`tab-${id}`).classList.add('active');
+}
+
+/* ══════════════════════════════════════
+   رفع الملفات
+══════════════════════════════════════ */
+function handleDrop(e, type) {
+  e.preventDefault();
+  document.querySelectorAll('.drop-zone').forEach(z => z.classList.remove('dragover'));
+  const files = Array.from(e.dataTransfer.files);
+  processFiles(files, type);
+}
+
+function handleFileInput(input, type) {
+  const files = Array.from(input.files);
+  processFiles(files, type);
+}
+
+async function processFiles(files, type) {
+  if (!files.length) return;
+
+  if (type === 'floorplan') {
+    await analyzeFloorplan(files[0]);
+  } else if (type === 'photos') {
+    showPhotosPreview(files);
+    await analyzePhotos(files);
+  }
+}
+
+/* ══════════════════════════════════════
+   تحليل المخطط
+══════════════════════════════════════ */
+async function analyzeFloorplan(file) {
+  showLoading('جاري تحليل المخطط بالذكاء الاصطناعي...');
+
+  try {
+    APP.analyzer = APP.analyzer || new window.QS.FloorplanAnalyzer();
+    APP.analyzer.onProgress = (msg) => {
+      document.getElementById('loading-msg').textContent = msg;
+      setProgress(33);
+    };
+
+    const schema = await APP.analyzer.analyze(file);
+    schema.project = schema.project || {};
+    schema.project.name = document.getElementById('project-name').value || schema.project.name;
+    schema.project.engineer = document.getElementById('engineer-name').value || schema.project.engineer;
+
+    APP.schema = schema;
+    setProgress(60);
+
+    await runCompliance();
+    setProgress(80);
+
+    buildRoomList();
+    showResults();
+    setProgress(100);
+
+    showSection('viewer-section');
+    showSection('results-section');
+    showSection('export-section');
+
+    toast('✅ تم تحليل المخطط بنجاح');
+  } catch (err) {
+    console.error(err);
+    toast('❌ ' + err.message, 'error');
+  } finally {
+    hideLoading();
+  }
+}
+
+async function analyzePhotos(files) {
+  showLoading(`جاري تحليل ${files.length} صورة...`);
+  try {
+    // استخدام الصورة الأولى كـ مخطط تقريبي
+    if (files.length > 0) await analyzeFloorplan(files[0]);
+    toast(`✅ تم تحليل ${files.length} صورة`);
+  } catch (err) {
+    toast('❌ ' + err.message, 'error');
+  } finally {
+    hideLoading();
+  }
+}
+
+function showPhotosPreview(files) {
+  const container = document.getElementById('photos-preview');
+  container.innerHTML = '';
+  files.slice(0, 12).forEach(f => {
+    const url = URL.createObjectURL(f);
+    const img = document.createElement('img');
+    img.src = url;
+    img.style.cssText = 'width:80px;height:60px;object-fit:cover;border-radius:6px;border:1px solid var(--border)';
+    container.appendChild(img);
+  });
+  if (files.length > 12) {
+    const more = document.createElement('div');
+    more.textContent = `+${files.length - 12}`;
+    more.style.cssText = 'width:80px;height:60px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:18px;border:1px dashed var(--border);border-radius:6px';
+    container.appendChild(more);
+  }
+}
+
+/* ══════════════════════════════════════
+   فحص المطابقة QCS
+══════════════════════════════════════ */
+async function runCompliance() {
+  if (!APP.schema || !window.QS?.QCSCompliance) return;
+
+  const checker = new window.QS.QCSCompliance();
+  APP.compliance = checker.checkAll(APP.schema);
+
+  const summary = {
+    pass: APP.compliance.filter(c => c.status === 'pass').length,
+    fail: APP.compliance.filter(c => c.status === 'fail').length,
+    warning: APP.compliance.filter(c => c.status === 'warning').length,
+    total: APP.compliance.length
+  };
+
+  const score = summary.total > 0 ? Math.round(summary.pass / summary.total * 100) : 0;
+
+  document.getElementById('stat-score').textContent = `${score}%`;
+  document.getElementById('stat-pass').textContent = summary.pass;
+  document.getElementById('stat-fail').textContent = summary.fail;
+  document.getElementById('stat-warn').textContent = summary.warning;
+
+  renderResultsTable(APP.compliance);
+}
+
+function renderResultsTable(items) {
+  const tbody = document.getElementById('results-tbody');
+  if (!items.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px;">لا توجد نتائج</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = items.map(item => `
+    <tr onclick="highlightItem('${item.id}')" title="انقر لتمييز العنصر في العارض">
+      <td><strong>${item.name_ar || item.name_en || '—'}</strong></td>
+      <td style="font-size:11px;color:var(--muted)">${item.clause || '—'}</td>
+      <td>${formatLimit(item)}</td>
+      <td>${item.measured !== undefined ? `${item.measured} ${item.unit || ''}` : '—'}</td>
+      <td><span class="badge badge-${item.status || 'na'}">${statusLabel(item.status)}</span></td>
+    </tr>
+  `).join('');
+}
+
+function filterResults(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  APP.activeFilter = type;
+
+  let items = APP.compliance;
+  if (type === 'fail') items = items.filter(i => i.status === 'fail');
+  else if (type === 'pass') items = items.filter(i => i.status === 'pass');
+  else if (type === 'warning') items = items.filter(i => i.status === 'warning');
+  else if (['structural','architectural','mep','infrastructure'].includes(type)) {
+    items = items.filter(i => i.category === type);
+  }
+
+  renderResultsTable(items);
+}
+
+/* ══════════════════════════════════════
+   بناء قائمة الغرف
+══════════════════════════════════════ */
+function buildRoomList() {
+  const rooms = APP.schema?.floors?.[0]?.rooms || [];
+  const container = document.getElementById('room-list');
+
+  if (!rooms.length) {
+    container.innerHTML = '<div style="color:var(--muted);font-size:12px;padding:8px;">لم يتم استخراج غرف</div>';
+    return;
+  }
+
+  container.innerHTML = rooms.map(r => `
+    <div class="room-item" onclick="focusRoom('${r.id}')">
+      <span>${r.name} <span style="color:var(--muted);font-size:11px">${r.name_en}</span></span>
+      <span class="room-area">${r.area_m2} م²</span>
+    </div>
+  `).join('');
+}
+
+/* ══════════════════════════════════════
+   وظائف العارض 3D
+══════════════════════════════════════ */
+function setViewMode(mode, btn) {
+  document.querySelectorAll('#control-panel .ctrl-btn').forEach(b => {
+    if (['واقعي','هيكل','شفاف','مسقط','مقطع'].some(t => b.textContent.includes(t))) {
+      b.classList.remove('active');
+    }
+  });
+  if (btn) btn.classList.add('active');
+  if (APP.viewer?.setViewMode) APP.viewer.setViewMode(mode);
+}
+
+function goHome() {
+  if (APP.viewer?.goHome) APP.viewer.goHome();
+}
+
+function startMeasure(type, btn) {
+  if (APP.viewer) {
+    if (type === 'distance') APP.viewer.startMeasureDistance?.();
+    if (type === 'area') APP.viewer.startMeasureArea?.();
+    if (type === 'angle') APP.viewer.startMeasureAngle?.();
+  }
+}
+
+function clearMeasurements() {
+  if (APP.viewer?.clearMeasurements) APP.viewer.clearMeasurements();
+}
+
+function setClipping(val) {
+  if (APP.viewer?.setClipPosition) APP.viewer.setClipPosition(val / 100);
+}
+
+function setClipAxis(axis) {
+  APP.clipAxis = axis;
+  if (APP.viewer?.enableClipping) APP.viewer.enableClipping(axis, 0.5);
+}
+
+function toggleCeiling(btn) {
+  btn.classList.toggle('active');
+  if (APP.viewer?.toggleCeiling) APP.viewer.toggleCeiling();
+}
+
+function toggleLabels(btn) {
+  btn.classList.toggle('active');
+  if (APP.viewer?.toggleLabels) APP.viewer.toggleLabels();
+}
+
+function toggleDims(btn) {
+  btn.classList.toggle('active');
+  if (APP.viewer?.toggleDimensions) APP.viewer.toggleDimensions();
+}
+
+function captureScreenshot() {
+  if (APP.viewer?.captureScreenshot) {
+    const img = APP.viewer.captureScreenshot();
+    APP.screenshots.push(img);
+    toast('📸 تم حفظ اللقطة');
+  }
+}
+
+function focusRoom(roomId) {
+  if (APP.viewer?.focusRoom) APP.viewer.focusRoom(roomId);
+}
+
+function highlightItem(itemId) {
+  // تمييز في العارض 3D إذا كانت الـ viewer تدعم ذلك
+}
+
+/* ══════════════════════════════════════
+   الكاميرا
+══════════════════════════════════════ */
+function startCamera() {
+  if (!window.QS?.SmartCapture) { toast('⚠ وحدة الكاميرا غير محملة'); return; }
+
+  const capture = new window.QS.SmartCapture();
+  capture.onComplete(photos => {
+    toast(`✅ تم التقاط ${photos.length} صورة`);
+    if (photos.length > 0) {
+      // تحليل أول صورة كمخطط
+      fetch(photos[0].dataURL)
+        .then(r => r.blob())
+        .then(blob => {
+          const file = new File([blob], 'capture.jpg', { type: 'image/jpeg' });
+          analyzeFloorplan(file);
+        });
+    }
+  });
+  capture.start('camera-container');
+}
+
+/* ══════════════════════════════════════
+   التصدير
+══════════════════════════════════════ */
+async function exportPDF() {
+  if (!APP.schema) { toast('⚠ قم بتحليل مخطط أولاً'); return; }
+  showLoading('جاري توليد التقرير...');
+  try {
+    const rg = new window.QS.ReportGenerator(APP.schema, APP.compliance, APP.screenshots);
+    await rg.downloadPDF();
+    toast('📄 جاري فتح نافذة الطباعة...');
+  } catch (e) { toast('❌ ' + e.message); }
+  finally { hideLoading(); }
+}
+
+function exportDXF() {
+  if (!APP.schema) { toast('⚠ قم بتحليل مخطط أولاً'); return; }
+  try {
+    const exporter = new window.QS.DXFExporter();
+    exporter.fromJSON(APP.schema);
+    exporter.download(`QatarSpec_${Date.now()}.dxf`);
+    toast('📐 تم تصدير DXF');
+  } catch (e) { toast('❌ ' + e.message); }
+}
+
+function exportIFC() {
+  if (!APP.schema) { toast('⚠ قم بتحليل مخطط أولاً'); return; }
+  try {
+    const exporter = new window.QS.IFCExporter();
+    exporter.fromJSON(APP.schema);
+    exporter.download(`QatarSpec_${Date.now()}.ifc`);
+    toast('🏗 تم تصدير IFC');
+  } catch (e) { toast('❌ ' + e.message); }
+}
+
+function exportGLB() {
+  if (APP.viewer?.exportGLB) {
+    APP.viewer.exportGLB();
+    toast('🔲 تم تصدير GLB');
+  } else {
+    toast('⚠ العارض ثلاثي الأبعاد غير محمل');
+  }
+}
+
+function exportExcel() {
+  if (!APP.schema || !APP.compliance.length) { toast('⚠ قم بتحليل مخطط أولاً'); return; }
+  const rows = [
+    ['البند', 'المرجع QCS', 'الفئة', 'المطلوب', 'المقاس', 'الوحدة', 'النتيجة'],
+    ...APP.compliance.map(c => [
+      c.name_ar || c.name_en,
+      c.clause,
+      c.category,
+      formatLimit(c),
+      c.measured ?? '—',
+      c.unit || '',
+      statusLabel(c.status)
+    ])
+  ];
+
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `QatarSpec_QCS_${Date.now()}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('📊 تم تصدير Excel/CSV');
+}
+
+/* ══════════════════════════════════════
+   إعادة تعيين
+══════════════════════════════════════ */
+function resetAll() {
+  APP.schema = null;
+  APP.compliance = [];
+  APP.screenshots = [];
+  document.getElementById('results-tbody').innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:30px;">قم برفع مخطط لعرض نتائج الفحص</td></tr>';
+  document.getElementById('stat-score').textContent = '—';
+  ['stat-pass','stat-fail','stat-warn'].forEach(id => document.getElementById(id).textContent = '0');
+  hideSection('viewer-section');
+  hideSection('results-section');
+  hideSection('export-section');
+  document.getElementById('room-list').innerHTML = '<div style="color:var(--muted);font-size:12px;padding:8px;">ستظهر الغرف بعد التحليل</div>';
+  toast('🔄 تم إعادة التعيين');
+}
+
+/* ══════════════════════════════════════
+   مساعدات UI
+══════════════════════════════════════ */
+function showSection(id) { document.getElementById(id).style.display = 'block'; }
+function hideSection(id) { document.getElementById(id).style.display = 'none'; }
+function showResults() { showSection('results-section'); }
+
+function showLoading(msg) {
+  const overlay = document.getElementById('loading-overlay');
+  document.getElementById('loading-msg').textContent = msg;
+  overlay.classList.add('show');
+}
+function hideLoading() {
+  document.getElementById('loading-overlay').classList.remove('show');
+  resetProgress();
+}
+
+let _progressTimer;
+function setProgress(pct) {
+  document.getElementById('progress-bar-wrap').style.display = 'block';
+  document.getElementById('progress-bar-fill').style.width = pct + '%';
+}
+function resetProgress() {
+  setTimeout(() => {
+    document.getElementById('progress-bar-wrap').style.display = 'none';
+    document.getElementById('progress-bar-fill').style.width = '0%';
+  }, 1000);
+}
+
+let _toastTimer;
+function toast(msg, type = 'info') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.style.borderColor = type === 'error' ? 'var(--fail)' : 'var(--border)';
+  el.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
+}
+
+function formatLimit(item) {
+  if (item.min !== undefined && item.max !== undefined) return `${item.min}–${item.max} ${item.unit||''}`;
+  if (item.min !== undefined) return `≥${item.min} ${item.unit||''}`;
+  if (item.max !== undefined) return `≤${item.max} ${item.unit||''}`;
+  return '—';
+}
+
+function statusLabel(s) {
+  return { pass: 'مطابق ✓', fail: 'فاشل ✗', warning: 'تحذير ⚠', not_applicable: 'لا ينطبق' }[s] || '—';
+}
+
+/* ══════════════════════════════════════
+   تهيئة
+══════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  // إخفاء الأقسام في البداية
+  hideSection('viewer-section');
+  hideSection('results-section');
+  // عرض قسم التصدير دائماً (بدون بيانات يعطي رسالة)
+  showSection('export-section');
+
+  // منع النقر على export إذا لم يكن هناك بيانات
+  console.log('[QatarSpec] محلل المخططات — v3.0 جاهز');
+});
+</script>
+</body>
+</html>
