@@ -399,6 +399,136 @@
   }
 
   // ═══════════════════════════════════════════════════
+  // QCS Compliance Export — من محلل المخططات
+  // يستقبل نتائج QCSCompliance.checkAll() ويصدّرها
+  // ═══════════════════════════════════════════════════
+  function exportQCSCompliance(complianceResults, projectInfo) {
+    if (!complianceResults || !complianceResults.length) {
+      if (w.showToast) w.showToast('⚠️ لا توجد نتائج للتصدير');
+      return;
+    }
+
+    const today = new Date().toISOString().slice(0, 10);
+    const proj  = projectInfo || {};
+    const projName = proj.name || 'مشروع QatarSpec';
+    const engineer = proj.engineer || '';
+
+    const rows = [];
+
+    // ── رأس التقرير ──────────────────────────────────
+    rows.push(['تقرير فحص مطابقة QCS 2024', '', '', '', '', '', '']);
+    rows.push(['المشروع:', projName, '', 'المهندس:', engineer, '', '']);
+    rows.push(['التاريخ:', today, '', 'المرجع:', 'QCS 2024 | QatarSpec Pro', '', '']);
+    rows.push([]);
+
+    // ── إحصاء النتائج ────────────────────────────────
+    const pass    = complianceResults.filter(function(r) { return r.status === 'pass'; }).length;
+    const fail    = complianceResults.filter(function(r) { return r.status === 'fail'; }).length;
+    const warning = complianceResults.filter(function(r) { return r.status === 'warning'; }).length;
+    const na      = complianceResults.filter(function(r) { return r.status === 'not_applicable'; }).length;
+    const total   = complianceResults.length;
+    const score   = total > 0 ? Math.round((pass / (total - na)) * 100) : 0;
+
+    rows.push(['ملخص النتائج', '', '', '', '', '', '']);
+    rows.push(['إجمالي البنود', 'ناجح ✅', 'فاشل ❌', 'تحذير ⚠️', 'لا ينطبق', 'نسبة المطابقة', '']);
+    rows.push([total, pass, fail, warning, na, score + '%', '']);
+    rows.push([]);
+
+    // ── رأس الجدول ───────────────────────────────────
+    rows.push([
+      'رقم',
+      'البند',
+      'الفئة',
+      'مرجع QCS',
+      'القيمة المقاسة',
+      'الحد المطلوب',
+      'الوحدة',
+      'الأهمية',
+      'النتيجة'
+    ]);
+
+    // ── الفئات مرتبة ─────────────────────────────────
+    const categories = ['structural', 'architectural', 'mep', 'infrastructure', ''];
+    const catLabels  = {
+      structural:     'إنشائي',
+      architectural:  'معماري',
+      mep:            'MEP',
+      infrastructure: 'طرق ومرافق',
+      '':             'عام'
+    };
+
+    let rowNum = 1;
+    categories.forEach(function(cat) {
+      const catResults = complianceResults.filter(function(r) {
+        return (r.category || '') === cat;
+      });
+      if (!catResults.length) return;
+
+      rows.push([]);
+      rows.push(['══ ' + catLabels[cat] + ' ══', '', '', '', '', '', '', '', '']);
+
+      catResults.forEach(function(r) {
+        const statusLabel = {
+          pass:           'ناجح ✅',
+          fail:           'فاشل ❌',
+          warning:        'تحذير ⚠️',
+          not_applicable: 'لا ينطبق —'
+        }[r.status] || r.status;
+
+        const sevLabel = {
+          major:  'رئيسي',
+          minor:  'ثانوي',
+          info:   'معلومة'
+        }[r.severity] || (r.severity || '');
+
+        const measured = (r.measured !== undefined && r.measured !== null)
+          ? String(r.measured) : '—';
+        const required = r.required_min !== undefined
+          ? ('≥ ' + r.required_min)
+          : (r.required_max !== undefined ? ('≤ ' + r.required_max) : '—');
+
+        rows.push([
+          rowNum++,
+          r.name_ar || r.name || r.item || '',
+          catLabels[cat],
+          r.clause || '',
+          measured,
+          required,
+          r.unit || '',
+          sevLabel,
+          statusLabel
+        ]);
+      });
+    });
+
+    rows.push([]);
+
+    // ── البنود الفاشلة فقط (ورقة ثانية مدمجة) ───────
+    const failedItems = complianceResults.filter(function(r) { return r.status === 'fail'; });
+    if (failedItems.length) {
+      rows.push(['══ البنود الفاشلة — تحتاج معالجة فورية ══', '', '', '', '', '', '', '', '']);
+      rows.push(['البند', 'مرجع QCS', 'القيمة المقاسة', 'الحد المطلوب', 'الوحدة', 'التوصية', '', '', '']);
+      failedItems.forEach(function(r) {
+        rows.push([
+          r.name_ar || r.name || r.item || '',
+          r.clause || '',
+          (r.measured !== undefined ? r.measured : '—'),
+          (r.required_min !== undefined ? '≥ ' + r.required_min : (r.required_max !== undefined ? '≤ ' + r.required_max : '—')),
+          r.unit || '',
+          r.recommendation || 'راجع ' + (r.clause || 'QCS 2024'),
+          '', '', ''
+        ]);
+      });
+      rows.push([]);
+    }
+
+    rows.push(['المرجع:', 'QCS 2024 | QatarSpec Pro | qatar-standers.vercel.app', '', '', '', '', '', '', '']);
+
+    _downloadCSV(rows, 'QCS-Compliance-' + projName.replace(/\s+/g, '-') + '-' + today + '.csv');
+    if (w.showToast) w.showToast('✅ تم تصدير نتائج QCS — CSV يفتح في Excel');
+  }
+
+  // ═══════════════════════════════════════════════════
   // تسجيل في namespace
   // ═══════════════════════════════════════════════════
   if (!w.QS) w.QS = {};
@@ -407,11 +537,13 @@
   w.QS.exportITPFull          = exportITPFull;
   w.QS.exportDPRFull          = exportDPRFull;
   w.QS.exportTestResultsExcel = exportTestResultsExcel;
+  w.QS.exportQCSCompliance    = exportQCSCompliance;
 
   w.exportNCRFull          = exportNCRFull;
   w.exportRFIFull          = exportRFIFull;
   w.exportITPFull          = exportITPFull;
   w.exportDPRFull          = exportDPRFull;
   w.exportTestResultsExcel = exportTestResultsExcel;
+  w.exportQCSCompliance    = exportQCSCompliance;
 
 })(window);

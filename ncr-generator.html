@@ -277,6 +277,108 @@ function resetNCR() {
   document.getElementById('ncr-output').classList.remove('show');
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
+// ═══════════════════════════════════════════════════════════
+// QCS Auto-Populate — يستقبل بند فاشل من محلل المخططات
+// الاستخدام: ncr-generator.html?qcs=1&clause=QCS+S9P3&item=...
+// أو استدعاء مباشر: window.QS.NCR.fromQCSFail(failItem)
+// ═══════════════════════════════════════════════════════════
+(function() {
+  // 1. قراءة من URL params (عند الفتح من analyzer.html)
+  function loadFromURL() {
+    const p = new URLSearchParams(window.location.search);
+    if (!p.get('qcs')) return;
+
+    const clause  = p.get('clause')  || '';
+    const item    = p.get('item')    || '';
+    const proj    = p.get('proj')    || '';
+    const loc     = p.get('loc')     || '';
+    const measured = p.get('measured') || '';
+    const required = p.get('required') || '';
+    const unit    = p.get('unit')    || '';
+    const sev     = p.get('sev')     || 'minor';
+
+    // تعبئة الحقول
+    if (proj    && document.getElementById('proj'))       document.getElementById('proj').value = proj;
+    if (clause  && document.getElementById('ncr_clause')) document.getElementById('ncr_clause').value = clause;
+    if (loc     && document.getElementById('ncr_loc'))    document.getElementById('ncr_loc').value = loc;
+
+    // بناء وصف تلقائي
+    let desc = item;
+    if (measured && required) {
+      desc += '\nالقيمة المقاسة: ' + measured + ' ' + unit;
+      desc += '\nالمطلوب: ' + required + ' ' + unit;
+      desc += '\nمرجع: ' + clause;
+    }
+    if (desc && document.getElementById('ncr_desc')) document.getElementById('ncr_desc').value = desc;
+
+    // تعيين التصنيف
+    const cls = sev === 'major' ? 'major' : 'minor';
+    setClass(cls);
+    const btn = document.querySelector('.cls-btn.' + cls);
+    if (btn) { document.querySelectorAll('.cls-btn').forEach(b => b.classList.remove('on')); btn.classList.add('on'); }
+
+    // رقم NCR تلقائي
+    if (document.getElementById('ncr_num')) {
+      document.getElementById('ncr_num').value = 'QCS-' + Date.now().toString().slice(-6);
+    }
+
+    // تاريخ اليوم
+    if (document.getElementById('ncr_date')) {
+      document.getElementById('ncr_date').value = new Date().toISOString().split('T')[0];
+    }
+
+    // بانر إشعار
+    const banner = document.createElement('div');
+    banner.style.cssText = 'background:#EAF3DE;border:1px solid #86c440;color:#3B6D11;padding:10px 16px;border-radius:8px;font-size:12px;margin-bottom:16px;display:flex;align-items:center;gap:8px';
+    banner.innerHTML = '✅ تم تعبئة النموذج تلقائياً من نتائج فحص QCS 2024 — راجع البيانات قبل التوليد';
+    const con = document.querySelector('.con');
+    if (con) con.insertBefore(banner, con.children[1]);
+  }
+
+  // 2. دالة مباشرة للاستدعاء من analyzer.html
+  function fromQCSFail(failItem, projectInfo) {
+    if (!failItem) return;
+    const info = projectInfo || {};
+
+    if (info.name    && document.getElementById('proj'))       document.getElementById('proj').value = info.name;
+    if (failItem.clause && document.getElementById('ncr_clause')) document.getElementById('ncr_clause').value = failItem.clause;
+
+    let desc = (failItem.name_ar || failItem.name || failItem.item || '');
+    if (failItem.measured !== undefined) {
+      desc += '\nالقيمة المقاسة: ' + failItem.measured + ' ' + (failItem.unit || '');
+    }
+    if (failItem.required_min !== undefined) {
+      desc += '\nالمطلوب: ≥ ' + failItem.required_min + ' ' + (failItem.unit || '');
+    } else if (failItem.required_max !== undefined) {
+      desc += '\nالمطلوب: ≤ ' + failItem.required_max + ' ' + (failItem.unit || '');
+    }
+    desc += '\nمرجع: ' + (failItem.clause || 'QCS 2024');
+    if (document.getElementById('ncr_desc')) document.getElementById('ncr_desc').value = desc;
+
+    const sev = failItem.severity === 'major' ? 'major' : 'minor';
+    setClass(sev);
+    document.querySelectorAll('.cls-btn').forEach(b => b.classList.remove('on'));
+    const btn = document.querySelector('.cls-btn.' + sev);
+    if (btn) btn.classList.add('on');
+
+    if (!document.getElementById('ncr_num').value) {
+      document.getElementById('ncr_num').value = 'QCS-' + Date.now().toString().slice(-6);
+    }
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  // تسجيل في namespace
+  if (!window.QS) window.QS = {};
+  window.QS.NCR = { fromQCSFail: fromQCSFail };
+
+  // تشغيل عند التحميل
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadFromURL);
+  } else {
+    loadFromURL();
+  }
+})();
 </script>
 </body>
 </html>

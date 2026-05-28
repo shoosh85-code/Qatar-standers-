@@ -700,7 +700,12 @@ main { padding: 20px; max-width: 1400px; margin: 0 auto; }
       <button class="export-btn" onclick="exportExcel()">
         <div class="icon">📊</div>
         <div class="title">Excel</div>
-        <div class="sub">جدول البنود</div>
+        <div class="sub">نتائج QCS كاملة</div>
+      </button>
+      <button class="export-btn" onclick="openNCRFromFails()" id="btn-ncr" style="display:none">
+        <div class="icon">📋</div>
+        <div class="title">NCR تلقائي</div>
+        <div class="sub">من البنود الفاشلة</div>
       </button>
     </div>
   </div>
@@ -854,6 +859,17 @@ async function runCompliance() {
   document.getElementById('stat-pass').textContent = summary.pass;
   document.getElementById('stat-fail').textContent = summary.fail;
   document.getElementById('stat-warn').textContent = summary.warning;
+
+  // إظهار زر NCR تلقائياً إذا وُجدت بنود فاشلة
+  const ncrBtn = document.getElementById('btn-ncr');
+  if (ncrBtn) {
+    if (summary.fail > 0) {
+      ncrBtn.style.display = '';
+      ncrBtn.querySelector('.sub').textContent = `${summary.fail} بند فاشل → NCR`;
+    } else {
+      ncrBtn.style.display = 'none';
+    }
+  }
 
   renderResultsTable(APP.compliance);
 }
@@ -1048,6 +1064,16 @@ function exportGLB() {
 
 function exportExcel() {
   if (!APP.schema || !APP.compliance.length) { toast('⚠ قم بتحليل مخطط أولاً'); return; }
+  // استخدام دالة excel.js المحسّنة إن كانت متاحة
+  if (window.QS && window.QS.exportQCSCompliance) {
+    const projInfo = {
+      name:     document.getElementById('proj-name')?.value || 'مشروع QatarSpec',
+      engineer: document.getElementById('eng-name')?.value  || ''
+    };
+    window.QS.exportQCSCompliance(APP.compliance, projInfo);
+    return;
+  }
+  // fallback بسيط
   const rows = [
     ['البند', 'المرجع QCS', 'الفئة', 'المطلوب', 'المقاس', 'الوحدة', 'النتيجة'],
     ...APP.compliance.map(c => [
@@ -1060,7 +1086,6 @@ function exportExcel() {
       statusLabel(c.status)
     ])
   ];
-
   const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
   const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
   const url = URL.createObjectURL(blob);
@@ -1071,6 +1096,32 @@ function exportExcel() {
   URL.revokeObjectURL(url);
   toast('📊 تم تصدير Excel/CSV');
 }
+
+// ── فتح NCR Generator من أول بند فاشل ───────────────────
+function openNCRFromFails() {
+  if (!APP.compliance.length) { toast('⚠ قم بتحليل مخطط أولاً'); return; }
+  const fails = APP.compliance.filter(c => c.status === 'fail');
+  if (!fails.length) { toast('✅ لا توجد بنود فاشلة — المشروع مطابق'); return; }
+
+  // نفتح ncr-generator مع أول بند فاشل عبر URL params
+  const f = fails[0];
+  const proj    = encodeURIComponent(document.getElementById('proj-name')?.value || '');
+  const clause  = encodeURIComponent(f.clause || '');
+  const item    = encodeURIComponent(f.name_ar || f.name || '');
+  const measured = encodeURIComponent(f.measured !== undefined ? f.measured : '');
+  const required = encodeURIComponent(f.required_min !== undefined ? ('≥' + f.required_min) : (f.required_max !== undefined ? ('≤' + f.required_max) : ''));
+  const unit    = encodeURIComponent(f.unit || '');
+  const sev     = encodeURIComponent(f.severity || 'minor');
+
+  const url = `ncr-generator.html?qcs=1&proj=${proj}&clause=${clause}&item=${item}&measured=${measured}&required=${required}&unit=${unit}&sev=${sev}`;
+  window.open(url, '_blank');
+
+  // إبلاغ المستخدم بعدد البنود الفاشلة
+  if (fails.length > 1) {
+    toast(`📋 تم فتح NCR للبند الأول من ${fails.length} بند فاشل`);
+  }
+}
+
 
 /* ══════════════════════════════════════
    إعادة تعيين
