@@ -82,24 +82,26 @@
       }
       c.appendChild(this._renderer.domElement);
 
-      // Scene
+      // Scene — خلفية داكنة جداً (ACES يرفع الألوان الغامقة)
       this._scene = new THREE.Scene();
-      this._scene.background = new THREE.Color(0x1A1A2E);
-      this._scene.fog = new THREE.FogExp2(0x1A1A2E, 0.008);
+      this._scene.background = new THREE.Color(0x0A0A18);
+      this._scene.fog = new THREE.FogExp2(0x0A0A18, 0.006);
 
-      // Camera
+      // Camera — زاوية منظورية 45° لإبراز ارتفاع الجدران
       const bounds = this._getBounds();
       const cx = (bounds.minX + bounds.maxX) / 2;
       const cz = (bounds.minY + bounds.maxY) / 2;
       const size = Math.max(bounds.maxX - bounds.minX, bounds.maxY - bounds.minY, 5);
+      const floorH = this._schema.floors[0].height_m || 3;
 
-      this._camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 500);
-      this._camera.position.set(cx + size * 0.8, size * 0.9, cz + size * 0.8);
+      this._camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 500);
+      // وضع الكاميرا أقرب وأخفض لإبراز 3D
+      this._camera.position.set(cx + size * 0.7, floorH + size * 0.45, cz + size * 0.9);
 
-      // Controls
+      // Controls — الهدف يكون في وسط المبنى وليس الأرضية
       if (THREE.OrbitControls) {
         this._controls = new THREE.OrbitControls(this._camera, this._renderer.domElement);
-        this._controls.target.set(cx, 0, cz);
+        this._controls.target.set(cx, floorH * 0.4, cz);
         this._controls.enableDamping = true;
         this._controls.dampingFactor = 0.08;
         this._controls.maxPolarAngle = Math.PI * 0.48;
@@ -478,12 +480,13 @@
 
       const views = [
         { label: '🎯 منظور', action: () => {
-          this._camera.position.set(cx + size*0.8, size*0.9, cz + size*0.8);
-          if(this._controls) { this._controls.target.set(cx,0,cz); this._controls.update(); }
+          const fH = this._schema.floors[0].height_m || 3;
+          this._camera.position.set(cx + size*0.7, fH + size*0.45, cz + size*0.9);
+          if(this._controls) { this._controls.target.set(cx, fH*0.4, cz); this._controls.update(); }
         }},
         { label: '⬇️ مسقط', action: () => {
-          this._camera.position.set(cx, size*2, cz);
-          if(this._controls) { this._controls.target.set(cx,0,cz); this._controls.update(); }
+          this._camera.position.set(cx, size*2.5, cz + 0.01);
+          if(this._controls) { this._controls.target.set(cx, 0, cz); this._controls.update(); }
         }},
       ];
 
