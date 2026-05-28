@@ -10,16 +10,15 @@ export const config = {
   },
 };
 
+// تم التحقق من الموديلات المتاحة عبر /api/gemini-models — آخر تحديث 2026-05
 const GEMINI_MODELS = [
-  // Priority: newest multimodal models first (v1beta preferred)
-  { model: 'gemini-2.5-flash',              api: 'v1beta' },
-  { model: 'gemini-2.5-flash-preview-05-20',api: 'v1beta' },
-  { model: 'gemini-2.5-pro',                api: 'v1beta' },
-  { model: 'gemini-2.0-flash',              api: 'v1beta' },
-  { model: 'gemini-2.0-flash',              api: 'v1'     },
-  { model: 'gemini-1.5-flash',              api: 'v1beta' },
-  { model: 'gemini-1.5-flash',              api: 'v1'     },
-  // gemini-pro-vision: deprecated April 2024 — removed
+  { model: 'gemini-3.5-flash',      api: 'v1beta' }, // أحدث وأسرع
+  { model: 'gemini-3.1-pro-preview',api: 'v1beta' }, // أدق للتحليل الهندسي
+  { model: 'gemini-3-flash-preview', api: 'v1beta' }, // fallback سريع
+  { model: 'gemini-2.5-flash',      api: 'v1beta' }, // مستقر
+  { model: 'gemini-2.5-pro',        api: 'v1beta' }, // مستقر pro
+  { model: 'gemini-2.0-flash',      api: 'v1beta' }, // آخر fallback
+  { model: 'gemini-2.0-flash',      api: 'v1'     }, // v1 fallback
 ];
 
 // In-memory rate limiter
