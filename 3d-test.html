@@ -654,11 +654,82 @@ function repairJSON(text) {
   // إزالة نص بعد آخر }
   const j = t.lastIndexOf('}');
   if (j > 0 && j < t.length - 1) t = t.substring(0, j + 1);
+  // إزالة تعليقات // و /* */
+  t = t.replace(/\/\/[^\n]*/g, '');
+  t = t.replace(/\/\*[\s\S]*?\*\//g, '');
+  // إزالة control characters ما عدا \n \r \t
+  t = t.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '');
   // إصلاح trailing commas
   t = t.replace(/,\s*([}\]])/g, '$1');
-  // إصلاح NaN
+  // إصلاح NaN / Infinity / undefined
   t = t.replace(/:\s*NaN/g, ': 0');
-  return t;
+  t = t.replace(/:\s*Infinity/g, ': 9999');
+  t = t.replace(/:\s*undefined/g, ': null');
+  // إصلاح newlines داخل strings
+  t = t.replace(/"([^"]*)\n([^"]*)"/g, (m, a, b) => `"${a} ${b}"`);
+  // محاولة parse مباشرة
+  try { return JSON.stringify(JSON.parse(t)); } catch(_) {}
+
+  // محاولة 2: إصلاح JSON مقطوع (Gemini قطع الإخراج)
+  let t2 = t;
+  // إغلاق arrays و objects مفتوحة
+  let opens = 0, openA = 0;
+  for (const ch of t2) {
+    if (ch === '{') opens++;
+    if (ch === '}') opens--;
+    if (ch === '[') openA++;
+    if (ch === ']') openA--;
+  }
+  // إزالة آخر عنصر مقطوع قبل الإغلاق
+  t2 = t2.replace(/,\s*"[^"]*"?\s*:?\s*[\[{]?[^}\]]*$/, '');
+  t2 = t2.replace(/,\s*\{[^}]*$/, '');
+  t2 = t2.replace(/,\s*$/, '');
+  // إعادة حساب
+  opens = 0; openA = 0;
+  for (const ch of t2) {
+    if (ch === '{') opens++;
+    if (ch === '}') opens--;
+    if (ch === '[') openA++;
+    if (ch === ']') openA--;
+  }
+  while (openA > 0) { t2 += ']'; openA--; }
+  while (opens > 0) { t2 += '}'; opens--; }
+  try { return JSON.stringify(JSON.parse(t2)); } catch(_) {}
+
+  // محاولة 3: استخراج أول JSON object صالح
+  const patterns = [
+    /\{[\s\S]*"floors"\s*:\s*\[[\s\S]*\]\s*\}/,
+    /\{[\s\S]*"walls"\s*:\s*\[[\s\S]*\]\s*\}/,
+    /\{[\s\S]*"rooms"\s*:\s*\[[\s\S]*\]\s*\}/,
+  ];
+  for (const pat of patterns) {
+    const match = t.match(pat);
+    if (match) {
+      let candidate = match[0];
+      // إغلاق مفتوحات
+      let o2 = 0, a2 = 0;
+      for (const ch of candidate) { if(ch==='{')o2++;if(ch==='}')o2--;if(ch==='[')a2++;if(ch===']')a2--; }
+      while (a2 > 0) { candidate += ']'; a2--; }
+      while (o2 > 0) { candidate += '}'; o2--; }
+      candidate = candidate.replace(/,\s*([}\]])/g, '$1');
+      try { return JSON.stringify(JSON.parse(candidate)); } catch(_) {}
+    }
+  }
+
+  // محاولة 4: حذف سطور واحد تلو الآخر من النهاية
+  const lines = t.split('\n');
+  for (let cut = 1; cut < Math.min(lines.length, 20); cut++) {
+    let attempt = lines.slice(0, lines.length - cut).join('\n');
+    attempt = attempt.replace(/,\s*$/, '');
+    let o3=0,a3=0;
+    for(const ch of attempt){if(ch==='{')o3++;if(ch==='}')o3--;if(ch==='[')a3++;if(ch===']')a3--;}
+    while(a3>0){attempt+=']';a3--;}
+    while(o3>0){attempt+='}';o3--;}
+    attempt = attempt.replace(/,\s*([}\]])/g,'$1');
+    try { return JSON.stringify(JSON.parse(attempt)); } catch(_) {}
+  }
+
+  throw new Error('تعذّر إصلاح JSON من Gemini — جرّب صورة أوضح للمخطط');
 }
 
 function repairSchema(data) {
@@ -734,7 +805,7 @@ window.handleUpload = async function(input) {
         mimeType: file.type || 'image/jpeg',
         prompt: PROMPT,
         jsonMode: true,
-        maxTokens: 8192,
+        maxTokens: 16384,
       }),
     });
 
