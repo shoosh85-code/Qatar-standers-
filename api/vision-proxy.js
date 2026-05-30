@@ -144,6 +144,14 @@ export default async function handler(req, res) {
             hint: 'تحقق من صلاحية GEMINI_API_KEY في Vercel Environment Variables'
           });
         }
+        // حصة منتهية — نفس الحصة لكل الموديلات، لا فائدة من التجربة
+        if (geminiRes.status === 429 || (lastError && lastError.includes('RESOURCE_EXHAUSTED'))) {
+          return res.status(429).json({
+            error: lastError,
+            model: `${api}/${model}`,
+            hint: 'حصة Gemini API انتهت — انتظر دقيقة أو تحقق من: https://ai.dev/rate-limit'
+          });
+        }
         // 400/404/other — جرّب الموديل التالي
         continue;
       }
