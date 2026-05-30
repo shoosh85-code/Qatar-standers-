@@ -12,13 +12,9 @@ export const config = {
 
 // تم التحقق من الموديلات المتاحة — آخر تحديث 2026-05
 const GEMINI_MODELS = [
-  { model: 'gemini-2.5-flash-preview-05-20', api: 'v1beta' },
-  { model: 'gemini-2.5-flash-preview',       api: 'v1beta' },
-  { model: 'gemini-2.5-flash',               api: 'v1beta' },
-  { model: 'gemini-2.5-pro-preview-05-06',   api: 'v1beta' },
-  { model: 'gemini-2.5-pro',                 api: 'v1beta' },
-  { model: 'gemini-2.0-flash',               api: 'v1beta' },
-  { model: 'gemini-2.0-flash',               api: 'v1'     },
+  { model: 'gemini-3.5-flash',               api: 'v1beta' }, // الأحدث — حصة متبقية
+  { model: 'gemini-2.5-flash',               api: 'v1beta' }, // مستقر
+  { model: 'gemini-2.5-pro',                 api: 'v1beta' }, // أدق
 ];
 
 // In-memory rate limiter
