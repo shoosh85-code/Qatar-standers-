@@ -872,8 +872,29 @@ window.handleUpload = async function(input) {
     }
 
     const result = await response.json();
-    const rawText = result.text || result.result || JSON.stringify(result);
-    console.info('[Upload] API response keys:', Object.keys(result));
+    console.info('[Upload] Full API response:', JSON.stringify(result).substring(0, 1000));
+
+    // استخراج النص — يتعامل مع كل الهياكل الممكنة
+    let rawText = '';
+    if (typeof result === 'string') {
+      rawText = result;
+    } else if (typeof result.text === 'string') {
+      rawText = result.text;
+    } else if (typeof result.result === 'string') {
+      rawText = result.result;
+    } else if (result.text && typeof result.text === 'object') {
+      rawText = JSON.stringify(result.text);
+    } else if (result.candidates) {
+      // Gemini raw response format
+      try { rawText = result.candidates[0].content.parts[0].text; } catch(_) {}
+    } else if (result.error) {
+      throw new Error('خطأ من Gemini: ' + (typeof result.error === 'string' ? result.error : JSON.stringify(result.error)));
+    }
+
+    if (!rawText) {
+      rawText = JSON.stringify(result);
+    }
+
     console.info('[Upload] Raw text length:', rawText.length);
     console.info('[Upload] Raw text preview:', rawText.substring(0, 500));
 
@@ -918,14 +939,14 @@ window.handleUpload = async function(input) {
 
   } catch (err) {
     hideOverlay();
-    console.error('[Upload] Error:', err);
-    // عرض الخطأ مع التفاصيل
+    const errMsg = typeof err === 'string' ? err : (err?.message || JSON.stringify(err));
+    console.error('[Upload] Error:', errMsg);
     const errDiv = document.createElement('div');
     errDiv.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(8,8,20,0.95);z-index:200;display:flex;align-items:center;justify-content:center;font-family:Tajawal,Arial;direction:rtl;';
     errDiv.innerHTML = `
       <div style="max-width:700px;max-height:80vh;overflow:auto;background:#141428;border:1px solid #c8961a33;border-radius:12px;padding:24px;">
         <h2 style="color:#ef4444;margin:0 0 12px;">❌ خطأ في التحليل</h2>
-        <pre style="color:#a0a8c0;font-size:12px;white-space:pre-wrap;word-break:break-all;background:#0a0a18;padding:12px;border-radius:8px;max-height:50vh;overflow:auto;">${err.message.replace(/</g,'&lt;')}</pre>
+        <pre style="color:#a0a8c0;font-size:12px;white-space:pre-wrap;word-break:break-all;background:#0a0a18;padding:12px;border-radius:8px;max-height:50vh;overflow:auto;">${String(errMsg).replace(/</g,'&lt;')}</pre>
         <button onclick="this.parentElement.parentElement.remove()" style="margin-top:16px;padding:10px 24px;background:#c8961a;color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-size:14px;">حسناً</button>
       </div>`;
     document.body.appendChild(errDiv);
