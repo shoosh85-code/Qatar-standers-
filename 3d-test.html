@@ -339,6 +339,11 @@ function wAng(s,e){return Math.atan2(e[1]-s[1],e[0]-s[0]);}
 function ptAt(s,e,r){return[s[0]+(e[0]-s[0])*r,s[1]+(e[1]-s[1])*r];}
 
 function build(data) {
+  if (!data?.floors?.[0]) {
+    alert('❌ بيانات غير صالحة — لا يوجد floors[0]');
+    console.error('[build] Invalid data:', data);
+    return;
+  }
   const container = document.getElementById('viewer');
   container.innerHTML = '';
   container.style.cursor = 'grab';
@@ -733,22 +738,72 @@ function repairJSON(text) {
 }
 
 function repairSchema(data) {
-  if (!data.floors) data.floors = [{ level: 0, label: 'الدور الأرضي', height_m: 3 }];
+  // ═══ الحالة 1: floors موجودة وصحيحة
+  if (data.floors && Array.isArray(data.floors) && data.floors[0]) {
+    // OK
+  }
+  // ═══ الحالة 2: walls/rooms في الجذر مباشرة (بدون floors)
+  else if (data.walls || data.rooms) {
+    data = { floors: [{ level: 0, label: 'الدور الأرضي', height_m: data.height_m || 3, ...data }] };
+  }
+  // ═══ الحالة 3: floor مفرد (بدون s)
+  else if (data.floor) {
+    data = { floors: [data.floor] };
+  }
+  // ═══ الحالة 4: floors فارغة أو غير array
+  else if (data.floors && !Array.isArray(data.floors)) {
+    data.floors = [data.floors];
+  }
+  // ═══ الحالة 5: بيانات مجهولة — ابحث عن أي array فيها objects بـ start/end
+  else {
+    let found = null;
+    function findWalls(obj) {
+      if (found) return;
+      if (Array.isArray(obj)) {
+        if (obj.length > 0 && obj[0].start && obj[0].end) { found = obj; return; }
+        obj.forEach(findWalls);
+      } else if (obj && typeof obj === 'object') {
+        Object.values(obj).forEach(findWalls);
+      }
+    }
+    findWalls(data);
+    if (found) {
+      data = { floors: [{ level: 0, label: 'الدور الأرضي', height_m: 3, walls: found, rooms: [], doors: [], windows: [], columns: [] }] };
+    } else {
+      // آخر محاولة — ابحث عن rooms
+      let foundRooms = null;
+      function findRooms(obj) {
+        if (foundRooms) return;
+        if (Array.isArray(obj)) {
+          if (obj.length > 0 && obj[0].polygon) { foundRooms = obj; return; }
+          obj.forEach(findRooms);
+        } else if (obj && typeof obj === 'object') {
+          Object.values(obj).forEach(findRooms);
+        }
+      }
+      findRooms(data);
+      data = { floors: [{ level: 0, label: 'الدور الأرضي', height_m: 3, walls: [], rooms: foundRooms || [], doors: [], windows: [], columns: [] }] };
+    }
+  }
+
+  if (!data.floors || !data.floors[0]) {
+    data = { floors: [{ level: 0, label: 'الدور الأرضي', height_m: 3, walls: [], rooms: [], doors: [], windows: [], columns: [] }] };
+  }
+
   const f = data.floors[0];
-  f.walls = (f.walls || []).filter(w => Array.isArray(w.start) && Array.isArray(w.end));
+  f.walls = (f.walls || []).filter(w => {
+    if (!w) return false;
+    // Fix {x,y} → [x,y]
+    if (w.start && !Array.isArray(w.start) && typeof w.start === 'object') w.start = [w.start.x||0, w.start.y||0];
+    if (w.end && !Array.isArray(w.end) && typeof w.end === 'object') w.end = [w.end.x||0, w.end.y||0];
+    return Array.isArray(w.start) && Array.isArray(w.end) && w.start.length >= 2 && w.end.length >= 2;
+  });
   f.doors = Array.isArray(f.doors) ? f.doors : [];
   f.windows = Array.isArray(f.windows) ? f.windows : [];
   f.columns = Array.isArray(f.columns) ? f.columns : [];
   f.rooms = (f.rooms || []).filter(r => Array.isArray(r.polygon) && r.polygon.length >= 3);
   if (!f.height_m) f.height_m = 3;
   if (!f.label) f.label = 'الدور الأرضي';
-
-  // Fix object coords {x,y} → [x,y]
-  f.walls = f.walls.map(w => {
-    if (w.start && !Array.isArray(w.start)) w.start = [w.start.x||0, w.start.y||0];
-    if (w.end && !Array.isArray(w.end)) w.end = [w.end.x||0, w.end.y||0];
-    return w;
-  });
 
   // Generate walls from rooms if missing
   if (f.walls.length === 0 && f.rooms.length > 0) {
