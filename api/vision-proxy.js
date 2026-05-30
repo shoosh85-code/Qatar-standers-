@@ -89,7 +89,7 @@ export default async function handler(req, res) {
   const image     = body.image;
   const prompt    = body.prompt || body.userMessage || '';
   const mimeType  = body.mimeType || 'image/jpeg';
-  const maxTokens = Math.min(Number(body.maxTokens) || 2048, 8192);
+  const maxTokens = Math.min(Number(body.maxTokens) || 4096, 32768);
   const jsonMode  = !!body.jsonMode;
 
   if (!image) return res.status(400).json({ error: 'image مطلوب' });

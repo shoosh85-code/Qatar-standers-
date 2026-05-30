@@ -628,6 +628,7 @@ RULES:
 6. Room polygons must match wall endpoints.
 7. Return ONLY valid JSON — no markdown, no backticks, no text before/after.
 8. Add "furniture" field per room: bedroom/living/majlis/kitchen/bathroom/office/workspace/meeting/server/empty
+9. Output COMPACT JSON — no extra whitespace, no indentation, minimize key names. This is critical to avoid truncation.
 
 Room names (Arabic): مجلس، صالة، غرفة نوم، غرفة نوم رئيسية، مطبخ، حمام، ممر، مدخل، شرفة، مخزن، مكتب، قاعة اجتماعات، استقبال، مرآب
 
@@ -675,30 +676,29 @@ function repairJSON(text) {
   // محاولة parse مباشرة
   try { return JSON.stringify(JSON.parse(t)); } catch(_) {}
 
-  // محاولة 2: إصلاح JSON مقطوع (Gemini قطع الإخراج)
+  // محاولة 2: إصلاح JSON مقطوع — ابحث عن آخر object مكتمل
   let t2 = t;
-  // إغلاق arrays و objects مفتوحة
-  let opens = 0, openA = 0;
-  for (const ch of t2) {
-    if (ch === '{') opens++;
-    if (ch === '}') opens--;
-    if (ch === '[') openA++;
-    if (ch === ']') openA--;
+  // ابحث عن آخر }, (نهاية عنصر مكتمل في array)
+  const lastComplete = t2.lastIndexOf('},');
+  if (lastComplete > 0) {
+    // اقطع بعد آخر عنصر مكتمل
+    t2 = t2.substring(0, lastComplete + 1);
+  } else {
+    // جرب آخر }
+    const lastBrace = t2.lastIndexOf('}');
+    if (lastBrace > 0) t2 = t2.substring(0, lastBrace + 1);
   }
-  // إزالة آخر عنصر مقطوع قبل الإغلاق
-  t2 = t2.replace(/,\s*"[^"]*"?\s*:?\s*[\[{]?[^}\]]*$/, '');
-  t2 = t2.replace(/,\s*\{[^}]*$/, '');
+  // إزالة trailing commas
   t2 = t2.replace(/,\s*$/, '');
-  // إعادة حساب
-  opens = 0; openA = 0;
+  // إغلاق brackets مفتوحة
+  let o2 = 0, a2 = 0;
   for (const ch of t2) {
-    if (ch === '{') opens++;
-    if (ch === '}') opens--;
-    if (ch === '[') openA++;
-    if (ch === ']') openA--;
+    if (ch === '{') o2++; if (ch === '}') o2--;
+    if (ch === '[') a2++; if (ch === ']') a2--;
   }
-  while (openA > 0) { t2 += ']'; openA--; }
-  while (opens > 0) { t2 += '}'; opens--; }
+  while (a2 > 0) { t2 += ']'; a2--; }
+  while (o2 > 0) { t2 += '}'; o2--; }
+  t2 = t2.replace(/,\s*([}\]])/g, '$1');
   try { return JSON.stringify(JSON.parse(t2)); } catch(_) {}
 
   // محاولة 3: استخراج أول JSON object صالح
