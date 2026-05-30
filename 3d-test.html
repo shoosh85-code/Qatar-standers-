@@ -29,11 +29,29 @@ body{font-family:'Tajawal',sans-serif;background:#080810;color:#e0e0f0;overflow:
 <div id="topbar">
   <h1>🏗 <span>QatarSpec Pro</span> — عارض المجسمات ثلاثية الأبعاد</h1>
   <div class="btns">
+    <label class="upload-btn" style="padding:7px 18px;border:1px solid rgba(200,150,26,0.4);border-radius:8px;background:linear-gradient(135deg,rgba(200,150,26,0.2),rgba(200,150,26,0.05));color:#c8961a;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;transition:all .2s;display:flex;align-items:center;gap:6px;">
+      📐 ارفع مخططك
+      <input type="file" id="planUpload" accept="image/*,.pdf" style="display:none" onchange="handleUpload(this)">
+    </label>
+    <span style="color:#2a2a4a;font-size:18px;">|</span>
     <button class="active" onclick="loadSample('villa',this)">🏠 فيلا</button>
     <button onclick="loadSample('apartment',this)">🏢 شقة</button>
     <button onclick="loadSample('office',this)">💼 مكتب</button>
   </div>
 </div>
+
+<!-- Loading overlay for analysis -->
+<div id="analysisOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(8,8,20,0.92);z-index:100;display:none;flex-direction:column;align-items:center;justify-content:center;font-family:Tajawal,Arial;backdrop-filter:blur(8px);">
+  <div style="text-align:center;">
+    <div id="analysisSpinner" style="font-size:48px;margin-bottom:16px;animation:pulse 1.5s ease infinite;">🔍</div>
+    <div id="analysisStatus" style="color:#c8961a;font-size:18px;font-weight:700;margin-bottom:8px;">جاري تحليل المخطط...</div>
+    <div id="analysisDetail" style="color:#6878a8;font-size:13px;">Gemini AI يقرأ الجدران والغرف والأبواب</div>
+    <div style="margin-top:20px;width:250px;height:3px;background:#1a1a2e;border-radius:2px;overflow:hidden;">
+      <div id="analysisBar" style="width:0%;height:100%;background:linear-gradient(90deg,#c8961a,#e8c840);border-radius:2px;transition:width 0.5s;"></div>
+    </div>
+  </div>
+</div>
+<style>@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}</style>
 
 <div id="viewer"><div id="loading">⏳ جاري تحميل المجسم...</div></div>
 
@@ -592,6 +610,186 @@ window.loadSample = function(type, btn) {
   if(btn)btn.classList.add('active');
   build(SAMPLES[type]);
 };
+
+// ═══ UPLOAD + GEMINI ANALYSIS ═══
+const PROMPT = `You are an expert architectural engineer. Convert this floor plan image into a precise JSON 3D model.
+
+RULES:
+1. Trace ALL walls (external perimeter + internal partitions). MINIMUM 4 walls.
+2. Identify rooms with Arabic name, English name, area_m2, polygon coordinates.
+3. Mark doors and windows with wall_id and position_ratio (0-1).
+4. Coordinates in METERS. Origin (0,0) = top-left. X→right, Y→down.
+5. Walls sharing corners must have EXACTLY matching coordinates.
+6. Room polygons must match wall endpoints.
+7. Return ONLY valid JSON — no markdown, no backticks, no text before/after.
+8. Add "furniture" field per room: bedroom/living/majlis/kitchen/bathroom/office/workspace/meeting/server/empty
+
+Room names (Arabic): مجلس، صالة، غرفة نوم، غرفة نوم رئيسية، مطبخ، حمام، ممر، مدخل، شرفة، مخزن، مكتب، قاعة اجتماعات، استقبال، مرآب
+
+JSON Schema:
+{"floors":[{"level":0,"label":"الدور الأرضي","height_m":3.2,
+"walls":[{"id":"W1","start":[0,0],"end":[12,0],"thickness_m":0.25,"is_external":true}],
+"doors":[{"id":"D1","wall_id":"W1","position_ratio":0.5,"width_m":0.9,"height_m":2.1}],
+"windows":[{"id":"WN1","wall_id":"W2","position_ratio":0.3,"width_m":1.5,"height_m":1.4,"sill_height_m":0.9}],
+"columns":[],"rooms":[{"id":"R1","name":"مجلس","name_en":"Majlis","area_m2":28,"polygon":[[0,0],[6,0],[6,5],[0,5]],"furniture":"majlis"}],"stairs":[]}]}`;
+
+function showOverlay(msg, detail, pct) {
+  const ov = document.getElementById('analysisOverlay');
+  ov.style.display = 'flex';
+  if(msg) document.getElementById('analysisStatus').textContent = msg;
+  if(detail) document.getElementById('analysisDetail').textContent = detail;
+  if(pct !== undefined) document.getElementById('analysisBar').style.width = pct + '%';
+}
+function hideOverlay() {
+  document.getElementById('analysisOverlay').style.display = 'none';
+}
+
+function repairJSON(text) {
+  let t = text.trim();
+  // إزالة backticks
+  t = t.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '');
+  // إزالة نص قبل أول {
+  const i = t.indexOf('{');
+  if (i > 0) t = t.substring(i);
+  // إزالة نص بعد آخر }
+  const j = t.lastIndexOf('}');
+  if (j > 0 && j < t.length - 1) t = t.substring(0, j + 1);
+  // إصلاح trailing commas
+  t = t.replace(/,\s*([}\]])/g, '$1');
+  // إصلاح NaN
+  t = t.replace(/:\s*NaN/g, ': 0');
+  return t;
+}
+
+function repairSchema(data) {
+  if (!data.floors) data.floors = [{ level: 0, label: 'الدور الأرضي', height_m: 3 }];
+  const f = data.floors[0];
+  f.walls = (f.walls || []).filter(w => Array.isArray(w.start) && Array.isArray(w.end));
+  f.doors = Array.isArray(f.doors) ? f.doors : [];
+  f.windows = Array.isArray(f.windows) ? f.windows : [];
+  f.columns = Array.isArray(f.columns) ? f.columns : [];
+  f.rooms = (f.rooms || []).filter(r => Array.isArray(r.polygon) && r.polygon.length >= 3);
+  if (!f.height_m) f.height_m = 3;
+  if (!f.label) f.label = 'الدور الأرضي';
+
+  // Fix object coords {x,y} → [x,y]
+  f.walls = f.walls.map(w => {
+    if (w.start && !Array.isArray(w.start)) w.start = [w.start.x||0, w.start.y||0];
+    if (w.end && !Array.isArray(w.end)) w.end = [w.end.x||0, w.end.y||0];
+    return w;
+  });
+
+  // Generate walls from rooms if missing
+  if (f.walls.length === 0 && f.rooms.length > 0) {
+    const wm = new Map(); let idx = 1;
+    for (const room of f.rooms) {
+      const poly = room.polygon;
+      for (let i = 0; i < poly.length; i++) {
+        const s = poly[i], e = poly[(i+1) % poly.length];
+        const sk = s[0].toFixed(1)+','+s[1].toFixed(1);
+        const ek = e[0].toFixed(1)+','+e[1].toFixed(1);
+        const key = sk < ek ? sk+'→'+ek : ek+'→'+sk;
+        if (wm.has(key)) { wm.get(key).is_external = false; wm.get(key).thickness_m = 0.15; }
+        else { const w = {id:'WG'+idx++,start:[s[0],s[1]],end:[e[0],e[1]],thickness_m:0.2,is_external:true}; wm.set(key,w); f.walls.push(w); }
+      }
+    }
+  }
+
+  // Assign IDs + fix refs
+  f.walls.forEach((w,i) => { if(!w.id) w.id='W'+(i+1); });
+  const wIds = new Set(f.walls.map(w=>w.id));
+  f.doors = f.doors.filter(d => wIds.has(d.wall_id));
+  f.windows = f.windows.filter(w => wIds.has(w.wall_id));
+  f.doors.forEach((d,i) => { if(!d.id) d.id='D'+(i+1); });
+  f.windows.forEach((w,i) => { if(!w.id) w.id='WN'+(i+1); });
+  f.rooms.forEach((r,i) => { if(!r.id) r.id='R'+(i+1); if(!r.furniture) r.furniture='empty'; });
+
+  return data;
+}
+
+window.handleUpload = async function(input) {
+  const file = input.files[0];
+  if (!file) return;
+  input.value = ''; // reset
+
+  try {
+    showOverlay('📐 جاري قراءة المخطط...', 'تحويل الصورة...', 10);
+
+    // Convert to base64
+    const base64 = await new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload = () => res(r.result.split(',')[1]);
+      r.onerror = () => rej(new Error('فشل قراءة الملف'));
+      r.readAsDataURL(file);
+    });
+
+    showOverlay('🤖 Gemini يحلل المخطط...', 'استخراج الجدران والغرف والأبواب...', 30);
+
+    // Send to Gemini via vision-proxy
+    const response = await fetch('/api/vision-proxy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        image: base64,
+        mimeType: file.type || 'image/jpeg',
+        prompt: PROMPT,
+        jsonMode: true,
+        maxTokens: 8192,
+      }),
+    });
+
+    showOverlay('📊 معالجة النتائج...', 'تحليل JSON وإصلاح البيانات...', 60);
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err.error || `HTTP ${response.status}`);
+    }
+
+    const result = await response.json();
+    const rawText = result.text || result.result || '';
+
+    if (!rawText || rawText.length < 20) {
+      throw new Error('Gemini لم يرجع بيانات كافية');
+    }
+
+    showOverlay('🏗️ بناء المجسم ثلاثي الأبعاد...', 'رسم الجدران والأثاث والإضاءة...', 80);
+
+    // Parse JSON
+    const repaired = repairJSON(rawText);
+    let schema;
+    try {
+      schema = JSON.parse(repaired);
+    } catch (e) {
+      throw new Error('JSON غير صالح من Gemini: ' + e.message);
+    }
+
+    // Repair schema
+    schema = repairSchema(schema);
+
+    const f = schema.floors[0];
+    console.info('[Upload] تحليل مكتمل:', f.walls.length, 'جدار,', f.rooms.length, 'غرفة,', f.doors.length, 'باب');
+
+    if (f.walls.length === 0 && f.rooms.length === 0) {
+      throw new Error('لم يتم العثور على جدران أو غرف في المخطط — جرب صورة أوضح');
+    }
+
+    showOverlay('✅ جاري العرض...', '', 100);
+
+    // Deselect sample buttons
+    document.querySelectorAll('.btns button').forEach(b => b.classList.remove('active'));
+
+    setTimeout(() => {
+      hideOverlay();
+      build(schema);
+    }, 500);
+
+  } catch (err) {
+    hideOverlay();
+    console.error('[Upload]', err);
+    alert('❌ ' + err.message);
+  }
+};
+
 build(SAMPLES.villa);
 </script>
 </body>
