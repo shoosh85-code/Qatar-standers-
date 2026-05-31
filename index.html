@@ -336,6 +336,242 @@
 <!-- Skip Navigation — Accessibility -->
 <a href="#main-content" class="skip-link" style="position:absolute;top:-40px;left:0;background:var(--gold);color:#000;padding:8px 16px;z-index:9999;font-family:Tajawal,sans-serif;font-weight:700;transition:top .2s;" data-skip-link="1">تخطي إلى المحتوى الرئيسي</a>
 
+<!-- ═══ ANIMATED LANDING SCREEN ═══ -->
+<div id="qs-landing" style="position:fixed;inset:0;z-index:99999;background:#03030A;display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:'Cinzel',serif;">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap');
+#qs-landing *{box-sizing:border-box;margin:0;padding:0}
+#qs-landing canvas{position:absolute;inset:0;width:100%;height:100%}
+.qsl-halo-wrap{position:absolute;top:50%;left:50%;pointer-events:none}
+.qsl-halo{position:absolute;border-radius:50%;top:0;left:0;border-style:solid}
+.qsl-h1{width:420px;height:420px;border:1px solid rgba(201,169,110,.13);animation:qslCW 20s linear infinite}
+.qsl-h2{width:300px;height:300px;border:1px dashed rgba(201,169,110,.09);animation:qslCCW 13s linear infinite}
+.qsl-h3{width:190px;height:190px;border:1px solid rgba(201,169,110,.16);animation:qslCW 8s linear infinite}
+.qsl-h4{width:540px;height:540px;border:1px solid rgba(255,255,255,.03);animation:qslCCW 35s linear infinite}
+@keyframes qslCW{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes qslCCW{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(-360deg)}}
+.qsl-tick{position:absolute;top:50%;left:50%;width:1px;height:8px;background:rgba(201,169,110,.5);transform-origin:0 -210px}
+.qsl-corner{position:absolute;width:18px;height:18px;border-color:rgba(201,169,110,.5);border-style:solid;opacity:0;animation:qslCorner .5s forwards}
+.qsl-ctl{top:6%;left:3%;border-width:1px 0 0 1px;animation-delay:.3s}
+.qsl-ctr{top:6%;right:3%;border-width:1px 1px 0 0;animation-delay:.4s}
+.qsl-cbl{bottom:6%;left:3%;border-width:0 0 1px 1px;animation-delay:.5s}
+.qsl-cbr{bottom:6%;right:3%;border-width:0 1px 1px 0;animation-delay:.6s}
+@keyframes qslCorner{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:scale(1)}}
+.qsl-hline{position:absolute;left:6%;right:6%;height:1px}
+.qsl-hl-top{top:12%;background:linear-gradient(to right,transparent,rgba(201,169,110,.4),transparent);opacity:0;animation:qslFade .8s 1s forwards}
+.qsl-hl-bot{bottom:12%;background:linear-gradient(to right,transparent,rgba(201,169,110,.3),transparent);opacity:0;animation:qslFade .8s 1.2s forwards}
+@keyframes qslFade{from{opacity:0}to{opacity:1}}
+.qsl-core{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;text-align:center}
+.qsl-badge{font-size:8px;letter-spacing:.6em;color:rgba(201,169,110,.6);margin-bottom:28px;opacity:0;animation:qslUp .8s .35s forwards}
+.qsl-logo{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,8vw,96px);font-weight:300;letter-spacing:.2em;line-height:.88;color:#fff;opacity:0;animation:qslUp 1.1s .6s forwards}
+.qsl-logo .qsl-q{display:inline-block;animation:qslGold 5s 2.5s ease-in-out infinite alternate}
+.qsl-logo .qsl-it{font-style:italic;color:#E8C990}
+@keyframes qslGold{0%{color:#fff;text-shadow:none}100%{color:#F5DFA8;text-shadow:0 0 80px rgba(201,169,110,.7)}}
+.qsl-pro{font-size:clamp(12px,1.6vw,17px);font-weight:300;letter-spacing:.9em;color:#C9A96E;margin-top:10px;opacity:0;animation:qslUp .8s .85s forwards}
+.qsl-sub{font-family:'Cairo',sans-serif;font-size:10px;font-weight:300;letter-spacing:.18em;color:rgba(255,255,255,.2);margin-top:7px;opacity:0;animation:qslUp .7s 1.05s forwards}
+.qsl-div{display:flex;align-items:center;gap:16px;margin:32px 0;opacity:0;animation:qslUp .6s 1.2s forwards}
+.qsl-dl{width:60px;height:1px;background:linear-gradient(to left,#C9A96E,transparent)}
+.qsl-dr{width:60px;height:1px;background:linear-gradient(to right,#C9A96E,transparent)}
+.qsl-dm{width:6px;height:6px;background:#C9A96E;transform:rotate(45deg);animation:qslDm 2.5s ease-in-out infinite;box-shadow:0 0 14px rgba(201,169,110,.9)}
+@keyframes qslDm{0%,100%{box-shadow:0 0 6px rgba(201,169,110,.5)}50%{box-shadow:0 0 26px rgba(201,169,110,1)}}
+.qsl-btn{font-family:'Cinzel',serif;font-size:9.5px;letter-spacing:.55em;color:#C9A96E;background:transparent;border:none;cursor:pointer;outline:none;opacity:0;animation:qslUp .8s 1.4s forwards}
+.qsl-btn-in{display:inline-flex;align-items:center;gap:14px;padding:14px 52px;border:1px solid rgba(201,169,110,.38);position:relative;overflow:hidden;transition:color .42s}
+.qsl-btn-in::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#C9A96E,#E8C990);transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.4,0,.2,1)}
+.qsl-btn:hover .qsl-btn-in{color:#000}
+.qsl-btn:hover .qsl-btn-in::before{transform:scaleX(1)}
+.qsl-btxt{position:relative;z-index:1}
+.qsl-barr{position:relative;z-index:1;width:9px;height:9px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:rotate(-45deg) translateY(-1px);transition:transform .3s}
+.qsl-btn:hover .qsl-barr{transform:rotate(-45deg) translate(3px,1px)}
+.qsl-stats{display:flex;margin-top:36px;opacity:0;animation:qslUp .7s 1.6s forwards}
+.qsl-stat{text-align:center;padding:0 26px}
+.qsl-stat+.qsl-stat{border-right:1px solid rgba(201,169,110,.15)}
+.qsl-snum{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#E8C990;line-height:1}
+.qsl-slbl{font-family:'Cairo',sans-serif;font-size:7.5px;letter-spacing:.3em;color:rgba(255,255,255,.18);margin-top:3px}
+.qsl-sidebar{position:absolute;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:11px;opacity:0;animation:qslUp .7s 1.75s forwards}
+.qsl-sbl{left:2.5%}.qsl-sbr{right:2.5%}
+.qsl-mc{width:112px;background:rgba(255,255,255,.025);border:1px solid rgba(201,169,110,.13);padding:11px 13px;position:relative;overflow:hidden}
+.qsl-mc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(201,169,110,.5),transparent);transform:scaleX(0);transition:transform .4s}
+.qsl-mc:hover::after{transform:scaleX(1)}
+.qsl-mcdot{width:5px;height:5px;border-radius:50%;background:#C9A96E;position:absolute;top:10px;right:10px;animation:qslDot 2.5s ease-in-out infinite}
+@keyframes qslDot{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(201,169,110,.5)}50%{opacity:.5;box-shadow:0 0 0 5px rgba(201,169,110,0)}}
+.qsl-mcval{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:#E8C990}
+.qsl-mclbl{font-family:'Cairo',sans-serif;font-size:7.5px;letter-spacing:.18em;color:rgba(255,255,255,.18);margin-top:3px;line-height:1.5}
+.qsl-mcbar{margin-top:8px;height:2px;background:rgba(255,255,255,.05);overflow:hidden}
+.qsl-mcfill{height:100%;background:linear-gradient(to right,#C9A96E,#E8C990);width:0;transition:width 2s 2.2s cubic-bezier(.4,0,.2,1)}
+.qsl-refs{position:absolute;bottom:5%;left:50%;transform:translateX(-50%);display:flex;gap:18px;opacity:0;animation:qslUp .7s 1.9s forwards;white-space:nowrap}
+.qsl-ref{font-family:'Cairo',sans-serif;font-size:7.5px;letter-spacing:.22em;color:rgba(255,255,255,.18)}
+.qsl-ver{position:absolute;top:6%;left:50%;transform:translateX(-50%);font-size:7.5px;letter-spacing:.4em;color:rgba(255,255,255,.15);opacity:0;animation:qslFade .7s 2.1s forwards;white-space:nowrap}
+@keyframes qslUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+/* Exit animation */
+#qs-landing.qsl-exit{animation:qslExit .9s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes qslExit{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.04);pointer-events:none}}
+</style>
+
+<canvas id="qslCanvas"></canvas>
+
+<div class="qsl-halo-wrap" id="qslHaloWrap">
+  <div class="qsl-halo qsl-h4"></div>
+  <div class="qsl-halo qsl-h1"></div>
+  <div class="qsl-halo qsl-h2"></div>
+  <div class="qsl-halo qsl-h3"></div>
+</div>
+
+<div class="qsl-hline qsl-hl-top"></div>
+<div class="qsl-hline qsl-hl-bot"></div>
+<div class="qsl-corner qsl-ctl"></div>
+<div class="qsl-corner qsl-ctr"></div>
+<div class="qsl-corner qsl-cbl"></div>
+<div class="qsl-corner qsl-cbr"></div>
+<div class="qsl-ver">QATARSPEC PRO · v3.0 · STATE OF QATAR</div>
+
+<!-- Sidebar L -->
+<div class="qsl-sidebar qsl-sbl">
+  <div class="qsl-mc"><div class="qsl-mcdot"></div><div class="qsl-mcval" id="qslM1">0</div><div class="qsl-mclbl">QCS CLAUSES<br>مواد معيارية</div><div class="qsl-mcbar"><div class="qsl-mcfill" id="qslF1"></div></div></div>
+  <div class="qsl-mc"><div class="qsl-mcdot" style="animation-delay:.7s"></div><div class="qsl-mcval" id="qslM2">0</div><div class="qsl-mclbl">CALCULATORS<br>حاسبات هندسية</div><div class="qsl-mcbar"><div class="qsl-mcfill" id="qslF2"></div></div></div>
+  <div class="qsl-mc"><div class="qsl-mcdot" style="animation-delay:1.3s"></div><div class="qsl-mcval" id="qslM3">0</div><div class="qsl-mclbl">AI RESPONSES<br>إجابات الذكاء</div><div class="qsl-mcbar"><div class="qsl-mcfill" id="qslF3"></div></div></div>
+</div>
+
+<!-- Sidebar R -->
+<div class="qsl-sidebar qsl-sbr">
+  <div class="qsl-mc"><div class="qsl-mcdot" style="animation-delay:.4s"></div><div class="qsl-mcval" id="qslM4">0</div><div class="qsl-mclbl">ENGINEERS<br>مهندسون نشطون</div><div class="qsl-mcbar"><div class="qsl-mcfill" id="qslF4"></div></div></div>
+  <div class="qsl-mc"><div class="qsl-mcdot" style="animation-delay:1s"></div><div class="qsl-mcval" id="qslM5">0</div><div class="qsl-mclbl">STANDARDS<br>معايير مدمجة</div><div class="qsl-mcbar"><div class="qsl-mcfill" id="qslF5"></div></div></div>
+  <div class="qsl-mc"><div class="qsl-mcdot" style="animation-delay:1.6s"></div><div class="qsl-mcval">99</div><div class="qsl-mclbl">QAR / MONTH<br>اشتراك شهري</div><div class="qsl-mcbar"><div class="qsl-mcfill" id="qslF6"></div></div></div>
+</div>
+
+<!-- Core -->
+<div class="qsl-core">
+  <div class="qsl-badge">STATE OF QATAR · منصة المعايير الهندسية</div>
+  <div class="qsl-logo"><span class="qsl-q">Q</span>ATAR<span class="qsl-it">SPEC</span></div>
+  <div class="qsl-pro">P R O</div>
+  <div class="qsl-sub">QCS 2024 · ASHGHAL RDM · KAHRAMAA · MMUP · FIDIC</div>
+  <div class="qsl-div"><div class="qsl-dl"></div><div class="qsl-dm"></div><div class="qsl-dr"></div></div>
+  <button class="qsl-btn" id="qslEnterBtn">
+    <div class="qsl-btn-in">
+      <span class="qsl-btxt">ENTER PLATFORM · ادخل المنصة</span>
+      <span class="qsl-barr"></span>
+    </div>
+  </button>
+  <div class="qsl-stats">
+    <div class="qsl-stat"><div class="qsl-snum" id="qslS1">0</div><div class="qsl-slbl">PROJECTS</div></div>
+    <div class="qsl-stat"><div class="qsl-snum" id="qslS2">0</div><div class="qsl-slbl">VERIFICATIONS</div></div>
+    <div class="qsl-stat"><div class="qsl-snum" id="qslS3">0</div><div class="qsl-slbl">REPORTS</div></div>
+  </div>
+</div>
+
+<div class="qsl-refs">
+  <span class="qsl-ref">QCS 2024</span><span class="qsl-ref">·</span>
+  <span class="qsl-ref">ASHGHAL RDM 2023</span><span class="qsl-ref">·</span>
+  <span class="qsl-ref">KAHRAMAA 2024</span><span class="qsl-ref">·</span>
+  <span class="qsl-ref">MMUP</span><span class="qsl-ref">·</span>
+  <span class="qsl-ref">FIDIC</span>
+</div>
+</div>
+
+<script>
+(function(){
+  var C=document.getElementById('qslCanvas');
+  var ctx=C.getContext('2d');
+  var W,H,pts=[],frame=0,pulses=[],alive=true;
+  function resize(){W=C.width=window.innerWidth;H=C.height=window.innerHeight}
+  resize();window.addEventListener('resize',function(){resize();spawnPts()});
+
+  function P(){this.reset(true)}
+  P.prototype.reset=function(init){
+    this.x=init?Math.random()*W:Math.random()<.5?0:W;
+    this.y=init?Math.random()*H:Math.random()*H;
+    this.vx=(Math.random()-.5)*.24;this.vy=(Math.random()-.5)*.18;
+    this.r=Math.random()*.8+.15;
+    this.life=Math.random()*400+150;this.age=init?Math.random()*this.life:0;
+    this.gold=Math.random()>.5;
+  };
+  P.prototype.alpha=function(){return Math.sin(this.age/this.life*Math.PI)*(this.gold?.58:.28)};
+  P.prototype.step=function(){
+    this.x+=this.vx;this.y+=this.vy;this.age++;
+    if(this.age>this.life||this.x<-5||this.x>W+5||this.y<-5||this.y>H+5)this.reset(false);
+  };
+  P.prototype.draw=function(){
+    ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,6.28);
+    ctx.fillStyle=this.gold?'rgba(201,169,110,'+this.alpha()+')':'rgba(255,255,255,'+this.alpha()*.6+')';
+    ctx.fill();
+  };
+
+  function spawnPts(){pts=[];for(var i=0;i<120;i++)pts.push(new P())}
+  spawnPts();
+
+  function drawGrid(){
+    ctx.lineWidth=.5;ctx.strokeStyle='rgba(201,169,110,.027)';
+    for(var x=0;x<W;x+=68){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}
+    for(var y=0;y<H;y+=68){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+  }
+  function drawGlow(){
+    var pulse=Math.sin(frame*.014)*.1+.9;
+    var g=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,260*pulse);
+    g.addColorStop(0,'rgba(201,169,110,.06)');g.addColorStop(.45,'rgba(201,169,110,.016)');g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(W/2,H/2,360*pulse,0,6.28);ctx.fill();
+  }
+  function drawConns(){
+    for(var i=0;i<pts.length;i++){
+      for(var j=i+1;j<pts.length;j++){
+        var dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+        if(d<85){ctx.lineWidth=.4;ctx.strokeStyle='rgba(201,169,110,'+(1-d/85)*.05+')';ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.stroke()}
+      }
+    }
+  }
+  function drawPulses(){
+    pulses=pulses.filter(function(p){return p.a>0});
+    pulses.forEach(function(p){ctx.beginPath();ctx.arc(W/2,H/2,p.r,0,6.28);ctx.strokeStyle='rgba(201,169,110,'+p.a+')';ctx.lineWidth=.8;ctx.stroke();p.r+=1.8;p.a-=.003});
+  }
+  setInterval(function(){pulses.push({r:0,a:.2})},3200);
+
+  function loop(){
+    if(!alive)return;
+    ctx.clearRect(0,0,W,H);ctx.fillStyle='#03030A';ctx.fillRect(0,0,W,H);
+    drawGrid();drawGlow();drawConns();
+    pts.forEach(function(p){p.step();p.draw()});
+    drawPulses();frame++;requestAnimationFrame(loop);
+  }
+  loop();
+
+  // Tick marks
+  var hw=document.getElementById('qslHaloWrap');
+  for(var i=0;i<24;i++){var t=document.createElement('div');t.className='qsl-tick';t.style.transform='rotate('+(i*15)+'deg) translateY(-210px)';hw.appendChild(t)}
+
+  // Counters
+  function countTo(el,target,dur){
+    if(!el)return;var start=null;
+    (function step(ts){if(!start)start=ts;var p=Math.min((ts-start)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(target*e);if(p<1)requestAnimationFrame(step)})(performance.now());
+  }
+  setTimeout(function(){
+    countTo(document.getElementById('qslM1'),2847,1800);
+    countTo(document.getElementById('qslM2'),14,900);
+    countTo(document.getElementById('qslM3'),12394,2200);
+    countTo(document.getElementById('qslM4'),1847,1600);
+    countTo(document.getElementById('qslM5'),7,700);
+    countTo(document.getElementById('qslS1'),3240,2400);
+    countTo(document.getElementById('qslS2'),18750,2600);
+    countTo(document.getElementById('qslS3'),6820,2200);
+    setTimeout(function(){
+      var ws=['88%','62%','76%','55%','100%','40%'];
+      ['qslF1','qslF2','qslF3','qslF4','qslF5','qslF6'].forEach(function(id,i){var el=document.getElementById(id);if(el)el.style.width=ws[i]});
+    },200);
+  },2000);
+
+  // Enter button
+  document.getElementById('qslEnterBtn').addEventListener('click',function(){
+    var el=document.getElementById('qs-landing');
+    el.classList.add('qsl-exit');
+    setTimeout(function(){el.style.display='none';alive=false},950);
+  });
+
+  // Auto-dismiss after 8 seconds if user doesn't click
+  setTimeout(function(){
+    var el=document.getElementById('qs-landing');
+    if(el&&el.style.display!=='none'){el.classList.add('qsl-exit');setTimeout(function(){el.style.display='none';alive=false},950)}
+  },8000);
+})();
+</script>
+<!-- ═══ END ANIMATED LANDING SCREEN ═══ -->
+
 <div id="offlineBar" role="alert">📡 أنت غير متصل — بعض الميزات غير متاحة</div>
 
 <div id="update-banner" role="alert" style="display:none;background:linear-gradient(135deg,#7a1515,#c9a84c);padding:10px 16px;text-align:center;font-size:13px;color:#fff;font-family:Tajawal,sans-serif;">
