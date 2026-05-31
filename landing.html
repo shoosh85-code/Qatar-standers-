@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QatarSpec Pro — Landing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Cairo:wght@200;300;400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#C9A96E;--gold2:#E8C990;--gold3:#F5DFA8;
+  --bg:#03030A;
+  --text:rgba(255,255,255,.88);
+  --text2:rgba(255,255,255,.42);
+  --text3:rgba(255,255,255,.18);
+}
+html,body{
+  width:100%;height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Cairo',sans-serif;
+  overflow:hidden;
+  cursor:none;
+}
+
+/* Custom cursor */
+#cur{position:fixed;z-index:9999;width:4px;height:4px;background:var(--gold);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);box-shadow:0 0 8px var(--gold);transition:transform .1s}
+#cur-ring{position:fixed;z-index:9998;width:26px;height:26px;border:1px solid rgba(201,169,110,.35);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%)}
+
+canvas#bg{position:fixed;inset:0;width:100%;height:100%}
+
+/* Halo rings */
+.halo-wrap{position:fixed;top:50%;left:50%;pointer-events:none}
+.halo{position:absolute;border-radius:50%;transform:translate(-50%,-50%);top:0;left:0;border-style:solid}
+.h1{width:440px;height:440px;border-width:1px;border-color:rgba(201,169,110,.13);animation:spinCW 20s linear infinite}
+.h2{width:310px;height:310px;border-width:1px;border-color:rgba(201,169,110,.10);border-style:dashed;animation:spinCCW 13s linear infinite}
+.h3{width:200px;height:200px;border-width:1px;border-color:rgba(201,169,110,.16);animation:spinCW 8s linear infinite}
+.h4{width:560px;height:560px;border-width:1px;border-color:rgba(255,255,255,.03);animation:spinCCW 35s linear infinite}
+.h5{width:680px;height:680px;border-width:1px;border-color:rgba(201,169,110,.04);animation:spinCW 55s linear infinite}
+@keyframes spinCW{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes spinCCW{to{transform:translate(-50%,-50%) rotate(-360deg)}}
+
+/* Tick marks */
+.tick{position:absolute;top:50%;left:50%;width:1px;height:8px;background:rgba(201,169,110,.55);transform-origin:0 -220px}
+.tick-s{position:absolute;top:50%;left:50%;width:1px;height:5px;background:rgba(201,169,110,.25);transform-origin:0 -220px}
+
+/* Core scene */
+.scene{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;z-index:10}
+
+/* Corners */
+.corner{position:fixed;width:20px;height:20px;border-color:rgba(201,169,110,.45);border-style:solid;opacity:0;animation:cornerIn .55s forwards}
+.c-tl{top:7%;left:4%;border-width:1px 0 0 1px;animation-delay:.3s}
+.c-tr{top:7%;right:4%;border-width:1px 1px 0 0;animation-delay:.4s}
+.c-bl{bottom:7%;left:4%;border-width:0 0 1px 1px;animation-delay:.5s}
+.c-br{bottom:7%;right:4%;border-width:0 1px 1px 0;animation-delay:.6s}
+@keyframes cornerIn{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:scale(1)}}
+
+/* Horizontal scan lines */
+.hline{position:fixed;left:6%;right:6%;height:1px;pointer-events:none}
+.hl-top{top:13%;background:linear-gradient(to right,transparent,rgba(201,169,110,.4),transparent);opacity:0;animation:fadeIn .8s 1s forwards}
+.hl-bot{bottom:13%;background:linear-gradient(to right,transparent,rgba(201,169,110,.3),transparent);opacity:0;animation:fadeIn .8s 1.2s forwards}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* Content */
+.core{
+  position:relative;z-index:5;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;
+  pointer-events:all;
+}
+
+.badge{
+  font-family:'Cinzel',serif;font-size:8.5px;
+  letter-spacing:.65em;color:rgba(201,169,110,.65);
+  margin-bottom:30px;
+  opacity:0;animation:riseIn .9s .35s forwards;
+}
+
+.logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(56px,9vw,100px);
+  font-weight:300;letter-spacing:.2em;line-height:.88;
+  opacity:0;animation:riseIn 1.1s .6s forwards;
+  position:relative;
+}
+.logo .q{
+  display:inline-block;
+  animation:goldShimmer 5s 2.5s ease-in-out infinite alternate;
+}
+@keyframes goldShimmer{
+  0%{color:#fff;text-shadow:none}
+  50%{color:var(--gold2);text-shadow:0 0 50px rgba(201,169,110,.5)}
+  100%{color:var(--gold3);text-shadow:0 0 90px rgba(201,169,110,.7),0 0 20px rgba(201,169,110,.4)}
+}
+.logo .spec{
+  font-style:italic;color:var(--gold2);
+}
+
+.pro-lbl{
+  font-family:'Cinzel',serif;
+  font-size:clamp(13px,1.8vw,18px);
+  font-weight:300;letter-spacing:.9em;
+  color:var(--gold);margin-top:10px;
+  opacity:0;animation:riseIn .8s .85s forwards;
+}
+
+.sub{
+  font-size:10px;font-weight:300;
+  letter-spacing:.2em;color:var(--text3);
+  margin-top:8px;
+  opacity:0;animation:riseIn .7s 1.05s forwards;
+}
+
+/* Divider */
+.div{
+  display:flex;align-items:center;gap:18px;
+  margin:34px 0;
+  opacity:0;animation:riseIn .6s 1.2s forwards;
+}
+.dl{width:65px;height:1px;background:linear-gradient(to left,var(--gold),transparent)}
+.dr{width:65px;height:1px;background:linear-gradient(to right,var(--gold),transparent)}
+.dm{
+  width:6px;height:6px;
+  background:var(--gold);
+  transform:rotate(45deg);
+  box-shadow:0 0 14px rgba(201,169,110,.9);
+  animation:dmPulse 2.5s ease-in-out infinite;
+}
+@keyframes dmPulse{
+  0%,100%{box-shadow:0 0 6px rgba(201,169,110,.5)}
+  50%{box-shadow:0 0 26px rgba(201,169,110,1),0 0 8px rgba(201,169,110,.4)}
+}
+
+/* Enter button */
+.btn-enter{
+  font-family:'Cinzel',serif;font-size:9.5px;
+  letter-spacing:.55em;color:var(--gold);
+  background:transparent;border:none;cursor:pointer;outline:none;
+  opacity:0;animation:riseIn .8s 1.4s forwards;
+  pointer-events:all;
+}
+.btn-inner{
+  display:inline-flex;align-items:center;gap:14px;
+  padding:15px 54px;
+  border:1px solid rgba(201,169,110,.38);
+  position:relative;overflow:hidden;
+  transition:color .42s;
+}
+.btn-inner::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  transform:scaleX(0);transform-origin:right;
+  transition:transform .45s cubic-bezier(.4,0,.2,1);
+}
+.btn-enter:hover .btn-inner{color:#000}
+.btn-enter:hover .btn-inner::before{transform:scaleX(1);transform-origin:left}
+.btn-txt{position:relative;z-index:1}
+.btn-arr{
+  position:relative;z-index:1;
+  width:9px;height:9px;
+  border-right:1px solid currentColor;
+  border-bottom:1px solid currentColor;
+  transform:rotate(-45deg) translateY(-1px);
+  transition:transform .3s;
+}
+.btn-enter:hover .btn-arr{transform:rotate(-45deg) translate(3px,1px)}
+
+/* Stats strip */
+.stats{
+  display:flex;gap:0;margin-top:38px;
+  opacity:0;animation:riseIn .7s 1.6s forwards;
+}
+.stat{text-align:center;padding:0 28px}
+.stat+.stat{border-right:1px solid rgba(201,169,110,.15)}
+.stat-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;font-weight:300;
+  color:var(--gold2);line-height:1;
+}
+.stat-lbl{
+  font-size:7.5px;letter-spacing:.32em;
+  color:var(--text3);margin-top:3px;
+}
+
+/* Bottom refs */
+.refs{
+  position:fixed;bottom:5%;left:50%;
+  transform:translateX(-50%);
+  display:flex;gap:20px;
+  opacity:0;animation:riseIn .7s 1.9s forwards;
+  white-space:nowrap;pointer-events:none;
+  z-index:10;
+}
+.ref{font-size:7.5px;letter-spacing:.25em;color:var(--text3)}
+
+/* Sidebar metric cards */
+.sidebar{
+  position:fixed;top:50%;
+  transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:11px;
+  z-index:10;pointer-events:none;
+  opacity:0;animation:riseIn .7s 1.75s forwards;
+}
+.sb-l{left:3%}
+.sb-r{right:3%}
+
+.mc{
+  width:115px;
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(201,169,110,.13);
+  padding:11px 13px;
+  position:relative;overflow:hidden;
+}
+.mc::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(to right,transparent,rgba(201,169,110,.45),transparent);
+  transform:scaleX(0);transition:transform .4s;
+}
+.mc:hover::after{transform:scaleX(1)}
+.mc-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--gold);
+  position:absolute;top:10px;right:10px;
+  animation:dotBlink 2.5s ease-in-out infinite;
+}
+@keyframes dotBlink{
+  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(201,169,110,.5)}
+  50%{opacity:.5;box-shadow:0 0 0 5px rgba(201,169,110,0)}
+}
+.mc-val{
+  font-family:'Cormorant Garamond',serif;
+  font-size:24px;font-weight:300;
+  color:var(--gold2);
+}
+.mc-lbl{
+  font-size:7.5px;letter-spacing:.2em;
+  color:var(--text3);margin-top:3px;
+  line-height:1.5;
+}
+.mc-bar{
+  margin-top:8px;height:2px;
+  background:rgba(255,255,255,.05);
+  overflow:hidden;
+}
+.mc-fill{
+  height:100%;
+  background:linear-gradient(to right,var(--gold),var(--gold2));
+  width:0;
+  transition:width 2s 2s cubic-bezier(.4,0,.2,1);
+}
+
+@keyframes riseIn{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* Version stamp */
+.version{
+  position:fixed;top:7%;left:50%;transform:translateX(-50%);
+  font-family:'Cinzel',serif;font-size:8px;
+  letter-spacing:.4em;color:var(--text3);
+  z-index:10;pointer-events:none;
+  opacity:0;animation:fadeIn .7s 2.1s forwards;
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<canvas id="bg"></canvas>
+
+<!-- Halo rings -->
+<div class="halo-wrap" id="hw">
+  <div class="halo h5"></div>
+  <div class="halo h4"></div>
+  <div class="halo h1" id="h1r"></div>
+  <div class="halo h2"></div>
+  <div class="halo h3"></div>
+</div>
+
+<!-- Horizontal lines -->
+<div class="hline hl-top"></div>
+<div class="hline hl-bot"></div>
+
+<!-- Corners -->
+<div class="corner c-tl"></div>
+<div class="corner c-tr"></div>
+<div class="corner c-bl"></div>
+<div class="corner c-br"></div>
+
+<!-- Sidebar L -->
+<div class="sidebar sb-l" id="sbl">
+  <div class="mc">
+    <div class="mc-dot"></div>
+    <div class="mc-val" id="m1">0</div>
+    <div class="mc-lbl">QCS CLAUSES<br>مواد القياسية</div>
+    <div class="mc-bar"><div class="mc-fill" id="f1" style="width:0"></div></div>
+  </div>
+  <div class="mc">
+    <div class="mc-dot" style="animation-delay:.7s"></div>
+    <div class="mc-val" id="m2">0</div>
+    <div class="mc-lbl">CALCULATORS<br>حاسبات هندسية</div>
+    <div class="mc-bar"><div class="mc-fill" id="f2" style="width:0"></div></div>
+  </div>
+  <div class="mc">
+    <div class="mc-dot" style="animation-delay:1.3s"></div>
+    <div class="mc-val" id="m3">0</div>
+    <div class="mc-lbl">AI RESPONSES<br>إجابات الذكاء</div>
+    <div class="mc-bar"><div class="mc-fill" id="f3" style="width:0"></div></div>
+  </div>
+</div>
+
+<!-- Sidebar R -->
+<div class="sidebar sb-r" id="sbr">
+  <div class="mc">
+    <div class="mc-dot" style="animation-delay:.4s"></div>
+    <div class="mc-val" id="m4">0</div>
+    <div class="mc-lbl">ENGINEERS<br>مهندسون نشطون</div>
+    <div class="mc-bar"><div class="mc-fill" id="f4" style="width:0"></div></div>
+  </div>
+  <div class="mc">
+    <div class="mc-dot" style="animation-delay:1s"></div>
+    <div class="mc-val" id="m5">0</div>
+    <div class="mc-lbl">STANDARDS<br>معايير مدمجة</div>
+    <div class="mc-bar"><div class="mc-fill" id="f5" style="width:0"></div></div>
+  </div>
+  <div class="mc">
+    <div class="mc-dot" style="animation-delay:1.6s"></div>
+    <div class="mc-val" id="m6">99</div>
+    <div class="mc-lbl">QAR / MONTH<br>اشتراك شهري</div>
+    <div class="mc-bar"><div class="mc-fill" id="f6" style="width:0"></div></div>
+  </div>
+</div>
+
+<!-- Version -->
+<div class="version">QATARSPEC PRO · v3.0 · STATE OF QATAR</div>
+
+<!-- Core -->
+<div class="scene">
+  <div class="core">
+    <div class="badge">STATE OF QATAR · منصة المعايير الهندسية</div>
+
+    <div class="logo">
+      <span class="q">Q</span>ATAR<span class="spec">SPEC</span>
+    </div>
+    <div class="pro-lbl">P R O</div>
+    <div class="sub">QCS 2024 · ASHGHAL RDM · KAHRAMAA · MMUP · FIDIC</div>
+
+    <div class="div">
+      <div class="dl"></div>
+      <div class="dm"></div>
+      <div class="dr"></div>
+    </div>
+
+    <button class="btn-enter" id="btnEnter">
+      <div class="btn-inner">
+        <span class="btn-txt">ENTER PLATFORM · ادخل المنصة</span>
+        <span class="btn-arr"></span>
+      </div>
+    </button>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num" id="s1">0</div>
+        <div class="stat-lbl">PROJECTS</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="s2">0</div>
+        <div class="stat-lbl">VERIFICATIONS</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="s3">0</div>
+        <div class="stat-lbl">REPORTS</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom refs -->
+<div class="refs">
+  <span class="ref">QCS 2024</span>
+  <span class="ref">·</span>
+  <span class="ref">ASHGHAL RDM 2023</span>
+  <span class="ref">·</span>
+  <span class="ref">KAHRAMAA 2024</span>
+  <span class="ref">·</span>
+  <span class="ref">MMUP</span>
+  <span class="ref">·</span>
+  <span class="ref">FIDIC</span>
+</div>
+
+<script>
+// ── CURSOR ──
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+(function raf(){
+  rx+=(mx-rx)*.09;ry+=(my-ry)*.09;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(raf);
+})();
+document.querySelectorAll('button,a').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='40px';ring.style.height='40px'});
+  el.addEventListener('mouseleave',()=>{ring.style.width='26px';ring.style.height='26px'});
+});
+
+// ── CANVAS BACKGROUND ──
+const C=document.getElementById('bg');
+const ctx=C.getContext('2d');
+let W,H,pts=[],frame=0;
+function resize(){W=C.width=window.innerWidth;H=C.height=window.innerHeight;}
+resize();
+window.addEventListener('resize',()=>{resize();spawnPts();});
+
+// Particle class
+class P{
+  constructor(){this.reset(true)}
+  reset(init){
+    this.x=init?Math.random()*W:Math.random()<.5?0:W;
+    this.y=init?Math.random()*H:Math.random()*H;
+    this.vx=(Math.random()-.5)*.25;
+    this.vy=(Math.random()-.5)*.18;
+    this.r=Math.random()*.85+.15;
+    this.life=Math.random()*400+150;
+    this.age=init?Math.random()*this.life:0;
+    this.gold=Math.random()>.5;
+  }
+  get alpha(){return Math.sin(this.age/this.life*Math.PI)*(this.gold?.6:.3)}
+  step(){
+    this.x+=this.vx;this.y+=this.vy;this.age++;
+    if(this.age>this.life||this.x<-5||this.x>W+5||this.y<-5||this.y>H+5)this.reset(false);
+  }
+  draw(){
+    ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,6.28);
+    ctx.fillStyle=this.gold
+      ?`rgba(201,169,110,${this.alpha})`
+      :`rgba(255,255,255,${this.alpha*.6})`;
+    ctx.fill();
+  }
+}
+
+function spawnPts(){pts=[];for(let i=0;i<130;i++)pts.push(new P())}
+spawnPts();
+
+function drawGrid(){
+  const g=68;
+  ctx.lineWidth=.5;ctx.strokeStyle='rgba(201,169,110,.028)';
+  for(let x=0;x<W;x+=g){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}
+  for(let y=0;y<H;y+=g){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+}
+
+function drawGlow(){
+  const cx=W/2,cy=H/2;
+  const pulse=Math.sin(frame*.014)*.1+.9;
+  const g=ctx.createRadialGradient(cx,cy,0,cx,cy,260*pulse);
+  g.addColorStop(0,'rgba(201,169,110,.06)');
+  g.addColorStop(.45,'rgba(201,169,110,.018)');
+  g.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=g;
+  ctx.beginPath();ctx.arc(cx,cy,360*pulse,0,6.28);ctx.fill();
+}
+
+function drawConns(){
+  for(let i=0;i<pts.length;i++){
+    for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<88){
+        ctx.lineWidth=.4;
+        ctx.strokeStyle=`rgba(201,169,110,${(1-d/88)*.055})`;
+        ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.stroke();
+      }
+    }
+  }
+}
+
+// Pulse wave
+let pulses=[];
+function addPulse(){pulses.push({r:0,a:.22})}
+setInterval(addPulse,3200);
+function drawPulses(){
+  pulses=pulses.filter(p=>p.a>0);
+  pulses.forEach(p=>{
+    ctx.beginPath();ctx.arc(W/2,H/2,p.r,0,6.28);
+    ctx.strokeStyle=`rgba(201,169,110,${p.a})`;ctx.lineWidth=.8;ctx.stroke();
+    p.r+=1.8;p.a-=.003;
+  });
+}
+
+function loop(){
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#03030A';ctx.fillRect(0,0,W,H);
+  drawGrid();drawGlow();drawConns();
+  pts.forEach(p=>{p.step();p.draw()});
+  drawPulses();
+  frame++;requestAnimationFrame(loop);
+}
+loop();
+
+// ── TICK MARKS ──
+const hw=document.getElementById('hw');
+for(let i=0;i<24;i++){
+  const t=document.createElement('div');
+  t.className='tick';
+  t.style.transform=`rotate(${i*15}deg) translateY(-220px)`;
+  hw.appendChild(t);
+}
+for(let i=0;i<72;i++){
+  const t=document.createElement('div');
+  t.className='tick-s';
+  t.style.transform=`rotate(${i*5}deg) translateY(-220px)`;
+  hw.appendChild(t);
+}
+
+// ── COUNTERS ──
+function countTo(el,target,dur){
+  if(!el)return;
+  let start=null;
+  (function step(ts){
+    if(!start)start=ts;
+    const p=Math.min((ts-start)/dur,1);
+    const ease=1-Math.pow(1-p,3);
+    el.textContent=Math.round(target*ease);
+    if(p<1)requestAnimationFrame(step);
+  })(performance.now());
+}
+
+setTimeout(()=>{
+  countTo(document.getElementById('m1'),2847,1800);
+  countTo(document.getElementById('m2'),14,900);
+  countTo(document.getElementById('m3'),12394,2200);
+  countTo(document.getElementById('m4'),1847,1600);
+  countTo(document.getElementById('m5'),7,700);
+  countTo(document.getElementById('s1'),3240,2400);
+  countTo(document.getElementById('s2'),18750,2600);
+  countTo(document.getElementById('s3'),6820,2200);
+  // Progress bars
+  setTimeout(()=>{
+    ['f1','f2','f3','f4','f5','f6'].forEach((id,i)=>{
+      const el=document.getElementById(id);
+      const ws=['88%','62%','76%','55%','100%','40%'];
+      if(el)el.style.width=ws[i];
+    });
+  },200);
+},2000);
+
+// ── BUTTON ──
+document.getElementById('btnEnter').addEventListener('click',()=>{
+  document.body.style.transition='opacity .8s';
+  document.body.style.opacity='0';
+  setTimeout(()=>window.location.reload(),900);
+});
+</script>
+</body>
+</html>
