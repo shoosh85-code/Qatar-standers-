@@ -62,7 +62,8 @@ import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
-import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
+import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
+import { SSAOPass } from 'three/addons/postprocessing/SSAOPass.js';
 import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
 
 RectAreaLightUniformsLib.init();
@@ -270,10 +271,15 @@ function addFurniture(group, room, H) {
   else if(type==='bathroom'){
     // حوض
     box(0.5, 0.8, 0.45, white, cx+rw*0.3, 0.4, cz-rd*0.3);
-    // مرآة
-    box(0.6, 0.7, 0.03, new THREE.MeshPhysicalMaterial({color:0xC8D8E8,roughness:0.02,metalness:0.9}), cx+rw*0.3, 1.4, cz-rd*0.45);
+    // مرآة — انعكاس حقيقي
+    box(0.6, 0.7, 0.03, new THREE.MeshPhysicalMaterial({color:0xDDEEFF,roughness:0.0,metalness:1.0,clearcoat:1,envMapIntensity:3}), cx+rw*0.3, 1.4, cz-rd*0.45);
     // حمام (bathtub)
     box(rw*0.35, 0.45, rd*0.55, white, cx-rw*0.25, 0.225, cz+rd*0.1);
+    // مرحاض
+    const toiletBase = new THREE.Mesh(new THREE.CylinderGeometry(0.18,0.2,0.38,12), white);
+    toiletBase.position.set(cx-rw*0.3, 0.19, cz-rd*0.3); toiletBase.castShadow=true; group.add(toiletBase);
+    const toiletTank = new THREE.Mesh(new THREE.BoxGeometry(0.35,0.35,0.18), white);
+    toiletTank.position.set(cx-rw*0.3, 0.36, cz-rd*0.42); group.add(toiletTank);
   }
   else if(type==='office'){
     // مكتب
@@ -325,6 +331,36 @@ function addFurniture(group, room, H) {
   box(Math.min(rw*0.3,1.2), 0.02, Math.min(rd*0.15,0.5),
     new THREE.MeshStandardMaterial({color:0xFFFFFF,emissive:0xFFF4E0,emissiveIntensity:0.3}),
     cx, H - 0.02, cz);
+
+  // ── نباتات داخلية (في الغرف الكبيرة) ──
+  if (rw > 2.5 && rd > 2.5 && type !== 'bathroom' && type !== 'server') {
+    const potMat = new THREE.MeshStandardMaterial({color:0x8B5E3C,roughness:0.7});
+    const leafMat = new THREE.MeshStandardMaterial({color:0x2D8B2D,roughness:0.6,side:THREE.DoubleSide});
+    const px = minX + 0.5, pz = minZ + 0.5;
+    // وعاء
+    const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.1,0.2,8), potMat);
+    pot.position.set(px,0.1,pz); pot.castShadow=true; group.add(pot);
+    // أوراق (3 spheres)
+    for(let i=0;i<3;i++){
+      const leaf = new THREE.Mesh(new THREE.SphereGeometry(0.12+i*0.03,6,6), leafMat);
+      leaf.position.set(px+(i-1)*0.06, 0.3+i*0.08, pz+(i%2)*0.05);
+      leaf.scale.set(1,0.7+i*0.2,1);
+      group.add(leaf);
+    }
+  }
+
+  // ── لوحة جدارية (في غرف النوم والمجالس) ──
+  if (type === 'bedroom' || type === 'living' || type === 'majlis') {
+    const frameMat = new THREE.MeshStandardMaterial({color:0x3A2A10,roughness:0.4,metalness:0.1});
+    const artMat = new THREE.MeshStandardMaterial({color: type==='bedroom'?0x4080A0:0xA05030,roughness:0.8});
+    const fw = Math.min(rw*0.25, 1.2), fh = 0.7;
+    // إطار
+    const frame = new THREE.Mesh(new THREE.BoxGeometry(fw+0.06,fh+0.06,0.03), frameMat);
+    frame.position.set(cx, H*0.6, minZ+0.08); frame.castShadow=true; group.add(frame);
+    // لوحة
+    const art = new THREE.Mesh(new THREE.PlaneGeometry(fw,fh), artMat);
+    art.position.set(cx, H*0.6, minZ+0.1); group.add(art);
+  }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -365,12 +401,25 @@ function build(data) {
   scene.background=new THREE.Color(0x080814);
   scene.fog=new THREE.FogExp2(0x080814,0.004);
 
-  // Env map (gradient)
+  // Env map — gradient sky for reflections
   const pmrem=new THREE.PMREMGenerator(renderer);
-  const envScene=new THREE.Scene();
-  envScene.background=new THREE.Color(0x101020);
-  const envTex=pmrem.fromScene(envScene,0.04).texture;
-  scene.environment=envTex;
+  pmrem.compileEquirectangularShader();
+  const envCanvas=document.createElement('canvas');envCanvas.width=512;envCanvas.height=256;
+  const ectx=envCanvas.getContext('2d');
+  const grad=ectx.createLinearGradient(0,0,0,256);
+  grad.addColorStop(0,'#1a2a50');grad.addColorStop(0.3,'#2a3a6a');
+  grad.addColorStop(0.5,'#405080');grad.addColorStop(0.7,'#304060');
+  grad.addColorStop(1,'#101020');
+  ectx.fillStyle=grad;ectx.fillRect(0,0,512,256);
+  // نقاط ضوء خافتة
+  for(let i=0;i<15;i++){
+    ectx.fillStyle=`rgba(255,240,200,${0.02+Math.random()*0.03})`;
+    ectx.beginPath();ectx.arc(Math.random()*512,Math.random()*128,10+Math.random()*20,0,Math.PI*2);ectx.fill();
+  }
+  const envTex2=new THREE.CanvasTexture(envCanvas);envTex2.mapping=THREE.EquirectangularReflectionMapping;
+  const envMap=pmrem.fromEquirectangular(envTex2).texture;
+  scene.environment=envMap;
+  envTex2.dispose();pmrem.dispose();
 
   const floor=data.floors[0];
   const fH=floor.height_m||3;
@@ -432,7 +481,7 @@ function build(data) {
     const rw2=Math.max(...poly.map(p=>p[0]))-Math.min(...poly.map(p=>p[0]));
     const rd2=Math.max(...poly.map(p=>p[1]))-Math.min(...poly.map(p=>p[1]));
     tex.repeat.set(rw2/1.5,rd2/1.5);
-    const mat=new THREE.MeshStandardMaterial({map:tex,roughness:0.4,metalness:0.05,side:THREE.DoubleSide,envMapIntensity:0.3});
+    const mat=new THREE.MeshPhysicalMaterial({map:tex,roughness:0.35,metalness:0.02,side:THREE.DoubleSide,envMapIntensity:0.4,clearcoat:0.25,clearcoatRoughness:0.3,reflectivity:0.3});
     const mesh=new THREE.Mesh(new THREE.ShapeGeometry(shape),mat);
     mesh.rotation.x=-Math.PI/2;mesh.position.y=0.003;mesh.receiveShadow=true;scene.add(mesh);
     // أثاث
@@ -499,10 +548,13 @@ function build(data) {
     const mmat=new THREE.MeshStandardMaterial({color:0x606868,roughness:0.25,metalness:0.6});
     const mh=new THREE.Mesh(new THREE.BoxGeometry(wW-0.04,0.02,th*0.3),mmat);mh.position.set(wp[0],sill+wH/2,wp[1]);mh.rotation.y=-ang;winGroup.add(mh);
     const mv=new THREE.Mesh(new THREE.BoxGeometry(0.02,wH-0.04,th*0.3),mmat);mv.position.set(wp[0],sill+wH/2,wp[1]);mv.rotation.y=-ang;winGroup.add(mv);
-    // glass — MeshPhysicalMaterial
+    // glass — MeshPhysicalMaterial with real transmission
     const gg=new THREE.Mesh(new THREE.PlaneGeometry(wW-0.06,wH-0.06),new THREE.MeshPhysicalMaterial({
-      color:0x88C8F0,roughness:0.01,metalness:0.05,transparent:true,opacity:0.25,
-      side:THREE.DoubleSide,envMapIntensity:1.5,clearcoat:1,clearcoatRoughness:0.02
+      color:0x88D4FF,roughness:0.01,metalness:0.0,
+      transparent:true,opacity:0.15,
+      transmission:0.92,ior:1.5,thickness:0.02,
+      side:THREE.DoubleSide,envMapIntensity:2.0,clearcoat:1,clearcoatRoughness:0.01,
+      specularIntensity:1.0,specularColor:0xffffff
     }));
     gg.position.set(wp[0],sill+wH/2,wp[1]);gg.rotation.y=-ang;winGroup.add(gg);
     // sill ledge
@@ -534,11 +586,27 @@ function build(data) {
     spr.position.set(rcx,fH*0.55,rcy);spr.scale.set(2.8,1.1,1);labelGroup.add(spr);
   }
 
-  // ── Post-processing
+  // ── Post-processing — premium pipeline
   composer=new EffectComposer(renderer);
-  composer.addPass(new RenderPass(scene,camera));
-  const bloom=new UnrealBloomPass(new THREE.Vector2(W,H2),0.15,0.5,0.85);
+  const renderPass=new RenderPass(scene,camera);
+  composer.addPass(renderPass);
+  // SSAO — ظلال زوايا واقعية
+  try {
+    const ssao=new SSAOPass(scene,camera,W,H2);
+    ssao.kernelRadius=0.6;
+    ssao.minDistance=0.001;
+    ssao.maxDistance=0.15;
+    ssao.output=SSAOPass.OUTPUT.Default;
+    composer.addPass(ssao);
+  } catch(e){ console.warn('[PostFX] SSAO unavailable:', e.message); }
+  // Bloom — توهج خفيف
+  const bloom=new UnrealBloomPass(new THREE.Vector2(W,H2),0.12,0.4,0.88);
   composer.addPass(bloom);
+  // SMAA — anti-aliasing نظيف
+  try {
+    const smaa=new SMAAPass(W*renderer.getPixelRatio(),H2*renderer.getPixelRatio());
+    composer.addPass(smaa);
+  } catch(e){ console.warn('[PostFX] SMAA unavailable:', e.message); }
   composer.addPass(new OutputPass());
 
   // ── UI
