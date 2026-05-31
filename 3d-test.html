@@ -194,23 +194,54 @@ const RC = {
 };
 
 function tileTex(color) {
-  const c = document.createElement('canvas'); c.width=256; c.height=256;
-  const x = c.getContext('2d');
-  const cs = '#'+color.toString(16).padStart(6,'0');
+  const c=document.createElement('canvas'); c.width=256; c.height=256;
+  const x=c.getContext('2d');
+  const cs='#'+color.toString(16).padStart(6,'0');
   x.fillStyle=cs; x.fillRect(0,0,256,256);
-  x.strokeStyle='rgba(0,0,0,0.06)'; x.lineWidth=1;
+  x.strokeStyle='rgba(0,0,0,0.08)'; x.lineWidth=2;
   for(let i=0;i<=256;i+=64){x.beginPath();x.moveTo(i,0);x.lineTo(i,256);x.stroke();x.beginPath();x.moveTo(0,i);x.lineTo(256,i);x.stroke();}
-  // grout lines
-  x.strokeStyle='rgba(255,255,255,0.03)'; x.lineWidth=2;
-  for(let i=0;i<=256;i+=64){x.beginPath();x.moveTo(i+1,0);x.lineTo(i+1,256);x.stroke();}
+  for(let ty=0;ty<4;ty++){for(let tx=0;tx<4;tx++){
+    x.fillStyle=`rgba(${Math.random()>0.5?255:0},${Math.random()>0.5?255:0},${Math.random()>0.5?255:0},0.018)`;
+    x.fillRect(tx*64+3,ty*64+3,58,58);
+  }}
+  const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; return t;
+}
+function tileBump() {
+  const c=document.createElement('canvas'); c.width=256; c.height=256;
+  const x=c.getContext('2d');
+  x.fillStyle='#808080'; x.fillRect(0,0,256,256);
+  x.fillStyle='#505050';
+  for(let i=0;i<=256;i+=64){x.fillRect(i-1,0,3,256);x.fillRect(0,i-1,256,3);}
+  for(let ty=0;ty<4;ty++){for(let tx=0;tx<4;tx++){
+    x.fillStyle=`rgb(${135+Math.random()*30},${135+Math.random()*30},${135+Math.random()*30})`;
+    x.fillRect(tx*64+3,ty*64+3,58,58);
+  }}
   const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; return t;
 }
 
 function wallTex(isExt) {
-  const c=document.createElement('canvas');c.width=128;c.height=128;
+  const c=document.createElement('canvas');c.width=256;c.height=256;
   const x=c.getContext('2d');
-  x.fillStyle=isExt?'#E0D4C0':'#EDEAE4'; x.fillRect(0,0,128,128);
-  if(isExt){x.strokeStyle='rgba(0,0,0,0.03)';x.lineWidth=0.5;for(let y=0;y<128;y+=10){x.beginPath();x.moveTo(0,y);x.lineTo(128,y);x.stroke();const o=(Math.floor(y/10)%2)*24;for(let xx=o;xx<128;xx+=48){x.beginPath();x.moveTo(xx,y);x.lineTo(xx,y+10);x.stroke();}}}
+  x.fillStyle=isExt?'#E0D4C0':'#EDEAE4'; x.fillRect(0,0,256,256);
+  if(isExt){
+    x.strokeStyle='rgba(0,0,0,0.05)';x.lineWidth=1;
+    for(let y=0;y<256;y+=16){x.beginPath();x.moveTo(0,y);x.lineTo(256,y);x.stroke();const o=(Math.floor(y/16)%2)*32;for(let xx=o;xx<256;xx+=64){x.beginPath();x.moveTo(xx,y);x.lineTo(xx,y+16);x.stroke();}}
+    for(let y=0;y<256;y+=16){const o=(Math.floor(y/16)%2)*32;for(let xx=o;xx<256;xx+=64){x.fillStyle=`rgba(${120+Math.random()*60},${100+Math.random()*50},${80+Math.random()*40},0.03)`;x.fillRect(xx+1,y+1,62,14);}}
+  } else {
+    for(let i=0;i<200;i++){x.fillStyle=`rgba(${140+Math.random()*40},${140+Math.random()*40},${140+Math.random()*40},0.02)`;x.fillRect(Math.random()*256,Math.random()*256,3+Math.random()*8,3+Math.random()*8);}
+  }
+  const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;return t;
+}
+function wallBump(isExt) {
+  const c=document.createElement('canvas');c.width=256;c.height=256;
+  const x=c.getContext('2d');
+  x.fillStyle='#808080';x.fillRect(0,0,256,256);
+  if(isExt){
+    x.fillStyle='#606060';for(let y=0;y<256;y+=16){x.fillRect(0,y,256,2);const o=(Math.floor(y/16)%2)*32;for(let xx=o;xx<256;xx+=64){x.fillRect(xx,y,2,16);}}
+    for(let y=0;y<256;y+=16){const o=(Math.floor(y/16)%2)*32;for(let xx=o;xx<256;xx+=64){x.fillStyle=`rgb(${128+Math.random()*25},${128+Math.random()*25},${128+Math.random()*25})`;x.fillRect(xx+2,y+2,60,12);}}
+  } else {
+    for(let i=0;i<300;i++){x.fillStyle=`rgb(${120+Math.random()*40},${120+Math.random()*40},${120+Math.random()*40})`;x.fillRect(Math.random()*256,Math.random()*256,2+Math.random()*5,2+Math.random()*5);}
+  }
   const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;return t;
 }
 
@@ -464,8 +495,8 @@ function build(data) {
   const back=new THREE.DirectionalLight(0x3050A0,0.2);
   back.position.set(cx-sz,fH*2,cz+sz);scene.add(back);
 
-  // ── Ground
-  const gm=new THREE.Mesh(new THREE.PlaneGeometry(sz*6,sz*6),new THREE.MeshStandardMaterial({color:0x141428,roughness:0.95}));
+  // ── Ground — reflective dark plane
+  const gm=new THREE.Mesh(new THREE.PlaneGeometry(sz*6,sz*6),new THREE.MeshPhysicalMaterial({color:0x101020,roughness:0.7,metalness:0.1,clearcoat:0.15,clearcoatRoughness:0.5,envMapIntensity:0.3}));
   gm.rotation.x=-Math.PI/2;gm.position.y=-0.02;gm.receiveShadow=true;scene.add(gm);
   const grid=new THREE.GridHelper(sz*5,sz*5,0x1C1C38,0x181830);
   grid.position.y=-0.01;grid.material.opacity=0.4;grid.material.transparent=true;scene.add(grid);
@@ -478,10 +509,12 @@ function build(data) {
     for(let i=1;i<poly.length;i++)shape.lineTo(poly[i][0],poly[i][1]);shape.closePath();
     const color=RC[room.name]||RC['default'];
     const tex=tileTex(color);
+    const bump=tileBump();
     const rw2=Math.max(...poly.map(p=>p[0]))-Math.min(...poly.map(p=>p[0]));
     const rd2=Math.max(...poly.map(p=>p[1]))-Math.min(...poly.map(p=>p[1]));
     tex.repeat.set(rw2/1.5,rd2/1.5);
-    const mat=new THREE.MeshPhysicalMaterial({map:tex,roughness:0.35,metalness:0.02,side:THREE.DoubleSide,envMapIntensity:0.4,clearcoat:0.25,clearcoatRoughness:0.3,reflectivity:0.3});
+    bump.repeat.set(rw2/1.5,rd2/1.5);
+    const mat=new THREE.MeshPhysicalMaterial({map:tex,bumpMap:bump,bumpScale:0.015,roughness:0.3,metalness:0.02,side:THREE.DoubleSide,envMapIntensity:0.5,clearcoat:0.35,clearcoatRoughness:0.25,reflectivity:0.4});
     const mesh=new THREE.Mesh(new THREE.ShapeGeometry(shape),mat);
     mesh.rotation.x=-Math.PI/2;mesh.position.y=0.003;mesh.receiveShadow=true;scene.add(mesh);
     // أثاث
@@ -497,8 +530,9 @@ function build(data) {
     const th=wall.thickness_m||0.2; const h=fH;
     const isE=wall.is_external!==false;
     const tex2=wallTex(isE);tex2.repeat.set(len/1.5,h/1.5);
+    const bump2=wallBump(isE);bump2.repeat.set(len/1.5,h/1.5);
     const geo=new THREE.BoxGeometry(len,h,th);
-    const mat=new THREE.MeshStandardMaterial({map:tex2,color:isE?0xE8DCC8:0xF0ECE4,roughness:0.65,metalness:0.02,envMapIntensity:0.1});
+    const mat=new THREE.MeshStandardMaterial({map:tex2,bumpMap:bump2,bumpScale:0.03,color:isE?0xE8DCC8:0xF0ECE4,roughness:0.65,metalness:0.02,envMapIntensity:0.15});
     const m=new THREE.Mesh(geo,mat);
     m.position.set((wall.start[0]+wall.end[0])/2,h/2,(wall.start[1]+wall.end[1])/2);
     m.rotation.y=-ang;m.castShadow=true;m.receiveShadow=true;
@@ -560,6 +594,37 @@ function build(data) {
     // sill ledge
     const sl=new THREE.Mesh(new THREE.BoxGeometry(wW+0.14,0.035,th+0.1),new THREE.MeshStandardMaterial({color:0xB0A898,roughness:0.4}));
     sl.position.set(wp[0],sill-0.017,wp[1]);sl.rotation.y=-ang;sl.castShadow=true;winGroup.add(sl);
+    // ستائر — يمين ويسار النافذة
+    const curtainColors = [0xD4C8B0, 0xC8B8A0, 0xBCAA90, 0xE0D4C0];
+    const cc = curtainColors[Math.floor(Math.random()*curtainColors.length)];
+    for(const side of [-1,1]){
+      const curtGeo = new THREE.PlaneGeometry(wW*0.35, fH-sill-0.1, 6, 12);
+      // تموّج الستارة
+      const pos = curtGeo.attributes.position;
+      for(let vi=0;vi<pos.count;vi++){
+        const px=pos.getX(vi), py=pos.getY(vi);
+        pos.setZ(vi, Math.sin(px*8)*0.04 + Math.sin(py*3)*0.02);
+      }
+      curtGeo.computeVertexNormals();
+      const curtMat = new THREE.MeshStandardMaterial({color:cc,roughness:0.85,side:THREE.DoubleSide,transparent:true,opacity:0.75});
+      const curt = new THREE.Mesh(curtGeo, curtMat);
+      curt.position.set(
+        wp[0] + Math.cos(ang)*side*(wW*0.42) + Math.sin(ang)*0.15,
+        sill + (fH-sill)/2,
+        wp[1] + Math.sin(ang)*side*(wW*0.42) - Math.cos(ang)*0.15
+      );
+      curt.rotation.y = -ang;
+      curt.castShadow=true;
+      winGroup.add(curt);
+    }
+    // قضيب ستارة
+    const rodGeo = new THREE.CylinderGeometry(0.012,0.012,wW+0.3,6);
+    rodGeo.rotateZ(Math.PI/2);
+    const rodMat = new THREE.MeshStandardMaterial({color:0x806040,roughness:0.3,metalness:0.6});
+    const rod = new THREE.Mesh(rodGeo, rodMat);
+    rod.position.set(wp[0]+Math.sin(ang)*0.15, fH-0.08, wp[1]-Math.cos(ang)*0.15);
+    rod.rotation.y = -ang;
+    winGroup.add(rod);
   }
 
   // ── Columns
