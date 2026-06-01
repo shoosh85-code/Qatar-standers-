@@ -965,3 +965,25 @@ hr {
 .plan-card:hover  { border-color: rgba(201,169,110,.35) !important; }
 .ai-card:hover    { border-color: rgba(201,169,110,.28) !important; }
 .upload-zone:hover{ border-color: rgba(201,169,110,.4)  !important; }
+
+/* ── Card Waves z-index — محتوى فوق الموجات ── */
+.cat-card,     .plan-card,   .ai-card,
+.feature-card, .metric-card, .upload-zone,
+.spec-row,     .modal-box,   .detail-modal,
+.upgrade-box {
+  position: relative !important;
+  overflow: hidden !important;
+}
+.cat-card     > *:not(canvas):not(.lx-shine):not(.lx-corner-wrap),
+.plan-card    > *:not(canvas),
+.ai-card      > *:not(canvas),
+.feature-card > *:not(canvas),
+.metric-card  > *:not(canvas),
+.upload-zone  > *:not(canvas),
+.spec-row     > *:not(canvas),
+.modal-box    > *:not(canvas),
+.detail-modal > *:not(canvas),
+.upgrade-box  > *:not(canvas) {
+  position: relative !important;
+  z-index: 1 !important;
+}
