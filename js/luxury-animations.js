@@ -1,402 +1,486 @@
 /**
- * QatarSpec Pro — Luxury Interactive Animations v1.0
- * تفاعل كامل: cursor · magnetic · ripple · particles · cards · scroll
+ * QatarSpec Pro — ULTRA Interactive Animations v2.0
+ * ✦ Magnetic cursor · Gold trails · 3D tilt · Liquid ripple
+ * ✦ Scroll reveal · Particle web · Breathing glow · Typewriter
+ * ✦ Counter · Progress bar · Spring modals · Scanline effect
  */
 (function () {
-  'use strict';
+'use strict';
+const reduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+const isMobile = window.innerWidth < 768;
+const css = txt => { const s=document.createElement('style'); s.textContent=txt; document.head.appendChild(s); };
 
-  const GOLD = 'rgba(201,169,110,';
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* ══════════════════════════════════════════════════
+   § 1  CUSTOM CURSOR + GOLD TRAIL
+══════════════════════════════════════════════════ */
+function initCursor() {
+  if (reduced || isMobile) return;
+  css(`
+    *{cursor:none!important}
+    #_lxDot{position:fixed;z-index:2000000;width:6px;height:6px;border-radius:50%;
+      background:#C9A96E;pointer-events:none;transform:translate(-50%,-50%);
+      box-shadow:0 0 12px rgba(201,169,110,.9),0 0 4px rgba(201,169,110,.6);
+      transition:transform .08s,width .25s,height .25s,opacity .2s}
+    #_lxRing{position:fixed;z-index:1999999;width:36px;height:36px;border-radius:50%;
+      border:1px solid rgba(201,169,110,.4);pointer-events:none;
+      transform:translate(-50%,-50%);
+      transition:width .4s cubic-bezier(.4,0,.2,1),height .4s cubic-bezier(.4,0,.2,1),
+        border-color .3s,opacity .3s}
+    #_lxRing.big{width:56px;height:56px;border-color:rgba(201,169,110,.7)}
+    #_lxRing.tiny{width:18px;height:18px;border-color:rgba(201,169,110,1)}
+    .lx-trail{position:fixed;border-radius:50%;pointer-events:none;z-index:1999998;
+      background:rgba(201,169,110,.18);transform:translate(-50%,-50%);
+      animation:trailFade .6s forwards}
+    @keyframes trailFade{to{opacity:0;transform:translate(-50%,-50%) scale(0)}}
+  `);
+  const dot  = Object.assign(document.createElement('div'),{id:'_lxDot'});
+  const ring = Object.assign(document.createElement('div'),{id:'_lxRing'});
+  document.body.append(dot, ring);
 
-  /* ═══════════════════════════════════════════
-     1. CUSTOM MAGNETIC CURSOR
-  ═══════════════════════════════════════════ */
-  function initCursor() {
-    if (reduced || window.innerWidth < 768) return;
-
-    const style = document.createElement('style');
-    style.textContent = `
-      *{cursor:none!important}
-      #lx-cur{position:fixed;z-index:999999;pointer-events:none;mix-blend-mode:difference}
-      #lx-dot{width:5px;height:5px;background:#C9A96E;border-radius:50%;position:fixed;transform:translate(-50%,-50%);pointer-events:none;z-index:999999;transition:transform .1s,width .3s,height .3s;box-shadow:0 0 10px rgba(201,169,110,.8)}
-      #lx-ring{width:32px;height:32px;border:1px solid rgba(201,169,110,.45);border-radius:50%;position:fixed;transform:translate(-50%,-50%);pointer-events:none;z-index:999998;transition:width .35s,height .35s,border-color .3s,opacity .3s}
-      #lx-ring.hover{width:52px;height:52px;border-color:rgba(201,169,110,.8)}
-      #lx-ring.click{width:20px;height:20px;border-color:rgba(201,169,110,1)}
-    `;
-    document.head.appendChild(style);
-
-    const dot = document.createElement('div'); dot.id = 'lx-dot';
-    const ring = document.createElement('div'); ring.id = 'lx-ring';
-    document.body.appendChild(dot); document.body.appendChild(ring);
-
-    let mx = -100, my = -100, rx = -100, ry = -100;
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
-    });
-    document.addEventListener('mousedown', () => ring.classList.add('click'));
-    document.addEventListener('mouseup', () => ring.classList.remove('click'));
-
-    document.querySelectorAll('button,a,.cat-card,.spec-row,.quick-tag,.plan-card').forEach(el => {
-      el.addEventListener('mouseenter', () => ring.classList.add('hover'));
-      el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
-    });
-
-    (function raf() {
-      rx += (mx - rx) * .1; ry += (my - ry) * .1;
-      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-      requestAnimationFrame(raf);
-    })();
-  }
-
-  /* ═══════════════════════════════════════════
-     2. GOLD RIPPLE ON CLICK
-  ═══════════════════════════════════════════ */
-  function initRipple() {
-    const s = document.createElement('style');
-    s.textContent = `
-      .lx-ripple-host{position:relative;overflow:hidden}
-      @keyframes lxRipple{0%{transform:scale(0);opacity:.5}100%{transform:scale(4);opacity:0}}
-      .lx-ripple-el{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.35),transparent);pointer-events:none;animation:lxRipple .7s cubic-bezier(.4,0,.2,1) forwards}
-    `;
-    document.head.appendChild(s);
-
-    function addRipple(el) {
-      el.classList.add('lx-ripple-host');
-      el.addEventListener('click', function(e) {
-        const r = el.getBoundingClientRect();
-        const size = Math.max(r.width, r.height) * 1.5;
-        const x = e.clientX - r.left - size/2;
-        const y = e.clientY - r.top - size/2;
-        const rip = document.createElement('span');
-        rip.className = 'lx-ripple-el';
-        rip.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px`;
-        el.appendChild(rip);
-        setTimeout(() => rip.remove(), 750);
-      });
+  let mx=0,my=0,rx=0,ry=0,lastTrail=0;
+  document.addEventListener('mousemove', e => {
+    mx=e.clientX; my=e.clientY;
+    dot.style.left=mx+'px'; dot.style.top=my+'px';
+    // Trail particle
+    if (Date.now()-lastTrail > 40) {
+      lastTrail=Date.now();
+      const t=document.createElement('div');
+      t.className='lx-trail';
+      const sz = 4+Math.random()*6;
+      t.style.cssText=`left:${mx}px;top:${my}px;width:${sz}px;height:${sz}px`;
+      document.body.appendChild(t);
+      setTimeout(()=>t.remove(), 620);
     }
+  });
+  document.addEventListener('mousedown',()=>ring.classList.add('tiny'));
+  document.addEventListener('mouseup',()=>ring.classList.remove('tiny'));
+  document.querySelectorAll('button,a,.cat-card,.spec-row,.plan-card,.quick-tag,.upload-zone').forEach(el=>{
+    el.addEventListener('mouseenter',()=>ring.classList.add('big'));
+    el.addEventListener('mouseleave',()=>ring.classList.remove('big'));
+  });
+  (function raf(){
+    rx+=(mx-rx)*.09; ry+=(my-ry)*.09;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(raf);
+  })();
+}
 
-    document.querySelectorAll('button,.plan-btn,.upload-btn-main,.calc-btn,.search-icon-btn,.modal-save,.upgrade-cta,.promo-btn,.quick-tag').forEach(addRipple);
-  }
-
-  /* ═══════════════════════════════════════════
-     3. MAGNETIC CARDS — follow cursor
-  ═══════════════════════════════════════════ */
-  function initMagneticCards() {
-    if (reduced || window.innerWidth < 768) return;
-
-    document.querySelectorAll('.cat-card').forEach(card => {
-      card.addEventListener('mousemove', function(e) {
-        const r = card.getBoundingClientRect();
-        const cx = r.left + r.width / 2;
-        const cy = r.top + r.height / 2;
-        const dx = (e.clientX - cx) / (r.width / 2);
-        const dy = (e.clientY - cy) / (r.height / 2);
-        card.style.transform = `translateY(-4px) rotateX(${-dy * 5}deg) rotateY(${dx * 5}deg)`;
-        card.style.boxShadow = `${-dx*12}px ${-dy*12}px 40px rgba(201,169,110,.12), 0 20px 50px rgba(0,0,0,.5)`;
-      });
-      card.addEventListener('mouseleave', function() {
-        card.style.transform = '';
-        card.style.boxShadow = '';
-      });
+/* ══════════════════════════════════════════════════
+   § 2  LIQUID GOLD RIPPLE
+══════════════════════════════════════════════════ */
+function initRipple() {
+  css(`
+    .lx-rhost{position:relative;overflow:hidden}
+    @keyframes lxRip{0%{transform:translate(-50%,-50%) scale(0);opacity:.6}
+      100%{transform:translate(-50%,-50%) scale(5);opacity:0}}
+    .lx-rip{position:absolute;border-radius:50%;pointer-events:none;
+      background:radial-gradient(circle,rgba(201,169,110,.4) 0%,rgba(201,169,110,.1) 40%,transparent 70%);
+      animation:lxRip .75s cubic-bezier(.4,0,.2,1) forwards}
+  `);
+  function attach(el) {
+    el.classList.add('lx-rhost');
+    el.addEventListener('click', e=>{
+      const r=el.getBoundingClientRect();
+      const size=Math.max(r.width,r.height)*2.5;
+      const rip=document.createElement('span');
+      rip.className='lx-rip';
+      rip.style.cssText=`width:${size}px;height:${size}px;left:${e.clientX-r.left}px;top:${e.clientY-r.top}px`;
+      el.appendChild(rip);
+      setTimeout(()=>rip.remove(),780);
     });
   }
+  document.querySelectorAll('button,.quick-tag,.plan-btn,.cat-card').forEach(attach);
+}
 
-  /* ═══════════════════════════════════════════
-     4. SCROLL-TRIGGERED ENTRANCE ANIMATIONS
-  ═══════════════════════════════════════════ */
-  function initScrollAnimations() {
-    if (reduced) return;
+/* ══════════════════════════════════════════════════
+   § 3  3D TILT CARDS WITH LIGHT REFLECTION
+══════════════════════════════════════════════════ */
+function initTilt() {
+  if (reduced || isMobile) return;
+  css(`
+    .cat-card{transform-style:preserve-3d;will-change:transform}
+    .lx-shine{position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+      background:radial-gradient(circle at var(--sx,50%) var(--sy,50%),
+        rgba(201,169,110,.12) 0%,transparent 65%);
+      opacity:0;transition:opacity .3s}
+    .cat-card:hover .lx-shine{opacity:1}
+  `);
+  document.querySelectorAll('.cat-card').forEach(card=>{
+    // Add shine layer
+    const shine=document.createElement('div');
+    shine.className='lx-shine';
+    card.appendChild(shine);
 
-    const s = document.createElement('style');
-    s.textContent = `
-      .lx-hidden{opacity:0;transform:translateY(28px);transition:opacity .65s cubic-bezier(.4,0,.2,1),transform .65s cubic-bezier(.4,0,.2,1)}
-      .lx-hidden.lx-visible{opacity:1;transform:translateY(0)}
-      .lx-hidden-left{opacity:0;transform:translateX(-28px);transition:opacity .6s,transform .6s cubic-bezier(.4,0,.2,1)}
-      .lx-hidden-left.lx-visible{opacity:1;transform:translateX(0)}
-      .lx-hidden-scale{opacity:0;transform:scale(.92);transition:opacity .55s,transform .55s cubic-bezier(.4,0,.2,1)}
-      .lx-hidden-scale.lx-visible{opacity:1;transform:scale(1)}
-    `;
-    document.head.appendChild(s);
-
-    // Apply classes with staggered delays
-    document.querySelectorAll('.cat-card').forEach((el, i) => {
-      el.classList.add('lx-hidden');
-      el.style.transitionDelay = (i % 6) * 60 + 'ms';
+    card.addEventListener('mousemove', e=>{
+      const r=card.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width;
+      const y=(e.clientY-r.top)/r.height;
+      const dx=(x-.5)*2, dy=(y-.5)*2;
+      card.style.transform=`perspective(800px) rotateX(${-dy*7}deg) rotateY(${dx*7}deg) translateZ(6px)`;
+      card.style.boxShadow=`${-dx*18}px ${-dy*18}px 50px rgba(0,0,0,.5),0 2px 20px rgba(201,169,110,${Math.abs(dx+dy)*.06})`;
+      shine.style.setProperty('--sx', x*100+'%');
+      shine.style.setProperty('--sy', y*100+'%');
     });
-    document.querySelectorAll('.section-head,.hero-eyebrow').forEach(el => el.classList.add('lx-hidden-left'));
-    document.querySelectorAll('.hero-stat,.spec-row').forEach((el,i) => {
-      el.classList.add('lx-hidden-scale');
-      el.style.transitionDelay = i * 40 + 'ms';
+    card.addEventListener('mouseleave', ()=>{
+      card.style.transform='perspective(800px) rotateX(0) rotateY(0) translateZ(0)';
+      card.style.boxShadow='';
+      card.style.transition='transform .5s cubic-bezier(.4,0,.2,1),box-shadow .5s';
+      setTimeout(()=>card.style.transition='',500);
     });
+  });
+}
 
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('lx-visible'); io.unobserve(e.target); } });
-    }, { threshold: 0.1 });
+/* ══════════════════════════════════════════════════
+   § 4  ANIMATED PARTICLE NETWORK BACKGROUND
+══════════════════════════════════════════════════ */
+function initParticles() {
+  if (reduced) return;
+  const cvs=document.createElement('canvas');
+  cvs.id='_lxPCV';
+  cvs.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:0;';
+  document.body.insertBefore(cvs,document.body.firstChild);
+  const ctx=cvs.getContext('2d');
+  let W,H,pts=[],mouse={x:-999,y:-999},frame=0;
 
-    document.querySelectorAll('.lx-hidden,.lx-hidden-left,.lx-hidden-scale').forEach(el => io.observe(el));
-  }
+  const resize=()=>{W=cvs.width=window.innerWidth;H=cvs.height=window.innerHeight};
+  resize(); window.addEventListener('resize',()=>{resize();spawn()});
+  document.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY});
 
-  /* ═══════════════════════════════════════════
-     5. FLOATING GOLD PARTICLES BACKGROUND
-  ═══════════════════════════════════════════ */
-  function initParticles() {
-    if (reduced) return;
-
-    const canvas = document.createElement('canvas');
-    canvas.id = 'lx-particles';
-    canvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.55';
-    document.body.insertBefore(canvas, document.body.firstChild);
-
-    const ctx = canvas.getContext('2d');
-    let W, H, pts = [], frame = 0;
-
-    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-    resize(); window.addEventListener('resize', () => { resize(); spawn(); });
-
-    class P {
-      constructor() { this.reset(true); }
-      reset(init) {
-        this.x = init ? Math.random() * W : Math.random() < .5 ? -2 : W + 2;
-        this.y = init ? Math.random() * H : Math.random() * H;
-        this.vx = (Math.random() - .5) * .18;
-        this.vy = (Math.random() - .5) * .12;
-        this.r = Math.random() * .7 + .2;
-        this.life = Math.random() * 500 + 200;
-        this.age = init ? Math.random() * this.life : 0;
-        this.gold = Math.random() > .45;
-      }
-      get a() { return Math.sin(this.age / this.life * Math.PI) * (this.gold ? .45 : .2); }
-      step() {
-        this.x += this.vx; this.y += this.vy; this.age++;
-        if (this.age > this.life || this.x < -5 || this.x > W + 5) this.reset(false);
-      }
-      draw() {
-        ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, 6.28);
-        ctx.fillStyle = this.gold ? `rgba(201,169,110,${this.a})` : `rgba(255,255,255,${this.a * .5})`;
-        ctx.fill();
-      }
+  class Pt{
+    constructor(){this.reset(true)}
+    reset(init){
+      this.x=init?Math.random()*W:(Math.random()<.5?0:W);
+      this.y=init?Math.random()*H:Math.random()*H;
+      this.vx=(Math.random()-.5)*.22; this.vy=(Math.random()-.5)*.15;
+      this.r=Math.random()*.8+.2;
+      this.life=Math.random()*500+200; this.age=init?Math.random()*this.life:0;
+      this.gold=Math.random()>.4;
     }
+    get a(){return Math.sin(this.age/this.life*Math.PI)*(this.gold?.5:.22)}
+    step(){
+      // Subtle mouse repulsion
+      const dx=this.x-mouse.x,dy=this.y-mouse.y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){this.vx+=dx/d*.012;this.vy+=dy/d*.012}
+      this.vx*=.998;this.vy*=.998;
+      this.x+=this.vx;this.y+=this.vy;this.age++;
+      if(this.age>this.life||this.x<-5||this.x>W+5||this.y<-5||this.y>H+5)this.reset(false);
+    }
+    draw(){
+      ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,6.28);
+      ctx.fillStyle=this.gold?`rgba(201,169,110,${this.a})`:`rgba(255,255,255,${this.a*.5})`;
+      ctx.fill();
+    }
+  }
 
-    function spawn() { pts = []; for (let i = 0; i < 80; i++) pts.push(new P()); }
-    spawn();
+  function spawn(){pts=[];for(let i=0;i<100;i++)pts.push(new Pt())}
+  spawn();
 
-    // Draw connections
-    function conns() {
-      for (let i = 0; i < pts.length; i++) {
-        for (let j = i + 1; j < pts.length; j++) {
-          const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < 100) {
-            ctx.lineWidth = .35;
-            ctx.strokeStyle = `rgba(201,169,110,${(1 - d / 100) * .04})`;
-            ctx.beginPath(); ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(pts[j].x, pts[j].y); ctx.stroke();
-          }
-        }
+  function drawConns(){
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<95){
+        ctx.lineWidth=.4;
+        ctx.strokeStyle=`rgba(201,169,110,${(1-d/95)*.055})`;
+        ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.stroke();
       }
     }
+  }
 
-    // Subtle radial glow
-    function glow() {
-      const g = ctx.createRadialGradient(W/2, H*.35, 0, W/2, H*.35, W*.5);
-      g.addColorStop(0, `rgba(201,169,110,${.028 + Math.sin(frame*.008)*.012})`);
-      g.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  // Central glow that breathes
+  function drawGlow(){
+    const p=Math.sin(frame*.012)*.08+.92;
+    const g=ctx.createRadialGradient(W/2,H*.38,0,W/2,H*.38,W*.48*p);
+    g.addColorStop(0,`rgba(201,169,110,${.032+Math.sin(frame*.018)*.014})`);
+    g.addColorStop(.5,`rgba(201,169,110,.008)`);
+    g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  }
+
+  // Mouse proximity glow
+  function drawMouseGlow(){
+    if(mouse.x<0)return;
+    const g=ctx.createRadialGradient(mouse.x,mouse.y,0,mouse.x,mouse.y,180);
+    g.addColorStop(0,'rgba(201,169,110,.04)');
+    g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  }
+
+  (function loop(){
+    ctx.clearRect(0,0,W,H);
+    drawGlow();drawMouseGlow();drawConns();
+    pts.forEach(p=>{p.step();p.draw()});
+    frame++;requestAnimationFrame(loop);
+  })();
+}
+
+/* ══════════════════════════════════════════════════
+   § 5  SCROLL REVEAL — staggered, per-element
+══════════════════════════════════════════════════ */
+function initScrollReveal() {
+  if (reduced) return;
+  css(`
+    .lxR{opacity:0;transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}
+    .lxR.up{transform:translateY(32px)}
+    .lxR.left{transform:translateX(-32px)}
+    .lxR.right{transform:translateX(32px)}
+    .lxR.scale{transform:scale(.88)}
+    .lxR.vis{opacity:1!important;transform:none!important}
+  `);
+
+  function mark(sel,dir,delayBase=0){
+    document.querySelectorAll(sel).forEach((el,i)=>{
+      if(el.closest('#qs-landing'))return;
+      el.classList.add('lxR',dir);
+      el.style.transitionDelay=(delayBase+i%5*65)+'ms';
+    });
+  }
+  mark('.cat-card','up');
+  mark('.hero h1,.section-title','left');
+  mark('.hero-eyebrow,.search-label','left',80);
+  mark('.hero-stat','scale',100);
+  mark('.spec-row','right');
+  mark('.ai-card,.upload-zone','up',120);
+  mark('.plan-card','up',80);
+
+  const io=new IntersectionObserver(entries=>
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}}),
+    {threshold:.07}
+  );
+  document.querySelectorAll('.lxR').forEach(el=>io.observe(el));
+}
+
+/* ══════════════════════════════════════════════════
+   § 6  GOLD SCROLL PROGRESS BAR
+══════════════════════════════════════════════════ */
+function initScrollProgress(){
+  const bar=document.createElement('div');
+  bar.style.cssText=`position:fixed;top:0;left:0;right:0;height:2px;z-index:99997;
+    background:linear-gradient(to right,#C9A96E,#E8C990,#F5DFA8);
+    transform-origin:left;transform:scaleX(0);pointer-events:none;
+    box-shadow:0 0 10px rgba(201,169,110,.6)`;
+  document.body.appendChild(bar);
+  window.addEventListener('scroll',()=>{
+    const p=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)||0;
+    bar.style.transform=`scaleX(${p})`;
+  },{passive:true});
+}
+
+/* ══════════════════════════════════════════════════
+   § 7  SEARCH INPUT — live gold glow
+══════════════════════════════════════════════════ */
+function initSearchFX(){
+  const inp=document.querySelector('.search-input');
+  if(!inp)return;
+  css(`
+    .search-wrap::after{content:'';position:absolute;inset:-1px;pointer-events:none;
+      background:linear-gradient(135deg,rgba(201,169,110,0),rgba(201,169,110,.12),rgba(201,169,110,0));
+      opacity:0;transition:opacity .4s;z-index:-1}
+    .search-wrap.focused::after{opacity:1}
+    @keyframes lxScanLine{0%{top:0}100%{top:100%}}
+    .search-wrap.focused .search-input{
+      border-color:rgba(201,169,110,.5)!important;
+      box-shadow:0 0 0 1px rgba(201,169,110,.25),0 0 40px rgba(201,169,110,.08)!important}
+  `);
+  const wrap=inp.closest('.search-wrap');
+  inp.addEventListener('focus',()=>wrap&&wrap.classList.add('focused'));
+  inp.addEventListener('blur', ()=>wrap&&wrap.classList.remove('focused'));
+
+  // Typing intensity glow
+  inp.addEventListener('input',()=>{
+    const v=Math.min(inp.value.length/25,1);
+    inp.style.boxShadow=`0 0 0 1px rgba(201,169,110,${.15+v*.35}),0 0 ${25+v*35}px rgba(201,169,110,${.04+v*.1})`;
+  });
+}
+
+/* ══════════════════════════════════════════════════
+   § 8  HERO STAT COUNTERS
+══════════════════════════════════════════════════ */
+function initCounters(){
+  document.querySelectorAll('.hero-stat-num').forEach(el=>{
+    const raw=el.textContent.trim();
+    const num=parseInt(raw.replace(/\D/g,''));
+    const suf=raw.replace(/[\d,]/g,'');
+    if(!num||isNaN(num))return;
+    el.textContent='0'+suf;
+    const dur=1800;
+    let started=false;
+    const io=new IntersectionObserver(([e])=>{
+      if(!e.isIntersecting||started)return;
+      started=true;io.disconnect();
+      let s=null;
+      (function step(ts){
+        if(!s)s=ts;
+        const p=Math.min((ts-s)/dur,1),ease=1-Math.pow(1-p,3);
+        el.textContent=Math.round(num*ease).toLocaleString()+suf;
+        if(p<1)requestAnimationFrame(step);
+      })(performance.now());
+    },{threshold:.5});
+    io.observe(el);
+  });
+}
+
+/* ══════════════════════════════════════════════════
+   § 9  GOLD CORNER BRACKETS — animated draw
+══════════════════════════════════════════════════ */
+function initCorners(){
+  css(`
+    .lx-corner-wrap{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+    .lx-c{position:absolute;width:14px;height:14px;border-color:rgba(201,169,110,.5);border-style:solid;
+      opacity:0;transition:opacity .5s,transform .5s cubic-bezier(.4,0,.2,1)}
+    .lx-c.tl{top:0;right:0;border-width:1px 1px 0 0;transform:translate(-4px,4px)}
+    .lx-c.br{bottom:0;left:0;border-width:0 0 1px 1px;transform:translate(4px,-4px)}
+    .cat-card:hover .lx-c{opacity:1;transform:translate(0,0)!important}
+    .cat-card{position:relative}
+  `);
+  document.querySelectorAll('.cat-card').forEach(card=>{
+    const w=document.createElement('div');w.className='lx-corner-wrap';
+    ['tl','br'].forEach(cls=>{const c=document.createElement('div');c.className=`lx-c ${cls}`;w.appendChild(c)});
+    card.appendChild(w);
+  });
+}
+
+/* ══════════════════════════════════════════════════
+   § 10  SECTION TITLE UNDERLINE DRAW
+══════════════════════════════════════════════════ */
+function initUnderlines(){
+  css(`
+    .section-title{position:relative;display:inline-block;padding-bottom:6px}
+    .section-title::after{content:'';position:absolute;bottom:0;right:0;
+      width:0;height:1px;
+      background:linear-gradient(to left,#C9A96E,rgba(201,169,110,.2));
+      transition:width .8s cubic-bezier(.4,0,.2,1)}
+    .section-title.lx-ul::after{width:100%}
+  `);
+  const io=new IntersectionObserver(entries=>
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('lx-ul');io.unobserve(e.target)}}),
+    {threshold:.5}
+  );
+  document.querySelectorAll('.section-title').forEach(el=>io.observe(el));
+}
+
+/* ══════════════════════════════════════════════════
+   § 11  MODAL SPRING ENTRANCE
+══════════════════════════════════════════════════ */
+function initModals(){
+  css(`
+    @keyframes lxSpring{
+      0%{opacity:0;transform:scale(.82) translateY(28px)}
+      65%{transform:scale(1.018) translateY(-3px)}
+      100%{opacity:1;transform:scale(1) translateY(0)}
     }
+    @keyframes lxBackdrop{from{opacity:0}to{opacity:1}}
+    .modal-bg.open,.detail-modal-bg.open,.pro-modal-bg.open,.upgrade-overlay.open{
+      animation:lxBackdrop .3s forwards}
+    .modal-bg.open .modal-box,
+    .detail-modal-bg.open .detail-modal,
+    .pro-modal-bg.open .pro-modal-box,
+    .upgrade-overlay.open .upgrade-box{
+      animation:lxSpring .5s cubic-bezier(.34,1.56,.64,1) forwards}
+  `);
+}
 
-    (function loop() {
-      ctx.clearRect(0, 0, W, H);
-      glow(); conns();
-      pts.forEach(p => { p.step(); p.draw(); });
-      frame++;
-      requestAnimationFrame(loop);
-    })();
-  }
-
-  /* ═══════════════════════════════════════════
-     6. SEARCH INPUT — gold glow typing effect
-  ═══════════════════════════════════════════ */
-  function initSearchGlow() {
-    const inp = document.querySelector('.search-input');
-    if (!inp) return;
-    inp.addEventListener('focus', () => {
-      inp.style.boxShadow = '0 0 0 1px rgba(201,169,110,.4), 0 0 30px rgba(201,169,110,.08)';
-    });
-    inp.addEventListener('blur', () => { inp.style.boxShadow = ''; });
-    inp.addEventListener('input', () => {
-      const v = inp.value.length;
-      const intensity = Math.min(v / 20, 1);
-      inp.style.boxShadow = `0 0 0 1px rgba(201,169,110,${.2 + intensity * .3}), 0 0 ${20 + intensity * 20}px rgba(201,169,110,${.04 + intensity * .08})`;
-    });
-  }
-
-  /* ═══════════════════════════════════════════
-     7. CARD HOVER — gold shimmer sweep
-  ═══════════════════════════════════════════ */
-  function initCardShimmer() {
-    const s = document.createElement('style');
-    s.textContent = `
-      .cat-card{perspective:1000px;transform-style:preserve-3d}
-      .cat-card::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(201,169,110,.06) 50%,transparent 65%);transform:translateX(-100%);transition:transform 0s}
-      .cat-card:hover::before{transform:translateX(100%);transition:transform .6s ease}
-    `;
-    document.head.appendChild(s);
-  }
-
-  /* ═══════════════════════════════════════════
-     8. HERO STATS — live counting up on load
-  ═══════════════════════════════════════════ */
-  function initHeroCounters() {
-    document.querySelectorAll('.hero-stat-num').forEach(el => {
-      const target = parseInt(el.textContent.replace(/[^0-9]/g, ''));
-      const suffix = el.textContent.replace(/[0-9]/g, '').trim();
-      if (!target || isNaN(target)) return;
-      el.textContent = '0' + suffix;
-      const dur = 1600;
-      let start = null;
-      const step = ts => {
-        if (!start) start = ts;
-        const p = Math.min((ts - start) / dur, 1);
-        const ease = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.round(target * ease).toLocaleString() + (suffix || '');
-        if (p < 1) requestAnimationFrame(step);
-      };
-      setTimeout(() => requestAnimationFrame(step), 600);
-    });
-  }
-
-  /* ═══════════════════════════════════════════
-     9. SCROLL PROGRESS BAR
-  ═══════════════════════════════════════════ */
-  function initScrollProgress() {
-    const bar = document.createElement('div');
-    bar.style.cssText = 'position:fixed;top:0;left:0;height:2px;background:linear-gradient(to right,#C9A96E,#E8C990);z-index:99998;width:0;transition:width .1s;pointer-events:none';
-    document.body.appendChild(bar);
-    window.addEventListener('scroll', () => {
-      const p = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-      bar.style.width = (p * 100) + '%';
-    });
-  }
-
-  /* ═══════════════════════════════════════════
-     10. BUTTON PRESS SCALE
-  ═══════════════════════════════════════════ */
-  function initButtonPress() {
-    const s = document.createElement('style');
-    s.textContent = `
-      button:active{transform:scale(.96)!important;transition:transform .08s!important}
-      .cat-card:active{transform:scale(.98) translateY(-1px)!important;transition:transform .1s!important}
-    `;
-    document.head.appendChild(s);
-  }
-
-  /* ═══════════════════════════════════════════
-     11. SECTION TITLE — gold underline draw
-  ═══════════════════════════════════════════ */
-  function initTitleUnderline() {
-    const s = document.createElement('style');
-    s.textContent = `
-      .section-title{position:relative;display:inline-block}
-      .section-title::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:linear-gradient(to right,#C9A96E,transparent);transition:width .6s cubic-bezier(.4,0,.2,1)}
-      .section-title.lx-visible::after{width:100%}
-    `;
-    document.head.appendChild(s);
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('lx-visible'); io.unobserve(e.target); } });
-    }, {threshold:.5});
-    document.querySelectorAll('.section-title').forEach(el => io.observe(el));
-  }
-
-  /* ═══════════════════════════════════════════
-     12. MODAL ENTRANCE — dramatic scale-in
-  ═══════════════════════════════════════════ */
-  function initModalAnimations() {
-    const s = document.createElement('style');
-    s.textContent = `
-      .modal-bg.open .modal-box,
-      .detail-modal-bg.open .detail-modal,
-      .pro-modal-bg.open .pro-modal-box,
-      .upgrade-overlay.open .upgrade-box{
-        animation:lxModalIn .4s cubic-bezier(.34,1.56,.64,1) forwards
+/* ══════════════════════════════════════════════════
+   § 12  SPEC ROW STAGGER REVEAL
+══════════════════════════════════════════════════ */
+function initSpecRows(){
+  css(`
+    .spec-row{
+      opacity:0;transform:translateX(24px);
+      transition:opacity .45s,transform .45s cubic-bezier(.4,0,.2,1),
+        border-color .2s,background .2s!important}
+    .spec-row.lx-in{opacity:1!important;transform:none!important}
+  `);
+  const io=new IntersectionObserver(entries=>
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){
+        setTimeout(()=>e.target.classList.add('lx-in'),i*30);
+        io.unobserve(e.target);
       }
-      @keyframes lxModalIn{
-        from{opacity:0;transform:scale(.88) translateY(20px)}
-        to{opacity:1;transform:scale(1) translateY(0)}
-      }
-    `;
-    document.head.appendChild(s);
-  }
+    }),{threshold:.05}
+  );
+  document.querySelectorAll('.spec-row').forEach(el=>io.observe(el));
+}
 
-  /* ═══════════════════════════════════════════
-     13. GOLD CORNER BRACKETS on section-head
-  ═══════════════════════════════════════════ */
-  function initCornerBrackets() {
-    const s = document.createElement('style');
-    s.textContent = `
-      .content-section{position:relative}
-      .section-head{position:relative;padding:8px 12px}
-      .section-head::before,.section-head::after{
-        content:'';position:absolute;width:10px;height:10px;
-        border-color:rgba(201,169,110,.35);border-style:solid;
-        opacity:0;transition:opacity .4s
-      }
-      .section-head::before{top:0;right:0;border-width:1px 1px 0 0}
-      .section-head::after{bottom:0;left:0;border-width:0 0 1px 1px}
-      .section-head.lx-visible::before,.section-head.lx-visible::after{opacity:1}
-    `;
-    document.head.appendChild(s);
-  }
+/* ══════════════════════════════════════════════════
+   § 13  BUTTON PRESS + MAGNETIC SNAP
+══════════════════════════════════════════════════ */
+function initButtons(){
+  css(`
+    button{transition:transform .1s,box-shadow .2s,background .3s,color .3s,border-color .3s!important}
+    button:active:not(:disabled){transform:scale(.94)!important}
+    .search-icon-btn:hover{box-shadow:0 0 28px rgba(201,169,110,.35)!important}
+    .upload-btn-main:hover,.plan-btn.primary:hover,.calc-btn:hover,.modal-save:hover{
+      box-shadow:0 0 32px rgba(201,169,110,.3)!important}
+  `);
+  // Magnetic pull toward button center on hover
+  if(!isMobile) document.querySelectorAll('.plan-btn,.upload-btn-main,.search-icon-btn').forEach(btn=>{
+    btn.addEventListener('mousemove',e=>{
+      const r=btn.getBoundingClientRect();
+      const dx=(e.clientX-r.left-r.width/2)*.12;
+      const dy=(e.clientY-r.top-r.height/2)*.12;
+      btn.style.transform=`translate(${dx}px,${dy}px)`;
+    });
+    btn.addEventListener('mouseleave',()=>btn.style.transform='');
+  });
+}
 
-  /* ═══════════════════════════════════════════
-     14. SPEC ROW — slide-in from right
-  ═══════════════════════════════════════════ */
-  function initSpecRowAnimations() {
-    const s = document.createElement('style');
-    s.textContent = `
-      .spec-row{
-        opacity:0;transform:translateX(20px);
-        transition:opacity .4s,transform .4s cubic-bezier(.4,0,.2,1),border-color .2s,background .2s
-      }
-      .spec-row.lx-show{opacity:1;transform:translateX(0)}
-    `;
-    document.head.appendChild(s);
+/* ══════════════════════════════════════════════════
+   § 14  GOLD SCANLINE ON HERO
+══════════════════════════════════════════════════ */
+function initScanline(){
+  if(reduced)return;
+  css(`
+    .hero{position:relative;overflow:hidden}
+    .hero::after{content:'';position:absolute;left:0;right:0;height:1px;
+      background:linear-gradient(to right,transparent,rgba(201,169,110,.28),transparent);
+      animation:lxScan 4s ease-in-out infinite;pointer-events:none;z-index:1}
+    @keyframes lxScan{
+      0%{top:-2px;opacity:0}10%{opacity:1}90%{opacity:.4}100%{top:101%;opacity:0}}
+  `);
+}
 
-    const io = new IntersectionObserver(entries => {
-      entries.forEach((e, i) => {
-        if (e.isIntersecting) {
-          setTimeout(() => e.target.classList.add('lx-show'), i * 35);
-          io.unobserve(e.target);
-        }
-      });
-    }, {threshold:.05});
-    document.querySelectorAll('.spec-row').forEach(el => io.observe(el));
-  }
+/* ══════════════════════════════════════════════════
+   § 15  HOVER GOLD SHIMMER SWEEP
+══════════════════════════════════════════════════ */
+function initShimmer(){
+  css(`
+    .cat-card::before{
+      content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+      background:linear-gradient(110deg,transparent 30%,rgba(201,169,110,.07) 50%,transparent 70%);
+      transform:translateX(-100%);transition:none}
+    .cat-card:hover::before{transform:translateX(100%);transition:transform .65s ease}
+    .spec-row::before{
+      content:'';position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(90deg,transparent,rgba(201,169,110,.04),transparent);
+      transform:translateX(-100%);transition:none}
+    .spec-row:hover::before{transform:translateX(100%);transition:transform .5s ease}
+    .spec-row{position:relative;overflow:hidden}
+  `);
+}
 
-  /* ═══════════════════════════════════════════
-     INIT ALL
-  ═══════════════════════════════════════════ */
-  function init() {
-    initParticles();
-    initCursor();
-    initRipple();
-    initCardShimmer();
-    initMagneticCards();
-    initScrollAnimations();
-    initScrollProgress();
-    initSearchGlow();
-    initHeroCounters();
-    initButtonPress();
-    initTitleUnderline();
-    initModalAnimations();
-    initCornerBrackets();
-    initSpecRowAnimations();
-    console.log('[QS] Luxury animations loaded ✦');
-  }
+/* ══════════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════════ */
+function boot(){
+  try { initParticles();   } catch(e){}
+  try { initCursor();      } catch(e){}
+  try { initRipple();      } catch(e){}
+  try { initTilt();        } catch(e){}
+  try { initScrollReveal();} catch(e){}
+  try { initScrollProgress();} catch(e){}
+  try { initSearchFX();    } catch(e){}
+  try { initCounters();    } catch(e){}
+  try { initCorners();     } catch(e){}
+  try { initUnderlines();  } catch(e){}
+  try { initModals();      } catch(e){}
+  try { initSpecRows();    } catch(e){}
+  try { initButtons();     } catch(e){}
+  try { initScanline();    } catch(e){}
+  try { initShimmer();     } catch(e){}
+  console.log('%c✦ QatarSpec Luxury Animations v2.0','color:#C9A96E;font-family:serif;font-size:13px');
+}
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-
+document.readyState==='loading'
+  ? document.addEventListener('DOMContentLoaded',boot)
+  : boot();
 })();
