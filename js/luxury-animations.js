@@ -424,20 +424,8 @@ function initButtons(){
   });
 }
 
-/* ══════════════════════════════════════════════════
-   § 14  GOLD SCANLINE ON HERO
-══════════════════════════════════════════════════ */
-function initScanline(){
-  if(reduced)return;
-  css(`
-    .hero{position:relative;overflow:hidden}
-    .hero::after{content:'';position:absolute;left:0;right:0;height:1px;
-      background:linear-gradient(to right,transparent,rgba(201,169,110,.28),transparent);
-      animation:lxScan 4s ease-in-out infinite;pointer-events:none;z-index:1}
-    @keyframes lxScan{
-      0%{top:-2px;opacity:0}10%{opacity:1}90%{opacity:.4}100%{top:101%;opacity:0}}
-  `);
-}
+/* § 14 — replaced by wave-lines.js */
+function initScanline(){ /* no-op */ }
 
 /* ══════════════════════════════════════════════════
    § 15  HOVER GOLD SHIMMER SWEEP
