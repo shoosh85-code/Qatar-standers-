@@ -947,3 +947,21 @@ hr {
   border: none !important;
   border-top: 1px solid rgba(201,169,110,.1) !important;
 }
+
+/* ── Card Wave System — z-index fix ── */
+.cat-card > *:not(._cw):not(.lx-shine):not(.lx-corner-wrap),
+.plan-card > *:not(._cw),
+.ai-card > *:not(._cw),
+.feature-card > *:not(._cw),
+.metric-card > *:not(._cw),
+.upload-zone > *:not(._cw) {
+  position: relative;
+  z-index: 1;
+}
+._cw { pointer-events: none !important; }
+
+/* Hover border glow */
+.cat-card:hover   { border-color: rgba(201,169,110,.35) !important; }
+.plan-card:hover  { border-color: rgba(201,169,110,.35) !important; }
+.ai-card:hover    { border-color: rgba(201,169,110,.28) !important; }
+.upload-zone:hover{ border-color: rgba(201,169,110,.4)  !important; }
