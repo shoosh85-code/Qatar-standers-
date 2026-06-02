@@ -707,6 +707,56 @@ Return ONLY the HTML content (no outer div wrapper). Use dm-table CSS class for 
       }
     }
 
+    // ── SUPABASE DIRECT SEARCH FALLBACK (Last Resort) ─────────────────────
+    // v3.3: إذا فشلت كل نماذج Gemini → بحث نصي مباشر في Supabase بدون AI
+    try {
+      const supaUrl  = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+      const supaKey  = process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_KEY;
+      const userQuery = (query || '').slice(0, 200);
+
+      if (supaUrl && supaKey && userQuery) {
+        // استخراج الكلمات الرئيسية (أول 3 كلمات فقط)
+        const keywords = userQuery.split(/\s+/).slice(0, 3).join(' & ');
+        const searchUrl = `${supaUrl}/rest/v1/qcs_chunks?content=fts.${encodeURIComponent(keywords)}&select=section_name,part_name,content,source_file&limit=3&order=char_count.desc`;
+
+        const sbRes = await fetch(searchUrl, {
+          headers: {
+            'apikey': supaKey,
+            'Authorization': `Bearer ${supaKey}`,
+          },
+        });
+
+        if (sbRes.ok) {
+          const chunks = await sbRes.json();
+          if (Array.isArray(chunks) && chunks.length > 0) {
+            const resultText = chunks.map(c =>
+              `📌 ${c.part_name || ''} — ${c.section_name || ''}\n${(c.content || '').slice(0, 300)}...`
+            ).join('\n\n---\n\n');
+
+            console.log('[ai-proxy] Supabase fallback succeeded:', chunks.length, 'results');
+            return new Response(
+              JSON.stringify({
+                content: [{
+                  type: 'text',
+                  text: `⚠️ الذكاء الاصطناعي غير متاح مؤقتاً — نتائج البحث المباشر في QCS 2024:\n\n${resultText}`,
+                }],
+                model: 'supabase-direct',
+                degraded: true,
+                source: 'supabase-fallback',
+              }),
+              {
+                status: 200,
+                headers: { ...CORS, 'Content-Type': 'application/json', 'X-Degraded': '1' },
+              }
+            );
+          }
+        }
+      }
+    } catch (sbErr) {
+      console.error('[ai-proxy] Supabase fallback failed:', sbErr.message);
+    }
+    // ── END SUPABASE FALLBACK ──────────────────────────────────────────────
+
     // تحديد نوع الخطأ لإعطاء رسالة واضحة
     const isQuota   = err.message.includes('quota') || err.message.includes('429');
     const isTimeout = err.message.includes('abort') || err.message.includes('timeout');
