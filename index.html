@@ -2104,14 +2104,30 @@
   }
   if(!reduced) initTagsStagger();
 
-  /* 5. Mouse glow follows cursor inside cards */
-  document.addEventListener('mousemove', function(e){
-    var card = e.target.closest('.cat-card');
-    if(!card) return;
-    var r = card.getBoundingClientRect();
-    card.style.setProperty('--mx', ((e.clientX-r.left)/r.width*100).toFixed(1)+'%');
-    card.style.setProperty('--my', ((e.clientY-r.top)/r.height*100).toFixed(1)+'%');
-  },{passive:true});
+  /* 5. Mouse glow follows cursor inside cards — fixed */
+  (function(){
+    var lastCard = null;
+    document.addEventListener('mousemove', function(e){
+      var card = e.target.closest('.cat-card');
+      if(!card){
+        if(lastCard){ lastCard.style.removeProperty('--mx'); lastCard.style.removeProperty('--my'); lastCard=null; }
+        return;
+      }
+      var r = card.getBoundingClientRect();
+      var x = ((e.clientX - r.left) / r.width  * 100);
+      var y = ((e.clientY - r.top)  / r.height * 100);
+      /* clamp to card bounds */
+      x = Math.max(0, Math.min(100, x));
+      y = Math.max(0, Math.min(100, y));
+      card.style.setProperty('--mx', x.toFixed(1)+'%');
+      card.style.setProperty('--my', y.toFixed(1)+'%');
+      lastCard = card;
+    }, {passive:true});
+    document.addEventListener('mouseleave', function(e){
+      var card = e.target.closest ? e.target.closest('.cat-card') : null;
+      if(card){ card.style.removeProperty('--mx'); card.style.removeProperty('--my'); }
+    }, true);
+  })();
 
 })();
 </script>
