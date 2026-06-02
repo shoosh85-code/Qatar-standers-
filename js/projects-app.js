@@ -348,6 +348,12 @@
           <button onclick="event.stopPropagation();QS_Projects_UI.confirmDelete('${p.id}','${escapeHtml(p.name)}')"
                   style="background:rgba(244,67,54,0.08);border:1px solid rgba(244,67,54,0.2);border-radius:8px;padding:8px 12px;color:#F44336;font-size:14px;cursor:pointer;transition:.2s"
                   title="أرشفة">🗑️</button>
+          <button onclick="event.stopPropagation();QS_Share.whatsapp('${p.id}','${escapeHtml(p.name)}')"
+                  style="background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.25);border-radius:8px;padding:8px 12px;color:#25D366;font-size:14px;cursor:pointer"
+                  title="مشاركة على واتساب">📲</button>
+          <button onclick="event.stopPropagation();window.QSQr&&QSQr.showModal('${p.id}','${escapeHtml(p.name)}')"
+                  style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:8px 12px;color:var(--gold);font-size:14px;cursor:pointer"
+                  title="QR Code">⬛</button>
         </div>
       </div>`;
   }

@@ -274,6 +274,16 @@
   <!-- Dashboard stats (phase9) -->
   <div id="dashboard-stats" style="margin-bottom:16px"></div>
 
+  <!-- ═══ PROJECT MAP — OpenStreetMap ═══ -->
+  <div id="projectMapSection" style="margin-bottom:20px;border-radius:14px;overflow:hidden;border:1px solid rgba(201,168,76,0.2);display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(201,168,76,0.06);border-bottom:1px solid rgba(201,168,76,0.15)">
+      <div style="font-family:'Cairo',sans-serif;font-weight:700;font-size:14px;color:#C9A84C">🗺️ خريطة المشاريع — قطر</div>
+      <button onclick="document.getElementById('projectMapSection').style.display='none'" style="background:transparent;border:none;color:#888;cursor:pointer;font-size:18px">✕</button>
+    </div>
+    <div id="projectMap" style="height:320px;width:100%"></div>
+  </div>
+  <button id="toggleMapBtn" onclick="QSMap.toggle()" style="display:none;margin-bottom:16px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:7px 16px;font-size:12px;color:#C9A84C;cursor:pointer;font-family:'Tajawal',sans-serif">🗺️ عرض الخريطة</button>
+
   <!-- Projects grid -->
   <div class="projects-grid" id="projectsGrid"></div>
 </div>
@@ -509,5 +519,165 @@
   <div class="ldf-en">For reference &amp; educational purposes only — Not for Construction Design. Always verify with official documents.</div>
 </div>
 <!-- ═══ END DISCLAIMER ═══ -->
+
+<script>
+/* ══ QS_Share — WhatsApp + Web Share API ══ */
+window.QS_Share = {
+  whatsapp: function(projectId, projectName) {
+    var url  = 'https://qatar-standers.vercel.app/project-detail.html?id=' + projectId;
+    var text = '📊 *' + projectName + '*\n' +
+               '🔗 ' + url + '\n' +
+               '_QatarSpec Pro — إدارة مشاريع قطر_';
+    if(navigator.share) {
+      navigator.share({ title: projectName, url: url }).catch(function(){});
+    } else {
+      window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+    }
+  },
+  report: function(type, projectName, reportUrl) {
+    var labels = { dwr:'تقرير DWR', ir:'طلب فحص IR', ncr:'NCR', submittal:'تقديم مواد' };
+    var text = '📋 *' + (labels[type]||type) + '*\n' +
+               '🏗️ ' + projectName + '\n' +
+               '🔗 ' + reportUrl + '\n' +
+               '_QatarSpec Pro · QCS 2024_';
+    if(navigator.share) {
+      navigator.share({ title: projectName, url: reportUrl }).catch(function(){});
+    } else {
+      window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+    }
+  }
+};
+</script>
+
+<!-- Leaflet CSS + JS — OpenStreetMap -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+<script>
+/* ══ QSMap — Project Map (OpenStreetMap + Leaflet) ══ */
+window.QSMap = (function(){
+  var map = null, markers = [], initialized = false;
+  var QATAR_CENTER = [25.2854, 51.5310];
+
+  function init(){
+    if(initialized) return;
+    initialized = true;
+    map = L.map('projectMap', { center: QATAR_CENTER, zoom: 11, zoomControl: true });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>',
+      maxZoom: 19
+    }).addTo(map);
+    // Custom gold marker
+    window._qsMarkerIcon = L.divIcon({
+      className: '',
+      html: '<div style="width:28px;height:28px;background:linear-gradient(135deg,#7A1515,#C9952A);border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2px solid #F5C842;box-shadow:0 2px 8px rgba(0,0,0,0.4)"></div>',
+      iconSize: [28,28], iconAnchor: [14,28], popupAnchor: [0,-30]
+    });
+  }
+
+  function toggle(){
+    var sec = document.getElementById('projectMapSection');
+    if(!sec) return;
+    var visible = sec.style.display !== 'none';
+    sec.style.display = visible ? 'none' : 'block';
+    if(!visible){ init(); setTimeout(function(){ map && map.invalidateSize(); renderMarkers(); }, 150); }
+  }
+
+  function renderMarkers(){
+    if(!map) return;
+    markers.forEach(function(m){ m.remove(); });
+    markers = [];
+    var projects = window._qsProjects || [];
+    var hasCoords = false;
+    projects.forEach(function(p){
+      // محاولة استخراج إحداثيات من location field
+      var lat = parseFloat(p.lat || p.latitude || 0);
+      var lng = parseFloat(p.lng || p.longitude || 0);
+      // إذا لا إحداثيات — استخدم إحداثيات عشوائية قريبة من الدوحة للعرض التجريبي
+      if(!lat || !lng){
+        lat = 25.2854 + (Math.random()-0.5)*0.3;
+        lng = 51.5310 + (Math.random()-0.5)*0.4;
+      }
+      hasCoords = true;
+      var status = p.status || 'active';
+      var color = status==='completed'?'#2ecc71':status==='on-hold'?'#e67e22':'#C9952A';
+      var icon = L.divIcon({
+        className: '',
+        html: '<div style="width:26px;height:26px;background:'+color+';border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3)"></div>',
+        iconSize:[26,26], iconAnchor:[13,26], popupAnchor:[0,-28]
+      });
+      var m = L.marker([lat,lng], {icon:icon}).addTo(map);
+      m.bindPopup(
+        '<div dir="rtl" style="font-family:Cairo,sans-serif;min-width:180px">' +
+        '<div style="font-weight:700;font-size:13px;color:#7A1515;margin-bottom:6px">'+(p.name||'مشروع')+'</div>'+
+        '<div style="font-size:11px;color:#666;margin-bottom:4px">📍 '+(p.location||p.city||'الدوحة')+'</div>'+
+        '<div style="font-size:11px;color:#666;margin-bottom:4px">🏗️ '+(p.type||'—')+'</div>'+
+        '<div style="font-size:11px;margin-bottom:8px"><span style="background:'+(status==='completed'?'#e8f8f0':status==='on-hold'?'#fef9e7':'#fef5e7')+';color:'+(status==='completed'?'#27ae60':status==='on-hold'?'#e67e22':'#C9952A')+';padding:2px 8px;border-radius:12px">'+(status==='completed'?'✅ مكتمل':status==='on-hold'?'⏸️ موقوف':'🔄 نشط')+'</div>'+
+        '<button onclick="window.open(\'/project-detail.html?id='+(p.id||'')+'\',\'_self\')" style="background:#7A1515;color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:11px;cursor:pointer;width:100%">📂 فتح المشروع</button>'+
+        '</div>'
+      );
+      markers.push(m);
+    });
+    if(hasCoords && markers.length){ map.fitBounds(markers.map(function(m){ return m.getLatLng(); }), {padding:[30,30], maxZoom:13}); }
+  }
+
+  // يُستدعى من APP عند تحميل المشاريع
+  function setProjects(projects){
+    window._qsProjects = projects;
+    var btn = document.getElementById('toggleMapBtn');
+    if(btn && projects.length){ btn.style.display = 'inline-flex'; }
+    if(initialized){ renderMarkers(); }
+  }
+
+  return { toggle:toggle, setProjects:setProjects, renderMarkers:renderMarkers };
+})();
+
+/* ══ QR Code Generator — لكل مشروع/تقرير ══ */
+window.QSQr = (function(){
+  function generate(text, size){
+    size = size || 150;
+    return 'https://api.qrserver.com/v1/create-qr-code/?size='+size+'x'+size+'&data='+encodeURIComponent(text)+'&color=7A1515&bgcolor=FFFFFF&margin=2';
+  }
+
+  function showModal(projectId, projectName){
+    var url = 'https://qatar-standers.vercel.app/project-detail.html?id='+projectId;
+    var img = generate(url, 200);
+    var modal = document.createElement('div');
+    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:9999;display:flex;align-items:center;justify-content:center';
+    modal.innerHTML =
+      '<div style="background:#1a1a1a;border:1px solid rgba(201,168,76,0.3);border-radius:16px;padding:28px;text-align:center;max-width:300px;width:90%">' +
+      '<div style="font-family:Cairo,sans-serif;font-weight:700;font-size:16px;color:#C9A84C;margin-bottom:4px">QR Code</div>' +
+      '<div style="font-size:12px;color:#888;margin-bottom:16px">'+projectName+'</div>' +
+      '<img src="'+img+'" width="200" height="200" style="border-radius:8px;border:4px solid #C9A84C" alt="QR Code"/>' +
+      '<div style="margin-top:12px;font-size:11px;color:#666">امسح من الموقع لفتح المشروع</div>' +
+      '<div style="display:flex;gap:8px;margin-top:16px">' +
+      '<a href="'+img+'" download="qr-'+projectId+'.png" style="flex:1;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:8px;font-size:12px;color:#C9A84C;text-decoration:none;text-align:center">⬇️ تحميل</a>' +
+      '<button onclick="navigator.share&&navigator.share({title:\''+projectName+'\',url:\''+url+'\'})" style="flex:1;background:rgba(46,204,113,0.12);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:8px;font-size:12px;color:#2ecc71;cursor:pointer">📤 مشاركة</button>' +
+      '</div>' +
+      '<button onclick="this.closest(\'[style*=fixed]\').remove()" style="margin-top:12px;background:transparent;border:1px solid #444;border-radius:8px;padding:7px 20px;color:#888;cursor:pointer;font-size:12px;width:100%">إغلاق</button>' +
+      '</div>';
+    modal.addEventListener('click', function(e){ if(e.target===modal) modal.remove(); });
+    document.body.appendChild(modal);
+  }
+
+  return { generate:generate, showModal:showModal };
+})();
+
+/* ══ Patch APP.renderProjects to show map btn + QR ══ */
+document.addEventListener('DOMContentLoaded', function(){
+  var orig = window.APP && window.APP.renderProjects;
+  if(!orig) return;
+  // نضيف hook بعد render لتحديث الخريطة
+  var _orig = window.APP.load || window.APP.fetchProjects;
+  if(window.APP.load){
+    var origLoad = window.APP.load.bind(window.APP);
+    window.APP.load = function(){
+      return origLoad.apply(this, arguments).then ? origLoad.apply(this, arguments).then(function(){
+        QSMap.setProjects(window.APP._projects || window._projects || []);
+      }) : origLoad.apply(this, arguments);
+    };
+  }
+});
+</script>
 </body>
 </html>

@@ -1743,9 +1743,218 @@ export default async function handler(req) {
   if (resource === 'checklists')          return checklistsHandler(req);
   if (resource === 'execution-ai')        return executionAiHandler(req);
   if (resource === 'generate-document')   return generateDocumentHandler(req);
+  if (resource === 'embed-cron')          return embedCronHandler(req);
+  if (resource === 'send-report')         return sendReportHandler(req);
 
   return new Response(JSON.stringify({
     error: 'resource مطلوب',
-    valid_resources: ['material-submittals', 'ncr-log', 'site-photos', 'snag-list', 'checklists', 'execution-ai', 'generate-document']
+    valid_resources: ['material-submittals', 'ncr-log', 'site-photos', 'snag-list', 'checklists', 'execution-ai', 'generate-document', 'embed-cron', 'send-report']
   }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// ██ EMBED CRON — توليد embeddings تلقائي (100 chunk/run)
+// Vercel Cron يستدعيه كل 6 ساعات — يكمل الـ 1,986 chunk المتبقية
+// ══════════════════════════════════════════════════════════════════════
+async function embedCronHandler(req) {
+  const origin = req.headers?.get?.('origin') || '';
+  const cors   = corsHeaders(origin);
+
+  // السماح فقط لـ Vercel Cron أو Admin Secret
+  const cronSig    = req.headers?.get?.('x-vercel-cron-signature') || '';
+  const adminSec   = req.headers?.get?.('x-admin-secret') || '';
+  const cronSecret = process.env.CRON_SECRET || '';
+  const adminSecret = process.env.ADMIN_SECRET || '';
+
+  const isVercelCron = cronSig && cronSecret && cronSig === cronSecret;
+  const isAdmin      = adminSec && adminSecret && adminSec === adminSecret;
+
+  if (!isVercelCron && !isAdmin) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: cors });
+  }
+
+  const GEMINI_KEY = process.env.GEMINI_API_KEY;
+  const SUPA_URL   = getSupabaseUrl();
+  const SUPA_KEY   = getSupabaseServiceKey();
+
+  if (!GEMINI_KEY || !SUPA_URL || !SUPA_KEY) {
+    return new Response(JSON.stringify({ error: 'Missing env vars: GEMINI_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY' }), { status: 503, headers: cors });
+  }
+
+  // جلب chunks بدون embeddings (100 في كل مرة ضمن free tier)
+  const batchSize = 50; // 50 × 1.5s delay = ~75s — ضمن Vercel 60s limit على free
+  const chunksRes = await fetch(
+    `${SUPA_URL}/rest/v1/qcs_chunks?embedding=is.null&select=id,content&limit=${batchSize}&order=id.asc`,
+    { headers: { apikey: SUPA_KEY, Authorization: `Bearer ${SUPA_KEY}` } }
+  );
+
+  if (!chunksRes.ok) {
+    const err = await chunksRes.text();
+    return new Response(JSON.stringify({ error: 'Supabase fetch failed', detail: err.slice(0,200) }), { status: 500, headers: cors });
+  }
+
+  const chunks = await chunksRes.json();
+  if (!chunks.length) {
+    return new Response(JSON.stringify({ message: '✅ كل الـ chunks عندها embeddings!', processed: 0, remaining: 0 }), { headers: cors });
+  }
+
+  let processed = 0, failed = 0, firstError = null;
+
+  for (const chunk of chunks) {
+    try {
+      await new Promise(r => setTimeout(r, 1200)); // 1.2s delay — يتجنب 429
+
+      const embedRes = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${GEMINI_KEY}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'models/gemini-embedding-001',
+            content: { parts: [{ text: chunk.content.slice(0, 2000) }] }
+          }),
+          signal: AbortSignal.timeout(12000)
+        }
+      );
+
+      if (embedRes.status === 429) {
+        if (!firstError) firstError = 'Gemini rate limited (429)';
+        failed++; continue;
+      }
+      if (!embedRes.ok) {
+        if (!firstError) firstError = `Gemini ${embedRes.status}`;
+        failed++; continue;
+      }
+
+      const embedData  = await embedRes.json();
+      const embedding  = embedData?.embedding?.values;
+      if (!embedding?.length) { failed++; continue; }
+
+      const updateRes = await fetch(
+        `${SUPA_URL}/rest/v1/qcs_chunks?id=eq.${chunk.id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            apikey: SUPA_KEY,
+            Authorization: `Bearer ${SUPA_KEY}`,
+            'Content-Type': 'application/json',
+            Prefer: 'return=minimal'
+          },
+          body: JSON.stringify({ embedding: `[${embedding.join(',')}]` })
+        }
+      );
+
+      if (updateRes.ok) processed++;
+      else failed++;
+
+    } catch (e) {
+      failed++;
+      if (!firstError) firstError = e.message;
+    }
+  }
+
+  // حساب المتبقي
+  const remainingRes = await fetch(
+    `${SUPA_URL}/rest/v1/qcs_chunks?embedding=is.null&select=id&limit=1`,
+    { headers: { apikey: SUPA_KEY, Authorization: `Bearer ${SUPA_KEY}`, Prefer: 'count=exact' } }
+  );
+  const remaining = parseInt(remainingRes.headers.get('content-range')?.split('/')?.[1] || '?');
+
+  return new Response(JSON.stringify({
+    processed,
+    failed,
+    remaining: isNaN(remaining) ? 'unknown' : remaining,
+    firstError: firstError || null,
+    message: processed > 0
+      ? `✅ أُضيف ${processed} embedding${failed ? ` (${failed} فشل)` : ''} — متبقي ~${remaining}`
+      : `⚠️ لم يُضَف شيء — ${firstError || 'unknown error'}`
+  }), { headers: { ...cors, 'Content-Type': 'application/json' } });
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// ██ SEND REPORT — إرسال التقارير بالإيميل عبر Resend
+// POST ?resource=send-report { type, reportData, recipientEmail, projectName }
+// type: 'dwr' | 'ir' | 'ncr' | 'submittal'
+// ══════════════════════════════════════════════════════════════════════
+async function sendReportHandler(req) {
+  const origin = req.headers?.get?.('origin') || '';
+  const cors   = corsHeaders(origin);
+
+  if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
+  if (req.method !== 'POST') return new Response(JSON.stringify({ error: 'POST فقط' }), { status: 405, headers: cors });
+
+  const RESEND_KEY = process.env.RESEND_API_KEY;
+  if (!RESEND_KEY) {
+    return new Response(JSON.stringify({ error: 'RESEND_API_KEY غير مُعيَّن في Vercel' }), { status: 503, headers: cors });
+  }
+
+  let body;
+  try { body = await req.json(); } catch { return new Response(JSON.stringify({ error: 'JSON غير صحيح' }), { status: 400, headers: cors }); }
+
+  const { type = 'dwr', reportData = {}, recipientEmail, projectName = 'مشروع QatarSpec' } = body;
+
+  if (!recipientEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipientEmail)) {
+    return new Response(JSON.stringify({ error: 'البريد الإلكتروني غير صحيح' }), { status: 400, headers: cors });
+  }
+
+  // بناء HTML الإيميل
+  const typeLabels = { dwr: 'تقرير العمل اليومي DWR', ir: 'طلب الفحص IR', ncr: 'تقرير عدم المطابقة NCR', submittal: 'تقديم مواد Material Submittal' };
+  const typeLabel  = typeLabels[type] || type.toUpperCase();
+  const today      = new Date().toLocaleDateString('ar-QA', { year:'numeric', month:'long', day:'numeric' });
+
+  const fieldsHtml = Object.entries(reportData)
+    .filter(([k]) => !['id','project_id','created_at','updated_at'].includes(k))
+    .map(([k, v]) => `<tr><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#666;font-size:13px;width:140px">${k}</td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;font-size:13px">${String(v || '—').slice(0,300)}</td></tr>`)
+    .join('');
+
+  const htmlBody = `
+<!DOCTYPE html><html dir="rtl" lang="ar">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f5f5f5;font-family:Arial,sans-serif">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5;padding:24px">
+<tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08)">
+  <tr><td style="background:linear-gradient(135deg,#7A1515,#C9952A);padding:24px 32px">
+    <div style="color:#F5C842;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">QatarSpec Pro</div>
+    <div style="color:#fff;font-size:20px;font-weight:700">${typeLabel}</div>
+    <div style="color:rgba(255,255,255,0.7);font-size:13px;margin-top:4px">${projectName} — ${today}</div>
+  </td></tr>
+  <tr><td style="padding:24px 32px">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #eee;border-radius:8px;overflow:hidden">
+      ${fieldsHtml || '<tr><td style="padding:16px;color:#999;font-size:13px">لا توجد بيانات</td></tr>'}
+    </table>
+  </td></tr>
+  <tr><td style="padding:16px 32px 24px;border-top:1px solid #f0f0f0">
+    <div style="font-size:11px;color:#999;line-height:1.6">
+      ⚠️ هذا التقرير للاستخدام المرجعي فقط — Not for Design Purposes<br>
+      أُرسل من <a href="https://qatar-standers.vercel.app" style="color:#C9952A">QatarSpec Pro</a> · QCS 2024 · Ashghal · KAHRAMAA
+    </div>
+  </td></tr>
+</table>
+</td></tr>
+</table>
+</body></html>`;
+
+  const emailRes = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${RESEND_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from: 'QatarSpec Pro <reports@qatarspec.com>',
+      to: [recipientEmail],
+      subject: `${typeLabel} — ${projectName}`,
+      html: htmlBody
+    })
+  });
+
+  const emailData = await emailRes.json();
+
+  if (!emailRes.ok) {
+    return new Response(JSON.stringify({ error: 'Resend فشل', detail: emailData }), { status: emailRes.status, headers: cors });
+  }
+
+  return new Response(JSON.stringify({
+    success: true,
+    message: `✅ أُرسل ${typeLabel} إلى ${recipientEmail}`,
+    emailId: emailData.id
+  }), { headers: { ...cors, 'Content-Type': 'application/json' } });
 }
