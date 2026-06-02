@@ -1325,7 +1325,14 @@ c["drawing_analyzer"] = {
   };
 
   function daMarkdownToHTML(md) {
-    return md
+    // [XSS Fix] escape أولاً قبل أي معالجة Markdown
+    var safe = String(md || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+    return safe
       .replace(/## (.+)/g, '<h2>$1</h2>')
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(/^- (.+)/gm, '<li>$1</li>')
@@ -1593,7 +1600,14 @@ c["photo_analyzer"] = {
   };
 
   function piMarkdownToHTML(md) {
-    return md
+    // [XSS Fix] escape أولاً قبل أي معالجة Markdown
+    var safe = String(md || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+    return safe
       .replace(/## (.+)/g, '<h2>$1</h2>')
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(/^- (.+)/gm, '<li>$1</li>')

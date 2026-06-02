@@ -1,6 +1,17 @@
 // QatarSpec Pro — Supabase Real Search Integration
 // قاعدة بيانات: qcs_chunks | 18,000+ chunk من QCS 2024
 
+// [XSS Fix] دالة escape محلية كـ fallback إذا لم يكن QS.escapeHtml متاحاً بعد
+function _ssEsc(s) {
+  if (typeof s !== 'string') s = String(s || '');
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 // المفاتيح محذوفة من client-side — تُدار بالكامل في api/supabase-proxy.js
 
 const SECTION_MAP = {
@@ -101,8 +112,23 @@ function renderRows(rows) {
   const s = document.getElementById("supa-stats");
   if (!rows || !rows.length) { b.innerHTML = '<div style="text-align:center;padding:40px;color:#64748b;">📭 لا توجد نتائج</div>'; return; }
   const parts = [...new Set(rows.map(r => r.part_name))].filter(Boolean);
-  s.innerHTML = rows.length + " نتيجة · " + parts.length + " part · Section " + _currSection;
-  b.innerHTML = rows.map(r => '<div style="background:#1e293b;border:1px solid #1e3a5f;border-radius:10px;padding:14px;border-right:3px solid #0ea5e9;"><div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="color:#38bdf8;font-size:11px;font-weight:bold;">' + (r.section_name||"QCS 2024") + (r.part_name ? ' · <span style="color:#64748b">'+r.part_name+'</span>' : "") + '</span><span style="color:#475569;font-size:10px;">Page '+r.page_num+'</span></div><div style="font-size:13px;line-height:1.75;color:#cbd5e1;">'+r.content+'</div></div>').join("");
+  // [XSS Fix] sanitize قبل كل innerHTML — كل قيمة من DB تمر عبر _ssEsc
+  const esc = (typeof window.QS !== 'undefined' && window.QS.escapeHtml) ? window.QS.escapeHtml : _ssEsc;
+  s.innerHTML = esc(String(rows.length)) + " نتيجة · " + esc(String(parts.length)) + " part · Section " + esc(String(_currSection));
+  b.innerHTML = rows.map(r => {
+    const secName  = esc(r.section_name || 'QCS 2024');
+    const partName = r.part_name ? ' · <span style="color:#64748b">' + esc(r.part_name) + '</span>' : '';
+    const pageNum  = esc(String(r.page_num || ''));
+    // المحتوى النصي من QCS — نسمح بـ <br> فقط بعد escape الكامل
+    const content  = esc(r.content || '').replace(/\n/g, '<br>');
+    return '<div style="background:#1e293b;border:1px solid #1e3a5f;border-radius:10px;padding:14px;border-right:3px solid #0ea5e9;">'
+      + '<div style="display:flex;justify-content:space-between;margin-bottom:8px;">'
+      + '<span style="color:#38bdf8;font-size:11px;font-weight:bold;">' + secName + partName + '</span>'
+      + '<span style="color:#475569;font-size:10px;">Page ' + pageNum + '</span>'
+      + '</div>'
+      + '<div style="font-size:13px;line-height:1.75;color:#cbd5e1;">' + content + '</div>'
+      + '</div>';
+  }).join('');
 }
 
 function guessKey(title) {
