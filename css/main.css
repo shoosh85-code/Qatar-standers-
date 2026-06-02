@@ -98,7 +98,13 @@ header { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); ba
 .ai-answer-text strong { color:var(--gold2); }
 .ai-ref-bar { margin-top:18px; padding-top:16px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
 .ai-ref-text { font-size:12px; color:var(--text3); }
-.ai-disclaimer { font-size:11px; color:var(--text3); font-style:italic; line-height:1.5; max-width:100%; }
+.ai-disclaimer { font-size:11px; color:var(--text3); font-style:italic; line-height:1.5; max-width:100%; background:rgba(201,168,76,0.06); border:1px solid rgba(201,168,76,0.18); border-radius:6px; padding:8px 12px; margin-top:6px; }
+/* ─── Legal Disclaimer Footer ─── */
+.legal-disclaimer-footer { background:rgba(0,0,0,0.25); border:1px solid rgba(201,168,76,0.2); border-radius:10px; padding:14px 20px; margin:24px auto 0; max-width:1300px; text-align:right; direction:rtl; box-sizing:border-box; }
+.legal-disclaimer-footer .ldf-title { color:var(--gold,#c9a84c); font-family:'Cairo',sans-serif; font-weight:700; font-size:13px; margin-bottom:8px; }
+.legal-disclaimer-footer .ldf-body { font-size:11px; color:rgba(255,255,255,0.45); line-height:1.8; }
+.legal-disclaimer-footer .ldf-body strong { color:rgba(255,255,255,0.65); }
+.legal-disclaimer-footer .ldf-en { font-size:10px; color:rgba(255,255,255,0.3); margin-top:6px; font-style:italic; }
 .loading-wrap { display:flex; align-items:center; gap:10px; color:var(--text2); font-size:14px; }
 .spinner { width:18px; height:18px; border:2px solid rgba(201,168,76,0.2); border-top:2px solid var(--gold); border-radius:50%; animation:spin .8s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }

@@ -402,7 +402,27 @@ function prt(id){
   const w=window.open('','_blank');
   w.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>QatarSpec Pro</title><style>body{font-family:Arial,sans-serif;padding:24px;color:#000}.rh{display:flex;justify-content:space-between;font-weight:700;font-size:15px;border-bottom:2px solid #8D1B3D;padding-bottom:8px;margin-bottom:12px}.rr{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;font-size:12px}.rk{color:#666}.rv{font-weight:600}.sb{margin-top:10px;padding:9px;border-radius:6px;font-size:12px;font-weight:600}.so{background:#EAF3DE;color:#3B6D11}.sw{background:#FAEEDA;color:#854F0B}.sf{background:#FCEBEB;color:#A32D2D}.bdg{padding:2px 7px;border-radius:20px;font-size:11px;font-weight:700}.bp-badge{background:#EAF3DE;color:#3B6D11}.bf-badge{background:#FCEBEB;color:#A32D2D}.bw-badge{background:#FAEEDA;color:#854F0B}.bi-badge{background:#E6F1FB;color:#185FA5}.qr{background:#E6F1FB;color:#185FA5;padding:2px 7px;border-radius:20px;font-size:10px}</style></head><body>
   <div style="text-align:center;margin-bottom:16px;border-bottom:3px solid #8D1B3D;padding-bottom:10px"><strong style="font-size:16px;color:#8D1B3D">QatarSpec Pro</strong><br><span style="font-size:11px;color:#666">qatar-standers.vercel.app · QCS 2024 · Ashghal Format</span></div>
-  ${el.innerHTML}</body></html>`);
+  ${el.innerHTML}<style>
+/* QatarSpec Legal Disclaimer */
+.legal-disclaimer-footer{background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:14px 20px;margin:24px auto;max-width:1300px;text-align:right;direction:rtl;box-sizing:border-box;}
+.legal-disclaimer-footer .ldf-title{color:#c9a84c;font-family:"Cairo",sans-serif;font-weight:700;font-size:13px;margin-bottom:8px;}
+.legal-disclaimer-footer .ldf-body{font-size:11px;color:rgba(255,255,255,0.45);line-height:1.8;}
+.legal-disclaimer-footer .ldf-body strong{color:rgba(255,255,255,0.65);}
+.legal-disclaimer-footer .ldf-en{font-size:10px;color:rgba(255,255,255,0.3);margin-top:6px;font-style:italic;}
+</style>
+<!-- ═══ LEGAL DISCLAIMER ═══ -->
+<div class="legal-disclaimer-footer" role="note" aria-label="إشعار قانوني — Legal Disclaimer">
+  <div class="ldf-title">⚠️ إخلاء المسؤولية — Legal Disclaimer</div>
+  <div class="ldf-body">
+    هذه المنصة <strong>للمرجعية والبحث المهني فقط</strong> — غير مخصصة للتصميم أو اتخاذ قرارات هندسية رسمية.
+    يجب الرجوع دائماً للوثائق الأصلية المعتمدة:
+    <strong>QCS 2024 · Ashghal RDM · KAHRAMAA · MMUP</strong>
+    قبل أي قرار هندسي أو إنشائي.
+  </div>
+  <div class="ldf-en">For reference &amp; educational purposes only — Not for Construction Design. Always verify with official documents.</div>
+</div>
+<!-- ═══ END DISCLAIMER ═══ -->
+</body></html>`);
   w.document.close();setTimeout(()=>w.print(),500);
 }
 </script>
