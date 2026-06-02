@@ -226,11 +226,13 @@ html[lang="en"] .card-bullets span { direction:ltr; text-align:left; font-family
 .modal-save:hover { box-shadow:0 0 20px rgba(122,21,21,0.5); }
 .modal-cancel { background:var(--dark4); border:1px solid var(--border); border-radius:10px; padding:12px 20px; color:var(--text2); font-family:'Tajawal',sans-serif; font-size:14px; cursor:pointer; transition:.2s; }
 .modal-cancel:hover { border-color:var(--border2); }
-.detail-modal-bg { position:fixed; inset:0; background:rgba(0,0,0,0.95); backdrop-filter:blur(20px); z-index:9000; display:none; align-items:center; justify-content:center; padding:20px; }
+.detail-modal-bg { position:fixed; inset:0; background:rgba(0,0,0,0.95); backdrop-filter:blur(20px); z-index:9000; display:none; align-items:flex-start; justify-content:center; padding:20px; overflow-y:auto; }
 .detail-modal-bg.open { display:flex; }
-.detail-modal { background:var(--dark3); border:1px solid var(--border2); border-radius:20px; padding:32px; max-width:640px; width:100%; max-height:85vh; overflow-y:auto; animation:modalPop .3s ease; z-index:9001; }
-.detail-modal::-webkit-scrollbar { width:4px; }
-.detail-modal::-webkit-scrollbar-thumb { background:rgba(201,168,76,0.2); border-radius:2px; }
+.detail-modal { background:var(--dark3); border:1px solid var(--border2); border-radius:20px; padding:32px; max-width:640px; width:100%; margin:auto; overflow:visible; animation:modalPop .3s ease; z-index:9001; }
+.detail-modal-bg::-webkit-scrollbar { width:5px; }
+.detail-modal-bg::-webkit-scrollbar-track { background:rgba(0,0,0,0.3); }
+.detail-modal-bg::-webkit-scrollbar-thumb { background:rgba(201,168,76,0.25); border-radius:3px; }
+.detail-modal-bg::-webkit-scrollbar-thumb:hover { background:rgba(201,168,76,0.45); }
 .dm-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid var(--border); }
 .dm-close { background:var(--dark4); border:1px solid var(--border); border-radius:8px; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text2); font-size:16px; transition:.2s; flex-shrink:0; }
 .dm-close:hover { border-color:var(--border2); color:var(--text); }
