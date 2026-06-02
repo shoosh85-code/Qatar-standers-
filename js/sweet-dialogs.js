@@ -229,13 +229,34 @@
      */
     offlineWarning: function () {
       var ar = isArabic();
+      var htmlContent = ar
+        ? '<div style="text-align:right;font-size:0.9rem;line-height:1.8">' +
+          '<p style="margin-bottom:0.75rem;color:#555">يمكنك الاستمرار باستخدام الميزات التالية:</p>' +
+          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">' +
+          '<div style="background:#F0F9EB;border-radius:8px;padding:0.6rem 0.8rem">' +
+          '<strong style="color:#3B6D11;font-size:0.82rem">✅ متاح الآن</strong><br>' +
+          '<small style="color:#444">• بطاقات QCS المحفوظة<br>• الحاسبات الهندسية<br>• المعادلات المحلية<br>• مشاريعك المحفوظة</small>' +
+          '</div>' +
+          '<div style="background:#FEF3F2;border-radius:8px;padding:0.6rem 0.8rem">' +
+          '<strong style="color:#B42318;font-size:0.82rem">⛔ يحتاج اتصالاً</strong><br>' +
+          '<small style="color:#444">• البحث الذكي (AI)<br>• رفع ملفات PDF<br>• التزامن مع الخادم<br>• توليد التقارير</small>' +
+          '</div></div></div>'
+        : '<div style="text-align:left;font-size:0.9rem;line-height:1.8">' +
+          '<p style="margin-bottom:0.75rem;color:#555">You can still use these features:</p>' +
+          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">' +
+          '<div style="background:#F0F9EB;border-radius:8px;padding:0.6rem 0.8rem">' +
+          '<strong style="color:#3B6D11;font-size:0.82rem">✅ Available</strong><br>' +
+          '<small style="color:#444">• Saved QCS cards<br>• Engineering calculators<br>• Local formulas<br>• Saved projects</small>' +
+          '</div>' +
+          '<div style="background:#FEF3F2;border-radius:8px;padding:0.6rem 0.8rem">' +
+          '<strong style="color:#B42318;font-size:0.82rem">⛔ Needs Connection</strong><br>' +
+          '<small style="color:#444">• AI Smart Search<br>• PDF uploads<br>• Cloud sync<br>• Report generation</small>' +
+          '</div></div></div>';
       return Swal.fire({
         title: ar ? 'غير متصل 📶' : 'No Internet 📶',
-        text: ar
-          ? 'أنت غير متصل بالإنترنت — بعض الميزات غير متاحة في وضع Offline.'
-          : 'You are offline — some features are not available in offline mode.',
+        html: htmlContent,
         icon: 'warning',
-        confirmButtonText: ar ? 'حسناً' : 'OK',
+        confirmButtonText: ar ? 'حسناً، سأستمر' : 'Got it',
         confirmButtonColor: '#854F0B',
         customClass: { popup: popupClass() },
       });

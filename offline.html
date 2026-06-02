@@ -19,14 +19,14 @@
       background: #fff;
       border-radius: 16px;
       padding: 2.5rem 2rem;
-      max-width: 420px;
+      max-width: 480px;
       width: 100%;
       text-align: center;
       box-shadow: 0 4px 24px rgba(0,0,0,0.08);
     }
     .icon { font-size: 3.5rem; margin-bottom: 1rem; }
-    h1 { color: #7A1515; font-size: 1.4rem; margin-bottom: 0.75rem; }
-    p  { color: #555; line-height: 1.7; font-size: 0.95rem; margin-bottom: 0.5rem; }
+    h1 { color: #7A1515; font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .subtitle { color: #777; font-size: 0.9rem; margin-bottom: 1rem; }
     .badge {
       display: inline-block;
       background: #EAF3DE;
@@ -34,7 +34,7 @@
       font-size: 0.8rem;
       padding: 0.25rem 0.75rem;
       border-radius: 20px;
-      margin: 0.75rem 0 1.5rem;
+      margin-bottom: 1.5rem;
     }
     button {
       background: #7A1515;
@@ -47,33 +47,95 @@
       width: 100%;
       max-width: 220px;
       transition: opacity 0.2s;
+      margin-bottom: 1.5rem;
     }
     button:hover { opacity: 0.88; }
-    .features {
-      margin-top: 1.5rem;
+
+    /* قسمَي المتاح وغير المتاح */
+    .status-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
       text-align: right;
-      font-size: 0.88rem;
-      color: #666;
-      border-top: 1px solid #eee;
-      padding-top: 1rem;
+      margin-top: 0.5rem;
     }
-    .features li { list-style: none; padding: 0.2rem 0; }
-    .features li::before { content: "✓ "; color: #3B6D11; }
+    .status-section {
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+    }
+    .status-section.available {
+      background: #F0F9EB;
+      border: 1px solid #C3E6A0;
+    }
+    .status-section.unavailable {
+      background: #FEF3F2;
+      border: 1px solid #FECDCA;
+    }
+    .status-section h3 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .status-section.available h3 { color: #3B6D11; }
+    .status-section.unavailable h3 { color: #B42318; }
+    .status-section ul { list-style: none; }
+    .status-section ul li {
+      font-size: 0.8rem;
+      color: #444;
+      padding: 0.2rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .status-section ul li:last-child { border-bottom: none; }
+    .status-section.available ul li::before { content: "✓ "; color: #3B6D11; font-weight: bold; }
+    .status-section.unavailable ul li::before { content: "✗ "; color: #B42318; font-weight: bold; }
+
+    .divider { border: none; border-top: 1px solid #eee; margin: 1.25rem 0; }
+
+    /* Responsive: stack on small screens */
+    @media (max-width: 400px) {
+      .status-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
   <div class="card">
     <div class="icon">🔌</div>
     <h1>غير متصل بالإنترنت</h1>
-    <p>QatarSpec Pro يعمل جزئياً بدون اتصال.</p>
+    <p class="subtitle">لا يزال بإمكانك استخدام كثير من ميزات QatarSpec Pro</p>
     <span class="badge">PWA Offline Mode</span>
     <br>
     <button onclick="window.location.reload()">🔄 إعادة المحاولة</button>
-    <ul class="features">
-      <li>الحاسبات المحلية تعمل بشكل كامل</li>
-      <li>النتائج المحفوظة متاحة</li>
-      <li>البحث الذكي يحتاج اتصالاً</li>
-    </ul>
+
+    <hr class="divider">
+
+    <div class="status-grid">
+      <!-- متاح بدون اتصال -->
+      <div class="status-section available" role="region" aria-label="ميزات متاحة بدون اتصال">
+        <h3>✅ متاح الآن</h3>
+        <ul>
+          <li>بطاقات QCS المحفوظة</li>
+          <li>جميع الحاسبات الهندسية</li>
+          <li>القواعد والمعادلات المحلية</li>
+          <li>مشاريعك المحفوظة</li>
+          <li>بطاقات المرجع الثابتة</li>
+        </ul>
+      </div>
+
+      <!-- غير متاح بدون اتصال -->
+      <div class="status-section unavailable" role="region" aria-label="ميزات تحتاج اتصالاً">
+        <h3>⛔ يحتاج اتصالاً</h3>
+        <ul>
+          <li>البحث الذكي بالـ AI</li>
+          <li>رفع ملفات PDF جديدة</li>
+          <li>التزامن مع قاعدة البيانات</li>
+          <li>توليد التقارير والتصدير</li>
+          <li>التحقق من الاشتراك Pro</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </body>
 </html>
