@@ -133,7 +133,9 @@
         var errData = {};
         try { errData = await res.json(); } catch (_) {}
         if (res.status === 429) {
-          if (answerEl) answerEl.innerHTML = '<div style="color:#e74c3c;padding:16px;">⏳ تجاوزت حد الطلبات. حاول بعد ' + (errData.retryAfter || 60) + ' ثانية.</div>';
+          // XSS Fix: escape retryAfter قبل إدراجه في HTML
+          var safeRetry = parseInt(errData.retryAfter, 10) || 60;
+          if (answerEl) answerEl.innerHTML = '<div style="color:#e74c3c;padding:16px;">⏳ تجاوزت حد الطلبات. حاول بعد ' + safeRetry + ' ثانية.</div>';
         } else {
           if (answerEl) answerEl.innerHTML = '<div style="color:#e74c3c;padding:16px;">❌ خطأ: ' + QS.escapeHtml(errData.error || 'خطأ في الخادم') + '</div>';
         }

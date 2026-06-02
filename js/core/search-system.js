@@ -277,6 +277,11 @@ function _showInstantResults(results, method, searchMs) {
     ? '<span style="color:#27ae60;font-size:10px;">🧠 Vector</span>'
     : '<span style="color:#3498db;font-size:10px;">🔤 FTS</span>';
 
+  // XSS Fix: escape للبيانات القادمة من Supabase (r.content, r.section, r.part)
+  function _escSS(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
   const html = `
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
       <span style="color:var(--gold);font-size:12px;font-weight:700;">📄 نتائج فورية من QCS 2024</span>
@@ -286,14 +291,14 @@ function _showInstantResults(results, method, searchMs) {
       ${results.slice(0, 3).map((r, i) => `
         <div style="background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:6px;padding:8px;cursor:pointer;"
              onclick="_expandInstantResult(this)"
-             data-content="${(r.content || '').replace(/"/g, '&quot;').slice(0, 800)}">
+             data-content="${_escSS(r.content).slice(0, 800)}">
           <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
             <span style="color:var(--gold);font-size:10px;font-weight:700;">[${i + 1}]</span>
-            <span style="color:var(--text2);font-size:11px;font-weight:600;">${r.section || r.part || 'QCS 2024'}</span>
-            ${r.similarity ? `<span style="color:#27ae60;font-size:9px;margin-right:auto;">${r.similarity}</span>` : ''}
+            <span style="color:var(--text2);font-size:11px;font-weight:600;">${_escSS(r.section || r.part || 'QCS 2024')}</span>
+            ${r.similarity ? `<span style="color:#27ae60;font-size:9px;margin-right:auto;">${_escSS(r.similarity)}</span>` : ''}
           </div>
           <p style="color:var(--text3);font-size:11px;margin:0;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
-            ${(r.content || '').slice(0, 180).replace(/\n/g, ' ')}…
+            ${_escSS(r.content).slice(0, 180).replace(/\n/g, ' ')}…
           </p>
         </div>
       `).join('')}
