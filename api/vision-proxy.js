@@ -10,31 +10,14 @@ export const config = {
   },
 };
 
+import { checkRateLimit, rateLimitResponse } from '../lib/rate-limit.js';
+
 // تم التحقق من الموديلات المتاحة — آخر تحديث 2026-05
 const GEMINI_MODELS = [
   { model: 'gemini-3.5-flash',               api: 'v1beta' }, // الأحدث — حصة متبقية
   { model: 'gemini-2.5-flash',               api: 'v1beta' }, // مستقر
   { model: 'gemini-2.5-pro',                 api: 'v1beta' }, // أدق
 ];
-
-// In-memory rate limiter
-const rateLimitStore = new Map();
-
-function checkRateLimit(ip, tier) {
-  const limits = { free: 5, pro: 60 };
-  const limit = limits[tier] || limits.free;
-  const key = `${ip}:${tier}:${Math.floor(Date.now() / 60000)}`;
-  const count = (rateLimitStore.get(key) || 0) + 1;
-  if (rateLimitStore.size > 1000) {
-    const now = Math.floor(Date.now() / 60000);
-    for (const [k] of rateLimitStore) {
-      if (!k.endsWith(':' + now) && !k.endsWith(':' + (now - 1)))
-        rateLimitStore.delete(k);
-    }
-  }
-  rateLimitStore.set(key, count);
-  return { allowed: count <= limit, remaining: Math.max(0, limit - count), limit };
-}
 
 // استخراج نص الخطأ من أي شكل
 function extractErrorText(err) {
@@ -57,17 +40,13 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST فقط' });
 
-  // Rate limit
-  const ip   = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
-  const tier = req.headers['x-user-tier'] || 'free';
-  const rl   = checkRateLimit(ip, tier);
-  res.setHeader('X-RateLimit-Limit',     rl.limit);
-  res.setHeader('X-RateLimit-Remaining', rl.remaining);
-  res.setHeader('X-RateLimit-Reset',     Math.ceil(Date.now() / 60000) * 60);
-  if (!rl.allowed) {
-    res.setHeader('Retry-After', '60');
-    return res.status(429).json({ error: 'تجاوزت الحد — حاول بعد دقيقة' });
-  }
+  // Rate limit — lib/rate-limit.js (Free: 3/min | Pro: 30/min | Global: 50/min)
+  const ip      = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
+  const isPro   = req.headers['x-user-tier'] === 'pro';
+  const rl      = await checkRateLimit(ip, '/api/vision-proxy', isPro);
+  if (!rl.allowed) return rateLimitResponse(rl, {
+    'Access-Control-Allow-Origin': process.env.APP_URL || 'https://qatar-standers.vercel.app'
+  });
 
   // تحقق من GEMINI_API_KEY أولاً
   const apiKey = process.env.GEMINI_API_KEY;

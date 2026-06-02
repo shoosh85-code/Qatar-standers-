@@ -251,7 +251,7 @@
 
   // ── Markdown بسيط → HTML ───────────────────────────────────────────────
   function simpleMarkdown(text) {
-    return text
+    var html = text
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(/`(.+?)`/g, '<code>$1</code>')
@@ -262,6 +262,9 @@
       .replace(/^\d+\. (.+)$/gm, '<li>$1</li>')
       .replace(/\n{2,}/g, '<br><br>')
       .replace(/\n/g, '<br>');
+    return (typeof DOMPurify !== 'undefined')
+      ? DOMPurify.sanitize(html, { ALLOWED_TAGS: ['strong','em','code','h2','h3','h4','li','ul','ol','br','p','span'], ALLOWED_ATTR: ['style'] })
+      : html;
   }
 
   // ── تسجيل في QS namespace ─────────────────────────────────────────────

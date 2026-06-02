@@ -17,7 +17,7 @@ function _vfToast(msg, type) {
 
 function _renderMd(text) {
   // [SEC] text is already escaped before calling this
-  return text
+  var html = text
     .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold)">$1</strong>')
     .replace(/\*(.*?)\*/g, '<em style="color:var(--text2)">$1</em>')
     .replace(/^### (.+)$/gm, '<h4 style="color:var(--gold);margin:10px 0 4px;font-size:13px">$1</h4>')
@@ -33,6 +33,9 @@ function _renderMd(text) {
     .replace(/QCS 2024[^\n<]*/g, '<span style="color:var(--gold);font-size:11px;font-weight:700">$&</span>')
     .replace(/\n\n/g, '</p><p style="margin:6px 0">')
     .replace(/\n/g, '<br>');
+  return (typeof DOMPurify !== 'undefined')
+    ? DOMPurify.sanitize(html, { ALLOWED_TAGS: ['strong','em','h3','h4','li','ul','br','p','span','code'], ALLOWED_ATTR: ['style'] })
+    : html;
 }
 
 // ══════════════════════════════════════════════════════════════
