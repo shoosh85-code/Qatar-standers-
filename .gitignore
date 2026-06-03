@@ -14,6 +14,7 @@ node_modules/
 # ── Vercel ──
 .vercel/
 *.vercel
+!.vercel/project.json
 
 # ── OS / IDE ──
 .DS_Store

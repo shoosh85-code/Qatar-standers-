@@ -4,10 +4,6 @@ on:
     branches: [main]
   workflow_dispatch:
 
-env:
-  VERCEL_ORG_ID: team_BUn6M6L492W1COsvFHruMx4X
-  VERCEL_PROJECT_ID: prj_FbGrivFCdfJvoFycGRMd1U0ECq5D
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -19,3 +15,6 @@ jobs:
 
       - name: Deploy to Vercel Production
         run: vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: team_BUn6M6L492W1COsvFHruMx4X
+          VERCEL_PROJECT_ID: prj_FbGrivFCdfJvoFycGRMd1U0ECq5D
