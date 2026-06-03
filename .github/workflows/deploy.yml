@@ -10,11 +10,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Install Vercel CLI
         run: npm install -g vercel@latest
 
       - name: Deploy to Vercel Production
-        run: vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          vercel deploy --prod \
+            --yes \
+            --token=${{ secrets.VERCEL_TOKEN }} \
+            --scope=shoosh85-3851s-projects 2>&1 | tee /tmp/vercel-output.txt
+          cat /tmp/vercel-output.txt
         env:
           VERCEL_ORG_ID: team_BUn6M6L492W1COsvFHruMx4X
           VERCEL_PROJECT_ID: prj_FbGrivFCdfJvoFycGRMd1U0ECq5D
