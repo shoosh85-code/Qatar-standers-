@@ -480,7 +480,7 @@ function initShimmer(){
 ══════════════════════════════════════════════════ */
 function boot(){
   try { initParticles();   } catch(e){}
-  try { initCursor();      } catch(e){}
+  // initCursor() — disabled by user request
   try { initRipple();      } catch(e){}
   try { initTilt();        } catch(e){}
   try { initScrollReveal();} catch(e){}
