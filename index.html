@@ -561,8 +561,15 @@
   document.getElementById('qslEnterBtn').addEventListener('click',function(){
     var el=document.getElementById('qs-landing');
     el.classList.add('qsl-exit');
+    sessionStorage.setItem('qs_entered','1');
     setTimeout(function(){el.style.display='none';alive=false},950);
   });
+
+  // Skip splash if already entered in this session (refresh fix)
+  if(sessionStorage.getItem('qs_entered')==='1'){
+    var el=document.getElementById('qs-landing');
+    if(el){el.style.display='none';alive=false;}
+  }
 
   // Auto-dismiss after 8 seconds if user doesn't click
   setTimeout(function(){
