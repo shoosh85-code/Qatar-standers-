@@ -18,19 +18,18 @@ function initCursor() {
   css(`
     *{cursor:none!important}
     #_lxDot{position:fixed;z-index:2000000;width:6px;height:6px;border-radius:50%;
-      background:#C9A96E;pointer-events:none;transform:translate(-50%,-50%);
-      box-shadow:0 0 12px rgba(201,169,110,.9),0 0 4px rgba(201,169,110,.6);
-      transition:transform .08s,width .25s,height .25s,opacity .2s}
+      background:#F5C842;pointer-events:none;transform:translate(-50%,-50%);
+      box-shadow:0 0 10px rgba(245,200,66,.95),0 0 3px rgba(245,200,66,.7);will-change:left,top}
     #_lxRing{position:fixed;z-index:1999999;width:36px;height:36px;border-radius:50%;
       border:1px solid rgba(201,169,110,.4);pointer-events:none;
       transform:translate(-50%,-50%);
-      transition:width .4s cubic-bezier(.4,0,.2,1),height .4s cubic-bezier(.4,0,.2,1),
-        border-color .3s,opacity .3s}
+      transition:width .18s cubic-bezier(.25,.8,.25,1),height .18s cubic-bezier(.25,.8,.25,1),
+        border-color .15s,opacity .15s;will-change:left,top}
     #_lxRing.big{width:56px;height:56px;border-color:rgba(201,169,110,.7)}
     #_lxRing.tiny{width:18px;height:18px;border-color:rgba(201,169,110,1)}
     .lx-trail{position:fixed;border-radius:50%;pointer-events:none;z-index:1999998;
       background:rgba(201,169,110,.18);transform:translate(-50%,-50%);
-      animation:trailFade .6s forwards}
+      animation:trailFade .35s forwards}
     @keyframes trailFade{to{opacity:0;transform:translate(-50%,-50%) scale(0)}}
   `);
   const dot  = Object.assign(document.createElement('div'),{id:'_lxDot'});
@@ -42,14 +41,14 @@ function initCursor() {
     mx=e.clientX; my=e.clientY;
     dot.style.left=mx+'px'; dot.style.top=my+'px';
     // Trail particle
-    if (Date.now()-lastTrail > 40) {
+    if (Date.now()-lastTrail > 55) {
       lastTrail=Date.now();
       const t=document.createElement('div');
       t.className='lx-trail';
       const sz = 4+Math.random()*6;
       t.style.cssText=`left:${mx}px;top:${my}px;width:${sz}px;height:${sz}px`;
       document.body.appendChild(t);
-      setTimeout(()=>t.remove(), 620);
+      setTimeout(()=>t.remove(), 370);
     }
   });
   document.addEventListener('mousedown',()=>ring.classList.add('tiny'));
@@ -59,7 +58,7 @@ function initCursor() {
     el.addEventListener('mouseleave',()=>ring.classList.remove('big'));
   });
   (function raf(){
-    rx+=(mx-rx)*.09; ry+=(my-ry)*.09;
+    rx+=(mx-rx)*.28; ry+=(my-ry)*.28;
     ring.style.left=rx+'px'; ring.style.top=ry+'px';
     requestAnimationFrame(raf);
   })();
