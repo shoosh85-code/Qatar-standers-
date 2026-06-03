@@ -16,7 +16,7 @@ const css = txt => { const s=document.createElement('style'); s.textContent=txt;
 function initCursor() {
   if (reduced || isMobile) return;
   css(`
-    *{cursor:none!important}
+    *{cursor:auto}
     /* DOT — يتبع الماوس فوراً بـ transform فقط — zero reflow */
     #_lxDot{
       position:fixed;z-index:2000000;
