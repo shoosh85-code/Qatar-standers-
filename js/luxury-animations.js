@@ -11,55 +11,85 @@ const isMobile = window.innerWidth < 768;
 const css = txt => { const s=document.createElement('style'); s.textContent=txt; document.head.appendChild(s); };
 
 /* ══════════════════════════════════════════════════
-   § 1  CUSTOM CURSOR + GOLD TRAIL
+   § 1  CUSTOM CURSOR — zero-lag transform-only
 ══════════════════════════════════════════════════ */
 function initCursor() {
   if (reduced || isMobile) return;
   css(`
     *{cursor:none!important}
-    #_lxDot{position:fixed;z-index:2000000;width:6px;height:6px;border-radius:50%;
-      background:#F5C842;pointer-events:none;transform:translate(-50%,-50%);
-      box-shadow:0 0 10px rgba(245,200,66,.95),0 0 3px rgba(245,200,66,.7);will-change:left,top}
-    #_lxRing{position:fixed;z-index:1999999;width:36px;height:36px;border-radius:50%;
-      border:1px solid rgba(201,169,110,.4);pointer-events:none;
-      transform:translate(-50%,-50%);
-      transition:width .18s cubic-bezier(.25,.8,.25,1),height .18s cubic-bezier(.25,.8,.25,1),
-        border-color .15s,opacity .15s;will-change:left,top}
-    #_lxRing.big{width:56px;height:56px;border-color:rgba(201,169,110,.7)}
-    #_lxRing.tiny{width:18px;height:18px;border-color:rgba(201,169,110,1)}
-    .lx-trail{position:fixed;border-radius:50%;pointer-events:none;z-index:1999998;
-      background:rgba(201,169,110,.18);transform:translate(-50%,-50%);
-      animation:trailFade .35s forwards}
-    @keyframes trailFade{to{opacity:0;transform:translate(-50%,-50%) scale(0)}}
+    /* DOT — يتبع الماوس فوراً بـ transform فقط — zero reflow */
+    #_lxDot{
+      position:fixed;z-index:2000000;
+      top:0;left:0;
+      width:8px;height:8px;border-radius:50%;
+      background:#F5C842;pointer-events:none;
+      box-shadow:0 0 12px rgba(245,200,66,1),0 0 4px rgba(245,200,66,.8);
+      will-change:transform;
+      transform:translate(0,0);
+    }
+    /* RING — lerp خفيف للـ smoothness الجميل */
+    #_lxRing{
+      position:fixed;z-index:1999999;
+      top:0;left:0;
+      width:32px;height:32px;
+      margin-top:-16px;margin-left:-16px;
+      border-radius:50%;
+      border:1.5px solid rgba(201,169,110,.6);pointer-events:none;
+      will-change:transform;
+      transform:translate(0,0);
+      transition:width .15s ease,height .15s ease,margin .15s ease,border-color .15s;
+    }
+    #_lxRing.big{width:48px;height:48px;margin-top:-24px;margin-left:-24px;border-color:rgba(245,200,66,.85)}
+    #_lxRing.tiny{width:14px;height:14px;margin-top:-7px;margin-left:-7px;border-color:rgba(245,200,66,1);border-width:2px}
+    .lx-trail{
+      position:fixed;top:0;left:0;border-radius:50%;pointer-events:none;z-index:1999997;
+      background:rgba(201,169,110,.25);
+      will-change:transform,opacity;
+      animation:trailFade .3s ease forwards;
+    }
+    @keyframes trailFade{
+      0%{opacity:.7;transform:translate(var(--tx),var(--ty)) scale(1)}
+      100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0)}
+    }
   `);
+
   const dot  = Object.assign(document.createElement('div'),{id:'_lxDot'});
   const ring = Object.assign(document.createElement('div'),{id:'_lxRing'});
   document.body.append(dot, ring);
 
-  let mx=0,my=0,rx=0,ry=0,lastTrail=0;
+  let mx=0, my=0, rx=0, ry=0, lastTrail=0;
+
   document.addEventListener('mousemove', e => {
-    mx=e.clientX; my=e.clientY;
-    dot.style.left=mx+'px'; dot.style.top=my+'px';
-    // Trail particle
-    if (Date.now()-lastTrail > 55) {
-      lastTrail=Date.now();
-      const t=document.createElement('div');
-      t.className='lx-trail';
-      const sz = 4+Math.random()*6;
-      t.style.cssText=`left:${mx}px;top:${my}px;width:${sz}px;height:${sz}px`;
+    mx = e.clientX; my = e.clientY;
+    // DOT — transform فوري بدون أي lag
+    dot.style.transform = `translate(${mx - 4}px,${my - 4}px)`;
+
+    // Trail — خفيف
+    const now = Date.now();
+    if (now - lastTrail > 60) {
+      lastTrail = now;
+      const t = document.createElement('div');
+      const sz = 3 + Math.random() * 5;
+      t.className = 'lx-trail';
+      t.style.cssText = `width:${sz}px;height:${sz}px;margin-top:-${sz/2}px;margin-left:-${sz/2}px;--tx:${mx}px;--ty:${my}px;transform:translate(${mx}px,${my}px)`;
       document.body.appendChild(t);
-      setTimeout(()=>t.remove(), 370);
+      setTimeout(() => t.remove(), 310);
     }
+  }, {passive: true});
+
+  document.addEventListener('mousedown', () => ring.classList.add('tiny'));
+  document.addEventListener('mouseup',   () => ring.classList.remove('tiny'));
+
+  document.querySelectorAll('button,a,.cat-card,.spec-row,.plan-card,.quick-tag,.upload-zone').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('big'),    {passive:true});
+    el.addEventListener('mouseleave', () => ring.classList.remove('big'), {passive:true});
   });
-  document.addEventListener('mousedown',()=>ring.classList.add('tiny'));
-  document.addEventListener('mouseup',()=>ring.classList.remove('tiny'));
-  document.querySelectorAll('button,a,.cat-card,.spec-row,.plan-card,.quick-tag,.upload-zone').forEach(el=>{
-    el.addEventListener('mouseenter',()=>ring.classList.add('big'));
-    el.addEventListener('mouseleave',()=>ring.classList.remove('big'));
-  });
-  (function raf(){
-    rx+=(mx-rx)*.28; ry+=(my-ry)*.28;
-    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+
+  // RING — lerp مضبوط على 0.18 — smooth بدون بطء
+  (function raf() {
+    rx += (mx - rx) * 0.18;
+    ry += (my - ry) * 0.18;
+    ring.style.transform = `translate(${rx | 0}px,${ry | 0}px)`;
     requestAnimationFrame(raf);
   })();
 }
