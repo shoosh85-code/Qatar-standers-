@@ -254,6 +254,23 @@
 
   // ── Markdown بسيط → HTML ───────────────────────────────────────────────
   function simpleMarkdown(text) {
+    // إذا النص يحتوي على HTML tables — اعرضه مباشرة
+    var hasHtml = /<(table|tr|td|th|thead|tbody)[\s>]/i.test(text);
+    if (hasHtml) {
+      var processed = text
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/`(.+?)`/g, '<code>$1</code>')
+        .replace(/^### (.+)$/gm, '<h4 style="color:var(--gold);margin:12px 0 6px;">$1</h4>')
+        .replace(/^## (.+)$/gm, '<h3 style="color:var(--gold);margin:16px 0 8px;">$1</h3>')
+        .replace(/^\- (.+)$/gm, '<li>$1</li>')
+        .replace(/\n{2,}/g, '<br><br>');
+      return (typeof DOMPurify !== 'undefined')
+        ? DOMPurify.sanitize(processed, {
+            ALLOWED_TAGS: ['strong','em','code','h2','h3','h4','li','ul','ol','br','p','span','table','thead','tbody','tr','th','td'],
+            ALLOWED_ATTR: ['style','class']
+          })
+        : processed;
+    }
     var html = text
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
