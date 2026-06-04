@@ -744,6 +744,11 @@ main { padding: 20px; max-width: 1400px; margin: 0 auto; }
         <div class="title">Excel</div>
         <div class="sub">نتائج QCS كاملة</div>
       </button>
+      <button class="export-btn" onclick="exportGeminiReport()" id="btn-gemini-report" style="display:none">
+        <div class="icon">🤖</div>
+        <div class="title">تقرير AI</div>
+        <div class="sub">فحص Gemini QCS</div>
+      </button>
       <button class="export-btn" onclick="openNCRFromFails()" id="btn-ncr" style="display:none">
         <div class="icon">📋</div>
         <div class="title">NCR تلقائي</div>
@@ -860,6 +865,11 @@ async function analyzeFloorplan(file) {
       document.getElementById('schema-debug').style.display = 'block';
       if (schema.source?.parse_failed) toast('⚠️ تم التحليل جزئياً — جرب صورة بدقة أعلى', 'error');
     }
+
+    // ── مرحلة 2: تحليل QCS 2024 بـ Gemini Vision ─────────────────────
+    setProgress(65);
+    document.getElementById('loading-msg').textContent = 'جاري فحص المطابقة مع QCS 2024...';
+    await runGeminiQCSAnalysis(file, schema);
 
     await runCompliance();
     setProgress(75);
@@ -987,6 +997,152 @@ function showPhotosPreview(files) {
 /* ══════════════════════════════════════
    فحص المطابقة QCS
 ══════════════════════════════════════ */
+// ══ تحليل QCS 2024 بـ Gemini Vision مباشرة ══════════════════════════
+async function runGeminiQCSAnalysis(imageFile, schema) {
+  try {
+    // بناء ملخص الـ schema للـ prompt
+    const floor = schema.floors?.[0] || {};
+    const rooms = (floor.rooms || []).map(r =>
+      `- ${r.name} (${r.name_en}): ${r.area_m2}m²`
+    ).join('\n');
+    const dims = schema.dimensions || {};
+
+    const prompt = `أنت خبير مواصفات هندسية قطرية متخصص في QCS 2024 (Qatar Construction Specifications).
+
+## بيانات المخطط المُحلَّل:
+- النوع: ${schema.source?.plan_type || 'غير محدد'}
+- الأبعاد: ${dims.total_width_m || '?'}m × ${dims.total_depth_m || '?'}m
+- المساحة الكلية: ${dims.total_area_m2 || '?'}m²
+- ارتفاع الطابق: ${floor.height_m || 3.2}m
+- عدد الجدران: ${floor.walls?.length || 0}
+- عدد الأبواب: ${floor.doors?.length || 0}
+- عدد الشبابيك: ${floor.windows?.length || 0}
+الغرف:
+${rooms || 'لم تُحدد'}
+
+## مهمتك:
+افحص هذا المخطط وفق **QCS 2024** وأعطِ تقريراً شاملاً يتضمن:
+
+### 1. تقييم المساحات (QCS Section 17 — Building Design):
+- هل مساحات الغرف تلتزم بالحدود الدنيا؟
+- غرفة النوم الرئيسية: لا تقل عن 12m²
+- غرف النوم الأخرى: لا تقل عن 9m²
+- غرفة المعيشة: لا تقل عن 16m²
+- المطبخ: لا يقل عن 6m²
+- الحمام: لا يقل عن 3m²
+- الممرات: لا تقل عن 1.2m عرضاً
+
+### 2. التهوية والإضاءة الطبيعية (QCS Section 17 — Part 4):
+- هل كل غرفة مأهولة لها نافذة على الواجهة الخارجية؟
+- نسبة مساحة النوافذ لا تقل عن 10% من مساحة الغرفة
+- التهوية الطبيعية للحمامات
+
+### 3. متطلبات السلامة (QCS Section 17 — Part 6):
+- ارتفاع الدرابزين: لا يقل عن 1.05m
+- عرض مسارات الإخلاء: لا يقل عن 1.2m
+- أبواب الطوارئ
+
+### 4. إمكانية وصول ذوي الاحتياجات (QCS Section 17 — Part 8):
+- عرض الأبواب: لا يقل عن 0.9m
+- الممرات: لا تقل عن 1.5m
+- مداخل مستوية أو رامب
+
+### 5. ملاحظات خاصة بالمشاريع القطرية:
+- المجلس (Majlis): يجب أن يكون منفصلاً عن المعيشة للضيوف
+- غرفة الخادمة: إذا وُجدت يجب أن يكون لها حمام خاص
+
+## صيغة التقرير:
+لكل بند اذكر:
+✅ PASS / ❌ FAIL / ⚠️ WARNING
+البند QCS والرقم، القيمة المطلوبة، الملاحظة.
+
+اكتب التقرير بالعربية مع المصطلحات التقنية بالإنجليزية. كن دقيقاً ومفصلاً.`;
+
+    const response = await fetch('/api/ai-proxy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages: [{ role: 'user', content: prompt }],
+        max_tokens: 4000
+      })
+    });
+
+    if (!response.ok) return;
+
+    // SSE streaming
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let fullText = '';
+
+    // أنشئ قسم التقرير
+    let reportDiv = document.getElementById('gemini-qcs-report');
+    if (!reportDiv) {
+      reportDiv = document.createElement('div');
+      reportDiv.id = 'gemini-qcs-report';
+      reportDiv.style.cssText = `
+        background:var(--bg-card);border:1px solid var(--border);border-radius:12px;
+        padding:20px;margin-top:16px;line-height:1.8;font-size:14px;
+        direction:rtl;text-align:right;
+      `;
+      const resultsSection = document.getElementById('results-section');
+      if (resultsSection) {
+        const reportHeader = document.createElement('div');
+        reportHeader.style.cssText = 'font-size:16px;font-weight:700;color:var(--gold);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);';
+        reportHeader.textContent = '🤖 تقرير Gemini AI — فحص QCS 2024';
+        reportDiv.prepend(reportHeader);
+        resultsSection.insertBefore(reportDiv, resultsSection.firstChild.nextSibling);
+      }
+    }
+    reportDiv.style.display = 'block';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const chunk = decoder.decode(value);
+      const lines = chunk.split('\n');
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          const data = line.slice(6);
+          if (data === '[DONE]') break;
+          try {
+            const parsed = JSON.parse(data);
+            const token = parsed.choices?.[0]?.delta?.content || parsed.delta?.text || '';
+            if (token) {
+              fullText += token;
+              // عرض مباشر مع تنسيق
+              const formatted = fullText
+                .replace(/✅/g, '<span style="color:#22c55e">✅</span>')
+                .replace(/❌/g, '<span style="color:#ef4444">❌</span>')
+                .replace(/⚠️/g, '<span style="color:#f59e0b">⚠️</span>')
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                .replace(/### (.+)/g, '<h4 style="color:var(--gold);margin:12px 0 6px;">$1</h4>')
+                .replace(/## (.+)/g, '<h3 style="color:var(--gold);margin:16px 0 8px;">$1</h3>')
+                .replace(/\n/g, '<br>');
+              const existingHeader = reportDiv.querySelector('div[style*="gold"]');
+              if (existingHeader) {
+                existingHeader.nextSibling
+                  ? existingHeader.nextSibling.textContent = ''
+                  : null;
+              }
+              reportDiv.innerHTML = (reportDiv.querySelector('div[style*="gold"]')?.outerHTML || '') + formatted;
+            }
+          } catch {}
+        }
+      }
+    }
+
+    // حفظ التقرير في APP
+    APP.geminiQCSReport = fullText;
+
+    // إظهار زر تصدير التقرير
+    const reportBtn = document.getElementById('btn-gemini-report');
+    if (reportBtn && fullText) reportBtn.style.display = '';
+
+  } catch (err) {
+    console.warn('[GeminiQCS]', err.message);
+  }
+}
+
 async function runCompliance() {
   if (!APP.schema || !window.QS?.QCSCompliance) return;
 
@@ -1377,6 +1533,27 @@ document.addEventListener('DOMContentLoaded', () => {
 .legal-disclaimer-footer .ldf-body strong{color:rgba(255,255,255,0.65);}
 .legal-disclaimer-footer .ldf-en{font-size:10px;color:rgba(255,255,255,0.3);margin-top:6px;font-style:italic;}
 </style>
+
+<script>
+function exportGeminiReport() {
+  if (!APP.geminiQCSReport) { toast('⚠ لا يوجد تقرير AI — حلل مخططاً أولاً'); return; }
+  const projectName = document.getElementById('project-name')?.value || 'مشروع QatarSpec';
+  const engineerName = document.getElementById('engineer-name')?.value || '';
+  const date = new Date().toLocaleDateString('ar-QA', { year:'numeric', month:'long', day:'numeric' });
+  const html = '<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8"><title>تقرير QCS — ' + projectName + '</title>' +
+    '<style>body{font-family:Arial,sans-serif;direction:rtl;padding:40px;color:#1a1a2e;line-height:1.8}.header{background:linear-gradient(135deg,#7A1515,#C9952A);color:#fff;padding:24px 32px;border-radius:12px;margin-bottom:24px}.content{font-size:14px;white-space:pre-wrap}.footer{margin-top:32px;padding-top:16px;border-top:1px solid #eee;font-size:11px;color:#888}</style></head><body>' +
+    '<div class="header"><h1>تقرير فحص QCS 2024 — ' + projectName + '</h1><p>المهندس: ' + (engineerName || '—') + ' · ' + date + ' · QatarSpec Pro</p></div>' +
+    '<div class="content">' + APP.geminiQCSReport.replace(/\n/g,'<br>') + '</div>' +
+    '<div class="footer">⚠️ للمرجعية فقط — QatarSpec Pro · QCS 2024</div></body></html>';
+  const blob = new Blob([html], {type:'text/html;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'QCS-AI-Report-' + Date.now() + '.html';
+  a.click();
+  toast('✅ تم تصدير تقرير AI');
+}
+</script>
+
 <!-- ═══ LEGAL DISCLAIMER ═══ -->
 <div class="legal-disclaimer-footer" role="note" aria-label="إشعار قانوني — Legal Disclaimer">
   <div class="ldf-title">⚠️ إخلاء المسؤولية — Legal Disclaimer</div>
