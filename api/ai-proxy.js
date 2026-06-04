@@ -81,7 +81,7 @@ async function callGemini(messages, maxTokens = 2000) {
   const body = {
     contents,
     generationConfig: {
-      maxOutputTokens: maxTokens || 2000,
+      maxOutputTokens: maxTokens || 4000,
       temperature: 0.2,
       topP: 0.85,
     },
@@ -188,7 +188,7 @@ async function callGeminiStream(messages, maxTokens, apiKey) {
   const body = {
     contents,
     generationConfig: {
-      maxOutputTokens: maxTokens || 2000,
+      maxOutputTokens: maxTokens || 4000,
       temperature: 0.1, // منخفض للدقة QCS
       topP: 0.85,
     },
@@ -500,7 +500,7 @@ Return ONLY the HTML content (no outer div wrapper). Use dm-table CSS class for 
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             contents: [{ parts: [{ text: enhancePrompt }] }],
-            generationConfig: { maxOutputTokens: 2000, temperature: 0.1 }
+            generationConfig: { maxOutputTokens: 4000, temperature: 0.1 }
           }),
           signal: AbortSignal.timeout(25000)
         }
@@ -649,7 +649,7 @@ Return ONLY the HTML content (no outer div wrapper). Use dm-table CSS class for 
     ? [{ role: 'user', content: `[SYSTEM: ${finalSystem}]\n\n${messages[0]?.content || ''}` }, ...messages.slice(1)]
     : messages;
 
-  const tokenLimit = Math.min(max_tokens || 2500, 3000); // max 3000 tokens
+  const tokenLimit = Math.min(max_tokens || 4000, 8000); // max 8000 tokens
 
   // v3.1: retryGemini — exponential backoff (2s→5s→12.5s) + flash fallback
   try {
