@@ -137,7 +137,7 @@
   "crons": [
     {
       "path": "/api/hub-extended?resource=embed-cron",
-      "schedule": "0 */6 * * *"
+      "schedule": "0 2 * * *"
     }
   ]
 }
