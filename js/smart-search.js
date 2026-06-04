@@ -63,23 +63,32 @@
     if (answerEl) answerEl.innerHTML = '<div class="loading-wrap"><div class="spinner"></div> جاري البحث في نصوص QCS 2024 الفعلية...</div>';
     if (refEl) refEl.textContent = '📖 يتم جلب المراجع...';
 
-    // ── الخطوة 1: جلب نصوص QCS الحقيقية من Supabase ─────────────────────
+    // ── الخطوة 1: جلب نصوص QCS الحقيقية من Supabase (مع retry) ──────────
     let qcsChunks = [];
     let searchMethod = 'none';
-    try {
-      const searchRes = await fetch('/api/qcs-search', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: query, limit: 10 })
-      });
-
-      if (searchRes.ok) {
-        const searchData = await searchRes.json();
-        qcsChunks = searchData.results || [];
-        searchMethod = searchData.method || 'fts';
+    const MAX_RETRIES = 2;
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 10000); // 10s timeout
+        const searchRes = await fetch('/api/qcs-search', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: query, limit: 10 }),
+          signal: controller.signal
+        });
+        clearTimeout(timeout);
+        if (searchRes.ok) {
+          const searchData = await searchRes.json();
+          qcsChunks = searchData.results || [];
+          searchMethod = searchData.method || 'fts';
+          if (qcsChunks.length > 0) break; // نجح — اخرج من الـ loop
+        }
+        if (attempt < MAX_RETRIES) await new Promise(r => setTimeout(r, 1000)); // انتظر ثانية قبل retry
+      } catch (e) {
+        console.warn('[smart-search] attempt ' + attempt + ' failed:', e.message);
+        if (attempt < MAX_RETRIES) await new Promise(r => setTimeout(r, 1000));
       }
-    } catch (e) {
-      console.warn('[smart-search] QCS search failed:', e.message);
     }
 
     // بناء سياق QCS الحقيقي
@@ -101,7 +110,6 @@
     if (qcsChunks.length > 0) {
       systemPrompt = 'أنت خبير مواصفات هندسية قطرية. لديك نصوص QCS 2024 الرسمية التالية كمرجع:\n\n' +
         qcsContext + '\n\n' +
-        'التعليمات:\n' +
         'التعليمات:\n' +
         '1. أجب بتفصيل كامل بناءً على النصوص أعلاه — لا تخترع أرقاماً\n' +
         '2. اذكر رقم القسم والجزء والبند (Section/Part/Clause) لكل نقطة\n' +
