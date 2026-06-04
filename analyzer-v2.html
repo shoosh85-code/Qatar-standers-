@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="محلل المخططات المعمارية — QatarSpec Pro v2">
+<title>محلل المخططات v2 | QatarSpec Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/exporters/GLTFExporter.js"></script>
+<style>
+:root {
+  --bg:       #03030A;
+  --bg2:      #0A0A14;
+  --bg3:      #10101E;
+  --bg4:      #18182A;
+  --gold:     #C9A84C;
+  --gold2:    #E8C990;
+  --gold3:    rgba(201,168,76,0.15);
+  --maroon:   #7A1515;
+  --maroon2:  #5A0F0F;
+  --text:     #EAEAEA;
+  --text2:    #B0B0B0;
+  --text3:    #808080;
+  --border:   rgba(201,168,76,0.15);
+  --border2:  rgba(201,168,76,0.3);
+  --red:      #e74c3c;
+  --orange:   #f39c12;
+  --blue:     #3498db;
+  --green:    #27ae60;
+  --radius:   10px;
+  --font:     'Tajawal','Cairo',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font)}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+/* ── HEADER ── */
+#hdr{
+  position:fixed;top:0;left:0;right:0;height:56px;z-index:1000;
+  background:rgba(3,3,10,0.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;padding:0 16px;
+}
+.hdr-logo{
+  width:36px;height:36px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--maroon),var(--gold));
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:15px;color:#fff;
+}
+.hdr-titles{flex:1}
+.hdr-title{font-size:14px;font-weight:700;color:var(--gold);line-height:1.2}
+.hdr-sub{font-size:10px;color:var(--text3);letter-spacing:1px}
+.hdr-nav{display:flex;gap:6px;align-items:center}
+.hdr-btn{
+  padding:5px 10px;border-radius:6px;border:1px solid var(--border);
+  background:transparent;color:var(--text2);font-size:11px;cursor:pointer;
+  font-family:var(--font);transition:.2s;white-space:nowrap;
+}
+.hdr-btn:hover{border-color:var(--gold);color:var(--gold)}
+.hdr-btn.pro{background:linear-gradient(135deg,var(--maroon),var(--gold));color:#fff;border:none}
+.ai-status{display:flex;align-items:center;gap:5px;padding:4px 8px;border-radius:6px;background:var(--bg3);border:1px solid var(--border);font-size:10px;color:var(--text3)}
+.ai-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── LAYOUT ── */
+#app{display:flex;height:100vh;padding-top:56px}
+#panel-left{
+  width:40%;min-width:360px;max-width:500px;
+  height:100%;overflow-y:auto;
+  background:var(--bg2);border-left:1px solid var(--border);
+  display:flex;flex-direction:column;gap:0;
+}
+#panel-right{flex:1;position:relative;background:var(--bg)}
+
+/* ── SECTIONS ── */
+.sec{padding:14px 16px;border-bottom:1px solid var(--border)}
+.sec-hdr{
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:700;color:var(--gold);
+  text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;
+  cursor:pointer;user-select:none;
+}
+.sec-hdr .ico{font-size:14px}
+.sec-hdr .chev{margin-right:auto;color:var(--text3);transition:.2s}
+.sec.collapsed .chev{transform:rotate(-90deg)}
+.sec-body{overflow:hidden;transition:max-height .3s}
+.sec.collapsed .sec-body{max-height:0!important}
+
+/* ── UPLOAD ── */
+.drop-zone{
+  border:2px dashed var(--border2);border-radius:var(--radius);
+  padding:24px;text-align:center;cursor:pointer;transition:.2s;
+  background:var(--bg3);position:relative;
+}
+.drop-zone:hover,.drop-zone.over{border-color:var(--gold);background:rgba(201,168,76,0.05)}
+.drop-zone .dz-ico{font-size:28px;margin-bottom:8px}
+.drop-zone h3{font-size:13px;color:var(--text);margin-bottom:4px}
+.drop-zone p{font-size:11px;color:var(--text3)}
+#file-info{
+  display:none;margin-top:8px;padding:8px 10px;
+  background:rgba(201,168,76,0.08);border-radius:6px;
+  border:1px solid var(--border);font-size:11px;color:var(--text2);
+  display:flex;align-items:center;gap:6px;
+}
+#file-info .fi-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ── FORM CONTROLS ── */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+.form-input,.form-select{
+  padding:7px 10px;border-radius:6px;
+  background:var(--bg4);border:1px solid var(--border);
+  color:var(--text);font-family:var(--font);font-size:12px;
+  outline:none;transition:.2s;
+}
+.form-input:focus,.form-select:focus{border-color:var(--gold)}
+.form-select option{background:var(--bg4)}
+.model-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px}
+.model-btn{
+  padding:7px 4px;border-radius:6px;border:1px solid var(--border);
+  background:var(--bg4);color:var(--text3);font-size:10px;text-align:center;
+  cursor:pointer;transition:.2s;font-family:var(--font);
+}
+.model-btn:hover{border-color:var(--gold);color:var(--gold)}
+.model-btn.active{background:rgba(201,168,76,0.12);border-color:var(--gold);color:var(--gold)}
+
+/* ── ANALYZE BTN ── */
+#btn-analyze{
+  width:100%;padding:13px;border-radius:8px;border:none;
+  background:linear-gradient(135deg,var(--maroon) 0%,#A01818 40%,var(--gold) 100%);
+  color:#fff;font-family:var(--font);font-size:14px;font-weight:700;
+  cursor:pointer;position:relative;overflow:hidden;transition:.2s;
+  margin-top:6px;
+}
+#btn-analyze:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(201,168,76,0.3)}
+#btn-analyze:disabled{opacity:.5;cursor:not-allowed;transform:none}
+#btn-analyze::after{
+  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);
+  animation:shimmer 2.5s infinite;
+}
+@keyframes shimmer{to{left:200%}}
+
+/* ── PROGRESS ── */
+#progress-wrap{display:none;margin-top:10px}
+.prog-bar{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;margin-bottom:8px}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--maroon),var(--gold));border-radius:2px;transition:width .4s}
+.prog-steps{display:flex;flex-direction:column;gap:4px}
+.prog-step{
+  display:flex;align-items:center;gap:8px;
+  font-size:11px;color:var(--text3);padding:5px 8px;
+  border-radius:5px;transition:.3s;
+}
+.prog-step.active{color:var(--gold);background:rgba(201,168,76,0.08)}
+.prog-step.done{color:var(--green)}
+.prog-step .st-ico{font-size:13px;width:16px;text-align:center}
+
+/* ── RESULTS ── */
+.elem-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.elem-card{
+  padding:10px;border-radius:8px;background:var(--bg4);
+  border:1px solid var(--border);cursor:pointer;transition:.2s;
+}
+.elem-card:hover{border-color:var(--gold);background:rgba(201,168,76,0.05)}
+.elem-card .ec-count{font-size:22px;font-weight:800;color:var(--gold);line-height:1}
+.elem-card .ec-label{font-size:10px;color:var(--text3);margin-top:2px}
+.elem-card .ec-dim{font-size:9px;color:var(--text3);margin-top:4px;direction:ltr}
+
+/* ── VIOLATIONS ── */
+.viol-card{
+  border-radius:8px;border:1px solid;padding:11px 12px;
+  margin-bottom:8px;position:relative;cursor:pointer;transition:.2s;
+}
+.viol-card:hover{transform:translateX(-2px)}
+.viol-card.critical{border-color:var(--red);background:rgba(231,76,60,0.07)}
+.viol-card.warning{border-color:var(--orange);background:rgba(243,156,18,0.07)}
+.viol-card.info{border-color:var(--blue);background:rgba(52,152,219,0.07)}
+.viol-badge{
+  display:inline-block;padding:2px 7px;border-radius:4px;
+  font-size:9px;font-weight:700;letter-spacing:.5px;margin-bottom:6px;
+}
+.viol-card.critical .viol-badge{background:rgba(231,76,60,0.2);color:var(--red)}
+.viol-card.warning .viol-badge{background:rgba(243,156,18,0.2);color:var(--orange)}
+.viol-card.info .viol-badge{background:rgba(52,152,219,0.2);color:var(--blue)}
+.viol-title{font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px}
+.viol-clause{font-size:10px;color:var(--text3);margin-bottom:6px}
+.viol-vals{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+.viol-val{padding:5px 7px;border-radius:5px;background:var(--bg)}
+.viol-val-lbl{font-size:9px;color:var(--text3)}
+.viol-val-num{font-size:12px;font-weight:700}
+.viol-val.req .viol-val-num{color:var(--green)}
+.viol-val.act .viol-val-num{color:var(--red)}
+.btn-ncr{
+  padding:5px 10px;border-radius:5px;border:1px solid var(--gold);
+  background:transparent;color:var(--gold);font-size:10px;
+  cursor:pointer;font-family:var(--font);transition:.2s;
+}
+.btn-ncr:hover{background:var(--gold);color:var(--bg)}
+
+/* ── EXPORT ── */
+.export-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.exp-btn{
+  padding:9px;border-radius:7px;border:1px solid var(--border);
+  background:var(--bg4);color:var(--text3);font-size:11px;
+  cursor:pointer;font-family:var(--font);transition:.2s;text-align:center;
+}
+.exp-btn:not(:disabled):hover{border-color:var(--gold);color:var(--gold)}
+.exp-btn:disabled{opacity:.35;cursor:not-allowed}
+.exp-btn .ei{font-size:16px;display:block;margin-bottom:4px}
+
+/* ── VIEW CONTROLS ── */
+#view-ctrls{
+  position:absolute;top:12px;right:12px;z-index:10;
+  display:flex;flex-direction:column;gap:5px;
+}
+.view-btn{
+  padding:6px 12px;border-radius:6px;
+  background:rgba(3,3,10,0.8);backdrop-filter:blur(8px);
+  border:1px solid var(--border);color:var(--text2);
+  font-size:11px;cursor:pointer;font-family:var(--font);
+  transition:.2s;white-space:nowrap;
+}
+.view-btn:hover,.view-btn.active{border-color:var(--gold);color:var(--gold)}
+
+/* ── CLIP SLIDER ── */
+#clip-wrap{
+  position:absolute;bottom:60px;left:16px;z-index:10;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+}
+#clip-lbl{font-size:9px;color:var(--text3);writing-mode:vertical-rl;text-orientation:mixed}
+#clip-slider{
+  writing-mode:vertical-lr;direction:rtl;
+  -webkit-appearance:slider-vertical;
+  width:4px;height:120px;cursor:pointer;
+  accent-color:var(--gold);
+}
+
+/* ── TOOLTIP ── */
+#tooltip{
+  position:absolute;z-index:100;pointer-events:none;
+  background:rgba(3,3,10,0.92);backdrop-filter:blur(8px);
+  border:1px solid var(--border2);border-radius:7px;
+  padding:7px 10px;font-size:11px;color:var(--text);
+  max-width:200px;display:none;
+}
+
+/* ── MEASURE ── */
+#measure-btn{
+  position:absolute;bottom:16px;left:16px;z-index:10;
+  padding:6px 10px;border-radius:6px;
+  background:rgba(3,3,10,0.8);backdrop-filter:blur(8px);
+  border:1px solid var(--border);color:var(--text2);
+  font-size:11px;cursor:pointer;font-family:var(--font);transition:.2s;
+}
+#measure-btn.active{border-color:var(--blue);color:var(--blue)}
+
+/* ── CANVAS INFO ── */
+#canvas-info{
+  position:absolute;bottom:16px;right:16px;z-index:10;
+  font-size:10px;color:var(--text3);text-align:left;direction:ltr;
+  background:rgba(3,3,10,0.7);padding:5px 8px;border-radius:5px;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  #app{flex-direction:column}
+  #panel-right{height:55vh;width:100%}
+  #panel-left{width:100%;min-width:unset;max-width:unset;height:45vh}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="hdr" role="banner">
+  <div class="hdr-logo" aria-label="QatarSpec Pro">Q</div>
+  <div class="hdr-titles">
+    <div class="hdr-title">دليل المواصفات القطرية</div>
+    <div class="hdr-sub">QATAR ENGINEERING STANDARDS</div>
+  </div>
+  <nav class="hdr-nav" aria-label="أدوات">
+    <button class="hdr-btn" onclick="toggleDark()" aria-label="تبديل المظهر">🌙</button>
+    <button class="hdr-btn" onclick="toggleLang()" aria-label="تبديل اللغة" id="lang-btn">EN</button>
+    <div class="ai-status" aria-label="حالة الذكاء الاصطناعي">
+      <div class="ai-dot"></div>
+      <span>Gemini Active</span>
+    </div>
+    <button class="hdr-btn pro" aria-label="نسخة احترافية">⭐ Pro</button>
+    <a href="index.html" class="hdr-btn" aria-label="الرئيسية">🏠</a>
+  </nav>
+</header>
+
+<!-- MAIN APP -->
+<div id="app">
+
+  <!-- LEFT PANEL -->
+  <aside id="panel-left" role="complementary" aria-label="لوحة التحكم">
+
+    <!-- UPLOAD -->
+    <div class="sec" id="sec-upload">
+      <div class="sec-hdr" onclick="toggleSec('sec-upload')" tabindex="0" role="button" aria-expanded="true">
+        <span class="ico">📂</span> رفع المخطط
+        <span class="chev">▾</span>
+      </div>
+      <div class="sec-body" style="max-height:400px">
+        <div class="drop-zone" id="drop-zone"
+          ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)"
+          onclick="document.getElementById('file-in').click()"
+          role="button" tabindex="0" aria-label="منطقة رفع المخطط"
+          onkeydown="if(event.key==='Enter'||event.key===' ')document.getElementById('file-in').click()">
+          <div class="dz-ico">📐</div>
+          <h3>اسحب المخطط هنا أو انقر للاختيار</h3>
+          <p>PDF · DWG · PNG · JPG</p>
+          <input id="file-in" type="file" accept=".pdf,.dwg,.png,.jpg,.jpeg" style="display:none" onchange="handleFile(this)" aria-label="اختر ملفاً">
+        </div>
+        <div id="file-info" style="display:none" aria-live="polite">
+          <span>📄</span>
+          <span class="fi-name" id="fi-name"></span>
+          <span id="fi-size" style="color:var(--text3);font-size:10px"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="sec" id="sec-settings">
+      <div class="sec-hdr" onclick="toggleSec('sec-settings')" tabindex="0" role="button" aria-expanded="true">
+        <span class="ico">⚙️</span> إعدادات التحليل
+        <span class="chev">▾</span>
+      </div>
+      <div class="sec-body" style="max-height:300px">
+        <div style="font-size:10px;color:var(--text3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">نموذج الذكاء الاصطناعي</div>
+        <div class="model-btns" role="group" aria-label="اختر النموذج">
+          <button class="model-btn active" onclick="setModel('gemini',this)" aria-pressed="true">🤖 Gemini Vision</button>
+          <button class="model-btn" onclick="setModel('floorplan',this)" aria-pressed="false">🏗 Floor-plan.ai</button>
+          <button class="model-btn" onclick="setModel('opencv',this)" aria-pressed="false">👁 OpenCV Local</button>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="wall-h">ارتفاع الجدار (م)</label>
+            <input class="form-input" id="wall-h" type="number" value="3.0" min="2.4" max="6" step="0.1" aria-label="ارتفاع الجدار بالمتر">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="wall-t">سماكة الجدار (م)</label>
+            <input class="form-input" id="wall-t" type="number" value="0.2" min="0.1" max="0.5" step="0.05" aria-label="سماكة الجدار بالمتر">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:8px">
+          <label class="form-label" for="exp-class">فئة التعرض (Exposure Class)</label>
+          <select class="form-select" id="exp-class" aria-label="فئة التعرض">
+            <option value="XC">XC — داخلي / جفاف</option>
+            <option value="XS">XS — بحري / قريب من البحر</option>
+            <option value="XD">XD — كلوريد / غير بحري</option>
+            <option value="XF">XF — تجميد / ذوبان</option>
+          </select>
+        </div>
+        <button id="btn-analyze" onclick="startAnalysis()" aria-label="بدء تحليل المخطط">
+          🔍 تحليل المخطط
+        </button>
+        <div id="progress-wrap" aria-live="polite">
+          <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+          <div class="prog-steps" id="prog-steps">
+            <div class="prog-step" id="st0"><span class="st-ico">📤</span> جاري رفع الملف...</div>
+            <div class="prog-step" id="st1"><span class="st-ico">🔍</span> جاري اكتشاف الجدران...</div>
+            <div class="prog-step" id="st2"><span class="st-ico">🏗</span> جاري بناء المجسم 3D...</div>
+            <div class="prog-step" id="st3"><span class="st-ico">📋</span> جاري فحص QCS 2024...</div>
+            <div class="prog-step" id="st4"><span class="st-ico">✅</span> اكتمال</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="sec" id="sec-results">
+      <div class="sec-hdr" onclick="toggleSec('sec-results')" tabindex="0" role="button" aria-expanded="true">
+        <span class="ico">📊</span> العناصر المكتشفة
+        <span id="results-badge" style="background:rgba(201,168,76,0.15);color:var(--gold);padding:2px 7px;border-radius:10px;font-size:10px;margin-right:auto">0</span>
+        <span class="chev">▾</span>
+      </div>
+      <div class="sec-body" style="max-height:280px">
+        <div class="elem-grid" id="elem-grid">
+          <div class="elem-card" onclick="focusGroup('walls')" tabindex="0" role="button" aria-label="الجدران">
+            <div class="ec-count" id="cnt-walls">12</div>
+            <div class="ec-label">جدار</div>
+            <div class="ec-dim">avg 3.5m × 0.2m × 3.0m</div>
+          </div>
+          <div class="elem-card" onclick="focusGroup('doors')" tabindex="0" role="button" aria-label="الأبواب">
+            <div class="ec-count" id="cnt-doors">4</div>
+            <div class="ec-label">باب</div>
+            <div class="ec-dim">avg 0.9m × 2.1m</div>
+          </div>
+          <div class="elem-card" onclick="focusGroup('windows')" tabindex="0" role="button" aria-label="النوافذ">
+            <div class="ec-count" id="cnt-windows">6</div>
+            <div class="ec-label">شباك</div>
+            <div class="ec-dim">avg 1.2m × 1.4m</div>
+          </div>
+          <div class="elem-card" onclick="focusGroup('rooms')" tabindex="0" role="button" aria-label="الغرف">
+            <div class="ec-count" id="cnt-rooms">3</div>
+            <div class="ec-label">غرفة</div>
+            <div class="ec-dim">avg 18.4 m²</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIOLATIONS -->
+    <div class="sec" id="sec-viols">
+      <div class="sec-hdr" onclick="toggleSec('sec-viols')" tabindex="0" role="button" aria-expanded="true">
+        <span class="ico">⚠️</span> مخالفات QCS 2024
+        <span id="viols-badge" style="background:rgba(231,76,60,0.15);color:var(--red);padding:2px 7px;border-radius:10px;font-size:10px;margin-right:auto">3</span>
+        <span class="chev">▾</span>
+      </div>
+      <div class="sec-body" style="max-height:400px;overflow-y:auto" id="viols-body">
+        <!-- مُعبَّأة بـ JS -->
+      </div>
+    </div>
+
+    <!-- EXPORT -->
+    <div class="sec" id="sec-export">
+      <div class="sec-hdr" onclick="toggleSec('sec-export')" tabindex="0" role="button" aria-expanded="true">
+        <span class="ico">📤</span> تصدير
+        <span class="chev">▾</span>
+      </div>
+      <div class="sec-body" style="max-height:200px">
+        <div class="export-grid">
+          <button class="exp-btn" id="exp-ifc" onclick="exportIFC()" aria-label="تصدير IFC">
+            <span class="ei">🏗</span>تصدير IFC
+          </button>
+          <button class="exp-btn" id="exp-dxf" onclick="exportDXF()" aria-label="تصدير DXF">
+            <span class="ei">📐</span>تصدير DXF
+          </button>
+          <button class="exp-btn" id="exp-glb" onclick="exportGLB()" aria-label="تصدير GLB">
+            <span class="ei">🔲</span>تصدير GLB
+          </button>
+          <button class="exp-btn" id="exp-csv" onclick="exportCSV()" aria-label="تصدير Excel">
+            <span class="ei">📊</span>تصدير Excel
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- RIGHT PANEL — THREE.JS -->
+  <main id="panel-right" role="main" aria-label="عارض المجسم ثلاثي الأبعاد">
+    <canvas id="three-canvas" tabindex="0" aria-label="مجسم ثلاثي الأبعاد تفاعلي"></canvas>
+
+    <!-- VIEW CONTROLS -->
+    <div id="view-ctrls" role="group" aria-label="زوايا العرض">
+      <button class="view-btn active" onclick="setView('3d')" aria-label="عرض ثلاثي الأبعاد">🔲 3D</button>
+      <button class="view-btn" onclick="setView('top')" aria-label="عرض من الأعلى">⬆ Top</button>
+      <button class="view-btn" onclick="setView('front')" aria-label="عرض أمامي">◀ Front</button>
+      <button class="view-btn" onclick="setView('right')" aria-label="عرض جانبي">▼ Right</button>
+    </div>
+
+    <!-- CLIP SLIDER -->
+    <div id="clip-wrap" aria-label="قطع رأسي">
+      <span class="clip-lbl" style="font-size:9px;color:var(--text3);writing-mode:vertical-rl">قطع</span>
+      <input type="range" id="clip-slider" min="0" max="100" value="100"
+        orient="vertical" aria-label="مستوى القطع الرأسي"
+        oninput="updateClip(this.value)">
+    </div>
+
+    <!-- MEASURE -->
+    <button id="measure-btn" onclick="toggleMeasure()" aria-label="أداة القياس" aria-pressed="false">📏 قياس</button>
+
+    <!-- TOOLTIP -->
+    <div id="tooltip" role="tooltip" aria-live="polite"></div>
+
+    <!-- CANVAS INFO -->
+    <div id="canvas-info" aria-label="معلومات المشهد">
+      <div id="ci-model">نموذج تجريبي — شقة 3 غرف</div>
+      <div id="ci-pos" style="color:var(--text3)">x: 0.0 · y: 0.0 · z: 0.0</div>
+    </div>
+  </main>
+</div>
+
+<script>
+'use strict';
+// ══════════════════════════════════════════════════════════
+// QatarSpec Pro — Analyzer v2 — Full Script
+// ══════════════════════════════════════════════════════════
+
+// ── STATE ────────────────────────────────────────────────
+const S = {
+  model: 'gemini',
+  file: null,
+  analyzing: false,
+  exportReady: false,
+  measuring: false,
+  measurePoints: [],
+  lang: 'ar',
+  violations: [],
+  elements: { walls:12, doors:4, windows:6, rooms:3 },
+};
+
+// ── THREE.JS VARS ─────────────────────────────────────────
+let renderer, scene, camera, controls;
+let groups = {};
+let raycaster, mouse;
+let measureLine = null, measureDots = [];
+let clippingPlane;
+
+// ══════════════════════════════════════════════════════════
+// QCS COMPLIANCE RULES
+// ══════════════════════════════════════════════════════════
+const QCS_RULES = {
+  concrete_cover: {
+    XC: { slab: 25, beam: 30, foundation: 40 },
+    XS: { slab: 40, beam: 45, foundation: 50 },
+    XD: { slab: 35, beam: 40, foundation: 45 },
+    XF: { slab: 30, beam: 35, foundation: 40 },
+  },
+  room_height_min: 2.7,
+  door_width_min: 0.9,
+  wall_thickness_min: { XC: 0.15, XS: 0.20, XD: 0.18, XF: 0.15 },
+  parking_ratio: 1.0,
+  setback_min: 3.0,
+  fire_exit_max_dist: 30,
+};
+
+// ══════════════════════════════════════════════════════════
+// DEMO VIOLATIONS DATA
+// ══════════════════════════════════════════════════════════
+const DEMO_VIOLATIONS = [
+  {
+    id: 'V001', severity: 'critical',
+    title_ar: 'سماكة الجدار أقل من الحد الأدنى (بيئة XS)',
+    title_en: 'Wall Thickness Below Minimum (XS Environment)',
+    clause: 'QCS 2024 · Section 6 · Part 3 · Clause 6.3.4',
+    discipline: 'Structural',
+    req: '200mm', act: '150mm', unit: 'mm',
+    desc: 'الجدار الخارجي W-05 يقل عن الحد الأدنى المطلوب في بيئة XS (قريبة من البحر). سماكته الحالية 150mm بينما الحد الأدنى QCS 200mm.',
+    corrective: 'زيادة سماكة الجدار إلى 200mm أو أكثر وإعادة حساب التسليح.',
+    wall: 'W-05',
+  },
+  {
+    id: 'V002', severity: 'warning',
+    title_ar: 'ارتفاع الغرفة أقل من الحد الأدنى',
+    title_en: 'Room Height Below Minimum',
+    clause: 'QCS 2024 · Section 17 · Part 4 · Clause 17.4.2',
+    discipline: 'Architectural',
+    req: '2.70m', act: '2.50m', unit: 'م',
+    desc: 'غرفة النوم الرئيسية (R-02) ارتفاعها الصافي 2.50m وهو أقل من 2.70m المطلوب بموجب QCS 2024.',
+    corrective: 'مراجعة تصميم السقف المستعار أو رفع مستوى السقف الفعلي لتحقيق الارتفاع المطلوب.',
+    wall: 'R-02',
+  },
+  {
+    id: 'V003', severity: 'info',
+    title_ar: 'عرض الباب أقل من معيار إمكانية الوصول',
+    title_en: 'Door Width Below Accessibility Standard',
+    clause: 'QCS 2024 · Section 17 · Part 8 · Clause 17.8.5',
+    discipline: 'Architectural',
+    req: '0.90m', act: '0.80m', unit: 'م',
+    desc: 'باب الحمام (D-03) عرضه 0.80m وهو أقل من 0.90m المطلوب لإمكانية الوصول لذوي الاحتياجات الخاصة.',
+    corrective: 'توسيع فتحة باب الحمام إلى 0.90m على الأقل.',
+    wall: 'D-03',
+  },
+];
+
+// ══════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════
+window.addEventListener('load', () => {
+  initThree();
+  buildDemoScene();
+  renderViolations(DEMO_VIOLATIONS);
+  updateResultsBadge();
+  setupEventListeners();
+});
+
+// ══════════════════════════════════════════════════════════
+// THREE.JS INIT
+// ══════════════════════════════════════════════════════════
+function initThree() {
+  const canvas = document.getElementById('three-canvas');
+  const container = document.getElementById('panel-right');
+
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.physicallyCorrectLights = true;
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.localClippingEnabled = true;
+
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x03030A);
+  scene.fog = new THREE.Fog(0x03030A, 40, 100);
+
+  const w = container.clientWidth, h = container.clientHeight;
+  camera = new THREE.PerspectiveCamera(45, w/h, 0.1, 1000);
+  camera.position.set(12, 10, 12);
+  camera.lookAt(0, 0, 0);
+
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  controls.minDistance = 2;
+  controls.maxDistance = 80;
+  controls.maxPolarAngle = Math.PI / 2 + 0.1;
+
+  // Clipping plane
+  clippingPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 1000);
+  renderer.clippingPlanes = [clippingPlane];
+
+  addLighting();
+  addGrid();
+
+  raycaster = new THREE.Raycaster();
+  mouse = new THREE.Vector2(-10, -10);
+
+  resize();
+  window.addEventListener('resize', resize);
+  animate();
+}
+
+function addLighting() {
+  const hemi = new THREE.HemisphereLight(0x7A1515, 0x03030A, 0.6);
+  scene.add(hemi);
+
+  const sun = new THREE.DirectionalLight(0xC9A84C, 1.2);
+  sun.position.set(10, 20, 10);
+  sun.castShadow = true;
+  sun.shadow.mapSize.set(2048, 2048);
+  sun.shadow.camera.near = 0.5;
+  sun.shadow.camera.far = 80;
+  sun.shadow.camera.left = -25;
+  sun.shadow.camera.right = 25;
+  sun.shadow.camera.top = 25;
+  sun.shadow.camera.bottom = -25;
+  scene.add(sun);
+
+  const amb = new THREE.AmbientLight(0x404040, 0.3);
+  scene.add(amb);
+
+  const fill = new THREE.DirectionalLight(0x6090C0, 0.35);
+  fill.position.set(-8, 5, -8);
+  scene.add(fill);
+}
+
+function addGrid() {
+  const grid = new THREE.GridHelper(50, 50, 0x1A1810, 0x0F0F18);
+  grid.material.opacity = 0.6;
+  grid.material.transparent = true;
+  scene.add(grid);
+
+  // Major lines every 5m
+  const grid5 = new THREE.GridHelper(50, 10, 0x2A2418, 0x2A2418);
+  grid5.material.opacity = 0.4;
+  grid5.material.transparent = true;
+  scene.add(grid5);
+}
+
+function resize() {
+  const c = document.getElementById('panel-right');
+  const w = c.clientWidth, h = c.clientHeight;
+  renderer.setSize(w, h);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+// ══════════════════════════════════════════════════════════
+// DEMO SCENE — 3-Room Apartment
+// ══════════════════════════════════════════════════════════
+function buildDemoScene() {
+  // Clear previous
+  if (groups.walls) scene.remove(groups.walls);
+  if (groups.doors) scene.remove(groups.doors);
+  if (groups.windows) scene.remove(groups.windows);
+  if (groups.rooms) scene.remove(groups.rooms);
+
+  groups.walls = new THREE.Group();
+  groups.doors = new THREE.Group();
+  groups.windows = new THREE.Group();
+  groups.rooms = new THREE.Group();
+
+  const H = parseFloat(document.getElementById('wall-h').value) || 3.0;
+  const T = parseFloat(document.getElementById('wall-t').value) || 0.2;
+
+  // Materials
+  const extMat = new THREE.MeshStandardMaterial({
+    color: 0xD4B896, roughness: 0.8, metalness: 0.02,
+    clippingPlanes: [clippingPlane],
+  });
+  const intMat = new THREE.MeshStandardMaterial({
+    color: 0xF2EBE0, roughness: 0.65, metalness: 0.0,
+    clippingPlanes: [clippingPlane],
+  });
+  const doorMat = new THREE.MeshStandardMaterial({
+    color: 0x27AE60, roughness: 0.5, transparent: true, opacity: 0.5,
+    clippingPlanes: [clippingPlane],
+  });
+  const winMat = new THREE.MeshPhysicalMaterial({
+    color: 0x3498DB, roughness: 0.05, metalness: 0.1,
+    transmission: 0.6, transparent: true, opacity: 0.4,
+    clippingPlanes: [clippingPlane],
+  });
+  const floorMat = new THREE.MeshStandardMaterial({
+    color: 0xC8B89A, roughness: 0.5, metalness: 0.08,
+    clippingPlanes: [clippingPlane],
+  });
+
+  // Floor
+  const floorGeo = new THREE.PlaneGeometry(10, 8);
+  const floorMesh = new THREE.Mesh(floorGeo, floorMat);
+  floorMesh.rotation.x = -Math.PI / 2;
+  floorMesh.position.set(5, 0, 4);
+  floorMesh.receiveShadow = true;
+  scene.add(floorMesh);
+
+  // Helper: wall box
+  function addWall(x, z, len, angle, isExt, hasViolation) {
+    const geo = new THREE.BoxGeometry(len, H, T);
+    const mat = isExt ? extMat.clone() : intMat.clone();
+    if (hasViolation) {
+      mat.emissive = new THREE.Color(0.3, 0, 0);
+      mat.emissiveIntensity = 0.4;
+    }
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(x, H/2, z);
+    mesh.rotation.y = angle || 0;
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    mesh.userData = { type: 'wall', isExt, len, height: H, thickness: T };
+    // Edges
+    const edges = new THREE.EdgesGeometry(geo);
+    const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xC9A84C, transparent: true, opacity: 0.2 }));
+    mesh.add(line);
+    groups.walls.add(mesh);
+    return mesh;
+  }
+
+  // Perimeter walls
+  addWall(5, 0, 10, 0, true); // front
+  addWall(5, 8, 10, 0, true); // back
+  addWall(0, 4, 8, Math.PI/2, true, true); // left (violation: thin)
+  addWall(10, 4, 8, Math.PI/2, true); // right
+  // Internal partitions
+  addWall(4, 4, 8, Math.PI/2, false); // partition 1
+  addWall(7, 2, 4, 0, false); // partition 2
+
+  // Doors (green gaps)
+  function addDoor(x, z, angle) {
+    const geo = new THREE.BoxGeometry(0.9, 2.1, T + 0.02);
+    const mesh = new THREE.Mesh(geo, doorMat);
+    mesh.position.set(x, 1.05, z);
+    mesh.rotation.y = angle || 0;
+    mesh.userData = { type: 'door', width: 0.9, height: 2.1 };
+    const edges = new THREE.EdgesGeometry(geo);
+    const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x27AE60, transparent: true, opacity: 0.5 }));
+    mesh.add(line);
+    groups.doors.add(mesh);
+  }
+  addDoor(4, 1, Math.PI/2); // main door
+  addDoor(4, 5.5, Math.PI/2);
+  addDoor(7, 2, 0);
+  addDoor(8.5, 2, 0); // small bathroom door (violation: 0.8m)
+
+  // Windows (blue gaps)
+  function addWindow(x, z, angle) {
+    const geo = new THREE.BoxGeometry(1.2, 1.4, T + 0.02);
+    const mesh = new THREE.Mesh(geo, winMat);
+    mesh.position.set(x, 1.4, z);
+    mesh.rotation.y = angle || 0;
+    mesh.userData = { type: 'window', width: 1.2, height: 1.4 };
+    const edges = new THREE.EdgesGeometry(geo);
+    const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x3498DB, transparent: true, opacity: 0.5 }));
+    mesh.add(line);
+    groups.windows.add(mesh);
+  }
+  addWindow(2, 0, 0);
+  addWindow(6.5, 0, 0);
+  addWindow(0, 2, Math.PI/2);
+  addWindow(0, 6, Math.PI/2);
+  addWindow(10, 3, Math.PI/2);
+  addWindow(10, 6, Math.PI/2);
+
+  // Room labels (sprites)
+  const rooms = [
+    { name: 'مجلس', pos: [2, 0, 4], area: 16 },
+    { name: 'غرفة نوم رئيسية', pos: [5.5, 0, 1.5], area: 12 },
+    { name: 'غرفة نوم', pos: [8.5, 0, 5], area: 12 },
+  ];
+  rooms.forEach(r => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 256; canvas.height = 80;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'rgba(3,3,10,0.7)';
+    ctx.roundRect(0, 0, 256, 80, 8);
+    ctx.fill();
+    ctx.fillStyle = '#C9A84C';
+    ctx.font = 'bold 18px Cairo';
+    ctx.textAlign = 'center';
+    ctx.fillText(r.name, 128, 28);
+    ctx.fillStyle = '#808080';
+    ctx.font = '13px Cairo';
+    ctx.fillText(r.area + ' m²', 128, 52);
+    const tex = new THREE.CanvasTexture(canvas);
+    const spr = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true }));
+    spr.scale.set(2.5, 0.8, 1);
+    spr.position.set(r.pos[0], H + 0.4, r.pos[2]);
+    groups.rooms.add(spr);
+  });
+
+  scene.add(groups.walls);
+  scene.add(groups.doors);
+  scene.add(groups.windows);
+  scene.add(groups.rooms);
+}
+
+// ══════════════════════════════════════════════════════════
+// VIOLATIONS RENDERING
+// ══════════════════════════════════════════════════════════
+function renderViolations(viols) {
+  S.violations = viols;
+  const body = document.getElementById('viols-body');
+  body.innerHTML = viols.map(v => `
+    <div class="viol-card ${v.severity}" onclick="focusViolation('${v.wall}')" tabindex="0" role="button"
+      aria-label="${v.title_ar}">
+      <span class="viol-badge">${v.severity === 'critical' ? '🔴 CRITICAL' : v.severity === 'warning' ? '🟡 WARNING' : '🔵 INFO'}</span>
+      <div class="viol-title">${v.title_ar}</div>
+      <div class="viol-clause">${v.clause}</div>
+      <div class="viol-vals">
+        <div class="viol-val req">
+          <div class="viol-val-lbl">المطلوب QCS</div>
+          <div class="viol-val-num">${v.req}</div>
+        </div>
+        <div class="viol-val act">
+          <div class="viol-val-lbl">الفعلي</div>
+          <div class="viol-val-num">${v.act}</div>
+        </div>
+      </div>
+      <button class="btn-ncr" onclick="event.stopPropagation();generateNCR('${v.id}')" aria-label="توليد NCR لهذه المخالفة">📋 توليد NCR</button>
+    </div>
+  `).join('');
+  document.getElementById('viols-badge').textContent = viols.length;
+}
+
+// ══════════════════════════════════════════════════════════
+// ANALYSIS SIMULATION
+// ══════════════════════════════════════════════════════════
+async function startAnalysis() {
+  if (S.analyzing) return;
+  S.analyzing = true;
+
+  document.getElementById('btn-analyze').disabled = true;
+  document.getElementById('progress-wrap').style.display = 'block';
+
+  const steps = ['st0','st1','st2','st3','st4'];
+  const pcts  = [20, 40, 65, 85, 100];
+
+  for (let i = 0; i < steps.length; i++) {
+    // Reset
+    steps.forEach(s => {
+      const el = document.getElementById(s);
+      el.classList.remove('active','done');
+    });
+    // Mark done up to i-1
+    for (let j = 0; j < i; j++) document.getElementById(steps[j]).classList.add('done');
+    document.getElementById(steps[i]).classList.add('active');
+    document.getElementById('prog-fill').style.width = pcts[i] + '%';
+
+    if (i === 2) {
+      // Rebuild scene with current settings
+      buildDemoScene();
+    }
+    if (i === 3) {
+      // Run compliance check
+      const expClass = document.getElementById('exp-class').value;
+      const wallT = parseFloat(document.getElementById('wall-t').value);
+      const newViols = runCompliance(expClass, wallT);
+      renderViolations(newViols);
+    }
+
+    await delay(i === 0 && !S.file ? 800 : 1800);
+  }
+
+  // Final
+  steps.forEach(s => document.getElementById(s).classList.add('done'));
+
+  // Enable exports
+  ['exp-ifc','exp-dxf','exp-glb','exp-csv'].forEach(id => {
+    document.getElementById(id).disabled = false;
+  });
+
+  S.exportReady = true;
+  S.analyzing = false;
+  document.getElementById('btn-analyze').disabled = false;
+  updateResultsBadge();
+}
+
+function runCompliance(expClass, wallT) {
+  const viols = [];
+  const minThick = QCS_RULES.wall_thickness_min[expClass] || 0.2;
+
+  if (wallT < minThick) {
+    viols.push({
+      id: 'V001', severity: 'critical',
+      title_ar: `سماكة الجدار أقل من الحد الأدنى (بيئة ${expClass})`,
+      title_en: `Wall Thickness Below Minimum (${expClass})`,
+      clause: `QCS 2024 · Section 6 · Part 3 · Clause 6.3.4`,
+      discipline: 'Structural',
+      req: (minThick * 1000) + 'mm', act: (wallT * 1000) + 'mm',
+      desc: `سماكة الجدار الحالية ${wallT * 1000}mm أقل من الحد الأدنى ${minThick * 1000}mm في بيئة ${expClass}.`,
+      corrective: `زيادة سماكة الجدار إلى ${minThick * 1000}mm أو أكثر.`,
+      wall: 'W-05',
+    });
+  }
+
+  viols.push({
+    id: 'V002', severity: 'warning',
+    title_ar: 'ارتفاع الغرفة أقل من الحد الأدنى',
+    title_en: 'Room Height Below Minimum',
+    clause: 'QCS 2024 · Section 17 · Part 4 · Clause 17.4.2',
+    discipline: 'Architectural',
+    req: '2.70m', act: '2.50m',
+    desc: 'غرفة النوم الرئيسية (R-02) ارتفاعها الصافي 2.50m وهو أقل من 2.70m المطلوب.',
+    corrective: 'مراجعة تصميم السقف المستعار أو رفع مستوى السقف الفعلي.',
+    wall: 'R-02',
+  });
+  viols.push({
+    id: 'V003', severity: 'info',
+    title_ar: 'عرض الباب أقل من معيار إمكانية الوصول',
+    title_en: 'Door Width Below Accessibility Standard',
+    clause: 'QCS 2024 · Section 17 · Part 8 · Clause 17.8.5',
+    discipline: 'Architectural',
+    req: '0.90m', act: '0.80m',
+    desc: 'باب الحمام (D-03) عرضه 0.80m وهو أقل من 0.90m المطلوب.',
+    corrective: 'توسيع فتحة باب الحمام إلى 0.90m على الأقل.',
+    wall: 'D-03',
+  });
+
+  return viols;
+}
+
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ══════════════════════════════════════════════════════════
+// CAMERA VIEWS
+// ══════════════════════════════════════════════════════════
+function setView(v) {
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget?.classList.add('active');
+
+  const target = new THREE.Vector3(5, 0, 4);
+  controls.target.copy(target);
+
+  const views = {
+    '3d':    { x: 12,  y: 10,  z: 12 },
+    'top':   { x: 5,   y: 25,  z: 4  },
+    'front': { x: 5,   y: 4,   z: -12 },
+    'right': { x: -12, y: 4,   z: 4  },
+  };
+  const p = views[v];
+  camera.position.set(p.x, p.y, p.z);
+  camera.lookAt(target);
+  controls.update();
+}
+
+// ══════════════════════════════════════════════════════════
+// CLIP PLANE
+// ══════════════════════════════════════════════════════════
+function updateClip(val) {
+  const H = parseFloat(document.getElementById('wall-h').value) || 3.0;
+  const h = (val / 100) * (H + 1);
+  clippingPlane.constant = h;
+}
+
+// ══════════════════════════════════════════════════════════
+// MOUSE INTERACTION
+// ══════════════════════════════════════════════════════════
+function setupEventListeners() {
+  const canvas = document.getElementById('three-canvas');
+  canvas.addEventListener('mousemove', onMouseMove);
+  canvas.addEventListener('dblclick', onDblClick);
+  canvas.addEventListener('click', onCanvasClick);
+}
+
+let lastHovered = null;
+
+function onMouseMove(e) {
+  const rect = e.target.getBoundingClientRect();
+  mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+  mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+  const objs = [...groups.walls?.children||[], ...groups.doors?.children||[], ...groups.windows?.children||[]];
+  const hits = raycaster.intersectObjects(objs, true);
+
+  const tip = document.getElementById('tooltip');
+
+  if (hits.length) {
+    const obj = hits[0].object.parent?.userData?.type ? hits[0].object.parent : hits[0].object;
+    const ud = obj.userData;
+
+    if (lastHovered !== obj) {
+      if (lastHovered?.material) {
+        lastHovered.material.emissiveIntensity = lastHovered._origEmissive || 0;
+      }
+      lastHovered = obj;
+      lastHovered._origEmissive = lastHovered.material?.emissiveIntensity || 0;
+      if (lastHovered.material) {
+        lastHovered.material.emissive = new THREE.Color(0xC9A84C);
+        lastHovered.material.emissiveIntensity = 0.3;
+      }
+    }
+
+    const labels = { wall: 'جدار', door: 'باب', window: 'شباك' };
+    const dims = ud.type === 'wall'
+      ? `${ud.len?.toFixed(1)}m × ${ud.height?.toFixed(1)}m × ${ud.thickness?.toFixed(2)}m`
+      : `${ud.width?.toFixed(2)}m × ${ud.height?.toFixed(1)}m`;
+
+    tip.style.display = 'block';
+    tip.style.left = (e.clientX - rect.left + 12) + 'px';
+    tip.style.top = (e.clientY - rect.top - 30) + 'px';
+    tip.innerHTML = `<strong>${labels[ud.type] || ud.type}</strong><br><span style="color:var(--text3)">${dims}</span>`;
+
+    document.getElementById('ci-pos').textContent =
+      `x: ${hits[0].point.x.toFixed(1)} · y: ${hits[0].point.y.toFixed(1)} · z: ${hits[0].point.z.toFixed(1)}`;
+  } else {
+    if (lastHovered?.material) {
+      lastHovered.material.emissiveIntensity = lastHovered._origEmissive || 0;
+      lastHovered = null;
+    }
+    tip.style.display = 'none';
+  }
+}
+
+function onDblClick(e) {
+  const rect = e.target.getBoundingClientRect();
+  mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+  mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
+  const objs = [...groups.walls?.children||[], ...groups.doors?.children||[], ...groups.windows?.children||[]];
+  const hits = raycaster.intersectObjects(objs, true);
+  if (hits.length) {
+    controls.target.copy(hits[0].point);
+    camera.position.copy(hits[0].point).add(new THREE.Vector3(3, 3, 3));
+    controls.update();
+  }
+}
+
+function onCanvasClick(e) {
+  if (!S.measuring) return;
+  const rect = e.target.getBoundingClientRect();
+  mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+  mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
+  const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+  const pt = new THREE.Vector3();
+  raycaster.ray.intersectPlane(plane, pt);
+  if (!pt) return;
+
+  S.measurePoints.push(pt.clone());
+  addMeasureDot(pt);
+
+  if (S.measurePoints.length === 2) {
+    drawMeasureLine(S.measurePoints[0], S.measurePoints[1]);
+    S.measurePoints = [];
+  }
+}
+
+function addMeasureDot(pos) {
+  const geo = new THREE.SphereGeometry(0.08, 8, 8);
+  const mat = new THREE.MeshBasicMaterial({ color: 0xFF6B35 });
+  const dot = new THREE.Mesh(geo, mat);
+  dot.position.copy(pos);
+  scene.add(dot);
+  measureDots.push(dot);
+}
+
+function drawMeasureLine(a, b) {
+  const dist = a.distanceTo(b);
+  const pts = [a, b];
+  const geo = new THREE.BufferGeometry().setFromPoints(pts);
+  const mat = new THREE.LineBasicMaterial({ color: 0xFF6B35, linewidth: 2 });
+  const line = new THREE.Line(geo, mat);
+  scene.add(line);
+  measureDots.push(line);
+
+  // Label
+  const mid = new THREE.Vector3().lerpVectors(a, b, 0.5);
+  const c = document.createElement('canvas');
+  c.width = 200; c.height = 50;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = 'rgba(3,3,10,0.85)';
+  ctx.roundRect(0, 0, 200, 50, 6);
+  ctx.fill();
+  ctx.fillStyle = '#FF6B35';
+  ctx.font = 'bold 20px Cairo';
+  ctx.textAlign = 'center';
+  ctx.fillText(dist.toFixed(2) + ' م', 100, 33);
+  const spr = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true }));
+  spr.scale.set(2, 0.5, 1);
+  spr.position.copy(mid);
+  spr.position.y += 0.3;
+  scene.add(spr);
+  measureDots.push(spr);
+}
+
+function toggleMeasure() {
+  S.measuring = !S.measuring;
+  S.measurePoints = [];
+  const btn = document.getElementById('measure-btn');
+  btn.classList.toggle('active', S.measuring);
+  btn.setAttribute('aria-pressed', S.measuring);
+  if (!S.measuring) {
+    measureDots.forEach(d => scene.remove(d));
+    measureDots = [];
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// FOCUS HELPERS
+// ══════════════════════════════════════════════════════════
+function focusGroup(g) {
+  if (!groups[g]) return;
+  const box = new THREE.Box3().setFromObject(groups[g]);
+  const center = box.getCenter(new THREE.Vector3());
+  const size = box.getSize(new THREE.Vector3()).length();
+  controls.target.copy(center);
+  camera.position.copy(center).add(new THREE.Vector3(size, size * 0.7, size));
+  controls.update();
+}
+
+function focusViolation(id) {
+  // Highlight matching element
+  const allMeshes = [...groups.walls?.children||[], ...groups.doors?.children||[]];
+  allMeshes.forEach(m => {
+    if (m.material) {
+      m.material.emissive = new THREE.Color(0);
+      m.material.emissiveIntensity = 0;
+    }
+  });
+  // Flash red
+  allMeshes.slice(0, 2).forEach(m => {
+    if (m.material) {
+      m.material.emissive = new THREE.Color(0xe74c3c);
+      m.material.emissiveIntensity = 0.5;
+      setTimeout(() => { if (m.material) m.material.emissiveIntensity = 0.15; }, 600);
+    }
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+// EXPORT FUNCTIONS
+// ══════════════════════════════════════════════════════════
+function exportIFC() {
+  const ifc = `ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('QatarSpec Pro IFC Export'),'2;1');
+FILE_NAME('qatarspec_export.ifc','${new Date().toISOString()}',('QatarSpec'),('QatarSpec Pro'),'','QatarSpec Pro v2','');
+FILE_SCHEMA(('IFC4'));
+ENDSEC;
+DATA;
+#1=IFCPROJECT('${uuid()}',#2,'QatarSpec Pro Export',$,$,$,$,(#3),#4);
+#2=IFCOWNERHISTORY(#5,#6,$,.NOCHANGE.,$,$,$,0);
+#3=IFCGEOMETRICREPRESENTATIONCONTEXT($,'Model',3,1.E-05,#7,$);
+#4=IFCUNITASSIGNMENT((#8,#9,#10));
+#5=IFCPERSONANDORGANIZATION(#11,#12,$);
+#6=IFCAPPLICATION(#12,'1.0','QatarSpec Pro','QSP');
+#7=IFCAXIS2PLACEMENT3D(#13,$,$);
+#8=IFCSIUNIT(*,.LENGTHUNIT.,$,.METRE.);
+#9=IFCSIUNIT(*,.AREAUNIT.,$,.SQUARE_METRE.);
+#10=IFCSIUNIT(*,.VOLUMEUNIT.,$,.CUBIC_METRE.);
+#11=IFCPERSON($,'QatarSpec','Pro',$,$,$,$,$);
+#12=IFCORGANIZATION($,'QatarSpec Pro',$,$,$);
+#13=IFCCARTESIANPOINT((0.,0.,0.));
+ENDSEC;
+END-ISO-10303-21;`;
+  download('qatarspec_export.ifc', ifc, 'text/plain');
+}
+
+function exportDXF() {
+  const dxf = `0\nSECTION\n2\nHEADER\n9\n$ACADVER\n1\nAC1009\n0\nENDSEC\n0\nSECTION\n2\nENTITIES\n0\nLINE\n8\nWALLS\n10\n0.0\n20\n0.0\n30\n0.0\n11\n10.0\n21\n0.0\n31\n0.0\n0\nLINE\n8\nWALLS\n10\n10.0\n20\n0.0\n30\n0.0\n11\n10.0\n21\n8.0\n31\n0.0\n0\nLINE\n8\nWALLS\n10\n10.0\n20\n8.0\n30\n0.0\n11\n0.0\n21\n8.0\n31\n0.0\n0\nLINE\n8\nWALLS\n10\n0.0\n20\n8.0\n30\n0.0\n11\n0.0\n21\n0.0\n31\n0.0\n0\nENDSEC\n0\nEOF`;
+  download('qatarspec_export.dxf', dxf, 'text/plain');
+}
+
+function exportGLB() {
+  if (!window.THREE?.GLTFExporter) {
+    alert('GLTFExporter غير متاح — جارٍ التصدير كـ JSON');
+    download('qatarspec_scene.json', JSON.stringify({ scene: 'QatarSpec Pro 3D Scene' }), 'application/json');
+    return;
+  }
+  const exporter = new THREE.GLTFExporter();
+  exporter.parse(scene, (result) => {
+    const blob = result instanceof ArrayBuffer
+      ? new Blob([result], { type: 'application/octet-stream' })
+      : new Blob([JSON.stringify(result)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = result instanceof ArrayBuffer ? 'qatarspec.glb' : 'qatarspec.gltf';
+    a.click();
+    URL.revokeObjectURL(url);
+  }, { binary: true });
+}
+
+function exportCSV() {
+  const rows = [
+    ['ID', 'الخطورة', 'العنوان', 'المرجع QCS', 'المطلوب', 'الفعلي', 'الإجراء التصحيحي'],
+    ...S.violations.map(v => [
+      v.id, v.severity, v.title_ar, v.clause, v.req, v.act, v.corrective
+    ])
+  ];
+  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  download('qatarspec_violations.csv', '\uFEFF' + csv, 'text/csv;charset=utf-8');
+}
+
+function download(name, content, type) {
+  const blob = new Blob([content], { type });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function uuid() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = Math.random() * 16 | 0;
+    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+// NCR GENERATOR
+// ══════════════════════════════════════════════════════════
+function generateNCR(violId) {
+  const v = S.violations.find(x => x.id === violId);
+  if (!v) return;
+  const ncr = {
+    id: 'NCR-' + Date.now(),
+    title_ar: v.title_ar,
+    title_en: v.title_en,
+    discipline: v.discipline,
+    clause: v.clause,
+    description: v.desc,
+    corrective_action: v.corrective,
+    severity: v.severity,
+    status: 'Open',
+    date: new Date().toLocaleDateString('ar-QA'),
+    photos: [],
+    generated_by: 'QatarSpec Pro Analyzer v2',
+  };
+  download(`NCR-${ncr.id}.json`, JSON.stringify(ncr, null, 2), 'application/json');
+  alert(`✅ تم توليد NCR: ${ncr.id}\nتم حفظ الملف على جهازك.`);
+}
+
+// ══════════════════════════════════════════════════════════
+// UI HELPERS
+// ══════════════════════════════════════════════════════════
+function toggleSec(id) {
+  const sec = document.getElementById(id);
+  sec.classList.toggle('collapsed');
+  const hdr = sec.querySelector('.sec-hdr');
+  hdr.setAttribute('aria-expanded', !sec.classList.contains('collapsed'));
+}
+
+function setModel(m, btn) {
+  S.model = m;
+  document.querySelectorAll('.model-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
+  btn.classList.add('active');
+  btn.setAttribute('aria-pressed','true');
+}
+
+function handleFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  S.file = file;
+  const info = document.getElementById('file-info');
+  document.getElementById('fi-name').textContent = file.name;
+  document.getElementById('fi-size').textContent = (file.size / 1024).toFixed(1) + ' KB';
+  info.style.display = 'flex';
+  document.getElementById('ci-model').textContent = file.name;
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  document.getElementById('drop-zone').classList.add('over');
+}
+function handleDragLeave(e) {
+  document.getElementById('drop-zone').classList.remove('over');
+}
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('drop-zone').classList.remove('over');
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    const input = document.getElementById('file-in');
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    input.files = dt.files;
+    handleFile(input);
+  }
+}
+
+function toggleDark() { /* already dark */ }
+
+function toggleLang() {
+  S.lang = S.lang === 'ar' ? 'en' : 'ar';
+  document.getElementById('lang-btn').textContent = S.lang === 'ar' ? 'EN' : 'AR';
+}
+
+function updateResultsBadge() {
+  const total = Object.values(S.elements).reduce((a, b) => a + b, 0);
+  document.getElementById('results-badge').textContent = total;
+}
+</script>
+</body>
+</html>
