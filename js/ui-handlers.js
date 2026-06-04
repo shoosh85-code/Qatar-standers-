@@ -91,6 +91,7 @@
 
       switch (action) {
         case 'openDetail':        if (window.QS) QS.openDetail(param); break;
+        case 'navigate':          window.location.href = param; break;
         case 'quickSearch':       if (window.QS) QS.quickSearch(param); break;
         case 'openProModal':      if (typeof openProModal === 'function') openProModal(); break;
         case 'closeProModal':     if (typeof closeProModal === 'function') closeProModal(); break;
