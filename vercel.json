@@ -20,7 +20,7 @@
       "statusCode": 302
     },
     {
-      "source": "/admin-:path*",
+      "source": "/admin-(?!qcs-upload)(:path*)",
       "destination": "/",
       "statusCode": 302
     }
@@ -60,6 +60,9 @@
       "maxDuration": 60
     },
     "api/hub-extended.js": {
+      "maxDuration": 60
+    },
+    "api/qcs-upload.js": {
       "maxDuration": 60
     }
   },

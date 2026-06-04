@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QatarSpec Admin — رفع QCS 2024 كامل</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',Tahoma,sans-serif; background:#0a0a0a; color:#eee; min-height:100vh; padding:20px; }
+.container { max-width:800px; margin:0 auto; }
+h1 { color:#C9A84C; font-size:22px; margin-bottom:6px; }
+.sub { color:#888; font-size:13px; margin-bottom:24px; }
+.card { background:#181818; border:1px solid #333; border-radius:12px; padding:20px; margin-bottom:16px; }
+.card h2 { color:#C9A84C; font-size:15px; margin-bottom:12px; }
+label { color:#aaa; font-size:13px; display:block; margin-bottom:4px; }
+input[type=password], input[type=text] { width:100%; padding:10px 12px; background:#222; border:1px solid #444; border-radius:8px; color:#eee; font-size:14px; margin-bottom:12px; }
+input:focus { outline:none; border-color:#C9A84C; }
+.btn-row { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:8px; }
+button { padding:10px 18px; border:none; border-radius:8px; font-size:14px; font-weight:700; cursor:pointer; transition:opacity .2s; }
+button:disabled { opacity:0.5; cursor:not-allowed; }
+button:hover:not(:disabled) { opacity:0.85; }
+.btn-gold { background:linear-gradient(135deg,#9A7C2C,#C9A84C); color:#000; }
+.btn-red { background:linear-gradient(135deg,#7A1515,#9B2C2C); color:#fff; }
+.btn-blue { background:linear-gradient(135deg,#1a4a7a,#2d6ab4); color:#fff; }
+.btn-green { background:linear-gradient(135deg,#1a5a2a,#2d8a44); color:#fff; }
+.btn-gray { background:#333; color:#aaa; }
+.progress-wrap { background:#222; border-radius:8px; height:22px; overflow:hidden; margin:10px 0; }
+.progress-bar { background:linear-gradient(90deg,#C9A84C,#e8c56a); height:100%; transition:width .4s; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#000; min-width:30px; }
+#log { background:#111; border:1px solid #2a2a2a; border-radius:8px; padding:12px; font-family:monospace; font-size:12px; max-height:400px; overflow-y:auto; line-height:1.8; }
+.ok { color:#2ecc71; } .err { color:#e74c3c; } .info { color:#C9A84C; } .dim { color:#666; }
+.stat-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:10px; margin-top:8px; }
+.stat-box { background:#222; border-radius:8px; padding:12px; text-align:center; }
+.stat-num { font-size:24px; font-weight:700; color:#C9A84C; }
+.stat-lbl { font-size:11px; color:#888; margin-top:2px; }
+.badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; }
+.badge-ok { background:#1a5a2a; color:#2ecc71; }
+.badge-warn { background:#5a4a1a; color:#f39c12; }
+.badge-err { background:#5a1a1a; color:#e74c3c; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🗄️ QatarSpec Admin — رفع QCS 2024 كامل</h1>
+  <p class="sub">رفع 3,485 chunk من QCS_2024_Full_.pdf إلى Supabase + توليد Embeddings</p>
+
+  <!-- Auth -->
+  <div class="card">
+    <h2>🔐 التحقق</h2>
+    <label>ADMIN_SECRET</label>
+    <input type="password" id="secret" placeholder="أدخل ADMIN_SECRET من Vercel Dashboard">
+    <div class="btn-row">
+      <button class="btn-gold" onclick="checkStatus()">🔍 فحص الحالة</button>
+    </div>
+    <div id="statusBlock" style="display:none;margin-top:12px;">
+      <div class="stat-grid" id="statGrid"></div>
+    </div>
+  </div>
+
+  <!-- Setup -->
+  <div class="card">
+    <h2>⚙️ المرحلة 1 — إعداد الجدول</h2>
+    <p style="color:#888;font-size:13px;margin-bottom:10px;">ينشئ جدول qcs_chunks + pgvector extension + HNSW index + match_qcs_chunks function</p>
+    <div class="btn-row">
+      <button class="btn-blue" id="btnSetup" onclick="runSetup()">⚙️ Setup الجدول</button>
+    </div>
+    <div id="setupResult" style="margin-top:8px;font-size:12px;color:#888;"></div>
+  </div>
+
+  <!-- Upload -->
+  <div class="card">
+    <h2>📤 المرحلة 2 — رفع 3,485 chunk</h2>
+    <p style="color:#888;font-size:13px;margin-bottom:10px;">يرفع كل الـ chunks على batches بحجم 100 — يستغرق ~2 دقيقة</p>
+    <div class="btn-row">
+      <button class="btn-green" id="btnUpload" onclick="startUpload()">🚀 رفع كل الـ Chunks</button>
+      <button class="btn-red btn-gray" id="btnStop" onclick="stopUpload()" disabled>⏹ إيقاف</button>
+    </div>
+    <div class="progress-wrap" id="progWrap" style="display:none">
+      <div class="progress-bar" id="progBar" style="width:0%">0%</div>
+    </div>
+    <div id="uploadStatus" style="font-size:12px;color:#888;margin-top:6px;"></div>
+  </div>
+
+  <!-- Embeddings -->
+  <div class="card">
+    <h2>🧠 المرحلة 3 — توليد Embeddings</h2>
+    <p style="color:#888;font-size:13px;margin-bottom:10px;">يستدعي embed-cron كل 6 ساعات تلقائياً (50 chunk/run). أو شغّله يدوياً هنا:</p>
+    <div class="btn-row">
+      <button class="btn-gold" id="btnEmbed" onclick="runEmbed()">🧠 Generate Embeddings (50 batch)</button>
+    </div>
+    <div id="embedStatus" style="font-size:12px;color:#888;margin-top:6px;"></div>
+    <p style="color:#666;font-size:11px;margin-top:8px;">⚠️ توليد 3,485 embedding يحتاج ~70 run (كل run 50 chunk) بسبب rate limiting Gemini</p>
+  </div>
+
+  <!-- Log -->
+  <div class="card">
+    <h2>📋 سجل العمليات</h2>
+    <div id="log"><span class="dim">في انتظار العمليات...</span></div>
+  </div>
+</div>
+
+<script>
+const BASE = window.location.origin;
+let stopFlag = false;
+
+function getSecret() {
+  return document.getElementById('secret').value.trim();
+}
+
+function log(msg, type='info') {
+  const el = document.getElementById('log');
+  const now = new Date().toLocaleTimeString('ar-QA');
+  const cls = {info:'info', ok:'ok', err:'err', dim:'dim'}[type] || 'info';
+  el.innerHTML += `<div class="${cls}">[${now}] ${msg}</div>`;
+  el.scrollTop = el.scrollHeight;
+}
+
+function renderStats(stats) {
+  const block = document.getElementById('statusBlock');
+  const grid = document.getElementById('statGrid');
+  block.style.display = 'block';
+
+  if (!stats.table_exists) {
+    grid.innerHTML = `<div class="stat-box"><div class="stat-num" style="color:#e74c3c">❌</div><div class="stat-lbl">الجدول غير موجود</div></div>`;
+    return;
+  }
+
+  const embedPct = stats.total > 0 ? Math.round((stats.with_embedding / stats.total) * 100) : 0;
+  grid.innerHTML = `
+    <div class="stat-box"><div class="stat-num">${stats.total.toLocaleString()}</div><div class="stat-lbl">Chunks في Supabase</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:#2ecc71">${stats.with_embedding.toLocaleString()}</div><div class="stat-lbl">مع Embedding</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:#e74c3c">${stats.without_embedding.toLocaleString()}</div><div class="stat-lbl">بدون Embedding</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:#3498db">${embedPct}%</div><div class="stat-lbl">اكتمال Embeddings</div></div>
+  `;
+}
+
+async function apiCall(action, extra = {}) {
+  const secret = getSecret();
+  if (!secret) { log('❌ أدخل ADMIN_SECRET أولاً', 'err'); return null; }
+
+  try {
+    const r = await fetch(`${BASE}/api/qcs-upload`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action, admin_secret: secret, ...extra }),
+    });
+    const data = await r.json();
+    if (!r.ok && r.status === 401) {
+      log('❌ ADMIN_SECRET خاطئ', 'err');
+      return null;
+    }
+    return data;
+  } catch (e) {
+    log(`❌ Network error: ${e.message}`, 'err');
+    return null;
+  }
+}
+
+async function checkStatus() {
+  log('🔍 جاري فحص حالة Supabase...', 'info');
+  const data = await apiCall('status');
+  if (!data) return;
+
+  if (data.error === 'Supabase not configured') {
+    log(`❌ Supabase غير مضبوط — المتغيرات المفقودة: ${data.missing?.join(', ')}`, 'err');
+    log('→ اذهب إلى Vercel Dashboard → Settings → Environment Variables', 'info');
+    return;
+  }
+
+  if (data.error === 'Unauthorized — admin_secret required') {
+    log('❌ ADMIN_SECRET خاطئ', 'err');
+    return;
+  }
+
+  renderStats(data);
+  log(`✅ Supabase متصل: ${data.supabase_url}`, 'ok');
+  log(`📊 الجدول: ${data.table_exists ? 'موجود' : 'غير موجود'} | Chunks: ${data.total} | مع embedding: ${data.with_embedding}`, 'info');
+}
+
+async function runSetup() {
+  const btn = document.getElementById('btnSetup');
+  btn.disabled = true;
+  log('⚙️ جاري إعداد الجدول...', 'info');
+
+  const data = await apiCall('setup');
+  btn.disabled = false;
+
+  if (!data) return;
+  if (data.error) { log(`❌ ${data.error}`, 'err'); return; }
+
+  for (const r of (data.results || [])) {
+    log(`  ${r.ok ? '✅' : '⚠️'} ${r.step}${r.error ? ': ' + r.error.slice(0,100) : ''}`, r.ok ? 'ok' : 'info');
+  }
+
+  renderStats(data.stats);
+  log('✅ Setup مكتمل — الجدول جاهز للرفع', 'ok');
+
+  document.getElementById('setupResult').innerHTML =
+    `<span style="color:#2ecc71">✅ الجدول جاهز | Chunks موجودة: ${data.stats?.total || 0}</span>`;
+}
+
+async function startUpload() {
+  stopFlag = false;
+  const btnUpload = document.getElementById('btnUpload');
+  const btnStop = document.getElementById('btnStop');
+  const progWrap = document.getElementById('progWrap');
+  const progBar = document.getElementById('progBar');
+  const status = document.getElementById('uploadStatus');
+
+  btnUpload.disabled = true;
+  btnStop.disabled = false;
+  progWrap.style.display = 'block';
+
+  log('🚀 بدء رفع 3,485 chunk إلى Supabase...', 'info');
+
+  let offset = 0;
+  const batchSize = 100;
+  let totalUploaded = 0;
+  const totalSource = 3485;
+
+  while (true) {
+    if (stopFlag) {
+      log('⏹ توقف يدوي', 'info');
+      break;
+    }
+
+    const data = await apiCall('upload', { batch_size: batchSize, offset });
+    if (!data) break;
+
+    if (data.error) {
+      log(`❌ خطأ في batch offset=${offset}: ${data.error}`, 'err');
+      // استمر مع الـ batch التالي
+      offset += batchSize;
+      if (offset >= totalSource) break;
+      continue;
+    }
+
+    totalUploaded += data.processed || 0;
+    const pct = data.progress_pct || 0;
+
+    progBar.style.width = pct + '%';
+    progBar.textContent = pct + '%';
+    status.textContent = `Batch ${Math.ceil(offset/batchSize)+1} | رُفع: ${data.stats?.total || totalUploaded} chunk | ${pct}%`;
+    log(`📦 Batch offset=${offset}: ${data.processed} chunk ✅ | المجموع في Supabase: ${data.stats?.total}`, 'ok');
+
+    if (data.done) {
+      log(`🎉 اكتمل الرفع! كل ${data.stats?.total || totalSource} chunk في Supabase`, 'ok');
+      renderStats(data.stats);
+      break;
+    }
+
+    offset = data.next_offset;
+    // تأخير بسيط بين الـ batches
+    await new Promise(r => setTimeout(r, 300));
+  }
+
+  btnUpload.disabled = false;
+  btnStop.disabled = true;
+  progBar.style.width = '100%';
+  progBar.textContent = '100%';
+}
+
+function stopUpload() {
+  stopFlag = true;
+  log('⏹ إيقاف الرفع...', 'info');
+}
+
+async function runEmbed() {
+  const btn = document.getElementById('btnEmbed');
+  btn.disabled = true;
+  log('🧠 جاري توليد embeddings (50 chunk)...', 'info');
+
+  const secret = getSecret();
+  if (!secret) { log('❌ أدخل ADMIN_SECRET أولاً', 'err'); btn.disabled=false; return; }
+
+  try {
+    const r = await fetch(`${BASE}/api/hub-extended?resource=embed-cron`, {
+      method: 'GET',
+      headers: { 'x-admin-secret': secret },
+    });
+    const data = await r.json();
+    if (data.error) {
+      log(`❌ ${data.error}`, 'err');
+    } else {
+      log(`🧠 ${data.message || JSON.stringify(data)}`, 'ok');
+      document.getElementById('embedStatus').innerHTML =
+        `<span style="color:#C9A84C">${data.message || ''}</span>`;
+    }
+    await checkStatus();
+  } catch(e) {
+    log(`❌ ${e.message}`, 'err');
+  }
+  btn.disabled = false;
+}
+</script>
+</body>
+</html>
