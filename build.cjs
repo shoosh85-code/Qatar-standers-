@@ -10,6 +10,7 @@ const path = require('path');
 
 const FILES_TO_MINIFY = [
   'inline-scripts.js',
+  'js/luxury-animations.js',
   'js/core/ui-utils.js',
   'js/core/pro-system.js',
   'js/core/search-system.js',

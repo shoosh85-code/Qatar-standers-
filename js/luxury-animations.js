@@ -11,20 +11,9 @@ const isMobile = window.innerWidth < 768;
 const css = txt => { const s=document.createElement('style'); s.textContent=txt; document.head.appendChild(s); };
 
 /* ══════════════════════════════════════════════════
-   § 1  CUSTOM CURSOR — DISABLED
+   § 1  CUSTOM CURSOR — REMOVED
 ══════════════════════════════════════════════════ */
-function initCursor() {
-  // disabled — default browser cursor
-  // remove any leftover cursor:none
-  var s = document.createElement('style');
-  s.textContent = '*{cursor:auto!important}';
-  document.head.appendChild(s);
-  // remove orphan elements if any
-  ['_lxDot','_lxRing'].forEach(function(id){
-    var el = document.getElementById(id);
-    if(el) el.remove();
-  });
-}
+function initCursor() { /* disabled */ }
 /* ══════════════════════════════════════════════════
    § 2  LIQUID GOLD RIPPLE
 ══════════════════════════════════════════════════ */
