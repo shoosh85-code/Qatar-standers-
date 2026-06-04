@@ -18,11 +18,6 @@
       "source": "/translation-runner.html",
       "destination": "/",
       "statusCode": 302
-    },
-    {
-      "source": "/admin-(?!qcs-upload)(:path*)",
-      "destination": "/",
-      "statusCode": 302
     }
   ],
   "functions": {
