@@ -8,25 +8,53 @@
   'use strict';
   window.QS = window.QS || {};
 
-  // ── ألوان معمارية احترافية — Dark Pro Theme ────────────────
+  // ── ألوان معمارية واقعية — QatarSpec Architectural Theme ────
   const COLORS = {
-    extWall:    0xE8DCC8, // بيج رملي قطري — جدار خارجي
-    intWall:    0xF5F0E8, // أبيض دافئ — جدار داخلي
-    floor:      0xD4C4A8, // بلاط رملي
-    ceiling:    0x6080A0, // سقف wireframe أزرق
-    door:       0xA07850, // خشب فاتح
-    doorFrame:  0x8B6940, // إطار خشبي
-    glass:      0x87CEEB, // زجاج سماوي
-    windowFrame:0xA0A0A0, // ألومنيوم
-    column:     0xC0B8A8, // خرساني
-    label:      0xFFFFFF, // نص أبيض
-    dimLine:    0xFF6B35, // خط قياس برتقالي
-    highlight:  0xFFD700, // تمييز ذهبي
-    passGreen:  0x22C55E,
-    failRed:    0xEF4444,
-    warnOrange: 0xF59E0B,
-    ground:     0x2A2A3E, // أرضية محيطة داكنة
-    sky:        0x1A1A2E, // خلفية داكنة احترافية
+    // جدران — حجر رملي قطري دافئ
+    extWall:     0xD4B896, // حجر رملي خارجي
+    extWallDark: 0xBFA07A, // حجر رملي داكن (ظل)
+    intWall:     0xF2EBE0, // جبس داخلي أبيض دافئ
+    intWallDark: 0xE0D5C5, // جبس داكن قليلاً
+
+    // أرضيات
+    floor:       0xC8B89A, // بورسلان بيج
+    floorTile1:  0xD4C4A8, // بلاطة فاتحة
+    floorTile2:  0xB8A890, // بلاطة داكنة
+
+    // سقف
+    ceiling:     0xF0EDE8, // أبيض كريمي
+    ceilingCornice: 0xE8E0D0, // كرنيش
+
+    // أبواب — خشب دافئ
+    door:        0x8B6B45, // خشب داكن
+    doorLeaf:    0x7A5C3A, // لوح الباب
+    doorFrame:   0x6B4E2A, // إطار خشبي
+
+    // نوافذ — ألومنيوم حديث
+    glass:       0x9EC5D8, // زجاج معتدل
+    glassDark:   0x6B9FB8, // زجاج داكن
+    windowFrame: 0x8C8C8C, // ألومنيوم رمادي
+    windowSill:  0xC8C0B0, // حافة نافذة حجرية
+
+    // أعمدة وهيكل
+    column:      0xD0C8B8, // خرسانة فاتحة
+    beam:        0xB8B0A0, // عتبة خرسانية
+
+    // خارجي
+    ground:      0x8B7355, // تراب/رمل قطري
+    groundPath:  0xAA9878, // ممشى
+    sky:         0x87AABF, // سماء نهارية
+
+    // UI
+    label:       0xFFFFFF,
+    dimLine:     0xFF6B35,
+    highlight:   0xFFD700,
+    passGreen:   0x22C55E,
+    failRed:     0xEF4444,
+    warnOrange:  0xF59E0B,
+    roofColor:   0xC4956A, // سطح مائل طيني
+    roofEdge:    0xA07850, // حافة سطح
+    parapet:     0xD4B896, // برجوله/حاجز سطح
   };
 
   // ── مساعدات ────────────────────────────────────────────────
@@ -48,16 +76,50 @@
     return [(start[0] + end[0]) / 2, (start[1] + end[1]) / 2];
   }
 
-  /** إنشاء material */
+  /** إنشاء material احترافي */
   function mat(color, opts = {}) {
-    return new THREE.MeshStandardMaterial({
+    const m = new THREE.MeshStandardMaterial({
       color,
-      roughness: opts.roughness !== undefined ? opts.roughness : 0.8,
-      metalness: opts.metalness !== undefined ? opts.metalness : 0.05,
-      transparent: !!opts.opacity && opts.opacity < 1,
-      opacity: opts.opacity || 1,
+      roughness: opts.roughness !== undefined ? opts.roughness : 0.72,
+      metalness: opts.metalness !== undefined ? opts.metalness : 0.04,
+      transparent: !!opts.transparent || (opts.opacity !== undefined && opts.opacity < 1),
+      opacity: opts.opacity !== undefined ? opts.opacity : 1,
       side: opts.side || THREE.FrontSide,
-      ...opts,
+      envMapIntensity: opts.envMapIntensity !== undefined ? opts.envMapIntensity : 0.3,
+    });
+    return m;
+  }
+
+  /** material جدار خارجي — حجر رملي مع تفاصيل */
+  function wallMatExt() {
+    return new THREE.MeshStandardMaterial({
+      color: COLORS.extWall,
+      roughness: 0.82,
+      metalness: 0.02,
+      bumpScale: 0.3,
+    });
+  }
+
+  /** material جدار داخلي — جبس أبيض */
+  function wallMatInt() {
+    return new THREE.MeshStandardMaterial({
+      color: COLORS.intWall,
+      roughness: 0.65,
+      metalness: 0.0,
+    });
+  }
+
+  /** material زجاج نافذة — شبه شفاف واقعي */
+  function glassMat() {
+    return new THREE.MeshPhysicalMaterial({
+      color: COLORS.glass,
+      roughness: 0.05,
+      metalness: 0.1,
+      transmission: 0.7,
+      transparent: true,
+      opacity: 0.45,
+      side: THREE.DoubleSide,
+      reflectivity: 0.8,
     });
   }
 
@@ -93,6 +155,13 @@
       // مشهد جديد
       this._scene = new THREE.Scene();
       this._scene.background = new THREE.Color(COLORS.sky);
+      // gradient sky simulation
+      const skyGeo = new THREE.SphereGeometry(200, 32, 32);
+      const skyMat = new THREE.MeshBasicMaterial({
+        color: 0x87AABF, side: THREE.BackSide,
+      });
+      const skySphere = new THREE.Mesh(skyGeo, skyMat);
+      this._scene.add(skySphere);
 
       // مجموعات
       for (const key of Object.keys(this._groups)) {
@@ -303,95 +372,180 @@
     // ── الإضاءة ──────────────────────────────────────────────
 
     _addLighting() {
-      // ضباب خفيف للعمق
-      this._scene.fog = new THREE.FogExp2(COLORS.sky, 0.012);
+      // ضباب خفيف للعمق والجو
+      this._scene.fog = new THREE.Fog(0xB8CDD8, 40, 120);
 
-      // إضاءة محيطة
-      const ambient = new THREE.AmbientLight(0xC0C8E0, 0.5);
+      // إضاءة محيطة — دافئة كضوء قطر
+      const ambient = new THREE.AmbientLight(0xFFEDD8, 0.7);
       this._scene.add(ambient);
 
-      // إضاءة اتجاهية (شمس) — ظلال عالية الجودة
-      const sun = new THREE.DirectionalLight(0xFFF5E6, 1.0);
-      sun.position.set(20, 30, 15);
+      // شمس رئيسية — زاوية الضحى (10 صباحاً)
+      const sun = new THREE.DirectionalLight(0xFFF8E7, 1.8);
+      sun.position.set(25, 45, 20);
       sun.castShadow = true;
       sun.shadow.camera.near = 0.5;
-      sun.shadow.camera.far = 100;
-      sun.shadow.camera.left = -30;
-      sun.shadow.camera.right = 30;
-      sun.shadow.camera.top = 30;
-      sun.shadow.camera.bottom = -30;
-      sun.shadow.mapSize.width = 2048;
-      sun.shadow.mapSize.height = 2048;
-      sun.shadow.bias = -0.001;
+      sun.shadow.camera.far = 150;
+      sun.shadow.camera.left = -50;
+      sun.shadow.camera.right = 50;
+      sun.shadow.camera.top = 50;
+      sun.shadow.camera.bottom = -50;
+      sun.shadow.mapSize.width = 4096;
+      sun.shadow.mapSize.height = 4096;
+      sun.shadow.bias = -0.0005;
+      sun.shadow.normalBias = 0.02;
       this._scene.add(sun);
 
-      // إضاءة تعبئة خفيفة — لون أزرق بارد
-      const fill = new THREE.DirectionalLight(0x6090C0, 0.25);
-      fill.position.set(-10, 5, -10);
+      // ضوء تعبئة — من الجانب المظلل
+      const fill = new THREE.DirectionalLight(0xD0E8FF, 0.45);
+      fill.position.set(-15, 10, -15);
       this._scene.add(fill);
 
-      // نصف كروي (سماء/أرض) — جو واقعي
-      const hemi = new THREE.HemisphereLight(0x87CEEB, 0x8B7355, 0.35);
+      // نصف كروي — سماء زرقاء + أرض رملية
+      const hemi = new THREE.HemisphereLight(0x87AABF, 0xC4A86C, 0.55);
       this._scene.add(hemi);
+
+      // إضاءة نقطية داخلية (محاكاة تكييف/إضاءة داخلية)
+      const interior = new THREE.PointLight(0xFFEDD0, 0.8, 12);
+      interior.position.set(0, 2.5, 0);
+      interior.castShadow = false;
+      this._scene.add(interior);
     }
 
     // ── الأرضية ──────────────────────────────────────────────
 
     _buildFloor(floor) {
-      // حساب الحدود من الجدران
       const bounds = this._calcBounds(floor.walls);
-      const w = bounds.maxX - bounds.minX + 0.4;
-      const d = bounds.maxY - bounds.minY + 0.4;
+      const cx = (bounds.minX + bounds.maxX) / 2;
+      const cz = (bounds.minY + bounds.maxY) / 2;
+      const w = bounds.maxX - bounds.minX + 0.5;
+      const d = bounds.maxY - bounds.minY + 0.5;
 
-      const geo = new THREE.PlaneGeometry(w, d);
-      const material = mat(COLORS.floor, { roughness: 0.55, metalness: 0.05 });
+      // أرضية بورسلان بيج احترافي
+      const geo = new THREE.PlaneGeometry(w, d, Math.ceil(w), Math.ceil(d));
+      const material = new THREE.MeshStandardMaterial({
+        color: COLORS.floor, roughness: 0.45, metalness: 0.08,
+      });
       const mesh = new THREE.Mesh(geo, material);
       mesh.rotation.x = -Math.PI / 2;
-      mesh.position.set(
-        (bounds.minX + bounds.maxX) / 2,
-        0,
-        (bounds.minY + bounds.maxY) / 2
-      );
+      mesh.position.set(cx, 0, cz);
       mesh.receiveShadow = true;
       mesh.name = 'floor';
       this._groups.floor.add(mesh);
 
-      // شبكة بلاط — ألوان داكنة تناسب الخلفية
+      // شبكة بلاط 60cm — واقعية
       const tileSize = 0.6;
+      const cols = Math.ceil(w / tileSize) + 1;
+      const rows = Math.ceil(d / tileSize) + 1;
       const gridHelper = new THREE.GridHelper(
-        Math.max(w, d) + 2, Math.ceil(Math.max(w, d) / tileSize),
-        0x333355, 0x252540
+        Math.max(w, d) + 2, Math.round(Math.max(w, d) / tileSize) * 2,
+        0xB8A880, 0xD4C4A8
       );
-      gridHelper.position.set(
-        (bounds.minX + bounds.maxX) / 2,
-        0.002,
-        (bounds.minY + bounds.maxY) / 2
-      );
-      gridHelper.material.opacity = 0.4;
+      gridHelper.position.set(cx, 0.002, cz);
+      gridHelper.material.opacity = 0.5;
       gridHelper.material.transparent = true;
       this._groups.floor.add(gridHelper);
+
+      // محيط خارجي — أرضية رملية قطرية
+      const groundSize = Math.max(w, d) + 16;
+      const groundGeo = new THREE.PlaneGeometry(groundSize, groundSize);
+      const groundMat = new THREE.MeshStandardMaterial({
+        color: COLORS.ground, roughness: 0.92, metalness: 0.01,
+      });
+      const ground = new THREE.Mesh(groundGeo, groundMat);
+      ground.rotation.x = -Math.PI / 2;
+      ground.position.set(cx, -0.01, cz);
+      ground.receiveShadow = true;
+      ground.name = 'ground_ext';
+      this._groups.floor.add(ground);
+
+      // ممشى دائري حول المبنى
+      const pathGeo = new THREE.RingGeometry(
+        Math.max(w, d) / 2 + 0.3,
+        Math.max(w, d) / 2 + 1.8,
+        64
+      );
+      const pathMat = new THREE.MeshStandardMaterial({
+        color: COLORS.groundPath, roughness: 0.8, metalness: 0.0, side: THREE.DoubleSide
+      });
+      const pathMesh = new THREE.Mesh(pathGeo, pathMat);
+      pathMesh.rotation.x = -Math.PI / 2;
+      pathMesh.position.set(cx, 0.001, cz);
+      pathMesh.receiveShadow = true;
+      this._groups.floor.add(pathMesh);
     }
 
     // ── السقف ────────────────────────────────────────────────
 
     _buildCeiling(floor, height) {
       const bounds = this._calcBounds(floor.walls);
+      const cx = (bounds.minX + bounds.maxX) / 2;
+      const cz = (bounds.minY + bounds.maxY) / 2;
       const w = bounds.maxX - bounds.minX + 0.4;
       const d = bounds.maxY - bounds.minY + 0.4;
 
+      // سقف داخلي — جبس أبيض
       const geo = new THREE.PlaneGeometry(w, d);
-      const material = new THREE.MeshBasicMaterial({
-        color: COLORS.ceiling, wireframe: true, transparent: true, opacity: 0.3
+      const material = new THREE.MeshStandardMaterial({
+        color: COLORS.ceiling, roughness: 0.7, metalness: 0.0, side: THREE.DoubleSide
       });
       const mesh = new THREE.Mesh(geo, material);
       mesh.rotation.x = -Math.PI / 2;
-      mesh.position.set(
-        (bounds.minX + bounds.maxX) / 2,
-        height,
-        (bounds.minY + bounds.maxY) / 2
-      );
+      mesh.position.set(cx, height, cz);
+      mesh.receiveShadow = true;
       mesh.name = 'ceiling';
       this._groups.ceiling.add(mesh);
+
+      // سطح خارجي — طيني/رملي
+      const roofGeo = new THREE.PlaneGeometry(w + 0.4, d + 0.4);
+      const roofMat = new THREE.MeshStandardMaterial({
+        color: COLORS.roofColor, roughness: 0.88, metalness: 0.0
+      });
+      const roofMesh = new THREE.Mesh(roofGeo, roofMat);
+      roofMesh.rotation.x = -Math.PI / 2;
+      roofMesh.position.set(cx, height + 0.18, cz);
+      roofMesh.receiveShadow = true;
+      roofMesh.castShadow = true;
+      this._groups.ceiling.add(roofMesh);
+
+      // سقف منحدر خفيف (Hip Roof) — مناسب للمناخ القطري
+      const roofH = Math.min(w, d) * 0.12; // انحدار خفيف
+      const ridgeGeo = new THREE.ConeGeometry(
+        Math.max(w, d) * 0.72, roofH + 0.2, 4
+      );
+      ridgeGeo.rotateY(Math.PI / 4);
+      const ridgeMat = new THREE.MeshStandardMaterial({
+        color: COLORS.roofColor, roughness: 0.85, metalness: 0.02
+      });
+      const ridge = new THREE.Mesh(ridgeGeo, ridgeMat);
+      ridge.position.set(cx, height + 0.18 + (roofH / 2), cz);
+      ridge.castShadow = true;
+      ridge.receiveShadow = true;
+      this._groups.ceiling.add(ridge);
+
+      // برجوله (Parapet) حول السطح — طابع خليجي
+      const parapetH = 0.9;
+      const parapetThick = 0.2;
+      const extWalls = [
+        { s: [bounds.minX, bounds.minY], e: [bounds.maxX, bounds.minY] },
+        { s: [bounds.maxX, bounds.minY], e: [bounds.maxX, bounds.maxY] },
+        { s: [bounds.maxX, bounds.maxY], e: [bounds.minX, bounds.maxY] },
+        { s: [bounds.minX, bounds.maxY], e: [bounds.minX, bounds.minY] },
+      ];
+      const parapetMat = new THREE.MeshStandardMaterial({
+        color: COLORS.parapet, roughness: 0.78, metalness: 0.02
+      });
+      for (const wall of extWalls) {
+        const len = wallLength(wall.s, wall.e);
+        const angle = wallAngle(wall.s, wall.e);
+        const mid = midpoint(wall.s, wall.e);
+        const pGeo = new THREE.BoxGeometry(len, parapetH, parapetThick + 0.05);
+        const pMesh = new THREE.Mesh(pGeo, parapetMat);
+        pMesh.position.set(mid[0], height + parapetH / 2, mid[1]);
+        pMesh.rotation.y = -angle;
+        pMesh.castShadow = true;
+        pMesh.receiveShadow = true;
+        this._groups.ceiling.add(pMesh);
+      }
     }
 
     // ── الجدران ──────────────────────────────────────────────
@@ -425,13 +579,31 @@
       }
     }
 
-    /** إنشاء mesh جدار بسيط */
+    /** إنشاء mesh جدار بتفاصيل معمارية */
     _createWallMesh(length, height, thickness, isExternal) {
       const geo = new THREE.BoxGeometry(length, height, thickness);
-      const color = isExternal ? COLORS.extWall : COLORS.intWall;
-      const mesh = new THREE.Mesh(geo, mat(color));
+      const wallMat = isExternal ? wallMatExt() : wallMatInt();
+      const mesh = new THREE.Mesh(geo, wallMat);
       mesh.castShadow = true;
       mesh.receiveShadow = true;
+
+      // كرنيش سفلي (baseboard) للجدران الداخلية
+      if (!isExternal && height > 2) {
+        const baseGeo = new THREE.BoxGeometry(length, 0.12, thickness + 0.04);
+        const baseMesh = new THREE.Mesh(baseGeo, mat(0xD4C4A8, { roughness: 0.6 }));
+        baseMesh.position.y = -(height / 2) + 0.06;
+        baseMesh.castShadow = false;
+        mesh.add(baseMesh);
+      }
+
+      // كرنيش علوي للجدران الخارجية
+      if (isExternal && height > 2) {
+        const topGeo = new THREE.BoxGeometry(length + 0.06, 0.18, thickness + 0.06);
+        const topMesh = new THREE.Mesh(topGeo, mat(COLORS.extWallDark, { roughness: 0.7 }));
+        topMesh.position.y = (height / 2) - 0.09;
+        mesh.add(topMesh);
+      }
+
       return mesh;
     }
 
@@ -606,9 +778,7 @@
 
         // زجاج شفاف
         const glassGeo = new THREE.PlaneGeometry(wW - 0.06, wH - 0.06);
-        const glass = new THREE.Mesh(glassGeo, mat(COLORS.glass, {
-          opacity: 0.3, transparent: true, side: THREE.DoubleSide, roughness: 0.05, metalness: 0.1
-        }));
+        const glass = new THREE.Mesh(glassGeo, glassMat());
         glass.position.set(worldPos[0], sill + wH / 2, worldPos[1]);
         glass.rotation.y = -angle;
         glass.name = win.id;
