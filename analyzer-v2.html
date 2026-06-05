@@ -1895,7 +1895,7 @@ function showKeyboardHelp() {
     '<span style="color:var(--gold);font-weight:700">ESC</span><span>إلغاء</span>',
     '<span style="color:var(--gold);font-weight:700">?</span><span>هذه القائمة</span>',
     '</div>',
-    '<button onclick="document.getElementById('kb-help-modal').remove()" style="margin-top:14px;width:100%;padding:8px;background:rgba(201,168,76,0.1);border:1px solid var(--border);border-radius:8px;color:var(--text2);cursor:pointer;font-size:12px">إغلاق</button>'
+    '<button onclick="document.(function(){var m=document.getElementById("kb-help-modal");if(m)m.remove();})()" style="margin-top:14px;width:100%;padding:8px;background:rgba(201,168,76,0.1);border:1px solid var(--border);border-radius:8px;color:var(--text2);cursor:pointer;font-size:12px">إغلاق</button>'
   ].join('');
   modal.addEventListener('click', (e) => e.stopPropagation());
   document.getElementById('panel-right').appendChild(modal);
