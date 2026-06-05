@@ -33,6 +33,7 @@
 
 لا تقول "تم الرفع" إلا بعد:
 
+```
 □ 1. git status → لصق الناتج
 □ 2. git add [ملفات] → لصق الناتج
 □ 3. git diff --cached --stat → لصق الناتج
@@ -41,23 +42,31 @@
 □ 6. git push → لصق الناتج كاملاً
 □ 7. git ls-remote origin main → لصق hash الـ remote
 □ 8. مقارنة local hash مع remote hash
+```
 
-إذا لم يتطابقان:
-→ ❌ STOP: git push فشل — الـ commit لم يصل
-→ لا تكمل. لا تكذب. لا تقول "تم".
+إذا لم يتطابقا:
+```
+❌ STOP: git push فشل — الـ commit لم يصل
+```
+
+### VERIFICATION SCRIPT (إلزامي بعد كل push):
+```bash
+LOCAL=$(git rev-parse HEAD) && REMOTE=$(git ls-remote origin main | awk '{print $1}') && [ "$LOCAL" = "$REMOTE" ] && echo "✅ MATCH: $LOCAL" || echo "❌ MISMATCH"
+```
 
 ---
 
 ## PROTOCOL 3: التعامل مع الأخطاء (ERROR = STOP)
 
 إذا ظهر أي خطأ:
-
+```
 ❌ STOP: Error [الرمز]
 الأمر: [الأمر]
 الخطأ: [نص الخطأ كاملاً]
 السبب: [تحليلك]
 الحل: [اقتراحك]
 هل أحاول الحل؟ (نعم/لا)
+```
 
 ممنوع:
 - تجاهل الخطأ والمتابعة
@@ -69,12 +78,7 @@
 ## PROTOCOL 4: صفر تضليل (ZERO HALLUCINATION)
 
 ممنوع تماماً:
-- "أعتقد"
-- "ربما"
-- "على الأرجح"
-- "يبدو"
-- "يجب أن"
-- "من المفترض"
+- "أعتقد" / "ربما" / "على الأرجح" / "يبدو" / "يجب أن" / "من المفترض"
 
 إلزامي:
 - "الناتج الفعلي: [لصق]"
@@ -85,42 +89,50 @@
 
 ## PROTOCOL 5: مرحلة واحدة فقط (ONE PHASE ONLY)
 
-ممنوع:
-- أكثر من مرحلة في رسالة واحدة
-- الانتقال قبل التحقق
-- "سأنفذ 1 و 2 معاً"
+ممنوع: أكثر من مرحلة في رسالة واحدة | الانتقال قبل التحقق
 
 إلزامي:
 - كل رسالة = مرحلة واحدة
 - نهاية المرحلة = تحقق كامل + "هل أنتقل للمرحلة التالية؟"
-- لا تنتقل إلا بعد موافقة صريحة
 
 ---
 
 ## PROTOCOL 6: RATE LIMITING (إلزامي)
 
-### API Endpoints Limits:
 | Endpoint | Free | Pro | Global |
 |----------|------|-----|--------|
 | /api/ai-proxy | 5/min | 60/min | 100/min/IP |
-| /api/verify-pro | 3/min | 10/min | 30/min/IP |
-| /api/qcs-search | 10/min | 100/min | 200/min/IP |
 | /api/vision-proxy | 3/min | 30/min | 50/min/IP |
+| /api/qcs-search | 10/min | 100/min | 200/min/IP |
+| /api/hub-extended | 5/min | 30/min | 60/min/IP |
 
-### Implementation:
-- استخدم Vercel KV للـ rate limiting
-- Fallback: in-memory Map مع cleanup
-- Response: 429 Too Many Requests مع Retry-After header
+Implementation: Upstash Redis (lib/rate-limit.js) + in-memory fallback
 
 ---
 
-## VERIFICATION SCRIPT
+## DEPLOYMENT PROTOCOL (محدّث)
+
+### طريقة النشر الوحيدة الموثوقة:
 
 ```bash
-echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-remote origin main | head -1 && LOCAL=$(git rev-parse HEAD) && REMOTE=$(git ls-remote origin main | awk '{print $1}') && if [ "$LOCAL" = "$REMOTE" ]; then echo "✅ MATCH"; else echo "❌ MISMATCH"; fi
+# 1. في GitHub Codespaces:
+git pull
+git add .
+git commit -m "وصف التعديل"
+git push
+vercel --prod
 ```
 
-إذا ❌ MISMATCH → STOP. لا تقول "تم".
+### لماذا Codespace وليس GitHub Actions؟
+- GitHub Actions Deploy Hook = يبني من snapshot قديم
+- Vercel CLI مباشرة = يبني من الكود الفعلي
+- الـ webhook لا يعمل بشكل موثوق على Hobby plan
+
+### التحقق بعد النشر:
+```bash
+# في Codespace terminal — تحقق أن الموقع تحدّث
+curl -s -I "https://qatar-standers.vercel.app/js/luxury-animations.js" | grep "last-modified"
+```
 
 ---
 
@@ -128,99 +140,97 @@ echo "=== LOCAL ===" && git log --oneline -1 && echo "=== REMOTE ===" && git ls-
 
 - **Name:** QatarSpec Pro
 - **Site:** qatar-standers.vercel.app
-- **Stack:** Vanilla HTML/JS + Vercel Serverless + Supabase + Gemini API
+- **Stack:** Vanilla HTML/JS + Vercel Serverless/Edge + Supabase + Gemini API
 - **Repo:** github.com/shoosh85-code/Qatar-standers-
 - **Audience:** مهندسون قطريون وأجانب يعملون في قطر
 - **References:** QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP · FIDIC · BS · ASTM
+- **Three.js:** r162 ES modules (importmap) — لا تستخدم r128
+- **Gemini Embedding:** gemini-embedding-001 (لا تستخدم text-embedding-004)
 
 ---
 
-## GIT CONFIG
+## VERCEL CONSTRAINTS (Hobby Plan)
 
-```bash
-git clone https://github.com/shoosh85-code/Qatar-standers-.git
-cd Qatar-standers-
-git config user.email "qatarspec@deploy.app"
-git config user.name "QatarSpec Deploy"
-```
+- **Max Serverless Functions:** 12 — كل endpoint جديد يمر عبر api/project-hub.js?resource=
+- **Cron Jobs:** مرة واحدة يومياً فقط (schedule: "0 2 * * *")
+- **Function Timeout:** 30s (Edge) / 60s (Serverless)
+- **File Size:** max 50MB per deployment
 
-Push:
-```bash
-git remote set-url origin https://TOKEN@github.com/shoosh85-code/Qatar-standers-.git
-git push origin main
-git remote set-url origin https://github.com/shoosh85-code/Qatar-standers-.git
-```
+---
+
+## KEY LEARNINGS (درس بالكد)
+
+| المشكلة | الحل |
+|---------|------|
+| Gemini model NOT_FOUND | استخدم gemini-2.0-flash أو gemini-1.5-pro |
+| responseMimeType INVALID_ARGUMENT | احذف هذا الحقل مع preview models |
+| DOMParser يحذف scripts | استخدم dedupeSectionContent() pattern |
+| cursor:none في luxury-animations.js | استخدم cursor:auto!important في main.css |
+| Splash screen عند refresh | sessionStorage.setItem('qs_entered','1') |
+| Vercel Deploy Hook = snapshot قديم | استخدم vercel --prod من Codespace |
+| Three.js r128 examples/js مكسورة | استخدم r162 + importmap + examples/jsm |
 
 ---
 
 ## CODING RULES
 
-- Follow QCS 2024 always — accuracy over speed
 - Vanilla JS only (no frameworks)
-- RTL + Arabic + English in all UI
-- Every calculator: input validation + Qatari units + Pass/Fail + QCS reference
-- Pro features: gentle prompt for free users
-- Never invent numbers — say "غير موجود في المستند"
-- window.QS namespace for all public functions
-- Sanitize ALL user input before innerHTML
-- const/let only (no var)
-- Arabic comments for complex logic
+- RTL + Arabic + English في كل UI
+- كل حاسبة: input validation + Qatari units + Pass/Fail + QCS reference
+- window.QS namespace لكل الـ public functions
+- Sanitize ALL user input قبل innerHTML
+- const/let فقط (no var)
+- تعليقات عربية للـ complex logic
+
+---
+
+## CONTENT ARCHITECTURE
+
+```
+data_content_*.js → مسجّل في data_content_manifest.js → lazy-loaded عبر QS.openDetail(key) → rendered في modal
+```
+
+**قانون:** أي كارت جديد لازم يُسجَّل في data_content_manifest.js أو يفشل بصمت.
+
+---
+
+## NEW HTML PAGES
+
+لازم تُضاف لـ vercel.json rewrite exclusion regex:
+```json
+"source": "/((?!api/|...|new-page\\.html).*)"
+```
+
+---
+
+## SECURITY RULES
+
+- NO API keys في localStorage — server-side env vars only
+- NO JWT في localStorage — httpOnly cookies only
+- CSP headers في vercel.json
+- Rate limit كل API endpoints (PROTOCOL 6)
+- Sanitize كل user input
+- XSS protection على كل innerHTML injections
+- GitHub tokens = revoke بعد كل session فوراً
 
 ---
 
 ## EXPORT STANDARDS
 
-- **PDF:** QatarSpec Pro header + QCS 2024 reference + page numbers + watermark
-- **Excel:** Ashghal official format + multiple sheets + summary stats
-- **Word:** Professional header + editable fields + QCS clause references
-- **All exports:** Project name + Engineer name + Date + QatarSpec branding
-
----
-
-## SECURITY
-
-- NO API keys in localStorage — server-side env vars only
-- NO JWT in localStorage — httpOnly cookies only
-- CSP headers required
-- Rate limit all API endpoints (see PROTOCOL 6)
-- Sanitize all user input
-- XSS protection on all innerHTML injections
+- **PDF:** QatarSpec Pro header + QCS 2024 reference + page numbers
+- **DXF:** LWPOLYLINE حقيقي + LAYER table + dimensions (R12 format)
+- **IFC:** IFC4 حقيقي — IfcWall + IfcDoor + IfcWindow + Pset_QCS2024
+- **Excel/CSV:** Ashghal official format + UTF-8 BOM
 
 ---
 
 ## BUSINESS RULES
 
-- Every feature serves Free, Pro, or Enterprise tier
-- Free tier genuinely useful (builds trust)
-- Pro tier saves >2 hours/week (justifies 99 QAR/month)
-- Enterprise reduces QC costs >20%
-- Every QCS reference traceable — no invented numbers
-- AI responses include disclaimer + QCS Part/Section/Clause
-- Export formats match Ashghal official templates exactly
+- Free tier: 5 AI requests/day (builds trust)
+- Pro tier: يوفر 2+ ساعة أسبوعياً (justifies 99 QAR/month)
+- كل مخرج AI يحتوي disclaimer + QCS Part/Section/Clause
+- لا تخترع أرقاماً — قل "غير موجود في المصادر المتاحة"
 
 ---
 
-## DECISION FRAMEWORK
-
-1. Which serves target user tier better?
-2. Which is more accurate per QCS 2024?
-3. Which converts more Free → Pro users?
-4. Which reduces engineering errors on site?
-5. Which is faster to implement and test?
-
----
-
-## ENGINEERING STANDARDS
-
-- Follow QCS 2024 exactly — alert user if conflict
-- All calculators: input validation + Qatari units + Pass/Fail + QCS reference
-- All exports: QatarSpec Pro header + project + engineer + date + QCS clause
-- All AI outputs: Arabic + disclaimer + exact QCS Part/Section/Clause
-
----
-
-## DEPLOYMENT
-
-- Follow PROTOCOL 2 strictly for every git push
-- Test locally before push — app must stay functional
-- Never delete content — only add or modify
+*آخر تحديث: يونيو 2026 — v3.0*

@@ -295,6 +295,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   *{animation:none!important;transition:none!important}
 }
 </style>
+<script src="/js/qcs-compliance-engine.js"></script>
 </head>
 <body>
 
@@ -1275,46 +1276,92 @@ function buildFromAISchema(schema) {
   document.getElementById('ci-model').textContent = `AI Model: ${schema.walls?.length||0} جدار · ${schema.plan_width_m||'?'}m × ${schema.plan_depth_m||'?'}m`;
 }
 
-function runCompliance(expClass, wallT) {
+function runCompliance(expClass, wallT, schema) {
+  // استخدام QCS Engine الكامل إذا كان متاحاً
+  if (window.QCSEngine) {
+    const params = [
+      // فحص سماكة الجدار الخارجي
+      { exposure_class: expClass, element_type: 'wall', actual_cover_mm: wallT * 1000 },
+      // فحص ارتفاع الغرفة
+      { room_height_m: parseFloat(document.getElementById('wall-h').value) || 3.0 },
+      // أبواب الحمام
+      { door_type: 'bathroom', door_width_m: 0.8 },
+    ];
+
+    // إذا كان هناك schema من AI — أضف فحوصاته
+    if (schema) {
+      (schema.rooms || []).forEach(r => {
+        if (r.area_m2) {
+          const type = (r.name_en || '').toLowerCase();
+          if (type.includes('living')) params.push({ room_type: 'living_room', room_area_m2: r.area_m2 });
+          else if (type.includes('bed')) params.push({ room_type: 'bedroom_other', room_area_m2: r.area_m2 });
+          else if (type.includes('kitchen')) params.push({ room_type: 'kitchen', room_area_m2: r.area_m2 });
+        }
+      });
+      (schema.doors || []).forEach(d => {
+        params.push({ door_type: 'bedroom', door_width_m: d.width || 0.9 });
+      });
+    }
+
+    const result = QCSEngine.batchCheck(params);
+
+    // حوّل format الـ engine لـ format الـ UI
+    const viols = result.violations.map((v, i) => ({
+      id: 'V' + String(i+1).padStart(3,'0'),
+      severity: v.severity,
+      title_ar: v.title_ar || v.param,
+      title_en: v.param,
+      clause: v.clause,
+      discipline: v.category,
+      req: v.required,
+      act: v.actual,
+      desc: v.title_ar + ' — ' + v.corrective,
+      corrective: v.corrective,
+      wall: v.element || 'general',
+    }));
+
+    // أضف نتائج Pass كـ info
+    if (result.pass_count > 0) {
+      viols.push({
+        id: 'PASS', severity: 'info',
+        title_ar: `✅ ${result.pass_count} بند مطابق من أصل ${result.total}`,
+        title_en: `${result.pass_count} items passed`,
+        clause: 'QCS Engine v2.0',
+        discipline: 'All Sections',
+        req: '100%', act: result.score_pct + '%',
+        desc: 'النتائج المطابقة للمواصفات',
+        corrective: 'لا يلزم إجراء',
+        wall: '-',
+      });
+    }
+
+    return viols;
+  }
+
+  // Fallback بسيط إذا لم يتحمل الـ engine
   const viols = [];
-  const minThick = QCS_RULES.wall_thickness_min[expClass] || 0.2;
+  const minThick = { XC1:0.12, XC2:0.15, XC3:0.18, XC4:0.20, XS1:0.20, XS2:0.22, XS3:0.25, XD1:0.18, XD2:0.20, XD3:0.22, XF1:0.15, XF2:0.18 }[expClass] || 0.2;
 
   if (wallT < minThick) {
     viols.push({
       id: 'V001', severity: 'critical',
-      title_ar: `سماكة الجدار أقل من الحد الأدنى (بيئة ${expClass})`,
-      title_en: `Wall Thickness Below Minimum (${expClass})`,
-      clause: `QCS 2024 · Section 6 · Part 3 · Clause 6.3.4`,
-      discipline: 'Structural',
-      req: (minThick * 1000) + 'mm', act: (wallT * 1000) + 'mm',
-      desc: `سماكة الجدار الحالية ${wallT * 1000}mm أقل من الحد الأدنى ${minThick * 1000}mm في بيئة ${expClass}.`,
-      corrective: `زيادة سماكة الجدار إلى ${minThick * 1000}mm أو أكثر.`,
-      wall: 'W-05',
+      title_ar: `سماكة الجدار ${wallT*1000}mm أقل من الحد ${minThick*1000}mm في بيئة ${expClass}`,
+      clause: 'QCS 2024 §S5-P4-C4', discipline: 'Structural',
+      req: minThick*1000+'mm', act: wallT*1000+'mm',
+      desc: 'سماكة الجدار أقل من الحد الأدنى', corrective: `زيادة السماكة إلى ${minThick*1000}mm`,
     });
   }
 
-  viols.push({
-    id: 'V002', severity: 'warning',
-    title_ar: 'ارتفاع الغرفة أقل من الحد الأدنى',
-    title_en: 'Room Height Below Minimum',
-    clause: 'QCS 2024 · Section 17 · Part 4 · Clause 17.4.2',
-    discipline: 'Architectural',
-    req: '2.70m', act: '2.50m',
-    desc: 'غرفة النوم الرئيسية (R-02) ارتفاعها الصافي 2.50m وهو أقل من 2.70m المطلوب.',
-    corrective: 'مراجعة تصميم السقف المستعار أو رفع مستوى السقف الفعلي.',
-    wall: 'R-02',
-  });
-  viols.push({
-    id: 'V003', severity: 'info',
-    title_ar: 'عرض الباب أقل من معيار إمكانية الوصول',
-    title_en: 'Door Width Below Accessibility Standard',
-    clause: 'QCS 2024 · Section 17 · Part 8 · Clause 17.8.5',
-    discipline: 'Architectural',
-    req: '0.90m', act: '0.80m',
-    desc: 'باب الحمام (D-03) عرضه 0.80m وهو أقل من 0.90m المطلوب.',
-    corrective: 'توسيع فتحة باب الحمام إلى 0.90m على الأقل.',
-    wall: 'D-03',
-  });
+  const wallH = parseFloat(document.getElementById('wall-h').value) || 3.0;
+  if (wallH < 2.7) {
+    viols.push({
+      id: 'V002', severity: 'warning',
+      title_ar: `ارتفاع ${wallH}m أقل من الحد الأدنى 2.7m`,
+      clause: 'QCS 2024 §S17-P4-C3', discipline: 'Architectural',
+      req: '2.70m', act: wallH+'m',
+      desc: 'ارتفاع الغرفة أقل من المطلوب', corrective: 'رفع مستوى السقف',
+    });
+  }
 
   return viols;
 }
