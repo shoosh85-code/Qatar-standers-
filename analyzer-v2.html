@@ -102,6 +102,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   background:var(--bg3);position:relative;
 }
 .drop-zone:hover,.drop-zone.over{border-color:var(--gold);background:rgba(201,168,76,0.05)}
+.drop-zone{transition:all .2s cubic-bezier(.25,.8,.25,1)}
+.drop-zone.over{box-shadow:0 0 0 3px rgba(201,168,76,0.15);transform:scale(1.01)}
 .drop-zone .dz-ico{font-size:28px;margin-bottom:8px}
 .drop-zone h3{font-size:13px;color:var(--text);margin-bottom:4px}
 .drop-zone p{font-size:11px;color:var(--text3)}
@@ -331,6 +333,14 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
           <span class="fi-name" id="fi-name"></span>
           <span id="fi-size" style="color:var(--text3);font-size:10px"></span>
         </div>
+        <div id="upload-progress" style="display:none;margin-top:6px">
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-bottom:3px">
+            <span>جارٍ التحميل...</span><span id="upload-progress-pct">0%</span>
+          </div>
+          <div style="height:3px;background:var(--bg4);border-radius:2px;overflow:hidden">
+            <div id="upload-progress-fill" style="height:100%;width:0%;background:linear-gradient(90deg,var(--maroon),var(--gold));border-radius:2px;transition:width .15s"></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -471,6 +481,20 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
       <input type="range" id="clip-slider" min="0" max="100" value="100"
         orient="vertical" aria-label="مستوى القطع الرأسي"
         oninput="updateClip(this.value)">
+    </div>
+
+    <!-- KEYBOARD HINT -->
+    <div id="kb-hint" style="position:absolute;top:12px;left:12px;z-index:10;font-size:10px;color:var(--text3);background:rgba(3,3,10,0.7);padding:4px 8px;border-radius:5px;cursor:pointer" onclick="showKeyboardHelp()" title="اختصارات لوحة المفاتيح">⌨️ ?</div>
+
+    <!-- RENDER QUALITY -->
+    <div style="position:absolute;top:52px;left:12px;z-index:10">
+      <select id="render-quality" onchange="setRenderQuality(this.value)"
+        style="background:rgba(3,3,10,0.8);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:6px;color:var(--text2);font-size:10px;padding:4px 6px;cursor:pointer;font-family:var(--font)">
+        <option value="medium" selected>⚡ متوسط</option>
+        <option value="low">🐢 منخفض</option>
+        <option value="high">✨ عالي</option>
+        <option value="ultra">🏆 أقصى</option>
+      </select>
     </div>
 
     <!-- MEASURE -->
@@ -702,6 +726,7 @@ function initStats() {
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
+  updateLOD(); // LOD update
   renderer.render(scene, camera);
 
   // FPS counter
@@ -714,6 +739,40 @@ function animate() {
       stats.last = now;
     }
   }
+}
+
+// ── LOD System (Level of Detail) ────────────────────────
+// يُبسّط المجسم عند الابتعاد لتحسين الـ FPS
+function createWallLOD(length, height, thickness, mat) {
+  const lod = new THREE.LOD();
+
+  // Level 0: High detail (< 10m) — full box with edges
+  const geoHigh = new THREE.BoxGeometry(length, height, thickness);
+  const meshHigh = new THREE.Mesh(geoHigh, mat);
+  meshHigh.castShadow = true;
+  meshHigh.receiveShadow = true;
+  const edgesH = new THREE.EdgesGeometry(geoHigh);
+  meshHigh.add(new THREE.LineSegments(edgesH, new THREE.LineBasicMaterial({ color: 0xC9A84C, transparent: true, opacity: 0.2 })));
+  lod.addLevel(meshHigh, 0);
+
+  // Level 1: Medium (10-25m) — box no edges
+  const geoMed = new THREE.BoxGeometry(length, height, thickness);
+  const meshMed = new THREE.Mesh(geoMed, mat);
+  lod.addLevel(meshMed, 10);
+
+  // Level 2: Low (> 25m) — simplified flat plane
+  const geoLow = new THREE.PlaneGeometry(length, height);
+  const meshLow = new THREE.Mesh(geoLow, mat);
+  lod.addLevel(meshLow, 25);
+
+  return lod;
+}
+
+// update LOD every frame — call in animate()
+function updateLOD() {
+  scene.traverse(obj => {
+    if (obj.isLOD) obj.update(camera);
+  });
 }
 
 // ── InstancedMesh utility ────────────────────────────────
@@ -1281,6 +1340,30 @@ function updateClip(val) {
   clippingPlane.constant = h;
 }
 
+// ── Render Quality ──────────────────────────────────────
+function setRenderQuality(q) {
+  if (!renderer) return;
+  const configs = {
+    low:    { pixelRatio: 0.75, shadowMap: 512,  antialias: false },
+    medium: { pixelRatio: 1.0,  shadowMap: 1024, antialias: true  },
+    high:   { pixelRatio: 1.5,  shadowMap: 2048, antialias: true  },
+    ultra:  { pixelRatio: Math.min(window.devicePixelRatio, 2), shadowMap: 4096, antialias: true }
+  };
+  const cfg = configs[q] || configs.medium;
+  renderer.setPixelRatio(cfg.pixelRatio);
+
+  // Update shadow map on sun light
+  scene.traverse(obj => {
+    if (obj.isDirectionalLight && obj.castShadow) {
+      obj.shadow.mapSize.set(cfg.shadowMap, cfg.shadowMap);
+      obj.shadow.map = null; // force regenerate
+    }
+  });
+
+  resize(); // re-render
+  showShortcutToast(`جودة العرض: ${q === 'low' ? 'منخفض' : q === 'medium' ? 'متوسط' : q === 'high' ? 'عالي' : 'أقصى'}`);
+}
+
 // ══════════════════════════════════════════════════════════
 // MOUSE INTERACTION
 // ══════════════════════════════════════════════════════════
@@ -1289,6 +1372,112 @@ function setupEventListeners() {
   canvas.addEventListener('mousemove', onMouseMove);
   canvas.addEventListener('dblclick', onDblClick);
   canvas.addEventListener('click', onCanvasClick);
+
+  // ── Keyboard Shortcuts ───────────────────────────────
+  document.addEventListener('keydown', (e) => {
+    // لا تتدخل عند الكتابة في input fields
+    if (['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) return;
+
+    switch(e.key.toUpperCase()) {
+      case 'R':
+        setView('3d');
+        showShortcutToast('R — إعادة ضبط الكاميرا');
+        break;
+      case 'T':
+        setView('top');
+        showShortcutToast('T — عرض من الأعلى');
+        break;
+      case 'F':
+        setView('front');
+        showShortcutToast('F — عرض أمامي');
+        break;
+      case 'S':
+        setView('right');
+        showShortcutToast('S — عرض جانبي');
+        break;
+      case 'M':
+        toggleMeasure();
+        showShortcutToast(S.measuring ? 'M — قياس مفعّل 📏' : 'M — قياس مُلغى');
+        break;
+      case '1': focusGroup('walls');   showShortcutToast('1 — تركيز على الجدران'); break;
+      case '2': focusGroup('doors');   showShortcutToast('2 — تركيز على الأبواب'); break;
+      case '3': focusGroup('windows'); showShortcutToast('3 — تركيز على النوافذ'); break;
+      case '4': focusGroup('rooms');   showShortcutToast('4 — تركيز على الغرف'); break;
+      case 'ESCAPE':
+        if (S.measuring) { toggleMeasure(); showShortcutToast('ESC — إلغاء القياس'); }
+        break;
+      case '?': case 'H': case '/':
+        showKeyboardHelp();
+        break;
+    }
+
+    // Clip plane shortcuts
+    if (e.key === '+' || e.key === '=') {
+      const slider = document.getElementById('clip-slider');
+      slider.value = Math.min(100, parseInt(slider.value) + 5);
+      updateClip(slider.value);
+    }
+    if (e.key === '-') {
+      const slider = document.getElementById('clip-slider');
+      slider.value = Math.max(0, parseInt(slider.value) - 5);
+      updateClip(slider.value);
+    }
+  });
+}
+
+// Toast notification for shortcuts
+let shortcutToastTimer;
+function showShortcutToast(msg) {
+  let el = document.getElementById('shortcut-toast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'shortcut-toast';
+    el.style.cssText = [
+      'position:absolute;bottom:50px;left:50%;transform:translateX(-50%)',
+      'background:rgba(3,3,10,0.85);backdrop-filter:blur(8px)',
+      'border:1px solid var(--border2);border-radius:8px',
+      'padding:8px 16px;font-size:12px;color:var(--gold)',
+      'pointer-events:none;z-index:200;white-space:nowrap',
+      'transition:opacity .2s'
+    ].join(';');
+    document.getElementById('panel-right').appendChild(el);
+  }
+  el.textContent = msg;
+  el.style.opacity = '1';
+  clearTimeout(shortcutToastTimer);
+  shortcutToastTimer = setTimeout(() => { el.style.opacity = '0'; }, 1800);
+}
+
+// Keyboard shortcuts help panel
+function showKeyboardHelp() {
+  let modal = document.getElementById('kb-help-modal');
+  if (modal) { modal.remove(); return; }
+  modal = document.createElement('div');
+  modal.id = 'kb-help-modal';
+  modal.style.cssText = [
+    'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)',
+    'background:var(--bg2);border:1px solid var(--border2);border-radius:14px',
+    'padding:20px 24px;z-index:300;min-width:260px',
+    'box-shadow:0 8px 32px rgba(0,0,0,0.5)'
+  ].join(';');
+  modal.innerHTML = [
+    '<div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:12px">⌨️ اختصارات لوحة المفاتيح</div>',
+    '<div style="display:grid;grid-template-columns:40px 1fr;gap:6px;font-size:12px;color:var(--text2)">',
+    '<span style="color:var(--gold);font-weight:700">R</span><span>إعادة ضبط الكاميرا</span>',
+    '<span style="color:var(--gold);font-weight:700">T</span><span>عرض من الأعلى</span>',
+    '<span style="color:var(--gold);font-weight:700">F</span><span>عرض أمامي</span>',
+    '<span style="color:var(--gold);font-weight:700">S</span><span>عرض جانبي</span>',
+    '<span style="color:var(--gold);font-weight:700">M</span><span>تفعيل/إلغاء القياس</span>',
+    '<span style="color:var(--gold);font-weight:700">1-4</span><span>تركيز على عنصر</span>',
+    '<span style="color:var(--gold);font-weight:700">+/-</span><span>قطع رأسي</span>',
+    '<span style="color:var(--gold);font-weight:700">ESC</span><span>إلغاء</span>',
+    '<span style="color:var(--gold);font-weight:700">?</span><span>هذه القائمة</span>',
+    '</div>',
+    '<button onclick="document.getElementById('kb-help-modal').remove()" style="margin-top:14px;width:100%;padding:8px;background:rgba(201,168,76,0.1);border:1px solid var(--border);border-radius:8px;color:var(--text2);cursor:pointer;font-size:12px">إغلاق</button>'
+  ].join('');
+  modal.addEventListener('click', (e) => e.stopPropagation());
+  document.getElementById('panel-right').appendChild(modal);
+  document.addEventListener('click', () => modal.remove(), { once: true });
 }
 
 let lastHovered = null;
@@ -1876,31 +2065,124 @@ function setModel(m, btn) {
 function handleFile(input) {
   const file = input.files[0];
   if (!file) return;
+
+  // ── File type validation ──────────────────────────────
+  const allowedTypes = ['image/jpeg','image/png','image/webp','image/gif','application/pdf'];
+  const allowedExts = ['.jpg','.jpeg','.png','.webp','.pdf','.dwg','.dxf'];
+  const ext = '.' + file.name.split('.').pop().toLowerCase();
+
+  if (!allowedTypes.includes(file.type) && !allowedExts.includes(ext)) {
+    showFileError('❌ نوع الملف غير مدعوم — استخدم: JPG, PNG, PDF, DWG');
+    return;
+  }
+  if (file.size > 15 * 1024 * 1024) {
+    showFileError('❌ حجم الملف كبير جداً — الحد الأقصى 15MB');
+    return;
+  }
+
   S.file = file;
+
+  // ── Progress bar حقيقي أثناء القراءة ─────────────────
+  const progressBar = document.getElementById('upload-progress');
+  const progressFill = document.getElementById('upload-progress-fill');
+  const progressPct = document.getElementById('upload-progress-pct');
+
+  if (progressBar) progressBar.style.display = 'block';
+
+  const reader = new FileReader();
+  reader.onprogress = (e) => {
+    if (e.lengthComputable && progressFill) {
+      const pct = Math.round((e.loaded / e.total) * 100);
+      progressFill.style.width = pct + '%';
+      if (progressPct) progressPct.textContent = pct + '%';
+    }
+  };
+  reader.onload = () => {
+    if (progressFill) progressFill.style.width = '100%';
+    setTimeout(() => { if (progressBar) progressBar.style.display = 'none'; }, 600);
+  };
+  reader.onerror = () => showFileError('❌ فشل قراءة الملف');
+  reader.readAsDataURL(file);
+
   const info = document.getElementById('file-info');
   document.getElementById('fi-name').textContent = file.name;
   document.getElementById('fi-size').textContent = (file.size / 1024).toFixed(1) + ' KB';
   info.style.display = 'flex';
-  document.getElementById('ci-model').textContent = file.name;
+  document.getElementById('ci-model').textContent = '📄 ' + file.name;
+
+  // Preview صورة إذا كان image
+  if (file.type.startsWith('image/')) {
+    const url = URL.createObjectURL(file);
+    let prev = document.getElementById('file-preview-img');
+    if (!prev) {
+      prev = document.createElement('img');
+      prev.id = 'file-preview-img';
+      prev.style.cssText = 'width:100%;max-height:120px;object-fit:contain;border-radius:6px;margin-top:8px;border:1px solid var(--border)';
+      document.getElementById('file-info').parentNode.appendChild(prev);
+    }
+    prev.src = url;
+    prev.style.display = 'block';
+  }
+}
+
+function showFileError(msg) {
+  let el = document.getElementById('file-error');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'file-error';
+    el.style.cssText = 'margin-top:6px;padding:8px 10px;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:6px;font-size:11px;color:#e74c3c';
+    document.getElementById('drop-zone').parentNode.appendChild(el);
+  }
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 4000);
 }
 
 function handleDragOver(e) {
   e.preventDefault();
-  document.getElementById('drop-zone').classList.add('over');
+  e.stopPropagation();
+  const dz = document.getElementById('drop-zone');
+  dz.classList.add('over');
+  dz.style.borderStyle = 'dashed';
+  dz.style.borderColor = 'var(--gold)';
+  dz.style.background = 'rgba(201,168,76,0.08)';
+  dz.style.transform = 'scale(1.01)';
 }
 function handleDragLeave(e) {
-  document.getElementById('drop-zone').classList.remove('over');
+  e.preventDefault();
+  const dz = document.getElementById('drop-zone');
+  // فقط عند خروج من الـ div نفسه (ليس من child elements)
+  if (!dz.contains(e.relatedTarget)) {
+    dz.classList.remove('over');
+    dz.style.borderStyle = 'dashed';
+    dz.style.borderColor = 'var(--border2)';
+    dz.style.background = 'var(--bg3)';
+    dz.style.transform = 'scale(1)';
+  }
 }
 function handleDrop(e) {
   e.preventDefault();
-  document.getElementById('drop-zone').classList.remove('over');
+  e.stopPropagation();
+  const dz = document.getElementById('drop-zone');
+  dz.classList.remove('over');
+  dz.style.borderColor = 'var(--gold)';
+  dz.style.background = 'rgba(201,168,76,0.05)';
+  dz.style.transform = 'scale(1)';
+  // Flash success
+  setTimeout(() => {
+    dz.style.borderColor = 'var(--border2)';
+    dz.style.background = 'var(--bg3)';
+  }, 1200);
+
   const file = e.dataTransfer.files[0];
   if (file) {
     const input = document.getElementById('file-in');
-    const dt = new DataTransfer();
-    dt.items.add(file);
-    input.files = dt.files;
-    handleFile(input);
+    try {
+      const dt = new DataTransfer();
+      dt.items.add(file);
+      input.files = dt.files;
+    } catch(err) { /* Safari fallback */ S.file = file; }
+    handleFile(input.files[0] ? input : { files: [file] });
   }
 }
 
