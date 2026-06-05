@@ -480,6 +480,33 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   <main id="panel-right" role="main" aria-label="عارض المجسم ثلاثي الأبعاد">
     <canvas id="three-canvas" tabindex="0" aria-label="مجسم ثلاثي الأبعاد تفاعلي"></canvas>
 
+    <!-- LOADING OVERLAY -->
+    <div id="canvas-overlay" style="
+      position:absolute;inset:0;z-index:50;
+      background:rgba(3,3,10,0.85);backdrop-filter:blur(4px);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:16px;pointer-events:none;transition:opacity .4s;
+    ">
+      <div style="font-size:40px">🏗️</div>
+      <div id="overlay-title" style="font-size:16px;font-weight:700;color:#C9A84C;font-family:Tajawal,Cairo,sans-serif">
+        ارفع مخططاً للتحليل
+      </div>
+      <div id="overlay-sub" style="font-size:12px;color:#808080;font-family:Tajawal,Cairo,sans-serif;text-align:center;max-width:260px">
+        JPG · PNG · PDF — اضغط "تحليل المخطط" بعد الرفع
+      </div>
+      <div id="overlay-spinner" style="display:none">
+        <div style="width:40px;height:40px;border:3px solid rgba(201,168,76,0.2);border-top-color:#C9A84C;border-radius:50%;animation:spin .8s linear infinite"></div>
+      </div>
+      <div id="overlay-progress-bar" style="display:none;width:200px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px">
+        <div id="overlay-prog-fill" style="height:100%;background:linear-gradient(90deg,#7A1515,#C9A84C);border-radius:2px;width:0%;transition:width .3s"></div>
+      </div>
+      <div id="overlay-status" style="font-size:11px;color:#C9A84C;font-family:Tajawal,Cairo,sans-serif"></div>
+    </div>
+
+    <style>
+    @keyframes spin{to{transform:rotate(360deg)}}
+    </style>
+
     <!-- VIEW CONTROLS -->
     <div id="view-ctrls" role="group" aria-label="زوايا العرض">
       <button class="view-btn active" onclick="setView('3d')" aria-label="عرض ثلاثي الأبعاد">🔲 3D</button>
@@ -637,7 +664,11 @@ window.addEventListener('load', () => {
       setupEventListeners();
       initStats();
       // force resize بعد 300ms للتأكد
-      setTimeout(() => { resize(); }, 300);
+      setTimeout(() => {
+        resize();
+        // الـ demo scene جاهزة — أظهر رسالة "ارفع مخططاً"
+        showOverlay('🏗️ المجسم جاهز', 'ارفع مخططاً واضغط "تحليل المخطط" لبدء التحليل', false, null);
+      }, 500);
     });
   });
 });
@@ -667,7 +698,7 @@ function initThree() {
   camera.position.set(12, 10, 12);
   camera.lookAt(0, 0, 0);
 
-  controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.08;
   controls.minDistance = 2;
@@ -1106,11 +1137,25 @@ async function startAnalysis() {
   const steps = ['st0','st1','st2','st3','st4'];
   const pcts  = [15, 35, 60, 85, 100];
 
+  const stepLabels = [
+    'جارٍ رفع الملف...',
+    'جارٍ اكتشاف الجدران بالذكاء الاصطناعي...',
+    'جارٍ بناء المجسم ثلاثي الأبعاد...',
+    'جارٍ فحص المطابقة مع QCS 2024...',
+    'اكتمل التحليل ✅',
+  ];
+
   const setStep = (i) => {
     steps.forEach(s => document.getElementById(s).classList.remove('active','done'));
     for (let j = 0; j < i; j++) document.getElementById(steps[j]).classList.add('done');
     if (i < steps.length) document.getElementById(steps[i]).classList.add('active');
     document.getElementById('prog-fill').style.width = pcts[Math.min(i, pcts.length-1)] + '%';
+    // تحديث الـ overlay
+    const pct = pcts[Math.min(i, pcts.length-1)];
+    const label = stepLabels[Math.min(i, stepLabels.length-1)];
+    if (i < steps.length - 1) {
+      updateOverlay(label, '', pct);
+    }
   };
 
   try {
@@ -1213,6 +1258,8 @@ async function startAnalysis() {
     S.exportReady = true;
     S.aiSchema = aiSchema;
     updateResultsBadge();
+    // أخفِ الـ overlay — المجسم ظهر
+    hideOverlay();
 
     // إذا كان AI حلّل — أُظهر رسالة
     if (aiSchema) {
@@ -1226,6 +1273,7 @@ async function startAnalysis() {
     console.error('[startAnalysis]', err);
     steps.forEach(s => document.getElementById(s).classList.remove('active'));
     buildDemoScene();
+    hideOverlay();
   }
 
   S.analyzing = false;
@@ -1800,6 +1848,57 @@ function setRenderQuality(q) {
 // ══════════════════════════════════════════════════════════
 // MOUSE INTERACTION
 // ══════════════════════════════════════════════════════════
+
+// ── Canvas Overlay Control ────────────────────────────────
+function showOverlay(title, sub, spinner = false, pct = null) {
+  const ov = document.getElementById('canvas-overlay');
+  if (!ov) return;
+  ov.style.display = 'flex';
+  ov.style.opacity = '1';
+  ov.style.pointerEvents = 'none';
+  document.getElementById('overlay-title').textContent = title;
+  document.getElementById('overlay-sub').textContent = sub || '';
+  document.getElementById('overlay-spinner').style.display = spinner ? 'block' : 'none';
+  const pb = document.getElementById('overlay-progress-bar');
+  if (pct !== null) {
+    pb.style.display = 'block';
+    document.getElementById('overlay-prog-fill').style.width = pct + '%';
+  } else {
+    pb.style.display = 'none';
+  }
+}
+
+function updateOverlay(title, sub, pct) {
+  const t = document.getElementById('overlay-title');
+  const s = document.getElementById('overlay-sub');
+  const f = document.getElementById('overlay-prog-fill');
+  if (t) t.textContent = title;
+  if (s && sub !== undefined) s.textContent = sub;
+  if (f && pct !== undefined) f.style.width = pct + '%';
+  const pb = document.getElementById('overlay-progress-bar');
+  if (pb && pct !== undefined) pb.style.display = 'block';
+  document.getElementById('overlay-spinner').style.display = 'block';
+}
+
+function hideOverlay() {
+  const ov = document.getElementById('canvas-overlay');
+  if (!ov) return;
+  ov.style.opacity = '0';
+  setTimeout(() => { ov.style.display = 'none'; }, 400);
+}
+
+function showFileReadyOverlay(filename) {
+  const ov = document.getElementById('canvas-overlay');
+  if (!ov) return;
+  ov.style.display = 'flex';
+  ov.style.opacity = '1';
+  document.getElementById('overlay-spinner').style.display = 'none';
+  document.getElementById('overlay-progress-bar').style.display = 'none';
+  document.getElementById('overlay-title').textContent = '✅ الملف جاهز';
+  document.getElementById('overlay-sub').textContent = filename + ' — اضغط تحليل المخطط للبدء';
+  document.getElementById('overlay-status').textContent = '';
+}
+
 function setupEventListeners() {
   const canvas = document.getElementById('three-canvas');
   canvas.addEventListener('mousemove', onMouseMove);
@@ -2618,6 +2717,9 @@ function handleFile(input) {
   document.getElementById('fi-size').textContent = (file.size / 1024).toFixed(1) + ' KB';
   info.style.display = 'flex';
   document.getElementById('ci-model').textContent = '📄 ' + file.name;
+
+  // إظهار overlay "الملف جاهز"
+  showFileReadyOverlay(file.name);
 
   // Preview صورة إذا كان image
   if (file.type.startsWith('image/')) {
