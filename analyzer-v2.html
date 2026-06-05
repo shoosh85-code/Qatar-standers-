@@ -627,11 +627,19 @@ const DEMO_VIOLATIONS = [
 // INIT
 // ══════════════════════════════════════════════════════════
 window.addEventListener('load', () => {
-  initThree();
-  buildDemoScene();
-  renderViolations(DEMO_VIOLATIONS);
-  updateResultsBadge();
-  setupEventListeners();
+  // أعطِ الـ browser وقتاً لإكمال الـ layout قبل init Three.js
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      initThree();
+      buildDemoScene();
+      renderViolations(DEMO_VIOLATIONS);
+      updateResultsBadge();
+      setupEventListeners();
+      initStats();
+      // force resize بعد 300ms للتأكد
+      setTimeout(() => { resize(); }, 300);
+    });
+  });
 });
 
 // ══════════════════════════════════════════════════════════
@@ -645,16 +653,17 @@ function initThree() {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.physicallyCorrectLights = true;
-  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.useLegacyLights = false;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.localClippingEnabled = true;
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x03030A);
   scene.fog = new THREE.Fog(0x03030A, 40, 100);
 
-  const w = container.clientWidth, h = container.clientHeight;
-  camera = new THREE.PerspectiveCamera(45, w/h, 0.1, 1000);
+  const w = container.clientWidth  || window.innerWidth  * 0.6;
+  const h = container.clientHeight || window.innerHeight - 56;
+  camera = new THREE.PerspectiveCamera(45, (w||800)/(h||600), 0.1, 1000);
   camera.position.set(12, 10, 12);
   camera.lookAt(0, 0, 0);
 
@@ -719,7 +728,9 @@ function addGrid() {
 
 function resize() {
   const c = document.getElementById('panel-right');
-  const w = c.clientWidth, h = c.clientHeight;
+  const w = c.clientWidth  || window.innerWidth  * 0.6;
+  const h = c.clientHeight || window.innerHeight - 56;
+  if (w < 10 || h < 10) return; // لا تُحدّث إذا الأبعاد صفر
   renderer.setSize(w, h);
   camera.aspect = w / h;
   camera.updateProjectionMatrix();
@@ -826,7 +837,7 @@ function buildWallsInstanced(wallDefs, options = {}) {
   if (!wallDefs || wallDefs.length === 0) return new THREE.Group();
 
   // فصل الجدران الخارجية عن الداخلية
-  const extWalls = wallDefs.filter(w => w.isExt !== false && w.is_external !== false);
+  const extWalls = wallDefs.filter(w => w.isExt === true  || w.is_external === true  || (w.isExt === undefined && w.is_external === undefined));
   const intWalls = wallDefs.filter(w => w.isExt === false || w.is_external === false);
 
   const group = new THREE.Group();
