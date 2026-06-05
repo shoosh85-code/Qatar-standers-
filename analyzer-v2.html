@@ -930,46 +930,278 @@ async function startAnalysis() {
   document.getElementById('progress-wrap').style.display = 'block';
 
   const steps = ['st0','st1','st2','st3','st4'];
-  const pcts  = [20, 40, 65, 85, 100];
+  const pcts  = [15, 35, 60, 85, 100];
 
-  for (let i = 0; i < steps.length; i++) {
-    // Reset
-    steps.forEach(s => {
-      const el = document.getElementById(s);
-      el.classList.remove('active','done');
-    });
-    // Mark done up to i-1
+  const setStep = (i) => {
+    steps.forEach(s => document.getElementById(s).classList.remove('active','done'));
     for (let j = 0; j < i; j++) document.getElementById(steps[j]).classList.add('done');
-    document.getElementById(steps[i]).classList.add('active');
-    document.getElementById('prog-fill').style.width = pcts[i] + '%';
+    if (i < steps.length) document.getElementById(steps[i]).classList.add('active');
+    document.getElementById('prog-fill').style.width = pcts[Math.min(i, pcts.length-1)] + '%';
+  };
 
-    if (i === 2) {
-      // Rebuild scene with current settings
+  try {
+    // ── Step 0: Upload / Prepare ─────────────────────────────
+    setStep(0);
+    await delay(400);
+
+    // ── Step 1: AI Wall Detection ────────────────────────────
+    setStep(1);
+    document.getElementById('st1').querySelector('.st-ico').textContent = '🤖';
+
+    let aiSchema = null;
+
+    if (S.file && S.file.type.startsWith('image/')) {
+      // رفع الصورة لـ Gemini Vision
+      try {
+        const base64 = await fileToBase64(S.file);
+        document.getElementById('ci-model').textContent = `🤖 Gemini Vision يحلل: ${S.file.name}`;
+
+        const res = await fetch('/api/vision-proxy', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            image: base64,
+            mimeType: S.file.type,
+            mode: 'wall-detect',
+            maxTokens: 8192
+          }),
+          signal: AbortSignal.timeout(45000)
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          const rawText = data.result || '';
+          // استخرج JSON من النص
+          const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            try {
+              aiSchema = JSON.parse(jsonMatch[0]);
+              document.getElementById('ci-model').textContent =
+                `✅ AI: ${aiSchema.walls?.length || 0} جدار · ${aiSchema.doors?.length || 0} باب · ${aiSchema.rooms?.length || 0} غرفة · دقة ${Math.round((aiSchema.confidence || 0.6) * 100)}%`;
+            } catch(e) {
+              console.warn('JSON parse failed:', e.message);
+            }
+          }
+        }
+      } catch(e) {
+        console.warn('[AI Wall Detection] failed:', e.message);
+        document.getElementById('ci-model').textContent = '⚠️ AI timeout — using demo scene';
+      }
+    }
+
+    await delay(300);
+
+    // ── Step 2: Build 3D Model ───────────────────────────────
+    setStep(2);
+    document.getElementById('st2').querySelector('.st-ico').textContent = '🏗';
+
+    if (aiSchema && aiSchema.walls && aiSchema.walls.length > 0) {
+      buildFromAISchema(aiSchema);
+      // Update element counts
+      S.elements = {
+        walls: aiSchema.walls.length,
+        doors: aiSchema.doors?.length || 0,
+        windows: aiSchema.windows?.length || 0,
+        rooms: aiSchema.rooms?.length || 0,
+      };
+      document.getElementById('cnt-walls').textContent = S.elements.walls;
+      document.getElementById('cnt-doors').textContent = S.elements.doors;
+      document.getElementById('cnt-windows').textContent = S.elements.windows;
+      document.getElementById('cnt-rooms').textContent = S.elements.rooms;
+    } else {
       buildDemoScene();
     }
-    if (i === 3) {
-      // Run compliance check
-      const expClass = document.getElementById('exp-class').value;
-      const wallT = parseFloat(document.getElementById('wall-t').value);
-      const newViols = runCompliance(expClass, wallT);
-      renderViolations(newViols);
+    await delay(300);
+
+    // ── Step 3: QCS Compliance ───────────────────────────────
+    setStep(3);
+    const expClass = document.getElementById('exp-class').value;
+    const wallT = parseFloat(document.getElementById('wall-t').value);
+    let viols = runCompliance(expClass, wallT);
+
+    // إضافة مخالفات من AI schema إذا وُجدت
+    if (aiSchema?.rooms) {
+      aiSchema.rooms.forEach(r => {
+        if (r.area_m2 && r.area_m2 < 9 && r.name_en?.toLowerCase().includes('bed')) {
+          viols.push({
+            id: 'V_AI_' + r.id, severity: 'warning',
+            title_ar: `مساحة غرفة "${r.name_ar}" أقل من الحد الأدنى`,
+            title_en: `Room "${r.name_en}" below minimum area`,
+            clause: 'QCS 2024 · Section 17 · Part 4 · Clause 17.4.1',
+            discipline: 'Architectural',
+            req: '9.0 m²', act: r.area_m2.toFixed(1) + ' m²',
+            desc: `المساحة المكتشفة بالذكاء الاصطناعي: ${r.area_m2.toFixed(1)}m² < 9m²`,
+            corrective: 'مراجعة تصميم الغرفة لزيادة المساحة',
+            wall: r.id,
+          });
+        }
+      });
+    }
+    renderViolations(viols);
+    await delay(300);
+
+    // ── Step 4: Complete ─────────────────────────────────────
+    setStep(4);
+    steps.forEach(s => document.getElementById(s).classList.add('done'));
+    document.getElementById('prog-fill').style.width = '100%';
+
+    // Enable exports
+    ['exp-ifc','exp-dxf','exp-glb','exp-csv'].forEach(id => {
+      document.getElementById(id).disabled = false;
+    });
+
+    S.exportReady = true;
+    S.aiSchema = aiSchema;
+    updateResultsBadge();
+
+    // إذا كان AI حلّل — أُظهر رسالة
+    if (aiSchema) {
+      const msg = document.createElement('div');
+      msg.style.cssText = 'background:rgba(39,174,96,0.1);border:1px solid rgba(39,174,96,0.3);border-radius:8px;padding:8px 12px;margin-top:8px;font-size:11px;color:#27ae60';
+      msg.textContent = `✅ تم التحليل بالذكاء الاصطناعي — دقة ${Math.round((aiSchema.confidence||0.6)*100)}% — ${aiSchema.walls?.length||0} عنصر مكتشف`;
+      document.getElementById('progress-wrap').appendChild(msg);
     }
 
-    await delay(i === 0 && !S.file ? 800 : 1800);
+  } catch(err) {
+    console.error('[startAnalysis]', err);
+    steps.forEach(s => document.getElementById(s).classList.remove('active'));
+    buildDemoScene();
   }
 
-  // Final
-  steps.forEach(s => document.getElementById(s).classList.add('done'));
-
-  // Enable exports
-  ['exp-ifc','exp-dxf','exp-glb','exp-csv'].forEach(id => {
-    document.getElementById(id).disabled = false;
-  });
-
-  S.exportReady = true;
   S.analyzing = false;
   document.getElementById('btn-analyze').disabled = false;
-  updateResultsBadge();
+}
+
+// ── تحويل الملف إلى base64 ────────────────────────────────
+function fileToBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result.split(',')[1]);
+    r.onerror = () => rej(new Error('FileReader failed'));
+    r.readAsDataURL(file);
+  });
+}
+
+// ── بناء المشهد من AI Schema ──────────────────────────────
+function buildFromAISchema(schema) {
+  // نظّف الـ scene
+  if (groups.walls) scene.remove(groups.walls);
+  if (groups.doors) scene.remove(groups.doors);
+  if (groups.windows) scene.remove(groups.windows);
+  if (groups.rooms) scene.remove(groups.rooms);
+
+  groups.walls = new THREE.Group();
+  groups.doors = new THREE.Group();
+  groups.windows = new THREE.Group();
+  groups.rooms = new THREE.Group();
+
+  const H = parseFloat(document.getElementById('wall-h').value) || 3.0;
+  const expClass = document.getElementById('exp-class').value;
+
+  // مواد
+  const extMat = new THREE.MeshStandardMaterial({ color: 0xD4B896, roughness: 0.8, metalness: 0.02, clippingPlanes: [clippingPlane] });
+  const intMat = new THREE.MeshStandardMaterial({ color: 0xF2EBE0, roughness: 0.65, clippingPlanes: [clippingPlane] });
+  const doorMat = new THREE.MeshStandardMaterial({ color: 0x27AE60, transparent: true, opacity: 0.55, clippingPlanes: [clippingPlane] });
+  const winMat = new THREE.MeshStandardMaterial({ color: 0x6BB8D4, transparent: true, opacity: 0.35, clippingPlanes: [clippingPlane], side: THREE.DoubleSide });
+  const floorMat = new THREE.MeshStandardMaterial({ color: 0xC8B89A, roughness: 0.5, clippingPlanes: [clippingPlane] });
+
+  const w = schema.plan_width_m || 10;
+  const d = schema.plan_depth_m || 8;
+
+  // أرضية
+  const fg = new THREE.PlaneGeometry(w, d);
+  const fm = new THREE.Mesh(fg, floorMat);
+  fm.rotation.x = -Math.PI / 2;
+  fm.position.set(w/2, 0, d/2);
+  fm.receiveShadow = true;
+  scene.add(fm);
+
+  // جدران من AI
+  (schema.walls || []).forEach(wall => {
+    const wh = wall.height || H;
+    const geo = new THREE.BoxGeometry(wall.length || 3, wh, wall.thickness || 0.2);
+    const mat = (wall.is_external ? extMat : intMat).clone();
+
+    // تمييز مخالفات السماكة
+    const minT = { XC: 0.15, XS: 0.20, XD: 0.18, XF: 0.15 }[expClass] || 0.2;
+    if ((wall.thickness || 0.2) < minT) {
+      mat.emissive = new THREE.Color(0.4, 0, 0);
+      mat.emissiveIntensity = 0.5;
+    }
+
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(wall.x || 0, wh/2, wall.z || 0);
+    mesh.rotation.y = wall.rotation_y || 0;
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    mesh.userData = { type: 'wall', isExt: wall.is_external, len: wall.length, height: wh, thickness: wall.thickness || 0.2, id: wall.id };
+
+    // Edges
+    const edges = new THREE.EdgesGeometry(geo);
+    mesh.add(new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xC9A84C, transparent: true, opacity: 0.2 })));
+    groups.walls.add(mesh);
+  });
+
+  // أبواب
+  (schema.doors || []).forEach(door => {
+    const geo = new THREE.BoxGeometry(door.width || 0.9, door.height || 2.1, 0.05);
+    const mesh = new THREE.Mesh(geo, doorMat);
+    mesh.position.set(door.x || 0, (door.height || 2.1)/2, door.z || 0);
+    mesh.rotation.y = door.rotation_y || 0;
+    mesh.userData = { type: 'door', width: door.width || 0.9, height: door.height || 2.1, id: door.id };
+    const edges = new THREE.EdgesGeometry(geo);
+    mesh.add(new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x27AE60, transparent: true, opacity: 0.6 })));
+    groups.doors.add(mesh);
+  });
+
+  // نوافذ
+  (schema.windows || []).forEach(win => {
+    const sill = win.sill_height || 0.9;
+    const geo = new THREE.BoxGeometry(win.width || 1.2, win.height || 1.4, 0.05);
+    const mesh = new THREE.Mesh(geo, winMat);
+    mesh.position.set(win.x || 0, sill + (win.height || 1.4)/2, win.z || 0);
+    mesh.rotation.y = win.rotation_y || 0;
+    mesh.userData = { type: 'window', width: win.width || 1.2, height: win.height || 1.4, id: win.id };
+    const edges = new THREE.EdgesGeometry(geo);
+    mesh.add(new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x3498DB, transparent: true, opacity: 0.5 })));
+    groups.windows.add(mesh);
+  });
+
+  // Labels للغرف
+  (schema.rooms || []).forEach(room => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 256; canvas.height = 80;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'rgba(3,3,10,0.75)';
+    ctx.roundRect(0, 0, 256, 80, 8);
+    ctx.fill();
+    ctx.fillStyle = '#C9A84C';
+    ctx.font = 'bold 16px Cairo';
+    ctx.textAlign = 'center';
+    ctx.fillText(room.name_ar || room.name_en || 'غرفة', 128, 26);
+    ctx.fillStyle = '#808080';
+    ctx.font = '12px Cairo';
+    ctx.fillText((room.area_m2 || 0).toFixed(1) + ' m²', 128, 48);
+    ctx.fillText(room.name_en || '', 128, 64);
+    const tex = new THREE.CanvasTexture(canvas);
+    const spr = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true }));
+    spr.scale.set(2.5, 0.8, 1);
+    spr.position.set(room.center_x || w/2, H + 0.5, room.center_z || d/2);
+    groups.rooms.add(spr);
+  });
+
+  scene.add(groups.walls);
+  scene.add(groups.doors);
+  scene.add(groups.windows);
+  scene.add(groups.rooms);
+
+  // حرّك الكاميرا لترى المبنى كاملاً
+  const cx = w/2, cz = d/2;
+  controls.target.set(cx, 0, cz);
+  camera.position.set(cx + Math.max(w,d)*0.8, Math.max(w,d)*0.6, cz + Math.max(w,d)*0.8);
+  controls.update();
+
+  document.getElementById('ci-model').textContent = `AI Model: ${schema.walls?.length||0} جدار · ${schema.plan_width_m||'?'}m × ${schema.plan_depth_m||'?'}m`;
 }
 
 function runCompliance(expClass, wallT) {

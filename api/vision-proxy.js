@@ -66,24 +66,126 @@ export default async function handler(req, res) {
   const mimeType  = body.mimeType || 'image/jpeg';
   const maxTokens = Math.min(Number(body.maxTokens) || 4096, 32768);
   const jsonMode  = !!body.jsonMode;
+  const mode      = body.mode || 'general'; // 'general' | 'wall-detect' | 'qcs-check'
 
   if (!image) return res.status(400).json({ error: 'image مطلوب' });
-  if (!prompt) return res.status(400).json({ error: 'prompt أو userMessage مطلوب' });
 
   // تحقق من صحة الـ base64 (حد أدنى معقول — 50 حرف)
   if (typeof image !== 'string' || image.length < 50) {
     return res.status(400).json({ error: 'الصورة غير صالحة' });
   }
 
-  const genConfig = { temperature: 0.1, maxOutputTokens: maxTokens };
-  // ملاحظة: responseMimeType غير مدعوم في بعض إصدارات Gemini preview
-  // نعتمد على التعليمات في prompt بدلاً منه ("Return ONLY valid JSON")
+  // ── Wall Detection Mode — prompt هندسي متخصص ─────────────
+  let finalPrompt = prompt;
+
+  if (mode === 'wall-detect') {
+    finalPrompt = `You are a specialized architectural drawing analyzer. Analyze this floor plan image and extract ALL structural elements.
+
+CRITICAL: Return ONLY a valid JSON object. No explanation. No markdown. No backticks.
+
+Rules for coordinate extraction:
+- Assume the image is W×H pixels
+- Map pixel coordinates to meters: 1 pixel ≈ (real_width_m / image_width_px)
+- If scale is unknown, assume the plan is ~10m × 8m
+- Origin (0,0) = bottom-left corner of the plan
+- X axis = horizontal (East), Z axis = depth (North), Y axis = height
+
+Return this exact JSON structure:
+{
+  "plan_width_m": <estimated total width in meters>,
+  "plan_depth_m": <estimated total depth in meters>,
+  "floor_height_m": 3.0,
+  "walls": [
+    {
+      "id": "W01",
+      "x": <center X in meters>,
+      "z": <center Z in meters>,
+      "length": <wall length in meters>,
+      "rotation_y": <angle in radians, 0=horizontal, 1.5708=vertical>,
+      "thickness": 0.2,
+      "is_external": <true/false>,
+      "height": 3.0
+    }
+  ],
+  "doors": [
+    {
+      "id": "D01",
+      "x": <center X>,
+      "z": <center Z>,
+      "width": 0.9,
+      "height": 2.1,
+      "rotation_y": 0
+    }
+  ],
+  "windows": [
+    {
+      "id": "W01",
+      "x": <center X>,
+      "z": <center Z>,
+      "width": 1.2,
+      "height": 1.4,
+      "sill_height": 0.9,
+      "rotation_y": 0
+    }
+  ],
+  "rooms": [
+    {
+      "id": "R01",
+      "name_ar": "<Arabic name>",
+      "name_en": "<English name>",
+      "center_x": <X>,
+      "center_z": <Z>,
+      "area_m2": <estimated area>,
+      "width_m": <estimated width>,
+      "depth_m": <estimated depth>
+    }
+  ],
+  "qcs_notes": [
+    "<any QCS 2024 compliance observation>"
+  ],
+  "confidence": <0.0 to 1.0>,
+  "parse_source": "gemini-vision"
+}
+
+If you cannot detect specific elements, use reasonable defaults based on a typical Qatari apartment.
+Extract as many walls, doors, windows, and rooms as you can identify.`;
+  }
+
+  if (mode === 'qcs-check') {
+    finalPrompt = `You are a QCS 2024 (Qatar Construction Specifications) compliance expert.
+Analyze this architectural drawing/site photo and identify violations.
+
+Return ONLY a valid JSON object:
+{
+  "violations": [
+    {
+      "id": "V001",
+      "severity": "critical|warning|info",
+      "element": "<element name>",
+      "clause": "QCS 2024 · Section X · Part Y · Clause Z",
+      "required": "<required value>",
+      "actual": "<observed value>",
+      "description_ar": "<Arabic description>",
+      "corrective_action_ar": "<Arabic corrective action>"
+    }
+  ],
+  "compliant_items": ["<list of compliant observations>"],
+  "overall_assessment": "pass|fail|warning",
+  "confidence": 0.0
+}`;
+  }
+
+  if (!finalPrompt && mode === 'general') {
+    return res.status(400).json({ error: 'prompt أو userMessage مطلوب' });
+  }
+
+  const genConfig = { temperature: mode === 'wall-detect' ? 0.05 : 0.1, maxOutputTokens: maxTokens };
 
   const requestBody = {
     contents: [{
       parts: [
         { inline_data: { mime_type: mimeType, data: image } },
-        { text: prompt }
+        { text: finalPrompt }
       ]
     }],
     generationConfig: genConfig
