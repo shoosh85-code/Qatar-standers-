@@ -5,18 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="تحليل المخططات المعمارية وفق QCS 2024 — QatarSpec Pro">
 <title>محلل المخططات المعمارية — Gemini QCS 2024 Compliance | QatarSpec Pro</title>
-<meta name="description" content="ارفع مخططك المعماري — AI يبني مجسم 3D ويُصدر تقرير QCS 2024 streaming مع فحص المساحات والتهوية وإمكانية الوصول.">
-<meta name="keywords" content="architectural analyzer Qatar, QCS Section 17, floor plan compliance Qatar, 3D building model">
-<meta property="og:title" content="محلل المخططات المعمارية — Gemini QCS 2024 Compliance | QatarSpec Pro">
-<meta property="og:description" content="ارفع مخططك المعماري — AI يبني مجسم 3D ويُصدر تقرير QCS 2024 streaming مع فحص المساحات والتهوية وإمكانية الوصول.">
-<meta property="og:image" content="https://qatar-standers.vercel.app/og-image.png">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://qatar-standers.vercel.app/analyzer.html">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="محلل المخططات المعمارية — Gemini QCS 2024 Compliance | QatarSpec Pro">
-<meta name="twitter:description" content="ارفع مخططك المعماري — AI يبني مجسم 3D ويُصدر تقرير QCS 2024 streaming مع فحص المساحات والتهوية وإمكانية الوصول.">
-<link rel="canonical" href="https://qatar-standers.vercel.app/analyzer.html">
-<script defer data-domain="qatar-standers.vercel.app" src="https://plausible.io/js/script.tagged-events.outbound-links.js"></script>
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1556,19 +1544,7 @@ function exportGeminiReport() {
   const projectName = document.getElementById('project-name')?.value || 'مشروع QatarSpec';
   const engineerName = document.getElementById('engineer-name')?.value || '';
   const date = new Date().toLocaleDateString('ar-QA', { year:'numeric', month:'long', day:'numeric' });
-  const html = '<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8"><title>تقرير QCS — ' + projectName + '</title>
-<meta name="description" content="ارفع مخططك المعماري — AI يبني مجسم 3D ويُصدر تقرير QCS 2024 streaming مع فحص المساحات والتهوية وإمكانية الوصول.">
-<meta name="keywords" content="architectural analyzer Qatar, QCS Section 17, floor plan compliance Qatar, 3D building model">
-<meta property="og:title" content="محلل المخططات المعمارية — Gemini QCS 2024 Compliance | QatarSpec Pro">
-<meta property="og:description" content="ارفع مخططك المعماري — AI يبني مجسم 3D ويُصدر تقرير QCS 2024 streaming مع فحص المساحات والتهوية وإمكانية الوصول.">
-<meta property="og:image" content="https://qatar-standers.vercel.app/og-image.png">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://qatar-standers.vercel.app/analyzer.html">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="محلل المخططات المعمارية — Gemini QCS 2024 Compliance | QatarSpec Pro">
-<meta name="twitter:description" content="ارفع مخططك المعماري — AI يبني مجسم 3D ويُصدر تقرير QCS 2024 streaming مع فحص المساحات والتهوية وإمكانية الوصول.">
-<link rel="canonical" href="https://qatar-standers.vercel.app/analyzer.html">
-<script defer data-domain="qatar-standers.vercel.app" src="https://plausible.io/js/script.tagged-events.outbound-links.js"></script>' +
+  const html = '<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8"><title>تقرير QCS 2024 — ' + projectName + '</title>' +
     '<style>body{font-family:Arial,sans-serif;direction:rtl;padding:40px;color:#1a1a2e;line-height:1.8}.header{background:linear-gradient(135deg,#7A1515,#C9952A);color:#fff;padding:24px 32px;border-radius:12px;margin-bottom:24px}.content{font-size:14px;white-space:pre-wrap}.footer{margin-top:32px;padding-top:16px;border-top:1px solid #eee;font-size:11px;color:#888}</style></head><body>' +
     '<div class="header"><h1>تقرير فحص QCS 2024 — ' + projectName + '</h1><p>المهندس: ' + (engineerName || '—') + ' · ' + date + ' · QatarSpec Pro</p></div>' +
     '<div class="content">' + APP.geminiQCSReport.replace(/\n/g,'<br>') + '</div>' +
