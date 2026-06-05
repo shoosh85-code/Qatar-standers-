@@ -484,7 +484,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     <div id="canvas-overlay" style="
       position:absolute;inset:0;z-index:50;
       background:rgba(3,3,10,0.85);backdrop-filter:blur(4px);
-      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      display:none;flex-direction:column;align-items:center;justify-content:center;
       gap:16px;pointer-events:none;transition:opacity .4s;
     ">
       <div style="font-size:40px">🏗️</div>
@@ -666,8 +666,8 @@ window.addEventListener('load', () => {
       // force resize بعد 300ms للتأكد
       setTimeout(() => {
         resize();
-        // الـ demo scene جاهزة — أظهر رسالة "ارفع مخططاً"
-        showOverlay('🏗️ المجسم جاهز', 'ارفع مخططاً واضغط "تحليل المخطط" لبدء التحليل', false, null);
+        // أخفِ الـ overlay — المجسم يعمل
+        hideOverlay();
       }, 500);
     });
   });
