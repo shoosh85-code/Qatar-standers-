@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مركز التحليل البصري | QatarSpec Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#03030A;--bg2:#0A0A14;--bg3:#10101E;--bg4:#18182A;
+  --gold:#C9A84C;--gold2:#E8C990;--maroon:#7A1515;
+  --text:#EAEAEA;--text2:#B0B0B0;--text3:#808080;
+  --border:rgba(201,168,76,0.15);--border2:rgba(201,168,76,0.3);
+  --green:#27ae60;--blue:#3498db;--font:'Tajawal','Cairo',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--font)}
+body{padding:0 0 48px}
+
+/* HEADER */
+header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(3,3,10,0.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;padding:0 24px;height:56px;
+}
+.logo{
+  width:34px;height:34px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--maroon),var(--gold));
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:14px;color:#fff;
+}
+.hdr-t{flex:1}
+.hdr-t h1{font-size:13px;font-weight:700;color:var(--gold);line-height:1.2}
+.hdr-t p{font-size:10px;color:var(--text3);letter-spacing:.8px}
+.back-btn{
+  padding:6px 14px;border-radius:7px;border:1px solid var(--border);
+  background:transparent;color:var(--text2);font-size:11px;cursor:pointer;
+  font-family:var(--font);transition:.2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px;
+}
+.back-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* HERO */
+.hero{
+  text-align:center;padding:48px 24px 32px;
+  background:radial-gradient(ellipse 60% 40% at 50% 0%, rgba(201,168,76,0.06) 0%, transparent 70%);
+}
+.hero h2{
+  font-size:28px;font-weight:800;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:10px;
+}
+.hero p{font-size:14px;color:var(--text3);max-width:520px;margin:0 auto 24px;line-height:1.7}
+.hero-stats{display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
+.hstat{text-align:center}
+.hstat-n{font-size:22px;font-weight:800;color:var(--gold)}
+.hstat-l{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:16px;padding:0 24px;max-width:1200px;margin:0 auto;
+}
+
+/* TOOL CARD */
+.tool-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;cursor:pointer;
+  transition:transform .2s, border-color .2s, box-shadow .2s;
+  position:relative;display:flex;flex-direction:column;
+}
+.tool-card:hover{
+  transform:translateY(-3px);
+  border-color:var(--border2);
+  box-shadow:0 8px 32px rgba(201,168,76,0.12);
+}
+.tool-card:active{transform:translateY(-1px)}
+
+.card-banner{
+  height:100px;display:flex;align-items:center;justify-content:center;
+  font-size:48px;position:relative;overflow:hidden;flex-shrink:0;
+}
+.card-banner::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom, transparent 50%, var(--bg2) 100%);
+}
+
+.card-body{padding:16px;flex:1;display:flex;flex-direction:column;gap:8px}
+.card-badges{display:flex;gap:6px;flex-wrap:wrap}
+.badge{
+  padding:2px 8px;border-radius:4px;font-size:9px;font-weight:700;
+  letter-spacing:.5px;text-transform:uppercase;
+}
+.badge-pro{background:rgba(201,168,76,0.15);color:var(--gold);border:1px solid rgba(201,168,76,0.3)}
+.badge-ai{background:rgba(52,152,219,0.15);color:#3498db;border:1px solid rgba(52,152,219,0.3)}
+.badge-3d{background:rgba(46,204,113,0.15);color:#27ae60;border:1px solid rgba(46,204,113,0.3)}
+.badge-new{background:rgba(231,76,60,0.15);color:#e74c3c;border:1px solid rgba(231,76,60,0.3)}
+
+.card-title{font-size:16px;font-weight:700;color:var(--text)}
+.card-sub{font-size:11px;color:var(--text3);line-height:1.6;flex:1}
+
+.card-features{display:flex;flex-direction:column;gap:4px;margin-top:4px}
+.feat{font-size:11px;color:var(--text2);display:flex;align-items:center;gap:6px}
+.feat::before{content:'✓';color:var(--gold);font-size:10px;font-weight:700;flex-shrink:0}
+
+.card-action{
+  margin-top:12px;padding:10px;
+  background:rgba(201,168,76,0.08);border:1px solid var(--border);
+  border-radius:8px;text-align:center;
+  font-size:12px;font-weight:700;color:var(--gold);
+  transition:.2s;
+}
+.tool-card:hover .card-action{background:rgba(201,168,76,0.15)}
+
+/* SECTION TITLE */
+.sec-title{
+  font-size:11px;font-weight:700;color:var(--text3);
+  text-transform:uppercase;letter-spacing:1px;
+  padding:24px 24px 12px;max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;gap:8px;
+}
+.sec-title::after{content:'';flex:1;height:.5px;background:var(--border)}
+
+/* BACKGROUNDS */
+.bg-blue{background:linear-gradient(135deg,rgba(52,152,219,0.2),rgba(52,152,219,0.05))}
+.bg-gold{background:linear-gradient(135deg,rgba(201,168,76,0.2),rgba(201,168,76,0.05))}
+.bg-green{background:linear-gradient(135deg,rgba(46,204,113,0.2),rgba(46,204,113,0.05))}
+.bg-maroon{background:linear-gradient(135deg,rgba(122,21,21,0.3),rgba(122,21,21,0.05))}
+.bg-purple{background:linear-gradient(135deg,rgba(155,89,182,0.2),rgba(155,89,182,0.05))}
+.bg-teal{background:linear-gradient(135deg,rgba(26,188,156,0.2),rgba(26,188,156,0.05))}
+
+/* FOOTER */
+footer{
+  text-align:center;padding:24px;
+  font-size:11px;color:var(--text3);
+  border-top:1px solid var(--border);margin-top:48px;
+}
+
+@media(max-width:600px){
+  .grid{grid-template-columns:1fr;padding:0 12px}
+  .hero h2{font-size:22px}
+  .hero-stats{gap:16px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Q</div>
+  <div class="hdr-t">
+    <h1>مركز التحليل البصري</h1>
+    <p>VISUAL ANALYSIS HUB · QATARSPEC PRO</p>
+  </div>
+  <a href="index.html" class="back-btn">← الرئيسية</a>
+</header>
+
+<div class="hero">
+  <h2>اختر أداة التحليل</h2>
+  <p>6 أدوات متخصصة للتحليل البصري الهندسي — مخططات · مجسمات ثلاثية · جولات ميدانية · فحص QCS 2024</p>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-n">6</div><div class="hstat-l">أداة تحليل</div></div>
+    <div class="hstat"><div class="hstat-n">QCS</div><div class="hstat-l">2024 مدمج</div></div>
+    <div class="hstat"><div class="hstat-n">AI</div><div class="hstat-l">Gemini Vision</div></div>
+    <div class="hstat"><div class="hstat-n">3D</div><div class="hstat-l">تفاعلي</div></div>
+  </div>
+</div>
+
+<div class="sec-title">أدوات المخططات والتصميم</div>
+
+<div class="grid">
+
+  <!-- 1: Drawing Analyzer AI -->
+  <div class="tool-card" onclick="openTool('drawing')" role="button" tabindex="0" aria-label="محلل المخططات الذكي">
+    <div class="card-banner bg-blue">📐</div>
+    <div class="card-body">
+      <div class="card-badges">
+        <span class="badge badge-pro">PRO</span>
+        <span class="badge badge-ai">AI</span>
+      </div>
+      <div class="card-title">محلل المخططات الذكي</div>
+      <div class="card-sub">ارفع أي مخطط هندسي — Gemini Vision يُحللها ويُنتج تقرير مطابقة QCS فوري</div>
+      <div class="card-features">
+        <div class="feat">رسومات إنشائية + مقاطع طرق</div>
+        <div class="feat">مراجعة رسومات التنفيذ (Shop Drawings)</div>
+        <div class="feat">مطابقة QCS 2024 تلقائية</div>
+        <div class="feat">تقرير فوري بالعربية</div>
+      </div>
+      <div class="card-action">🤖 فتح المحلل الذكي ←</div>
+    </div>
+  </div>
+
+  <!-- 2: 3D Architectural Analyzer v2 -->
+  <div class="tool-card" onclick="openTool('analyzer-v2')" role="button" tabindex="0" aria-label="محلل المخططات 3D">
+    <div class="card-banner bg-gold">🏗️</div>
+    <div class="card-body">
+      <div class="card-badges">
+        <span class="badge badge-pro">PRO</span>
+        <span class="badge badge-3d">3D</span>
+        <span class="badge badge-new">جديد</span>
+      </div>
+      <div class="card-title">محلل المخططات 3D — v2</div>
+      <div class="card-sub">مجسم ثلاثي الأبعاد تفاعلي مع فحص QCS 2024 كامل وتوليد NCR فوري</div>
+      <div class="card-features">
+        <div class="feat">Three.js — تدوير + تكبير + قطع رأسي</div>
+        <div class="feat">فحص 5 معايير QCS تلقائياً</div>
+        <div class="feat">توليد NCR فوري بضغطة</div>
+        <div class="feat">تصدير IFC · DXF · GLB · CSV</div>
+      </div>
+      <div class="card-action">🔲 فتح المجسم 3D ←</div>
+    </div>
+  </div>
+
+  <!-- 3: Architectural Plan Analyzer -->
+  <div class="tool-card" onclick="openTool('analyzer')" role="button" tabindex="0" aria-label="محلل المخططات المعمارية">
+    <div class="card-banner bg-maroon">🏠</div>
+    <div class="card-body">
+      <div class="card-badges">
+        <span class="badge badge-pro">PRO</span>
+        <span class="badge badge-ai">AI</span>
+        <span class="badge badge-3d">3D</span>
+      </div>
+      <div class="card-title">محلل المخططات المعمارية</div>
+      <div class="card-sub">ارفع مخطط معماري — AI يبني مجسم 3D ويفحص compliance مع QCS Section 17</div>
+      <div class="card-features">
+        <div class="feat">بناء مجسم 3D من صورة المخطط</div>
+        <div class="feat">تقرير Gemini QCS 2024 streaming</div>
+        <div class="feat">تصدير DXF + IFC + PDF</div>
+        <div class="feat">فحص مساحات الغرف والتهوية</div>
+      </div>
+      <div class="card-action">🏠 فتح المحلل المعماري ←</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="sec-title">أدوات المسح الميداني</div>
+
+<div class="grid">
+
+  <!-- 4: Room Analyzer (3D Scanner) -->
+  <div class="tool-card" onclick="openTool('3d-scanner')" role="button" tabindex="0" aria-label="محلل الغرف الذكي">
+    <div class="card-banner bg-green">🏠</div>
+    <div class="card-body">
+      <div class="card-badges">
+        <span class="badge badge-pro">PRO</span>
+        <span class="badge badge-ai">AI</span>
+      </div>
+      <div class="card-title">محلل الغرف الذكي</div>
+      <div class="card-sub">صوّر الغرفة بهاتفك — AI يستخرج الأبعاد ويفحص التوافق مع QCS 2024</div>
+      <div class="card-features">
+        <div class="feat">استخراج أبعاد الغرفة تلقائياً</div>
+        <div class="feat">فحص QCS 2024 للمساحات والارتفاع</div>
+        <div class="feat">تصدير تقرير PDF + Excel + JSON</div>
+      </div>
+      <div class="card-action">📷 فتح محلل الغرف ←</div>
+    </div>
+  </div>
+
+  <!-- 5: 360° Tour -->
+  <div class="tool-card" onclick="openTool('360-tour')" role="button" tabindex="0" aria-label="جولة 360 درجة">
+    <div class="card-banner bg-purple">🌐</div>
+    <div class="card-body">
+      <div class="card-badges">
+        <span class="badge badge-pro">PRO</span>
+        <span class="badge badge-3d">360°</span>
+      </div>
+      <div class="card-title">جولة 360° + مجسم ثلاثي</div>
+      <div class="card-sub">صور 360° بالهاتف وحوّلها لجولة تفاعلية مع hotspots مربوطة بمعايير QCS</div>
+      <div class="card-features">
+        <div class="feat">جولة تفاعلية بانورامية</div>
+        <div class="feat">Hotspots مربوطة بـ QCS</div>
+        <div class="feat">استيراد GLB من LiDAR/Polycam</div>
+      </div>
+      <div class="card-action">🌐 فتح الجولة 360° ←</div>
+    </div>
+  </div>
+
+  <!-- 6: 3D Site Scanner -->
+  <div class="tool-card" onclick="openTool('scanner')" role="button" tabindex="0" aria-label="مسح الموقع ثلاثي الأبعاد">
+    <div class="card-banner bg-teal">🔲</div>
+    <div class="card-body">
+      <div class="card-badges">
+        <span class="badge badge-pro">PRO</span>
+        <span class="badge badge-3d">3D</span>
+      </div>
+      <div class="card-title">مسح الموقع ثلاثي الأبعاد</div>
+      <div class="card-sub">التقط صور الموقع وحوّلها لمجسم GLB/Splat مع فحص QCS 2024 وتصدير Ashghal</div>
+      <div class="card-features">
+        <div class="feat">Gaussian Splatting + GLB</div>
+        <div class="feat">فحص QCS 2024 تلقائي</div>
+        <div class="feat">تصدير تقرير PDF Ashghal</div>
+      </div>
+      <div class="card-action">🔲 فتح ماسح الموقع ←</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div style="margin-bottom:6px">⚠️ جميع التحليلات للمرجعية فقط — يجب التحقق من الوثائق الرسمية قبل التطبيق</div>
+  QatarSpec Pro · QCS 2024 · Ashghal RDM 2023 · KAHRAMAA 2024 · MMUP
+</footer>
+
+<script>
+const TOOLS = {
+  'drawing':    { type: 'modal', key: 'drawing_analyzer' },
+  'analyzer-v2':{ type: 'page',  url: 'analyzer-v2.html' },
+  'analyzer':   { type: 'page',  url: 'analyzer.html' },
+  '3d-scanner': { type: 'page',  url: '3d-scanner.html' },
+  '360-tour':   { type: 'page',  url: '360-tour.html' },
+  'scanner':    { type: 'page',  url: 'scanner.html' },
+};
+
+function openTool(id) {
+  const t = TOOLS[id];
+  if (!t) return;
+  if (t.type === 'page') {
+    window.location.href = t.url;
+  } else if (t.type === 'modal') {
+    // الرجوع للصفحة الرئيسية وفتح الـ modal
+    window.location.href = 'index.html#open:' + t.key;
+  }
+}
+
+// Keyboard navigation
+document.querySelectorAll('.tool-card').forEach(card => {
+  card.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      card.click();
+    }
+  });
+});
+</script>
+</body>
+</html>
