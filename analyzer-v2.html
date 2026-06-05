@@ -7,9 +7,12 @@
 <title>محلل المخططات v2 | QatarSpec Pro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/exporters/GLTFExporter.js"></script>
+<script type="importmap">
+{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/"
+}}
+</script>
 <style>
 :root {
   --bg:       #03030A;
@@ -484,8 +487,23 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   </main>
 </div>
 
-<script>
-'use strict';
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
+
+// ── WebGL Check ──────────────────────────────────────────
+if (!window.WebGLRenderingContext) {
+  document.getElementById('panel-right').innerHTML =
+    '<div style="display:flex;align-items:center;justify-content:center;height:100%;text-align:center;padding:24px">' +
+    '<div><div style="font-size:48px;margin-bottom:16px">⚠️</div>' +
+    '<div style="font-size:16px;color:#C9A84C;font-weight:700;margin-bottom:8px">متصفحك لا يدعم WebGL</div>' +
+    '<div style="font-size:12px;color:#888">استخدم Chrome أو Edge أو Firefox</div></div></div>';
+  throw new Error('WebGL not supported');
+}
+
+// Make THREE globally accessible for inline onclick handlers
+window.THREE = THREE;
 // ══════════════════════════════════════════════════════════
 // QatarSpec Pro — Analyzer v2 — Full Script
 // ══════════════════════════════════════════════════════════
@@ -669,10 +687,58 @@ function resize() {
   camera.updateProjectionMatrix();
 }
 
+// ── Stats.js for FPS monitoring (dev mode) ──────────────
+let stats = null;
+function initStats() {
+  // فقط في dev mode
+  if (location.hostname !== 'localhost' && !location.search.includes('debug')) return;
+  const s = document.createElement('div');
+  s.style.cssText = 'position:fixed;top:60px;left:4px;z-index:9999;font-size:10px;color:#0f0;font-family:monospace;background:rgba(0,0,0,0.7);padding:4px;border-radius:4px';
+  s.id = 'fps-counter';
+  document.body.appendChild(s);
+  stats = { el: s, frames: 0, last: performance.now() };
+}
+
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
   renderer.render(scene, camera);
+
+  // FPS counter
+  if (stats) {
+    stats.frames++;
+    const now = performance.now();
+    if (now - stats.last >= 1000) {
+      stats.el.textContent = `FPS: ${stats.frames} | Δ${(now - stats.last).toFixed(0)}ms`;
+      stats.frames = 0;
+      stats.last = now;
+    }
+  }
+}
+
+// ── InstancedMesh utility ────────────────────────────────
+// يُستخدم لتحسين الأداء مع مشاريع كبيرة (+500 جدار)
+function buildInstancedWalls(wallDataArray) {
+  if (!wallDataArray || wallDataArray.length === 0) return null;
+
+  const geo = new THREE.BoxGeometry(1, 1, 1); // unit cube scaled per-instance
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0xD4B896, roughness: 0.8, metalness: 0.02,
+  });
+  const mesh = new THREE.InstancedMesh(geo, mat, wallDataArray.length);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+
+  const dummy = new THREE.Object3D();
+  wallDataArray.forEach((w, i) => {
+    dummy.position.set(w.x, w.h / 2, w.z);
+    dummy.rotation.y = w.rot || 0;
+    dummy.scale.set(w.len, w.h, w.thick || 0.2);
+    dummy.updateMatrix();
+    mesh.setMatrixAt(i, dummy.matrix);
+  });
+  mesh.instanceMatrix.needsUpdate = true;
+  return mesh;
 }
 
 // ══════════════════════════════════════════════════════════
@@ -706,10 +772,11 @@ function buildDemoScene() {
     color: 0x27AE60, roughness: 0.5, transparent: true, opacity: 0.5,
     clippingPlanes: [clippingPlane],
   });
-  const winMat = new THREE.MeshPhysicalMaterial({
-    color: 0x3498DB, roughness: 0.05, metalness: 0.1,
-    transmission: 0.6, transparent: true, opacity: 0.4,
+  const winMat = new THREE.MeshStandardMaterial({
+    color: 0x6BB8D4, roughness: 0.05, metalness: 0.15,
+    transparent: true, opacity: 0.35,
     clippingPlanes: [clippingPlane],
+    side: THREE.DoubleSide,
   });
   const floorMat = new THREE.MeshStandardMaterial({
     color: 0xC8B89A, roughness: 0.5, metalness: 0.08,
@@ -1162,54 +1229,348 @@ function focusViolation(id) {
 // EXPORT FUNCTIONS
 // ══════════════════════════════════════════════════════════
 function exportIFC() {
-  const ifc = `ISO-10303-21;
-HEADER;
-FILE_DESCRIPTION(('QatarSpec Pro IFC Export'),'2;1');
-FILE_NAME('qatarspec_export.ifc','${new Date().toISOString()}',('QatarSpec'),('QatarSpec Pro'),'','QatarSpec Pro v2','');
-FILE_SCHEMA(('IFC4'));
-ENDSEC;
-DATA;
-#1=IFCPROJECT('${uuid()}',#2,'QatarSpec Pro Export',$,$,$,$,(#3),#4);
-#2=IFCOWNERHISTORY(#5,#6,$,.NOCHANGE.,$,$,$,0);
-#3=IFCGEOMETRICREPRESENTATIONCONTEXT($,'Model',3,1.E-05,#7,$);
-#4=IFCUNITASSIGNMENT((#8,#9,#10));
-#5=IFCPERSONANDORGANIZATION(#11,#12,$);
-#6=IFCAPPLICATION(#12,'1.0','QatarSpec Pro','QSP');
-#7=IFCAXIS2PLACEMENT3D(#13,$,$);
-#8=IFCSIUNIT(*,.LENGTHUNIT.,$,.METRE.);
-#9=IFCSIUNIT(*,.AREAUNIT.,$,.SQUARE_METRE.);
-#10=IFCSIUNIT(*,.VOLUMEUNIT.,$,.CUBIC_METRE.);
-#11=IFCPERSON($,'QatarSpec','Pro',$,$,$,$,$);
-#12=IFCORGANIZATION($,'QatarSpec Pro',$,$,$);
-#13=IFCCARTESIANPOINT((0.,0.,0.));
-ENDSEC;
-END-ISO-10303-21;`;
-  download('qatarspec_export.ifc', ifc, 'text/plain');
+  // IFC4 حقيقي — يحتوي على عناصر IfcWall, IfcDoor, IfcWindow مع إحداثيات فعلية
+  const ts = new Date().toISOString().replace(/[:.]/g,'-');
+  const projectId = uuid();
+  const siteId = uuid();
+  const buildingId = uuid();
+  const storeyId = uuid();
+
+  const lines = [];
+  lines.push('ISO-10303-21;');
+  lines.push('HEADER;');
+  lines.push(`FILE_DESCRIPTION(('QatarSpec Pro IFC4 Export - ${new Date().toLocaleDateString('ar-QA')}'),'2;1');`);
+  lines.push(`FILE_NAME('qatarspec_${ts}.ifc','${new Date().toISOString()}',('QatarSpec Pro'),('QatarSpec Pro'),'','QatarSpec Pro v2 - QCS 2024','');`);
+  lines.push("FILE_SCHEMA(('IFC4'));");
+  lines.push('ENDSEC;');
+  lines.push('DATA;');
+
+  let id = 1;
+  const getId = () => '#' + (id++);
+
+  // ── Shared entities ──────────────────────────────────────
+  const ownerHistory = getId();
+  const person = getId();
+  const org = getId();
+  const app = getId();
+  const personAndOrg = getId();
+  const context = getId();
+  const axis = getId();
+  const origin = getId();
+  const xDir = getId();
+  const zDir = getId();
+  const yDir = getId();
+  const units = getId();
+  const lengthUnit = getId();
+  const areaUnit = getId();
+  const volumeUnit = getId();
+
+  lines.push(`${person}=IFCPERSON($,'QatarSpec','Pro',$,$,$,$,$);`);
+  lines.push(`${org}=IFCORGANIZATION($,'QatarSpec Pro','',$,$);`);
+  lines.push(`${app}=IFCAPPLICATION(${org},'2.0','QatarSpec Pro','QSP2');`);
+  lines.push(`${personAndOrg}=IFCPERSONANDORGANIZATION(${person},${org},$);`);
+  lines.push(`${ownerHistory}=IFCOWNERHISTORY(${personAndOrg},${app},$,.NOCHANGE.,$,$,$,0);`);
+  lines.push(`${origin}=IFCCARTESIANPOINT((0.,0.,0.));`);
+  lines.push(`${xDir}=IFCDIRECTION((1.,0.,0.));`);
+  lines.push(`${zDir}=IFCDIRECTION((0.,0.,1.));`);
+  lines.push(`${yDir}=IFCDIRECTION((0.,1.,0.));`);
+  lines.push(`${axis}=IFCAXIS2PLACEMENT3D(${origin},${zDir},${xDir});`);
+  lines.push(`${context}=IFCGEOMETRICREPRESENTATIONCONTEXT($,'Model',3,1.E-05,${axis},$);`);
+  lines.push(`${lengthUnit}=IFCSIUNIT(*,.LENGTHUNIT.,$,.METRE.);`);
+  lines.push(`${areaUnit}=IFCSIUNIT(*,.AREAUNIT.,$,.SQUARE_METRE.);`);
+  lines.push(`${volumeUnit}=IFCSIUNIT(*,.VOLUMEUNIT.,$,.CUBIC_METRE.);`);
+  lines.push(`${units}=IFCUNITASSIGNMENT((${lengthUnit},${areaUnit},${volumeUnit}));`);
+
+  // ── Project / Site / Building / Storey ───────────────────
+  const project = getId();
+  const site = getId();
+  const building = getId();
+  const storey = getId();
+  const sitePlace = getId();
+  const buildingPlace = getId();
+  const storeyPlace = getId();
+  const sitePt = getId();
+  const buildPt = getId();
+  const storeyPt = getId();
+
+  lines.push(`${sitePt}=IFCCARTESIANPOINT((0.,0.,0.));`);
+  lines.push(`${buildPt}=IFCCARTESIANPOINT((0.,0.,0.));`);
+  lines.push(`${storeyPt}=IFCCARTESIANPOINT((0.,0.,0.));`);
+
+  const mkAxis = (pt) => {
+    const a = getId(), z2 = getId(), x2 = getId();
+    lines.push(`${z2}=IFCDIRECTION((0.,0.,1.));`);
+    lines.push(`${x2}=IFCDIRECTION((1.,0.,0.));`);
+    lines.push(`${a}=IFCAXIS2PLACEMENT3D(${pt},${z2},${x2});`);
+    return a;
+  };
+
+  sitePlace && 0; // skip declaration
+  const sa = mkAxis(sitePt), ba = mkAxis(buildPt), sta = mkAxis(storeyPt);
+  const siteLoc = getId(), buildLoc = getId(), storeyLoc = getId();
+  lines.push(`${siteLoc}=IFCLOCALPLACEMENT($,${sa});`);
+  lines.push(`${buildLoc}=IFCLOCALPLACEMENT(${siteLoc},${ba});`);
+  lines.push(`${storeyLoc}=IFCLOCALPLACEMENT(${buildLoc},${sta});`);
+
+  lines.push(`${project}=IFCPROJECT('${projectId}',${ownerHistory},'QatarSpec Pro Project',$,$,$,$,(${context}),${units});`);
+  lines.push(`${site}=IFCSITE('${siteId}',${ownerHistory},'Site',$,$,${siteLoc},$,$,.ELEMENT.,$,$,$,$,$);`);
+  lines.push(`${building}=IFCBUILDING('${buildingId}',${ownerHistory},'Building',$,$,${buildLoc},$,$,.ELEMENT.,$,$,$);`);
+  lines.push(`${storey}=IFCBUILDINGSTOREY('${storeyId}',${ownerHistory},'Ground Floor',$,$,${storeyLoc},$,$,.ELEMENT.,0.);`);
+
+  // ── Relationships ─────────────────────────────────────────
+  const rel1=getId(), rel2=getId(), rel3=getId();
+  lines.push(`${rel1}=IFCRELAGGREGATES('${uuid()}',${ownerHistory},'ProjectSite',$,${project},(${site}));`);
+  lines.push(`${rel2}=IFCRELAGGREGATES('${uuid()}',${ownerHistory},'SiteBuilding',$,${site},(${building}));`);
+  lines.push(`${rel3}=IFCRELAGGREGATES('${uuid()}',${ownerHistory},'BuildingStorey',$,${building},(${storey}));`);
+
+  // ── Wall elements ─────────────────────────────────────────
+  const wallIds = [];
+  let wallCount = 0;
+
+  function addIfcWall(mesh) {
+    const pos = mesh.position;
+    const rot = mesh.rotation.y;
+    const geo = mesh.geometry;
+    if (!geo || !geo.parameters) return;
+    const { width: len, depth: thick, height: h } = geo.parameters;
+    if (!len) return;
+
+    const wId = uuid();
+    const wPt = getId();
+    const wZ = getId(), wX = getId(), wAxis = getId(), wPlace = getId(), wLoc = getId();
+    const profId = getId(), profPt = getId();
+    const extId = getId();
+    const shapeId = getId(), repId = getId();
+
+    // Wall placement
+    const px = pos.x.toFixed(4), py = pos.z.toFixed(4), pz = '0.0000';
+    lines.push(`${wPt}=IFCCARTESIANPOINT((${px},${py},${pz}));`);
+    const cosR = Math.cos(rot).toFixed(6), sinR = Math.sin(rot).toFixed(6);
+    lines.push(`${wZ}=IFCDIRECTION((0.,0.,1.));`);
+    lines.push(`${wX}=IFCDIRECTION((${cosR},${sinR},0.));`);
+    lines.push(`${wAxis}=IFCAXIS2PLACEMENT3D(${wPt},${wZ},${wX});`);
+    lines.push(`${wLoc}=IFCLOCALPLACEMENT(${storeyLoc},${wAxis});`);
+
+    // Profile: rectangle
+    lines.push(`${profPt}=IFCCARTESIANPOINT((${(-len/2).toFixed(4)},${(-(thick||0.2)/2).toFixed(4)}));`);
+    lines.push(`${profId}=IFCRECTANGLEPROFILEDEF(.AREA.,$,IFCAXIS2PLACEMENT2D(${profPt},$),${len.toFixed(4)},${(thick||0.2).toFixed(4)});`);
+    lines.push(`${extId}=IFCEXTRUDEDAREASOLID(${profId},${wAxis},${zDir},${(h||3.0).toFixed(4)});`);
+    lines.push(`${shapeId}=IFCSHAPEREPRESENTATION(${context},'Body','SweptSolid',(${extId}));`);
+    lines.push(`${repId}=IFCPRODUCTDEFINITIONSHAPE($,$,(${shapeId}));`);
+
+    const isExt = mesh.userData.isExt;
+    const wallEnt = getId();
+    lines.push(`${wallEnt}=IFCWALLSTANDARDCASE('${wId}',${ownerHistory},'Wall_${++wallCount}',$,$,${wLoc},${repId},$);`);
+
+    // QCS Property Set
+    const pset = getId();
+    const p1=getId(), p2=getId(), p3=getId();
+    lines.push(`${p1}=IFCPROPERTYSINGLEVALUE('QCS_WallType',$,IFCTEXT('${isExt?"External":"Internal"}'),$);`);
+    lines.push(`${p2}=IFCPROPERTYSINGLEVALUE('QCS_Clause',$,IFCTEXT('QCS 2024 §S5-P4'),$);`);
+    lines.push(`${p3}=IFCPROPERTYSINGLEVALUE('WallThickness_mm',$,IFCREAL(${((thick||0.2)*1000).toFixed(0)}),$);`);
+    lines.push(`${pset}=IFCPROPERTYSET('${uuid()}',${ownerHistory},'Pset_QCS2024',$,(${p1},${p2},${p3}));`);
+    const relPset = getId();
+    lines.push(`${relPset}=IFCRELDEFINESBYPROPERTIES('${uuid()}',${ownerHistory},$,$,(${wallEnt}),${pset});`);
+
+    wallIds.push(wallEnt);
+  }
+
+  function addIfcDoor(mesh) {
+    const pos = mesh.position;
+    const rot = mesh.rotation.y;
+    const geo = mesh.geometry;
+    if (!geo?.parameters) return;
+    const { width: w, height: h } = geo.parameters;
+    const dId = uuid();
+    const dPt = getId(), dZ = getId(), dX = getId(), dAxis = getId(), dLoc = getId();
+    const px = pos.x.toFixed(4), py = pos.z.toFixed(4);
+    const cosR = Math.cos(rot).toFixed(6), sinR = Math.sin(rot).toFixed(6);
+    lines.push(`${dPt}=IFCCARTESIANPOINT((${px},${py},0.));`);
+    lines.push(`${dZ}=IFCDIRECTION((0.,0.,1.));`);
+    lines.push(`${dX}=IFCDIRECTION((${cosR},${sinR},0.));`);
+    lines.push(`${dAxis}=IFCAXIS2PLACEMENT3D(${dPt},${dZ},${dX});`);
+    lines.push(`${dLoc}=IFCLOCALPLACEMENT(${storeyLoc},${dAxis});`);
+    const dEnt = getId();
+    lines.push(`${dEnt}=IFCDOOR('${dId}',${ownerHistory},'Door',$,$,${dLoc},$,$,${(h||2.1).toFixed(4)},${(w||0.9).toFixed(4)});`);
+    wallIds.push(dEnt);
+  }
+
+  function addIfcWindow(mesh) {
+    const pos = mesh.position;
+    const rot = mesh.rotation.y;
+    const geo = mesh.geometry;
+    if (!geo?.parameters) return;
+    const { width: w, height: h } = geo.parameters;
+    const wId = uuid();
+    const wPt = getId(), wZ2 = getId(), wX2 = getId(), wAxis2 = getId(), wLoc2 = getId();
+    const px = pos.x.toFixed(4), py = pos.z.toFixed(4), pz = pos.y.toFixed(4);
+    const cosR = Math.cos(rot).toFixed(6), sinR = Math.sin(rot).toFixed(6);
+    lines.push(`${wPt}=IFCCARTESIANPOINT((${px},${py},${pz}));`);
+    lines.push(`${wZ2}=IFCDIRECTION((0.,0.,1.));`);
+    lines.push(`${wX2}=IFCDIRECTION((${cosR},${sinR},0.));`);
+    lines.push(`${wAxis2}=IFCAXIS2PLACEMENT3D(${wPt},${wZ2},${wX2});`);
+    lines.push(`${wLoc2}=IFCLOCALPLACEMENT(${storeyLoc},${wAxis2});`);
+    const wEnt = getId();
+    lines.push(`${wEnt}=IFCWINDOW('${wId}',${ownerHistory},'Window',$,$,${wLoc2},$,$,${(h||1.4).toFixed(4)},${(w||1.2).toFixed(4)});`);
+    wallIds.push(wEnt);
+  }
+
+  // Process scene objects
+  if (groups.walls) groups.walls.children.forEach(m => addIfcWall(m));
+  if (groups.doors) groups.doors.children.forEach(m => addIfcDoor(m));
+  if (groups.windows) groups.windows.children.forEach(m => addIfcWindow(m));
+
+  // Contain in storey
+  if (wallIds.length > 0) {
+    const relContains = getId();
+    lines.push(`${relContains}=IFCRELCONTAINEDINSPATIALSTRUCTURE('${uuid()}',${ownerHistory},'StoreyElements',$,(${wallIds.join(',')}),${storey});`);
+  }
+
+  lines.push('ENDSEC;');
+  lines.push('END-ISO-10303-21;');
+
+  download('qatarspec_export.ifc', lines.join('\n'), 'text/plain');
+  console.log('✅ IFC4 exported:', wallIds.length, 'elements');
 }
 
 function exportDXF() {
-  const dxf = `0\nSECTION\n2\nHEADER\n9\n$ACADVER\n1\nAC1009\n0\nENDSEC\n0\nSECTION\n2\nENTITIES\n0\nLINE\n8\nWALLS\n10\n0.0\n20\n0.0\n30\n0.0\n11\n10.0\n21\n0.0\n31\n0.0\n0\nLINE\n8\nWALLS\n10\n10.0\n20\n0.0\n30\n0.0\n11\n10.0\n21\n8.0\n31\n0.0\n0\nLINE\n8\nWALLS\n10\n10.0\n20\n8.0\n30\n0.0\n11\n0.0\n21\n8.0\n31\n0.0\n0\nLINE\n8\nWALLS\n10\n0.0\n20\n8.0\n30\n0.0\n11\n0.0\n21\n0.0\n31\n0.0\n0\nENDSEC\n0\nEOF`;
-  download('qatarspec_export.dxf', dxf, 'text/plain');
+  // DXF R12 حقيقي — يُولّد LWPOLYLINE لكل جدار من بيانات الـ scene الفعلية
+  const lines = [];
+
+  // ── HEADER ──────────────────────────────────────────────
+  lines.push('0', 'SECTION', '2', 'HEADER');
+  lines.push('9', '$ACADVER', '1', 'AC1009');
+  lines.push('9', '$INSUNITS', '70', '6'); // meters
+  lines.push('9', '$LUNITS', '70', '2');   // decimal
+  lines.push('9', '$MEASUREMENT', '70', '1'); // metric
+  lines.push('0', 'ENDSEC');
+
+  // ── TABLES ──────────────────────────────────────────────
+  lines.push('0', 'SECTION', '2', 'TABLES');
+  lines.push('0', 'TABLE', '2', 'LAYER', '70', '4');
+  // Layer: WALLS
+  lines.push('0','LAYER','2','WALLS','70','0','62','1','6','CONTINUOUS');
+  // Layer: DOORS
+  lines.push('0','LAYER','2','DOORS','70','0','62','3','6','CONTINUOUS');
+  // Layer: WINDOWS
+  lines.push('0','LAYER','2','WINDOWS','70','0','62','5','6','CONTINUOUS');
+  // Layer: DIMENSIONS
+  lines.push('0','LAYER','2','DIMS','70','0','62','2','6','CONTINUOUS');
+  lines.push('0','ENDTAB','0','ENDSEC');
+
+  // ── ENTITIES ────────────────────────────────────────────
+  lines.push('0', 'SECTION', '2', 'ENTITIES');
+
+  let entityCount = 0;
+
+  // استخرج كل الجدران من الـ scene
+  function addWallEntity(mesh) {
+    const pos = mesh.position;
+    const rot = mesh.rotation.y;
+    const geo = mesh.geometry;
+    if (!geo || !geo.parameters) return;
+    const { width: len, depth: thick, height: h } = geo.parameters;
+    if (!len) return;
+
+    // احسب نقاط الجدار (4 زوايا من الأعلى)
+    const hw = len / 2;
+    const ht = (thick || 0.2) / 2;
+    const corners = [
+      [-hw, -ht], [hw, -ht], [hw, ht], [-hw, ht]
+    ].map(([x, y]) => {
+      const rx = x * Math.cos(rot) - y * Math.sin(rot) + pos.x;
+      const ry = x * Math.sin(rot) + y * Math.cos(rot) + pos.z;
+      return [rx.toFixed(4), ry.toFixed(4)];
+    });
+
+    // LWPOLYLINE (2D footprint)
+    lines.push('0','LWPOLYLINE');
+    lines.push('8', 'WALLS');
+    lines.push('90', '4');    // vertex count
+    lines.push('70', '1');    // closed
+    lines.push('43', (thick || 0.2).toFixed(4)); // constant width
+    corners.forEach(([x, y]) => {
+      lines.push('10', x, '20', y);
+    });
+
+    // SOLID LINE for height visualization
+    lines.push('0','LINE','8','WALLS');
+    lines.push('10', corners[0][0], '20', corners[0][1], '30', '0.0');
+    lines.push('11', corners[0][0], '21', corners[0][1], '31', h.toFixed(4));
+
+    entityCount++;
+  }
+
+  function addOpeningEntity(mesh, layer) {
+    const pos = mesh.position;
+    const rot = mesh.rotation.y;
+    const geo = mesh.geometry;
+    if (!geo || !geo.parameters) return;
+    const { width: w, height: h } = geo.parameters;
+    if (!w) return;
+
+    const hw = (w || 0.9) / 2;
+    const corners = [
+      [-hw, 0], [hw, 0], [hw, hw * 0.1], [-hw, hw * 0.1]
+    ].map(([x, y]) => {
+      const rx = x * Math.cos(rot) - y * Math.sin(rot) + pos.x;
+      const ry = x * Math.sin(rot) + y * Math.cos(rot) + pos.z;
+      return [rx.toFixed(4), ry.toFixed(4)];
+    });
+
+    lines.push('0','LWPOLYLINE','8', layer,'90','4','70','1','43','0.05');
+    corners.forEach(([x, y]) => { lines.push('10', x, '20', y); });
+
+    // Text label for dimension
+    lines.push('0','TEXT','8','DIMS');
+    lines.push('10', pos.x.toFixed(3), '20', pos.z.toFixed(3), '30', (pos.y + h + 0.2).toFixed(3));
+    lines.push('40', '0.15'); // text height
+    lines.push('1', layer === 'DOORS' ? `D ${(w||0.9).toFixed(2)}m` : `W ${(w||1.2).toFixed(2)}m`);
+    entityCount++;
+  }
+
+  // traverse scene groups
+  if (groups.walls) groups.walls.children.forEach(m => addWallEntity(m));
+  if (groups.doors) groups.doors.children.forEach(m => addOpeningEntity(m, 'DOORS'));
+  if (groups.windows) groups.windows.children.forEach(m => addOpeningEntity(m, 'WINDOWS'));
+
+  // إذا لم يوجد شيء — أضف مستطيل المبنى على الأقل
+  if (entityCount === 0) {
+    lines.push('0','LWPOLYLINE','8','WALLS','90','4','70','1','43','0.2');
+    [[0,0],[10,0],[10,8],[0,8]].forEach(([x,y]) => {
+      lines.push('10', x.toFixed(4), '20', y.toFixed(4));
+    });
+    // Title block
+    lines.push('0','TEXT','8','DIMS','10','5','20','-1','30','0','40','0.3','1','QatarSpec Pro — Floor Plan');
+  }
+
+  // QCS Note
+  lines.push('0','TEXT','8','DIMS');
+  lines.push('10','-1','20','-2','30','0','40','0.12');
+  lines.push('1','QatarSpec Pro | QCS 2024 | ' + new Date().toLocaleDateString('ar-QA'));
+
+  lines.push('0', 'ENDSEC', '0', 'EOF');
+
+  download('qatarspec_floorplan.dxf', lines.join('\n'), 'text/plain');
+  console.log('✅ DXF exported with', entityCount, 'entities');
 }
 
-function exportGLB() {
-  if (!window.THREE?.GLTFExporter) {
-    alert('GLTFExporter غير متاح — جارٍ التصدير كـ JSON');
-    download('qatarspec_scene.json', JSON.stringify({ scene: 'QatarSpec Pro 3D Scene' }), 'application/json');
-    return;
-  }
-  const exporter = new THREE.GLTFExporter();
-  exporter.parse(scene, (result) => {
-    const blob = result instanceof ArrayBuffer
-      ? new Blob([result], { type: 'application/octet-stream' })
-      : new Blob([JSON.stringify(result)], { type: 'application/json' });
+async function exportGLB() {
+  try {
+    const exporter = new GLTFExporter();
+    const result = await exporter.parseAsync(scene, { binary: true });
+    const blob = new Blob([result], { type: 'application/octet-stream' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = result instanceof ArrayBuffer ? 'qatarspec.glb' : 'qatarspec.gltf';
+    a.download = 'qatarspec_export.glb';
     a.click();
     URL.revokeObjectURL(url);
-  }, { binary: true });
+    console.log('✅ GLB exported');
+  } catch (err) {
+    console.error('GLB export failed:', err);
+    download('qatarspec_scene.json', JSON.stringify({ scene: 'QatarSpec Pro 3D Scene' }), 'application/json');
+  }
 }
 
 function exportCSV() {
