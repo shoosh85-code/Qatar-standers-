@@ -166,6 +166,7 @@ textarea{resize:vertical}
     <div class="out-actions">
       <button class="act-btn2" onclick="printDPR()">🖨 طباعة DPR</button>
       <button class="act-btn2" onclick="copyDPR()">📋 نسخ</button>
+      <button class="act-btn2" onclick="emailDPR()">📧 إرسال بالإيميل</button>
       <button class="act-btn2" onclick="resetDPR()">🔄 تقرير جديد</button>
     </div>
     <div id="dpr-info" class="info-grid"></div>
@@ -275,6 +276,37 @@ async function generateDPR() {
 }
 
 function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function emailDPR() {
+  const email = prompt('أدخل البريد الإلكتروني للمستلم:');
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert('البريد الإلكتروني غير صحيح'); return;
+  }
+  const reportData = {};
+  document.querySelectorAll('#dpr-info .info-item').forEach(el => {
+    const lbl = el.querySelector('.info-label')?.textContent?.trim();
+    const val = el.querySelector('.info-value')?.textContent?.trim();
+    if (lbl && val) reportData[lbl] = val;
+  });
+  document.querySelectorAll('#dpr-sections .section').forEach(sec => {
+    const title = sec.querySelector('h3')?.textContent?.trim();
+    const body  = sec.querySelector('p, .section-body')?.textContent?.trim();
+    if (title) reportData[title] = body || '';
+  });
+  const projectName = document.getElementById('project-name')?.value || 'مشروع QatarSpec';
+
+  fetch('/api/hub-extended?resource=send-report', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'dwr', reportData, recipientEmail: email, projectName })
+  })
+  .then(r => r.json())
+  .then(d => {
+    if (d.success) alert('✅ تم إرسال التقرير إلى ' + email);
+    else alert('❌ فشل الإرسال: ' + (d.error || 'خطأ غير معروف'));
+  })
+  .catch(() => alert('❌ خطأ في الاتصال بالخادم'));
+}
 
 function copyDPR() {
   var t = document.getElementById('dpr-info').innerText + '\n\n' + document.getElementById('dpr-sections').innerText;

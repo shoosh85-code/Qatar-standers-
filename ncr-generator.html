@@ -141,6 +141,7 @@ textarea{resize:vertical}
     <div class="out-actions">
       <button class="act-btn2" onclick="printNCR()">🖨 طباعة NCR</button>
       <button class="act-btn2" onclick="copyNCR()">📋 نسخ النص</button>
+      <button class="act-btn2" onclick="emailNCR()">📧 إرسال بالإيميل</button>
       <button class="act-btn2" onclick="resetNCR()">🔄 جديد</button>
     </div>
     <div id="ncr-sections"></div>
@@ -238,6 +239,34 @@ async function generateNCR() {
 }
 
 function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function emailNCR() {
+  const email = prompt('أدخل البريد الإلكتروني للمستلم:');
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert('البريد الإلكتروني غير صحيح'); return;
+  }
+  const reportData = {};
+  document.querySelectorAll('#ncr-output .info-item, #ncr-output [class*="item"]').forEach(el => {
+    const lbl = el.querySelector('[class*="label"], dt, strong')?.textContent?.trim();
+    const val = el.querySelector('[class*="value"], dd, span:last-child')?.textContent?.trim();
+    if (lbl && val) reportData[lbl] = val;
+  });
+  const ncrText = document.getElementById('ncr-output')?.innerText || '';
+  reportData['محتوى NCR'] = ncrText.slice(0, 2000);
+  const projectName = document.querySelector('[id*="project"], [id*="proj"]')?.value || 'مشروع QatarSpec';
+
+  fetch('/api/hub-extended?resource=send-report', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'ncr', reportData, recipientEmail: email, projectName })
+  })
+  .then(r => r.json())
+  .then(d => {
+    if (d.success) alert('✅ تم إرسال NCR إلى ' + email);
+    else alert('❌ فشل الإرسال: ' + (d.error || 'خطأ'));
+  })
+  .catch(() => alert('❌ خطأ في الاتصال'));
+}
 
 function copyNCR() {
   var t = document.getElementById('ncr-header-box').innerText + '\n\n' + document.getElementById('ncr-sections').innerText;

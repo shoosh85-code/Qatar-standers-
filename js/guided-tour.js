@@ -207,10 +207,23 @@
       if (localStorage.getItem(STORAGE_KEY)) return; // شافها قبل كذا
     } catch (e) { return; /* private mode */ }
 
-    // تأخير لحين اكتمال تحميل الصفحة + الأنيميشن
+    // تأخير لحين اكتمال تحميل الصفحة + الأنيميشن + onboarding modal
     setTimeout(function () {
-      startTour(false);
-    }, 2500);
+      // انتظر إغلاق الـ onboarding modal أولاً
+      var obModal = document.getElementById('onboarding-modal');
+      if (obModal && obModal.style.display !== 'none' && obModal.classList.contains('visible')) {
+        // الـ onboarding شغال — ابدأ بعد إغلاقه
+        var observer = new MutationObserver(function() {
+          if (!obModal.classList.contains('visible')) {
+            observer.disconnect();
+            setTimeout(function(){ startTour(false); }, 800);
+          }
+        });
+        observer.observe(obModal, { attributes: true, attributeFilter: ['class', 'style'] });
+      } else {
+        startTour(false);
+      }
+    }, 3500);
   }
 
   // شغّل بعد DOMContentLoaded
