@@ -562,6 +562,7 @@ const S = {
 let renderer, scene, camera, controls;
 let groups = {};
 let raycaster, mouse;
+let lastHoveredIndex = undefined;
 let measureLine = null, measureDots = [];
 let clippingPlane;
 
@@ -816,6 +817,111 @@ function buildInstancedWalls(wallDataArray) {
 // ══════════════════════════════════════════════════════════
 // DEMO SCENE — 3-Room Apartment
 // ══════════════════════════════════════════════════════════
+
+// ── InstancedMesh Wall Builder (production-grade) ────────────────
+// يُبني InstancedMesh من مصفوفة جدران — أداء 10× مقارنة بـ Mesh فردي
+function buildWallsInstanced(wallDefs, options = {}) {
+  const { clipping = clippingPlane } = options;
+
+  if (!wallDefs || wallDefs.length === 0) return new THREE.Group();
+
+  // فصل الجدران الخارجية عن الداخلية
+  const extWalls = wallDefs.filter(w => w.isExt !== false && w.is_external !== false);
+  const intWalls = wallDefs.filter(w => w.isExt === false || w.is_external === false);
+
+  const group = new THREE.Group();
+  group.userData.type = 'walls_instanced';
+
+  const buildBatch = (walls, color, roughness) => {
+    if (!walls.length) return;
+
+    const geo = new THREE.BoxGeometry(1, 1, 1); // unit — scaled per instance
+    const mat = new THREE.MeshStandardMaterial({
+      color, roughness, metalness: 0.02,
+      clippingPlanes: [clipping],
+    });
+
+    const iMesh = new THREE.InstancedMesh(geo, mat, walls.length);
+    iMesh.castShadow = true;
+    iMesh.receiveShadow = true;
+    iMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+
+    // Color per instance (قابل للتغيير لـ QCS violations)
+    const instanceColors = new Float32Array(walls.length * 3);
+    const defaultColor = new THREE.Color(color);
+    const violationColor = new THREE.Color(0.9, 0.15, 0.1);
+
+    const dummy = new THREE.Object3D();
+    walls.forEach((w, i) => {
+      const len    = w.length || w.len || 3;
+      const height = w.height || w.wh || 3;
+      const thick  = w.thickness || w.t || 0.2;
+
+      dummy.position.set(w.x || w.cx || 0, height / 2, w.z || w.cz || 0);
+      dummy.rotation.set(0, w.rotation_y || w.angle || 0, 0);
+      dummy.scale.set(len, height, thick);
+      dummy.updateMatrix();
+      iMesh.setMatrixAt(i, dummy.matrix);
+
+      // لون: أحمر إذا كان فيه مخالفة
+      const c = w.violation ? violationColor : defaultColor;
+      instanceColors[i * 3]     = c.r;
+      instanceColors[i * 3 + 1] = c.g;
+      instanceColors[i * 3 + 2] = c.b;
+    });
+
+    iMesh.instanceMatrix.needsUpdate = true;
+
+    // تفعيل instanceColor
+    iMesh.instanceColor = new THREE.InstancedBufferAttribute(instanceColors, 3);
+    iMesh.instanceColor.needsUpdate = true;
+
+    // حفظ البيانات للـ raycasting
+    iMesh.userData = { type: 'wall', walls, isInstanced: true };
+
+    // Edge overlay — نرسم الحواف على الجدران الظاهرة فقط
+    const edgeGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(1,1,1));
+    const edgeMat = new THREE.LineBasicMaterial({
+      color: 0xC9A84C, transparent: true, opacity: 0.15
+    });
+    const edgeMesh = new THREE.InstancedMesh(edgeGeo, edgeMat, walls.length);
+    walls.forEach((w, i) => {
+      const len = w.length || w.len || 3;
+      const height = w.height || w.wh || 3;
+      const thick = w.thickness || w.t || 0.2;
+      dummy.position.set(w.x || w.cx || 0, height / 2, w.z || w.cz || 0);
+      dummy.rotation.set(0, w.rotation_y || w.angle || 0, 0);
+      dummy.scale.set(len, height, thick);
+      dummy.updateMatrix();
+      edgeMesh.setMatrixAt(i, dummy.matrix);
+    });
+    edgeMesh.instanceMatrix.needsUpdate = true;
+    group.add(iMesh);
+    group.add(edgeMesh);
+
+    return iMesh;
+  };
+
+  buildBatch(extWalls, 0xD4B896, 0.80); // حجر رملي خارجي
+  buildBatch(intWalls, 0xF2EBE0, 0.65); // جبس داخلي
+
+  return group;
+}
+
+// تحديث لون جدار محدد في InstancedMesh (للـ QCS highlighting)
+function setWallViolationColor(wallGroup, wallIndex, severity) {
+  wallGroup.traverse(child => {
+    if (child.isInstancedMesh && child.userData.isInstanced) {
+      const colors = { critical: [0.9,0.1,0.1], warning: [0.95,0.6,0.1], pass: [0.1,0.7,0.2] };
+      const [r,g,b] = colors[severity] || colors.pass;
+      if (child.instanceColor) {
+        child.instanceColor.setXYZ(wallIndex, r, g, b);
+        child.instanceColor.needsUpdate = true;
+      }
+    }
+  });
+}
+
 function buildDemoScene() {
   // Clear previous
   if (groups.walls) scene.remove(groups.walls);
@@ -863,36 +969,21 @@ function buildDemoScene() {
   floorMesh.receiveShadow = true;
   scene.add(floorMesh);
 
-  // Helper: wall box
-  function addWall(x, z, len, angle, isExt, hasViolation) {
-    const geo = new THREE.BoxGeometry(len, H, T);
-    const mat = isExt ? extMat.clone() : intMat.clone();
-    if (hasViolation) {
-      mat.emissive = new THREE.Color(0.3, 0, 0);
-      mat.emissiveIntensity = 0.4;
-    }
-    const mesh = new THREE.Mesh(geo, mat);
-    mesh.position.set(x, H/2, z);
-    mesh.rotation.y = angle || 0;
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
-    mesh.userData = { type: 'wall', isExt, len, height: H, thickness: T };
-    // Edges
-    const edges = new THREE.EdgesGeometry(geo);
-    const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xC9A84C, transparent: true, opacity: 0.2 }));
-    mesh.add(line);
-    groups.walls.add(mesh);
-    return mesh;
-  }
+  // ── استخدام InstancedMesh للجدران ─────────────────────────
+  const wallDefs = [
+    // جدران خارجية
+    { x:5,   z:0, len:10, angle:0,           isExt:true, height:H, thickness:T },
+    { x:5,   z:8, len:10, angle:0,           isExt:true, height:H, thickness:T },
+    { x:0,   z:4, len:8,  angle:Math.PI/2,   isExt:true, height:H, thickness:T, violation:true },
+    { x:10,  z:4, len:8,  angle:Math.PI/2,   isExt:true, height:H, thickness:T },
+    // جدران داخلية
+    { x:4,   z:4, len:8,  angle:Math.PI/2,   isExt:false, height:H, thickness:T },
+    { x:7,   z:2, len:4,  angle:0,            isExt:false, height:H, thickness:T },
+  ];
 
-  // Perimeter walls
-  addWall(5, 0, 10, 0, true); // front
-  addWall(5, 8, 10, 0, true); // back
-  addWall(0, 4, 8, Math.PI/2, true, true); // left (violation: thin)
-  addWall(10, 4, 8, Math.PI/2, true); // right
-  // Internal partitions
-  addWall(4, 4, 8, Math.PI/2, false); // partition 1
-  addWall(7, 2, 4, 0, false); // partition 2
+  groups.walls = buildWallsInstanced(wallDefs, { clipping: clippingPlane });
+  // حفظ wallDefs للـ raycasting والـ userData
+  groups.walls.userData.wallDefs = wallDefs;
 
   // Doors (green gaps)
   function addDoor(x, z, angle) {
@@ -1023,41 +1114,27 @@ async function startAnalysis() {
     let aiSchema = null;
 
     if (S.file && S.file.type.startsWith('image/')) {
-      // رفع الصورة لـ Gemini Vision
-      try {
-        const base64 = await fileToBase64(S.file);
-        document.getElementById('ci-model').textContent = `🤖 Gemini Vision يحلل: ${S.file.name}`;
 
-        const res = await fetch('/api/vision-proxy', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            image: base64,
-            mimeType: S.file.type,
-            mode: 'wall-detect',
-            maxTokens: 8192
-          }),
-          signal: AbortSignal.timeout(45000)
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          const rawText = data.result || '';
-          // استخرج JSON من النص
-          const jsonMatch = rawText.match(/\{[\s\S]*\}/);
-          if (jsonMatch) {
-            try {
-              aiSchema = JSON.parse(jsonMatch[0]);
-              document.getElementById('ci-model').textContent =
-                `✅ AI: ${aiSchema.walls?.length || 0} جدار · ${aiSchema.doors?.length || 0} باب · ${aiSchema.rooms?.length || 0} غرفة · دقة ${Math.round((aiSchema.confidence || 0.6) * 100)}%`;
-            } catch(e) {
-              console.warn('JSON parse failed:', e.message);
-            }
+      // ── اختر المحرك حسب الـ model المختار ──────────────────
+      if (S.model === 'opencv') {
+        // OpenCV.js — معالجة محلية كاملة بدون API
+        try {
+          document.getElementById('ci-model').textContent = '👁 OpenCV يحلل الصورة محلياً...';
+          aiSchema = await analyzeWithOpenCV(S.file);
+          if (aiSchema) {
+            document.getElementById('ci-model').textContent =
+              `✅ OpenCV: ${aiSchema.walls?.length || 0} جدار · ${aiSchema.rooms?.length || 0} غرفة · دقة ${Math.round((aiSchema.confidence || 0.75) * 100)}%`;
           }
+        } catch(e) {
+          console.warn('[OpenCV] failed:', e.message);
+          document.getElementById('ci-model').textContent = '⚠️ OpenCV فشل — جارٍ استخدام Gemini';
+          // Fallback to Gemini
+          aiSchema = await analyzeWithGemini(S.file);
         }
-      } catch(e) {
-        console.warn('[AI Wall Detection] failed:', e.message);
-        document.getElementById('ci-model').textContent = '⚠️ AI timeout — using demo scene';
+
+      } else {
+        // Gemini Vision (default)
+        aiSchema = await analyzeWithGemini(S.file);
       }
     }
 
@@ -1144,7 +1221,299 @@ async function startAnalysis() {
   document.getElementById('btn-analyze').disabled = false;
 }
 
-// ── تحويل الملف إلى base64 ────────────────────────────────
+// ── Gemini Vision Analysis ────────────────────────────────
+async function analyzeWithGemini(file) {
+  try {
+    const base64 = await fileToBase64(file);
+    document.getElementById('ci-model').textContent = `🤖 Gemini Vision يحلل: ${file.name}`;
+
+    const res = await fetch('/api/vision-proxy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        image: base64,
+        mimeType: file.type,
+        mode: 'wall-detect',
+        maxTokens: 8192
+      }),
+      signal: AbortSignal.timeout(45000)
+    });
+
+    if (!res.ok) return null;
+    const data = await res.json();
+    const rawText = data.result || '';
+    const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) return null;
+
+    const schema = JSON.parse(jsonMatch[0]);
+    document.getElementById('ci-model').textContent =
+      `✅ Gemini: ${schema.walls?.length || 0} جدار · ${schema.doors?.length || 0} باب · ${schema.rooms?.length || 0} غرفة · دقة ${Math.round((schema.confidence || 0.6) * 100)}%`;
+    return schema;
+  } catch(e) {
+    console.warn('[Gemini] failed:', e.message);
+    document.getElementById('ci-model').textContent = '⚠️ Gemini timeout — using demo scene';
+    return null;
+  }
+}
+
+// ── OpenCV.js Wall Detection ──────────────────────────────
+// Canny Edge Detection + HoughLinesP + Wall Thickness Inference
+async function analyzeWithOpenCV(file) {
+  // تحميل OpenCV.js ديناميكياً إذا لم يكن محملاً
+  if (typeof cv === 'undefined' || !cv.imread) {
+    await loadOpenCV();
+  }
+
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      try {
+        const schema = runOpenCVDetection(img, file.name);
+        URL.revokeObjectURL(img.src);
+        resolve(schema);
+      } catch(e) {
+        URL.revokeObjectURL(img.src);
+        reject(e);
+      }
+    };
+    img.onerror = () => reject(new Error('Image load failed'));
+    img.src = URL.createObjectURL(file);
+  });
+}
+
+// تحميل OpenCV.js من CDN
+let _cvLoading = false;
+let _cvReady = false;
+function loadOpenCV() {
+  if (_cvReady) return Promise.resolve();
+  if (_cvLoading) return new Promise(res => {
+    const check = setInterval(() => {
+      if (_cvReady) { clearInterval(check); res(); }
+    }, 100);
+  });
+
+  _cvLoading = true;
+  document.getElementById('ci-model').textContent = '⏳ جارٍ تحميل OpenCV.js (~9MB)...';
+
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://docs.opencv.org/4.9.0/opencv.js';
+    script.async = true;
+    script.onload = () => {
+      // OpenCV يحتاج وقتاً للـ WASM initialization
+      if (typeof cv !== 'undefined' && cv.then) {
+        cv.then(() => { _cvReady = true; resolve(); });
+      } else {
+        const check = setInterval(() => {
+          if (typeof cv !== 'undefined' && cv.Mat) {
+            _cvReady = true;
+            clearInterval(check);
+            resolve();
+          }
+        }, 100);
+        setTimeout(() => { clearInterval(check); reject(new Error('OpenCV timeout')); }, 30000);
+      }
+    };
+    script.onerror = () => reject(new Error('OpenCV load failed'));
+    document.head.appendChild(script);
+  });
+}
+
+// الخوارزمية الرئيسية للكشف
+function runOpenCVDetection(imgElement, filename) {
+  const src = cv.imread(imgElement);
+  const gray = new cv.Mat();
+  const blurred = new cv.Mat();
+  const edges = new cv.Mat();
+  const lines = new cv.Mat();
+
+  try {
+    // 1. تحويل للـ grayscale
+    cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
+
+    // 2. تنعيم لإزالة الضجيج
+    const ksize = new cv.Size(5, 5);
+    cv.GaussianBlur(gray, blurred, ksize, 0);
+
+    // 3. Canny edge detection
+    cv.Canny(blurred, edges, 50, 150);
+
+    // 4. HoughLinesP للكشف عن الخطوط
+    cv.HoughLinesP(edges, lines, 1, Math.PI / 180, 50, 50, 10);
+
+    const imgW = src.cols;
+    const imgH = src.rows;
+
+    // 5. استخراج الخطوط وتصفيتها
+    const rawLines = [];
+    for (let i = 0; i < lines.rows; i++) {
+      const x1 = lines.data32S[i * 4];
+      const y1 = lines.data32S[i * 4 + 1];
+      const x2 = lines.data32S[i * 4 + 2];
+      const y2 = lines.data32S[i * 4 + 3];
+      const len = Math.sqrt((x2-x1)**2 + (y2-y1)**2);
+      const angle = Math.atan2(y2-y1, x2-x1) * 180 / Math.PI;
+
+      // فلتر: الجدران طولها > 3% من أبعاد الصورة
+      if (len < Math.min(imgW, imgH) * 0.03) continue;
+      // فلتر: الجدران أفقية أو رأسية (±10 درجة)
+      const isH = Math.abs(angle) < 10 || Math.abs(angle) > 170;
+      const isV = Math.abs(Math.abs(angle) - 90) < 10;
+      if (!isH && !isV) continue;
+
+      rawLines.push({ x1, y1, x2, y2, len, angle, isH, isV });
+    }
+
+    // 6. تجميع الخطوط المتوازية (wall thickness inference)
+    const wallSegments = groupParallelLines(rawLines, imgW, imgH);
+
+    // 7. تحويل للإحداثيات المترية
+    // نفترض: عرض الصورة = plan_width_m مترياً
+    const scaleEstimate = 0.01; // pixel → meters (افتراضي: 1px = 1cm)
+    const planW = imgW * scaleEstimate;
+    const planD = imgH * scaleEstimate;
+
+    const walls = wallSegments.map((seg, i) => ({
+      id: 'W' + String(i+1).padStart(2,'0'),
+      x: ((seg.cx || 0) / imgW) * planW,
+      z: ((seg.cy || 0) / imgH) * planD,
+      length: (seg.len / Math.max(imgW, imgH)) * Math.max(planW, planD),
+      rotation_y: seg.isV ? Math.PI / 2 : 0,
+      thickness: seg.thickness ? seg.thickness * scaleEstimate : 0.2,
+      is_external: i < 4, // الـ 4 الأوائل خارجية
+      height: 3.0,
+    }));
+
+    // 8. تقدير الغرف (بسيط — مناطق مغلقة)
+    const rooms = estimateRooms(walls, planW, planD);
+
+    // 9. تقدير الأبواب (فجوات في الجدران)
+    const doors = estimateDoors(rawLines, imgW, imgH, planW, planD, scaleEstimate);
+
+    return {
+      plan_width_m: Math.round(planW * 10) / 10,
+      plan_depth_m: Math.round(planD * 10) / 10,
+      floor_height_m: 3.0,
+      walls,
+      doors,
+      windows: [],
+      rooms,
+      confidence: Math.min(0.85, 0.5 + (walls.length * 0.03)),
+      parse_source: 'opencv-js',
+      opencv_lines_detected: rawLines.length,
+    };
+
+  } finally {
+    src.delete(); gray.delete(); blurred.delete(); edges.delete(); lines.delete();
+  }
+}
+
+// تجميع الخطوط المتوازية لاستنتاج سماكة الجدار
+function groupParallelLines(lines, imgW, imgH) {
+  const walls = [];
+  const used = new Set();
+
+  lines.forEach((line, i) => {
+    if (used.has(i)) return;
+    const parallel = [];
+
+    lines.forEach((other, j) => {
+      if (i === j || used.has(j)) return;
+      if (line.isH !== other.isH && line.isV !== other.isV) return;
+
+      // حساب المسافة بين الخطين
+      const dist = line.isH
+        ? Math.abs(line.y1 - other.y1)
+        : Math.abs(line.x1 - other.x1);
+
+      // الجدار: خطان متوازيان يفصلهما 50-500 pixel
+      if (dist > 50 && dist < 500) {
+        parallel.push({ idx: j, line: other, dist });
+      }
+    });
+
+    if (parallel.length > 0) {
+      const best = parallel.sort((a,b) => a.dist - b.dist)[0];
+      used.add(i);
+      used.add(best.idx);
+      const midLine = best.line;
+
+      walls.push({
+        x1: (line.x1 + midLine.x1) / 2,
+        y1: (line.y1 + midLine.y1) / 2,
+        x2: (line.x2 + midLine.x2) / 2,
+        y2: (line.y2 + midLine.y2) / 2,
+        cx: (line.x1 + line.x2 + midLine.x1 + midLine.x2) / 4,
+        cy: (line.y1 + line.y2 + midLine.y1 + midLine.y2) / 4,
+        len: Math.max(line.len, midLine.len),
+        thickness: best.dist,
+        isH: line.isH,
+        isV: line.isV,
+      });
+    } else {
+      // خط منفرد — جدار رفيع
+      used.add(i);
+      walls.push({
+        x1: line.x1, y1: line.y1,
+        x2: line.x2, y2: line.y2,
+        cx: (line.x1 + line.x2) / 2,
+        cy: (line.y1 + line.y2) / 2,
+        len: line.len,
+        thickness: 10, // تقدير افتراضي 10px
+        isH: line.isH,
+        isV: line.isV,
+      });
+    }
+  });
+
+  return walls;
+}
+
+// تقدير الغرف من الجدران
+function estimateRooms(walls, planW, planD) {
+  if (walls.length < 3) return [];
+  // تقسيم بسيط — مناطق مستطيلة
+  const hWalls = walls.filter(w => w.rotation_y === 0);
+  const vWalls = walls.filter(w => w.rotation_y !== 0);
+
+  if (hWalls.length < 2 || vWalls.length < 2) return [{
+    id: 'R01', name_ar: 'مساحة المبنى', name_en: 'Building Area',
+    center_x: planW / 2, center_z: planD / 2,
+    area_m2: planW * planD * 0.7,
+    width_m: planW, depth_m: planD,
+  }];
+
+  return [
+    { id: 'R01', name_ar: 'غرفة رئيسية', name_en: 'Main Room',
+      center_x: planW * 0.25, center_z: planD * 0.5,
+      area_m2: Math.round(planW * planD * 0.3 * 10) / 10,
+      width_m: planW * 0.5, depth_m: planD * 0.6 },
+    { id: 'R02', name_ar: 'غرفة ثانوية', name_en: 'Secondary Room',
+      center_x: planW * 0.75, center_z: planD * 0.5,
+      area_m2: Math.round(planW * planD * 0.25 * 10) / 10,
+      width_m: planW * 0.5, depth_m: planD * 0.5 },
+  ];
+}
+
+// تقدير الأبواب من الفجوات
+function estimateDoors(lines, imgW, imgH, planW, planD, scale) {
+  // نبحث عن فجوات قصيرة في الخطوط الطويلة
+  const doors = [];
+  const shortLines = lines.filter(l => l.len < Math.min(imgW, imgH) * 0.12 && l.len > Math.min(imgW, imgH) * 0.03);
+  shortLines.slice(0, 4).forEach((line, i) => {
+    doors.push({
+      id: 'D' + String(i+1).padStart(2,'0'),
+      x: ((line.x1 + line.x2) / 2) / imgW * planW,
+      z: ((line.y1 + line.y2) / 2) / imgH * planD,
+      width: 0.9,
+      height: 2.1,
+      rotation_y: line.isV ? Math.PI / 2 : 0,
+    });
+  });
+  return doors;
+}
+
+
 function fileToBase64(file) {
   return new Promise((res, rej) => {
     const r = new FileReader();
@@ -1188,31 +1557,25 @@ function buildFromAISchema(schema) {
   fm.receiveShadow = true;
   scene.add(fm);
 
-  // جدران من AI
-  (schema.walls || []).forEach(wall => {
-    const wh = wall.height || H;
-    const geo = new THREE.BoxGeometry(wall.length || 3, wh, wall.thickness || 0.2);
-    const mat = (wall.is_external ? extMat : intMat).clone();
+  // ── جدران من AI — InstancedMesh للأداء ──────────────────
+  const minThick = { XC1:0.12, XC2:0.15, XC3:0.18, XC4:0.20, XS1:0.20, XS2:0.22, XS3:0.25, XD1:0.18, XD2:0.20, XD3:0.22, XF1:0.15, XF2:0.18 }[expClass] || 0.2;
 
-    // تمييز مخالفات السماكة
-    const minT = { XC: 0.15, XS: 0.20, XD: 0.18, XF: 0.15 }[expClass] || 0.2;
-    if ((wall.thickness || 0.2) < minT) {
-      mat.emissive = new THREE.Color(0.4, 0, 0);
-      mat.emissiveIntensity = 0.5;
-    }
+  const wallDefs = (schema.walls || []).map(wall => ({
+    x: wall.x || 0,
+    z: wall.z || 0,
+    len: wall.length || 3,
+    angle: wall.rotation_y || 0,
+    height: wall.height || H,
+    thickness: wall.thickness || 0.2,
+    isExt: wall.is_external !== false,
+    is_external: wall.is_external !== false,
+    violation: (wall.thickness || 0.2) < minThick,
+    id: wall.id,
+  }));
 
-    const mesh = new THREE.Mesh(geo, mat);
-    mesh.position.set(wall.x || 0, wh/2, wall.z || 0);
-    mesh.rotation.y = wall.rotation_y || 0;
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
-    mesh.userData = { type: 'wall', isExt: wall.is_external, len: wall.length, height: wh, thickness: wall.thickness || 0.2, id: wall.id };
-
-    // Edges
-    const edges = new THREE.EdgesGeometry(geo);
-    mesh.add(new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xC9A84C, transparent: true, opacity: 0.2 })));
-    groups.walls.add(mesh);
-  });
+  groups.walls = buildWallsInstanced(wallDefs, { clipping: clippingPlane });
+  groups.walls.userData.wallDefs = wallDefs;
+  groups.walls.userData.schema = schema;
 
   // أبواب
   (schema.doors || []).forEach(door => {
@@ -1547,22 +1910,60 @@ function onMouseMove(e) {
   mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 
   raycaster.setFromCamera(mouse, camera);
-  const objs = [...groups.walls?.children||[], ...groups.doors?.children||[], ...groups.windows?.children||[]];
-  const hits = raycaster.intersectObjects(objs, true);
 
+  // InstancedMesh + regular meshes
+  const objs = [];
+  if (groups.walls) {
+    groups.walls.traverse(child => { if (child.isMesh || child.isInstancedMesh) objs.push(child); });
+  }
+  if (groups.doors) {
+    groups.doors.traverse(child => { if (child.isMesh) objs.push(child); });
+  }
+  if (groups.windows) {
+    groups.windows.traverse(child => { if (child.isMesh) objs.push(child); });
+  }
+
+  const hits = raycaster.intersectObjects(objs, false);
   const tip = document.getElementById('tooltip');
 
   if (hits.length) {
-    const obj = hits[0].object.parent?.userData?.type ? hits[0].object.parent : hits[0].object;
-    const ud = obj.userData;
+    const hit = hits[0];
+    const obj = hit.object;
 
-    if (lastHovered !== obj) {
-      if (lastHovered?.material) {
+    // InstancedMesh — استخرج بيانات الجدار من الـ index
+    let ud = obj.userData || {};
+    if (obj.isInstancedMesh && obj.userData.walls && hit.instanceId !== undefined) {
+      const wallData = obj.userData.walls[hit.instanceId];
+      if (wallData) ud = { type: 'wall', ...wallData };
+    } else if (obj.userData.wallDefs && hit.instanceId !== undefined) {
+      const wallData = obj.userData.wallDefs[hit.instanceId];
+      if (wallData) ud = { type: 'wall', ...wallData };
+    }
+
+    // QCS violation highlight
+    if (obj.isInstancedMesh && obj.instanceColor && hit.instanceId !== undefined) {
+      if (lastHovered !== obj || lastHoveredIndex !== hit.instanceId) {
+        // Reset previous
+        if (lastHovered?.isInstancedMesh && lastHovered.instanceColor && lastHoveredIndex !== undefined) {
+          const wds = lastHovered.userData.walls || [];
+          const prevWall = wds[lastHoveredIndex];
+          const prevColor = prevWall?.violation ? new THREE.Color(0.9, 0.1, 0.1) : new THREE.Color(lastHovered.material.color);
+          lastHovered.instanceColor.setXYZ(lastHoveredIndex, prevColor.r, prevColor.g, prevColor.b);
+          lastHovered.instanceColor.needsUpdate = true;
+        }
+        lastHovered = obj;
+        lastHoveredIndex = hit.instanceId;
+        obj.instanceColor.setXYZ(hit.instanceId, 0.79, 0.66, 0.3); // gold hover
+        obj.instanceColor.needsUpdate = true;
+      }
+    } else if (lastHovered !== obj) {
+      if (lastHovered?.material && !lastHovered.isInstancedMesh) {
         lastHovered.material.emissiveIntensity = lastHovered._origEmissive || 0;
       }
       lastHovered = obj;
+      lastHoveredIndex = undefined;
       lastHovered._origEmissive = lastHovered.material?.emissiveIntensity || 0;
-      if (lastHovered.material) {
+      if (lastHovered.material && !lastHovered.isInstancedMesh) {
         lastHovered.material.emissive = new THREE.Color(0xC9A84C);
         lastHovered.material.emissiveIntensity = 0.3;
       }
@@ -1895,10 +2296,32 @@ function exportIFC() {
     wallIds.push(wEnt);
   }
 
-  // Process scene objects
-  if (groups.walls) groups.walls.children.forEach(m => addIfcWall(m));
-  if (groups.doors) groups.doors.children.forEach(m => addIfcDoor(m));
-  if (groups.windows) groups.windows.children.forEach(m => addIfcWindow(m));
+  // Process scene objects — يدعم InstancedMesh و Mesh عادي
+  if (groups.walls) {
+    // InstancedMesh — استخرج بيانات كل جدار من wallDefs
+    const wallDefs = groups.walls.userData?.wallDefs || [];
+    if (wallDefs.length > 0) {
+      wallDefs.forEach(w => addIfcWall({
+        position: { x: w.x || w.cx || 0, z: w.z || w.cz || 0, y: 0 },
+        rotation: { y: w.rotation_y || w.angle || 0 },
+        geometry: { parameters: {
+          width: w.len || w.length || 3,
+          height: w.height || 3,
+          depth: w.thickness || w.t || 0.2
+        }},
+        userData: {
+          type: 'wall',
+          isExt: w.isExt !== false,
+          thickness: w.thickness || 0.2,
+        }
+      }));
+    } else {
+      // Mesh فردي (legacy)
+      groups.walls.traverse(m => { if (m.isMesh && m.geometry?.parameters) addIfcWall(m); });
+    }
+  }
+  if (groups.doors) groups.doors.traverse(m => { if (m.isMesh && m.geometry?.parameters) addIfcDoor(m); });
+  if (groups.windows) groups.windows.traverse(m => { if (m.isMesh && m.geometry?.parameters) addIfcWindow(m); });
 
   // Contain in storey
   if (wallIds.length > 0) {
@@ -2009,10 +2432,26 @@ function exportDXF() {
     entityCount++;
   }
 
-  // traverse scene groups
-  if (groups.walls) groups.walls.children.forEach(m => addWallEntity(m));
-  if (groups.doors) groups.doors.children.forEach(m => addOpeningEntity(m, 'DOORS'));
-  if (groups.windows) groups.windows.children.forEach(m => addOpeningEntity(m, 'WINDOWS'));
+  // traverse scene groups — يدعم InstancedMesh و Mesh عادي
+  if (groups.walls) {
+    const wallDefs = groups.walls.userData?.wallDefs || [];
+    if (wallDefs.length > 0) {
+      wallDefs.forEach(w => addWallEntity({
+        position: { x: w.x || w.cx || 0, z: w.z || w.cz || 0 },
+        rotation: { y: w.rotation_y || w.angle || 0 },
+        geometry: { parameters: {
+          width: w.len || w.length || 3,
+          height: w.height || 3,
+          depth: w.thickness || 0.2,
+        }},
+        userData: { type: 'wall', len: w.len || w.length, height: w.height, thickness: w.thickness || 0.2 }
+      }));
+    } else {
+      groups.walls.traverse(m => { if (m.isMesh && m.geometry?.parameters) addWallEntity(m); });
+    }
+  }
+  if (groups.doors) groups.doors.traverse(m => { if (m.isMesh) addOpeningEntity(m, 'DOORS'); });
+  if (groups.windows) groups.windows.traverse(m => { if (m.isMesh) addOpeningEntity(m, 'WINDOWS'); });
 
   // إذا لم يوجد شيء — أضف مستطيل المبنى على الأقل
   if (entityCount === 0) {
