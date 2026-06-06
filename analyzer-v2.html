@@ -3082,6 +3082,31 @@ function updateResultsBadge() {
   const total = Object.values(S.elements).reduce((a, b) => a + b, 0);
   document.getElementById('results-badge').textContent = total;
 }
+// ══════════════════════════════════════════════════════════
+// EXPOSE FUNCTIONS TO GLOBAL SCOPE (required for module scripts)
+// ══════════════════════════════════════════════════════════
+window.handleFile       = handleFile;
+window.handleDragOver   = handleDragOver;
+window.handleDragLeave  = handleDragLeave;
+window.handleDrop       = handleDrop;
+window.startAnalysis    = startAnalysis;
+window.setModel         = setModel;
+window.setView          = setView;
+window.toggleSec        = toggleSec;
+window.updateClip       = updateClip;
+window.setRenderQuality = setRenderQuality;
+window.toggleMeasure    = toggleMeasure;
+window.toggleDark       = toggleDark;
+window.toggleLang       = toggleLang;
+window.focusGroup       = focusGroup;
+window.focusViolation   = focusViolation;
+window.exportIFC        = exportIFC;
+window.exportDXF        = exportDXF;
+window.exportGLB        = exportGLB;
+window.exportCSV        = exportCSV;
+window.generateNCR      = generateNCR;
+window.showKeyboardHelp = showKeyboardHelp;
+
 </script>
 </body>
 </html>
