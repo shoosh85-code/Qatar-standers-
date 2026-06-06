@@ -2242,6 +2242,10 @@ function showKeyboardHelp() {
   ].join('');
   modal.addEventListener('click', (e) => e.stopPropagation());
   document.getElementById('panel-right').appendChild(modal);
+  document.getElementById('kb-close-btn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    modal.remove();
+  });
   document.addEventListener('click', () => modal.remove(), { once: true });
 }
 
