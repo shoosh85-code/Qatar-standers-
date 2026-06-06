@@ -1159,6 +1159,9 @@ async function startAnalysis() {
   };
 
   try {
+    // أخفِ overlay الـ "الملف جاهز" فوراً
+    hideOverlay();
+
     // ── Step 0: Upload / Prepare ─────────────────────────────
     setStep(0);
     await delay(400);
@@ -1298,8 +1301,17 @@ function loadPDFjs() {
     const script = document.createElement('script');
     script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
     script.onload = () => {
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+      // pdfjsLib يُصدَّر في namespace مختلف حسب الإصدار
+      const lib = window.pdfjsLib
+        || window['pdfjs-dist/build/pdf']
+        || (typeof pdfjsLib !== 'undefined' ? pdfjsLib : null);
+      if (!lib) {
+        reject(new Error('pdfjsLib not found — namespace mismatch'));
+        return;
+      }
+      lib.GlobalWorkerOptions.workerSrc =
         'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      window.pdfjsLib = lib; // normalize للـ global
       _pdfJsLoaded = true;
       resolve();
     };
@@ -1314,8 +1326,15 @@ async function analyzePDF(file) {
   try {
     await loadPDFjs();
 
+    // تأكد من وجود pdfjsLib بعد التحميل
+    const pdfLib = window.pdfjsLib
+      || window['pdfjs-dist/build/pdf']
+      || (typeof pdfjsLib !== 'undefined' ? pdfjsLib : null);
+
+    if (!pdfLib) throw new Error('pdfjsLib غير متاح بعد التحميل');
+
     const arrayBuffer = await file.arrayBuffer();
-    const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    const pdf = await pdfLib.getDocument({ data: arrayBuffer }).promise;
 
     // خذ أول صفحة فقط (المخطط عادةً في الصفحة الأولى)
     const page = await pdf.getPage(1);
@@ -1328,8 +1347,18 @@ async function analyzePDF(file) {
 
     await page.render({ canvasContext: ctx, viewport }).promise;
 
-    // حوّل لـ JPEG base64
-    const base64 = canvas.toDataURL('image/jpeg', 0.9).split(',')[1];
+    // ضغط الصورة لتجنب 504 timeout — max 1400px
+    let finalCanvas = canvas;
+    if (canvas.width > 1400 || canvas.height > 1400) {
+      const ratio = Math.min(1400 / canvas.width, 1400 / canvas.height);
+      const small = document.createElement('canvas');
+      small.width = Math.round(canvas.width * ratio);
+      small.height = Math.round(canvas.height * ratio);
+      small.getContext('2d').drawImage(canvas, 0, 0, small.width, small.height);
+      finalCanvas = small;
+    }
+    // حوّل لـ JPEG base64 بجودة 0.85
+    const base64 = finalCanvas.toDataURL('image/jpeg', 0.85).split(',')[1];
 
     document.getElementById('ci-model').textContent = `📄 PDF → صورة ${Math.round(viewport.width)}×${Math.round(viewport.height)}px — جارٍ التحليل...`;
 
@@ -1359,8 +1388,16 @@ async function analyzePDF(file) {
     return schema;
 
   } catch(e) {
-    console.warn('[PDF] failed:', e.message);
+    console.error('[PDF] FAILED:', e.message, e.stack);
     document.getElementById('ci-model').textContent = '⚠️ PDF فشل: ' + e.message;
+    // أظهر الخطأ بوضوح للمستخدم
+    const errDiv = document.getElementById('progress-wrap');
+    if (errDiv) {
+      const errMsg = document.createElement('div');
+      errMsg.style.cssText = 'background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:6px;padding:8px;margin-top:8px;font-size:11px;color:#e74c3c';
+      errMsg.textContent = 'PDF Error: ' + e.message;
+      errDiv.appendChild(errMsg);
+    }
     return null;
   }
 }
