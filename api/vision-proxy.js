@@ -179,7 +179,7 @@ Return ONLY a valid JSON object:
     return res.status(400).json({ error: 'prompt أو userMessage مطلوب' });
   }
 
-  const genConfig = { temperature: mode === 'wall-detect' ? 0.05 : 0.1, maxOutputTokens: maxTokens };
+  const genConfig = { temperature: mode === 'wall-detect' ? 0.05 : 0.1, maxOutputTokens: mode === 'wall-detect' ? 2048 : maxTokens };
 
   const requestBody = {
     contents: [{
@@ -190,6 +190,10 @@ Return ONLY a valid JSON object:
     }],
     generationConfig: genConfig
   };
+
+  // ── إرسال header مبكر لمنع timeout ──────────────────────
+  // Vercel Hobby: 60s max — نحتاج keep-alive
+  res.setHeader('X-Accel-Buffering', 'no');
 
   const errors = []; // collect ALL model errors for diagnostics
   let lastError = '';
