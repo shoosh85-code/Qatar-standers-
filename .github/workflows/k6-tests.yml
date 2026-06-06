@@ -13,36 +13,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install k6
-        run: |
-          sudo gpg --no-default-keyring \
-            --keyring /usr/share/keyrings/k6-archive-keyring.gpg \
-            --keyserver hkp://keyserver.ubuntu.com:80 \
-            --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
-          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" \
-            | sudo tee /etc/apt/sources.list.d/k6.list
-          sudo apt-get update
-          sudo apt-get install k6 -y
-
-      - name: Test ai-proxy Rate Limit (Free Tier)
-        run: |
-          k6 run --env BASE_URL=https://qatar-standers.vercel.app --env USER_TIER=free tests/k6/ai-proxy.js
-        continue-on-error: true
-
-      - name: Test qcs-search Rate Limit (Free Tier)
-        run: |
-          k6 run --env BASE_URL=https://qatar-standers.vercel.app --env USER_TIER=free tests/k6/qcs-search.js
-        continue-on-error: true
-
-      - name: Test vision-proxy Rate Limit (Free Tier)
-        run: |
-          k6 run --env BASE_URL=https://qatar-standers.vercel.app --env USER_TIER=free tests/k6/vision-proxy.js
-        continue-on-error: true
-
-      - name: Upload Results
-        uses: actions/upload-artifact@v4
-        if: always()
+      - name: Run k6 — ai-proxy
+        uses: grafana/k6-action@v0.3.1
         with:
-          name: k6-results-${{ github.run_number }}
-          path: results/
-          retention-days: 7
+          filename: tests/k6/ai-proxy.js
+        env:
+          BASE_URL: https://qatar-standers.vercel.app
+          USER_TIER: free
+        continue-on-error: true
+
+      - name: Run k6 — qcs-search
+        uses: grafana/k6-action@v0.3.1
+        with:
+          filename: tests/k6/qcs-search.js
+        env:
+          BASE_URL: https://qatar-standers.vercel.app
+          USER_TIER: free
+        continue-on-error: true
+
+      - name: Run k6 — vision-proxy
+        uses: grafana/k6-action@v0.3.1
+        with:
+          filename: tests/k6/vision-proxy.js
+        env:
+          BASE_URL: https://qatar-standers.vercel.app
+          USER_TIER: free
+        continue-on-error: true
