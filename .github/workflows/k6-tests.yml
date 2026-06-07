@@ -16,6 +16,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Create results directory
+        run: mkdir -p tests/k6/results
+
       - name: Run k6 — ai-proxy
         uses: grafana/k6-action@v0.3.1
         with:

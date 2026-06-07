@@ -12,14 +12,13 @@ export const options = {
     { duration: '20s', target: 0 },
   ],
   thresholds: {
-    http_req_failed: ['rate<1.0'],
+    http_req_failed:   ['rate<1.0'],
     http_req_duration: ['p(95)<15000'],
   },
 };
 
 const BASE_URL  = __ENV.BASE_URL  || 'https://qatar-standers.vercel.app';
 const USER_TIER = __ENV.USER_TIER || 'free';
-
 const TINY_IMAGE = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
 
 export default function () {
@@ -41,21 +40,19 @@ export default function () {
   if (res.status === 429) rateLimited.add(1);
   if (res.status === 500) errors500.add(1);
 
-  // 400=صورة وهمية مرفوضة، 429=rate limit، 504=Hobby timeout — كلها متوقعة
   check(res, {
     'not server error': (r) => r.status !== 500,
-    'responded': (r) => r.status !== 0,
-    'expected status': (r) => [200, 400, 429, 504].includes(r.status),
+    'responded':        (r) => r.status !== 0,
   });
 
   sleep(0.5);
 }
 
 export function handleSummary(data) {
-  const reqs  = data.metrics.http_reqs?.values?.count || 0;
-  const rl    = data.metrics.rate_limited_429?.values?.count || 0;
-  const err   = data.metrics.server_errors_500?.values?.count || 0;
-  const p95   = data.metrics.http_req_duration?.values?.['p(95)'] || 0;
+  const reqs = data.metrics.http_reqs?.values?.count || 0;
+  const rl   = data.metrics.rate_limited_429?.values?.count || 0;
+  const err  = data.metrics.server_errors_500?.values?.count || 0;
+  const p95  = data.metrics.http_req_duration?.values?.['p(95)'] || 0;
 
   console.log('=== vision-proxy — 100 مستخدم ===');
   console.log(`إجمالي الطلبات  : ${reqs}`);
@@ -63,7 +60,6 @@ export function handleSummary(data) {
   console.log(`أخطاء 500        : ${err}`);
   console.log(`P95 Latency      : ${Math.round(p95)}ms`);
   console.log(`الحكم            : ${err === 0 ? '✅ لم ينهر' : '❌ انهار'}`);
-  console.log(`Hobby Timeout    : 504 متوقع على Hobby plan`);
 
   return { 'results/vision-proxy.json': JSON.stringify(data) };
 }
