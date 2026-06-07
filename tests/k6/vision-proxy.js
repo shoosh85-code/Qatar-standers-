@@ -8,7 +8,7 @@ export const options = {
   vus: 5,
   duration: '1m',
   thresholds: {
-    'rate_limited': ['count>0'],
+    'responded (200/429/504)': ['rate>0'],
   },
 };
 

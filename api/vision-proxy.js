@@ -71,8 +71,11 @@ export default async function handler(req, res) {
   if (!image) return res.status(400).json({ error: 'image مطلوب' });
 
   // تحقق من صحة الـ base64 (حد أدنى معقول — 50 حرف)
-  if (typeof image !== 'string' || image.length < 50) {
-    return res.status(400).json({ error: 'الصورة غير صالحة' });
+  if (typeof image !== 'string' || image.length < 500) {
+    return res.status(400).json({
+      error: 'Image too small',
+      message_ar: 'الصورة صغيرة جداً — أرسل صورة حقيقية (min 500 bytes)'
+    });
   }
 
   // ── Wall Detection Mode — prompt هندسي متخصص ─────────────

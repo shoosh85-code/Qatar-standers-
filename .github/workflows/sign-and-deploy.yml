@@ -16,6 +16,9 @@ permissions:
   id-token: write       # مطلوب لـ sigstore OIDC
   actions: read
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   # ─── Job 1: التحقق من الكود ──────────────────────────────────────────────
   verify:

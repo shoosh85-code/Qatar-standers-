@@ -6,6 +6,9 @@ on:
   schedule:
     - cron: '0 6 * * 1'  # كل إثنين الساعة 6 صباحاً
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   lighthouse:
     name: Lighthouse Audit

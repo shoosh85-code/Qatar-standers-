@@ -5,6 +5,9 @@ on:
     - cron: '0 8 * * 0'  # كل أحد الساعة 8 صباحاً
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   links:
     name: Check for Broken Links

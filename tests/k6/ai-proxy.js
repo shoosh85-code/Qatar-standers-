@@ -14,6 +14,7 @@ export const options = {
   thresholds: {
     http_req_duration: ['p(95)<10000'],
     http_req_failed: ['rate<0.95'],
+    rate_limited_429: ['count>0'],
   },
 };
 
@@ -28,6 +29,8 @@ export default function () {
       headers: {
         'Content-Type': 'application/json',
         'x-user-tier': USER_TIER,
+        'Origin': 'https://qatar-standers.vercel.app',
+        'Referer': 'https://qatar-standers.vercel.app/',
       },
       timeout: '10s',
     }
