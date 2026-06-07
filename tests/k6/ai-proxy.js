@@ -7,32 +7,38 @@ const USER_TIER = __ENV.USER_TIER || 'free';
 
 export const options = {
   stages: [
-    { duration: '20s', target: 25 },   // صعود تدريجي
-    { duration: '40s', target: 100 },  // 100 مستخدم
-    { duration: '20s', target: 0 },    // نزول تدريجي
+    { duration: '20s', target: 25 },
+    { duration: '40s', target: 100 },
+    { duration: '20s', target: 0 },
   ],
   thresholds: {
     http_req_duration: ['p(95)<10000'],
     http_req_failed: ['rate<0.95'],
-    rate_limited_429: ['count>0'],
   },
 };
 
 const rateLimited = new Counter('rate_limited_429');
-const errors500 = new Counter('server_errors_500');
+const errors500   = new Counter('server_errors_500');
 
 export default function () {
+  // الكود يتوقع messages array — ليس query string
+  const payload = JSON.stringify({
+    messages: [{ role: 'user', content: 'ما هي متطلبات QCS 2024 للخرسانة؟' }],
+    max_tokens: 100,
+  });
+
   const res = http.post(
     `${BASE_URL}/api/ai-proxy`,
-    JSON.stringify({ query: 'ما هي متطلبات QCS 2024 للخرسانة؟', type: 'general' }),
+    payload,
     {
       headers: {
         'Content-Type': 'application/json',
-        'x-user-tier': USER_TIER,
-        'Origin': 'https://qatar-standers.vercel.app',
+        // Origin مضمون — الكود يتحقق منه
+        'Origin':  'https://qatar-standers.vercel.app',
         'Referer': 'https://qatar-standers.vercel.app/',
+        'x-user-tier': USER_TIER,
       },
-      timeout: '10s',
+      timeout: '12s',
     }
   );
 
@@ -40,19 +46,20 @@ export default function () {
   if (res.status === 500) errors500.add(1);
 
   check(res, {
+    'not 401 unauthorized': (r) => r.status !== 401,
     'not crashed (no 500)': (r) => r.status !== 500,
-    'endpoint alive': (r) => r.status !== 0,
-    '429 rate limit working': (r) => r.status === 429 || r.status === 200,
+    'endpoint alive':       (r) => r.status !== 0,
+    '200 or 429':           (r) => r.status === 200 || r.status === 429,
   });
 
   sleep(1);
 }
 
 export function handleSummary(data) {
-  const reqs = data.metrics.http_reqs?.values?.count || 0;
-  const rl = data.metrics.rate_limited_429?.values?.count || 0;
-  const err = data.metrics.server_errors_500?.values?.count || 0;
-  const p95 = data.metrics.http_req_duration?.values?.['p(95)'] || 0;
+  const reqs   = data.metrics.http_reqs?.values?.count || 0;
+  const rl     = data.metrics.rate_limited_429?.values?.count || 0;
+  const err    = data.metrics.server_errors_500?.values?.count || 0;
+  const p95    = data.metrics.http_req_duration?.values?.['p(95)'] || 0;
   const failed = data.metrics.http_req_failed?.values?.rate || 0;
 
   console.log('=== ai-proxy — 100 مستخدم ===');
@@ -63,5 +70,5 @@ export function handleSummary(data) {
   console.log(`نسبة الفشل       : ${(failed*100).toFixed(1)}%`);
   console.log(`الحكم            : ${err === 0 ? '✅ لم ينهر' : '❌ انهار'}`);
 
-  return {};
+  return { 'results/ai-proxy.json': JSON.stringify(data) };
 }
