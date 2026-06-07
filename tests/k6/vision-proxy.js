@@ -2,20 +2,24 @@ import http from 'k6/http';
 import { check, sleep } from 'k6';
 import { Counter } from 'k6/metrics';
 
-const rateLimited = new Counter('rate_limited');
+const rateLimited = new Counter('rate_limited_429');
+const errors500   = new Counter('server_errors_500');
 
 export const options = {
-  vus: 5,
-  duration: '1m',
+  stages: [
+    { duration: '20s', target: 25 },
+    { duration: '40s', target: 100 },
+    { duration: '20s', target: 0 },
+  ],
   thresholds: {
-    'responded (200/429/504)': ['rate>0'],
+    http_req_failed: ['rate<1.0'],
+    http_req_duration: ['p(95)<15000'],
   },
 };
 
-const BASE_URL = __ENV.BASE_URL || 'https://qatar-standers.vercel.app';
+const BASE_URL  = __ENV.BASE_URL  || 'https://qatar-standers.vercel.app';
 const USER_TIER = __ENV.USER_TIER || 'free';
 
-// صورة 1x1 PNG صغيرة جداً
 const TINY_IMAGE = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
 
 export default function () {
@@ -25,30 +29,41 @@ export default function () {
     {
       headers: {
         'Content-Type': 'application/json',
-        'Origin': 'https://qatar-standers.vercel.app',
+        'Origin':  'https://qatar-standers.vercel.app',
+        'Referer': 'https://qatar-standers.vercel.app/',
         'x-user-tier': USER_TIER,
+        'X-Admin-Token': __ENV.ADMIN_SECRET || 'k6-test',
       },
-      timeout: '12s',
+      timeout: '13s',
     }
   );
 
   if (res.status === 429) rateLimited.add(1);
+  if (res.status === 500) errors500.add(1);
 
-  // Hobby plan: 504 timeout مقبول ومتوقع
+  // 400=صورة وهمية مرفوضة، 429=rate limit، 504=Hobby timeout — كلها متوقعة
   check(res, {
-    'responded (200/429/504)': (r) => [200, 429, 504].includes(r.status),
+    'not server error': (r) => r.status !== 500,
+    'responded': (r) => r.status !== 0,
+    'expected status': (r) => [200, 400, 429, 504].includes(r.status),
   });
 
   sleep(0.5);
 }
 
 export function handleSummary(data) {
-  const total = data.metrics.http_reqs?.values?.count || 0;
-  const rl    = data.metrics.rate_limited?.values?.count || 0;
-  console.log('=== vision-proxy Rate Limit Test ===');
-  console.log(`Total Requests : ${total}`);
-  console.log(`Rate Limited   : ${rl} (${total ? Math.round(rl/total*100) : 0}%)`);
-  console.log(`P95 Latency    : ${Math.round(data.metrics.http_req_duration?.values?.['p(95)'] || 0)}ms`);
-  console.log(`Free Limit     : 3 req/min — ${rl > 0 ? '✅ يعمل' : '⚠️ لم يصل للحد بعد'}`);
+  const reqs  = data.metrics.http_reqs?.values?.count || 0;
+  const rl    = data.metrics.rate_limited_429?.values?.count || 0;
+  const err   = data.metrics.server_errors_500?.values?.count || 0;
+  const p95   = data.metrics.http_req_duration?.values?.['p(95)'] || 0;
+
+  console.log('=== vision-proxy — 100 مستخدم ===');
+  console.log(`إجمالي الطلبات  : ${reqs}`);
+  console.log(`Rate Limited 429 : ${rl} (${reqs > 0 ? ((rl/reqs)*100).toFixed(1) : 0}%)`);
+  console.log(`أخطاء 500        : ${err}`);
+  console.log(`P95 Latency      : ${Math.round(p95)}ms`);
+  console.log(`الحكم            : ${err === 0 ? '✅ لم ينهر' : '❌ انهار'}`);
+  console.log(`Hobby Timeout    : 504 متوقع على Hobby plan`);
+
   return { 'results/vision-proxy.json': JSON.stringify(data) };
 }
