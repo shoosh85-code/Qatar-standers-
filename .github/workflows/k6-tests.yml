@@ -16,7 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Create results directory
+      - name: Create k6 results directory
         run: mkdir -p tests/k6/results
 
       - name: Run k6 — ai-proxy

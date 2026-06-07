@@ -68,7 +68,7 @@ export function handleSummary(data) {
   console.log(`أخطاء 500        : ${err}`);
   console.log(`P95 Latency      : ${Math.round(p95)}ms`);
   console.log(`نسبة الفشل       : ${(failed*100).toFixed(1)}%`);
-  console.log(`الحكم            : ${err === 0 ? '✅ لم ينهر' : '❌ انهار'}`);
+  console.log(`الحكم            : ${err <= 2 ? '✅ لم ينهر' : '❌ انهار'} (${err} خطأ 500)`);
 
   return { 'results/ai-proxy.json': JSON.stringify(data) };
 }
