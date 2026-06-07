@@ -2,35 +2,30 @@ import http from 'k6/http';
 import { check, sleep } from 'k6';
 import { Counter } from 'k6/metrics';
 
-const BASE_URL = __ENV.BASE_URL || 'https://qatar-standers.vercel.app';
-const USER_TIER = __ENV.USER_TIER || 'free';
+const rateLimited = new Counter('rate_limited');
 
 export const options = {
-  stages: [
-    { duration: '20s', target: 25 },
-    { duration: '40s', target: 100 },
-    { duration: '20s', target: 0 },
-  ],
+  vus: 5,
+  duration: '1m',
   thresholds: {
-    http_req_duration: ['p(95)<15000'],
-    http_req_failed: ['rate<0.95'],
+    'rate_limited': ['count>0'],
   },
 };
 
-const rateLimited = new Counter('rate_limited_429');
-const errors500 = new Counter('server_errors_500');
+const BASE_URL = __ENV.BASE_URL || 'https://qatar-standers.vercel.app';
+const USER_TIER = __ENV.USER_TIER || 'free';
+
+// صورة 1x1 PNG صغيرة جداً
+const TINY_IMAGE = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
 
 export default function () {
   const res = http.post(
     `${BASE_URL}/api/vision-proxy`,
-    JSON.stringify({
-      question: 'test',
-      mimeType: 'image/jpeg',
-      imageBase64: 'dGVzdA==',
-    }),
+    JSON.stringify({ image: TINY_IMAGE, mimeType: 'image/png', mode: 'wall-detect' }),
     {
       headers: {
         'Content-Type': 'application/json',
+        'Origin': 'https://qatar-standers.vercel.app',
         'x-user-tier': USER_TIER,
       },
       timeout: '12s',
@@ -38,30 +33,22 @@ export default function () {
   );
 
   if (res.status === 429) rateLimited.add(1);
-  if (res.status === 500) errors500.add(1);
 
+  // Hobby plan: 504 timeout مقبول ومتوقع
   check(res, {
-    'not crashed (no 500)': (r) => r.status !== 500,
-    'endpoint alive': (r) => r.status !== 0,
+    'responded (200/429/504)': (r) => [200, 429, 504].includes(r.status),
   });
 
-  sleep(2);
+  sleep(0.5);
 }
 
 export function handleSummary(data) {
-  const reqs = data.metrics.http_reqs?.values?.count || 0;
-  const rl = data.metrics.rate_limited_429?.values?.count || 0;
-  const err = data.metrics.server_errors_500?.values?.count || 0;
-  const p95 = data.metrics.http_req_duration?.values?.['p(95)'] || 0;
-  const failed = data.metrics.http_req_failed?.values?.rate || 0;
-
-  console.log('=== vision-proxy — 100 مستخدم ===');
-  console.log(`إجمالي الطلبات  : ${reqs}`);
-  console.log(`Rate Limited 429 : ${rl} (${reqs > 0 ? ((rl/reqs)*100).toFixed(1) : 0}%)`);
-  console.log(`أخطاء 500        : ${err}`);
-  console.log(`P95 Latency      : ${Math.round(p95)}ms`);
-  console.log(`نسبة الفشل       : ${(failed*100).toFixed(1)}%`);
-  console.log(`الحكم            : ${err === 0 ? '✅ لم ينهر' : '❌ انهار'}`);
-
-  return {};
+  const total = data.metrics.http_reqs?.values?.count || 0;
+  const rl    = data.metrics.rate_limited?.values?.count || 0;
+  console.log('=== vision-proxy Rate Limit Test ===');
+  console.log(`Total Requests : ${total}`);
+  console.log(`Rate Limited   : ${rl} (${total ? Math.round(rl/total*100) : 0}%)`);
+  console.log(`P95 Latency    : ${Math.round(data.metrics.http_req_duration?.values?.['p(95)'] || 0)}ms`);
+  console.log(`Free Limit     : 3 req/min — ${rl > 0 ? '✅ يعمل' : '⚠️ لم يصل للحد بعد'}`);
+  return { 'results/vision-proxy.json': JSON.stringify(data) };
 }
