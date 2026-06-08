@@ -443,6 +443,17 @@ window.bldReset=function(){
 
 })();
 <\/script>
+
+<div onclick="window.location.href='/tools.html#blueprint-section'" style="margin-top:16px;background:linear-gradient(135deg,rgba(122,21,21,0.25),rgba(201,168,76,0.08));border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:16px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.8)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.4)'">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div style="font-size:32px;">🏗️</div>
+    <div style="flex:1;">
+      <div style="font-family:'Cairo',sans-serif;font-size:15px;font-weight:800;color:#E8C97A;margin-bottom:3px;">تحليل المخططات الهندسية</div>
+      <div style="font-size:12px;color:#B0A898;">ارفع PDF أو صورة المخطط ← استخراج الأبعاد تلقائياً ← توليد BOQ وفق QCS 2024</div>
+    </div>
+    <div style="color:#C9A84C;font-size:20px;font-weight:700;">←</div>
+  </div>
+</div>
 </div>
 <div class="lang-content-en" style="display:none;">
 <p style="padding:20px;text-align:center;color:var(--text3);">Switch to Arabic mode for the full interactive building calculator.</p>
