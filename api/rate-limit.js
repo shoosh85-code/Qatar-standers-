@@ -15,12 +15,16 @@ setInterval(() => {
 
 // ===== حدود كل Endpoint =====
 const ENDPOINT_LIMITS = {
-  '/api/ai-proxy':     { free: 5,  pro: 60,  global: 100 },
-  '/api/verify-pro':   { free: 3,  pro: 10,  global: 30  },
-  '/api/qcs-search':   { free: 10, pro: 100, global: 200 },
-  '/api/vision-proxy': { free: 3,  pro: 30,  global: 50  },
-  '/api/scan-upload':  { free: 2,  pro: 20,  global: 50  },
-  '/api/scan-status':  { free: 20, pro: 200, global: 500 },
+  '/api/ai-proxy':          { free: 5,  pro: 60,  global: 100 },
+  '/api/verify-pro':        { free: 3,  pro: 10,  global: 30  },
+  '/api/qcs-search':        { free: 10, pro: 100, global: 200 },
+  '/api/vision-proxy':      { free: 3,  pro: 30,  global: 50  },
+  '/api/scan-upload':       { free: 2,  pro: 20,  global: 50  },
+  '/api/scan-status':       { free: 20, pro: 200, global: 500 },
+  '/api/chatbot':           { free: 10, pro: 60,  global: 120 },
+  '/api/generate-document': { free: 3,  pro: 30,  global: 60  },
+  '/api/execution-ai':      { free: 5,  pro: 50,  global: 100 },
+  '/api/export-pdf':        { free: 3,  pro: 20,  global: 40  },
 };
 
 const WINDOW_MS = 60 * 1000; // نافذة دقيقة واحدة

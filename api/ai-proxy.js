@@ -336,6 +336,25 @@ export default async function handler(req) {
     });
   }
 
+  // ── Input Sanitization (Phase 2 Security) ──
+  // منع XSS و Prompt Injection قبل أي معالجة
+  if (body && typeof body === 'object') {
+    const DANGEROUS = /<script|javascript:|on\w+\s*=|<\/script>|prompt\s*injection/i;
+    const fields = ['query', 'system', 'ar_content', 'section_key'];
+    for (const field of fields) {
+      if (body[field] && typeof body[field] === 'string') {
+        if (DANGEROUS.test(body[field])) {
+          return new Response(JSON.stringify({ error: 'Invalid input', code: 'INVALID_INPUT' }), {
+            status: 400,
+            headers: { ...CORS, 'Content-Type': 'application/json' },
+          });
+        }
+        // حدّ أقصى 8000 حرف لكل حقل
+        body[field] = body[field].slice(0, 8000).trim();
+      }
+    }
+  }
+
   // ── Detect Pro user from token (basic check) ──
 const token = extractToken(req);
   const isProUser = token ? await verifyProToken(token) : false;

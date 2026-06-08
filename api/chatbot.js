@@ -1,6 +1,9 @@
 // api/chatbot.js — QatarSpec Pro Support Chatbot
 // Vercel Serverless Function
 
+import { withRateLimit } from './rate-limit.js';
+
+// Legacy in-memory map kept for KB (knowledge-base) hits — no Gemini call needed
 const RATE_LIMIT = new Map();
 
 const SYSTEM_PROMPT = `أنت مساعد دعم فني ذكي لتطبيق QatarSpec Pro — المنصة الهندسية الرقمية الأولى في قطر.
@@ -114,7 +117,7 @@ const SYSTEM_PROMPT = `أنت مساعد دعم فني ذكي لتطبيق Qatar
 5. اقترح الميزة المناسبة للسؤال دائماً
 6. لا تخترع معلومات — قل "لا أعرف" إذا لزم`;
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   // CORS
   res.setHeader('Access-Control-Allow-Origin', 'https://qatar-standers.vercel.app');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -269,3 +272,6 @@ export default async function handler(req, res) {
     });
   }
 }
+
+// Apply unified rate limiting — 10/min free, 60/min pro
+export default withRateLimit(handler, '/api/chatbot');
