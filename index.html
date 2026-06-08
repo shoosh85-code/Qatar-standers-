@@ -2163,6 +2163,7 @@
     groups.forEach(function(g){
       g.querySelectorAll('.cat-card').forEach(function(c){
         if(c.closest('#qs-landing')) return;
+        if(c.getAttribute('data-param') === '/tools.html#blueprint-section') return;
         c.style.opacity='0';
         c.style.transform='translateY(22px)';
         c.style.transition='opacity .45s ease, transform .45s ease, border-color .3s, background .25s, box-shadow .3s';
