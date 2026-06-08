@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Health Check — QatarSpec Pro</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: #0a0a14;
+    color: #e2e8f0;
+    padding: 32px 20px;
+    direction: rtl;
+    min-height: 100vh;
+  }
+  h1 { color: #8D1B3D; font-size: 20px; margin-bottom: 6px; }
+  .subtitle { color: #64748b; font-size: 13px; margin-bottom: 24px; }
+  .checks { display: grid; gap: 10px; max-width: 520px; }
+  .check {
+    background: #1a1a2e;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .check-name { font-size: 13px; color: #cbd5e1; }
+  .badge {
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .ok      { background: #166534; color: #bbf7d0; }
+  .fail    { background: #7f1d1d; color: #fca5a5; }
+  .pending { background: #1e3a5f; color: #93c5fd; }
+  .ts { font-size: 11px; color: #64748b; margin-top: 20px; }
+  .refresh-btn {
+    margin-top: 20px;
+    padding: 8px 20px;
+    background: #8D1B3D;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .refresh-btn:hover { background: #a12047; }
+</style>
+</head>
+<body>
+<h1>🏗 QatarSpec Pro — Health Check</h1>
+<p class="subtitle">qatar-standers.vercel.app</p>
+
+<div class="checks">
+  <div class="check">
+    <span class="check-name">🌐 الموقع</span>
+    <span class="badge ok" id="c-site">✅ OK</span>
+  </div>
+  <div class="check">
+    <span class="check-name">🤖 Gemini API (ai-proxy)</span>
+    <span class="badge pending" id="c-gemini">⏳ جاري الفحص...</span>
+  </div>
+  <div class="check">
+    <span class="check-name">🗄 Supabase (auth)</span>
+    <span class="badge pending" id="c-supabase">⏳ جاري الفحص...</span>
+  </div>
+  <div class="check">
+    <span class="check-name">⚡ Rate Limiting</span>
+    <span class="badge pending" id="c-rl">⏳ جاري الفحص...</span>
+  </div>
+  <div class="check">
+    <span class="check-name">📝 Error Logger</span>
+    <span class="badge pending" id="c-log">⏳ جاري الفحص...</span>
+  </div>
+  <div class="check">
+    <span class="check-name">🔒 Security Headers</span>
+    <span class="badge pending" id="c-sec">⏳ جاري الفحص...</span>
+  </div>
+</div>
+
+<div class="ts" id="ts"></div>
+<button class="refresh-btn" onclick="runChecks()">🔄 إعادة الفحص</button>
+
+<script>
+'use strict';
+
+async function check(id, fn) {
+  var el = document.getElementById(id);
+  try {
+    var ok = await fn();
+    el.textContent = ok ? '✅ OK' : '❌ FAIL';
+    el.className = 'badge ' + (ok ? 'ok' : 'fail');
+  } catch (e) {
+    el.textContent = '❌ Error: ' + String(e.message || '').slice(0, 40);
+    el.className = 'badge fail';
+  }
+}
+
+function reset() {
+  ['c-gemini','c-supabase','c-rl','c-log','c-sec'].forEach(function(id) {
+    var el = document.getElementById(id);
+    el.textContent = '⏳ جاري الفحص...';
+    el.className = 'badge pending';
+  });
+}
+
+async function runChecks() {
+  reset();
+  document.getElementById('ts').textContent = 'آخر فحص: ' + new Date().toLocaleString('ar-QA');
+
+  check('c-gemini', async function() {
+    var r = await fetch('/api/ai-proxy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: 'ping health check', type: 'health' })
+    });
+    return r.status !== 500;
+  });
+
+  check('c-supabase', async function() {
+    var r = await fetch('/api/auth', { method: 'GET' });
+    return r.status !== 500;
+  });
+
+  check('c-rl', async function() {
+    var r = await fetch('/api/ai-proxy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: 'rate limit test' })
+    });
+    // 200, 400, 429 = endpoint يعمل. 500 = مشكلة
+    return r.status === 200 || r.status === 429 || r.status === 400;
+  });
+
+  check('c-log', async function() {
+    var r = await fetch('/api/log-error', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: 'health-check-ping', source: 'health.html', timestamp: new Date().toISOString() })
+    });
+    return r.status === 200;
+  });
+
+  check('c-sec', async function() {
+    var r = await fetch(window.location.origin + '/');
+    var csp = r.headers.get('content-security-policy');
+    var xfo = r.headers.get('x-frame-options');
+    return !!(csp || xfo);
+  });
+}
+
+runChecks();
+</script>
+</body>
+</html>

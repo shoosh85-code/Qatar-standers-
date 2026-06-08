@@ -24,6 +24,45 @@
 <!-- plausible stub moved to /js/analytics.js -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <script src="/js/security-cleanup.js"></script>
+<!-- Phase 7: Global Error Boundary -->
+<script>
+(function() {
+  'use strict';
+  var MAX_ERRORS = 3;
+  var errorCount = 0;
+
+  window.onerror = function(message, source, lineno, colno, error) {
+    if (++errorCount > MAX_ERRORS) return true;
+    // تجاهل أخطاء extensions وسكريبتات خارجية
+    if (source && source.indexOf('qatar-standers.vercel.app') === -1 && source.indexOf('localhost') === -1 && source !== '') return false;
+    try {
+      navigator.sendBeacon('/api/log-error', JSON.stringify({
+        message:   String(message || '').slice(0, 500),
+        source:    String(source  || '').slice(0, 200),
+        lineno:    lineno,
+        colno:     colno,
+        stack:     error && error.stack ? String(error.stack).slice(0, 1000) : '',
+        url:       window.location.href.slice(0, 200),
+        timestamp: new Date().toISOString()
+      }));
+    } catch (e) { /* صامت */ }
+    return false;
+  };
+
+  window.addEventListener('unhandledrejection', function(e) {
+    if (++errorCount > MAX_ERRORS) return;
+    try {
+      navigator.sendBeacon('/api/log-error', JSON.stringify({
+        message:   'UnhandledPromiseRejection: ' + String(e.reason || '').slice(0, 400),
+        source:    'promise',
+        stack:     e.reason && e.reason.stack ? String(e.reason.stack).slice(0, 1000) : '',
+        url:       window.location.href.slice(0, 200),
+        timestamp: new Date().toISOString()
+      }));
+    } catch (err) { /* صامت */ }
+  });
+})();
+</script>
 <!-- CSP: Server Headers في vercel.json — see headers config for Content-Security-Policy -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
