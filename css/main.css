@@ -803,3 +803,29 @@ body.dark .onboard-body { color: #bbb; }
 }
 .onboard-skip:hover { color: #666; }
 /* QatarSpec Pro v3.4 — Tue Jun  2 18:29:03 UTC 2026 */
+
+/* ═══ Phase 3: Deep Engineering Tables ═══ */
+.dq-wrap { margin: 16px 0; border: 1px solid rgba(201,168,76,0.22); border-radius: 10px; overflow: hidden; }
+.dq-head { background: rgba(201,168,76,0.1); padding: 9px 14px; display:flex; align-items:center; justify-content:space-between; }
+.dq-title { color: var(--gold); font-weight: 700; font-size: 13px; }
+.dq-ref   { font-size: 10px; color: var(--text3); }
+.dq-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.dq-table th { background: rgba(201,168,76,0.06); padding: 8px 10px; text-align: right; color: var(--text2); font-weight: 700; border-bottom: 1px solid rgba(201,168,76,0.15); white-space: nowrap; }
+.dq-table td { padding: 7px 10px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text); direction: rtl; line-height: 1.5; }
+.dq-table tr:last-child td { border-bottom: none; }
+.dq-table tr:hover td { background: rgba(201,168,76,0.04); }
+.dq-pass  { color: #2ecc71; font-weight: 700; }
+.dq-fail  { color: #e74c3c; font-weight: 700; }
+.dq-warn  { color: #e67e22; font-weight: 700; }
+.dq-disc  { padding: 7px 14px; font-size: 10px; color: var(--text3); border-top: 1px solid rgba(201,168,76,0.1); background: rgba(0,0,0,0.15); }
+.dq-ncr-wrap { margin: 12px 0; }
+.dq-ncr-item { background: rgba(231,76,60,0.06); border: 1px solid rgba(231,76,60,0.2); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+.dq-ncr-title { color: #e74c3c; font-weight: 700; margin-bottom: 4px; font-size: 12px; }
+.dq-ncr-body  { color: var(--text2); line-height: 1.6; font-size: 12px; }
+.dq-hold-wrap { margin: 12px 0; }
+.dq-hold-item { background: rgba(231,174,0,0.06); border: 1px solid rgba(231,174,0,0.25); border-radius: 8px; padding: 9px 12px; margin-bottom: 6px; font-size: 12px; color: var(--text2); }
+.dq-hold-item::before { content: "⛔ HP: "; color: #e6ac00; font-weight: 700; }
+@media (max-width: 600px) {
+  .dq-table { font-size: 11px; }
+  .dq-table th, .dq-table td { padding: 6px 8px; }
+}
