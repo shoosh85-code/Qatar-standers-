@@ -996,7 +996,7 @@
     <div class="group-header-count" style="background:#C9A84C33;color:#C9A84C" data-ar="5 حاسبات" data-en="5 Calculators" data-ar="5 حاسبات" data-en="5 Calculators">5 حاسبات</div>
   </div>
   <div class="group-grid">
-    <div class="cat-card" data-action="openURL" data-param="/tools.html#blueprint-section" data-type="tool" data-keywords="مخطط,blueprint,pdf,autocad,dwg,boq,كميات,تحليل,analyzer,قياس,حساب">
+    <div class="cat-card" data-action="openDetail" data-param="blueprint_analyzer" data-type="tool" data-url="/tools.html#blueprint-section" data-keywords="مخطط,blueprint,pdf,autocad,dwg,boq,كميات,تحليل,analyzer,قياس,حساب">
   <span class="cat-badge calc" data-ar="🏗️ تحليل" data-en="🏗️ Analyzer">🏗️ تحليل</span>
   <h3 class="cat-name" data-ar="تحليل المخططات الهندسية" data-en="Blueprint Analyzer">تحليل المخططات الهندسية</h3>
   <div class="card-bullets cat-desc">
@@ -2123,6 +2123,20 @@
 })();
 </script>
 
+
+<script>
+(function(){
+  document.addEventListener('click', function(e){
+    var card = e.target.closest('.cat-card');
+    if (!card) return;
+    if (card.dataset.param === 'blueprint_analyzer') {
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.href = '/tools.html#blueprint-section';
+    }
+  }, true);
+})();
+</script>
 </body>
 </html>
 <!-- redeploy 20260524113926 -->
