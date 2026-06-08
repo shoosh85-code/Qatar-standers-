@@ -2231,6 +2231,21 @@
   setTimeout(showToolCards, 500);
   setTimeout(showToolCards, 1500);
   setTimeout(showToolCards, 3000);
+
+  // نووي: أجبر blueprint card على الظهور بعد تحميل كل شيء
+  function nukeBlueprintCard() {
+    var card = document.querySelector('.cat-card[data-param="/tools.html#blueprint-section"]');
+    if (!card) return;
+    card.style.cssText = 'opacity:1!important;transform:none!important;visibility:visible!important;display:block!important;content-visibility:visible!important;contain:none!important;';
+    card.classList.add('vis', 'animate-in');
+    card.classList.remove('lxR');
+    void card.offsetHeight;
+    card.classList.add('lxR', 'vis');
+  }
+  setTimeout(nukeBlueprintCard, 1000);
+  setTimeout(nukeBlueprintCard, 2500);
+  setTimeout(nukeBlueprintCard, 5000);
+  window.addEventListener('load', nukeBlueprintCard);
 })();
 </script>
 <!-- Mobile Bottom Navigation — Phase 6 -->
