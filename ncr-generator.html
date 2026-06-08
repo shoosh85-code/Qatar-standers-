@@ -68,6 +68,54 @@ textarea{resize:vertical}
 .badge-obs{background:#3498DB;color:#fff}
 .disclaimer{background:var(--warn-bg);color:var(--warn-tx);padding:10px 14px;border-radius:var(--r);font-size:11px;margin-top:12px}
 .ncr-num{font-size:11px;color:var(--tx3);margin-top:4px}
+/* NCR v5 — Workflow + Status + History */
+.wf-section{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:20px;margin-bottom:16px}
+.wf-title{font-size:13px;font-weight:700;color:var(--qa);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.wf-stepper{display:flex;align-items:center;gap:0;margin-bottom:16px;overflow-x:auto;padding-bottom:4px}
+.wf-step{display:flex;flex-direction:column;align-items:center;min-width:100px;position:relative}
+.wf-step:not(:last-child)::after{content:'';position:absolute;top:16px;right:-50%;width:100%;height:2px;background:var(--bd);z-index:0}
+.wf-step.done:not(:last-child)::after{background:#1a7a4a}
+.wf-dot{width:32px;height:32px;border-radius:50%;border:2px solid var(--bd);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:14px;position:relative;z-index:1;transition:.2s}
+.wf-step.active .wf-dot{border-color:var(--qa);background:var(--qa);color:#fff}
+.wf-step.done .wf-dot{border-color:#1a7a4a;background:#1a7a4a;color:#fff}
+.wf-lbl{font-size:10px;color:var(--tx2);margin-top:4px;text-align:center;line-height:1.3}
+.wf-step.active .wf-lbl{color:var(--qa);font-weight:700}
+.wf-step.done .wf-lbl{color:#1a7a4a}
+.status-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600}
+.status-open{background:#FEF2F2;color:#C0392B;border:1px solid #fca5a5}
+.status-progress{background:#FFFBEB;color:#B45309;border:1px solid #FCD34D}
+.status-closed{background:#F0FDF4;color:#166534;border:1px solid #86EFAC}
+.status-void{background:#F8FAFC;color:#64748B;border:1px solid #CBD5E1}
+.wf-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.wf-btn{padding:9px 16px;border-radius:var(--r);border:1.5px solid;font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
+.wf-btn-progress{border-color:#F39C12;color:#F39C12;background:transparent}
+.wf-btn-progress:hover{background:#F39C12;color:#fff}
+.wf-btn-close{border-color:#1a7a4a;color:#1a7a4a;background:transparent}
+.wf-btn-close:hover{background:#1a7a4a;color:#fff}
+.wf-btn-reopen{border-color:#3498DB;color:#3498DB;background:transparent}
+.wf-btn-reopen:hover{background:#3498DB;color:#fff}
+.wf-btn-void{border-color:#94a3b8;color:#94a3b8;background:transparent}
+.wf-btn-void:hover{background:#94a3b8;color:#fff}
+.wf-btn-pdf{border-color:var(--qa);color:var(--qa);background:transparent}
+.wf-btn-pdf:hover{background:var(--qa);color:#fff}
+.wf-btn-save{background:var(--qa);color:#fff;border-color:var(--qa)}
+.wf-btn-save:hover{opacity:.85}
+.ncr-history{margin-top:14px}
+.hist-title{font-size:12px;font-weight:600;color:var(--tx2);margin-bottom:8px}
+.hist-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd);font-size:12px}
+.hist-item:last-child{border-bottom:none}
+.hist-dot{width:8px;height:8px;border-radius:50%;margin-top:4px;flex-shrink:0}
+.hist-dot.open{background:#E74C3C}
+.hist-dot.progress{background:#F39C12}
+.hist-dot.closed{background:#1a7a4a}
+.hist-dot.void{background:#94a3b8}
+.hist-txt{flex:1;color:var(--tx)}
+.hist-time{color:var(--tx3);font-size:11px;white-space:nowrap}
+.ncr-save-toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a7a4a;color:#fff;padding:10px 20px;border-radius:30px;font-size:13px;font-weight:600;transition:.3s;z-index:9999;opacity:0}
+.ncr-save-toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.ca-field{margin-top:12px}
+.ca-field label{font-size:11px;font-weight:500;color:var(--tx2);display:block;margin-bottom:4px}
+.ca-field textarea{min-height:70px}
 </style>
 </head>
 <body>
@@ -157,9 +205,61 @@ textarea{resize:vertical}
       <button class="act-btn2" onclick="resetNCR()">🔄 جديد</button>
     </div>
     <div id="ncr-sections"></div>
+
+    <!-- NCR v5: Workflow + Status Tracking + History -->
+    <div class="wf-section" id="ncr-workflow" style="display:none">
+      <div class="wf-title">📊 Workflow & Status Tracking</div>
+
+      <!-- Stepper -->
+      <div class="wf-stepper" id="wf-stepper">
+        <div class="wf-step active" id="wf-s-open">
+          <div class="wf-dot">📋</div>
+          <div class="wf-lbl">Open<br>مفتوح</div>
+        </div>
+        <div class="wf-step" id="wf-s-progress">
+          <div class="wf-dot">🔧</div>
+          <div class="wf-lbl">In Progress<br>قيد التصحيح</div>
+        </div>
+        <div class="wf-step" id="wf-s-closed">
+          <div class="wf-dot">✅</div>
+          <div class="wf-lbl">Closed<br>مغلق</div>
+        </div>
+      </div>
+
+      <!-- Current Status Badge -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+        <span style="font-size:12px;color:var(--tx2)">الحالة الحالية:</span>
+        <span class="status-badge status-open" id="wf-status-badge">📋 Open — مفتوح</span>
+        <span style="font-size:11px;color:var(--tx3)" id="wf-due-label"></span>
+      </div>
+
+      <!-- Corrective Action Input -->
+      <div class="ca-field" id="wf-ca-field">
+        <label>✏️ الإجراء التصحيحي المتخذ / Corrective Action Taken</label>
+        <textarea id="wf-ca-text" placeholder="اكتب الإجراء التصحيحي الفعلي الذي اتُّخذ في الموقع..."></textarea>
+      </div>
+
+      <!-- Workflow Action Buttons -->
+      <div class="wf-actions">
+        <button class="wf-btn wf-btn-progress" id="btn-mark-progress" onclick="ncrWorkflow('in_progress')">🔧 بدء التصحيح — In Progress</button>
+        <button class="wf-btn wf-btn-close"    id="btn-mark-closed"  onclick="ncrWorkflow('closed')">✅ إغلاق NCR — Close</button>
+        <button class="wf-btn wf-btn-reopen"   id="btn-reopen"       onclick="ncrWorkflow('open')" style="display:none">↩️ إعادة فتح — Reopen</button>
+        <button class="wf-btn wf-btn-void"     id="btn-void"         onclick="ncrWorkflow('void')">🚫 إلغاء — Void</button>
+        <button class="wf-btn wf-btn-pdf"                            onclick="exportNCRPdf()">📄 تصدير PDF</button>
+        <button class="wf-btn wf-btn-save"                           onclick="saveNCRtoDB()">💾 حفظ في النظام</button>
+      </div>
+
+      <!-- History Log -->
+      <div class="ncr-history">
+        <div class="hist-title">📜 سجل التاريخ — Activity Log</div>
+        <div id="wf-history-list"></div>
+      </div>
+    </div>
+
     <div class="disclaimer">⚠️ هذا التحليل مولّد بالذكاء الاصطناعي للاسترشاد فقط — تحقق من QCS 2024 الأصلي وراجع مهندس QA/QC المختص.</div>
   </div>
 </div>
+<div class="ncr-save-toast" id="ncr-toast"></div>
 
 <script>
 'use strict';
@@ -431,6 +531,243 @@ function resetNCR() {
   } else {
     loadFromURL();
   }
+})();
+
+// ═══════════════════════════════════════════════════════
+// NCR v5: Workflow + Status Tracking + PDF Export + Save
+// ═══════════════════════════════════════════════════════
+var ncrState = {
+  status: 'open',
+  ncrId: null,
+  history: [],
+  currentData: {}
+};
+
+var STATUS_CONFIG = {
+  open:        { label: '📋 Open — مفتوح',              cls: 'status-open',     dot: 'open'     },
+  in_progress: { label: '🔧 In Progress — قيد التصحيح', cls: 'status-progress', dot: 'progress' },
+  closed:      { label: '✅ Closed — مغلق',             cls: 'status-closed',   dot: 'closed'   },
+  void:        { label: '🚫 Void — ملغى',               cls: 'status-void',     dot: 'void'     }
+};
+
+var STEP_MAP = { open: 0, in_progress: 1, closed: 2, void: 2 };
+
+function showWorkflow() {
+  var wf = document.getElementById('ncr-workflow');
+  if (wf) wf.style.display = 'block';
+  addHistory('open', 'تم إنشاء NCR وبدء التحليل بـ AI');
+  updateWorkflowUI();
+}
+
+function updateWorkflowUI() {
+  var st = ncrState.status;
+  var cfg = STATUS_CONFIG[st];
+  var badge = document.getElementById('wf-status-badge');
+  if (badge) { badge.textContent = cfg.label; badge.className = 'status-badge ' + cfg.cls; }
+
+  var stepIdx = STEP_MAP[st];
+  ['open','progress','closed'].forEach(function(s, i) {
+    var el = document.getElementById('wf-s-' + s);
+    if (!el) return;
+    el.classList.remove('active','done');
+    if (i < stepIdx) el.classList.add('done');
+    else if (i === stepIdx && st !== 'void') el.classList.add('active');
+  });
+
+  var btnProgress = document.getElementById('btn-mark-progress');
+  var btnClosed   = document.getElementById('btn-mark-closed');
+  var btnReopen   = document.getElementById('btn-reopen');
+  var btnVoid     = document.getElementById('btn-void');
+  var caField     = document.getElementById('wf-ca-field');
+
+  if (st === 'open') {
+    if (btnProgress) btnProgress.style.display = '';
+    if (btnClosed)   btnClosed.style.display   = '';
+    if (btnReopen)   btnReopen.style.display   = 'none';
+    if (btnVoid)     btnVoid.style.display     = '';
+    if (caField)     caField.style.display     = '';
+  } else if (st === 'in_progress') {
+    if (btnProgress) btnProgress.style.display = 'none';
+    if (btnClosed)   btnClosed.style.display   = '';
+    if (btnReopen)   btnReopen.style.display   = 'none';
+    if (btnVoid)     btnVoid.style.display     = '';
+    if (caField)     caField.style.display     = '';
+  } else {
+    if (btnProgress) btnProgress.style.display = 'none';
+    if (btnClosed)   btnClosed.style.display   = 'none';
+    if (btnReopen)   btnReopen.style.display   = '';
+    if (btnVoid)     btnVoid.style.display     = 'none';
+    if (caField)     caField.style.display     = 'none';
+  }
+  renderHistory();
+}
+
+function addHistory(status, note) {
+  ncrState.history.push({
+    status: status,
+    note: note,
+    time: new Date().toLocaleString('ar-QA', { year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })
+  });
+}
+
+function renderHistory() {
+  var el = document.getElementById('wf-history-list');
+  if (!el) return;
+  el.innerHTML = ncrState.history.slice().reverse().map(function(h) {
+    var cfg = STATUS_CONFIG[h.status] || STATUS_CONFIG.open;
+    var safeNote = String(h.note).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return '<div class="hist-item"><div class="hist-dot ' + cfg.dot + '"></div>' +
+      '<div class="hist-txt">' + safeNote + '</div>' +
+      '<div class="hist-time">' + h.time + '</div></div>';
+  }).join('');
+}
+
+function ncrWorkflow(newStatus) {
+  if (ncrState.status === newStatus) return;
+  var caText = (document.getElementById('wf-ca-text') || {}).value || '';
+  if (newStatus === 'closed' && !caText.trim()) {
+    showToastNCR('⚠️ أدخل الإجراء التصحيحي قبل الإغلاق', '#B45309');
+    var el = document.getElementById('wf-ca-text');
+    if (el) el.focus();
+    return;
+  }
+  var messages = {
+    in_progress: 'تحديث الحالة: قيد التصحيح — ' + caText.slice(0,60),
+    closed:      'تم إغلاق NCR — الإجراء: ' + caText.slice(0,60),
+    open:        'تم إعادة فتح NCR للمراجعة',
+    void:        'تم إلغاء NCR (Void)'
+  };
+  ncrState.status = newStatus;
+  addHistory(newStatus, messages[newStatus] || 'تغيير الحالة');
+  updateWorkflowUI();
+  showToastNCR('✅ ' + (STATUS_CONFIG[newStatus] || {}).label);
+  if (ncrState.ncrId) {
+    var token = (window.QS && window.QS.session && window.QS.session.access_token) || '';
+    fetch('/api/ncr-log?id=' + ncrState.ncrId, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ status: newStatus, corrective_action: caText })
+    }).catch(function() {});
+  }
+}
+
+function saveNCRtoDB() {
+  var token = (window.QS && window.QS.session && window.QS.session.access_token) || '';
+  if (!token) { showToastNCR('💡 سجّل دخولك لحفظ NCR في النظام', '#B45309'); return; }
+  var ncrData = {
+    ncr_number:       document.getElementById('ncr_num').value || 'NCR-' + Date.now().toString().slice(-6),
+    project_name:     document.getElementById('proj').value || 'غير محدد',
+    contract_number:  document.getElementById('contract').value || '',
+    contractor:       document.getElementById('cont').value || '',
+    location:         document.getElementById('ncr_loc').value || '',
+    drawing_no:       document.getElementById('ncr_dwg').value || '',
+    qcs_reference:    document.getElementById('ncr_clause').value || '',
+    classification:   ncrClass,
+    description:      document.getElementById('ncr_desc').value || '',
+    status:           ncrState.status,
+    issued_date:      document.getElementById('ncr_date').value || new Date().toISOString().split('T')[0],
+    corrective_action:(document.getElementById('wf-ca-text') || {}).value || ''
+  };
+  fetch('/api/ncr-log', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+    body: JSON.stringify(ncrData)
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    if (d.ncr && d.ncr.id) {
+      ncrState.ncrId = d.ncr.id;
+      addHistory(ncrState.status, 'تم الحفظ في قاعدة البيانات — ID: ' + d.ncr.id.slice(0,8));
+      renderHistory();
+      showToastNCR('✅ تم حفظ NCR في النظام بنجاح');
+    } else {
+      showToastNCR('❌ ' + (d.error || 'فشل الحفظ'), '#C0392B');
+    }
+  })
+  .catch(function() { showToastNCR('❌ خطأ في الاتصال بالخادم', '#C0392B'); });
+}
+
+function exportNCRPdf() {
+  var ncrNum  = document.getElementById('ncr_num').value || '—';
+  var proj    = document.getElementById('proj').value || '—';
+  var cont    = document.getElementById('cont').value || '—';
+  var loc     = document.getElementById('ncr_loc').value || '—';
+  var clause  = document.getElementById('ncr_clause').value || '—';
+  var desc    = document.getElementById('ncr_desc').value || '—';
+  var dateVal = document.getElementById('ncr_date').value || new Date().toISOString().split('T')[0];
+  var caText  = (document.getElementById('wf-ca-text') || {}).value || '—';
+  var clsLbl  = { major:'Major 🔴', minor:'Minor 🟡', obs:'Observation 🔵' };
+  var sections = document.getElementById('ncr-sections').innerText || '';
+  var esc = function(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
+  var statusCfg = STATUS_CONFIG[ncrState.status] || STATUS_CONFIG.open;
+  var histLines = ncrState.history.map(function(h) {
+    return '<tr><td style="white-space:nowrap">' + h.time + '</td><td>' + esc(h.note) + '</td></tr>';
+  }).join('');
+  var srcEl = document.getElementById('ncr_source');
+  var srcTxt = srcEl ? srcEl.options[srcEl.selectedIndex].text : '—';
+
+  var w = window.open('','_blank');
+  if (!w) { showToastNCR('⚠️ اسمح بالـ popup لتصدير PDF', '#B45309'); return; }
+  w.document.write('<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>NCR #' + ncrNum + '</title>' +
+  '<style>@page{size:A4;margin:15mm}body{font-family:"Noto Sans Arabic",Arial,sans-serif;margin:0;padding:20px;font-size:11.5px;color:#1a1a1a;line-height:1.7}' +
+  '.header{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #8D1B3D;padding-bottom:10px;margin-bottom:14px}' +
+  '.logo{font-size:20px;font-weight:800;color:#8D1B3D}.meta{font-size:10px;color:#555;text-align:left}' +
+  'h1{font-size:16px;margin:0 0 8px;color:#8D1B3D}.badge{padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700}' +
+  '.badge-major{background:#E74C3C;color:#fff}.badge-minor{background:#F39C12;color:#fff}.badge-obs{background:#3498DB;color:#fff}' +
+  '.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#F8F8F8;border:1px solid #ddd;border-radius:6px;padding:12px;margin-bottom:12px}' +
+  '.gi label{font-size:9px;color:#777;display:block}.gi span{font-size:11px;font-weight:600}' +
+  '.sec{border:1px solid #e2e8f0;border-radius:6px;padding:12px;margin-bottom:10px}' +
+  '.st{font-size:11px;font-weight:700;color:#8D1B3D;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #eee}' +
+  '.sb{font-size:11px;white-space:pre-wrap}table{width:100%;border-collapse:collapse;font-size:10px}' +
+  'th{background:#8D1B3D;color:#fff;padding:5px 8px;text-align:right}td{padding:4px 8px;border-bottom:1px solid #eee}' +
+  'tr:nth-child(even) td{background:#F9F9F9}.disc{background:#FFFBEB;border:1px solid #FCD34D;color:#92400E;padding:8px;border-radius:4px;font-size:10px;margin-top:12px}' +
+  '.ftr{text-align:center;font-size:10px;color:#999;margin-top:14px;padding-top:8px;border-top:1px solid #ddd}' +
+  '.watermark{color:#F5F5F5;font-size:55px;position:fixed;top:45%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);z-index:-1;font-weight:800}</style>' +
+  '</head><body><div class="watermark">QatarSpec Pro</div>' +
+  '<div class="header"><div><div class="logo">🏗 QatarSpec Pro</div><div style="font-size:10px;color:#666">QCS 2024 · ISO 9001:2015 · Ashghal QA/QC</div></div>' +
+  '<div class="meta">Non-Conformance Report<br>' + new Date().toLocaleDateString('ar-QA') + '</div></div>' +
+  '<h1>📋 NCR #' + esc(ncrNum) + ' &nbsp;<span class="badge badge-' + ncrClass + '">' + (clsLbl[ncrClass]||'') + '</span></h1>' +
+  '<div style="margin-bottom:10px">الحالة: <strong>' + statusCfg.label + '</strong></div>' +
+  '<div class="grid">' +
+    '<div class="gi"><label>المشروع</label><span>' + esc(proj) + '</span></div>' +
+    '<div class="gi"><label>المقاول</label><span>' + esc(cont) + '</span></div>' +
+    '<div class="gi"><label>الموقع</label><span>' + esc(loc) + '</span></div>' +
+    '<div class="gi"><label>بند QCS</label><span>' + esc(clause) + '</span></div>' +
+    '<div class="gi"><label>التاريخ</label><span>' + esc(dateVal) + '</span></div>' +
+    '<div class="gi"><label>مصدر الكشف</label><span>' + esc(srcTxt) + '</span></div>' +
+  '</div>' +
+  '<div class="sec"><div class="st">📝 وصف المخالفة</div><div class="sb">' + esc(desc) + '</div></div>' +
+  '<div class="sec"><div class="st">🤖 تحليل AI — Root Cause & Corrective Actions</div><div class="sb">' + esc(sections) + '</div></div>' +
+  '<div class="sec"><div class="st">✅ الإجراء التصحيحي المتخذ</div><div class="sb">' + esc(caText) + '</div></div>' +
+  '<div class="sec"><div class="st">📜 سجل النشاط</div><table><tr><th>التاريخ</th><th>الحدث</th></tr>' + histLines + '</table></div>' +
+  '<div class="disc">⚠️ هذا التقرير مولّد بالذكاء الاصطناعي للاسترشاد فقط. يجب التحقق من QCS 2024 الأصلي قبل التطبيق.</div>' +
+  '<div class="ftr">QatarSpec Pro · qatar-standers.vercel.app · ' + new Date().toLocaleString('ar-QA') + '</div>' +
+  '</body></html>');
+  w.document.close();
+  setTimeout(function() { w.print(); }, 600);
+}
+
+function showToastNCR(msg, bg) {
+  var t = document.getElementById('ncr-toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.style.background = bg || '#1a7a4a';
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 3000);
+}
+
+// Hook: إظهار workflow بعد generateNCR ناجح
+(function() {
+  var origGen = window.generateNCR || generateNCR;
+  // نعيد تعريف generateNCR لإضافة الـ workflow بعد التوليد الناجح
+  window.generateNCR = async function() {
+    await origGen.call(this);
+    var output = document.getElementById('ncr-output');
+    if (output && output.classList.contains('show')) {
+      ncrState = { status: 'open', ncrId: null, history: [], currentData: {} };
+      showWorkflow();
+    }
+  };
 })();
 </script>
 </body>
