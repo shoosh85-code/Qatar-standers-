@@ -1311,8 +1311,9 @@ c["drawing_analyzer"] = {
       } else {
         _daLastResult = data.result;
         var html = daMarkdownToHTML(data.result);
+        var safeHtml = (typeof QS !== 'undefined' && QS.sanitize) ? QS.sanitize(html, true) : html;
         document.getElementById('da-result').style.display = 'block';
-        document.getElementById('da-result').innerHTML = html;
+        document.getElementById('da-result').innerHTML = safeHtml;
         document.getElementById('da-actions').style.display = 'flex';
       }
     } catch(err) {
@@ -1586,8 +1587,9 @@ c["photo_analyzer"] = {
       } else {
         _piLastResult = data.result;
         var html = piMarkdownToHTML(data.result);
+        var safeHtml = (typeof QS !== 'undefined' && QS.sanitize) ? QS.sanitize(html, true) : html;
         document.getElementById('pi-result').style.display = 'block';
-        document.getElementById('pi-result').innerHTML = html;
+        document.getElementById('pi-result').innerHTML = safeHtml;
         document.getElementById('pi-actions').style.display = 'flex';
       }
     } catch(err) {

@@ -147,7 +147,8 @@ function calcMaterials() {
 
   html += '</div>';
 
-  document.getElementById('mc-results').innerHTML = html;
+  var _mcHtml = html;
+  document.getElementById('mc-results').innerHTML = (typeof QS !== 'undefined' && QS.sanitize) ? QS.sanitize(_mcHtml, true) : _mcHtml;
   document.getElementById('mc-results').style.display = 'block';
 }
 

@@ -63,6 +63,12 @@
   });
 })();
 </script>
+<!-- DOMPurify: يُحمَّل مبكراً (بدون defer) لأن security.js يعتمد عليه -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.4.2/purify.min.js"></script>
+<!-- Security Module: حماية مركزية من XSS — يجب أن يكون ثاني شيء يُحمَّل -->
+<script src="/js/security.js"></script>
+<!-- XSS Auto-Patch: يحمي العناصر عالية الخطورة تلقائياً -->
+<script src="/js/xss-patch.js" defer></script>
 <!-- CSP: Server Headers في vercel.json — see headers config for Content-Security-Policy -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -1830,8 +1836,7 @@
 <!-- Chart.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
 <script src="js/calcs/chart-addon.js?v=100" defer></script>
-<!-- CDN: Security + Rendering -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.4.2/purify.min.js" defer></script>
+<!-- CDN: Rendering (DOMPurify يُحمَّل مبكراً في <head> — لا يحتاج هنا) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js" defer></script>
 <!-- Stepper + Sortable + Misc -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.6/Sortable.min.js" defer></script>
