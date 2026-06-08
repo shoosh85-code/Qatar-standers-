@@ -1180,6 +1180,7 @@ c["drawing_analyzer"] = {
 <button onclick="daCopy()" style="padding:7px 14px;background:var(--surface3);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:11px;color:var(--text2)">📋 نسخ التحليل</button>
 <button onclick="daReset()" style="padding:7px 14px;background:var(--surface3);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:11px;color:var(--text2)">📐 وثيقة جديدة</button>
 <button onclick="daPrint()" style="padding:7px 14px;background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:6px;cursor:pointer;font-size:11px;color:#3498db">🖨️ طباعة</button>
+<button onclick="daExportPDF()" style="padding:7px 14px;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:6px;cursor:pointer;font-size:11px;color:#e74c3c;font-weight:700">📄 تصدير PDF</button>
 </div>
 <style>
 .da-type-btn.active{background:rgba(52,152,219,0.2)!important;border-color:#3498db!important;color:#3498db!important}
@@ -1470,6 +1471,7 @@ c["photo_analyzer"] = {
 <button onclick="piCopy()" style="padding:7px 14px;background:var(--surface3);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:11px;color:var(--text2)">📋 نسخ التقرير</button>
 <button onclick="piReset()" style="padding:7px 14px;background:var(--surface3);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:11px;color:var(--text2)">📷 صورة جديدة</button>
 <button onclick="piPrint()" style="padding:7px 14px;background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:6px;cursor:pointer;font-size:11px;color:#3498db">🖨️ طباعة</button>
+<button onclick="piExportPDF()" style="padding:7px 14px;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:6px;cursor:pointer;font-size:11px;color:#e74c3c;font-weight:700">📄 تصدير PDF</button>
 </div>
 <style>
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
