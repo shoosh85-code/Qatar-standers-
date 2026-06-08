@@ -70,5 +70,5 @@ export function handleSummary(data) {
   console.log(`نسبة الفشل       : ${(failed*100).toFixed(1)}%`);
   console.log(`الحكم            : ${err <= 2 ? '✅ لم ينهر' : '❌ انهار'} (${err} خطأ 500)`);
 
-  return { 'results/ai-proxy.json': JSON.stringify(data) };
+  return {};
 }

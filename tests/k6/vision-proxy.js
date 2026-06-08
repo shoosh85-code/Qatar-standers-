@@ -61,5 +61,5 @@ export function handleSummary(data) {
   console.log(`P95 Latency      : ${Math.round(p95)}ms`);
   console.log(`الحكم            : ${err === 0 ? '✅ لم ينهر' : '❌ انهار'}`);
 
-  return { 'results/vision-proxy.json': JSON.stringify(data) };
+  return {};
 }
