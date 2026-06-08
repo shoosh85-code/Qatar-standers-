@@ -23,6 +23,14 @@ const BACKEND_URL    = process.env.BACKEND_URL;
 const BACKEND_SECRET = process.env.BACKEND_SECRET;
 
 const MIN_IMAGES = 20;
+
+// SEC v3.1: CORS محدود — بدلاً من wildcard *
+const CORS_ORIGIN = process.env.ALLOWED_ORIGIN || 'https://qatar-standers.vercel.app';
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': CORS_ORIGIN,
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-user-tier',
+};
 const MAX_IMAGES = 60;
 const MAX_FILE_MB = 5;
 
@@ -418,7 +426,7 @@ async function analyzeImages(images) {
 }
 
 async function scanGeminiFallbackHandler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', CORS_ORIGIN);
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
@@ -853,8 +861,8 @@ const wrappedKiriVerify   = withRateLimit(kiriVerifyHandler,       '/api/kiri-ve
 const wrappedExportPdf    = withRateLimit(exportScanPdfHandler,    '/api/export-scan-pdf');
 
 export default async function handler(req, res) {
-  // CORS for all actions
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  // SEC v3.1: CORS محدود — بدلاً من wildcard *
+  res.setHeader('Access-Control-Allow-Origin', CORS_ORIGIN);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-user-tier');
 

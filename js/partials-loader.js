@@ -30,7 +30,11 @@
       const res = await fetch(src, { cache: 'no-cache' });
       if (!res.ok) throw new Error(`HTTP ${res.status} — ${src}`);
       const html = await res.text();
-      container.innerHTML = html;
+      // SEC v3.1: sanitize HTML from network before inserting into DOM
+      const clean = (window.DOMPurify && typeof window.DOMPurify.sanitize === 'function')
+        ? window.DOMPurify.sanitize(html, { FORCE_BODY: true, ADD_TAGS: ['script'], ADD_ATTR: ['data-action', 'data-tab', 'data-ar', 'data-en', 'aria-label', 'aria-hidden', 'tabindex'] })
+        : html; // fallback: DOMPurify لم يُحمَّل بعد (partials من server موثوق)
+      container.innerHTML = clean;
       container.removeAttribute('data-partial-pending');
       container.setAttribute('data-partial-loaded', 'true');
     } catch (err) {

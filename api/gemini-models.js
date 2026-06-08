@@ -3,7 +3,9 @@
 // Usage: GET /api/gemini-models
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  // SEC v3.1: CORS محدود — diagnostic endpoint
+  const CORS_ORIGIN = process.env.ALLOWED_ORIGIN || 'https://qatar-standers.vercel.app';
+  res.setHeader('Access-Control-Allow-Origin', CORS_ORIGIN);
   if (req.method !== 'GET') return res.status(405).json({ error: 'GET فقط' });
 
   const apiKey = process.env.GEMINI_API_KEY;

@@ -1590,7 +1590,7 @@ ${context ? `السياق: ${context}` : ''}
 async function generateDocumentHandler(req) {
   if (req.method === 'OPTIONS') {
     return new Response(null, { status: 204, headers: {
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': CORS_ORIGIN,
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization'
     }});
@@ -1619,7 +1619,7 @@ async function generateDocumentHandler(req) {
     status: 400, headers: { 'Content-Type': 'application/json' }
   });
 
-  const CORS = { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' };
+  const CORS = { 'Access-Control-Allow-Origin': CORS_ORIGIN, 'Content-Type': 'application/json' };
 
   try {
     // ── Method Statement ──────────────────────────────────────────────────
