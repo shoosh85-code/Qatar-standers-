@@ -896,3 +896,13 @@ body.dark .onboard-body { color: #bbb; }
 /* ═══ Viewport Height Fix (iOS Safari) ═══ */
 :root { --vh: 1vh; }
 .full-height { height: calc(var(--vh, 1vh) * 100); }
+
+/* ═══ Blueprint Card — Force Visible (overrides all animation systems) ═══ */
+.cat-card[data-param="/tools.html#blueprint-section"] {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+  display: block !important;
+  content-visibility: visible !important;
+  contain: none !important;
+}
