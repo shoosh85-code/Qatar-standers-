@@ -829,3 +829,70 @@ body.dark .onboard-body { color: #bbb; }
   .dq-table { font-size: 11px; }
   .dq-table th, .dq-table td { padding: 6px 8px; }
 }
+
+/* ═══════════════════════════════════════════════════════
+   Mobile Bottom Navigation — Phase 6
+   ═══════════════════════════════════════════════════════ */
+.mob-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 9000;
+  background: var(--surface, #1a1a2e);
+  border-top: 1px solid var(--border, rgba(255,255,255,0.1));
+  padding: 6px 0 max(6px, env(safe-area-inset-bottom));
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+@media (max-width: 768px) {
+  .mob-nav { display: flex; }
+  body { padding-bottom: 68px; }
+}
+.mob-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-decoration: none;
+  color: var(--text2, rgba(255,255,255,0.55));
+  font-size: 10px;
+  min-width: 56px;
+  min-height: 48px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  transition: color .15s, background .15s;
+  cursor: pointer;
+}
+.mob-nav-item:hover,
+.mob-nav-item.active {
+  color: var(--qa, #8D1B3D);
+  background: rgba(141,27,61,0.08);
+}
+.mob-nav-item svg { flex-shrink: 0; }
+
+/* ═══ Touch Target Fixes — Phase 6 ═══ */
+@media (max-width: 768px) {
+  button,
+  .btn,
+  .act-btn,
+  .act-btn2,
+  .tab-btn,
+  .cat-btn,
+  [data-action],
+  .cls-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  body { overflow-x: hidden; }
+  img, video, canvas, iframe, table { max-width: 100%; }
+  header .header-inner { padding: 0 12px; }
+  .logo-mark svg { width: 20px; height: 20px; }
+  .hero-visual { display: none; }
+}
+
+/* ═══ Viewport Height Fix (iOS Safari) ═══ */
+:root { --vh: 1vh; }
+.full-height { height: calc(var(--vh, 1vh) * 100); }
