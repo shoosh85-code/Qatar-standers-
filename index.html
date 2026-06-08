@@ -5,10 +5,15 @@
 <head>
 <meta charset="UTF-8">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<!-- ═══ Resource Hints — Performance ═══ -->
+<!-- ═══ Resource Hints — Performance (Phase 1 optimized) ═══ -->
 <link rel="preconnect" href="https://generativelanguage.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 <link rel="preload" href="/inline-scripts.min.js" as="script">
+<link rel="preload" href="/css/main.css" as="style">
+<link rel="preload" href="/js/core/theme.min.js" as="script">
+<link rel="preload" href="/js/core/ui-utils.min.js" as="script">
 <!-- ═══ Google Analytics 4 — QatarSpec Pro ═══ -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-QSPEC2026QA"></script>
 <!-- gtag config is in /inline-scripts.js -->
@@ -567,17 +572,17 @@
     setTimeout(function(){el.style.display='none';alive=false},950);
   });
 
-  // Skip splash if already entered in this session (refresh fix)
+  // Skip splash INSTANTLY if already entered in this session
   if(sessionStorage.getItem('qs_entered')==='1'){
     var el=document.getElementById('qs-landing');
     if(el){el.style.display='none';alive=false;}
   }
 
-  // Auto-dismiss after 8 seconds if user doesn't click
+  // Auto-dismiss after 2 seconds (reduced from 8s for performance)
   setTimeout(function(){
     var el=document.getElementById('qs-landing');
-    if(el&&el.style.display!=='none'){el.classList.add('qsl-exit');setTimeout(function(){el.style.display='none';alive=false},950)}
-  },8000);
+    if(el&&el.style.display!=='none'){el.classList.add('qsl-exit');sessionStorage.setItem('qs_entered','1');setTimeout(function(){el.style.display='none';alive=false},950)}
+  },2000);
 })();
 </script>
 <!-- ═══ END ANIMATED LANDING SCREEN ═══ -->
@@ -1759,11 +1764,9 @@
 <!-- ═══ Sweet Dialogs System (SweetAlert2) ═══ -->
 <script src="/js/sweet-dialogs.js" defer></script>
 
-<!-- ═══ Scroll Animations System (AOS) ═══ -->
-<script src="/js/scroll-animations.js" defer></script>
-
-<!-- ═══ Tooltip System (Tippy.js) ═══ -->
-<script src="/js/tooltip-system.js" defer></script>
+<!-- ═══ Lazy Loader — Non-critical scripts load after 3s or first interaction ═══ -->
+<script src="/js/lazy-loader-init.js" defer></script>
+<!-- scroll-animations + tooltip-system → loaded by lazy-loader-init.js -->
 
 <!-- ═══ Fuzzy Search System (Fuse.js) ═══ -->
 <script src="/js/fuzzy-search.js" defer></script>
@@ -1777,18 +1780,12 @@
 <!-- ═══ Card Health Monitor — Auto-fix broken cards ═══ -->
 <script src="/js/card-health-check.js" defer></script>
 
-<!-- ═══ PostHog Analytics — Product Event Tracking ═══ -->
-<!-- ملاحظة: استبدل phc_YOUR_PROJECT_API_KEY بمفتاحك من posthog.com -->
-<script src="/js/posthog-analytics.js" defer></script>
-
-<!-- ═══ Micro-Delights — Confetti + Animations + Loading States (PROMPT #8) ═══ -->
-<script src="/js/micro-delights.js" defer></script>
+<!-- posthog-analytics + micro-delights → loaded by lazy-loader-init.js -->
 
 <!-- ═══ Performance Monitor — Core Web Vitals + Resource Analysis (PROMPT #10) ═══ -->
 <script src="/js/performance-monitor.js" defer></script>
 
-<!-- ═══ Guided Tour — Driver.js Welcome Tour (PROMPT #1) ═══ -->
-<script src="/js/guided-tour.js" defer></script>
+<!-- guided-tour → loaded by lazy-loader-init.js -->
 
 <script src="/chatbot-widget.js?v=5"></script>
 
@@ -1888,9 +1885,7 @@
 })();
 </script>
 
-<script src="/js/wave-lines.js" defer></script>
-<script src="/js/card-waves.js" defer></script>
-<script src="/js/luxury-animations.js" defer></script>
+<!-- wave-lines + card-waves + luxury-animations → loaded by lazy-loader-init.js -->
 
 <script>
 /* ── PHASE 1 ENHANCEMENTS ── */
