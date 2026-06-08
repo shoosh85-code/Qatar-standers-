@@ -2213,14 +2213,19 @@
 
 <script>
 (function(){
-  // force show tool cards
+  // force show tool/calc/navigate cards — يشمل كارت blueprint analyzer
   function showToolCards() {
-    var cards = document.querySelectorAll('.cat-card[data-type="tool"]');
+    var cards = document.querySelectorAll(
+      '.cat-card[data-type="tool"], .cat-card[data-type="calc"], .cat-card[data-action="navigate"]'
+    );
     cards.forEach(function(card) {
       card.style.display = '';
       card.style.opacity = '1';
       card.style.visibility = 'visible';
     });
+    // أظهر قسم مركز التصميم والحاسبات كاملاً
+    var gc = document.getElementById('group-calc');
+    if (gc) { gc.style.display = ''; gc.style.opacity = '1'; gc.style.visibility = 'visible'; }
   }
   document.addEventListener('DOMContentLoaded', showToolCards);
   setTimeout(showToolCards, 500);
