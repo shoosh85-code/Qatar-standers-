@@ -2126,15 +2126,19 @@
 
 <script>
 (function(){
-  document.addEventListener('click', function(e){
-    var card = e.target.closest('.cat-card');
-    if (!card) return;
-    if (card.dataset.param === 'blueprint_analyzer') {
-      e.preventDefault();
-      e.stopPropagation();
-      window.location.href = '/tools.html#blueprint-section';
-    }
-  }, true);
+  // force show tool cards
+  function showToolCards() {
+    var cards = document.querySelectorAll('.cat-card[data-type="tool"]');
+    cards.forEach(function(card) {
+      card.style.display = '';
+      card.style.opacity = '1';
+      card.style.visibility = 'visible';
+    });
+  }
+  document.addEventListener('DOMContentLoaded', showToolCards);
+  setTimeout(showToolCards, 500);
+  setTimeout(showToolCards, 1500);
+  setTimeout(showToolCards, 3000);
 })();
 </script>
 </body>
