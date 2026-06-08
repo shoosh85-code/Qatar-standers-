@@ -13,7 +13,8 @@ export const options = {
   ],
   thresholds: {
     http_req_duration: ['p(95)<3000'],
-    http_req_failed: ['rate<0.95'],
+    // http_req_failed مُزال: 429 = rate limiting متوقع، ليس فشلاً
+    server_errors_500: ['count<5'],
   },
 };
 

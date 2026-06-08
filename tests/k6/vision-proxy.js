@@ -12,8 +12,10 @@ export const options = {
     { duration: '20s', target: 0 },
   ],
   thresholds: {
-    http_req_failed:   ['rate<1.0'],
-    http_req_duration: ['p(95)<15000'],
+    // 429 هو rate limiting متوقع — ليس فشلاً حقيقياً
+    // الفشل الحقيقي = 500 فقط
+    http_req_duration:   ['p(95)<15000'],
+    server_errors_500:   ['count<5'],
   },
 };
 
