@@ -107,12 +107,20 @@ function openDetail(key) {
   var _dmEl = document.getElementById('dmContent');
   if (_dmEl) {
     _dmEl.innerHTML = dedupeSectionContent(d.content, window.currentLang || 'ar');
-    _dmEl.insertAdjacentHTML('beforeend',
-      '<div class="qcs-disclaimer" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.2);border-radius:6px;padding:8px;margin-top:14px;font-size:10px;color:#999;line-height:1.6;">' +
+    var extraHtml = '<div class="qcs-disclaimer" style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.2);border-radius:6px;padding:8px;margin-top:14px;font-size:10px;color:#999;line-height:1.6;">' +
       '\u26a0\ufe0f \u0647\u0630\u0627 \u0627\u0644\u0645\u062d\u062a\u0648\u0649 \u0645\u0631\u062c\u0639\u064a \u0641\u0642\u0637 \u2014 \u062a\u062d\u0642\u0642 \u062f\u0627\u0626\u0645\u0627\u064b \u0645\u0646 \u0627\u0644\u0645\u0648\u0627\u0635\u0641\u0629 \u0627\u0644\u0631\u0633\u0645\u064a\u0629 QCS 2024 \u0642\u0628\u0644 \u0627\u0644\u0627\u0639\u062a\u0645\u0627\u062f.<br>' +
       'All content is for reference only \u2014 always verify against official QCS 2024 specifications.' +
-      '</div>'
-    );
+      '</div>';
+    if (key === 'bld_calculator') {
+      extraHtml += '<a href="/tools.html#blueprint-section" style="display:block;margin-top:12px;background:linear-gradient(135deg,rgba(122,21,21,0.25),rgba(201,168,76,0.08));border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:14px;text-decoration:none;">' +
+        '<div style="display:flex;align-items:center;gap:12px;">' +
+        '<div style="font-size:28px;">🏗️</div>' +
+        '<div style="flex:1;"><div style="font-size:14px;font-weight:800;color:#E8C97A;">\u062a\u062d\u0644\u064a\u0644 \u0627\u0644\u0645\u062e\u0637\u0637\u0627\u062a \u0627\u0644\u0647\u0646\u062f\u0633\u064a\u0629</div>' +
+        '<div style="font-size:11px;color:#B0A898;margin-top:2px;">\u0627\u0631\u0641\u0639 PDF \u2190 \u0627\u0633\u062a\u062e\u0631\u0627\u062c \u0627\u0644\u0623\u0628\u0639\u0627\u062f \u2190 BOQ \u0648\u0641\u0642 QCS 2024</div></div>' +
+        '<div style="color:#C9A84C;font-size:18px;font-weight:700;">\u2190</div>' +
+        '</div></a>';
+    }
+    _dmEl.insertAdjacentHTML('beforeend', extraHtml);
   }
   const backBtn = document.getElementById('dmBackBtn');
   if (backBtn) backBtn.style.display = navStack.length > 0 ? 'flex' : 'none';
