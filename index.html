@@ -2312,3 +2312,35 @@
 </body>
 </html>
 <!-- redeploy 20260524113926 -->
+
+<script>
+// Blueprint card — MutationObserver nuclear solution
+(function() {
+  function injectBlueprintCard() {
+    var modal = document.getElementById('detailModal');
+    if (!modal || !modal.classList.contains('open')) return;
+    var key = modal.dataset.currentKey;
+    if (key !== 'bld_calculator') return;
+    var dmc = document.getElementById('dmContent');
+    if (!dmc) return;
+    if (dmc.querySelector('[data-bp]')) return;
+    var w = document.createElement('a');
+    w.setAttribute('data-bp', '1');
+    w.href = '/tools.html#blueprint-section';
+    w.style.cssText = 'display:flex!important;align-items:center;gap:12px;margin-top:20px;padding:16px;background:linear-gradient(135deg,rgba(122,21,21,0.3),rgba(201,168,76,0.1));border:2px solid rgba(201,168,76,0.5);border-radius:12px;text-decoration:none;';
+    w.innerHTML = '<span style="font-size:28px">🏗️</span><span style="flex:1"><strong style="color:#E8C97A;font-size:14px;display:block">تحليل المخططات الهندسية</strong><span style="color:#B0A898;font-size:11px">ارفع PDF ← استخراج الأبعاد ← BOQ وفق QCS 2024</span></span><span style="color:#C9A84C;font-size:20px">←</span>';
+    dmc.appendChild(w);
+  }
+  var obs = new MutationObserver(function() {
+    setTimeout(injectBlueprintCard, 50);
+    setTimeout(injectBlueprintCard, 300);
+    setTimeout(injectBlueprintCard, 800);
+  });
+  document.addEventListener('DOMContentLoaded', function() {
+    var dmc = document.getElementById('dmContent');
+    if (dmc) obs.observe(dmc, { childList: true, subtree: false });
+    var modal = document.getElementById('detailModal');
+    if (modal) obs.observe(modal, { attributes: true, attributeFilter: ['class', 'data-current-key'] });
+  });
+})();
+</script>
