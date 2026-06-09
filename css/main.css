@@ -906,3 +906,7 @@ body.dark .onboard-body { color: #bbb; }
   content-visibility: visible !important;
   contain: none !important;
 }
+
+/* Blueprint card — maximum protection */
+[data-blueprint-card] { display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important; }
+[data-blueprint-card] a { color:#E8C97A!important; }
