@@ -940,7 +940,64 @@ async function blueprintAnalyzerHandler(req, res) {
   }
 }
 
-const wrappedBlueprint = withRateLimit(blueprintAnalyzerHandler, '/api/scanner');
+// ── Create Checkout Handler (merged from api/create-checkout.js) ──────────
+async function createCheckoutHandler(req, res) {
+  if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
+  const STRIPE_KEY = process.env.STRIPE_SECRET_KEY;
+  if (!STRIPE_KEY) return res.status(503).json({ error: 'Stripe not configured' });
+  const { email } = req.body || {};
+  if (!email) return res.status(400).json({ error: 'Email required' });
+  try {
+    const response = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + STRIPE_KEY, 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        'payment_method_types[]': 'card',
+        'line_items[0][price_data][currency]': 'qar',
+        'line_items[0][price_data][product_data][name]': 'QatarSpec Pro',
+        'line_items[0][price_data][unit_amount]': '9900',
+        'line_items[0][price_data][recurring][interval]': 'month',
+        'line_items[0][quantity]': '1',
+        'mode': 'subscription',
+        'customer_email': email,
+        'success_url': (process.env.APP_URL || 'https://qatar-standers.vercel.app') + '/success?session={CHECKOUT_SESSION_ID}',
+        'cancel_url': (process.env.APP_URL || 'https://qatar-standers.vercel.app') + '/',
+        'metadata[product]': 'qatarspec_pro',
+      })
+    });
+    if (!response.ok) { const err = await response.json(); return res.status(502).json({ error: err.error?.message || 'Stripe error' }); }
+    const session = await response.json();
+    return res.status(200).json({ url: session.url, sessionId: session.id });
+  } catch (err) { return res.status(500).json({ error: 'Internal server error' }); }
+}
+
+// ── Generate Document Handler (merged from api/generate-document.js) ──────
+async function generateDocumentHandler(req, res) {
+  if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
+  const GEMINI_KEY = process.env.GEMINI_API_KEY;
+  if (!GEMINI_KEY) return res.status(500).json({ error: 'GEMINI_API_KEY not set' });
+  const { docType, projectData, language = 'ar' } = req.body || {};
+  if (!docType) return res.status(400).json({ error: 'docType required' });
+  const prompt = `أنت مهندس متخصص في إعداد المستندات الهندسية وفق QCS 2024 وأشغال قطر.
+أنشئ ${docType} احترافياً بناءً على البيانات التالية:
+${JSON.stringify(projectData || {})}
+اللغة: ${language === 'ar' ? 'العربية' : 'English'}
+المخرج: مستند هندسي منظم وكامل وفق المعايير القطرية.`;
+  try {
+    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.2, maxOutputTokens: 4096 } })
+    });
+    if (!r.ok) return res.status(502).json({ error: 'AI service error' });
+    const data = await r.json();
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!text) return res.status(502).json({ error: 'Empty response' });
+    return res.status(200).json({ success: true, document: text, docType });
+  } catch (err) { return res.status(500).json({ error: err.message }); }
+}
+
+const wrappedCheckout = withRateLimit(createCheckoutHandler, '/api/scanner');
+const wrappedGenDoc   = withRateLimit(generateDocumentHandler, '/api/scanner');
 
 export default async function handler(req, res) {
   // SEC v3.1: CORS محدود — بدلاً من wildcard *
@@ -959,9 +1016,11 @@ export default async function handler(req, res) {
   if (action === 'kiri-verify')        return wrappedKiriVerify(req, res);
   if (action === 'export-pdf')         return wrappedExportPdf(req, res);
   if (action === 'blueprint-analyze') return wrappedBlueprint(req, res);
+  if (action === 'create-checkout')   return wrappedCheckout(req, res);
+  if (action === 'generate-document') return wrappedGenDoc(req, res);
 
   return res.status(400).json({
     error: 'action مطلوب',
-    valid_actions: ['upload', 'status', 'gemini', 'backend-info', 'kiri-verify', 'export-pdf', 'blueprint-analyze'],
+    valid_actions: ['upload', 'status', 'gemini', 'backend-info', 'kiri-verify', 'export-pdf', 'blueprint-analyze', 'create-checkout', 'generate-document'],
   });
 }

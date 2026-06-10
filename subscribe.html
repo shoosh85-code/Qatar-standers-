@@ -482,7 +482,7 @@ async function handleStripeCheckout() {
   setMsg('', false);
 
   try {
-    var res = await fetch('/api/create-checkout', {
+    var res = await fetch('/api/scanner?action=create-checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: fields.email, plan: _plan })

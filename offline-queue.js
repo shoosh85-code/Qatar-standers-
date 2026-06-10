@@ -77,7 +77,7 @@ window.OfflineQueue = (function() {
           formData.append('images', blob, img.name || `img_${i}.jpg`);
         });
 
-        const res = await fetch('/api/scan-upload', {
+        const res = await fetch('/api/scanner?action=upload', {
           method: 'POST',
           body:   formData,
         });
