@@ -45,7 +45,7 @@ window.QS.blueprintUI = {
     const session = await window.QS.getSession?.();
 
     try {
-      const res = await fetch('/api/blueprint-parser', {
+      const res = await fetch('/api/scanner?action=blueprint-analyze', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
