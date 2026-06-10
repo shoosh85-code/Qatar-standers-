@@ -356,7 +356,7 @@
 
       showProgress('جاري تحليل المخطط بـ Gemini Vision...', 60);
 
-      const response = await fetch('/api/scanner?action=blueprint-analyze', {
+      const response = await fetch('/api/blueprint', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
