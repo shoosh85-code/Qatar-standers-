@@ -40,9 +40,6 @@
     "api/tap.js": {
       "maxDuration": 30
     },
-    "api/tap-webhook.js": {
-      "maxDuration": 30
-    },
     "api/export-pdf.js": {
       "maxDuration": 60
     },
@@ -54,6 +51,9 @@
     },
     "api/hub-extended.js": {
       "maxDuration": 60
+    },
+    "api/blueprint.js": {
+      "maxDuration": 30
     }
   },
   "headers": [
