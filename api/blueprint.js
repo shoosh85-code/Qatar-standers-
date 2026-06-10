@@ -32,7 +32,7 @@ export default async function handler(req) {
   const ALLOWED = ['image/jpeg','image/png','image/webp','image/tiff','application/pdf'];
   if (!ALLOWED.includes(mimeType)) return json({ error: 'نوع غير مدعوم — PDF, JPG, PNG, WEBP' }, 400);
 
-  if (fileBase64.length > 4 * 1024 * 1024) return json({ error: 'الملف كبير — الحد 3MB' }, 400);
+  if (fileBase64.length > 14 * 1024 * 1024) return json({ error: 'الملف كبير — الحد 10MB' }, 400);
 
   const typeHints = {
     architectural: 'معماري — احسب: مساحات الغرف، محيط المبنى، فتحات النوافذ والأبواب، التشطيبات (بلاط، بلاستر، دهان)',
