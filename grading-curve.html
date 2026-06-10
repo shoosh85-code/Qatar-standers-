@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منحنى التدرج الحبيبي — QatarSpec Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root { --gold:#C9A84C; --gold2:#E8C97A; --red:#7a1515; --dark1:#0d0d0d; --dark3:#1a1a1a; --dark4:#222; --border:rgba(201,168,76,0.15); --text:#e8e0d0; --text2:#b8aa98; --text3:#7a7060; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--dark1);color:var(--text);font-family:Cairo,sans-serif;min-height:100vh;}
+  .header{background:linear-gradient(135deg,rgba(122,21,21,0.3),rgba(201,168,76,0.1));border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:12px;}
+  .header a{color:var(--gold);text-decoration:none;font-size:13px;opacity:0.8;}
+  .title{font-size:18px;font-weight:800;color:var(--gold2);flex:1;}
+  .main{max-width:960px;margin:0 auto;padding:20px 16px;}
+  .card{background:var(--dark3);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px;}
+  .card-title{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:14px;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .sieve-table{width:100%;border-collapse:collapse;font-size:12px;}
+  .sieve-table th{background:rgba(122,21,21,0.5);color:var(--gold2);padding:7px 10px;text-align:center;}
+  .sieve-table td{padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center;}
+  .sieve-table input{background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);width:80px;text-align:center;font-family:Cairo,sans-serif;font-size:12px;}
+  .btn{padding:10px 20px;border-radius:10px;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:1px solid;transition:all 0.2s;}
+  .btn-primary{background:linear-gradient(135deg,var(--red),rgba(201,168,76,0.2));border-color:rgba(201,168,76,0.4);color:var(--gold2);}
+  .btn-primary:hover{border-color:var(--gold);}
+  .btn-sec{background:rgba(201,168,76,0.1);border-color:rgba(201,168,76,0.3);color:var(--gold);}
+  .chart-container{background:var(--dark4);border-radius:10px;padding:12px;min-height:320px;}
+  .layer-select{background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:Cairo,sans-serif;font-size:13px;width:100%;}
+  .result-badge{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:10px;font-weight:700;font-size:14px;margin-top:12px;}
+  .pass{background:rgba(46,204,113,0.15);border:1px solid rgba(46,204,113,0.4);color:#2ecc71;}
+  .fail{background:rgba(231,76,60,0.15);border:1px solid rgba(231,76,60,0.4);color:#e74c3c;}
+  .limits-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;margin-top:8px;}
+  .leg-item{display:flex;align-items:center;gap:5px;}
+  .leg-dot{width:12px;height:3px;border-radius:2px;}
+  @media(max-width:600px){.grid2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <a href="/index.html">← الرئيسية</a>
+  <div class="title">📊 منحنى التدرج الحبيبي — Grading Curve</div>
+  <span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:6px;padding:3px 10px;font-size:11px;color:var(--gold);">QCS 2024 S17</span>
+</div>
+
+<div class="main">
+
+  <!-- Layer Selection -->
+  <div class="card">
+    <div class="card-title">⚙️ إعداد التحليل</div>
+    <div class="grid2">
+      <div>
+        <div style="font-size:12px;color:var(--text3);margin-bottom:6px;">نوع الطبقة</div>
+        <select class="layer-select" id="layerType" onchange="updateLimits()">
+          <option value="subbase">Subbase Course — QCS S6 P4</option>
+          <option value="base">Base Course — QCS S6 P4</option>
+          <option value="wearing">Wearing Course WC-A — QCS S6 P5</option>
+          <option value="subgrade">Subgrade — QCS S6 P3</option>
+        </select>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text3);margin-bottom:6px;">استيراد بيانات</div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-sec" onclick="importCSV()">📂 استيراد CSV</button>
+          <button class="btn btn-sec" onclick="loadSample()">📋 بيانات نموذجية</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sieve Data Input -->
+  <div class="card">
+    <div class="card-title">🔬 نتائج تحليل المناخل — Sieve Analysis</div>
+    <div style="overflow-x:auto;">
+      <table class="sieve-table">
+        <thead><tr><th>حجم المنخل (مم)</th><th>الكتلة المحتجزة (جم)</th><th>% المحتجز</th><th>% المار</th></tr></thead>
+        <tbody id="sieveBody"></tbody>
+      </table>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="calculateAndDraw()">📊 رسم المنحنى</button>
+      <button class="btn btn-sec" onclick="exportChart()">💾 تصدير الصورة</button>
+      <button class="btn btn-sec" onclick="exportCSVResults()">📥 تصدير CSV</button>
+    </div>
+  </div>
+
+  <!-- Chart -->
+  <div class="card" id="chartCard" style="display:none;">
+    <div class="card-title">📈 منحنى التدرج الحبيبي — Grading Curve</div>
+    <div class="limits-legend" id="legendEl"></div>
+    <div class="chart-container" id="gradingChart"></div>
+    <div id="verdictEl"></div>
+    <div style="margin-top:10px;font-size:11px;color:var(--text3);">
+      ⚠️ المرجع: QCS 2024 | نتائج استرشادية — تحقق من المهندس المختص
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Sieve sizes
+const SIEVES = [75, 37.5, 19, 9.5, 4.75, 2.36, 1.18, 0.6, 0.3, 0.15, 0.075];
+
+// QCS 2024 Limits
+const QCS_LIMITS = {
+  subbase: {
+    min: [100,70,55,40,30,20,10,8,5,3,2],
+    max: [100,100,100,75,60,45,30,20,15,10,8],
+    label: 'Subbase Type B — QCS S6 P4 Table 4:1'
+  },
+  base: {
+    min: [100,100,72,52,37,27,20,13,8,5,3],
+    max: [100,100,100,75,55,40,30,20,14,10,7],
+    label: 'Base Course — QCS S6 P4 Table 4:3'
+  },
+  wearing: {
+    min: [null,null,100,90,56,35,23,15,10,7,4],
+    max: [null,null,100,100,80,56,38,27,20,13,8],
+    label: 'Wearing Course WC-A — QCS S6 P5'
+  },
+  subgrade: {
+    min: Array(11).fill(null),
+    max: Array(11).fill(null),
+    label: 'Subgrade — لا توجد حدود محددة في QCS'
+  }
+};
+
+// Init sieve table
+function initTable() {
+  const tbody = document.getElementById('sieveBody');
+  tbody.innerHTML = '';
+  SIEVES.forEach((s, i) => {
+    tbody.innerHTML += `<tr>
+      <td><strong>${s}</strong></td>
+      <td><input type="number" id="mass-${i}" min="0" step="0.1" placeholder="0"></td>
+      <td id="ret-${i}" style="color:var(--text2);">—</td>
+      <td id="pas-${i}" style="color:var(--gold);">—</td>
+    </tr>`;
+  });
+}
+
+function loadSample() {
+  // Sample Subbase data
+  const samples = [0, 0, 120, 180, 250, 280, 320, 350, 380, 410, 450];
+  SIEVES.forEach((s, i) => {
+    const el = document.getElementById(`mass-${i}`);
+    if (el) el.value = samples[i] || 0;
+  });
+  calculateAndDraw();
+}
+
+function importCSV() {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = '.csv';
+  input.onchange = function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    Papa.parse(file, {
+      header: true, skipEmptyLines: true, dynamicTyping: true,
+      complete: function(results) {
+        results.data.forEach(function(row) {
+          const size = parseFloat(row['size'] || row['sieve'] || row['حجم']);
+          const mass = parseFloat(row['mass'] || row['retained'] || row['محتجز']);
+          if (!isNaN(size) && !isNaN(mass)) {
+            const idx = SIEVES.indexOf(size);
+            if (idx >= 0) document.getElementById(`mass-${idx}`).value = mass;
+          }
+        });
+        calculateAndDraw();
+      }
+    });
+  };
+  input.click();
+}
+
+function calculateAndDraw() {
+  // Collect masses
+  const masses = SIEVES.map((s, i) => parseFloat(document.getElementById(`mass-${i}`).value) || 0);
+  const total = masses.reduce((a, b) => a + b, 0);
+  if (total === 0) { alert('أدخل بيانات المناخل أولاً'); return; }
+
+  // Calculate cumulative retained and passing
+  let cumRetained = 0;
+  const passing = masses.map(m => {
+    cumRetained += m;
+    return parseFloat(((1 - cumRetained / total) * 100).toFixed(1));
+  });
+
+  // Update table
+  SIEVES.forEach((s, i) => {
+    const retained = ((masses[i] / total) * 100).toFixed(1);
+    document.getElementById(`ret-${i}`).textContent = retained + '%';
+    document.getElementById(`pas-${i}`).textContent = passing[i] + '%';
+  });
+
+  // Draw chart
+  drawChart(passing);
+  document.getElementById('chartCard').style.display = 'block';
+  document.getElementById('chartCard').scrollIntoView({behavior:'smooth'});
+
+  // Check limits
+  checkLimits(passing);
+}
+
+function drawChart(passing) {
+  const container = document.getElementById('gradingChart');
+  container.innerHTML = '';
+
+  const layer = document.getElementById('layerType').value;
+  const limits = QCS_LIMITS[layer];
+  const margin = {top:20, right:20, bottom:50, left:55};
+  const width = (container.offsetWidth || 500) - margin.left - margin.right;
+  const height = 280 - margin.top - margin.bottom;
+
+  const svg = d3.select('#gradingChart').append('svg')
+    .attr('width', width + margin.left + margin.right)
+    .attr('height', height + margin.top + margin.bottom)
+    .append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+  const x = d3.scaleLog().domain([0.075, 100]).range([0, width]);
+  const y = d3.scaleLinear().domain([0, 100]).range([height, 0]);
+
+  // Grid lines
+  svg.append('g').call(d3.axisLeft(y).ticks(5).tickSize(-width).tickFormat(''))
+    .selectAll('line').style('stroke','rgba(255,255,255,0.06)');
+  svg.append('g').attr('transform',`translate(0,${height})`)
+    .call(d3.axisBottom(x).tickValues([0.075,0.15,0.3,0.6,1.18,2.36,4.75,9.5,19,37.5,75]).tickSize(-height).tickFormat(''))
+    .selectAll('line').style('stroke','rgba(255,255,255,0.06)');
+
+  // Axes
+  svg.append('g').attr('transform',`translate(0,${height})`)
+    .call(d3.axisBottom(x).tickValues([0.075,0.15,0.3,0.6,1.18,2.36,4.75,9.5,19,37.5,75]).tickFormat(d=>d+''))
+    .selectAll('text').style('fill','#B0A898').style('font-size','9px').attr('transform','rotate(-30)').style('text-anchor','end');
+
+  svg.append('g').call(d3.axisLeft(y).ticks(5).tickFormat(d=>d+'%'))
+    .selectAll('text').style('fill','#B0A898').style('font-size','10px');
+
+  // Labels
+  svg.append('text').attr('x',width/2).attr('y',height+44).attr('text-anchor','middle')
+    .style('fill','#C9A84C').style('font-size','11px').text('حجم الفتحة (مم)');
+  svg.append('text').attr('transform','rotate(-90)').attr('x',-height/2).attr('y',-40)
+    .attr('text-anchor','middle').style('fill','#C9A84C').style('font-size','11px').text('نسبة المار (%)');
+
+  // Limit zones
+  const validPts = SIEVES.map((s,i) => ({s, min:limits.min[i], max:limits.max[i], p:passing[i]}))
+    .filter(d => d.min !== null);
+
+  if (validPts.length > 1) {
+    // Upper limit
+    const upperLine = d3.line().x(d=>x(d.s)).y(d=>y(d.max)).curve(d3.curveMonotoneX);
+    svg.append('path').datum(validPts).attr('fill','none').attr('stroke','rgba(231,76,60,0.6)')
+      .attr('stroke-width',1.5).attr('stroke-dasharray','4,3').attr('d',upperLine);
+    // Lower limit
+    const lowerLine = d3.line().x(d=>x(d.s)).y(d=>y(d.min)).curve(d3.curveMonotoneX);
+    svg.append('path').datum(validPts).attr('fill','none').attr('stroke','rgba(52,152,219,0.6)')
+      .attr('stroke-width',1.5).attr('stroke-dasharray','4,3').attr('d',lowerLine);
+    // Zone fill
+    const area = d3.area().x(d=>x(d.s)).y0(d=>y(d.min)).y1(d=>y(d.max)).curve(d3.curveMonotoneX);
+    svg.append('path').datum(validPts).attr('fill','rgba(201,168,76,0.06)').attr('d',area);
+  }
+
+  // Sample line
+  const sampleData = SIEVES.map((s,i)=>({s,p:passing[i]}));
+  const line = d3.line().x(d=>x(d.s)).y(d=>y(d.p)).curve(d3.curveMonotoneX);
+  svg.append('path').datum(sampleData).attr('fill','none').attr('stroke','#C9A84C')
+    .attr('stroke-width',2.5).attr('d',line);
+
+  // Points
+  svg.selectAll('.dot').data(sampleData).enter().append('circle')
+    .attr('cx',d=>x(d.s)).attr('cy',d=>y(d.p)).attr('r',4)
+    .attr('fill','#E8C97A').attr('stroke','#7a1515').attr('stroke-width',1.5)
+    .append('title').text(d=>`${d.s}mm: ${d.p}%`);
+
+  // Legend
+  const legendEl = document.getElementById('legendEl');
+  legendEl.innerHTML = `
+    <div class="leg-item"><div class="leg-dot" style="background:#C9A84C;height:3px;"></div><span>العينة</span></div>
+    <div class="leg-item"><div class="leg-dot" style="background:rgba(231,76,60,0.6);"></div><span>الحد الأعلى QCS</span></div>
+    <div class="leg-item"><div class="leg-dot" style="background:rgba(52,152,219,0.6);"></div><span>الحد الأدنى QCS</span></div>
+    <div class="leg-item" style="color:var(--text3);">${limits.label}</div>
+  `;
+}
+
+function checkLimits(passing) {
+  const layer = document.getElementById('layerType').value;
+  const limits = QCS_LIMITS[layer];
+  let pass = true;
+  const issues = [];
+
+  SIEVES.forEach((s, i) => {
+    const min = limits.min[i], max = limits.max[i], p = passing[i];
+    if (min !== null && p < min) { pass = false; issues.push(`${s}mm: ${p}% < ${min}% (الحد الأدنى)`); }
+    if (max !== null && p > max) { pass = false; issues.push(`${s}mm: ${p}% > ${max}% (الحد الأعلى)`); }
+  });
+
+  const el = document.getElementById('verdictEl');
+  if (layer === 'subgrade') {
+    el.innerHTML = '<div style="color:var(--text3);font-size:12px;margin-top:8px;">ℹ️ لا توجد حدود تدرج محددة للـ Subgrade في QCS 2024</div>';
+    return;
+  }
+  el.innerHTML = `<div class="result-badge ${pass?'pass':'fail'}">
+    ${pass ? '✅ ضمن الحدود المحددة — مقبول وفق QCS 2024' : '❌ خارج الحدود — ' + issues[0]}
+  </div>`;
+}
+
+function exportChart() {
+  html2canvas(document.getElementById('chartCard'), {scale:2, backgroundColor:'#1a1a1a'}).then(c => {
+    const a = document.createElement('a');
+    a.download = 'grading-curve-qatarspec.png';
+    a.href = c.toDataURL(); a.click();
+  });
+}
+
+function exportCSVResults() {
+  const layer = document.getElementById('layerType').value;
+  const masses = SIEVES.map((s,i) => parseFloat(document.getElementById(`mass-${i}`).value)||0);
+  const total = masses.reduce((a,b)=>a+b,0);
+  let cum = 0;
+  let csv = 'Sieve Size (mm),Mass Retained (g),% Retained,% Passing\n';
+  SIEVES.forEach((s,i) => {
+    cum += masses[i];
+    const ret = ((masses[i]/total)*100).toFixed(1);
+    const pas = ((1-cum/total)*100).toFixed(1);
+    csv += `${s},${masses[i]},${ret},${pas}\n`;
+  });
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.download = `grading-curve-${layer}.csv`;
+  a.href = URL.createObjectURL(blob); a.click();
+}
+
+function updateLimits() { /* re-draw if data exists */ }
+
+initTable();
+</script>
+</body>
+</html>

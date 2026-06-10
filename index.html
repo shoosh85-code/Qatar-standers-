@@ -2339,6 +2339,32 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.2/plotly.min.js" defer></script>
 <!-- Fabric.js — رسم على المخططات -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js" defer></script>
+
+<script>
+// إضافة أزرار CSV Import و Capture لكل الحاسبات
+document.addEventListener('DOMContentLoaded', function() {
+  // زر استيراد CSV في الحاسبات
+  document.querySelectorAll('.calc-result, #calc-result, [id*="result"]').forEach(function(el) {
+    if (el.querySelector('.qs-capture-btn')) return;
+    var btn = document.createElement('button');
+    btn.className = 'qs-capture-btn';
+    btn.textContent = '📸 حفظ كصورة';
+    btn.style.cssText = 'background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);color:#C9A84C;border-radius:8px;padding:5px 12px;font-family:Cairo,sans-serif;font-size:11px;cursor:pointer;margin-top:8px;display:block;';
+    btn.onclick = function() {
+      if (typeof html2canvas !== 'undefined') {
+        html2canvas(el, {scale:2,backgroundColor:'#0d0d0d'}).then(function(canvas) {
+          var a = document.createElement('a');
+          a.download = 'qatarspec-result.png';
+          a.href = canvas.toDataURL();
+          a.click();
+        });
+      }
+    };
+    el.appendChild(btn);
+  });
+});
+</script>
+
 <!-- QatarSpec Libs Init -->
 <script src="/js/libs-init.js" defer></script>
 </body>

@@ -287,6 +287,59 @@
       };
     }
 
+
+    // ── جولة تعليمية تلقائية للمستخدم الجديد ────────────────────────
+    if (typeof introJs !== 'undefined' && window.location.pathname === '/') {
+      const tourShown = localStorage.getItem('qs_tour_shown');
+      if (!tourShown) {
+        setTimeout(function() {
+          window.QS.startMainTour && window.QS.startMainTour();
+          localStorage.setItem('qs_tour_shown', '1');
+        }, 2000);
+      }
+    }
+
+    // ── CSV Import Button — أضف لكل حاسبة ───────────────────────────
+    window.QS.showCSVImporter = function(onData) {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.csv,.txt';
+      input.onchange = function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        if (typeof Papa !== 'undefined') {
+          window.QS.parseCSV(file, function(data, errors) {
+            if (errors && errors.length) console.warn('[QS-CSV] errors:', errors);
+            onData(data);
+          });
+        } else {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const lines = e.target.result.split('\n').filter(Boolean);
+            const headers = lines[0].split(',');
+            const rows = lines.slice(1).map(line => {
+              const vals = line.split(',');
+              return headers.reduce((obj, h, i) => { obj[h.trim()] = vals[i]?.trim(); return obj; }, {});
+            });
+            onData(rows);
+          };
+          reader.readAsText(file);
+        }
+      };
+      input.click();
+    };
+
+    // ── html2canvas — زر تصوير النتائج ───────────────────────────────
+    window.QS.addCaptureBtn = function(targetSelector, label) {
+      const target = document.querySelector(targetSelector);
+      if (!target || typeof html2canvas === 'undefined') return;
+      const btn = document.createElement('button');
+      btn.textContent = '📸 ' + (label || 'حفظ كصورة');
+      btn.style.cssText = 'background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);color:#C9A84C;border-radius:8px;padding:6px 14px;font-family:Cairo,sans-serif;font-size:12px;cursor:pointer;margin:4px;';
+      btn.onclick = function() { window.QS.captureElement(target, 'qatarspec-result'); };
+      target.insertAdjacentElement('afterend', btn);
+    };
+
     console.log('[QS-Libs] ✅ جميع المكتبات جاهزة:', {
       d3: typeof d3 !== 'undefined',
       plotly: typeof Plotly !== 'undefined',

@@ -239,6 +239,26 @@ textarea{resize:vertical}
         <textarea id="wf-ca-text" placeholder="اكتب الإجراء التصحيحي الفعلي الذي اتُّخذ في الموقع..."></textarea>
       </div>
 
+      
+      <!-- توقيع رقمي -->
+      <div class="sig-section" style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:16px;margin:16px 0;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div style="font-family:Cairo,sans-serif;font-size:14px;font-weight:700;color:#C9A84C;">✍️ توقيع المهندس المسؤول</div>
+          <div style="display:flex;gap:8px;">
+            <button onclick="document.getElementById('sig-pad-ncr').getContext&&window._ncrSigPad&&window._ncrSigPad.clear()" style="background:rgba(231,76,60,0.15);border:1px solid rgba(231,76,60,0.3);color:#e74c3c;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;">مسح</button>
+            <button onclick="window.QS&&window.QS.captureElement&&window.QS.captureElement('.sig-section','ncr-signature')" style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);color:#C9A84C;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;">💾 حفظ</button>
+          </div>
+        </div>
+        <canvas id="sig-pad-ncr" style="width:100%;height:120px;border:1px dashed rgba(201,168,76,0.3);border-radius:8px;background:rgba(0,0,0,0.2);touch-action:none;"></canvas>
+        <script>
+        document.addEventListener('DOMContentLoaded',function(){
+          if(typeof SignaturePad!=='undefined'){
+            window._ncrSigPad=window.QS&&window.QS.initSignaturePad?window.QS.initSignaturePad('sig-pad-ncr'):new SignaturePad(document.getElementById('sig-pad-ncr'),{backgroundColor:'rgba(0,0,0,0)',penColor:'#C9A84C'});
+          }
+        });
+        </script>
+      </div>
+
       <!-- Workflow Action Buttons -->
       <div class="wf-actions">
         <button class="wf-btn wf-btn-progress" id="btn-mark-progress" onclick="ncrWorkflow('in_progress')">🔧 بدء التصحيح — In Progress</button>
