@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تحليل المخططات الهندسية — QatarSpec Pro</title>
+<link rel="stylesheet" href="/css/main.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold2: #E8C97A;
+    --red: #7a1515;
+    --dark1: #0d0d0d;
+    --dark2: #141414;
+    --dark3: #1a1a1a;
+    --dark4: #222;
+    --border: rgba(201,168,76,0.15);
+    --text: #e8e0d0;
+    --text2: #b8aa98;
+    --text3: #7a7060;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--dark1); color: var(--text); font-family: 'Cairo', sans-serif; min-height: 100vh; }
+
+  /* ── Header ── */
+  .bp-header {
+    background: linear-gradient(135deg, rgba(122,21,21,0.3), rgba(201,168,76,0.1));
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .bp-header a { color: var(--gold); text-decoration: none; font-size: 13px; opacity: 0.8; }
+  .bp-header a:hover { opacity: 1; }
+  .bp-title { font-size: 20px; font-weight: 800; color: var(--gold2); flex: 1; }
+  .bp-badge { background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.3); border-radius: 6px; padding: 3px 10px; font-size: 11px; color: var(--gold); }
+
+  /* ── Main Layout ── */
+  .bp-main { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+
+  /* ── Upload Zone ── */
+  .upload-zone {
+    border: 2px dashed rgba(201,168,76,0.4);
+    border-radius: 16px;
+    padding: 40px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: rgba(201,168,76,0.03);
+    position: relative;
+  }
+  .upload-zone:hover, .upload-zone.drag { border-color: var(--gold); background: rgba(201,168,76,0.07); }
+  .upload-zone.has-file { border-color: rgba(46,204,113,0.5); background: rgba(46,204,113,0.04); }
+  .upload-icon { font-size: 48px; margin-bottom: 12px; }
+  .upload-title { font-size: 18px; font-weight: 700; color: var(--gold2); margin-bottom: 6px; }
+  .upload-sub { font-size: 13px; color: var(--text3); margin-bottom: 16px; }
+  .upload-formats { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .fmt-badge { background: var(--dark4); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; font-size: 11px; color: var(--text2); }
+  #fileInput { display: none; }
+  .file-info { margin-top: 14px; background: rgba(46,204,113,0.1); border: 1px solid rgba(46,204,113,0.3); border-radius: 10px; padding: 10px 16px; display: none; align-items: center; gap: 10px; }
+  .file-info.show { display: flex; }
+  .file-name { font-weight: 700; color: #2ecc71; flex: 1; }
+  .file-size { font-size: 11px; color: var(--text3); }
+  .file-remove { cursor: pointer; color: #e74c3c; font-size: 18px; line-height: 1; padding: 0 4px; }
+
+  /* ── Options ── */
+  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+  .opt-label { font-size: 12px; color: var(--text3); margin-bottom: 6px; }
+  .opt-select {
+    width: 100%; background: var(--dark3); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 12px; color: var(--text);
+    font-family: 'Cairo', sans-serif; font-size: 13px; cursor: pointer;
+  }
+  .opt-select:focus { outline: none; border-color: var(--gold); }
+
+  /* ── Analyze Button ── */
+  .analyze-btn {
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, var(--red), rgba(201,168,76,0.3));
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 12px; color: var(--gold2);
+    font-family: 'Cairo', sans-serif; font-size: 16px; font-weight: 800;
+    cursor: pointer; transition: all 0.2s; margin: 8px 0;
+  }
+  .analyze-btn:hover:not(:disabled) { border-color: var(--gold); box-shadow: 0 0 20px rgba(201,168,76,0.2); }
+  .analyze-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* ── Progress ── */
+  .progress-box {
+    background: var(--dark3); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px; margin: 16px 0;
+    display: none; text-align: center;
+  }
+  .progress-box.show { display: block; }
+  .progress-spinner { font-size: 32px; animation: spin 1.5s linear infinite; display: inline-block; }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .progress-text { margin-top: 10px; font-size: 14px; color: var(--text2); }
+  .progress-bar { background: var(--dark4); border-radius: 4px; height: 4px; margin-top: 12px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--red), var(--gold)); border-radius: 4px; transition: width 0.5s; }
+
+  /* ── Results ── */
+  .results-box {
+    background: var(--dark3); border: 1px solid rgba(46,204,113,0.2);
+    border-radius: 16px; padding: 20px; margin: 16px 0;
+    display: none;
+  }
+  .results-box.show { display: block; }
+  .results-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .results-title { font-size: 16px; font-weight: 800; color: #2ecc71; }
+  .results-actions { display: flex; gap: 8px; }
+  .btn-sm {
+    padding: 6px 14px; border-radius: 8px; font-family: 'Cairo', sans-serif;
+    font-size: 12px; font-weight: 700; cursor: pointer; border: 1px solid;
+    transition: all 0.2s;
+  }
+  .btn-copy { background: rgba(52,152,219,0.15); border-color: rgba(52,152,219,0.4); color: #3498db; }
+  .btn-copy:hover { background: rgba(52,152,219,0.25); }
+  .btn-pdf { background: rgba(231,76,60,0.15); border-color: rgba(231,76,60,0.4); color: #e74c3c; }
+  .btn-pdf:hover { background: rgba(231,76,60,0.25); }
+  .btn-new { background: rgba(201,168,76,0.15); border-color: rgba(201,168,76,0.4); color: var(--gold); }
+  .btn-new:hover { background: rgba(201,168,76,0.25); }
+
+  .results-content {
+    font-size: 13px; line-height: 1.8; color: var(--text);
+    white-space: pre-wrap; word-break: break-word;
+  }
+  .results-content table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  .results-content th { background: rgba(122,21,21,0.5); color: var(--gold2); padding: 8px 10px; font-size: 12px; text-align: right; }
+  .results-content td { padding: 7px 10px; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .results-content tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  .disclaimer {
+    margin-top: 16px; padding: 12px;
+    background: rgba(231,76,60,0.08); border: 1px solid rgba(231,76,60,0.2);
+    border-radius: 8px; font-size: 11px; color: #e74c3c;
+  }
+
+  /* ── Error ── */
+  .error-box {
+    background: rgba(231,76,60,0.1); border: 1px solid rgba(231,76,60,0.3);
+    border-radius: 12px; padding: 16px; margin: 16px 0;
+    display: none; color: #e74c3c; font-size: 13px;
+  }
+  .error-box.show { display: block; }
+
+  /* ── Tips ── */
+  .tips-box {
+    background: rgba(52,152,219,0.06); border: 1px solid rgba(52,152,219,0.2);
+    border-radius: 12px; padding: 16px; margin: 16px 0;
+  }
+  .tips-title { font-size: 13px; font-weight: 700; color: #3498db; margin-bottom: 10px; }
+  .tips-list { list-style: none; }
+  .tips-list li { font-size: 12px; color: var(--text2); padding: 3px 0; }
+  .tips-list li::before { content: '✦ '; color: #3498db; }
+
+  @media (max-width: 600px) {
+    .options-grid { grid-template-columns: 1fr; }
+    .results-actions { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bp-header">
+  <a href="/index.html">← الرئيسية</a>
+  <div class="bp-title">🏗️ تحليل المخططات الهندسية</div>
+  <div class="bp-badge">Gemini Vision | QCS 2024</div>
+</div>
+
+<div class="bp-main">
+
+  <!-- Upload Zone -->
+  <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+    <div class="upload-icon">📐</div>
+    <div class="upload-title">ارفع المخطط الهندسي</div>
+    <div class="upload-sub">اسحب وأفلت أو اضغط لاختيار الملف</div>
+    <div class="upload-formats">
+      <span class="fmt-badge">PDF</span>
+      <span class="fmt-badge">JPG / PNG</span>
+      <span class="fmt-badge">WEBP</span>
+      <span class="fmt-badge">TIFF</span>
+    </div>
+    <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.webp,.tiff,.tif">
+  </div>
+
+  <div class="file-info" id="fileInfo">
+    <span style="font-size:20px">📄</span>
+    <span class="file-name" id="fileName">—</span>
+    <span class="file-size" id="fileSize">—</span>
+    <span class="file-remove" onclick="removeFile()">✕</span>
+  </div>
+
+  <!-- Options -->
+  <div class="options-grid">
+    <div>
+      <div class="opt-label">نوع المخطط</div>
+      <select class="opt-select" id="drawingType">
+        <option value="auto">🔍 اكتشاف تلقائي</option>
+        <option value="architectural">🏛️ معماري (Architectural)</option>
+        <option value="structural">🏗️ إنشائي (Structural)</option>
+        <option value="plumbing">🚿 صحي (Plumbing)</option>
+        <option value="mechanical">❄️ ميكانيكي / HVAC</option>
+        <option value="electrical">⚡ كهربائي (Electrical)</option>
+        <option value="civil">🛣️ مدني (Civil)</option>
+      </select>
+    </div>
+    <div>
+      <div class="opt-label">مستوى التفصيل</div>
+      <select class="opt-select" id="detailLevel">
+        <option value="standard">📋 قياسي — جميع البنود</option>
+        <option value="summary">📊 ملخص — البنود الرئيسية فقط</option>
+        <option value="detailed">🔬 تفصيلي — كل بند فرعي</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Analyze Button -->
+  <button class="analyze-btn" id="analyzeBtn" onclick="analyzeBlueprint()" disabled>
+    📐 حلّل المخطط واستخرج الكميات
+  </button>
+
+  <!-- Progress -->
+  <div class="progress-box" id="progressBox">
+    <div class="progress-spinner">⚙️</div>
+    <div class="progress-text" id="progressText">جاري رفع الملف...</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+
+  <!-- Error -->
+  <div class="error-box" id="errorBox"></div>
+
+  <!-- Results -->
+  <div class="results-box" id="resultsBox">
+    <div class="results-header">
+      <div class="results-title">✅ نتائج التحليل</div>
+      <div class="results-actions">
+        <button class="btn-sm btn-copy" onclick="copyResults()">📋 نسخ</button>
+        <button class="btn-sm btn-pdf" onclick="printResults()">🖨️ طباعة</button>
+        <button class="btn-sm btn-new" onclick="resetAll()">🔄 مخطط جديد</button>
+      </div>
+    </div>
+    <div class="results-content" id="resultsContent"></div>
+    <div class="disclaimer" id="resultsDisclaimer"></div>
+  </div>
+
+  <!-- Tips -->
+  <div class="tips-box">
+    <div class="tips-title">💡 نصائح للحصول على أفضل النتائج</div>
+    <ul class="tips-list">
+      <li>ارفع المخطط بجودة عالية — كلما كانت الدقة أعلى، كانت النتائج أدق</li>
+      <li>تأكد أن مقياس الرسم (Scale) ظاهر في المخطط</li>
+      <li>PDF يُعطي نتائج أدق من الصورة</li>
+      <li>حدد نوع المخطط بدقة للحصول على حساب مخصص</li>
+      <li>الحد الأقصى للملف: 10 MB</li>
+      <li>⚠️ النتائج تقديرية — يجب مراجعة مهندس مختص</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  let currentFile = null;
+
+  // ── Drag & Drop ──────────────────────────────────────────────────────────
+  const zone = document.getElementById('uploadZone');
+
+  zone.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    zone.classList.add('drag');
+  });
+  zone.addEventListener('dragleave', function() {
+    zone.classList.remove('drag');
+  });
+  zone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    zone.classList.remove('drag');
+    const file = e.dataTransfer.files[0];
+    if (file) handleFile(file);
+  });
+
+  document.getElementById('fileInput').addEventListener('change', function(e) {
+    if (e.target.files[0]) handleFile(e.target.files[0]);
+  });
+
+  // ── Handle File ──────────────────────────────────────────────────────────
+  function handleFile(file) {
+    const allowed = ['application/pdf','image/jpeg','image/png','image/webp','image/tiff'];
+    const ext = file.name.split('.').pop().toLowerCase();
+    const allowedExt = ['pdf','jpg','jpeg','png','webp','tiff','tif'];
+
+    if (!allowed.includes(file.type) && !allowedExt.includes(ext)) {
+      showError('نوع الملف غير مدعوم — يُقبل: PDF, JPG, PNG, WEBP, TIFF');
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      showError('حجم الملف كبير جداً — الحد الأقصى 10 MB');
+      return;
+    }
+
+    currentFile = file;
+    hideError();
+
+    // Show file info
+    document.getElementById('fileName').textContent = file.name;
+    document.getElementById('fileSize').textContent = formatSize(file.size);
+    document.getElementById('fileInfo').classList.add('show');
+    zone.classList.add('has-file');
+
+    // Enable button
+    document.getElementById('analyzeBtn').disabled = false;
+  }
+
+  window.removeFile = function() {
+    currentFile = null;
+    document.getElementById('fileInput').value = '';
+    document.getElementById('fileInfo').classList.remove('show');
+    zone.classList.remove('has-file');
+    document.getElementById('analyzeBtn').disabled = true;
+    hideError();
+    hideResults();
+  };
+
+  // ── Analyze ──────────────────────────────────────────────────────────────
+  window.analyzeBlueprint = async function() {
+    if (!currentFile) return;
+
+    const btn = document.getElementById('analyzeBtn');
+    btn.disabled = true;
+    hideError();
+    hideResults();
+    showProgress('جاري قراءة الملف...', 10);
+
+    try {
+      // Convert to base64
+      const base64 = await fileToBase64(currentFile);
+      showProgress('جاري رفع المخطط لخادم التحليل...', 30);
+
+      // Detect mime type
+      let mimeType = currentFile.type;
+      if (!mimeType || mimeType === 'application/octet-stream') {
+        const ext = currentFile.name.split('.').pop().toLowerCase();
+        const mimeMap = { pdf:'application/pdf', jpg:'image/jpeg', jpeg:'image/jpeg', png:'image/png', webp:'image/webp', tiff:'image/tiff', tif:'image/tiff' };
+        mimeType = mimeMap[ext] || 'image/jpeg';
+      }
+
+      const drawingType = document.getElementById('drawingType').value;
+      const detailLevel = document.getElementById('detailLevel').value;
+
+      showProgress('جاري تحليل المخطط بـ Gemini Vision...', 60);
+
+      const response = await fetch('/api/scanner?action=blueprint-analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fileBase64: base64,
+          mimeType: mimeType,
+          filename: currentFile.name,
+          drawingType: drawingType,
+          detailLevel: detailLevel,
+        }),
+      });
+
+      showProgress('جاري معالجة النتائج...', 90);
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'فشل التحليل — يرجى المحاولة مرة أخرى');
+      }
+
+      showProgress('اكتمل التحليل ✅', 100);
+
+      setTimeout(function() {
+        hideProgress();
+        showResults(data);
+        btn.disabled = false;
+      }, 500);
+
+    } catch (err) {
+      hideProgress();
+      showError(err.message || 'حدث خطأ غير متوقع — يرجى المحاولة مرة أخرى');
+      btn.disabled = false;
+    }
+  };
+
+  // ── Results ──────────────────────────────────────────────────────────────
+  function showResults(data) {
+    const box = document.getElementById('resultsBox');
+    const content = document.getElementById('resultsContent');
+    const disclaimer = document.getElementById('resultsDisclaimer');
+
+    // Render markdown-like tables
+    content.innerHTML = renderMarkdown(data.analysis);
+    disclaimer.textContent = data.disclaimer;
+
+    box.classList.add('show');
+    box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function hideResults() {
+    document.getElementById('resultsBox').classList.remove('show');
+  }
+
+  // Simple markdown renderer for tables and bold
+  function renderMarkdown(text) {
+    if (!text) return '';
+
+    // Escape HTML
+    let html = text
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;');
+
+    // Bold **text**
+    html = html.replace(/\*\*([^*]+)\*\*/g, '<strong style="color:var(--gold2)">$1</strong>');
+
+    // Tables
+    const lines = html.split('\n');
+    let result = [];
+    let inTable = false;
+    let tableRows = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (line.startsWith('|') && line.endsWith('|')) {
+        if (!inTable) { inTable = true; tableRows = []; }
+        tableRows.push(line);
+      } else {
+        if (inTable) {
+          result.push(buildTable(tableRows));
+          inTable = false; tableRows = [];
+        }
+        result.push(line ? '<p style="margin:4px 0">' + line + '</p>' : '<br>');
+      }
+    }
+    if (inTable) result.push(buildTable(tableRows));
+
+    return result.join('\n');
+  }
+
+  function buildTable(rows) {
+    if (rows.length < 2) return rows.join('\n');
+    let html = '<table><thead><tr>';
+    const headers = rows[0].split('|').filter(function(c){ return c.trim(); });
+    headers.forEach(function(h) { html += '<th>' + h.trim() + '</th>'; });
+    html += '</tr></thead><tbody>';
+    for (let i = 2; i < rows.length; i++) {
+      const cells = rows[i].split('|').filter(function(c){ return c.trim(); });
+      html += '<tr>';
+      cells.forEach(function(c) { html += '<td>' + c.trim() + '</td>'; });
+      html += '</tr>';
+    }
+    html += '</tbody></table>';
+    return html;
+  }
+
+  // ── Copy / Print ─────────────────────────────────────────────────────────
+  window.copyResults = function() {
+    const text = document.getElementById('resultsContent').innerText;
+    navigator.clipboard.writeText(text).then(function() {
+      const btn = document.querySelector('.btn-copy');
+      btn.textContent = '✅ تم النسخ';
+      setTimeout(function() { btn.textContent = '📋 نسخ'; }, 2000);
+    });
+  };
+
+  window.printResults = function() {
+    const content = document.getElementById('resultsContent').innerHTML;
+    const disclaimer = document.getElementById('resultsDisclaimer').textContent;
+    const w = window.open('', '_blank');
+    w.document.write('<html dir="rtl"><head><meta charset="UTF-8"><title>تحليل المخططات — QatarSpec Pro</title><style>body{font-family:Arial,sans-serif;padding:20px;direction:rtl} table{width:100%;border-collapse:collapse} th,td{border:1px solid #ccc;padding:6px;text-align:right} th{background:#333;color:#fff} h2{color:#7a1515}</style></head><body>');
+    w.document.write('<h2>🏗️ تحليل المخططات الهندسية — QatarSpec Pro</h2>');
+    w.document.write('<p style="color:#666;font-size:12px">التاريخ: ' + new Date().toLocaleDateString('ar-QA') + '</p><hr>');
+    w.document.write(content);
+    w.document.write('<hr><p style="color:red;font-size:11px">' + disclaimer + '</p>');
+    w.document.write('</body></html>');
+    w.document.close();
+    w.print();
+  };
+
+  window.resetAll = function() {
+    removeFile();
+    hideResults();
+    hideError();
+  };
+
+  // ── Progress ─────────────────────────────────────────────────────────────
+  function showProgress(text, pct) {
+    const box = document.getElementById('progressBox');
+    document.getElementById('progressText').textContent = text;
+    document.getElementById('progressFill').style.width = pct + '%';
+    box.classList.add('show');
+  }
+  function hideProgress() {
+    document.getElementById('progressBox').classList.remove('show');
+  }
+
+  // ── Error ─────────────────────────────────────────────────────────────────
+  function showError(msg) {
+    const box = document.getElementById('errorBox');
+    box.textContent = '❌ ' + msg;
+    box.classList.add('show');
+  }
+  function hideError() {
+    document.getElementById('errorBox').classList.remove('show');
+  }
+
+  // ── Utilities ─────────────────────────────────────────────────────────────
+  function fileToBase64(file) {
+    return new Promise(function(resolve, reject) {
+      const reader = new FileReader();
+      reader.onload = function(e) { resolve(e.target.result.split(',')[1]); };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function formatSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+    return (bytes/1024/1024).toFixed(1) + ' MB';
+  }
+
+})();
+</script>
+
+</body>
+</html>
