@@ -58,7 +58,7 @@ export default async function handler(req) {
 
 حلل المخطط الآن:`;
 
-  const models = ['gemini-2.0-flash', 'gemini-1.5-flash'];
+  const models = ['gemini-2.0-flash-lite', 'gemini-2.0-flash', 'gemini-1.5-flash-latest', 'gemini-1.5-pro-latest'];
 
   const errors = [];
   for (const model of models) {
