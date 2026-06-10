@@ -20,6 +20,7 @@ export default async function handler(req) {
   if (req.method !== 'POST') return json({ error: 'POST only' }, 405);
 
   const GEMINI_KEY = process.env.GEMINI_API_KEY;
+  // debug version: v3
   if (!GEMINI_KEY) return json({ error: 'GEMINI_API_KEY غير مُعيَّن' }, 500);
 
   let body;
@@ -91,5 +92,5 @@ export default async function handler(req) {
     } catch(e) { errors.push(`${model}: ${e.message}`); continue; }
   }
 
-  return json({ error: 'فشل التحليل — حاول مرة أخرى', details: errors }, 502);
+  return json({ error: 'فشل التحليل — حاول مرة أخرى', details: errors, v: 'v3', key_set: !!GEMINI_KEY }, 502);
 }
