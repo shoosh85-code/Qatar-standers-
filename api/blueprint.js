@@ -59,6 +59,7 @@ export default async function handler(req) {
 
   const models = ['gemini-2.0-flash', 'gemini-1.5-flash'];
 
+  const errors = [];
   for (const model of models) {
     try {
       const r = await fetch(
@@ -75,10 +76,10 @@ export default async function handler(req) {
           })
         }
       );
-      if (!r.ok) continue;
       const data = await r.json();
+      if (!r.ok) { errors.push(`${model}: HTTP ${r.status} — ${JSON.stringify(data).slice(0,200)}`); continue; }
       const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (!text) continue;
+      if (!text) { errors.push(`${model}: empty response`); continue; }
 
       return json({
         success: true,
@@ -87,8 +88,8 @@ export default async function handler(req) {
         drawingType: drawingType || 'auto',
         disclaimer: '⚠️ كميات تقديرية بناءً على تحليل AI — يجب مراجعة مهندس مختص قبل التوريد أو التسعير.',
       });
-    } catch { continue; }
+    } catch(e) { errors.push(`${model}: ${e.message}`); continue; }
   }
 
-  return json({ error: 'فشل التحليل — حاول مرة أخرى' }, 502);
+  return json({ error: 'فشل التحليل — حاول مرة أخرى', details: errors }, 502);
 }
