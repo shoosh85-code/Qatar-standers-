@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3D Viewer Pro | QatarSpec Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Tajawal',sans-serif;background:#080810;color:#e0e0f0;overflow:hidden;height:100vh}
+#topbar{background:linear-gradient(180deg,#12122a 0%,#0a0a18 100%);border-bottom:1px solid rgba(200,150,26,0.15);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;z-index:20;position:relative}
+#topbar h1{color:#c8961a;font-size:17px;font-weight:700}
+#topbar h1 span{color:#a0a8c0;font-weight:300}
+.btns{display:flex;gap:6px}
+.btns button{padding:7px 16px;border:1px solid rgba(100,130,200,0.15);border-radius:8px;background:rgba(20,20,40,0.8);color:#a0a8c0;cursor:pointer;font-family:inherit;font-size:13px;transition:all .2s;backdrop-filter:blur(4px)}
+.btns button:hover,.btns button.active{background:rgba(48,96,160,0.5);color:#fff;border-color:rgba(200,150,26,0.3)}
+#viewer{width:100%;height:calc(100vh - 48px);position:relative}
+#loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#c8961a;font-size:16px;z-index:5}
+</style>
+<script type="importmap">
+{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/"
+}}
+</script>
+<style>
+.qs-back-btn {
+  position: fixed; top: 12px; right: 16px; z-index: 9999;
+  background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.4);
+  border-radius: 8px; padding: 6px 14px; color: #E8C97A;
+  font-family: Cairo, sans-serif; font-size: 13px; font-weight: 700;
+  text-decoration: none; cursor: pointer; transition: all 0.2s;
+}
+.qs-back-btn:hover { background: rgba(201,168,76,0.3); }
+</style>
+</head>
+<body>
+<a href="/index.html" class="qs-back-btn">← الرئيسية</a>
+
+<div id="topbar">
+  <h1>🏗 <span>QatarSpec Pro</span> — عارض المجسمات ثلاثية الأبعاد</h1>
+  <div class="btns">
+    <label class="upload-btn" style="padding:7px 18px;border:1px solid rgba(200,150,26,0.4);border-radius:8px;background:linear-gradient(135deg,rgba(200,150,26,0.2),rgba(200,150,26,0.05));color:#c8961a;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;transition:all .2s;display:flex;align-items:center;gap:6px;">
+      📐 ارفع مخططك
+      <input type="file" id="planUpload" accept="image/*,.pdf" style="display:none" onchange="handleUpload(this)">
+    </label>
+    <span style="color:#2a2a4a;font-size:18px;">|</span>
+    <button class="active" onclick="loadSample('villa',this)">🏠 فيلا</button>
+    <button onclick="loadSample('apartment',this)">🏢 شقة</button>
+    <button onclick="loadSample('office',this)">💼 مكتب</button>
+  </div>
+</div>
+
+<!-- Loading overlay for analysis -->
+<div id="analysisOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(8,8,20,0.92);z-index:100;display:none;flex-direction:column;align-items:center;justify-content:center;font-family:Tajawal,Arial;backdrop-filter:blur(8px);">
+  <div style="text-align:center;">
+    <div id="analysisSpinner" style="font-size:48px;margin-bottom:16px;animation:pulse 1.5s ease infinite;">🔍</div>
+    <div id="analysisStatus" style="color:#c8961a;font-size:18px;font-weight:700;margin-bottom:8px;">جاري تحليل المخطط...</div>
+    <div id="analysisDetail" style="color:#6878a8;font-size:13px;">Gemini AI يقرأ الجدران والغرف والأبواب</div>
+    <div style="margin-top:20px;width:250px;height:3px;background:#1a1a2e;border-radius:2px;overflow:hidden;">
+      <div id="analysisBar" style="width:0%;height:100%;background:linear-gradient(90deg,#c8961a,#e8c840);border-radius:2px;transition:width 0.5s;"></div>
+    </div>
+  </div>
+</div>
+<style>@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}</style>
+
+<div id="viewer"><div id="loading">⏳ جاري تحميل المجسم...</div></div>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
+import { SSAOPass } from 'three/addons/postprocessing/SSAOPass.js';
+import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
+
+RectAreaLightUniformsLib.init();
+
+// ═══════════════════════════════════════════════════════════
+// ██ SAMPLES
+// ═══════════════════════════════════════════════════════════
+
+const SAMPLES = {
+villa:{floors:[{level:0,label:'فيلا قطرية — الدور الأرضي',height_m:3.2,
+walls:[
+  {id:'W1',start:[0,0],end:[15,0],thickness_m:0.25,is_external:true},
+  {id:'W2',start:[15,0],end:[15,12],thickness_m:0.25,is_external:true},
+  {id:'W3',start:[15,12],end:[0,12],thickness_m:0.25,is_external:true},
+  {id:'W4',start:[0,12],end:[0,0],thickness_m:0.25,is_external:true},
+  {id:'W5',start:[6,0],end:[6,6],thickness_m:0.15,is_external:false},
+  {id:'W6',start:[0,6],end:[15,6],thickness_m:0.15,is_external:false},
+  {id:'W7',start:[10,6],end:[10,12],thickness_m:0.15,is_external:false},
+  {id:'W8',start:[6,6],end:[6,9],thickness_m:0.15,is_external:false},
+  {id:'W9',start:[0,9],end:[6,9],thickness_m:0.15,is_external:false},
+],
+doors:[
+  {id:'D1',wall_id:'W1',position_ratio:0.3,width_m:1.2,height_m:2.4},
+  {id:'D2',wall_id:'W5',position_ratio:0.4,width_m:0.9,height_m:2.1},
+  {id:'D3',wall_id:'W6',position_ratio:0.2,width_m:0.9,height_m:2.1},
+  {id:'D4',wall_id:'W6',position_ratio:0.55,width_m:0.9,height_m:2.1},
+  {id:'D5',wall_id:'W7',position_ratio:0.5,width_m:0.9,height_m:2.1},
+  {id:'D6',wall_id:'W8',position_ratio:0.5,width_m:0.8,height_m:2.1},
+  {id:'D7',wall_id:'W9',position_ratio:0.5,width_m:0.9,height_m:2.1},
+],
+windows:[
+  {id:'WN1',wall_id:'W1',position_ratio:0.7,width_m:1.8,height_m:1.5,sill_height_m:0.9},
+  {id:'WN2',wall_id:'W2',position_ratio:0.25,width_m:1.2,height_m:1.5,sill_height_m:0.9},
+  {id:'WN3',wall_id:'W2',position_ratio:0.75,width_m:1.5,height_m:1.5,sill_height_m:0.9},
+  {id:'WN4',wall_id:'W3',position_ratio:0.3,width_m:1.2,height_m:1.5,sill_height_m:0.9},
+  {id:'WN5',wall_id:'W3',position_ratio:0.7,width_m:1.2,height_m:1.5,sill_height_m:0.9},
+  {id:'WN6',wall_id:'W4',position_ratio:0.3,width_m:1.5,height_m:1.5,sill_height_m:0.9},
+  {id:'WN7',wall_id:'W4',position_ratio:0.7,width_m:1.2,height_m:1.5,sill_height_m:0.9},
+],
+columns:[{id:'C1',position:[6,6],size:0.4},{id:'C2',position:[10,6],size:0.4}],
+rooms:[
+  {id:'R1',name:'مجلس',name_en:'Majlis',area_m2:36,polygon:[[0,0],[6,0],[6,6],[0,6]],furniture:'majlis'},
+  {id:'R2',name:'صالة',name_en:'Living Room',area_m2:54,polygon:[[6,0],[15,0],[15,6],[6,6]],furniture:'living'},
+  {id:'R3',name:'غرفة نوم رئيسية',name_en:'Master Bedroom',area_m2:30,polygon:[[10,6],[15,6],[15,12],[10,12]],furniture:'bedroom'},
+  {id:'R4',name:'غرفة نوم',name_en:'Bedroom',area_m2:18,polygon:[[0,6],[6,6],[6,9],[0,9]],furniture:'bedroom'},
+  {id:'R5',name:'مطبخ',name_en:'Kitchen',area_m2:18,polygon:[[0,9],[6,9],[6,12],[0,12]],furniture:'kitchen'},
+  {id:'R6',name:'حمام',name_en:'Bathroom',area_m2:12,polygon:[[6,6],[10,6],[10,9],[6,9]],furniture:'bathroom'},
+]}]},
+apartment:{floors:[{level:0,label:'شقة سكنية — الدور الخامس',height_m:2.8,
+walls:[
+  {id:'W1',start:[0,0],end:[10,0],thickness_m:0.2,is_external:true},
+  {id:'W2',start:[10,0],end:[10,8],thickness_m:0.2,is_external:true},
+  {id:'W3',start:[10,8],end:[0,8],thickness_m:0.2,is_external:true},
+  {id:'W4',start:[0,8],end:[0,0],thickness_m:0.2,is_external:true},
+  {id:'W5',start:[0,5],end:[6,5],thickness_m:0.12,is_external:false},
+  {id:'W6',start:[6,0],end:[6,5],thickness_m:0.12,is_external:false},
+  {id:'W7',start:[6,5],end:[6,8],thickness_m:0.12,is_external:false},
+  {id:'W8',start:[3,5],end:[3,8],thickness_m:0.12,is_external:false},
+],
+doors:[
+  {id:'D1',wall_id:'W4',position_ratio:0.35,width_m:1.0,height_m:2.1},
+  {id:'D2',wall_id:'W5',position_ratio:0.35,width_m:0.9,height_m:2.1},
+  {id:'D3',wall_id:'W6',position_ratio:0.5,width_m:0.9,height_m:2.1},
+  {id:'D4',wall_id:'W7',position_ratio:0.5,width_m:0.8,height_m:2.1},
+  {id:'D5',wall_id:'W8',position_ratio:0.5,width_m:0.9,height_m:2.1},
+],
+windows:[
+  {id:'WN1',wall_id:'W1',position_ratio:0.3,width_m:1.5,height_m:1.4,sill_height_m:0.9},
+  {id:'WN2',wall_id:'W1',position_ratio:0.75,width_m:1.2,height_m:1.4,sill_height_m:0.9},
+  {id:'WN3',wall_id:'W2',position_ratio:0.5,width_m:1.5,height_m:1.4,sill_height_m:0.9},
+  {id:'WN4',wall_id:'W3',position_ratio:0.5,width_m:1.8,height_m:1.4,sill_height_m:0.9},
+],
+columns:[],
+rooms:[
+  {id:'R1',name:'صالة',name_en:'Living Room',area_m2:30,polygon:[[0,0],[6,0],[6,5],[0,5]],furniture:'living'},
+  {id:'R2',name:'غرفة نوم',name_en:'Bedroom',area_m2:20,polygon:[[6,0],[10,0],[10,5],[6,5]],furniture:'bedroom'},
+  {id:'R3',name:'غرفة نوم رئيسية',name_en:'Master Bedroom',area_m2:9,polygon:[[0,5],[3,5],[3,8],[0,8]],furniture:'bedroom'},
+  {id:'R4',name:'مطبخ',name_en:'Kitchen',area_m2:9,polygon:[[3,5],[6,5],[6,8],[3,8]],furniture:'kitchen'},
+  {id:'R5',name:'حمام',name_en:'Bathroom',area_m2:12,polygon:[[6,5],[10,5],[10,8],[6,8]],furniture:'bathroom'},
+]}]},
+office:{floors:[{level:0,label:'مكتب إداري — الدور الثالث',height_m:3.0,
+walls:[
+  {id:'W1',start:[0,0],end:[20,0],thickness_m:0.2,is_external:true},
+  {id:'W2',start:[20,0],end:[20,10],thickness_m:0.2,is_external:true},
+  {id:'W3',start:[20,10],end:[0,10],thickness_m:0.2,is_external:true},
+  {id:'W4',start:[0,10],end:[0,0],thickness_m:0.2,is_external:true},
+  {id:'W5',start:[0,3.5],end:[12,3.5],thickness_m:0.12,is_external:false},
+  {id:'W6',start:[6,0],end:[6,3.5],thickness_m:0.12,is_external:false},
+  {id:'W7',start:[12,0],end:[12,10],thickness_m:0.15,is_external:false},
+  {id:'W8',start:[12,5],end:[20,5],thickness_m:0.12,is_external:false},
+  {id:'W9',start:[16,5],end:[16,10],thickness_m:0.12,is_external:false},
+],
+doors:[
+  {id:'D1',wall_id:'W4',position_ratio:0.18,width_m:1.2,height_m:2.1},
+  {id:'D2',wall_id:'W6',position_ratio:0.5,width_m:0.9,height_m:2.1},
+  {id:'D3',wall_id:'W5',position_ratio:0.7,width_m:0.9,height_m:2.1},
+  {id:'D4',wall_id:'W7',position_ratio:0.3,width_m:0.9,height_m:2.1},
+  {id:'D5',wall_id:'W7',position_ratio:0.7,width_m:0.9,height_m:2.1},
+  {id:'D6',wall_id:'W8',position_ratio:0.4,width_m:0.9,height_m:2.1},
+],
+windows:[
+  {id:'WN1',wall_id:'W1',position_ratio:0.15,width_m:2.0,height_m:1.8,sill_height_m:0.7},
+  {id:'WN2',wall_id:'W1',position_ratio:0.45,width_m:2.0,height_m:1.8,sill_height_m:0.7},
+  {id:'WN3',wall_id:'W2',position_ratio:0.3,width_m:2.0,height_m:1.8,sill_height_m:0.7},
+  {id:'WN4',wall_id:'W3',position_ratio:0.3,width_m:2.0,height_m:1.8,sill_height_m:0.7},
+  {id:'WN5',wall_id:'W3',position_ratio:0.7,width_m:2.0,height_m:1.8,sill_height_m:0.7},
+],
+columns:[{id:'C1',position:[6,3.5],size:0.4},{id:'C2',position:[12,3.5],size:0.4}],
+rooms:[
+  {id:'R1',name:'استقبال',name_en:'Reception',area_m2:21,polygon:[[0,0],[6,0],[6,3.5],[0,3.5]],furniture:'office'},
+  {id:'R2',name:'مكتب المدير',name_en:'Manager Office',area_m2:21,polygon:[[6,0],[12,0],[12,3.5],[6,3.5]],furniture:'office'},
+  {id:'R3',name:'منطقة عمل',name_en:'Open Workspace',area_m2:78,polygon:[[0,3.5],[12,3.5],[12,10],[0,10]],furniture:'workspace'},
+  {id:'R4',name:'قاعة اجتماعات',name_en:'Meeting Room',area_m2:40,polygon:[[12,0],[20,0],[20,5],[12,5]],furniture:'meeting'},
+  {id:'R5',name:'سيرفر',name_en:'Server Room',area_m2:20,polygon:[[12,5],[16,5],[16,10],[12,10]],furniture:'server'},
+  {id:'R6',name:'مطبخ صغير',name_en:'Kitchenette',area_m2:20,polygon:[[16,5],[20,5],[20,10],[16,10]],furniture:'kitchen'},
+]}]}
+};
+
+// ═══════════════════════════════════════════════════════════
+// ██ MATERIALS
+// ═══════════════════════════════════════════════════════════
+
+const RC = {
+  'مجلس':0xDCC8A0,'صالة':0xC8B898,'غرفة نوم':0xB0C4D4,'غرفة نوم رئيسية':0xA8B8CC,
+  'مطبخ':0xC4B890,'حمام':0x90B8C4,'ممر':0xC4BCA8,'مدخل':0xBCB498,'شرفة':0xA8C4A8,
+  'مكتب':0xB4B8C8,'استقبال':0xBCB498,'مكتب المدير':0xB8C0D0,'منطقة عمل':0xC4C0B0,
+  'قاعة اجتماعات':0xA8B4C0,'سيرفر':0x98A0B0,'مطبخ صغير':0xB8B098,'default':0xC0B498,
+};
+
+function tileTex(color) {
+  const c=document.createElement('canvas'); c.width=256; c.height=256;
+  const x=c.getContext('2d');
+  const cs='#'+color.toString(16).padStart(6,'0');
+  x.fillStyle=cs; x.fillRect(0,0,256,256);
+  x.strokeStyle='rgba(0,0,0,0.08)'; x.lineWidth=2;
+  for(let i=0;i<=256;i+=64){x.beginPath();x.moveTo(i,0);x.lineTo(i,256);x.stroke();x.beginPath();x.moveTo(0,i);x.lineTo(256,i);x.stroke();}
+  for(let ty=0;ty<4;ty++){for(let tx=0;tx<4;tx++){
+    x.fillStyle=`rgba(${Math.random()>0.5?255:0},${Math.random()>0.5?255:0},${Math.random()>0.5?255:0},0.018)`;
+    x.fillRect(tx*64+3,ty*64+3,58,58);
+  }}
+  const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; return t;
+}
+function tileBump() {
+  const c=document.createElement('canvas'); c.width=256; c.height=256;
+  const x=c.getContext('2d');
+  x.fillStyle='#808080'; x.fillRect(0,0,256,256);
+  x.fillStyle='#505050';
+  for(let i=0;i<=256;i+=64){x.fillRect(i-1,0,3,256);x.fillRect(0,i-1,256,3);}
+  for(let ty=0;ty<4;ty++){for(let tx=0;tx<4;tx++){
+    x.fillStyle=`rgb(${135+Math.random()*30},${135+Math.random()*30},${135+Math.random()*30})`;
+    x.fillRect(tx*64+3,ty*64+3,58,58);
+  }}
+  const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; return t;
+}
+
+function wallTex(isExt) {
+  const c=document.createElement('canvas');c.width=256;c.height=256;
+  const x=c.getContext('2d');
+  x.fillStyle=isExt?'#E0D4C0':'#EDEAE4'; x.fillRect(0,0,256,256);
+  if(isExt){
+    x.strokeStyle='rgba(0,0,0,0.05)';x.lineWidth=1;
+    for(let y=0;y<256;y+=16){x.beginPath();x.moveTo(0,y);x.lineTo(256,y);x.stroke();const o=(Math.floor(y/16)%2)*32;for(let xx=o;xx<256;xx+=64){x.beginPath();x.moveTo(xx,y);x.lineTo(xx,y+16);x.stroke();}}
+    for(let y=0;y<256;y+=16){const o=(Math.floor(y/16)%2)*32;for(let xx=o;xx<256;xx+=64){x.fillStyle=`rgba(${120+Math.random()*60},${100+Math.random()*50},${80+Math.random()*40},0.03)`;x.fillRect(xx+1,y+1,62,14);}}
+  } else {
+    for(let i=0;i<200;i++){x.fillStyle=`rgba(${140+Math.random()*40},${140+Math.random()*40},${140+Math.random()*40},0.02)`;x.fillRect(Math.random()*256,Math.random()*256,3+Math.random()*8,3+Math.random()*8);}
+  }
+  const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;return t;
+}
+function wallBump(isExt) {
+  const c=document.createElement('canvas');c.width=256;c.height=256;
+  const x=c.getContext('2d');
+  x.fillStyle='#808080';x.fillRect(0,0,256,256);
+  if(isExt){
+    x.fillStyle='#606060';for(let y=0;y<256;y+=16){x.fillRect(0,y,256,2);const o=(Math.floor(y/16)%2)*32;for(let xx=o;xx<256;xx+=64){x.fillRect(xx,y,2,16);}}
+    for(let y=0;y<256;y+=16){const o=(Math.floor(y/16)%2)*32;for(let xx=o;xx<256;xx+=64){x.fillStyle=`rgb(${128+Math.random()*25},${128+Math.random()*25},${128+Math.random()*25})`;x.fillRect(xx+2,y+2,60,12);}}
+  } else {
+    for(let i=0;i<300;i++){x.fillStyle=`rgb(${120+Math.random()*40},${120+Math.random()*40},${120+Math.random()*40})`;x.fillRect(Math.random()*256,Math.random()*256,2+Math.random()*5,2+Math.random()*5);}
+  }
+  const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;return t;
+}
+
+// ═══════════════════════════════════════════════════════════
+// ██ FURNITURE GENERATOR
+// ═══════════════════════════════════════════════════════════
+
+function addFurniture(group, room, H) {
+  const poly = room.polygon;
+  const minX=Math.min(...poly.map(p=>p[0])), maxX=Math.max(...poly.map(p=>p[0]));
+  const minZ=Math.min(...poly.map(p=>p[1])), maxZ=Math.max(...poly.map(p=>p[1]));
+  const cx=(minX+maxX)/2, cz=(minZ+maxZ)/2;
+  const rw=maxX-minX, rd=maxZ-minZ;
+  const type = room.furniture || 'empty';
+
+  const wood = new THREE.MeshStandardMaterial({color:0x8B6830,roughness:0.6,metalness:0.05});
+  const fabric = new THREE.MeshStandardMaterial({color:0x5A6880,roughness:0.85});
+  const white = new THREE.MeshStandardMaterial({color:0xE8E4DC,roughness:0.5});
+  const metal = new THREE.MeshStandardMaterial({color:0x808890,roughness:0.3,metalness:0.7});
+  const dark = new THREE.MeshStandardMaterial({color:0x303840,roughness:0.4,metalness:0.5});
+
+  function box(w,h,d,mat,x,y,z){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;group.add(m);return m;}
+  function cyl(r,h,mat,x,y,z){const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,12),mat);m.position.set(x,y,z);m.castShadow=true;group.add(m);return m;}
+
+  if(type==='bedroom'){
+    // سرير
+    box(rw*0.5, 0.35, rd*0.65, wood, cx, 0.175, cz+rd*0.08);
+    box(rw*0.48, 0.12, rd*0.6, fabric, cx, 0.41, cz+rd*0.08);
+    // وسادتان
+    box(rw*0.18, 0.08, 0.3, white, cx-rw*0.12, 0.51, cz-rd*0.15);
+    box(rw*0.18, 0.08, 0.3, white, cx+rw*0.12, 0.51, cz-rd*0.15);
+    // رأس السرير
+    box(rw*0.5, 0.6, 0.06, wood, cx, 0.3, cz-rd*0.25);
+    // طاولة جانبية
+    box(0.4, 0.45, 0.4, wood, cx+rw*0.35, 0.225, cz-rd*0.15);
+  }
+  else if(type==='living'||type==='majlis'){
+    // كنبة L-shape
+    box(rw*0.45, 0.4, 0.8, fabric, cx-rw*0.15, 0.2, cz+rd*0.3);
+    box(rw*0.45, 0.55, 0.08, fabric, cx-rw*0.15, 0.275, cz+rd*0.34+0.36);
+    box(0.8, 0.4, rd*0.3, fabric, cx+rw*0.2, 0.2, cz+rd*0.15);
+    // طاولة وسط
+    box(rw*0.22, 0.32, rd*0.2, wood, cx, 0.16, cz+rd*0.1);
+    // سجادة (floor accent)
+    const rug = new THREE.Mesh(new THREE.PlaneGeometry(rw*0.5,rd*0.45), new THREE.MeshStandardMaterial({color:0x8B2020,roughness:0.9,side:THREE.DoubleSide}));
+    rug.rotation.x=-Math.PI/2;rug.position.set(cx,0.005,cz+rd*0.1);group.add(rug);
+    // تلفزيون
+    box(rw*0.3, 0.5, 0.03, dark, cx, 1.2, cz-rd*0.42);
+    box(rw*0.32, 0.35, 0.4, wood, cx, 0.175, cz-rd*0.35);
+  }
+  else if(type==='kitchen'){
+    // كاونتر
+    box(rw*0.85, 0.9, 0.55, white, cx, 0.45, cz+rd*0.35);
+    box(rw*0.85, 0.03, 0.56, new THREE.MeshStandardMaterial({color:0x404050,roughness:0.2,metalness:0.3}), cx, 0.915, cz+rd*0.35);
+    // ثلاجة
+    box(0.7, 1.8, 0.6, metal, cx+rw*0.35, 0.9, cz-rd*0.3);
+  }
+  else if(type==='bathroom'){
+    // حوض
+    box(0.5, 0.8, 0.45, white, cx+rw*0.3, 0.4, cz-rd*0.3);
+    // مرآة — انعكاس حقيقي
+    box(0.6, 0.7, 0.03, new THREE.MeshPhysicalMaterial({color:0xDDEEFF,roughness:0.0,metalness:1.0,clearcoat:1,envMapIntensity:3}), cx+rw*0.3, 1.4, cz-rd*0.45);
+    // حمام (bathtub)
+    box(rw*0.35, 0.45, rd*0.55, white, cx-rw*0.25, 0.225, cz+rd*0.1);
+    // مرحاض
+    const toiletBase = new THREE.Mesh(new THREE.CylinderGeometry(0.18,0.2,0.38,12), white);
+    toiletBase.position.set(cx-rw*0.3, 0.19, cz-rd*0.3); toiletBase.castShadow=true; group.add(toiletBase);
+    const toiletTank = new THREE.Mesh(new THREE.BoxGeometry(0.35,0.35,0.18), white);
+    toiletTank.position.set(cx-rw*0.3, 0.36, cz-rd*0.42); group.add(toiletTank);
+  }
+  else if(type==='office'){
+    // مكتب
+    box(rw*0.5, 0.72, 0.6, wood, cx, 0.36, cz);
+    // كرسي
+    cyl(0.22, 0.05, dark, cx, 0.42, cz+0.5);
+    box(0.4, 0.45, 0.04, fabric, cx, 0.65, cz+0.72);
+  }
+  else if(type==='workspace'){
+    // 4 مكاتب
+    for(let r=0;r<2;r++){for(let c2=0;c2<3;c2++){
+      const dx=minX+1.5+c2*3.2, dz=minZ+1.5+r*4;
+      box(1.2,0.72,0.6,wood,dx,0.36,dz);
+      cyl(0.2,0.05,dark,dx,0.42,dz+0.6);
+      // مونيتور
+      box(0.4,0.3,0.03,dark,dx,0.95,dz-0.15);
+    }}
+  }
+  else if(type==='meeting'){
+    // طاولة اجتماعات كبيرة
+    box(rw*0.6,0.72,rd*0.5,wood,cx,0.36,cz);
+    // كراسي حول الطاولة
+    for(let i=0;i<6;i++){
+      const a=i*Math.PI*2/6;
+      cyl(0.2,0.05,dark, cx+Math.cos(a)*(rw*0.38), 0.42, cz+Math.sin(a)*(rd*0.35));
+    }
+    // شاشة عرض
+    box(rw*0.5,1,0.04,dark,cx,1.5,cz-rd*0.45);
+  }
+  else if(type==='server'){
+    // خزائن سيرفر
+    for(let i=0;i<3;i++){
+      box(0.6,1.8,0.8,dark, cx-rw*0.3+i*1.2, 0.9, cz);
+      // أضواء LED
+      for(let j=0;j<5;j++){
+        const led=new THREE.Mesh(new THREE.BoxGeometry(0.04,0.02,0.01),new THREE.MeshStandardMaterial({color:0x00FF40,emissive:0x00FF40,emissiveIntensity:2}));
+        led.position.set(cx-rw*0.3+i*1.2+0.2, 0.3+j*0.3, cz-0.41);
+        group.add(led);
+      }
+    }
+  }
+
+  // إضاءة سقف لكل غرفة
+  const ceilingLight = new THREE.RectAreaLight(0xFFF4E0, 1.5, Math.min(rw,2.5), Math.min(rd,2.5));
+  ceilingLight.position.set(cx, H - 0.05, cz);
+  ceilingLight.rotation.x = -Math.PI / 2;
+  group.add(ceilingLight);
+  // fixture
+  box(Math.min(rw*0.3,1.2), 0.02, Math.min(rd*0.15,0.5),
+    new THREE.MeshStandardMaterial({color:0xFFFFFF,emissive:0xFFF4E0,emissiveIntensity:0.3}),
+    cx, H - 0.02, cz);
+
+  // ── نباتات داخلية (في الغرف الكبيرة) ──
+  if (rw > 2.5 && rd > 2.5 && type !== 'bathroom' && type !== 'server') {
+    const potMat = new THREE.MeshStandardMaterial({color:0x8B5E3C,roughness:0.7});
+    const leafMat = new THREE.MeshStandardMaterial({color:0x2D8B2D,roughness:0.6,side:THREE.DoubleSide});
+    const px = minX + 0.5, pz = minZ + 0.5;
+    // وعاء
+    const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.1,0.2,8), potMat);
+    pot.position.set(px,0.1,pz); pot.castShadow=true; group.add(pot);
+    // أوراق (3 spheres)
+    for(let i=0;i<3;i++){
+      const leaf = new THREE.Mesh(new THREE.SphereGeometry(0.12+i*0.03,6,6), leafMat);
+      leaf.position.set(px+(i-1)*0.06, 0.3+i*0.08, pz+(i%2)*0.05);
+      leaf.scale.set(1,0.7+i*0.2,1);
+      group.add(leaf);
+    }
+  }
+
+  // ── لوحة جدارية (في غرف النوم والمجالس) ──
+  if (type === 'bedroom' || type === 'living' || type === 'majlis') {
+    const frameMat = new THREE.MeshStandardMaterial({color:0x3A2A10,roughness:0.4,metalness:0.1});
+    const artMat = new THREE.MeshStandardMaterial({color: type==='bedroom'?0x4080A0:0xA05030,roughness:0.8});
+    const fw = Math.min(rw*0.25, 1.2), fh = 0.7;
+    // إطار
+    const frame = new THREE.Mesh(new THREE.BoxGeometry(fw+0.06,fh+0.06,0.03), frameMat);
+    frame.position.set(cx, H*0.6, minZ+0.08); frame.castShadow=true; group.add(frame);
+    // لوحة
+    const art = new THREE.Mesh(new THREE.PlaneGeometry(fw,fh), artMat);
+    art.position.set(cx, H*0.6, minZ+0.1); group.add(art);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// ██ BUILDER
+// ═══════════════════════════════════════════════════════════
+
+let renderer, scene, camera, controls, composer, animId;
+let introAnim = {active:false,t:0,s:null,e:null};
+
+function wLen(s,e){return Math.sqrt((e[0]-s[0])**2+(e[1]-s[1])**2);}
+function wAng(s,e){return Math.atan2(e[1]-s[1],e[0]-s[0]);}
+function ptAt(s,e,r){return[s[0]+(e[0]-s[0])*r,s[1]+(e[1]-s[1])*r];}
+
+function build(data) {
+  if (!data?.floors?.[0]) {
+    alert('❌ بيانات غير صالحة — لا يوجد floors[0]');
+    console.error('[build] Invalid data:', data);
+    return;
+  }
+  const container = document.getElementById('viewer');
+  container.innerHTML = '';
+  container.style.cursor = 'grab';
+
+  const W = container.clientWidth, H2 = container.clientHeight;
+
+  // Renderer
+  renderer = new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
+  renderer.setSize(W,H2);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.shadowMap.enabled=true;
+  renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  renderer.toneMapping=THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure=0.9;
+  container.appendChild(renderer.domElement);
+
+  // Scene
+  scene=new THREE.Scene();
+  scene.background=new THREE.Color(0x080814);
+  scene.fog=new THREE.FogExp2(0x080814,0.004);
+
+  // Env map — gradient sky for reflections
+  const pmrem=new THREE.PMREMGenerator(renderer);
+  pmrem.compileEquirectangularShader();
+  const envCanvas=document.createElement('canvas');envCanvas.width=512;envCanvas.height=256;
+  const ectx=envCanvas.getContext('2d');
+  const grad=ectx.createLinearGradient(0,0,0,256);
+  grad.addColorStop(0,'#1a2a50');grad.addColorStop(0.3,'#2a3a6a');
+  grad.addColorStop(0.5,'#405080');grad.addColorStop(0.7,'#304060');
+  grad.addColorStop(1,'#101020');
+  ectx.fillStyle=grad;ectx.fillRect(0,0,512,256);
+  // نقاط ضوء خافتة
+  for(let i=0;i<15;i++){
+    ectx.fillStyle=`rgba(255,240,200,${0.02+Math.random()*0.03})`;
+    ectx.beginPath();ectx.arc(Math.random()*512,Math.random()*128,10+Math.random()*20,0,Math.PI*2);ectx.fill();
+  }
+  const envTex2=new THREE.CanvasTexture(envCanvas);envTex2.mapping=THREE.EquirectangularReflectionMapping;
+  const envMap=pmrem.fromEquirectangular(envTex2).texture;
+  scene.environment=envMap;
+  envTex2.dispose();pmrem.dispose();
+
+  const floor=data.floors[0];
+  const fH=floor.height_m||3;
+
+  // Bounds
+  let mnX=Infinity,mxX=-Infinity,mnZ=Infinity,mxZ=-Infinity;
+  for(const w of(floor.walls||[])){
+    [w.start,w.end].forEach(p=>{if(p){mnX=Math.min(mnX,p[0]);mxX=Math.max(mxX,p[0]);mnZ=Math.min(mnZ,p[1]);mxZ=Math.max(mxZ,p[1]);}});
+  }
+  const cx=(mnX+mxX)/2,cz=(mnZ+mxZ)/2,sz=Math.max(mxX-mnX,mxZ-mnZ,5);
+
+  // Camera
+  camera=new THREE.PerspectiveCamera(40,W/H2,0.1,500);
+  camera.position.set(cx+sz*1.2,fH+sz*0.9,cz+sz*1.2);
+
+  controls=new OrbitControls(camera,renderer.domElement);
+  controls.target.set(cx,fH*0.3,cz);
+  controls.enableDamping=true;controls.dampingFactor=0.06;
+  controls.maxPolarAngle=Math.PI*0.47;
+  controls.minDistance=3;controls.maxDistance=sz*5;
+  controls.update();
+
+  introAnim={active:true,t:0,
+    s:camera.position.clone(),
+    e:new THREE.Vector3(cx+sz*0.55,fH+sz*0.35,cz+sz*0.7)
+  };
+
+  // Lighting
+  scene.add(new THREE.AmbientLight(0x8898C0,0.3));
+  scene.add(new THREE.HemisphereLight(0x6090D0,0x604020,0.25));
+
+  const sun=new THREE.DirectionalLight(0xFFE8C8,1.2);
+  sun.position.set(cx+sz*0.6,sz*1.5+fH,cz-sz*0.4);
+  sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);
+  const ext=sz*1.5;
+  sun.shadow.camera.left=-ext;sun.shadow.camera.right=ext;
+  sun.shadow.camera.top=ext;sun.shadow.camera.bottom=-ext;
+  sun.shadow.camera.near=0.5;sun.shadow.camera.far=sz*6;
+  sun.shadow.bias=-0.0005;sun.shadow.normalBias=0.03;
+  scene.add(sun);
+
+  const back=new THREE.DirectionalLight(0x3050A0,0.2);
+  back.position.set(cx-sz,fH*2,cz+sz);scene.add(back);
+
+  // ── Ground — reflective dark plane
+  const gm=new THREE.Mesh(new THREE.PlaneGeometry(sz*6,sz*6),new THREE.MeshPhysicalMaterial({color:0x101020,roughness:0.7,metalness:0.1,clearcoat:0.15,clearcoatRoughness:0.5,envMapIntensity:0.3}));
+  gm.rotation.x=-Math.PI/2;gm.position.y=-0.02;gm.receiveShadow=true;scene.add(gm);
+  const grid=new THREE.GridHelper(sz*5,sz*5,0x1C1C38,0x181830);
+  grid.position.y=-0.01;grid.material.opacity=0.4;grid.material.transparent=true;scene.add(grid);
+
+  // ── Room Floors
+  const furnitureGroup=new THREE.Group();furnitureGroup.name='furniture';scene.add(furnitureGroup);
+  for(const room of(floor.rooms||[])){
+    const poly=room.polygon;if(!poly||poly.length<3)continue;
+    const shape=new THREE.Shape();shape.moveTo(poly[0][0],poly[0][1]);
+    for(let i=1;i<poly.length;i++)shape.lineTo(poly[i][0],poly[i][1]);shape.closePath();
+    const color=RC[room.name]||RC['default'];
+    const tex=tileTex(color);
+    const bump=tileBump();
+    const rw2=Math.max(...poly.map(p=>p[0]))-Math.min(...poly.map(p=>p[0]));
+    const rd2=Math.max(...poly.map(p=>p[1]))-Math.min(...poly.map(p=>p[1]));
+    tex.repeat.set(rw2/1.5,rd2/1.5);
+    bump.repeat.set(rw2/1.5,rd2/1.5);
+    const mat=new THREE.MeshPhysicalMaterial({map:tex,bumpMap:bump,bumpScale:0.015,roughness:0.3,metalness:0.02,side:THREE.DoubleSide,envMapIntensity:0.5,clearcoat:0.35,clearcoatRoughness:0.25,reflectivity:0.4});
+    const mesh=new THREE.Mesh(new THREE.ShapeGeometry(shape),mat);
+    mesh.rotation.x=-Math.PI/2;mesh.position.y=0.003;mesh.receiveShadow=true;scene.add(mesh);
+    // أثاث
+    addFurniture(furnitureGroup, room, fH);
+  }
+
+  // ── Walls
+  const wallGroup=new THREE.Group();wallGroup.name='walls';scene.add(wallGroup);
+  for(const wall of(floor.walls||[])){
+    if(!wall.start||!wall.end)continue;
+    const len=wLen(wall.start,wall.end);if(len<0.05)continue;
+    const ang=wAng(wall.start,wall.end);
+    const th=wall.thickness_m||0.2; const h=fH;
+    const isE=wall.is_external!==false;
+    const tex2=wallTex(isE);tex2.repeat.set(len/1.5,h/1.5);
+    const bump2=wallBump(isE);bump2.repeat.set(len/1.5,h/1.5);
+    const geo=new THREE.BoxGeometry(len,h,th);
+    const mat=new THREE.MeshStandardMaterial({map:tex2,bumpMap:bump2,bumpScale:0.03,color:isE?0xE8DCC8:0xF0ECE4,roughness:0.65,metalness:0.02,envMapIntensity:0.15});
+    const m=new THREE.Mesh(geo,mat);
+    m.position.set((wall.start[0]+wall.end[0])/2,h/2,(wall.start[1]+wall.end[1])/2);
+    m.rotation.y=-ang;m.castShadow=true;m.receiveShadow=true;
+    wallGroup.add(m);
+    // baseboard
+    const bm=new THREE.Mesh(new THREE.BoxGeometry(len,0.08,th+0.01),new THREE.MeshStandardMaterial({color:0x2A2018,roughness:0.5}));
+    bm.position.set(m.position.x,0.04,m.position.z);bm.rotation.y=-ang;wallGroup.add(bm);
+    // crown molding
+    const cm=new THREE.Mesh(new THREE.BoxGeometry(len,0.04,th+0.01),new THREE.MeshStandardMaterial({color:0xD8D0C0,roughness:0.4}));
+    cm.position.set(m.position.x,h-0.02,m.position.z);cm.rotation.y=-ang;wallGroup.add(cm);
+  }
+
+  // ── Doors
+  const doorGroup=new THREE.Group();doorGroup.name='doors';scene.add(doorGroup);
+  for(const door of(floor.doors||[])){
+    const wall=(floor.walls||[]).find(w=>w.id===door.wall_id);if(!wall)continue;
+    const ang=wAng(wall.start,wall.end);
+    const wp=ptAt(wall.start,wall.end,door.position_ratio||0.5);
+    const dW=door.width_m||0.9,dH=door.height_m||2.1;
+    const th=(wall.thickness_m||0.2)+0.02;
+    const fmat=new THREE.MeshStandardMaterial({color:0x5C3A18,roughness:0.4,metalness:0.05});
+    // frame
+    const tg=new THREE.Mesh(new THREE.BoxGeometry(dW+0.1,0.08,th+0.02),fmat);
+    tg.position.set(wp[0],dH+0.04,wp[1]);tg.rotation.y=-ang;tg.castShadow=true;doorGroup.add(tg);
+    [-1,1].forEach(s=>{const sg=new THREE.Mesh(new THREE.BoxGeometry(0.05,dH,th+0.02),fmat);sg.position.set(wp[0]+Math.cos(ang)*s*(dW/2+0.025),dH/2,wp[1]+Math.sin(ang)*s*(dW/2+0.025));sg.rotation.y=-ang;sg.castShadow=true;doorGroup.add(sg);});
+    // panel
+    const pg=new THREE.Mesh(new THREE.BoxGeometry(dW*0.88,dH-0.06,0.04),new THREE.MeshStandardMaterial({color:0x9B6830,roughness:0.4,metalness:0.08,transparent:true,opacity:0.85}));
+    pg.position.set(wp[0],dH/2,wp[1]);pg.rotation.y=-ang+0.35;pg.castShadow=true;doorGroup.add(pg);
+    // handle
+    const hg=new THREE.Mesh(new THREE.CylinderGeometry(0.015,0.015,0.12,8),new THREE.MeshStandardMaterial({color:0xC0A050,roughness:0.15,metalness:0.85}));
+    hg.rotation.z=Math.PI/2;hg.position.set(wp[0]+Math.cos(-ang+0.35)*dW*0.32,dH*0.45,wp[1]-Math.sin(-ang+0.35)*dW*0.32);doorGroup.add(hg);
+  }
+
+  // ── Windows
+  const winGroup=new THREE.Group();winGroup.name='windows';scene.add(winGroup);
+  for(const win of(floor.windows||[])){
+    const wall=(floor.walls||[]).find(w=>w.id===win.wall_id);if(!wall)continue;
+    const ang=wAng(wall.start,wall.end);
+    const wp=ptAt(wall.start,wall.end,win.position_ratio||0.5);
+    const wW=win.width_m||1.2,wH=win.height_m||1.4,sill=win.sill_height_m||0.9;
+    const th=(wall.thickness_m||0.2)+0.02;
+    const fmat=new THREE.MeshStandardMaterial({color:0x707878,roughness:0.2,metalness:0.7});
+    // frame
+    const fg=new THREE.Mesh(new THREE.BoxGeometry(wW+0.06,wH+0.06,th),fmat);
+    fg.position.set(wp[0],sill+wH/2,wp[1]);fg.rotation.y=-ang;winGroup.add(fg);
+    // mullions
+    const mmat=new THREE.MeshStandardMaterial({color:0x606868,roughness:0.25,metalness:0.6});
+    const mh=new THREE.Mesh(new THREE.BoxGeometry(wW-0.04,0.02,th*0.3),mmat);mh.position.set(wp[0],sill+wH/2,wp[1]);mh.rotation.y=-ang;winGroup.add(mh);
+    const mv=new THREE.Mesh(new THREE.BoxGeometry(0.02,wH-0.04,th*0.3),mmat);mv.position.set(wp[0],sill+wH/2,wp[1]);mv.rotation.y=-ang;winGroup.add(mv);
+    // glass — MeshPhysicalMaterial with real transmission
+    const gg=new THREE.Mesh(new THREE.PlaneGeometry(wW-0.06,wH-0.06),new THREE.MeshPhysicalMaterial({
+      color:0x88D4FF,roughness:0.01,metalness:0.0,
+      transparent:true,opacity:0.15,
+      transmission:0.92,ior:1.5,thickness:0.02,
+      side:THREE.DoubleSide,envMapIntensity:2.0,clearcoat:1,clearcoatRoughness:0.01,
+      specularIntensity:1.0,specularColor:0xffffff
+    }));
+    gg.position.set(wp[0],sill+wH/2,wp[1]);gg.rotation.y=-ang;winGroup.add(gg);
+    // sill ledge
+    const sl=new THREE.Mesh(new THREE.BoxGeometry(wW+0.14,0.035,th+0.1),new THREE.MeshStandardMaterial({color:0xB0A898,roughness:0.4}));
+    sl.position.set(wp[0],sill-0.017,wp[1]);sl.rotation.y=-ang;sl.castShadow=true;winGroup.add(sl);
+    // ستائر — يمين ويسار النافذة
+    const curtainColors = [0xD4C8B0, 0xC8B8A0, 0xBCAA90, 0xE0D4C0];
+    const cc = curtainColors[Math.floor(Math.random()*curtainColors.length)];
+    for(const side of [-1,1]){
+      const curtGeo = new THREE.PlaneGeometry(wW*0.35, fH-sill-0.1, 6, 12);
+      // تموّج الستارة
+      const pos = curtGeo.attributes.position;
+      for(let vi=0;vi<pos.count;vi++){
+        const px=pos.getX(vi), py=pos.getY(vi);
+        pos.setZ(vi, Math.sin(px*8)*0.04 + Math.sin(py*3)*0.02);
+      }
+      curtGeo.computeVertexNormals();
+      const curtMat = new THREE.MeshStandardMaterial({color:cc,roughness:0.85,side:THREE.DoubleSide,transparent:true,opacity:0.75});
+      const curt = new THREE.Mesh(curtGeo, curtMat);
+      curt.position.set(
+        wp[0] + Math.cos(ang)*side*(wW*0.42) + Math.sin(ang)*0.15,
+        sill + (fH-sill)/2,
+        wp[1] + Math.sin(ang)*side*(wW*0.42) - Math.cos(ang)*0.15
+      );
+      curt.rotation.y = -ang;
+      curt.castShadow=true;
+      winGroup.add(curt);
+    }
+    // قضيب ستارة
+    const rodGeo = new THREE.CylinderGeometry(0.012,0.012,wW+0.3,6);
+    rodGeo.rotateZ(Math.PI/2);
+    const rodMat = new THREE.MeshStandardMaterial({color:0x806040,roughness:0.3,metalness:0.6});
+    const rod = new THREE.Mesh(rodGeo, rodMat);
+    rod.position.set(wp[0]+Math.sin(ang)*0.15, fH-0.08, wp[1]-Math.cos(ang)*0.15);
+    rod.rotation.y = -ang;
+    winGroup.add(rod);
+  }
+
+  // ── Columns
+  for(const col of(floor.columns||[])){
+    if(!col.position)continue;const s2=col.size||0.4;
+    const cg=new THREE.Mesh(new THREE.BoxGeometry(s2,fH,s2),new THREE.MeshStandardMaterial({color:0xB8B0A0,roughness:0.45,metalness:0.05}));
+    cg.position.set(col.position[0],fH/2,col.position[1]);cg.castShadow=true;cg.receiveShadow=true;scene.add(cg);
+  }
+
+  // ── Labels
+  const labelGroup=new THREE.Group();labelGroup.name='labels';scene.add(labelGroup);
+  for(const room of(floor.rooms||[])){
+    const poly=room.polygon;if(!poly||poly.length<3)continue;
+    let rcx=0,rcy=0;poly.forEach(p=>{rcx+=p[0];rcy+=p[1];});rcx/=poly.length;rcy/=poly.length;
+    const cv=document.createElement('canvas');cv.width=512;cv.height=200;
+    const ctx=cv.getContext('2d');
+    ctx.fillStyle='rgba(8,8,20,0.88)';ctx.beginPath();ctx.roundRect(12,8,488,184,12);ctx.fill();
+    ctx.strokeStyle='rgba(200,150,26,0.35)';ctx.lineWidth=1.5;ctx.beginPath();ctx.roundRect(12,8,488,184,12);ctx.stroke();
+    ctx.fillStyle='#FFFFFF';ctx.font='bold 42px Tajawal,Arial';ctx.textAlign='center';ctx.fillText(room.name||'',256,60);
+    ctx.fillStyle='#C8961A';ctx.font='26px Arial';ctx.fillText(room.name_en||'',256,105);
+    ctx.fillStyle='#6878A8';ctx.font='22px Arial';ctx.fillText('📐 '+(room.area_m2||'?')+' م²',256,150);
+    const tex=new THREE.CanvasTexture(cv);
+    const spr=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false}));
+    spr.position.set(rcx,fH*0.55,rcy);spr.scale.set(2.8,1.1,1);labelGroup.add(spr);
+  }
+
+  // ── Post-processing — premium pipeline
+  composer=new EffectComposer(renderer);
+  const renderPass=new RenderPass(scene,camera);
+  composer.addPass(renderPass);
+  // SSAO — ظلال زوايا واقعية
+  try {
+    const ssao=new SSAOPass(scene,camera,W,H2);
+    ssao.kernelRadius=0.6;
+    ssao.minDistance=0.001;
+    ssao.maxDistance=0.15;
+    ssao.output=SSAOPass.OUTPUT.Default;
+    composer.addPass(ssao);
+  } catch(e){ console.warn('[PostFX] SSAO unavailable:', e.message); }
+  // Bloom — توهج خفيف
+  const bloom=new UnrealBloomPass(new THREE.Vector2(W,H2),0.12,0.4,0.88);
+  composer.addPass(bloom);
+  // SMAA — anti-aliasing نظيف
+  try {
+    const smaa=new SMAAPass(W*renderer.getPixelRatio(),H2*renderer.getPixelRatio());
+    composer.addPass(smaa);
+  } catch(e){ console.warn('[PostFX] SMAA unavailable:', e.message); }
+  composer.addPass(new OutputPass());
+
+  // ── UI
+  createUI(container, floor, cx, cz, sz, fH, wallGroup, doorGroup, winGroup, furnitureGroup, labelGroup);
+
+  // ── Animate
+  if(animId) cancelAnimationFrame(animId);
+  function animate(){
+    animId=requestAnimationFrame(animate);
+    if(introAnim.active){
+      introAnim.t+=0.008;
+      const t2=Math.min(introAnim.t,1);
+      const ease=t2<0.5?4*t2*t2*t2:1-Math.pow(-2*t2+2,3)/2;
+      camera.position.lerpVectors(introAnim.s,introAnim.e,ease);
+      if(t2>=1)introAnim.active=false;
+    }
+    controls.update();
+    composer.render();
+  }
+  animate();
+
+  window.onresize=()=>{
+    const nw=container.clientWidth,nh=container.clientHeight;
+    camera.aspect=nw/nh;camera.updateProjectionMatrix();
+    renderer.setSize(nw,nh);composer.setSize(nw,nh);
+  };
+}
+
+function createUI(container, floor, cx, cz, sz, fH, wallG, doorG, winG, furG, labG) {
+  // Layer panel
+  const p=document.createElement('div');
+  p.style.cssText='position:absolute;top:12px;right:12px;background:rgba(8,8,20,0.93);backdrop-filter:blur(14px);border:1px solid rgba(200,150,26,0.12);border-radius:12px;padding:14px;min-width:155px;z-index:10;font-family:Tajawal,Arial;box-shadow:0 12px 40px rgba(0,0,0,0.5);';
+  p.innerHTML='<div style="font-size:10px;font-weight:700;color:#6080B0;margin-bottom:10px;letter-spacing:2px;">الطبقات</div>';
+
+  const layers=[
+    {g:wallG,label:'🧱 الجدران',c:'#E8DCC8',on:true},
+    {g:doorG,label:'🚪 الأبواب',c:'#9B6830',on:true},
+    {g:winG,label:'🪟 الشبابيك',c:'#88C8F0',on:true},
+    {g:furG,label:'🛋️ الأثاث',c:'#5A6880',on:true},
+    {g:labG,label:'🏷️ الأسماء',c:'#FFFFFF',on:true},
+  ];
+  layers.forEach(l=>{
+    const b=document.createElement('button');
+    b.style.cssText=`display:flex;align-items:center;gap:8px;width:100%;padding:7px 10px;margin-bottom:3px;border:none;border-radius:6px;background:rgba(60,100,180,0.18);color:#c0c8e0;cursor:pointer;font-size:12px;text-align:right;direction:rtl;font-family:inherit;transition:all .2s;`;
+    const d=document.createElement('span');d.style.cssText=`width:10px;height:10px;border-radius:3px;background:${l.c};flex-shrink:0;`;
+    b.appendChild(d);b.appendChild(document.createTextNode(l.label));
+    b.onclick=()=>{l.g.visible=!l.g.visible;b.style.background=l.g.visible?'rgba(60,100,180,0.18)':'rgba(20,20,40,0.3)';b.style.color=l.g.visible?'#c0c8e0':'#404060';d.style.background=l.g.visible?l.c:'#252535';};
+    p.appendChild(b);
+  });
+  container.appendChild(p);
+
+  // View buttons
+  const bar=document.createElement('div');bar.style.cssText='position:absolute;top:12px;left:12px;display:flex;gap:6px;z-index:10;font-family:Tajawal;';
+  [{l:'🎯 منظور',fn:()=>{camera.position.set(cx+sz*0.55,fH+sz*0.35,cz+sz*0.7);controls.target.set(cx,fH*0.3,cz);controls.update();}},
+   {l:'⬇️ مسقط',fn:()=>{camera.position.set(cx,sz*2.5,cz+0.01);controls.target.set(cx,0,cz);controls.update();}}
+  ].forEach(v=>{const b=document.createElement('button');b.textContent=v.l;b.style.cssText='padding:7px 16px;font-size:12px;border:1px solid rgba(200,150,26,0.12);border-radius:8px;background:rgba(8,8,20,0.9);color:#a0a8c0;cursor:pointer;font-family:inherit;transition:all .2s;backdrop-filter:blur(8px);box-shadow:0 4px 20px rgba(0,0,0,0.3);';b.onmouseenter=()=>b.style.background='rgba(48,96,160,0.5)';b.onmouseleave=()=>b.style.background='rgba(8,8,20,0.9)';b.onclick=v.fn;bar.appendChild(b);});
+  container.appendChild(bar);
+
+  // Stats
+  const rooms=(floor.rooms||[]).length,walls=(floor.walls||[]).length,doors=(floor.doors||[]).length,wins=(floor.windows||[]).length;
+  const st=document.createElement('div');st.style.cssText='position:absolute;bottom:12px;right:12px;background:rgba(8,8,20,0.92);border:1px solid rgba(200,150,26,0.15);border-radius:10px;padding:10px 16px;z-index:10;font-family:Tajawal;direction:rtl;backdrop-filter:blur(8px);box-shadow:0 4px 20px rgba(0,0,0,0.4);';
+  st.innerHTML=`<div style="font-size:14px;font-weight:700;color:#C8961A;margin-bottom:3px;">${floor.label}</div><div style="font-size:11px;color:#6878A0;display:flex;gap:10px;flex-wrap:wrap;"><span>🏠${rooms} غرفة</span><span>🧱${walls}</span><span>🚪${doors}</span><span>🪟${wins}</span></div>`;
+  container.appendChild(st);
+
+  // Hint
+  const h=document.createElement('div');h.style.cssText='position:absolute;bottom:12px;left:12px;background:rgba(8,8,20,0.85);border-radius:8px;padding:8px 12px;font-size:10px;color:#4858A0;line-height:1.6;z-index:10;font-family:monospace;direction:ltr;';
+  h.innerHTML='🖱️ Left: Rotate · Right: Pan · Scroll: Zoom';
+  container.appendChild(h);
+}
+
+// ═══ LOAD ═══
+window.loadSample = function(type, btn) {
+  document.querySelectorAll('.btns button').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  build(SAMPLES[type]);
+};
+
+// ═══ UPLOAD + GEMINI ANALYSIS ═══
+const PROMPT = `You are an expert architectural engineer. Convert this floor plan image into a precise JSON 3D model.
+
+RULES:
+1. Trace ALL walls (external perimeter + internal partitions). MINIMUM 4 walls.
+2. Identify rooms with Arabic name, English name, area_m2, polygon coordinates.
+3. Mark doors and windows with wall_id and position_ratio (0-1).
+4. Coordinates in METERS. Origin (0,0) = top-left. X→right, Y→down.
+5. Walls sharing corners must have EXACTLY matching coordinates.
+6. Room polygons must match wall endpoints.
+7. Return ONLY valid JSON — no markdown, no backticks, no text before/after.
+8. Add "furniture" field per room: bedroom/living/majlis/kitchen/bathroom/office/workspace/meeting/server/empty
+9. Output COMPACT JSON — no extra whitespace, no indentation, minimize key names. This is critical to avoid truncation.
+
+Room names (Arabic): مجلس، صالة، غرفة نوم، غرفة نوم رئيسية، مطبخ، حمام، ممر، مدخل، شرفة، مخزن، مكتب، قاعة اجتماعات، استقبال، مرآب
+
+JSON Schema:
+{"floors":[{"level":0,"label":"الدور الأرضي","height_m":3.2,
+"walls":[{"id":"W1","start":[0,0],"end":[12,0],"thickness_m":0.25,"is_external":true}],
+"doors":[{"id":"D1","wall_id":"W1","position_ratio":0.5,"width_m":0.9,"height_m":2.1}],
+"windows":[{"id":"WN1","wall_id":"W2","position_ratio":0.3,"width_m":1.5,"height_m":1.4,"sill_height_m":0.9}],
+"columns":[],"rooms":[{"id":"R1","name":"مجلس","name_en":"Majlis","area_m2":28,"polygon":[[0,0],[6,0],[6,5],[0,5]],"furniture":"majlis"}],"stairs":[]}]}`;
+
+function showOverlay(msg, detail, pct) {
+  const ov = document.getElementById('analysisOverlay');
+  ov.style.display = 'flex';
+  if(msg) document.getElementById('analysisStatus').textContent = msg;
+  if(detail) document.getElementById('analysisDetail').textContent = detail;
+  if(pct !== undefined) document.getElementById('analysisBar').style.width = pct + '%';
+}
+function hideOverlay() {
+  document.getElementById('analysisOverlay').style.display = 'none';
+}
+
+function repairJSON(text) {
+  let t = text.trim();
+  // إزالة backticks
+  t = t.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '');
+  // إزالة نص قبل أول {
+  const i = t.indexOf('{');
+  if (i > 0) t = t.substring(i);
+  // إزالة نص بعد آخر }
+  const j = t.lastIndexOf('}');
+  if (j > 0 && j < t.length - 1) t = t.substring(0, j + 1);
+  // إزالة تعليقات // و /* */
+  t = t.replace(/\/\/[^\n]*/g, '');
+  t = t.replace(/\/\*[\s\S]*?\*\//g, '');
+  // إزالة control characters ما عدا \n \r \t
+  t = t.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '');
+  // إصلاح trailing commas
+  t = t.replace(/,\s*([}\]])/g, '$1');
+  // إصلاح NaN / Infinity / undefined
+  t = t.replace(/:\s*NaN/g, ': 0');
+  t = t.replace(/:\s*Infinity/g, ': 9999');
+  t = t.replace(/:\s*undefined/g, ': null');
+  // إصلاح newlines داخل strings
+  t = t.replace(/"([^"]*)\n([^"]*)"/g, (m, a, b) => `"${a} ${b}"`);
+  // محاولة parse مباشرة
+  try { return JSON.stringify(JSON.parse(t)); } catch(_) {}
+
+  // محاولة 2: إصلاح JSON مقطوع — ابحث عن آخر object مكتمل
+  let t2 = t;
+  // ابحث عن آخر }, (نهاية عنصر مكتمل في array)
+  const lastComplete = t2.lastIndexOf('},');
+  if (lastComplete > 0) {
+    // اقطع بعد آخر عنصر مكتمل
+    t2 = t2.substring(0, lastComplete + 1);
+  } else {
+    // جرب آخر }
+    const lastBrace = t2.lastIndexOf('}');
+    if (lastBrace > 0) t2 = t2.substring(0, lastBrace + 1);
+  }
+  // إزالة trailing commas
+  t2 = t2.replace(/,\s*$/, '');
+  // إغلاق brackets مفتوحة
+  let o2 = 0, a2 = 0;
+  for (const ch of t2) {
+    if (ch === '{') o2++; if (ch === '}') o2--;
+    if (ch === '[') a2++; if (ch === ']') a2--;
+  }
+  while (a2 > 0) { t2 += ']'; a2--; }
+  while (o2 > 0) { t2 += '}'; o2--; }
+  t2 = t2.replace(/,\s*([}\]])/g, '$1');
+  try { return JSON.stringify(JSON.parse(t2)); } catch(_) {}
+
+  // محاولة 3: استخراج أول JSON object صالح
+  const patterns = [
+    /\{[\s\S]*"floors"\s*:\s*\[[\s\S]*\]\s*\}/,
+    /\{[\s\S]*"walls"\s*:\s*\[[\s\S]*\]\s*\}/,
+    /\{[\s\S]*"rooms"\s*:\s*\[[\s\S]*\]\s*\}/,
+  ];
+  for (const pat of patterns) {
+    const match = t.match(pat);
+    if (match) {
+      let candidate = match[0];
+      // إغلاق مفتوحات
+      let o2 = 0, a2 = 0;
+      for (const ch of candidate) { if(ch==='{')o2++;if(ch==='}')o2--;if(ch==='[')a2++;if(ch===']')a2--; }
+      while (a2 > 0) { candidate += ']'; a2--; }
+      while (o2 > 0) { candidate += '}'; o2--; }
+      candidate = candidate.replace(/,\s*([}\]])/g, '$1');
+      try { return JSON.stringify(JSON.parse(candidate)); } catch(_) {}
+    }
+  }
+
+  // محاولة 4: حذف سطور واحد تلو الآخر من النهاية
+  const lines = t.split('\n');
+  for (let cut = 1; cut < Math.min(lines.length, 20); cut++) {
+    let attempt = lines.slice(0, lines.length - cut).join('\n');
+    attempt = attempt.replace(/,\s*$/, '');
+    let o3=0,a3=0;
+    for(const ch of attempt){if(ch==='{')o3++;if(ch==='}')o3--;if(ch==='[')a3++;if(ch===']')a3--;}
+    while(a3>0){attempt+=']';a3--;}
+    while(o3>0){attempt+='}';o3--;}
+    attempt = attempt.replace(/,\s*([}\]])/g,'$1');
+    try { return JSON.stringify(JSON.parse(attempt)); } catch(_) {}
+  }
+
+  throw new Error('تعذّر إصلاح JSON من Gemini — جرّب صورة أوضح للمخطط');
+}
+
+function repairSchema(data) {
+  // ═══ الحالة 1: floors موجودة وصحيحة
+  if (data.floors && Array.isArray(data.floors) && data.floors[0]) {
+    // OK
+  }
+  // ═══ الحالة 2: walls/rooms في الجذر مباشرة (بدون floors)
+  else if (data.walls || data.rooms) {
+    data = { floors: [{ level: 0, label: 'الدور الأرضي', height_m: data.height_m || 3, ...data }] };
+  }
+  // ═══ الحالة 3: floor مفرد (بدون s)
+  else if (data.floor) {
+    data = { floors: [data.floor] };
+  }
+  // ═══ الحالة 4: floors فارغة أو غير array
+  else if (data.floors && !Array.isArray(data.floors)) {
+    data.floors = [data.floors];
+  }
+  // ═══ الحالة 5: بيانات مجهولة — ابحث عن أي array فيها objects بـ start/end
+  else {
+    let found = null;
+    function findWalls(obj) {
+      if (found) return;
+      if (Array.isArray(obj)) {
+        if (obj.length > 0 && obj[0].start && obj[0].end) { found = obj; return; }
+        obj.forEach(findWalls);
+      } else if (obj && typeof obj === 'object') {
+        Object.values(obj).forEach(findWalls);
+      }
+    }
+    findWalls(data);
+    if (found) {
+      data = { floors: [{ level: 0, label: 'الدور الأرضي', height_m: 3, walls: found, rooms: [], doors: [], windows: [], columns: [] }] };
+    } else {
+      // آخر محاولة — ابحث عن rooms
+      let foundRooms = null;
+      function findRooms(obj) {
+        if (foundRooms) return;
+        if (Array.isArray(obj)) {
+          if (obj.length > 0 && obj[0].polygon) { foundRooms = obj; return; }
+          obj.forEach(findRooms);
+        } else if (obj && typeof obj === 'object') {
+          Object.values(obj).forEach(findRooms);
+        }
+      }
+      findRooms(data);
+      data = { floors: [{ level: 0, label: 'الدور الأرضي', height_m: 3, walls: [], rooms: foundRooms || [], doors: [], windows: [], columns: [] }] };
+    }
+  }
+
+  if (!data.floors || !data.floors[0]) {
+    data = { floors: [{ level: 0, label: 'الدور الأرضي', height_m: 3, walls: [], rooms: [], doors: [], windows: [], columns: [] }] };
+  }
+
+  const f = data.floors[0];
+  f.walls = (f.walls || []).filter(w => {
+    if (!w) return false;
+    // Fix {x,y} → [x,y]
+    if (w.start && !Array.isArray(w.start) && typeof w.start === 'object') w.start = [w.start.x||0, w.start.y||0];
+    if (w.end && !Array.isArray(w.end) && typeof w.end === 'object') w.end = [w.end.x||0, w.end.y||0];
+    return Array.isArray(w.start) && Array.isArray(w.end) && w.start.length >= 2 && w.end.length >= 2;
+  });
+  f.doors = Array.isArray(f.doors) ? f.doors : [];
+  f.windows = Array.isArray(f.windows) ? f.windows : [];
+  f.columns = Array.isArray(f.columns) ? f.columns : [];
+  f.rooms = (f.rooms || []).filter(r => Array.isArray(r.polygon) && r.polygon.length >= 3);
+  if (!f.height_m) f.height_m = 3;
+  if (!f.label) f.label = 'الدور الأرضي';
+
+  // Generate walls from rooms if missing
+  if (f.walls.length === 0 && f.rooms.length > 0) {
+    const wm = new Map(); let idx = 1;
+    for (const room of f.rooms) {
+      const poly = room.polygon;
+      for (let i = 0; i < poly.length; i++) {
+        const s = poly[i], e = poly[(i+1) % poly.length];
+        const sk = s[0].toFixed(1)+','+s[1].toFixed(1);
+        const ek = e[0].toFixed(1)+','+e[1].toFixed(1);
+        const key = sk < ek ? sk+'→'+ek : ek+'→'+sk;
+        if (wm.has(key)) { wm.get(key).is_external = false; wm.get(key).thickness_m = 0.15; }
+        else { const w = {id:'WG'+idx++,start:[s[0],s[1]],end:[e[0],e[1]],thickness_m:0.2,is_external:true}; wm.set(key,w); f.walls.push(w); }
+      }
+    }
+  }
+
+  // Assign IDs + fix refs
+  f.walls.forEach((w,i) => { if(!w.id) w.id='W'+(i+1); });
+  const wIds = new Set(f.walls.map(w=>w.id));
+  f.doors = f.doors.filter(d => wIds.has(d.wall_id));
+  f.windows = f.windows.filter(w => wIds.has(w.wall_id));
+  f.doors.forEach((d,i) => { if(!d.id) d.id='D'+(i+1); });
+  f.windows.forEach((w,i) => { if(!w.id) w.id='WN'+(i+1); });
+  f.rooms.forEach((r,i) => { if(!r.id) r.id='R'+(i+1); if(!r.furniture) r.furniture='empty'; });
+
+  return data;
+}
+
+window.handleUpload = async function(input) {
+  const file = input.files[0];
+  if (!file) return;
+  input.value = ''; // reset
+
+  try {
+    showOverlay('📐 جاري قراءة المخطط...', 'تحويل الصورة...', 10);
+
+    // Convert to base64
+    const base64 = await new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload = () => res(r.result.split(',')[1]);
+      r.onerror = () => rej(new Error('فشل قراءة الملف'));
+      r.readAsDataURL(file);
+    });
+
+    showOverlay('🤖 Gemini يحلل المخطط...', 'استخراج الجدران والغرف والأبواب...', 30);
+
+    // Send to Gemini via vision-proxy
+    const response = await fetch('/api/vision-proxy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        image: base64,
+        mimeType: file.type || 'image/jpeg',
+        prompt: PROMPT,
+        jsonMode: true,
+        maxTokens: 16384,
+      }),
+    });
+
+    showOverlay('📊 معالجة النتائج...', 'تحليل JSON وإصلاح البيانات...', 60);
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err.error || `HTTP ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.info('[Upload] Full API response:', JSON.stringify(result).substring(0, 1000));
+
+    // استخراج النص — يتعامل مع كل الهياكل الممكنة
+    let rawText = '';
+    if (typeof result === 'string') {
+      rawText = result;
+    } else if (typeof result.text === 'string') {
+      rawText = result.text;
+    } else if (typeof result.result === 'string') {
+      rawText = result.result;
+    } else if (result.text && typeof result.text === 'object') {
+      rawText = JSON.stringify(result.text);
+    } else if (result.candidates) {
+      // Gemini raw response format
+      try { rawText = result.candidates[0].content.parts[0].text; } catch(_) {}
+    } else if (result.error) {
+      throw new Error('خطأ من Gemini: ' + (typeof result.error === 'string' ? result.error : JSON.stringify(result.error)));
+    }
+
+    if (!rawText) {
+      rawText = JSON.stringify(result);
+    }
+
+    console.info('[Upload] Raw text length:', rawText.length);
+    console.info('[Upload] Raw text preview:', rawText.substring(0, 500));
+
+    if (!rawText || rawText.length < 20) {
+      throw new Error('Gemini لم يرجع بيانات كافية');
+    }
+
+    showOverlay('🏗️ بناء المجسم ثلاثي الأبعاد...', 'رسم الجدران والأثاث والإضاءة...', 80);
+
+    // Parse JSON
+    const repaired = repairJSON(rawText);
+    let schema;
+    try {
+      schema = JSON.parse(repaired);
+    } catch (e) {
+      throw new Error('JSON غير صالح من Gemini: ' + e.message);
+    }
+
+    // Repair schema
+    schema = repairSchema(schema);
+
+    const f = schema.floors[0];
+    console.info('[Upload] تحليل مكتمل:', f.walls.length, 'جدار,', f.rooms.length, 'غرفة,', f.doors.length, 'باب');
+
+    if (f.walls.length === 0 && f.rooms.length === 0) {
+      // عرض الناتج الخام للتشخيص
+      console.error('[Upload] Raw Gemini text:', rawText);
+      console.error('[Upload] Parsed schema:', JSON.stringify(schema, null, 2));
+      const preview = rawText.substring(0, 300).replace(/</g, '&lt;');
+      throw new Error('لم يتم العثور على جدران أو غرف.\n\nناتج Gemini (أول 300 حرف):\n' + preview);
+    }
+
+    showOverlay('✅ جاري العرض...', '', 100);
+
+    // Deselect sample buttons
+    document.querySelectorAll('.btns button').forEach(b => b.classList.remove('active'));
+
+    setTimeout(() => {
+      hideOverlay();
+      build(schema);
+    }, 500);
+
+  } catch (err) {
+    hideOverlay();
+    const errMsg = typeof err === 'string' ? err : (err?.message || JSON.stringify(err));
+    console.error('[Upload] Error:', errMsg);
+    const errDiv = document.createElement('div');
+    errDiv.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(8,8,20,0.95);z-index:200;display:flex;align-items:center;justify-content:center;font-family:Tajawal,Arial;direction:rtl;';
+    errDiv.innerHTML = `
+      <div style="max-width:700px;max-height:80vh;overflow:auto;background:#141428;border:1px solid #c8961a33;border-radius:12px;padding:24px;">
+        <h2 style="color:#ef4444;margin:0 0 12px;">❌ خطأ في التحليل</h2>
+        <pre style="color:#a0a8c0;font-size:12px;white-space:pre-wrap;word-break:break-all;background:#0a0a18;padding:12px;border-radius:8px;max-height:50vh;overflow:auto;">${String(errMsg).replace(/</g,'&lt;')}</pre>
+        <button onclick="this.parentElement.parentElement.remove()" style="margin-top:16px;padding:10px 24px;background:#c8961a;color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-size:14px;">حسناً</button>
+      </div>`;
+    document.body.appendChild(errDiv);
+  }
+};
+
+build(SAMPLES.villa);
+</script>
+</body>
+</html>
