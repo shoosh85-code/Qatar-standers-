@@ -868,109 +868,65 @@ async function blueprintAnalyzerHandler(req, res) {
   if (!fileBase64 || !mimeType) return res.status(400).json({ error: 'fileBase64 و mimeType مطلوبان' });
 
   const ALLOWED = ['image/jpeg','image/png','image/webp','image/tiff','application/pdf'];
-  if (!ALLOWED.includes(mimeType)) return res.status(400).json({ error: 'نوع الملف غير مدعوم — يُقبل: PDF, JPG, PNG, WEBP, TIFF' });
+  if (!ALLOWED.includes(mimeType)) return res.status(400).json({ error: 'نوع غير مدعوم — PDF, JPG, PNG, WEBP' });
 
-  const MAX_SIZE = 15 * 1024 * 1024; // 15MB base64
-  if (fileBase64.length > MAX_SIZE) return res.status(400).json({ error: 'الملف كبير جداً — الحد 10MB' });
+  // 3MB base64 limit for inline_data (stays under 10s timeout)
+  const MAX_B64 = 3 * 1024 * 1024;
+  if (fileBase64.length > MAX_B64) return res.status(400).json({ error: 'الملف كبير جداً — الحد 2MB للصور' });
 
   const GEMINI_KEY = process.env.GEMINI_API_KEY;
   if (!GEMINI_KEY) return res.status(500).json({ error: 'GEMINI_API_KEY غير مُعيَّن' });
 
-  // ── Step 1: رفع الملف لـ Gemini Files API ──────────────────────────────
-  let fileUri;
-  try {
-    const buf = Buffer.from(fileBase64, 'base64');
-    const uploadRes = await fetch(
-      `https://generativelanguage.googleapis.com/upload/v1beta/files?key=${GEMINI_KEY}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': mimeType,
-          'X-Goog-Upload-Command': 'upload, finalize',
-          'X-Goog-Upload-Header-Content-Length': buf.length,
-          'X-Goog-Upload-Header-Content-Type': mimeType,
-        },
-        body: buf,
-      }
-    );
-    if (!uploadRes.ok) {
-      const err = await uploadRes.text();
-      return res.status(502).json({ error: 'فشل رفع الملف لـ Gemini', detail: err });
-    }
-    const uploadData = await uploadRes.json();
-    fileUri = uploadData?.file?.uri;
-    if (!fileUri) return res.status(502).json({ error: 'لم يُعَد رابط الملف من Gemini' });
-  } catch (e) {
-    return res.status(502).json({ error: 'خطأ في رفع الملف', detail: e.message });
-  }
-
-  // ── Step 2: بناء الـ prompt حسب نوع المخطط ──────────────────────────────
   const typeHints = {
     architectural: 'معماري — احسب: مساحات الغرف، محيط المبنى، فتحات النوافذ والأبواب، أعمال التشطيبات (بلاط، بلاستر، دهان)',
     structural:    'إنشائي — احسب: مقاطع الأعمدة والجسور والبلاطات، كميات الخرسانة والحديد لكل عنصر، الأساسات',
-    plumbing:      'صحي — احسب: أطوال المواسير لكل قطر، عدد وصلات ومحابس وأدوات صحية، أحواض وسيفونات',
-    mechanical:    'ميكانيكي (HVAC) — احسب: أطوال مجاري الهواء، وحدات التكييف، أعداد الفوهات والمراوح',
-    electrical:    'كهربائي — احسب: أطوال الكابلات والقنوات، عدد لوحات التوزيع، المقابس والإنارة والأجهزة',
-    civil:         'مدني — احسب: كميات الحفر والردم، الخرسانة، الرصف، مساحات الأسطح',
-    auto:          'اكتشف نوع المخطط تلقائياً ثم احسب جميع الكميات المناسبة',
+    plumbing:      'صحي — احسب: أطوال المواسير لكل قطر، عدد وصلات ومحابس وأدوات صحية',
+    mechanical:    'ميكانيكي HVAC — احسب: أطوال مجاري الهواء، وحدات التكييف، الفوهات',
+    electrical:    'كهربائي — احسب: أطوال الكابلات، لوحات التوزيع، المقابس والإنارة',
+    civil:         'مدني — احسب: الحفر والردم، الخرسانة، الرصف',
+    auto:          'اكتشف نوع المخطط تلقائياً ثم احسب جميع الكميات',
   };
   const hint = typeHints[drawingType] || typeHints.auto;
 
-  const prompt = `أنت خبير هندسي متخصص في حساب الكميات (QTO - Quantity Take-Off) وفق معايير QCS 2024 وأشغال قطر.
-
-مهمتك: تحليل هذا المخطط الهندسي بدقة فائقة واستخراج جميع الكميات.
-
+  const prompt = `أنت خبير هندسي في حساب الكميات (QTO) وفق QCS 2024.
 نوع المخطط: ${hint}
+تعليمات:
+1. اقرأ المقياس من المخطط وأذكره
+2. احسب الكميات بالوحدات الصحيحة (م، م²، م³، عدد)
+3. إذا لم تستطع قراءة قيمة اكتب "غير واضح" ولا تخترع أرقاماً
+4. اذكر مرجع QCS 2024 لكل بند
+5. رتب النتائج في جدول: البند | الوصف | الكمية | الوحدة | مرجع QCS
+6. أضف في النهاية: "⚠️ كميات تقديرية — يجب مراجعة مهندس مختص"
+حلل المخطط الآن:`;
 
-تعليمات صارمة:
-1. اقرأ المقياس (Scale) من المخطط إذا ظهر، وأذكره صراحةً
-2. احسب كل الكميات بالوحدات الصحيحة (م، م², م³، عدد، طن)
-3. إذا لم تستطع قراءة قيمة بدقة، اكتب "غير واضح في المخطط" ولا تخترع أرقاماً
-4. اذكر المرجع من QCS 2024 لكل بند ممكن
-5. رتّب النتائج في جدول منظم بالشكل الآتي:
-   - البند
-   - الوصف
-   - الكمية
-   - الوحدة
-   - ملاحظة / مرجع QCS
-6. في نهاية الجواب أضف تحذيراً: "هذه الكميات تقديرية بناءً على تحليل AI — يجب مراجعة مهندس مختص قبل الاستخدام"
-
-الآن حلّل المخطط وأخرج الكميات:`;
-
-  // ── Step 3: تحليل Gemini ─────────────────────────────────────────────────
   try {
-    const models = ['gemini-2.0-flash', 'gemini-1.5-flash'];
+    const models = ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-2.5-flash'];
     let analysisText = null;
 
     for (const model of models) {
-      const analyzeRes = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{
-              parts: [
-                { file_data: { mime_type: mimeType, file_uri: fileUri } },
+      try {
+        const r = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [
+                { inline_data: { mime_type: mimeType, data: fileBase64 } },
                 { text: prompt }
-              ]
-            }],
-            generationConfig: {
-              temperature: 0.1,
-              maxOutputTokens: 4096,
-              topP: 0.8,
-            }
-          })
-        }
-      );
-
-      if (!analyzeRes.ok) continue;
-      const data = await analyzeRes.json();
-      analysisText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (analysisText) break;
+              ]}],
+              generationConfig: { temperature: 0.1, maxOutputTokens: 2048 }
+            })
+          }
+        );
+        if (!r.ok) continue;
+        const data = await r.json();
+        analysisText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (analysisText) break;
+      } catch { continue; }
     }
 
-    if (!analysisText) return res.status(502).json({ error: 'فشل التحليل — يرجى المحاولة مرة أخرى' });
+    if (!analysisText) return res.status(502).json({ error: 'فشل التحليل — حاول مرة أخرى' });
 
     return res.status(200).json({
       success: true,
@@ -979,9 +935,8 @@ async function blueprintAnalyzerHandler(req, res) {
       drawingType: drawingType || 'auto',
       disclaimer: '⚠️ هذه الكميات تقديرية بناءً على تحليل AI — يجب مراجعة مهندس مختص قبل الاستخدام في التوريد أو التسعير.',
     });
-
   } catch (e) {
-    return res.status(500).json({ error: 'خطأ في التحليل', detail: e.message });
+    return res.status(500).json({ error: 'خطأ داخلي', detail: e.message });
   }
 }
 
