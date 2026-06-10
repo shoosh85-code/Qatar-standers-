@@ -88,15 +88,6 @@
       ]
     },
     {
-      "source": "/js/(?!lazy-loader)(.*)\\.js",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=604800"
-        }
-      ]
-    },
-    {
       "source": "/sw.js",
       "headers": [
         {
