@@ -1581,6 +1581,13 @@
           <li>المفتش الذكي بالصور</li>
           <li>دعم فني أولوية</li>
         </ul>
+        <!-- Trial 14 يوم — يظهر فقط للمستخدمين الذين لم يجربوا بعد -->
+        <div id="trialOfferInModal" style="margin-bottom:10px;">
+          <button onclick="(function(){if(typeof activateTrial==='function'&&activateTrial()){document.getElementById('proModal').classList.remove('open');document.body.style.overflow='';}})()" style="width:100%;padding:12px;background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;font-weight:800;font-size:14px;border:none;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+            🎁 جرّب Pro مجاناً — 14 يوماً بلا بطاقة
+          </button>
+          <div style="text-align:center;font-size:10px;color:var(--text3);margin-top:4px;">بعد 14 يوم — الخطة المجانية تلقائياً</div>
+        </div>
         <button class="plan-btn primary" data-action="tapMonthly" style="margin-bottom:6px;" data-ar="🚀 اشترك شهرياً — 99 QAR" data-en="🚀 Subscribe Monthly — 99 QAR">🚀 اشترك شهرياً — 99 QAR</button>
         <button class="plan-btn" data-action="tapYearly" style="background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;border:none;width:100%;padding:10px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">💎 اشترك سنوياً — 799 QAR <span style="font-size:10px;opacity:0.9;">(وفر 33%)</span></button>
       </div>
@@ -1645,6 +1652,19 @@
     </div>
   </div>
 </div>
+<script>
+// إخفاء زر Trial في الـ modal إذا سبق استخدامه
+(function() {
+  try {
+    var trialStart = localStorage.getItem('qs_trial_start');
+    var trialShown = localStorage.getItem('qs_trial_offered');
+    if (trialStart || trialShown) {
+      var el = document.getElementById('trialOfferInModal');
+      if (el) el.style.display = 'none';
+    }
+  } catch(e) {}
+})();
+</script>
 
 
 
