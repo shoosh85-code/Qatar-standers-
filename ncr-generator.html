@@ -266,6 +266,7 @@ textarea{resize:vertical}
         <button class="wf-btn wf-btn-reopen"   id="btn-reopen"       onclick="ncrWorkflow('open')" style="display:none">↩️ إعادة فتح — Reopen</button>
         <button class="wf-btn wf-btn-void"     id="btn-void"         onclick="ncrWorkflow('void')">🚫 إلغاء — Void</button>
         <button class="wf-btn wf-btn-pdf"                            onclick="exportNCRPdf()">📄 تصدير PDF</button>
+      <button id="exportExcelBtn" style="background:rgba(39,174,96,0.15);border:1px solid rgba(39,174,96,0.3);color:#27ae60;border-radius:8px;padding:8px 16px;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;cursor:pointer;" onclick="exportToExcel_NCR()">📊 تصدير Excel</button>
         <button class="wf-btn wf-btn-save"                           onclick="saveNCRtoDB()">💾 حفظ في النظام</button>
       </div>
 
@@ -799,6 +800,37 @@ function showToastNCR(msg, bg) {
     }
   };
 })();
+
+function exportToExcel_NCR() {
+  if (typeof XLSX === 'undefined') {
+    var s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.20.3/xlsx.full.min.js';
+    s.onload = function() { doExcel_NCR(); };
+    document.head.appendChild(s);
+  } else { doExcel_NCR(); }
+}
+function doExcel_NCR() {
+  var wb = XLSX.utils.book_new();
+  var data = [['QatarSpec Pro — NCR Report', '', '', '']];
+  data.push(['المرجع: QCS 2024 | Ashghal', '', 'التاريخ:', new Date().toLocaleDateString('ar-QA')]);
+  data.push(['', '', '', '']);
+  
+  // Collect all inputs
+  document.querySelectorAll('input, select, textarea').forEach(function(el) {
+    if (el.id && el.value) {
+      var label = document.querySelector('label[for="' + el.id + '"]');
+      data.push([label ? label.textContent.trim() : el.id, el.value, '', '']);
+    }
+  });
+  
+  data.push(['', '', '', '']);
+  data.push(['توقيع المهندس:', '___________________', 'التاريخ:', '___________']);
+  
+  var ws = XLSX.utils.aoa_to_sheet(data);
+  ws['!cols'] = [{wch:30}, {wch:40}, {wch:20}, {wch:20}];
+  XLSX.utils.book_append_sheet(wb, ws, 'NCR');
+  XLSX.writeFile(wb, 'QatarSpec-NCR-' + new Date().toISOString().slice(0,10) + '.xlsx');
+}
 </script>
 </body>
 </html>
