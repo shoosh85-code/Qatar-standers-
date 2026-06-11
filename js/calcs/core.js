@@ -56,7 +56,8 @@ function initCalcPanels() {
       _section('cbr-r','🟤 CBR',
         _calcSelect('cbr-layer','الطبقة',[['8','Subgrade (≥8%)'],['70','Subbase (≥70%)'],['80','Base Course (≥80%)']]) +
         _calcField('cbr-val','CBR Soaked (4 أيام)','e.g. 75','%') +
-        _calcBtn('calcCBR()','احسب CBR') + _calcResult('cbr-result')) +
+        _calcBtn('calcCBR()','احسب CBR') + _calcResult('cbr-result') +
+        '<a href="/grading-curve.html" style="display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:6px 12px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:8px;color:#C9A84C;text-decoration:none;font-size:12px;font-weight:700;">📊 رسم منحنى التدرج الحبيبي</a>') +
       _section('att-r','📊 Atterberg Limits',
         _calcSelect('att-layer','الطبقة',[['subgrade','Subgrade (PI≤10%, LL≤35%)'],['subbase','Subbase (PI≤6%)'],['base','Base Course (PI≤4%)']]) +
         _calcField('att-ll','Liquid Limit (LL)','e.g. 28','%') +
