@@ -8,8 +8,160 @@
       "destination": "/api/:path*"
     },
     {
-      "source": "/:file((?!index$)[^/]+)",
-      "destination": "/:file.html"
+      "source": "/360-tour.html",
+      "destination": "/360-tour.html"
+    },
+    {
+      "source": "/3d-analyzer.html",
+      "destination": "/3d-analyzer.html"
+    },
+    {
+      "source": "/3d-scanner.html",
+      "destination": "/3d-scanner.html"
+    },
+    {
+      "source": "/3d-test.html",
+      "destination": "/3d-test.html"
+    },
+    {
+      "source": "/404.html",
+      "destination": "/404.html"
+    },
+    {
+      "source": "/500.html",
+      "destination": "/500.html"
+    },
+    {
+      "source": "/admin-db-setup.html",
+      "destination": "/admin-db-setup.html"
+    },
+    {
+      "source": "/admin-embeddings.html",
+      "destination": "/admin-embeddings.html"
+    },
+    {
+      "source": "/admin-project-hub-setup.html",
+      "destination": "/admin-project-hub-setup.html"
+    },
+    {
+      "source": "/admin-qcs-upload.html",
+      "destination": "/admin-qcs-upload.html"
+    },
+    {
+      "source": "/analyzer-v2.html",
+      "destination": "/analyzer-v2.html"
+    },
+    {
+      "source": "/analyzer.html",
+      "destination": "/analyzer.html"
+    },
+    {
+      "source": "/blueprint.html",
+      "destination": "/blueprint.html"
+    },
+    {
+      "source": "/boq-pricer.html",
+      "destination": "/boq-pricer.html"
+    },
+    {
+      "source": "/dpr-generator.html",
+      "destination": "/dpr-generator.html"
+    },
+    {
+      "source": "/embedding-runner.html",
+      "destination": "/embedding-runner.html"
+    },
+    {
+      "source": "/execution-hub.html",
+      "destination": "/execution-hub.html"
+    },
+    {
+      "source": "/grading-curve.html",
+      "destination": "/grading-curve.html"
+    },
+    {
+      "source": "/health.html",
+      "destination": "/health.html"
+    },
+    {
+      "source": "/ifc-viewer.html",
+      "destination": "/ifc-viewer.html"
+    },
+    {
+      "source": "/index-NEW.html",
+      "destination": "/index-NEW.html"
+    },
+    {
+      "source": "/landing.html",
+      "destination": "/landing.html"
+    },
+    {
+      "source": "/login.html",
+      "destination": "/login.html"
+    },
+    {
+      "source": "/method-statement.html",
+      "destination": "/method-statement.html"
+    },
+    {
+      "source": "/mos-itp.html",
+      "destination": "/mos-itp.html"
+    },
+    {
+      "source": "/ncr-generator.html",
+      "destination": "/ncr-generator.html"
+    },
+    {
+      "source": "/offline.html",
+      "destination": "/offline.html"
+    },
+    {
+      "source": "/project-detail.html",
+      "destination": "/project-detail.html"
+    },
+    {
+      "source": "/projects.html",
+      "destination": "/projects.html"
+    },
+    {
+      "source": "/scanner.html",
+      "destination": "/scanner.html"
+    },
+    {
+      "source": "/subscribe.html",
+      "destination": "/subscribe.html"
+    },
+    {
+      "source": "/success.html",
+      "destination": "/success.html"
+    },
+    {
+      "source": "/test-api.html",
+      "destination": "/test-api.html"
+    },
+    {
+      "source": "/test-gemini.html",
+      "destination": "/test-gemini.html"
+    },
+    {
+      "source": "/tools.html",
+      "destination": "/tools.html"
+    },
+    {
+      "source": "/translation-runner.html",
+      "destination": "/translation-runner.html"
+    },
+    {
+      "source": "/visual-hub.html",
+      "destination": "/visual-hub.html"
+    },
+    {
+      "source": "/work-acceptance.html",
+      "destination": "/work-acceptance.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "redirects": [
@@ -151,7 +303,5 @@
       "path": "/api/hub-extended?resource=embed-cron",
       "schedule": "0 2 * * *"
     }
-  ],
-  "cleanUrls": true,
-  "trailingSlash": false
+  ]
 }
