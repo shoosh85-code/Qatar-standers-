@@ -286,6 +286,34 @@ async function callGeminiFallback(messages, maxTokens = 2000) {
 }
 
 // ══════════════════════════════════════════════════════════════
+// AI RESPONSE CACHE — in-memory (Edge runtime compatible)
+// يخزن إجابات الأسئلة المتكررة لتقليل تكلفة Gemini API
+// TTL: 30 دقيقة | الحد الأقصى: 200 مدخلة
+// [لا تحذف محتوى — إضافة فقط — v3.3 cache]
+// ══════════════════════════════════════════════════════════════
+const aiCache = new Map();
+const AI_CACHE_TTL = 30 * 60 * 1000; // 30 minutes
+const AI_CACHE_MAX = 200;
+
+function getCacheKey(query, system) {
+  const q = (query || "").slice(0, 200).toLowerCase().trim();
+  const s = (system || "").slice(0, 50).toLowerCase().trim();
+  return q + "||" + s;
+}
+
+function getFromCache(key) {
+  const entry = aiCache.get(key);
+  if (!entry) return null;
+  if (Date.now() - entry.timestamp > AI_CACHE_TTL) { aiCache.delete(key); return null; }
+  return entry.data;
+}
+
+function setToCache(key, data) {
+  if (aiCache.size >= AI_CACHE_MAX) { const oldestKey = aiCache.keys().next().value; aiCache.delete(oldestKey); }
+  aiCache.set(key, { data, timestamp: Date.now() });
+}
+
+// ══════════════════════════════════════════════════════════════
 // MAIN HANDLER
 // ══════════════════════════════════════════════════════════════
 export default async function handler(req) {
@@ -670,6 +698,18 @@ Return ONLY the HTML content (no outer div wrapper). Use dm-table CSS class for 
 
   const tokenLimit = Math.min(max_tokens || 4000, 8000); // max 8000 tokens
 
+  // ── Cache Check — v3.3: تحقق من الكاش قبل استدعاء Gemini ──────────────
+  // الكاش للأسئلة المتكررة فقط (non-streaming, non-enhance)
+  const cacheKey = getCacheKey(messages[0]?.content, system);
+  const cachedResult = getFromCache(cacheKey);
+  if (cachedResult) {
+    return new Response(JSON.stringify({ ...cachedResult, cached: true }), {
+      status: 200,
+      headers: { ...CORS, 'Content-Type': 'application/json', 'X-Cache': 'HIT' },
+    });
+  }
+  // ── End Cache Check ───────────────────────────────────────────────────────
+
   // v3.1: retryGemini — exponential backoff (2s→5s→12.5s) + flash fallback
   try {
     const result = await retryGemini(
@@ -681,6 +721,9 @@ Return ONLY the HTML content (no outer div wrapper). Use dm-table CSS class for 
     const resultText = result.content?.[0]?.text || '';
     const citations = extractCitations(resultText);
     if (citations.length > 0) result.citations = citations;
+
+    // حفظ في الكاش للاستفادة منه لاحقاً (v3.3)
+    setToCache(cacheKey, result);
 
     return new Response(JSON.stringify(result), {
       status: 200,

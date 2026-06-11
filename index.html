@@ -206,118 +206,6 @@
 }
 </script>
 
-<!-- ═══════════ Schema.org — SoftwareApplication ═══════════ -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "QatarSpec Pro",
-  "alternateName": "دليل المواصفات القطرية",
-  "description": "أكبر مرجع رقمي للمواصفات الهندسية في قطر — QCS 2024 + Ashghal + KAHRAMAA",
-  "url": "https://qatar-standers.vercel.app",
-  "applicationCategory": "EngineeringApplication",
-  "applicationSubCategory": "ConstructionSpecifications",
-  "operatingSystem": "Web, iOS, Android (PWA)",
-  "browserRequirements": "Requires JavaScript",
-  "inLanguage": ["ar", "en"],
-  "availableLanguage": [
-    {"@type": "Language", "name": "Arabic", "alternateName": "ar"},
-    {"@type": "Language", "name": "English", "alternateName": "en"}
-  ],
-  "offers": [
-    {
-      "@type": "Offer",
-      "name": "Free",
-      "price": "0",
-      "priceCurrency": "QAR",
-      "description": "5 AI searches per day + 100+ reference sections"
-    },
-    {
-      "@type": "Offer",
-      "name": "Pro",
-      "price": "99",
-      "priceCurrency": "QAR",
-      "billingDuration": "P1M",
-      "description": "Unlimited AI search + PDF/Word export + AI Inspector"
-    }
-  ],
-  "publisher": {
-    "@type": "Organization",
-    "name": "QatarSpec Pro",
-    "url": "https://qatar-standers.vercel.app",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "email": "support@qatarspec.app",
-      "contactType": "customer support",
-      "areaServed": "QA",
-      "availableLanguage": ["Arabic", "English"]
-    }
-  },
-  "featureList": [
-    "QCS 2024 AI Search",
-    "50+ Engineering Calculators",
-    "Pass/Fail Tests",
-    "Ashghal NCR Database",
-    "PWA Offline Mode",
-    "Arabic RTL Interface"
-  ],
-  "screenshot": "https://qatar-standers.vercel.app/og-image.png",
-  "dateModified": "2026-04-01",
-  "version": "3.2.0",
-  "countryOfOrigin": "QA",
-  "audience": {
-    "@type": "Audience",
-    "audienceType": "Civil Engineers in Qatar",
-    "geographicArea": {
-      "@type": "Country",
-      "name": "Qatar"
-    }
-  }
-}
-</script>
-
-<!-- ═══════════ Schema.org — FAQPage ═══════════ -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "ما هو QCS 2024؟",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "QCS هو Qatar Construction Specifications — الكود الهندسي الرسمي لدولة قطر، يحتوي على معايير البناء والطرق والمرافق والبنية التحتية. يُصدره وزارة البلدية والتخطيط العمراني."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "هل QatarSpec Pro مجاني؟",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "نعم، القسم المجاني يشمل 5 بحثات ذكية يومياً + 100+ قسم مرجعي + جميع الحاسبات الهندسية. النسخة Pro بـ 99 QAR شهرياً تتيح بحثاً غير محدود وتصدير PDF/Word."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "ما الفرق بين QCS 2014 و QCS 2024؟",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "أبرز التغييرات: رفع الخرسانة البحرية من C30 إلى C40، زيادة الغطاء الخرساني من 40mm إلى 50mm، إضافة Superpave لأسفلت الطرق، وإضافة قسم TSE لشبكات المياه المعالجة."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "هل يعمل التطبيق بدون إنترنت؟",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "نعم، QatarSpec Pro تطبيق PWA يعمل بدون إنترنت. المحتوى الثابت (111+ قسم + الحاسبات) متاح offline. البحث الذكي بالذكاء الاصطناعي يحتاج اتصالاً."
-      }
-    }
-  ]
-}
-</script>
-
 <!-- Phase 8: WebSite Schema + SearchAction -->
 <script type="application/ld+json">
 {
@@ -661,12 +549,12 @@
   document.getElementById('qslEnterBtn').addEventListener('click',function(){
     var el=document.getElementById('qs-landing');
     el.classList.add('qsl-exit');
-    sessionStorage.setItem('qs_entered','1');
+    localStorage.setItem('qs_entered','1');
     setTimeout(function(){el.style.display='none';alive=false},950);
   });
 
-  // Skip splash INSTANTLY if already entered in this session
-  if(sessionStorage.getItem('qs_entered')==='1'){
+  // Skip splash INSTANTLY if already visited before (localStorage = persistent)
+  if(localStorage.getItem('qs_entered')==='1'){
     var el=document.getElementById('qs-landing');
     if(el){el.style.display='none';alive=false;}
   }
@@ -674,7 +562,7 @@
   // Auto-dismiss after 2 seconds (reduced from 8s for performance)
   setTimeout(function(){
     var el=document.getElementById('qs-landing');
-    if(el&&el.style.display!=='none'){el.classList.add('qsl-exit');sessionStorage.setItem('qs_entered','1');setTimeout(function(){el.style.display='none';alive=false},950)}
+    if(el&&el.style.display!=='none'){el.classList.add('qsl-exit');localStorage.setItem('qs_entered','1');setTimeout(function(){el.style.display='none';alive=false},950)}
   },2000);
 })();
 </script>
