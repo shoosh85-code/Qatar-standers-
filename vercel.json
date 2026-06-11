@@ -303,5 +303,6 @@
       "path": "/api/hub-extended?resource=embed-cron",
       "schedule": "0 2 * * *"
     }
-  ]
+  ],
+  "cleanUrls": false
 }
