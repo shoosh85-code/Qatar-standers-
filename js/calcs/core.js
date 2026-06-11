@@ -155,7 +155,9 @@ function initCalcPanels() {
       _section('spt-g','🔩 SPT N-Value Classification',
         _calcSelect('spt-type','نوع التربة',[['sand','رمل / Sand'],['clay','طين / Clay']]) +
         _calcField('spt-val','N-Value من الحقل','e.g. 18','blows/300mm') +
-        _calcBtn('calcSPT()','صنّف التربة') + _calcResult('spt-result')) +
+        _calcField('spt-depth','العمق (م)','e.g. 5','م') +
+        _calcBtn('calcSPT()','صنّف التربة') + _calcResult('spt-result') +
+        '<div id="spt-profile" style="margin-top:12px;min-height:0;"></div>') +
       _section('cbr-g','🟤 CBR للتربة',
         _calcSelect('cbr-g-use','الاستخدام',[['subgrade','Subgrade Acceptance (≥8%)'],['foundation','Foundation Subgrade (≥15%)']]) +
         _calcField('cbr-g-val','CBR Soaked','e.g. 12','%') +

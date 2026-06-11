@@ -58,7 +58,25 @@ export default async function handler(req) {
 
 حلل المخطط الآن:`;
 
-  const models = ['gemini-2.0-flash-lite', 'gemini-2.0-flash', 'gemini-1.5-flash-latest', 'gemini-1.5-pro-latest'];
+  const models = ['gemini-2.5-flash-preview-05-20', 'gemini-2.0-flash', 'gemini-2.0-flash-lite', 'gemini-1.5-pro'];
+
+
+  // ── Retry helper للـ 429 ──────────────────────────────────────────
+  async function callGemini(model, body, retries=2) {
+    for (let i=0; i<=retries; i++) {
+      try {
+        const r = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`,
+          { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) }
+        );
+        if (r.status === 429 && i < retries) {
+          await new Promise(res => setTimeout(res, (i+1) * 2000));
+          continue;
+        }
+        return r;
+      } catch(e) { if (i === retries) throw e; }
+    }
+  }
 
   const errors = [];
   for (const model of models) {
