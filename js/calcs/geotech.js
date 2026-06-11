@@ -24,6 +24,33 @@ function calcSPT() {
   }
   let pass = val >= 10;
   showResult('spt-result', pass, val, 10, 'N = ' + val + ' | ' + desc);
+
+  // رسم Soil Profile بـ Plotly
+  if (typeof Plotly !== 'undefined' || (window.QS && window.QS.Plotly)) {
+    const P = typeof Plotly !== 'undefined' ? Plotly : window.QS.Plotly;
+    const depth = parseFloat(document.getElementById('spt-depth') ? document.getElementById('spt-depth').value : 5) || 5;
+    const color = type === 'sand' ?
+      (val < 10 ? '#D2B48C' : val < 30 ? '#C9A84C' : val < 50 ? '#8B6914' : '#4A3000') :
+      (val < 4 ? '#6B8FA0' : val < 8 ? '#4682B4' : val < 15 ? '#1E5B8A' : '#0A3055');
+
+    const container = document.getElementById('spt-profile');
+    if (container) {
+      P.newPlot('spt-profile', [{
+        x: [val, val], y: [0, -depth],
+        mode: 'lines+markers', type: 'scatter',
+        line: { color: color, width: 8 },
+        marker: { size: 10, color: color },
+        name: 'N-Value'
+      }], {
+        paper_bgcolor: '#141414', plot_bgcolor: '#1a1a1a',
+        font: { color: '#e8e0d0', family: 'Cairo', size: 11 },
+        xaxis: { title: 'N-Value', range: [0, Math.max(60, val+10)], gridcolor: 'rgba(255,255,255,0.05)' },
+        yaxis: { title: 'العمق (م)', gridcolor: 'rgba(255,255,255,0.05)' },
+        margin: { l:50, r:20, t:20, b:40 },
+        showlegend: false, height: 200
+      }, { responsive: true, displayModeBar: false });
+    }
+  }
 }
 
 // ── calcSulphateClass ──

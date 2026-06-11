@@ -289,7 +289,7 @@
 
 
     // ── جولة تعليمية تلقائية للمستخدم الجديد ────────────────────────
-    if (typeof introJs !== 'undefined' && window.location.pathname === '/') {
+    if (typeof introJs !== 'undefined' && (window.location.pathname === '/' || window.location.pathname.includes('index'))) {
       const tourShown = localStorage.getItem('qs_tour_shown');
       if (!tourShown) {
         setTimeout(function() {
@@ -339,6 +339,24 @@
       btn.onclick = function() { window.QS.captureElement(target, 'qatarspec-result'); };
       target.insertAdjacentElement('afterend', btn);
     };
+
+
+    // ── Hammer.js — Swipe للموبايل ────────────────────────────────────
+    if (typeof Hammer !== 'undefined') {
+      const mainContent = document.querySelector('.content-wrap, main, #main-content, body');
+      if (mainContent) {
+        const hammer = new Hammer(mainContent);
+        hammer.get('swipe').set({ direction: Hammer.DIRECTION_HORIZONTAL });
+        hammer.on('swipeleft', function() {
+          // فتح القائمة الجانبية أو التنقل للأمام
+          const nextSection = document.querySelector('.section-group.active ~ .section-group');
+          if (nextSection) nextSection.scrollIntoView({ behavior: 'smooth' });
+        });
+        hammer.on('swiperight', function() {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+    }
 
     console.log('[QS-Libs] ✅ جميع المكتبات جاهزة:', {
       d3: typeof d3 !== 'undefined',
