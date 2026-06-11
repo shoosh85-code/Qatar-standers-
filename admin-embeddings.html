@@ -74,7 +74,7 @@ async function checkModels() {
   log.style.display = 'block';
   addLog('🔍 جاري البحث عن موديلات Embedding المتاحة...', 'info');
   try {
-    var res = await fetch('/api/generate-embeddings', {
+    var res = await fetch('/api/scanner?action=generate-embeddings', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({admin_secret: secret, action: 'list_models'})
@@ -97,7 +97,7 @@ async function runBatch(secret, round) {
   addLog('⏳ الدفعة ' + round + ' — جاري التوليد...', 'info');
   
   try {
-    var res = await fetch('/api/generate-embeddings', {
+    var res = await fetch('/api/scanner?action=generate-embeddings', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({admin_secret: secret, batch_size: 5, offset: 0})

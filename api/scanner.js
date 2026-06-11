@@ -996,6 +996,80 @@ ${JSON.stringify(projectData || {})}
   } catch (err) { return res.status(500).json({ error: err.message }); }
 }
 
+
+// ── Generate Embeddings Handler (pgvector) ──────────────────────────────
+async function generateEmbeddingsHandler(req, res) {
+  if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
+
+  const ADMIN_SECRET = process.env.ADMIN_SECRET || process.env.SUPABASE_SERVICE_KEY?.slice(0, 20);
+  const { admin_secret, batch_size = 5, offset = 0 } = req.body || {};
+
+  if (admin_secret !== ADMIN_SECRET) return res.status(403).json({ error: 'Unauthorized' });
+
+  const GEMINI_KEY = process.env.GEMINI_API_KEY;
+  const SUPA_URL = process.env.SUPABASE_URL;
+  const SUPA_KEY = process.env.SUPABASE_SERVICE_KEY;
+
+  if (!GEMINI_KEY || !SUPA_URL || !SUPA_KEY) return res.status(500).json({ error: 'Missing env vars' });
+
+  // Get chunks without embeddings
+  const chunksRes = await fetch(
+    `${SUPA_URL}/rest/v1/qcs_chunks?embedding=is.null&select=id,content&limit=${batch_size}&offset=${offset}`,
+    { headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}` } }
+  );
+  const chunks = await chunksRes.json();
+  if (!chunks || !chunks.length) {
+    // Count remaining
+    const countRes = await fetch(`${SUPA_URL}/rest/v1/qcs_chunks?embedding=is.null&select=id`, {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}`, 'Prefer': 'count=exact', 'Range': '0-0' }
+    });
+    const remaining = parseInt(countRes.headers.get('content-range')?.split('/')[1] || '0');
+    return res.status(200).json({ processed: 0, failed: 0, remaining });
+  }
+
+  let processed = 0, failed = 0;
+
+  for (const chunk of chunks) {
+    try {
+      // Generate embedding
+      const embRes = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${GEMINI_KEY}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ model: 'models/gemini-embedding-001', content: { parts: [{ text: chunk.content.slice(0, 2000) }] } })
+        }
+      );
+      if (!embRes.ok) { failed++; continue; }
+      const embData = await embRes.json();
+      const embedding = embData?.embedding?.values;
+      if (!embedding) { failed++; continue; }
+
+      // Update chunk with embedding
+      const updateRes = await fetch(`${SUPA_URL}/rest/v1/qcs_chunks?id=eq.${chunk.id}`, {
+        method: 'PATCH',
+        headers: {
+          'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}`,
+          'Content-Type': 'application/json', 'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ embedding: `[${embedding.join(',')}]` })
+      });
+      if (updateRes.ok) processed++;
+      else failed++;
+    } catch (e) { failed++; }
+  }
+
+  // Get remaining count
+  const countRes = await fetch(`${SUPA_URL}/rest/v1/qcs_chunks?embedding=is.null&select=id`, {
+    headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}`, 'Prefer': 'count=exact', 'Range': '0-0' }
+  });
+  const remaining = parseInt(countRes.headers.get('content-range')?.split('/')[1] || '0');
+
+  return res.status(200).json({ processed, failed, remaining, offset: offset + batch_size });
+}
+
+const wrappedEmbeddings = withRateLimit(generateEmbeddingsHandler, '/api/scanner');
+
 const wrappedCheckout = withRateLimit(createCheckoutHandler, '/api/scanner');
 const wrappedGenDoc   = withRateLimit(generateDocumentHandler, '/api/scanner');
 
@@ -1018,6 +1092,7 @@ export default async function handler(req, res) {
   if (action === 'blueprint-analyze') return wrappedBlueprint(req, res);
   if (action === 'create-checkout')   return wrappedCheckout(req, res);
   if (action === 'generate-document') return wrappedGenDoc(req, res);
+  if (action === 'generate-embeddings') return wrappedEmbeddings(req, res);
 
   return res.status(400).json({
     error: 'action مطلوب',
