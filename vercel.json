@@ -8,7 +8,7 @@
       "destination": "/api/sitemap"
     },
     {
-      "source": "/((?!api/|health\\.html|legal/|subscribe\\.html|success\\.html|work-acceptance\\.html|boq-pricer\\.html|404\\.html|500\\.html|mos-itp\\.html|offline\\.html|embedding-runner\\.html|translation-runner\\.html|projects\\.html|project-detail\\.html|login\\.html|tools\\.html|dpr-generator\\.html|ncr-generator\\.html|method-statement\\.html|execution-hub\\.html|3d-scanner\\.html|360-tour\\.html|scanner\\.html|analyzer\\.html|analyzer-v2\\.html|visual-hub\\.html|landing\\.html|blueprint\\.html|grading-curve\\.html|3d-analyzer\\.html).*)",
+      "source": "/((?!api/|360-tour\\.html|3d-analyzer\\.html|3d-scanner\\.html|3d-test\\.html|404\\.html|500\\.html|admin-db-setup\\.html|admin-embeddings\\.html|admin-project-hub-setup\\.html|admin-qcs-upload\\.html|analyzer-v2\\.html|analyzer\\.html|blueprint\\.html|boq-pricer\\.html|dpr-generator\\.html|embedding-runner\\.html|execution-hub\\.html|grading-curve\\.html|health\\.html|index-NEW\\.html|index\\.html|landing\\.html|login\\.html|method-statement\\.html|mos-itp\\.html|ncr-generator\\.html|offline\\.html|project-detail\\.html|projects\\.html|scanner\\.html|subscribe\\.html|success\\.html|test-api\\.html|test-gemini\\.html|tools\\.html|translation-runner\\.html|visual-hub\\.html|work-acceptance\\.html).*)",
       "destination": "/index.html"
     }
   ],
