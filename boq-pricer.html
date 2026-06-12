@@ -127,6 +127,7 @@ input.rate-input{width:100px;}
     <button class="btn btn-outline" onclick="saveLocal()">💾 Save</button>
     <button class="btn btn-green" onclick="exportPDF()">📄 Export PDF</button>
     <button class="btn btn-gold" onclick="window.print()">🖨 Print BOQ</button>
+    <button class="btn btn-green" onclick="exportBOQExcel()" style="background:rgba(39,174,96,0.2);border-color:rgba(39,174,96,0.5);">📊 Export Excel</button>
   </div>
 </div>
 
@@ -395,7 +396,7 @@ function fillSampleRates() {
 }
 
 function exportPDF() {
-  alert('Use the Print button (🖨) and choose "Save as PDF" in your print dialog.\n\nAll sections and totals will print with QatarSpec Pro header.');
+  window.print();
 }
 
 init();
@@ -430,6 +431,55 @@ init();
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/13.2.0/math.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.13/dayjs.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js" defer>
+function exportBOQExcel() {
+  if (typeof XLSX === 'undefined') {
+    var s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.20.3/xlsx.full.min.js';
+    s.onload = doBOQExcel;
+    document.head.appendChild(s);
+  } else { doBOQExcel(); }
+}
+
+function doBOQExcel() {
+  var wb = XLSX.utils.book_new();
+  var rows = [
+    ['QatarSpec Pro — Bill of Quantities', '', '', '', '', ''],
+    ['Project:', document.getElementById('proj-name')?.value || '', '', 'Date:', new Date().toLocaleDateString('ar-QA'), ''],
+    ['Engineer:', document.getElementById('proj-eng')?.value || '', '', 'Ref:', 'QCS 2024 | Ashghal', ''],
+    ['', '', '', '', '', ''],
+    ['Item No.', 'Description', 'Unit', 'Quantity', 'Rate (QAR)', 'Total (QAR)'],
+  ];
+
+  // Collect all BOQ rows
+  document.querySelectorAll('table tbody tr').forEach(function(tr) {
+    var cells = tr.querySelectorAll('td, th');
+    if (cells.length >= 4) {
+      rows.push([
+        cells[0]?.textContent?.trim() || '',
+        cells[1]?.textContent?.trim() || '',
+        cells[2]?.textContent?.trim() || '',
+        cells[3]?.textContent?.trim() || '',
+        cells[4]?.textContent?.trim() || '',
+        cells[5]?.textContent?.trim() || '',
+      ]);
+    }
+  });
+
+  // Add totals
+  rows.push(['', '', '', '', '', '']);
+  var grandTotal = document.querySelector('.gt-val')?.textContent || '';
+  rows.push(['', '', '', '', 'GRAND TOTAL:', grandTotal]);
+  rows.push(['', '', '', '', '', '']);
+  rows.push(['⚠️ For reference only — Verify with QCS 2024 before submission', '', '', '', '', '']);
+
+  var ws = XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols'] = [{wch:10},{wch:50},{wch:10},{wch:12},{wch:15},{wch:18}];
+  ws['!merges'] = [{s:{r:0,c:0},e:{r:0,c:5}}];
+  XLSX.utils.book_append_sheet(wb, ws, 'BOQ');
+  XLSX.writeFile(wb, 'QatarSpec-BOQ-' + new Date().toISOString().slice(0,10) + '.xlsx');
+}
+
+</script>
 </body>
 </html>

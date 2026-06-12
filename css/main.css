@@ -926,3 +926,30 @@ body.dark .onboard-body { color: #bbb; }
 /* Blueprint card — maximum protection */
 [data-blueprint-card] { display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important; }
 [data-blueprint-card] a { color:#E8C97A!important; }
+
+
+/* ═══ Mobile UX Improvements ═══ */
+@media(max-width:600px){
+  .cat-card { padding: 14px 12px; min-height: 120px; }
+  .cat-name { font-size: 13px; }
+  .cat-desc { font-size: 11px; }
+  .bp-main { padding: 16px 10px; }
+  .options-grid { grid-template-columns: 1fr; }
+  .analyze-btn { font-size: 14px; padding: 12px; }
+  .header { padding: 10px 14px; flex-wrap: wrap; gap: 8px; }
+  .section-title { font-size: 15px; }
+  .group-grid { grid-template-columns: 1fr !important; }
+}
+/* Touch targets */
+button, .btn, .cat-card, a.btn { min-height: 44px; }
+/* Better scroll on mobile */
+.content-section { -webkit-overflow-scrolling: touch; }
+/* Prevent text overflow */
+.cat-name, .cat-desc span { overflow-wrap: break-word; word-break: break-word; }
+/* Loading skeleton */
+.skeleton { background: linear-gradient(90deg, #1a1a1a 25%, #222 50%, #1a1a1a 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 6px; }
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+/* Performance: GPU acceleration for animations */
+.cat-card, .animate-in { will-change: transform; }
+/* Better focus styles for accessibility */
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid #C9A84C; outline-offset: 2px; }

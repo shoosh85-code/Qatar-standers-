@@ -2275,6 +2275,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- IFC.js — BIM/IFC viewer -->
 <script src="https://unpkg.com/web-ifc@0.0.51/web-ifc-api.js" defer></script>
+
+<script>
+// ── Performance: Lazy load images ───────────────────────────────────
+if ('loading' in HTMLImageElement.prototype) {
+  document.querySelectorAll('img').forEach(img => img.loading = 'lazy');
+}
+// ── Performance: Preconnect to CDN ──────────────────────────────────
+['https://cdnjs.cloudflare.com', 'https://fonts.googleapis.com'].forEach(url => {
+  if (!document.querySelector(`link[href="${url}"]`)) {
+    var link = document.createElement('link');
+    link.rel = 'preconnect'; link.href = url;
+    document.head.appendChild(link);
+  }
+});
+// ── Performance: defer non-critical scripts ──────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  // Defer Plotly (heavy) until needed
+  window.QS = window.QS || {};
+  window.QS.loadPlotly = function(cb) {
+    if (typeof Plotly !== 'undefined') { cb && cb(); return; }
+    var s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.2/plotly.min.js';
+    s.onload = cb;
+    document.head.appendChild(s);
+  };
+});
+</script>
+
 <!-- QatarSpec Libs Init -->
 <script src="/js/libs-init.js" defer></script>
 </body>
