@@ -358,6 +358,56 @@
       }
     }
 
+
+
+    // ── WhatsApp Export ───────────────────────────────────────────────────────
+    window.QS.shareWhatsApp = function(text, title) {
+      const msg = (title ? '*' + title + '*\n\n' : '') + 
+                  (text || '') + 
+                  '\n\n_QatarSpec Pro — qatar-standers.vercel.app_';
+      const url = 'https://wa.me/?text=' + encodeURIComponent(msg);
+      window.open(url, '_blank');
+    };
+
+    window.QS.addWhatsAppBtn = function(targetSelector, getTextFn) {
+      const target = document.querySelector(targetSelector);
+      if (!target) return;
+      const btn = document.createElement('button');
+      btn.innerHTML = '📱 واتساب';
+      btn.style.cssText = 'background:rgba(37,211,102,0.15);border:1px solid rgba(37,211,102,0.4);color:#25d366;border-radius:8px;padding:5px 12px;font-family:Cairo,sans-serif;font-size:12px;cursor:pointer;margin:4px;';
+      btn.onclick = function() {
+        const text = getTextFn ? getTextFn() : target.innerText;
+        window.QS.shareWhatsApp(text, 'نتيجة QatarSpec Pro');
+      };
+      target.insertAdjacentElement('afterend', btn);
+    };
+
+    // ── QCS Clause Linker ─────────────────────────────────────────────────────
+    // Clicking on any QCS reference (e.g. "QCS 2024 Part 8 §8.4") opens the section
+    window.QS.initClauseLinker = function(container) {
+      const el = container || document;
+      el.querySelectorAll('[data-qcs-clause], .qcs-ref, .qcs-reference').forEach(function(ref) {
+        if (ref.dataset.clauseLinked) return;
+        ref.dataset.clauseLinked = '1';
+        ref.style.cursor = 'pointer';
+        ref.style.textDecoration = 'underline dotted';
+        ref.title = 'اضغط لفتح النص الأصلي في QCS 2024';
+        ref.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const clause = ref.dataset.qcsClause || ref.textContent;
+          if (window.QS && window.QS.doSearch) {
+            const inp = document.getElementById('searchInput');
+            if (inp) { inp.value = clause; window.QS.doSearch(); }
+          }
+        });
+      });
+    };
+
+    // Auto-init on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      window.QS.initClauseLinker && window.QS.initClauseLinker();
+    });
+
     console.log('[QS-Libs] ✅ جميع المكتبات جاهزة:', {
       d3: typeof d3 !== 'undefined',
       plotly: typeof Plotly !== 'undefined',

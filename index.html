@@ -280,6 +280,14 @@
 
 <script src="/js/qcs-compliance-engine.js" defer></script>
 <script src="/js/offline-project-hub.js" defer></script>
+
+<style>
+.search-history { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+.search-history-item { background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.2); border-radius: 16px; padding: 3px 10px; font-size: 11px; color: #B0A898; cursor: pointer; transition: all 0.2s; font-family: Cairo, sans-serif; }
+.search-history-item:hover { background: rgba(201,168,76,0.2); color: #C9A84C; }
+.search-history-label { font-size: 10px; color: #7a7060; align-self: center; }
+</style>
+
 </head>
 <body>
 <script>
@@ -574,6 +582,19 @@
   🔔 يوجد تحديث جديد للتطبيق — <a data-action="reloadPage" style="color:#fff;font-weight:700;cursor:pointer;text-decoration:underline;" role="button" tabindex="0" aria-label="تحديث التطبيق الآن">تحديث الآن</a>
 </div>
 
+<!-- ═══ Quick Actions Bar ═══ -->
+<div id="quick-actions-bar" style="background:rgba(122,21,21,0.1);border-bottom:1px solid rgba(201,168,76,0.15);padding:8px 16px;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;">
+  <span style="font-size:11px;color:#7a7060;white-space:nowrap;align-self:center;">⚡ سريع:</span>
+  <button onclick="window.location.href='/ncr-generator.html'" style="background:rgba(231,76,60,0.15);border:1px solid rgba(231,76,60,0.3);color:#e74c3c;border-radius:20px;padding:5px 12px;font-size:11px;font-family:Cairo,sans-serif;cursor:pointer;white-space:nowrap;">📋 NCR جديد</button>
+  <button onclick="window.location.href='/blueprint.html'" style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);color:#C9A84C;border-radius:20px;padding:5px 12px;font-size:11px;font-family:Cairo,sans-serif;cursor:pointer;white-space:nowrap;">📐 تحليل مخطط</button>
+  <button onclick="window.location.href='/grading-curve.html'" style="background:rgba(46,204,113,0.15);border:1px solid rgba(46,204,113,0.3);color:#2ecc71;border-radius:20px;padding:5px 12px;font-size:11px;font-family:Cairo,sans-serif;cursor:pointer;white-space:nowrap;">📊 منحنى التدرج</button>
+  <button onclick="window.location.href='/ifc-viewer.html'" style="background:rgba(52,152,219,0.15);border:1px solid rgba(52,152,219,0.3);color:#3498db;border-radius:20px;padding:5px 12px;font-size:11px;font-family:Cairo,sans-serif;cursor:pointer;white-space:nowrap;">🏗️ IFC Viewer</button>
+  <button onclick="window.location.href='/projects.html'" style="background:rgba(155,89,182,0.15);border:1px solid rgba(155,89,182,0.3);color:#9b59b6;border-radius:20px;padding:5px 12px;font-size:11px;font-family:Cairo,sans-serif;cursor:pointer;white-space:nowrap;">📁 مشاريعي</button>
+  <button onclick="window.location.href='/dpr-generator.html'" style="background:rgba(230,126,34,0.15);border:1px solid rgba(230,126,34,0.3);color:#e67e22;border-radius:20px;padding:5px 12px;font-size:11px;font-family:Cairo,sans-serif;cursor:pointer;white-space:nowrap;">📅 DPR يومي</button>
+  <button onclick="document.getElementById('searchInput')?.focus()" style="background:rgba(26,122,74,0.15);border:1px solid rgba(26,122,74,0.3);color:#2ecc71;border-radius:20px;padding:5px 12px;font-size:11px;font-family:Cairo,sans-serif;cursor:pointer;white-space:nowrap;">🔍 بحث QCS</button>
+</div>
+
+
 <header role="banner">
   <div class="header-inner">
     <div class="logo" aria-label="QatarSpec Pro — دليل المواصفات القطرية">
@@ -678,6 +699,7 @@
     <input type="text" class="search-input" id="searchInput" aria-labelledby="search-label" placeholder="اسأل أي سؤال... مثال: ما هي متطلبات سماكة الConcrete في الأساسات وفق الكود القطري؟" data-enter-action="doSearch">
     <button class="search-icon-btn" data-action="doSearch" aria-label="بحث ذكي في QCS 2024">⚡ بحث ذكي</button>
   </div>
+<div id="search-history-container" class="search-history" style="display:none"></div>
   <div class="quick-tags">
     <span class="quick-tag" data-action="quickSearch" data-param="متطلبات الConcrete المسلحة">🏛️ الConcrete المسلحة</span>
     <span class="quick-tag" data-action="quickSearch" data-param="مواصفات الأساسات والخوازيق">⚓ الأساسات</span>
@@ -2305,6 +2327,60 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- QatarSpec Libs Init -->
 <script src="/js/libs-init.js" defer></script>
+
+<script>
+// Search History
+(function() {
+  var HISTORY_KEY = 'qs_search_history';
+  var MAX_HISTORY = 8;
+
+  function getHistory() {
+    try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch(e) { return []; }
+  }
+
+  function addToHistory(term) {
+    if (!term || term.length < 3) return;
+    var h = getHistory().filter(function(t) { return t !== term; });
+    h.unshift(term);
+    h = h.slice(0, MAX_HISTORY);
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(h));
+    renderHistory();
+  }
+
+  function renderHistory() {
+    var container = document.getElementById('search-history-container');
+    if (!container) return;
+    var h = getHistory();
+    if (!h.length) { container.style.display = 'none'; return; }
+    container.style.display = 'flex';
+    container.innerHTML = '<span class="search-history-label">🕐 الأخيرة:</span>' +
+      h.map(function(t) {
+        return '<span class="search-history-item" onclick="document.getElementById('searchInput').value='' + 
+          t.replace(/'/g, '') + '';doSearch()">' + t.slice(0,30) + '</span>';
+      }).join('');
+  }
+
+  // Hook into search
+  document.addEventListener('DOMContentLoaded', function() {
+    renderHistory();
+    var form = document.getElementById('searchForm') || document.querySelector('form');
+    if (form) {
+      form.addEventListener('submit', function() {
+        var inp = document.getElementById('searchInput');
+        if (inp && inp.value) addToHistory(inp.value.trim());
+      });
+    }
+    // Also hook doSearch
+    var origSearch = window.doSearch;
+    window.doSearch = function() {
+      var inp = document.getElementById('searchInput');
+      if (inp && inp.value) addToHistory(inp.value.trim());
+      return origSearch && origSearch.apply(this, arguments);
+    };
+  });
+})();
+</script>
+
 </body>
 </html>
 <!-- redeploy 20260524113926 -->

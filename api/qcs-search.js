@@ -1,3 +1,22 @@
+
+// ── Simple Response Cache ─────────────────────────────────────────────────
+const _searchCache = new Map();
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+function getCached(key) {
+  const entry = _searchCache.get(key);
+  if (!entry) return null;
+  if (Date.now() - entry.time > CACHE_TTL) { _searchCache.delete(key); return null; }
+  return entry.data;
+}
+function setCache(key, data) {
+  if (_searchCache.size > 100) {
+    const firstKey = _searchCache.keys().next().value;
+    _searchCache.delete(firstKey);
+  }
+  _searchCache.set(key, { data, time: Date.now() });
+}
+
 // /api/qcs-search.js — QatarSpec Pro v2.3.0
 // Vector + FTS Search in QCS 2024 Supabase database
 // Edge Runtime — consistent with ai-proxy.js
