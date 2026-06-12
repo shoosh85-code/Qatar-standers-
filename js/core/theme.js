@@ -38,8 +38,9 @@
 
   // تطبيق الثيم فوراً عند تحميل الملف (قبل DOMContentLoaded)
   // يمنع "وميض" اللون الافتراضي
+  // الافتراضي: 'system' — يتبع إعدادات الجهاز تلقائياً للمستخدمين الجدد
   (function initTheme() {
-    var saved = localStorage.getItem('qs_theme') || 'dark';
+    var saved = localStorage.getItem('qs_theme') || 'system';
     window.applyTheme(saved);
   })();
 

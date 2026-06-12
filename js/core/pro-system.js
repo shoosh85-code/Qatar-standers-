@@ -487,4 +487,219 @@ function installPWA() {
   }
 }
 
+// ══════════════════════════════════════════════════════════════
+// TRIAL SYSTEM — 14 يوم مجاناً (v3.4)
+// [لا تحذف محتوى — إضافة فقط]
+// المنطق: مستخدم جديد → عرض Trial → تفعيل → Pro لمدة 14 يوم
+// بعد الانتهاء → عرض upgrade بدون إزعاج
+// ══════════════════════════════════════════════════════════════
+var TRIAL_KEY       = 'qs_trial_start';
+var TRIAL_SHOWN_KEY = 'qs_trial_offered';
+var TRIAL_DAYS      = 14;
+var TRIAL_MS        = TRIAL_DAYS * 24 * 60 * 60 * 1000;
+
+function isTrialActive() {
+  try {
+    var start = localStorage.getItem(TRIAL_KEY);
+    if (!start) return false;
+    return (Date.now() - parseInt(start)) < TRIAL_MS;
+  } catch(e) { return false; }
+}
+
+function getTrialDaysLeft() {
+  try {
+    var start = localStorage.getItem(TRIAL_KEY);
+    if (!start) return 0;
+    var elapsed = Date.now() - parseInt(start);
+    var left = Math.ceil((TRIAL_MS - elapsed) / (24 * 60 * 60 * 1000));
+    return Math.max(0, left);
+  } catch(e) { return 0; }
+}
+
+function activateTrial() {
+  try {
+    if (localStorage.getItem(TRIAL_KEY)) return false; // سبق تفعيله
+    localStorage.setItem(TRIAL_KEY, Date.now().toString());
+    localStorage.setItem(TRIAL_SHOWN_KEY, '1');
+    // منح صلاحيات Pro مؤقتاً عبر نفس آلية السيرفر الوهمية (client-side only للتجربة)
+    if (typeof window._qsSetProFromServer === 'function') {
+      window._qsSetProFromServer(true);
+    }
+    renderProStatus();
+    showTrialBadge();
+    showToast('🎉 تم تفعيل تجربة Pro المجانية — 14 يوماً كاملاً!', 'success');
+    return true;
+  } catch(e) { return false; }
+}
+
+function showTrialBadge() {
+  var badge = document.getElementById('proStatusBadge');
+  if (!badge) return;
+  var left = getTrialDaysLeft();
+  if (left > 0) {
+    badge.className = 'pro-badge trial-badge';
+    badge.innerHTML = '⏳ تجربة Pro — ' + left + ' يوم';
+  }
+}
+
+// عرض عرض Trial للمستخدمين الجدد (مرة واحدة فقط)
+function maybeShowTrialOffer() {
+  try {
+    if (isProUser()) return;
+    if (isTrialActive()) { showTrialBadge(); return; }
+    if (localStorage.getItem(TRIAL_SHOWN_KEY)) return;
+    if (localStorage.getItem(TRIAL_KEY)) return; // انتهت التجربة
+    // انتظر 30 ثانية قبل العرض — لا تزعج فوراً
+    setTimeout(function() {
+      if (isProUser()) return;
+      showTrialOfferModal();
+    }, 30000);
+  } catch(e) {}
+}
+
+function showTrialOfferModal() {
+  var existing = document.getElementById('qs-trial-modal');
+  if (existing) return;
+  var modal = document.createElement('div');
+  modal.id = 'qs-trial-modal';
+  modal.setAttribute('role', 'dialog');
+  modal.setAttribute('aria-modal', 'true');
+  modal.setAttribute('aria-label', 'عرض تجربة Pro المجانية');
+  modal.style.cssText = 'position:fixed;inset:0;z-index:99998;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.75);padding:16px;';
+  modal.innerHTML = '\
+    <div style="background:var(--dark2,#0d0d1a);border:1px solid var(--gold,#c9a84c);border-radius:18px;padding:28px 24px;max-width:420px;width:100%;text-align:center;direction:rtl;box-shadow:0 20px 60px rgba(0,0,0,0.5);">\
+      <div style="font-size:42px;margin-bottom:12px;">🎁</div>\
+      <div style="font-size:19px;font-weight:800;color:var(--gold,#c9a84c);margin-bottom:8px;">14 يوماً مجاناً في Pro</div>\
+      <div style="font-size:13px;color:var(--text2,#aaa);margin-bottom:20px;line-height:1.7;">جرّب كل ميزات QatarSpec Pro بدون قيود — بلا بطاقة ائتمان</div>\
+      <ul style="text-align:right;font-size:12px;color:var(--text1,#ccc);margin-bottom:20px;padding:0 8px;list-style:none;">\
+        <li style="margin:6px 0;">✅ بحث ذكي غير محدود في QCS 2024</li>\
+        <li style="margin:6px 0;">✅ تصدير PDF + Word احترافي</li>\
+        <li style="margin:6px 0;">✅ محلل المستندات والمخططات</li>\
+        <li style="margin:6px 0;">✅ المفتش الذكي بالصور</li>\
+      </ul>\
+      <button id="qs-trial-start-btn" style="width:100%;padding:14px;background:linear-gradient(135deg,#c9a84c,#a8873d);color:#000;font-weight:800;font-size:15px;border:none;border-radius:12px;cursor:pointer;margin-bottom:10px;">🚀 ابدأ التجربة المجانية الآن</button>\
+      <button id="qs-trial-dismiss-btn" style="width:100%;padding:10px;background:transparent;color:var(--text3,#666);font-size:12px;border:none;cursor:pointer;">ليس الآن</button>\
+    </div>';
+  document.body.appendChild(modal);
+  document.getElementById('qs-trial-start-btn').addEventListener('click', function() {
+    activateTrial();
+    modal.remove();
+  });
+  document.getElementById('qs-trial-dismiss-btn').addEventListener('click', function() {
+    try { localStorage.setItem(TRIAL_SHOWN_KEY, '1'); } catch(e) {}
+    modal.remove();
+  });
+}
+
+// تهيئة Trial عند التحميل
+(function initTrial() {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      maybeShowTrialOffer();
+      if (isTrialActive()) showTrialBadge();
+    });
+  } else {
+    maybeShowTrialOffer();
+    if (isTrialActive()) showTrialBadge();
+  }
+})();
+
+// ══════════════════════════════════════════════════════════════
+// AI FEEDBACK SYSTEM — 👍👎 (v3.4)
+// [لا تحذف محتوى — إضافة فقط]
+// يُضاف تلقائياً بعد كل إجابة AI
+// البيانات: localStorage فقط (لا server) — آمن وسريع
+// ══════════════════════════════════════════════════════════════
+var AI_FEEDBACK_KEY = 'qs_ai_feedback';
+
+function saveAIFeedback(query, answer, rating) {
+  try {
+    var existing = JSON.parse(localStorage.getItem(AI_FEEDBACK_KEY) || '[]');
+    existing.push({
+      q: (query || '').slice(0, 200),
+      r: rating, // 1=👍, -1=👎
+      t: Date.now()
+    });
+    // احتفظ بآخر 50 تقييم فقط
+    if (existing.length > 50) existing = existing.slice(-50);
+    localStorage.setItem(AI_FEEDBACK_KEY, JSON.stringify(existing));
+  } catch(e) {}
+}
+
+function getFeedbackStats() {
+  try {
+    var data = JSON.parse(localStorage.getItem(AI_FEEDBACK_KEY) || '[]');
+    var pos = data.filter(function(d){ return d.r === 1; }).length;
+    var neg = data.filter(function(d){ return d.r === -1; }).length;
+    return { total: data.length, positive: pos, negative: neg,
+             score: data.length ? Math.round((pos / data.length) * 100) : 0 };
+  } catch(e) { return { total:0, positive:0, negative:0, score:0 }; }
+}
+
+// أضف أزرار Feedback بعد إجابة AI
+function renderAIFeedback(containerEl, query, answer) {
+  if (!containerEl) return;
+  // إزالة أي feedback سابق في نفس الـ container
+  var old = containerEl.querySelector('.qs-ai-feedback');
+  if (old) old.remove();
+
+  var fb = document.createElement('div');
+  fb.className = 'qs-ai-feedback';
+  fb.setAttribute('dir', 'rtl');
+  fb.style.cssText = 'display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid rgba(201,168,76,0.15);font-size:12px;color:var(--text3,#666);';
+  fb.innerHTML = '\
+    <span>هل الإجابة مفيدة؟</span>\
+    <button class="qs-fb-btn" data-rating="1" aria-label="إجابة مفيدة" style="background:none;border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:4px 10px;cursor:pointer;font-size:14px;color:#2ecc71;transition:all 0.2s;">👍</button>\
+    <button class="qs-fb-btn" data-rating="-1" aria-label="إجابة غير مفيدة" style="background:none;border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:4px 10px;cursor:pointer;font-size:14px;color:#e74c3c;transition:all 0.2s;">👎</button>\
+    <span class="qs-fb-thanks" style="display:none;color:var(--gold,#c9a84c);font-weight:600;"></span>';
+
+  fb.querySelectorAll('.qs-fb-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var rating = parseInt(this.getAttribute('data-rating'));
+      saveAIFeedback(query, answer, rating);
+      fb.querySelectorAll('.qs-fb-btn').forEach(function(b){ b.style.display='none'; });
+      var thanks = fb.querySelector('.qs-fb-thanks');
+      thanks.textContent = rating === 1 ? '✅ شكراً — سيساعدنا في التحسين!' : '🔄 شكراً — سنحسّن الإجابة!';
+      thanks.style.display = 'inline';
+    });
+  });
+
+  containerEl.appendChild(fb);
+}
+
+// كشف تلقائي لعناصر AI result وإضافة Feedback
+function autoAttachAIFeedback() {
+  // يُراقب DOM للعناصر الجديدة التي تحتوي نتائج AI
+  if (!window.MutationObserver) return;
+  var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      mutation.addedNodes.forEach(function(node) {
+        if (node.nodeType !== 1) return;
+        // أي عنصر يحمل class ai-result أو id يحتوي ai-result
+        var targets = node.querySelectorAll ? node.querySelectorAll('.ai-result, [id*="ai-result"], [id*="aiResult"]') : [];
+        targets.forEach(function(el) {
+          if (!el.querySelector('.qs-ai-feedback')) {
+            var query = el.getAttribute('data-query') || '';
+            var answer = el.textContent.slice(0, 500);
+            renderAIFeedback(el, query, answer);
+          }
+        });
+      });
+    });
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+
+// تشغيل autoAttach عند تحميل الصفحة
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', autoAttachAIFeedback);
+} else {
+  autoAttachAIFeedback();
+}
+
+// تصدير للاستخدام الخارجي
+window.QS = window.QS || {};
+window.QS.trial = { isActive: isTrialActive, daysLeft: getTrialDaysLeft, activate: activateTrial };
+window.QS.feedback = { render: renderAIFeedback, save: saveAIFeedback, stats: getFeedbackStats };
+
 // ─── End Monetization System ───
