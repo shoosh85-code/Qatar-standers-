@@ -288,6 +288,27 @@
 .search-history-label { font-size: 10px; color: #7a7060; align-self: center; }
 </style>
 
+
+<style>
+.qs-dashboard {
+  background: rgba(201,168,76,0.04);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin: 12px 16px;
+  display: none;
+}
+.qs-dashboard.show { display: block; }
+.qs-dash-title { font-size: 13px; font-weight: 700; color: #C9A84C; margin-bottom: 10px; }
+.qs-dash-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+.qs-dash-card { background: rgba(255,255,255,0.04); border-radius: 10px; padding: 10px; text-align: center; }
+.qs-dash-val { font-size: 20px; font-weight: 800; color: #E8C97A; }
+.qs-dash-lbl { font-size: 10px; color: #7a7060; margin-top: 2px; }
+.qs-recent-calcs { margin-top: 10px; }
+.qs-recent-item { display: flex; justify-content: space-between; padding: 5px 8px; border-radius: 8px; font-size: 11px; cursor: pointer; }
+.qs-recent-item:hover { background: rgba(201,168,76,0.08); }
+</style>
+
 </head>
 <body>
 <script>
@@ -593,6 +614,18 @@
   <button onclick="window.location.href='/dpr-generator.html'" style="background:rgba(230,126,34,0.15);border:1px solid rgba(230,126,34,0.3);color:#e67e22;border-radius:20px;padding:5px 12px;font-size:11px;font-family:Cairo,sans-serif;cursor:pointer;white-space:nowrap;">📅 DPR يومي</button>
   <button onclick="document.getElementById('searchInput')?.focus()" style="background:rgba(26,122,74,0.15);border:1px solid rgba(26,122,74,0.3);color:#2ecc71;border-radius:20px;padding:5px 12px;font-size:11px;font-family:Cairo,sans-serif;cursor:pointer;white-space:nowrap;">🔍 بحث QCS</button>
 </div>
+
+<!-- Personal Dashboard -->
+<div id="qs-dashboard" class="qs-dashboard">
+  <div class="qs-dash-title">📊 لوحة الاستخدام الشخصية</div>
+  <div class="qs-dash-grid">
+    <div class="qs-dash-card"><div class="qs-dash-val" id="dash-searches">0</div><div class="qs-dash-lbl">بحث</div></div>
+    <div class="qs-dash-card"><div class="qs-dash-val" id="dash-calcs">0</div><div class="qs-dash-lbl">حاسبة</div></div>
+    <div class="qs-dash-card"><div class="qs-dash-val" id="dash-days">0</div><div class="qs-dash-lbl">يوم</div></div>
+  </div>
+  <div class="qs-recent-calcs" id="dash-recent"></div>
+</div>
+
 
 
 <header role="banner">
@@ -2376,6 +2409,89 @@ document.addEventListener('DOMContentLoaded', function() {
       var inp = document.getElementById('searchInput');
       if (inp && inp.value) addToHistory(inp.value.trim());
       return origSearch && origSearch.apply(this, arguments);
+    };
+  });
+})();
+</script>
+
+
+<script>
+// Personal Dashboard
+(function() {
+  var STATS_KEY = 'qs_usage_stats';
+  var RECENT_KEY = 'qs_recent_calcs';
+
+  function getStats() {
+    try { return JSON.parse(localStorage.getItem(STATS_KEY) || '{"searches":0,"calcs":0,"exports":0,"days":0,"lastDay":""}'); }
+    catch(e) { return {searches:0,calcs:0,exports:0,days:0,lastDay:""}; }
+  }
+
+  function saveStats(s) { localStorage.setItem(STATS_KEY, JSON.stringify(s)); }
+
+  function trackUsage(type) {
+    var s = getStats();
+    s[type] = (s[type] || 0) + 1;
+    var today = new Date().toDateString();
+    if (s.lastDay !== today) { s.days = (s.days||0) + 1; s.lastDay = today; }
+    saveStats(s);
+    renderDashboard();
+  }
+
+  function getRecent() {
+    try { return JSON.parse(localStorage.getItem(RECENT_KEY) || '[]'); }
+    catch(e) { return []; }
+  }
+
+  function addRecent(name, key) {
+    var r = getRecent().filter(function(i) { return i.key !== key; });
+    r.unshift({ name: name, key: key, time: Date.now() });
+    r = r.slice(0, 5);
+    localStorage.setItem(RECENT_KEY, JSON.stringify(r));
+  }
+
+  function renderDashboard() {
+    var dash = document.getElementById('qs-dashboard');
+    if (!dash) return;
+    var s = getStats();
+    var r = getRecent();
+    if (!s.searches && !s.calcs && !s.exports) { dash.classList.remove('show'); return; }
+    dash.classList.add('show');
+    document.getElementById('dash-searches').textContent = s.searches || 0;
+    document.getElementById('dash-calcs').textContent = s.calcs || 0;
+    document.getElementById('dash-days').textContent = s.days || 1;
+
+    var recentEl = document.getElementById('dash-recent');
+    if (recentEl && r.length) {
+      recentEl.innerHTML = '<div style="font-size:11px;color:#7a7060;margin-bottom:4px;">📌 آخر الحاسبات:</div>' +
+        r.map(function(i) {
+          return '<div class="qs-recent-item" onclick="QS.openDetail && QS.openDetail('' + i.key + '')">' +
+            '<span>' + i.name.slice(0,30) + '</span>' +
+            '<span style="color:#7a7060">' + new Date(i.time).toLocaleDateString('ar-QA') + '</span></div>';
+        }).join('');
+    }
+  }
+
+  // Expose globally
+  window.QS = window.QS || {};
+  window.QS.trackUsage = trackUsage;
+  window.QS.addRecentCalc = addRecent;
+
+  // Hook into search and calc
+  document.addEventListener('DOMContentLoaded', function() {
+    renderDashboard();
+    var origSearch = window.doSearch;
+    window.doSearch = function() {
+      trackUsage('searches');
+      return origSearch && origSearch.apply(this, arguments);
+    };
+    var origOpen = window.openDetail;
+    window.openDetail = function(key) {
+      if (key) {
+        var name = (window.detailData && window.detailData[key] && window.detailData[key].title) || key;
+        addRecent(name, key);
+        trackUsage('calcs');
+      }
+      return origOpen && origOpen.apply(this, arguments);
     };
   });
 })();

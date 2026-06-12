@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حاسبة المواد والكميات — QatarSpec Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.20.3/xlsx.full.min.js" defer></script>
+<style>
+:root{--gold:#C9A84C;--gold2:#E8C97A;--red:#7a1515;--dark1:#0d0d0d;--dark3:#1a1a1a;--dark4:#222;--border:rgba(201,168,76,0.15);--text:#e8e0d0;--text2:#b8aa98;--text3:#7a7060;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--dark1);color:var(--text);font-family:Cairo,sans-serif;min-height:100vh;}
+.header{background:linear-gradient(135deg,rgba(122,21,21,0.3),rgba(201,168,76,0.1));border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:12px;}
+.header a{color:var(--gold);text-decoration:none;font-size:13px;}
+.title{font-size:18px;font-weight:800;color:var(--gold2);flex:1;}
+.main{max-width:960px;margin:0 auto;padding:20px 16px;}
+.card{background:var(--dark3);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px;}
+.card-title{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:14px;}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.inp-group{display:flex;flex-direction:column;gap:4px;}
+.inp-label{font-size:12px;color:var(--text3);}
+.inp{background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:Cairo,sans-serif;font-size:13px;width:100%;}
+.inp:focus{outline:none;border-color:var(--gold);}
+.sel{background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:Cairo,sans-serif;font-size:13px;width:100%;cursor:pointer;}
+.btn{padding:10px 20px;border-radius:10px;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:1px solid;transition:all 0.2s;margin:4px;}
+.btn-primary{background:linear-gradient(135deg,var(--red),rgba(201,168,76,0.2));border-color:rgba(201,168,76,0.4);color:var(--gold2);}
+.btn-green{background:rgba(39,174,96,0.15);border-color:rgba(39,174,96,0.4);color:#27ae60;}
+.result-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px;}
+.result-table th{background:rgba(122,21,21,0.4);color:var(--gold2);padding:8px 10px;text-align:right;}
+.result-table td{padding:7px 10px;border-bottom:1px solid rgba(255,255,255,0.05);}
+.result-table tr:nth-child(even) td{background:rgba(255,255,255,0.02);}
+.total-row td{font-weight:700;color:var(--gold);background:rgba(201,168,76,0.08)!important;}
+.badge{display:inline-block;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:6px;padding:2px 8px;font-size:10px;color:var(--gold);}
+@media(max-width:600px){.grid3{grid-template-columns:1fr;}.grid2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <a href="/index.html">← الرئيسية</a>
+  <div class="title">🧱 حاسبة المواد والكميات</div>
+  <span class="badge">QCS 2024</span>
+</div>
+<div class="main">
+
+  <!-- Project Info -->
+  <div class="card">
+    <div class="card-title">📋 بيانات المشروع</div>
+    <div class="grid2">
+      <div class="inp-group"><label class="inp-label">اسم المشروع</label><input class="inp" id="proj-name" placeholder="مثال: مشروع طريق الوكرة"></div>
+      <div class="inp-group"><label class="inp-label">المهندس المسؤول</label><input class="inp" id="eng-name" placeholder="اسم المهندس"></div>
+    </div>
+  </div>
+
+  <!-- Material Type -->
+  <div class="card">
+    <div class="card-title">🏗️ نوع المادة والأبعاد</div>
+    <div class="grid3">
+      <div class="inp-group">
+        <label class="inp-label">نوع المادة</label>
+        <select class="sel" id="mat-type" onchange="updateFields()">
+          <option value="concrete">خرسانة Concrete</option>
+          <option value="rebar">حديد تسليح Rebar</option>
+          <option value="tiles">بلاط Tiles</option>
+          <option value="plaster">بلاستر Plaster</option>
+          <option value="paint">دهان Paint</option>
+          <option value="asphalt">أسفلت Asphalt</option>
+          <option value="subbase">Subbase</option>
+          <option value="backfill">ردم Backfill</option>
+          <option value="blocks">طابوق Blocks</option>
+        </select>
+      </div>
+      <div class="inp-group"><label class="inp-label">الطول (م)</label><input class="inp" type="number" id="dim-l" placeholder="0.00" step="0.01" min="0"></div>
+      <div class="inp-group"><label class="inp-label">العرض (م)</label><input class="inp" type="number" id="dim-w" placeholder="0.00" step="0.01" min="0"></div>
+    </div>
+    <div class="grid3" style="margin-top:12px;">
+      <div class="inp-group"><label class="inp-label" id="dim3-label">السماكة (م)</label><input class="inp" type="number" id="dim-d" placeholder="0.00" step="0.001" min="0"></div>
+      <div class="inp-group"><label class="inp-label">عدد الوحدات</label><input class="inp" type="number" id="dim-count" placeholder="1" min="1" value="1"></div>
+      <div class="inp-group"><label class="inp-label">هدر الضياع (%)</label><input class="inp" type="number" id="waste" placeholder="5" min="0" max="50" value="5"></div>
+    </div>
+    <div style="margin-top:14px;">
+      <button class="btn btn-primary" onclick="calculate()">🧮 احسب الكميات</button>
+      <button class="btn btn-green" onclick="exportExcel()">📊 تصدير Excel</button>
+      <button class="btn" style="background:rgba(52,152,219,0.15);border-color:rgba(52,152,219,0.3);color:#3498db;" onclick="addToList()">➕ أضف للقائمة</button>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="card" id="result-card" style="display:none;">
+    <div class="card-title">📊 نتائج الحساب</div>
+    <div id="result-content"></div>
+  </div>
+
+  <!-- Items List -->
+  <div class="card" id="list-card" style="display:none;">
+    <div class="card-title">📋 قائمة البنود المحسوبة</div>
+    <table class="result-table">
+      <thead><tr><th>المادة</th><th>الأبعاد</th><th>الكمية</th><th>الوحدة</th></tr></thead>
+      <tbody id="items-list"></tbody>
+      <tfoot><tr class="total-row"><td colspan="2">الإجمالي</td><td id="total-cell" colspan="2">—</td></tr></tfoot>
+    </table>
+    <button class="btn btn-green" onclick="exportAllExcel()" style="margin-top:10px;">📊 تصدير الكل Excel</button>
+  </div>
+
+</div>
+
+<script>
+var items = [];
+var MAT_CONFIG = {
+  concrete: { unit: 'م³', density: 2.4, formula: 'vol', qcs: 'QCS 2024 Part 5 §7.3', price: 280 },
+  rebar:    { unit: 'طن', density: 7.85, formula: 'weight', qcs: 'QCS 2024 Part 5 §6.3', price: 2800 },
+  tiles:    { unit: 'م²', formula: 'area', qcs: 'QCS 2024 Part 12', price: 45 },
+  plaster:  { unit: 'م²', formula: 'area', qcs: 'QCS 2024 Part 12', price: 18 },
+  paint:    { unit: 'لتر', formula: 'paint', qcs: 'QCS 2024 Part 12', price: 12 },
+  asphalt:  { unit: 'طن', density: 2.35, formula: 'weight', qcs: 'QCS 2024 Part 6 §4.3', price: 180 },
+  subbase:  { unit: 'م³', density: 2.1, formula: 'vol', qcs: 'QCS 2024 Part 6 §3.4', price: 65 },
+  backfill: { unit: 'م³', formula: 'vol', qcs: 'QCS 2024 Part 3', price: 25 },
+  blocks:   { unit: 'م²', formula: 'area', qcs: 'QCS 2024 Part 5 §11', price: 35 },
+};
+
+function updateFields() {
+  var type = document.getElementById('mat-type').value;
+  var d3Label = document.getElementById('dim3-label');
+  if (type === 'tiles' || type === 'plaster' || type === 'paint' || type === 'blocks') {
+    d3Label.textContent = 'السماكة (مم)';
+  } else {
+    d3Label.textContent = 'السماكة / العمق (م)';
+  }
+}
+
+function calculate() {
+  var type = document.getElementById('mat-type').value;
+  var L = parseFloat(document.getElementById('dim-l').value) || 0;
+  var W = parseFloat(document.getElementById('dim-w').value) || 0;
+  var D = parseFloat(document.getElementById('dim-d').value) || 0;
+  var count = parseInt(document.getElementById('dim-count').value) || 1;
+  var waste = parseFloat(document.getElementById('waste').value) || 5;
+  var cfg = MAT_CONFIG[type];
+
+  if (!L || !W) { alert('أدخل الطول والعرض'); return; }
+
+  var qty = 0, area = L * W * count;
+  if (cfg.formula === 'vol') { qty = area * D; }
+  else if (cfg.formula === 'weight') { qty = area * D * cfg.density; }
+  else if (cfg.formula === 'area') { qty = area; }
+  else if (cfg.formula === 'paint') { qty = area / 10; } // 10m² per liter approx
+
+  var qtyWithWaste = qty * (1 + waste/100);
+  var price = qtyWithWaste * (cfg.price || 0);
+
+  var html = '<table class="result-table">' +
+    '<tr><td>المساحة</td><td>' + area.toFixed(2) + ' م²</td></tr>';
+  if (cfg.formula === 'vol') html += '<tr><td>الحجم الصافي</td><td>' + qty.toFixed(3) + ' ' + cfg.unit + '</td></tr>';
+  if (cfg.formula === 'weight') html += '<tr><td>الوزن الصافي</td><td>' + qty.toFixed(3) + ' ' + cfg.unit + '</td></tr>';
+  html += '<tr><td>نسبة الهدر</td><td>' + waste + '%</td></tr>';
+  html += '<tr class="total-row"><td>الكمية الإجمالية مع الهدر</td><td>' + qtyWithWaste.toFixed(3) + ' ' + cfg.unit + '</td></tr>';
+  html += '<tr><td>السعر التقديري</td><td>' + price.toFixed(0) + ' QAR</td></tr>';
+  html += '<tr><td>مرجع QCS</td><td>' + cfg.qcs + '</td></tr>';
+  html += '</table>';
+  html += '<div style="margin-top:8px;font-size:11px;color:var(--text3);">⚠️ الأسعار تقديرية — تحقق من أسعار السوق القطري الحالية</div>';
+
+  document.getElementById('result-content').innerHTML = html;
+  document.getElementById('result-card').style.display = 'block';
+  document.getElementById('result-card').scrollIntoView({behavior:'smooth'});
+}
+
+function addToList() {
+  var type = document.getElementById('mat-type').value;
+  var L = parseFloat(document.getElementById('dim-l').value) || 0;
+  var W = parseFloat(document.getElementById('dim-w').value) || 0;
+  var D = parseFloat(document.getElementById('dim-d').value) || 0;
+  var count = parseInt(document.getElementById('dim-count').value) || 1;
+  var waste = parseFloat(document.getElementById('waste').value) || 5;
+  var cfg = MAT_CONFIG[type];
+  var area = L * W * count;
+  var qty = cfg.formula === 'vol' ? area * D : cfg.formula === 'weight' ? area * D * cfg.density : area;
+  var qtyW = qty * (1 + waste/100);
+  
+  items.push({ type: document.getElementById('mat-type').options[document.getElementById('mat-type').selectedIndex].text, dims: L+'×'+W+'×'+D+' م', qty: qtyW.toFixed(3), unit: cfg.unit });
+  renderList();
+}
+
+function renderList() {
+  if (!items.length) return;
+  document.getElementById('list-card').style.display = 'block';
+  var tbody = document.getElementById('items-list');
+  tbody.innerHTML = items.map(function(i) {
+    return '<tr><td>'+i.type+'</td><td>'+i.dims+'</td><td>'+i.qty+'</td><td>'+i.unit+'</td></tr>';
+  }).join('');
+}
+
+function exportExcel() {
+  if (typeof XLSX === 'undefined') { setTimeout(exportExcel, 500); return; }
+  var proj = document.getElementById('proj-name').value || 'QatarSpec';
+  var wb = XLSX.utils.book_new();
+  var data = [['QatarSpec Pro — حاسبة المواد', '', '', ''],
+    ['المشروع:', proj, 'التاريخ:', new Date().toLocaleDateString('ar-QA')],
+    ['', '', '', ''],
+    ['المادة', 'الأبعاد', 'الكمية', 'الوحدة']];
+  items.forEach(function(i) { data.push([i.type, i.dims, i.qty, i.unit]); });
+  data.push(['', '', '', '']);
+  data.push(['⚠️ للاسترشاد فقط — تحقق من QCS 2024', '', '', '']);
+  var ws = XLSX.utils.aoa_to_sheet(data);
+  ws['!cols'] = [{wch:30},{wch:20},{wch:15},{wch:10}];
+  XLSX.utils.book_append_sheet(wb, ws, 'Materials');
+  XLSX.writeFile(wb, 'QatarSpec-Materials-' + new Date().toISOString().slice(0,10) + '.xlsx');
+}
+
+function exportAllExcel() { exportExcel(); }
+updateFields();
+</script>
+</body></html>

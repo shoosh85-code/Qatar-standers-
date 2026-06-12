@@ -160,6 +160,10 @@
       "destination": "/work-acceptance.html"
     },
     {
+      "source": "/material-calc.html",
+      "destination": "/material-calc.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
