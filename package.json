@@ -15,9 +15,10 @@
     "test:integrity": "node tests/content-integrity.test.cjs",
     "test:integration": "node tests/integration/api.test.cjs",
     "test:e2e": "node tests/e2e/flow.test.cjs",
-    "test:all": "node tests/content-integrity.test.cjs && node tests/integration/api.test.cjs && node tests/e2e/flow.test.cjs",
+    "test:all": "node tests/calculators/unit-tests.cjs && node tests/content-integrity.test.cjs",
     "integrity": "node tests/content-integrity.test.cjs",
-    "lint": "node -e \"const f=require('fs'); ['js/calculators','js/export','api'].forEach(d=>{ if(f.existsSync(d)) console.log('✅',d,'exists'); else { console.error('❌',d,'missing'); process.exit(1); } });\""
+    "lint": "node -e \"const f=require('fs'); ['js/calculators','js/export','api'].forEach(d=>{ if(f.existsSync(d)) console.log('✅',d,'exists'); else { console.error('❌',d,'missing'); process.exit(1); } });\"",
+    "test:unit": "node tests/calculators/unit-tests.cjs"
   },
   "devDependencies": {
     "terser": "^5.47.1"

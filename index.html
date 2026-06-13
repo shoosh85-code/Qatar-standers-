@@ -2358,6 +2358,61 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+
+<script>
+// ── Lazy Load Heavy Libraries ──────────────────────────────────────────────
+(function() {
+  'use strict';
+  var loaded = {};
+  
+  // Load Plotly only when needed
+  window.QS = window.QS || {};
+  window.QS.loadLib = function(name, url, cb) {
+    if (loaded[name]) { cb && cb(); return; }
+    if (document.querySelector('script[data-lib="' + name + '"]')) {
+      loaded[name] = true; cb && cb(); return;
+    }
+    var s = document.createElement('script');
+    s.src = url;
+    s.dataset.lib = name;
+    s.onload = function() { loaded[name] = true; cb && cb(); };
+    document.head.appendChild(s);
+  };
+
+  // Lazy load Plotly when SPT section is visible
+  var plotlyObserver;
+  if ('IntersectionObserver' in window) {
+    plotlyObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          window.QS.loadLib('plotly', 'https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.2/plotly.min.js');
+          plotlyObserver.disconnect();
+        }
+      });
+    }, { rootMargin: '200px' });
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      var sptSection = document.getElementById('spt-g') || document.querySelector('[data-calc="spt"]');
+      if (sptSection) plotlyObserver.observe(sptSection);
+    });
+  }
+
+  // Prefetch next likely pages
+  function prefetchPage(url) {
+    if (!document.querySelector('link[href="' + url + '"]')) {
+      var link = document.createElement('link');
+      link.rel = 'prefetch'; link.href = url;
+      document.head.appendChild(link);
+    }
+  }
+
+  // After 3 seconds, prefetch common pages
+  setTimeout(function() {
+    ['ncr-generator.html', 'projects.html', 'blueprint.html'].forEach(prefetchPage);
+  }, 3000);
+})();
+</script>
+
 <!-- QatarSpec Libs Init -->
 <script src="/js/libs-init.js" defer></script>
 
