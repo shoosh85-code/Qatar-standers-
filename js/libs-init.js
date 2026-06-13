@@ -408,6 +408,35 @@
       window.QS.initClauseLinker && window.QS.initClauseLinker();
     });
 
+
+    // ── Auto WhatsApp buttons on calc results ─────────────────────────────
+    document.addEventListener('DOMContentLoaded', function() {
+      // Watch for calc results appearing
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(m) {
+          m.addedNodes.forEach(function(node) {
+            if (node.nodeType === 1) {
+              var results = node.querySelectorAll ? node.querySelectorAll('.calc-result, [id*="result"]:not(:empty)') : [];
+              results.forEach(function(el) {
+                if (!el.querySelector('.qs-wa-btn') && el.textContent.trim().length > 20) {
+                  var btn = document.createElement('button');
+                  btn.className = 'qs-wa-btn';
+                  btn.innerHTML = '📱';
+                  btn.title = 'مشاركة عبر واتساب';
+                  btn.style.cssText = 'background:rgba(37,211,102,0.15);border:1px solid rgba(37,211,102,0.3);color:#25d366;border-radius:6px;padding:3px 8px;font-size:12px;cursor:pointer;margin:4px;float:left;';
+                  btn.onclick = function() {
+                    window.QS.shareWhatsApp && window.QS.shareWhatsApp(el.innerText.slice(0,500), 'نتيجة QatarSpec Pro');
+                  };
+                  el.insertAdjacentElement('afterbegin', btn);
+                }
+              });
+            }
+          });
+        });
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+    });
+
     console.log('[QS-Libs] ✅ جميع المكتبات جاهزة:', {
       d3: typeof d3 !== 'undefined',
       plotly: typeof Plotly !== 'undefined',

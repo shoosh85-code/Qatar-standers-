@@ -32,8 +32,6 @@
     });
   }, true);
 
-  // Prevent prototype pollution
-  Object.freeze(Object.prototype);
 })();
 
 // QatarSpec Analytics — Plausible (no cookies, no personal data)
