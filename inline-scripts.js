@@ -1,3 +1,41 @@
+
+// ── Global Input Sanitization ──────────────────────────────────────────────
+(function() {
+  'use strict';
+  
+  // Enhanced sanitize - blocks XSS attempts
+  var _origSanitize = window.sanitizeText;
+  window.sanitizeText = function(text) {
+    if (typeof text !== 'string') return '';
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;')
+      .replace(/\/g, '&#92;')
+      .replace(/javascript:/gi, '')
+      .replace(/vbscript:/gi, '')
+      .replace(/on\w+=/gi, '');
+  };
+
+  // Sanitize all form inputs on submit
+  document.addEventListener('submit', function(e) {
+    var form = e.target;
+    form.querySelectorAll('input[type="text"], input[type="search"], textarea').forEach(function(inp) {
+      if (inp.value) {
+        var clean = inp.value.replace(/<[^>]*>/g, '').replace(/javascript:/gi, '').trim();
+        if (clean !== inp.value) {
+          inp.value = clean;
+        }
+      }
+    });
+  }, true);
+
+  // Prevent prototype pollution
+  Object.freeze(Object.prototype);
+})();
+
 // QatarSpec Analytics — Plausible (no cookies, no personal data)
 function qsTrack(event, props) {
   try {

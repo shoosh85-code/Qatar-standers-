@@ -164,6 +164,10 @@
       "destination": "/material-calc.html"
     },
     {
+      "source": "/project-timeline.html",
+      "destination": "/project-timeline.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
