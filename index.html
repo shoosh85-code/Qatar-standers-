@@ -370,28 +370,34 @@
       setTimeout(function() { el.style.display = 'none'; }, 500);
     }
     // Filter cards based on specialization
-    filterBySpec(spec);
+    setTimeout(function() { filterBySpec(spec); }, 800);
   }
 
   function filterBySpec(spec) {
     if (spec === 'all') return;
     var specKeywords = {
-      roads: ['طرق','road','cbr','compaction','asphalt','subbase','base','wearing','atterberg','la abrasion'],
-      structural: ['خرسانة','حديد','concrete','rebar','cover','lap','beam','column','structural','إنشائي'],
-      utilities: ['صرف','مواسير','drainage','pipe','manhole','cctv','hydraulic','مرافق','water'],
-      electrical: ['كهربائي','electrical','mechanical','hvac','kahramaa'],
-      geotechnical: ['تربة','spt','bearing','geotechnical','geotechnic','settlement','جيوتقني'],
+      roads: ['طرق','road','cbr','compaction','asphalt','subbase','base','wearing','atterberg','la abrasion','esal'],
+      structural: ['خرسانة','حديد','concrete','rebar','cover','lap','beam','column','structural','إنشائي','bld'],
+      utilities: ['صرف','مواسير','drainage','pipe','manhole','cctv','hydraulic','مرافق','water','utility'],
+      electrical: ['كهربائي','electrical','mechanical','hvac','kahramaa','كهرباء'],
+      geotechnical: ['تربة','spt','bearing','geotechnical','geotechnic','settlement','جيوتقني','pi','plasticity'],
     };
     var keywords = specKeywords[spec] || [];
-    // Show relevant cards first
     document.querySelectorAll('.cat-card').forEach(function(card) {
       var kw = (card.dataset.keywords || '').toLowerCase();
-      var isRelevant = keywords.some(function(k) { return kw.includes(k); });
+      var name = (card.querySelector('.cat-name') || {}).textContent || '';
+      var text = (kw + ' ' + name).toLowerCase();
+      var isRelevant = keywords.some(function(k) { return text.includes(k); });
       if (isRelevant) {
-        card.style.order = '-1';
-        card.style.border = '1px solid rgba(201,168,76,0.3)';
+        card.style.boxShadow = '0 0 0 2px rgba(201,168,76,0.5)';
+        card.style.background = 'rgba(201,168,76,0.06)';
+        // Move to top of parent
+        var parent = card.parentElement;
+        if (parent) parent.insertBefore(card, parent.firstChild);
       }
     });
+    // Show toast
+    if (window.showToast) showToast('✅ تم تخصيص العرض حسب تخصصك', 'success');
   }
 
   window.selectSpec = selectSpec;
