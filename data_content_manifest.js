@@ -117,6 +117,7 @@ window.QS_CONTENT_MAP = {
   "mep_standards": "data_content_extra.js",
   "structures_buildings": "data_structures_detailed.js",
   "mmup_building_permits": "data_content_extra.js",
+  "mmup_building_calc": "data_content_extra.js",
   "marker_tape_colors": "data_content_extra.js",
   "ashghal_std_details": "data_content_extra.js",
   "shoring_itp": "data_content_extra.js",

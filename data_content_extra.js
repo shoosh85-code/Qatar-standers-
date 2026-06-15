@@ -4173,3 +4173,173 @@ function calcKAHRAMAAwq() {
 `
 };
 
+c["mmup_building_calc"] = {
+  title: '🏛️ حاسبة MMUP — متطلبات البناء القطري',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
+📌 MMUP Building Regulations 2023 | QCS 2024 S1 | Qatar Fire Code
+</div>
+
+<div class="calc-section">
+<h3>📐 حاسبة الارتدادات — Setbacks</h3>
+<div class="calc-grid">
+  <div class="calc-field">
+    <label>نوع المبنى</label>
+    <select id="mmup-type" onchange="updateMMUP()">
+      <option value="residential">سكني — Residential (R)</option>
+      <option value="commercial">تجاري — Commercial (C)</option>
+      <option value="mixed">مختلط — Mixed Use</option>
+      <option value="industrial">صناعي — Industrial (I)</option>
+    </select>
+  </div>
+  <div class="calc-field">
+    <label>مساحة القطعة (م²)</label>
+    <input type="number" id="mmup-area" placeholder="e.g. 500" min="0">
+  </div>
+  <div class="calc-field">
+    <label>عرض الشارع الأمامي (م)</label>
+    <input type="number" id="mmup-street" placeholder="e.g. 12" min="0" step="0.5">
+  </div>
+</div>
+<button class="calc-btn" onclick="calcMMUPSetbacks()">احسب الارتدادات</button>
+<div id="mmup-setback-result" class="calc-result" style="display:none;"></div>
+</div>
+
+<div class="calc-section" style="margin-top:20px;">
+<h3>🏢 حاسبة نسبة البناء — FAR / GFA</h3>
+<div class="calc-grid">
+  <div class="calc-field">
+    <label>مساحة القطعة (م²)</label>
+    <input type="number" id="mmup-plot" placeholder="e.g. 500">
+  </div>
+  <div class="calc-field">
+    <label>نسبة البناء المسموحة FAR</label>
+    <input type="number" id="mmup-far" placeholder="e.g. 2.5" step="0.1">
+  </div>
+  <div class="calc-field">
+    <label>نسبة التغطية (%)</label>
+    <input type="number" id="mmup-coverage" placeholder="e.g. 60" min="0" max="100">
+  </div>
+  <div class="calc-field">
+    <label>عدد الطوابق</label>
+    <input type="number" id="mmup-floors" placeholder="e.g. 3" min="1">
+  </div>
+</div>
+<button class="calc-btn" onclick="calcMMUPFAR()">احسب GFA</button>
+<div id="mmup-far-result" class="calc-result" style="display:none;"></div>
+</div>
+
+<div class="calc-section" style="margin-top:20px;">
+<h3>🚗 حاسبة مواقف السيارات — Parking</h3>
+<div class="calc-grid">
+  <div class="calc-field">
+    <label>الاستخدام</label>
+    <select id="mmup-park-use">
+      <option value="residential">سكني (1 موقف/وحدة)</option>
+      <option value="villa">فيلا (2 موقف/وحدة)</option>
+      <option value="office">مكاتب (1 موقف/50م²)</option>
+      <option value="retail">تجزئة (1 موقف/25م²)</option>
+      <option value="mosque">مسجد (1 موقف/10 مصلي)</option>
+    </select>
+  </div>
+  <div class="calc-field">
+    <label>الكمية (وحدات/م²/مصلي)</label>
+    <input type="number" id="mmup-park-qty" placeholder="e.g. 10">
+  </div>
+</div>
+<button class="calc-btn" onclick="calcMMUPParking()">احسب المواقف</button>
+<div id="mmup-park-result" class="calc-result" style="display:none;"></div>
+</div>
+
+<script>
+function calcMMUPSetbacks() {
+  var type = document.getElementById('mmup-type').value;
+  var area = parseFloat(document.getElementById('mmup-area').value) || 0;
+  var street = parseFloat(document.getElementById('mmup-street').value) || 0;
+  
+  var setbacks = {
+    residential: { front: street >= 15 ? 5 : 4, side: 1.5, rear: 2, max_h: 12, ref: 'MMUP R-Zone' },
+    commercial:  { front: 6, side: 0, rear: 3, max_h: 45, ref: 'MMUP C-Zone' },
+    mixed:       { front: 5, side: 1.5, rear: 3, max_h: 30, ref: 'MMUP MU-Zone' },
+    industrial:  { front: 8, side: 3, rear: 5, max_h: 15, ref: 'MMUP I-Zone' },
+  };
+  
+  var sb = setbacks[type];
+  var frontW = area > 0 ? Math.sqrt(area) : 0;
+  var buildable_w = Math.max(0, frontW - sb.side * 2);
+  
+  var el = document.getElementById('mmup-setback-result');
+  el.style.display = 'block';
+  el.innerHTML = '<div style="padding:12px;border-radius:8px;background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.2);">' +
+    '<div style="font-weight:700;color:#3498db;margin-bottom:10px;">📐 الارتدادات المطلوبة — ' + sb.ref + '</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;">' +
+    '<div>الارتداد الأمامي: <strong>' + sb.front + ' م</strong></div>' +
+    '<div>الارتداد الجانبي: <strong>' + sb.side + ' م</strong></div>' +
+    '<div>الارتداد الخلفي: <strong>' + sb.rear + ' م</strong></div>' +
+    '<div>الارتفاع الأقصى: <strong>' + sb.max_h + ' م</strong></div>' +
+    '</div>' +
+    (area > 0 ? '<div style="margin-top:8px;font-size:11px;color:#7a7060;">العرض القابل للبناء: ~' + buildable_w.toFixed(1) + ' م</div>' : '') +
+    '<div style="font-size:10px;color:#7a7060;margin-top:4px;">MMUP Building Regulations 2023</div>' +
+    '</div>';
+}
+
+function calcMMUPFAR() {
+  var plot = parseFloat(document.getElementById('mmup-plot').value) || 0;
+  var far = parseFloat(document.getElementById('mmup-far').value) || 0;
+  var cov = parseFloat(document.getElementById('mmup-coverage').value) || 60;
+  var floors = parseInt(document.getElementById('mmup-floors').value) || 1;
+  
+  if (!plot || !far) { alert('أدخل مساحة القطعة وFAR'); return; }
+  
+  var maxGFA = plot * far;
+  var maxFootprint = plot * cov / 100;
+  var actualGFA = maxFootprint * floors;
+  var farUsed = actualGFA / plot;
+  var pass = farUsed <= far;
+  
+  var el = document.getElementById('mmup-far-result');
+  el.style.display = 'block';
+  el.innerHTML = '<div style="padding:12px;border-radius:8px;background:' + (pass?'rgba(46,204,113,0.08)':'rgba(231,76,60,0.08)') + ';border:1px solid ' + (pass?'rgba(46,204,113,0.2)':'rgba(231,76,60,0.2)') + ';">' +
+    '<div style="font-weight:700;color:' + (pass?'#2ecc71':'#e74c3c') + ';margin-bottom:10px;">' + (pass?'✅ ضمن الحدود المسموحة':'❌ يتجاوز FAR المسموح') + '</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;">' +
+    '<div>الحد الأقصى GFA: <strong>' + maxGFA.toFixed(0) + ' م²</strong></div>' +
+    '<div>GFA الفعلي: <strong>' + actualGFA.toFixed(0) + ' م²</strong></div>' +
+    '<div>مساحة الطابق: <strong>' + maxFootprint.toFixed(0) + ' م²</strong></div>' +
+    '<div>FAR المستخدم: <strong>' + farUsed.toFixed(2) + '</strong></div>' +
+    '</div>' +
+    '<div style="font-size:10px;color:#7a7060;margin-top:6px;">MMUP Building Regulations 2023 | QCS 2024 S1</div>' +
+    '</div>';
+}
+
+function calcMMUPParking() {
+  var use = document.getElementById('mmup-park-use').value;
+  var qty = parseFloat(document.getElementById('mmup-park-qty').value) || 0;
+  
+  var ratios = {
+    residential: { ratio: 1, label: '1 موقف / وحدة' },
+    villa:       { ratio: 2, label: '2 موقف / وحدة' },
+    office:      { ratio: 1/50, label: '1 موقف / 50م²' },
+    retail:      { ratio: 1/25, label: '1 موقف / 25م²' },
+    mosque:      { ratio: 1/10, label: '1 موقف / 10 مصلي' },
+  };
+  
+  var r = ratios[use];
+  var required = Math.ceil(qty * r.ratio);
+  
+  var el = document.getElementById('mmup-park-result');
+  el.style.display = 'block';
+  el.innerHTML = '<div style="padding:12px;border-radius:8px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);">' +
+    '<div style="font-size:20px;font-weight:800;color:#C9A84C;">' + required + ' موقف</div>' +
+    '<div style="font-size:12px;margin-top:6px;">النسبة: ' + r.label + '</div>' +
+    '<div style="font-size:11px;color:#7a7060;margin-top:4px;">MMUP Parking Standards 2023</div>' +
+    '</div>';
+}
+</script>
+</div>
+<div class="lang-content-en" style="display:none;">
+<p style="font-size:13px;">MMUP Building Regulations calculator — setbacks, FAR/GFA, and parking requirements per Qatar MMUP 2023.</p>
+</div>
+`
+};
+

@@ -168,6 +168,10 @@
       "destination": "/project-timeline.html"
     },
     {
+      "source": "/mmup-building-calc.html",
+      "destination": "/mmup-building-calc.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

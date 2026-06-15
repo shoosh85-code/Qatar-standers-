@@ -310,6 +310,27 @@
 .qs-recent-item:hover { background: rgba(201,168,76,0.08); }
 </style>
 
+
+<!-- Heavy libs — loaded on demand -->
+<script>
+window._lazyLibs = {
+  'Fabric': 'https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js',
+  'Hammer': 'https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js',
+  'introJs': 'https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js',
+  'SignaturePad': 'https://cdnjs.cloudflare.com/ajax/libs/signature_pad/4.1.7/signature_pad.umd.min.js',
+};
+window.QS = window.QS || {};
+window.QS.loadLib = window.QS.loadLib || function(name, cb) {
+  var url = window._lazyLibs[name];
+  if (!url) { cb && cb(); return; }
+  if (window[name]) { cb && cb(); return; }
+  var s = document.createElement('script');
+  s.src = url;
+  s.onload = function() { cb && cb(); };
+  document.head.appendChild(s);
+};
+</script>
+
 </head>
 <body>
 
@@ -2421,9 +2442,9 @@
 <!-- html2canvas — تصوير الصفحة -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 <!-- Signature Pad — توقيع رقمي -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/4.1.7/signature_pad.umd.min.js" defer></script>
+
 <!-- Hammer.js — إيماءات اللمس -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js" defer></script>
+
 <!-- Numeral.js — تنسيق الأرقام -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js" defer></script>
 <!-- Day.js — تنسيق التواريخ -->
@@ -2437,11 +2458,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js" defer></script>
 <!-- Intro.js — جولة تعليمية -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/introjs.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js" defer></script>
+
 <!-- Plotly.js — رسوم 3D تفاعلية -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.2/plotly.min.js" defer></script>
 <!-- Fabric.js — رسم على المخططات -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js" defer></script>
+
 
 <script>
 // إضافة أزرار CSV Import و Capture لكل الحاسبات
