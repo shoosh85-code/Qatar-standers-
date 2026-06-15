@@ -369,18 +369,53 @@
       el.style.transition = 'opacity 0.5s';
       setTimeout(function() { el.style.display = 'none'; }, 500);
     }
-    // Filter cards based on specialization
-    setTimeout(function() { filterBySpec(spec); }, 800);
+    // Filter cards based on specialization - wait for partials to load
+    setTimeout(function() { filterBySpec(spec); }, 1500);
+    // Also re-run after partials fully load
+    setTimeout(function() { filterBySpec(spec); }, 3000);
   }
 
   function filterBySpec(spec) {
     if (spec === 'all') return;
     var specKeywords = {
-      roads: ['طرق','road','cbr','compaction','asphalt','subbase','base','wearing','atterberg','la abrasion','esal'],
-      structural: ['خرسانة','حديد','concrete','rebar','cover','lap','beam','column','structural','إنشائي','bld'],
-      utilities: ['صرف','مواسير','drainage','pipe','manhole','cctv','hydraulic','مرافق','water','utility'],
-      electrical: ['كهربائي','electrical','mechanical','hvac','kahramaa','كهرباء'],
-      geotechnical: ['تربة','spt','bearing','geotechnical','geotechnic','settlement','جيوتقني','pi','plasticity'],
+      roads: [
+        // حاسبات الطرق المباشرة
+        'cbr','compaction','asphalt','subbase','base','wearing','atterberg','la abrasion','esal',
+        'superpave','marshall','mix','grading','تدرج','road','طرق','دمك','إسفلت','aashto',
+        'binder','prime','tack','pavement','منخل','sieve','traffic','roads_equipment',
+        // أدوات عامة مفيدة لمهندس الطرق
+        'material','blueprint','timeline','project'
+      ],
+      structural: [
+        // حاسبات الإنشاءات
+        'خرسانة','حديد','concrete','rebar','cover','lap','beam','column','bld','building',
+        'structural','إنشائي','masonry','waterproofing','steel','reinforcement','مباني',
+        'finishes','طابوق','structural_equipment','ifc','bim',
+        // أدوات مساندة
+        'material','blueprint','timeline'
+      ],
+      utilities: [
+        // حاسبات المرافق
+        'مواسير','pipe','sizing','manning','flow','velocity','drainage','manhole','cctv',
+        'hdpe','pressure','صرف','مرافق','water','chlorine','utilities','hydraulic',
+        'utilities_equipment','sewer','storm',
+        // أدوات مساندة
+        'blueprint','timeline','material'
+      ],
+      electrical: [
+        // كهربائي وميكانيكي
+        'كهربائي','electrical','mechanical','hvac','kahramaa','كهرباء','ميكانيكي',
+        // أدوات عامة
+        'blueprint','timeline','ifc','bim'
+      ],
+      geotechnical: [
+        // جيوتقني
+        'تربة','spt','bearing','settlement','pi','plasticity','cbr','compaction',
+        'geotechnical','geotechnic','جيوتقني','boring','geotech_equipment','cpt',
+        'grading','تدرج','منخل','atterberg',
+        // أدوات مساندة
+        'blueprint','timeline','material'
+      ],
     };
     var keywords = specKeywords[spec] || [];
     document.querySelectorAll('.cat-card').forEach(function(card) {
