@@ -1,15 +1,14 @@
-// api/rate-limit.js — QatarSpec Pro v2
-// Inline fallback (no external deps) + enhanced tier support
+// api/rate-limit.js — QatarSpec Pro v3
+// Upstash Redis for persistent rate limiting + in-memory fallback
 
-const _store = new Map();
+const _memStore = new Map();
 setInterval(() => { 
   const now = Date.now(); 
-  for (const [k,v] of _store.entries()) { 
-    if (v.resetAt < now) _store.delete(k); 
+  for (const [k,v] of _memStore.entries()) { 
+    if (v.resetAt < now) _memStore.delete(k); 
   } 
 }, 60000);
 
-// Endpoint limits per tier
 const ENDPOINT_LIMITS = {
   'ai-proxy':     { free: 5,  pro: 60,  enterprise: 200, global: 100 },
   'qcs-search':   { free: 10, pro: 100, enterprise: 500, global: 200 },
@@ -19,12 +18,41 @@ const ENDPOINT_LIMITS = {
   'default':      { free: 20, pro: 100, enterprise: 500, global: 200 },
 };
 
-function _incr(key, windowMs) {
+// Upstash Redis increment
+async function redisIncr(key, windowMs) {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) return null;
+
+  try {
+    const pipeline = [
+      ['INCR', key],
+      ['PEXPIRE', key, windowMs || 60000]
+    ];
+    const res = await fetch(`${url}/pipeline`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(pipeline)
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data[0]?.result || null;
+  } catch { return null; }
+}
+
+// In-memory fallback
+function memIncr(key, windowMs) {
   const now = Date.now();
-  const entry = _store.get(key) || { count: 0, resetAt: now + (windowMs || 60000) };
+  const entry = _memStore.get(key) || { count: 0, resetAt: now + (windowMs || 60000) };
   entry.count++;
-  _store.set(key, entry);
-  return entry;
+  _memStore.set(key, entry);
+  return entry.count;
+}
+
+async function incr(key, windowMs) {
+  const redisCount = await redisIncr(key, windowMs);
+  if (redisCount !== null) return redisCount;
+  return memIncr(key, windowMs);
 }
 
 export function getIp(req) {
@@ -43,32 +71,23 @@ export async function checkRateLimit(ipOrReq, endpoint, tier) {
   const window = Math.floor(Date.now() / 60000);
 
   // Global IP limit
-  const globalEntry = _incr(`rl:global:${ip}:${window}`);
-  if (globalEntry.count > limits.global) {
+  const globalCount = await incr(`rl:global:${ip}:${window}`, 60000);
+  if (globalCount > limits.global) {
     return { allowed: false, remaining: 0, retryAfter: 60, reason: 'global_limit' };
   }
 
-  // Per-user/tier limit
+  // Per-tier limit
   const userLimit = tier === 'enterprise' ? limits.enterprise : 
                     tier === 'pro' ? limits.pro : limits.free;
-  const userEntry = _incr(`rl:${endpoint}:${ip}:${window}`);
-  if (userEntry.count > userLimit) {
+  const userCount = await incr(`rl:${endpoint}:${ip}:${window}`, 60000);
+  if (userCount > userLimit) {
     return { 
-      allowed: false, 
-      remaining: 0, 
-      retryAfter: 60, 
-      reason: 'tier_limit',
-      upgrade: tier === 'free',
-      limit: userLimit
+      allowed: false, remaining: 0, retryAfter: 60,
+      reason: 'tier_limit', upgrade: tier === 'free', limit: userLimit
     };
   }
 
-  return { 
-    allowed: true, 
-    remaining: userLimit - userEntry.count, 
-    limit: userLimit,
-    tier: tier || 'free'
-  };
+  return { allowed: true, remaining: userLimit - userCount, limit: userLimit, tier: tier || 'free' };
 }
 
 export async function rateLimit(req, tier, endpoint) {
@@ -84,27 +103,16 @@ export function applyRateLimitHeaders(res, rl) {
 }
 
 export function rateLimitHeaders(rl) {
-  return { 
-    'X-RateLimit-Remaining': String(rl.remaining || 0),
-    'X-RateLimit-Limit': String(rl.limit || 0)
-  };
+  return { 'X-RateLimit-Remaining': String(rl.remaining || 0), 'X-RateLimit-Limit': String(rl.limit || 0) };
 }
 
 export function rateLimitResponse(rl, extraHeaders) {
   return new Response(JSON.stringify({ 
-    error: 'Rate limit exceeded', 
-    retryAfter: rl.retryAfter,
-    upgrade: rl.upgrade,
-    message_ar: rl.upgrade ? 
-      'وصلت للحد المجاني — اشترك في Pro للحصول على حصة أكبر' : 
-      'تجاوزت الحد — حاول بعد دقيقة'
+    error: 'Rate limit exceeded', retryAfter: rl.retryAfter, upgrade: rl.upgrade,
+    message_ar: rl.upgrade ? 'وصلت للحد المجاني — اشترك في Pro' : 'تجاوزت الحد — حاول بعد دقيقة'
   }), {
     status: 429,
-    headers: { 
-      'Content-Type': 'application/json', 
-      'Retry-After': String(rl.retryAfter || 60),
-      ...(extraHeaders || {}) 
-    }
+    headers: { 'Content-Type': 'application/json', 'Retry-After': String(rl.retryAfter || 60), ...(extraHeaders || {}) }
   });
 }
 
@@ -119,8 +127,7 @@ export function withRateLimit(handler, endpoint, tier) {
         res.setHeader('X-RateLimit-Remaining', '0');
       }
       return res.status(429).json({ 
-        error: 'Rate limit exceeded', 
-        retryAfter: 60,
+        error: 'Rate limit exceeded', retryAfter: 60,
         message_ar: 'تجاوزت الحد المسموح به'
       });
     }

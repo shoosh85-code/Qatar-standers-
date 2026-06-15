@@ -113,6 +113,7 @@ window.QS_CONTENT_MAP = {
   "ashghal_rdm": "data_content_extra.js",
   "mmup_road_design": "data_content_extra.js",
   "kahramaa_standards": "data_content_extra.js",
+  "kahramaa_water_calc": "data_content_extra.js",
   "mep_standards": "data_content_extra.js",
   "structures_buildings": "data_structures_detailed.js",
   "mmup_building_permits": "data_content_extra.js",

@@ -4025,3 +4025,151 @@ c["schedule_gen"] = {
 };
 
 })();
+
+c["kahramaa_water_calc"] = {
+  title: '💧 حاسبة ضغط المياه — KAHRAMAA WR-001',
+  content: `
+<div class="lang-content-ar">
+<div style="background:rgba(241,196,15,0.08);border:1px solid rgba(241,196,15,0.3);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
+📌 KAHRAMAA WR-001/002 | QCS 2024 S8 P12 | BS EN 805
+</div>
+
+<div class="calc-section">
+<h3>💧 فحص ضغط الشبكة</h3>
+<div class="calc-grid">
+  <div class="calc-field">
+    <label>الضغط المقاس (bar)</label>
+    <input type="number" id="kah-pressure" placeholder="e.g. 3.5" step="0.1" min="0">
+  </div>
+  <div class="calc-field">
+    <label>نوع الشبكة</label>
+    <select id="kah-network">
+      <option value="residential">سكني Residential</option>
+      <option value="commercial">تجاري Commercial</option>
+      <option value="industrial">صناعي Industrial</option>
+      <option value="fire">إطفاء Fire</option>
+    </select>
+  </div>
+</div>
+<button class="calc-btn" onclick="calcKAHRAMAAPressure()">✅ فحص الضغط</button>
+<div id="kah-pressure-result" class="calc-result" style="display:none;"></div>
+</div>
+
+<div class="calc-section" style="margin-top:20px;">
+<h3>🔵 حاسبة سرعة التدفق — Flow Velocity</h3>
+<div class="calc-grid">
+  <div class="calc-field">
+    <label>قطر الماسورة (mm)</label>
+    <input type="number" id="kah-diameter" placeholder="e.g. 200" min="0">
+  </div>
+  <div class="calc-field">
+    <label>معدل التدفق Q (L/s)</label>
+    <input type="number" id="kah-flow" placeholder="e.g. 15" step="0.1" min="0">
+  </div>
+</div>
+<button class="calc-btn" onclick="calcKAHRAMAAvVelocity()">احسب السرعة</button>
+<div id="kah-velocity-result" class="calc-result" style="display:none;"></div>
+</div>
+
+<div class="calc-section" style="margin-top:20px;">
+<h3>🧪 فحص جودة المياه — Water Quality</h3>
+<div class="calc-grid">
+  <div class="calc-field">
+    <label>Residual Chlorine (mg/L)</label>
+    <input type="number" id="kah-chlorine" placeholder="e.g. 0.35" step="0.01">
+  </div>
+  <div class="calc-field">
+    <label>Turbidity (NTU)</label>
+    <input type="number" id="kah-turbidity" placeholder="e.g. 0.5" step="0.1">
+  </div>
+  <div class="calc-field">
+    <label>pH</label>
+    <input type="number" id="kah-ph" placeholder="e.g. 7.2" step="0.1">
+  </div>
+  <div class="calc-field">
+    <label>TDS (mg/L)</label>
+    <input type="number" id="kah-tds" placeholder="e.g. 350">
+  </div>
+</div>
+<button class="calc-btn" onclick="calcKAHRAMAAwq()">فحص الجودة</button>
+<div id="kah-wq-result" class="calc-result" style="display:none;"></div>
+</div>
+
+<script>
+function calcKAHRAMAAPressure() {
+  var p = parseFloat(document.getElementById('kah-pressure').value);
+  var net = document.getElementById('kah-network').value;
+  if (isNaN(p)) { alert('أدخل الضغط'); return; }
+  
+  var limits = {
+    residential: { min: 2.5, max: 8.0, label: 'سكني' },
+    commercial:  { min: 3.0, max: 8.0, label: 'تجاري' },
+    industrial:  { min: 3.5, max: 10.0, label: 'صناعي' },
+    fire:        { min: 4.5, max: 12.0, label: 'إطفاء' },
+  };
+  var lim = limits[net];
+  var pass = p >= lim.min && p <= lim.max;
+  var el = document.getElementById('kah-pressure-result');
+  el.style.display = 'block';
+  el.innerHTML = '<div style="padding:12px;border-radius:8px;background:' + (pass?'rgba(46,204,113,0.1)':'rgba(231,76,60,0.1)') + ';border:1px solid ' + (pass?'rgba(46,204,113,0.3)':'rgba(231,76,60,0.3)') + ';">' +
+    '<div style="font-size:16px;font-weight:800;color:' + (pass?'#2ecc71':'#e74c3c') + ';">' + (pass?'✅ مقبول':'❌ مرفوض') + '</div>' +
+    '<div style="font-size:12px;margin-top:6px;">الضغط: <strong>' + p + ' bar</strong> | الحد: ' + lim.min + ' – ' + lim.max + ' bar</div>' +
+    '<div style="font-size:11px;color:#7a7060;margin-top:4px;">KAHRAMAA WR-001 | شبكة ' + lim.label + '</div>' +
+    (!pass ? '<div style="font-size:11px;color:#e74c3c;margin-top:4px;">' + (p < lim.min ? '⚠️ الضغط منخفض — تحقق من الخط الرئيسي' : '⚠️ الضغط مرتفع — مطلوب PRV') + '</div>' : '') +
+    '</div>';
+}
+
+function calcKAHRAMAAvVelocity() {
+  var d = parseFloat(document.getElementById('kah-diameter').value) / 1000; // m
+  var q = parseFloat(document.getElementById('kah-flow').value) / 1000; // m³/s
+  if (!d || !q) { alert('أدخل القطر والتدفق'); return; }
+  
+  var A = Math.PI * d * d / 4;
+  var v = q / A;
+  var pass = v >= 0.6 && v <= 2.0;
+  var el = document.getElementById('kah-velocity-result');
+  el.style.display = 'block';
+  el.innerHTML = '<div style="padding:12px;border-radius:8px;background:' + (pass?'rgba(46,204,113,0.1)':'rgba(231,76,60,0.1)') + ';border:1px solid ' + (pass?'rgba(46,204,113,0.3)':'rgba(231,76,60,0.3)') + ';">' +
+    '<div style="font-size:16px;font-weight:800;color:' + (pass?'#2ecc71':'#e74c3c') + ';">' + (pass?'✅ مقبول':'❌ مرفوض') + '</div>' +
+    '<div style="font-size:12px;margin-top:6px;">السرعة: <strong>' + v.toFixed(2) + ' m/s</strong> | الحد: 0.6 – 2.0 m/s</div>' +
+    '<div style="font-size:11px;color:#7a7060;">المساحة: ' + (A*1000000).toFixed(0) + ' mm² | KAHRAMAA WR-002</div>' +
+    '</div>';
+}
+
+function calcKAHRAMAAwq() {
+  var cl = parseFloat(document.getElementById('kah-chlorine').value);
+  var tu = parseFloat(document.getElementById('kah-turbidity').value);
+  var ph = parseFloat(document.getElementById('kah-ph').value);
+  var tds = parseFloat(document.getElementById('kah-tds').value);
+  
+  var results = [];
+  if (!isNaN(cl)) results.push({ param: 'Residual Chlorine', val: cl+' mg/L', pass: cl>=0.2&&cl<=0.5, limit: '0.2–0.5 mg/L', ref: 'WQ-001' });
+  if (!isNaN(tu)) results.push({ param: 'Turbidity', val: tu+' NTU', pass: tu<=1, limit: '≤1 NTU', ref: 'WQ-001' });
+  if (!isNaN(ph)) results.push({ param: 'pH', val: ph, pass: ph>=6.5&&ph<=8.5, limit: '6.5–8.5', ref: 'WQ-001' });
+  if (!isNaN(tds)) results.push({ param: 'TDS', val: tds+' mg/L', pass: tds<=500, limit: '≤500 mg/L', ref: 'WQ-001' });
+  
+  if (!results.length) { alert('أدخل قيمة واحدة على الأقل'); return; }
+  
+  var allPass = results.every(function(r){return r.pass;});
+  var el = document.getElementById('kah-wq-result');
+  el.style.display = 'block';
+  el.innerHTML = '<div style="padding:12px;border-radius:8px;background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.08);">' +
+    '<div style="font-size:15px;font-weight:800;color:' + (allPass?'#2ecc71':'#e74c3c') + ';margin-bottom:10px;">' + (allPass?'✅ جودة المياه مقبولة':'❌ بعض المعايير خارج الحدود') + '</div>' +
+    results.map(function(r){ return '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:12px;">' +
+      '<span>' + r.param + ': <strong>' + r.val + '</strong></span>' +
+      '<span style="color:' + (r.pass?'#2ecc71':'#e74c3c') + ';">' + (r.pass?'✅':'❌') + ' ' + r.limit + '</span>' +
+      '</div>'; }).join('') +
+    '<div style="font-size:10px;color:#7a7060;margin-top:6px;">KAHRAMAA ' + results[0]?.ref + ' | QCS 2024 S8 P12</div>' +
+    '</div>';
+}
+</script>
+</div>
+<div class="lang-content-en" style="display:none;">
+<div style="background:rgba(241,196,15,0.08);border:1px solid rgba(241,196,15,0.3);border-radius:10px;padding:10px;margin-bottom:14px;font-size:12px;">
+📌 KAHRAMAA WR-001/002 | QCS 2024 S8 P12 | BS EN 805
+</div>
+<p style="font-size:13px;">Interactive KAHRAMAA water network calculators — pressure check, flow velocity, and water quality compliance per KAHRAMAA WR/WQ standards.</p>
+</div>
+`
+};
+
