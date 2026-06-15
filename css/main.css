@@ -953,3 +953,56 @@ button, .btn, .cat-card, a.btn { min-height: 44px; }
 .cat-card, .animate-in { will-change: transform; }
 /* Better focus styles for accessibility */
 button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid #C9A84C; outline-offset: 2px; }
+
+/* ═══ Skeleton Screens ═══ */
+.skeleton-card {
+  background: var(--dark3);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+.skeleton-line {
+  height: 12px;
+  background: linear-gradient(90deg, #1a1a1a 25%, #242424 50%, #1a1a1a 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+.skeleton-line.short { width: 40%; }
+.skeleton-line.medium { width: 70%; }
+.skeleton-line.full { width: 100%; }
+@keyframes skeleton-pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+@keyframes skeleton-shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* ═══ Error Boundary ═══ */
+.qs-error-boundary {
+  background: rgba(231,76,60,0.08);
+  border: 1px solid rgba(231,76,60,0.2);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  color: #e74c3c;
+  font-family: Cairo, sans-serif;
+}
+.qs-error-boundary .err-title { font-size:16px; font-weight:700; margin-bottom:8px; }
+.qs-error-boundary .err-msg { font-size:12px; color:#b8aa98; margin-bottom:12px; }
+.qs-error-retry { background:rgba(231,76,60,0.15); border:1px solid rgba(231,76,60,0.3); color:#e74c3c; border-radius:8px; padding:6px 16px; cursor:pointer; font-family:Cairo,sans-serif; font-size:12px; font-weight:700; }
+
+/* ═══ Loading States ═══ */
+.qs-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text3);
+  font-size: 13px;
+}
+.qs-spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(201,168,76,0.2);
+  border-top-color: #C9A84C;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }

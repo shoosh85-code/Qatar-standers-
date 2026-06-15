@@ -267,6 +267,7 @@
 <!-- Prefetch handled dynamically by loader.js v5.0 after page load -->
 <!-- Google Fonts with local fallback for offline support -->
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="preload" href="/css/main.css" as="style">
 <link rel="stylesheet" href="/css/main.css">
 <link rel="stylesheet" href="/css/theme-luxury.css">
 <!-- loader.js moved to end of body — after QS + data_calcs are ready -->
@@ -311,6 +312,104 @@
 
 </head>
 <body>
+
+<!-- ═══ Onboarding Screen ═══ -->
+<div id="qs-onboarding" style="display:none;position:fixed;inset:0;background:rgba(13,13,13,0.97);z-index:99999;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:20px;">
+  <div style="max-width:480px;width:100%;text-align:center;">
+    <div style="font-size:48px;margin-bottom:12px;">🏗️</div>
+    <div style="font-size:24px;font-weight:800;color:#E8C97A;margin-bottom:8px;">مرحباً في QatarSpec Pro</div>
+    <div style="font-size:14px;color:#b8aa98;margin-bottom:28px;">المرجع الهندسي الأشمل لقطر — QCS 2024 · Ashghal · KAHRAMAA</div>
+    
+    <div style="font-size:14px;font-weight:700;color:#C9A84C;margin-bottom:16px;">ما تخصصك الهندسي؟</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;" id="onboard-specs">
+      <button onclick="selectSpec('roads')" class="ob-btn">🛣️ طرق وإنشاءات</button>
+      <button onclick="selectSpec('structural')" class="ob-btn">🏗️ إنشائي</button>
+      <button onclick="selectSpec('utilities')" class="ob-btn">🚿 مرافق وصرف</button>
+      <button onclick="selectSpec('electrical')" class="ob-btn">⚡ كهربائي وميكانيكي</button>
+      <button onclick="selectSpec('geotechnical')" class="ob-btn">🌍 جيوتقني</button>
+      <button onclick="selectSpec('all')" class="ob-btn" style="grid-column:span 2;">📚 كل التخصصات</button>
+    </div>
+    
+    <div style="font-size:11px;color:#7a7060;">يمكنك تغيير هذا لاحقاً من الإعدادات</div>
+  </div>
+</div>
+
+<style>
+.ob-btn {
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 12px;
+  padding: 14px 10px;
+  color: #e8e0d0;
+  font-family: Cairo, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.ob-btn:hover {
+  background: rgba(201,168,76,0.2);
+  border-color: rgba(201,168,76,0.6);
+  color: #E8C97A;
+  transform: translateY(-2px);
+}
+</style>
+
+<script>
+(function() {
+  var ONBOARD_KEY = 'qs_onboarded';
+  var SPEC_KEY = 'qs_specialization';
+  
+  function selectSpec(spec) {
+    localStorage.setItem(SPEC_KEY, spec);
+    localStorage.setItem(ONBOARD_KEY, '1');
+    var el = document.getElementById('qs-onboarding');
+    if (el) {
+      el.style.opacity = '0';
+      el.style.transition = 'opacity 0.5s';
+      setTimeout(function() { el.style.display = 'none'; }, 500);
+    }
+    // Filter cards based on specialization
+    filterBySpec(spec);
+  }
+
+  function filterBySpec(spec) {
+    if (spec === 'all') return;
+    var specKeywords = {
+      roads: ['طرق','road','cbr','compaction','asphalt','subbase','base','wearing','atterberg','la abrasion'],
+      structural: ['خرسانة','حديد','concrete','rebar','cover','lap','beam','column','structural','إنشائي'],
+      utilities: ['صرف','مواسير','drainage','pipe','manhole','cctv','hydraulic','مرافق','water'],
+      electrical: ['كهربائي','electrical','mechanical','hvac','kahramaa'],
+      geotechnical: ['تربة','spt','bearing','geotechnical','geotechnic','settlement','جيوتقني'],
+    };
+    var keywords = specKeywords[spec] || [];
+    // Show relevant cards first
+    document.querySelectorAll('.cat-card').forEach(function(card) {
+      var kw = (card.dataset.keywords || '').toLowerCase();
+      var isRelevant = keywords.some(function(k) { return kw.includes(k); });
+      if (isRelevant) {
+        card.style.order = '-1';
+        card.style.border = '1px solid rgba(201,168,76,0.3)';
+      }
+    });
+  }
+
+  window.selectSpec = selectSpec;
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var onboarded = localStorage.getItem(ONBOARD_KEY);
+    var spec = localStorage.getItem(SPEC_KEY);
+    
+    if (!onboarded) {
+      var el = document.getElementById('qs-onboarding');
+      if (el) el.style.display = 'flex';
+    } else if (spec && spec !== 'all') {
+      filterBySpec(spec);
+    }
+  });
+})();
+</script>
+
 <script>
 /* ═══ EARLY RED-RECT KILLER — runs before ANY other script ═══ */
 (function(){
@@ -2292,7 +2391,7 @@
 <!-- math.js — حسابات هندسية متقدمة -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/13.2.0/math.min.js" defer></script>
 <!-- Plotly.js — رسوم 3D تفاعلية -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.2/plotly.min.js" defer></script>
+
 <!-- Showdown — Markdown to HTML -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js" defer></script>
 <!-- Intro.js — جولة تعليمية -->

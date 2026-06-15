@@ -925,3 +925,35 @@ function exportBatchNCR() {
   a.click();
   showToast('✅ تم تصدير NCR');
 }
+
+
+// ── Error Boundary for Calculators ────────────────────────────────────────
+function withErrorBoundary(fn, calcName) {
+  return function() {
+    try {
+      return fn.apply(this, arguments);
+    } catch(err) {
+      console.error('[QS-Calc] ' + calcName + ' failed:', err);
+      // Find result container and show error
+      var resultEl = document.querySelector('[id*="result"]:not(:empty), .calc-result');
+      if (resultEl) {
+        resultEl.innerHTML = '<div class="qs-error-boundary">' +
+          '<div class="err-title">⚠️ خطأ في الحاسبة</div>' +
+          '<div class="err-msg">' + calcName + ' — ' + (err.message || 'خطأ غير متوقع') + '</div>' +
+          '<button class="qs-error-retry" onclick="location.reload()">🔄 إعادة المحاولة</button>' +
+          '</div>';
+        resultEl.style.display = 'block';
+      }
+    }
+  };
+}
+
+// Wrap common calculator functions
+document.addEventListener('DOMContentLoaded', function() {
+  var fns = ['calcCBR', 'calcSPT', 'calcCompaction', 'calcAtterberg', 'calcCBRGeo', 'calcBearingCap'];
+  fns.forEach(function(name) {
+    if (typeof window[name] === 'function') {
+      window[name] = withErrorBoundary(window[name], name);
+    }
+  });
+});
