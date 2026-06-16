@@ -2726,6 +2726,88 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 
+
+<script>
+// ── Animated Counter for Hero Stats ──────────────────────────────────────
+(function() {
+  var targets = { hstat1: 59, hstat2: 3485, hstat3: 15 };
+  var labels = { hstat1: 'حاسبة هندسية', hstat2: 'بند QCS مفهرس', hstat3: 'أداة متخصصة' };
+  
+  function animateCounter(el, target, duration) {
+    var start = 0;
+    var increment = target / (duration / 16);
+    var timer = setInterval(function() {
+      start += increment;
+      if (start >= target) { start = target; clearInterval(timer); }
+      el.textContent = Math.floor(start).toLocaleString('ar-QA');
+    }, 16);
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Update labels
+    Object.keys(labels).forEach(function(id) {
+      var labelEl = document.querySelector('#' + id + ' + div, #' + id + ' ~ .hero-stat-label');
+      if (!labelEl) {
+        var parent = document.getElementById(id);
+        if (parent) {
+          var next = parent.nextElementSibling;
+          if (next && next.classList.contains('hero-stat-label')) {
+            next.textContent = labels[id];
+          }
+        }
+      }
+    });
+
+    // Animate on scroll
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          Object.keys(targets).forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el && el.textContent === '0') {
+              animateCounter(el, targets[id], 1500);
+            }
+          });
+          observer.disconnect();
+        }
+      });
+    });
+
+    var heroStats = document.querySelector('.hero-stats');
+    if (heroStats) observer.observe(heroStats);
+  });
+})();
+</script>
+
+
+<!-- Floating Action Button -->
+<div id="qs-fab" style="position:fixed;bottom:24px;left:24px;z-index:999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;" dir="ltr">
+  <div id="qs-fab-menu" style="display:none;flex-direction:column;gap:6px;margin-bottom:4px;">
+    <a href="/ncr-generator.html" style="background:rgba(231,76,60,0.9);color:#fff;border-radius:24px;padding:8px 16px;font-family:Cairo,sans-serif;font-size:12px;font-weight:700;text-decoration:none;backdrop-filter:blur(12px);white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.3);">📋 NCR جديد</a>
+    <a href="/blueprint.html" style="background:rgba(201,168,76,0.9);color:#000;border-radius:24px;padding:8px 16px;font-family:Cairo,sans-serif;font-size:12px;font-weight:700;text-decoration:none;backdrop-filter:blur(12px);white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.3);">📐 تحليل مخطط</a>
+    <a href="/projects.html" style="background:rgba(155,89,182,0.9);color:#fff;border-radius:24px;padding:8px 16px;font-family:Cairo,sans-serif;font-size:12px;font-weight:700;text-decoration:none;backdrop-filter:blur(12px);white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.3);">📁 مشاريعي</a>
+    <a href="/subscribe.html" style="background:linear-gradient(135deg,#7a1515,#C9A84C);color:#fff;border-radius:24px;padding:8px 16px;font-family:Cairo,sans-serif;font-size:12px;font-weight:700;text-decoration:none;backdrop-filter:blur(12px);white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.3);">💎 Pro</a>
+  </div>
+  <button id="qs-fab-btn" onclick="toggleFAB()" style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--red,#7a1515),rgba(201,168,76,0.8));border:none;cursor:pointer;font-size:22px;box-shadow:0 4px 20px rgba(122,21,21,0.5);transition:all 0.3s;display:flex;align-items:center;justify-content:center;">⚡</button>
+</div>
+<script>
+var _fabOpen = false;
+function toggleFAB() {
+  _fabOpen = !_fabOpen;
+  var menu = document.getElementById('qs-fab-menu');
+  var btn = document.getElementById('qs-fab-btn');
+  menu.style.display = _fabOpen ? 'flex' : 'none';
+  btn.textContent = _fabOpen ? '✕' : '⚡';
+  btn.style.transform = _fabOpen ? 'rotate(45deg)' : 'rotate(0)';
+}
+// Close on outside click
+document.addEventListener('click', function(e) {
+  if (_fabOpen && !document.getElementById('qs-fab').contains(e.target)) {
+    toggleFAB();
+  }
+});
+</script>
+
 </body>
 </html>
 <!-- redeploy 20260524113926 -->

@@ -1006,3 +1006,128 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
   animation: spin 0.8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+
+/* ═══ UI Improvements v2 ═══ */
+
+/* Hero Section Enhancement */
+.hero {
+  background: radial-gradient(ellipse at top right, rgba(122,21,21,0.15) 0%, transparent 60%),
+              radial-gradient(ellipse at bottom left, rgba(201,168,76,0.08) 0%, transparent 60%);
+}
+
+.hero h1 {
+  text-shadow: 0 0 60px rgba(201,168,76,0.15);
+}
+
+/* Card hover glow effect */
+.cat-card:hover {
+  box-shadow: 0 8px 32px rgba(201,168,76,0.12), 0 2px 8px rgba(0,0,0,0.4);
+}
+
+/* Search bar enhancement */
+#searchInput {
+  transition: all 0.3s ease;
+}
+#searchInput:focus {
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.15), 0 4px 24px rgba(0,0,0,0.3);
+}
+
+/* Section titles */
+.section-title {
+  position: relative;
+  padding-right: 14px;
+}
+.section-title::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 70%;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  border-radius: 2px;
+}
+
+/* Stats counter animation */
+.hero-stat-num {
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Quick actions bar enhancement */
+#quick-actions-bar {
+  background: linear-gradient(90deg, rgba(122,21,21,0.08), rgba(201,168,76,0.04));
+}
+
+/* Card badge enhancement */
+.cat-badge {
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+/* Group titles */
+.group-title {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Toast notifications */
+#toast {
+  backdrop-filter: blur(12px);
+  font-weight: 700;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--dark1); }
+::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(201,168,76,0.5); }
+
+/* Smooth page transitions */
+.cat-card, .group-card, .content-section {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid rgba(201,168,76,0.6);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* AI answer box */
+.ai-answer-box {
+  background: linear-gradient(135deg, rgba(201,168,76,0.04), rgba(122,21,21,0.04));
+  border: 1px solid rgba(201,168,76,0.15);
+}
+
+/* Pro badge pulse */
+@keyframes pro-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.3); }
+  50% { box-shadow: 0 0 0 6px rgba(201,168,76,0); }
+}
+.pro-badge { animation: pro-pulse 2s infinite; }
+
+/* Mobile improvements */
+@media(max-width:768px) {
+  .hero { padding: 32px 16px 24px; }
+  .hero h1 { font-size: 28px; }
+  .section-title { font-size: 14px; }
+  #quick-actions-bar { gap: 6px; padding: 8px 12px; }
+}
+
+/* Print styles */
+@media print {
+  header, #quick-actions-bar, .search-section, #qs-onboarding { display: none !important; }
+  .cat-card { break-inside: avoid; }
+}
