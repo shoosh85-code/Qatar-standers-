@@ -68,7 +68,7 @@
 <!-- Security Module: حماية مركزية من XSS — يجب أن يكون ثاني شيء يُحمَّل -->
 <script src="/js/security.js"></script>
 <!-- XSS Auto-Patch: يحمي العناصر عالية الخطورة تلقائياً -->
-<script src="/js/xss-patch.js" defer></script>
+
 <!-- CSP: Server Headers في vercel.json — see headers config for Content-Security-Policy -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -1924,7 +1924,7 @@ window.QS.loadLib = window.QS.loadLib || function(name, cb) {
 <!-- ═══ Phase 3: Deep Engineering Tables — QCS 2024 ═══ -->
 <script src="/data/qcs-deep-tables.js" defer></script>
 <script src="loader.js?v=5" defer></script>
-<script src="/js/xss-utils.js" defer></script>
+
 <script src="/js/payment.js" defer></script>
 <script src="/js/ui-handlers.min.js" defer></script><!-- BUILD: /dist/ui-handlers.min.js -->
 <script src="/js/smart-search.js" defer></script>
@@ -1991,7 +1991,7 @@ window.QS.loadLib = window.QS.loadLib || function(name, cb) {
 <script src="/js/toast-system.js" defer></script>
 
 <!-- ═══ Red Rectangle Killer — diagnostic + cleanup ═══ -->
-<script src="/js/red-rect-killer.js" defer></script>
+
 
 <!-- ═══ Sweet Dialogs System (SweetAlert2) ═══ -->
 <script src="/js/sweet-dialogs.js" defer></script>
@@ -2004,18 +2004,18 @@ window.QS.loadLib = window.QS.loadLib || function(name, cb) {
 <script src="/js/fuzzy-search.js" defer></script>
 
 <!-- ═══ BILINGUAL FIX — card-level data-ar/data-en enforcement ═══ -->
-<script src="/js/bilingual-fix.js" defer></script>
+<script src="/js/bundle-bilingual.js" defer></script>
 
 <!-- ═══ BILINGUAL RADICAL FIX — auto-generates EN for all missing sections ═══ -->
-<script src="/js/bilingual-radical-fix.js" defer></script>
+
 
 <!-- ═══ Card Health Monitor — Auto-fix broken cards ═══ -->
-<script src="/js/card-health-check.js" defer></script>
+
 
 <!-- posthog-analytics + micro-delights → loaded by lazy-loader-init.js -->
 
 <!-- ═══ Performance Monitor — Core Web Vitals + Resource Analysis (PROMPT #10) ═══ -->
-<script src="/js/performance-monitor.js" defer></script>
+
 
 <!-- guided-tour → loaded by lazy-loader-init.js -->
 
