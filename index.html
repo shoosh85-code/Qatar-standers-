@@ -1900,10 +1900,10 @@ window.QS.loadLib = window.QS.loadLib || function(name, cb) {
 
 <!-- ═══ Priority 2: Core Functionality — defer ═══ -->
 <script src="/js/core/theme.min.js" defer></script>
-<script src="/js/core/video-system.min.js" defer></script>
-<script src="/js/video-uploader-bridge.js" defer></script>
-<script src="/js/video-youtube-config.js" defer></script>
-<script src="/js/core/video-youtube.js" defer></script>
+<script src="/js/bundle-video.js" defer></script>
+
+
+
 <script src="/js/core/key-modal.min.js" defer></script>
 <script src="/js/core/ui-utils.min.js" defer></script>
 <script src="/js/core/pro-system.min.js" defer></script>
@@ -1920,16 +1920,16 @@ window.QS.loadLib = window.QS.loadLib || function(name, cb) {
 <script src="/js/core/detail-modal.min.js" defer></script>
 <script src="/js/core/extra-calcs.min.js" defer></script>
 <script src="/inline-scripts.min.js" defer></script>
-<script src="/js/doc-generator.js" defer></script>
+<script src="/js/bundle-docs.js" defer></script>
 <!-- ═══ Phase 3: Deep Engineering Tables — QCS 2024 ═══ -->
 <script src="/data/qcs-deep-tables.js" defer></script>
 <script src="loader.js?v=5" defer></script>
 
-<script src="/js/payment.js" defer></script>
+
 <script src="/js/ui-handlers.min.js" defer></script><!-- BUILD: /dist/ui-handlers.min.js -->
 <script src="/js/smart-search.js" defer></script>
 <script src="/js/card-functions.js" defer></script>
-<script src="/js/payment-certificates.js" defer></script>
+
 <script src="/js/schedule-generator.js" defer></script>
 <script src="/js/content-aliases.js" defer></script>
 <script src="/js/auth.js" defer></script>
@@ -2711,6 +2711,19 @@ document.addEventListener('DOMContentLoaded', function() {
     };
   });
 })();
+</script>
+
+<script src="/js/bundle-payment.js" defer></script>
+
+<script>
+// Register Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js')
+      .then(function(reg) { console.log('[QS] SW registered'); })
+      .catch(function(err) { console.log('[QS] SW failed:', err); });
+  });
+}
 </script>
 
 </body>
