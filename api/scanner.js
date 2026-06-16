@@ -900,7 +900,7 @@ async function blueprintAnalyzerHandler(req, res) {
 حلل المخطط الآن:`;
 
   try {
-    const models = ['gemini-2.0-flash', 'gemini-3.5-flash', 'gemini-2.5-flash'];
+    const models = ['gemini-2.0-flash', 'gemini-2.5-flash', 'gemini-2.5-flash'];
     let analysisText = null;
 
     for (const model of models) {

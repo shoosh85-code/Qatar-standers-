@@ -14,7 +14,7 @@ import { checkRateLimit, rateLimitResponse } from '../lib/rate-limit.js';
 
 // تم التحقق من الموديلات المتاحة — آخر تحديث 2026-05
 const GEMINI_MODELS = [
-  { model: 'gemini-3.5-flash',               api: 'v1beta' }, // الأحدث — حصة متبقية
+  { model: 'gemini-2.5-flash',               api: 'v1beta' }, // الأحدث — حصة متبقية
   { model: 'gemini-2.5-flash',               api: 'v1beta' }, // مستقر
   { model: 'gemini-2.5-pro',                 api: 'v1beta' }, // أدق
 ];

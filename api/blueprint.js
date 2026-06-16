@@ -58,7 +58,7 @@ export default async function handler(req) {
 
 حلل المخطط الآن:`;
 
-  const models = ['gemini-3.5-flash', 'gemini-2.0-flash', 'gemini-2.0-flash-lite'];
+  const models = ['gemini-2.5-flash', 'gemini-3.1-flash-image', 'gemini-2.5-flash-image', 'gemini-2.0-flash'];
 
 
   // ── Retry helper للـ 429 ──────────────────────────────────────────
