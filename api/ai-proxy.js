@@ -71,7 +71,7 @@ async function callGemini(messages, maxTokens = 2000) {
   if (!apiKey) throw new Error('GEMINI_API_KEY not configured');
 
   // ترتيب حسب الحصة المجانية: الأعلى أولاً
-  const MODELS = ['gemini-2.5-flash-preview-05-20', 'gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash', 'gemini-1.5-pro'];
+  const MODELS = ['gemini-3.5-flash', 'gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash', 'gemini-3.5-flash'];
 
   const contents = messages.map(m => ({
     role: m.role === 'assistant' ? 'model' : 'user',
@@ -178,7 +178,7 @@ function extractCitations(text) {
 // ══════════════════════════════════════════════════════════════
 async function callGeminiStream(messages, maxTokens, apiKey) {
   // ترتيب حسب الحصة المجانية: الأعلى أولاً
-  const MODELS = ['gemini-2.5-flash-preview-05-20', 'gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash', 'gemini-1.5-pro'];
+  const MODELS = ['gemini-3.5-flash', 'gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash', 'gemini-3.5-flash'];
 
   const contents = messages.map(m => ({
     role: m.role === 'assistant' ? 'model' : 'user',
@@ -238,7 +238,7 @@ async function callGeminiFallback(messages, maxTokens = 2000) {
   if (!apiKey) throw new Error('GEMINI_API_KEY not configured');
 
   // نجرب الموديلات بالترتيب — الأول المتاح يُعيد النتيجة
-  const FALLBACK_MODELS = ['gemini-2.5-flash-preview-05-20', 'gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash', 'gemini-1.5-pro'];
+  const FALLBACK_MODELS = ['gemini-3.5-flash', 'gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash', 'gemini-3.5-flash'];
 
   const contents = messages.map(m => ({
     role: m.role === 'assistant' ? 'model' : 'user',
