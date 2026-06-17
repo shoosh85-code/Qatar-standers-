@@ -2756,24 +2756,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <script src="/js/bundle-payment.js" defer></script>
 
 <script>
-// Register Service Worker — with auto-update detection
+// Register Service Worker — safe, no forced reloads (network-first SW handles freshness)
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('/sw.js')
-      .then(function(reg) {
-        console.log('[QS] SW registered');
-        // Check for updates on every load
-        reg.update();
-      })
+      .then(function(reg) { console.log('[QS] SW registered'); })
       .catch(function(err) { console.log('[QS] SW failed:', err); });
-
-    // When a new SW takes control, reload once to get fresh assets
-    var refreshed = false;
-    navigator.serviceWorker.addEventListener('controllerchange', function() {
-      if (refreshed) return;
-      refreshed = true;
-      window.location.reload();
-    });
   });
 }
 </script>

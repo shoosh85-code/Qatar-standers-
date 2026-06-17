@@ -11,20 +11,24 @@ const STATIC_ASSETS = [
   '/loader.min.js',
 ];
 
-// Install
+// Install — cache assets individually, never let one failure block install
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS))
+    caches.open(CACHE_NAME).then(cache => {
+      return Promise.all(
+        STATIC_ASSETS.map(url => cache.add(url).catch(() => {}))
+      );
+    })
   );
   self.skipWaiting();
 });
 
-// Activate — delete ALL old caches regardless of name
+// Activate — delete ALL old caches regardless of name (resilient to failures)
 self.addEventListener('activate', e => {
   e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.map(k => caches.delete(k)))
-    ).then(() => caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS)))
+    caches.keys()
+      .then(keys => Promise.all(keys.map(k => caches.delete(k))))
+      .catch(() => {}) // never block activation on cache errors
   );
   self.clients.claim();
 });
