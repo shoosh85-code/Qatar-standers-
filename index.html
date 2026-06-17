@@ -2631,9 +2631,17 @@ document.addEventListener('DOMContentLoaded', function() {
     container.style.display = 'flex';
     container.innerHTML = '<span class="search-history-label">🕐 الأخيرة:</span>' +
       h.map(function(t) {
-        return '<span class="search-history-item" onclick="document.getElementById('searchInput').value='' + 
-          t.replace(/'/g, '') + '';doSearch()">' + t.slice(0,30) + '</span>';
+        var safe = t.replace(/'/g, '').replace(/"/g, '');
+        return '<span class="search-history-item" data-term="' + safe + '">' + t.slice(0,30) + '</span>';
       }).join('');
+    // Attach click handlers via JS instead of inline onclick to avoid quote-escaping issues
+    container.querySelectorAll('.search-history-item').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var inp = document.getElementById('searchInput');
+        if (inp) { inp.value = el.dataset.term; }
+        if (typeof doSearch === 'function') doSearch();
+      });
+    });
   }
 
   // Hook into search
@@ -2707,10 +2715,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if (recentEl && r.length) {
       recentEl.innerHTML = '<div style="font-size:11px;color:#7a7060;margin-bottom:4px;">📌 آخر الحاسبات:</div>' +
         r.map(function(i) {
-          return '<div class="qs-recent-item" onclick="QS.openDetail && QS.openDetail('' + i.key + '')">' +
+          return '<div class="qs-recent-item" data-key="' + i.key + '">' +
             '<span>' + i.name.slice(0,30) + '</span>' +
             '<span style="color:#7a7060">' + new Date(i.time).toLocaleDateString('ar-QA') + '</span></div>';
         }).join('');
+      // Attach click handlers via JS instead of inline onclick to avoid quote-escaping issues
+      recentEl.querySelectorAll('.qs-recent-item').forEach(function(el) {
+        el.addEventListener('click', function() {
+          if (window.QS && window.QS.openDetail) window.QS.openDetail(el.dataset.key);
+        });
+      });
     }
   }
 
