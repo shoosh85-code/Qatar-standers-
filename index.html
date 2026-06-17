@@ -2756,12 +2756,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <script src="/js/bundle-payment.js" defer></script>
 
 <script>
-// Register Service Worker — safe, no forced reloads (network-first SW handles freshness)
+// Service Worker temporarily disabled while resolving cache lock-in issue.
+// The self-unregistering sw.js will clean up any previously installed worker.
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js')
-      .then(function(reg) { console.log('[QS] SW registered'); })
-      .catch(function(err) { console.log('[QS] SW failed:', err); });
+    navigator.serviceWorker.getRegistrations().then(function(regs) {
+      regs.forEach(function(reg) { reg.unregister(); });
+    });
   });
 }
 </script>

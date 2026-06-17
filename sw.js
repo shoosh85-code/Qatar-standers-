@@ -1,79 +1,15 @@
-// QatarSpec Pro Service Worker v2
-const CACHE_NAME = 'qatarspec-v2';
-const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/css/main.css',
-  '/js/core/search-system.min.js',
-  '/js/core/calculators-ui.min.js',
-  '/js/core/detail-modal.min.js',
-  '/inline-scripts.min.js',
-  '/loader.min.js',
-];
-
-// Install — cache assets individually, never let one failure block install
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return Promise.all(
-        STATIC_ASSETS.map(url => cache.add(url).catch(() => {}))
-      );
-    })
-  );
-  self.skipWaiting();
-});
-
-// Activate — delete ALL old caches regardless of name (resilient to failures)
-self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(keys.map(k => caches.delete(k))))
-      .catch(() => {}) // never block activation on cache errors
-  );
-  self.clients.claim();
-});
-
-// Fetch — Network First for CSS/JS (always get latest), Cache First for images/fonts only
-self.addEventListener('fetch', e => {
-  const url = new URL(e.request.url);
-
-  // Skip API calls entirely
-  if (url.pathname.startsWith('/api/')) return;
-
-  // Network first for HTML documents
-  if (e.request.destination === 'document') {
-    e.respondWith(
-      fetch(e.request)
-        .catch(() => caches.match(e.request) || caches.match('/index.html'))
-    );
-    return;
-  }
-
-  // Network first for CSS and JS — always fetch fresh, fall back to cache only if offline
-  if (url.pathname.endsWith('.css') || url.pathname.endsWith('.js')) {
-    e.respondWith(
-      fetch(e.request).then(response => {
-        if (response.ok) {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
-        }
-        return response;
-      }).catch(() => caches.match(e.request))
-    );
-    return;
-  }
-
-  // Cache first for everything else (images, fonts)
-  e.respondWith(
-    caches.match(e.request).then(cached => {
-      if (cached) return cached;
-      return fetch(e.request).then(response => {
-        if (response.ok && response.type === 'basic') {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
-        }
-        return response;
-      });
-    })
-  );
+// QatarSpec Pro Service Worker — DISABLED (self-unregistering)
+// Previous versions caused cache lock-in issues. This version removes itself
+// from every client to restore normal browser behavior, then does nothing.
+self.addEventListener('install', () => self.skipWaiting());
+self.addEventListener('activate', async () => {
+  try {
+    const keys = await caches.keys();
+    await Promise.all(keys.map(k => caches.delete(k)));
+  } catch (e) {}
+  // Unregister this service worker entirely
+  await self.registration.unregister();
+  // Force all open tabs to reload without a controller
+  const clientsList = await self.clients.matchAll({ type: 'window' });
+  clientsList.forEach(client => client.navigate(client.url));
 });
