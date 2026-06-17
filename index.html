@@ -266,7 +266,7 @@
 <link rel="prefetch" href="js/calcs/structural.js?v=1" as="script">
 <!-- Prefetch handled dynamically by loader.js v5.0 after page load -->
 <!-- Google Fonts with local fallback for offline support -->
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Cairo:wght@400;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="preload" href="/css/main.css" as="style">
 <link rel="stylesheet" href="/css/main.css">
 <link rel="stylesheet" href="/css/theme-luxury.css">
@@ -887,6 +887,11 @@ window.QS.loadLib = window.QS.loadLib || function(name, cb) {
     </div>
   </div>
   <div class="hero-right">
+    <div class="qcs-proof-card" aria-hidden="true">
+      <div class="qpc-row"><span class="qpc-lbl">CBR Subbase</span><span class="qpc-val">72%</span></div>
+      <div class="qpc-row"><span class="qpc-lbl">الحد الأدنى</span><span class="qpc-val qpc-ref">QCS §4.3 — 70%</span></div>
+      <div class="qpc-pass">✅ مقبول</div>
+    </div>
     <div class="upload-zone" id="uploadZone" role="button" tabindex="0" aria-label="منطقة رفع ملفات PDF — اسحب أو اضغط لاختيار الملفات" data-dropzone="1" data-action="uploadFileZone">
       <div class="upload-icon-wrap" aria-hidden="true">📄</div>
       <div class="upload-title">ارفع المواصفات هنا</div>
@@ -2833,6 +2838,55 @@ document.addEventListener('click', function(e) {
     toggleFAB();
   }
 });
+</script>
+
+
+<script>
+// ── Engineering corner marks + category texture tagging ─────────────────
+(function() {
+  var catMap = [
+    { cat: 'roads', words: ['cbr','compaction','asphalt','subbase','base','wearing','atterberg','superpave','marshall','road','طرق','إسفلت','aashto','grading','تدرج'] },
+    { cat: 'structural', words: ['خرسانة','حديد','concrete','rebar','cover','lap','beam','column','bld','building','structural','إنشائي','ifc','bim'] },
+    { cat: 'utilities', words: ['مواسير','pipe','manning','flow','drainage','manhole','cctv','hdpe','pressure','صرف','مرافق','water','kahramaa'] },
+    { cat: 'geotechnical', words: ['تربة','spt','bearing','plasticity','geotechnical','جيوتقني','سبخة','sabkha'] },
+  ];
+
+  function tagAndDecorate() {
+    document.querySelectorAll('.cat-card').forEach(function(card) {
+      if (card.dataset.qsDecorated) return;
+      var kw = (card.dataset.keywords || '').toLowerCase();
+      var name = (card.querySelector('.cat-name') || {}).textContent || '';
+      var text = (kw + ' ' + name).toLowerCase();
+      var matched = catMap.find(function(c) { return c.words.some(function(w) { return text.includes(w); }); });
+      if (matched) card.setAttribute('data-cat', matched.cat);
+
+      // Add corner marks (engineering crosshair signature)
+      var tl = document.createElement('span');
+      tl.className = 'corner-mark cm-tl';
+      var br = document.createElement('span');
+      br.className = 'corner-mark cm-br';
+      card.appendChild(tl);
+      card.appendChild(br);
+      card.dataset.qsDecorated = '1';
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', tagAndDecorate);
+  setTimeout(tagAndDecorate, 800);
+  setTimeout(tagAndDecorate, 2000);
+  setTimeout(tagAndDecorate, 4000);
+
+  var observer = new MutationObserver(function(muts) {
+    var added = muts.some(function(m) {
+      return Array.from(m.addedNodes).some(function(n) {
+        return n.nodeType === 1 && (n.classList?.contains('cat-card') || n.querySelector?.('.cat-card'));
+      });
+    });
+    if (added) tagAndDecorate();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+  setTimeout(function() { observer.disconnect(); }, 20000);
+})();
 </script>
 
 </body>
