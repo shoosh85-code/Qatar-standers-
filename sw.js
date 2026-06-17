@@ -1,5 +1,5 @@
-// QatarSpec Pro Service Worker v1
-const CACHE_NAME = 'qatarspec-v1';
+// QatarSpec Pro Service Worker v2
+const CACHE_NAME = 'qatarspec-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -19,24 +19,24 @@ self.addEventListener('install', e => {
   self.skipWaiting();
 });
 
-// Activate
+// Activate — delete ALL old caches regardless of name
 self.addEventListener('activate', e => {
   e.waitUntil(
-    caches.keys().then(keys => 
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
-    )
+    caches.keys().then(keys =>
+      Promise.all(keys.map(k => caches.delete(k)))
+    ).then(() => caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS)))
   );
   self.clients.claim();
 });
 
-// Fetch — Cache First for static, Network First for API
+// Fetch — Network First for CSS/JS (always get latest), Cache First for images/fonts only
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
-  
-  // Skip API calls
+
+  // Skip API calls entirely
   if (url.pathname.startsWith('/api/')) return;
-  
-  // Network first for HTML
+
+  // Network first for HTML documents
   if (e.request.destination === 'document') {
     e.respondWith(
       fetch(e.request)
@@ -44,8 +44,22 @@ self.addEventListener('fetch', e => {
     );
     return;
   }
-  
-  // Cache first for static assets
+
+  // Network first for CSS and JS — always fetch fresh, fall back to cache only if offline
+  if (url.pathname.endsWith('.css') || url.pathname.endsWith('.js')) {
+    e.respondWith(
+      fetch(e.request).then(response => {
+        if (response.ok) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
+        }
+        return response;
+      }).catch(() => caches.match(e.request))
+    );
+    return;
+  }
+
+  // Cache first for everything else (images, fonts)
   e.respondWith(
     caches.match(e.request).then(cached => {
       if (cached) return cached;
