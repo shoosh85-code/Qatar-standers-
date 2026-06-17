@@ -437,18 +437,26 @@ window.QS.loadLib = window.QS.loadLib || function(name, cb) {
       ],
     };
     var keywords = specKeywords[spec] || [];
+    var matchIndex = 0;
     document.querySelectorAll('.cat-card').forEach(function(card) {
       var kw = (card.dataset.keywords || '').toLowerCase();
       var name = (card.querySelector('.cat-name') || {}).textContent || '';
       var text = (kw + ' ' + name).toLowerCase();
       var isRelevant = keywords.some(function(k) { return text.includes(k); });
       if (isRelevant) {
-        card.style.setProperty('box-shadow', '0 0 0 2px rgba(201,168,76,0.5)', 'important');
-        card.style.setProperty('background', 'rgba(201,168,76,0.06)', 'important');
         card.style.setProperty('order', '-1', 'important');
-        card.classList.add('qs-spec-match');
+        if (!card.classList.contains('qs-spec-match')) {
+          // Staggered "drawing" reveal — each card traced in sequence, like a pen marking a drawing
+          var delay = matchIndex * 70;
+          matchIndex++;
+          card.classList.add('qs-spec-drawing');
+          setTimeout(function() {
+            card.classList.remove('qs-spec-drawing');
+            card.classList.add('qs-spec-match');
+          }, delay);
+        }
       } else {
-        card.classList.remove('qs-spec-match');
+        card.classList.remove('qs-spec-match', 'qs-spec-drawing');
       }
     });
     // Show toast
