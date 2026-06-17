@@ -2838,6 +2838,30 @@ document.addEventListener('click', function(e) {
 
 
 
+<script>
+// ── Card visibility safety net ───────────────────────────────────────────
+// Forces any .lxR card stuck at opacity:0 to become visible after a grace
+// period. This is a permanent guard against IntersectionObserver conflicts
+// (see incident: corner-marks MutationObserver broke card visibility for
+// all users on 2026-06-17 — commit 9ba6382). Never remove this block.
+(function() {
+  function forceVisibleIfStuck() {
+    var stuck = document.querySelectorAll('.cat-card.lxR:not(.vis), .lxR:not(.vis)');
+    if (!stuck.length) return;
+    stuck.forEach(function(el) {
+      el.classList.add('vis');
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+    console.warn('[QS Safety Net] Forced ' + stuck.length + ' element(s) visible after timeout.');
+  }
+  setTimeout(forceVisibleIfStuck, 3500);
+  setTimeout(forceVisibleIfStuck, 6000);
+  window.addEventListener('load', function() {
+    setTimeout(forceVisibleIfStuck, 3500);
+  });
+})();
+</script>
 </body>
 </html>
 <!-- redeploy 20260524113926 -->
