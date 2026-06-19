@@ -195,7 +195,12 @@ function initScrollReveal() {
     entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}}),
     {threshold:.07}
   );
-  document.querySelectorAll('.lxR').forEach(el=>io.observe(el));
+  // Immediately reveal any card already visible in viewport when this runs (lazy-loaded late)
+  document.querySelectorAll('.lxR').forEach(el=>{
+    const r=el.getBoundingClientRect();
+    if(r.top<window.innerHeight&&r.bottom>0){el.classList.add('vis');}
+    else{io.observe(el);}
+  });
 }
 
 /* ══════════════════════════════════════════════════
