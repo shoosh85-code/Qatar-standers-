@@ -9,7 +9,7 @@
   // قائمة الـ scripts غير الحرجة — تُحمَّل بعد التحميل الأساسي
   var NON_CRITICAL = [
     '/js/micro-delights.js',
-    '/js/luxury-animations.js',
+    '/js/luxury-anim-v2.js',
     '/js/card-waves.js',
     '/js/wave-lines.js',
     '/js/guided-tour.js',
