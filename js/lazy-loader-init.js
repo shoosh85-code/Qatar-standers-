@@ -14,7 +14,7 @@
     '/js/wave-lines.js',
     '/js/guided-tour.js',
     '/js/posthog-analytics.js',
-    '/js/scroll-animations.js',
+    // '/js/scroll-animations.js', // DISABLED — was adding data-aos to cat-cards causing AOS to hide them permanently
     '/js/tooltip-system.js'
   ];
 
