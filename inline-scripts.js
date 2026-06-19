@@ -13,7 +13,7 @@
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;')
-      .replace(/\/g, '&#92;')
+      .replace(/\\/g, '&#92;')
       .replace(/javascript:/gi, '')
       .replace(/vbscript:/gi, '')
       .replace(/on\w+=/gi, '');
@@ -884,9 +884,13 @@ document.addEventListener('DOMContentLoaded', function() {
 // ─── End card utils ───
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// Virtual Scroll — IntersectionObserver لتحسين أداء 200+ كرت
+// Virtual Scroll — DISABLED. Caused cards to render at containIntrinsicSize:0
+// when offsetHeight was read while cards were still opacity:0 (luxury-animations
+// .lxR state), making them permanently invisible even after scroll. The content-
+// visibility performance gain was not worth this fragility. See incident 2026-06-17.
 // ═══════════════════════════════════════════════════════════════════════════════
 (function initVirtualScroll() {
+  return; // disabled
   if (!('IntersectionObserver' in window)) return;
   const MARGIN = '200px';
   const cards  = [];
