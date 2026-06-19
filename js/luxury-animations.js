@@ -183,7 +183,8 @@ function initScrollReveal() {
       el.style.transitionDelay=(delayBase+i%5*65)+'ms';
     });
   }
-  mark('.cat-card:not([data-param="/tools.html#blueprint-section"])','up');
+  // NOTE: .cat-card intentionally excluded from lxR system — lazy-loading timing
+  // caused cards to appear hidden permanently. Cards have their own CSS transitions.
   mark('.hero h1,.section-title','left');
   mark('.hero-eyebrow,.search-label','left',80);
   mark('.hero-stat','scale',100);
