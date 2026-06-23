@@ -216,6 +216,25 @@ function copyAnswer() {
 
 // ===== CARD FILTER (Live Search) =====
 function filterCards(query) {
+  // On first call after page load, if input has stale value, ignore it and show all
+  if (!window._qs_filter_ready) {
+    window._qs_filter_ready = true;
+    const inp = document.getElementById('cardFilterInput');
+    if (inp && inp.value && !query) {
+      inp.value = '';
+      query = '';
+    }
+    if (!query) {
+      // Show everything and return
+      document.querySelectorAll('.cat-card').forEach(c => { c.style.display = ''; });
+      document.querySelectorAll('.section-group').forEach(g => { g.style.display = ''; });
+      const clearBtn = document.getElementById('cardFilterClear');
+      if (clearBtn) clearBtn.style.display = 'none';
+      const countEl = document.getElementById('cardFilterCount');
+      if (countEl) countEl.style.display = 'none';
+      return;
+    }
+  }
   const q = query.trim().toLowerCase();
   const cards = document.querySelectorAll('.cat-card');
   const clearBtn = document.getElementById('cardFilterClear');
