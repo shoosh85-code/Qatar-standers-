@@ -2878,18 +2878,41 @@ document.addEventListener('click', function(e) {
 </script>
 
 <script>
-// Clear stale card filter on every page load — prevents cards disappearing due to old search query
-document.addEventListener('DOMContentLoaded', function() {
-  var inp = document.getElementById('cardFilterInput');
-  if (inp) { inp.value = ''; }
-  if (typeof filterCards === 'function') { filterCards(''); }
-  // Also clear after a delay to ensure filterCards is loaded
-  setTimeout(function() {
-    var inp2 = document.getElementById('cardFilterInput');
-    if (inp2 && inp2.value) { inp2.value = ''; }
-    if (typeof filterCards === 'function') { filterCards(''); }
-  }, 1500);
-});
+// CRITICAL: Clear stale card filter + force show all cards on page load
+// The cardFilterInput retains its value across sessions causing cards to stay hidden
+(function clearStaleFilter() {
+  function resetFilter() {
+    // 1. Clear the input
+    var inp = document.getElementById('cardFilterInput');
+    if (inp) inp.value = '';
+    
+    // 2. Force ALL cat-cards visible directly (bypass filterCards dependency)
+    document.querySelectorAll('.cat-card').forEach(function(card) {
+      card.style.display = '';
+      card.style.removeProperty('display');
+    });
+    
+    // 3. Show all section groups
+    document.querySelectorAll('.section-group').forEach(function(g) {
+      g.style.display = '';
+    });
+    
+    // 4. Call filterCards if available
+    if (typeof filterCards === 'function') filterCards('');
+    
+    var clearBtn = document.getElementById('cardFilterClear');
+    if (clearBtn) clearBtn.style.display = 'none';
+    var countEl = document.getElementById('cardFilterCount');
+    if (countEl) countEl.style.display = 'none';
+  }
+  
+  // Run at multiple points to ensure it executes after all scripts load
+  document.addEventListener('DOMContentLoaded', resetFilter);
+  window.addEventListener('load', resetFilter);
+  setTimeout(resetFilter, 500);
+  setTimeout(resetFilter, 1500);
+  setTimeout(resetFilter, 3000);
+})();
 </script>
 
 </body>
