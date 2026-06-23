@@ -6,7 +6,7 @@
     "node": "20.x"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.49.0"
+    "@supabase/supabase-js": "^2.108.2"
   },
   "scripts": {
     "build": "node build.cjs",
