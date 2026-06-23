@@ -2876,6 +2876,22 @@ document.addEventListener('click', function(e) {
   });
 })();
 </script>
+
+<script>
+// Clear stale card filter on every page load — prevents cards disappearing due to old search query
+document.addEventListener('DOMContentLoaded', function() {
+  var inp = document.getElementById('cardFilterInput');
+  if (inp) { inp.value = ''; }
+  if (typeof filterCards === 'function') { filterCards(''); }
+  // Also clear after a delay to ensure filterCards is loaded
+  setTimeout(function() {
+    var inp2 = document.getElementById('cardFilterInput');
+    if (inp2 && inp2.value) { inp2.value = ''; }
+    if (typeof filterCards === 'function') { filterCards(''); }
+  }, 1500);
+});
+</script>
+
 </body>
 </html>
 <!-- redeploy 20260524113926 -->
